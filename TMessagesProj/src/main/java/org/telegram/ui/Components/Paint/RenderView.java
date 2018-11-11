@@ -50,6 +50,8 @@ public class RenderView extends TextureView {
 
     private boolean shuttingDown;
 
+    public boolean isColorPicker = false;
+
     public RenderView(Context context, Painting paint, Bitmap b) {
         super(context);
         setOpaque(false);
@@ -153,6 +155,8 @@ public class RenderView extends TextureView {
         if (internal == null || !internal.initialized || !internal.ready) {
             return true;
         }
+        if (isColorPicker) return true;
+
         input.process(event, getScaleX());
         return true;
     }
