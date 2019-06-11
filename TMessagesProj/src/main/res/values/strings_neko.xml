@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="NekoSettings">Neko Settings</string>
+    <string name="IPv6">Try connecting through IPv6</string>
+    <string name="HidePhone">Hide phone number</string>
+    <string name="Hide">Hide</string>
+    <string name="DeleteAllFromSelf">Delete all from yourself</string>
+    <string name="BotLogin">Bot Login</string>
+    <string name="InvalidAccessToken">Invalid access token</string>
+    <string name="IgnoreBlocked">Ignore blocked users in group</string>
+    <string name="Connection">Connection</string>
+    <string name="NameOrder">Name order</string>
+    <string name="FirstLast">First Last</string>
+    <string name="LastFirst">Last First</string>
+    <string name="NoQuoteForward">NoQuote forward</string>
+    <string name="Repeat">Repeat</string>
+    <string name="CreateMention">Create Mention</string>
+    <string name="ForceTabletMode">Force tablet mode</string>
+</resources>

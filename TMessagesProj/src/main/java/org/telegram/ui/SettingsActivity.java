@@ -119,6 +119,9 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.NekoSettingsActivity;
+
 public class SettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate {
 
     private RecyclerListView listView;
@@ -160,6 +163,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
     private int privacyRow;
     private int dataRow;
     private int chatRow;
+    private int nekoRow;
     private int helpRow;
     private int versionRow;
     private int rowCount;
@@ -217,7 +221,9 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         rowCount = 0;
         overscrollRow = rowCount++;
         numberSectionRow = rowCount++;
-        numberRow = rowCount++;
+        if(!NekoConfig.hidePhone){
+            numberRow = rowCount++;
+        }
         usernameRow = rowCount++;
         bioRow = rowCount++;
         settingsSectionRow = rowCount++;
@@ -226,6 +232,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         privacyRow = rowCount++;
         dataRow = rowCount++;
         chatRow = rowCount++;
+        nekoRow = rowCount++;
         languageRow = rowCount++;
         helpRow = rowCount++;
         versionRow = rowCount++;
@@ -370,6 +377,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                     presentFragment(new DataSettingsActivity());
                 } else if (position == chatRow) {
                     presentFragment(new ThemeActivity(ThemeActivity.THEME_TYPE_BASIC));
+                } else if (position == nekoRow) {
+                    presentFragment(new NekoSettingsActivity());
                 } else if (position == helpRow) {
                     showHelpAlert();
                 } else if (position == languageRow) {
@@ -1807,6 +1816,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                         textCell.setTextAndIcon(LocaleController.getString("DataSettings", R.string.DataSettings), R.drawable.menu_data, true);
                     } else if (position == chatRow) {
                         textCell.setTextAndIcon(LocaleController.getString("ChatSettings", R.string.ChatSettings), R.drawable.menu_chats, true);
+                    } else if (position == nekoRow) {
+                        textCell.setTextAndIcon(LocaleController.getString("NekoSettings", R.string.NekoSettings), R.drawable.menu_settings, true);
                     } else if (position == helpRow) {
                         textCell.setTextAndIcon(LocaleController.getString("SettingsHelp", R.string.SettingsHelp), R.drawable.menu_help, false);
                     }
@@ -1860,7 +1871,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             int position = holder.getAdapterPosition();
             return position == notificationRow || position == numberRow || position == privacyRow ||
                     position == languageRow || position == usernameRow || position == bioRow ||
-                    position == versionRow || position == dataRow || position == chatRow ||
+                    position == versionRow || position == dataRow || position == chatRow || position == nekoRow ||
                     position == helpRow;
         }
 
@@ -1938,7 +1949,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             } else if (position == settingsSectionRow) {
                 return 1;
             } else if (position == notificationRow || position == privacyRow || position == languageRow ||
-                    position == dataRow || position == chatRow || position == helpRow) {
+                    position == dataRow || position == chatRow || position == nekoRow || position == helpRow) {
                 return 2;
             } else if (position == versionRow) {
                 return 5;
