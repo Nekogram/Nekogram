@@ -35,6 +35,17 @@ dependencies {
     implementation 'com.stripe:stripe-android:2.0.2'
 }
 
+def getAppId(){
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return properties.get("APP_ID")
+}
+def getAppHash(){
+    Properties properties = new Properties()
+    properties.load(project.rootProject.file('local.properties').newDataInputStream())
+    return "\"" + properties.get("APP_HASH") + "\""
+}
+
 android {
     compileSdkVersion 28
     buildToolsVersion '28.0.3'
@@ -64,20 +75,22 @@ android {
     }
 
     signingConfigs {
-        debug {
-            storeFile file("config/release.keystore")
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
-        }
-
+        Properties properties = new Properties()
+        properties.load(project.rootProject.file('local.properties').newDataInputStream())
         release {
             storeFile file("config/release.keystore")
-            storePassword RELEASE_STORE_PASSWORD
-            keyAlias RELEASE_KEY_ALIAS
-            keyPassword RELEASE_KEY_PASSWORD
+            storePassword properties.getProperty("RELEASE_STORE_PASSWORD")
+            keyAlias properties.getProperty("RELEASE_KEY_ALIAS")
+            keyPassword properties.getProperty("RELEASE_KEY_PASSWORD")
+        }
+        debug {
+            storeFile file("config/release.keystore")
+            storePassword properties.getProperty("RELEASE_STORE_PASSWORD")
+            keyAlias properties.getProperty("RELEASE_KEY_ALIAS")
+            keyPassword properties.getProperty("RELEASE_KEY_PASSWORD")
         }
     }
+
 
     buildTypes {
         debug {
@@ -280,6 +293,9 @@ android {
         versionName "5.7.1"
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
+
+        buildConfigField 'int', 'APP_ID', getAppId()
+        buildConfigField 'String', 'APP_HASH', getAppHash()
 
         externalNativeBuild {
             ndkBuild {
