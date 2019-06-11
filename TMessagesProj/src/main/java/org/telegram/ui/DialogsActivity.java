@@ -133,6 +133,8 @@ import org.telegram.ui.Components.UndoView;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.FilterPopup;
+
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     
     private RecyclerListView listView;
@@ -622,6 +624,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         super(args);
     }
 
+    public void updateDialogsType(int type) {
+        dialogsType = type;
+        if (dialogsAdapter != null) {
+            dialogsAdapter.setDialogsType(type);
+            dialogsAdapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
@@ -857,6 +867,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             actionBar.setSupportsHolidayImage(true);
         }
+        actionBar.setOnTouchListener((v, event) -> {
+            int x = (int) event.getX();
+            int y = (int) event.getY();
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                FilterPopup.getInstance(currentAccount).createMenu(this, actionBar, getParentActivity(), listView, fragmentView, x, y);
+            }
+            return true;
+        });
         actionBar.setTitleActionRunnable(() -> {
             hideFloatingButton(false);
             listView.smoothScrollToPosition(hasHiddenArchive() ? 1 : 0);
@@ -2983,8 +3001,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return messagesController.dialogsChannelsOnly;
         } else if (dialogsType == 6) {
             return messagesController.dialogsGroupsOnly;
+        } else {
+            return FilterPopup.getInstance(currentAccount).getDialogs(dialogsType);
         }
-        return null;
     }
 
     public void setSideMenu(RecyclerView recyclerView) {
