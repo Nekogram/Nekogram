@@ -998,7 +998,7 @@ public class DialogCell extends BaseCell {
                 }
             }
 
-            if (dialogsType == 0 && MessagesController.getInstance(currentAccount).isProxyDialog(currentDialogId, true)) {
+            if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && MessagesController.getInstance(currentAccount).isProxyDialog(currentDialogId, true)) {
                 drawPinBackground = true;
                 timeString = LocaleController.getString("UseProxySponsor", R.string.UseProxySponsor);
             }

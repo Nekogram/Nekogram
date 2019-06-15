@@ -316,7 +316,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                     int high_id = (int) (did >> 32);
                     if (lower_id != 0) {
                         if (high_id == 1) {
-                            if (dialogsType == 0 && !chatsToLoad.contains(lower_id)) {
+                            if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && !chatsToLoad.contains(lower_id)) {
                                 chatsToLoad.add(lower_id);
                                 add = true;
                             }
@@ -333,7 +333,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                                 }
                             }
                         }
-                    } else if (dialogsType == 0 || dialogsType == 3) {
+                    } else if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) || dialogsType == 3) {
                         if (!encryptedToLoad.contains(high_id)) {
                             encryptedToLoad.add(high_id);
                             add = true;
@@ -511,7 +511,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                     int high_id = (int) (id >> 32);
                     if (lower_id != 0) {
                         if (high_id == 1) {
-                            if (dialogsType == 0 && !chatsToLoad.contains(lower_id)) {
+                            if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && !chatsToLoad.contains(lower_id)) {
                                 chatsToLoad.add(lower_id);
                             }
                         } else {
@@ -525,7 +525,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                                 }
                             }
                         }
-                    } else if (dialogsType == 0 || dialogsType == 3) {
+                    } else if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) || dialogsType == 3) {
                         if (!encryptedToLoad.contains(high_id)) {
                             encryptedToLoad.add(high_id);
                         }

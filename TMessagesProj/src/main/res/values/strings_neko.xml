@@ -16,9 +16,10 @@
     <string name="Repeat">Repeat</string>
     <string name="CreateMention">Create Mention</string>
     <string name="ForceTabletMode">Force tablet mode</string>
-    <string name="All">All</string>
-    <string name="User">User</string>
-    <string name="Group">Group</string>
-    <string name="Channel">Channel</string>
-    <string name="Admin">Admin</string>
+    <string name="All">All Chats</string>
+    <string name="Users">Users</string>
+    <string name="Groups">Groups</string>
+    <string name="Channels">Channels</string>
+    <string name="Bots">Bots</string>
+    <string name="Admins">Administrating Chats</string>
 </resources>

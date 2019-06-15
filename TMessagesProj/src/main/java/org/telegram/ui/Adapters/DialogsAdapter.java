@@ -157,7 +157,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
         }
         if (hasHints) {
             count += 2 + MessagesController.getInstance(currentAccount).hintDialogs.size();
-        } else if (dialogsType == 0 && dialogsCount == 0 && folderId == 0) {
+        } else if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && dialogsCount == 0 && folderId == 0) {
             if (ContactsController.getInstance(currentAccount).contacts.isEmpty() && ContactsController.getInstance(currentAccount).isLoadingContacts()) {
                 return (currentCount = 0);
             }
@@ -212,7 +212,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
 
     @Override
     public void notifyDataSetChanged() {
-        hasHints = folderId == 0 && dialogsType == 0 && !isOnlySelect && !MessagesController.getInstance(currentAccount).hintDialogs.isEmpty();
+        hasHints = folderId == 0 && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && !isOnlySelect && !MessagesController.getInstance(currentAccount).hintDialogs.isEmpty();
         super.notifyDataSetChanged();
     }
 
@@ -359,7 +359,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                     cell.useSeparator = (i != getItemCount() - 1);
                 }
                 cell.fullSeparator = dialog.pinned && nextDialog != null && !nextDialog.pinned;
-                if (dialogsType == 0) {
+                if (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) {
                     if (AndroidUtilities.isTablet()) {
                         cell.setDialogSelected(dialog.id == openedDialogId);
                     }

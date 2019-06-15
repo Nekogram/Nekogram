@@ -16,6 +16,7 @@ import android.widget.ScrollView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
@@ -107,42 +108,119 @@ public class FilterPopup {
         }
     }
 
-    public ArrayList<TLRPC.Dialog> getDialogs(int type) {
+    public ArrayList<TLRPC.Dialog> getDialogs(int type, int folderId) {
+        MessagesController messagesController = AccountInstance.getInstance(currentAccount).getMessagesController();
+        ArrayList<TLRPC.Dialog> allDialogs = new ArrayList<>(messagesController.getDialogs(folderId));
+        ArrayList<TLRPC.Dialog> folders = new ArrayList<>();
+        ArrayList<ArrayList<TLRPC.Dialog>> folderDialogs = new ArrayList<>();
+
+        for (TLRPC.Dialog dialog : allDialogs) {
+            if (dialog instanceof TLRPC.TL_dialogFolder) {
+                folders.add(dialog);
+                TLRPC.TL_dialogFolder dialogFolder = (TLRPC.TL_dialogFolder)dialog;
+                folderDialogs.add(new ArrayList<>(messagesController.getDialogs(dialogFolder.folder.id)));
+            }
+        }
+
+        ArrayList<TLRPC.Dialog> dialogs = new ArrayList<>();
         switch (type) {
             case DialogType.Users:
-                return dialogsUsers;
+                for (int i = 0; i < folders.size(); i++) {
+                    folderDialogs.get(i).retainAll(dialogsUsers);
+                    if (!folderDialogs.get(i).isEmpty())
+                        dialogs.add(folders.get(i));
+                }
+                allDialogs.retainAll(dialogsUsers);
+                break;
             case DialogType.Groups:
-                return dialogsGroups;
+                for (int i = 0; i < folders.size(); i++) {
+                    folderDialogs.get(i).retainAll(dialogsGroups);
+                    if (!folderDialogs.get(i).isEmpty())
+                        dialogs.add(folders.get(i));
+                }
+                allDialogs.retainAll(dialogsGroups);
+                break;
             case DialogType.Channels:
-                return dialogsChannels;
+                for (int i = 0; i < folders.size(); i++) {
+                    folderDialogs.get(i).retainAll(dialogsChannels);
+                    if (!folderDialogs.get(i).isEmpty())
+                        dialogs.add(folders.get(i));
+                }
+                allDialogs.retainAll(dialogsChannels);
+                break;
             case DialogType.Bots:
-                return dialogsBots;
+                for (int i = 0; i < folders.size(); i++) {
+                    folderDialogs.get(i).retainAll(dialogsBots);
+                    if (!folderDialogs.get(i).isEmpty())
+                        dialogs.add(folders.get(i));
+                }
+                allDialogs.retainAll(dialogsBots);
+                break;
             case DialogType.Admin:
-                return dialogsAdmin;
+                for (int i = 0; i < folders.size(); i++) {
+                    folderDialogs.get(i).retainAll(dialogsAdmin);
+                    if (!folderDialogs.get(i).isEmpty())
+                        dialogs.add(folders.get(i));
+                }
+                allDialogs.retainAll(dialogsAdmin);
+                break;
             default:
                 return null;
         }
+        if (folderId != 0 && allDialogs.isEmpty()) {
+            allDialogs = new ArrayList<>(messagesController.getDialogs(folderId));
+        }
+        dialogs.addAll(allDialogs);
+        return dialogs;
     }
 
-    public void createMenu(DialogsActivity dialogsActivity, ActionBar actionBar, Activity parentActivity, RecyclerView listView, View fragmentView, int x, int y) {
+    public void createMenu(DialogsActivity dialogsActivity, ActionBar actionBar, Activity parentActivity, RecyclerView listView, View fragmentView, int x, int y, int folderId) {
         if (actionBar.isActionModeShowed()) {
             return;
         }
         ArrayList<CharSequence> items = new ArrayList<>();
         final ArrayList<Integer> options = new ArrayList<>();
 
+        MessagesController messagesController = AccountInstance.getInstance(currentAccount).getMessagesController();
+        ArrayList<TLRPC.Dialog> allDialogs = new ArrayList<>(messagesController.getDialogs(folderId));
+
         items.add(LocaleController.getString("All", R.string.All));
         options.add(DialogType.All);
-        items.add(LocaleController.getString("User", R.string.User));
-        options.add(DialogType.Users);
-        items.add(LocaleController.getString("Group", R.string.Group));
-        options.add(DialogType.Groups);
-        items.add(LocaleController.getString("Channel", R.string.Channel));
-        options.add(DialogType.Channels);
-        items.add(LocaleController.getString("Bot", R.string.Bot));
-        options.add(DialogType.Bots);
-        items.add(LocaleController.getString("Admin", R.string.Admin));
-        options.add(DialogType.Admin);
+
+        ArrayList<TLRPC.Dialog> temp = new ArrayList<>(allDialogs);
+        temp.retainAll(dialogsUsers);
+        if (!temp.isEmpty()) {
+            items.add(LocaleController.getString("Users", R.string.Users));
+            options.add(DialogType.Users);
+        }
+
+        temp = new ArrayList<>(allDialogs);
+        temp.retainAll(dialogsGroups);
+        if (!temp.isEmpty()) {
+            items.add(LocaleController.getString("Groups", R.string.Groups));
+            options.add(DialogType.Groups);
+        }
+
+        temp = new ArrayList<>(allDialogs);
+        temp.retainAll(dialogsChannels);
+        if (!temp.isEmpty()) {
+            items.add(LocaleController.getString("Channels", R.string.Channels));
+            options.add(DialogType.Channels);
+        }
+
+        temp = new ArrayList<>(allDialogs);
+        temp.retainAll(dialogsBots);
+        if (!temp.isEmpty()) {
+            items.add(LocaleController.getString("Bots", R.string.Bots));
+            options.add(DialogType.Bots);
+        }
+
+        temp = new ArrayList<>(allDialogs);
+        temp.retainAll(dialogsAdmin);
+        if (!temp.isEmpty()) {
+            items.add(LocaleController.getString("Admins", R.string.Admins));
+            options.add(DialogType.Admin);
+        }
 
         if (scrimPopupWindow != null) {
             scrimPopupWindow.dismiss();

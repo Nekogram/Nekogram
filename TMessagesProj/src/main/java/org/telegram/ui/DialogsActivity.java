@@ -416,7 +416,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 swipingFolder = false;
                 return 0;
             }
-            if (!onlySelect && dialogsType == 0 && slidingView == null && recyclerView.getAdapter() == dialogsAdapter && viewHolder.itemView instanceof DialogCell) {
+            if (!onlySelect && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && slidingView == null && recyclerView.getAdapter() == dialogsAdapter && viewHolder.itemView instanceof DialogCell) {
                 DialogCell dialogCell = (DialogCell) viewHolder.itemView;
                 long dialogId = dialogCell.getDialogId();
                 if (actionBar.isActionModeShowed()) {
@@ -648,7 +648,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             folderId = arguments.getInt("folderId", 0);
         }
 
-        if (dialogsType == 0) {
+        if (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) {
             askAboutContacts = MessagesController.getGlobalNotificationsSettings().getBoolean("askAboutContacts", true);
             SharedConfig.loadProxyList();
         }
@@ -870,8 +870,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         actionBar.setOnTouchListener((v, event) -> {
             int x = (int) event.getX();
             int y = (int) event.getY();
-            if (event.getAction() == MotionEvent.ACTION_UP) {
-                FilterPopup.getInstance(currentAccount).createMenu(this, actionBar, getParentActivity(), listView, fragmentView, x, y);
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+                FilterPopup.getInstance(currentAccount).createMenu(this, actionBar, getParentActivity(), listView, fragmentView, x, y, folderId);
             }
             return true;
         });
@@ -1123,7 +1123,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
             @Override
             public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
-                if (listView.getAdapter() == dialogsAdapter && dialogsType == 0 && !onlySelect && !allowScrollToHiddenView && folderId == 0 && dy < 0 && getMessagesController().hasHiddenArchive()) {
+                if (listView.getAdapter() == dialogsAdapter && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && !onlySelect && !allowScrollToHiddenView && folderId == 0 && dy < 0 && getMessagesController().hasHiddenArchive()) {
                     int currentPosition = layoutManager.findFirstVisibleItemPosition();
                     if (currentPosition == 0) {
                         View view = layoutManager.findViewByPosition(currentPosition);
@@ -1181,6 +1181,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         TLRPC.TL_dialogFolder dialogFolder = (TLRPC.TL_dialogFolder) dialog;
                         Bundle args = new Bundle();
                         args.putInt("folderId", dialogFolder.folder.id);
+                        args.putInt("dialogsType", dialogsType);
                         presentFragment(new DialogsActivity(args));
                         return;
                     }
@@ -1773,7 +1774,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             actionBar.openSearchField(searchString, false);
         }
 
-        if (!onlySelect && dialogsType == 0) {
+        if (!onlySelect && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11))) {
             FragmentContextView fragmentLocationContextView = new FragmentContextView(context, this, true);
             contentView.addView(fragmentLocationContextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 39, Gravity.TOP | Gravity.LEFT, 0, -36, 0, 0));
 
@@ -2039,7 +2040,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private boolean hasHiddenArchive() {
-        return listView.getAdapter() == dialogsAdapter && !onlySelect && dialogsType == 0 && folderId == 0 && getMessagesController().hasHiddenArchive();
+        return listView.getAdapter() == dialogsAdapter && !onlySelect && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && folderId == 0 && getMessagesController().hasHiddenArchive();
     }
 
     private boolean waitingForDialogsAnimationEnd() {
@@ -2870,7 +2871,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (dialogsListFrozen) {
                 return;
             }
-            if (dialogsType == 0 && getMessagesController().getDialogs(folderId).isEmpty()) {
+            if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && getMessagesController().getDialogs(folderId).isEmpty()) {
                 if (dialogsAdapter != null) {
                     dialogsAdapter.notifyDataSetChanged();
                 }
@@ -2878,7 +2879,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 updateVisibleRows(0);
             }
         } else if (id == NotificationCenter.openedChatChanged) {
-            if (dialogsType == 0 && AndroidUtilities.isTablet()) {
+            if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && AndroidUtilities.isTablet()) {
                 boolean close = (Boolean) args[1];
                 long dialog_id = (Long) args[0];
                 if (close) {
@@ -2986,6 +2987,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (frozen && frozenDialogsList != null) {
             return frozenDialogsList;
         }
+
         MessagesController messagesController = AccountInstance.getInstance(currentAccount).getMessagesController();
         if (dialogsType == 0) {
             return messagesController.getDialogs(folderId);
@@ -3002,7 +3004,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         } else if (dialogsType == 6) {
             return messagesController.dialogsGroupsOnly;
         } else {
-            return FilterPopup.getInstance(currentAccount).getDialogs(dialogsType);
+            return FilterPopup.getInstance(currentAccount).getDialogs(dialogsType, folderId);
         }
     }
 
@@ -3085,11 +3087,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } else {
                         if ((mask & MessagesController.UPDATE_MASK_NEW_MESSAGE) != 0) {
                             cell.checkCurrentDialogIndex(dialogsListFrozen);
-                            if (dialogsType == 0 && AndroidUtilities.isTablet()) {
+                            if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && AndroidUtilities.isTablet()) {
                                 cell.setDialogSelected(cell.getDialogId() == openedDialogId);
                             }
                         } else if ((mask & MessagesController.UPDATE_MASK_SELECT_DIALOG) != 0) {
-                            if (dialogsType == 0 && AndroidUtilities.isTablet()) {
+                            if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && AndroidUtilities.isTablet()) {
                                 cell.setDialogSelected(cell.getDialogId() == openedDialogId);
                             }
                         } else {
