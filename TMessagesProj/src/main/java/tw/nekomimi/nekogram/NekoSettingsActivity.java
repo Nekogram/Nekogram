@@ -60,13 +60,6 @@ public class NekoSettingsActivity extends BaseFragment {
     private int forceTabletRow;
     private int settings2Row;
 
-    private int debugRow;
-    private int enableLogsRow;
-    private int clearLogsRow;
-    private int debug2Row;
-
-    private boolean showDebug = false;
-
     @Override
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
@@ -172,18 +165,6 @@ public class NekoSettingsActivity extends BaseFragment {
                     listAdapter.notifyItemChanged(nameOrderRow);
                 });
                 showDialog(builder.create());
-            } else if (position == enableLogsRow) {
-                BuildVars.LOGS_ENABLED = !BuildVars.LOGS_ENABLED;
-                SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("systemConfig", Context.MODE_PRIVATE);
-                sharedPreferences.edit().putBoolean("logsEnabled", BuildVars.LOGS_ENABLED).commit();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(BuildVars.LOGS_ENABLED);
-                }
-            } else if (position == settings2Row) {
-                showDebug = !showDebug;
-                updateRows(true);
-            } else if (position == clearLogsRow) {
-                FileLog.cleanupLogs();
             }
         });
 
@@ -214,17 +195,6 @@ public class NekoSettingsActivity extends BaseFragment {
         forceTabletRow = rowCount++;
         nameOrderRow = rowCount++;
         settings2Row = rowCount++;
-        if (showDebug) {
-            debugRow = rowCount++;
-            enableLogsRow = rowCount++;
-            clearLogsRow = rowCount++;
-            debug2Row = rowCount++;
-        } else {
-            debugRow = -1;
-            enableLogsRow = -1;
-            clearLogsRow = -1;
-            debug2Row = -1;
-        }
         if (notify && listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
@@ -303,8 +273,6 @@ public class NekoSettingsActivity extends BaseFragment {
                                 break;
                         }
                         textCell.setTextAndValue(LocaleController.getString("NameOrder", R.string.NameOrder), value, false);
-                    } else if (position == clearLogsRow) {
-                        textCell.setText(LocaleController.getString("DebugClearLogs", R.string.DebugClearLogs), false);
                     }
                     break;
                 }
@@ -322,8 +290,6 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("EmojiBigSize", R.string.EmojiBigSize), SharedConfig.allowBigEmoji, false);
                     } else if (position == ignoreBlockedRow) {
                         textCell.setTextAndCheck(LocaleController.getString("IgnoreBlocked", R.string.IgnoreBlocked), NekoConfig.ignoreBlocked, true);
-                    } else if (position == enableLogsRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("DebugMenuEnableLogs", R.string.DebugMenuEnableLogs), BuildVars.LOGS_ENABLED, true);
                     } else if (position == forceTabletRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ForceTabletMode", R.string.ForceTabletMode), NekoConfig.forceTablet, true);
                     }
@@ -337,8 +303,6 @@ public class NekoSettingsActivity extends BaseFragment {
                         headerCell.setText(LocaleController.getString("Emoji", R.string.Emoji));
                     } else if (position == connectionRow) {
                         headerCell.setText(LocaleController.getString("Connection", R.string.Connection));
-                    } else if (position == debugRow) {
-                        headerCell.setText(LocaleController.getString("DebugMenu", R.string.DebugMenu));
                     }
                     break;
                 }
@@ -353,8 +317,7 @@ public class NekoSettingsActivity extends BaseFragment {
             int position = holder.getAdapterPosition();
             return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow ||
                     position == useSystemEmojiRow || position == singleBigEmojiRow || position == ipv6Row ||
-                    position == nameOrderRow || position == settings2Row || position == enableLogsRow ||
-                    position == clearLogsRow || position == forceTabletRow;
+                    position == nameOrderRow || position == forceTabletRow;
         }
 
         @Override
@@ -391,17 +354,15 @@ public class NekoSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == settings2Row || position == emoji2Row || position == connection2Row ||
-                    position == debug2Row) {
+            if (position == settings2Row || position == emoji2Row || position == connection2Row) {
                 return 1;
-            } else if (position == nameOrderRow || position == clearLogsRow) {
+            } else if (position == nameOrderRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == singleBigEmojiRow ||
-                    position == enableLogsRow || position == forceTabletRow) {
+                    position == forceTabletRow) {
                 return 3;
-            } else if (position == settingsRow || position == connectionRow || position == emojiRow ||
-                    position == debugRow) {
+            } else if (position == settingsRow || position == connectionRow || position == emojiRow) {
                 return 4;
             }
             return 6;
