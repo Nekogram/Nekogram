@@ -132,8 +132,10 @@ import org.telegram.ui.Components.StickersAlert;
 import org.telegram.ui.Components.UndoView;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import tw.nekomimi.nekogram.FilterPopup;
+import tw.nekomimi.nekogram.MessageHelper;
 
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     
@@ -630,6 +632,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             dialogsAdapter.setDialogsType(type);
             dialogsAdapter.notifyDataSetChanged();
         }
+        actionBar.setTitle(getNekoTitle());
     }
 
     @Override
@@ -862,7 +865,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (BuildVars.DEBUG_VERSION) {
                     actionBar.setTitle("Telegram Beta"/*LocaleController.getString("AppNameBeta", R.string.AppNameBeta)*/);
                 } else {
-                    actionBar.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                    actionBar.setTitle(getNekoTitle());
                 }
             }
             actionBar.setSupportsHolidayImage(true);
@@ -2820,8 +2823,43 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
+    private String getNekoTitle() {
+        String title;
+        switch (dialogsType) {
+            case FilterPopup.DialogType.Users:
+                title = LocaleController.getString("Users", R.string.Users);
+                break;
+            case FilterPopup.DialogType.Groups:
+                title = LocaleController.getString("Groups", R.string.Groups);
+                break;
+            case FilterPopup.DialogType.Bots:
+                title = LocaleController.getString("Bots", R.string.Bots);
+                break;
+            case FilterPopup.DialogType.Channels:
+                title = LocaleController.getString("Channels", R.string.Channels);
+                break;
+            case FilterPopup.DialogType.Admin:
+                title = LocaleController.getString("Admins", R.string.Admins);
+                break;
+            default:
+                if (folderId != 0) {
+                    title = LocaleController.getString("ArchivedChats", R.string.ArchivedChats);
+                } else {
+                    title = "Nekogram";
+                }
+        }
+        if (FilterPopup.getInstance(currentAccount).getTotalUnreadCount() == 0) {
+            return "\uD83D\uDE36 " + title;
+        }
+        return "\uD83E\uDD14 " + title;
+    }
+
     @Override
     public void didReceivedNotification(int id, int account, Object... args) {
+
+        if (actionBar != null)
+            actionBar.setTitle(getNekoTitle());
+
         if (id == NotificationCenter.dialogsNeedReload) {
             if (dialogsListFrozen) {
                 return;

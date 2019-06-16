@@ -191,24 +191,44 @@ public class FilterPopup {
         return dialogs;
     }
 
+    public int getTotalUnreadCount() {
+        MessagesController messagesController = AccountInstance.getInstance(currentAccount).getMessagesController();
+        ArrayList<TLRPC.Dialog> allDialogs = new ArrayList<>(messagesController.getDialogs(0));
+        return getDialogsUnreadCount(allDialogs);
+    }
+
+    private int getDialogsUnreadCount(ArrayList<TLRPC.Dialog> dialogs) {
+        int count = 0;
+        for (TLRPC.Dialog dialog : dialogs) {
+            if (!(dialog instanceof TLRPC.TL_dialogFolder)
+                && !MessagesController.getInstance(currentAccount).isDialogMuted(dialog.id)) {
+                count += dialog.unread_count;
+            }
+        }
+        return count;
+    }
+
     public void createMenu(DialogsActivity dialogsActivity, ActionBar actionBar, Activity parentActivity, RecyclerView listView, View fragmentView, int x, int y, int folderId) {
         if (actionBar.isActionModeShowed()) {
             return;
         }
         ArrayList<CharSequence> items = new ArrayList<>();
         final ArrayList<Integer> options = new ArrayList<>();
+        ArrayList<Integer> unreadCounts = new ArrayList<>();
 
         MessagesController messagesController = AccountInstance.getInstance(currentAccount).getMessagesController();
         ArrayList<TLRPC.Dialog> allDialogs = new ArrayList<>(messagesController.getDialogs(folderId));
 
         items.add(LocaleController.getString("All", R.string.All));
         options.add(DialogType.All);
+        unreadCounts.add(getDialogsUnreadCount(allDialogs));
 
         ArrayList<TLRPC.Dialog> temp = new ArrayList<>(allDialogs);
         temp.retainAll(dialogsUsers);
         if (!temp.isEmpty()) {
             items.add(LocaleController.getString("Users", R.string.Users));
             options.add(DialogType.Users);
+            unreadCounts.add(getDialogsUnreadCount(temp));
         }
 
         temp = new ArrayList<>(allDialogs);
@@ -216,6 +236,7 @@ public class FilterPopup {
         if (!temp.isEmpty()) {
             items.add(LocaleController.getString("Groups", R.string.Groups));
             options.add(DialogType.Groups);
+            unreadCounts.add(getDialogsUnreadCount(temp));
         }
 
         temp = new ArrayList<>(allDialogs);
@@ -223,6 +244,7 @@ public class FilterPopup {
         if (!temp.isEmpty()) {
             items.add(LocaleController.getString("Channels", R.string.Channels));
             options.add(DialogType.Channels);
+            unreadCounts.add(getDialogsUnreadCount(temp));
         }
 
         temp = new ArrayList<>(allDialogs);
@@ -230,6 +252,7 @@ public class FilterPopup {
         if (!temp.isEmpty()) {
             items.add(LocaleController.getString("Bots", R.string.Bots));
             options.add(DialogType.Bots);
+            unreadCounts.add(getDialogsUnreadCount(temp));
         }
 
         temp = new ArrayList<>(allDialogs);
@@ -237,6 +260,7 @@ public class FilterPopup {
         if (!temp.isEmpty()) {
             items.add(LocaleController.getString("Admins", R.string.Admins));
             options.add(DialogType.Admin);
+            unreadCounts.add(getDialogsUnreadCount(temp));
         }
 
         if (scrimPopupWindow != null) {
@@ -310,8 +334,12 @@ public class FilterPopup {
             ActionBarMenuSubItem cell2 = new ActionBarMenuSubItem(parentActivity);
             linearLayout.addView(cell2);
             gridLayout.addView(cell);
-            UnreadCountBadgeView badge = new UnreadCountBadgeView(parentActivity, "2333");
+            UnreadCountBadgeView badge = new UnreadCountBadgeView(parentActivity, unreadCounts.get(a).toString());
             gridLayout.addView(badge);
+            if (unreadCounts.get(a) == 0)
+                badge.setVisibility(View.GONE);
+            else
+                badge.setVisibility(View.VISIBLE);
             final int i = a;
             cell2.setOnClickListener(v1 -> {
                 dialogsActivity.updateDialogsType(options.get(i));
