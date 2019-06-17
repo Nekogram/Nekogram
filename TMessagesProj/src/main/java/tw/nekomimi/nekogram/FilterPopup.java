@@ -11,7 +11,9 @@ import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -273,13 +275,24 @@ public class FilterPopup {
         popupLayout.setBackgroundDrawable(shadowDrawable);
 
         LinearLayout linearLayout = new LinearLayout(parentActivity);
+        GridLayout gridLayout = new GridLayout(parentActivity);
+        RelativeLayout cascadeLayout = new RelativeLayout(parentActivity) {
+            @Override
+            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+                setMeasuredDimension(gridLayout.getMeasuredWidth(), getMeasuredHeight());
+            }
+        };
+        cascadeLayout.addView(gridLayout, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
+        cascadeLayout.addView(linearLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+
         ScrollView scrollView;
         if (Build.VERSION.SDK_INT >= 21) {
             scrollView = new ScrollView(parentActivity, null, 0, R.style.scrollbarShapeStyle) {
                 @Override
                 protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-                    setMeasuredDimension(linearLayout.getMeasuredWidth(), getMeasuredHeight());
+                    setMeasuredDimension(cascadeLayout.getMeasuredWidth(), getMeasuredHeight());
                 }
             };
         } else {
@@ -288,21 +301,27 @@ public class FilterPopup {
         scrollView.setClipToPadding(false);
         popupLayout.addView(scrollView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
 
-        linearLayout.setMinimumWidth(AndroidUtilities.dp(200));
+        gridLayout.setColumnCount(2);
+        gridLayout.setMinimumWidth(AndroidUtilities.dp(200));
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         for (int a = 0, N = items.size(); a < N; a++) {
             ActionBarMenuSubItem cell = new ActionBarMenuSubItem(parentActivity);
             cell.setText(items.get(a).toString());
-            linearLayout.addView(cell);
+            ActionBarMenuSubItem cell2 = new ActionBarMenuSubItem(parentActivity);
+            linearLayout.addView(cell2);
+            gridLayout.addView(cell);
+            UnreadCountBadgeView badge = new UnreadCountBadgeView(parentActivity, "2333");
+            gridLayout.addView(badge);
             final int i = a;
-            cell.setOnClickListener(v1 -> {
+            cell2.setOnClickListener(v1 -> {
                 dialogsActivity.updateDialogsType(options.get(i));
                 if (scrimPopupWindow != null) {
                     scrimPopupWindow.dismiss();
                 }
             });
         }
-        scrollView.addView(linearLayout, LayoutHelper.createScroll(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
+
+        scrollView.addView(cascadeLayout, LayoutHelper.createScroll(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
         scrimPopupWindow = new ActionBarPopupWindow(popupLayout, LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT) {
             @Override
             public void dismiss() {
