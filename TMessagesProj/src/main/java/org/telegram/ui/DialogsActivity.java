@@ -1123,7 +1123,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
             @Override
             public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
-                if (listView.getAdapter() == dialogsAdapter && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && !onlySelect && !allowScrollToHiddenView && folderId == 0 && dy < 0 && getMessagesController().hasHiddenArchive()) {
+                if (!allowScrollToHiddenView && dy < 0 && hasHiddenArchive()) {
                     int currentPosition = layoutManager.findFirstVisibleItemPosition();
                     if (currentPosition == 0) {
                         View view = layoutManager.findViewByPosition(currentPosition);
@@ -2040,7 +2040,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private boolean hasHiddenArchive() {
-        return listView.getAdapter() == dialogsAdapter && !onlySelect && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && folderId == 0 && getMessagesController().hasHiddenArchive();
+        return listView.getAdapter() == dialogsAdapter && !onlySelect
+                && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11))
+                && folderId == 0
+                && FilterPopup.getInstance(currentAccount).hasHiddenArchive(dialogsType);
     }
 
     private boolean waitingForDialogsAnimationEnd() {

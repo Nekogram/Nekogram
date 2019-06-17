@@ -23,6 +23,7 @@ import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -106,6 +107,20 @@ public class FilterPopup {
             if (encryptedChat != null)
                 dialogsUsers.add(dialog);
         }
+    }
+
+    public boolean hasHiddenArchive(int type) {
+        if (!SharedConfig.archiveHidden)
+            return false;
+        ArrayList<TLRPC.Dialog> dialogs = getDialogs(type, 0);
+        if (dialogs == null)
+            return MessagesController.getInstance(currentAccount).hasHiddenArchive();
+        for (TLRPC.Dialog dialog : dialogs) {
+            if (dialog instanceof TLRPC.TL_dialogFolder) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public ArrayList<TLRPC.Dialog> getDialogs(int type, int folderId) {
