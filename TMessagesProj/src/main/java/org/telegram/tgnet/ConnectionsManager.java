@@ -29,6 +29,8 @@ import org.telegram.messenger.StatsController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.InputStream;
@@ -607,6 +609,9 @@ public class ConnectionsManager {
         if (Build.VERSION.SDK_INT < 19) {
             return false;
         }
+        if(!NekoConfig.useIPv6){
+            return false;
+        }
         if (BuildVars.LOGS_ENABLED) {
             try {
                 NetworkInterface networkInterface;
@@ -665,7 +670,7 @@ public class ConnectionsManager {
                     }
                 }
             }
-            if (!hasIpv4 && hasIpv6) {
+            if (hasIpv6) {
                 return true;
             }
         } catch (Throwable e) {
