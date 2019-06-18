@@ -99,6 +99,8 @@ import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.PhotoViewer;
 import org.telegram.ui.SecretMediaViewer;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -559,6 +561,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     };
     private SparseArray<Rect> accessibilityVirtualViewBounds = new SparseArray<>();
     private int currentFocusedVirtualView = -1;
+
+    private boolean isBlockedUserMessage() {
+        return MessagesController.getInstance(currentAccount).blockedUsers.indexOfKey(
+                currentMessageObject.getFromId()) >= 0 && NekoConfig.ignoreBlocked;
+    }
 
     public ChatMessageCell(Context context) {
         super(context);
@@ -4360,6 +4367,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             } else {
                 radialProgress.setImageOverlay(null, null, null);
             }
+        }
+        if (isBlockedUserMessage()) {
+            totalHeight = 0;
         }
         updateWaveform();
         updateButtonState(false, dataChanged && !messageObject.cancelEditing, true);
