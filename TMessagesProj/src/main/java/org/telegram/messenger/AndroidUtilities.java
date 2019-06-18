@@ -124,6 +124,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.regex.Pattern;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class AndroidUtilities {
 
     private static final Hashtable<String, Typeface> typefaceCache = new Hashtable<>();
@@ -1267,7 +1269,9 @@ public class AndroidUtilities {
     }
 
     public static boolean isTablet() {
-        if (isTablet == null) {
+        if (NekoConfig.forceTablet) {
+            isTablet = true;
+        } else if (isTablet == null) {
             isTablet = ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isTablet);
         }
         return isTablet;
