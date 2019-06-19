@@ -38,6 +38,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class LocaleController {
 
     static final int QUANTITY_OTHER = 0x0000;
@@ -1473,7 +1475,7 @@ public class LocaleController {
         isRTL = lang.length() == 2 && (lang.equals("ar") || lang.equals("fa") || lang.equals("he") || lang.equals("iw")) ||
                 lang.startsWith("ar_") || lang.startsWith("fa_") || lang.startsWith("he_") || lang.startsWith("iw_")
                 || currentLocaleInfo != null && currentLocaleInfo.isRtl;
-        nameDisplayOrder = lang.equals("ko") ? 2 : 1;
+        nameDisplayOrder = NekoConfig.nameOrder;
 
         formatterDayMonth = createFormatter(locale, getStringInternal("formatterMonth", R.string.formatterMonth), "dd MMM");
         formatterYear = createFormatter(locale, getStringInternal("formatterYear", R.string.formatterYear), "dd.MM.yy");
