@@ -307,6 +307,7 @@ public class Browser {
             }
             intent.putExtra(android.provider.Browser.EXTRA_CREATE_NEW_TAB, true);
             intent.putExtra(android.provider.Browser.EXTRA_APPLICATION_ID, context.getPackageName());
+            intent.putExtra("internal", true);
             context.startActivity(intent);
         } catch (Exception e) {
             FileLog.e(e);
