@@ -5622,8 +5622,26 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             if (index < 0 || index >= imagesArrLocations.size()) {
                 return;
             }
-            nameTextView.setText("");
-            dateTextView.setText("");
+            if (avatarsDialogId < 0) {
+                TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(-avatarsDialogId);
+                if (chat != null) {
+                    nameTextView.setText(chat.title);
+                } else {
+                    nameTextView.setText("");
+                }
+            } else {
+                TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(avatarsDialogId);
+                if (user != null) {
+                    nameTextView.setText(UserObject.getUserName(user));
+                } else {
+                    nameTextView.setText("");
+                }
+            }
+            long date =  (long) avatarsArr.get(switchingToIndex).date * 1000;
+            if (date != 0) {
+                String dateString = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date)));
+                dateTextView.setText(dateString);
+            }
             if (avatarsDialogId == UserConfig.getInstance(currentAccount).getClientUserId() && !avatarsArr.isEmpty()) {
                 menuItem.showSubItem(gallery_menu_delete);
             } else {
