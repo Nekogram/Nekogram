@@ -2,10 +2,13 @@ package tw.nekomimi.nekogram;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -30,9 +33,11 @@ import org.telegram.ui.Cells.EmptyCell;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.NotificationsCheckCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
+import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextSettingsCell;
+import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 
@@ -52,10 +57,15 @@ public class NekoSettingsActivity extends BaseFragment {
     private int singleBigEmojiRow;
     private int emoji2Row;
 
+    private int chatRow;
+    private int ignoreBlockedRow;
+    private int nyaRow;
+    private int nyaSuffixRow;
+    private int chat2Row;
+
     private int settingsRow;
     private int hidePhoneRow;
     private int inappCameraRow;
-    private int ignoreBlockedRow;
     private int nameOrderRow;
     private int forceTabletRow;
     private int settings2Row;
@@ -137,6 +147,12 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.ignoreBlocked);
                 }
+            } else if (position == nyaRow) {
+                NekoConfig.toggleNya();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.nya);
+                }
+                updateRows(true);
             } else if (position == useSystemEmojiRow) {
                 SharedConfig.useSystemEmoji = !SharedConfig.useSystemEmoji;
                 SharedPreferences.Editor editor = MessagesController.getGlobalMainSettings().edit();
@@ -165,6 +181,64 @@ public class NekoSettingsActivity extends BaseFragment {
                     listAdapter.notifyItemChanged(nameOrderRow);
                 });
                 showDialog(builder.create());
+            } else if (position == nyaSuffixRow) {
+                if (!NekoConfig.nya)
+                    return;
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(LocaleController.getString("NyaSuffix", R.string.NyaSuffix));
+
+                final EditTextBoldCursor editText = new EditTextBoldCursor(context) {
+                    @Override
+                    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64), MeasureSpec.EXACTLY));
+                    }
+                };
+                editText.setText(NekoConfig.nyaSuffix);
+                editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+                editText.setHintText(LocaleController.getString("NyaSuffixHint", R.string.NyaSuffixHint));
+                editText.setHeaderHintColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader));
+                editText.setSingleLine(true);
+                editText.setFocusable(true);
+                editText.setTransformHintToHeader(true);
+                editText.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated), Theme.getColor(Theme.key_windowBackgroundWhiteRedText3));
+                editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+                editText.setBackgroundDrawable(null);
+                editText.requestFocus();
+                editText.setPadding(0, 0, 0, 0);
+                builder.setView(editText);
+
+
+                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        if (getParentActivity() == null) {
+                            return;
+                        }
+                        String suffix = editText.getText().toString();
+                        NekoConfig.setNyaSuffix(suffix);
+                        listAdapter.notifyItemChanged(nyaSuffixRow);
+                    }
+                });
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.show().setOnShowListener(new DialogInterface.OnShowListener() {
+                    @Override
+                    public void onShow(DialogInterface dialog) {
+                        editText.requestFocus();
+                        AndroidUtilities.showKeyboard(editText);
+                    }
+                });
+                if (editText != null) {
+                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) editText.getLayoutParams();
+                    if (layoutParams != null) {
+                        if (layoutParams instanceof FrameLayout.LayoutParams) {
+                            ((FrameLayout.LayoutParams) layoutParams).gravity = Gravity.CENTER_HORIZONTAL;
+                        }
+                        layoutParams.rightMargin = layoutParams.leftMargin = AndroidUtilities.dp(24);
+                        layoutParams.height = AndroidUtilities.dp(36);
+                        editText.setLayoutParams(layoutParams);
+                    }
+                }
             }
         });
 
@@ -188,10 +262,14 @@ public class NekoSettingsActivity extends BaseFragment {
         useSystemEmojiRow = rowCount++;
         singleBigEmojiRow = rowCount++;
         emoji2Row = rowCount++;
+        chatRow = rowCount++;
+        ignoreBlockedRow = rowCount++;
+        nyaRow = rowCount++;
+        nyaSuffixRow = rowCount++;
+        chat2Row = rowCount++;
         settingsRow = rowCount++;
         hidePhoneRow = rowCount++;
         inappCameraRow = rowCount++;
-        ignoreBlockedRow = rowCount++;
         forceTabletRow = rowCount++;
         nameOrderRow = rowCount++;
         settings2Row = rowCount++;
@@ -292,6 +370,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("IgnoreBlocked", R.string.IgnoreBlocked), NekoConfig.ignoreBlocked, true);
                     } else if (position == forceTabletRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ForceTabletMode", R.string.ForceTabletMode), NekoConfig.forceTablet, true);
+                    } else if (position == nyaRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("EnableNya", R.string.EnableNya), NekoConfig.nya, true);
                     }
                     break;
                 }
@@ -303,10 +383,16 @@ public class NekoSettingsActivity extends BaseFragment {
                         headerCell.setText(LocaleController.getString("Emoji", R.string.Emoji));
                     } else if (position == connectionRow) {
                         headerCell.setText(LocaleController.getString("Connection", R.string.Connection));
+                    } else if (position == chatRow) {
+                        headerCell.setText(LocaleController.getString("Chat", R.string.Chat));
                     }
                     break;
                 }
-                case 5: {
+                case 6: {
+                    TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
+                    if (position == nyaSuffixRow) {
+                        textCell.setTextAndValue(LocaleController.getString("NyaSuffix", R.string.NyaSuffix), NekoConfig.nyaSuffix, false);
+                    }
                     break;
                 }
             }
@@ -317,7 +403,8 @@ public class NekoSettingsActivity extends BaseFragment {
             int position = holder.getAdapterPosition();
             return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow ||
                     position == useSystemEmojiRow || position == singleBigEmojiRow || position == ipv6Row ||
-                    position == nameOrderRow || position == forceTabletRow;
+                    position == nameOrderRow || position == forceTabletRow || position == nyaRow ||
+                    (position == nyaSuffixRow && NekoConfig.nya);
         }
 
         @Override
@@ -354,15 +441,15 @@ public class NekoSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == settings2Row || position == emoji2Row || position == connection2Row) {
+            if (position == settings2Row || position == emoji2Row || position == connection2Row || position == chat2Row) {
                 return 1;
             } else if (position == nameOrderRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == singleBigEmojiRow ||
-                    position == forceTabletRow) {
+                    position == forceTabletRow || position == nyaRow) {
                 return 3;
-            } else if (position == settingsRow || position == connectionRow || position == emojiRow) {
+            } else if (position == settingsRow || position == connectionRow || position == emojiRow || position == chatRow) {
                 return 4;
             }
             return 6;

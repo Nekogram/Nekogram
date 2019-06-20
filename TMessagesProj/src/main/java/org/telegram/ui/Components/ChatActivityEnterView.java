@@ -103,6 +103,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class ChatActivityEnterView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate {
 
     public interface ChatActivityEnterViewDelegate {
@@ -1496,6 +1498,8 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
         sendButton.setAlpha(0.0f);
         sendButtonContainer.addView(sendButton, LayoutHelper.createFrame(48, 48));
         sendButton.setOnClickListener(view -> sendMessage());
+        if (NekoConfig.nya)
+            sendButton.setOnLongClickListener(view -> sendMessage(true));
 
         expandStickersButton = new ImageView(context);
         expandStickersButton.setPadding(0, 0, AndroidUtilities.dp(4), 0);
@@ -2178,6 +2182,10 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
     }
 
     private void sendMessage() {
+        sendMessage(false);
+    }
+
+    private boolean sendMessage(boolean nya) {
         if (stickersExpanded) {
             setStickersExpanded(false, true, false);
             if (searchingType != 0) {
@@ -2186,11 +2194,15 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
             }
         }
         if (videoToSendMessageObject != null) {
+            if (nya)
+                return false;
             delegate.needStartRecordVideo(4);
             hideRecordedAudioPanel();
             checkSendButton(true);
-            return;
+            return true;
         } else if (audioToSend != null) {
+            if (nya)
+                return false;
             MessageObject playing = MediaController.getInstance().getPlayingMessageObject();
             if (playing != null && playing == audioToSendMessageObject) {
                 MediaController.getInstance().cleanupPlayer(true, true);
@@ -2201,10 +2213,10 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
             }
             hideRecordedAudioPanel();
             checkSendButton(true);
-            return;
+            return true;
         }
         CharSequence message = messageEditText.getText();
-        if (processSendingText(message)) {
+        if (processSendingText(message, nya)) {
             messageEditText.setText("");
             lastTypingTimeSend = 0;
             if (delegate != null) {
@@ -2215,6 +2227,7 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                 delegate.onMessageSend(null);
             }
         }
+        return true;
     }
 
     public void doneEditingMessage() {
@@ -2231,7 +2244,13 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
     }
 
     public boolean processSendingText(CharSequence text) {
+        return processSendingText(text, false);
+    }
+
+    public boolean processSendingText(CharSequence text, boolean nya) {
         text = AndroidUtilities.getTrimmedString(text);
+        if (nya)
+            ((Editable) text).append(NekoConfig.nyaSuffix);
         int maxLength = MessagesController.getInstance(currentAccount).maxMessageLength;
         if (text.length() != 0) {
             int count = (int) Math.ceil(text.length() / (float) maxLength);

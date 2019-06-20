@@ -15,6 +15,8 @@ public class NekoConfig {
     public static boolean ignoreBlocked = false;
     public static boolean forceTablet = false;
     public static int nameOrder = 1;
+    public static boolean nya = false;
+    public static String nyaSuffix = "喵";
     private static boolean configLoaded;
 
     static {
@@ -32,6 +34,8 @@ public class NekoConfig {
                 editor.putBoolean("ignoreBlocked", ignoreBlocked);
                 editor.putBoolean("forceTablet", forceTablet);
                 editor.putInt("nameOrder", nameOrder);
+                editor.putBoolean("nya", nya);
+                editor.putString("nyaSuffix", nyaSuffix);
 
                 editor.commit();
             } catch (Exception e) {
@@ -52,6 +56,8 @@ public class NekoConfig {
             ignoreBlocked = preferences.getBoolean("ignoreBlocked", false);
             forceTablet = preferences.getBoolean("forceTablet", false);
             nameOrder = preferences.getInt("nameOrder", 1);
+            nya = preferences.getBoolean("nya", false);
+            nyaSuffix = preferences.getString("nyaSuffix", "喵");
             configLoaded = true;
         }
     }
@@ -85,6 +91,22 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("forceTablet", forceTablet);
+        editor.commit();
+    }
+
+    public static void toggleNya() {
+        nya = !nya;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("nya", nya);
+        editor.commit();
+    }
+
+    public static void setNyaSuffix(String suffix) {
+        nyaSuffix = suffix;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("nyaSuffix", nyaSuffix);
         editor.commit();
     }
 
