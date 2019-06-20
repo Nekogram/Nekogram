@@ -30617,6 +30617,27 @@ public class TLRPC {
 		}
 	}
 
+    public static class TL_auth_importBotAuthorization extends TLObject {
+        public static int constructor = 0x67a3ff2c;
+
+        public int flags;
+        public int api_id;
+        public String api_hash;
+        public String bot_auth_token;
+
+        public TLObject deserializeResponse(AbstractSerializedData stream, int constructor, boolean exception) {
+            return TL_auth_authorization.TLdeserialize(stream, constructor, exception);
+        }
+
+        public void serializeToStream(AbstractSerializedData stream) {
+            stream.writeInt32(constructor);
+            stream.writeInt32(flags);
+            stream.writeInt32(api_id);
+            stream.writeString(api_hash);
+            stream.writeString(bot_auth_token);
+        }
+    }
+
 	public static class TL_account_registerDevice extends TLObject {
 		public static int constructor = 0x5cbea590;
 

@@ -61,6 +61,7 @@ public class UserConfig {
     public long pendingAppUpdateInstallTime;
     public long lastUpdateCheckTime;
     public long autoDownloadConfigLoadTime;
+    public boolean isBot;
 
     public volatile byte[] savedPasswordHash;
     public volatile byte[] savedSaltedPassword;
@@ -135,6 +136,7 @@ public class UserConfig {
                 editor.putBoolean("notificationsSignUpSettingsLoaded", notificationsSignUpSettingsLoaded);
                 editor.putLong("autoDownloadConfigLoadTime", autoDownloadConfigLoadTime);
                 editor.putBoolean("hasValidDialogLoadIds", hasValidDialogLoadIds);
+                editor.putBoolean("isBot", isBot);
 
                 editor.putInt("6migrateOffsetId", migrateOffsetId);
                 if (migrateOffsetId != -1) {
@@ -272,6 +274,7 @@ public class UserConfig {
             notificationsSignUpSettingsLoaded = preferences.getBoolean("notificationsSignUpSettingsLoaded", false);
             autoDownloadConfigLoadTime = preferences.getLong("autoDownloadConfigLoadTime", 0);
             hasValidDialogLoadIds = preferences.contains("2dialogsLoadOffsetId") || preferences.getBoolean("hasValidDialogLoadIds", false);
+            isBot = preferences.getBoolean("isBot",false);
 
             try {
                 String terms = preferences.getString("terms", null);
@@ -423,6 +426,7 @@ public class UserConfig {
         loginTime = (int) (System.currentTimeMillis() / 1000);
         lastContactsSyncTime = (int) (System.currentTimeMillis() / 1000) - 23 * 60 * 60;
         lastHintsSyncTime = (int) (System.currentTimeMillis() / 1000) - 25 * 60 * 60;
+        isBot = false;
         resetSavedPassword();
         boolean hasActivated = false;
         for (int a = 0; a < MAX_ACCOUNT_COUNT; a++) {
