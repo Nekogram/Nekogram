@@ -13119,7 +13119,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 showDialog(builder.create());
                 break;
             } case 27: {
-                SendMessagesHelper.getInstance(currentAccount).sendMessage("/prpr", dialog_id, selectedObject, null, false, null, null, null);
+                TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(selectedObject.messageOwner.from_id);
+                if (user.username != null) {
+                    SendMessagesHelper.getInstance(currentAccount).sendMessage("/prpr@" + user.username, dialog_id, selectedObject, null, false,
+                            null, null, null);
+                } else {
+                    SpannableString spannableString = new SpannableString("/prpr@" + user.first_name);
+                    spannableString.setSpan(new URLSpanUserMention(Integer.toString(user.id), 1), 6, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    CharSequence[] cs = new CharSequence[]{spannableString};
+                    ArrayList<TLRPC.MessageEntity> entities = DataQuery.getInstance(currentAccount).getEntities(cs);
+                    SendMessagesHelper.getInstance(currentAccount).sendMessage(spannableString.toString(), dialog_id, selectedObject, null, false,
+                            entities, null, null);
+                }
                 break;
             } case 94: {
                 ArrayList<MessageObject> messages =  new ArrayList<>();
