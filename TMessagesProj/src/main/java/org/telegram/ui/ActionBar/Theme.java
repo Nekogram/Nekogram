@@ -1945,7 +1945,7 @@ public class Theme {
         themes.add(themeInfo);
         themesDict.put("Dark Blue", currentNightTheme = themeInfo);
 
-        if (BuildVars.DEBUG_VERSION) {
+        if (true) {
             themeInfo = new ThemeInfo();
             themeInfo.name = "Graphite";
             themeInfo.assetName = "graphite.attheme";
