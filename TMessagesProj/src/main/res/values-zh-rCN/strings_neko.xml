@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="NekoSettings">喵设置</string>
+    <string name="IPv6">优先尝试使用 IPv6 连接</string>
+    <string name="HidePhone">隐藏咱的手机号</string>
+    <string name="Hide">隐藏</string>
+    <string name="DeleteAllFromSelf">删除全部自己的历史消息</string>
+    <string name="BotLogin">机器人登录</string>
+    <string name="InvalidAccessToken">无效的访问令牌</string>
+    <string name="IgnoreBlocked">忽略渣滓们在群里说的话</string>
+    <string name="Connection">连接</string>
+    <string name="Chat">聊天</string>
+    <string name="NameOrder">姓名顺序（重启生效）</string>
+    <string name="FirstLast">名字 姓氏</string>
+    <string name="LastFirst">姓氏 名字</string>
+    <string name="NoQuoteForward">无引用转发</string>
+    <string name="Repeat">复读</string>
+    <string name="CreateMention">创建\@</string>
+    <string name="ForceTabletMode">假装是平板（重启生效）</string>
+    <string name="All">全部会话</string>
+    <string name="Users">用户</string>
+    <string name="Groups">群组</string>
+    <string name="Channels">频道</string>
+    <string name="Bots">机器人</string>
+    <string name="Admins">管理的会话</string>
+    <string name="EnableNya">长按发送时加上可爱的尾音</string>
+    <string name="NyaSuffix">消息尾音</string>
+    <string name="NyaSuffixHint">恶意卖萌的尾音</string>
+</resources>

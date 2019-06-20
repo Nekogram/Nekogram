@@ -2,13 +2,14 @@
 <resources>
     <string name="NekoSettings">Neko Settings</string>
     <string name="IPv6">Try connecting through IPv6</string>
-    <string name="HidePhone">Hide phone number</string>
+    <string name="HidePhone">Hide my phone number</string>
     <string name="Hide">Hide</string>
     <string name="DeleteAllFromSelf">Delete all from yourself</string>
     <string name="BotLogin">Bot Login</string>
     <string name="InvalidAccessToken">Invalid access token</string>
     <string name="IgnoreBlocked">Ignore blocked users in group</string>
     <string name="Connection">Connection</string>
+    <string name="Chat">Chat</string>
     <string name="NameOrder">Name order</string>
     <string name="FirstLast">First Last</string>
     <string name="LastFirst">Last First</string>
@@ -22,4 +23,7 @@
     <string name="Channels">Channels</string>
     <string name="Bots">Bots</string>
     <string name="Admins">Administrating Chats</string>
+    <string name="EnableNya">Send message with suffix on long click</string>
+    <string name="NyaSuffix">Message suffix</string>
+    <string name="NyaSuffixHint">Suffix</string>
 </resources>
