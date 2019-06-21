@@ -331,6 +331,7 @@ public class FilterPopup {
         for (int a = 0, N = items.size(); a < N; a++) {
             ActionBarMenuSubItem cell = new ActionBarMenuSubItem(parentActivity);
             cell.setText(items.get(a).toString());
+            cell.setMinimumWidth(AndroidUtilities.dp(171));
             ActionBarMenuSubItem cell2 = new ActionBarMenuSubItem(parentActivity);
             linearLayout.addView(cell2);
             gridLayout.addView(cell);
