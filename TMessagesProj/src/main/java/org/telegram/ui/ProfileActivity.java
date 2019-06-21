@@ -108,6 +108,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.concurrent.CountDownLatch;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class ProfileActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
 
     private RecyclerListView listView;
@@ -1287,7 +1289,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             return true;
         } else if (position == phoneRow) {
             final TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(user_id);
-            if (user == null || user.phone == null || user.phone.length() == 0 || getParentActivity() == null) {
+            if (user == null || user.phone == null || user.phone.length() == 0 || getParentActivity() == null
+                || (NekoConfig.hidePhone && user.id == UserConfig.getInstance(currentAccount).getClientUserId())) {
                 return false;
             }
 
@@ -3130,7 +3133,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (position == phoneRow) {
                         String text;
                         final TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(user_id);
-                        if (!TextUtils.isEmpty(user.phone)) {
+                        if (!TextUtils.isEmpty(user.phone)
+                                && !(NekoConfig.hidePhone && user.id == UserConfig.getInstance(currentAccount).getClientUserId())) {
                             text = PhoneFormat.getInstance().format("+" + user.phone);
                         } else {
                             text = LocaleController.getString("PhoneHidden", R.string.PhoneHidden);
