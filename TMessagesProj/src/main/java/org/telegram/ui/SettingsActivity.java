@@ -54,6 +54,7 @@ import android.widget.Toast;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.BuildConfig;
+import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DataQuery;
 import org.telegram.messenger.ImageLoader;
@@ -79,6 +80,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.MessageObject;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BottomSheet;
+import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.EmptyCell;
 import org.telegram.ui.Cells.GraySectionCell;
@@ -135,6 +137,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
     private RadialProgressView avatarProgressView;
     private TextView nameTextView;
     private TextView onlineTextView;
+    private SimpleTextView idTextView;
     private ImageView writeButton;
     private AnimatorSet writeButtonAnimation;
     private ImageUpdater imageUpdater;
@@ -597,6 +600,13 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         onlineTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
         frameLayout.addView(onlineTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 48 : 118, 0, LocaleController.isRTL ? 166 : 96, 0));
 
+        idTextView = new SimpleTextView(context);
+        idTextView.setTextColor(AvatarDrawable.getProfileTextColorForId(5));
+        idTextView.setTextSize(14);
+        idTextView.setGravity(Gravity.LEFT);
+        idTextView.setAlpha(1.0f);
+        frameLayout.addView(idTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118, 0, 48, 0));
+
         writeButton = new ImageView(context);
         Drawable drawable = Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(56), Theme.getColor(Theme.key_profile_actionBackground), Theme.getColor(Theme.key_profile_actionPressedBackground));
         if (Build.VERSION.SDK_INT < 21) {
@@ -942,7 +952,13 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             onlineTextView.setTranslationY((float) Math.floor(avatarY) + AndroidUtilities.dp(22) + (float) Math.floor(11 * AndroidUtilities.density) * diff);
             nameTextView.setScaleX(1.0f + 0.12f * diff);
             nameTextView.setScaleY(1.0f + 0.12f * diff);
-
+            idTextView.setTranslationX( -21 * AndroidUtilities.density * diff);
+            idTextView.setTranslationY( (float) Math.floor(avatarY) + AndroidUtilities.dp(32) + (float)Math.floor(22 * AndroidUtilities.density) * diff);
+            if (diff > 0.85) {
+                idTextView.setVisibility(View.VISIBLE);
+            } else {
+                idTextView.setVisibility(View.GONE);
+            }
             if (LocaleController.isRTL) {
                 avatarContainer.setTranslationX(AndroidUtilities.dp(47 + 48) * diff);
                 nameTextView.setTranslationX((21 + 48) * AndroidUtilities.density * diff);
@@ -992,6 +1008,31 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
             avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(photoBig), false);
         }
+        if (photoBig != null) {
+            idTextView.setText("ID: " + user.id + ", DC: " + photoBig.dc_id);
+        } else {
+            idTextView.setText("ID: " + user.id);
+        }
+        int finalId = user.id;
+        idTextView.setOnLongClickListener(new SimpleTextView.OnLongClickListener() {
+            public boolean onLongClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, (dialogInterface, i) -> {
+                    if (i == 0) {
+                        try {
+                            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) ApplicationLoader.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                            android.content.ClipData clip = android.content.ClipData.newPlainText("label", String.valueOf(finalId));
+                            clipboard.setPrimaryClip(clip);
+                            Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                    }
+                });
+                showDialog(builder.create());
+                return false;
+            }
+        });
     }
 
     private void showHelpAlert() {
