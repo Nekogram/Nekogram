@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="NekoSettings">喵設定</string>
+    <string name="IPv6">IPv6 で接続することを優先する</string>
+    <string name="HidePhone">あなたの携帯電話番号を隠す</string>
+    <string name="Hide">隠す</string>
+    <string name="DeleteAllFromSelf">送信したすべてのメッセージを削除する</string>
+    <string name="BotLogin">ボットログイン</string>
+    <string name="InvalidAccessToken">無効なアクセストークン</string>
+    <string name="IgnoreBlocked">ブロックした相手の発言を無視する</string>
+    <string name="Connection">接続</string>
+    <string name="Chat">チャット</string>
+    <string name="NameOrder">名前順</string>
+    <string name="FirstLast">名前 姓氏</string>
+    <string name="LastFirst">姓氏 名前</string>
+    <string name="NoQuoteForward">見積もりなしで転送</string>
+    <string name="Repeat">繰り返す</string>
+    <string name="CreateMention">アットユーザー</string>
+    <string name="ForceTabletMode">タブレットモードを強制する</string>
+    <string name="All">すべての会話</string>
+    <string name="Users">ユーザー</string>
+    <string name="Groups">グループ</string>
+    <string name="Channels">チャンネル</string>
+    <string name="Bots">ボット</string>
+    <string name="Admins">管理な会話</string>
+    <string name="EnableNya">長押しするときにかわいいしっぽを送る</string>
+    <string name="NyaSuffix">メッセージテール</string>
+    <string name="NyaSuffixHint">ぽい</string>
+    <string name="Prpr">ペロペロ</string>
+</resources>

@@ -12213,9 +12213,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 items.add(LocaleController.getString("Repeat", R.string.Repeat));
                                 options.add(94);
                                 icons.add(R.drawable.msg_repeat);
-                                items.add("prpr");
+                                items.add(LocaleController.getString("Prpr", R.string.Prpr));
                                 options.add(27);
-                                icons.add(R.drawable.msg_reply);
+                                icons.add(R.drawable.msg_prpr);
                             }
                         }
                         if (allowUnpin) {
