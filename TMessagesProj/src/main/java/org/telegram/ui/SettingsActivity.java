@@ -1008,8 +1008,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
             avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(photoBig), false);
         }
-        if (photoBig != null) {
-            idTextView.setText("ID: " + user.id + ", DC: " + photoBig.dc_id);
+        if (user.photo != null) {
+            idTextView.setText("ID: " + user.id + ", DC: " + user.photo.dc_id);
         } else {
             idTextView.setText("ID: " + user.id);
         }

@@ -2747,8 +2747,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 nameTextView[a].setRightDrawable(rightIcon);
             }
 
-            if (photoBig != null) {
-                idTextView.setText("ID: " + user_id + ", DC: " + photoBig.dc_id);
+            if (user.photo != null) {
+                idTextView.setText("ID: " + user_id + ", DC: " + user.photo.dc_id);
             } else {
                 idTextView.setText("ID: " + user_id);
             }
@@ -2864,8 +2864,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             avatarImage.setImage(ImageLocation.getForChat(chat, false), "50_50", avatarDrawable, chat);
             FileLoader.getInstance(currentAccount).loadFile(ImageLocation.getForChat(chat, true), chat, null, 0, 1);
             avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(photoBig), false);
-            if (photoBig != null) {
-                idTextView.setText("ID: " + chat_id + ", DC: " + photoBig.dc_id);
+            if (chat.photo != null) {
+                idTextView.setText("ID: " + chat_id + ", DC: " + chat.photo.dc_id);
             } else {
                 idTextView.setText("ID: " + chat_id);
             }
