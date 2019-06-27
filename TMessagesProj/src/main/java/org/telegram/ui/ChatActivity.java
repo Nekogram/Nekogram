@@ -12203,16 +12203,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
                             options.add(95);
                             icons.add(R.drawable.msg_forward);
-                            boolean allowRepeat;
-                            if (ChatObject.isChannel(currentChat) && !currentChat.megagroup) {
-                                allowRepeat =  currentChat.creator || (currentChat.admin_rights != null && currentChat.admin_rights.post_messages);
-                            } else {
-                                allowRepeat = true;
-                            }
-                            if(allowRepeat){
+                            boolean allowRepeat = currentUser != null
+                                    || (currentChat != null && ChatObject.canSendMessages(currentChat));
+                            boolean allowPrpr = currentUser != null
+                                    || (currentChat != null && ChatObject.canSendMessages(currentChat) && !currentChat.broadcast);
+                            if (allowRepeat) {
                                 items.add(LocaleController.getString("Repeat", R.string.Repeat));
                                 options.add(94);
                                 icons.add(R.drawable.msg_repeat);
+                            }
+                            if (allowPrpr) {
                                 items.add(LocaleController.getString("Prpr", R.string.Prpr));
                                 options.add(27);
                                 icons.add(R.drawable.msg_prpr);
