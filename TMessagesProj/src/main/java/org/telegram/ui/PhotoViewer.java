@@ -168,6 +168,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.UIHelper;
+
 @SuppressWarnings("unchecked")
 public class PhotoViewer implements NotificationCenter.NotificationCenterDelegate, GestureDetector.OnGestureListener, GestureDetector.OnDoubleTapListener {
 
@@ -6643,6 +6645,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         WindowManager.LayoutParams.FLAG_LAYOUT_INSET_DECOR |
                         WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM |
                         WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS;
+                UIHelper.updateNavigationBarColor(parentActivity, 0xff0000);
             } else {
                 windowLayoutParams.flags = WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
             }
@@ -7329,6 +7332,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (object != null) {
             object.imageReceiver.setVisible(true, true);
         }
+        UIHelper.updateNavigationBarColor(parentActivity);
     }
 
     private void redraw(final int count) {

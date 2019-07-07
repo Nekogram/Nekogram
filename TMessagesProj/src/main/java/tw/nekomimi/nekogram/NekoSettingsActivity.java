@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -67,6 +68,9 @@ public class NekoSettingsActivity extends BaseFragment {
     private int hidePhoneRow;
     private int inappCameraRow;
     private int nameOrderRow;
+    private int transparentStatusBarRow;
+    private int navigationBarTintRow;
+    private int useMessagePanelColorRow;
     private int forceTabletRow;
     private int settings2Row;
 
@@ -153,6 +157,30 @@ public class NekoSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.nya);
                 }
                 updateRows(true);
+            } else if (position == transparentStatusBarRow) {
+                if (!(NekoConfig.navigationBarTint || Build.VERSION.SDK_INT < Build.VERSION_CODES.O))
+                    return;
+                NekoConfig.toggleTransparentStatusBar();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.transparentStatusBar);
+                }
+                UIHelper.updateStatusBarColor(getParentActivity());
+            } else if (position == navigationBarTintRow) {
+                NekoConfig.toggleNavigationBarTint();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.navigationBarTint);
+                }
+                updateRows(true);
+                UIHelper.updateStatusBarColor(getParentActivity());
+                UIHelper.updateNavigationBarColor(getParentActivity());
+            } else if (position == useMessagePanelColorRow) {
+                if (!NekoConfig.navigationBarTint)
+                    return;
+                NekoConfig.toggleUseMessagePanelColor();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.useMessagePanelColor);
+                }
+                UIHelper.updateNavigationBarColor(getParentActivity());
             } else if (position == useSystemEmojiRow) {
                 SharedConfig.useSystemEmoji = !SharedConfig.useSystemEmoji;
                 SharedPreferences.Editor editor = MessagesController.getGlobalMainSettings().edit();
@@ -270,6 +298,9 @@ public class NekoSettingsActivity extends BaseFragment {
         settingsRow = rowCount++;
         hidePhoneRow = rowCount++;
         inappCameraRow = rowCount++;
+        navigationBarTintRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? rowCount++ : -1;
+        transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
+        useMessagePanelColorRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? rowCount++ : -1;
         forceTabletRow = rowCount++;
         nameOrderRow = rowCount++;
         settings2Row = rowCount++;
@@ -362,6 +393,12 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("HidePhone", R.string.HidePhone), NekoConfig.hidePhone, true);
                     } else if (position == inappCameraRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DebugMenuEnableCamera", R.string.DebugMenuEnableCamera), SharedConfig.inappCamera, true);
+                    } else if (position == transparentStatusBarRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("TransparentStatusBar", R.string.TransparentStatusBar), NekoConfig.transparentStatusBar, true);
+                    } else if (position == navigationBarTintRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("NavigationBarTint", R.string.NavigationBarTint), NekoConfig.navigationBarTint, true);
+                    } else if (position == useMessagePanelColorRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("UseMessagePanelColor", R.string.UseMessagePanelColor), NekoConfig.useMessagePanelColor, true);
                     } else if (position == useSystemEmojiRow) {
                         textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), SharedConfig.useSystemEmoji, true);
                     } else if (position == singleBigEmojiRow) {
@@ -401,10 +438,12 @@ public class NekoSettingsActivity extends BaseFragment {
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int position = holder.getAdapterPosition();
-            return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow ||
+            return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow || position == navigationBarTintRow ||
                     position == useSystemEmojiRow || position == singleBigEmojiRow || position == ipv6Row ||
                     position == nameOrderRow || position == forceTabletRow || position == nyaRow ||
-                    (position == nyaSuffixRow && NekoConfig.nya);
+                    (position == nyaSuffixRow && NekoConfig.nya) ||
+                    (position == transparentStatusBarRow && (NekoConfig.navigationBarTint || Build.VERSION.SDK_INT < Build.VERSION_CODES.O)) ||
+                    (position == useMessagePanelColorRow && NekoConfig.navigationBarTint);
         }
 
         @Override
@@ -446,6 +485,7 @@ public class NekoSettingsActivity extends BaseFragment {
             } else if (position == nameOrderRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
+                    position == transparentStatusBarRow || position == navigationBarTintRow || position == useMessagePanelColorRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == singleBigEmojiRow ||
                     position == forceTabletRow || position == nyaRow) {
                 return 3;

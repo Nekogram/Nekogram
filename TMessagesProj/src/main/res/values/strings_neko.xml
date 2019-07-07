@@ -27,4 +27,7 @@
     <string name="NyaSuffix">Message suffix</string>
     <string name="NyaSuffixHint">Suffix</string>
     <string name="Prpr">prpr</string>
+    <string name="TransparentStatusBar">Transparent status bar</string>
+    <string name="NavigationBarTint">Set navigation bar and status bar color</string>
+    <string name="UseMessagePanelColor">Use message panel color for nav bar</string>
 </resources>

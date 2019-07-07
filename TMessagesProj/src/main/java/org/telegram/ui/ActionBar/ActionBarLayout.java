@@ -48,6 +48,8 @@ import org.telegram.ui.Components.LayoutHelper;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.UIHelper;
+
 public class ActionBarLayout extends FrameLayout {
 
     public interface ActionBarLayoutDelegate {
@@ -230,6 +232,8 @@ public class ActionBarLayout extends FrameLayout {
         for (BaseFragment fragment : fragmentsStack) {
             fragment.setParentLayout(this);
         }
+        UIHelper.updateStatusBarColor(parentActivity);
+        UIHelper.updateNavigationBarColor(parentActivity);
     }
 
     @Override
@@ -1372,6 +1376,8 @@ public class ActionBarLayout extends FrameLayout {
                         }
                         Theme.setAnimatingColor(false);
                         themeAnimatorSet = null;
+                        UIHelper.updateStatusBarColor(parentActivity);
+                        UIHelper.updateNavigationBarColor(parentActivity);
                     }
                 }
 
@@ -1386,6 +1392,8 @@ public class ActionBarLayout extends FrameLayout {
                         }
                         Theme.setAnimatingColor(false);
                         themeAnimatorSet = null;
+                        UIHelper.updateStatusBarColor(parentActivity);
+                        UIHelper.updateNavigationBarColor(parentActivity);
                     }
                 }
             });
@@ -1426,6 +1434,8 @@ public class ActionBarLayout extends FrameLayout {
         if (showLastAfter) {
             showLastFragment();
         }
+        UIHelper.updateStatusBarColor(parentActivity);
+        UIHelper.updateNavigationBarColor(parentActivity);
     }
 
     public boolean onKeyUp(int keyCode, KeyEvent event) {

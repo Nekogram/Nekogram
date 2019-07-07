@@ -17,6 +17,9 @@ public class NekoConfig {
     public static int nameOrder = 1;
     public static boolean nya = false;
     public static String nyaSuffix = "喵";
+    public static boolean transparentStatusBar = true;
+    public static boolean navigationBarTint = true;
+    public static boolean useMessagePanelColor = false;
     private static boolean configLoaded;
 
     static {
@@ -36,6 +39,9 @@ public class NekoConfig {
                 editor.putInt("nameOrder", nameOrder);
                 editor.putBoolean("nya", nya);
                 editor.putString("nyaSuffix", nyaSuffix);
+                editor.putBoolean("transparentStatusBar", transparentStatusBar);
+                editor.putBoolean("navigationBarTint", navigationBarTint);
+                editor.putBoolean("useMessagePanelColor", useMessagePanelColor);
 
                 editor.commit();
             } catch (Exception e) {
@@ -58,6 +64,9 @@ public class NekoConfig {
             nameOrder = preferences.getInt("nameOrder", 1);
             nya = preferences.getBoolean("nya", false);
             nyaSuffix = preferences.getString("nyaSuffix", "喵");
+            transparentStatusBar = preferences.getBoolean("transparentStatusBar", true);
+            navigationBarTint = preferences.getBoolean("navigationBarTint", true);
+            useMessagePanelColor = preferences.getBoolean("useMessagePanelColor", false);
             configLoaded = true;
         }
     }
@@ -115,6 +124,30 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("nameOrder", nameOrder);
+        editor.commit();
+    }
+
+    public static void toggleTransparentStatusBar() {
+        transparentStatusBar = !transparentStatusBar;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("transparentStatusBar", transparentStatusBar);
+        editor.commit();
+    }
+
+    public static void toggleNavigationBarTint() {
+        navigationBarTint = !navigationBarTint;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("navigationBarTint", navigationBarTint);
+        editor.commit();
+    }
+
+    public static void toggleUseMessagePanelColor() {
+        useMessagePanelColor = !useMessagePanelColor;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("useMessagePanelColor", useMessagePanelColor);
         editor.commit();
     }
 

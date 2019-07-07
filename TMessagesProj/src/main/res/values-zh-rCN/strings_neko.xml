@@ -27,4 +27,7 @@
     <string name="NyaSuffix">消息尾音</string>
     <string name="NyaSuffixHint">恶意卖萌的尾音</string>
     <string name="Prpr">ペロペロ</string>
+    <string name="TransparentStatusBar">使用完全透明的状态栏</string>
+    <string name="NavigationBarTint">设置导航栏和状态栏颜色</string>
+    <string name="UseMessagePanelColor">导航栏使用消息面板颜色</string>
 </resources>
