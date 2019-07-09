@@ -29,5 +29,8 @@
     <string name="Prpr">prpr</string>
     <string name="TransparentStatusBar">Transparent status bar</string>
     <string name="NavigationBarTint">Set navigation bar and status bar color</string>
-    <string name="UseMessagePanelColor">Use message panel color for nav bar</string>
+    <string name="NavigationBarColor">Navigation bar color</string>
+    <string name="NavigationBarColorBlack">Black</string>
+    <string name="NavigationBarColorActionBar">Use action bar color</string>
+    <string name="NavigationBarColorMessagePanel">Use message panel color</string>
 </resources>

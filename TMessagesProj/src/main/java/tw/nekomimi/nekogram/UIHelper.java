@@ -41,7 +41,18 @@ public class UIHelper {
     }
 
     static private void setNavigationBarColor(Activity parentActivity) {
-        int color = Theme.getColor(NekoConfig.useMessagePanelColor ? Theme.key_chat_messagePanelBackground : Theme.key_actionBarDefault);
+        int color;
+        switch (NekoConfig.navigationBarColor) {
+            case 3:
+                color = Theme.getColor(Theme.key_chat_messagePanelBackground);
+                break;
+            case 2:
+                color = Theme.getColor(Theme.key_actionBarDefault);
+                break;
+            case 1:
+            default:
+                color = 0xff000000;
+        }
         setNavigationBarColor(parentActivity, color);
     }
 
@@ -89,7 +100,18 @@ public class UIHelper {
     }
 
     public static void updateNavigationBarColor(Activity parentActivity) {
-        int color = Theme.getColor(NekoConfig.useMessagePanelColor ? Theme.key_chat_messagePanelBackground : Theme.key_actionBarDefault);
+        int color;
+        switch (NekoConfig.navigationBarColor) {
+            case 3:
+                color = Theme.getColor(Theme.key_chat_messagePanelBackground);
+                break;
+            case 2:
+                color = Theme.getColor(Theme.key_actionBarDefault);
+                break;
+            case 1:
+            default:
+                color = 0xff000000;
+        }
         updateNavigationBarColor(parentActivity, color);
     }
 

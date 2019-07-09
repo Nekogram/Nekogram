@@ -29,5 +29,8 @@
     <string name="Prpr">ペロペロ</string>
     <string name="TransparentStatusBar">使用完全透明的狀態欄</string>
     <string name="NavigationBarTint">啟用導航欄和狀態欄顏色</string>
-    <string name="UseMessagePanelColor">導航欄應用消息面板顏色</string>
+    <string name="NavigationBarColor">導航欄顏色</string>
+    <string name="NavigationBarColorBlack">使用黑色</string>
+    <string name="NavigationBarColorActionBar">使用標題欄顏色</string>
+    <string name="NavigationBarColorMessagePanel">使用消息面板顏色</string>
 </resources>

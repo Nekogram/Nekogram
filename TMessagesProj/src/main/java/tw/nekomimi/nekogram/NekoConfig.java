@@ -19,7 +19,7 @@ public class NekoConfig {
     public static String nyaSuffix = "喵";
     public static boolean transparentStatusBar = true;
     public static boolean navigationBarTint = true;
-    public static boolean useMessagePanelColor = false;
+    public static int navigationBarColor = 2;
     private static boolean configLoaded;
 
     static {
@@ -41,7 +41,7 @@ public class NekoConfig {
                 editor.putString("nyaSuffix", nyaSuffix);
                 editor.putBoolean("transparentStatusBar", transparentStatusBar);
                 editor.putBoolean("navigationBarTint", navigationBarTint);
-                editor.putBoolean("useMessagePanelColor", useMessagePanelColor);
+                editor.putInt("navigationBarColor", navigationBarColor);
 
                 editor.commit();
             } catch (Exception e) {
@@ -66,7 +66,7 @@ public class NekoConfig {
             nyaSuffix = preferences.getString("nyaSuffix", "喵");
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", true);
             navigationBarTint = preferences.getBoolean("navigationBarTint", true);
-            useMessagePanelColor = preferences.getBoolean("useMessagePanelColor", false);
+            navigationBarColor = preferences.getInt("navigationBarColor", 2);
             configLoaded = true;
         }
     }
@@ -143,11 +143,11 @@ public class NekoConfig {
         editor.commit();
     }
 
-    public static void toggleUseMessagePanelColor() {
-        useMessagePanelColor = !useMessagePanelColor;
+    public static void setNavigationBarColor(int color) {
+        navigationBarColor = color;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("useMessagePanelColor", useMessagePanelColor);
+        editor.putInt("navigationBarColor", navigationBarColor);
         editor.commit();
     }
 

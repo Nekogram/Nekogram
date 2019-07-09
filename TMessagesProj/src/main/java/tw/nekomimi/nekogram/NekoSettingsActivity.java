@@ -70,7 +70,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int nameOrderRow;
     private int transparentStatusBarRow;
     private int navigationBarTintRow;
-    private int useMessagePanelColorRow;
+    private int navigationBarColorRow;
     private int forceTabletRow;
     private int settings2Row;
 
@@ -173,14 +173,22 @@ public class NekoSettingsActivity extends BaseFragment {
                 updateRows(true);
                 UIHelper.updateStatusBarColor(getParentActivity());
                 UIHelper.updateNavigationBarColor(getParentActivity());
-            } else if (position == useMessagePanelColorRow) {
+            } else if (position == navigationBarColorRow) {
                 if (!NekoConfig.navigationBarTint)
                     return;
-                NekoConfig.toggleUseMessagePanelColor();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.useMessagePanelColor);
-                }
-                UIHelper.updateNavigationBarColor(getParentActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                builder.setTitle(LocaleController.getString("NavigationBarColor", R.string.NavigationBarColor));
+                CharSequence[] items = new CharSequence[]{
+                        LocaleController.getString("NavigationBarColorBlack", R.string.NavigationBarColorBlack),
+                        LocaleController.getString("NavigationBarColorActionBar", R.string.NavigationBarColorActionBar),
+                        LocaleController.getString("NavigationBarColorMessagePanel", R.string.NavigationBarColorMessagePanel),
+                };
+                builder.setItems(items, (dialog, which) -> {
+                    NekoConfig.setNavigationBarColor(which + 1);
+                    listAdapter.notifyItemChanged(navigationBarColorRow);
+                    UIHelper.updateNavigationBarColor(getParentActivity());
+                });
+                showDialog(builder.create());
             } else if (position == useSystemEmojiRow) {
                 SharedConfig.useSystemEmoji = !SharedConfig.useSystemEmoji;
                 SharedPreferences.Editor editor = MessagesController.getGlobalMainSettings().edit();
@@ -300,7 +308,7 @@ public class NekoSettingsActivity extends BaseFragment {
         inappCameraRow = rowCount++;
         navigationBarTintRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? rowCount++ : -1;
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
-        useMessagePanelColorRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? rowCount++ : -1;
+        navigationBarColorRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? rowCount++ : -1;
         forceTabletRow = rowCount++;
         nameOrderRow = rowCount++;
         settings2Row = rowCount++;
@@ -382,6 +390,20 @@ public class NekoSettingsActivity extends BaseFragment {
                                 break;
                         }
                         textCell.setTextAndValue(LocaleController.getString("NameOrder", R.string.NameOrder), value, false);
+                    } else if (position == navigationBarColorRow) {
+                        String value;
+                        switch (NekoConfig.navigationBarColor) {
+                            case 3:
+                                value = LocaleController.getString("NavigationBarColorMessagePanel", R.string.NavigationBarColorMessagePanel);
+                                break;
+                            case 2:
+                                value = LocaleController.getString("NavigationBarColorActionBar", R.string.NavigationBarColorActionBar);
+                                break;
+                            case 1:
+                            default:
+                                value = LocaleController.getString("NavigationBarColorBlack", R.string.NavigationBarColorBlack);
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("NavigationBarColor", R.string.NavigationBarColor), value, true);
                     }
                     break;
                 }
@@ -397,8 +419,6 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("TransparentStatusBar", R.string.TransparentStatusBar), NekoConfig.transparentStatusBar, true);
                     } else if (position == navigationBarTintRow) {
                         textCell.setTextAndCheck(LocaleController.getString("NavigationBarTint", R.string.NavigationBarTint), NekoConfig.navigationBarTint, true);
-                    } else if (position == useMessagePanelColorRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("UseMessagePanelColor", R.string.UseMessagePanelColor), NekoConfig.useMessagePanelColor, true);
                     } else if (position == useSystemEmojiRow) {
                         textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), SharedConfig.useSystemEmoji, true);
                     } else if (position == singleBigEmojiRow) {
@@ -443,7 +463,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == nameOrderRow || position == forceTabletRow || position == nyaRow ||
                     (position == nyaSuffixRow && NekoConfig.nya) ||
                     (position == transparentStatusBarRow && (NekoConfig.navigationBarTint || Build.VERSION.SDK_INT < Build.VERSION_CODES.O)) ||
-                    (position == useMessagePanelColorRow && NekoConfig.navigationBarTint);
+                    (position == navigationBarColorRow && NekoConfig.navigationBarTint);
         }
 
         @Override
@@ -482,10 +502,10 @@ public class NekoSettingsActivity extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == settings2Row || position == emoji2Row || position == connection2Row || position == chat2Row) {
                 return 1;
-            } else if (position == nameOrderRow) {
+            } else if (position == nameOrderRow || position == navigationBarColorRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
-                    position == transparentStatusBarRow || position == navigationBarTintRow || position == useMessagePanelColorRow ||
+                    position == transparentStatusBarRow || position == navigationBarTintRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == singleBigEmojiRow ||
                     position == forceTabletRow || position == nyaRow) {
                 return 3;

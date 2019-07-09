@@ -29,5 +29,8 @@
     <string name="Prpr">ペロペロ</string>
     <string name="TransparentStatusBar">完全に透明なステータスバーを使う</string>
     <string name="NavigationBarTint">Nav Bar と Status Bar の色を有効にする</string>
-    <string name="UseMessagePanelColor">Nav Bar アプリ Message Panel の色</string>
+    <string name="NavigationBarColor">Nav Bar の色</string>
+    <string name="NavigationBarColorBlack">黒</string>
+    <string name="NavigationBarColorActionBar">アクションバーの色を使う</string>
+    <string name="NavigationBarColorMessagePanel">メッセージパネルの色を使う</string>
 </resources>
