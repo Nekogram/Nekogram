@@ -169,6 +169,7 @@ public class ActionBarLayout extends FrameLayout {
     private int[][] animateStartColors = new int[2][];
     private int[][] animateEndColors = new int[2][];
     private ThemeDescription[][] themeAnimatorDescriptions = new ThemeDescription[2][];
+    private ThemeDescription[] presentingFragmentDescriptions;
     private ThemeDescription.ThemeDescriptionDelegate[] themeAnimatorDelegate = new ThemeDescription.ThemeDescriptionDelegate[2];
     private AnimatorSet themeAnimatorSet;
     private float themeAnimationValue;
@@ -456,6 +457,9 @@ public class ActionBarLayout extends FrameLayout {
             fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
         }
         lastFragment.onResume();
+        if (themeAnimatorSet != null) {
+            presentingFragmentDescriptions = lastFragment.getThemeDescriptions();
+        }
     }
 
     public boolean onTouchEvent(MotionEvent ev) {
@@ -480,7 +484,7 @@ public class ActionBarLayout extends FrameLayout {
                     int dx = Math.max(0, (int) (ev.getX() - startedTrackingX));
                     int dy = Math.abs((int) ev.getY() - startedTrackingY);
                     velocityTracker.addMovement(ev);
-                    if (maybeStartTracking && !startedTracking && dx >= AndroidUtilities.getPixelsInCM(0.4f, true) && Math.abs(dx) / 3 > dy) {
+                    if (!inPreviewMode && maybeStartTracking && !startedTracking && dx >= AndroidUtilities.getPixelsInCM(0.4f, true) && Math.abs(dx) / 3 > dy) {
                         BaseFragment currentFragment = fragmentsStack.get(fragmentsStack.size() - 1);
                         if (currentFragment.canBeginSlide()) {
                             prepareForMoving(ev);
@@ -836,6 +840,10 @@ public class ActionBarLayout extends FrameLayout {
             }
         }
 
+        if (themeAnimatorSet != null) {
+            presentingFragmentDescriptions = fragment.getThemeDescriptions();
+        }
+
         if (needAnimation || preview) {
             if (useAlphaAnimations && fragmentsStack.size() == 1) {
                 presentFragmentInternalRemoveOld(removeLast, currentFragment);
@@ -843,6 +851,9 @@ public class ActionBarLayout extends FrameLayout {
                 transitionAnimationStartTime = System.currentTimeMillis();
                 transitionAnimationInProgress = true;
                 onOpenAnimationEndRunnable = () -> {
+                    if (currentFragment != null) {
+                        currentFragment.onTransitionAnimationEnd(false, false);
+                    }
                     fragment.onTransitionAnimationEnd(true, false);
                     fragment.onBecomeFullyVisible();
                 };
@@ -852,7 +863,9 @@ public class ActionBarLayout extends FrameLayout {
                     backgroundView.setVisibility(VISIBLE);
                     animators.add(ObjectAnimator.ofFloat(backgroundView, "alpha", 0.0f, 1.0f));
                 }
-
+                if (currentFragment != null) {
+                    currentFragment.onTransitionAnimationStart(false, false);
+                }
                 fragment.onTransitionAnimationStart(true, false);
                 currentAnimation = new AnimatorSet();
                 currentAnimation.playTogether(animators);
@@ -879,9 +892,15 @@ public class ActionBarLayout extends FrameLayout {
                         presentFragmentInternalRemoveOld(removeLast, currentFragment);
                         containerView.setTranslationX(0);
                     }
+                    if (currentFragment != null) {
+                        currentFragment.onTransitionAnimationEnd(false, false);
+                    }
                     fragment.onTransitionAnimationEnd(true, false);
                     fragment.onBecomeFullyVisible();
                 };
+                if (currentFragment != null) {
+                    currentFragment.onTransitionAnimationStart(false, false);
+                }
                 fragment.onTransitionAnimationStart(true, false);
                 AnimatorSet animation = null;
                 if (!preview) {
@@ -935,6 +954,10 @@ public class ActionBarLayout extends FrameLayout {
             if (backgroundView != null) {
                 backgroundView.setAlpha(1.0f);
                 backgroundView.setVisibility(VISIBLE);
+            }
+            if (currentFragment != null) {
+                currentFragment.onTransitionAnimationStart(false, false);
+                currentFragment.onTransitionAnimationEnd(false, false);
             }
             fragment.onTransitionAnimationStart(true, false);
             fragment.onTransitionAnimationEnd(true, false);
@@ -1095,6 +1118,9 @@ public class ActionBarLayout extends FrameLayout {
             previousFragment.onTransitionAnimationStart(true, true);
             currentFragment.onTransitionAnimationStart(false, false);
             previousFragment.onResume();
+            if (themeAnimatorSet != null) {
+                presentingFragmentDescriptions = previousFragment.getThemeDescriptions();
+            }
             currentActionBar = previousFragment.actionBar;
             if (!previousFragment.hasOwnBackground && fragmentView.getBackground() == null) {
                 fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
@@ -1309,6 +1335,12 @@ public class ActionBarLayout extends FrameLayout {
                 }
             }
         }
+        if (presentingFragmentDescriptions != null) {
+            for (int i = 0; i < presentingFragmentDescriptions.length; i++) {
+                String key = presentingFragmentDescriptions[i].getCurrentKey();
+                presentingFragmentDescriptions[i].setColor(Theme.getColor(key), false, false);
+            }
+        }
     }
 
     @Keep
@@ -1375,6 +1407,7 @@ public class ActionBarLayout extends FrameLayout {
                             themeAnimatorDelegate[a] = null;
                         }
                         Theme.setAnimatingColor(false);
+                        presentingFragmentDescriptions = null;
                         themeAnimatorSet = null;
                         UIHelper.updateStatusBarColor(parentActivity);
                         UIHelper.updateNavigationBarColor(parentActivity);
@@ -1391,6 +1424,7 @@ public class ActionBarLayout extends FrameLayout {
                             themeAnimatorDelegate[a] = null;
                         }
                         Theme.setAnimatingColor(false);
+                        presentingFragmentDescriptions = null;
                         themeAnimatorSet = null;
                         UIHelper.updateStatusBarColor(parentActivity);
                         UIHelper.updateNavigationBarColor(parentActivity);

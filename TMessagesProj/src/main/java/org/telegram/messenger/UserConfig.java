@@ -19,7 +19,7 @@ import org.telegram.tgnet.TLRPC;
 
 import java.io.File;
 
-public class UserConfig {
+public class UserConfig extends BaseController {
 
     public static int selectedAccount;
     public final static int MAX_ACCOUNT_COUNT = 8;
@@ -67,7 +67,6 @@ public class UserConfig {
     public volatile byte[] savedSaltedPassword;
     public volatile long savedPasswordTime;
 
-    private int currentAccount;
     private static volatile UserConfig[] Instance = new UserConfig[UserConfig.MAX_ACCOUNT_COUNT];
     public static UserConfig getInstance(int num) {
         UserConfig localInstance = Instance[num];
@@ -85,7 +84,7 @@ public class UserConfig {
     public static int getActivatedAccountsCount() {
         int count = 0;
         for (int a = 0; a < MAX_ACCOUNT_COUNT; a++) {
-            if (getInstance(a).isClientActivated()) {
+            if (AccountInstance.getInstance(a).getUserConfig().isClientActivated()) {
                 count++;
             }
         }
@@ -93,7 +92,7 @@ public class UserConfig {
     }
 
     public UserConfig(int instance) {
-        currentAccount = instance;
+        super(instance);
     }
 
     public int getNewMessageId() {
@@ -430,7 +429,7 @@ public class UserConfig {
         resetSavedPassword();
         boolean hasActivated = false;
         for (int a = 0; a < MAX_ACCOUNT_COUNT; a++) {
-            if (UserConfig.getInstance(a).isClientActivated()) {
+            if (AccountInstance.getInstance(a).getUserConfig().isClientActivated()) {
                 hasActivated = true;
                 break;
             }
