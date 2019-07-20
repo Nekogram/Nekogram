@@ -52,6 +52,8 @@ import org.telegram.ui.Components.LayoutHelper;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.UIHelper;
+
 public class BottomSheet extends Dialog {
 
     protected int currentAccount = UserConfig.selectedAccount;
@@ -583,6 +585,7 @@ public class BottomSheet extends Dialog {
                 return insets.consumeSystemWindowInsets();
             });
             container.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+            UIHelper.updateNavigationBarColor(getWindow());
         }
 
         backDrawable.setAlpha(0);
