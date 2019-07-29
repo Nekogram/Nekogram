@@ -2,6 +2,7 @@ package tw.nekomimi.nekogram;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 
 import org.telegram.messenger.ApplicationLoader;
@@ -20,6 +21,7 @@ public class NekoConfig {
     public static boolean transparentStatusBar = true;
     public static boolean navigationBarTint = true;
     public static int navigationBarColor = 2;
+    public static boolean residentNotification = false;
     private static boolean configLoaded;
 
     static {
@@ -42,6 +44,7 @@ public class NekoConfig {
                 editor.putBoolean("transparentStatusBar", transparentStatusBar);
                 editor.putBoolean("navigationBarTint", navigationBarTint);
                 editor.putInt("navigationBarColor", navigationBarColor);
+                editor.putBoolean("residentNotification", residentNotification);
 
                 editor.commit();
             } catch (Exception e) {
@@ -67,6 +70,7 @@ public class NekoConfig {
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", true);
             navigationBarTint = preferences.getBoolean("navigationBarTint", true);
             navigationBarColor = preferences.getInt("navigationBarColor", 2);
+            residentNotification = preferences.getBoolean("residentNotification", false);
             configLoaded = true;
         }
     }
@@ -149,6 +153,20 @@ public class NekoConfig {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("navigationBarColor", navigationBarColor);
         editor.commit();
+    }
+
+    public static void toggleResidentNotification() {
+        residentNotification = !residentNotification;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("residentNotification", residentNotification);
+        editor.commit();
+        Intent duangIntent = new Intent(ApplicationLoader.applicationContext, DuangService.class);
+        if (residentNotification) {
+            ApplicationLoader.applicationContext.startService(duangIntent);
+        } else {
+            ApplicationLoader.applicationContext.stopService(duangIntent);
+        }
     }
 
 }

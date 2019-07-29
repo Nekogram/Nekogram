@@ -33,4 +33,7 @@
     <string name="NavigationBarColorBlack">Black</string>
     <string name="NavigationBarColorActionBar">Use action bar color</string>
     <string name="NavigationBarColorMessagePanel">Use message panel color</string>
+    <string name="EnableResidentNotification">Show a resident notification</string>
+    <string name="DisableResidentNotification">Disable resident notification</string>
+    <string name="NekogramRunning">Nekogram is running</string>
 </resources>

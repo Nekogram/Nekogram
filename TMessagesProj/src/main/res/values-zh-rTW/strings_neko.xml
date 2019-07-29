@@ -33,4 +33,7 @@
     <string name="NavigationBarColorBlack">使用黑色</string>
     <string name="NavigationBarColorActionBar">使用標題欄顏色</string>
     <string name="NavigationBarColorMessagePanel">使用消息面板顏色</string>
+    <string name="EnableResidentNotification">請讓貓咪住在通知欄裡吧</string>
+    <string name="DisableResidentNotification">果然通知欄還是太擠了</string>
+    <string name="NekogramRunning">Nekogram 正在運行</string>
 </resources>

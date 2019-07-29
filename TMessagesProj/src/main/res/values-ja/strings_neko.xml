@@ -33,4 +33,7 @@
     <string name="NavigationBarColorBlack">黒</string>
     <string name="NavigationBarColorActionBar">アクションバーの色を使う</string>
     <string name="NavigationBarColorMessagePanel">メッセージパネルの色を使う</string>
+    <string name="EnableResidentNotification">常駐通知を表示する</string>
+    <string name="DisableResidentNotification">常駐通知を無効にする</string>
+    <string name="NekogramRunning">Nekogram ランニング</string>
 </resources>
