@@ -60,8 +60,6 @@ public class NekoSettingsActivity extends BaseFragment {
 
     private int chatRow;
     private int ignoreBlockedRow;
-    private int nyaRow;
-    private int nyaSuffixRow;
     private int chat2Row;
 
     private int settingsRow;
@@ -151,12 +149,6 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.ignoreBlocked);
                 }
-            } else if (position == nyaRow) {
-                NekoConfig.toggleNya();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.nya);
-                }
-                updateRows(true);
             } else if (position == transparentStatusBarRow) {
                 if (!(NekoConfig.navigationBarTint || Build.VERSION.SDK_INT < Build.VERSION_CODES.O))
                     return;
@@ -217,64 +209,6 @@ public class NekoSettingsActivity extends BaseFragment {
                     listAdapter.notifyItemChanged(nameOrderRow);
                 });
                 showDialog(builder.create());
-            } else if (position == nyaSuffixRow) {
-                if (!NekoConfig.nya)
-                    return;
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(LocaleController.getString("NyaSuffix", R.string.NyaSuffix));
-
-                final EditTextBoldCursor editText = new EditTextBoldCursor(context) {
-                    @Override
-                    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                        super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64), MeasureSpec.EXACTLY));
-                    }
-                };
-                editText.setText(NekoConfig.nyaSuffix);
-                editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-                editText.setHintText(LocaleController.getString("NyaSuffixHint", R.string.NyaSuffixHint));
-                editText.setHeaderHintColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader));
-                editText.setSingleLine(true);
-                editText.setFocusable(true);
-                editText.setTransformHintToHeader(true);
-                editText.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated), Theme.getColor(Theme.key_windowBackgroundWhiteRedText3));
-                editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-                editText.setBackgroundDrawable(null);
-                editText.requestFocus();
-                editText.setPadding(0, 0, 0, 0);
-                builder.setView(editText);
-
-
-                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        if (getParentActivity() == null) {
-                            return;
-                        }
-                        String suffix = editText.getText().toString();
-                        NekoConfig.setNyaSuffix(suffix);
-                        listAdapter.notifyItemChanged(nyaSuffixRow);
-                    }
-                });
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                builder.show().setOnShowListener(new DialogInterface.OnShowListener() {
-                    @Override
-                    public void onShow(DialogInterface dialog) {
-                        editText.requestFocus();
-                        AndroidUtilities.showKeyboard(editText);
-                    }
-                });
-                if (editText != null) {
-                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) editText.getLayoutParams();
-                    if (layoutParams != null) {
-                        if (layoutParams instanceof FrameLayout.LayoutParams) {
-                            ((FrameLayout.LayoutParams) layoutParams).gravity = Gravity.CENTER_HORIZONTAL;
-                        }
-                        layoutParams.rightMargin = layoutParams.leftMargin = AndroidUtilities.dp(24);
-                        layoutParams.height = AndroidUtilities.dp(36);
-                        editText.setLayoutParams(layoutParams);
-                    }
-                }
             }
         });
 
@@ -300,8 +234,6 @@ public class NekoSettingsActivity extends BaseFragment {
         emoji2Row = rowCount++;
         chatRow = rowCount++;
         ignoreBlockedRow = rowCount++;
-        nyaRow = rowCount++;
-        nyaSuffixRow = rowCount++;
         chat2Row = rowCount++;
         settingsRow = rowCount++;
         hidePhoneRow = rowCount++;
@@ -422,13 +354,11 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == useSystemEmojiRow) {
                         textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), SharedConfig.useSystemEmoji, true);
                     } else if (position == singleBigEmojiRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("EmojiBigSize", R.string.EmojiBigSize), SharedConfig.allowBigEmoji, false);
+                        textCell.setTextAndCheck(LocaleController.getString("LargeEmoji", R.string.LargeEmoji), SharedConfig.allowBigEmoji, false);
                     } else if (position == ignoreBlockedRow) {
                         textCell.setTextAndCheck(LocaleController.getString("IgnoreBlocked", R.string.IgnoreBlocked), NekoConfig.ignoreBlocked, true);
                     } else if (position == forceTabletRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ForceTabletMode", R.string.ForceTabletMode), NekoConfig.forceTablet, true);
-                    } else if (position == nyaRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("EnableNya", R.string.EnableNya), NekoConfig.nya, true);
                     }
                     break;
                 }
@@ -445,13 +375,6 @@ public class NekoSettingsActivity extends BaseFragment {
                     }
                     break;
                 }
-                case 6: {
-                    TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
-                    if (position == nyaSuffixRow) {
-                        textCell.setTextAndValue(LocaleController.getString("NyaSuffix", R.string.NyaSuffix), NekoConfig.nyaSuffix, false);
-                    }
-                    break;
-                }
             }
         }
 
@@ -460,8 +383,7 @@ public class NekoSettingsActivity extends BaseFragment {
             int position = holder.getAdapterPosition();
             return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow || position == navigationBarTintRow ||
                     position == useSystemEmojiRow || position == singleBigEmojiRow || position == ipv6Row ||
-                    position == nameOrderRow || position == forceTabletRow || position == nyaRow ||
-                    (position == nyaSuffixRow && NekoConfig.nya) ||
+                    position == nameOrderRow || position == forceTabletRow ||
                     (position == transparentStatusBarRow && (NekoConfig.navigationBarTint || Build.VERSION.SDK_INT < Build.VERSION_CODES.O)) ||
                     (position == navigationBarColorRow && NekoConfig.navigationBarTint);
         }
@@ -507,7 +429,7 @@ public class NekoSettingsActivity extends BaseFragment {
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == transparentStatusBarRow || position == navigationBarTintRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == singleBigEmojiRow ||
-                    position == forceTabletRow || position == nyaRow) {
+                    position == forceTabletRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == emojiRow || position == chatRow) {
                 return 4;

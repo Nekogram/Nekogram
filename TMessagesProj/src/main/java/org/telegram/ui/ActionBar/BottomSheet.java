@@ -37,6 +37,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowInsets;
 import android.view.WindowManager;
+import android.view.animation.Interpolator;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
+import org.telegram.ui.Components.AnimationProperties;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 
@@ -86,6 +88,7 @@ public class BottomSheet extends Dialog {
 
     private int touchSlop;
     private boolean useFastDismiss;
+    protected Interpolator openInterpolator = CubicBezierInterpolator.EASE_OUT_QUINT;
 
     private TextView titleView;
 
@@ -95,7 +98,7 @@ public class BottomSheet extends Dialog {
 
     private boolean allowNestedScroll = true;
 
-    private Drawable shadowDrawable;
+    protected Drawable shadowDrawable;
     protected int backgroundPaddingTop;
     protected int backgroundPaddingLeft;
 
@@ -109,6 +112,7 @@ public class BottomSheet extends Dialog {
     private BottomSheetDelegateInterface delegate;
 
     protected AnimatorSet currentSheetAnimation;
+    protected int currentSheetAnimationType;
 
     protected View nestedScrollChild;
 
@@ -684,6 +688,27 @@ public class BottomSheet extends Dialog {
         window.setAttributes(params);
     }
 
+    public boolean isFocusable() {
+        return focusable;
+    }
+
+    public void setFocusable(boolean value) {
+        if (focusable == value) {
+            return;
+        }
+        focusable = value;
+        Window window = getWindow();
+        WindowManager.LayoutParams params = window.getAttributes();
+        if (focusable) {
+            params.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE;
+            params.flags &=~ WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
+        } else {
+            params.softInputMode = WindowManager.LayoutParams.SOFT_INPUT_ADJUST_NOTHING;
+            params.flags |= WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM;
+        }
+        window.setAttributes(params);
+    }
+
     public void setShowWithoutAnimation(boolean value) {
         showWithoutAnimation = value;
     }
@@ -781,6 +806,7 @@ public class BottomSheet extends Dialog {
         if (currentSheetAnimation != null) {
             currentSheetAnimation.cancel();
             currentSheetAnimation = null;
+            currentSheetAnimationType = 0;
         }
     }
 
@@ -795,18 +821,20 @@ public class BottomSheet extends Dialog {
                 container.setLayerType(View.LAYER_TYPE_HARDWARE, null);
             }
             containerView.setTranslationY(containerView.getMeasuredHeight());
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(
-                    ObjectAnimator.ofFloat(containerView, "translationY", 0),
-                    ObjectAnimator.ofInt(backDrawable, "alpha", dimBehind ? 51 : 0));
-            animatorSet.setDuration(400);
-            animatorSet.setStartDelay(20);
-            animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-            animatorSet.addListener(new AnimatorListenerAdapter() {
+            currentSheetAnimationType = 1;
+            currentSheetAnimation = new AnimatorSet();
+            currentSheetAnimation.playTogether(
+                    ObjectAnimator.ofFloat(containerView, View.TRANSLATION_Y, 0),
+                    ObjectAnimator.ofInt(backDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, dimBehind ? 51 : 0));
+            currentSheetAnimation.setDuration(400);
+            currentSheetAnimation.setStartDelay(20);
+            currentSheetAnimation.setInterpolator(openInterpolator);
+            currentSheetAnimation.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     if (currentSheetAnimation != null && currentSheetAnimation.equals(animation)) {
                         currentSheetAnimation = null;
+                        currentSheetAnimationType = 0;
                         if (delegate != null) {
                             delegate.onOpenAnimationEnd();
                         }
@@ -827,12 +855,12 @@ public class BottomSheet extends Dialog {
                 public void onAnimationCancel(Animator animation) {
                     if (currentSheetAnimation != null && currentSheetAnimation.equals(animation)) {
                         currentSheetAnimation = null;
+                        currentSheetAnimationType = 0;
                     }
                 }
             });
             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 512);
-            animatorSet.start();
-            currentSheetAnimation = animatorSet;
+            currentSheetAnimation.start();
         }
     }
 
@@ -896,18 +924,20 @@ public class BottomSheet extends Dialog {
         }
         dismissed = true;
         cancelSheetAnimation();
-        AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(
+        currentSheetAnimationType = 2;
+        currentSheetAnimation = new AnimatorSet();
+        currentSheetAnimation.playTogether(
                 ObjectAnimator.ofFloat(containerView, "translationY", containerView.getMeasuredHeight() + AndroidUtilities.dp(10)),
                 ObjectAnimator.ofInt(backDrawable, "alpha", 0)
         );
-        animatorSet.setDuration(180);
-        animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-        animatorSet.addListener(new AnimatorListenerAdapter() {
+        currentSheetAnimation.setDuration(180);
+        currentSheetAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT);
+        currentSheetAnimation.addListener(new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 if (currentSheetAnimation != null && currentSheetAnimation.equals(animation)) {
                     currentSheetAnimation = null;
+                    currentSheetAnimationType = 0;
                     if (onClickListener != null) {
                         onClickListener.onClick(BottomSheet.this, item);
                     }
@@ -926,12 +956,12 @@ public class BottomSheet extends Dialog {
             public void onAnimationCancel(Animator animation) {
                 if (currentSheetAnimation != null && currentSheetAnimation.equals(animation)) {
                     currentSheetAnimation = null;
+                    currentSheetAnimationType = 0;
                 }
             }
         });
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 512);
-        animatorSet.start();
-        currentSheetAnimation = animatorSet;
+        currentSheetAnimation.start();
     }
 
     @Override
@@ -945,24 +975,26 @@ public class BottomSheet extends Dialog {
         dismissed = true;
         cancelSheetAnimation();
         if (!allowCustomAnimation || !onCustomCloseAnimation()) {
-            AnimatorSet animatorSet = new AnimatorSet();
-            animatorSet.playTogether(
+            currentSheetAnimationType = 2;
+            currentSheetAnimation = new AnimatorSet();
+            currentSheetAnimation.playTogether(
                     ObjectAnimator.ofFloat(containerView, "translationY", containerView.getMeasuredHeight() + AndroidUtilities.dp(10)),
                     ObjectAnimator.ofInt(backDrawable, "alpha", 0)
             );
             if (useFastDismiss) {
                 int height = containerView.getMeasuredHeight();
-                animatorSet.setDuration(Math.max(60, (int) (180 * (height - containerView.getTranslationY()) / (float) height)));
+                currentSheetAnimation.setDuration(Math.max(60, (int) (180 * (height - containerView.getTranslationY()) / (float) height)));
                 useFastDismiss = false;
             } else {
-                animatorSet.setDuration(180);
+                currentSheetAnimation.setDuration(180);
             }
-            animatorSet.setInterpolator(CubicBezierInterpolator.EASE_OUT);
-            animatorSet.addListener(new AnimatorListenerAdapter() {
+            currentSheetAnimation.setInterpolator(CubicBezierInterpolator.EASE_OUT);
+            currentSheetAnimation.addListener(new AnimatorListenerAdapter() {
                 @Override
                 public void onAnimationEnd(Animator animation) {
                     if (currentSheetAnimation != null && currentSheetAnimation.equals(animation)) {
                         currentSheetAnimation = null;
+                        currentSheetAnimationType = 0;
                         AndroidUtilities.runOnUIThread(() -> {
                             try {
                                 dismissInternal();
@@ -978,12 +1010,12 @@ public class BottomSheet extends Dialog {
                 public void onAnimationCancel(Animator animation) {
                     if (currentSheetAnimation != null && currentSheetAnimation.equals(animation)) {
                         currentSheetAnimation = null;
+                        currentSheetAnimationType = 0;
                     }
                 }
             });
             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.stopAllHeavyOperations, 512);
-            animatorSet.start();
-            currentSheetAnimation = animatorSet;
+            currentSheetAnimation.start();
         }
     }
 

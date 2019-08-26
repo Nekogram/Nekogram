@@ -1116,7 +1116,7 @@ public class ActionBarLayout extends FrameLayout {
             }
 
             previousFragment.onTransitionAnimationStart(true, true);
-            currentFragment.onTransitionAnimationStart(false, false);
+            currentFragment.onTransitionAnimationStart(false, true);
             previousFragment.onResume();
             if (themeAnimatorSet != null) {
                 presentingFragmentDescriptions = previousFragment.getThemeDescriptions();
@@ -1144,7 +1144,7 @@ public class ActionBarLayout extends FrameLayout {
                         containerViewBack.setTranslationX(0);
                     }
                     closeLastFragmentInternalRemoveOld(currentFragment);
-                    currentFragment.onTransitionAnimationEnd(false, false);
+                    currentFragment.onTransitionAnimationEnd(false, true);
                     previousFragmentFinal.onTransitionAnimationEnd(true, true);
                     previousFragmentFinal.onBecomeFullyVisible();
                 };
@@ -1172,7 +1172,7 @@ public class ActionBarLayout extends FrameLayout {
                     currentAnimation = animation;
                 }
             } else {
-                currentFragment.onTransitionAnimationEnd(false, false);
+                currentFragment.onTransitionAnimationEnd(false, true);
                 previousFragment.onTransitionAnimationEnd(true, true);
                 previousFragment.onBecomeFullyVisible();
             }
