@@ -1158,7 +1158,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             Integer channelId = null;
                             boolean hasUrl = false;
                             String scheme = data.getScheme();
-                            boolean internal = intent.getExtras().get("internal") != null && (boolean) intent.getExtras().get("internal");
+                            boolean internal = intent.getExtras() != null && intent.getExtras().get("internal") != null && (boolean) intent.getExtras().get("internal");
                             if (scheme != null) {
                                 if ((scheme.equals("http") || scheme.equals("https"))) {
                                     String host = data.getHost().toLowerCase();
