@@ -100,6 +100,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int smoothKeyboardRow;
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
+    private int unlimitedPinnedDialogsRow;
     private int deleteAccountRow;
     private int experiment2Row;
 
@@ -494,6 +495,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.disablePhotoSideAction);
                 }
+            } else if (position == unlimitedPinnedDialogsRow) {
+                NekoConfig.toggleUnlimitedPinnedDialogs();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.unlimitedPinnedDialogs);
+                }
             }
 
         });
@@ -542,6 +548,7 @@ public class NekoSettingsActivity extends BaseFragment {
         smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
         disableFilteringRow = rowCount++;
         unlimitedFavedStickersRow = rowCount++;
+        unlimitedPinnedDialogsRow = rowCount++;
         deleteAccountRow = rowCount++;
         experiment2Row = rowCount++;
         if (listAdapter != null) {
@@ -1012,6 +1019,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("DebugMenuEnableSmoothKeyboard", R.string.DebugMenuEnableSmoothKeyboard), SharedConfig.smoothKeyboard, true);
                     } else if (position == disablePhotoSideActionRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisablePhotoViewerSideAction", R.string.DisablePhotoViewerSideAction), NekoConfig.disablePhotoSideAction, true);
+                    } else if (position == unlimitedPinnedDialogsRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, true);
                     }
                     break;
                 }
@@ -1049,7 +1058,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow ||
                     position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow ||
                     position == translationProviderRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
-                    position == disablePhotoSideActionRow;
+                    position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow;
         }
 
         @Override
@@ -1101,7 +1110,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == forceTabletRow || position == newYearRow ||
                     position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
                     position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
-                    position == disablePhotoSideActionRow) {
+                    position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
                 return 4;

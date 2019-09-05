@@ -82,6 +82,8 @@
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Undo translate</string>
     <string name="CopyDetails">Copy Details</string>
-    <string name="DisablePhotoViewerSideAction">Disable photo viewer side action</string>
+    <string name="DisablePhotoViewerSideAction">Disable Flip Photos by tapping</string>
     <string name="BotToken">Token</string>
+    <string name="UnlimitedPinnedDialogs">Unlimited pinned dialogs</string>
+    <string name="UnlimitedPinnedDialogsAbout">Pin unlimited dialogs by turn their sync off.</string>
 </resources>

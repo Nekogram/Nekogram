@@ -141,6 +141,7 @@ import java.util.Date;
 
 import tw.nekomimi.nekogram.FilterPopup;
 import tw.nekomimi.nekogram.MessageHelper;
+import tw.nekomimi.nekogram.NekoConfig;
 
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     
@@ -2724,7 +2725,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
             }
             int maxPinnedCount;
-            if (folderId != 0) {
+            if (folderId != 0 || NekoConfig.unlimitedPinnedDialogs) {
                 maxPinnedCount = getMessagesController().maxFolderPinnedDialogsCount;
             } else {
                 maxPinnedCount = getMessagesController().maxPinnedDialogsCount;

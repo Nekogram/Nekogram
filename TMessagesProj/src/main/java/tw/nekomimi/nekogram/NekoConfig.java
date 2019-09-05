@@ -26,6 +26,7 @@ public class NekoConfig {
     public static float stickerSize = 14.0f;
     public static boolean unlimitedFavedStickers = false;
     public static boolean disablePhotoSideAction = true;
+    public static boolean unlimitedPinnedDialogs = false;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -80,6 +81,7 @@ public class NekoConfig {
                 editor.putBoolean("newYear", newYear);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putBoolean("unlimitedFavedStickers", unlimitedFavedStickers);
+                editor.putBoolean("unlimitedPinnedDialogs", unlimitedPinnedDialogs);
                 editor.putBoolean("disablePhotoSideAction", disablePhotoSideAction);
                 editor.putInt("translationProvider", translationProvider);
                 editor.putInt("eventType", eventType);
@@ -125,6 +127,7 @@ public class NekoConfig {
             newYear = preferences.getBoolean("newYear", false);
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
             unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", false);
+            unlimitedPinnedDialogs = preferences.getBoolean("unlimitedPinnedDialogs", false);
             translationProvider = preferences.getInt("translationProvider", 1);
             disablePhotoSideAction = preferences.getBoolean("disablePhotoSideAction", true);
             configLoaded = true;
@@ -327,6 +330,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("unlimitedFavedStickers", unlimitedFavedStickers);
+        editor.commit();
+    }
+
+    public static void toggleUnlimitedPinnedDialogs() {
+        unlimitedPinnedDialogs = !unlimitedPinnedDialogs;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("unlimitedPinnedDialogs", unlimitedPinnedDialogs);
         editor.commit();
     }
 
