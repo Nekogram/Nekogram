@@ -35,11 +35,11 @@ public class MessageHelper {
         return localInstance;
     }
 
-    public void deleteUserChannelHistoryWithSearch(final long dialog_id, final TLRPC.User user) {
-        deleteUserChannelHistoryWithSearch(dialog_id, user, false);
+    public void deleteUserChannelHistoryWithSearch(final long dialog_id, final TLRPC.User user, boolean scheduled) {
+        deleteUserChannelHistoryWithSearch(dialog_id, user, scheduled, false);
     }
 
-    public void deleteUserChannelHistoryWithSearch(final long dialog_id, final TLRPC.User user, final boolean internal) {
+    public void deleteUserChannelHistoryWithSearch(final long dialog_id, final TLRPC.User user, boolean scheduled, final boolean internal) {
         boolean firstQuery = !internal;
         if (reqId != 0) {
             ConnectionsManager.getInstance(currentAccount).cancelRequest(reqId, true);
@@ -111,7 +111,7 @@ public class MessageHelper {
                             }
                             channelId = message.to_id.channel_id;
                         }
-                        MessagesController.getInstance(currentAccount).deleteMessages(ids, random_ids, null, channelId, true);
+                        MessagesController.getInstance(currentAccount).deleteMessages(ids, random_ids, null, dialog_id, channelId, true, scheduled);
                         messagesSearchCount[0] = messagesSearchCount[0] - messagesSearchCount[1];
                         FileLog.d("found " + messagesSearchCount[1]);
                         FileLog.d("after " + messagesSearchCount[0]);

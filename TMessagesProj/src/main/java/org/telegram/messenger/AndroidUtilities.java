@@ -99,6 +99,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
+import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.ForegroundDetector;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PickerBottomLayout;
@@ -250,6 +251,11 @@ public class AndroidUtilities {
                 }
             } else if (drawable instanceof ColorDrawable) {
                 bitmapColor = ((ColorDrawable) drawable).getColor();
+            } else if (drawable instanceof BackgroundGradientDrawable) {
+                int[] colors = ((BackgroundGradientDrawable) drawable).getColorsList();
+                if (colors != null && colors.length > 0) {
+                    bitmapColor = colors[0];
+                }
             }
         } catch (Exception e) {
             FileLog.e(e);
@@ -269,7 +275,7 @@ public class AndroidUtilities {
         return result;
     }
 
-    private static double[] rgbToHsv(int r, int g, int b) {
+    public static double[] rgbToHsv(int r, int g, int b) {
         double rf = r / 255.0;
         double gf = g / 255.0;
         double bf = b / 255.0;
@@ -407,7 +413,12 @@ public class AndroidUtilities {
             if (pathString != null && pathString.length() > 4096) {
                 return true;
             }
-            String newPath = Utilities.readlink(pathString);
+            String newPath;
+            try {
+                newPath = Utilities.readlink(pathString);
+            } catch (Throwable e) {
+                return true;
+            }
             if (newPath == null || newPath.equals(pathString)) {
                 break;
             }
@@ -427,6 +438,9 @@ public class AndroidUtilities {
                 pathString.replace("/./", "/");
                 //igonre
             }
+        }
+        if (pathString.endsWith(".attheme")) {
+            return false;
         }
         return pathString != null && pathString.toLowerCase().contains("/data/data/" + ApplicationLoader.applicationContext.getPackageName());
     }
@@ -874,7 +888,11 @@ public class AndroidUtilities {
                     user.first_name = vcardData.name;
                     user.last_name = "";
                     user.id = 0;
-                    user.restriction_reason = vcardData.vcard.toString();
+                    TLRPC.TL_restrictionReason reason = new TLRPC.TL_restrictionReason();
+                    reason.text = vcardData.vcard.toString();
+                    reason.platform = "";
+                    reason.reason = "";
+                    user.restriction_reason.add(reason);
                     result.add(user);
                 }
             }
@@ -1232,10 +1250,6 @@ public class AndroidUtilities {
 
     public static float getPixelsInCM(float cm, boolean isX) {
         return (cm / 2.54f) * (isX ? displayMetrics.xdpi : displayMetrics.ydpi);
-    }
-
-    public static long makeBroadcastId(int id) {
-        return 0x0000000100000000L | ((long) id & 0x00000000FFFFFFFFL);
     }
 
     public static int getMyLayerVersion(int layer) {
@@ -2045,6 +2059,9 @@ public class AndroidUtilities {
     }
 
     public static boolean copyFile(File sourceFile, File destFile) throws IOException {
+        if (sourceFile.equals(destFile)) {
+            return true;
+        }
         if (!destFile.exists()) {
             destFile.createNewFile();
         }
@@ -2082,9 +2099,9 @@ public class AndroidUtilities {
         }
         if (f != null && f.exists()) {
             if (parentFragment != null && f.getName().toLowerCase().endsWith("attheme")) {
-                Theme.ThemeInfo themeInfo = Theme.applyThemeFile(f, message.getDocumentName(), true);
+                Theme.ThemeInfo themeInfo = Theme.applyThemeFile(f, message.getDocumentName(), null, true);
                 if (themeInfo != null) {
-                    parentFragment.presentFragment(new ThemePreviewActivity(f, themeInfo));
+                    parentFragment.presentFragment(new ThemePreviewActivity(themeInfo));
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(activity);
                     builder.setTitle(LocaleController.getString("AppName", R.string.AppName));

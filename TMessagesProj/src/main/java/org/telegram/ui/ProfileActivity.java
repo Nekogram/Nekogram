@@ -507,7 +507,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             MessagesController.getInstance(currentAccount).blockUser(user_id);
                         } else {
                             MessagesController.getInstance(currentAccount).unblockUser(user_id);
-                            SendMessagesHelper.getInstance(currentAccount).sendMessage("/start", user_id, null, null, false, null, null, null);
+                            SendMessagesHelper.getInstance(currentAccount).sendMessage("/start", user_id, null, null, false, null, null, null, true, 0);
                             finishFragment();
                         }
                     }
@@ -1899,6 +1899,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
         } else if (id == NotificationCenter.didReceiveNewMessages) {
+            boolean scheduled = (Boolean) args[2];
+            if (scheduled) {
+                return;
+            }
             long did;
             if (dialog_id != 0) {
                 did = dialog_id;
@@ -1928,6 +1932,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 loadMediaCounts();
             }
         } else if (id == NotificationCenter.messagesDeleted) {
+            boolean scheduled = (Boolean) args[2];
+            if (scheduled) {
+                return;
+            }
             int channelId = (Integer) args[1];
             if (ChatObject.isChannel(currentChat)) {
                 if (!(channelId == 0 && mergeDialogId != 0 || channelId == currentChat.id)) {
@@ -3131,7 +3139,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         presentFragment(new ChatActivity(args), true);
         removeSelfFromStack();
         TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(user_id);
-        SendMessagesHelper.getInstance(currentAccount).sendMessage(user, did, null, null, null);
+        SendMessagesHelper.getInstance(currentAccount).sendMessage(user, did, null, null, null, true, 0);
     }
 
     @Override
@@ -3552,7 +3560,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
                 new ThemeDescription(listView, 0, new Class[]{View.class}, Theme.dividerPaint, null, null, Theme.key_divider),
 
-                new ThemeDescription(avatarImage, 0, null, null, new Drawable[]{Theme.avatar_broadcastDrawable, Theme.avatar_savedDrawable}, null, Theme.key_avatar_text),
+                new ThemeDescription(avatarImage, 0, null, null, new Drawable[]{Theme.avatar_savedDrawable}, null, Theme.key_avatar_text),
                 new ThemeDescription(avatarImage, 0, null, null, new Drawable[]{avatarDrawable}, null, Theme.key_avatar_backgroundInProfileBlue),
 
                 new ThemeDescription(writeButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_profile_actionIcon),
@@ -3583,7 +3591,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 new ThemeDescription(listView, 0, new Class[]{UserCell.class}, new String[]{"nameTextView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText),
                 new ThemeDescription(listView, 0, new Class[]{UserCell.class}, new String[]{"statusColor"}, null, null, cellDelegate, Theme.key_windowBackgroundWhiteGrayText),
                 new ThemeDescription(listView, 0, new Class[]{UserCell.class}, new String[]{"statusOnlineColor"}, null, null, cellDelegate, Theme.key_windowBackgroundWhiteBlueText),
-                new ThemeDescription(listView, 0, new Class[]{UserCell.class}, null, new Drawable[]{Theme.avatar_broadcastDrawable, Theme.avatar_savedDrawable}, null, Theme.key_avatar_text),
+                new ThemeDescription(listView, 0, new Class[]{UserCell.class}, null, new Drawable[]{Theme.avatar_savedDrawable}, null, Theme.key_avatar_text),
                 new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundRed),
                 new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundOrange),
                 new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundViolet),
