@@ -55,7 +55,6 @@ public class NekoSettingsActivity extends BaseFragment {
 
     private int emojiRow;
     private int useSystemEmojiRow;
-    private int singleBigEmojiRow;
     private int emoji2Row;
 
     private int chatRow;
@@ -189,14 +188,6 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(SharedConfig.useSystemEmoji);
                 }
-            } else if (position == singleBigEmojiRow) {
-                SharedConfig.allowBigEmoji = !SharedConfig.allowBigEmoji;
-                SharedPreferences.Editor editor = MessagesController.getGlobalMainSettings().edit();
-                editor.putBoolean("allowBigEmoji", SharedConfig.allowBigEmoji);
-                editor.commit();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(SharedConfig.allowBigEmoji);
-                }
             } else if (position == nameOrderRow) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(LocaleController.getString("NameOrder", R.string.NameOrder));
@@ -230,7 +221,6 @@ public class NekoSettingsActivity extends BaseFragment {
         connection2Row = rowCount++;
         emojiRow = rowCount++;
         useSystemEmojiRow = rowCount++;
-        singleBigEmojiRow = rowCount++;
         emoji2Row = rowCount++;
         chatRow = rowCount++;
         ignoreBlockedRow = rowCount++;
@@ -352,11 +342,9 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == navigationBarTintRow) {
                         textCell.setTextAndCheck(LocaleController.getString("NavigationBarTint", R.string.NavigationBarTint), NekoConfig.navigationBarTint, true);
                     } else if (position == useSystemEmojiRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), SharedConfig.useSystemEmoji, true);
-                    } else if (position == singleBigEmojiRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("LargeEmoji", R.string.LargeEmoji), SharedConfig.allowBigEmoji, false);
+                        textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), SharedConfig.useSystemEmoji, false);
                     } else if (position == ignoreBlockedRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("IgnoreBlocked", R.string.IgnoreBlocked), NekoConfig.ignoreBlocked, true);
+                        textCell.setTextAndCheck(LocaleController.getString("IgnoreBlocked", R.string.IgnoreBlocked), NekoConfig.ignoreBlocked, false);
                     } else if (position == forceTabletRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ForceTabletMode", R.string.ForceTabletMode), NekoConfig.forceTablet, true);
                     }
@@ -382,7 +370,7 @@ public class NekoSettingsActivity extends BaseFragment {
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int position = holder.getAdapterPosition();
             return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow || position == navigationBarTintRow ||
-                    position == useSystemEmojiRow || position == singleBigEmojiRow || position == ipv6Row ||
+                    position == useSystemEmojiRow || position == ipv6Row ||
                     position == nameOrderRow || position == forceTabletRow ||
                     (position == transparentStatusBarRow && (NekoConfig.navigationBarTint || Build.VERSION.SDK_INT < Build.VERSION_CODES.O)) ||
                     (position == navigationBarColorRow && NekoConfig.navigationBarTint);
@@ -428,7 +416,7 @@ public class NekoSettingsActivity extends BaseFragment {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == transparentStatusBarRow || position == navigationBarTintRow ||
-                    position == ignoreBlockedRow || position == useSystemEmojiRow || position == singleBigEmojiRow ||
+                    position == ignoreBlockedRow || position == useSystemEmojiRow ||
                     position == forceTabletRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == emojiRow || position == chatRow) {
