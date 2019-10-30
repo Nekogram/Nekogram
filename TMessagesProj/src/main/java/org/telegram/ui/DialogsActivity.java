@@ -2896,6 +2896,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             case FilterPopup.DialogType.Admin:
                 title = LocaleController.getString("Admins", R.string.Admins);
                 break;
+            case FilterPopup.DialogType.Unmuted:
+                title = LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted);
+                break;
             default:
                 if (folderId != 0) {
                     title = LocaleController.getString("ArchivedChats", R.string.ArchivedChats);

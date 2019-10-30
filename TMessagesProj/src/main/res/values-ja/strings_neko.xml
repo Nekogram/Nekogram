@@ -17,12 +17,12 @@
     <string name="Repeat">繰り返す</string>
     <string name="CreateMention">アットユーザー</string>
     <string name="ForceTabletMode">タブレットモードを強制する</string>
-    <string name="All">すべての会話</string>
+    <string name="All">すべて</string>
     <string name="Users">ユーザー</string>
     <string name="Groups">グループ</string>
     <string name="Channels">チャンネル</string>
     <string name="Bots">ボット</string>
-    <string name="Admins">管理な会話</string>
+    <string name="Admins">マネージド</string>
     <string name="EnableNya">長押しするときにかわいいしっぽを送る</string>
     <string name="NyaSuffix">メッセージテール</string>
     <string name="NyaSuffixHint">ぽい</string>

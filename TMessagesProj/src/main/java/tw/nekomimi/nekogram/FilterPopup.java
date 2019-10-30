@@ -96,7 +96,7 @@ public class FilterPopup {
             } else if (lower_id < 0) {
                 dialogsGroups.add(dialog);
             } else {
-                TLRPC.User user = MessagesController.getInstance(currentAccount).getUser((int) dialog.id);
+                TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(lower_id);
                 if (user != null) {
                     if (user.bot)
                         dialogsBots.add(dialog);
@@ -125,6 +125,19 @@ public class FilterPopup {
         return false;
     }
 
+    private ArrayList<TLRPC.Dialog> filterUnmutedDialogs(ArrayList<TLRPC.Dialog> allDialogs) {
+        ArrayList<TLRPC.Dialog> dialogs = new ArrayList<>();
+        for (TLRPC.Dialog dialog : allDialogs) {
+            if (dialog instanceof TLRPC.TL_dialogFolder) {
+                continue;
+            }
+            if (!MessagesController.getInstance(currentAccount).isDialogMuted(dialog.id)) {
+                dialogs.add(dialog);
+            }
+        }
+        return dialogs;
+    }
+
     public ArrayList<TLRPC.Dialog> getDialogs(int type, int folderId) {
         MessagesController messagesController = AccountInstance.getInstance(currentAccount).getMessagesController();
         ArrayList<TLRPC.Dialog> allDialogs = new ArrayList<>(messagesController.getDialogs(folderId));
@@ -141,6 +154,14 @@ public class FilterPopup {
 
         ArrayList<TLRPC.Dialog> dialogs = new ArrayList<>();
         switch (type) {
+            case DialogType.Unmuted:
+                for (int i = 0; i < folders.size(); i++) {
+                    folderDialogs.get(i).retainAll(filterUnmutedDialogs(folderDialogs.get(i)));
+                    if (!folderDialogs.get(i).isEmpty())
+                        dialogs.add(folders.get(i));
+                }
+                allDialogs.retainAll(filterUnmutedDialogs(allDialogs));
+                break;
             case DialogType.Users:
                 for (int i = 0; i < folders.size(); i++) {
                     folderDialogs.get(i).retainAll(dialogsUsers);
@@ -260,6 +281,14 @@ public class FilterPopup {
         if (!temp.isEmpty()) {
             items.add(LocaleController.getString("Admins", R.string.Admins));
             options.add(DialogType.Admin);
+            unreadCounts.add(getDialogsUnreadCount(temp));
+        }
+
+        temp = new ArrayList<>(allDialogs);
+        temp.retainAll(filterUnmutedDialogs(allDialogs));
+        if (!temp.isEmpty()) {
+            items.add(LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted));
+            options.add(DialogType.Unmuted);
             unreadCounts.add(getDialogsUnreadCount(temp));
         }
 
@@ -397,5 +426,6 @@ public class FilterPopup {
         public static final int Channels = 9;
         public static final int Bots = 10;
         public static final int Admin = 11;
+        public static final int Unmuted = 12;
     }
 }

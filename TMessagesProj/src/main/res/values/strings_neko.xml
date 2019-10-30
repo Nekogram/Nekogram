@@ -17,12 +17,12 @@
     <string name="Repeat">Repeat</string>
     <string name="CreateMention">Create Mention</string>
     <string name="ForceTabletMode">Force tablet mode</string>
-    <string name="All">All Chats</string>
+    <string name="All">All</string>
     <string name="Users">Users</string>
     <string name="Groups">Groups</string>
     <string name="Channels">Channels</string>
     <string name="Bots">Bots</string>
-    <string name="Admins">Administrating Chats</string>
+    <string name="Admins">Administrating</string>
     <string name="EnableNya">Send message with suffix on long click</string>
     <string name="NyaSuffix">Message suffix</string>
     <string name="NyaSuffixHint">Suffix</string>

@@ -17,12 +17,12 @@
     <string name="Repeat">复讀</string>
     <string name="CreateMention">提及使用者</string>
     <string name="ForceTabletMode">強制平板模式（重啟生效）</string>
-    <string name="All">全部會話</string>
+    <string name="All">全部</string>
     <string name="Users">用戶</string>
     <string name="Groups">群組</string>
     <string name="Channels">頻道</string>
     <string name="Bots">機器人</string>
-    <string name="Admins">管理的會話</string>
+    <string name="Admins">管理的</string>
     <string name="EnableNya">長按發送時加上可愛的尾音</string>
     <string name="NyaSuffix">消息尾音</string>
     <string name="NyaSuffixHint">惡意賣萌的尾音</string>
