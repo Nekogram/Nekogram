@@ -420,6 +420,9 @@ public class FilterPopup {
     }
 
     public static class DialogType {
+        public static boolean isDialogsType(int dialogsType) {
+            return dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 12);
+        }
         public static final int All = 0;
         public static final int Users = 7;
         public static final int Groups = 8;

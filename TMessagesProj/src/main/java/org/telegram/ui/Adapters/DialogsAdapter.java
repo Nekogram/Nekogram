@@ -54,6 +54,8 @@ import java.util.Collections;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
+import tw.nekomimi.nekogram.FilterPopup;
+
 public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
 
     private Context mContext;
@@ -163,7 +165,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
         boolean hasContacts = false;
         if (hasHints) {
             count += 2 + MessagesController.getInstance(currentAccount).hintDialogs.size();
-        } else if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && dialogsCount == 0 && folderId == 0) {
+        } else if (FilterPopup.DialogType.isDialogsType(dialogsType) && dialogsCount == 0 && folderId == 0) {
             if (ContactsController.getInstance(currentAccount).contacts.isEmpty() && ContactsController.getInstance(currentAccount).isLoadingContacts()) {
                 onlineContacts = null;
                 return (currentCount = 0);
@@ -291,7 +293,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
 
     @Override
     public void notifyDataSetChanged() {
-        hasHints = folderId == 0 && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && !isOnlySelect && !MessagesController.getInstance(currentAccount).hintDialogs.isEmpty();
+        hasHints = folderId == 0 && FilterPopup.DialogType.isDialogsType(dialogsType) && !isOnlySelect && !MessagesController.getInstance(currentAccount).hintDialogs.isEmpty();
         super.notifyDataSetChanged();
     }
 
@@ -438,7 +440,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                     cell.useSeparator = (i != getItemCount() - 1);
                 }
                 cell.fullSeparator = dialog.pinned && nextDialog != null && !nextDialog.pinned;
-                if (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) {
+                if (FilterPopup.DialogType.isDialogsType(dialogsType)) {
                     if (AndroidUtilities.isTablet()) {
                         cell.setDialogSelected(dialog.id == openedDialogId);
                     }

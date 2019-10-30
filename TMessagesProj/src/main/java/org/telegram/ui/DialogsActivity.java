@@ -421,7 +421,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 swipingFolder = false;
                 return 0;
             }
-            if (!onlySelect && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && slidingView == null && recyclerView.getAdapter() == dialogsAdapter && viewHolder.itemView instanceof DialogCell) {
+            if (!onlySelect && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 12)) && slidingView == null && recyclerView.getAdapter() == dialogsAdapter && viewHolder.itemView instanceof DialogCell) {
                 DialogCell dialogCell = (DialogCell) viewHolder.itemView;
                 long dialogId = dialogCell.getDialogId();
                 if (actionBar.isActionModeShowed()) {
@@ -661,7 +661,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             messagesCount = arguments.getInt("messagesCount", 0);
         }
 
-        if (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) {
+        if (FilterPopup.DialogType.isDialogsType(dialogsType)) {
             askAboutContacts = MessagesController.getGlobalNotificationsSettings().getBoolean("askAboutContacts", true);
             SharedConfig.loadProxyList();
         }
@@ -1800,7 +1800,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             actionBar.openSearchField(searchString, false);
         }
 
-        if (!onlySelect && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11))) {
+        if (!onlySelect && FilterPopup.DialogType.isDialogsType(dialogsType)) {
             FragmentContextView fragmentLocationContextView = new FragmentContextView(context, this, true);
             contentView.addView(fragmentLocationContextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 39, Gravity.TOP | Gravity.LEFT, 0, -36, 0, 0));
 
@@ -2075,7 +2075,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     private boolean hasHiddenArchive() {
         return listView.getAdapter() == dialogsAdapter && !onlySelect
-                && (dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11))
+                && FilterPopup.DialogType.isDialogsType(dialogsType)
                 && folderId == 0
                 && FilterPopup.getInstance(currentAccount).hasHiddenArchive(dialogsType);
     }
@@ -2973,7 +2973,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (dialogsListFrozen) {
                 return;
             }
-            if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && getMessagesController().getDialogs(folderId).isEmpty()) {
+            if (FilterPopup.DialogType.isDialogsType(dialogsType) && getMessagesController().getDialogs(folderId).isEmpty()) {
                 if (dialogsAdapter != null) {
                     dialogsAdapter.notifyDataSetChanged();
                 }
@@ -2981,7 +2981,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 updateVisibleRows(0);
             }
         } else if (id == NotificationCenter.openedChatChanged) {
-            if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && AndroidUtilities.isTablet()) {
+            if (FilterPopup.DialogType.isDialogsType(dialogsType) && AndroidUtilities.isTablet()) {
                 boolean close = (Boolean) args[1];
                 long dialog_id = (Long) args[0];
                 if (close) {
@@ -3190,11 +3190,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } else {
                         if ((mask & MessagesController.UPDATE_MASK_NEW_MESSAGE) != 0) {
                             cell.checkCurrentDialogIndex(dialogsListFrozen);
-                            if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && AndroidUtilities.isTablet()) {
+                            if (FilterPopup.DialogType.isDialogsType(dialogsType) && AndroidUtilities.isTablet()) {
                                 cell.setDialogSelected(cell.getDialogId() == openedDialogId);
                             }
                         } else if ((mask & MessagesController.UPDATE_MASK_SELECT_DIALOG) != 0) {
-                            if ((dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 11)) && AndroidUtilities.isTablet()) {
+                            if (FilterPopup.DialogType.isDialogsType(dialogsType) && AndroidUtilities.isTablet()) {
                                 cell.setDialogSelected(cell.getDialogId() == openedDialogId);
                             }
                         } else {
