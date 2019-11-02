@@ -651,9 +651,6 @@ public class ConnectionsManager extends BaseController {
         if (Build.VERSION.SDK_INT < 19) {
             return false;
         }
-        if(!NekoConfig.useIPv6){
-            return false;
-        }
         if (BuildVars.LOGS_ENABLED) {
             try {
                 NetworkInterface networkInterface;
@@ -712,8 +709,10 @@ public class ConnectionsManager extends BaseController {
                     }
                 }
             }
-            if (hasIpv6) {
-                return true;
+            if(NekoConfig.useIPv6){
+                return hasIpv6;
+            } else {
+                return !hasIpv4 && hasIpv6;
             }
         } catch (Throwable e) {
             FileLog.e(e);
