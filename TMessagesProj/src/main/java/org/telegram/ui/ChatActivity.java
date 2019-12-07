@@ -105,6 +105,7 @@ import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.SecretChatHelper;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.VideoEditedInfo;
@@ -12844,6 +12845,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
                             options.add(95);
                             icons.add(R.drawable.msg_forward);
+                            items.add(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages));
+                            options.add(93);
+                            icons.add(R.drawable.menu_saved);
                             boolean allowRepeat = currentUser != null
                                     || (currentChat != null && ChatObject.canSendMessages(currentChat));
                             boolean allowPrpr = currentUser != null
@@ -13817,6 +13821,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     SendMessagesHelper.getInstance(currentAccount).sendMessage(spannableString.toString(), dialog_id, selectedObject, null, false,
                             entities, null, null, true, 0);
                 }
+                break;
+            } case 93: {
+                ArrayList<MessageObject> messages =  new ArrayList<>();
+                messages.add(selectedObject);
+                forwardMessages(messages, false, true, 0, UserConfig.getInstance(currentAccount).getClientUserId());
                 break;
             } case 94: {
                 ArrayList<MessageObject> messages =  new ArrayList<>();

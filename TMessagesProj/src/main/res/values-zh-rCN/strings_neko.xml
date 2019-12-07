@@ -14,6 +14,7 @@
     <string name="FirstLast">名字 姓氏</string>
     <string name="LastFirst">姓氏 名字</string>
     <string name="NoQuoteForward">无引用转发</string>
+    <string name="AddToSavedMessages">添加到自嗨</string>
     <string name="Repeat">复读</string>
     <string name="CreateMention">创建\@</string>
     <string name="ForceTabletMode">假装是平板（重启生效）</string>
