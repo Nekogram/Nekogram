@@ -1203,7 +1203,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         Bundle args = new Bundle();
                         args.putInt("folderId", dialogFolder.folder.id);
                         args.putInt("dialogsType", dialogsType);
-                        presentFragment(new DialogsActivity(args));
+                        args.putBoolean("onlySelect", onlySelect);
+                        DialogsActivity dialogsActivity = new DialogsActivity(args);
+                        dialogsActivity.setDelegate(delegate);
+                        presentFragment(dialogsActivity, onlySelect);
                         return;
                     }
                     dialog_id = dialog.id;
