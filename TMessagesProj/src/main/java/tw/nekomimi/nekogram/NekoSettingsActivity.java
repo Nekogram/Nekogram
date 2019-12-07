@@ -53,9 +53,13 @@ public class NekoSettingsActivity extends BaseFragment {
     private int ipv6Row;
     private int connection2Row;
 
-    private int emojiRow;
-    private int useSystemEmojiRow;
-    private int emoji2Row;
+    private int messageMenuRow;
+    private int showAddToSavedMessagesRow;
+    private int showReportRow;
+    private int showPrPrRow;
+    private int showAdminActionsRow;
+    private int showChangePermissionsRow;
+    private int messageMenu2Row;
 
     private int chatRow;
     private int ignoreBlockedRow;
@@ -64,6 +68,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int settingsRow;
     private int hidePhoneRow;
     private int inappCameraRow;
+    private int useSystemEmojiRow;
     private int nameOrderRow;
     private int transparentStatusBarRow;
     private int navigationBarTintRow;
@@ -137,6 +142,31 @@ public class NekoSettingsActivity extends BaseFragment {
                 SharedConfig.toggleInappCamera();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(SharedConfig.inappCamera);
+                }
+            } else if (position == showAddToSavedMessagesRow) {
+                NekoConfig.toggleShowAddToSavedMessages();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.showAddToSavedMessages);
+                }
+            } else if (position == showAdminActionsRow) {
+                NekoConfig.toggleShowAdminActions();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.showAdminActions);
+                }
+            } else if (position == showChangePermissionsRow) {
+                NekoConfig.toggleShowChangePermissions();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.showChangePermissions);
+                }
+            } else if (position == showPrPrRow) {
+                NekoConfig.toggleShowPrPr();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.showPrPr);
+                }
+            } else if (position == showReportRow) {
+                NekoConfig.toggleShowReport();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.showReport);
                 }
             } else if (position == forceTabletRow) {
                 NekoConfig.toggleForceTablet();
@@ -219,15 +249,20 @@ public class NekoSettingsActivity extends BaseFragment {
         connectionRow = rowCount++;
         ipv6Row = rowCount++;
         connection2Row = rowCount++;
-        emojiRow = rowCount++;
-        useSystemEmojiRow = rowCount++;
-        emoji2Row = rowCount++;
         chatRow = rowCount++;
         ignoreBlockedRow = rowCount++;
         chat2Row = rowCount++;
+        messageMenuRow = rowCount++;
+        showAddToSavedMessagesRow = rowCount++;
+        showPrPrRow = rowCount++;
+        showReportRow = rowCount++;
+        showAdminActionsRow = rowCount++;
+        showChangePermissionsRow = rowCount++;
+        messageMenu2Row = rowCount++;
         settingsRow = rowCount++;
         hidePhoneRow = rowCount++;
         inappCameraRow = rowCount++;
+        useSystemEmojiRow = rowCount++;
         navigationBarTintRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? rowCount++ : -1;
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
         navigationBarColorRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? rowCount++ : -1;
@@ -333,6 +368,16 @@ public class NekoSettingsActivity extends BaseFragment {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     if (position == ipv6Row) {
                         textCell.setTextAndCheck(LocaleController.getString("IPv6", R.string.IPv6), NekoConfig.useIPv6, false);
+                    } else if (position == showAddToSavedMessagesRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages), NekoConfig.showAddToSavedMessages, true);
+                    } else if (position == showPrPrRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("Prpr", R.string.Prpr), NekoConfig.showPrPr, true);
+                    } else if (position == showReportRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("ReportChat", R.string.ReportChat), NekoConfig.showReport, true);
+                    } else if (position == showAdminActionsRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("EditAdminRights", R.string.EditAdminRights), NekoConfig.showAdminActions, true);
+                    } else if (position == showChangePermissionsRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("ChangePermissions", R.string.ChangePermissions), NekoConfig.showChangePermissions, false);
                     } else if (position == hidePhoneRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HidePhone", R.string.HidePhone), NekoConfig.hidePhone, true);
                     } else if (position == inappCameraRow) {
@@ -342,7 +387,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == navigationBarTintRow) {
                         textCell.setTextAndCheck(LocaleController.getString("NavigationBarTint", R.string.NavigationBarTint), NekoConfig.navigationBarTint, true);
                     } else if (position == useSystemEmojiRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), SharedConfig.useSystemEmoji, false);
+                        textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), SharedConfig.useSystemEmoji, true);
                     } else if (position == ignoreBlockedRow) {
                         textCell.setTextAndCheck(LocaleController.getString("IgnoreBlocked", R.string.IgnoreBlocked), NekoConfig.ignoreBlocked, false);
                     } else if (position == forceTabletRow) {
@@ -354,8 +399,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == settingsRow) {
                         headerCell.setText(LocaleController.getString("Settings", R.string.Settings));
-                    } else if (position == emojiRow) {
-                        headerCell.setText(LocaleController.getString("Emoji", R.string.Emoji));
+                    } else if (position == messageMenuRow) {
+                        headerCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu));
                     } else if (position == connectionRow) {
                         headerCell.setText(LocaleController.getString("Connection", R.string.Connection));
                     } else if (position == chatRow) {
@@ -371,6 +416,8 @@ public class NekoSettingsActivity extends BaseFragment {
             int position = holder.getAdapterPosition();
             return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow || position == navigationBarTintRow ||
                     position == useSystemEmojiRow || position == ipv6Row ||
+                    position == showChangePermissionsRow || position == showAdminActionsRow || position == showReportRow ||
+                    position == showPrPrRow || position == showAddToSavedMessagesRow ||
                     position == nameOrderRow || position == forceTabletRow ||
                     (position == transparentStatusBarRow && (NekoConfig.navigationBarTint || Build.VERSION.SDK_INT < Build.VERSION_CODES.O)) ||
                     (position == navigationBarColorRow && NekoConfig.navigationBarTint);
@@ -410,16 +457,18 @@ public class NekoSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == settings2Row || position == emoji2Row || position == connection2Row || position == chat2Row) {
+            if (position == settings2Row || position == messageMenu2Row || position == connection2Row || position == chat2Row) {
                 return 1;
             } else if (position == nameOrderRow || position == navigationBarColorRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
+                    position == showAddToSavedMessagesRow || position == showPrPrRow || position == showReportRow ||
+                    position == showAdminActionsRow || position == showChangePermissionsRow ||
                     position == transparentStatusBarRow || position == navigationBarTintRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow ||
                     position == forceTabletRow) {
                 return 3;
-            } else if (position == settingsRow || position == connectionRow || position == emojiRow || position == chatRow) {
+            } else if (position == settingsRow || position == connectionRow || position == messageMenuRow || position == chatRow) {
                 return 4;
             }
             return 6;

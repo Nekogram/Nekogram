@@ -20,6 +20,13 @@ public class NekoConfig {
     public static boolean navigationBarTint = true;
     public static int navigationBarColor = 2;
     public static boolean residentNotification = false;
+
+    public static boolean showAddToSavedMessages = true;
+    public static boolean showReport = false;
+    public static boolean showPrPr = true;
+    public static boolean showAdminActions = true;
+    public static boolean showChangePermissions = true;
+
     private static boolean configLoaded;
 
     static {
@@ -41,6 +48,11 @@ public class NekoConfig {
                 editor.putBoolean("navigationBarTint", navigationBarTint);
                 editor.putInt("navigationBarColor", navigationBarColor);
                 editor.putBoolean("residentNotification", residentNotification);
+                editor.putBoolean("showAddToSavedMessages", showAddToSavedMessages);
+                editor.putBoolean("showReport", showReport);
+                editor.putBoolean("showPrPr", showPrPr);
+                editor.putBoolean("showAdminActions", showAdminActions);
+                editor.putBoolean("showChangePermissions", showChangePermissions);
 
                 editor.commit();
             } catch (Exception e) {
@@ -65,9 +77,56 @@ public class NekoConfig {
             navigationBarTint = preferences.getBoolean("navigationBarTint", true);
             navigationBarColor = preferences.getInt("navigationBarColor", 2);
             residentNotification = preferences.getBoolean("residentNotification", false);
+            showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
+            showReport = preferences.getBoolean("showReport", false);
+            showPrPr = preferences.getBoolean("showPrPr", true);
+            showAdminActions = preferences.getBoolean("showAdminActions", true);
+            showChangePermissions = preferences.getBoolean("showChangePermissions", true);
             configLoaded = true;
         }
     }
+
+    public static void toggleShowAddToSavedMessages() {
+        showAddToSavedMessages = !showAddToSavedMessages;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showAddToSavedMessages", showAddToSavedMessages);
+        editor.commit();
+    }
+
+    public static void toggleShowReport() {
+        showReport = !showReport;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showReport", showReport);
+        editor.commit();
+    }
+
+
+    public static void toggleShowPrPr() {
+        showPrPr = !showPrPr;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showPrPr", showPrPr);
+        editor.commit();
+    }
+
+    public static void toggleShowAdminActions() {
+        showAdminActions = !showAdminActions;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showAdminActions", showAdminActions);
+        editor.commit();
+    }
+
+    public static void toggleShowChangePermissions() {
+        showChangePermissions = !showChangePermissions;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showChangePermissions", showChangePermissions);
+        editor.commit();
+    }
+
 
     public static void toggleIPv6() {
         useIPv6 = !useIPv6;

@@ -3,6 +3,7 @@
     <string name="NekoSettings">喵設定</string>
     <string name="IPv6">IPv6 で接続することを優先する</string>
     <string name="HidePhone">あなたの携帯電話番号を隠す</string>
+    <string name="MessageMenu">メッセージメニュー</string>
     <string name="Hide">隠す</string>
     <string name="DeleteAllFromSelf">送信したすべてのメッセージを削除する</string>
     <string name="BotLogin">ボットログイン</string>

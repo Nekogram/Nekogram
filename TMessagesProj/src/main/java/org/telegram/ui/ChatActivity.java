@@ -12845,9 +12845,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
                             options.add(95);
                             icons.add(R.drawable.msg_forward);
-                            items.add(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages));
-                            options.add(93);
-                            icons.add(R.drawable.menu_saved);
+                            if (NekoConfig.showAddToSavedMessages) {
+                                items.add(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages));
+                                options.add(93);
+                                icons.add(R.drawable.menu_saved);
+                            }
                             boolean allowRepeat = currentUser != null
                                     || (currentChat != null && ChatObject.canSendMessages(currentChat));
                             boolean allowPrpr = currentUser != null
@@ -12857,7 +12859,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 options.add(94);
                                 icons.add(R.drawable.msg_repeat);
                             }
-                            if (allowPrpr) {
+                            if (allowPrpr && NekoConfig.showPrPr) {
                                 items.add(LocaleController.getString("Prpr", R.string.Prpr));
                                 options.add(27);
                                 icons.add(R.drawable.msg_prpr);
@@ -12882,7 +12884,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             options.add(102);
                             icons.add(R.drawable.msg_schedule);
                         }
-                        if (!inScheduleMode && selectedObject.contentType == 0 && selectedObject.getId() > 0 && !selectedObject.isOut() && (currentChat != null || currentUser != null && currentUser.bot)) {
+                        if (!inScheduleMode && selectedObject.contentType == 0 && selectedObject.getId() > 0 && !selectedObject.isOut() && (currentChat != null || currentUser != null && currentUser.bot)
+                            && NekoConfig.showReport) {
                             items.add(LocaleController.getString("ReportChat", R.string.ReportChat));
                             options.add(23);
                             icons.add(R.drawable.msg_report);
@@ -12985,7 +12988,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 editingAdmin = participant instanceof TLRPC.TL_chatParticipantAdmin;
                             }
 
-                            if (canEditAdmin) {
+                            if (canEditAdmin && NekoConfig.showAdminActions) {
                                 items.add(editingAdmin ? LocaleController.getString("EditAdminRights", R.string.EditAdminRights) : LocaleController.getString("SetAsAdmin", R.string.SetAsAdmin));
                                 options.add(97);
                                 if (editingAdmin) {
@@ -12994,7 +12997,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     icons.add(R.drawable.add_admin);
                                 }
                             }
-                            if (canRestrict) {
+                            if (canRestrict && NekoConfig.showChangePermissions) {
                                 items.add(LocaleController.getString("ChangePermissions", R.string.ChangePermissions));
                                 options.add(98);
                                 icons.add(R.drawable.group_banned);

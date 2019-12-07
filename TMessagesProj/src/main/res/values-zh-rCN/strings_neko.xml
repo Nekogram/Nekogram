@@ -3,6 +3,7 @@
     <string name="NekoSettings">喵设置</string>
     <string name="IPv6">优先尝试使用 IPv6 连接</string>
     <string name="HidePhone">隐藏咱的手机号</string>
+    <string name="MessageMenu">消息菜单</string>
     <string name="Hide">隐藏</string>
     <string name="DeleteAllFromSelf">删除全部自己的历史消息</string>
     <string name="BotLogin">机器人登录</string>
@@ -14,7 +15,7 @@
     <string name="FirstLast">名字 姓氏</string>
     <string name="LastFirst">姓氏 名字</string>
     <string name="NoQuoteForward">无引用转发</string>
-    <string name="AddToSavedMessages">添加到自嗨</string>
+    <string name="AddToSavedMessages">拿去自嗨</string>
     <string name="Repeat">复读</string>
     <string name="CreateMention">创建\@</string>
     <string name="ForceTabletMode">假装是平板（重启生效）</string>

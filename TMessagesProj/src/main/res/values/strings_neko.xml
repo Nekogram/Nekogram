@@ -2,6 +2,7 @@
 <resources>
     <string name="NekoSettings">Neko Settings</string>
     <string name="IPv6">Try connecting through IPv6</string>
+    <string name="MessageMenu">Message menu</string>
     <string name="HidePhone">Hide my phone number</string>
     <string name="Hide">Hide</string>
     <string name="DeleteAllFromSelf">Delete all from yourself</string>
