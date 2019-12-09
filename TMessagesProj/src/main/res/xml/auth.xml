@@ -2,7 +2,7 @@
 
 <account-authenticator xmlns:android="http://schemas.android.com/apk/res/android"
     android:accountType="tw.nekomimi.nekogram"
-    android:icon="@drawable/ic_launcher_dr"
-    android:smallIcon="@drawable/ic_launcher_dr"
+    android:icon="@mipmap/ic_launcher"
+    android:smallIcon="@mipmap/ic_launcher"
     android:label="@string/AppName"
     android:accountPreferences="@xml/auth_menu"/>

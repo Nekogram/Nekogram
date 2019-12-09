@@ -69,7 +69,7 @@ public class MessageHelper {
                     TLRPC.messages_Messages res = (TLRPC.messages_Messages) response;
                     messagesSearchCount[0] = res.count;
                     FileLog.d("total " + messagesSearchCount[0]);
-                    deleteUserChannelHistoryWithSearch(dialog_id, user, true);
+                    deleteUserChannelHistoryWithSearch(dialog_id, user, scheduled, true);
                 }
             }), ConnectionsManager.RequestFlagFailOnServerErrors);
         } else {
@@ -121,7 +121,7 @@ public class MessageHelper {
                             } catch (InterruptedException e) {
                                 e.printStackTrace();
                             }
-                            deleteUserChannelHistoryWithSearch(dialog_id, user, true);
+                            deleteUserChannelHistoryWithSearch(dialog_id, user, scheduled, true);
                         }
                     }
                 }
