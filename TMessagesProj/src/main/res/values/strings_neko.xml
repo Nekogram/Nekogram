@@ -6,6 +6,7 @@
     <string name="HidePhone">Hide my phone number</string>
     <string name="Hide">Hide</string>
     <string name="DeleteAllFromSelf">Delete all from yourself</string>
+    <string name="DeleteAllFromSelfAlert">Warning! This will **delete all messages from you** in this chat for **all** participants.</string>
     <string name="BotLogin">Bot Login</string>
     <string name="InvalidAccessToken">Invalid access token</string>
     <string name="IgnoreBlocked">Ignore blocked users in group</string>

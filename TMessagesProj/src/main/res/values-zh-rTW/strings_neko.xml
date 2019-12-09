@@ -5,7 +5,8 @@
     <string name="HidePhone">隱藏您的手機號碼</string>
     <string name="MessageMenu">訊息菜單</string>
     <string name="Hide">隱藏</string>
-    <string name="DeleteAllFromSelf">刪除所有您傳送的訊息</string>
+    <string name="DeleteAllFromSelf">自閉</string>
+    <string name="DeleteAllFromSelfAlert">警告！這將為此會話中的 **所有人** 刪除 **全部你發出的訊息**。</string>
     <string name="BotLogin">機器人登入</string>
     <string name="InvalidAccessToken">無效的訪問令牌</string>
     <string name="IgnoreBlocked">忽略被封鎖的使用者在群組內的發言</string>

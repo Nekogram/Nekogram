@@ -5,7 +5,8 @@
     <string name="HidePhone">隐藏咱的手机号</string>
     <string name="MessageMenu">消息菜单</string>
     <string name="Hide">隐藏</string>
-    <string name="DeleteAllFromSelf">删除全部自己的历史消息</string>
+    <string name="DeleteAllFromSelf">自闭</string>
+    <string name="DeleteAllFromSelfAlert">警告！这将为此会话中的 **所有人** 删除 **全部你发出的消息**。</string>
     <string name="BotLogin">机器人登录</string>
     <string name="InvalidAccessToken">无效的访问令牌</string>
     <string name="IgnoreBlocked">忽略渣滓们在群里说的话</string>

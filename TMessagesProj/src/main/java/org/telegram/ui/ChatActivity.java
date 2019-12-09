@@ -147,6 +147,7 @@ import org.telegram.ui.Cells.StickerCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.AnimationProperties;
+import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.Cells.BotHelpCell;
@@ -186,6 +187,7 @@ import org.telegram.ui.Components.URLSpanUserMention;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.voip.VoIPHelper;
 
+import tw.nekomimi.nekogram.MessageHelper;
 import tw.nekomimi.nekogram.NekoConfig;
 
 import java.io.BufferedWriter;
@@ -684,6 +686,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int chat_enc_timer = 13;
     private final static int chat_menu_attach = 14;
     private final static int clear_history = 15;
+    private final static int delete_history = 92;
     private final static int delete_chat = 16;
     private final static int share_contact = 17;
     private final static int mute = 18;
@@ -1228,6 +1231,43 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         return;
                     }
                     showDialog(AlertsCreator.createTTLAlert(getParentActivity(), currentEncryptedChat).create());
+                } else if (id == delete_history) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    TextView messageTextView = new TextView(context);
+                    messageTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+                    messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+                    messageTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
+                    FrameLayout frameLayout = new FrameLayout(context);
+                    builder.setView(frameLayout);
+                    AvatarDrawable avatarDrawable = new AvatarDrawable();
+                    avatarDrawable.setTextSize(AndroidUtilities.dp(12));
+                    BackupImageView imageView = new BackupImageView(context);
+                    imageView.setRoundRadius(AndroidUtilities.dp(20));
+                    frameLayout.addView(imageView, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 22, 5, 22, 0));
+                    imageView.setImage(ImageLocation.getForChat(currentChat, false), "50_50", avatarDrawable, currentChat);
+                    TextView textView = new TextView(context);
+                    textView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
+                    textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+                    textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                    textView.setLines(1);
+                    textView.setMaxLines(1);
+                    textView.setSingleLine(true);
+                    textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
+                    textView.setEllipsize(TextUtils.TruncateAt.END);
+                    textView.setText(LocaleController.getString("DeleteAllFromSelf", R.string.DeleteAllFromSelf));
+                    frameLayout.addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, (LocaleController.isRTL ? 21 : 76), 11, (LocaleController.isRTL ? 76 : 21), 0));
+                    frameLayout.addView(messageTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 24, 57, 24, 9));
+                    messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("DeleteAllFromSelfAlert", R.string.DeleteAllFromSelfAlert)));
+                    builder.setPositiveButton(LocaleController.getString("DeleteAll", R.string.DeleteAll), (dialogInterface, i) -> {
+                        MessageHelper.getInstance(currentAccount).deleteUserChannelHistoryWithSearch(dialog_id, UserConfig.getInstance(currentAccount).getCurrentUser());
+                    });
+                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                    AlertDialog alertDialog = builder.create();
+                    showDialog(alertDialog);
+                    TextView button = (TextView) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                    if (button != null) {
+                        button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
+                    }
                 } else if (id == clear_history || id == delete_chat) {
                     if (getParentActivity() == null) {
                         return;
@@ -1577,17 +1617,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (searchItem != null) {
                 headerItem.addSubItem(search, R.drawable.msg_search, LocaleController.getString("Search", R.string.Search));
             }
-            if (currentChat != null && !currentChat.creator) {
-                headerItem.addSubItem(report, R.drawable.msg_report, LocaleController.getString("ReportChat", R.string.ReportChat));
-            }
             if (currentUser != null) {
                 addContactItem = headerItem.addSubItem(share_contact, R.drawable.msg_addcontact, "");
             }
             if (currentEncryptedChat != null) {
                 timeItem2 = headerItem.addSubItem(chat_enc_timer, R.drawable.msg_timer, LocaleController.getString("SetTimer", R.string.SetTimer));
-            }
-            if (!ChatObject.isChannel(currentChat) || currentChat != null && currentChat.megagroup && TextUtils.isEmpty(currentChat.username)) {
-                headerItem.addSubItem(clear_history, R.drawable.msg_clear, LocaleController.getString("ClearHistory", R.string.ClearHistory));
             }
 
             boolean allowShowPinned;
@@ -1607,6 +1641,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (currentUser == null || !currentUser.self) {
                 muteItem = headerItem.addSubItem(mute, R.drawable.msg_mute, null);
             }
+
+            if (currentChat != null && !currentChat.creator) {
+                headerItem.addSubItem(report, R.drawable.msg_report, LocaleController.getString("ReportChat", R.string.ReportChat));
+            }
+            if (!ChatObject.isChannel(currentChat) || currentChat != null && currentChat.megagroup && TextUtils.isEmpty(currentChat.username)) {
+                headerItem.addSubItem(clear_history, R.drawable.msg_clear, LocaleController.getString("ClearHistory", R.string.ClearHistory));
+            }
+            if (ChatObject.isChannel(currentChat) && currentChat.megagroup) {
+                headerItem.addSubItem(delete_history, R.drawable.msg_delete, LocaleController.getString("DeleteAllFromSelf", R.string.DeleteAllFromSelf));
+            }
+
             if (ChatObject.isChannel(currentChat) && !currentChat.creator) {
                 if (!ChatObject.isNotInChat(currentChat)) {
                     if (currentChat.megagroup) {
