@@ -418,7 +418,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 slowmodeSelectRow = rowCount++;
                 slowmodeInfoRow = rowCount++;
             }
-            if (ChatObject.isChannel(currentChat)) {
+            if (ChatObject.isChannel(currentChat) && ChatObject.hasAdminRights(currentChat)) {
                 if (participantsDivider2Row == -1) {
                     participantsDivider2Row = rowCount++;
                 }
@@ -459,7 +459,8 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 blockedEmptyRow = rowCount++;
             }
         } else if (type == TYPE_ADMIN) {
-            if (ChatObject.isChannel(currentChat) && currentChat.megagroup && (info == null || info.participants_count <= 200)) {
+            if (ChatObject.isChannel(currentChat) && currentChat.megagroup && (info == null || info.participants_count <= 200)
+                && ChatObject.hasAdminRights(currentChat)) {
                 recentActionsRow = rowCount++;
                 addNewSectionRow = rowCount++;
             }

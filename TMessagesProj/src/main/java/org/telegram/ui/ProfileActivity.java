@@ -3067,7 +3067,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (chat_id > 0) {
                 TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(chat_id);
                 if (ChatObject.isChannel(chat)) {
-                    if (ChatObject.hasAdminRights(chat) || chat.megagroup && ChatObject.canChangeChatInfo(chat)) {
+                    if (ChatObject.hasAdminRights(chat) || chat.megagroup) {
                         editItem = menu.addItem(edit_channel, R.drawable.group_edit_profile);
                     }
                     if (!chat.megagroup && chatInfo != null && chatInfo.can_view_stats) {
