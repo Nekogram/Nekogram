@@ -256,11 +256,11 @@ android {
         }
     }
 
-    defaultConfig.versionCode = 1710 + 6
+    defaultConfig.versionCode = 10 * (1710 + 6)
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            output.getProcessManifestProvider().get().doLast {
+            /*output.getProcessManifestProvider().get().doLast {
                 def abiVersion = variant.productFlavors.get(0).abiVersionCode
 
                 def outputDir = manifestOutputDirectory
@@ -276,7 +276,7 @@ android {
 
                 manifestContent = manifestContent.replace(String.format('android:versionCode="%d"', defaultConfig.versionCode), String.format('android:versionCode="%s"', defaultConfig.versionCode * 10 + abiVersion))
                 file(manifestPath).write(manifestContent)
-            }
+            }*/
         }
     }
 
