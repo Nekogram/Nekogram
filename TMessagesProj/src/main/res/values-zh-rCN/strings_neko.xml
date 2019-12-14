@@ -12,14 +12,15 @@
     <string name="IgnoreBlocked">忽略渣滓们在群里说的话</string>
     <string name="Connection">连接</string>
     <string name="Chat">聊天</string>
-    <string name="NameOrder">姓名顺序（重启生效）</string>
+    <string name="NameOrder">姓名顺序（需要重启）</string>
     <string name="FirstLast">名字 姓氏</string>
     <string name="LastFirst">姓氏 名字</string>
+    <string name="TypefaceUseDefault">使用系统默认字体（需要重启）</string>
     <string name="NoQuoteForward">无引用转发</string>
     <string name="AddToSavedMessages">拿去自嗨</string>
     <string name="Repeat">复读</string>
     <string name="CreateMention">创建\@</string>
-    <string name="ForceTabletMode">假装是平板（重启生效）</string>
+    <string name="ForceTabletMode">假装是平板（需要重启）</string>
     <string name="All">全部</string>
     <string name="Users">用户</string>
     <string name="Groups">群组</string>

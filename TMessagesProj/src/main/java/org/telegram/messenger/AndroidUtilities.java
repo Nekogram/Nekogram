@@ -904,6 +904,18 @@ public class AndroidUtilities {
 
     public static Typeface getTypeface(String assetPath) {
         synchronized (typefaceCache) {
+            if (NekoConfig.typeface == 1) {
+                if (assetPath.contains("medium") && assetPath.contains("italic")) {
+                    return Typeface.create((Typeface) null, Typeface.BOLD_ITALIC);
+                }
+                if (assetPath.contains("medium")) {
+                    return Typeface.create((Typeface) null, Typeface.BOLD);
+                }
+                if (assetPath.contains("italic")) {
+                    return Typeface.create((Typeface) null, Typeface.ITALIC);
+                }
+                return Typeface.create((Typeface) null, Typeface.NORMAL);
+            }
             if (!typefaceCache.containsKey(assetPath)) {
                 try {
                     Typeface t;

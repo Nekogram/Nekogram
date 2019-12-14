@@ -15,6 +15,7 @@ public class NekoConfig {
     public static boolean hidePhone = true;
     public static boolean ignoreBlocked = false;
     public static boolean forceTablet = false;
+    public static int typeface = 0;
     public static int nameOrder = 1;
     public static boolean transparentStatusBar = true;
     public static boolean navigationBarTint = true;
@@ -43,6 +44,7 @@ public class NekoConfig {
                 editor.putBoolean("hidePhone", hidePhone);
                 editor.putBoolean("ignoreBlocked", ignoreBlocked);
                 editor.putBoolean("forceTablet", forceTablet);
+                editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
                 editor.putBoolean("transparentStatusBar", transparentStatusBar);
                 editor.putBoolean("navigationBarTint", navigationBarTint);
@@ -72,6 +74,7 @@ public class NekoConfig {
             hidePhone = preferences.getBoolean("hidePhone", true);
             ignoreBlocked = preferences.getBoolean("ignoreBlocked", false);
             forceTablet = preferences.getBoolean("forceTablet", false);
+            typeface = preferences.getInt("typeface", 0);
             nameOrder = preferences.getInt("nameOrder", 1);
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", true);
             navigationBarTint = preferences.getBoolean("navigationBarTint", true);
@@ -157,6 +160,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("forceTablet", forceTablet);
+        editor.commit();
+    }
+
+    public static void toogleTypeface() {
+        typeface = typeface == 0 ? 1 : 0;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("typeface", typeface);
         editor.commit();
     }
 

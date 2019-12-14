@@ -15,6 +15,7 @@
     <string name="NameOrder">名前順</string>
     <string name="FirstLast">名前 姓氏</string>
     <string name="LastFirst">姓氏 名前</string>
+    <string name="TypefaceUseDefault">システムのフォントを使う</string>
     <string name="NoQuoteForward">見積もりなしで転送</string>
     <string name="Repeat">繰り返す</string>
     <string name="AddToSavedMessages">保存用メッセージに追加</string>
