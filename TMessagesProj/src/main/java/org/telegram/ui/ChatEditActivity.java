@@ -1189,7 +1189,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     }
                     blockCell.setTextAndValueAndIcon(LocaleController.getString("ChannelPermissions", R.string.ChannelPermissions), String.format("%d/%d", count, 8), R.drawable.actions_permissions, true);
                 }
-                adminCell.setTextAndValueAndIcon(LocaleController.getString("ChannelAdministrators", R.string.ChannelAdministrators), String.format("%d", ChatObject.isChannel(currentChat) ? getChannelAdminCount() : getAdminCount()), R.drawable.actions_addadmin, true);
+                adminCell.setTextAndValueAndIcon(LocaleController.getString("ChannelAdministrators", R.string.ChannelAdministrators), String.format("%d", ChatObject.isChannel(currentChat) ? ChatObject.hasAdminRights(currentChat) ? info.admins_count : getChannelAdminCount() : getAdminCount()), R.drawable.actions_addadmin, true);
             } else {
                 if (isChannel) {
                     membersCell.setTextAndIcon(LocaleController.getString("ChannelSubscribers", R.string.ChannelSubscribers), R.drawable.actions_viewmembers, true);
