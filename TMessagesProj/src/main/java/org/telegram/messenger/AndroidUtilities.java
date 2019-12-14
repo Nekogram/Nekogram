@@ -914,6 +914,9 @@ public class AndroidUtilities {
                 if (assetPath.contains("italic")) {
                     return Typeface.create((Typeface) null, Typeface.ITALIC);
                 }
+                if (assetPath.contains("mono")) {
+                    return Typeface.MONOSPACE;
+                }
                 return Typeface.create((Typeface) null, Typeface.NORMAL);
             }
             if (!typefaceCache.containsKey(assetPath)) {
