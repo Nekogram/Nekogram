@@ -80,6 +80,8 @@ import org.telegram.ui.Components.TypingDotsDrawable;
 import java.io.File;
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class PopupNotificationActivity extends Activity implements NotificationCenter.NotificationCenterDelegate {
 
     private ActionBar actionBar;
@@ -923,10 +925,10 @@ public class PopupNotificationActivity extends Activity implements NotificationC
                 double lat = geoPoint.lat;
                 double lon = geoPoint._long;
 
-                if (MessagesController.getInstance(messageObject.currentAccount).mapProvider == 2) {
+                if (NekoConfig.mapPreviewProvider == 0) {
                     imageView.setImage(ImageLocation.getForWebFile(WebFile.createWithGeoPoint(geoPoint, 100, 100, 15, Math.min(2, (int) Math.ceil(AndroidUtilities.density)))), null, null, null, messageObject);
                 } else {
-                    String currentUrl = AndroidUtilities.formapMapUrl(messageObject.currentAccount, lat, lon, 100, 100, true, 15);
+                    String currentUrl = AndroidUtilities.formapMapUrl(false, lat, lon, 100, 100, true, 15);
                     imageView.setImage(currentUrl, null, null);
                 }
             }

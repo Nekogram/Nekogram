@@ -65,6 +65,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int inappCameraRow;
     private int useSystemEmojiRow;
     private int ignoreBlockedRow;
+    private int mapPreviewRow;
     private int chat2Row;
 
     private int settingsRow;
@@ -224,6 +225,19 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.typeface == 1);
                 }
+            } else if (position == mapPreviewRow) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                builder.setTitle(LocaleController.getString("MapPreviewProvider", R.string.MapPreviewProvider));
+                CharSequence[] items = new CharSequence[]{
+                        LocaleController.getString("MapPreviewProviderTelegram", R.string.MapPreviewProviderTelegram),
+                        LocaleController.getString("MapPreviewProviderYandex", R.string.MapPreviewProviderYandex),
+                        LocaleController.getString("MapPreviewProviderNobody", R.string.MapPreviewProviderNobody),
+                };
+                builder.setItems(items, (dialog, which) -> {
+                    NekoConfig.setMapPreviewProvider(which);
+                    listAdapter.notifyItemChanged(mapPreviewRow);
+                });
+                showDialog(builder.create());
             } else if (position == nameOrderRow) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setTitle(LocaleController.getString("NameOrder", R.string.NameOrder));
@@ -259,6 +273,7 @@ public class NekoSettingsActivity extends BaseFragment {
         inappCameraRow = rowCount++;
         useSystemEmojiRow = rowCount++;
         ignoreBlockedRow = rowCount++;
+        mapPreviewRow = rowCount++;
         chat2Row = rowCount++;
         messageMenuRow = rowCount++;
         showAddToSavedMessagesRow = rowCount++;
@@ -368,6 +383,20 @@ public class NekoSettingsActivity extends BaseFragment {
                                 value = LocaleController.getString("NavigationBarColorBlack", R.string.NavigationBarColorBlack);
                         }
                         textCell.setTextAndValue(LocaleController.getString("NavigationBarColor", R.string.NavigationBarColor), value, true);
+                    } else if (position == mapPreviewRow) {
+                        String value;
+                        switch (NekoConfig.mapPreviewProvider) {
+                            case 0:
+                                value = LocaleController.getString("MapPreviewProviderTelegram", R.string.MapPreviewProviderTelegram);
+                                break;
+                            case 1:
+                                value = LocaleController.getString("MapPreviewProviderYandex", R.string.MapPreviewProviderYandex);
+                                break;
+                            case 2:
+                            default:
+                                value = LocaleController.getString("MapPreviewProviderNobody", R.string.MapPreviewProviderNobody);
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("MapPreviewProvider", R.string.MapPreviewProvider), value, false);
                     }
                     break;
                 }
@@ -398,7 +427,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == typefaceRow) {
                         textCell.setTextAndCheck(LocaleController.getString("TypefaceUseDefault", R.string.TypefaceUseDefault), NekoConfig.typeface == 1, true);
                     } else if (position == ignoreBlockedRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("IgnoreBlocked", R.string.IgnoreBlocked), NekoConfig.ignoreBlocked, false);
+                        textCell.setTextAndCheck(LocaleController.getString("IgnoreBlocked", R.string.IgnoreBlocked), NekoConfig.ignoreBlocked, true);
                     } else if (position == forceTabletRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ForceTabletMode", R.string.ForceTabletMode), NekoConfig.forceTablet, true);
                     }
@@ -427,7 +456,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == useSystemEmojiRow || position == ipv6Row || position == typefaceRow ||
                     position == showChangePermissionsRow || position == showAdminActionsRow || position == showReportRow ||
                     position == showPrPrRow || position == showAddToSavedMessagesRow ||
-                    position == nameOrderRow || position == forceTabletRow ||
+                    position == nameOrderRow || position == forceTabletRow || position == mapPreviewRow ||
                     (position == transparentStatusBarRow && (NekoConfig.navigationBarTint || Build.VERSION.SDK_INT < Build.VERSION_CODES.O)) ||
                     (position == navigationBarColorRow && NekoConfig.navigationBarTint);
         }
@@ -468,7 +497,7 @@ public class NekoSettingsActivity extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == settings2Row || position == messageMenu2Row || position == connection2Row || position == chat2Row) {
                 return 1;
-            } else if (position == nameOrderRow || position == navigationBarColorRow) {
+            } else if (position == nameOrderRow || position == navigationBarColorRow || position == mapPreviewRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == showAddToSavedMessagesRow || position == showPrPrRow || position == showReportRow ||

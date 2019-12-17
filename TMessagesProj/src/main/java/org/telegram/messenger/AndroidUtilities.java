@@ -1225,9 +1225,18 @@ public class AndroidUtilities {
         return ((long) (value * 1000000)) / 1000000.0;
     }
 
-    public static String formapMapUrl(int account, double lat, double lon, int width, int height, boolean marker, int zoom) {
+    public static String formapMapUrl(boolean isSecretChat, double lat, double lon, int width, int height, boolean marker, int zoom) {
         int scale = Math.min(2, (int) Math.ceil(AndroidUtilities.density));
-        int provider = MessagesController.getInstance(account).mapProvider;
+        int provider = 2;
+        if (isSecretChat) {
+            if (SharedConfig.mapPreviewType == 1) {
+                provider = 1;
+            }
+        } else {
+            if (NekoConfig.mapPreviewProvider == 1) {
+                provider = 1;
+            }
+        }
         if (provider == 1 || provider == 3) {
             String lang = null;
             String[] availableLangs = new String[]{"ru_RU", "tr_TR"};
@@ -1246,7 +1255,7 @@ public class AndroidUtilities {
                 return String.format(Locale.US, "https://static-maps.yandex.ru/1.x/?ll=%.6f,%.6f&z=%d&size=%d,%d&l=map&scale=%d&lang=%s", lon, lat, zoom, width * scale, height * scale, scale, lang);
             }
         } else {
-            String k = MessagesController.getInstance(account).mapKey;
+            String k = "";
             if (!TextUtils.isEmpty(k)) {
                 if (marker) {
                     return String.format(Locale.US, "https://maps.googleapis.com/maps/api/staticmap?center=%.6f,%.6f&zoom=%d&size=%dx%d&maptype=roadmap&scale=%d&markers=color:red%%7Csize:mid%%7C%.6f,%.6f&sensor=false&key=%s", lat, lon, zoom, width, height, scale, lat, lon, k);

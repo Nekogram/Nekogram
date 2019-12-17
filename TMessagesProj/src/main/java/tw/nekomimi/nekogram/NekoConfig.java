@@ -17,6 +17,7 @@ public class NekoConfig {
     public static boolean forceTablet = false;
     public static int typeface = 0;
     public static int nameOrder = 1;
+    public static int mapPreviewProvider = 0;
     public static boolean transparentStatusBar = true;
     public static boolean navigationBarTint = true;
     public static int navigationBarColor = 2;
@@ -46,6 +47,7 @@ public class NekoConfig {
                 editor.putBoolean("forceTablet", forceTablet);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
+                editor.putInt("mapPreviewProvider", mapPreviewProvider);
                 editor.putBoolean("transparentStatusBar", transparentStatusBar);
                 editor.putBoolean("navigationBarTint", navigationBarTint);
                 editor.putInt("navigationBarColor", navigationBarColor);
@@ -76,6 +78,7 @@ public class NekoConfig {
             forceTablet = preferences.getBoolean("forceTablet", false);
             typeface = preferences.getInt("typeface", 0);
             nameOrder = preferences.getInt("nameOrder", 1);
+            mapPreviewProvider = preferences.getInt("mapPreviewProvider", 0);
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", true);
             navigationBarTint = preferences.getBoolean("navigationBarTint", true);
             navigationBarColor = preferences.getInt("navigationBarColor", 2);
@@ -176,6 +179,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("nameOrder", nameOrder);
+        editor.commit();
+    }
+
+    public static void setMapPreviewProvider(int provider) {
+        mapPreviewProvider = provider;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("mapPreviewProvider", mapPreviewProvider);
         editor.commit();
     }
 

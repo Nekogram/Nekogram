@@ -47,6 +47,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class ContextLinkCell extends View implements DownloadController.FileDownloadProgressListener {
 
     private final static int DOCUMENT_ATTACH_TYPE_NONE = 0;
@@ -220,10 +222,10 @@ public class ContextLinkCell extends View implements DownloadController.FileDown
                 if (inlineResult.send_message instanceof TLRPC.TL_botInlineMessageMediaVenue || inlineResult.send_message instanceof TLRPC.TL_botInlineMessageMediaGeo) {
                     double lat = inlineResult.send_message.geo.lat;
                     double lon = inlineResult.send_message.geo._long;
-                    if (MessagesController.getInstance(currentAccount).mapProvider == 2) {
+                    if (NekoConfig.mapPreviewProvider == 0) {
                         webFile = WebFile.createWithGeoPoint(inlineResult.send_message.geo, 72, 72, 15, Math.min(2, (int) Math.ceil(AndroidUtilities.density)));
                     } else {
-                        urlLocation = AndroidUtilities.formapMapUrl(currentAccount, lat, lon, 72, 72, true, 15);
+                        urlLocation = AndroidUtilities.formapMapUrl(false, lat, lon, 72, 72, true, 15);
                     }
                 }
             }
