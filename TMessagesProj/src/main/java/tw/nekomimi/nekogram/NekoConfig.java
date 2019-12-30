@@ -32,6 +32,7 @@ public class NekoConfig {
     public static boolean xmas = false;
     public static boolean newYear = false;
     public static boolean newYearEve = false;
+    public static boolean fireworks = false;
 
     private static boolean configLoaded;
 
@@ -64,6 +65,7 @@ public class NekoConfig {
                 editor.putBoolean("xmas", xmas);
                 editor.putBoolean("newYear", newYear);
                 editor.putBoolean("newYearEve", newYearEve);
+                editor.putBoolean("fireworks", fireworks);
 
                 editor.commit();
             } catch (Exception e) {
@@ -98,6 +100,7 @@ public class NekoConfig {
             xmas = preferences.getBoolean("xmas", false);
             newYear = preferences.getBoolean("newYear", false);
             newYearEve = preferences.getBoolean("newYearEve", false);
+            fireworks = preferences.getBoolean("fireworks", false);
             configLoaded = true;
         }
     }
@@ -259,6 +262,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("newYearEve", newYearEve);
+        editor.commit();
+    }
+
+    public static void toggleFireworks() {
+        fireworks = !fireworks;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("fireworks", fireworks);
         editor.commit();
     }
 

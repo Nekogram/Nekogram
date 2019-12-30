@@ -37,6 +37,7 @@ import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
+import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
@@ -79,7 +80,8 @@ public class NekoSettingsActivity extends BaseFragment {
     private int xmasRow;
     private int newYearRow;
     private int newYearEveRow;
-    private int settings2Row;
+    private int fireworksRow;
+    private int needRestartRow;
 
     @Override
     public boolean onFragmentCreate() {
@@ -268,6 +270,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.newYearEve);
                 }
+            } else if (position == fireworksRow) {
+                NekoConfig.toggleFireworks();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.fireworks);
+                }
             }
         });
 
@@ -311,7 +318,8 @@ public class NekoSettingsActivity extends BaseFragment {
         xmasRow = rowCount++;
         newYearRow = rowCount++;
         newYearEveRow = rowCount++;
-        settings2Row = rowCount++;
+        fireworksRow = rowCount++;
+        needRestartRow = rowCount++;
         if (notify && listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
@@ -456,7 +464,9 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == newYearRow) {
                         textCell.setTextAndCheck(LocaleController.getString("NewYearEveryday", R.string.NewYearEveryday), NekoConfig.newYear, true);
                     } else if (position == newYearEveRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("HappyNewYearEveryday", R.string.HappyNewYearEveryday), NekoConfig.newYearEve, false);
+                        textCell.setTextAndCheck(LocaleController.getString("HappyNewYearEveryday", R.string.HappyNewYearEveryday), NekoConfig.newYearEve, true);
+                    } else if (position == fireworksRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("ShowFireworks", R.string.ShowFireworks), NekoConfig.fireworks, false);
                     }
                     break;
                 }
@@ -473,6 +483,13 @@ public class NekoSettingsActivity extends BaseFragment {
                     }
                     break;
                 }
+                case 7: {
+                    TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
+                    if (position == needRestartRow) {
+                        cell.setText(LocaleController.getString("SomeItemsNeedRestart", R.string.SomeItemsNeedRestart));
+                    }
+                    break;
+                }
             }
         }
 
@@ -484,7 +501,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == showChangePermissionsRow || position == showAdminActionsRow || position == showReportRow ||
                     position == showPrPrRow || position == showAddToSavedMessagesRow ||
                     position == nameOrderRow || position == forceTabletRow || position == mapPreviewRow ||
-                    position == xmasRow || position == newYearRow || position == newYearEveRow ||
+                    position == xmasRow || position == newYearRow || position == newYearEveRow || position == fireworksRow ||
                     (position == transparentStatusBarRow && (NekoConfig.navigationBarTint || Build.VERSION.SDK_INT < Build.VERSION_CODES.O)) ||
                     (position == navigationBarColorRow && NekoConfig.navigationBarTint);
         }
@@ -516,6 +533,10 @@ public class NekoSettingsActivity extends BaseFragment {
                     view = new TextDetailSettingsCell(mContext);
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
+                case 7:
+                    view = new TextInfoPrivacyCell(mContext);
+                    view.setBackgroundDrawable(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                    break;
             }
             view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
             return new RecyclerListView.Holder(view);
@@ -523,7 +544,7 @@ public class NekoSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == settings2Row || position == messageMenu2Row || position == connection2Row || position == chat2Row) {
+            if (position == messageMenu2Row || position == connection2Row || position == chat2Row) {
                 return 1;
             } else if (position == nameOrderRow || position == navigationBarColorRow || position == mapPreviewRow) {
                 return 2;
@@ -532,10 +553,13 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == showAdminActionsRow || position == showChangePermissionsRow ||
                     position == transparentStatusBarRow || position == navigationBarTintRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
-                    position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow) {
+                    position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
+                    position == fireworksRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == messageMenuRow || position == chatRow) {
                 return 4;
+            } else if (position == needRestartRow) {
+                return 7;
             }
             return 6;
         }

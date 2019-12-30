@@ -12,15 +12,15 @@
     <string name="IgnoreBlocked">Ignore blocked users in group</string>
     <string name="Connection">Connection</string>
     <string name="Chat">Chat</string>
-    <string name="NameOrder">Name order</string>
+    <string name="NameOrder">Name order*</string>
     <string name="FirstLast">First Last</string>
     <string name="LastFirst">Last First</string>
-    <string name="TypefaceUseDefault">Use system default font</string>
+    <string name="TypefaceUseDefault">Use system default font*</string>
     <string name="NoQuoteForward">NoQuote forward</string>
     <string name="Repeat">Repeat</string>
     <string name="AddToSavedMessages">Save Message</string>
     <string name="CreateMention">Create Mention</string>
-    <string name="ForceTabletMode">Force tablet mode</string>
+    <string name="ForceTabletMode">Force tablet mode*</string>
     <string name="All">All</string>
     <string name="Users">Users</string>
     <string name="Groups">Groups</string>
@@ -40,7 +40,9 @@
     <string name="EnableResidentNotification">Show a resident notification</string>
     <string name="DisableResidentNotification">Disable resident notification</string>
     <string name="NekogramRunning">Nekogram is running</string>
-    <string name="ChristmasEveryday">Christmas holiday everyday</string>
-    <string name="NewYearEveryday">New year\'s day everyday</string>
-    <string name="HappyNewYearEveryday">Happy new year everyday</string>
+    <string name="ChristmasEveryday">Christmas holiday everyday*</string>
+    <string name="NewYearEveryday">New year\'s day everyday*</string>
+    <string name="HappyNewYearEveryday">Happy new year everyday*</string>
+    <string name="ShowFireworks">Show fireworks*</string>
+    <string name="SomeItemsNeedRestart">Options with * may need restart to take effect.</string>
 </resources>

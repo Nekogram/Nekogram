@@ -12,15 +12,15 @@
     <string name="IgnoreBlocked">忽略渣滓们在群里说的话</string>
     <string name="Connection">连接</string>
     <string name="Chat">聊天</string>
-    <string name="NameOrder">姓名顺序（需要重启）</string>
+    <string name="NameOrder">姓名顺序*</string>
     <string name="FirstLast">名字 姓氏</string>
     <string name="LastFirst">姓氏 名字</string>
-    <string name="TypefaceUseDefault">使用系统默认字体（需要重启）</string>
+    <string name="TypefaceUseDefault">使用系统默认字体*</string>
     <string name="NoQuoteForward">无引用转发</string>
     <string name="AddToSavedMessages">拿去自嗨</string>
     <string name="Repeat">复读</string>
     <string name="CreateMention">创建\@</string>
-    <string name="ForceTabletMode">假装是平板（需要重启）</string>
+    <string name="ForceTabletMode">假装是平板*</string>
     <string name="All">全部</string>
     <string name="Users">用户</string>
     <string name="Groups">群组</string>
@@ -39,8 +39,10 @@
     <string name="NavigationBarColorMessagePanel">使用消息面板颜色</string>
     <string name="EnableResidentNotification">请让猫咪住在通知栏里吧</string>
     <string name="DisableResidentNotification">果然通知栏还是太挤了</string>
-    <string name="NekogramRunning">Nekogram 正在运行</string>
-    <string name="ChristmasEveryday">天天是圣诞（需要重启）</string>
-    <string name="NewYearEveryday">天天是新年（需要重启）</string>
-    <string name="HappyNewYearEveryday">天天跨年（需要重启）</string>
+    <string name="NekogramRunning">猫猫奔跑中</string>
+    <string name="ChristmasEveryday">天天是圣诞*</string>
+    <string name="NewYearEveryday">天天是新年*</string>
+    <string name="HappyNewYearEveryday">天天跨年*</string>
+    <string name="ShowFireworks">一起去看烟花吧*</string>
+    <string name="SomeItemsNeedRestart">注 * 的选项可能需要重启才能生效。</string>
 </resources>

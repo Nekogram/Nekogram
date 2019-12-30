@@ -12,15 +12,15 @@
     <string name="IgnoreBlocked">ブロックした相手の発言を無視する</string>
     <string name="Connection">接続</string>
     <string name="Chat">チャット</string>
-    <string name="NameOrder">名前順</string>
+    <string name="NameOrder">名前順*</string>
     <string name="FirstLast">名前 姓氏</string>
     <string name="LastFirst">姓氏 名前</string>
-    <string name="TypefaceUseDefault">システムのフォントを使う</string>
+    <string name="TypefaceUseDefault">システムのフォントを使う*</string>
     <string name="NoQuoteForward">見積もりなしで転送</string>
     <string name="Repeat">繰り返す</string>
     <string name="AddToSavedMessages">保存用メッセージに追加</string>
     <string name="CreateMention">アットユーザー</string>
-    <string name="ForceTabletMode">タブレットモードを強制する</string>
+    <string name="ForceTabletMode">タブレットモードを強制する*</string>
     <string name="All">すべて</string>
     <string name="Users">ユーザー</string>
     <string name="Groups">グループ</string>
@@ -40,7 +40,9 @@
     <string name="EnableResidentNotification">常駐通知を表示する</string>
     <string name="DisableResidentNotification">常駐通知を無効にする</string>
     <string name="NekogramRunning">Nekogram ランニング</string>
-    <string name="ChristmasEveryday">毎日がXmas</string>
-    <string name="NewYearEveryday">毎日が新年</string>
-    <string name="HappyNewYearEveryday">毎日がHappy New Year</string>
+    <string name="ChristmasEveryday">毎日がXmas*</string>
+    <string name="NewYearEveryday">毎日が新年*</string>
+    <string name="HappyNewYearEveryday">毎日がHappy New Year*</string>
+    <string name="ShowFireworks">花火を見ましょう*</string>
+    <string name="SomeItemsNeedRestart">注 * オプションを有効にするには、再起動が必要な場合があります。</string>
 </resources>

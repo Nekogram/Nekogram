@@ -39,6 +39,8 @@ import org.telegram.ui.Components.SnowflakesEffect;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class ActionBar extends FrameLayout {
 
     public static class ActionBarMenuOnItemClick {
@@ -201,7 +203,12 @@ public class ActionBar extends FrameLayout {
                 int y = titleTextView.getTextStartY() + Theme.getCurrentHolidayDrawableYOffset() + (int) Math.ceil((titleTextView.getTextHeight() - rect.height()) / 2.0f);
                 drawable.setBounds(x, y - drawable.getIntrinsicHeight(), x + drawable.getIntrinsicWidth(), y);
                 drawable.draw(canvas);
-                if (Theme.canStartHolidayAnimation()) {
+            }
+                if (NekoConfig.fireworks) {
+                    if (fireworksEffect == null) {
+                        fireworksEffect = new FireworksEffect();
+                    }
+                } else if (Theme.canStartHolidayAnimation()) {
                     if (snowflakesEffect == null) {
                         snowflakesEffect = new SnowflakesEffect();
                     }
@@ -209,13 +216,15 @@ public class ActionBar extends FrameLayout {
                     if (snowflakesEffect != null) {
                         snowflakesEffect = null;
                     }
+                    if (fireworksEffect != null) {
+                        fireworksEffect = null;
+                    }
                 }
                 if (snowflakesEffect != null) {
                     snowflakesEffect.onDraw(this, canvas);
                 } else if (fireworksEffect != null) {
                     fireworksEffect.onDraw(this, canvas);
                 }
-            }
         }
         if (clip) {
             canvas.restore();
