@@ -870,7 +870,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 actionBar.setBackButtonContentDescription(LocaleController.getString("AccDescrOpenMenu", R.string.AccDescrOpenMenu));
             }
             if (folderId != 0) {
-                actionBar.setTitle(LocaleController.getString("ArchivedChats", R.string.ArchivedChats));
+                actionBar.setTitle(getNekoTitle());
             } else {
                 if (BuildVars.DEBUG_VERSION) {
                     actionBar.setTitle("Telegram Beta"/*LocaleController.getString("AppNameBeta", R.string.AppNameBeta)*/);
