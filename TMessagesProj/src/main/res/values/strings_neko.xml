@@ -18,7 +18,7 @@
     <string name="TypefaceUseDefault">Use system default font</string>
     <string name="NoQuoteForward">NoQuote forward</string>
     <string name="Repeat">Repeat</string>
-    <string name="AddToSavedMessages">Add to Saved Messages</string>
+    <string name="AddToSavedMessages">Save Message</string>
     <string name="CreateMention">Create Mention</string>
     <string name="ForceTabletMode">Force tablet mode</string>
     <string name="All">All</string>
@@ -30,7 +30,7 @@
     <string name="EnableNya">Send message with suffix on long click</string>
     <string name="NyaSuffix">Message suffix</string>
     <string name="NyaSuffixHint">Suffix</string>
-    <string name="Prpr">prpr</string>
+    <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Transparent status bar</string>
     <string name="NavigationBarTint">Set navigation bar and status bar color</string>
     <string name="NavigationBarColor">Navigation bar color</string>
@@ -40,4 +40,7 @@
     <string name="EnableResidentNotification">Show a resident notification</string>
     <string name="DisableResidentNotification">Disable resident notification</string>
     <string name="NekogramRunning">Nekogram is running</string>
+    <string name="ChristmasEveryday">Christmas holiday everyday</string>
+    <string name="NewYearEveryday">New year\'s day everyday</string>
+    <string name="HappyNewYearEveryday">Happy new year everyday</string>
 </resources>

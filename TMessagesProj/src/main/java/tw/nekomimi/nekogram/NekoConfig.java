@@ -29,6 +29,10 @@ public class NekoConfig {
     public static boolean showAdminActions = true;
     public static boolean showChangePermissions = true;
 
+    public static boolean xmas = false;
+    public static boolean newYear = false;
+    public static boolean newYearEve = false;
+
     private static boolean configLoaded;
 
     static {
@@ -57,6 +61,9 @@ public class NekoConfig {
                 editor.putBoolean("showPrPr", showPrPr);
                 editor.putBoolean("showAdminActions", showAdminActions);
                 editor.putBoolean("showChangePermissions", showChangePermissions);
+                editor.putBoolean("xmas", xmas);
+                editor.putBoolean("newYear", newYear);
+                editor.putBoolean("newYearEve", newYearEve);
 
                 editor.commit();
             } catch (Exception e) {
@@ -88,6 +95,9 @@ public class NekoConfig {
             showPrPr = preferences.getBoolean("showPrPr", true);
             showAdminActions = preferences.getBoolean("showAdminActions", true);
             showChangePermissions = preferences.getBoolean("showChangePermissions", true);
+            xmas = preferences.getBoolean("xmas", false);
+            newYear = preferences.getBoolean("newYear", false);
+            newYearEve = preferences.getBoolean("newYearEve", false);
             configLoaded = true;
         }
     }
@@ -166,7 +176,7 @@ public class NekoConfig {
         editor.commit();
     }
 
-    public static void toogleTypeface() {
+    public static void toggleTypeface() {
         typeface = typeface == 0 ? 1 : 0;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
@@ -226,6 +236,30 @@ public class NekoConfig {
         } else {
             ApplicationLoader.applicationContext.stopService(duangIntent);
         }
+    }
+
+    public static void toggleXmas() {
+        xmas = !xmas;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("xmas", xmas);
+        editor.commit();
+    }
+
+    public static void toggleNewYear() {
+        newYear = !newYear;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("newYear", newYear);
+        editor.commit();
+    }
+
+    public static void toggleNewYearEve() {
+        newYearEve = !newYearEve;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("newYearEve", newYearEve);
+        editor.commit();
     }
 
 }

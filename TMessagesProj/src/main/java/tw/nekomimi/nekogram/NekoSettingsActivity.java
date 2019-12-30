@@ -76,6 +76,9 @@ public class NekoSettingsActivity extends BaseFragment {
     private int navigationBarTintRow;
     private int navigationBarColorRow;
     private int forceTabletRow;
+    private int xmasRow;
+    private int newYearRow;
+    private int newYearEveRow;
     private int settings2Row;
 
     @Override
@@ -221,7 +224,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(SharedConfig.useSystemEmoji);
                 }
             } else if (position == typefaceRow) {
-                NekoConfig.toogleTypeface();
+                NekoConfig.toggleTypeface();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.typeface == 1);
                 }
@@ -250,6 +253,21 @@ public class NekoSettingsActivity extends BaseFragment {
                     listAdapter.notifyItemChanged(nameOrderRow);
                 });
                 showDialog(builder.create());
+            } else if (position == xmasRow) {
+                NekoConfig.toggleXmas();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.xmas);
+                }
+            } else if (position == newYearRow) {
+                NekoConfig.toggleNewYear();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.newYear);
+                }
+            } else if (position == newYearEveRow) {
+                NekoConfig.toggleNewYearEve();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.newYearEve);
+                }
             }
         });
 
@@ -290,6 +308,9 @@ public class NekoSettingsActivity extends BaseFragment {
         navigationBarColorRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? rowCount++ : -1;
         forceTabletRow = rowCount++;
         nameOrderRow = rowCount++;
+        xmasRow = rowCount++;
+        newYearRow = rowCount++;
+        newYearEveRow = rowCount++;
         settings2Row = rowCount++;
         if (notify && listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -368,7 +389,7 @@ public class NekoSettingsActivity extends BaseFragment {
                                 value = LocaleController.getString("FirstLast", R.string.FirstLast);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("NameOrder", R.string.NameOrder), value, false);
+                        textCell.setTextAndValue(LocaleController.getString("NameOrder", R.string.NameOrder), value, true);
                     } else if (position == navigationBarColorRow) {
                         String value;
                         switch (NekoConfig.navigationBarColor) {
@@ -430,6 +451,12 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("IgnoreBlocked", R.string.IgnoreBlocked), NekoConfig.ignoreBlocked, true);
                     } else if (position == forceTabletRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ForceTabletMode", R.string.ForceTabletMode), NekoConfig.forceTablet, true);
+                    } else if (position == xmasRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("ChristmasEveryday", R.string.ChristmasEveryday), NekoConfig.xmas, true);
+                    } else if (position == newYearRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("NewYearEveryday", R.string.NewYearEveryday), NekoConfig.newYear, true);
+                    } else if (position == newYearEveRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("HappyNewYearEveryday", R.string.HappyNewYearEveryday), NekoConfig.newYearEve, false);
                     }
                     break;
                 }
@@ -457,6 +484,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == showChangePermissionsRow || position == showAdminActionsRow || position == showReportRow ||
                     position == showPrPrRow || position == showAddToSavedMessagesRow ||
                     position == nameOrderRow || position == forceTabletRow || position == mapPreviewRow ||
+                    position == xmasRow || position == newYearRow || position == newYearEveRow ||
                     (position == transparentStatusBarRow && (NekoConfig.navigationBarTint || Build.VERSION.SDK_INT < Build.VERSION_CODES.O)) ||
                     (position == navigationBarColorRow && NekoConfig.navigationBarTint);
         }
@@ -504,7 +532,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == showAdminActionsRow || position == showChangePermissionsRow ||
                     position == transparentStatusBarRow || position == navigationBarTintRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
-                    position == forceTabletRow) {
+                    position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == messageMenuRow || position == chatRow) {
                 return 4;

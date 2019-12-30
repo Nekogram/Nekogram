@@ -40,4 +40,7 @@
     <string name="EnableResidentNotification">常駐通知を表示する</string>
     <string name="DisableResidentNotification">常駐通知を無効にする</string>
     <string name="NekogramRunning">Nekogram ランニング</string>
+    <string name="ChristmasEveryday">毎日がXmas</string>
+    <string name="NewYearEveryday">毎日が新年</string>
+    <string name="HappyNewYearEveryday">毎日がHappy New Year</string>
 </resources>

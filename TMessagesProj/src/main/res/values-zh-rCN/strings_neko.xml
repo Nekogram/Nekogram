@@ -40,4 +40,7 @@
     <string name="EnableResidentNotification">请让猫咪住在通知栏里吧</string>
     <string name="DisableResidentNotification">果然通知栏还是太挤了</string>
     <string name="NekogramRunning">Nekogram 正在运行</string>
+    <string name="ChristmasEveryday">天天是圣诞（需要重启）</string>
+    <string name="NewYearEveryday">天天是新年（需要重启）</string>
+    <string name="HappyNewYearEveryday">天天跨年（需要重启）</string>
 </resources>

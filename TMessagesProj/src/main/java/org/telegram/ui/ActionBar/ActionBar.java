@@ -196,7 +196,7 @@ public class ActionBar extends FrameLayout {
             if (drawable != null) {
                 TextPaint textPaint = titleTextView.getTextPaint();
                 textPaint.getFontMetricsInt(fontMetricsInt);
-                textPaint.getTextBounds((String) titleTextView.getText(), 0, 1, rect);
+                textPaint.getTextBounds((String) titleTextView.getText(), 0, 2, rect);
                 int x = titleTextView.getTextStartX() + Theme.getCurrentHolidayDrawableXOffset() + (rect.width() - (drawable.getIntrinsicWidth() + Theme.getCurrentHolidayDrawableXOffset())) / 2;
                 int y = titleTextView.getTextStartY() + Theme.getCurrentHolidayDrawableYOffset() + (int) Math.ceil((titleTextView.getTextHeight() - rect.height()) / 2.0f);
                 drawable.setBounds(x, y - drawable.getIntrinsicHeight(), x + drawable.getIntrinsicWidth(), y);
