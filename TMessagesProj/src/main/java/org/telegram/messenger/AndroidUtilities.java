@@ -546,7 +546,8 @@ public class AndroidUtilities {
     }
 
     public static boolean isGoogleMapsInstalled(final BaseFragment fragment) {
-        try {
+        return true;
+        /*try {
             ApplicationLoader.applicationContext.getPackageManager().getApplicationInfo("com.google.android.apps.maps", 0);
             return true;
         } catch (PackageManager.NameNotFoundException e) {
@@ -566,7 +567,7 @@ public class AndroidUtilities {
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
             fragment.showDialog(builder.create());
             return false;
-        }
+        }*/
     }
 
     public static int[] toIntArray(List<Integer> integers) {
