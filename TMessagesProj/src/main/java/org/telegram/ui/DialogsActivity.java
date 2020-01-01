@@ -883,6 +883,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             dialogsAdapter.setDialogsType(type);
             dialogsAdapter.notifyDataSetChanged();
         }
+        if (archivePullViewState == ARCHIVE_ITEM_STATE_HIDDEN && hasHiddenArchive()) {
+            layoutManager.scrollToPositionWithOffset(1, 0);
+        } else {
+            layoutManager.scrollToPositionWithOffset(0, 0);
+        }
         actionBar.setTitle(getNekoTitle());
     }
 
