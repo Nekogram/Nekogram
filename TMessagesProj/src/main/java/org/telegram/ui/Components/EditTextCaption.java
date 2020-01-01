@@ -345,6 +345,8 @@ public class EditTextCaption extends EditTextBoldCursor {
                     return true;
                 } else if (item.getItemId() == R.id.menu_mention) {
                     makeSelectedMention();
+                    mode.finish();
+                    return true;
                 } else if (item.getItemId() == R.id.menu_strike) {
                     makeSelectedStrike();
                     mode.finish();
