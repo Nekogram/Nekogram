@@ -3086,9 +3086,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                     }
                 } else {
-                    if (ChatObject.canChangeChatInfo(chat)) {
-                        editItem = menu.addItem(edit_channel, R.drawable.group_edit_profile);
-                    }
+                    editItem = menu.addItem(edit_channel, R.drawable.group_edit_profile);
                     item = menu.addItem(10, R.drawable.ic_ab_other);
                     item.addSubItem(search_members, R.drawable.msg_search, LocaleController.getString("SearchMembers", R.string.SearchMembers));
                     item.addSubItem(leave_group, R.drawable.msg_leave, LocaleController.getString("DeleteAndExit", R.string.DeleteAndExit));
