@@ -13651,7 +13651,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             boolean allowRepeat = currentUser != null
                                     || (currentChat != null && ChatObject.canSendMessages(currentChat));
                             boolean allowPrpr = currentUser != null
-                                    || (currentChat != null && ChatObject.canSendMessages(currentChat) && !currentChat.broadcast);
+                                    || (currentChat != null && ChatObject.canSendMessages(currentChat) && !currentChat.broadcast &&
+                                    message.isFromUser());
                             if (allowRepeat) {
                                 items.add(LocaleController.getString("Repeat", R.string.Repeat));
                                 options.add(94);
