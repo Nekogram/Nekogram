@@ -77,8 +77,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import tw.nekomimi.nekogram.UIHelper;
-
 public class ThemeEditorView {
 
     private FrameLayout windowView;
@@ -896,8 +894,6 @@ public class ThemeEditorView {
                 for (int a = 0; a < currentThemeDesription.size(); a++) {
                     currentThemeDesription.get(a).setDefaultColor();
                 }
-                UIHelper.updateStatusBarColor(parentActivity);
-                UIHelper.updateNavigationBarColor(parentActivity);
                 setColorPickerVisible(false);
             });
 
@@ -911,8 +907,6 @@ public class ThemeEditorView {
             saveButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             linearLayout.addView(saveButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
             saveButton.setOnClickListener(v -> {
-                UIHelper.updateStatusBarColor(parentActivity);
-                UIHelper.updateNavigationBarColor(parentActivity);
                 setColorPickerVisible(false);
             });
         }

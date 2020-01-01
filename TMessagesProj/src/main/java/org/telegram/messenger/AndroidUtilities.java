@@ -3208,17 +3208,24 @@ public class AndroidUtilities {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             final View decorView = window.getDecorView();
             int flags = decorView.getSystemUiVisibility();
+            if (NekoConfig.transparentStatusBar) {
+                window.setStatusBarColor(Color.TRANSPARENT);
+            }
             if (enable) {
+                if (!NekoConfig.transparentStatusBar) {
+                    window.setStatusBarColor(0x0f000000);
+                }
                 if ((flags & View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR) == 0) {
                     flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
                     decorView.setSystemUiVisibility(flags);
-                    window.setStatusBarColor(0x0f000000);
                 }
             } else {
+                if (!NekoConfig.transparentStatusBar) {
+                    window.setStatusBarColor(0x33000000);
+                }
                 if ((flags & View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR) != 0) {
                     flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
                     decorView.setSystemUiVisibility(flags);
-                    window.setStatusBarColor(0x33000000);
                 }
             }
         }

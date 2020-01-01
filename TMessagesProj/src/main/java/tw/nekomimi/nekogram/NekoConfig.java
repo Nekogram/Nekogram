@@ -19,8 +19,6 @@ public class NekoConfig {
     public static int nameOrder = 1;
     public static int mapPreviewProvider = 0;
     public static boolean transparentStatusBar = true;
-    public static boolean navigationBarTint = true;
-    public static int navigationBarColor = 2;
     public static boolean residentNotification = false;
 
     public static boolean showAddToSavedMessages = true;
@@ -54,8 +52,6 @@ public class NekoConfig {
                 editor.putInt("nameOrder", nameOrder);
                 editor.putInt("mapPreviewProvider", mapPreviewProvider);
                 editor.putBoolean("transparentStatusBar", transparentStatusBar);
-                editor.putBoolean("navigationBarTint", navigationBarTint);
-                editor.putInt("navigationBarColor", navigationBarColor);
                 editor.putBoolean("residentNotification", residentNotification);
                 editor.putBoolean("showAddToSavedMessages", showAddToSavedMessages);
                 editor.putBoolean("showReport", showReport);
@@ -89,8 +85,6 @@ public class NekoConfig {
             nameOrder = preferences.getInt("nameOrder", 1);
             mapPreviewProvider = preferences.getInt("mapPreviewProvider", 0);
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", true);
-            navigationBarTint = preferences.getBoolean("navigationBarTint", true);
-            navigationBarColor = preferences.getInt("navigationBarColor", 2);
             residentNotification = preferences.getBoolean("residentNotification", false);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
@@ -208,22 +202,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("transparentStatusBar", transparentStatusBar);
-        editor.commit();
-    }
-
-    public static void toggleNavigationBarTint() {
-        navigationBarTint = !navigationBarTint;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("navigationBarTint", navigationBarTint);
-        editor.commit();
-    }
-
-    public static void setNavigationBarColor(int color) {
-        navigationBarColor = color;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("navigationBarColor", navigationBarColor);
         editor.commit();
     }
 

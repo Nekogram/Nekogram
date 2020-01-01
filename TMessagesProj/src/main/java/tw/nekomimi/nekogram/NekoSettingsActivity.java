@@ -21,6 +21,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
@@ -74,8 +75,6 @@ public class NekoSettingsActivity extends BaseFragment {
     private int hidePhoneRow;
     private int nameOrderRow;
     private int transparentStatusBarRow;
-    private int navigationBarTintRow;
-    private int navigationBarColorRow;
     private int forceTabletRow;
     private int xmasRow;
     private int newYearRow;
@@ -186,37 +185,11 @@ public class NekoSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.ignoreBlocked);
                 }
             } else if (position == transparentStatusBarRow) {
-                if (!(NekoConfig.navigationBarTint || Build.VERSION.SDK_INT < Build.VERSION_CODES.O))
-                    return;
                 NekoConfig.toggleTransparentStatusBar();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.transparentStatusBar);
                 }
-                UIHelper.updateStatusBarColor(getParentActivity());
-            } else if (position == navigationBarTintRow) {
-                NekoConfig.toggleNavigationBarTint();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.navigationBarTint);
-                }
-                updateRows(true);
-                UIHelper.updateStatusBarColor(getParentActivity());
-                UIHelper.updateNavigationBarColor(getParentActivity());
-            } else if (position == navigationBarColorRow) {
-                if (!NekoConfig.navigationBarTint)
-                    return;
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("NavigationBarColor", R.string.NavigationBarColor));
-                CharSequence[] items = new CharSequence[]{
-                        LocaleController.getString("NavigationBarColorBlack", R.string.NavigationBarColorBlack),
-                        LocaleController.getString("NavigationBarColorActionBar", R.string.NavigationBarColorActionBar),
-                        LocaleController.getString("NavigationBarColorMessagePanel", R.string.NavigationBarColorMessagePanel),
-                };
-                builder.setItems(items, (dialog, which) -> {
-                    NekoConfig.setNavigationBarColor(which + 1);
-                    listAdapter.notifyItemChanged(navigationBarColorRow);
-                    UIHelper.updateNavigationBarColor(getParentActivity());
-                });
-                showDialog(builder.create());
+                AndroidUtilities.runOnUIThread(() -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme, false));
             } else if (position == useSystemEmojiRow) {
                 SharedConfig.useSystemEmoji = !SharedConfig.useSystemEmoji;
                 SharedPreferences.Editor editor = MessagesController.getGlobalMainSettings().edit();
@@ -310,9 +283,7 @@ public class NekoSettingsActivity extends BaseFragment {
         settingsRow = rowCount++;
         hidePhoneRow = rowCount++;
         typefaceRow = rowCount++;
-        navigationBarTintRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? rowCount++ : -1;
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
-        navigationBarColorRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.O ? rowCount++ : -1;
         forceTabletRow = rowCount++;
         nameOrderRow = rowCount++;
         xmasRow = rowCount++;
@@ -398,20 +369,6 @@ public class NekoSettingsActivity extends BaseFragment {
                                 break;
                         }
                         textCell.setTextAndValue(LocaleController.getString("NameOrder", R.string.NameOrder), value, true);
-                    } else if (position == navigationBarColorRow) {
-                        String value;
-                        switch (NekoConfig.navigationBarColor) {
-                            case 3:
-                                value = LocaleController.getString("NavigationBarColorMessagePanel", R.string.NavigationBarColorMessagePanel);
-                                break;
-                            case 2:
-                                value = LocaleController.getString("NavigationBarColorActionBar", R.string.NavigationBarColorActionBar);
-                                break;
-                            case 1:
-                            default:
-                                value = LocaleController.getString("NavigationBarColorBlack", R.string.NavigationBarColorBlack);
-                        }
-                        textCell.setTextAndValue(LocaleController.getString("NavigationBarColor", R.string.NavigationBarColor), value, true);
                     } else if (position == mapPreviewRow) {
                         String value;
                         switch (NekoConfig.mapPreviewProvider) {
@@ -449,8 +406,6 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("DebugMenuEnableCamera", R.string.DebugMenuEnableCamera), SharedConfig.inappCamera, true);
                     } else if (position == transparentStatusBarRow) {
                         textCell.setTextAndCheck(LocaleController.getString("TransparentStatusBar", R.string.TransparentStatusBar), NekoConfig.transparentStatusBar, true);
-                    } else if (position == navigationBarTintRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("NavigationBarTint", R.string.NavigationBarTint), NekoConfig.navigationBarTint, true);
                     } else if (position == useSystemEmojiRow) {
                         textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), SharedConfig.useSystemEmoji, true);
                     } else if (position == typefaceRow) {
@@ -496,14 +451,13 @@ public class NekoSettingsActivity extends BaseFragment {
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int position = holder.getAdapterPosition();
-            return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow || position == navigationBarTintRow ||
+            return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow ||
                     position == useSystemEmojiRow || position == ipv6Row || position == typefaceRow ||
                     position == showChangePermissionsRow || position == showAdminActionsRow || position == showReportRow ||
                     position == showPrPrRow || position == showAddToSavedMessagesRow ||
                     position == nameOrderRow || position == forceTabletRow || position == mapPreviewRow ||
                     position == xmasRow || position == newYearRow || position == newYearEveRow || position == fireworksRow ||
-                    (position == transparentStatusBarRow && (NekoConfig.navigationBarTint || Build.VERSION.SDK_INT < Build.VERSION_CODES.O)) ||
-                    (position == navigationBarColorRow && NekoConfig.navigationBarTint);
+                    position == transparentStatusBarRow;
         }
 
         @Override
@@ -546,12 +500,12 @@ public class NekoSettingsActivity extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == messageMenu2Row || position == connection2Row || position == chat2Row) {
                 return 1;
-            } else if (position == nameOrderRow || position == navigationBarColorRow || position == mapPreviewRow) {
+            } else if (position == nameOrderRow || position == mapPreviewRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == showAddToSavedMessagesRow || position == showPrPrRow || position == showReportRow ||
                     position == showAdminActionsRow || position == showChangePermissionsRow ||
-                    position == transparentStatusBarRow || position == navigationBarTintRow ||
+                    position == transparentStatusBarRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
                     position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
                     position == fireworksRow) {
