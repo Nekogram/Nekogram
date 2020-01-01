@@ -290,7 +290,7 @@ public class Browser {
 
                     builder.setToolbarColor(Theme.getColor(Theme.key_actionBarBrowser));
                     builder.setShowTitle(true);
-                    builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.abc_ic_menu_share_mtrl_alpha), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, share, 0), false);
+                    builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.abc_ic_menu_share_mtrl_alpha), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, share, 0), true);
                     CustomTabsIntent intent = builder.build();
                     intent.setUseNewTask();
                     intent.launchUrl(context, uri);
@@ -337,7 +337,18 @@ public class Browser {
     public static boolean isInternalUri(Uri uri, boolean[] forceBrowser) {
         String host = uri.getHost();
         host = host != null ? host.toLowerCase() : "";
-        if ("tg".equals(uri.getScheme())) {
+        if ("ton".equals(uri.getScheme())) {
+            try {
+                Intent viewIntent = new Intent(Intent.ACTION_VIEW, uri);
+                List<ResolveInfo> allActivities = ApplicationLoader.applicationContext.getPackageManager().queryIntentActivities(viewIntent, 0);
+                if (allActivities != null && allActivities.size() > 1) {
+                    return false;
+                }
+            } catch (Exception ignore) {
+
+            }
+            return true;
+        } else if ("tg".equals(uri.getScheme())) {
             return true;
         } else if ("telegram.dog".equals(host)) {
             String path = uri.getPath();

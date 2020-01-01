@@ -17,12 +17,12 @@ configurations.all {
 dependencies {
     implementation 'androidx.core:core:1.1.0-beta01'
     implementation 'androidx.palette:palette:1.0.0'
-    implementation 'androidx.exifinterface:exifinterface:1.1.0-beta01'
+    implementation 'androidx.exifinterface:exifinterface:1.1.0'
 
     compileOnly 'org.checkerframework:checker-qual:2.5.2'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.0'
-    implementation 'com.google.firebase:firebase-messaging:20.0.0'
-    implementation 'com.google.firebase:firebase-config:19.0.0'
+    implementation 'com.google.firebase:firebase-messaging:20.1.0'
+    implementation 'com.google.firebase:firebase-config:19.1.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.google.android.gms:play-services-vision:16.2.0'
@@ -32,22 +32,13 @@ dependencies {
     implementation 'net.hockeyapp.android:HockeySDK:5.2.0'
     implementation 'com.googlecode.mp4parser:isoparser:1.0.6'
     implementation 'com.stripe:stripe-android:2.0.2'
-}
-
-def getAppId(){
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    return properties.get("APP_ID")
-}
-def getAppHash(){
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    return "\"" + properties.get("APP_HASH") + "\""
+    implementation files('libs/libgsaverification-client.aar')
 }
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion 29
+    buildToolsVersion '29.0.2'
+    ndkVersion "20.0.5594570"
 
     defaultConfig.applicationId = "tw.nekomimi.nekogram"
 
@@ -102,6 +93,34 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
 
+        /*debugAsan {
+            debuggable true
+            jniDebuggable true
+            signingConfig signingConfigs.debug
+            applicationIdSuffix ".beta"
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            packagingOptions {
+                doNotStrip "**.so"
+            }
+
+            sourceSets {
+                main {
+                    jniLibs {
+                        srcDir {
+                            'jniLibs'
+                        }
+                    }
+                    resources {
+                        srcDir {
+                            'jniRes'
+                        }
+                    }
+                }
+            }
+        }*/
+
         debugMultidex {
             initWith debug
             minifyEnabled false
@@ -134,6 +153,10 @@ android {
     sourceSets.debug {
         manifest.srcFile 'config/debug/AndroidManifest.xml'
     }
+
+    /*sourceSets.debugAsan {
+        manifest.srcFile 'config/debug/AndroidManifest.xml'
+    }*/
 
     sourceSets.debugMultidex {
         manifest.srcFile 'config/debug/AndroidManifest.xml'
@@ -220,6 +243,9 @@ android {
             sourceSets.debug {
                 manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
             }
+            /*sourceSets.debugAsan {
+                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
+            }*/
             sourceSets.release {
                 manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
             }
@@ -247,6 +273,9 @@ android {
             sourceSets.debug {
                 manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
             }
+            /*sourceSets.debugAsan {
+                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
+            }*/
             sourceSets.release {
                 manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
             }
@@ -256,11 +285,12 @@ android {
         }
     }
 
-    defaultConfig.versionCode = 10 * (1710 + 10)
+    defaultConfig.versionCode = 10 * 1819
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            /*output.getProcessManifestProvider().get().doLast {
+            outputFileName = "app.apk"
+            output.getProcessManifestProvider().get().doLast {
                 def abiVersion = variant.productFlavors.get(0).abiVersionCode
 
                 def outputDir = manifestOutputDirectory
@@ -274,9 +304,9 @@ android {
                 String manifestPath = directory.toString() + "/AndroidManifest.xml"
                 def manifestContent = file(manifestPath).getText()
 
-                manifestContent = manifestContent.replace(String.format('android:versionCode="%d"', defaultConfig.versionCode), String.format('android:versionCode="%s"', defaultConfig.versionCode * 10 + abiVersion))
+                manifestContent = manifestContent.replace(String.format('android:versionCode="%d"', defaultConfig.versionCode), String.format('android:versionCode="%s"', defaultConfig.versionCode + abiVersion))
                 file(manifestPath).write(manifestContent)
-            }*/
+            }
         }
     }
 
@@ -290,16 +320,13 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
-        versionName "5.11.0.10"
+        versionName "5.13.0"
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
-        buildConfigField 'int', 'APP_ID', getAppId()
-        buildConfigField 'String', 'APP_HASH', getAppHash()
-
         externalNativeBuild {
             ndkBuild {
-                arguments "NDK_APPLICATION_MK:=jni/Application.mk", "APP_PLATFORM:=android-16", "-j8"
+                arguments "NDK_APPLICATION_MK:=jni/Application.mk", "APP_PLATFORM:=android-16", "--jobs=8"
                 abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
             }
         }

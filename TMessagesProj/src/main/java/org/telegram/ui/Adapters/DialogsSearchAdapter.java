@@ -528,7 +528,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 }
                 cursor.dispose();
 
-                if (savedMessages.startsWith(search1)) {
+                if (dialogsType != 4 && savedMessages.startsWith(search1)) {
                     TLRPC.User user = UserConfig.getInstance(currentAccount).getCurrentUser();
                     DialogSearchResult dialogSearchResult = new DialogSearchResult();
                     dialogSearchResult.date = Integer.MAX_VALUE;
@@ -1084,7 +1084,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 innerListView = horizontalListView;
                 break;
             case 6:
-                view = new TextCell(mContext, 16);
+                view = new TextCell(mContext, 16, false);
                 break;
         }
         if (viewType == 5) {
@@ -1258,7 +1258,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                 DialogCell cell = (DialogCell) holder.itemView;
                 cell.useSeparator = (position != getItemCount() - 1);
                 MessageObject messageObject = (MessageObject) getItem(position);
-                cell.setDialog(messageObject.getDialogId(), messageObject, messageObject.messageOwner.date);
+                cell.setDialog(messageObject.getDialogId(), messageObject, messageObject.messageOwner.date, false);
                 break;
             }
             case 4: {

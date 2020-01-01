@@ -185,7 +185,7 @@ public class ContextLinkCell extends View implements DownloadController.FileDown
         if (documentAttach != null) {
             if (MessageObject.isGifDocument(documentAttach)) {
                 currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(documentAttach.thumbs, 90);
-            } else if (MessageObject.isStickerDocument(documentAttach) || MessageObject.isAnimatedStickerDocument(documentAttach)) {
+            } else if (MessageObject.isStickerDocument(documentAttach) || MessageObject.isAnimatedStickerDocument(documentAttach, true)) {
                 currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(documentAttach.thumbs, 90);
                 ext = "webp";
             } else {
@@ -352,7 +352,7 @@ public class ContextLinkCell extends View implements DownloadController.FileDown
         if (documentAttach != null) {
             if (MessageObject.isGifDocument(documentAttach)) {
                 documentAttachType = DOCUMENT_ATTACH_TYPE_GIF;
-            } else if (MessageObject.isStickerDocument(documentAttach) || MessageObject.isAnimatedStickerDocument(documentAttach)) {
+            } else if (MessageObject.isStickerDocument(documentAttach) || MessageObject.isAnimatedStickerDocument(documentAttach, true)) {
                 documentAttachType = DOCUMENT_ATTACH_TYPE_STICKER;
             } else if (MessageObject.isMusicDocument(documentAttach)) {
                 documentAttachType = DOCUMENT_ATTACH_TYPE_MUSIC;

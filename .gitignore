@@ -4,9 +4,7 @@ build/
 obj/
 *.iml
 local.properties
-*.keystore
-gradle.properties
-
-TMessagesProj/src/main/java/org/telegram/messenger/BuildVars.java
-.externalNativeBuild/
-google-services.json
+.externalNativeBuild
+.cxx
+afat
+arm64

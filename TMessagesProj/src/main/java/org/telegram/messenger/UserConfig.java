@@ -66,6 +66,22 @@ public class UserConfig extends BaseController {
     public volatile byte[] savedSaltedPassword;
     public volatile long savedPasswordTime;
 
+    public String tonEncryptedData;
+    public String tonPublicKey;
+    public int tonPasscodeType = -1;
+    public byte[] tonPasscodeSalt;
+    public long tonPasscodeRetryInMs;
+    public long tonLastUptimeMillis;
+    public int tonBadPasscodeTries;
+    public String tonKeyName;
+    public boolean tonCreationFinished;
+
+    public String walletConfig;
+    public String walletBlockchainName;
+    public String walletConfigUrl;
+    public String walletConfigFromUrl;
+    public int walletConfigType;
+
     private static volatile UserConfig[] Instance = new UserConfig[UserConfig.MAX_ACCOUNT_COUNT];
     public static UserConfig getInstance(int num) {
         UserConfig localInstance = Instance[num];
@@ -134,6 +150,26 @@ public class UserConfig extends BaseController {
                 editor.putLong("autoDownloadConfigLoadTime", autoDownloadConfigLoadTime);
                 editor.putBoolean("hasValidDialogLoadIds", hasValidDialogLoadIds);
                 editor.putBoolean("isBot", isBot);
+                if (tonEncryptedData != null) {
+                    editor.putString("tonEncryptedData", tonEncryptedData);
+                    editor.putString("tonPublicKey", tonPublicKey);
+                    editor.putString("tonKeyName", tonKeyName);
+                    editor.putBoolean("tonCreationFinished", tonCreationFinished);
+                    if (tonPasscodeSalt != null) {
+                        editor.putInt("tonPasscodeType", tonPasscodeType);
+                        editor.putString("tonPasscodeSalt", Base64.encodeToString(tonPasscodeSalt, Base64.DEFAULT));
+                        editor.putLong("tonPasscodeRetryInMs", tonPasscodeRetryInMs);
+                        editor.putLong("tonLastUptimeMillis", tonLastUptimeMillis);
+                        editor.putInt("tonBadPasscodeTries", tonBadPasscodeTries);
+                    }
+                } else {
+                    editor.remove("tonEncryptedData").remove("tonPublicKey").remove("tonKeyName").remove("tonPasscodeType").remove("tonPasscodeSalt").remove("tonPasscodeRetryInMs").remove("tonBadPasscodeTries").remove("tonLastUptimeMillis").remove("tonCreationFinished");
+                }
+                editor.putString("walletConfig", walletConfig);
+                editor.putString("walletConfigUrl", walletConfigUrl);
+                editor.putInt("walletConfigType", walletConfigType);
+                editor.putString("walletBlockchainName", walletBlockchainName);
+                editor.putString("walletConfigFromUrl", walletConfigFromUrl);
 
                 editor.putInt("6migrateOffsetId", migrateOffsetId);
                 if (migrateOffsetId != -1) {
@@ -148,8 +184,7 @@ public class UserConfig extends BaseController {
                     try {
                         SerializedData data = new SerializedData(unacceptedTermsOfService.getObjectSize());
                         unacceptedTermsOfService.serializeToStream(data);
-                        String str = Base64.encodeToString(data.toByteArray(), Base64.DEFAULT);
-                        editor.putString("terms", str);
+                        editor.putString("terms", Base64.encodeToString(data.toByteArray(), Base64.DEFAULT));
                         data.cleanup();
                     } catch (Exception ignore) {
 
@@ -271,6 +306,27 @@ public class UserConfig extends BaseController {
             autoDownloadConfigLoadTime = preferences.getLong("autoDownloadConfigLoadTime", 0);
             hasValidDialogLoadIds = preferences.contains("2dialogsLoadOffsetId") || preferences.getBoolean("hasValidDialogLoadIds", false);
             isBot = preferences.getBoolean("isBot",false);
+            tonEncryptedData = preferences.getString("tonEncryptedData", null);
+            tonPublicKey = preferences.getString("tonPublicKey", null);
+            tonKeyName = preferences.getString("tonKeyName", "walletKey" + currentAccount);
+            tonCreationFinished = preferences.getBoolean("tonCreationFinished", true);
+            String salt = preferences.getString("tonPasscodeSalt", null);
+            if (salt != null) {
+                try {
+                    tonPasscodeSalt = Base64.decode(salt, Base64.DEFAULT);
+                    tonPasscodeType = preferences.getInt("tonPasscodeType", -1);
+                    tonPasscodeRetryInMs = preferences.getLong("tonPasscodeRetryInMs", 0);
+                    tonLastUptimeMillis = preferences.getLong("tonLastUptimeMillis", 0);
+                    tonBadPasscodeTries = preferences.getInt("tonBadPasscodeTries", 0);
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+            }
+            walletConfig = "";//preferences.getString("walletConfig", "");
+            walletConfigUrl = "https://test.ton.org/config.json";//preferences.getString("walletConfigUrl", "https://test.ton.org/config.json");
+            walletConfigType = TonController.CONFIG_TYPE_JSON;//preferences.getInt("walletConfigType", TonController.CONFIG_TYPE_JSON);
+            walletBlockchainName = "";//preferences.getString("walletBlockchainName", "");
+            walletConfigFromUrl = "";//preferences.getString("walletConfigFromUrl", "");
 
             try {
                 String terms = preferences.getString("terms", null);
@@ -390,8 +446,21 @@ public class UserConfig extends BaseController {
         }
     }
 
+    public void clearTonConfig() {
+        tonEncryptedData = null;
+        tonKeyName = null;
+        tonPublicKey = null;
+        tonPasscodeType = -1;
+        tonPasscodeSalt = null;
+        tonCreationFinished = false;
+        tonPasscodeRetryInMs = 0;
+        tonLastUptimeMillis = 0;
+        tonBadPasscodeTries = 0;
+    }
+
     public void clearConfig() {
         getPreferences().edit().clear().commit();
+        clearTonConfig();
 
         currentUser = null;
         clientUserId = 0;
@@ -409,7 +478,7 @@ public class UserConfig extends BaseController {
         migrateOffsetAccess = -1;
         ratingLoadTime = 0;
         botRatingLoadTime = 0;
-        draftsLoaded = true;
+        draftsLoaded = false;
         contactsReimported = true;
         syncContacts = true;
         suggestContacts = true;
