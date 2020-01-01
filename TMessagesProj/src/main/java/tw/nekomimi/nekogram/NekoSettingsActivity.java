@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,6 +35,7 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.EmptyCell;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.NotificationsCheckCell;
+import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.TextCheckCell;
@@ -43,6 +45,8 @@ import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+
+import java.util.ArrayList;
 
 public class NekoSettingsActivity extends BaseFragment {
 
@@ -204,29 +208,66 @@ public class NekoSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.typeface == 1);
                 }
             } else if (position == mapPreviewRow) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("MapPreviewProvider", R.string.MapPreviewProvider));
-                CharSequence[] items = new CharSequence[]{
-                        LocaleController.getString("MapPreviewProviderTelegram", R.string.MapPreviewProviderTelegram),
-                        LocaleController.getString("MapPreviewProviderYandex", R.string.MapPreviewProviderYandex),
-                        LocaleController.getString("MapPreviewProviderNobody", R.string.MapPreviewProviderNobody),
-                };
-                builder.setItems(items, (dialog, which) -> {
-                    NekoConfig.setMapPreviewProvider(which);
-                    listAdapter.notifyItemChanged(mapPreviewRow);
-                });
+                ArrayList<String> arrayList = new ArrayList<>();
+                ArrayList<Integer> types = new ArrayList<>();
+                arrayList.add(LocaleController.getString("MapPreviewProviderTelegram", R.string.MapPreviewProviderTelegram));
+                types.add(0);
+                arrayList.add(LocaleController.getString("MapPreviewProviderYandex", R.string.MapPreviewProviderYandex));
+                types.add(1);
+                arrayList.add(LocaleController.getString("MapPreviewProviderNobody", R.string.MapPreviewProviderNobody));
+                types.add(2);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(LocaleController.getString("MapPreviewProviderTitle", R.string.MapPreviewProviderTitle));
+                final LinearLayout linearLayout = new LinearLayout(context);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                builder.setView(linearLayout);
+
+                for (int a = 0; a < arrayList.size(); a++) {
+                    RadioColorCell cell = new RadioColorCell(context);
+                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+                    cell.setTag(a);
+                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+                    cell.setTextAndValue(arrayList.get(a), NekoConfig.mapPreviewProvider == types.get(a));
+                    linearLayout.addView(cell);
+                    cell.setOnClickListener(v -> {
+                        Integer which = (Integer) v.getTag();
+                        NekoConfig.setMapPreviewProvider(types.get(which));
+                        listAdapter.notifyItemChanged(mapPreviewRow);
+                        builder.getDismissRunnable().run();
+                    });
+                }
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
             } else if (position == nameOrderRow) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                ArrayList<String> arrayList = new ArrayList<>();
+                ArrayList<Integer> types = new ArrayList<>();
+                arrayList.add(LocaleController.getString("FirstLast", R.string.FirstLast));
+                types.add(1);
+                arrayList.add(LocaleController.getString("LastFirst", R.string.LastFirst));
+                types.add(2);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(LocaleController.getString("NameOrder", R.string.NameOrder));
-                CharSequence[] items = new CharSequence[]{
-                        LocaleController.getString("FirstLast", R.string.FirstLast),
-                        LocaleController.getString("LastFirst", R.string.LastFirst),
-                };
-                builder.setItems(items, (dialog, which) -> {
-                    NekoConfig.setNameOrder(which + 1);
-                    listAdapter.notifyItemChanged(nameOrderRow);
-                });
+                final LinearLayout linearLayout = new LinearLayout(context);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                builder.setView(linearLayout);
+
+                for (int a = 0; a < arrayList.size(); a++) {
+                    RadioColorCell cell = new RadioColorCell(context);
+                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+                    cell.setTag(a);
+                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+                    cell.setTextAndValue(arrayList.get(a), NekoConfig.nameOrder == types.get(a));
+                    linearLayout.addView(cell);
+                    cell.setOnClickListener(v -> {
+                        Integer which = (Integer) v.getTag();
+                        NekoConfig.setNameOrder(types.get(which));
+                        listAdapter.notifyItemChanged(nameOrderRow);
+                        builder.getDismissRunnable().run();
+                    });
+                }
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
             } else if (position == xmasRow) {
                 NekoConfig.toggleXmas();
