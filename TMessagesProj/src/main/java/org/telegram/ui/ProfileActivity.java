@@ -2203,8 +2203,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 final float onlineTextViewX = (1 - value) * (1 - value) * onlineX + 2 * (1 - value) * value * onlineTextViewCx + value * value * onlineTextViewXEnd;
                                 final float onlineTextViewY = (1 - value) * (1 - value) * onlineY + 2 * (1 - value) * value * onlineTextViewCy + value * value * onlineTextViewYEnd;
 
-                                final float idTextViewXEnd = AndroidUtilities.dpf2(16f) - onlineTextView[1].getLeft();
-                                final float idTextViewYEnd = newTop + extraHeight - AndroidUtilities.dpf2(4f) - onlineTextView[1].getBottom();
+                                final float idTextViewXEnd = AndroidUtilities.dpf2(16f) - idTextView.getLeft();
+                                final float idTextViewYEnd = newTop + extraHeight - AndroidUtilities.dpf2(4f) - idTextView.getBottom();
                                 final float idTextViewCx = k + idX + (idTextViewXEnd - idX) / 2f;
                                 final float idTextViewCy = k + idY + (idTextViewYEnd - idY) / 2f;
                                 final float idTextViewX = (1 - value) * (1 - value) * idX + 2 * (1 - value) * value * idTextViewCx + value * value * idTextViewXEnd;
@@ -4363,6 +4363,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 nameTextView[1].setBackgroundColor(Theme.getColor(Theme.key_avatar_backgroundActionBarBlue));
                 nameTextView[1].setTextColor(Theme.getColor(Theme.key_profile_title));
+                idTextView.setTextColor(Theme.getColor(Theme.key_avatar_subtitleInProfileBlue));
                 actionBar.setItemsColor(Theme.getColor(Theme.key_actionBarDefaultIcon), false);
                 actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_avatar_actionBarSelectorBlue), false);
             }

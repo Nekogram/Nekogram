@@ -147,7 +147,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
     private SimpleTextView titleTextView;
     private TextView nameTextView;
     private TextView onlineTextView;
-    private SimpleTextView idTextView;
+    private TextView idTextView;
     private ImageView writeButton;
     private AnimatorSet writeButtonAnimation;
     private ImageUpdater imageUpdater;
@@ -704,9 +704,13 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         onlineTextView.setGravity(Gravity.LEFT);
         frameLayout.addView(onlineTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118, 0, 96, 0));
 
-        idTextView = new SimpleTextView(context);
+        idTextView = new TextView(context);
         idTextView.setTextColor(AvatarDrawable.getProfileTextColorForId(5));
-        idTextView.setTextSize(14);
+        idTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        idTextView.setLines(1);
+        idTextView.setMaxLines(1);
+        idTextView.setSingleLine(true);
+        idTextView.setEllipsize(TextUtils.TruncateAt.END);
         idTextView.setGravity(Gravity.LEFT);
         idTextView.setAlpha(1.0f);
         frameLayout.addView(idTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118, 0, 48, 0));
@@ -803,6 +807,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         avatarContainer.setVisibility(View.VISIBLE);
         nameTextView.setVisibility(View.VISIBLE);
         onlineTextView.setVisibility(View.VISIBLE);
+        idTextView.setVisibility(View.VISIBLE);
 
         actionBar.onSearchFieldVisibilityChanged(searchTransitionProgress > 0.5f);
         if (otherItem != null) {
@@ -838,6 +843,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             avatarContainer.setAlpha(progressHalf);
             nameTextView.setAlpha(progressHalf);
             onlineTextView.setAlpha(progressHalf);
+            idTextView.setAlpha(progressHalf);
 
             searchItem.getSearchField().setAlpha(progressHalfEnd);
             if (enter && searchTransitionProgress < 0.7f) {
@@ -887,6 +893,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         avatarContainer.setVisibility(hide);
         nameTextView.setVisibility(hide);
         onlineTextView.setVisibility(hide);
+        idTextView.setVisibility(hide);
 
         if (otherItem != null) {
             otherItem.setAlpha(1f);
@@ -897,6 +904,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         avatarContainer.setAlpha(1f);
         nameTextView.setAlpha(1f);
         onlineTextView.setAlpha(1f);
+        idTextView.setAlpha(1f);
         searchItem.setAlpha(1f);
         listView.setAlpha(1f);
         searchListView.setAlpha(1f);
@@ -1143,6 +1151,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         titleTextView.setAlpha(1.0f - progress);
         nameTextView.setAlpha(progress);
         onlineTextView.setAlpha(progress);
+        idTextView.setAlpha(progress);
 
         extraHeight = (int) (initialAnimationExtraHeight * progress);
         avatarContainer.setAlpha(progress);
@@ -1161,6 +1170,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) onlineTextView.getLayoutParams();
                 layoutParams.rightMargin = (int) (-21 * AndroidUtilities.density + AndroidUtilities.dp(8));
                 onlineTextView.setLayoutParams(layoutParams);
+                idTextView.setLayoutParams(layoutParams);
 
                 int width = (int) Math.ceil(AndroidUtilities.displaySize.x - AndroidUtilities.dp(118 + 8) + 21 * AndroidUtilities.density);
                 float width2 = nameTextView.getPaint().measureText(nameTextView.getText().toString()) * 1.12f;
@@ -1185,6 +1195,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                     animators.add(ObjectAnimator.ofFloat(writeButton, View.ALPHA, 1.0f));
                 }
                 animators.add(ObjectAnimator.ofFloat(onlineTextView, View.ALPHA, 0.0f, 1.0f));
+                animators.add(ObjectAnimator.ofFloat(idTextView, View.ALPHA, 0.0f, 1.0f));
                 animators.add(ObjectAnimator.ofFloat(nameTextView, View.ALPHA, 0.0f, 1.0f));
                 searchItem.setTranslationX(AndroidUtilities.dp(48));
                 otherItem.setTranslationX(AndroidUtilities.dp(48));
@@ -1201,6 +1212,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                     animators.add(ObjectAnimator.ofFloat(writeButton, View.ALPHA, 0.0f));
                 }
                 animators.add(ObjectAnimator.ofFloat(onlineTextView, View.ALPHA, 0.0f));
+                animators.add(ObjectAnimator.ofFloat(idTextView, View.ALPHA, 0.0f));
                 animators.add(ObjectAnimator.ofFloat(nameTextView, View.ALPHA, 0.0f));
                 animators.add(ObjectAnimator.ofFloat(searchItem, View.TRANSLATION_X, AndroidUtilities.dp(48)));
                 animators.add(ObjectAnimator.ofFloat(otherItem, View.TRANSLATION_X, AndroidUtilities.dp(48)));
@@ -1328,7 +1340,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 nameTextView.setScaleY(scale);
                 idTextView.setTranslationX( -21 * AndroidUtilities.density * diff);
                 idTextView.setTranslationY( (float) Math.floor(avatarY) + AndroidUtilities.dp(32) + (float)Math.floor(22 * AndroidUtilities.density) * diff);
-                if (diff > 0.85) {
+                if (diff > 0.85 && !searchMode) {
                     idTextView.setVisibility(View.VISIBLE);
                 } else {
                     idTextView.setVisibility(View.GONE);
@@ -1363,6 +1375,16 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                         layoutParams.width = LayoutHelper.WRAP_CONTENT;
                     }
                     onlineTextView.setLayoutParams(layoutParams);
+
+                    width2 = idTextView.getPaint().measureText(idTextView.getText().toString());
+                    layoutParams = (FrameLayout.LayoutParams) idTextView.getLayoutParams();
+                    layoutParams.rightMargin = (int) Math.ceil(idTextView.getTranslationX() + AndroidUtilities.dp(8) + AndroidUtilities.dp(40) * (1.0f - diff));
+                    if (width < width2) {
+                        layoutParams.width = (int) Math.ceil(width);
+                    } else {
+                        layoutParams.width = LayoutHelper.WRAP_CONTENT;
+                    }
+                    idTextView.setLayoutParams(layoutParams);
                 }
             }
         }
@@ -2427,6 +2449,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, Theme.key_avatar_actionBarSelectorBlue),
                 new ThemeDescription(nameTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_profile_title),
                 new ThemeDescription(onlineTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_profile_status),
+                new ThemeDescription(idTextView, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_avatar_subtitleInProfileBlue),
                 new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SUBMENUBACKGROUND, null, null, null, null, Theme.key_actionBarDefaultSubmenuBackground),
                 new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SUBMENUITEM, null, null, null, null, Theme.key_actionBarDefaultSubmenuItem),
                 new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SUBMENUITEM | ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_actionBarDefaultSubmenuItemIcon),
