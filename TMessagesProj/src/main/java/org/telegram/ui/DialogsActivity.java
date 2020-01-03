@@ -1469,9 +1469,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         return;
                     }
                     if (dialogsAdapter.hasSelectedDialogs()) {
-                        dialogsAdapter.addOrRemoveSelectedDialog(did, null);
+                        boolean checked = dialogsAdapter.addOrRemoveSelectedDialog(did, null);
+                        findAndUpdateCheckBox(did, checked);
                         updateSelectedCount();
-                        closeSearch();
+                        actionBar.closeSearchField();
                     } else {
                         didSelectResult(did, true, false);
                     }
@@ -2243,17 +2244,31 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
+    private void findAndUpdateCheckBox(long dialogId, boolean checked) {
+        int count = listView.getChildCount();
+        for (int a = 0; a < count; a++) {
+            View child = listView.getChildAt(a);
+            if (child instanceof DialogCell) {
+                DialogCell dialogCell = (DialogCell) child;
+                if (dialogCell.getDialogId() == dialogId) {
+                    dialogCell.setChecked(checked, true);
+                    break;
+                }
+            }
+        }
+    }
+
     private void onItemClick(View view, int position, RecyclerListView.Adapter adapter) {
         if (getParentActivity() == null) {
             return;
         }
-        long dialog_id = 0;
+        long dialogId = 0;
         int message_id = 0;
         boolean isGlobalSearch = false;
         if (adapter == dialogsAdapter) {
             TLObject object = dialogsAdapter.getItem(position);
             if (object instanceof TLRPC.User) {
-                dialog_id = ((TLRPC.User) object).id;
+                dialogId = ((TLRPC.User) object).id;
             } else if (object instanceof TLRPC.Dialog) {
                 TLRPC.Dialog dialog = (TLRPC.Dialog) object;
                 if (dialog instanceof TLRPC.TL_dialogFolder) {
@@ -2270,15 +2285,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     presentFragment(dialogsActivity, onlySelect);
                     return;
                 }
-                dialog_id = dialog.id;
+                dialogId = dialog.id;
                 if (actionBar.isActionModeShowed()) {
                     showOrUpdateActionMode(dialog, view);
                     return;
                 }
             } else if (object instanceof TLRPC.TL_recentMeUrlChat) {
-                dialog_id = -((TLRPC.TL_recentMeUrlChat) object).chat_id;
+                dialogId = -((TLRPC.TL_recentMeUrlChat) object).chat_id;
             } else if (object instanceof TLRPC.TL_recentMeUrlUser) {
-                dialog_id = ((TLRPC.TL_recentMeUrlUser) object).user_id;
+                dialogId = ((TLRPC.TL_recentMeUrlUser) object).user_id;
             } else if (object instanceof TLRPC.TL_recentMeUrlChatInvite) {
                 TLRPC.TL_recentMeUrlChatInvite chatInvite = (TLRPC.TL_recentMeUrlChatInvite) object;
                 TLRPC.ChatInvite invite = chatInvite.chat_invite;
@@ -2292,7 +2307,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     return;
                 } else {
                     if (invite.chat != null) {
-                        dialog_id = -invite.chat.id;
+                        dialogId = -invite.chat.id;
                     } else {
                         return;
                     }
@@ -2313,26 +2328,26 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             Object obj = dialogsSearchAdapter.getItem(position);
             isGlobalSearch = dialogsSearchAdapter.isGlobalSearch(position);
             if (obj instanceof TLRPC.User) {
-                dialog_id = ((TLRPC.User) obj).id;
+                dialogId = ((TLRPC.User) obj).id;
                 if (!onlySelect) {
-                    searchDialogId = dialog_id;
+                    searchDialogId = dialogId;
                     searchObject = (TLRPC.User) obj;
                 }
             } else if (obj instanceof TLRPC.Chat) {
-                dialog_id = -((TLRPC.Chat) obj).id;
+                dialogId = -((TLRPC.Chat) obj).id;
                 if (!onlySelect) {
-                    searchDialogId = dialog_id;
+                    searchDialogId = dialogId;
                     searchObject = (TLRPC.Chat) obj;
                 }
             } else if (obj instanceof TLRPC.EncryptedChat) {
-                dialog_id = ((long) ((TLRPC.EncryptedChat) obj).id) << 32;
+                dialogId = ((long) ((TLRPC.EncryptedChat) obj).id) << 32;
                 if (!onlySelect) {
-                    searchDialogId = dialog_id;
+                    searchDialogId = dialogId;
                     searchObject = (TLRPC.EncryptedChat) obj;
                 }
             } else if (obj instanceof MessageObject) {
                 MessageObject messageObject = (MessageObject) obj;
-                dialog_id = messageObject.getDialogId();
+                dialogId = messageObject.getDialogId();
                 message_id = messageObject.getId();
                 dialogsSearchAdapter.addHashtagsFromMessage(dialogsSearchAdapter.getLastSearchString());
             } else if (obj instanceof String) {
@@ -2347,24 +2362,28 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         }
 
-        if (dialog_id == 0) {
+        if (dialogId == 0) {
             return;
         }
 
         if (onlySelect) {
-            if (!validateSlowModeDialog(dialog_id)) {
+            if (!validateSlowModeDialog(dialogId)) {
                 return;
             }
             if (dialogsAdapter.hasSelectedDialogs()) {
-                dialogsAdapter.addOrRemoveSelectedDialog(dialog_id, view);
+                boolean checked = dialogsAdapter.addOrRemoveSelectedDialog(dialogId, view);
+                if (adapter == dialogsSearchAdapter) {
+                    actionBar.closeSearchField();
+                    findAndUpdateCheckBox(dialogId, checked);
+                }
                 updateSelectedCount();
             } else {
-                didSelectResult(dialog_id, true, false);
+                didSelectResult(dialogId, true, false);
             }
         } else {
             Bundle args = new Bundle();
-            int lower_part = (int) dialog_id;
-            int high_id = (int) (dialog_id >> 32);
+            int lower_part = (int) dialogId;
+            int high_id = (int) (dialogId >> 32);
             if (lower_part != 0) {
                 if (lower_part > 0) {
                     args.putInt("user_id", lower_part);
@@ -2392,11 +2411,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
             }
             if (AndroidUtilities.isTablet()) {
-                if (openedDialogId == dialog_id && adapter != dialogsSearchAdapter) {
+                if (openedDialogId == dialogId && adapter != dialogsSearchAdapter) {
                     return;
                 }
                 if (dialogsAdapter != null) {
-                    dialogsAdapter.setOpenedDialogId(openedDialogId = dialog_id);
+                    dialogsAdapter.setOpenedDialogId(openedDialogId = dialogId);
                     updateVisibleRows(MessagesController.UPDATE_MASK_SELECT_DIALOG);
                 }
             }

@@ -285,8 +285,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     private Drawable slideDotDrawable;
     private Drawable slideDotBigDrawable;
 
-    private TLRPC.TL_pageBlockChannel channelBlock;
-
     private int openUrlReqId;
     private int previewsReqId;
     private int lastReqId;
@@ -335,8 +333,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
     private int selectedFont = 0;
     private FontCell[] fontCells = new FontCell[2];
-
-    private boolean isRtl;
 
     private class TL_pageBlockRelatedArticlesChild extends TLRPC.PageBlock {
         private TLRPC.TL_pageBlockRelatedArticles parent;
@@ -890,6 +886,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 listView[1].setAlpha(1.0f);
                 listView[1].setTranslationX(0.0f);
                 listView[0].setBackgroundColor(backgroundPaint.getColor());
+                updateInterfaceForCurrentPage(true, 0);
             } else {
                 movingPage = false;
             }
@@ -985,10 +982,15 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                         LinearLayoutManager layoutManagerToUpdate = layoutManager[1];
                                         layoutManager[1] = layoutManager[0];
                                         layoutManager[0] = layoutManagerToUpdate;
+
                                         pagesStack.remove(pagesStack.size() - 1);
                                         currentPage = pagesStack.get(pagesStack.size() - 1);
 
+                                        textSelectionHelper.parentView = listView[0];
+                                        textSelectionHelper.layoutManager = layoutManager[0];
                                         titleTextView.setText(currentPage.site_name == null ? "" : currentPage.site_name);
+                                        textSelectionHelper.clear(true);
+                                        headerView.invalidate();
                                     }
                                     listView[1].setVisibility(GONE);
                                     headerView.invalidate();
@@ -1511,14 +1513,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         return childBlock;
     }
 
-    private void updateInterfaceForCurrentPage(int order) {
+    private void updateInterfaceForCurrentPage(boolean previous, int order) {
         if (currentPage == null || currentPage.cached_page == null) {
             return;
         }
-        isRtl = currentPage.cached_page.rtl;
-        channelBlock = null;
-        titleTextView.setText(currentPage.site_name == null ? "" : currentPage.site_name);
-        if (order != 0) {
+        if (!previous && order != 0) {
             WebpageAdapter adapterToUpdate = adapter[1];
             adapter[1] = adapter[0];
             adapter[0] = adapterToUpdate;
@@ -1578,14 +1577,20 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             });
             pageSwitchAnimation.start();
         }
-        textSelectionHelper.clear(true);
-        headerView.invalidate();
-        adapter[0].cleanup();
+        if (!previous) {
+            titleTextView.setText(currentPage.site_name == null ? "" : currentPage.site_name);
+            textSelectionHelper.clear(true);
+            headerView.invalidate();
+        }
+        int index = previous ? 1 : 0;
+        TLRPC.WebPage page = previous ? pagesStack.get(pagesStack.size() - 2) : currentPage;
+        adapter[index].isRtl = currentPage.cached_page.rtl;
+        adapter[index].cleanup();
 
         int numBlocks = 0;
-        int count = currentPage.cached_page.blocks.size();
+        int count = page.cached_page.blocks.size();
         for (int a = 0; a < count; a++) {
-            TLRPC.PageBlock block = currentPage.cached_page.blocks.get(a);
+            TLRPC.PageBlock block = page.cached_page.blocks.get(a);
             if (a == 0) {
                 block.first = true;
                 if (block instanceof TLRPC.TL_pageBlockCover) {
@@ -1593,35 +1598,35 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     TLRPC.RichText caption = getBlockCaption(pageBlockCover, 0);
                     TLRPC.RichText credit = getBlockCaption(pageBlockCover, 1);
                     if ((caption != null && !(caption instanceof TLRPC.TL_textEmpty) || credit != null && !(credit instanceof TLRPC.TL_textEmpty)) && count > 1) {
-                        TLRPC.PageBlock next = currentPage.cached_page.blocks.get(1);
+                        TLRPC.PageBlock next = page.cached_page.blocks.get(1);
                         if (next instanceof TLRPC.TL_pageBlockChannel) {
-                            channelBlock = (TLRPC.TL_pageBlockChannel) next;
+                            adapter[index].channelBlock = (TLRPC.TL_pageBlockChannel) next;
                         }
                     }
                 }
-            } else if (a == 1 && channelBlock != null) {
+            } else if (a == 1 && adapter[index].channelBlock != null) {
                 continue;
             }
-            adapter[0].addBlock(block, 0, 0, a == count - 1 ? a : 0);
+            adapter[index].addBlock(block, 0, 0, a == count - 1 ? a : 0);
         }
 
-        adapter[0].notifyDataSetChanged();
+        adapter[index].notifyDataSetChanged();
 
         if (pagesStack.size() == 1 || order == -1) {
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("articles", Activity.MODE_PRIVATE);
-            String key = "article" + currentPage.id;
+            String key = "article" + page.id;
             int position = preferences.getInt(key, -1);
             int offset;
             if (preferences.getBoolean(key + "r", true) == AndroidUtilities.displaySize.x > AndroidUtilities.displaySize.y) {
-                offset = preferences.getInt(key + "o", 0) - listView[0].getPaddingTop();
+                offset = preferences.getInt(key + "o", 0) - listView[index].getPaddingTop();
             } else {
                 offset = AndroidUtilities.dp(10);
             }
             if (position != -1) {
-                layoutManager[0].scrollToPositionWithOffset(position, offset);
+                layoutManager[index].scrollToPositionWithOffset(position, offset);
             }
         } else {
-            layoutManager[0].scrollToPositionWithOffset(0, 0);
+            layoutManager[index].scrollToPositionWithOffset(0, 0);
         }
         checkScrollAnimated();
     }
@@ -1631,7 +1636,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         currentPage = webPage;
         pagesStack.add(webPage);
         showSearch(false);
-        updateInterfaceForCurrentPage(order);
+        updateInterfaceForCurrentPage(false, order);
         return scrollToAnchor(anchor);
     }
 
@@ -1666,7 +1671,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                 textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                 textView.setText(LocaleController.getString("InstantViewReference", R.string.InstantViewReference));
-                textView.setGravity((isRtl ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
+                textView.setGravity((adapter[0].isRtl ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
                 textView.setTextColor(getTextColor());
                 textView.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18), 0);
                 linearLayout.addView(textView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, AndroidUtilities.dp(48) + 1));
@@ -1722,7 +1727,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
         pagesStack.remove(pagesStack.size() - 1);
         currentPage = pagesStack.get(pagesStack.size() - 1);
-        updateInterfaceForCurrentPage(-1);
+        updateInterfaceForCurrentPage(false, -1);
         return true;
     }
 
@@ -1788,6 +1793,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     private static TextPaint embedPostAuthorPaint;
     private static TextPaint embedPostDatePaint;
     private static TextPaint channelNamePaint;
+    private static TextPaint channelNamePhotoPaint;
     private static TextPaint relatedArticleHeaderPaint;
     private static TextPaint relatedArticleTextPaint;
 
@@ -2368,14 +2374,17 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             if (channelNamePaint == null) {
                 channelNamePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
                 channelNamePaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+
+                channelNamePhotoPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+                channelNamePhotoPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             }
-            if (channelBlock == null) {
-                channelNamePaint.setColor(getTextColor());
-            } else {
-                channelNamePaint.setColor(0xffffffff);
-            }
+            channelNamePaint.setColor(getTextColor());
             channelNamePaint.setTextSize(AndroidUtilities.dp(15));
-            paint = channelNamePaint;
+
+            channelNamePhotoPaint.setColor(0xffffffff);
+            channelNamePhotoPaint.setTextSize(AndroidUtilities.dp(15));
+
+            paint = parentAdapter.channelBlock != null ? channelNamePhotoPaint : channelNamePaint;
         } else if (parentBlock instanceof TL_pageBlockRelatedArticlesChild) {
             TL_pageBlockRelatedArticlesChild pageBlockRelatedArticlesChild = (TL_pageBlockRelatedArticlesChild) parentBlock;
             if (plainText == pageBlockRelatedArticlesChild.parent.articles.get(pageBlockRelatedArticlesChild.num).title) {
@@ -2925,11 +2934,10 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             embedPostAuthorPaint.setColor(getTextColor());
         }
         if (channelNamePaint != null) {
-            if (channelBlock == null) {
-                channelNamePaint.setColor(getTextColor());
-            } else {
-                channelNamePaint.setColor(0xffffffff);
-            }
+            channelNamePaint.setColor(getTextColor());
+        }
+        if (channelNamePhotoPaint != null) {
+            channelNamePhotoPaint.setColor(0xffffffff);
         }
         if (relatedArticleHeaderPaint != null) {
             relatedArticleHeaderPaint.setColor(getTextColor());
@@ -4415,7 +4423,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             if (pagesStack.size() == 1) {
                                 currentPage = webPage;
                                 ApplicationLoader.applicationContext.getSharedPreferences("articles", Activity.MODE_PRIVATE).edit().remove("article" + currentPage.id).commit();
-                                updateInterfaceForCurrentPage(0);
+                                updateInterfaceForCurrentPage(false, 0);
                                 if (anchorFinal != null) {
                                     scrollToAnchor(anchorFinal);
                                 }
@@ -5043,6 +5051,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private HashMap<Object, TLRPC.PageBlock> textToBlocks = new HashMap<>();
         private ArrayList<Object> textBlocks = new ArrayList<>();
         private HashMap<String, Integer> searchTextOffset = new HashMap<>();
+
+        private TLRPC.TL_pageBlockChannel channelBlock;
+        private boolean isRtl;
 
         public WebpageAdapter(Context ctx) {
             context = ctx;
@@ -5798,7 +5809,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 case 5: {
                     BlockVideoCell cell = (BlockVideoCell) holder.itemView;
                     cell.setBlock((TLRPC.TL_pageBlockVideo) block, position == 0, position == total - 1);
-                    cell.setParentBlock(originalBlock);
+                    cell.setParentBlock(channelBlock, originalBlock);
                     break;
                 }
                 case 6: {
@@ -6046,6 +6057,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             anchorsOffset.clear();
             textBlocks.clear();
             textToBlocks.clear();
+            channelBlock = null;
             notifyDataSetChanged();
         }
 
@@ -6172,7 +6184,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             requestLayout();
         }
 
-        public void setParentBlock(TLRPC.PageBlock block) {
+        public void setParentBlock(TLRPC.TL_pageBlockChannel channelBlock, TLRPC.PageBlock block) {
             parentBlock = block;
             if (channelBlock != null && parentBlock instanceof TLRPC.TL_pageBlockCover) {
                 channelCell.setBlock(channelBlock);
@@ -6189,8 +6201,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             float x = event.getX();
             float y = event.getY();
             if (channelCell.getVisibility() == VISIBLE && y > channelCell.getTranslationY() && y < channelCell.getTranslationY() + AndroidUtilities.dp(39)) {
-                if (channelBlock != null && event.getAction() == MotionEvent.ACTION_UP) {
-                    MessagesController.getInstance(currentAccount).openByUserName(channelBlock.channel.username, parentFragment, 2);
+                if (parentAdapter.channelBlock != null && event.getAction() == MotionEvent.ACTION_UP) {
+                    MessagesController.getInstance(currentAccount).openByUserName(parentAdapter.channelBlock.channel.username, parentFragment, 2);
                     close(false, true);
                 }
                 return true;
@@ -6321,7 +6333,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         captionLayout.x = textX;
                         captionLayout.y = textY;
                     }
-                    creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                    creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                     if (creditLayout != null) {
                         height += AndroidUtilities.dp(4) + creditLayout.getHeight();
                         creditLayout.x = textX;
@@ -6657,7 +6669,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     creditOffset = AndroidUtilities.dp(8) + captionLayout.getHeight();
                     height += creditOffset + AndroidUtilities.dp(8);
                 }
-                creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                 if (creditLayout != null) {
                     height += AndroidUtilities.dp(4) + creditLayout.getHeight();
                 }
@@ -6976,7 +6988,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         creditOffset = AndroidUtilities.dp(4) + captionLayout.getHeight();
                         height += creditOffset + AndroidUtilities.dp(4);
                     }
-                    creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                    creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                     if (creditLayout != null) {
                         height += AndroidUtilities.dp(4) + creditLayout.getHeight();
                     }
@@ -7012,7 +7024,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             creditOffset = AndroidUtilities.dp(4) + captionLayout.getHeight();
                             height += creditOffset + AndroidUtilities.dp(4);
                         }
-                        creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                        creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                         if (creditLayout != null) {
                             height += AndroidUtilities.dp(4) + creditLayout.getHeight();
                         }
@@ -7141,7 +7153,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     textY = 0;
                     textX = AndroidUtilities.dp(18 + 14 * currentBlock.level);
                 }
-                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(18) - textX, textY, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, 0, parentAdapter);
+                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(18) - textX, textY, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, 0, parentAdapter);
                 if (textLayout != null) {
                     height = textLayout.getHeight();
                     if (currentBlock.level > 0) {
@@ -7559,7 +7571,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 } else {
                     creditOffset = 0;
                 }
-                creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                 if (creditLayout != null) {
                     height += AndroidUtilities.dp(4) + creditLayout.getHeight();
                     creditLayout.x = textX;
@@ -7753,7 +7765,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             tableLayout.removeAllChildrens();
             tableLayout.setDrawLines(currentBlock.bordered);
             tableLayout.setStriped(currentBlock.striped);
-            tableLayout.setRtl(isRtl);
+            tableLayout.setRtl(parentAdapter.isRtl);
 
             int maxCols = 0;
 
@@ -7861,7 +7873,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
             scrollView.layout(listX, listY, listX + scrollView.getMeasuredWidth(), listY + scrollView.getMeasuredHeight());
             if (firstLayout) {
-                if (isRtl) {
+                if (parentAdapter.isRtl) {
                     scrollView.setScrollX(tableLayout.getMeasuredWidth() - scrollView.getMeasuredWidth() + AndroidUtilities.dp(36));
                 } else {
                     scrollView.setScrollX(0);
@@ -8449,7 +8461,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 } else {
                     creditOffset = 0;
                 }
-                creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                 if (creditLayout != null) {
                     height += AndroidUtilities.dp(4) + creditLayout.getHeight();
                     creditLayout.x = textX;
@@ -8708,7 +8720,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 } else {
                     creditOffset = 0;
                 }
-                creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                 if (creditLayout != null) {
                     height += AndroidUtilities.dp(4) + creditLayout.getHeight();
                     creditLayout.x = textX;
@@ -8839,17 +8851,17 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
                 drawDot = !currentBlock.parent.pageBlockList.ordered;
 
-                if (isRtl) {
+                if (parentAdapter.isRtl) {
                     textX = AndroidUtilities.dp(18);
                 } else {
                     textX = AndroidUtilities.dp(18 + 6) + currentBlock.parent.maxNumWidth + currentBlock.parent.level * AndroidUtilities.dp(12);
                 }
                 int maxWidth = width - AndroidUtilities.dp(18) - textX;
-                if (isRtl) {
+                if (parentAdapter.isRtl) {
                     maxWidth -= AndroidUtilities.dp(6) + currentBlock.parent.maxNumWidth + currentBlock.parent.level * AndroidUtilities.dp(12);
                 }
                 if (currentBlock.textItem != null) {
-                    textLayout = createLayoutForText(this, null, currentBlock.textItem, maxWidth, textY, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                    textLayout = createLayoutForText(this, null, currentBlock.textItem, maxWidth, textY, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                     if (textLayout != null && textLayout.getLineCount() > 0) {
                         if (currentBlock.numLayout != null && currentBlock.numLayout.getLineCount() > 0) {
                             int ascent = textLayout.getLineAscent(0);
@@ -8863,7 +8875,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     if (blockLayout != null) {
                         if (blockLayout.itemView instanceof BlockParagraphCell) {
                             blockY -= AndroidUtilities.dp(8);
-                            if (!isRtl) {
+                            if (!parentAdapter.isRtl) {
                                 blockX -= AndroidUtilities.dp(18);
                             }
                             maxWidth += AndroidUtilities.dp(18);
@@ -8872,7 +8884,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                 blockLayout.itemView instanceof BlockSubheaderCell ||
                                 blockLayout.itemView instanceof BlockTitleCell ||
                                 blockLayout.itemView instanceof BlockSubtitleCell) {
-                            if (!isRtl) {
+                            if (!parentAdapter.isRtl) {
                                 blockX -= AndroidUtilities.dp(18);
                             }
                             maxWidth += AndroidUtilities.dp(18);
@@ -8959,7 +8971,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int width = getMeasuredWidth();
             if (currentBlock.numLayout != null) {
                 canvas.save();
-                if (isRtl) {
+                if (parentAdapter.isRtl) {
                     canvas.translate(width - AndroidUtilities.dp(15) - currentBlock.parent.maxNumWidth - currentBlock.parent.level * AndroidUtilities.dp(12), textY + numOffsetY - (drawDot ? AndroidUtilities.dp(1) : 0));
                 } else {
                     canvas.translate(AndroidUtilities.dp(15) + currentBlock.parent.maxNumWidth - (int) Math.ceil(currentBlock.numLayout.getLineWidth(0)) + currentBlock.parent.level * AndroidUtilities.dp(12), textY + numOffsetY - (drawDot ? AndroidUtilities.dp(1) : 0));
@@ -9078,18 +9090,18 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                     currentBlock.parent.maxNumWidth = Math.max(currentBlock.parent.maxNumWidth, (int) Math.ceil(listTextNumPaint.measureText("00.")));
                 }
-                if (isRtl) {
+                if (parentAdapter.isRtl) {
                     textX = AndroidUtilities.dp(18);
                 } else {
                     textX = AndroidUtilities.dp(18 + 6) + currentBlock.parent.maxNumWidth + currentBlock.parent.level * AndroidUtilities.dp(20);
                 }
                 verticalAlign = false;
                 int maxWidth = width - AndroidUtilities.dp(18) - textX;
-                if (isRtl) {
+                if (parentAdapter.isRtl) {
                     maxWidth -= AndroidUtilities.dp(6) + currentBlock.parent.maxNumWidth + currentBlock.parent.level * AndroidUtilities.dp(20);
                 }
                 if (currentBlock.textItem != null) {
-                    textLayout = createLayoutForText(this, null, currentBlock.textItem, maxWidth, textY, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                    textLayout = createLayoutForText(this, null, currentBlock.textItem, maxWidth, textY, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                     if (textLayout != null && textLayout.getLineCount() > 0) {
                         if (currentBlock.numLayout != null && currentBlock.numLayout.getLineCount() > 0) {
                             int ascent = textLayout.getLineAscent(0);
@@ -9103,7 +9115,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     if (blockLayout != null) {
                         if (blockLayout.itemView instanceof BlockParagraphCell) {
                             blockY -= AndroidUtilities.dp(8);
-                            if (!isRtl) {
+                            if (!parentAdapter.isRtl) {
                                 blockX -= AndroidUtilities.dp(18);
                             }
                             maxWidth += AndroidUtilities.dp(18);
@@ -9112,7 +9124,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                                 blockLayout.itemView instanceof BlockSubheaderCell ||
                                 blockLayout.itemView instanceof BlockTitleCell ||
                                 blockLayout.itemView instanceof BlockSubtitleCell) {
-                            if (!isRtl) {
+                            if (!parentAdapter.isRtl) {
                                 blockX -= AndroidUtilities.dp(18);
                             }
                             maxWidth += AndroidUtilities.dp(18);
@@ -9195,7 +9207,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int width = getMeasuredWidth();
             if (currentBlock.numLayout != null) {
                 canvas.save();
-                if (isRtl) {
+                if (parentAdapter.isRtl) {
                     canvas.translate(width - AndroidUtilities.dp(18) - currentBlock.parent.maxNumWidth - currentBlock.parent.level * AndroidUtilities.dp(20), textY + numOffsetY);
                 } else {
                     canvas.translate(AndroidUtilities.dp(18) + currentBlock.parent.maxNumWidth - (int) Math.ceil(currentBlock.numLayout.getLineWidth(0)) + currentBlock.parent.level * AndroidUtilities.dp(20), textY + numOffsetY);
@@ -9291,7 +9303,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int width = MeasureSpec.getSize(widthMeasureSpec);
             int h = AndroidUtilities.dp(39);
             if (currentBlock != null) {
-                textLayout = createLayoutForText(this, null, currentBlock.title, width - AndroidUtilities.dp(36 + 16), 0, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                textLayout = createLayoutForText(this, null, currentBlock.title, width - AndroidUtilities.dp(36 + 16), 0, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                 if (textLayout != null) {
                     h = Math.max(h, AndroidUtilities.dp(21) + textLayout.getHeight());
                     textY = (textLayout.getHeight() + AndroidUtilities.dp(21) - textLayout.getHeight()) / 2;
@@ -9532,7 +9544,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             } else {
                 description = item.url;
             }
-            textLayout2 = createLayoutForText(this, description, null, availableWidth, textY + textOffset, currentBlock, isRtl || isTitleRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, lineCount, parentAdapter);
+            textLayout2 = createLayoutForText(this, description, null, availableWidth, textY + textOffset, currentBlock, parentAdapter.isRtl || isTitleRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, lineCount, parentAdapter);
             if (textLayout2 != null) {
                 height += textLayout2.getHeight();
                 if (textLayout != null) {
@@ -9568,7 +9580,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
             canvas.restore();
             if (divider) {
-                canvas.drawLine(isRtl ? 0 : AndroidUtilities.dp(17), getMeasuredHeight() - 1, getMeasuredWidth() - (isRtl ? AndroidUtilities.dp(17) : 0), getMeasuredHeight() - 1, dividerPaint);
+                canvas.drawLine(parentAdapter.isRtl ? 0 : AndroidUtilities.dp(17), getMeasuredHeight() - 1, getMeasuredWidth() - (parentAdapter.isRtl ? AndroidUtilities.dp(17) : 0), getMeasuredHeight() - 1, dividerPaint);
             }
         }
 
@@ -9615,7 +9627,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int height = 0;
 
             if (currentBlock != null) {
-                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(36), textY, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(36), textY, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                 if (textLayout != null) {
                     height += AndroidUtilities.dp(8 + 8) + textLayout.getHeight();
                     textLayout.x = textX;
@@ -9712,7 +9724,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int height = 0;
 
             if (currentBlock != null) {
-                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(36), textY, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(36), textY, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                 if (textLayout != null) {
                     height += AndroidUtilities.dp(8 + 8) + textLayout.getHeight();
                     textLayout.x = textX;
@@ -9888,13 +9900,13 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     height += AndroidUtilities.dp(8) + textLayout.getHeight();
                 }
                 if (currentBlock.level > 0) {
-                    if (isRtl) {
+                    if (parentAdapter.isRtl) {
                         textX = AndroidUtilities.dp(14 + currentBlock.level * 14);
                     } else {
                         textX = AndroidUtilities.dp(14 * currentBlock.level) + AndroidUtilities.dp(18 + 14);
                     }
                 } else {
-                    if (isRtl) {
+                    if (parentAdapter.isRtl) {
                         textX = AndroidUtilities.dp(14);
                     } else {
                         textX = AndroidUtilities.dp(18 + 14);
@@ -9944,7 +9956,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 textLayout2.draw(canvas);
                 canvas.restore();
             }
-            if (isRtl) {
+            if (parentAdapter.isRtl) {
                 int x = getMeasuredWidth() - AndroidUtilities.dp(20);
                 canvas.drawRect(x, AndroidUtilities.dp(6), x + AndroidUtilities.dp(2), getMeasuredHeight() - AndroidUtilities.dp(6), quoteLinePaint);
             } else {
@@ -10042,8 +10054,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         public void setParentBlock(TLRPC.PageBlock block) {
             parentBlock = block;
-            if (channelBlock != null && parentBlock instanceof TLRPC.TL_pageBlockCover) {
-                channelCell.setBlock(channelBlock);
+            if (parentAdapter.channelBlock != null && parentBlock instanceof TLRPC.TL_pageBlockCover) {
+                channelCell.setBlock(parentAdapter.channelBlock);
                 channelCell.setVisibility(VISIBLE);
             }
         }
@@ -10057,8 +10069,8 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             float x = event.getX();
             float y = event.getY();
             if (channelCell.getVisibility() == VISIBLE && y > channelCell.getTranslationY() && y < channelCell.getTranslationY() + AndroidUtilities.dp(39)) {
-                if (channelBlock != null && event.getAction() == MotionEvent.ACTION_UP) {
-                    MessagesController.getInstance(currentAccount).openByUserName(channelBlock.channel.username, parentFragment, 2);
+                if (parentAdapter.channelBlock != null && event.getAction() == MotionEvent.ACTION_UP) {
+                    MessagesController.getInstance(currentAccount).openByUserName(parentAdapter.channelBlock.channel.username, parentFragment, 2);
                     close(false, true);
                 }
                 return true;
@@ -10177,7 +10189,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         creditOffset = AndroidUtilities.dp(4) + captionLayout.getHeight();
                         height += creditOffset + AndroidUtilities.dp(4);
                     }
-                    creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, 0, parentAdapter);
+                    creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, 0, parentAdapter);
                     if (creditLayout != null) {
                         height += AndroidUtilities.dp(4) + creditLayout.getHeight();
                     }
@@ -10484,7 +10496,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         captionLayout.x = textX;
                         captionLayout.y = textY;
                     }
-                    creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                    creditLayout = createLayoutForText(this, null, currentBlock.caption.credit, textWidth, textY + creditOffset, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                     if (creditLayout != null) {
                         height += AndroidUtilities.dp(4) + creditLayout.getHeight();
                         creditLayout.x = textX;
@@ -10700,7 +10712,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             imageView.measure(MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(39), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(39), MeasureSpec.EXACTLY));
             if (currentBlock != null) {
                 textLayout = createLayoutForText(this, currentBlock.channel.title, null, width - AndroidUtilities.dp(36 + 16) - buttonWidth, textY, currentBlock, StaticLayoutEx.ALIGN_LEFT(), parentAdapter);
-                if (isRtl) {
+                if (parentAdapter.isRtl) {
                     textX2 = textX;
                 } else {
                     textX2 = getMeasuredWidth() - textX - buttonWidth;
@@ -10727,7 +10739,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             canvas.drawRect(0, 0, getMeasuredWidth(), AndroidUtilities.dp(39), backgroundPaint);
             if (textLayout != null && textLayout.getLineCount() > 0) {
                 canvas.save();
-                if (isRtl) {
+                if (parentAdapter.isRtl) {
                     canvas.translate(getMeasuredWidth() - textLayout.getLineWidth(0) - textX, textY);
                 } else {
                     canvas.translate(textX, textY);
@@ -10814,7 +10826,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 textLayout = createLayoutForText(this, text, null, width - AndroidUtilities.dp(36), textY, currentBlock, parentAdapter);
                 if (textLayout != null) {
                     height += AndroidUtilities.dp(8 + 8) + textLayout.getHeight();
-                    if (isRtl) {
+                    if (parentAdapter.isRtl) {
                         textX = (int) Math.floor(width - textLayout.getLineWidth(0) - AndroidUtilities.dp(16));
                     } else {
                         textX = AndroidUtilities.dp(18);
@@ -10898,7 +10910,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 } else {
                     textY = AndroidUtilities.dp(8);
                 }
-                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(36), textY, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(36), textY, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                 if (textLayout != null) {
                     height += AndroidUtilities.dp(8 + 8) + textLayout.getHeight();
                     textLayout.x = textX;
@@ -10980,7 +10992,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 } else {
                     textY = AndroidUtilities.dp(8);
                 }
-                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(36), textY, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(36), textY, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                 if (textLayout != null) {
                     height += AndroidUtilities.dp(8 + 8) + textLayout.getHeight();
                     textLayout.x = textX;
@@ -11054,7 +11066,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     textY = 0;
                     textX = AndroidUtilities.dp(18 + 14 * currentBlock.level);
                 }
-                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(18) - textX, textY, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(18) - textX, textY, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                 if (textLayout != null) {
                     height = textLayout.getHeight();
                     if (currentBlock.level > 0) {
@@ -11238,7 +11250,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             int height = 0;
 
             if (currentBlock != null) {
-                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(36), textY, currentBlock, isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
+                textLayout = createLayoutForText(this, null, currentBlock.text, width - AndroidUtilities.dp(36), textY, currentBlock, parentAdapter.isRtl ? StaticLayoutEx.ALIGN_RIGHT() : Layout.Alignment.ALIGN_NORMAL, parentAdapter);
                 if (textLayout != null) {
                     height += AndroidUtilities.dp(8 + 8) + textLayout.getHeight();
                     textLayout.x = textX;
