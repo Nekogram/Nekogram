@@ -147,6 +147,11 @@ android {
             minifyEnabled true
             shrinkResources false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            multiDexEnabled true
+            dependencies {
+                implementation 'com.android.support:multidex:1.0.3'
+            }
+            manifestPlaceholders = [applicationClassName: "MultiDexApplicationLoader"]
         }
     }
 
@@ -169,6 +174,7 @@ android {
 
     sourceSets.release {
         manifest.srcFile 'config/release/AndroidManifest.xml'
+        java.srcDirs = ['src/multidex/java']
     }
 
     flavorDimensions "minApi"
