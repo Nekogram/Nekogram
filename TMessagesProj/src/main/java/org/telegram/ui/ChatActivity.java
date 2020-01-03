@@ -1722,7 +1722,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 headerItem.addSubItem(delete_history, R.drawable.msg_delete, LocaleController.getString("DeleteAllFromSelf", R.string.DeleteAllFromSelf));
             }
 
-            if (ChatObject.isChannel(currentChat) && !currentChat.creator) {
+            if (ChatObject.isChannel(currentChat)) {
                 if (!ChatObject.isNotInChat(currentChat)) {
                     if (currentChat.megagroup) {
                         headerItem.addSubItem(delete_chat, R.drawable.msg_leave, LocaleController.getString("LeaveMegaMenu", R.string.LeaveMegaMenu));
