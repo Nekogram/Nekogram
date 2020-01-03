@@ -644,7 +644,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
         blockCell = new TextCell(context);
         blockCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-        blockCell.setVisibility(ChatObject.isChannel(currentChat) || currentChat.creator ? View.VISIBLE : View.GONE);
+        blockCell.setVisibility(View.VISIBLE);
         blockCell.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putInt("chat_id", chatId);
