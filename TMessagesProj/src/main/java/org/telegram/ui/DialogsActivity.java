@@ -2591,7 +2591,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             int lower_id = (int) dialog.id;
             if (dialog.pinned) {
                 pinnedCount++;
-            } else {
+            } else if (!getMessagesController().isProxyDialog(dialog.id, false)) {
                 break;
             }
         }
@@ -2648,7 +2648,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } else {
                         pinnedCount++;
                     }
-                } else {
+                } else if (!getMessagesController().isProxyDialog(dialog.id, false)) {
                     break;
                 }
             }

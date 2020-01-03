@@ -5090,7 +5090,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         updateTopPanel(false);
         updatePinnedMessageView(true);
 
-        chatScrollHelper = new RecyclerAnimationScrollHelper(chatListView,chatLayoutManager);
+        chatScrollHelper = new RecyclerAnimationScrollHelper(chatListView, chatLayoutManager);
         chatScrollHelper.setScrollListener(() -> updateMessagesVisiblePart(false));
         chatScrollHelper.setAnimationCallback(chatScrollHelperCallback);
 
@@ -7575,7 +7575,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (viewBottom > height) {
                     viewBottom = viewTop + height;
                 }
-                messageCell.setVisiblePart(viewTop, viewBottom - viewTop, contentView.getHeightWithKeyboard() - AndroidUtilities.dp(48) - chatListView.getTop());
+                messageCell.setVisiblePart(viewTop, viewBottom - viewTop, contentView.getHeightWithKeyboard() - (inPreviewMode ? 0 : AndroidUtilities.dp(48)) - chatListView.getTop());
 
                 messageObject = messageCell.getMessageObject();
                 boolean isVideo;
@@ -9552,7 +9552,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     loading = false;
 
-                    if (chatListView != null) {
+                    if (chatListView != null && chatScrollHelper != null) {
                         if (first || scrollToTopOnResume || forceScrollToTop) {
                             forceScrollToTop = false;
                             if (!postponedScroll) {
@@ -10055,6 +10055,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     if (index >= 0 && index < messages.size()) {
                                         messages.remove(index);
                                     }
+                                }
+                                if (removed.hasValidGroupId()) {
+                                    MessageObject.GroupedMessages groupedMessages = groupedMessagesMap.get(removed.getGroupId());
+                                    groupedMessages.messages.remove(removed);
+                                    if (newGroups == null) {
+                                        newGroups = new LongSparseArray<>();
+                                    }
+                                    newGroups.put(groupedMessages.groupId, groupedMessages);
                                 }
                                 if (chatAdapter != null) {
                                     chatAdapter.notifyDataSetChanged();
@@ -16248,7 +16256,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (viewBottom > height) {
                             viewBottom = viewTop + height;
                         }
-                        messageCell.setVisiblePart(viewTop, viewBottom - viewTop, contentView.getHeightWithKeyboard() - AndroidUtilities.dp(48) - chatListView.getTop());
+                        messageCell.setVisiblePart(viewTop, viewBottom - viewTop, contentView.getHeightWithKeyboard() - (inPreviewMode ? 0 : AndroidUtilities.dp(48)) - chatListView.getTop());
 
                         return true;
                     }
