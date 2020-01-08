@@ -3398,13 +3398,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (folderId != 0) {
                     title = LocaleController.getString("ArchivedChats", R.string.ArchivedChats);
                 } else {
-                    title = "Nekogram";
+                    title = LocaleController.getString("Nekogram", R.string.Nekogram);
                 }
         }
         if (FilterPopup.getInstance(currentAccount).getTotalUnreadCount() == 0) {
-            return "\uD83D\uDE36 " + title;
+            return LocaleController.getString("NekogramEmojiDialogs", R.string.NekogramEmojiDialogs) + " " + title;
         }
-        return "\uD83E\uDD14 " + title;
+        return LocaleController.getString("NekogramEmojiDialogsUnread", R.string.NekogramEmojiDialogsUnread) + " " + title;
     }
 
     @Override

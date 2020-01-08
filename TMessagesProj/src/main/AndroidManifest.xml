@@ -280,7 +280,7 @@
 
         <service
             android:name="org.telegram.messenger.TgChooserTargetService"
-            android:label="@string/AppName"
+            android:label="@string/Nekogram"
             android:permission="android.permission.BIND_CHOOSER_TARGET_SERVICE">
             <intent-filter>
                 <action android:name="android.service.chooser.ChooserTargetService" />

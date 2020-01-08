@@ -972,7 +972,7 @@ public class PasscodeView extends FrameLayout {
                     fingerprintStatusTextView.setLayoutParams(layoutParams);
 
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setTitle("\uD83D\uDE36 Nekogram");
+                    builder.setTitle(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji));
                     builder.setView(relativeLayout);
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                     builder.setOnDismissListener(dialog -> {

@@ -1,5 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="Nekogram">Nekogram</string>
+    <string name="NekogramBeta">Nekogram Beta</string>
+    <string name="NekogramWithEmoji">&#128566; Nekogram</string>
+    <string name="NekogramEmojiDialogs">&#128566;</string>
+    <string name="NekogramEmojiDialogsUnread">&#129300;</string>
     <string name="NekoSettings">Neko Settings</string>
     <string name="IPv6">Try connecting through IPv6</string>
     <string name="MessageMenu">Message menu</string>
