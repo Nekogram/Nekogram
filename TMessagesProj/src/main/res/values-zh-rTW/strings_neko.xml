@@ -45,4 +45,5 @@
     <string name="HappyNewYearEveryday">天天跨年*</string>
     <string name="ShowFireworks">一起去看煙花吧*</string>
     <string name="SomeItemsNeedRestart">注 * 的選項可能需要重啟才能生效。</string>
+    <string name="DeleteDownloadedFile">刪除緩存的文件</string>
 </resources>

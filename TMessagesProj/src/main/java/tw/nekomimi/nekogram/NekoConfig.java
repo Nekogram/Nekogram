@@ -26,6 +26,7 @@ public class NekoConfig {
     public static boolean showPrPr = true;
     public static boolean showAdminActions = true;
     public static boolean showChangePermissions = true;
+    public static boolean showDeleteDownloadedFile = true;
 
     public static boolean xmas = false;
     public static boolean newYear = false;
@@ -58,6 +59,7 @@ public class NekoConfig {
                 editor.putBoolean("showPrPr", showPrPr);
                 editor.putBoolean("showAdminActions", showAdminActions);
                 editor.putBoolean("showChangePermissions", showChangePermissions);
+                editor.putBoolean("showDeleteDownloadedFile", showDeleteDownloadedFile);
                 editor.putBoolean("xmas", xmas);
                 editor.putBoolean("newYear", newYear);
                 editor.putBoolean("newYearEve", newYearEve);
@@ -91,6 +93,7 @@ public class NekoConfig {
             showPrPr = preferences.getBoolean("showPrPr", true);
             showAdminActions = preferences.getBoolean("showAdminActions", true);
             showChangePermissions = preferences.getBoolean("showChangePermissions", true);
+            showDeleteDownloadedFile = preferences.getBoolean("showDeleteDownloadedFile", true);
             xmas = preferences.getBoolean("xmas", false);
             newYear = preferences.getBoolean("newYear", false);
             newYearEve = preferences.getBoolean("newYearEve", false);
@@ -137,6 +140,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showChangePermissions", showChangePermissions);
+        editor.commit();
+    }
+
+    public static void toggleShowDeleteDownloadedFile() {
+        showDeleteDownloadedFile = !showDeleteDownloadedFile;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showDeleteDownloadedFile", showDeleteDownloadedFile);
         editor.commit();
     }
 

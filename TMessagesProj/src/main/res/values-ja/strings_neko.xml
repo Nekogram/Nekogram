@@ -45,4 +45,5 @@
     <string name="HappyNewYearEveryday">毎日がHappy New Year*</string>
     <string name="ShowFireworks">花火を見ましょう*</string>
     <string name="SomeItemsNeedRestart">注 * オプションを有効にするには、再起動が必要な場合があります。</string>
+    <string name="DeleteDownloadedFile">キャッシュを削除</string>
 </resources>

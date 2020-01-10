@@ -65,6 +65,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int showPrPrRow;
     private int showAdminActionsRow;
     private int showChangePermissionsRow;
+    private int showDeleteDownloadedFileRow;
     private int messageMenu2Row;
 
     private int chatRow;
@@ -167,6 +168,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 NekoConfig.toggleShowChangePermissions();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.showChangePermissions);
+                }
+            } else if (position == showDeleteDownloadedFileRow) {
+                NekoConfig.toggleShowDeleteDownloadedFile();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.showDeleteDownloadedFile);
                 }
             } else if (position == showPrPrRow) {
                 NekoConfig.toggleShowPrPr();
@@ -320,6 +326,7 @@ public class NekoSettingsActivity extends BaseFragment {
         showReportRow = rowCount++;
         showAdminActionsRow = rowCount++;
         showChangePermissionsRow = rowCount++;
+        showDeleteDownloadedFileRow = rowCount++;
         messageMenu2Row = rowCount++;
         settingsRow = rowCount++;
         hidePhoneRow = rowCount++;
@@ -440,7 +447,9 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == showAdminActionsRow) {
                         textCell.setTextAndCheck(LocaleController.getString("EditAdminRights", R.string.EditAdminRights), NekoConfig.showAdminActions, true);
                     } else if (position == showChangePermissionsRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("ChangePermissions", R.string.ChangePermissions), NekoConfig.showChangePermissions, false);
+                        textCell.setTextAndCheck(LocaleController.getString("ChangePermissions", R.string.ChangePermissions), NekoConfig.showChangePermissions, true);
+                    } else if (position == showDeleteDownloadedFileRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile), NekoConfig.showDeleteDownloadedFile, false);
                     } else if (position == hidePhoneRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HidePhone", R.string.HidePhone), NekoConfig.hidePhone, true);
                     } else if (position == inappCameraRow) {
@@ -494,7 +503,7 @@ public class NekoSettingsActivity extends BaseFragment {
             int position = holder.getAdapterPosition();
             return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow ||
                     position == useSystemEmojiRow || position == ipv6Row || position == typefaceRow ||
-                    position == showChangePermissionsRow || position == showAdminActionsRow || position == showReportRow ||
+                    position == showChangePermissionsRow || position == showDeleteDownloadedFileRow || position == showAdminActionsRow || position == showReportRow ||
                     position == showPrPrRow || position == showAddToSavedMessagesRow ||
                     position == nameOrderRow || position == forceTabletRow || position == mapPreviewRow ||
                     position == xmasRow || position == newYearRow || position == newYearEveRow || position == fireworksRow ||
@@ -545,7 +554,7 @@ public class NekoSettingsActivity extends BaseFragment {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == showAddToSavedMessagesRow || position == showPrPrRow || position == showReportRow ||
-                    position == showAdminActionsRow || position == showChangePermissionsRow ||
+                    position == showAdminActionsRow || position == showChangePermissionsRow || position == showDeleteDownloadedFileRow ||
                     position == transparentStatusBarRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
                     position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
