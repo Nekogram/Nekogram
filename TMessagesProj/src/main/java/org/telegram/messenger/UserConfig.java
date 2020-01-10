@@ -22,7 +22,7 @@ import java.io.File;
 public class UserConfig extends BaseController {
 
     public static int selectedAccount;
-    public final static int MAX_ACCOUNT_COUNT = 8;
+    public final static int MAX_ACCOUNT_COUNT = 32;
 
     private final Object sync = new Object();
     private boolean configLoaded;

@@ -152,9 +152,81 @@ ConnectionsManager& ConnectionsManager::getInstance(int32_t instanceNum) {
             static ConnectionsManager instance6(6);
             return instance6;
         case 7:
-        default:
             static ConnectionsManager instance7(7);
             return instance7;
+        case 8:
+            static ConnectionsManager instance8(8);
+            return instance8;
+        case 9:
+            static ConnectionsManager instance9(9);
+            return instance9;
+        case 10:
+            static ConnectionsManager instance10(10);
+            return instance10;
+        case 11:
+            static ConnectionsManager instance11(11);
+            return instance11;
+        case 12:
+            static ConnectionsManager instance12(12);
+            return instance12;
+        case 13:
+            static ConnectionsManager instance13(13);
+            return instance13;
+        case 14:
+            static ConnectionsManager instance14(14);
+            return instance14;
+        case 15:
+            static ConnectionsManager instance15(15);
+            return instance15;
+        case 16:
+            static ConnectionsManager instance16(16);
+            return instance16;
+        case 17:
+            static ConnectionsManager instance17(17);
+            return instance17;
+        case 18:
+            static ConnectionsManager instance18(18);
+            return instance18;
+        case 19:
+            static ConnectionsManager instance19(19);
+            return instance19;
+        case 20:
+            static ConnectionsManager instance20(20);
+            return instance20;
+        case 21:
+            static ConnectionsManager instance21(21);
+            return instance21;
+        case 22:
+            static ConnectionsManager instance22(22);
+            return instance22;
+        case 23:
+            static ConnectionsManager instance23(23);
+            return instance23;
+        case 24:
+            static ConnectionsManager instance24(24);
+            return instance24;
+        case 25:
+            static ConnectionsManager instance25(25);
+            return instance25;
+        case 26:
+            static ConnectionsManager instance26(26);
+            return instance26;
+        case 27:
+            static ConnectionsManager instance27(27);
+            return instance27;
+        case 28:
+            static ConnectionsManager instance28(28);
+            return instance28;
+        case 29:
+            static ConnectionsManager instance29(29);
+            return instance29;
+        case 30:
+            static ConnectionsManager instance30(30);
+            return instance30;
+        case 31:
+        default:
+            static ConnectionsManager instance31(31);
+            return instance31;
     }
 }
 
