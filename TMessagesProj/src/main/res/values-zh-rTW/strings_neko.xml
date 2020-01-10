@@ -46,4 +46,7 @@
     <string name="ShowFireworks">一起去看煙花吧*</string>
     <string name="SomeItemsNeedRestart">注 * 的選項可能需要重啟才能生效。</string>
     <string name="DeleteDownloadedFile">刪除緩存的文件</string>
+    <string name="TestBackend">異世界</string>
+    <string name="TestBackendOn">此賬戶將連接至測試後端伺服器。</string>
+    <string name="TestBackendOff">此賬戶將連接至生產後端伺服器。</string>
 </resources>

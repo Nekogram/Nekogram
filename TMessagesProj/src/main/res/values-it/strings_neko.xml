@@ -46,4 +46,7 @@
     <string name="ShowFireworks">Mostra fuochi d\'artificio*</string>
     <string name="SomeItemsNeedRestart">Le opzioni con * potrebbero avere bisogno di un riavvio per avere effetto.</string>
     <string name="DeleteDownloadedFile">Elimina il file scaricato</string>
+    <string name="TestBackend">Test Backend</string>
+    <string name="TestBackendOn">Questo account si connetterà al server di test.</string>
+    <string name="TestBackendOff">Questo account si connetterà al server principale.</string>
 </resources>

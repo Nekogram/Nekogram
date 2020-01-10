@@ -51,4 +51,7 @@
     <string name="ShowFireworks">Show fireworks*</string>
     <string name="SomeItemsNeedRestart">Options with * may need restart to take effect.</string>
     <string name="DeleteDownloadedFile">Delete downloaded file</string>
+    <string name="TestBackend">Test Backend</string>
+    <string name="TestBackendOn">This account will connect to the test backend.</string>
+    <string name="TestBackendOff">This account will connect to the production backend.</string>
 </resources>

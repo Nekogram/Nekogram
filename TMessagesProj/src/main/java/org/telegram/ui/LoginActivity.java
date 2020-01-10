@@ -1230,6 +1230,7 @@ public class LoginActivity extends BaseFragment {
         private TextView textView;
         private TextView textView2;
         private CheckBoxCell checkBoxCell;
+        private CheckBoxCell testBackendCell;
 
         private int countryState = 0;
 
@@ -1541,6 +1542,39 @@ public class LoginActivity extends BaseFragment {
                 });
             }
 
+            testBackendCell = new CheckBoxCell(context, 2);
+            testBackendCell.setText(LocaleController.getString("TestBackend", R.string.TestBackend), "", (ConnectionsManager.native_isTestBackend(currentAccount) != 0), false);
+            addView(testBackendCell, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));
+            testBackendCell.setOnClickListener(new OnClickListener() {
+
+                private Toast visibleToast;
+
+                @Override
+                public void onClick(View v) {
+                    if (getParentActivity() == null) {
+                        return;
+                    }
+                    CheckBoxCell cell = (CheckBoxCell) v;
+                    ConnectionsManager.native_switchBackend(currentAccount);
+                    boolean isTestBackend = ConnectionsManager.native_isTestBackend(currentAccount) != 0;
+                    cell.setChecked(isTestBackend, true);
+                    try {
+                        if (visibleToast != null) {
+                            visibleToast.cancel();
+                        }
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                    if (isTestBackend) {
+                        visibleToast = Toast.makeText(getParentActivity(), LocaleController.getString("TestBackendOn", R.string.TestBackendOn), Toast.LENGTH_SHORT);
+                        visibleToast.show();
+                    } else {
+                        visibleToast = Toast.makeText(getParentActivity(), LocaleController.getString("TestBackendOff", R.string.TestBackendOff), Toast.LENGTH_SHORT);
+                        visibleToast.show();
+                    }
+                }
+            });
+
             HashMap<String, String> languageMap = new HashMap<>();
             try {
                 BufferedReader reader = new BufferedReader(new InputStreamReader(getResources().getAssets().open("countries.txt")));
@@ -1729,7 +1763,7 @@ public class LoginActivity extends BaseFragment {
                         continue;
                     }
                     String userPhone = userConfig.getCurrentUser().phone;
-                    if (PhoneNumberUtils.compare(phone, userPhone)) {
+                    if (PhoneNumberUtils.compare(phone, userPhone) && ConnectionsManager.native_isTestBackend(currentAccount) == ConnectionsManager.native_isTestBackend(a)) {
                         final int num = a;
                         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                         builder.setTitle(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji));

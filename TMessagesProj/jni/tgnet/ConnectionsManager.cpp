@@ -1860,14 +1860,14 @@ void ConnectionsManager::setUserId(int32_t userId) {
 }
 
 void ConnectionsManager::switchBackend() {
-    scheduleTask([&] {
+    //scheduleTask([&] {
         currentDatacenterId = 1;
         testBackend = !testBackend;
         datacenters.clear();
         initDatacenters();
         saveConfig();
-        exit(1);
-    });
+        //exit(1);
+    //});
 }
 
 void ConnectionsManager::removeRequestFromGuid(int32_t requestToken) {
