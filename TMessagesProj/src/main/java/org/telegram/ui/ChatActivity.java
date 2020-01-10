@@ -13832,6 +13832,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (ChatObject.isChannel(currentChat)) {
                                 channelParticipant = ((TLRPC.TL_chatChannelParticipant) participant).channelParticipant;
                                 canEditAdmin = ChatObject.canAddAdmins(currentChat);
+                                if (canEditAdmin && (channelParticipant instanceof TLRPC.TL_channelParticipantCreator || channelParticipant instanceof TLRPC.TL_channelParticipantAdmin && !channelParticipant.can_edit)) {
+                                    canEditAdmin = false;
+                                }
                                 canRestrict = ChatObject.canBlockUsers(currentChat) && (!(channelParticipant instanceof TLRPC.TL_channelParticipantAdmin || channelParticipant instanceof TLRPC.TL_channelParticipantCreator) || channelParticipant.can_edit);
                                 editingAdmin = channelParticipant instanceof TLRPC.TL_channelParticipantAdmin;
                             } else {
@@ -13842,17 +13845,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                             if (canEditAdmin && NekoConfig.showAdminActions) {
                                 items.add(editingAdmin ? LocaleController.getString("EditAdminRights", R.string.EditAdminRights) : LocaleController.getString("SetAsAdmin", R.string.SetAsAdmin));
+                                icons.add(R.drawable.actions_addadmin);
                                 options.add(97);
-                                if (editingAdmin) {
-                                    icons.add(R.drawable.actions_addadmin);
-                                } else {
-                                    icons.add(R.drawable.add_admin);
-                                }
                             }
                             if (canRestrict && NekoConfig.showChangePermissions) {
                                 items.add(LocaleController.getString("ChangePermissions", R.string.ChangePermissions));
+                                icons.add(R.drawable.actions_permissions);
                                 options.add(98);
-                                icons.add(R.drawable.group_banned);
                             }
                         }
                     }
