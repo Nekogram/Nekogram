@@ -729,7 +729,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int chat_enc_timer = 13;
     private final static int chat_menu_attach = 14;
     private final static int clear_history = 15;
-    private final static int delete_history = 92;
+    private final static int delete_history = 26;
     private final static int delete_chat = 16;
     private final static int share_contact = 17;
     private final static int mute = 18;
@@ -13726,6 +13726,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             boolean allowPrpr = currentUser != null
                                     || (currentChat != null && ChatObject.canSendMessages(currentChat) && !currentChat.broadcast &&
                                     message.isFromUser());
+                            boolean allowViewHistory = currentUser == null
+                                    && (currentChat != null && !currentChat.broadcast && message.isFromUser());
+
                             if (allowRepeat) {
                                 items.add(LocaleController.getString("Repeat", R.string.Repeat));
                                 options.add(94);
@@ -13733,8 +13736,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             if (allowPrpr && NekoConfig.showPrPr) {
                                 items.add(LocaleController.getString("Prpr", R.string.Prpr));
-                                options.add(27);
+                                options.add(92);
                                 icons.add(R.drawable.msg_prpr);
+                            }
+                            if (allowViewHistory && NekoConfig.showViewHistory) {
+                                items.add(LocaleController.getString("ViewUserHistory", R.string.ViewHistory));
+                                options.add(90);
+                                icons.add(R.drawable.menu_recent);
                             }
                         }
                         if (allowUnpin) {
@@ -14685,7 +14693,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
                 break;
-            } case 27: {
+            } case 90: {
+                TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(selectedObject.messageOwner.from_id);
+                getMediaDataController().searchMessagesInChat("", dialog_id, mergeDialogId, classGuid, 0, user);
+                showMessagesSearchListView(true);
+                break;
+            } case 92: {
                 TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(selectedObject.messageOwner.from_id);
                 if (user.username != null) {
                     SendMessagesHelper.getInstance(currentAccount).sendMessage("/prpr@" + user.username, dialog_id, selectedObject, null, false,

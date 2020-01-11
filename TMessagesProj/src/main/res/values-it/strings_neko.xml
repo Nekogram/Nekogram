@@ -50,4 +50,5 @@
     <string name="TestBackendOn">Questo account si connetterà al server di test.</string>
     <string name="TestBackendOff">Questo account si connetterà al server principale.</string>
     <string name="HideProxySponsorChannel">Nascondi canale sponsor proxy</string>
+    <string name="ViewHistory">Visualizza la cronologia</string>
 </resources>

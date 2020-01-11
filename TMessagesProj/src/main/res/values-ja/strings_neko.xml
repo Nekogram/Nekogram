@@ -50,4 +50,5 @@
     <string name="TestBackendOn">このアカウントは、テストバックエンドに接続します。</string>
     <string name="TestBackendOff">このアカウントは、本番バックエンドに接続します。</string>
     <string name="HideProxySponsorChannel">Proxy sponsor channel を非表示</string>
+    <string name="ViewHistory">履歴を見る</string>
 </resources>

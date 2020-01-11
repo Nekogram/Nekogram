@@ -63,6 +63,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int showAddToSavedMessagesRow;
     private int showReportRow;
     private int showPrPrRow;
+    private int showViewHistoryRow;
     private int showAdminActionsRow;
     private int showChangePermissionsRow;
     private int showDeleteDownloadedFileRow;
@@ -179,6 +180,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 NekoConfig.toggleShowPrPr();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.showPrPr);
+                }
+            } else if (position == showViewHistoryRow) {
+                NekoConfig.toggleShowViewHistory();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.showViewHistory);
                 }
             } else if (position == showReportRow) {
                 NekoConfig.toggleShowReport();
@@ -335,6 +341,7 @@ public class NekoSettingsActivity extends BaseFragment {
         messageMenuRow = rowCount++;
         showAddToSavedMessagesRow = rowCount++;
         showPrPrRow = rowCount++;
+        showViewHistoryRow = rowCount++;
         showReportRow = rowCount++;
         showAdminActionsRow = rowCount++;
         showChangePermissionsRow = rowCount++;
@@ -454,6 +461,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages), NekoConfig.showAddToSavedMessages, true);
                     } else if (position == showPrPrRow) {
                         textCell.setTextAndCheck(LocaleController.getString("Prpr", R.string.Prpr), NekoConfig.showPrPr, true);
+                    } else if (position == showViewHistoryRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("ViewHistory", R.string.ViewHistory), NekoConfig.showViewHistory, true);
                     } else if (position == showReportRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ReportChat", R.string.ReportChat), NekoConfig.showReport, true);
                     } else if (position == showAdminActionsRow) {
@@ -518,7 +527,7 @@ public class NekoSettingsActivity extends BaseFragment {
             return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow ||
                     position == useSystemEmojiRow || position == ipv6Row || position == typefaceRow ||
                     position == showChangePermissionsRow || position == showDeleteDownloadedFileRow || position == showAdminActionsRow || position == showReportRow ||
-                    position == showPrPrRow || position == showAddToSavedMessagesRow ||
+                    position == showPrPrRow || position == showViewHistoryRow || position == showAddToSavedMessagesRow ||
                     position == nameOrderRow || position == forceTabletRow || position == mapPreviewRow ||
                     position == xmasRow || position == newYearRow || position == newYearEveRow || position == fireworksRow ||
                     position == transparentStatusBarRow || position == hideProxySponsorChannelRow;
@@ -569,7 +578,7 @@ public class NekoSettingsActivity extends BaseFragment {
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == showAddToSavedMessagesRow || position == showPrPrRow || position == showReportRow ||
                     position == showAdminActionsRow || position == showChangePermissionsRow || position == showDeleteDownloadedFileRow ||
-                    position == transparentStatusBarRow || position == hideProxySponsorChannelRow ||
+                    position == transparentStatusBarRow || position == hideProxySponsorChannelRow || position == showViewHistoryRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
                     position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
                     position == fireworksRow) {

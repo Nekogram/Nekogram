@@ -25,6 +25,7 @@ public class NekoConfig {
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
     public static boolean showPrPr = true;
+    public static boolean showViewHistory = true;
     public static boolean showAdminActions = true;
     public static boolean showChangePermissions = true;
     public static boolean showDeleteDownloadedFile = true;
@@ -59,6 +60,7 @@ public class NekoConfig {
                 editor.putBoolean("showAddToSavedMessages", showAddToSavedMessages);
                 editor.putBoolean("showReport", showReport);
                 editor.putBoolean("showPrPr", showPrPr);
+                editor.putBoolean("showViewHistory", showViewHistory);
                 editor.putBoolean("showAdminActions", showAdminActions);
                 editor.putBoolean("showChangePermissions", showChangePermissions);
                 editor.putBoolean("showDeleteDownloadedFile", showDeleteDownloadedFile);
@@ -94,6 +96,7 @@ public class NekoConfig {
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
             showPrPr = preferences.getBoolean("showPrPr", true);
+            showViewHistory = preferences.getBoolean("showViewHistory", true);
             showAdminActions = preferences.getBoolean("showAdminActions", true);
             showChangePermissions = preferences.getBoolean("showChangePermissions", true);
             showDeleteDownloadedFile = preferences.getBoolean("showDeleteDownloadedFile", true);
@@ -121,6 +124,14 @@ public class NekoConfig {
         editor.commit();
     }
 
+
+    public static void toggleShowViewHistory() {
+        showViewHistory = !showViewHistory;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showViewHistory", showViewHistory);
+        editor.commit();
+    }
 
     public static void toggleShowPrPr() {
         showPrPr = !showPrPr;
