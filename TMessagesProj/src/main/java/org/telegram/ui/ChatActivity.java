@@ -13716,7 +13716,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
                             options.add(95);
                             icons.add(R.drawable.msg_forward);
-                            if (NekoConfig.showAddToSavedMessages) {
+                            if (!UserObject.isUserSelf(currentUser) && NekoConfig.showAddToSavedMessages) {
                                 items.add(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages));
                                 options.add(93);
                                 icons.add(R.drawable.menu_saved);
