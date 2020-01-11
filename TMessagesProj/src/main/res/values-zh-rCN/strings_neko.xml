@@ -52,4 +52,5 @@
     <string name="HideProxySponsorChannel">隐藏代理赞助商频道</string>
     <string name="ViewHistory">显示历史消息</string>
     <string name="Nya">喵！</string>
+    <string name="saveCacheToPrivateDirectory">缓存媒体文件到应用私有目录下*</string>
 </resources>

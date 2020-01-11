@@ -82,6 +82,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int nameOrderRow;
     private int transparentStatusBarRow;
     private int hideProxySponsorChannelRow;
+    private int saveCacheToPrivateDirectoryRow;
     private int forceTabletRow;
     private int xmasRow;
     private int newYearRow;
@@ -217,6 +218,11 @@ public class NekoSettingsActivity extends BaseFragment {
                         MessagesController.getInstance(a).checkProxyInfo(true);
                     }
                 }
+            } else if (position == saveCacheToPrivateDirectoryRow) {
+                NekoConfig.toggleSaveCacheToPrivateDirectory();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.saveCacheToPrivateDirectory);
+                }
             } else if (position == useSystemEmojiRow) {
                 SharedConfig.useSystemEmoji = !SharedConfig.useSystemEmoji;
                 SharedPreferences.Editor editor = MessagesController.getGlobalMainSettings().edit();
@@ -336,6 +342,7 @@ public class NekoSettingsActivity extends BaseFragment {
         useSystemEmojiRow = rowCount++;
         ignoreBlockedRow = rowCount++;
         hideProxySponsorChannelRow = rowCount++;
+        saveCacheToPrivateDirectoryRow = Build.VERSION.SDK_INT >= 24 ? rowCount++ : -1;
         mapPreviewRow = rowCount++;
         chat2Row = rowCount++;
         messageMenuRow = rowCount++;
@@ -479,6 +486,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("TransparentStatusBar", R.string.TransparentStatusBar), NekoConfig.transparentStatusBar, true);
                     } else if (position == hideProxySponsorChannelRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HideProxySponsorChannel", R.string.HideProxySponsorChannel), NekoConfig.hideProxySponsorChannel, true);
+                    } else if(position == saveCacheToPrivateDirectoryRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("saveCacheToPrivateDirectory", R.string.saveCacheToPrivateDirectory), NekoConfig.saveCacheToPrivateDirectory, true);
                     } else if (position == useSystemEmojiRow) {
                         textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), SharedConfig.useSystemEmoji, true);
                     } else if (position == typefaceRow) {
@@ -530,7 +539,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == showPrPrRow || position == showViewHistoryRow || position == showAddToSavedMessagesRow ||
                     position == nameOrderRow || position == forceTabletRow || position == mapPreviewRow ||
                     position == xmasRow || position == newYearRow || position == newYearEveRow || position == fireworksRow ||
-                    position == transparentStatusBarRow || position == hideProxySponsorChannelRow;
+                    position == transparentStatusBarRow || position == hideProxySponsorChannelRow || position == saveCacheToPrivateDirectoryRow;
         }
 
         @Override
@@ -581,7 +590,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == transparentStatusBarRow || position == hideProxySponsorChannelRow || position == showViewHistoryRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
                     position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
-                    position == fireworksRow) {
+                    position == fireworksRow || position == saveCacheToPrivateDirectoryRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == messageMenuRow || position == chatRow) {
                 return 4;

@@ -52,4 +52,5 @@
     <string name="HideProxySponsorChannel">Nascondi canale sponsor proxy</string>
     <string name="ViewHistory">Visualizza la cronologia</string>
     <string name="Nya">Miao!</string>
+    <string name="saveCacheToPrivateDirectory">Salva la cache nella directory privata*</string>
 </resources>

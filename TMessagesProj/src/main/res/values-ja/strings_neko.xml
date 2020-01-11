@@ -52,4 +52,5 @@
     <string name="HideProxySponsorChannel">Proxy sponsor channel を非表示</string>
     <string name="ViewHistory">履歴を見る</string>
     <string name="Nya">にゃ!</string>
+    <string name="saveCacheToPrivateDirectory">Cache を private directory に保存する*</string>
 </resources>

@@ -92,6 +92,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class ThemeActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     public final static int THEME_TYPE_BASIC = 0;
@@ -389,7 +391,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             emojiRow = rowCount++;
             raiseToSpeakRow = rowCount++;
             sendByEnterRow = rowCount++;
-            saveToGalleryRow = rowCount++;
+            saveToGalleryRow = NekoConfig.saveCacheToPrivateDirectory ? -1 : rowCount++;
             distanceRow = rowCount++;
             settings2Row = rowCount++;
             stickersRow = rowCount++;

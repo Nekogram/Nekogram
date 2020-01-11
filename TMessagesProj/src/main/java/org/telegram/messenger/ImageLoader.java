@@ -66,6 +66,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class ImageLoader {
 
     private HashMap<String, Integer> bitmapUseCounts = new HashMap<>();
@@ -1778,8 +1780,12 @@ public class ImageLoader {
         }
 
         try {
-            if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                telegramPath = new File(Environment.getExternalStorageDirectory(), "Telegram");
+            if (NekoConfig.saveCacheToPrivateDirectory || Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+                if (NekoConfig.saveCacheToPrivateDirectory) {
+                    telegramPath = new File(ApplicationLoader.applicationContext.getFilesDir(), "Telegram");
+                } else {
+                    telegramPath = new File(Environment.getExternalStorageDirectory(), "Telegram");
+                }
                 telegramPath.mkdirs();
 
                 if (telegramPath.isDirectory()) {

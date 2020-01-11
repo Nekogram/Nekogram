@@ -57,4 +57,5 @@
     <string name="HideProxySponsorChannel">Hide proxy sponsor channel</string>
     <string name="ViewHistory">View history</string>
     <string name="Nya">Meow!</string>
+    <string name="saveCacheToPrivateDirectory">Save cache to private directory*</string>
 </resources>

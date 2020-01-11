@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
@@ -21,6 +22,7 @@ public class NekoConfig {
     public static boolean transparentStatusBar = true;
     public static boolean residentNotification = false;
     public static boolean hideProxySponsorChannel = false;
+    public static boolean saveCacheToPrivateDirectory = Build.VERSION.SDK_INT >= 24;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -57,6 +59,7 @@ public class NekoConfig {
                 editor.putBoolean("transparentStatusBar", transparentStatusBar);
                 editor.putBoolean("residentNotification", residentNotification);
                 editor.putBoolean("hideProxySponsorChannel", hideProxySponsorChannel);
+                editor.putBoolean("saveCacheToPrivateDirectory", saveCacheToPrivateDirectory);
                 editor.putBoolean("showAddToSavedMessages", showAddToSavedMessages);
                 editor.putBoolean("showReport", showReport);
                 editor.putBoolean("showPrPr", showPrPr);
@@ -93,6 +96,7 @@ public class NekoConfig {
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", true);
             residentNotification = preferences.getBoolean("residentNotification", false);
             hideProxySponsorChannel = preferences.getBoolean("hideProxySponsorChannel", false);
+            saveCacheToPrivateDirectory = preferences.getBoolean("saveCacheToPrivateDirectory", Build.VERSION.SDK_INT >= 24);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
             showPrPr = preferences.getBoolean("showPrPr", true);
@@ -249,6 +253,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("hideProxySponsorChannel", hideProxySponsorChannel);
+        editor.commit();
+    }
+
+    public static void toggleSaveCacheToPrivateDirectory() {
+        saveCacheToPrivateDirectory = !saveCacheToPrivateDirectory;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("saveCacheToPrivateDirectory", saveCacheToPrivateDirectory);
         editor.commit();
     }
 
