@@ -20,6 +20,7 @@ public class NekoConfig {
     public static int mapPreviewProvider = 0;
     public static boolean transparentStatusBar = true;
     public static boolean residentNotification = false;
+    public static boolean hideProxySponsorChannel = false;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -54,6 +55,7 @@ public class NekoConfig {
                 editor.putInt("mapPreviewProvider", mapPreviewProvider);
                 editor.putBoolean("transparentStatusBar", transparentStatusBar);
                 editor.putBoolean("residentNotification", residentNotification);
+                editor.putBoolean("hideProxySponsorChannel", hideProxySponsorChannel);
                 editor.putBoolean("showAddToSavedMessages", showAddToSavedMessages);
                 editor.putBoolean("showReport", showReport);
                 editor.putBoolean("showPrPr", showPrPr);
@@ -88,6 +90,7 @@ public class NekoConfig {
             mapPreviewProvider = preferences.getInt("mapPreviewProvider", 0);
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", true);
             residentNotification = preferences.getBoolean("residentNotification", false);
+            hideProxySponsorChannel = preferences.getBoolean("hideProxySponsorChannel", false);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
             showPrPr = preferences.getBoolean("showPrPr", true);
@@ -228,6 +231,14 @@ public class NekoConfig {
         } else {
             ApplicationLoader.applicationContext.stopService(duangIntent);
         }
+    }
+
+    public static void toggleHideProxySponsorChannel() {
+        hideProxySponsorChannel = !hideProxySponsorChannel;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("hideProxySponsorChannel", hideProxySponsorChannel);
+        editor.commit();
     }
 
     public static void toggleXmas() {

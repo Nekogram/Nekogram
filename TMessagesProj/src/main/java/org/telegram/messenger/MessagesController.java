@@ -54,6 +54,7 @@ import java.util.concurrent.CountDownLatch;
 import androidx.core.app.NotificationManagerCompat;
 
 import tw.nekomimi.nekogram.FilterPopup;
+import tw.nekomimi.nekogram.NekoConfig;
 
 public class MessagesController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
 
@@ -3659,7 +3660,7 @@ public class MessagesController extends BaseController implements NotificationCe
             removeCurrent = 1;
         }
         lastCheckProxyId++;
-        if (enabled && !TextUtils.isEmpty(proxyAddress) && !TextUtils.isEmpty(proxySecret)) {
+        if (!NekoConfig.hideProxySponsorChannel && enabled && !TextUtils.isEmpty(proxyAddress) && !TextUtils.isEmpty(proxySecret)) {
             checkingProxyInfo = true;
             int checkProxyId = lastCheckProxyId;
             TLRPC.TL_help_getProxyData req = new TLRPC.TL_help_getProxyData();

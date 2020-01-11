@@ -80,6 +80,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int hidePhoneRow;
     private int nameOrderRow;
     private int transparentStatusBarRow;
+    private int hideProxySponsorChannelRow;
     private int forceTabletRow;
     private int xmasRow;
     private int newYearRow;
@@ -200,6 +201,16 @@ public class NekoSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.transparentStatusBar);
                 }
                 AndroidUtilities.runOnUIThread(() -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme, false));
+            } else if (position == hideProxySponsorChannelRow) {
+                NekoConfig.toggleHideProxySponsorChannel();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.hideProxySponsorChannel);
+                }
+                for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+                    if (UserConfig.getInstance(a).isClientActivated()) {
+                        MessagesController.getInstance(a).checkProxyInfo(true);
+                    }
+                }
             } else if (position == useSystemEmojiRow) {
                 SharedConfig.useSystemEmoji = !SharedConfig.useSystemEmoji;
                 SharedPreferences.Editor editor = MessagesController.getGlobalMainSettings().edit();
@@ -318,6 +329,7 @@ public class NekoSettingsActivity extends BaseFragment {
         inappCameraRow = rowCount++;
         useSystemEmojiRow = rowCount++;
         ignoreBlockedRow = rowCount++;
+        hideProxySponsorChannelRow = rowCount++;
         mapPreviewRow = rowCount++;
         chat2Row = rowCount++;
         messageMenuRow = rowCount++;
@@ -456,6 +468,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("DebugMenuEnableCamera", R.string.DebugMenuEnableCamera), SharedConfig.inappCamera, true);
                     } else if (position == transparentStatusBarRow) {
                         textCell.setTextAndCheck(LocaleController.getString("TransparentStatusBar", R.string.TransparentStatusBar), NekoConfig.transparentStatusBar, true);
+                    } else if (position == hideProxySponsorChannelRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("HideProxySponsorChannel", R.string.HideProxySponsorChannel), NekoConfig.hideProxySponsorChannel, true);
                     } else if (position == useSystemEmojiRow) {
                         textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), SharedConfig.useSystemEmoji, true);
                     } else if (position == typefaceRow) {
@@ -507,7 +521,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == showPrPrRow || position == showAddToSavedMessagesRow ||
                     position == nameOrderRow || position == forceTabletRow || position == mapPreviewRow ||
                     position == xmasRow || position == newYearRow || position == newYearEveRow || position == fireworksRow ||
-                    position == transparentStatusBarRow;
+                    position == transparentStatusBarRow || position == hideProxySponsorChannelRow;
         }
 
         @Override
@@ -555,7 +569,7 @@ public class NekoSettingsActivity extends BaseFragment {
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == showAddToSavedMessagesRow || position == showPrPrRow || position == showReportRow ||
                     position == showAdminActionsRow || position == showChangePermissionsRow || position == showDeleteDownloadedFileRow ||
-                    position == transparentStatusBarRow ||
+                    position == transparentStatusBarRow || position == hideProxySponsorChannelRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
                     position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
                     position == fireworksRow) {

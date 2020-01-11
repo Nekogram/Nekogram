@@ -49,4 +49,5 @@
     <string name="TestBackend">异世界</string>
     <string name="TestBackendOn">此账户将连接至测试后端服务器。</string>
     <string name="TestBackendOff">此账户将连接至生产后端服务器。</string>
+    <string name="HideProxySponsorChannel">隐藏代理赞助商频道</string>
 </resources>
