@@ -14759,6 +14759,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     temp.deleteOnExit();
                 }
                 if (messageCell != null) {
+                    checkAutoDownloadMessage(selectedObject);
                     messageCell.updateButtonState(false, true, false);
                 }
                 break;
