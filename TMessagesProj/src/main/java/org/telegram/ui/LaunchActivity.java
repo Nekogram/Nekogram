@@ -1624,6 +1624,12 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                             } else if (url.contains("devices")) {
                                                 open_settings = 3;
                                             }
+                                        } else if (url.startsWith("tg:meow") || url.startsWith("tg://meow") || url.startsWith("tg:nya") || url.startsWith("tg://nya") || url.startsWith("tg:miao") || url.startsWith("tg://miao")) {
+                                            try {
+                                                Toast.makeText(LaunchActivity.this, LocaleController.getString("Nya", R.string.Nya), Toast.LENGTH_SHORT).show();
+                                            } catch (Exception e) {
+                                                FileLog.e(e);
+                                            }
                                         } else {
                                             unsupportedUrl = url.replace("tg://", "").replace("tg:", "");
                                             int index;

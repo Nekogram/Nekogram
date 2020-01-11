@@ -56,4 +56,5 @@
     <string name="TestBackendOff">This account will connect to the production backend.</string>
     <string name="HideProxySponsorChannel">Hide proxy sponsor channel</string>
     <string name="ViewHistory">View history</string>
+    <string name="Nya">Meow!</string>
 </resources>

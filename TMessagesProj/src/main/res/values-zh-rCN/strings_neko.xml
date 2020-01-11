@@ -51,4 +51,5 @@
     <string name="TestBackendOff">此账户将连接至生产后端服务器。</string>
     <string name="HideProxySponsorChannel">隐藏代理赞助商频道</string>
     <string name="ViewHistory">显示历史消息</string>
+    <string name="Nya">喵！</string>
 </resources>

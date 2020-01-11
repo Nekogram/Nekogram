@@ -51,4 +51,5 @@
     <string name="TestBackendOff">此賬戶將連接至生產後端伺服器。</string>
     <string name="HideProxySponsorChannel">隱藏代理贊助商頻道</string>
     <string name="ViewHistory">顯示歷史消息</string>
+    <string name="Nya">喵！</string>
 </resources>
