@@ -878,15 +878,21 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public void updateDialogsType(int type) {
+        int dialogsTypeOld = dialogsType;
         dialogsType = type;
         if (dialogsAdapter != null) {
             dialogsAdapter.setDialogsType(type);
             dialogsAdapter.notifyDataSetChanged();
         }
-        if (archivePullViewState == ARCHIVE_ITEM_STATE_HIDDEN && hasHiddenArchive()) {
-            layoutManager.scrollToPositionWithOffset(1, 0);
+        hideFloatingButton(false);
+        if (dialogsTypeOld == dialogsType) {
+            scrollToTop();
         } else {
-            layoutManager.scrollToPositionWithOffset(0, 0);
+            if (archivePullViewState == ARCHIVE_ITEM_STATE_HIDDEN && hasHiddenArchive()) {
+                layoutManager.scrollToPositionWithOffset(1, 0);
+            } else {
+                layoutManager.scrollToPositionWithOffset(0, 0);
+            }
         }
         actionBar.setTitle(getNekoTitle());
     }
@@ -1125,10 +1131,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         actionBar.setOnTouchListener((v, event) -> {
             int x = (int) event.getX();
             int y = (int) event.getY();
-            if (event.getAction() == MotionEvent.ACTION_UP) {
+            if (event.getAction() == MotionEvent.ACTION_DOWN) {
                 FilterPopup.getInstance(currentAccount).createMenu(this, x, y, folderId);
             }
-            return false;
+            return true;
         });
         actionBar.setTitleActionRunnable(() -> {
             hideFloatingButton(false);
