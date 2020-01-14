@@ -1,8 +1,5 @@
 package tw.nekomimi.nekogram;
 
-import android.app.Activity;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -16,8 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
-import androidx.recyclerview.widget.RecyclerView;
-
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
@@ -28,7 +23,6 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.Theme;
@@ -39,11 +33,11 @@ import java.util.ArrayList;
 
 public class FilterPopup {
     private static volatile FilterPopup[] Instance = new FilterPopup[UserConfig.MAX_ACCOUNT_COUNT];
-    public ArrayList<TLRPC.Dialog> dialogsUsers = new ArrayList<>();
-    public ArrayList<TLRPC.Dialog> dialogsGroups = new ArrayList<>();
-    public ArrayList<TLRPC.Dialog> dialogsChannels = new ArrayList<>();
-    public ArrayList<TLRPC.Dialog> dialogsBots = new ArrayList<>();
-    public ArrayList<TLRPC.Dialog> dialogsAdmin = new ArrayList<>();
+    private ArrayList<TLRPC.Dialog> dialogsUsers = new ArrayList<>();
+    private ArrayList<TLRPC.Dialog> dialogsGroups = new ArrayList<>();
+    private ArrayList<TLRPC.Dialog> dialogsChannels = new ArrayList<>();
+    private ArrayList<TLRPC.Dialog> dialogsBots = new ArrayList<>();
+    private ArrayList<TLRPC.Dialog> dialogsAdmin = new ArrayList<>();
     private ActionBarPopupWindow scrimPopupWindow;
     private int currentAccount;
 
@@ -229,10 +223,7 @@ public class FilterPopup {
         return count;
     }
 
-    public void createMenu(DialogsActivity dialogsActivity, ActionBar actionBar, Activity parentActivity, RecyclerView listView, View fragmentView, int x, int y, int folderId) {
-        if (actionBar.isActionModeShowed()) {
-            return;
-        }
+    public void createMenu(DialogsActivity dialogsActivity, int x, int y, int folderId) {
         ArrayList<CharSequence> items = new ArrayList<>();
         final ArrayList<Integer> options = new ArrayList<>();
         ArrayList<Integer> unreadCounts = new ArrayList<>();
@@ -300,21 +291,29 @@ public class FilterPopup {
 
         Rect rect = new Rect();
 
-        ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(parentActivity);
-        popupLayout.setOnTouchListener((view, event) -> {
-            if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
-                if (scrimPopupWindow != null && scrimPopupWindow.isShowing()) {
-                    actionBar.getHitRect(rect);
-                    if (!rect.contains((int) event.getX(), (int) event.getY())) {
+        ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(dialogsActivity.getParentActivity());
+        popupLayout.setOnTouchListener(new View.OnTouchListener() {
+
+            private int[] pos = new int[2];
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (event.getActionMasked() == MotionEvent.ACTION_DOWN) {
+                    if (scrimPopupWindow != null && scrimPopupWindow.isShowing()) {
+                        View contentView = scrimPopupWindow.getContentView();
+                        contentView.getLocationInWindow(pos);
+                        rect.set(pos[0], pos[1], pos[0] + contentView.getMeasuredWidth(), pos[1] + contentView.getMeasuredHeight());
+                        if (!rect.contains((int) event.getX(), (int) event.getY())) {
+                            scrimPopupWindow.dismiss();
+                        }
+                    }
+                } else if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) {
+                    if (scrimPopupWindow != null && scrimPopupWindow.isShowing()) {
                         scrimPopupWindow.dismiss();
                     }
                 }
-            } else if (event.getActionMasked() == MotionEvent.ACTION_OUTSIDE) {
-                if (scrimPopupWindow != null && scrimPopupWindow.isShowing()) {
-                    scrimPopupWindow.dismiss();
-                }
+                return false;
             }
-            return false;
         });
         popupLayout.setDispatchKeyEventListener(keyEvent -> {
             if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK && keyEvent.getRepeatCount() == 0 && scrimPopupWindow != null && scrimPopupWindow.isShowing()) {
@@ -322,14 +321,14 @@ public class FilterPopup {
             }
         });
         Rect backgroundPaddings = new Rect();
-        Drawable shadowDrawable = parentActivity.getResources().getDrawable(R.drawable.popup_fixed_alert).mutate();
-        shadowDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_dialogBackground), PorterDuff.Mode.MULTIPLY));
+        Drawable shadowDrawable = dialogsActivity.getParentActivity().getResources().getDrawable(R.drawable.popup_fixed_alert).mutate();
         shadowDrawable.getPadding(backgroundPaddings);
         popupLayout.setBackgroundDrawable(shadowDrawable);
+        popupLayout.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground));
 
-        LinearLayout linearLayout = new LinearLayout(parentActivity);
-        GridLayout gridLayout = new GridLayout(parentActivity);
-        RelativeLayout cascadeLayout = new RelativeLayout(parentActivity) {
+        LinearLayout linearLayout = new LinearLayout(dialogsActivity.getParentActivity());
+        GridLayout gridLayout = new GridLayout(dialogsActivity.getParentActivity());
+        RelativeLayout cascadeLayout = new RelativeLayout(dialogsActivity.getParentActivity()) {
             @Override
             protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
                 super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -341,7 +340,7 @@ public class FilterPopup {
 
         ScrollView scrollView;
         if (Build.VERSION.SDK_INT >= 21) {
-            scrollView = new ScrollView(parentActivity, null, 0, R.style.scrollbarShapeStyle) {
+            scrollView = new ScrollView(dialogsActivity.getParentActivity(), null, 0, R.style.scrollbarShapeStyle) {
                 @Override
                 protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
@@ -349,7 +348,7 @@ public class FilterPopup {
                 }
             };
         } else {
-            scrollView = new ScrollView(parentActivity);
+            scrollView = new ScrollView(dialogsActivity.getParentActivity());
         }
         scrollView.setClipToPadding(false);
         popupLayout.addView(scrollView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
@@ -358,13 +357,13 @@ public class FilterPopup {
         gridLayout.setMinimumWidth(AndroidUtilities.dp(200));
         linearLayout.setOrientation(LinearLayout.VERTICAL);
         for (int a = 0, N = items.size(); a < N; a++) {
-            ActionBarMenuSubItem cell = new ActionBarMenuSubItem(parentActivity);
+            ActionBarMenuSubItem cell = new ActionBarMenuSubItem(dialogsActivity.getParentActivity());
             cell.setText(items.get(a).toString());
             cell.setMinimumWidth(AndroidUtilities.dp(171));
-            ActionBarMenuSubItem cell2 = new ActionBarMenuSubItem(parentActivity);
+            ActionBarMenuSubItem cell2 = new ActionBarMenuSubItem(dialogsActivity.getParentActivity());
             linearLayout.addView(cell2);
             gridLayout.addView(cell);
-            UnreadCountBadgeView badge = new UnreadCountBadgeView(parentActivity, unreadCounts.get(a).toString());
+            UnreadCountBadgeView badge = new UnreadCountBadgeView(dialogsActivity.getParentActivity(), unreadCounts.get(a).toString());
             gridLayout.addView(badge);
             if (unreadCounts.get(a) == 0)
                 badge.setVisibility(View.GONE);
@@ -389,7 +388,7 @@ public class FilterPopup {
                 }
                 scrimPopupWindow = null;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    parentActivity.getWindow().getDecorView().setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
+                    dialogsActivity.getParentActivity().getWindow().getDecorView().setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
                 }
             }
         };
@@ -402,20 +401,16 @@ public class FilterPopup {
         scrimPopupWindow.setInputMethodMode(ActionBarPopupWindow.INPUT_METHOD_NOT_NEEDED);
         scrimPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED);
         scrimPopupWindow.getContentView().setFocusableInTouchMode(true);
-        int popupX = actionBar.getLeft() + x - popupLayout.getMeasuredWidth() + backgroundPaddings.left - AndroidUtilities.dp(28);
+        int popupX = x - popupLayout.getMeasuredWidth() + backgroundPaddings.left - AndroidUtilities.dp(28);
         if (popupX < AndroidUtilities.dp(6)) {
             popupX = AndroidUtilities.dp(6);
-        } else if (popupX > listView.getMeasuredWidth() - AndroidUtilities.dp(6) - popupLayout.getMeasuredWidth()) {
-            popupX = listView.getMeasuredWidth() - AndroidUtilities.dp(6) - popupLayout.getMeasuredWidth();
+        } else if (popupX > dialogsActivity.getFragmentView().getMeasuredWidth() - AndroidUtilities.dp(6) - popupLayout.getMeasuredWidth()) {
+            popupX = dialogsActivity.getFragmentView().getMeasuredWidth() - AndroidUtilities.dp(6) - popupLayout.getMeasuredWidth();
         }
-        if (AndroidUtilities.isTablet()) {
-            int[] location = new int[2];
-            fragmentView.getLocationInWindow(location);
-            popupX += location[0];
-        }
-        int popupY;
-        popupY = actionBar.getTop() + y;
-        scrimPopupWindow.showAtLocation(actionBar, Gravity.LEFT | Gravity.TOP, popupX, popupY);
+        int totalHeight = dialogsActivity.getFragmentView().getHeight();
+        int height = popupLayout.getMeasuredHeight();
+        int popupY = height < totalHeight ? y : AndroidUtilities.statusBarHeight;
+        scrimPopupWindow.showAtLocation(dialogsActivity.getFragmentView(), Gravity.LEFT | Gravity.TOP, popupX, popupY);
 
     }
 

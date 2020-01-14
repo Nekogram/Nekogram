@@ -1125,10 +1125,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         actionBar.setOnTouchListener((v, event) -> {
             int x = (int) event.getX();
             int y = (int) event.getY();
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                FilterPopup.getInstance(currentAccount).createMenu(this, actionBar, getParentActivity(), listView, fragmentView, x, y, folderId);
+            if (event.getAction() == MotionEvent.ACTION_UP) {
+                FilterPopup.getInstance(currentAccount).createMenu(this, x, y, folderId);
             }
-            return true;
+            return false;
         });
         actionBar.setTitleActionRunnable(() -> {
             hideFloatingButton(false);

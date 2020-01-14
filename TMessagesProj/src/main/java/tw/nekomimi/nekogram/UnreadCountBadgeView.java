@@ -29,7 +29,6 @@ public class UnreadCountBadgeView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         Paint paint = Theme.dialogs_countPaint;
-        // Paint paint = dialogMuted || currentDialogFolderId != 0 ? Theme.dialogs_countGrayPaint : Theme.dialogs_countPaint;
         paint.setAlpha(255);
         Theme.dialogs_countTextPaint.setAlpha(255);
         int countLeft = AndroidUtilities.dp(5.5f);
