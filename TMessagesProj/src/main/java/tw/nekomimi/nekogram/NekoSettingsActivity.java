@@ -558,7 +558,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == hideProxySponsorChannelRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HideProxySponsorChannel", R.string.HideProxySponsorChannel), NekoConfig.hideProxySponsorChannel, true);
                     } else if (position == saveCacheToPrivateDirectoryRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("saveCacheToPrivateDirectory", R.string.saveCacheToPrivateDirectory), NekoConfig.saveCacheToPrivateDirectory, true);
+                        textCell.setTextAndCheck(LocaleController.getString("SaveCacheToPrivateDirectory", R.string.SaveCacheToPrivateDirectory), NekoConfig.saveCacheToPrivateDirectory, true);
                     } else if (position == useSystemEmojiRow) {
                         textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), SharedConfig.useSystemEmoji, true);
                     } else if (position == typefaceRow) {
@@ -576,7 +576,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == fireworksRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ShowFireworks", R.string.ShowFireworks), NekoConfig.fireworks, false);
                     } else if (position == disableFilteringRow) {
-                        textCell.setTextAndCheck("Disable filtering", sensitiveEnabled, false);
+                        textCell.setTextAndCheck(LocaleController.getString("SensitiveDisableFiltering", R.string.SensitiveDisableFiltering), sensitiveEnabled, false);
                         textCell.setEnabled(sensitiveCanChange, null);
                     }
                     break;
@@ -592,7 +592,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == chatRow) {
                         headerCell.setText(LocaleController.getString("Chat", R.string.Chat));
                     } else if (position == sensitiveRow) {
-                        headerCell.setText("Sensitive content");
+                        headerCell.setText(LocaleController.getString("SensitiveContent", R.string.SensitiveContent));
                     }
                     break;
                 }
@@ -601,7 +601,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     if (position == needRestartRow) {
                         cell.setText(LocaleController.getString("SomeItemsNeedRestart", R.string.SomeItemsNeedRestart));
                     } else if (position == sensitive2Row) {
-                        cell.setText("Display sensitive media in public channels on all your Telegram devices.");
+                        cell.setText(LocaleController.getString("SensitiveAbout", R.string.SensitiveAbout));
                     }
                     break;
                 }

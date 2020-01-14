@@ -57,5 +57,8 @@
     <string name="HideProxySponsorChannel">Hide proxy sponsor channel</string>
     <string name="ViewHistory">View history</string>
     <string name="Nya">Meow!</string>
-    <string name="saveCacheToPrivateDirectory">Save cache to private directory*</string>
+    <string name="SaveCacheToPrivateDirectory">Save cache to private directory*</string>
+    <string name="SensitiveContent">Sensitive Content</string>
+    <string name="SensitiveDisableFiltering">Disable filtering</string>
+    <string name="SensitiveAbout">Display sensitive media in public channels on all your Telegram devices.</string>
 </resources>

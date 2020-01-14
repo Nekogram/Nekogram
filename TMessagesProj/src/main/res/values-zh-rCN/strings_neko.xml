@@ -52,5 +52,8 @@
     <string name="HideProxySponsorChannel">隐藏代理赞助商频道</string>
     <string name="ViewHistory">显示历史消息</string>
     <string name="Nya">喵！</string>
-    <string name="saveCacheToPrivateDirectory">缓存媒体文件到应用私有目录下*</string>
+    <string name="SaveCacheToPrivateDirectory">缓存媒体文件到应用私有目录下*</string>
+    <string name="SensitiveContent">敏感内容</string>
+    <string name="SensitiveDisableFiltering">关闭过滤</string>
+    <string name="SensitiveAbout">在所有 Telegram 设备上显示公共频道中的敏感媒体内容。</string>
 </resources>
