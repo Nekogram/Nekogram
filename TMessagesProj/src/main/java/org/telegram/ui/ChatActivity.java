@@ -17154,11 +17154,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         };
     }
 
-    private void openRightsEdit(int action, int user_id, TLRPC.ChatParticipant participant, TLRPC.TL_chatAdminRights adminRights, TLRPC.TL_chatBannedRights bannedRights) {
-        ChatRightsEditActivity fragment = new ChatRightsEditActivity(user_id, currentChat.id, adminRights, currentChat.default_banned_rights, bannedRights, "", action, true, false);
-
+    private void openRightsEdit(int action, int user_id, TLRPC.ChatParticipant participant, TLRPC.TL_chatAdminRights adminRights, TLRPC.TL_chatBannedRights bannedRights, String rank) {
+        ChatRightsEditActivity fragment = new ChatRightsEditActivity(user_id, currentChat.id, adminRights, currentChat.default_banned_rights, bannedRights, rank, action, true, false);
         fragment.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() {
-
             @Override
             public void didSetRights(int rights, TLRPC.TL_chatAdminRights rightsAdmin, TLRPC.TL_chatBannedRights rightsBanned, String rank) {
                 if (action == 0) {
@@ -17166,14 +17164,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         TLRPC.TL_chatChannelParticipant channelParticipant1 = ((TLRPC.TL_chatChannelParticipant) participant);
                         if (rights == 1) {
                             channelParticipant1.channelParticipant = new TLRPC.TL_channelParticipantAdmin();
+                            channelParticipant1.channelParticipant.flags |= 4;
                         } else {
                             channelParticipant1.channelParticipant = new TLRPC.TL_channelParticipant();
                         }
-                        channelParticipant1.channelParticipant.inviter_id = getUserConfig().getClientUserId();
+                        channelParticipant1.channelParticipant.inviter_id = UserConfig.getInstance(currentAccount).getClientUserId();
                         channelParticipant1.channelParticipant.user_id = participant.user_id;
                         channelParticipant1.channelParticipant.date = participant.date;
                         channelParticipant1.channelParticipant.banned_rights = rightsBanned;
                         channelParticipant1.channelParticipant.admin_rights = rightsAdmin;
+                        channelParticipant1.channelParticipant.rank = rank;
                     } else if (participant instanceof TLRPC.ChatParticipant) {
                         TLRPC.ChatParticipant newParticipant;
                         if (rights == 1) {
@@ -17192,7 +17192,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 } else if (action == 1) {
                     if (rights == 0) {
                         if (currentChat.megagroup && chatInfo != null && chatInfo.participants != null) {
-                            boolean changed = false;
                             for (int a = 0; a < chatInfo.participants.participants.size(); a++) {
                                 TLRPC.ChannelParticipant p = ((TLRPC.TL_chatChannelParticipant) chatInfo.participants.participants.get(a)).channelParticipant;
                                 if (p.user_id == participant.user_id) {
@@ -17200,7 +17199,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         chatInfo.participants_count--;
                                     }
                                     chatInfo.participants.participants.remove(a);
-                                    changed = true;
                                     break;
                                 }
                             }
@@ -17209,7 +17207,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     TLRPC.ChatParticipant p = chatInfo.participants.participants.get(a);
                                     if (p.user_id == participant.user_id) {
                                         chatInfo.participants.participants.remove(a);
-                                        changed = true;
                                         break;
                                     }
                                 }
@@ -17221,7 +17218,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override
             public void didChangeOwner(TLRPC.User user) {
-                undoView.showWithAction(-currentChat.id, currentChat.megagroup ? UndoView.ACTION_OWNER_TRANSFERED_GROUP : UndoView.ACTION_OWNER_TRANSFERED_CHANNEL, user);
+                undoView.showWithAction(currentChat.id, UndoView.ACTION_OWNER_TRANSFERED_GROUP, user);
             }
         });
         presentFragment(fragment);
@@ -17239,7 +17236,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         for (int a = 0; a < chatInfo.participants.participants.size(); a++) {
             TLRPC.ChatParticipant participant = chatInfo.participants.participants.get(a);
-            if (participant.user_id != selectedObject.messageOwner.from_id) {
+            if (participant.user_id != selectedObject.messageOwner.from_id || participant.user_id == getUserConfig().getCurrentUser().id) {
                 continue;
             }
             final TLRPC.ChannelParticipant channelParticipant;
@@ -17254,11 +17251,21 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 builder2.setTitle(LocaleController.getString("AppName", R.string.AppName));
                 builder2.setMessage(LocaleController.formatString("AdminWillBeRemoved", R.string.AdminWillBeRemoved, ContactsController.formatName(user.first_name, user.last_name)));
                 int finalAction = action;
-                builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialog, which) -> openRightsEdit(finalAction, user.id, participant, channelParticipant != null ? channelParticipant.admin_rights : null, channelParticipant != null ? channelParticipant.banned_rights : null));
+                builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialog, which) -> {
+                    if (channelParticipant != null) {
+                        openRightsEdit(finalAction, user.id, participant, channelParticipant.admin_rights, channelParticipant.banned_rights, channelParticipant.rank);
+                    } else {
+                        openRightsEdit(finalAction, user.id, participant, null, null, "");
+                    }
+                });
                 builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder2.create());
             } else {
-                openRightsEdit(action, user.id, participant, channelParticipant != null ? channelParticipant.admin_rights : null, channelParticipant != null ? channelParticipant.banned_rights : null);
+                if (channelParticipant != null) {
+                    openRightsEdit(action, user.id, participant, channelParticipant.admin_rights, channelParticipant.banned_rights, channelParticipant.rank);
+                } else {
+                    openRightsEdit(action, user.id, participant, null, null, "");
+                }
             }
         }
     }
