@@ -13,12 +13,11 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 
-import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.BaseController;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
@@ -31,24 +30,23 @@ import org.telegram.ui.DialogsActivity;
 
 import java.util.ArrayList;
 
-public class FilterPopup {
+public class FilterPopup extends BaseController {
     private static volatile FilterPopup[] Instance = new FilterPopup[UserConfig.MAX_ACCOUNT_COUNT];
+    private ArrayList<TLRPC.Dialog> dialogsAdmin = new ArrayList<>();
     private ArrayList<TLRPC.Dialog> dialogsUsers = new ArrayList<>();
     private ArrayList<TLRPC.Dialog> dialogsGroups = new ArrayList<>();
     private ArrayList<TLRPC.Dialog> dialogsChannels = new ArrayList<>();
     private ArrayList<TLRPC.Dialog> dialogsBots = new ArrayList<>();
-    private ArrayList<TLRPC.Dialog> dialogsAdmin = new ArrayList<>();
     private ActionBarPopupWindow scrimPopupWindow;
-    private int currentAccount;
 
     public FilterPopup(int num) {
-        currentAccount = num;
+        super(num);
     }
 
     public static FilterPopup getInstance(int num) {
         FilterPopup localInstance = Instance[num];
         if (localInstance == null) {
-            synchronized (MessagesController.class) {
+            synchronized (FilterPopup.class) {
                 localInstance = Instance[num];
                 if (localInstance == null) {
                     Instance[num] = localInstance = new FilterPopup(num);
@@ -77,7 +75,7 @@ public class FilterPopup {
     public void sortDialogs(TLRPC.Dialog dialog, int high_id, int lower_id) {
         if (lower_id != 0 && high_id != 1) {
             if (DialogObject.isChannel(dialog)) {
-                TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(-lower_id);
+                TLRPC.Chat chat = getMessagesController().getChat(-lower_id);
                 if (chat != null) {
                     if (chat.megagroup) {
                         dialogsGroups.add(dialog);
@@ -90,7 +88,7 @@ public class FilterPopup {
             } else if (lower_id < 0) {
                 dialogsGroups.add(dialog);
             } else {
-                TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(lower_id);
+                TLRPC.User user = getMessagesController().getUser(lower_id);
                 if (user != null) {
                     if (user.bot)
                         dialogsBots.add(dialog);
@@ -99,7 +97,7 @@ public class FilterPopup {
                 }
             }
         } else {
-            TLRPC.EncryptedChat encryptedChat = MessagesController.getInstance(currentAccount).getEncryptedChat(high_id);
+            TLRPC.EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(high_id);
             if (encryptedChat != null)
                 dialogsUsers.add(dialog);
         }
@@ -110,7 +108,7 @@ public class FilterPopup {
             return false;
         ArrayList<TLRPC.Dialog> dialogs = getDialogs(type, 0);
         if (dialogs == null)
-            return MessagesController.getInstance(currentAccount).hasHiddenArchive();
+            return getMessagesController().hasHiddenArchive();
         for (TLRPC.Dialog dialog : dialogs) {
             if (dialog instanceof TLRPC.TL_dialogFolder) {
                 return true;
@@ -125,7 +123,7 @@ public class FilterPopup {
             if (dialog instanceof TLRPC.TL_dialogFolder) {
                 continue;
             }
-            if (!MessagesController.getInstance(currentAccount).isDialogMuted(dialog.id)) {
+            if (!getMessagesController().isDialogMuted(dialog.id)) {
                 dialogs.add(dialog);
             }
         }
@@ -133,8 +131,7 @@ public class FilterPopup {
     }
 
     public ArrayList<TLRPC.Dialog> getDialogs(int type, int folderId) {
-        MessagesController messagesController = AccountInstance.getInstance(currentAccount).getMessagesController();
-        ArrayList<TLRPC.Dialog> allDialogs = new ArrayList<>(messagesController.getDialogs(folderId));
+        ArrayList<TLRPC.Dialog> allDialogs = new ArrayList<>(getMessagesController().getDialogs(folderId));
         ArrayList<TLRPC.Dialog> folders = new ArrayList<>();
         ArrayList<ArrayList<TLRPC.Dialog>> folderDialogs = new ArrayList<>();
 
@@ -142,7 +139,7 @@ public class FilterPopup {
             if (dialog instanceof TLRPC.TL_dialogFolder) {
                 folders.add(dialog);
                 TLRPC.TL_dialogFolder dialogFolder = (TLRPC.TL_dialogFolder) dialog;
-                folderDialogs.add(new ArrayList<>(messagesController.getDialogs(dialogFolder.folder.id)));
+                folderDialogs.add(new ArrayList<>(getMessagesController().getDialogs(dialogFolder.folder.id)));
             }
         }
 
@@ -200,15 +197,14 @@ public class FilterPopup {
                 return null;
         }
         if (folderId != 0 && allDialogs.isEmpty()) {
-            allDialogs = new ArrayList<>(messagesController.getDialogs(folderId));
+            allDialogs = new ArrayList<>(getMessagesController().getDialogs(folderId));
         }
         dialogs.addAll(allDialogs);
         return dialogs;
     }
 
     public int getTotalUnreadCount() {
-        MessagesController messagesController = AccountInstance.getInstance(currentAccount).getMessagesController();
-        ArrayList<TLRPC.Dialog> allDialogs = new ArrayList<>(messagesController.getDialogs(0));
+        ArrayList<TLRPC.Dialog> allDialogs = new ArrayList<>(getMessagesController().getDialogs(0));
         return getDialogsUnreadCount(allDialogs);
     }
 
@@ -216,7 +212,7 @@ public class FilterPopup {
         int count = 0;
         for (TLRPC.Dialog dialog : dialogs) {
             if (!(dialog instanceof TLRPC.TL_dialogFolder)
-                    && !MessagesController.getInstance(currentAccount).isDialogMuted(dialog.id)) {
+                    && !getMessagesController().isDialogMuted(dialog.id)) {
                 count += dialog.unread_count;
             }
         }
@@ -228,8 +224,7 @@ public class FilterPopup {
         final ArrayList<Integer> options = new ArrayList<>();
         ArrayList<Integer> unreadCounts = new ArrayList<>();
 
-        MessagesController messagesController = AccountInstance.getInstance(currentAccount).getMessagesController();
-        ArrayList<TLRPC.Dialog> allDialogs = new ArrayList<>(messagesController.getDialogs(folderId));
+        ArrayList<TLRPC.Dialog> allDialogs = new ArrayList<>(getMessagesController().getDialogs(folderId));
 
         items.add(LocaleController.getString("All", R.string.All));
         options.add(DialogType.All);
