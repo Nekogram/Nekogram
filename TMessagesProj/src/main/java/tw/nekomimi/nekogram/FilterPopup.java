@@ -147,7 +147,7 @@ public class FilterPopup {
         for (TLRPC.Dialog dialog : allDialogs) {
             if (dialog instanceof TLRPC.TL_dialogFolder) {
                 folders.add(dialog);
-                TLRPC.TL_dialogFolder dialogFolder = (TLRPC.TL_dialogFolder)dialog;
+                TLRPC.TL_dialogFolder dialogFolder = (TLRPC.TL_dialogFolder) dialog;
                 folderDialogs.add(new ArrayList<>(messagesController.getDialogs(dialogFolder.folder.id)));
             }
         }
@@ -222,7 +222,7 @@ public class FilterPopup {
         int count = 0;
         for (TLRPC.Dialog dialog : dialogs) {
             if (!(dialog instanceof TLRPC.TL_dialogFolder)
-                && !MessagesController.getInstance(currentAccount).isDialogMuted(dialog.id)) {
+                    && !MessagesController.getInstance(currentAccount).isDialogMuted(dialog.id)) {
                 count += dialog.unread_count;
             }
         }
@@ -420,9 +420,6 @@ public class FilterPopup {
     }
 
     public static class DialogType {
-        public static boolean isDialogsType(int dialogsType) {
-            return dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 12);
-        }
         public static final int All = 0;
         public static final int Users = 7;
         public static final int Groups = 8;
@@ -430,5 +427,9 @@ public class FilterPopup {
         public static final int Bots = 10;
         public static final int Admin = 11;
         public static final int Unmuted = 12;
+
+        public static boolean isDialogsType(int dialogsType) {
+            return dialogsType == 0 || (dialogsType >= 7 && dialogsType <= 12);
+        }
     }
 }

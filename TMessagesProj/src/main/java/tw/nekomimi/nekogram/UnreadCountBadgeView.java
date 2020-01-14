@@ -9,16 +9,14 @@ import android.text.StaticLayout;
 import android.view.View;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.LocaleController;
 import org.telegram.ui.ActionBar.Theme;
 
 public class UnreadCountBadgeView extends View {
 
     public String countString;
-
-    private RectF rect = new RectF();
     StaticLayout countLayout;
     int countWidth;
+    private RectF rect = new RectF();
 
     public UnreadCountBadgeView(Context context, String countString) {
         super(context);

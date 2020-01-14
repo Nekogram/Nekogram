@@ -1,15 +1,15 @@
 package tw.nekomimi.nekogram;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Build;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
@@ -17,9 +17,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BuildVars;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -27,6 +24,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -37,12 +35,11 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.NotificationsCheckCell;
 import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
-import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
-import org.telegram.ui.Components.EditTextBoldCursor;
+import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 
@@ -52,8 +49,16 @@ public class NekoSettingsActivity extends BaseFragment {
 
     private RecyclerListView listView;
     private ListAdapter listAdapter;
+    private AnimatorSet animatorSet;
+
+    private boolean sensitiveCanChange = false;
+    private boolean sensitiveEnabled = false;
 
     private int rowCount;
+
+    private int sensitiveRow;
+    private int disableFilteringRow;
+    private int sensitive2Row;
 
     private int connectionRow;
     private int ipv6Row;
@@ -318,6 +323,22 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.fireworks);
                 }
+            } else if (position == disableFilteringRow) {
+                sensitiveEnabled = !sensitiveEnabled;
+                TLRPC.TL_account_setContentSettings req = new TLRPC.TL_account_setContentSettings();
+                req.sensitive_enabled = sensitiveEnabled;
+                AlertDialog progressDialog = new AlertDialog(getParentActivity(), 3);
+                progressDialog.show();
+                getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+                    progressDialog.dismiss();
+                    if (error == null) {
+                        if (response instanceof TLRPC.TL_boolTrue && view instanceof TextCheckCell) {
+                            ((TextCheckCell) view).setChecked(sensitiveEnabled);
+                        }
+                    } else {
+                        AndroidUtilities.runOnUIThread(() -> AlertsCreator.processError(currentAccount, error, this, req));
+                    }
+                }));
             }
         });
 
@@ -328,6 +349,7 @@ public class NekoSettingsActivity extends BaseFragment {
     public void onResume() {
         super.onResume();
         if (listAdapter != null) {
+            checkSensitive();
             listAdapter.notifyDataSetChanged();
         }
     }
@@ -365,6 +387,9 @@ public class NekoSettingsActivity extends BaseFragment {
         newYearEveRow = rowCount++;
         fireworksRow = rowCount++;
         needRestartRow = rowCount++;
+        sensitiveRow = rowCount++;
+        disableFilteringRow = rowCount++;
+        sensitive2Row = rowCount++;
         if (notify && listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
@@ -408,6 +433,52 @@ public class NekoSettingsActivity extends BaseFragment {
                 new ThemeDescription(listView, 0, new Class[]{TextDetailSettingsCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText),
                 new ThemeDescription(listView, 0, new Class[]{TextDetailSettingsCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2),
         };
+    }
+
+    private void checkSensitive() {
+        TLRPC.TL_account_getContentSettings req = new TLRPC.TL_account_getContentSettings();
+        getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+            if (error == null) {
+                TLRPC.TL_account_contentSettings settings = (TLRPC.TL_account_contentSettings) response;
+                sensitiveEnabled = settings.sensitive_enabled;
+                sensitiveCanChange = settings.sensitive_can_change;
+                int count = listView.getChildCount();
+                ArrayList<Animator> animators = new ArrayList<>();
+                for (int a = 0; a < count; a++) {
+                    View child = listView.getChildAt(a);
+                    RecyclerListView.Holder holder = (RecyclerListView.Holder) listView.getChildViewHolder(child);
+                    int position = holder.getAdapterPosition();
+                    if (position == disableFilteringRow) {
+                        TextCheckCell checkCell = (TextCheckCell) holder.itemView;
+                        checkCell.setChecked(sensitiveEnabled);
+                        checkCell.setEnabled(sensitiveCanChange, animators);
+                        if (sensitiveCanChange) {
+                            if (!animators.isEmpty()) {
+                                if (animatorSet != null) {
+                                    animatorSet.cancel();
+                                }
+                                animatorSet = new AnimatorSet();
+                                animatorSet.playTogether(animators);
+                                animatorSet.addListener(new AnimatorListenerAdapter() {
+                                    @Override
+                                    public void onAnimationEnd(Animator animator) {
+                                        if (animator.equals(animatorSet)) {
+                                            animatorSet = null;
+                                        }
+                                    }
+                                });
+                                animatorSet.setDuration(150);
+                                animatorSet.start();
+                            }
+                        }
+
+                    }
+                }
+            } else {
+                AndroidUtilities.runOnUIThread(() -> AlertsCreator.processError(currentAccount, error, this, req));
+            }
+        }));
+
     }
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
@@ -486,7 +557,7 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("TransparentStatusBar", R.string.TransparentStatusBar), NekoConfig.transparentStatusBar, true);
                     } else if (position == hideProxySponsorChannelRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HideProxySponsorChannel", R.string.HideProxySponsorChannel), NekoConfig.hideProxySponsorChannel, true);
-                    } else if(position == saveCacheToPrivateDirectoryRow) {
+                    } else if (position == saveCacheToPrivateDirectoryRow) {
                         textCell.setTextAndCheck(LocaleController.getString("saveCacheToPrivateDirectory", R.string.saveCacheToPrivateDirectory), NekoConfig.saveCacheToPrivateDirectory, true);
                     } else if (position == useSystemEmojiRow) {
                         textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), SharedConfig.useSystemEmoji, true);
@@ -504,6 +575,9 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("HappyNewYearEveryday", R.string.HappyNewYearEveryday), NekoConfig.newYearEve, true);
                     } else if (position == fireworksRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ShowFireworks", R.string.ShowFireworks), NekoConfig.fireworks, false);
+                    } else if (position == disableFilteringRow) {
+                        textCell.setTextAndCheck("Disable filtering", sensitiveEnabled, false);
+                        textCell.setEnabled(sensitiveCanChange, null);
                     }
                     break;
                 }
@@ -517,6 +591,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         headerCell.setText(LocaleController.getString("Connection", R.string.Connection));
                     } else if (position == chatRow) {
                         headerCell.setText(LocaleController.getString("Chat", R.string.Chat));
+                    } else if (position == sensitiveRow) {
+                        headerCell.setText("Sensitive content");
                     }
                     break;
                 }
@@ -524,6 +600,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     if (position == needRestartRow) {
                         cell.setText(LocaleController.getString("SomeItemsNeedRestart", R.string.SomeItemsNeedRestart));
+                    } else if (position == sensitive2Row) {
+                        cell.setText("Display sensitive media in public channels on all your Telegram devices.");
                     }
                     break;
                 }
@@ -539,7 +617,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == showPrPrRow || position == showViewHistoryRow || position == showAddToSavedMessagesRow ||
                     position == nameOrderRow || position == forceTabletRow || position == mapPreviewRow ||
                     position == xmasRow || position == newYearRow || position == newYearEveRow || position == fireworksRow ||
-                    position == transparentStatusBarRow || position == hideProxySponsorChannelRow || position == saveCacheToPrivateDirectoryRow;
+                    position == transparentStatusBarRow || position == hideProxySponsorChannelRow ||
+                    position == saveCacheToPrivateDirectoryRow || (position == disableFilteringRow && sensitiveCanChange);
         }
 
         @Override
@@ -590,11 +669,12 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == transparentStatusBarRow || position == hideProxySponsorChannelRow || position == showViewHistoryRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
                     position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
-                    position == fireworksRow || position == saveCacheToPrivateDirectoryRow) {
+                    position == fireworksRow || position == saveCacheToPrivateDirectoryRow || position == disableFilteringRow) {
                 return 3;
-            } else if (position == settingsRow || position == connectionRow || position == messageMenuRow || position == chatRow) {
+            } else if (position == settingsRow || position == connectionRow || position == messageMenuRow ||
+                    position == chatRow || position == sensitiveRow) {
                 return 4;
-            } else if (position == needRestartRow) {
+            } else if (position == needRestartRow || position == sensitive2Row) {
                 return 7;
             }
             return 6;
