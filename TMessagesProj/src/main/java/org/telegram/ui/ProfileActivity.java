@@ -1694,24 +1694,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 nameTextView[a].setScrollNonFitText(true);
                 nameTextView[a].setBackgroundColor(Theme.getColor(Theme.key_avatar_backgroundActionBarBlue));
             }
-            nameTextView[a].setOnLongClickListener(new SimpleTextView.OnLongClickListener() {
-                public boolean onLongClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                    builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, (dialogInterface, i) -> {
-                        if (i == 0) {
-                            try {
-                                android.content.ClipboardManager clipboard = (android.content.ClipboardManager) ApplicationLoader.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                                android.content.ClipData clip = android.content.ClipData.newPlainText("label", ((SimpleTextView) v).getText());
-                                clipboard.setPrimaryClip(clip);
-                                Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
-                            } catch (Exception e) {
-                                FileLog.e(e);
-                            }
+            nameTextView[a].setOnLongClickListener(v -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, (dialogInterface, i) -> {
+                    if (i == 0) {
+                        try {
+                            AndroidUtilities.addToClipboard(((SimpleTextView) v).getText());
+                            Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            FileLog.e(e);
                         }
-                    });
-                    showDialog(builder.create());
-                    return false;
-                }
+                    }
+                });
+                showDialog(builder.create());
+                return false;
             });
             frameLayout.addView(nameTextView[a], LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118, 0, a == 0 ? 48 : 0, 0));
 
@@ -3620,7 +3616,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 nameTextView[a].setRightDrawable(rightIcon);
             }
 
-            if (user.photo != null) {
+            if (user.photo != null && user.photo.dc_id != 0) {
                 idTextView.setText("ID: " + user_id + ", DC: " + user.photo.dc_id);
             } else {
                 idTextView.setText("ID: " + user_id);
@@ -3767,7 +3763,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             avatarImage.setImage(thumbLocation, "50_50", avatarDrawable, chat);
             FileLoader.getInstance(currentAccount).loadFile(imageLocation, chat, null, 0, 1);
             avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(photoBig), false);
-            if (chat.photo != null) {
+            if (chat.photo != null && chat.photo.dc_id != 0) {
                 idTextView.setText("ID: " + chat_id + ", DC: " + chat.photo.dc_id);
             } else {
                 idTextView.setText("ID: " + chat_id);
@@ -3775,24 +3771,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         if (id != 0) {
             int finalId = id;
-            idTextView.setOnLongClickListener(new SimpleTextView.OnLongClickListener() {
-                public boolean onLongClick(View v) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                    builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, (dialogInterface, i) -> {
-                        if (i == 0) {
-                            try {
-                                android.content.ClipboardManager clipboard = (android.content.ClipboardManager) ApplicationLoader.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                                android.content.ClipData clip = android.content.ClipData.newPlainText("label", String.valueOf(finalId));
-                                clipboard.setPrimaryClip(clip);
-                                Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
-                            } catch (Exception e) {
-                                FileLog.e(e);
-                            }
+            idTextView.setOnLongClickListener(v -> {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, (dialogInterface, i) -> {
+                    if (i == 0) {
+                        try {
+                            AndroidUtilities.addToClipboard(String.valueOf(finalId));
+                            Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                        } catch (Exception e) {
+                            FileLog.e(e);
                         }
-                    });
-                    showDialog(builder.create());
-                    return false;
-                }
+                    }
+                });
+                showDialog(builder.create());
+                return false;
             });
         }
     }

@@ -1428,30 +1428,26 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
             avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(photoBig), false);
         }
-        if (user.photo != null) {
+        if (user.photo != null && user.photo.dc_id != 0) {
             idTextView.setText("ID: " + user.id + ", DC: " + user.photo.dc_id);
         } else {
             idTextView.setText("ID: " + user.id);
         }
         int finalId = user.id;
-        idTextView.setOnLongClickListener(new SimpleTextView.OnLongClickListener() {
-            public boolean onLongClick(View v) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, (dialogInterface, i) -> {
-                    if (i == 0) {
-                        try {
-                            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) ApplicationLoader.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                            android.content.ClipData clip = android.content.ClipData.newPlainText("label", String.valueOf(finalId));
-                            clipboard.setPrimaryClip(clip);
-                            Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
-                        } catch (Exception e) {
-                            FileLog.e(e);
-                        }
+        idTextView.setOnLongClickListener(v -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+            builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, (dialogInterface, i) -> {
+                if (i == 0) {
+                    try {
+                        AndroidUtilities.addToClipboard(String.valueOf(finalId));
+                        Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        FileLog.e(e);
                     }
-                });
-                showDialog(builder.create());
-                return false;
-            }
+                }
+            });
+            showDialog(builder.create());
+            return false;
         });
     }
 
