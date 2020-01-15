@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="Nekogram">Nekogram</string>
-    <string name="NekogramBeta">Nekogram Beta</string>
-    <string name="NekogramWithEmoji">&#128566; Nekogram</string>
-    <string name="NekogramEmojiDialogs">&#128566;</string>
-    <string name="NekogramEmojiDialogsUnread">&#129300;</string>
+    <string name="Nekogram" translatable="false">Nekogram</string>
+    <string name="NekogramBeta" translatable="false">Nekogram Beta</string>
+    <string name="NekogramWithEmoji" translatable="false">&#128566; Nekogram</string>
+    <string name="NekogramEmojiDialogs" translatable="false">&#128566;</string>
+    <string name="NekogramEmojiDialogsUnread" translatable="false">&#129300;</string>
     <string name="NekoSettings">Neko Settings</string>
     <string name="IPv6">Try connecting through IPv6</string>
     <string name="MessageMenu">Message menu</string>
@@ -32,16 +32,8 @@
     <string name="Channels">Channels</string>
     <string name="Bots">Bots</string>
     <string name="Admins">Administrating</string>
-    <string name="EnableNya">Send message with suffix on long click</string>
-    <string name="NyaSuffix">Message suffix</string>
-    <string name="NyaSuffixHint">Suffix</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Transparent status bar</string>
-    <string name="NavigationBarTint">Set navigation bar and status bar color</string>
-    <string name="NavigationBarColor">Navigation bar color</string>
-    <string name="NavigationBarColorBlack">Black</string>
-    <string name="NavigationBarColorActionBar">Use action bar color</string>
-    <string name="NavigationBarColorMessagePanel">Use message panel color</string>
     <string name="EnableResidentNotification">Show a resident notification</string>
     <string name="DisableResidentNotification">Disable resident notification</string>
     <string name="NekogramRunning">Nekogram is running</string>
