@@ -13972,6 +13972,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         scrimPopupWindow.dismiss();
                     }
                 });
+                cell.setOnLongClickListener(v1 -> {
+                    if (selectedObject == null || i < 0 || i >= options.size()) {
+                        return false;
+                    }
+                    if (processSelectedOptionLongClick(options.get(i))) {
+                        if (scrimPopupWindow != null) {
+                            scrimPopupWindow.dismiss();
+                        }
+                        return true;
+                    }
+                    return false;
+                });
             }
             scrollView.addView(linearLayout, LayoutHelper.createScroll(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
             scrimPopupWindow = new ActionBarPopupWindow(popupLayout, LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT) {
@@ -14841,6 +14853,38 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         selectedObject = null;
         selectedObjectGroup = null;
         selectedObjectToEditCaption = null;
+    }
+
+    private boolean processSelectedOptionLongClick(int option) {
+        switch (option) {
+            case 94: {
+                ArrayList<MessageObject> messages =  new ArrayList<>();
+                messages.add(selectedObject);
+                if (selectedObject.type == 0 || selectedObject.isAnimatedEmoji() || getMessageCaption(selectedObject, selectedObjectGroup) != null) {
+                    CharSequence caption = getMessageCaption(selectedObject, selectedObjectGroup);
+                    if (caption == null) {
+                        caption = getMessageContent(selectedObject, 0, false);
+                    }
+                    if (caption != null) {
+                        StringBuilder toSend = new StringBuilder();
+                        for (int i = 0; i < caption.length(); i++){
+                            char c = caption.charAt(i);
+                            if (c == '我') {
+                                toSend.append('你');
+                            } else if (c == '你') {
+                                toSend.append('我');
+                            } else {
+                                toSend.append(c);
+                            }
+                        }
+                        SendMessagesHelper.getInstance(currentAccount).sendMessage(toSend.toString(), dialog_id, selectedObject, null, false,
+                                null, null, null, true, 0);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     @Override
