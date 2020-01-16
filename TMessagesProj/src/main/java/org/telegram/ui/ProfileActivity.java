@@ -4114,7 +4114,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 case 3:
                     AboutLinkCell aboutLinkCell = (AboutLinkCell) holder.itemView;
                     if (position == userInfoRow) {
-                        aboutLinkCell.setTextAndValue(userInfo.about, LocaleController.getString("UserBio", R.string.UserBio), isBot);
+                        aboutLinkCell.setTextAndValue(userInfo.about, LocaleController.getString("UserBio", R.string.UserBio), true);
                     } else if (position == channelInfoRow) {
                         String text = chatInfo.about;
                         while (text.contains("\n\n\n")) {
