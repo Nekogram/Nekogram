@@ -56,4 +56,5 @@
     <string name="SensitiveContent">Contenuto sensibile</string>
     <string name="SensitiveDisableFiltering">Disattiva filtro</string>
     <string name="SensitiveAbout">Mostra i media sensibili nei canali pubblici su tutti i tuoi dispositivi Telegram.</string>
+    <string name="StickerSize">Dimensione dell\'adesivo</string>
 </resources>
