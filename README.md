@@ -34,7 +34,7 @@ You will require Android Studio 3.4, Android NDK rev. 20 and Android SDK 8.1
 
 Nekogram is forked from Telegram, thus most locales follows the translations of Telegram for Android, checkout https://translations.telegram.org/en/android/.
 
-As for the Nekogram specialized strings, translations are located at `TMessagesProj/src/main/res/values-{language-code}/strings_neko.xml`.
+As for the Nekogram specialized strings, we use Crowdin to translate Nekogram. Join project at https://neko.crowdin.com/nekogram. Help us bring Nekogram to the world!
 
 ## Contributors
 
