@@ -27,7 +27,8 @@ You will require Android Studio 3.4, Android NDK rev. 20 and Android SDK 8.1
 2. Copy your release.keystore into TMessagesProj/config
 3. Fill out RELEASE_KEY_PASSWORD, RELEASE_KEY_ALIAS, RELEASE_STORE_PASSWORD in local.properties to access your  release.keystore
 4. Open the project in the Studio (note that it should be opened, NOT imported).
-5. You are ready to compile Nekogram.
+5. If you're compiling DEBUG version, make sure your build variants is set to afatDebugMultidex.
+6. You are ready to compile Nekogram.
 
 ## Localization
 
@@ -40,7 +41,7 @@ As for the Nekogram specialized strings, translations are located at `TMessagesP
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars2.githubusercontent.com/u/42698724?s=460&v=4" width="80px;"/><br /><sub>猫耳逆变器</sub>](https://github.com/NekoInverter)<br />[💻](https://github.com/Nekogram/Nekogram/commits?author=NekoInverter "Code") | [<img src="https://avatars1.githubusercontent.com/u/18373361?s=460&v=4" width="80px;"/><br /><sub>梨子</sub>](https://github.com/rikakomoe)<br />[💻](https://github.com/Nekogram/Nekogram/commits?author=rikakomoe "Code") [🚧](https://github.com/Nekogram/Nekogram/commits?author=rikakomoe "Maintenance") | [<img src="https://cdn5.telesco.pe/file/k9cnSEddTYCWf9SZwyxQqchUeFsXTbRmq2oL3pQNU_oBFp15J9qnpcKOFoGp9rd1alLepuRgbpp8oGhRetHJouTqYoggPY7CruPZAKM6mo2VkkCld3IcAx87PKC8KrE0CP5YeeIMt7gbnxD0yt_VNYK3Yws09MSeQdRr3hkNjh-SlYurJNYb_YM4JOJVONsLnMFaw8KfFzyRTdVMmgBP93vJdn1lLd8aehHpPgu_keeoaN0t4dZyRoxn9vbO33X6OOsugecKBuPuUjMjtmUfMDhdv8xb5UofI-cDFCboJ21n8Rrm0SY-ak6LU3V4cIDISKJv9NDwQbqfceNZ1PqBwQ.jpg" width="80px;"/><br /><sub>呆瓜</sub>](https://t.me/Duang)<br /> [🎨](#design-duang "Design") | [<img src="https://avatars3.githubusercontent.com/u/37411589?s=460&v=4" width="80px;"/><br /><sub>Red</sub>](https://github.com/tgbetauser)<br />[🌍](#translation-tgbetauser "Translation") |
+| [<img src="https://avatars2.githubusercontent.com/u/42698724?s=460&v=4" width="80px;"/><br /><sub>猫耳逆变器</sub>](https://github.com/NekoInverter)<br />[💻](https://github.com/Nekogram/Nekogram/commits?author=NekoInverter "Code") | [<img src="https://avatars1.githubusercontent.com/u/18373361?s=460&v=4" width="80px;"/><br /><sub>梨子</sub>](https://github.com/rikakomoe)<br />[💻](https://github.com/Nekogram/Nekogram/commits?author=rikakomoe "Code") [🚧](https://github.com/Nekogram/Nekogram/commits?author=rikakomoe "Maintenance") | [<img src="https://i.loli.net/2020/01/17/e9Z5zkG7lNwUBPE.jpg" width="80px;"/><br /><sub>呆瓜</sub>](https://t.me/Duang)<br /> [🎨](#design-duang "Design") | [<img src="https://avatars3.githubusercontent.com/u/37411589?s=460&v=4" width="80px;"/><br /><sub>Red</sub>](https://github.com/tgbetauser)<br />[🌍](#translation-tgbetauser "Translation") |
 | :---: | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
