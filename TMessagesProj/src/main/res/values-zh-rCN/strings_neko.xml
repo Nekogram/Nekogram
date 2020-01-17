@@ -50,4 +50,8 @@
     <string name="SensitiveDisableFiltering">关闭过滤</string>
     <string name="SensitiveAbout">在所有 Telegram 设备上显示公共频道中的敏感媒体内容。</string>
     <string name="StickerSize">贴纸大小</string>
+    <string name="StickerSizeDialogMessageBigOne">一大只</string>
+    <string name="StickerSizeDialogMessageSmallOne">一小只</string>
+    <string name="StickerSizeDialogMessageReplyTo">喵</string>
+    <string name="StickerSizeDialogName">呆瓜</string>
 </resources>

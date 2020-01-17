@@ -12,6 +12,7 @@
     <string name="InvalidAccessToken">Accesso col token non valido</string>
     <string name="IgnoreBlocked">Ignora gli utenti bloccati nel gruppo</string>
     <string name="Connection">Connessione</string>
+    <string name="Chat">Chat</string>
     <string name="NameOrder">Ordine per nome</string>
     <string name="FirstLast">Dal primo all\'ultimo</string>
     <string name="LastFirst">Dall\'ultimo al primo</string>
@@ -25,7 +26,9 @@
     <string name="Users">Utenti</string>
     <string name="Groups">Gruppi</string>
     <string name="Channels">Canali</string>
+    <string name="Bots">Bots</string>
     <string name="Admins">Amministratore</string>
+    <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Barra di stato trasparente</string>
     <string name="EnableResidentNotification">Mostra notifica persistente</string>
     <string name="DisableResidentNotification">Disabilita notifica persistente</string>
@@ -36,6 +39,7 @@
     <string name="ShowFireworks">Mostra fuochi d\'artificio*</string>
     <string name="SomeItemsNeedRestart">Le opzioni con * potrebbero avere bisogno di un riavvio per avere effetto.</string>
     <string name="DeleteDownloadedFile">Elimina il file scaricato</string>
+    <string name="TestBackend">Test Backend</string>
     <string name="TestBackendOn">Questo account si connetterà al server di test.</string>
     <string name="TestBackendOff">Questo account si connetterà al server principale.</string>
     <string name="HideProxySponsorChannel">Nascondi canale sponsor proxy</string>
@@ -46,4 +50,8 @@
     <string name="SensitiveDisableFiltering">Disattiva filtro</string>
     <string name="SensitiveAbout">Mostra i media sensibili nei canali pubblici su tutti i tuoi dispositivi Telegram.</string>
     <string name="StickerSize">Dimensione dell\'adesivo</string>
+    <string name="StickerSizeDialogMessageBigOne">Uno grande</string>
+    <string name="StickerSizeDialogMessageSmallOne">Uno piccolo</string>
+    <string name="StickerSizeDialogMessageReplyTo">Miao</string>
+    <string name="StickerSizeDialogName">Duang</string>
 </resources>

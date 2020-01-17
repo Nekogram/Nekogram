@@ -50,4 +50,8 @@
     <string name="SensitiveDisableFiltering">フィルタリングを無効にする</string>
     <string name="SensitiveAbout">公開チャンネルに投稿されたセンシティブな内容をすべてあなたのTelegramに表示します。</string>
     <string name="StickerSize">ステッカーのサイズ</string>
+    <string name="StickerSizeDialogMessageBigOne">大きな子</string>
+    <string name="StickerSizeDialogMessageSmallOne">小さな子</string>
+    <string name="StickerSizeDialogMessageReplyTo">にゃ</string>
+    <string name="StickerSizeDialogName">ドゥアン</string>
 </resources>
