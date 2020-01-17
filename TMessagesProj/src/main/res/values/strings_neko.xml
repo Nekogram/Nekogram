@@ -54,4 +54,8 @@
     <string name="SensitiveDisableFiltering">Disable filtering</string>
     <string name="SensitiveAbout">Display sensitive media in public channels on all your Telegram devices.</string>
     <string name="StickerSize">Sticker size</string>
+    <string name="StickerSizeDialogMessageBigOne">A big one</string>
+    <string name="StickerSizeDialogMessageSmallOne">A small one</string>
+    <string name="StickerSizeDialogMessageReplyTo">Meow</string>
+    <string name="StickerSizeDialogName">Duang</string>
 </resources>

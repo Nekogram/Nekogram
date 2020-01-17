@@ -31,6 +31,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.EmptyCell;
@@ -83,6 +84,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int useSystemEmojiRow;
     private int ignoreBlockedRow;
     private int mapPreviewRow;
+    private int stickerSizeRow;
     private int chat2Row;
 
     private int settingsRow;
@@ -98,62 +100,6 @@ public class NekoSettingsActivity extends BaseFragment {
     private int newYearEveRow;
     private int fireworksRow;
     private int needRestartRow;
-
-    private int stickerSize1Row;
-    private int stickerSizeRow;
-    private int stickerSize2Row;
-
-    private class StickerSizeCell extends FrameLayout {
-
-        private SeekBarView sizeBar;
-        private int startStickerSize = 2;
-        private int endStickerSize = 20;
-
-        private TextPaint textPaint;
-
-        public StickerSizeCell(Context context) {
-            super(context);
-
-            setWillNotDraw(false);
-
-            textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            textPaint.setTextSize(AndroidUtilities.dp(16));
-
-            sizeBar = new SeekBarView(context);
-            sizeBar.setReportChanges(true);
-            sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate() {
-                @Override
-                public void onSeekBarDrag(boolean stop, float progress) {
-                    NekoConfig.setStickerSize(startStickerSize + (endStickerSize -  startStickerSize) * progress);
-                    listAdapter.notifyItemChanged(stickerSizeRow);
-                }
-
-                @Override
-                public void onSeekBarPressed(boolean pressed) {
-
-                }
-            });
-            addView(sizeBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38, Gravity.LEFT | Gravity.TOP, 9, 5, 43, 11));
-        }
-
-        @Override
-        protected void onDraw(Canvas canvas) {
-            textPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteValueText));
-            canvas.drawText("" + Math.round(NekoConfig.stickerSize), getMeasuredWidth() - AndroidUtilities.dp(39), AndroidUtilities.dp(28), textPaint);
-        }
-
-        @Override
-        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-            sizeBar.setProgress((NekoConfig.stickerSize - startStickerSize) / (float) (endStickerSize - startStickerSize));
-        }
-
-        @Override
-        public void invalidate() {
-            super.invalidate();
-            sizeBar.invalidate();
-        }
-    }
 
     @Override
     public boolean onFragmentCreate() {
@@ -399,6 +345,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         AndroidUtilities.runOnUIThread(() -> AlertsCreator.processError(currentAccount, error, this, req));
                     }
                 }));
+            } else if (position == stickerSizeRow) {
+                showStickerSizeAlert();
             }
         });
 
@@ -419,9 +367,6 @@ public class NekoSettingsActivity extends BaseFragment {
         connectionRow = rowCount++;
         ipv6Row = rowCount++;
         connection2Row = rowCount++;
-        stickerSize1Row = rowCount++;
-        stickerSizeRow = rowCount++;
-        stickerSize2Row = rowCount++;
         chatRow = rowCount++;
         inappCameraRow = rowCount++;
         useSystemEmojiRow = rowCount++;
@@ -429,6 +374,7 @@ public class NekoSettingsActivity extends BaseFragment {
         hideProxySponsorChannelRow = rowCount++;
         saveCacheToPrivateDirectoryRow = Build.VERSION.SDK_INT >= 24 ? rowCount++ : -1;
         mapPreviewRow = rowCount++;
+        stickerSizeRow = rowCount++;
         chat2Row = rowCount++;
         messageMenuRow = rowCount++;
         showAddToSavedMessagesRow = rowCount++;
@@ -544,6 +490,90 @@ public class NekoSettingsActivity extends BaseFragment {
 
     }
 
+    private void showStickerSizeAlert() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        Context context = getParentActivity();
+        BottomSheet.Builder builder = new BottomSheet.Builder(context);
+        builder.setApplyTopPadding(false);
+        builder.setApplyBottomPadding(false);
+
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        HeaderCell headerCell = new HeaderCell(context, true, 23, 15, false);
+        headerCell.setHeight(47);
+        headerCell.setText(LocaleController.getString("StickerSize", R.string.StickerSize));
+        linearLayout.addView(headerCell);
+
+        LinearLayout linearLayoutInviteContainer = new LinearLayout(context);
+        linearLayoutInviteContainer.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(linearLayoutInviteContainer, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        StickerSizeCell stickerSizeCell = new StickerSizeCell(context);
+        linearLayoutInviteContainer.addView(stickerSizeCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        builder.setCustomView(linearLayout);
+        showDialog(builder.create());
+    }
+
+    private class StickerSizeCell extends FrameLayout {
+
+        private StickerSizePreviewMessagesCell messagesCell;
+        private SeekBarView sizeBar;
+        private int startStickerSize = 2;
+        private int endStickerSize = 20;
+
+        private TextPaint textPaint;
+
+        public StickerSizeCell(Context context) {
+            super(context);
+
+            setWillNotDraw(false);
+
+            textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            textPaint.setTextSize(AndroidUtilities.dp(16));
+
+            sizeBar = new SeekBarView(context);
+            sizeBar.setReportChanges(true);
+            sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate() {
+                @Override
+                public void onSeekBarDrag(boolean stop, float progress) {
+                    NekoConfig.setStickerSize(startStickerSize + (endStickerSize - startStickerSize) * progress);
+                    listAdapter.notifyItemChanged(stickerSizeRow);
+                    messagesCell.invalidate();
+                    StickerSizeCell.this.invalidate();
+                }
+
+                @Override
+                public void onSeekBarPressed(boolean pressed) {
+
+                }
+            });
+            addView(sizeBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38, Gravity.LEFT | Gravity.TOP, 9, 5, 43, 11));
+
+            messagesCell = new StickerSizePreviewMessagesCell(context, parentLayout);
+            addView(messagesCell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0, 53, 0, 0));
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            textPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteValueText));
+            canvas.drawText("" + Math.round(NekoConfig.stickerSize), getMeasuredWidth() - AndroidUtilities.dp(39), AndroidUtilities.dp(28), textPaint);
+        }
+
+        @Override
+        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+            sizeBar.setProgress((NekoConfig.stickerSize - startStickerSize) / (float) (endStickerSize - startStickerSize));
+        }
+
+        @Override
+        public void invalidate() {
+            super.invalidate();
+            sizeBar.invalidate();
+        }
+    }
+
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
 
         private Context mContext;
@@ -590,7 +620,9 @@ public class NekoSettingsActivity extends BaseFragment {
                             default:
                                 value = LocaleController.getString("MapPreviewProviderNobody", R.string.MapPreviewProviderNobody);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("MapPreviewProvider", R.string.MapPreviewProvider), value, false);
+                        textCell.setTextAndValue(LocaleController.getString("MapPreviewProvider", R.string.MapPreviewProvider), value, true);
+                    } else if (position == stickerSizeRow) {
+                        textCell.setTextAndValue(LocaleController.getString("StickerSize", R.string.StickerSize), String.valueOf(Math.round(NekoConfig.stickerSize)), false);
                     }
                     break;
                 }
@@ -656,8 +688,6 @@ public class NekoSettingsActivity extends BaseFragment {
                         headerCell.setText(LocaleController.getString("Chat", R.string.Chat));
                     } else if (position == sensitiveRow) {
                         headerCell.setText(LocaleController.getString("SensitiveContent", R.string.SensitiveContent));
-                    } else if (position == stickerSize1Row) {
-                        headerCell.setText(LocaleController.getString("StickerSize", R.string.StickerSize));
                     }
                     break;
                 }
@@ -678,12 +708,13 @@ public class NekoSettingsActivity extends BaseFragment {
             int position = holder.getAdapterPosition();
             return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow ||
                     position == useSystemEmojiRow || position == ipv6Row || position == typefaceRow ||
-                    position == showChangePermissionsRow || position == showDeleteDownloadedFileRow || position == showAdminActionsRow || position == showReportRow ||
-                    position == showPrPrRow || position == showViewHistoryRow || position == showAddToSavedMessagesRow ||
-                    position == nameOrderRow || position == forceTabletRow || position == mapPreviewRow ||
-                    position == xmasRow || position == newYearRow || position == newYearEveRow || position == fireworksRow ||
-                    position == transparentStatusBarRow || position == hideProxySponsorChannelRow ||
-                    position == saveCacheToPrivateDirectoryRow || (position == disableFilteringRow && sensitiveCanChange);
+                    position == showChangePermissionsRow || position == showDeleteDownloadedFileRow ||
+                    position == showAdminActionsRow || position == showReportRow || position == showPrPrRow ||
+                    position == showViewHistoryRow || position == showAddToSavedMessagesRow || position == nameOrderRow ||
+                    position == forceTabletRow || position == mapPreviewRow || position == xmasRow || position == newYearRow ||
+                    position == newYearEveRow || position == fireworksRow || position == transparentStatusBarRow ||
+                    position == hideProxySponsorChannelRow || position == saveCacheToPrivateDirectoryRow ||
+                    (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow;
         }
 
         @Override
@@ -717,10 +748,6 @@ public class NekoSettingsActivity extends BaseFragment {
                     view = new TextInfoPrivacyCell(mContext);
                     view.setBackgroundDrawable(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     break;
-                case 8:
-                    view = new StickerSizeCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
             }
             view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
             return new RecyclerListView.Holder(view);
@@ -728,9 +755,9 @@ public class NekoSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == messageMenu2Row || position == connection2Row || position == chat2Row || position == stickerSize2Row) {
+            if (position == messageMenu2Row || position == connection2Row || position == chat2Row) {
                 return 1;
-            } else if (position == nameOrderRow || position == mapPreviewRow) {
+            } else if (position == nameOrderRow || position == mapPreviewRow || position == stickerSizeRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == showAddToSavedMessagesRow || position == showPrPrRow || position == showReportRow ||
@@ -741,12 +768,10 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == fireworksRow || position == saveCacheToPrivateDirectoryRow || position == disableFilteringRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == messageMenuRow ||
-                    position == chatRow || position == sensitiveRow || position == stickerSize1Row) {
+                    position == chatRow || position == sensitiveRow) {
                 return 4;
             } else if (position == needRestartRow || position == sensitive2Row) {
                 return 7;
-            } else if (position == stickerSizeRow) {
-                return 8;
             }
             return 6;
         }
