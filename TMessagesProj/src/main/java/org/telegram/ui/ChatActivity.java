@@ -196,6 +196,7 @@ import org.telegram.ui.Components.URLSpanUserMention;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.voip.VoIPHelper;
 
+import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.MessageHelper;
 import tw.nekomimi.nekogram.NekoConfig;
 
@@ -13723,17 +13724,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             boolean allowRepeat = currentUser != null
                                     || (currentChat != null && ChatObject.canSendMessages(currentChat));
-                            boolean allowPrpr = currentUser != null
-                                    || (currentChat != null && ChatObject.canSendMessages(currentChat) && !currentChat.broadcast &&
-                                    message.isFromUser());
-                            boolean allowViewHistory = currentUser == null
-                                    && (currentChat != null && !currentChat.broadcast && message.isFromUser());
-
                             if (allowRepeat) {
                                 items.add(LocaleController.getString("Repeat", R.string.Repeat));
                                 options.add(94);
                                 icons.add(R.drawable.msg_repeat);
                             }
+                        }
+                        if (!inScheduleMode) {
+                            boolean allowPrpr = currentUser != null
+                                    || (currentChat != null && ChatObject.canSendMessages(currentChat) && !currentChat.broadcast &&
+                                    message.isFromUser());
+                            boolean allowViewHistory = currentUser == null
+                                    && (currentChat != null && !currentChat.broadcast && message.isFromUser());
                             if (allowPrpr && NekoConfig.showPrPr) {
                                 items.add(LocaleController.getString("Prpr", R.string.Prpr));
                                 options.add(92);
@@ -13743,6 +13745,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 items.add(LocaleController.getString("ViewUserHistory", R.string.ViewHistory));
                                 options.add(90);
                                 icons.add(R.drawable.menu_recent);
+                            }
+                            if (NekoConfig.showMessageDetails) {
+                                items.add(LocaleController.getString("MessageDetails", R.string.MessageDetails));
+                                options.add(89);
+                                icons.add(R.drawable.menu_info);
                             }
                         }
                         if (allowUnpin) {
@@ -13805,11 +13812,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
                                 options.add(10);
                                 icons.add(R.drawable.msg_download);
-                                if (NekoConfig.showDeleteDownloadedFile) {
-                                    items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
-                                    options.add(91);
-                                    icons.add(R.drawable.menu_clearcache);
-                                }
                                 items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
                                 options.add(6);
                                 icons.add(R.drawable.msg_shareout);
@@ -14704,6 +14706,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
+                break;
+            } case 89: {
+                presentFragment(new MessageDetailsActivity(selectedObject));
                 break;
             } case 90: {
                 TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(selectedObject.messageOwner.from_id);

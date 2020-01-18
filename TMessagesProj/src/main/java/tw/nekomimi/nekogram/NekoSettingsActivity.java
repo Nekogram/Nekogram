@@ -74,6 +74,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int showAdminActionsRow;
     private int showChangePermissionsRow;
     private int showDeleteDownloadedFileRow;
+    private int showMessageDetailsRow;
     private int messageMenu2Row;
 
     private int chatRow;
@@ -189,6 +190,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 NekoConfig.toggleShowDeleteDownloadedFile();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.showDeleteDownloadedFile);
+                }
+            } else if (position == showMessageDetailsRow) {
+                NekoConfig.toggleShowMessageDetails();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.showMessageDetails);
                 }
             } else if (position == showPrPrRow) {
                 NekoConfig.toggleShowPrPr();
@@ -391,6 +397,7 @@ public class NekoSettingsActivity extends BaseFragment {
         showAdminActionsRow = rowCount++;
         showChangePermissionsRow = rowCount++;
         showDeleteDownloadedFileRow = rowCount++;
+        showMessageDetailsRow = rowCount++;
         messageMenu2Row = rowCount++;
         settingsRow = rowCount++;
         hidePhoneRow = rowCount++;
@@ -670,7 +677,9 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == showChangePermissionsRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ChangePermissions", R.string.ChangePermissions), NekoConfig.showChangePermissions, true);
                     } else if (position == showDeleteDownloadedFileRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile), NekoConfig.showDeleteDownloadedFile, false);
+                        textCell.setTextAndCheck(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile), NekoConfig.showDeleteDownloadedFile, true);
+                    } else if (position == showMessageDetailsRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("MessageDetails", R.string.MessageDetails), NekoConfig.showMessageDetails, false);
                     } else if (position == hidePhoneRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HidePhone", R.string.HidePhone), NekoConfig.hidePhone, true);
                     } else if (position == inappCameraRow) {
@@ -742,7 +751,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == newYearEveRow || position == fireworksRow || position == transparentStatusBarRow ||
                     position == hideProxySponsorChannelRow || position == saveCacheToPrivateDirectoryRow ||
                     (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow ||
-                    position == unlimitedFavedStickersRow;
+                    position == unlimitedFavedStickersRow || position == showMessageDetailsRow;
         }
 
         @Override
@@ -794,7 +803,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
                     position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
                     position == fireworksRow || position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
-                    position == disableFilteringRow) {
+                    position == disableFilteringRow || position == showMessageDetailsRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == messageMenuRow || position == chatRow ||
                     position == experimentRow) {
