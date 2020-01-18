@@ -1098,7 +1098,10 @@ public class AndroidUtilities {
                 if (assetPath.contains("mono")) {
                     return Typeface.MONOSPACE;
                 }
-                return Typeface.create((Typeface) null, Typeface.NORMAL);
+                if (assetPath.contains("mw_bold")) {
+                    return Typeface.create("serif", Typeface.BOLD);
+                }
+                //return Typeface.create((Typeface) null, Typeface.NORMAL);
             }
             if (!typefaceCache.containsKey(assetPath)) {
                 try {
