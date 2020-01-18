@@ -61,10 +61,6 @@ public class NekoSettingsActivity extends BaseFragment {
 
     private int rowCount;
 
-    private int sensitiveRow;
-    private int disableFilteringRow;
-    private int sensitive2Row;
-
     private int connectionRow;
     private int ipv6Row;
     private int connection2Row;
@@ -100,6 +96,11 @@ public class NekoSettingsActivity extends BaseFragment {
     private int newYearEveRow;
     private int fireworksRow;
     private int needRestartRow;
+
+    private int experimentRow;
+    private int disableFilteringRow;
+    private int unlimitedFavedStickersRow;
+    private int experiment2Row;
 
     @Override
     public boolean onFragmentCreate() {
@@ -347,6 +348,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 }));
             } else if (position == stickerSizeRow) {
                 showStickerSizeAlert();
+            } else if (position == unlimitedFavedStickersRow) {
+                NekoConfig.toggleUnlimitedFavedStickers();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.unlimitedFavedStickers);
+                }
             }
         });
 
@@ -396,9 +402,10 @@ public class NekoSettingsActivity extends BaseFragment {
         newYearEveRow = rowCount++;
         fireworksRow = rowCount++;
         needRestartRow = rowCount++;
-        sensitiveRow = rowCount++;
+        experimentRow = rowCount++;
         disableFilteringRow = rowCount++;
-        sensitive2Row = rowCount++;
+        unlimitedFavedStickersRow = rowCount++;
+        experiment2Row = rowCount++;
         if (notify && listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
@@ -671,8 +678,10 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == fireworksRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ShowFireworks", R.string.ShowFireworks), NekoConfig.fireworks, false);
                     } else if (position == disableFilteringRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("SensitiveDisableFiltering", R.string.SensitiveDisableFiltering), sensitiveEnabled, false);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("SensitiveDisableFiltering", R.string.SensitiveDisableFiltering), LocaleController.getString("SensitiveAbout", R.string.SensitiveAbout), sensitiveEnabled, true, true);
                         textCell.setEnabled(sensitiveCanChange, null);
+                    } else if (position == unlimitedFavedStickersRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedFavoredStickers", R.string.UnlimitedFavoredStickers), LocaleController.getString("UnlimitedFavoredStickersAbout", R.string.UnlimitedFavoredStickersAbout), NekoConfig.unlimitedFavedStickers, true, false);
                     }
                     break;
                 }
@@ -686,8 +695,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         headerCell.setText(LocaleController.getString("Connection", R.string.Connection));
                     } else if (position == chatRow) {
                         headerCell.setText(LocaleController.getString("Chat", R.string.Chat));
-                    } else if (position == sensitiveRow) {
-                        headerCell.setText(LocaleController.getString("SensitiveContent", R.string.SensitiveContent));
+                    } else if (position == experimentRow) {
+                        headerCell.setText(LocaleController.getString("Experiment", R.string.Experiment));
                     }
                     break;
                 }
@@ -695,8 +704,6 @@ public class NekoSettingsActivity extends BaseFragment {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     if (position == needRestartRow) {
                         cell.setText(LocaleController.getString("SomeItemsNeedRestart", R.string.SomeItemsNeedRestart));
-                    } else if (position == sensitive2Row) {
-                        cell.setText(LocaleController.getString("SensitiveAbout", R.string.SensitiveAbout));
                     }
                     break;
                 }
@@ -714,7 +721,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == forceTabletRow || position == mapPreviewRow || position == xmasRow || position == newYearRow ||
                     position == newYearEveRow || position == fireworksRow || position == transparentStatusBarRow ||
                     position == hideProxySponsorChannelRow || position == saveCacheToPrivateDirectoryRow ||
-                    (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow;
+                    (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow ||
+                    position == unlimitedFavedStickersRow;
         }
 
         @Override
@@ -755,7 +763,7 @@ public class NekoSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == messageMenu2Row || position == connection2Row || position == chat2Row) {
+            if (position == messageMenu2Row || position == connection2Row || position == chat2Row || position == experiment2Row) {
                 return 1;
             } else if (position == nameOrderRow || position == mapPreviewRow || position == stickerSizeRow) {
                 return 2;
@@ -765,12 +773,13 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == transparentStatusBarRow || position == hideProxySponsorChannelRow || position == showViewHistoryRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
                     position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
-                    position == fireworksRow || position == saveCacheToPrivateDirectoryRow || position == disableFilteringRow) {
+                    position == fireworksRow || position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
+                    position == disableFilteringRow) {
                 return 3;
-            } else if (position == settingsRow || position == connectionRow || position == messageMenuRow ||
-                    position == chatRow || position == sensitiveRow) {
+            } else if (position == settingsRow || position == connectionRow || position == messageMenuRow || position == chatRow ||
+                    position == experimentRow) {
                 return 4;
-            } else if (position == needRestartRow || position == sensitive2Row) {
+            } else if (position == needRestartRow) {
                 return 7;
             }
             return 6;

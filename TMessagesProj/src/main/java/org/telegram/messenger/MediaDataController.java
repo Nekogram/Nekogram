@@ -65,6 +65,8 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 @SuppressWarnings("unchecked")
 public class MediaDataController extends BaseController {
 
@@ -289,7 +291,7 @@ public class MediaDataController extends BaseController {
                     getFileRefController().requestReference(parentObject, req);
                 }
             });
-            maxCount = getMessagesController().maxFaveStickersCount;
+            maxCount = NekoConfig.unlimitedFavedStickers ? Integer.MAX_VALUE : getMessagesController().maxFaveStickersCount;
         } else {
             maxCount = getMessagesController().maxRecentStickersCount;
         }
@@ -785,7 +787,7 @@ public class MediaDataController extends BaseController {
                         maxCount = getMessagesController().maxRecentGifsCount;
                     } else {
                         if (type == TYPE_FAVE) {
-                            maxCount = getMessagesController().maxFaveStickersCount;
+                            maxCount = NekoConfig.unlimitedFavedStickers ? Integer.MAX_VALUE : getMessagesController().maxFaveStickersCount;
                         } else {
                             maxCount = getMessagesController().maxRecentStickersCount;
                         }

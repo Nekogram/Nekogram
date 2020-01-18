@@ -24,6 +24,7 @@ public class NekoConfig {
     public static boolean hideProxySponsorChannel = false;
     public static boolean saveCacheToPrivateDirectory = Build.VERSION.SDK_INT >= 24;
     public static float stickerSize = 14.0f;
+    public static boolean unlimitedFavedStickers = true;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -73,6 +74,7 @@ public class NekoConfig {
                 editor.putBoolean("newYearEve", newYearEve);
                 editor.putBoolean("fireworks", fireworks);
                 editor.putFloat("stickerSize", stickerSize);
+                editor.putBoolean("unlimitedFavedStickers", unlimitedFavedStickers);
 
                 editor.commit();
             } catch (Exception e) {
@@ -111,6 +113,7 @@ public class NekoConfig {
             newYearEve = preferences.getBoolean("newYearEve", false);
             fireworks = preferences.getBoolean("fireworks", false);
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
+            unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", false);
             configLoaded = true;
         }
     }
@@ -296,6 +299,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("fireworks", fireworks);
+        editor.commit();
+    }
+
+    public static void toggleUnlimitedFavedStickers() {
+        unlimitedFavedStickers = !unlimitedFavedStickers;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("unlimitedFavedStickers", unlimitedFavedStickers);
         editor.commit();
     }
 
