@@ -29,6 +29,7 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
+import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
@@ -509,15 +510,34 @@ public class NekoSettingsActivity extends BaseFragment {
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
 
+        FrameLayout titleLayout = new FrameLayout(context);
+        linearLayout.addView(titleLayout);
+
         HeaderCell headerCell = new HeaderCell(context, true, 23, 15, false);
         headerCell.setHeight(47);
         headerCell.setText(LocaleController.getString("StickerSize", R.string.StickerSize));
-        linearLayout.addView(headerCell);
+        titleLayout.addView(headerCell);
+
+        ActionBarMenuItem optionsButton = new ActionBarMenuItem(context, null, 0, Theme.getColor(Theme.key_sheet_other));
+        optionsButton.setLongClickEnabled(false);
+        optionsButton.setSubMenuOpenSide(2);
+        optionsButton.setIcon(R.drawable.ic_ab_other);
+        optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_player_actionBarSelector), 1));
+        optionsButton.addSubItem(1, R.drawable.msg_reset, LocaleController.getString("Reset", R.string.Reset));
+        optionsButton.setOnClickListener(v -> optionsButton.toggleSubMenu());
+        optionsButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
+        titleLayout.addView(optionsButton, LayoutHelper.createFrame(40, 40, Gravity.TOP | Gravity.RIGHT, 0, 8, 5, 0));
 
         LinearLayout linearLayoutInviteContainer = new LinearLayout(context);
         linearLayoutInviteContainer.setOrientation(LinearLayout.VERTICAL);
         linearLayout.addView(linearLayoutInviteContainer, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         StickerSizeCell stickerSizeCell = new StickerSizeCell(context);
+        optionsButton.setDelegate(id -> {
+            if (id == 1) {
+                NekoConfig.setStickerSize(14.0f);
+                stickerSizeCell.invalidate();
+            }
+        });
         linearLayoutInviteContainer.addView(stickerSizeCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         builder.setCustomView(linearLayout);
         showDialog(builder.create());
@@ -546,8 +566,6 @@ public class NekoSettingsActivity extends BaseFragment {
                 @Override
                 public void onSeekBarDrag(boolean stop, float progress) {
                     NekoConfig.setStickerSize(startStickerSize + (endStickerSize - startStickerSize) * progress);
-                    listAdapter.notifyItemChanged(stickerSizeRow);
-                    messagesCell.invalidate();
                     StickerSizeCell.this.invalidate();
                 }
 
@@ -577,6 +595,8 @@ public class NekoSettingsActivity extends BaseFragment {
         @Override
         public void invalidate() {
             super.invalidate();
+            listAdapter.notifyItemChanged(stickerSizeRow);
+            messagesCell.invalidate();
             sizeBar.invalidate();
         }
     }
