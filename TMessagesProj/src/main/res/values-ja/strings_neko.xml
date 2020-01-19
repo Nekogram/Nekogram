@@ -42,16 +42,20 @@
     <string name="TestBackend">異世界</string>
     <string name="TestBackendOn">このアカウントは、テストバックエンドに接続します。</string>
     <string name="TestBackendOff">このアカウントは、本番バックエンドに接続します。</string>
-    <string name="HideProxySponsorChannel">Proxy sponsor channel を非表示</string>
+    <string name="HideProxySponsorChannel">Proxy sponsor channelを非表示</string>
     <string name="ViewHistory">履歴を見る</string>
     <string name="Nya">にゃ!</string>
-    <string name="SaveCacheToPrivateDirectory">Cache を private directory に保存する*</string>
-    <string name="SensitiveContent">センシティブな内容</string>
-    <string name="SensitiveDisableFiltering">フィルタリングを無効にする</string>
-    <string name="SensitiveAbout">公開チャンネルに投稿されたセンシティブな内容をすべてあなたのTelegramに表示します。</string>
+    <string name="SaveCacheToPrivateDirectory">Cacheをprivate directoryに保存する*</string>
+    <string name="SensitiveDisableFiltering">Sensitiveな内容のfilteringを無効にする</string>
+    <string name="SensitiveAbout">公開チャンネルに投稿されたセンシティブな内容をすべてあなたの端末に表示します。</string>
     <string name="StickerSize">ステッカーのサイズ</string>
     <string name="StickerSizeDialogMessageBigOne">大きな子</string>
     <string name="StickerSizeDialogMessageSmallOne">小さな子</string>
     <string name="StickerSizeDialogMessageReplyTo">にゃ</string>
     <string name="StickerSizeDialogName">ドゥアン</string>
+    <string name="Experiment">実験的</string>
+    <string name="UnlimitedFavoredStickers">無制限のお気に入りのステッカー</string>
+    <string name="UnlimitedFavoredStickersAbout">お気に入りに無制限のステッカーを追加します。ステッカーは他の端末と同期されない場合があります。</string>
+    <string name="MessageDetails">詳細</string>
+    <string name="ExportAsJson">JSONとしてエクスポート</string>
 </resources>

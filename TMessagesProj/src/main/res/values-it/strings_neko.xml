@@ -46,12 +46,16 @@
     <string name="ViewHistory">Visualizza la cronologia</string>
     <string name="Nya">Miao!</string>
     <string name="SaveCacheToPrivateDirectory">Salva la cache nella directory privata*</string>
-    <string name="SensitiveContent">Contenuto sensibile</string>
-    <string name="SensitiveDisableFiltering">Disattiva filtro</string>
-    <string name="SensitiveAbout">Mostra i media sensibili nei canali pubblici su tutti i tuoi dispositivi Telegram.</string>
+    <string name="SensitiveDisableFiltering">Disattiva il filtro dei contenuti sensibili</string>
+    <string name="SensitiveAbout">Mostra i media sensibili nei canali pubblici su tutti i tuoi dispositivi.</string>
     <string name="StickerSize">Dimensione dell\'adesivo</string>
     <string name="StickerSizeDialogMessageBigOne">Uno grande</string>
     <string name="StickerSizeDialogMessageSmallOne">Uno piccolo</string>
     <string name="StickerSizeDialogMessageReplyTo">Miao</string>
     <string name="StickerSizeDialogName">Duang</string>
+    <string name="Experiment">Sperimentale</string>
+    <string name="UnlimitedFavoredStickers">Adesivi preferiti illimitati</string>
+    <string name="UnlimitedFavoredStickersAbout">Aggiungi adesivi illimitati ai preferiti. Gli adesivi potrebbero non essere sincronizzati con altri dispositivi.</string>
+    <string name="MessageDetails">Dettagli</string>
+    <string name="ExportAsJson">Esporta come JSON</string>
 </resources>
