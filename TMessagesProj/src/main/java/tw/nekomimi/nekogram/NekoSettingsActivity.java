@@ -66,16 +66,6 @@ public class NekoSettingsActivity extends BaseFragment {
     private int ipv6Row;
     private int connection2Row;
 
-    private int messageMenuRow;
-    private int showAddToSavedMessagesRow;
-    private int showReportRow;
-    private int showPrPrRow;
-    private int showViewHistoryRow;
-    private int showAdminActionsRow;
-    private int showChangePermissionsRow;
-    private int showDeleteDownloadedFileRow;
-    private int showMessageDetailsRow;
-    private int messageMenu2Row;
 
     private int chatRow;
     private int inappCameraRow;
@@ -83,6 +73,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int ignoreBlockedRow;
     private int mapPreviewRow;
     private int stickerSizeRow;
+    private int messageMenuRow;
     private int chat2Row;
 
     private int settingsRow;
@@ -170,46 +161,6 @@ public class NekoSettingsActivity extends BaseFragment {
                 SharedConfig.toggleInappCamera();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(SharedConfig.inappCamera);
-                }
-            } else if (position == showAddToSavedMessagesRow) {
-                NekoConfig.toggleShowAddToSavedMessages();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.showAddToSavedMessages);
-                }
-            } else if (position == showAdminActionsRow) {
-                NekoConfig.toggleShowAdminActions();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.showAdminActions);
-                }
-            } else if (position == showChangePermissionsRow) {
-                NekoConfig.toggleShowChangePermissions();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.showChangePermissions);
-                }
-            } else if (position == showDeleteDownloadedFileRow) {
-                NekoConfig.toggleShowDeleteDownloadedFile();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.showDeleteDownloadedFile);
-                }
-            } else if (position == showMessageDetailsRow) {
-                NekoConfig.toggleShowMessageDetails();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.showMessageDetails);
-                }
-            } else if (position == showPrPrRow) {
-                NekoConfig.toggleShowPrPr();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.showPrPr);
-                }
-            } else if (position == showViewHistoryRow) {
-                NekoConfig.toggleShowViewHistory();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.showViewHistory);
-                }
-            } else if (position == showReportRow) {
-                NekoConfig.toggleShowReport();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.showReport);
                 }
             } else if (position == forceTabletRow) {
                 NekoConfig.toggleForceTablet();
@@ -360,6 +311,8 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.unlimitedFavedStickers);
                 }
+            } else if (position == messageMenuRow) {
+                showMessageMenuAlert();
             }
         });
 
@@ -388,17 +341,8 @@ public class NekoSettingsActivity extends BaseFragment {
         saveCacheToPrivateDirectoryRow = Build.VERSION.SDK_INT >= 24 ? rowCount++ : -1;
         mapPreviewRow = rowCount++;
         stickerSizeRow = rowCount++;
-        chat2Row = rowCount++;
         messageMenuRow = rowCount++;
-        showAddToSavedMessagesRow = rowCount++;
-        showPrPrRow = rowCount++;
-        showViewHistoryRow = rowCount++;
-        showReportRow = rowCount++;
-        showAdminActionsRow = rowCount++;
-        showChangePermissionsRow = rowCount++;
-        showDeleteDownloadedFileRow = rowCount++;
-        showMessageDetailsRow = rowCount++;
-        messageMenu2Row = rowCount++;
+        chat2Row = rowCount++;
         settingsRow = rowCount++;
         hidePhoneRow = rowCount++;
         typefaceRow = rowCount++;
@@ -502,7 +446,117 @@ public class NekoSettingsActivity extends BaseFragment {
                 AndroidUtilities.runOnUIThread(() -> AlertsCreator.processError(currentAccount, error, this, req));
             }
         }));
+    }
 
+    private void showMessageMenuAlert() {
+        if (getParentActivity() == null) {
+            return;
+        }
+        Context context = getParentActivity();
+        BottomSheet.Builder builder = new BottomSheet.Builder(context);
+        builder.setApplyTopPadding(false);
+        builder.setApplyBottomPadding(false);
+
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+
+        HeaderCell headerCell = new HeaderCell(context, true, 23, 15, false);
+        headerCell.setHeight(47);
+        headerCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu));
+        linearLayout.addView(headerCell);
+
+        LinearLayout linearLayoutInviteContainer = new LinearLayout(context);
+        linearLayoutInviteContainer.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.addView(linearLayoutInviteContainer, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+
+        int count = 8;
+        for (int a = 0; a < count; a++) {
+            TextCheckCell textCell = new TextCheckCell(context);
+            switch (a) {
+                case 0: {
+                    textCell.setTextAndCheck(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages), NekoConfig.showAddToSavedMessages, true);
+                    break;
+                }
+                case 1: {
+                    textCell.setTextAndCheck(LocaleController.getString("Prpr", R.string.Prpr), NekoConfig.showPrPr, true);
+                    break;
+                }
+                case 2: {
+                    textCell.setTextAndCheck(LocaleController.getString("ViewHistory", R.string.ViewHistory), NekoConfig.showViewHistory, true);
+                    break;
+                }
+                case 3: {
+                    textCell.setTextAndCheck(LocaleController.getString("ReportChat", R.string.ReportChat), NekoConfig.showReport, true);
+                    break;
+                }
+                case 4: {
+                    textCell.setTextAndCheck(LocaleController.getString("EditAdminRights", R.string.EditAdminRights), NekoConfig.showAdminActions, true);
+                    break;
+                }
+                case 5: {
+                    textCell.setTextAndCheck(LocaleController.getString("ChangePermissions", R.string.ChangePermissions), NekoConfig.showChangePermissions, true);
+                    break;
+                }
+                case 6: {
+                    textCell.setTextAndCheck(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile), NekoConfig.showDeleteDownloadedFile, true);
+                    break;
+                }
+                case 7: {
+                    textCell.setTextAndCheck(LocaleController.getString("MessageDetails", R.string.MessageDetails), NekoConfig.showMessageDetails, false);
+                    break;
+                }
+            }
+            textCell.setTag(a);
+            textCell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
+            linearLayoutInviteContainer.addView(textCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+            textCell.setOnClickListener(v2 -> {
+                Integer tag = (Integer) v2.getTag();
+                switch (tag) {
+                    case 0: {
+                        NekoConfig.toggleShowAddToSavedMessages();
+                        textCell.setChecked(NekoConfig.showAddToSavedMessages);
+                        break;
+                    }
+                    case 1: {
+                        NekoConfig.toggleShowPrPr();
+                        textCell.setChecked(NekoConfig.showPrPr);
+                        break;
+                    }
+                    case 2: {
+                        NekoConfig.toggleShowViewHistory();
+                        textCell.setChecked(NekoConfig.showViewHistory);
+                        break;
+                    }
+                    case 3: {
+                        NekoConfig.toggleShowReport();
+                        textCell.setChecked(NekoConfig.showReport);
+                        break;
+                    }
+                    case 4: {
+                        NekoConfig.toggleShowAdminActions();
+                        textCell.setChecked(NekoConfig.showAdminActions);
+                        break;
+                    }
+                    case 5: {
+                        NekoConfig.toggleShowChangePermissions();
+                        textCell.setChecked(NekoConfig.showChangePermissions);
+                        break;
+                    }
+                    case 6: {
+                        NekoConfig.toggleShowDeleteDownloadedFile();
+                        textCell.setChecked(NekoConfig.showDeleteDownloadedFile);
+                        break;
+                    }
+                    case 7: {
+                        NekoConfig.toggleShowMessageDetails();
+                        textCell.setChecked(NekoConfig.showMessageDetails);
+                        break;
+                    }
+                }
+            });
+        }
+        builder.setCustomView(linearLayout);
+        showDialog(builder.create());
     }
 
     private void showStickerSizeAlert() {
@@ -656,7 +710,9 @@ public class NekoSettingsActivity extends BaseFragment {
                         }
                         textCell.setTextAndValue(LocaleController.getString("MapPreviewProvider", R.string.MapPreviewProvider), value, true);
                     } else if (position == stickerSizeRow) {
-                        textCell.setTextAndValue(LocaleController.getString("StickerSize", R.string.StickerSize), String.valueOf(Math.round(NekoConfig.stickerSize)), false);
+                        textCell.setTextAndValue(LocaleController.getString("StickerSize", R.string.StickerSize), String.valueOf(Math.round(NekoConfig.stickerSize)), true);
+                    } else if (position == messageMenuRow) {
+                        textCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu), false);
                     }
                     break;
                 }
@@ -664,22 +720,6 @@ public class NekoSettingsActivity extends BaseFragment {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     if (position == ipv6Row) {
                         textCell.setTextAndCheck(LocaleController.getString("IPv6", R.string.IPv6), NekoConfig.useIPv6, false);
-                    } else if (position == showAddToSavedMessagesRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages), NekoConfig.showAddToSavedMessages, true);
-                    } else if (position == showPrPrRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("Prpr", R.string.Prpr), NekoConfig.showPrPr, true);
-                    } else if (position == showViewHistoryRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("ViewHistory", R.string.ViewHistory), NekoConfig.showViewHistory, true);
-                    } else if (position == showReportRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("ReportChat", R.string.ReportChat), NekoConfig.showReport, true);
-                    } else if (position == showAdminActionsRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("EditAdminRights", R.string.EditAdminRights), NekoConfig.showAdminActions, true);
-                    } else if (position == showChangePermissionsRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("ChangePermissions", R.string.ChangePermissions), NekoConfig.showChangePermissions, true);
-                    } else if (position == showDeleteDownloadedFileRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile), NekoConfig.showDeleteDownloadedFile, true);
-                    } else if (position == showMessageDetailsRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("MessageDetails", R.string.MessageDetails), NekoConfig.showMessageDetails, false);
                     } else if (position == hidePhoneRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HidePhone", R.string.HidePhone), NekoConfig.hidePhone, true);
                     } else if (position == inappCameraRow) {
@@ -718,8 +758,6 @@ public class NekoSettingsActivity extends BaseFragment {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == settingsRow) {
                         headerCell.setText(LocaleController.getString("General", R.string.General));
-                    } else if (position == messageMenuRow) {
-                        headerCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu));
                     } else if (position == connectionRow) {
                         headerCell.setText(LocaleController.getString("Connection", R.string.Connection));
                     } else if (position == chatRow) {
@@ -743,15 +781,12 @@ public class NekoSettingsActivity extends BaseFragment {
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int position = holder.getAdapterPosition();
             return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow ||
-                    position == useSystemEmojiRow || position == ipv6Row || position == typefaceRow ||
-                    position == showChangePermissionsRow || position == showDeleteDownloadedFileRow ||
-                    position == showAdminActionsRow || position == showReportRow || position == showPrPrRow ||
-                    position == showViewHistoryRow || position == showAddToSavedMessagesRow || position == nameOrderRow ||
+                    position == useSystemEmojiRow || position == ipv6Row || position == typefaceRow || position == nameOrderRow ||
                     position == forceTabletRow || position == mapPreviewRow || position == xmasRow || position == newYearRow ||
                     position == newYearEveRow || position == fireworksRow || position == transparentStatusBarRow ||
                     position == hideProxySponsorChannelRow || position == saveCacheToPrivateDirectoryRow ||
                     (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow ||
-                    position == unlimitedFavedStickersRow || position == showMessageDetailsRow;
+                    position == unlimitedFavedStickersRow || position == messageMenuRow;
         }
 
         @Override
@@ -792,21 +827,18 @@ public class NekoSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == messageMenu2Row || position == connection2Row || position == chat2Row || position == experiment2Row) {
+            if (position == connection2Row || position == chat2Row || position == experiment2Row) {
                 return 1;
-            } else if (position == nameOrderRow || position == mapPreviewRow || position == stickerSizeRow) {
+            } else if (position == nameOrderRow || position == mapPreviewRow || position == stickerSizeRow || position == messageMenuRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
-                    position == showAddToSavedMessagesRow || position == showPrPrRow || position == showReportRow ||
-                    position == showAdminActionsRow || position == showChangePermissionsRow || position == showDeleteDownloadedFileRow ||
-                    position == transparentStatusBarRow || position == hideProxySponsorChannelRow || position == showViewHistoryRow ||
+                    position == transparentStatusBarRow || position == hideProxySponsorChannelRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
                     position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
                     position == fireworksRow || position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
-                    position == disableFilteringRow || position == showMessageDetailsRow) {
+                    position == disableFilteringRow) {
                 return 3;
-            } else if (position == settingsRow || position == connectionRow || position == messageMenuRow || position == chatRow ||
-                    position == experimentRow) {
+            } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
                 return 4;
             } else if (position == needRestartRow) {
                 return 7;
