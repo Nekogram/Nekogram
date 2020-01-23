@@ -24,7 +24,7 @@ public class NekoConfig {
     public static boolean hideProxySponsorChannel = false;
     public static boolean saveCacheToPrivateDirectory = Build.VERSION.SDK_INT >= 24;
     public static float stickerSize = 14.0f;
-    public static boolean unlimitedFavedStickers = true;
+    public static boolean unlimitedFavedStickers = false;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
