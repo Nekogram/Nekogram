@@ -60,6 +60,7 @@ public class SharedConfig {
     public static int lastKeepMediaCheckTime;
     public static int searchMessagesAsListHintShows;
     public static int textSelectionHintShows;
+    public static int scheduledOrNoSoundHintShows;
     public static boolean searchMessagesAsListUsed;
     private static int lastLocalId = -210000;
 
@@ -94,8 +95,9 @@ public class SharedConfig {
     public static int repeatMode;
     public static boolean allowBigEmoji;
     public static boolean useSystemEmoji;
-    public static int fontSize = AndroidUtilities.dp(16);
-    public static int ivFontSize = AndroidUtilities.dp(16);
+    public static int fontSize = 16;
+    public static int bubbleRadius = 10;
+    public static int ivFontSize = 16;
     private static int devicePerformanceClass;
 
     public static boolean drawDialogIcons;
@@ -173,6 +175,7 @@ public class SharedConfig {
                 editor.putBoolean("sortContactsByName", sortContactsByName);
                 editor.putBoolean("sortFilesByName", sortFilesByName);
                 editor.putInt("textSelectionHintShows", textSelectionHintShows);
+                editor.putInt("scheduledOrNoSoundHintShows", scheduledOrNoSoundHintShows);
                 editor.commit();
             } catch (Exception e) {
                 FileLog.e(e);
@@ -217,7 +220,7 @@ public class SharedConfig {
             }
 
             if (passcodeHash.length() > 0 && lastPauseTime == 0) {
-                lastPauseTime = (int) (SystemClock.uptimeMillis() / 1000 - 60 * 10);
+                lastPauseTime = (int) (SystemClock.elapsedRealtime() / 1000 - 60 * 10);
             }
 
             String passcodeSaltString = preferences.getString("passcodeSalt", "");
@@ -242,6 +245,7 @@ public class SharedConfig {
             roundCamera16to9 = true;//preferences.getBoolean("roundCamera16to9", false);
             repeatMode = preferences.getInt("repeatMode", 0);
             fontSize = preferences.getInt("fons_size", AndroidUtilities.isTablet() ? 18 : 16);
+            bubbleRadius = preferences.getInt("bubbleRadius", 10);
             ivFontSize = preferences.getInt("iv_font_size", fontSize);
             allowBigEmoji = preferences.getBoolean("allowBigEmoji", true);
             useSystemEmoji = preferences.getBoolean("useSystemEmoji", false);
@@ -264,6 +268,7 @@ public class SharedConfig {
             searchMessagesAsListHintShows = preferences.getInt("searchMessagesAsListHintShows", 0);
             searchMessagesAsListUsed = preferences.getBoolean("searchMessagesAsListUsed", false);
             textSelectionHintShows = preferences.getInt("textSelectionHintShows", 0);
+            scheduledOrNoSoundHintShows = preferences.getInt("scheduledOrNoSoundHintShows", 0);
 
             preferences = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", Activity.MODE_PRIVATE);
             showNotificationsForAllAccounts = preferences.getBoolean("AllAccounts", true);
@@ -380,6 +385,7 @@ public class SharedConfig {
         allowScreenCapture = false;
         lastUpdateVersion = BuildVars.BUILD_VERSION_STRING;
         textSelectionHintShows = 0;
+        scheduledOrNoSoundHintShows = 0;
         saveConfig();
     }
 
@@ -410,6 +416,20 @@ public class SharedConfig {
         SharedPreferences preferences = MessagesController.getGlobalMainSettings();
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("textSelectionHintShows", 3);
+        editor.commit();
+    }
+
+    public static void increaseScheduledOrNoSuoundHintShowed() {
+        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("scheduledOrNoSoundHintShows", ++scheduledOrNoSoundHintShows);
+        editor.commit();
+    }
+
+    public static void removeScheduledOrNoSuoundHint() {
+        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("scheduledOrNoSoundHintShows", 3);
         editor.commit();
     }
 
