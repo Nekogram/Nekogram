@@ -560,7 +560,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 }
             }
         });
-        if (selectType != 0 || type == TYPE_USERS || type == TYPE_BANNED || type == TYPE_KICKED) {
+        if (ChatObject.hasAdminRights(currentChat) && (selectType != 0 || type == TYPE_USERS || type == TYPE_BANNED || type == TYPE_KICKED)) {
             searchListViewAdapter = new SearchAdapter(context);
             ActionBarMenu menu = actionBar.createMenu();
             searchItem = menu.addItem(search_button, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() {
