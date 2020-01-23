@@ -747,7 +747,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                         if (setFontSize(AndroidUtilities.isTablet() ? 18 : 16)) {
                             changed = true;
                         }
-                        if (setBubbleRadius(6, true)) {
+                        if (setBubbleRadius(10, true)) {
                             changed = true;
                         }
                         if (changed) {
