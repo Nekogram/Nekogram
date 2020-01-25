@@ -5,10 +5,11 @@
 Nekogram is an UNOFFICIAL app that uses Telegram's API.
 
 - Google play store: https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram
-- Update news: https://t.me/Zuragram
+- Update news (English): https://t.me/nekoupdates
+- Update news (Chinese): https://t.me/zuragram
 - APKs: https://github.com/Nekogram/Nekogram/releases
+- Feedback: https://t.me/nekosupportbot
 - Feedback: https://github.com/Nekogram/Nekogram/issues
-- Feedback (Chinese): https://t.me/makurabot
 - Chat group (Chinese & English): Join our channel (https://t.me/Zuragram) and click "Chat"
 
 ## API, Protocol documentation
