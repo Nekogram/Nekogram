@@ -65,19 +65,27 @@ android {
     }
 
     signingConfigs {
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        def keystorePwd = null
+        def alias = null
+        def pwd = null
+        if (project.rootProject.file('local.properties').exists()) {
+            Properties properties = new Properties()
+            properties.load(project.rootProject.file('local.properties').newDataInputStream())
+            keystorePwd = properties.getProperty("RELEASE_STORE_PASSWORD")
+            alias = properties.getProperty("RELEASE_KEY_ALIAS")
+            pwd = properties.getProperty("RELEASE_KEY_PASSWORD")
+        }
         release {
             storeFile file("config/release.keystore")
-            storePassword properties.getProperty("RELEASE_STORE_PASSWORD")
-            keyAlias properties.getProperty("RELEASE_KEY_ALIAS")
-            keyPassword properties.getProperty("RELEASE_KEY_PASSWORD")
+            storePassword keystorePwd != null ? keystorePwd : System.getenv("KEYSTORE_PASS")
+            keyAlias alias != null ? alias : System.getenv("ALIAS_NAME")
+            keyPassword pwd != null ? pwd : System.getenv("ALIAS_PASS")
         }
         debug {
             storeFile file("config/release.keystore")
-            storePassword properties.getProperty("RELEASE_STORE_PASSWORD")
-            keyAlias properties.getProperty("RELEASE_KEY_ALIAS")
-            keyPassword properties.getProperty("RELEASE_KEY_PASSWORD")
+            storePassword keystorePwd != null ? keystorePwd : System.getenv("KEYSTORE_PASS")
+            keyAlias alias != null ? alias : System.getenv("ALIAS_NAME")
+            keyPassword pwd != null ? pwd : System.getenv("ALIAS_PASS")
         }
     }
 
@@ -87,7 +95,7 @@ android {
             debuggable true
             jniDebuggable true
             signingConfig signingConfigs.debug
-            //applicationIdSuffix ".beta"
+            applicationIdSuffix ".beta"
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -134,7 +142,7 @@ android {
             debuggable false
             jniDebuggable false
             signingConfig signingConfigs.debug
-            //applicationIdSuffix ".beta"
+            applicationIdSuffix ".beta"
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -290,7 +298,7 @@ android {
         }
     }
 
-    defaultConfig.versionCode = 10 * 1851
+    defaultConfig.versionCode = 10 * 1852
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->

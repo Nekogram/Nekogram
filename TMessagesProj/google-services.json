@@ -21,19 +21,52 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAC4QRIDv2Tjp79zR2aqFgzYd_s1d_nsHI"
+          "current_key": "AIzaSyCGMAA5lSWvRAgaVtF1-Bh3Di07zePnUbA"
+        },
+        {
+          "current_key": "AIzaSyB1FZcptgvQQZcUrPV7cJmjG5zkbCWxiK0"
         }
       ],
       "services": {
-        "analytics_service": {
-          "status": 1
-        },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551995224478-u59bvc0oqd8ma9499rvo9s5vvgofrd0f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:551995224478:android:99f9755a158003cb3a268f",
+        "android_client_info": {
+          "package_name": "tw.nekomimi.nekogram.beta"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "551995224478-u59bvc0oqd8ma9499rvo9s5vvgofrd0f.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCGMAA5lSWvRAgaVtF1-Bh3Di07zePnUbA"
         },
-        "ads_service": {
-          "status": 2
+        {
+          "current_key": "AIzaSyB1FZcptgvQQZcUrPV7cJmjG5zkbCWxiK0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "551995224478-u59bvc0oqd8ma9499rvo9s5vvgofrd0f.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         }
       }
     }
