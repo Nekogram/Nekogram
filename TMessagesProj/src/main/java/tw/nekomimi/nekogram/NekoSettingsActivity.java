@@ -469,7 +469,7 @@ public class NekoSettingsActivity extends BaseFragment {
         linearLayoutInviteContainer.setOrientation(LinearLayout.VERTICAL);
         linearLayout.addView(linearLayoutInviteContainer, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
-        int count = 8;
+        int count = 9;
         for (int a = 0; a < count; a++) {
             TextCheckCell textCell = new TextCheckCell(context);
             switch (a) {
@@ -502,7 +502,11 @@ public class NekoSettingsActivity extends BaseFragment {
                     break;
                 }
                 case 7: {
-                    textCell.setTextAndCheck(LocaleController.getString("MessageDetails", R.string.MessageDetails), NekoConfig.showMessageDetails, false);
+                    textCell.setTextAndCheck(LocaleController.getString("MessageDetails", R.string.MessageDetails), NekoConfig.showMessageDetails, true);
+                    break;
+                }
+                case 8: {
+                    textCell.setTextAndValueAndCheck(LocaleController.getString("MessageDetails", R.string.Translate), LocaleController.getString("ServiceByGoogle", R.string.ServiceByGoogle), NekoConfig.showTranslate, false, false);
                     break;
                 }
             }
@@ -550,6 +554,11 @@ public class NekoSettingsActivity extends BaseFragment {
                     case 7: {
                         NekoConfig.toggleShowMessageDetails();
                         textCell.setChecked(NekoConfig.showMessageDetails);
+                        break;
+                    }
+                    case 8: {
+                        NekoConfig.toggleShowTranslate();
+                        textCell.setChecked(NekoConfig.showTranslate);
                         break;
                     }
                 }

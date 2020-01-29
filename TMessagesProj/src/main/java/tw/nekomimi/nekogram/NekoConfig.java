@@ -34,6 +34,7 @@ public class NekoConfig {
     public static boolean showChangePermissions = true;
     public static boolean showDeleteDownloadedFile = true;
     public static boolean showMessageDetails = false;
+    public static boolean showTranslate = false;
 
     public static boolean xmas = false;
     public static boolean newYear = false;
@@ -71,6 +72,7 @@ public class NekoConfig {
                 editor.putBoolean("showChangePermissions", showChangePermissions);
                 editor.putBoolean("showDeleteDownloadedFile", showDeleteDownloadedFile);
                 editor.putBoolean("showMessageDetails", showMessageDetails);
+                editor.putBoolean("showTranslate", showTranslate);
                 editor.putBoolean("xmas", xmas);
                 editor.putBoolean("newYear", newYear);
                 editor.putBoolean("newYearEve", newYearEve);
@@ -111,6 +113,7 @@ public class NekoConfig {
             showChangePermissions = preferences.getBoolean("showChangePermissions", true);
             showDeleteDownloadedFile = preferences.getBoolean("showDeleteDownloadedFile", true);
             showMessageDetails = preferences.getBoolean("showMessageDetails", false);
+            showTranslate = preferences.getBoolean("showTranslate", false);
             xmas = preferences.getBoolean("xmas", false);
             newYear = preferences.getBoolean("newYear", false);
             newYearEve = preferences.getBoolean("newYearEve", false);
@@ -317,6 +320,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("unlimitedFavedStickers", unlimitedFavedStickers);
+        editor.commit();
+    }
+
+    public static void toggleShowTranslate() {
+        showTranslate = !showTranslate;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showTranslate", showTranslate);
         editor.commit();
     }
 

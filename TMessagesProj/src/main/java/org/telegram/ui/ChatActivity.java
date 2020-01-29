@@ -203,6 +203,7 @@ import org.telegram.ui.Components.voip.VoIPHelper;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.MessageHelper;
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.TranslateBottomSheet;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -13910,6 +13911,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 options.add(89);
                                 icons.add(R.drawable.menu_info);
                             }
+                            if (!TextUtils.isEmpty(selectedObject.messageOwner.message) && NekoConfig.showTranslate) {
+                                items.add(LocaleController.getString("Translate", R.string.Translate));
+                                options.add(88);
+                                icons.add(R.drawable.ic_translate);
+                            }
                         }
                         if (allowUnpin) {
                             items.add(LocaleController.getString("UnpinMessage", R.string.UnpinMessage));
@@ -14871,6 +14877,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
+                break;
+            } case 88: {
+                TranslateBottomSheet.show(getParentActivity(), selectedObject.messageOwner.message);
                 break;
             } case 89: {
                 presentFragment(new MessageDetailsActivity(selectedObject));

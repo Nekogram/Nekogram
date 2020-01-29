@@ -62,4 +62,6 @@
     <string name="UnlimitedFavoredStickersAbout">Add unlimited stickers to favorites. Stickers may not be synchronized to other devices.</string>
     <string name="MessageDetails">Details</string>
     <string name="ExportAsJson">Export as JSON</string>
+    <string name="Translate">Translate</string>
+    <string name="ServiceByGoogle">Translation service is provided by Google</string>
 </resources>
