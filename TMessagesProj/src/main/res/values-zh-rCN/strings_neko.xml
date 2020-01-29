@@ -58,4 +58,6 @@
     <string name="UnlimitedFavoredStickersAbout">向收藏夹添加无限贴纸，贴纸可能将不能同步到其它设备。</string>
     <string name="MessageDetails">详情</string>
     <string name="ExportAsJson">导出为 JSON</string>
+    <string name="Translate">翻译</string>
+    <string name="ServiceByGoogle">翻译服务由 Google 提供</string>
 </resources>

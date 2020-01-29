@@ -58,4 +58,6 @@
     <string name="UnlimitedFavoredStickersAbout">向收藏夾添加無限貼圖，貼圖可能將不能同步到其它裝置。</string>
     <string name="MessageDetails">資訊</string>
     <string name="ExportAsJson">導出為 JSON</string>
+    <string name="Translate">翻譯</string>
+    <string name="ServiceByGoogle">翻譯服務由 Google 提供</string>
 </resources>
