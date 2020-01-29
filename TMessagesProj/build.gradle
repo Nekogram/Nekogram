@@ -305,7 +305,7 @@ android {
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = "app.apk"
+            outputFileName = "Nekogram-${defaultConfig.versionName}-${variant.productFlavors.get(0).name}-${buildType.name}.apk"
             output.getProcessManifestProvider().get().doLast {
                 def abiVersion = variant.productFlavors.get(0).abiVersionCode
 
