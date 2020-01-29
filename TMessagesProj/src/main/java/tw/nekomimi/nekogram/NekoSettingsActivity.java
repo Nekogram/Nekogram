@@ -453,17 +453,11 @@ public class NekoSettingsActivity extends BaseFragment {
             return;
         }
         Context context = getParentActivity();
-        BottomSheet.Builder builder = new BottomSheet.Builder(context);
-        builder.setApplyTopPadding(false);
-        builder.setApplyBottomPadding(false);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(LocaleController.getString("MessageMenu", R.string.MessageMenu));
 
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
-
-        HeaderCell headerCell = new HeaderCell(context, true, 23, 15, false);
-        headerCell.setHeight(47);
-        headerCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu));
-        linearLayout.addView(headerCell);
 
         LinearLayout linearLayoutInviteContainer = new LinearLayout(context);
         linearLayoutInviteContainer.setOrientation(LinearLayout.VERTICAL);
@@ -474,39 +468,39 @@ public class NekoSettingsActivity extends BaseFragment {
             TextCheckCell textCell = new TextCheckCell(context);
             switch (a) {
                 case 0: {
-                    textCell.setTextAndCheck(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages), NekoConfig.showAddToSavedMessages, true);
+                    textCell.setTextAndCheck(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages), NekoConfig.showAddToSavedMessages, false);
                     break;
                 }
                 case 1: {
-                    textCell.setTextAndCheck(LocaleController.getString("Prpr", R.string.Prpr), NekoConfig.showPrPr, true);
+                    textCell.setTextAndCheck(LocaleController.getString("Prpr", R.string.Prpr), NekoConfig.showPrPr, false);
                     break;
                 }
                 case 2: {
-                    textCell.setTextAndCheck(LocaleController.getString("ViewHistory", R.string.ViewHistory), NekoConfig.showViewHistory, true);
+                    textCell.setTextAndCheck(LocaleController.getString("ViewHistory", R.string.ViewHistory), NekoConfig.showViewHistory, false);
                     break;
                 }
                 case 3: {
-                    textCell.setTextAndCheck(LocaleController.getString("ReportChat", R.string.ReportChat), NekoConfig.showReport, true);
+                    textCell.setTextAndCheck(LocaleController.getString("ReportChat", R.string.ReportChat), NekoConfig.showReport, false);
                     break;
                 }
                 case 4: {
-                    textCell.setTextAndCheck(LocaleController.getString("EditAdminRights", R.string.EditAdminRights), NekoConfig.showAdminActions, true);
+                    textCell.setTextAndCheck(LocaleController.getString("EditAdminRights", R.string.EditAdminRights), NekoConfig.showAdminActions, false);
                     break;
                 }
                 case 5: {
-                    textCell.setTextAndCheck(LocaleController.getString("ChangePermissions", R.string.ChangePermissions), NekoConfig.showChangePermissions, true);
+                    textCell.setTextAndCheck(LocaleController.getString("ChangePermissions", R.string.ChangePermissions), NekoConfig.showChangePermissions, false);
                     break;
                 }
                 case 6: {
-                    textCell.setTextAndCheck(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile), NekoConfig.showDeleteDownloadedFile, true);
+                    textCell.setTextAndCheck(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile), NekoConfig.showDeleteDownloadedFile, false);
                     break;
                 }
                 case 7: {
-                    textCell.setTextAndCheck(LocaleController.getString("MessageDetails", R.string.MessageDetails), NekoConfig.showMessageDetails, true);
+                    textCell.setTextAndCheck(LocaleController.getString("MessageDetails", R.string.MessageDetails), NekoConfig.showMessageDetails, false);
                     break;
                 }
                 case 8: {
-                    textCell.setTextAndValueAndCheck(LocaleController.getString("MessageDetails", R.string.Translate), LocaleController.getString("ServiceByGoogle", R.string.ServiceByGoogle), NekoConfig.showTranslate, false, false);
+                    textCell.setTextAndValueAndCheck(LocaleController.getString("Translate", R.string.Translate), LocaleController.getString("ServiceByGoogle", R.string.ServiceByGoogle), NekoConfig.showTranslate, false, false);
                     break;
                 }
             }
@@ -564,7 +558,8 @@ public class NekoSettingsActivity extends BaseFragment {
                 }
             });
         }
-        builder.setCustomView(linearLayout);
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+        builder.setView(linearLayout);
         showDialog(builder.create());
     }
 
