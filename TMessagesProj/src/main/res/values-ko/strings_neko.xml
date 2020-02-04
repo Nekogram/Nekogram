@@ -6,7 +6,7 @@
     <string name="MessageMenu">메세지 메뉴</string>
     <string name="HidePhone">내 번호 숨기기</string>
     <string name="Hide">숨기기</string>
-    <string name="DeleteAllFromSelf">내 모든 대화내용 삭제</string>
+    <string name="DeleteAllFromSelf">내 대화 내용 비우기</string>
     <string name="DeleteAllFromSelfAlert">경고! \"내 모든 대화내용\"을 \"모든사용자\" 에게서 삭제 합니다.</string>
     <string name="BotLogin">봇 로그인</string>
     <string name="InvalidAccessToken">잘못된 액세스 토큰</string>
