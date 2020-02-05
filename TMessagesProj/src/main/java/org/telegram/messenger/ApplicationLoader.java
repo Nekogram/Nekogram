@@ -32,6 +32,7 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
 import com.microsoft.appcenter.crashes.Crashes;
+import com.microsoft.appcenter.push.Push;
 
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
@@ -178,7 +179,7 @@ public class ApplicationLoader extends Application {
 
         super.onCreate();
         AppCenter.start(this, "033a70ca-ea8d-4c2f-8c2c-b37f1b47f766",
-                Analytics.class, Crashes.class);
+                Analytics.class, Crashes.class, Push.class);
         if (applicationContext == null) {
             applicationContext = getApplicationContext();
         }

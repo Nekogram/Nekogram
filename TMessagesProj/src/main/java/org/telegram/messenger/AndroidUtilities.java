@@ -2733,7 +2733,7 @@ public class AndroidUtilities {
             lineView.setBackgroundColor(Theme.getColor(Theme.key_divider));
             linearLayout.addView(lineView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1));
         }
-        for (int a = 0; a < 5; a++) {
+        for (int a = 0; a < 6; a++) {
             String text = null;
             String detail = null;
             if (a == 0) {
@@ -2751,6 +2751,9 @@ public class AndroidUtilities {
             } else if (a == 4) {
                 text = password;
                 detail = LocaleController.getString("UseProxyPassword", R.string.UseProxyPassword);
+            } else if (a == 5) {
+                text = LocaleController.getString("Checking", R.string.Checking);
+                detail = LocaleController.getString("Checking", R.string.Checking);
             }
             if (TextUtils.isEmpty(text)) {
                 continue;
@@ -2760,8 +2763,18 @@ public class AndroidUtilities {
             cell.getTextView().setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
             cell.getValueTextView().setTextColor(Theme.getColor(Theme.key_dialogTextGray3));
             linearLayout.addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-            if (a == 2) {
-                break;
+            if (a == 5) {
+                ConnectionsManager.getInstance(UserConfig.selectedAccount).checkProxy(address, Utilities.parseInt(port), user, password, secret, time -> AndroidUtilities.runOnUIThread(() -> {
+                    String colorKey;
+                    if (time != -1) {
+                        cell.setTextAndValue(LocaleController.getString("Available", R.string.Available), LocaleController.formatString("Ping", R.string.Ping, time), true);
+                        colorKey = Theme.key_windowBackgroundWhiteGreenText;
+                    } else {
+                        cell.setTextAndValue(LocaleController.getString("Unavailable", R.string.Unavailable), LocaleController.getString("Unavailable", R.string.Unavailable), true);
+                        colorKey = Theme.key_windowBackgroundWhiteRedText4;
+                    }
+                    cell.getValueTextView().setTextColor(Theme.getColor(colorKey));
+                }));
             }
         }
 
