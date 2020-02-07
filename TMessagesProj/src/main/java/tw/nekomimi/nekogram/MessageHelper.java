@@ -68,8 +68,12 @@ public class MessageHelper extends BaseController {
                             if (message.random_id != 0) {
                                 random_ids.add(message.random_id);
                             }
-                            channelId = message.to_id.channel_id;
-                            lastMessageId = message.id;
+                            if (message.to_id.channel_id != 0) {
+                                channelId = message.to_id.channel_id;
+                            }
+                            if (message.id > lastMessageId) {
+                                lastMessageId = message.id;
+                            }
                         }
                         getMessagesController().deleteMessages(ids, random_ids, null, dialog_id, channelId, true, false);
                         deleteUserChannelHistoryWithSearch(dialog_id, user, lastMessageId);
