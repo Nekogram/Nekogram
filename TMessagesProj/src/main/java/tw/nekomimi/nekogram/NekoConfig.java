@@ -21,6 +21,7 @@ public class NekoConfig {
     public static int mapPreviewProvider = 0;
     public static boolean transparentStatusBar = false;
     public static boolean residentNotification = false;
+    public static boolean showJoinDate = false;
     public static boolean hideProxySponsorChannel = false;
     public static boolean saveCacheToPrivateDirectory = Build.VERSION.SDK_INT >= 24;
     public static float stickerSize = 14.0f;
@@ -79,6 +80,7 @@ public class NekoConfig {
                 editor.putBoolean("fireworks", fireworks);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putBoolean("unlimitedFavedStickers", unlimitedFavedStickers);
+                editor.putBoolean("showJoinDate", showJoinDate);
 
                 editor.commit();
             } catch (Exception e) {
@@ -120,6 +122,7 @@ public class NekoConfig {
             fireworks = preferences.getBoolean("fireworks", false);
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
             unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", false);
+            showJoinDate = preferences.getBoolean("showJoinDate", false);
             configLoaded = true;
         }
     }
@@ -336,6 +339,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putFloat("stickerSize", stickerSize);
+        editor.commit();
+    }
+
+    public static void toggleShowJoinDate() {
+        showJoinDate = !showJoinDate;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showJoinDate", showJoinDate);
         editor.commit();
     }
 

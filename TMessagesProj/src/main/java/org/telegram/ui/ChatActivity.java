@@ -10973,7 +10973,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             getMessagesController().loadChannelParticipants(currentChat.id);
                         }
                     }
-                    if (chatFull.participants == null && chatInfo != null) {
+                    if ((NekoConfig.showJoinDate || chatFull.participants == null) && chatInfo != null) {
                         chatFull.participants = chatInfo.participants;
                     }
                 }
