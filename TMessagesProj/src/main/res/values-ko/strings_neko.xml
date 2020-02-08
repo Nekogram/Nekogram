@@ -62,6 +62,5 @@
     <string name="ServiceByGoogle">번역 서비스는 Google에서 제공합니다</string>
     <string name="JoinedFormatted">%1$s 님 참여</string>
     <string name="JoinedDateFormatted">%1$s 참여</string>
-    <string name="ShowJoinDate">그룹 참가자의 참여 날짜 표시</string>
     <string name="DeleteAccount">텔레그램 계정 삭제</string>
 </resources>

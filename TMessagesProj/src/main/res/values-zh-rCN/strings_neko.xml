@@ -62,6 +62,5 @@
     <string name="ServiceByGoogle">翻译服务由 Google 提供</string>
     <string name="JoinedFormatted">加入于 %1$s</string>
     <string name="JoinedDateFormatted">加入于 %1$s</string>
-    <string name="ShowJoinDate">显示群成员的加入日期</string>
     <string name="DeleteAccount">删除 Telegram 帐户</string>
 </resources>
