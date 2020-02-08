@@ -772,6 +772,7 @@ public class NekoSettingsActivity extends BaseFragment {
                 }
                 case 2: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
+                    textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == nameOrderRow) {
                         String value;
                         switch (NekoConfig.nameOrder) {
@@ -810,6 +811,7 @@ public class NekoSettingsActivity extends BaseFragment {
                 }
                 case 3: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
+                    textCell.setEnabled(true, null);
                     if (position == ipv6Row) {
                         textCell.setTextAndCheck(LocaleController.getString("IPv6", R.string.IPv6), NekoConfig.useIPv6, false);
                     } else if (position == hidePhoneRow) {

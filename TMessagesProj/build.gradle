@@ -302,11 +302,11 @@ android {
         }
     }
 
-    defaultConfig.versionCode = 10 * 1856
+    defaultConfig.versionCode = 10 * 1857
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = "Nekogram-${defaultConfig.versionName}-${variant.productFlavors.get(0).name}-${buildType.name}.apk"
+            outputFileName = "Nekogram-${defaultConfig.versionName}-${defaultConfig.versionCode / 10}-${variant.productFlavors.get(0).name}-${buildType.name}.apk"
             output.getProcessManifestProvider().get().doLast {
                 def abiVersion = variant.productFlavors.get(0).abiVersionCode
 
