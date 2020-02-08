@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -15,11 +16,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -94,6 +97,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int experimentRow;
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
+    private int deleteAccountRow;
     private int experiment2Row;
 
     @Override
@@ -319,6 +323,74 @@ public class NekoSettingsActivity extends BaseFragment {
                 }
             } else if (position == messageMenuRow) {
                 showMessageMenuAlert();
+            } else if (position == deleteAccountRow) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                builder.setMessage(LocaleController.getString("TosDeclineDeleteAccount", R.string.TosDeclineDeleteAccount));
+                builder.setTitle(LocaleController.getString("DeleteAccount", R.string.DeleteAccount));
+                builder.setPositiveButton(LocaleController.getString("Deactivate", R.string.Deactivate), (dialog, which) -> {
+                    ArrayList<TLRPC.Dialog> dialogs = new ArrayList<>(getMessagesController().getAllDialogs());
+                    for (TLRPC.Dialog TLdialog : dialogs) {
+                        if (TLdialog instanceof TLRPC.TL_dialogFolder) {
+                            continue;
+                        }
+                        TLRPC.Peer peer = getMessagesController().getPeer((int) TLdialog.id);
+                        if (peer.channel_id != 0) {
+                            TLRPC.Chat chat = getMessagesController().getChat(peer.channel_id);
+                            if (!chat.broadcast) {
+                                MessageHelper.getInstance(currentAccount).deleteUserChannelHistoryWithSearch(TLdialog.id, getMessagesController().getUser(getUserConfig().clientUserId));
+                            }
+                        }
+                        if (peer.user_id != 0) {
+                            getMessagesController().deleteDialog(TLdialog.id, 0, true);
+                        }
+                    }
+                    AlertDialog.Builder builder12 = new AlertDialog.Builder(getParentActivity());
+                    builder12.setMessage(LocaleController.getString("TosDeclineDeleteAccount", R.string.TosDeclineDeleteAccount));
+                    builder12.setTitle(LocaleController.getString("DeleteAccount", R.string.DeleteAccount));
+                    builder12.setPositiveButton(LocaleController.getString("Deactivate", R.string.Deactivate), (dialogInterface, i) -> {
+                        final AlertDialog progressDialog = new AlertDialog(getParentActivity(), 3);
+                        progressDialog.setCanCacnel(false);
+
+                        TLRPC.TL_account_deleteAccount req = new TLRPC.TL_account_deleteAccount();
+                        req.reason = "Meow";
+                        ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+                            try {
+                                progressDialog.dismiss();
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
+                            if (response instanceof TLRPC.TL_boolTrue) {
+                                MessagesController.getInstance(currentAccount).performLogout(0);
+                            } else if (error == null || error.code != -1000) {
+                                String errorText = LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred);
+                                if (error != null) {
+                                    errorText += "\n" + error.text;
+                                }
+                                AlertDialog.Builder builder1 = new AlertDialog.Builder(getParentActivity());
+                                builder1.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                                builder1.setMessage(errorText);
+                                builder1.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                                builder1.show();
+                            }
+                        }));
+                        progressDialog.show();
+                    });
+                    builder12.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                    AlertDialog dialog12 = builder12.create();
+                    showDialog(dialog12);
+                    TextView button = (TextView) dialog12.getButton(DialogInterface.BUTTON_POSITIVE);
+                    if (button != null) {
+                        button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
+                    }
+                });
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.show();
+                AlertDialog dialog = builder.create();
+                showDialog(dialog);
+                TextView button = (TextView) dialog.getButton(DialogInterface.BUTTON_POSITIVE);
+                if (button != null) {
+                    button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
+                }
             }
         });
 
@@ -364,6 +436,7 @@ public class NekoSettingsActivity extends BaseFragment {
         experimentRow = rowCount++;
         disableFilteringRow = rowCount++;
         unlimitedFavedStickersRow = rowCount++;
+        deleteAccountRow = rowCount++;
         experiment2Row = rowCount++;
         if (notify && listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -729,6 +802,9 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndValue(LocaleController.getString("StickerSize", R.string.StickerSize), String.valueOf(Math.round(NekoConfig.stickerSize)), true);
                     } else if (position == messageMenuRow) {
                         textCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu), false);
+                    } else if (position == deleteAccountRow) {
+                        textCell.setText(LocaleController.getString("DeleteAccount", R.string.DeleteAccount), false);
+                        textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
                     }
                     break;
                 }
@@ -768,7 +844,7 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("SensitiveDisableFiltering", R.string.SensitiveDisableFiltering), LocaleController.getString("SensitiveAbout", R.string.SensitiveAbout), sensitiveEnabled, true, true);
                         textCell.setEnabled(sensitiveCanChange, null);
                     } else if (position == unlimitedFavedStickersRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedFavoredStickers", R.string.UnlimitedFavoredStickers), LocaleController.getString("UnlimitedFavoredStickersAbout", R.string.UnlimitedFavoredStickersAbout), NekoConfig.unlimitedFavedStickers, true, false);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedFavoredStickers", R.string.UnlimitedFavoredStickers), LocaleController.getString("UnlimitedFavoredStickersAbout", R.string.UnlimitedFavoredStickersAbout), NekoConfig.unlimitedFavedStickers, true, true);
                     }
                     break;
                 }
@@ -804,7 +880,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == newYearEveRow || position == fireworksRow || position == transparentStatusBarRow ||
                     position == hideProxySponsorChannelRow || position == saveCacheToPrivateDirectoryRow ||
                     (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow ||
-                    position == unlimitedFavedStickersRow || position == messageMenuRow;
+                    position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow;
         }
 
         @Override
@@ -847,7 +923,8 @@ public class NekoSettingsActivity extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == connection2Row || position == chat2Row || position == experiment2Row) {
                 return 1;
-            } else if (position == nameOrderRow || position == mapPreviewRow || position == stickerSizeRow || position == messageMenuRow) {
+            } else if (position == nameOrderRow || position == mapPreviewRow || position == stickerSizeRow || position == messageMenuRow ||
+                    position == deleteAccountRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == transparentStatusBarRow || position == hideProxySponsorChannelRow ||
