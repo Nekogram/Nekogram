@@ -74,7 +74,6 @@ public class NekoSettingsActivity extends BaseFragment {
     private int inappCameraRow;
     private int useSystemEmojiRow;
     private int ignoreBlockedRow;
-    private int showJoinDateRow;
     private int mapPreviewRow;
     private int stickerSizeRow;
     private int messageMenuRow;
@@ -176,11 +175,6 @@ public class NekoSettingsActivity extends BaseFragment {
                 NekoConfig.toggleIgnoreBlocked();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.ignoreBlocked);
-                }
-            } else if (position == showJoinDateRow) {
-                NekoConfig.toggleShowJoinDate();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.showJoinDate);
                 }
             } else if (position == transparentStatusBarRow) {
                 NekoConfig.toggleTransparentStatusBar();
@@ -415,7 +409,6 @@ public class NekoSettingsActivity extends BaseFragment {
         inappCameraRow = rowCount++;
         useSystemEmojiRow = rowCount++;
         ignoreBlockedRow = rowCount++;
-        showJoinDateRow = rowCount++;
         hideProxySponsorChannelRow = rowCount++;
         saveCacheToPrivateDirectoryRow = Build.VERSION.SDK_INT >= 24 ? rowCount++ : -1;
         mapPreviewRow = rowCount++;
@@ -830,8 +823,6 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("TypefaceUseDefault", R.string.TypefaceUseDefault), NekoConfig.typeface == 1, true);
                     } else if (position == ignoreBlockedRow) {
                         textCell.setTextAndCheck(LocaleController.getString("IgnoreBlocked", R.string.IgnoreBlocked), NekoConfig.ignoreBlocked, true);
-                    } else if (position == showJoinDateRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("ShowJoinDate", R.string.ShowJoinDate), NekoConfig.showJoinDate, true);
                     } else if (position == forceTabletRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ForceTabletMode", R.string.ForceTabletMode), NekoConfig.forceTablet, true);
                     } else if (position == xmasRow) {
@@ -876,7 +867,7 @@ public class NekoSettingsActivity extends BaseFragment {
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int position = holder.getAdapterPosition();
-            return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow || position == showJoinDateRow ||
+            return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow ||
                     position == useSystemEmojiRow || position == ipv6Row || position == typefaceRow || position == nameOrderRow ||
                     position == forceTabletRow || position == mapPreviewRow || position == xmasRow || position == newYearRow ||
                     position == newYearEveRow || position == fireworksRow || position == transparentStatusBarRow ||
@@ -930,7 +921,7 @@ public class NekoSettingsActivity extends BaseFragment {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == transparentStatusBarRow || position == hideProxySponsorChannelRow ||
-                    position == ignoreBlockedRow || position == showJoinDateRow || position == useSystemEmojiRow || position == typefaceRow ||
+                    position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
                     position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
                     position == fireworksRow || position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
                     position == disableFilteringRow) {

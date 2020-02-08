@@ -1090,7 +1090,7 @@ public class ChatRightsEditActivity extends BaseFragment {
                     } else if (participant instanceof TLRPC.TL_chatChannelParticipant) {
                         status = LocaleController.formatDateJoined(((TLRPC.TL_chatChannelParticipant) participant).date);
                     }
-                    userCell2.setData(currentUser, null, NekoConfig.showJoinDate ? status : null, 0);
+                    userCell2.setData(currentUser, null, status, 0);
                     break;
                 case 1:
                     TextInfoPrivacyCell privacyCell = (TextInfoPrivacyCell) holder.itemView;

@@ -4291,7 +4291,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     if (part != null) {
                         String role;
-                        String joinDate;
                         if (part instanceof TLRPC.TL_chatChannelParticipant) {
                             TLRPC.ChannelParticipant channelParticipant = ((TLRPC.TL_chatChannelParticipant) part).channelParticipant;
                             if (!TextUtils.isEmpty(channelParticipant.rank)) {
@@ -4305,11 +4304,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     role = null;
                                 }
                             }
-                            if (channelParticipant instanceof TLRPC.TL_channelParticipantCreator) {
-                                joinDate = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
-                            } else {
-                                joinDate = LocaleController.formatDateJoined(part.date);
-                            }
                         } else {
                             if (part instanceof TLRPC.TL_chatParticipantCreator) {
                                 role = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
@@ -4318,14 +4312,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             } else {
                                 role = null;
                             }
-                            if (part instanceof TLRPC.TL_chatParticipantCreator) {
-                                joinDate = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
-                            } else {
-                                joinDate = LocaleController.formatDateJoined(part.date);
-                            }
                         }
                         userCell.setAdminRole(role);
-                        userCell.setData(MessagesController.getInstance(currentAccount).getUser(part.user_id), null, NekoConfig.showJoinDate ? joinDate : null, 0, position != membersEndRow - 1);
+                        userCell.setData(MessagesController.getInstance(currentAccount).getUser(part.user_id), null, null, 0, position != membersEndRow - 1);
                     }
                     break;
             }

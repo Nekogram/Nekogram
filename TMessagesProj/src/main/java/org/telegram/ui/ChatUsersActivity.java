@@ -2596,7 +2596,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                             }
                             userCell.setData(user, null, role, position != lastRow - 1);
                         } else if (type == TYPE_USERS) {
-                            userCell.setData(user, null, NekoConfig.showJoinDate ? joinDate : null, position != lastRow - 1);
+                            userCell.setData(user, null, joinDate, position != lastRow - 1);
                         }
                     }
                     break;

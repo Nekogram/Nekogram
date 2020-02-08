@@ -66,6 +66,5 @@
     <string name="ServiceByGoogle">Translation service is provided by Google</string>
     <string name="JoinedFormatted">joined %1$s</string>
     <string name="JoinedDateFormatted">joined on %1$s</string>
-    <string name="ShowJoinDate">Display join date of group members</string>
     <string name="DeleteAccount">Delete Telegram account</string>
 </resources>
