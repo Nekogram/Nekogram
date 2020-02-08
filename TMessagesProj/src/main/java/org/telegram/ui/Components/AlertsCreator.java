@@ -1009,15 +1009,15 @@ public class AlertsCreator {
             revokeTimeLimit = MessagesController.getInstance(account).revokeTimeLimit;
         }
         boolean canDeleteInbox = !secret && user != null && canRevokeInbox && revokeTimeLimit == 0x7fffffff;
-        final boolean[] deleteForAll = new boolean[1];
+        final boolean[] deleteForAll = { true };
 
         if (!second && canDeleteInbox) {
             cell[0] = new CheckBoxCell(context, 1);
             cell[0].setBackgroundDrawable(Theme.getSelectorDrawable(false));
             if (clear) {
-                cell[0].setText(LocaleController.formatString("ClearHistoryOptionAlso", R.string.ClearHistoryOptionAlso, UserObject.getFirstName(user)), "", false, false);
+                cell[0].setText(LocaleController.formatString("ClearHistoryOptionAlso", R.string.ClearHistoryOptionAlso, UserObject.getFirstName(user)), "", true, false);
             } else {
-                cell[0].setText(LocaleController.formatString("DeleteMessagesOptionAlso", R.string.DeleteMessagesOptionAlso, UserObject.getFirstName(user)), "", false, false);
+                cell[0].setText(LocaleController.formatString("DeleteMessagesOptionAlso", R.string.DeleteMessagesOptionAlso, UserObject.getFirstName(user)), "", true, false);
             }
             cell[0].setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16) : AndroidUtilities.dp(8), 0, LocaleController.isRTL ? AndroidUtilities.dp(8) : AndroidUtilities.dp(16), 0);
             frameLayout.addView(cell[0], LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.BOTTOM | Gravity.LEFT, 0, 0, 0, 0));
@@ -2428,7 +2428,7 @@ public class AlertsCreator {
         }
 
         final boolean[] checks = new boolean[3];
-        final boolean[] deleteForAll = new boolean[1];
+        final boolean[] deleteForAll = { true };
         TLRPC.User actionUser = null;
         boolean canRevokeInbox = user != null && MessagesController.getInstance(currentAccount).canRevokePmInbox;
         int revokeTimeLimit;
@@ -2557,9 +2557,9 @@ public class AlertsCreator {
                 CheckBoxCell cell = new CheckBoxCell(activity, 1);
                 cell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                 if (chat != null && hasNotOut) {
-                    cell.setText(LocaleController.getString("DeleteForAll", R.string.DeleteForAll), "", false, false);
+                    cell.setText(LocaleController.getString("DeleteForAll", R.string.DeleteForAll), "", true, false);
                 } else {
-                    cell.setText(LocaleController.getString("DeleteMessagesOption", R.string.DeleteMessagesOption), "", false, false);
+                    cell.setText(LocaleController.getString("DeleteMessagesOption", R.string.DeleteMessagesOption), "", true, false);
                 }
                 cell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16) : AndroidUtilities.dp(8), 0, LocaleController.isRTL ? AndroidUtilities.dp(8) : AndroidUtilities.dp(16), 0);
                 frameLayout.addView(cell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.TOP | Gravity.LEFT, 0, 0, 0, 0));
@@ -2607,11 +2607,11 @@ public class AlertsCreator {
                 CheckBoxCell cell = new CheckBoxCell(activity, 1);
                 cell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                 if (canDeleteInbox) {
-                    cell.setText(LocaleController.formatString("DeleteMessagesOptionAlso", R.string.DeleteMessagesOptionAlso, UserObject.getFirstName(user)), "", false, false);
+                    cell.setText(LocaleController.formatString("DeleteMessagesOptionAlso", R.string.DeleteMessagesOptionAlso, UserObject.getFirstName(user)), "", true, false);
                 } else if (chat != null && (hasNotOut || myMessagesCount == count)) {
-                    cell.setText(LocaleController.getString("DeleteForAll", R.string.DeleteForAll), "", false, false);
+                    cell.setText(LocaleController.getString("DeleteForAll", R.string.DeleteForAll), "", true, false);
                 } else {
-                    cell.setText(LocaleController.getString("DeleteMessagesOption", R.string.DeleteMessagesOption), "", false, false);
+                    cell.setText(LocaleController.getString("DeleteMessagesOption", R.string.DeleteMessagesOption), "", true, false);
                 }
                 cell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16) : AndroidUtilities.dp(8), 0, LocaleController.isRTL ? AndroidUtilities.dp(8) : AndroidUtilities.dp(16), 0);
                 frameLayout.addView(cell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.TOP | Gravity.LEFT, 0, 0, 0, 0));
