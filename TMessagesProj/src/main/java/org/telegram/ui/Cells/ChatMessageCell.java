@@ -35,6 +35,7 @@ import android.graphics.drawable.RippleDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.os.SystemClock;
 import android.text.Layout;
 import android.text.Spannable;
@@ -52,6 +53,7 @@ import android.view.HapticFeedbackConstants;
 import android.view.MotionEvent;
 import android.view.SoundEffectConstants;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewStructure;
 import android.view.accessibility.AccessibilityEvent;
@@ -60,6 +62,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.accessibility.AccessibilityNodeProvider;
 import android.view.animation.Interpolator;
 import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
@@ -88,6 +92,7 @@ import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AnimatedFileDrawable;
@@ -1553,6 +1558,43 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         int y = (int) event.getY();
 
         boolean result = false;
+        final Handler handler = new Handler();
+        Runnable mLongPressed = () -> {
+            if (pressedBotButton != -1) {
+                BotButton button = botButtons.get(pressedBotButton);
+                Gson gson = new Gson();
+                if (!TextUtils.isEmpty(button.button.url)) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("CopyLink", R.string.CopyLink)}, (dialogInterface, i) -> {
+                        if (i == 0) {
+                            try {
+                                AndroidUtilities.addToClipboard(gson.toJson(button.button));
+                                Toast.makeText(getContext(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
+                        } else if (i == 1) {
+                            try {
+                                AndroidUtilities.addToClipboard(button.button.url);
+                                Toast.makeText(getContext(), LocaleController.getString("LinkCopied", R.string.LinkCopied), Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
+                        }
+                    });
+                    builder.show();
+                } else {
+                    try {
+                        AndroidUtilities.addToClipboard(gson.toJson(button.button));
+                        Toast.makeText(getContext(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                }
+                pressedBotButton = -1;
+                invalidate();
+            }
+        };
         if (event.getAction() == MotionEvent.ACTION_DOWN) {
             int addX;
             if (currentMessageObject.isOutOwner()) {
@@ -1567,6 +1609,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     pressedBotButton = a;
                     invalidate();
                     result = true;
+                    handler.postDelayed(mLongPressed, ViewConfiguration.getLongPressTimeout());
                     break;
                 }
             }
@@ -1636,6 +1679,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
         if (!result) {
             result = checkBotButtonMotionEvent(event);
+            disallowLongPress = result;
         }
         if (!result) {
             result = checkPollButtonMotionEvent(event);

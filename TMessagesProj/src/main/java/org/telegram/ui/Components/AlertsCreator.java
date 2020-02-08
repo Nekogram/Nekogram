@@ -1009,7 +1009,7 @@ public class AlertsCreator {
             revokeTimeLimit = MessagesController.getInstance(account).revokeTimeLimit;
         }
         boolean canDeleteInbox = !secret && user != null && canRevokeInbox && revokeTimeLimit == 0x7fffffff;
-        final boolean[] deleteForAll = { true };
+        final boolean[] deleteForAll = {true};
 
         if (!second && canDeleteInbox) {
             cell[0] = new CheckBoxCell(context, 1);
@@ -2428,7 +2428,7 @@ public class AlertsCreator {
         }
 
         final boolean[] checks = new boolean[3];
-        final boolean[] deleteForAll = { true };
+        final boolean[] deleteForAll = {true};
         TLRPC.User actionUser = null;
         boolean canRevokeInbox = user != null && MessagesController.getInstance(currentAccount).canRevokePmInbox;
         int revokeTimeLimit;
