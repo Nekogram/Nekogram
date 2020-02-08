@@ -19,7 +19,7 @@ public class NekoConfig {
     public static int typeface = 0;
     public static int nameOrder = 1;
     public static int mapPreviewProvider = 0;
-    public static boolean transparentStatusBar = true;
+    public static boolean transparentStatusBar = false;
     public static boolean residentNotification = false;
     public static boolean hideProxySponsorChannel = false;
     public static boolean saveCacheToPrivateDirectory = Build.VERSION.SDK_INT >= 24;
@@ -101,7 +101,7 @@ public class NekoConfig {
             typeface = preferences.getInt("typeface", 0);
             nameOrder = preferences.getInt("nameOrder", 1);
             mapPreviewProvider = preferences.getInt("mapPreviewProvider", 0);
-            transparentStatusBar = preferences.getBoolean("transparentStatusBar", true);
+            transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
             hideProxySponsorChannel = preferences.getBoolean("hideProxySponsorChannel", false);
             saveCacheToPrivateDirectory = preferences.getBoolean("saveCacheToPrivateDirectory", Build.VERSION.SDK_INT >= 24);
