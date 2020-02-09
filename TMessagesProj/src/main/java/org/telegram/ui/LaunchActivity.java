@@ -120,6 +120,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import tw.nekomimi.nekogram.DuangService;
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.NekoSettingsActivity;
 
 public class LaunchActivity extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
 
@@ -714,7 +715,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
     private void checkSystemBarColors() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             int color = Theme.getColor(Theme.key_actionBarDefault, null, true);
-            AndroidUtilities.setLightStatusBar(getWindow(), color == Color.WHITE);
+            AndroidUtilities.setLightStatusBar(getWindow(), AndroidUtilities.computePerceivedBrightness(color) >= 0.721f);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 final Window window = getWindow();
                 color = Theme.getColor(Theme.key_windowBackgroundGray, null, true);
@@ -1581,6 +1582,8 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                                 open_settings = 2;
                                             } else if (url.contains("devices")) {
                                                 open_settings = 3;
+                                            } else if (url.contains("neko")) {
+                                                open_settings = 4;
                                             }
                                         } else if (url.startsWith("tg:meow") || url.startsWith("tg://meow") || url.startsWith("tg:nya") || url.startsWith("tg://nya") || url.startsWith("tg:miao") || url.startsWith("tg://miao")) {
                                             try {
@@ -1782,6 +1785,8 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         fragment = new ThemeActivity(ThemeActivity.THEME_TYPE_BASIC);
                     } else if (open_settings == 3) {
                         fragment = new SessionsActivity(0);
+                    } else if (open_settings == 4) {
+                        fragment = new NekoSettingsActivity();
                     } else {
                         fragment = null;
                     }
