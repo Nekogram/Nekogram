@@ -76,6 +76,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int ignoreBlockedRow;
     private int mapPreviewRow;
     private int stickerSizeRow;
+    private int translationProviderRow;
     private int messageMenuRow;
     private int chat2Row;
 
@@ -385,7 +386,44 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (button != null) {
                     button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
                 }
+            } else if (position == translationProviderRow) {
+                ArrayList<String> arrayList = new ArrayList<>();
+                ArrayList<Integer> types = new ArrayList<>();
+                arrayList.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
+                types.add(0);
+                arrayList.add(LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb));
+                types.add(1);
+                arrayList.add(LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN));
+                types.add(2);
+                arrayList.add(LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb));
+                types.add(3);
+                arrayList.add(LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb));
+                types.add(4);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
+                final LinearLayout linearLayout = new LinearLayout(context);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                builder.setView(linearLayout);
+
+                for (int a = 0; a < arrayList.size(); a++) {
+                    RadioColorCell cell = new RadioColorCell(context);
+                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+                    cell.setTag(a);
+                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+                    cell.setTextAndValue(arrayList.get(a), NekoConfig.translationProvider == types.get(a));
+                    linearLayout.addView(cell);
+                    cell.setOnClickListener(v -> {
+                        Integer which = (Integer) v.getTag();
+                        NekoConfig.setTranslationProvider(types.get(which));
+                        listAdapter.notifyItemChanged(translationProviderRow);
+                        builder.getDismissRunnable().run();
+                    });
+                }
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                showDialog(builder.create());
             }
+
         });
 
         return fragmentView;
@@ -413,6 +451,7 @@ public class NekoSettingsActivity extends BaseFragment {
         saveCacheToPrivateDirectoryRow = Build.VERSION.SDK_INT >= 24 ? rowCount++ : -1;
         mapPreviewRow = rowCount++;
         stickerSizeRow = rowCount++;
+        translationProviderRow = rowCount++;
         messageMenuRow = rowCount++;
         chat2Row = rowCount++;
         settingsRow = rowCount++;
@@ -573,7 +612,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     break;
                 }
                 case 8: {
-                    textCell.setTextAndValueAndCheck(LocaleController.getString("Translate", R.string.Translate), LocaleController.getString("ServiceByGoogle", R.string.ServiceByGoogle), NekoConfig.showTranslate, false, false);
+                    textCell.setTextAndCheck(LocaleController.getString("Translate", R.string.Translate), NekoConfig.showTranslate, false);
                     break;
                 }
             }
@@ -799,6 +838,27 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == deleteAccountRow) {
                         textCell.setText(LocaleController.getString("DeleteAccount", R.string.DeleteAccount), false);
                         textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
+                    } else if (position == translationProviderRow) {
+                        String value;
+                        switch (NekoConfig.translationProvider) {
+                            case 0:
+                                value = LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate);
+                                break;
+                            case 1:
+                                value = LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb);
+                                break;
+                            case 2:
+                                value = LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN);
+                                break;
+                            case 3:
+                                value = LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb);
+                                break;
+                            case 4:
+                            default:
+                                value = LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb);
+                                break;
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), value, true);
                     }
                     break;
                 }
@@ -873,7 +933,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == newYearEveRow || position == fireworksRow || position == transparentStatusBarRow ||
                     position == hideProxySponsorChannelRow || position == saveCacheToPrivateDirectoryRow ||
                     (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow ||
-                    position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow;
+                    position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow ||
+                    position == translationProviderRow;
         }
 
         @Override
@@ -917,7 +978,7 @@ public class NekoSettingsActivity extends BaseFragment {
             if (position == connection2Row || position == chat2Row || position == experiment2Row) {
                 return 1;
             } else if (position == nameOrderRow || position == mapPreviewRow || position == stickerSizeRow || position == messageMenuRow ||
-                    position == deleteAccountRow) {
+                    position == deleteAccountRow || position == translationProviderRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == transparentStatusBarRow || position == hideProxySponsorChannelRow ||

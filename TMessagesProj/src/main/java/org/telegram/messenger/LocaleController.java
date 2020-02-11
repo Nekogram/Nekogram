@@ -69,7 +69,7 @@ public class LocaleController {
 
     private HashMap<String, PluralRules> allRules = new HashMap<>();
 
-    private Locale currentLocale;
+    public Locale currentLocale;
     private Locale systemDefaultLocale;
     private PluralRules currentPluralRules;
     private LocaleInfo currentLocaleInfo;
@@ -332,7 +332,7 @@ public class LocaleController {
         localeInfo.baseLangCode = "zh_hans_raw";
         localeInfo.isRtl = false;
         localeInfo.pathToFile = "unofficial";
-        localeInfo.pluralLangCode = "zh";
+        localeInfo.pluralLangCode = "zh_cn";
         localeInfo.builtIn = true;
         languages.add(localeInfo);
         languagesDict.put(localeInfo.getKey(), localeInfo);
@@ -346,7 +346,7 @@ public class LocaleController {
         localeInfo.baseLangCode = "zh_hant_raw";
         localeInfo.isRtl = false;
         localeInfo.pathToFile = "unofficial";
-        localeInfo.pluralLangCode = "zh";
+        localeInfo.pluralLangCode = "zh_tw";
         localeInfo.builtIn = true;
         languages.add(localeInfo);
         languagesDict.put(localeInfo.getKey(), localeInfo);
@@ -361,7 +361,7 @@ public class LocaleController {
         localeInfo.baseLangCode = "zh_hans_raw";
         localeInfo.isRtl = false;
         localeInfo.pathToFile = "unofficial";
-        localeInfo.pluralLangCode = "zh";
+        localeInfo.pluralLangCode = "zh_cn";
         localeInfo.builtIn = true;
         languages.add(localeInfo);
         languagesDict.put(localeInfo.getKey(), localeInfo);
@@ -373,7 +373,7 @@ public class LocaleController {
         localeInfo.baseLangCode = "zh_hant_raw";
         localeInfo.isRtl = false;
         localeInfo.pathToFile = "unofficial";
-        localeInfo.pluralLangCode = "zh";
+        localeInfo.pluralLangCode = "zh_tw";
         localeInfo.builtIn = true;
         languages.add(localeInfo);
         languagesDict.put(localeInfo.getKey(), localeInfo);

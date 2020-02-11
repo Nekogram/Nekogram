@@ -1,4 +1,4 @@
-package tw.nekomimi.nekogram;
+package tw.nekomimi.nekogram.translator;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -30,6 +30,8 @@ import org.telegram.ui.Components.RadialProgressView;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class TranslateBottomSheet extends BottomSheet {
 
     @SuppressLint("StaticFieldLeak")
@@ -52,8 +54,17 @@ public class TranslateBottomSheet extends BottomSheet {
         }
 
         try {
-            url = String.format("https://translate.google.com/?view=home&op=translate&text=%s", URLEncoder.encode(text, "UTF-8"));
-            URLEncoder.encode(text, "UTF-8");
+            switch (NekoConfig.translationProvider) {
+                case 1:
+                    url = String.format("https://translate.google.com/?view=home&op=translate&text=%s", URLEncoder.encode(text, "UTF-8"));
+                    break;
+                case 3:
+                    url = String.format("https://translate.google.cn/?view=home&op=translate&text=%s", URLEncoder.encode(text, "UTF-8"));
+                    break;
+                case 4:
+                    url = String.format("https://fanyi.baidu.com/?aldtype=38319&tpltype=sigma#auto/zh/%s", Utils.encodeURIComponent(text));
+                    break;
+            }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

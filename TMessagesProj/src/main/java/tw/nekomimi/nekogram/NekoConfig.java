@@ -41,6 +41,8 @@ public class NekoConfig {
     public static boolean newYearEve = false;
     public static boolean fireworks = false;
 
+    public static int translationProvider = 0;
+
     private static boolean configLoaded;
 
     static {
@@ -79,6 +81,7 @@ public class NekoConfig {
                 editor.putBoolean("fireworks", fireworks);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putBoolean("unlimitedFavedStickers", unlimitedFavedStickers);
+                editor.putInt("translationProvider", translationProvider);
 
                 editor.commit();
             } catch (Exception e) {
@@ -120,6 +123,7 @@ public class NekoConfig {
             fireworks = preferences.getBoolean("fireworks", false);
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
             unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", false);
+            translationProvider = preferences.getInt("translationProvider", 0);
             configLoaded = true;
         }
     }
@@ -336,6 +340,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putFloat("stickerSize", stickerSize);
+        editor.commit();
+    }
+
+    public static void setTranslationProvider(int provider) {
+        translationProvider = provider;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("translationProvider", translationProvider);
         editor.commit();
     }
 

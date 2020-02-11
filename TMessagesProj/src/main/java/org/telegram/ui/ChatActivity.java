@@ -203,7 +203,8 @@ import org.telegram.ui.Components.voip.VoIPHelper;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.MessageHelper;
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.TranslateBottomSheet;
+import tw.nekomimi.nekogram.translator.GoogleWebTranslator;
+import tw.nekomimi.nekogram.translator.TranslateBottomSheet;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -213,6 +214,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14880,7 +14882,64 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 showDialog(builder.create());
                 break;
             } case 88: {
-                TranslateBottomSheet.show(getParentActivity(), selectedObject.messageOwner.message);
+                if (NekoConfig.translationProvider != 0 && NekoConfig.translationProvider != 2) {
+                    TranslateBottomSheet.show(getParentActivity(), selectedObject.messageOwner.message);
+                } else {
+                    ChatMessageCell messageCell = null;
+                    int count = chatListView.getChildCount();
+                    for (int a = 0; a < count; a++) {
+                        View child = chatListView.getChildAt(a);
+                        if (child instanceof ChatMessageCell) {
+                            ChatMessageCell cell = (ChatMessageCell) child;
+                            if (cell.getMessageObject() == selectedObject) {
+                                messageCell = cell;
+                                break;
+                            }
+                        }
+                    }
+                    String original = selectedObject.messageOwner.message;
+                    Locale locale = LocaleController.getInstance().currentLocale;
+                    String toLang;
+                    if (locale.getLanguage().equals("zh") && (locale.getCountry().toUpperCase().equals("CN") || locale.getCountry().toUpperCase().equals("TW"))) {
+                        toLang = locale.getLanguage() + "-" + locale.getCountry().toUpperCase();
+                    } else {
+                        toLang = locale.getLanguage();
+                    }
+                    ChatMessageCell finalMessageCell = messageCell;
+                    GoogleWebTranslator.getInstance().translate(original, "auto", toLang, new GoogleWebTranslator.TranslateCallBack() {
+                        @Override
+                        public void onSuccess(String translation) {
+                            if (finalMessageCell != null) {
+                                MessageObject messageObject = finalMessageCell.getMessageObject();
+                                messageObject.messageOwner.message = original +
+                                        "\n" +
+                                        "\n" +
+                                        "--------" +
+                                        "\n" +
+                                        translation;
+                                if (messageObject.caption != null) {
+                                    messageObject.caption = null;
+                                    messageObject.generateCaption();
+                                    messageObject.forceUpdate = true;
+                                }
+                                messageObject.applyNewText();
+                                messageObject.resetLayout();
+                                finalMessageCell.requestLayout();
+                                finalMessageCell.invalidate();
+                                chatAdapter.updateRowWithMessageObject(messageObject, true);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure() {
+                            try {
+                                Toast.makeText(getParentActivity(), LocaleController.getString("TranslateFailed", R.string.TranslateFailed), Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
+                        }
+                    });
+                }
                 break;
             } case 89: {
                 presentFragment(new MessageDetailsActivity(selectedObject));
