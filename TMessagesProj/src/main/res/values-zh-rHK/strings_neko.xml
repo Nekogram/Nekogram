@@ -63,4 +63,9 @@
     <string name="JoinedFormatted">加入於 %1$s</string>
     <string name="JoinedDateFormatted">加入於 %1$s</string>
     <string name="DeleteAccount">刪除 Telegram 帳戶</string>
+    <string name="TranslateFailed">翻譯失敗</string>
+    <string name="TranslationProvider">翻譯源</string>
+    <string name="ProviderGoogleTranslate">Google 翻譯</string>
+    <string name="ProviderGoogleTranslateWeb">Google 翻譯 (Web)</string>
+    <string name="ProviderBaiduFanyiWeb">百度翻譯 (Web)</string>
 </resources>

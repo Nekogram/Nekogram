@@ -56,11 +56,18 @@
     <string name="Experiment">실험용</string>
     <string name="UnlimitedFavoredStickers">무제한 스티커 저장</string>
     <string name="UnlimitedFavoredStickersAbout">즐겨 찾기에 스티커를 무제한 저장. 스티커가 다른 장치와 동기화되지 않았을 수 있습니다.</string>
-    <string name="MessageDetails">세부사항</string>
+    <string name="MessageDetails">정보</string>
     <string name="ExportAsJson">JSON으로 내보내기</string>
     <string name="Translate">번역</string>
     <string name="ServiceByGoogle">번역 서비스는 Google에서 제공합니다</string>
     <string name="JoinedFormatted">%1$s 님 참여</string>
     <string name="JoinedDateFormatted">%1$s 참여</string>
     <string name="DeleteAccount">텔레그램 계정 삭제</string>
+    <string name="TranslateFailed">번역 실패</string>
+    <string name="TranslationProvider">번역 제공자</string>
+    <string name="ProviderGoogleTranslate">구글 번역</string>
+    <string name="ProviderGoogleTranslateWeb">구글 번역 (웹)</string>
+    <string name="ProviderGoogleTranslateCN">구글 번역 CN</string>
+    <string name="ProviderGoogleTranslateCNWeb">구글 번역 CN (웹)</string>
+    <string name="ProviderBaiduFanyiWeb">바이두 번역 (웹)</string>
 </resources>
