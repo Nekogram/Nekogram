@@ -63,9 +63,14 @@
     <string name="JoinedFormatted">加入於 %1$s</string>
     <string name="JoinedDateFormatted">加入於 %1$s</string>
     <string name="DeleteAccount">刪除 Telegram 帳戶</string>
-    <string name="TranslateFailed">翻譯失敗</string>
+    <string name="TranslateFailed">翻譯伺服器錯誤</string>
     <string name="TranslationProvider">翻譯源</string>
     <string name="ProviderGoogleTranslate">Google 翻譯</string>
     <string name="ProviderGoogleTranslateWeb">Google 翻譯 (Web)</string>
+    <string name="ProviderGoogleTranslateCN">Google 中國翻譯</string>
+    <string name="ProviderGoogleTranslateCNWeb">Google 中國翻譯 (Web)</string>
     <string name="ProviderBaiduFanyiWeb">百度翻譯 (Web)</string>
+    <string name="TranslateApiUnsupported">您選擇的翻譯源不支援您的語言</string>
+    <string name="ProviderLingocloud">彩雲小譯</string>
+    <string name="UndoTranslate">撤銷翻譯</string>
 </resources>

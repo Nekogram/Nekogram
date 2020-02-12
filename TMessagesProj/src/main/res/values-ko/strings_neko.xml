@@ -63,7 +63,6 @@
     <string name="JoinedFormatted">%1$s 님 참여</string>
     <string name="JoinedDateFormatted">%1$s 참여</string>
     <string name="DeleteAccount">텔레그램 계정 삭제</string>
-    <string name="TranslateFailed">번역 실패</string>
     <string name="TranslationProvider">번역 제공자</string>
     <string name="ProviderGoogleTranslate">구글 번역</string>
     <string name="ProviderGoogleTranslateWeb">구글 번역 (웹)</string>
