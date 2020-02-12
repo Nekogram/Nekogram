@@ -2,9 +2,12 @@ package tw.nekomimi.nekogram;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BaseController;
+import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.ui.Cells.ChatMessageCell;
+import org.telegram.ui.ChatActivity;
 
 import java.util.ArrayList;
 
@@ -15,6 +18,19 @@ public class MessageHelper extends BaseController {
 
     public MessageHelper(int num) {
         super(num);
+    }
+
+    public static void setMessageContent (MessageObject messageObject, ChatMessageCell chatMessageCell,String message){
+        messageObject.messageOwner.message = message;
+        if (messageObject.caption != null) {
+            messageObject.caption = null;
+            messageObject.generateCaption();
+            messageObject.forceUpdate = true;
+        }
+        messageObject.applyNewText();
+        messageObject.resetLayout();
+        chatMessageCell.requestLayout();
+        chatMessageCell.invalidate();
     }
 
     public static MessageHelper getInstance(int num) {

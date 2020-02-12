@@ -203,7 +203,7 @@ import org.telegram.ui.Components.voip.VoIPHelper;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.MessageHelper;
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.translator.GoogleWebTranslator;
+import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.TranslateBottomSheet;
 
 import java.io.BufferedWriter;
@@ -214,7 +214,6 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -13915,7 +13914,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 icons.add(R.drawable.menu_info);
                             }
                             if (!TextUtils.isEmpty(selectedObject.messageOwner.message) && NekoConfig.showTranslate) {
-                                items.add(LocaleController.getString("Translate", R.string.Translate));
+                                Matcher matcher = Pattern.compile("\u200C\u200C\\n\\n--------\\n.*\u200C\u200C", Pattern.DOTALL).matcher(selectedObject.messageOwner.message);
+                                items.add(matcher.find() ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("Translate", R.string.Translate));
                                 options.add(88);
                                 icons.add(R.drawable.ic_translate);
                             }
@@ -14882,7 +14882,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 showDialog(builder.create());
                 break;
             } case 88: {
-                if (NekoConfig.translationProvider != 0 && NekoConfig.translationProvider != 2) {
+                if (NekoConfig.translationProvider < 0) {
                     TranslateBottomSheet.show(getParentActivity(), selectedObject.messageOwner.message);
                 } else {
                     ChatMessageCell messageCell = null;
@@ -14898,47 +14898,49 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                     }
                     String original = selectedObject.messageOwner.message;
-                    Locale locale = LocaleController.getInstance().currentLocale;
-                    String toLang;
-                    if (locale.getLanguage().equals("zh") && (locale.getCountry().toUpperCase().equals("CN") || locale.getCountry().toUpperCase().equals("TW"))) {
-                        toLang = locale.getLanguage() + "-" + locale.getCountry().toUpperCase();
+                    Matcher matcher = Pattern.compile("\u200C\u200C\\n\\n--------\\n.*\u200C\u200C", Pattern.DOTALL).matcher(original);
+                    if (matcher.find()){
+                        if (messageCell != null) {
+                            MessageHelper.setMessageContent(selectedObject,messageCell,original.replace(matcher.group(),""));
+                            chatAdapter.updateRowWithMessageObject(selectedObject, true);
+                        }
                     } else {
-                        toLang = locale.getLanguage();
-                    }
-                    ChatMessageCell finalMessageCell = messageCell;
-                    GoogleWebTranslator.getInstance().translate(original, "auto", toLang, new GoogleWebTranslator.TranslateCallBack() {
-                        @Override
-                        public void onSuccess(String translation) {
-                            if (finalMessageCell != null) {
-                                MessageObject messageObject = finalMessageCell.getMessageObject();
-                                messageObject.messageOwner.message = original +
-                                        "\n" +
-                                        "\n" +
-                                        "--------" +
-                                        "\n" +
-                                        translation;
-                                if (messageObject.caption != null) {
-                                    messageObject.caption = null;
-                                    messageObject.generateCaption();
-                                    messageObject.forceUpdate = true;
+                        ChatMessageCell finalMessageCell = messageCell;
+                        Translator.translate(original, new Translator.TranslateCallBack() {
+                            @Override
+                            public void onSuccess(String translation) {
+                                if (finalMessageCell != null) {
+                                    MessageObject messageObject = finalMessageCell.getMessageObject();
+                                    MessageHelper.setMessageContent(messageObject,finalMessageCell,original +
+                                            "\u200C\u200C\n" +
+                                            "\n" +
+                                            "--------" +
+                                            "\n" +
+                                            translation +
+                                            "\u200C\u200C");
+                                    chatAdapter.updateRowWithMessageObject(messageObject, true);
                                 }
-                                messageObject.applyNewText();
-                                messageObject.resetLayout();
-                                finalMessageCell.requestLayout();
-                                finalMessageCell.invalidate();
-                                chatAdapter.updateRowWithMessageObject(messageObject, true);
                             }
-                        }
 
-                        @Override
-                        public void onFailure() {
-                            try {
-                                Toast.makeText(getParentActivity(), LocaleController.getString("TranslateFailed", R.string.TranslateFailed), Toast.LENGTH_SHORT).show();
-                            } catch (Exception e) {
-                                FileLog.e(e);
+                            @Override
+                            public void onError() {
+                                try {
+                                    Toast.makeText(getParentActivity(), LocaleController.getString("TranslateFailed", R.string.TranslateFailed), Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    FileLog.e(e);
+                                }
                             }
-                        }
-                    });
+
+                            @Override
+                            public void onUnsupported() {
+                                try {
+                                    Toast.makeText(getParentActivity(), LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported), Toast.LENGTH_SHORT).show();
+                                } catch (Exception e) {
+                                    FileLog.e(e);
+                                }
+                            }
+                        });
+                    }
                 }
                 break;
             } case 89: {

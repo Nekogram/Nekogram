@@ -104,7 +104,7 @@ public class NekoSettingsActivity extends BaseFragment {
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
 
-        updateRows(false);
+        updateRows();
 
         return true;
     }
@@ -390,15 +390,17 @@ public class NekoSettingsActivity extends BaseFragment {
                 ArrayList<String> arrayList = new ArrayList<>();
                 ArrayList<Integer> types = new ArrayList<>();
                 arrayList.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
-                types.add(0);
-                arrayList.add(LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb));
                 types.add(1);
                 arrayList.add(LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN));
                 types.add(2);
-                arrayList.add(LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb));
+                arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
                 types.add(3);
+                arrayList.add(LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb));
+                types.add(-1);
+                arrayList.add(LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb));
+                types.add(-2);
                 arrayList.add(LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb));
-                types.add(4);
+                types.add(-3);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
@@ -438,7 +440,7 @@ public class NekoSettingsActivity extends BaseFragment {
         }
     }
 
-    private void updateRows(boolean notify) {
+    private void updateRows() {
         rowCount = 0;
         connectionRow = rowCount++;
         ipv6Row = rowCount++;
@@ -470,7 +472,7 @@ public class NekoSettingsActivity extends BaseFragment {
         unlimitedFavedStickersRow = rowCount++;
         deleteAccountRow = rowCount++;
         experiment2Row = rowCount++;
-        if (notify && listAdapter != null) {
+        if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
     }
@@ -841,21 +843,24 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == translationProviderRow) {
                         String value;
                         switch (NekoConfig.translationProvider) {
-                            case 0:
+                            case 1:
                                 value = LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate);
                                 break;
-                            case 1:
+                            case -1:
                                 value = LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb);
                                 break;
                             case 2:
                                 value = LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN);
                                 break;
-                            case 3:
+                            case -2:
                                 value = LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb);
                                 break;
-                            case 4:
-                            default:
+                            case -3:
                                 value = LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb);
+                                break;
+                            case 3:
+                            default:
+                                value = LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud);
                                 break;
                         }
                         textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), value, true);

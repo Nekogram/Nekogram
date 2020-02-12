@@ -1,7 +1,5 @@
 package tw.nekomimi.nekogram.translator;
 
-import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.text.TextUtils;
 
 import org.json.JSONArray;
@@ -13,27 +11,28 @@ import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
-public class GoogleWebTranslator {
+public class GoogleWebTranslator extends Translator {
 
     private static GoogleWebTranslator instance;
+    private List<String> targetLanguages = Arrays.asList(
+            "sq", "ar", "am", "az", "ga", "et", "eu", "be", "bg", "is", "pl", "bs", "fa",
+            "af", "da", "de", "ru", "fr", "tl", "fi", "fy", "km", "ka", "gu", "kk", "ht",
+            "ko", "ha", "nl", "ky", "gl", "ca", "cs", "kn", "co", "hr", "ku", "la", "lv",
+            "lo", "lt", "lb", "ro", "mg", "mt", "mr", "ml", "ms", "mk", "mi", "mn", "bn",
+            "my", "hmn", "xh", "zu", "ne", "no", "pa", "pt", "ps", "ny", "ja", "sv", "sm",
+            "sr", "st", "si", "eo", "sk", "sl", "sw", "gd", "ceb", "so", "tg", "te", "ta",
+            "th", "tr", "cy", "ur", "uk", "uz", "es", "iw", "el", "haw", "sd", "hu", "sn",
+            "hy", "ig", "it", "yi", "hi", "su", "id", "jw", "en", "yo", "vi", "zh-TW", "zh-CN");
     private long[] tkk;
-    /*private static List<String> targetLanguages = Arrays.asList(
-            "auto", "en", "af", "am", "ar", "az", "be", "bg", "bn", "bs", "ca",
-            "ceb", "co", "cs", "cy", "da", "de", "el", "eo", "es", "et", "eu", "fa",
-            "fi", "fr", "fy", "ga", "gd", "gl", "gu", "ha", "haw", "hi", "hmn", "hr",
-            "ht", "hu", "hy", "id", "ig", "is", "it", "iw", "ja", "jw", "ka", "kk",
-            "km", "kn", "ko", "ku", "ky", "la", "lb", "lo", "lt", "lv", "mg", "mi",
-            "mk", "ml", "mn", "mr", "ms", "mt", "my", "ne", "nl", "no", "ny", "pa",
-            "pl", "ps", "pt", "ro", "ru", "sd", "si", "sk", "sl", "sm", "sn", "so",
-            "sq", "sr", "st", "su", "sv", "sw", "ta", "te", "tg", "th", "tl", "tr",
-            "uk", "ur", "uz", "vi", "xh", "yi", "yo", "zu", "zh-CN", "zh-TW");*/
 
-    public static GoogleWebTranslator getInstance() {
+    static GoogleWebTranslator getInstance() {
         if (instance == null) {
             synchronized (GoogleWebTranslator.class) {
                 if (instance == null) {
@@ -44,23 +43,23 @@ public class GoogleWebTranslator {
         return instance;
     }
 
-    private String translate(String query, String sl, String tl) {
-        String result = translateImpl(query, sl, tl);
+    @Override
+    protected String translate(String query, String tl) {
+        String result = translateImpl(query, tl);
         if (result == null) {
-            tkk = null;// 可能身份过期
-            result = translateImpl(query, sl, tl);
-        }
-        if (result == null) { // 翻译失败
-            FileLog.e("Translation failed");
+            tkk = null;
+            return translateImpl(query, tl);
         }
         return result;
     }
 
-    public void translate(String query, String sl, String tl, TranslateCallBack translateCallBack) {
-        new MyAsyncTask().request(query, sl, tl, translateCallBack).execute();
+    @Override
+    protected List<String> getTargetLanguages() {
+        return targetLanguages;
     }
 
-    private String translateImpl(String query, String sl, String tl) {
+
+    private String translateImpl(String query, String tl) {
         if (tkk == null) {
             initTkk();
         }
@@ -68,17 +67,16 @@ public class GoogleWebTranslator {
             return null;
         }
         String tk = Utils.signWeb(query, tkk[0], tkk[1]);
-
         String url;
         if (NekoConfig.translationProvider == 2) {
             url = "https://translate.google.cn/translate_a/single?client=webapp&dt=t" +
-                    "&sl=" + sl +
+                    "&sl=auto" +
                     "&tl=" + tl +
                     "&tk=" + tk +
                     "&q=" + Utils.encodeURIComponent(query); // 不能用URLEncoder
         } else {
             url = "https://translate.google.com/translate_a/single?client=webapp&dt=t" +
-                    "&sl=" + sl +
+                    "&sl=" + "auto" +
                     "&tl=" + tl +
                     "&tk=" + tk +
                     "&q=" + Utils.encodeURIComponent(query); // 不能用URLEncoder
@@ -90,7 +88,7 @@ public class GoogleWebTranslator {
         try {
             return getResult(response);
         } catch (JSONException e) {
-            FileLog.e(e);
+            FileLog.e(response + e);
             return null;
         }
     }
@@ -175,42 +173,5 @@ public class GoogleWebTranslator {
             FileLog.e(e);
             return null;
         }
-    }
-
-    public interface TranslateCallBack {
-        void onSuccess(String translation);
-
-        void onFailure();
-    }
-
-    @SuppressLint("StaticFieldLeak")
-    private class MyAsyncTask extends AsyncTask<Void, Integer, String> {
-        TranslateCallBack translateCallBack; // 回调接口
-        String query;
-        String sl;
-        String tl;
-
-        public MyAsyncTask request(String query, String sl, String tl, TranslateCallBack translateCallBack) {
-            this.query = query;
-            this.sl = sl;
-            this.tl = tl;
-            this.translateCallBack = translateCallBack;
-            return this;
-        }
-
-        @Override
-        protected String doInBackground(Void... params) {
-            return translate(query, sl, tl);
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            if (result == null) {
-                translateCallBack.onFailure();
-            } else {
-                translateCallBack.onSuccess(result);
-            }
-        }
-
     }
 }

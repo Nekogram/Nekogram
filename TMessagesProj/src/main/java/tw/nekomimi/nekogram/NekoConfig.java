@@ -34,14 +34,14 @@ public class NekoConfig {
     public static boolean showChangePermissions = true;
     public static boolean showDeleteDownloadedFile = true;
     public static boolean showMessageDetails = false;
-    public static boolean showTranslate = false;
+    public static boolean showTranslate = true;
 
     public static boolean xmas = false;
     public static boolean newYear = false;
     public static boolean newYearEve = false;
     public static boolean fireworks = false;
 
-    public static int translationProvider = 0;
+    public static int translationProvider = 1;
 
     private static boolean configLoaded;
 
@@ -116,14 +116,14 @@ public class NekoConfig {
             showChangePermissions = preferences.getBoolean("showChangePermissions", true);
             showDeleteDownloadedFile = preferences.getBoolean("showDeleteDownloadedFile", true);
             showMessageDetails = preferences.getBoolean("showMessageDetails", false);
-            showTranslate = preferences.getBoolean("showTranslate", false);
+            showTranslate = preferences.getBoolean("showTranslate", true);
             xmas = preferences.getBoolean("xmas", false);
             newYear = preferences.getBoolean("newYear", false);
             newYearEve = preferences.getBoolean("newYearEve", false);
             fireworks = preferences.getBoolean("fireworks", false);
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
             unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", false);
-            translationProvider = preferences.getInt("translationProvider", 0);
+            translationProvider = preferences.getInt("translationProvider", 1);
             configLoaded = true;
         }
     }
