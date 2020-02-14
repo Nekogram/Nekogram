@@ -8822,7 +8822,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
     @Override
     public boolean onDown(MotionEvent e) {
-        if (checkImageView.getVisibility() != View.VISIBLE && !drawPressedDrawable[0] && !drawPressedDrawable[1]) {
+        if (!doubleTap && checkImageView.getVisibility() != View.VISIBLE && !drawPressedDrawable[0] && !drawPressedDrawable[1]) {
             float x = e.getX();
             int side = containerView.getMeasuredWidth() / 5;
             if (x < side) {
@@ -8838,6 +8838,18 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
         }
         return false;
+    }
+
+    @Override
+    public int getDoubleTapTimeout(MotionEvent e) {
+        if (checkImageView.getVisibility() != View.VISIBLE && !drawPressedDrawable[0] && !drawPressedDrawable[1]) {
+            float x = e.getX();
+            int side = containerView.getMeasuredWidth() / 5;
+            if (x < side || x > containerView.getMeasuredWidth() - side) {
+                return 200;
+            }
+        }
+        return GestureDetector2.DOUBLE_TAP_TIMEOUT;
     }
 
     private void hidePressedDrawables() {
@@ -9007,6 +9019,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             animateTo(1.0f, 0, 0, true);
         }
         doubleTap = true;
+        hidePressedDrawables();
         return true;
     }
 

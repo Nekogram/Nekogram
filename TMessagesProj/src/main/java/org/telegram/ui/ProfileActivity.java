@@ -1409,6 +1409,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (expandPhoto) {
                         nameTextView[1].setTextColor(Color.WHITE);
                         onlineTextView[1].setTextColor(Color.argb(179, 255, 255, 255));
+                        idTextView.setTextColor(Color.argb(179, 255, 255, 255));
                         actionBar.setItemsBackgroundColor(Theme.ACTION_BAR_WHITE_SELECTOR_COLOR, false);
                         overlaysView.setOverlaysVisible();
                         overlaysView.setAlphaValue(1.0f, false);
@@ -1854,12 +1855,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 openingAvatar = true;
                 allowPullingDown = true;
                 View child = listView.getChildAt(0);
-                RecyclerView.ViewHolder holder = listView.findContainingViewHolder(child);
-                if (holder != null) {
-                    Integer offset = positionToOffset.get(holder.getAdapterPosition());
-                    if (offset != null) {
-                        listView.smoothScrollBy(0, -(offset + (listView.getPaddingTop() - child.getTop() - actionBar.getMeasuredHeight())), CubicBezierInterpolator.EASE_OUT_QUINT);
-                        return;
+                if (child != null) {
+                    RecyclerView.ViewHolder holder = listView.findContainingViewHolder(child);
+                    if (holder != null) {
+                        Integer offset = positionToOffset.get(holder.getAdapterPosition());
+                        if (offset != null) {
+                            listView.smoothScrollBy(0, -(offset + (listView.getPaddingTop() - child.getTop() - actionBar.getMeasuredHeight())), CubicBezierInterpolator.EASE_OUT_QUINT);
+                            return;
+                        }
                     }
                 }
             }
@@ -2061,12 +2064,21 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             final float onlineTextViewX = (1 - value) * (1 - value) * onlineX + 2 * (1 - value) * value * onlineTextViewCx + value * value * onlineTextViewXEnd;
             final float onlineTextViewY = (1 - value) * (1 - value) * onlineY + 2 * (1 - value) * value * onlineTextViewCy + value * value * onlineTextViewYEnd;
 
+            final float idTextViewXEnd = AndroidUtilities.dpf2(16f) - idTextView.getLeft();
+            final float idTextViewYEnd = newTop + extraHeight - AndroidUtilities.dpf2(3f) - idTextView.getBottom();
+            final float idTextViewCx = k + idX + (idTextViewXEnd - idX) / 2f;
+            final float idTextViewCy = k + idY + (idTextViewYEnd - idY) / 2f;
+            final float idTextViewX = (1 - value) * (1 - value) * idX + 2 * (1 - value) * value * idTextViewCx + value * value * idTextViewXEnd;
+            final float idTextViewY = (1 - value) * (1 - value) * idY + 2 * (1 - value) * value * idTextViewCy + value * value * idTextViewYEnd;
+
             nameTextView[1].setTranslationX(nameTextViewX);
             nameTextView[1].setTranslationY(nameTextViewY);
             onlineTextView[1].setTranslationX(onlineTextViewX);
             onlineTextView[1].setTranslationY(onlineTextViewY);
             onlineTextView[2].setTranslationX(onlineTextViewX);
             onlineTextView[2].setTranslationY(onlineTextViewY);
+            idTextView.setTranslationX(idTextViewX);
+            idTextView.setTranslationY(idTextViewY);
             final Object onlineTextViewTag = onlineTextView[1].getTag();
             int statusColor;
             if (onlineTextViewTag instanceof String) {
@@ -2075,6 +2087,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 statusColor = Theme.getColor(Theme.key_avatar_subtitleInProfileBlue);
             }
             onlineTextView[1].setTextColor(ColorUtils.blendARGB(statusColor, Color.argb(179, 255, 255, 255), value));
+            idTextView.setTextColor(ColorUtils.blendARGB(Theme.getColor(Theme.key_avatar_subtitleInProfileBlue), Color.argb(179, 255, 255, 255), value));
             if (extraHeight > AndroidUtilities.dp(88f)) {
                 nameTextView[1].setPivotY(AndroidUtilities.lerp(0, nameTextView[1].getMeasuredHeight(), value));
                 nameTextView[1].setScaleX(AndroidUtilities.lerp(1.12f, 1.67f, value));
@@ -2816,7 +2829,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         onlineTextView[2].setTranslationX(onlineTextView[1].getTranslationX());
                         onlineTextView[2].setTranslationY(onlineTextView[1].getTranslationY());
                         idTextView.setTranslationX(AndroidUtilities.dpf2(16f) - onlineTextView[1].getLeft());
-                        idTextView.setTranslationY(newTop + extraHeight - AndroidUtilities.dpf2(4) - idTextView.getBottom());
+                        idTextView.setTranslationY(newTop + h - AndroidUtilities.dpf2(3f) - idTextView.getBottom() + additionalTranslationY);
                     }
                 } else {
                     if (isPulledDown) {
@@ -3214,7 +3227,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
                 updateRowsIds();
                 if (listAdapter != null) {
-                    listAdapter.notifyDataSetChanged();
+                    try {
+                        listAdapter.notifyDataSetChanged();
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
                 }
                 sharedMediaLayout.setCommonGroupsCount(userInfo.common_chats_count);
                 updateSelectedMediaTabText();
@@ -3493,6 +3510,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     avatarColor = AndroidUtilities.calcBitmapColor(avatarImage.getImageReceiver().getBitmap());
                     nameTextView[1].setTextColor(Color.WHITE);
                     onlineTextView[1].setTextColor(Color.argb(179, 255, 255, 255));
+                    idTextView.setTextColor(Color.argb(179, 255, 255, 255));
                     actionBar.setItemsBackgroundColor(Theme.ACTION_BAR_WHITE_SELECTOR_COLOR, false);
                     overlaysView.setOverlaysVisible();
                 }
@@ -4168,6 +4186,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void createActionBarMenu() {
+        if (actionBar == null || otherItem == null) {
+            return;
+        }
         ActionBarMenu menu = actionBar.createMenu();
         otherItem.removeAllSubItems();
         animatingItem = null;
