@@ -3054,12 +3054,18 @@ public class MessagesController extends BaseController implements NotificationCe
 
         if (first) {
             boolean isProxyDialog = false;
+            boolean emptyMax = max_id_delete == 0;
+            if (emptyMax) {
+                int max = getMessagesStorage().getDialogMaxMessageId(did);
+                if (max > 0) {
+                    max_id_delete = Math.max(max, max_id_delete);
+                }
+            }
             getMessagesStorage().deleteDialog(did, onlyHistory);
             TLRPC.Dialog dialog = dialogs_dict.get(did);
             if (onlyHistory == 0 || onlyHistory == 3) {
                 getNotificationsController().deleteNotificationChannel(did);
             }
-            boolean emptyMax = max_id_delete == 0;
             if (dialog != null) {
                 if (emptyMax) {
                     max_id_delete = Math.max(0, dialog.top_message);
@@ -3218,7 +3224,7 @@ public class MessagesController extends BaseController implements NotificationCe
             } else {
                 TLRPC.TL_messages_deleteHistory req = new TLRPC.TL_messages_deleteHistory();
                 req.peer = peer;
-                req.max_id = (onlyHistory == 0 ? Integer.MAX_VALUE : max_id_delete);
+                req.max_id = max_id_delete > 0 ? max_id_delete : Integer.MAX_VALUE;
                 req.just_clear = onlyHistory != 0;
                 req.revoke = revoke;
                 final int max_id_delete_final = max_id_delete;
@@ -3449,7 +3455,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                 array.put(req.id.get(a1), (Integer) vector.objects.get(a1));
                             }
                             getMessagesStorage().putChannelViews(channelViews, req.peer instanceof TLRPC.TL_inputPeerChannel);
-                            AndroidUtilities.runOnUIThread(() -> getNotificationCenter().postNotificationName(NotificationCenter.didUpdatedMessagesViews, channelViews));
+                            AndroidUtilities.runOnUIThread(() -> getNotificationCenter().postNotificationName(NotificationCenter.didUpdateMessagesViews, channelViews));
                         }
                     });
                 }
@@ -7222,10 +7228,12 @@ public class MessagesController extends BaseController implements NotificationCe
         getContactsController().deleteUnknownAppAccounts();
     }
 
+    private boolean gettingAppChangelog;
     public void generateUpdateMessage() {
-        if (BuildVars.DEBUG_VERSION || SharedConfig.lastUpdateVersion == null || SharedConfig.lastUpdateVersion.equals(BuildVars.BUILD_VERSION_STRING)) {
+        if (gettingAppChangelog || BuildVars.DEBUG_VERSION || SharedConfig.lastUpdateVersion == null || SharedConfig.lastUpdateVersion.equals(BuildVars.BUILD_VERSION_STRING)) {
             return;
         }
+        gettingAppChangelog = true;
         TLRPC.TL_help_getAppChangelog req = new TLRPC.TL_help_getAppChangelog();
         req.prev_app_version = SharedConfig.lastUpdateVersion;
         getConnectionsManager().sendRequest(req, (response, error) -> {
@@ -10821,7 +10829,7 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             }
             if (channelViewsFinal != null) {
-                getNotificationCenter().postNotificationName(NotificationCenter.didUpdatedMessagesViews, channelViewsFinal);
+                getNotificationCenter().postNotificationName(NotificationCenter.didUpdateMessagesViews, channelViewsFinal);
             }
             if (updateMask != 0) {
                 getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, updateMask);

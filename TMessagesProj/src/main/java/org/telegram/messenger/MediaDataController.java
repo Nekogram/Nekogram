@@ -2021,6 +2021,8 @@ public class MediaDataController extends BaseController {
                 return MEDIA_PHOTOVIDEO;
             } else if (MessageObject.isStickerMessage(message) || MessageObject.isAnimatedStickerMessage(message)) {
                 return -1;
+            } else if (MessageObject.isNewGifMessage(message)) {
+                return -1;
             } else if (MessageObject.isMusicMessage(message)) {
                 return MEDIA_MUSIC;
             } else {
@@ -2053,7 +2055,7 @@ public class MediaDataController extends BaseController {
                 }
             }
         }
-        return false;
+        return MediaDataController.getMediaType(message) != -1;
     }
 
     private void processLoadedMedia(final TLRPC.messages_Messages res, final long uid, int count, int max_id, final int type, final int fromCache, final int classGuid, final boolean isChannel, final boolean topReached) {

@@ -393,21 +393,29 @@ public class AndroidUtilities {
         return media ? documentMediaIcons[0] : documentIcons[0];
     }
 
+    public static int calcBitmapColor(Bitmap bitmap) {
+        try {
+            Bitmap b = Bitmaps.createScaledBitmap(bitmap, 1, 1, true);
+            if (b != null) {
+                int bitmapColor = b.getPixel(0, 0);
+                if (bitmap != b) {
+                    b.recycle();
+                }
+                return bitmapColor;
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return 0;
+    }
+
     public static int[] calcDrawableColor(Drawable drawable) {
         int bitmapColor = 0xff000000;
         int[] result = new int[4];
         try {
             if (drawable instanceof BitmapDrawable) {
                 Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
-                if (bitmap != null) {
-                    Bitmap b = Bitmaps.createScaledBitmap(bitmap, 1, 1, true);
-                    if (b != null) {
-                        bitmapColor = b.getPixel(0, 0);
-                        if (bitmap != b) {
-                            b.recycle();
-                        }
-                    }
-                }
+                bitmapColor = calcBitmapColor(bitmap);
             } else if (drawable instanceof ColorDrawable) {
                 bitmapColor = ((ColorDrawable) drawable).getColor();
             } else if (drawable instanceof BackgroundGradientDrawable) {
@@ -514,7 +522,7 @@ public class AndroidUtilities {
     }
 
     public static void requestAdjustResize(Activity activity, int classGuid) {
-        if (activity == null || isTablet()) {
+        if (activity == null || isTablet() || SharedConfig.smoothKeyboard) {
             return;
         }
         activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
@@ -531,7 +539,7 @@ public class AndroidUtilities {
     }
 
     public static void removeAdjustResize(Activity activity, int classGuid) {
-        if (activity == null || isTablet()) {
+        if (activity == null || isTablet() || SharedConfig.smoothKeyboard) {
             return;
         }
         if (adjustOwnerClassGuid == classGuid) {
@@ -1402,7 +1410,7 @@ public class AndroidUtilities {
                 roundMessageInset = dp(2);
             }
             if (BuildVars.LOGS_ENABLED) {
-                FileLog.e("display size = " + displaySize.x + " " + displaySize.y + " " + displayMetrics.xdpi + "x" + displayMetrics.ydpi);
+                FileLog.e("density = " + density + " display size = " + displaySize.x + " " + displaySize.y + " " + displayMetrics.xdpi + "x" + displayMetrics.ydpi);
             }
         } catch (Exception e) {
             FileLog.e(e);
