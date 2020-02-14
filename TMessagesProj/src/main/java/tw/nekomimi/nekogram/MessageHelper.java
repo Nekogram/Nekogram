@@ -7,7 +7,6 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Cells.ChatMessageCell;
-import org.telegram.ui.ChatActivity;
 
 import java.util.ArrayList;
 
@@ -20,7 +19,7 @@ public class MessageHelper extends BaseController {
         super(num);
     }
 
-    public static void setMessageContent (MessageObject messageObject, ChatMessageCell chatMessageCell,String message){
+    public static void setMessageContent(MessageObject messageObject, ChatMessageCell chatMessageCell, String message) {
         messageObject.messageOwner.message = message;
         if (messageObject.caption != null) {
             messageObject.caption = null;

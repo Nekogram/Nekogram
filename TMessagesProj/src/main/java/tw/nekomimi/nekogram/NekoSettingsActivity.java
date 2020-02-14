@@ -14,6 +14,7 @@ import android.text.TextPaint;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -74,6 +75,9 @@ public class NekoSettingsActivity extends BaseFragment {
     private int inappCameraRow;
     private int useSystemEmojiRow;
     private int ignoreBlockedRow;
+    private int hideProxySponsorChannelRow;
+    private int saveCacheToPrivateDirectoryRow;
+    private int pauseMusicOnRecordRow;
     private int mapPreviewRow;
     private int stickerSizeRow;
     private int translationProviderRow;
@@ -85,8 +89,6 @@ public class NekoSettingsActivity extends BaseFragment {
     private int hidePhoneRow;
     private int nameOrderRow;
     private int transparentStatusBarRow;
-    private int hideProxySponsorChannelRow;
-    private int saveCacheToPrivateDirectoryRow;
     private int forceTabletRow;
     private int xmasRow;
     private int newYearRow;
@@ -95,6 +97,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int needRestartRow;
 
     private int experimentRow;
+    private int smoothKeyboardRow;
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
     private int deleteAccountRow;
@@ -424,6 +427,19 @@ public class NekoSettingsActivity extends BaseFragment {
                 }
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
+            } else if (position == pauseMusicOnRecordRow) {
+                SharedConfig.togglePauseMusicOnRecord();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(SharedConfig.pauseMusicOnRecord);
+                }
+            } else if (position == smoothKeyboardRow) {
+                SharedConfig.toggleSmoothKeyboard();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(SharedConfig.smoothKeyboard);
+                }
+                if (SharedConfig.smoothKeyboard && getParentActivity() != null) {
+                    getParentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+                }
             }
 
         });
@@ -451,6 +467,7 @@ public class NekoSettingsActivity extends BaseFragment {
         ignoreBlockedRow = rowCount++;
         hideProxySponsorChannelRow = rowCount++;
         saveCacheToPrivateDirectoryRow = Build.VERSION.SDK_INT >= 24 ? rowCount++ : -1;
+        pauseMusicOnRecordRow = rowCount++;
         mapPreviewRow = rowCount++;
         stickerSizeRow = rowCount++;
         translationProviderRow = rowCount++;
@@ -468,6 +485,7 @@ public class NekoSettingsActivity extends BaseFragment {
         fireworksRow = rowCount++;
         needRestartRow = rowCount++;
         experimentRow = rowCount++;
+        smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
         disableFilteringRow = rowCount++;
         unlimitedFavedStickersRow = rowCount++;
         deleteAccountRow = rowCount++;
@@ -903,6 +921,10 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setEnabled(sensitiveCanChange, null);
                     } else if (position == unlimitedFavedStickersRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedFavoredStickers", R.string.UnlimitedFavoredStickers), LocaleController.getString("UnlimitedFavoredStickersAbout", R.string.UnlimitedFavoredStickersAbout), NekoConfig.unlimitedFavedStickers, true, true);
+                    } else if (position == pauseMusicOnRecordRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("DebugMenuEnablePauseMusic", R.string.DebugMenuEnablePauseMusic), SharedConfig.pauseMusicOnRecord, true);
+                    } else if (position == smoothKeyboardRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("DebugMenuEnableSmoothKeyboard", R.string.DebugMenuEnableSmoothKeyboard), SharedConfig.smoothKeyboard, true);
                     }
                     break;
                 }
@@ -939,7 +961,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == hideProxySponsorChannelRow || position == saveCacheToPrivateDirectoryRow ||
                     (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow ||
                     position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow ||
-                    position == translationProviderRow;
+                    position == translationProviderRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow;
         }
 
         @Override
@@ -990,7 +1012,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
                     position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
                     position == fireworksRow || position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
-                    position == disableFilteringRow) {
+                    position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
                 return 4;
