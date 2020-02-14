@@ -224,6 +224,10 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
     }
 
     public void addTextTab(final int id, CharSequence text) {
+        addTextTab(id, text, null);
+    }
+
+    public void addTextTab(final int id, CharSequence text, OnLongClickListener listener) {
         int position = tabCount++;
         if (position == 0 && selectedTabId == -1) {
             selectedTabId = id;
@@ -284,6 +288,9 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
         allTextWidth += tabWidth;
         positionToWidth.put(position, tabWidth);
         tabsContainer.addView(tab, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT));
+        if (listener != null) {
+            tab.setOnLongClickListener(listener);
+        }
     }
 
     public void finishAddingTabs() {
