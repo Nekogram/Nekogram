@@ -55,7 +55,7 @@
     <string name="StickerSizeDialogName">두왕</string>
     <string name="Experiment">실험용</string>
     <string name="UnlimitedFavoredStickers">무제한 스티커 저장</string>
-    <string name="UnlimitedFavoredStickersAbout">즐겨 찾기에 스티커를 무제한 저장. 스티커가 다른 장치와 동기화되지 않았을 수 있습니다.</string>
+    <string name="UnlimitedFavoredStickersAbout">즐겨 찾기에 스티커를 무제한 저장. 스티커가 다른 장치와 동기화 되지 않았을 수 있습니다.</string>
     <string name="MessageDetails">정보</string>
     <string name="ExportAsJson">JSON으로 내보내기</string>
     <string name="Translate">번역</string>
