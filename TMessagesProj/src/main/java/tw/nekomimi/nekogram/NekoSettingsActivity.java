@@ -518,8 +518,8 @@ public class NekoSettingsActivity extends BaseFragment {
         pauseMusicOnRecordRow = rowCount++;
         mapPreviewRow = rowCount++;
         stickerSizeRow = rowCount++;
-        translationProviderRow = rowCount++;
         messageMenuRow = rowCount++;
+        translationProviderRow = rowCount++;
         chat2Row = rowCount++;
         settingsRow = rowCount++;
         hidePhoneRow = rowCount++;
@@ -647,43 +647,43 @@ public class NekoSettingsActivity extends BaseFragment {
             TextCheckCell textCell = new TextCheckCell(context);
             switch (a) {
                 case 0: {
-                    textCell.setTextAndCheck(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages), NekoConfig.showAddToSavedMessages, false);
-                    break;
-                }
-                case 1: {
-                    textCell.setTextAndCheck(LocaleController.getString("Prpr", R.string.Prpr), NekoConfig.showPrPr, false);
-                    break;
-                }
-                case 2: {
-                    textCell.setTextAndCheck(LocaleController.getString("ViewHistory", R.string.ViewHistory), NekoConfig.showViewHistory, false);
-                    break;
-                }
-                case 3: {
-                    textCell.setTextAndCheck(LocaleController.getString("ReportChat", R.string.ReportChat), NekoConfig.showReport, false);
-                    break;
-                }
-                case 4: {
-                    textCell.setTextAndCheck(LocaleController.getString("EditAdminRights", R.string.EditAdminRights), NekoConfig.showAdminActions, false);
-                    break;
-                }
-                case 5: {
-                    textCell.setTextAndCheck(LocaleController.getString("ChangePermissions", R.string.ChangePermissions), NekoConfig.showChangePermissions, false);
-                    break;
-                }
-                case 6: {
                     textCell.setTextAndCheck(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile), NekoConfig.showDeleteDownloadedFile, false);
                     break;
                 }
-                case 7: {
+                case 1: {
+                    textCell.setTextAndCheck(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages), NekoConfig.showAddToSavedMessages, false);
+                    break;
+                }
+                case 2: {
+                    textCell.setTextAndCheck(LocaleController.getString("Repeat", R.string.Repeat), NekoConfig.showRepeat, false);
+                    break;
+                }
+                case 3: {
+                    textCell.setTextAndCheck(LocaleController.getString("Prpr", R.string.Prpr), NekoConfig.showPrPr, false);
+                    break;
+                }
+                case 4: {
+                    textCell.setTextAndCheck(LocaleController.getString("ViewHistory", R.string.ViewHistory), NekoConfig.showViewHistory, false);
+                    break;
+                }
+                case 5: {
                     textCell.setTextAndCheck(LocaleController.getString("MessageDetails", R.string.MessageDetails), NekoConfig.showMessageDetails, false);
                     break;
                 }
-                case 8: {
+                case 6: {
                     textCell.setTextAndCheck(LocaleController.getString("Translate", R.string.Translate), NekoConfig.showTranslate, false);
                     break;
                 }
+                case 7: {
+                    textCell.setTextAndCheck(LocaleController.getString("ReportChat", R.string.ReportChat), NekoConfig.showReport, false);
+                    break;
+                }
+                case 8: {
+                    textCell.setTextAndCheck(LocaleController.getString("EditAdminRights", R.string.EditAdminRights), NekoConfig.showAdminActions, false);
+                    break;
+                }
                 case 9: {
-                    textCell.setTextAndCheck(LocaleController.getString("Repeat", R.string.Repeat), NekoConfig.showRepeat, false);
+                    textCell.setTextAndCheck(LocaleController.getString("ChangePermissions", R.string.ChangePermissions), NekoConfig.showChangePermissions, false);
                     break;
                 }
             }
@@ -694,53 +694,53 @@ public class NekoSettingsActivity extends BaseFragment {
                 Integer tag = (Integer) v2.getTag();
                 switch (tag) {
                     case 0: {
-                        NekoConfig.toggleShowAddToSavedMessages();
-                        textCell.setChecked(NekoConfig.showAddToSavedMessages);
-                        break;
-                    }
-                    case 1: {
-                        NekoConfig.toggleShowPrPr();
-                        textCell.setChecked(NekoConfig.showPrPr);
-                        break;
-                    }
-                    case 2: {
-                        NekoConfig.toggleShowViewHistory();
-                        textCell.setChecked(NekoConfig.showViewHistory);
-                        break;
-                    }
-                    case 3: {
-                        NekoConfig.toggleShowReport();
-                        textCell.setChecked(NekoConfig.showReport);
-                        break;
-                    }
-                    case 4: {
-                        NekoConfig.toggleShowAdminActions();
-                        textCell.setChecked(NekoConfig.showAdminActions);
-                        break;
-                    }
-                    case 5: {
-                        NekoConfig.toggleShowChangePermissions();
-                        textCell.setChecked(NekoConfig.showChangePermissions);
-                        break;
-                    }
-                    case 6: {
                         NekoConfig.toggleShowDeleteDownloadedFile();
                         textCell.setChecked(NekoConfig.showDeleteDownloadedFile);
                         break;
                     }
-                    case 7: {
+                    case 1: {
+                        NekoConfig.toggleShowAddToSavedMessages();
+                        textCell.setChecked(NekoConfig.showAddToSavedMessages);
+                        break;
+                    }
+                    case 2: {
+                        NekoConfig.toggleShowRepeat();
+                        textCell.setChecked(NekoConfig.showRepeat);
+                        break;
+                    }
+                    case 3: {
+                        NekoConfig.toggleShowPrPr();
+                        textCell.setChecked(NekoConfig.showPrPr);
+                        break;
+                    }
+                    case 4: {
+                        NekoConfig.toggleShowViewHistory();
+                        textCell.setChecked(NekoConfig.showViewHistory);
+                        break;
+                    }
+                    case 5: {
                         NekoConfig.toggleShowMessageDetails();
                         textCell.setChecked(NekoConfig.showMessageDetails);
                         break;
                     }
-                    case 8: {
+                    case 6: {
                         NekoConfig.toggleShowTranslate();
                         textCell.setChecked(NekoConfig.showTranslate);
                         break;
                     }
+                    case 7: {
+                        NekoConfig.toggleShowReport();
+                        textCell.setChecked(NekoConfig.showReport);
+                        break;
+                    }
+                    case 8: {
+                        NekoConfig.toggleShowAdminActions();
+                        textCell.setChecked(NekoConfig.showAdminActions);
+                        break;
+                    }
                     case 9: {
-                        NekoConfig.toggleShowRepeat();
-                        textCell.setChecked(NekoConfig.showRepeat);
+                        NekoConfig.toggleShowChangePermissions();
+                        textCell.setChecked(NekoConfig.showChangePermissions);
                         break;
                     }
                 }
@@ -938,7 +938,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == stickerSizeRow) {
                         textCell.setTextAndValue(LocaleController.getString("StickerSize", R.string.StickerSize), String.valueOf(Math.round(NekoConfig.stickerSize)), true);
                     } else if (position == messageMenuRow) {
-                        textCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu), false);
+                        textCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu), true);
                     } else if (position == deleteAccountRow) {
                         textCell.setText(LocaleController.getString("DeleteAccount", R.string.DeleteAccount), false);
                         textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
@@ -965,7 +965,7 @@ public class NekoSettingsActivity extends BaseFragment {
                                 value = LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), value, true);
+                        textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), value, false);
                     }
                     break;
                 }
