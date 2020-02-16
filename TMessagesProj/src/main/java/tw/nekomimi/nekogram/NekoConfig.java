@@ -35,6 +35,7 @@ public class NekoConfig {
     public static boolean showDeleteDownloadedFile = true;
     public static boolean showMessageDetails = false;
     public static boolean showTranslate = true;
+    public static boolean showRepeat = true;
 
     public static boolean xmas = false;
     public static boolean newYear = false;
@@ -75,6 +76,7 @@ public class NekoConfig {
                 editor.putBoolean("showDeleteDownloadedFile", showDeleteDownloadedFile);
                 editor.putBoolean("showMessageDetails", showMessageDetails);
                 editor.putBoolean("showTranslate", showTranslate);
+                editor.putBoolean("showRepeat", showRepeat);
                 editor.putBoolean("xmas", xmas);
                 editor.putBoolean("newYear", newYear);
                 editor.putBoolean("newYearEve", newYearEve);
@@ -117,6 +119,7 @@ public class NekoConfig {
             showDeleteDownloadedFile = preferences.getBoolean("showDeleteDownloadedFile", true);
             showMessageDetails = preferences.getBoolean("showMessageDetails", false);
             showTranslate = preferences.getBoolean("showTranslate", true);
+            showRepeat = preferences.getBoolean("showRepeat", true);
             xmas = preferences.getBoolean("xmas", false);
             newYear = preferences.getBoolean("newYear", false);
             newYearEve = preferences.getBoolean("newYearEve", false);
@@ -190,6 +193,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showMessageDetails", showMessageDetails);
+        editor.commit();
+    }
+
+    public static void toggleShowRepeat() {
+        showRepeat = !showRepeat;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showRepeat", showRepeat);
         editor.commit();
     }
 

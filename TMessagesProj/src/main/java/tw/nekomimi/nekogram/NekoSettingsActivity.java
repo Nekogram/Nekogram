@@ -595,7 +595,7 @@ public class NekoSettingsActivity extends BaseFragment {
         linearLayoutInviteContainer.setOrientation(LinearLayout.VERTICAL);
         linearLayout.addView(linearLayoutInviteContainer, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
-        int count = 9;
+        int count = 10;
         for (int a = 0; a < count; a++) {
             TextCheckCell textCell = new TextCheckCell(context);
             switch (a) {
@@ -633,6 +633,10 @@ public class NekoSettingsActivity extends BaseFragment {
                 }
                 case 8: {
                     textCell.setTextAndCheck(LocaleController.getString("Translate", R.string.Translate), NekoConfig.showTranslate, false);
+                    break;
+                }
+                case 9: {
+                    textCell.setTextAndCheck(LocaleController.getString("Repeat", R.string.Repeat), NekoConfig.showRepeat, false);
                     break;
                 }
             }
@@ -685,6 +689,11 @@ public class NekoSettingsActivity extends BaseFragment {
                     case 8: {
                         NekoConfig.toggleShowTranslate();
                         textCell.setChecked(NekoConfig.showTranslate);
+                        break;
+                    }
+                    case 9: {
+                        NekoConfig.toggleShowRepeat();
+                        textCell.setChecked(NekoConfig.showRepeat);
                         break;
                     }
                 }
