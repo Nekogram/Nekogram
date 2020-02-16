@@ -28,7 +28,7 @@ public class NekoConfig {
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
-    public static boolean showPrPr = true;
+    public static boolean showPrPr = false;
     public static boolean showViewHistory = true;
     public static boolean showAdminActions = true;
     public static boolean showChangePermissions = true;
@@ -110,7 +110,7 @@ public class NekoConfig {
             saveCacheToPrivateDirectory = preferences.getBoolean("saveCacheToPrivateDirectory", Build.VERSION.SDK_INT >= 24);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
-            showPrPr = preferences.getBoolean("showPrPr", true);
+            showPrPr = preferences.getBoolean("showPrPr", false);
             showViewHistory = preferences.getBoolean("showViewHistory", true);
             showAdminActions = preferences.getBoolean("showAdminActions", true);
             showChangePermissions = preferences.getBoolean("showChangePermissions", true);

@@ -3494,9 +3494,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override
     public void didReceivedNotification(int id, int account, Object... args) {
-
-        if (actionBar != null)
+        if (actionBar != null && id != NotificationCenter.didUpdateConnectionState) {
             actionBar.setTitle(getNekoTitle());
+        }
 
         if (id == NotificationCenter.dialogsNeedReload) {
             if (dialogsListFrozen) {
