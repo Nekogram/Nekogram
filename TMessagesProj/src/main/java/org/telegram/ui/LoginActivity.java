@@ -265,7 +265,7 @@ public class LoginActivity extends BaseFragment {
                     };
                     editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
                     editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-                    editText.setHintText("Token");
+                    editText.setHintText(LocaleController.getString("BotToken", R.string.BotToken));
                     editText.setHeaderHintColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader));
                     editText.setSingleLine(true);
                     editText.setFocusable(true);
@@ -277,70 +277,63 @@ public class LoginActivity extends BaseFragment {
                     editText.setPadding(0, 0, 0, 0);
                     builder.setView(editText);
 
+                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> {
+                        if (getParentActivity() == null) {
+                            return;
+                        }
+                        String token = editText.getText().toString();
 
-                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            if (getParentActivity() == null) {
-                                return;
-                            }
-                            String token = editText.getText().toString();
+                        if (token.length() == 0) {
+                            needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidAccessToken", R.string.InvalidAccessToken));
+                            return;
+                        }
 
-                            if (token.length() == 0) {
-                                needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidAccessToken", R.string.InvalidAccessToken));
-                                return;
-                            }
+                        ConnectionsManager.getInstance(currentAccount).cleanup(false);
+                        final TLRPC.TL_auth_importBotAuthorization req = new TLRPC.TL_auth_importBotAuthorization ();
 
-                            ConnectionsManager.getInstance(currentAccount).cleanup(false);
-                            final TLRPC.TL_auth_importBotAuthorization req = new TLRPC.TL_auth_importBotAuthorization ();
-
-                            req.api_hash = BuildVars.APP_HASH;
-                            req.api_id = BuildVars.APP_ID;
-                            req.bot_auth_token = token;
-                            req.flags = 0;
-                            int reqId = ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-                                if (error == null) {
-                                    TLRPC.TL_auth_authorization res = (TLRPC.TL_auth_authorization) response;
-                                    ConnectionsManager.getInstance(currentAccount).setUserId(res.user.id);
-                                    UserConfig.getInstance(currentAccount).clearConfig();
-                                    MessagesController.getInstance(currentAccount).cleanup();
-                                    UserConfig.getInstance(currentAccount).isBot = true;
-                                    UserConfig.getInstance(currentAccount).syncContacts = syncContacts;
-                                    UserConfig.getInstance(currentAccount).setCurrentUser(res.user);
-                                    UserConfig.getInstance(currentAccount).saveConfig(true);
-                                    MessagesStorage.getInstance(currentAccount).cleanup(true);
-                                    ArrayList<TLRPC.User> users = new ArrayList<>();
-                                    users.add(res.user);
-                                    MessagesStorage.getInstance(currentAccount).putUsersAndChats(users, null, true, true);
-                                    MessagesController.getInstance(currentAccount).putUser(res.user, false);
-                                    ContactsController.getInstance(currentAccount).checkAppAccount();
-                                    MessagesController.getInstance(currentAccount).getBlockedUsers(true);
-                                    MessagesController.getInstance(currentAccount).checkProxyInfo(true);
-                                    ConnectionsManager.getInstance(currentAccount).updateDcSettings();
-                                    needFinishActivity(false);
-                                } else {
-                                    if (error.text != null) {
-                                        if (error.text.contains("ACCESS_TOKEN_INVALID")) {
-                                            needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidAccessToken", R.string.InvalidAccessToken));
-                                        } else if (error.text.startsWith("FLOOD_WAIT")) {
-                                            needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("FloodWait", R.string.FloodWait));
-                                        } else if (error.code != -1000) {
-                                            needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
-                                        }
+                        req.api_hash = BuildVars.APP_HASH;
+                        req.api_id = BuildVars.APP_ID;
+                        req.bot_auth_token = token;
+                        req.flags = 0;
+                        int reqId = ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+                            if (error == null) {
+                                TLRPC.TL_auth_authorization res = (TLRPC.TL_auth_authorization) response;
+                                ConnectionsManager.getInstance(currentAccount).setUserId(res.user.id);
+                                UserConfig.getInstance(currentAccount).clearConfig();
+                                MessagesController.getInstance(currentAccount).cleanup();
+                                UserConfig.getInstance(currentAccount).isBot = true;
+                                UserConfig.getInstance(currentAccount).syncContacts = syncContacts;
+                                UserConfig.getInstance(currentAccount).setCurrentUser(res.user);
+                                UserConfig.getInstance(currentAccount).saveConfig(true);
+                                MessagesStorage.getInstance(currentAccount).cleanup(true);
+                                ArrayList<TLRPC.User> users = new ArrayList<>();
+                                users.add(res.user);
+                                MessagesStorage.getInstance(currentAccount).putUsersAndChats(users, null, true, true);
+                                MessagesController.getInstance(currentAccount).putUser(res.user, false);
+                                ContactsController.getInstance(currentAccount).checkAppAccount();
+                                MessagesController.getInstance(currentAccount).getBlockedUsers(true);
+                                MessagesController.getInstance(currentAccount).checkProxyInfo(true);
+                                ConnectionsManager.getInstance(currentAccount).updateDcSettings();
+                                needFinishActivity(false);
+                            } else {
+                                if (error.text != null) {
+                                    if (error.text.contains("ACCESS_TOKEN_INVALID")) {
+                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidAccessToken", R.string.InvalidAccessToken));
+                                    } else if (error.text.startsWith("FLOOD_WAIT")) {
+                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("FloodWait", R.string.FloodWait));
+                                    } else if (error.code != -1000) {
+                                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
                                     }
                                 }
-                                needHideProgress(false);
-                            }), ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagWithoutLogin | ConnectionsManager.RequestFlagTryDifferentDc | ConnectionsManager.RequestFlagEnableUnauthorized);
-                            needShowProgress(reqId);
-                        }
+                            }
+                            needHideProgress(false);
+                        }), ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagWithoutLogin | ConnectionsManager.RequestFlagTryDifferentDc | ConnectionsManager.RequestFlagEnableUnauthorized);
+                        needShowProgress(reqId);
                     });
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                    builder.show().setOnShowListener(new DialogInterface.OnShowListener() {
-                        @Override
-                        public void onShow(DialogInterface dialog) {
-                            editText.requestFocus();
-                            AndroidUtilities.showKeyboard(editText);
-                        }
+                    builder.show().setOnShowListener(dialog -> {
+                        editText.requestFocus();
+                        AndroidUtilities.showKeyboard(editText);
                     });
                     if (editText != null) {
                         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) editText.getLayoutParams();
@@ -1543,7 +1536,7 @@ public class LoginActivity extends BaseFragment {
             }
 
             testBackendCell = new CheckBoxCell(context, 2);
-            testBackendCell.setText(LocaleController.getString("TestBackend", R.string.TestBackend), "", (ConnectionsManager.native_isTestBackend(currentAccount) != 0), false);
+            testBackendCell.setText(LocaleController.getString("TestBackend", R.string.TestBackend), "", ConnectionsManager.native_isTestBackend(currentAccount) != 0, false);
             addView(testBackendCell, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));
             testBackendCell.setOnClickListener(new OnClickListener() {
 

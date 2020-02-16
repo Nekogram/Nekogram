@@ -7226,6 +7226,9 @@ public class MessagesController extends BaseController implements NotificationCe
         getMessagesStorage().cleanup(false);
         cleanup();
         getContactsController().deleteUnknownAppAccounts();
+        if (ConnectionsManager.native_isTestBackend(currentAccount) != 0) {
+            ConnectionsManager.native_switchBackend(currentAccount);
+        }
     }
 
     private boolean gettingAppChangelog;
