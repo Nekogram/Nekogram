@@ -203,7 +203,7 @@ public class ActionBar extends FrameLayout {
                 drawable.setBounds(x, y - drawable.getIntrinsicHeight(), x + drawable.getIntrinsicWidth(), y);
                 drawable.draw(canvas);
             }
-                if (NekoConfig.fireworks) {
+                if (NekoConfig.actionBarDecoration == 2) {
                     if (fireworksEffect == null) {
                         fireworksEffect = new FireworksEffect();
                     }

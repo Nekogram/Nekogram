@@ -37,10 +37,9 @@ public class NekoConfig {
     public static boolean showTranslate = true;
     public static boolean showRepeat = true;
 
-    public static boolean xmas = false;
+    public static int eventType = 0;
+    public static int actionBarDecoration = 0;
     public static boolean newYear = false;
-    public static boolean newYearEve = false;
-    public static boolean fireworks = false;
 
     public static int translationProvider = 1;
 
@@ -77,13 +76,12 @@ public class NekoConfig {
                 editor.putBoolean("showMessageDetails", showMessageDetails);
                 editor.putBoolean("showTranslate", showTranslate);
                 editor.putBoolean("showRepeat", showRepeat);
-                editor.putBoolean("xmas", xmas);
                 editor.putBoolean("newYear", newYear);
-                editor.putBoolean("newYearEve", newYearEve);
-                editor.putBoolean("fireworks", fireworks);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putBoolean("unlimitedFavedStickers", unlimitedFavedStickers);
                 editor.putInt("translationProvider", translationProvider);
+                editor.putInt("eventType", eventType);
+                editor.putInt("actionBarDecoration", actionBarDecoration);
 
                 editor.commit();
             } catch (Exception e) {
@@ -120,10 +118,9 @@ public class NekoConfig {
             showMessageDetails = preferences.getBoolean("showMessageDetails", false);
             showTranslate = preferences.getBoolean("showTranslate", true);
             showRepeat = preferences.getBoolean("showRepeat", true);
-            xmas = preferences.getBoolean("xmas", false);
+            eventType = preferences.getInt("eventType", 0);
+            actionBarDecoration = preferences.getInt("actionBarDecoration", 0);
             newYear = preferences.getBoolean("newYear", false);
-            newYearEve = preferences.getBoolean("newYearEve", false);
-            fireworks = preferences.getBoolean("fireworks", false);
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
             unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", false);
             translationProvider = preferences.getInt("translationProvider", 1);
@@ -298,11 +295,19 @@ public class NekoConfig {
         editor.commit();
     }
 
-    public static void toggleXmas() {
-        xmas = !xmas;
+    public static void setEventType(int type) {
+        eventType = type;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("xmas", xmas);
+        editor.putInt("eventType", eventType);
+        editor.commit();
+    }
+
+    public static void setActionBarDecoration(int decoration) {
+        actionBarDecoration = decoration;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("actionBarDecoration", actionBarDecoration);
         editor.commit();
     }
 
@@ -311,22 +316,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("newYear", newYear);
-        editor.commit();
-    }
-
-    public static void toggleNewYearEve() {
-        newYearEve = !newYearEve;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("newYearEve", newYearEve);
-        editor.commit();
-    }
-
-    public static void toggleFireworks() {
-        fireworks = !fireworks;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("fireworks", fireworks);
         editor.commit();
     }
 

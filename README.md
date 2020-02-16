@@ -10,7 +10,7 @@ Nekogram is an UNOFFICIAL app that uses Telegram's API.
 - APKs: https://github.com/Nekogram/Nekogram/releases
 - Feedback: https://t.me/nekosupportbot
 - Feedback: https://github.com/Nekogram/Nekogram/issues
-- Chat group (Chinese & English): Join our channel (https://t.me/Zuragram) and click "Chat"
+- Chat group (Chinese): Join our channel (https://t.me/zuragram) and click "Chat"
 
 ## API, Protocol documentation
 
@@ -19,10 +19,6 @@ Telegram API manuals: https://core.telegram.org/api
 MTproto protocol manuals: https://core.telegram.org/mtproto
 
 ## Compilation Guide
-
-**Note**: In order to support [reproducible builds](https://core.telegram.org/reproducible-builds), this repo contains dummy release.keystore,  google-services.json and filled variables inside BuildVars.java. Before publishing your own APKs please make sure to replace all these files with your own.
-
-You will require Android Studio 3.4, Android NDK rev. 20 and Android SDK 8.1
 
 1. Download the Nekogram source code from https://github.com/Nekogram/Nekogram ( git clone https://github.com/Nekogram/Nekogram.git )
 2. Copy your release.keystore into TMessagesProj/config
@@ -42,7 +38,7 @@ As for the Nekogram specialized strings, we use Crowdin to translate Nekogram. J
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-| [<img src="https://avatars2.githubusercontent.com/u/42698724?s=460&v=4" width="80px;"/><br /><sub>猫耳逆变器</sub>](https://github.com/NekoInverter)<br />[💻](https://github.com/Nekogram/Nekogram/commits?author=NekoInverter "Code") | [<img src="https://avatars1.githubusercontent.com/u/18373361?s=460&v=4" width="80px;"/><br /><sub>梨子</sub>](https://github.com/rikakomoe)<br />[💻](https://github.com/Nekogram/Nekogram/commits?author=rikakomoe "Code") [🚧](https://github.com/Nekogram/Nekogram/commits?author=rikakomoe "Maintenance") | [<img src="https://i.loli.net/2020/01/17/e9Z5zkG7lNwUBPE.jpg" width="80px;"/><br /><sub>呆瓜</sub>](https://t.me/Duang)<br /> [🎨](#design-duang "Design") |
+| [<img src="https://avatars2.githubusercontent.com/u/42698724?s=460&v=4" width="80px;"/><br /><sub>猫耳逆变器</sub>](https://github.com/NekoInverter)<br />[💻](https://github.com/Nekogram/Nekogram/commits?author=NekoInverter "Code") | [<img src="https://avatars1.githubusercontent.com/u/18373361?s=460&v=4" width="80px;"/><br /><sub>梨子</sub>](https://github.com/rikakomoe)<br />[💻](https://github.com/Nekogram/Nekogram/commits?author=rikakomoe "Code") | [<img src="https://i.loli.net/2020/01/17/e9Z5zkG7lNwUBPE.jpg" width="80px;"/><br /><sub>呆瓜</sub>](https://t.me/Duang)<br /> [🎨](#design-duang "Design") |
 | :---: | :---: | :---: |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 

@@ -90,10 +90,9 @@ public class NekoSettingsActivity extends BaseFragment {
     private int nameOrderRow;
     private int transparentStatusBarRow;
     private int forceTabletRow;
-    private int xmasRow;
+    private int eventTypeRow;
     private int newYearRow;
-    private int newYearEveRow;
-    private int fireworksRow;
+    private int actionBarDecorationRow;
     private int needRestartRow;
 
     private int experimentRow;
@@ -276,25 +275,74 @@ public class NekoSettingsActivity extends BaseFragment {
                 }
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
-            } else if (position == xmasRow) {
-                NekoConfig.toggleXmas();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.xmas);
+            } else if (position == eventTypeRow) {
+                ArrayList<String> arrayList = new ArrayList<>();
+                ArrayList<Integer> types = new ArrayList<>();
+                arrayList.add(LocaleController.getString("DependsOnDate", R.string.DependsOnDate));
+                types.add(0);
+                arrayList.add(LocaleController.getString("Christmas", R.string.Christmas));
+                types.add(1);
+                arrayList.add(LocaleController.getString("Valentine", R.string.Valentine));
+                types.add(2);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(LocaleController.getString("EventType", R.string.EventType));
+                final LinearLayout linearLayout = new LinearLayout(context);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                builder.setView(linearLayout);
+
+                for (int a = 0; a < arrayList.size(); a++) {
+                    RadioColorCell cell = new RadioColorCell(context);
+                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+                    cell.setTag(a);
+                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+                    cell.setTextAndValue(arrayList.get(a), NekoConfig.eventType == types.get(a));
+                    linearLayout.addView(cell);
+                    cell.setOnClickListener(v -> {
+                        Integer which = (Integer) v.getTag();
+                        NekoConfig.setEventType(types.get(which));
+                        listAdapter.notifyItemChanged(eventTypeRow);
+                        builder.getDismissRunnable().run();
+                    });
                 }
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                showDialog(builder.create());
+            } else if (position == actionBarDecorationRow) {
+                ArrayList<String> arrayList = new ArrayList<>();
+                ArrayList<Integer> types = new ArrayList<>();
+                arrayList.add(LocaleController.getString("DependsOnDate", R.string.DependsOnDate));
+                types.add(0);
+                arrayList.add(LocaleController.getString("Snowflakes", R.string.Snowflakes));
+                types.add(1);
+                arrayList.add(LocaleController.getString("Fireworks", R.string.Fireworks));
+                types.add(2);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(LocaleController.getString("ActionBarDecoration", R.string.ActionBarDecoration));
+                final LinearLayout linearLayout = new LinearLayout(context);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                builder.setView(linearLayout);
+
+                for (int a = 0; a < arrayList.size(); a++) {
+                    RadioColorCell cell = new RadioColorCell(context);
+                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+                    cell.setTag(a);
+                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+                    cell.setTextAndValue(arrayList.get(a), NekoConfig.actionBarDecoration == types.get(a));
+                    linearLayout.addView(cell);
+                    cell.setOnClickListener(v -> {
+                        Integer which = (Integer) v.getTag();
+                        NekoConfig.setActionBarDecoration(types.get(which));
+                        listAdapter.notifyItemChanged(actionBarDecorationRow);
+                        builder.getDismissRunnable().run();
+                    });
+                }
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                showDialog(builder.create());
             } else if (position == newYearRow) {
                 NekoConfig.toggleNewYear();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.newYear);
-                }
-            } else if (position == newYearEveRow) {
-                NekoConfig.toggleNewYearEve();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.newYearEve);
-                }
-            } else if (position == fireworksRow) {
-                NekoConfig.toggleFireworks();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.fireworks);
                 }
             } else if (position == disableFilteringRow) {
                 sensitiveEnabled = !sensitiveEnabled;
@@ -479,10 +527,9 @@ public class NekoSettingsActivity extends BaseFragment {
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
         forceTabletRow = rowCount++;
         nameOrderRow = rowCount++;
-        xmasRow = rowCount++;
+        eventTypeRow = rowCount++;
         newYearRow = rowCount++;
-        newYearEveRow = rowCount++;
-        fireworksRow = rowCount++;
+        actionBarDecorationRow = rowCount++;
         needRestartRow = rowCount++;
         experimentRow = rowCount++;
         smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
@@ -860,6 +907,34 @@ public class NekoSettingsActivity extends BaseFragment {
                                 value = LocaleController.getString("MapPreviewProviderNobody", R.string.MapPreviewProviderNobody);
                         }
                         textCell.setTextAndValue(LocaleController.getString("MapPreviewProvider", R.string.MapPreviewProvider), value, true);
+                    } else if (position == eventTypeRow) {
+                        String value;
+                        switch (NekoConfig.eventType) {
+                            case 1:
+                                value = LocaleController.getString("Christmas", R.string.Christmas);
+                                break;
+                            case 2:
+                                value = LocaleController.getString("Valentine", R.string.Valentine);
+                                break;
+                            case 0:
+                            default:
+                                value = LocaleController.getString("DependsOnDate", R.string.DependsOnDate);
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("EventType", R.string.EventType), value, true);
+                    } else if (position == actionBarDecorationRow) {
+                        String value;
+                        switch (NekoConfig.actionBarDecoration) {
+                            case 1:
+                                value = LocaleController.getString("Snowflakes", R.string.Snowflakes);
+                                break;
+                            case 2:
+                                value = LocaleController.getString("Fireworks", R.string.Fireworks);
+                                break;
+                            case 0:
+                            default:
+                                value = LocaleController.getString("DependsOnDate", R.string.DependsOnDate);
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("ActionBarDecoration", R.string.ActionBarDecoration), value, false);
                     } else if (position == stickerSizeRow) {
                         textCell.setTextAndValue(LocaleController.getString("StickerSize", R.string.StickerSize), String.valueOf(Math.round(NekoConfig.stickerSize)), true);
                     } else if (position == messageMenuRow) {
@@ -917,14 +992,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("IgnoreBlocked", R.string.IgnoreBlocked), NekoConfig.ignoreBlocked, true);
                     } else if (position == forceTabletRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ForceTabletMode", R.string.ForceTabletMode), NekoConfig.forceTablet, true);
-                    } else if (position == xmasRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("ChristmasEveryday", R.string.ChristmasEveryday), NekoConfig.xmas, true);
                     } else if (position == newYearRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("NewYearEveryday", R.string.NewYearEveryday), NekoConfig.newYear, true);
-                    } else if (position == newYearEveRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("HappyNewYearEveryday", R.string.HappyNewYearEveryday), NekoConfig.newYearEve, true);
-                    } else if (position == fireworksRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("ShowFireworks", R.string.ShowFireworks), NekoConfig.fireworks, false);
+                        textCell.setTextAndCheck(LocaleController.getString("ChristmasHat", R.string.ChristmasHat), NekoConfig.newYear, true);
                     } else if (position == disableFilteringRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("SensitiveDisableFiltering", R.string.SensitiveDisableFiltering), LocaleController.getString("SensitiveAbout", R.string.SensitiveAbout), sensitiveEnabled, true, true);
                         textCell.setEnabled(sensitiveCanChange, null);
@@ -965,8 +1034,8 @@ public class NekoSettingsActivity extends BaseFragment {
             int position = holder.getAdapterPosition();
             return position == hidePhoneRow || position == inappCameraRow || position == ignoreBlockedRow ||
                     position == useSystemEmojiRow || position == ipv6Row || position == typefaceRow || position == nameOrderRow ||
-                    position == forceTabletRow || position == mapPreviewRow || position == xmasRow || position == newYearRow ||
-                    position == newYearEveRow || position == fireworksRow || position == transparentStatusBarRow ||
+                    position == forceTabletRow || position == mapPreviewRow || position == newYearRow ||
+                    position == actionBarDecorationRow || position == eventTypeRow || position == transparentStatusBarRow ||
                     position == hideProxySponsorChannelRow || position == saveCacheToPrivateDirectoryRow ||
                     (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow ||
                     position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow ||
@@ -1014,13 +1083,13 @@ public class NekoSettingsActivity extends BaseFragment {
             if (position == connection2Row || position == chat2Row || position == experiment2Row) {
                 return 1;
             } else if (position == nameOrderRow || position == mapPreviewRow || position == stickerSizeRow || position == messageMenuRow ||
-                    position == deleteAccountRow || position == translationProviderRow) {
+                    position == deleteAccountRow || position == translationProviderRow || position == eventTypeRow || position == actionBarDecorationRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == transparentStatusBarRow || position == hideProxySponsorChannelRow ||
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
-                    position == forceTabletRow || position == xmasRow || position == newYearRow || position == newYearEveRow ||
-                    position == fireworksRow || position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
+                    position == forceTabletRow || position == newYearRow ||
+                    position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
                     position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
