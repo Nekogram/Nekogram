@@ -1565,10 +1565,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 Gson gson = new Gson();
                 if (!TextUtils.isEmpty(button.button.url)) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                    builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("CopyLink", R.string.CopyLink)}, (dialogInterface, i) -> {
+                    builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("CopyLink", R.string.CopyLink), LocaleController.getString("CopyDetails", R.string.CopyDetails)}, (dialogInterface, i) -> {
                         if (i == 0) {
                             try {
-                                AndroidUtilities.addToClipboard(gson.toJson(button.button));
+                                AndroidUtilities.addToClipboard(button.button.text);
                                 Toast.makeText(getContext(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
                             } catch (Exception e) {
                                 FileLog.e(e);
@@ -1580,16 +1580,36 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             } catch (Exception e) {
                                 FileLog.e(e);
                             }
+                        } else if (i == 2) {
+                            try {
+                                AndroidUtilities.addToClipboard(gson.toJson(button.button));
+                                Toast.makeText(getContext(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
                         }
                     });
                     builder.show();
                 } else {
-                    try {
-                        AndroidUtilities.addToClipboard(gson.toJson(button.button));
-                        Toast.makeText(getContext(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("CopyDetails", R.string.CopyDetails)}, (dialogInterface, i) -> {
+                        if (i == 0) {
+                            try {
+                                AndroidUtilities.addToClipboard(button.button.text);
+                                Toast.makeText(getContext(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
+                        } else if (i == 1) {
+                            try {
+                                AndroidUtilities.addToClipboard(gson.toJson(button.button));
+                                Toast.makeText(getContext(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
+                        }
+                    });
+                    builder.show();
                 }
                 pressedBotButton = -1;
                 invalidate();

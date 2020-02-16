@@ -81,4 +81,5 @@
     <string name="TranslateApiUnsupported">The translation provider you selected don\'t support your language</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Undo translate</string>
+    <string name="CopyDetails">Copy Details</string>
 </resources>
