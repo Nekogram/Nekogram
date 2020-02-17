@@ -77,5 +77,6 @@
     <string name="ProviderLingocloud">彩云小译</string>
     <string name="UndoTranslate">撤销翻译</string>
     <string name="CopyDetails">复制详细信息</string>
+    <string name="DisablePhotoViewerSideAction">禁用图片查看器侧边动作</string>
     <string name="BotToken">令牌</string>
 </resources>

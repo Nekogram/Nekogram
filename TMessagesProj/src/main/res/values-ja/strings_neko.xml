@@ -32,9 +32,10 @@
     <string name="EnableResidentNotification">常駐通知を表示する</string>
     <string name="DisableResidentNotification">常駐通知を無効にする</string>
     <string name="NekogramRunning">Nekogram ランニング</string>
+    <string name="EventType">サイドバーのアイコン*</string>
     <string name="ChristmasHat">いつもクリスマス帽子を表示*</string>
-    <string name="ActionBarDecoration">アクションバーを装飾</string>
-    <string name="DependsOnDate">日替わり</string>
+    <string name="ActionBarDecoration">アクションバーの装飾*</string>
+    <string name="DependsOnDate">日付に依存</string>
     <string name="Christmas">クリスマス</string>
     <string name="Valentine">バレンタイン</string>
     <string name="Snowflakes">雪の結晶</string>

@@ -77,5 +77,6 @@
     <string name="ProviderLingocloud">彩雲小譯</string>
     <string name="UndoTranslate">撤銷翻譯</string>
     <string name="CopyDetails">複製詳細資訊</string>
+    <string name="DisablePhotoViewerSideAction">禁用圖片檢視器側邊動作</string>
     <string name="BotToken">令牌</string>
 </resources>
