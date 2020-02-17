@@ -180,6 +180,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 @SuppressWarnings("unchecked")
 public class PhotoViewer implements NotificationCenter.NotificationCenterDelegate, GestureDetector2.OnGestureListener, GestureDetector2.OnDoubleTapListener {
 
@@ -8830,7 +8832,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     public boolean onDown(MotionEvent e) {
         if (!doubleTap && checkImageView.getVisibility() != View.VISIBLE && !drawPressedDrawable[0] && !drawPressedDrawable[1]) {
             float x = e.getX();
-            int side = containerView.getMeasuredWidth() / 6;
+            int side = NekoConfig.disablePhotoSideAction ? 0 : containerView.getMeasuredWidth() / 6;
             if (x < side) {
                 if (leftImage.hasImageSet()) {
                     drawPressedDrawable[0] = true;
@@ -8850,7 +8852,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     public boolean canDoubleTap(MotionEvent e) {
         if (checkImageView.getVisibility() != View.VISIBLE && !drawPressedDrawable[0] && !drawPressedDrawable[1]) {
             float x = e.getX();
-            int side = containerView.getMeasuredWidth() / 6;
+            int side = NekoConfig.disablePhotoSideAction ? 0 : containerView.getMeasuredWidth() / 6;
             if (x < side || x > containerView.getMeasuredWidth() - side) {
                 return currentMessageObject == null || currentMessageObject.isVideo() && (SystemClock.elapsedRealtime() - lastPhotoSetTime) >= 500;
             }
@@ -8908,7 +8910,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
         float x = e.getX();
         if (checkImageView.getVisibility() != View.VISIBLE) {
-            int side = containerView.getMeasuredWidth() / 6;
+            int side = NekoConfig.disablePhotoSideAction ? 0 : containerView.getMeasuredWidth() / 6;
             if (x < side) {
                 if (leftImage.hasImageSet()) {
                     switchToNextIndex(-1, true);

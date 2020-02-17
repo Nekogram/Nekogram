@@ -78,6 +78,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int hideProxySponsorChannelRow;
     private int saveCacheToPrivateDirectoryRow;
     private int pauseMusicOnRecordRow;
+    private int disablePhotoSideActionRow;
     private int mapPreviewRow;
     private int stickerSizeRow;
     private int translationProviderRow;
@@ -488,6 +489,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (SharedConfig.smoothKeyboard && getParentActivity() != null) {
                     getParentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 }
+            } else if (position == disablePhotoSideActionRow) {
+                NekoConfig.toggleDisablePhotoSideAction();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.disablePhotoSideAction);
+                }
             }
 
         });
@@ -516,6 +522,7 @@ public class NekoSettingsActivity extends BaseFragment {
         hideProxySponsorChannelRow = rowCount++;
         saveCacheToPrivateDirectoryRow = Build.VERSION.SDK_INT >= 24 ? rowCount++ : -1;
         pauseMusicOnRecordRow = rowCount++;
+        disablePhotoSideActionRow = rowCount++;
         mapPreviewRow = rowCount++;
         stickerSizeRow = rowCount++;
         messageMenuRow = rowCount++;
@@ -1003,6 +1010,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("DebugMenuEnablePauseMusic", R.string.DebugMenuEnablePauseMusic), SharedConfig.pauseMusicOnRecord, true);
                     } else if (position == smoothKeyboardRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DebugMenuEnableSmoothKeyboard", R.string.DebugMenuEnableSmoothKeyboard), SharedConfig.smoothKeyboard, true);
+                    } else if (position == disablePhotoSideActionRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("DisablePhotoViewerSideAction", R.string.DisablePhotoViewerSideAction), NekoConfig.disablePhotoSideAction, true);
                     }
                     break;
                 }
@@ -1039,7 +1048,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == hideProxySponsorChannelRow || position == saveCacheToPrivateDirectoryRow ||
                     (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow ||
                     position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow ||
-                    position == translationProviderRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow;
+                    position == translationProviderRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
+                    position == disablePhotoSideActionRow;
         }
 
         @Override
@@ -1090,7 +1100,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == ignoreBlockedRow || position == useSystemEmojiRow || position == typefaceRow ||
                     position == forceTabletRow || position == newYearRow ||
                     position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
-                    position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow) {
+                    position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
+                    position == disablePhotoSideActionRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
                 return 4;

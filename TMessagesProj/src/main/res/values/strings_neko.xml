@@ -82,5 +82,6 @@
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Undo translate</string>
     <string name="CopyDetails">Copy Details</string>
+    <string name="DisablePhotoViewerSideAction">Disable photo viewer side action</string>
     <string name="BotToken">Token</string>
 </resources>
