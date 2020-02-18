@@ -77,5 +77,6 @@
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Desfazer tradução</string>
     <string name="CopyDetails">Copiar Detalhes</string>
+    <string name="DisablePhotoViewerSideAction">Desativar ação lateral do visualizador de fotos</string>
     <string name="BotToken">Token</string>
 </resources>

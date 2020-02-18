@@ -77,5 +77,6 @@
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Batalkan terjemahan</string>
     <string name="CopyDetails">Salin detail</string>
+    <string name="DisablePhotoViewerSideAction">Menonaktifkan aksi penampil foto di sisi</string>
     <string name="BotToken">Token</string>
 </resources>

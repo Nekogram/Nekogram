@@ -1,2 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="NekoSettings">Параметры Neko</string>
+    <string name="IPv6">Попробуйте подключиться с помощью протокола IPv6</string>
+    <string name="MessageMenu">Меню сообщений</string>
+    <string name="HidePhone">Скрыть мой номер телефона</string>
+    <string name="Hide">Скрыть</string>
+    <string name="DeleteAllFromSelf">Удалить все от себя</string>
+    <string name="DeleteAllFromSelfAlert">Внимание! Это **удалит все сообщения от вас** в этом чате для **всех** участников.</string>
+    <string name="BotLogin">Логин бота</string>
+    <string name="InvalidAccessToken">Неверный токен доступа</string>
+    <string name="IgnoreBlocked">Игнорировать заблокированных пользователей в группе</string>
+    <string name="Connection">Соединение</string>
+    <string name="Chat">Чат</string>
+    <string name="NameOrder">Название заказа*</string>
+    <string name="FirstLast">Первый Последний</string>
+    <string name="LastFirst">Последний Первый</string>
+    <string name="TypefaceUseDefault">Использовать системный шрифт по умолчанию*</string>
+    <string name="NoQuoteForward">Без цитаты пересылка</string>
+    <string name="Repeat">Повторить</string>
+    <string name="AddToSavedMessages">Сохранить сообщение</string>
+    <string name="CreateMention">Создать упоминание</string>
+    <string name="ForceTabletMode">Принудительный режим планшета*</string>
+    <string name="All">Все</string>
+    <string name="Users">Пользователи</string>
+    <string name="Groups">Группы</string>
+    <string name="Channels">Каналы</string>
+    <string name="Bots">Боты</string>
+    <string name="Admins">Администрирование</string>
+    <string name="Prpr">Peropero</string>
+    <string name="TransparentStatusBar">Прозрачная строка состояния</string>
+    <string name="EnableResidentNotification">Показать уведомление жителя</string>
+    <string name="DisableResidentNotification">Отключить уведомление резидента</string>
+    <string name="NekogramRunning">Nekogram запущен</string>
+    <string name="EventType">Набор значков боковой панели*</string>
+    <string name="ChristmasHat">Показывать рождественскую шляпу каждый день*</string>
+    <string name="ActionBarDecoration">Декорация панели действий*</string>
+    <string name="DependsOnDate">Зависит от даты</string>
+    <string name="Christmas">Рождество</string>
+    <string name="Valentine">День Святого Валентина</string>
+    <string name="Snowflakes">Снежинки</string>
+    <string name="Fireworks">Фейерверк</string>
+    <string name="SomeItemsNeedRestart">Опции с * могут потребоваться для перезагрузки.</string>
+    <string name="DeleteDownloadedFile">Удалить загруженный файл</string>
+    <string name="TestBackend">Test Backend</string>
+    <string name="TestBackendOn">Эта учетная запись будет подключена к тестовому бэкэнду.</string>
+    <string name="TestBackendOff">Эта учетная запись будет подключаться к серверной продукции.</string>
+    <string name="HideProxySponsorChannel">Скрыть прокси-спонсор канала</string>
+    <string name="ViewHistory">Просмотр истории</string>
+    <string name="Nya">Мяу!</string>
+    <string name="SaveCacheToPrivateDirectory">Сохранить кэш в приватный каталог*</string>
+    <string name="SensitiveDisableFiltering">Отключить фильтрацию конфиденциального контента</string>
+</resources>
