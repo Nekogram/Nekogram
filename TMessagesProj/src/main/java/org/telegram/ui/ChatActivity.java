@@ -13909,9 +13909,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 options.add(9);
                                 icons.add(R.drawable.msg_sticker);
                             } else {
-                                items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
-                                options.add(87);
-                                icons.add(R.drawable.msg_gallery);
+                                if (!selectedObject.isAnimatedSticker()) {
+                                    items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+                                    options.add(87);
+                                    icons.add(R.drawable.msg_gallery);
+                                }
                                 items.add(LocaleController.getString("AddToStickers", R.string.AddToStickers));
                                 options.add(9);
                                 icons.add(R.drawable.msg_sticker);
@@ -13944,9 +13946,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 icons.add(R.drawable.msg_callback);
                             }
                         } else if (type == 9) {
-                            items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
-                            options.add(87);
-                            icons.add(R.drawable.msg_gallery);
+                            if (!selectedObject.isAnimatedSticker()) {
+                                items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+                                options.add(87);
+                                icons.add(R.drawable.msg_gallery);
+                            }
                             TLRPC.Document document = selectedObject.getDocument();
                             if (!getMediaDataController().isStickerInFavorites(document)) {
                                 if (MessageObject.isStickerHasSet(document)) {
