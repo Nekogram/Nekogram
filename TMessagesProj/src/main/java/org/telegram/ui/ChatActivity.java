@@ -26,6 +26,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Outline;
@@ -209,6 +210,7 @@ import tw.nekomimi.nekogram.translator.TranslateBottomSheet;
 
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -13907,6 +13909,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 options.add(9);
                                 icons.add(R.drawable.msg_sticker);
                             } else {
+                                items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+                                options.add(87);
+                                icons.add(R.drawable.msg_gallery);
                                 items.add(LocaleController.getString("AddToStickers", R.string.AddToStickers));
                                 options.add(9);
                                 icons.add(R.drawable.msg_sticker);
@@ -13939,6 +13944,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 icons.add(R.drawable.msg_callback);
                             }
                         } else if (type == 9) {
+                            items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+                            options.add(87);
+                            icons.add(R.drawable.msg_gallery);
                             TLRPC.Document document = selectedObject.getDocument();
                             if (!getMediaDataController().isStickerInFavorites(document)) {
                                 if (MessageObject.isStickerHasSet(document)) {
@@ -14538,6 +14546,39 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         MediaController.saveFile(path, getParentActivity(), messageObject.isVideo() ? 1 : 0, null, null);
     }
 
+    private void saveStickerToGallery(MessageObject messageObject) {
+        String path = messageObject.messageOwner.attachPath;
+        if (!TextUtils.isEmpty(path)) {
+            File temp = new File(path);
+            if (!temp.exists()) {
+                path = null;
+            }
+        }
+        if (TextUtils.isEmpty(path)) {
+            path = FileLoader.getPathToMessage(messageObject.messageOwner).toString();
+            File temp = new File(path);
+            if (!temp.exists()) {
+                path = null;
+            }
+        }
+        if (TextUtils.isEmpty(path)) {
+            path = FileLoader.getPathToAttach(messageObject.getDocument(), true).toString();
+        }
+        if (!TextUtils.isEmpty(path)) {
+            try {
+                Bitmap image = BitmapFactory.decodeFile(path);
+                if (image != null) {
+                    FileOutputStream stream = new FileOutputStream(path + ".png");
+                    image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    stream.close();
+                    MediaController.saveFile(path + ".png", getParentActivity(), 0, null, null);
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+    }
+
     private void processSelectedOption(int option) {
         if (selectedObject == null || getParentActivity() == null) {
             return;
@@ -14960,6 +15001,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
+                break;
+            } case 87: {
+                if (Build.VERSION.SDK_INT >= 23 && getParentActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                    getParentActivity().requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
+                    selectedObject = null;
+                    selectedObjectGroup = null;
+                    selectedObjectToEditCaption = null;
+                    return;
+                }
+                saveStickerToGallery(selectedObject);
                 break;
             } case 88: {
                 if (NekoConfig.translationProvider < 0) {
