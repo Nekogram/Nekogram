@@ -91,6 +91,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int nameOrderRow;
     private int transparentStatusBarRow;
     private int forceTabletRow;
+    private int openArchiveOnPullRow;
     private int eventTypeRow;
     private int newYearRow;
     private int actionBarDecorationRow;
@@ -500,6 +501,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.unlimitedPinnedDialogs);
                 }
+            } else if (position == openArchiveOnPullRow) {
+                NekoConfig.toggleOpenArchiveOnPull();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.openArchiveOnPull);
+                }
             }
 
         });
@@ -539,6 +545,7 @@ public class NekoSettingsActivity extends BaseFragment {
         typefaceRow = rowCount++;
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
         forceTabletRow = rowCount++;
+        openArchiveOnPullRow = rowCount++;
         nameOrderRow = rowCount++;
         eventTypeRow = rowCount++;
         newYearRow = rowCount++;
@@ -1021,6 +1028,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("DisablePhotoViewerSideAction", R.string.DisablePhotoViewerSideAction), NekoConfig.disablePhotoSideAction, true);
                     } else if (position == unlimitedPinnedDialogsRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, true);
+                    } else if (position == openArchiveOnPullRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("OpenArchiveOnPull", R.string.OpenArchiveOnPull), NekoConfig.openArchiveOnPull, true);
                     }
                     break;
                 }
@@ -1058,7 +1067,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow ||
                     position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow ||
                     position == translationProviderRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
-                    position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow;
+                    position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow;
         }
 
         @Override
@@ -1110,7 +1119,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == forceTabletRow || position == newYearRow ||
                     position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
                     position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
-                    position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow) {
+                    position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
                 return 4;

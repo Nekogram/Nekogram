@@ -623,6 +623,20 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 }
                                 ((DialogCell) view).startOutAnimation();
                                 archivePullViewState = ARCHIVE_ITEM_STATE_SHOWED;
+
+                                if (NekoConfig.openArchiveOnPull) {
+                                    AndroidUtilities.runOnUIThread(() -> {
+                                        // Open the folder.
+                                        // Delay was taken from PullForegroundDrawable::startOutAnimation().
+                                        Bundle args = new Bundle();
+                                        args.putInt("folderId", 1); // 1 is the ID of the archive folder.
+                                        args.putInt("dialogsType", dialogsType);
+                                        args.putBoolean("onlySelect", onlySelect);
+                                        DialogsActivity dialogsActivity = new DialogsActivity(args);
+                                        dialogsActivity.setDelegate(delegate);
+                                        presentFragment(dialogsActivity, onlySelect);
+                                    }, 200);
+                                }
                             }
                         }
 

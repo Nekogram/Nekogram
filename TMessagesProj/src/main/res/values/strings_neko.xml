@@ -86,4 +86,5 @@
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Unlimited pinned dialogs</string>
     <string name="UnlimitedPinnedDialogsAbout">Pin unlimited dialogs by turn their sync off.</string>
+    <string name="OpenArchiveOnPull">Open Archive on pulldown</string>
 </resources>

@@ -27,6 +27,7 @@ public class NekoConfig {
     public static boolean unlimitedFavedStickers = false;
     public static boolean disablePhotoSideAction = true;
     public static boolean unlimitedPinnedDialogs = false;
+    public static boolean openArchiveOnPull = false;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -83,6 +84,7 @@ public class NekoConfig {
                 editor.putBoolean("unlimitedFavedStickers", unlimitedFavedStickers);
                 editor.putBoolean("unlimitedPinnedDialogs", unlimitedPinnedDialogs);
                 editor.putBoolean("disablePhotoSideAction", disablePhotoSideAction);
+                editor.putBoolean("openArchiveOnPull", openArchiveOnPull);
                 editor.putInt("translationProvider", translationProvider);
                 editor.putInt("eventType", eventType);
                 editor.putInt("actionBarDecoration", actionBarDecoration);
@@ -130,6 +132,7 @@ public class NekoConfig {
             unlimitedPinnedDialogs = preferences.getBoolean("unlimitedPinnedDialogs", false);
             translationProvider = preferences.getInt("translationProvider", 1);
             disablePhotoSideAction = preferences.getBoolean("disablePhotoSideAction", true);
+            openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
             configLoaded = true;
         }
     }
@@ -373,4 +376,11 @@ public class NekoConfig {
         editor.commit();
     }
 
+    public static void toggleOpenArchiveOnPull() {
+        openArchiveOnPull = !openArchiveOnPull;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("openArchiveOnPull", openArchiveOnPull);
+        editor.commit();
+    }
 }
