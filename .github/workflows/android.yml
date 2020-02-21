@@ -1,6 +1,9 @@
 name: Nekogram
 
-on: [push]
+on: 
+ push:
+    branches:
+    - master
 
 jobs:
   linux:
