@@ -34,7 +34,6 @@
     <string name="NekogramRunning">Nekogram запущен</string>
     <string name="EventType">Набор значков боковой панели*</string>
     <string name="ChristmasHat">Показывать рождественскую шляпу каждый день*</string>
-    <string name="ActionBarDecoration">Декорация панели действий*</string>
     <string name="DependsOnDate">Зависит от даты</string>
     <string name="Christmas">Рождество</string>
     <string name="Valentine">День Святого Валентина</string>

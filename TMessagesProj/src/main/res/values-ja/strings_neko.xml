@@ -34,7 +34,7 @@
     <string name="NekogramRunning">Nekogram ランニング</string>
     <string name="EventType">サイドバーのアイコン*</string>
     <string name="ChristmasHat">いつもクリスマス帽子を表示*</string>
-    <string name="ActionBarDecoration">アクションバーの装飾*</string>
+    <string name="ActionBarDecoration">タイトルバーの装飾*</string>
     <string name="DependsOnDate">日付に依存</string>
     <string name="Christmas">クリスマス</string>
     <string name="Valentine">バレンタイン</string>
@@ -75,6 +75,6 @@
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">翻訳を取り消す</string>
     <string name="CopyDetails">詳細のコピー</string>
-    <string name="DisablePhotoViewerSideAction">フォトビューアーのサイドアクションを無効にする</string>
+    <string name="DisablePhotoViewerSideAction">タップして写真めくりを無効にする</string>
     <string name="BotToken">トークン</string>
 </resources>

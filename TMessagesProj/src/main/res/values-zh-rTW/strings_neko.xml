@@ -34,7 +34,7 @@
     <string name="NekogramRunning">貓貓奔跑中</string>
     <string name="EventType">抽屜圖示集*</string>
     <string name="ChristmasHat">每天顯示聖誕帽*</string>
-    <string name="ActionBarDecoration">操作欄裝飾*</string>
+    <string name="ActionBarDecoration">標題欄裝飾*</string>
     <string name="DependsOnDate">基於日期</string>
     <string name="Christmas">聖誕節</string>
     <string name="Valentine">聖誕節</string>
@@ -77,6 +77,12 @@
     <string name="ProviderLingocloud">彩雲小譯</string>
     <string name="UndoTranslate">撤銷翻譯</string>
     <string name="CopyDetails">複製詳細資訊</string>
-    <string name="DisablePhotoViewerSideAction">禁用圖片檢視器側邊動作</string>
+    <string name="DisablePhotoViewerSideAction">禁用點按切換圖片</string>
     <string name="BotToken">令牌</string>
+    <string name="UnlimitedPinnedDialogs">無限的置頂對話</string>
+    <string name="UnlimitedPinnedDialogsAbout">關閉同步以置頂無限對話。</string>
+    <string name="OpenArchiveOnPull">下拉開啟已封存對話</string>
+    <string name="OpenDialogsFilterBy">對話分類開啟方式</string>
+    <string name="TapOnActionBar">點按標題欄</string>
+    <string name="TapOnFab">點按鉛筆按鈕</string>
 </resources>
