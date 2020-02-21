@@ -3,13 +3,13 @@
     <string name="NekoSettings">喵设置</string>
     <string name="IPv6">优先尝试使用 IPv6 连接</string>
     <string name="MessageMenu">消息菜单</string>
-    <string name="HidePhone">隐藏咱的手机号</string>
+    <string name="HidePhone">隐藏您的手机号码</string>
     <string name="Hide">隐藏</string>
-    <string name="DeleteAllFromSelf">自闭</string>
+    <string name="DeleteAllFromSelf">删除自己所有消息</string>
     <string name="DeleteAllFromSelfAlert">警告！这将为此会话中的 **所有人** 删除 **全部你发出的消息**。</string>
     <string name="BotLogin">机器人登录</string>
     <string name="InvalidAccessToken">无效的访问令牌</string>
-    <string name="IgnoreBlocked">忽略渣滓们在群里说的话</string>
+    <string name="IgnoreBlocked">忽略被屏蔽用户在群组内的发言</string>
     <string name="Connection">连接</string>
     <string name="Chat">聊天</string>
     <string name="NameOrder">姓名顺序*</string>
@@ -18,9 +18,9 @@
     <string name="TypefaceUseDefault">使用系统默认字体*</string>
     <string name="NoQuoteForward">无引用转发</string>
     <string name="Repeat">复读</string>
-    <string name="AddToSavedMessages">拿去自嗨</string>
+    <string name="AddToSavedMessages">保存消息</string>
     <string name="CreateMention">创建\@</string>
-    <string name="ForceTabletMode">假装是平板*</string>
+    <string name="ForceTabletMode">强制启用平板模式*</string>
     <string name="All">全部</string>
     <string name="Users">用户</string>
     <string name="Groups">群组</string>
@@ -81,7 +81,7 @@
     <string name="BotToken">令牌</string>
     <string name="UnlimitedPinnedDialogs">无限的置顶对话</string>
     <string name="UnlimitedPinnedDialogsAbout">关闭同步以置顶无限对话。</string>
-    <string name="OpenArchiveOnPull">下拉打开里世界</string>
+    <string name="OpenArchiveOnPull">下拉打开已归档对话</string>
     <string name="OpenDialogsFilterBy">对话分类打开方式</string>
     <string name="TapOnActionBar">点按标题栏</string>
     <string name="TapOnFab">点按铅笔按钮</string>
