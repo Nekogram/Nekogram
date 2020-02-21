@@ -70,6 +70,10 @@ public class NekoSettingsActivity extends BaseFragment {
     private int ipv6Row;
     private int connection2Row;
 
+    private int dialogsFilterRow;
+    private int openFilterByActionBarRow;
+    private int openFilterByFabRow;
+    private int dialogsFilter2Row;
 
     private int chatRow;
     private int inappCameraRow;
@@ -506,6 +510,16 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.openArchiveOnPull);
                 }
+            } else if (position == openFilterByActionBarRow) {
+                NekoConfig.toggleOpenFilterByActionBar();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.openFilterByActionBar);
+                }
+            } else if (position == openFilterByFabRow) {
+                NekoConfig.toggleOpenFilterByFab();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.openFilterByFab);
+                }
             }
 
         });
@@ -527,6 +541,10 @@ public class NekoSettingsActivity extends BaseFragment {
         connectionRow = rowCount++;
         ipv6Row = rowCount++;
         connection2Row = rowCount++;
+        dialogsFilterRow = rowCount++;
+        openFilterByActionBarRow = rowCount++;
+        openFilterByFabRow = rowCount++;
+        dialogsFilter2Row = rowCount++;
         chatRow = rowCount++;
         inappCameraRow = rowCount++;
         useSystemEmojiRow = rowCount++;
@@ -1030,6 +1048,10 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, true);
                     } else if (position == openArchiveOnPullRow) {
                         textCell.setTextAndCheck(LocaleController.getString("OpenArchiveOnPull", R.string.OpenArchiveOnPull), NekoConfig.openArchiveOnPull, true);
+                    } else if (position == openFilterByActionBarRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("TapOnActionBar", R.string.TapOnActionBar), NekoConfig.openFilterByActionBar, true);
+                    } else if (position == openFilterByFabRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("TapOnFab", R.string.TapOnFab), NekoConfig.openFilterByFab, false);
                     }
                     break;
                 }
@@ -1043,6 +1065,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         headerCell.setText(LocaleController.getString("Chat", R.string.Chat));
                     } else if (position == experimentRow) {
                         headerCell.setText(LocaleController.getString("Experiment", R.string.Experiment));
+                    } else if (position == dialogsFilterRow) {
+                        headerCell.setText(LocaleController.getString("OpenDialogsFilterBy", R.string.OpenDialogsFilterBy));
                     }
                     break;
                 }
@@ -1067,7 +1091,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     (position == disableFilteringRow && sensitiveCanChange) || position == stickerSizeRow ||
                     position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow ||
                     position == translationProviderRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
-                    position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow;
+                    position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
+                    position == openFilterByActionBarRow || position == openFilterByFabRow;
         }
 
         @Override
@@ -1108,7 +1133,7 @@ public class NekoSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == connection2Row || position == chat2Row || position == experiment2Row) {
+            if (position == connection2Row || position == chat2Row || position == experiment2Row || position == dialogsFilter2Row) {
                 return 1;
             } else if (position == nameOrderRow || position == mapPreviewRow || position == stickerSizeRow || position == messageMenuRow ||
                     position == deleteAccountRow || position == translationProviderRow || position == eventTypeRow || position == actionBarDecorationRow) {
@@ -1119,9 +1144,11 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == forceTabletRow || position == newYearRow ||
                     position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
                     position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
-                    position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow) {
+                    position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
+                    position == openFilterByActionBarRow || position == openFilterByFabRow) {
                 return 3;
-            } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
+            } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow ||
+                    position == dialogsFilterRow) {
                 return 4;
             } else if (position == needRestartRow) {
                 return 7;

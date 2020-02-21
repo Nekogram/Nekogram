@@ -39,7 +39,7 @@
     <string name="NekogramRunning">Nekogram is running</string>
     <string name="EventType">Sidebar icon set*</string>
     <string name="ChristmasHat">Show christmas hat everyday*</string>
-    <string name="ActionBarDecoration">Action bar decoration*</string>
+    <string name="ActionBarDecoration">Title bar decoration*</string>
     <string name="DependsOnDate">Depends on date</string>
     <string name="Christmas">Christmas</string>
     <string name="Valentine">Valentine\'s day</string>
@@ -87,4 +87,7 @@
     <string name="UnlimitedPinnedDialogs">Unlimited pinned dialogs</string>
     <string name="UnlimitedPinnedDialogsAbout">Pin unlimited dialogs by turn their sync off.</string>
     <string name="OpenArchiveOnPull">Open Archive on pulldown</string>
+    <string name="OpenDialogsFilterBy">Open dialogs filter by</string>
+    <string name="TapOnActionBar">Tap on the title bar</string>
+    <string name="TapOnFab">Tap on the pencil button</string>
 </resources>

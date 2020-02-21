@@ -219,7 +219,7 @@ public class FilterPopup extends BaseController {
         return count;
     }
 
-    public void createMenu(DialogsActivity dialogsActivity, int x, int y, int folderId) {
+    public void createMenu(DialogsActivity dialogsActivity, int x, int y, int folderId, boolean fab) {
         ArrayList<CharSequence> items = new ArrayList<>();
         final ArrayList<Integer> options = new ArrayList<>();
         ArrayList<Integer> unreadCounts = new ArrayList<>();
@@ -404,9 +404,8 @@ public class FilterPopup extends BaseController {
         }
         int totalHeight = dialogsActivity.getFragmentView().getHeight();
         int height = popupLayout.getMeasuredHeight();
-        int popupY = height < totalHeight ? y : AndroidUtilities.statusBarHeight;
+        int popupY = height < totalHeight ? y - (fab ? height : 0) : AndroidUtilities.statusBarHeight;
         scrimPopupWindow.showAtLocation(dialogsActivity.getFragmentView(), Gravity.LEFT | Gravity.TOP, popupX, popupY);
-
     }
 
     public static class DialogType {

@@ -46,6 +46,9 @@ public class NekoConfig {
 
     public static int translationProvider = 1;
 
+    public static boolean openFilterByActionBar = true;
+    public static boolean openFilterByFab = false;
+
     private static boolean configLoaded;
 
     static {
@@ -85,6 +88,8 @@ public class NekoConfig {
                 editor.putBoolean("unlimitedPinnedDialogs", unlimitedPinnedDialogs);
                 editor.putBoolean("disablePhotoSideAction", disablePhotoSideAction);
                 editor.putBoolean("openArchiveOnPull", openArchiveOnPull);
+                editor.putBoolean("openFilterByActionBar", openFilterByActionBar);
+                editor.putBoolean("openFilterByFab", openFilterByFab);
                 editor.putInt("translationProvider", translationProvider);
                 editor.putInt("eventType", eventType);
                 editor.putInt("actionBarDecoration", actionBarDecoration);
@@ -133,6 +138,8 @@ public class NekoConfig {
             translationProvider = preferences.getInt("translationProvider", 1);
             disablePhotoSideAction = preferences.getBoolean("disablePhotoSideAction", true);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
+            openFilterByActionBar = preferences.getBoolean("openFilterByActionBar", true);
+            openFilterByFab = preferences.getBoolean("openFilterByFab", false);
             configLoaded = true;
         }
     }
@@ -381,6 +388,22 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("openArchiveOnPull", openArchiveOnPull);
+        editor.commit();
+    }
+
+    public static void toggleOpenFilterByFab() {
+        openFilterByFab = !openFilterByFab;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("openFilterByFab", openFilterByFab);
+        editor.commit();
+    }
+
+    public static void toggleOpenFilterByActionBar() {
+        openFilterByActionBar = !openFilterByActionBar;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("openFilterByActionBar", openFilterByActionBar);
         editor.commit();
     }
 }

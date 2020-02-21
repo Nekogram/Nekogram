@@ -1158,10 +1158,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         actionBar.setOnTouchListener((v, event) -> {
             int x = (int) event.getX();
             int y = (int) event.getY();
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                FilterPopup.getInstance(currentAccount).createMenu(this, x, y, folderId);
+            if (event.getAction() == MotionEvent.ACTION_DOWN && NekoConfig.openFilterByActionBar) {
+                FilterPopup.getInstance(currentAccount).createMenu(this, x, y, folderId, false);
             }
-            return true;
+            return NekoConfig.openFilterByActionBar;
         });
         actionBar.setTitleActionRunnable(() -> {
             hideFloatingButton(false);
@@ -1620,9 +1620,21 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         floatingButtonContainer.setVisibility(onlySelect || folderId != 0 ? View.GONE : View.VISIBLE);
         contentView.addView(floatingButtonContainer, LayoutHelper.createFrame((Build.VERSION.SDK_INT >= 21 ? 56 : 60) + 20, (Build.VERSION.SDK_INT >= 21 ? 56 : 60) + 14, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.BOTTOM, LocaleController.isRTL ? 4 : 0, 0, LocaleController.isRTL ? 0 : 4, 0));
         floatingButtonContainer.setOnClickListener(v -> {
-            Bundle args = new Bundle();
-            args.putBoolean("destroyAfterSelect", true);
-            presentFragment(new ContactsActivity(args));
+            if (!NekoConfig.openFilterByFab) {
+                Bundle args = new Bundle();
+                args.putBoolean("destroyAfterSelect", true);
+                presentFragment(new ContactsActivity(args));
+            } else {
+                FilterPopup.getInstance(currentAccount).createMenu(this, floatingButtonContainer.getRight(), floatingButtonContainer.getTop() + actionBar.getHeight(), folderId, true);
+            }
+        });
+        floatingButtonContainer.setOnLongClickListener(v -> {
+            if (NekoConfig.openFilterByFab) {
+                Bundle args = new Bundle();
+                args.putBoolean("destroyAfterSelect", true);
+                presentFragment(new ContactsActivity(args));
+            }
+            return NekoConfig.openFilterByFab;
         });
 
         floatingButton = new ImageView(context);
