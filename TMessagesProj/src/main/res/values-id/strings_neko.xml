@@ -34,6 +34,7 @@
     <string name="NekogramRunning">Nekogram sedang berjalan</string>
     <string name="EventType">Atur ikon disamping*</string>
     <string name="ChristmasHat">Tampilkan topi natal setiap hari*</string>
+    <string name="ActionBarDecoration">Dekorasi baris judul*</string>
     <string name="DependsOnDate">Tergantung pada tanggal</string>
     <string name="Christmas">Natal</string>
     <string name="Valentine">Hari valentine</string>
@@ -80,4 +81,7 @@
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Pin dialog tak terbatas</string>
     <string name="UnlimitedPinnedDialogsAbout">Pin dialog tak terbatas dengan mematikan sync nya.</string>
+    <string name="OpenArchiveOnPull">Buka arsip saat ditarik ke bawah</string>
+    <string name="OpenDialogsFilterBy">Buka filter dialog dengan</string>
+    <string name="TapOnActionBar">Ketuk di atas baris judul</string>
 </resources>
