@@ -520,6 +520,8 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.openFilterByFab);
                 }
+            } else if (position == connection2Row) {
+                NekoConfig.toggleShowTestBackend();
             }
 
         });
@@ -1092,7 +1094,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow ||
                     position == translationProviderRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
-                    position == openFilterByActionBarRow || position == openFilterByFabRow;
+                    position == openFilterByActionBarRow || position == openFilterByFabRow || position == connection2Row;
         }
 
         @Override

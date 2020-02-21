@@ -49,6 +49,8 @@ public class NekoConfig {
     public static boolean openFilterByActionBar = true;
     public static boolean openFilterByFab = false;
 
+    public static boolean showTestBackend = false;
+
     private static boolean configLoaded;
 
     static {
@@ -90,10 +92,10 @@ public class NekoConfig {
                 editor.putBoolean("openArchiveOnPull", openArchiveOnPull);
                 editor.putBoolean("openFilterByActionBar", openFilterByActionBar);
                 editor.putBoolean("openFilterByFab", openFilterByFab);
+                editor.putBoolean("showTestBackend", showTestBackend);
                 editor.putInt("translationProvider", translationProvider);
                 editor.putInt("eventType", eventType);
                 editor.putInt("actionBarDecoration", actionBarDecoration);
-
                 editor.commit();
             } catch (Exception e) {
                 FileLog.e(e);
@@ -140,6 +142,7 @@ public class NekoConfig {
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
             openFilterByActionBar = preferences.getBoolean("openFilterByActionBar", true);
             openFilterByFab = preferences.getBoolean("openFilterByFab", false);
+            showTestBackend = preferences.getBoolean("showTestBackend", false);
             configLoaded = true;
         }
     }
@@ -404,6 +407,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("openFilterByActionBar", openFilterByActionBar);
+        editor.commit();
+    }
+
+    public static void toggleShowTestBackend() {
+        showTestBackend = !showTestBackend;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showTestBackend", showTestBackend);
         editor.commit();
     }
 }

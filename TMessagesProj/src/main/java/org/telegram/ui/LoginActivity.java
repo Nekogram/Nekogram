@@ -118,6 +118,8 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 @SuppressLint("HardwareIds")
 public class LoginActivity extends BaseFragment {
 
@@ -1535,38 +1537,40 @@ public class LoginActivity extends BaseFragment {
                 });
             }
 
-            testBackendCell = new CheckBoxCell(context, 2);
-            testBackendCell.setText(LocaleController.getString("TestBackend", R.string.TestBackend), "", ConnectionsManager.native_isTestBackend(currentAccount) != 0, false);
-            addView(testBackendCell, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));
-            testBackendCell.setOnClickListener(new OnClickListener() {
+            if (NekoConfig.showTestBackend) {
+                testBackendCell = new CheckBoxCell(context, 2);
+                testBackendCell.setText(LocaleController.getString("TestBackend", R.string.TestBackend), "", ConnectionsManager.native_isTestBackend(currentAccount) != 0, false);
+                addView(testBackendCell, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));
+                testBackendCell.setOnClickListener(new OnClickListener() {
 
-                private Toast visibleToast;
+                    private Toast visibleToast;
 
-                @Override
-                public void onClick(View v) {
-                    if (getParentActivity() == null) {
-                        return;
-                    }
-                    CheckBoxCell cell = (CheckBoxCell) v;
-                    ConnectionsManager.native_switchBackend(currentAccount);
-                    boolean isTestBackend = ConnectionsManager.native_isTestBackend(currentAccount) != 0;
-                    cell.setChecked(isTestBackend, true);
-                    try {
-                        if (visibleToast != null) {
-                            visibleToast.cancel();
+                    @Override
+                    public void onClick(View v) {
+                        if (getParentActivity() == null) {
+                            return;
                         }
-                    } catch (Exception e) {
-                        FileLog.e(e);
+                        CheckBoxCell cell = (CheckBoxCell) v;
+                        ConnectionsManager.native_switchBackend(currentAccount);
+                        boolean isTestBackend = ConnectionsManager.native_isTestBackend(currentAccount) != 0;
+                        cell.setChecked(isTestBackend, true);
+                        try {
+                            if (visibleToast != null) {
+                                visibleToast.cancel();
+                            }
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                        if (isTestBackend) {
+                            visibleToast = Toast.makeText(getParentActivity(), LocaleController.getString("TestBackendOn", R.string.TestBackendOn), Toast.LENGTH_SHORT);
+                            visibleToast.show();
+                        } else {
+                            visibleToast = Toast.makeText(getParentActivity(), LocaleController.getString("TestBackendOff", R.string.TestBackendOff), Toast.LENGTH_SHORT);
+                            visibleToast.show();
+                        }
                     }
-                    if (isTestBackend) {
-                        visibleToast = Toast.makeText(getParentActivity(), LocaleController.getString("TestBackendOn", R.string.TestBackendOn), Toast.LENGTH_SHORT);
-                        visibleToast.show();
-                    } else {
-                        visibleToast = Toast.makeText(getParentActivity(), LocaleController.getString("TestBackendOff", R.string.TestBackendOff), Toast.LENGTH_SHORT);
-                        visibleToast.show();
-                    }
-                }
-            });
+                });
+            }
 
             HashMap<String, String> languageMap = new HashMap<>();
             try {
