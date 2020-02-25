@@ -77,4 +77,10 @@
     <string name="CopyDetails">詳細のコピー</string>
     <string name="DisablePhotoViewerSideAction">タップして写真めくりを無効にする</string>
     <string name="BotToken">トークン</string>
+    <string name="UnlimitedPinnedDialogs">無制限のチャット固定</string>
+    <string name="UnlimitedPinnedDialogsAbout">チャットを無制限に固定することができます。固定は同期されなくなります。</string>
+    <string name="OpenArchiveOnPull">保管したチャットをプルダウンで開く</string>
+    <string name="OpenDialogsFilterBy">チャットフィルタを開く方法</string>
+    <string name="TapOnActionBar">タイトルバーをタップ</string>
+    <string name="TapOnFab">鉛筆ボタンをタップ</string>
 </resources>

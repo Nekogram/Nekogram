@@ -34,6 +34,7 @@
     <string name="NekogramRunning">네코그램이 실행 중 입니다</string>
     <string name="EventType">사이드바 아이콘 세트*</string>
     <string name="ChristmasHat">매일매일 크리스마스 모자*</string>
+    <string name="ActionBarDecoration">제목 표시줄 장식*</string>
     <string name="DependsOnDate">날짜에 따라 다름</string>
     <string name="Christmas">크리스마스</string>
     <string name="Valentine">발렌타인 데이</string>
@@ -81,4 +82,7 @@
     <string name="UnlimitedPinnedDialogs">무제한 대화 고정</string>
     <string name="UnlimitedPinnedDialogsAbout">동기화를 해제하여 무제한 대화를 고정 하세요.</string>
     <string name="OpenArchiveOnPull">화면 아래로 당길시 아카이브 열기</string>
+    <string name="OpenDialogsFilterBy">대화 상자 필터 열기</string>
+    <string name="TapOnActionBar">제목 표시 줄을 누르기</string>
+    <string name="TapOnFab">연필 버튼 누르기</string>
 </resources>

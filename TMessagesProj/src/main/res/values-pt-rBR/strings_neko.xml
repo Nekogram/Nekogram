@@ -79,10 +79,10 @@
     <string name="CopyDetails">Copiar Detalhes</string>
     <string name="DisablePhotoViewerSideAction">Desativar Virar Fotos ao tocar</string>
     <string name="BotToken">Token</string>
-    <string name="UnlimitedPinnedDialogs">Diálogos fixados ilimitados</string>
-    <string name="UnlimitedPinnedDialogsAbout">Fixar diálogos ilimitados desligando a sincronização.</string>
-    <string name="OpenArchiveOnPull">Abrir arquivo ao puxar</string>
-    <string name="OpenDialogsFilterBy">As caixas de diálogo abertas filtram por</string>
-    <string name="TapOnActionBar">Toque na barra de título</string>
+    <string name="UnlimitedPinnedDialogs">Chats fixados ilimitados</string>
+    <string name="UnlimitedPinnedDialogsAbout">Fixar chats ilimitados desativar a sincronização.</string>
+    <string name="OpenArchiveOnPull">Abrir chats arquivados ao puxar para baixo</string>
+    <string name="OpenDialogsFilterBy">Abrir filtro de chats por</string>
+    <string name="TapOnActionBar">Toque na barra de título \"Nekogram\"</string>
     <string name="TapOnFab">Toque no botão de lápis</string>
 </resources>
