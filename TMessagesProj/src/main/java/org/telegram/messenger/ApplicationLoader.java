@@ -21,6 +21,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Handler;
 import android.os.PowerManager;
 import android.telephony.TelephonyManager;
@@ -35,6 +36,8 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.ForegroundDetector;
 
 import java.io.File;
+
+import tw.nekomimi.nekogram.NekoConfig;
 
 public class ApplicationLoader extends Application {
 
@@ -198,7 +201,11 @@ public class ApplicationLoader extends Application {
         }
         if (enabled) {
             try {
-                applicationContext.startService(new Intent(applicationContext, NotificationsService.class));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && NekoConfig.residentNotification) {
+                    applicationContext.startForegroundService(new Intent(applicationContext, NotificationsService.class));
+                } else {
+                    applicationContext.startService(new Intent(applicationContext, NotificationsService.class));
+                }
             } catch (Throwable ignore) {
 
             }

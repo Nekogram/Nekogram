@@ -8,26 +8,24 @@ import android.os.Build;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.NotificationsService;
 
 public class NekoConfig {
 
     private static final Object sync = new Object();
     public static boolean useIPv6 = false;
-    public static boolean hidePhone = true;
+    public static boolean showTestBackend = false;
+
+    public static boolean openFilterByActionBar = true;
+    public static boolean openFilterByFab = false;
+
     public static boolean ignoreBlocked = false;
-    public static boolean forceTablet = false;
-    public static int typeface = 0;
-    public static int nameOrder = 1;
-    public static int mapPreviewProvider = 0;
-    public static boolean transparentStatusBar = false;
-    public static boolean residentNotification = false;
     public static boolean hideProxySponsorChannel = false;
     public static boolean saveCacheToPrivateDirectory = Build.VERSION.SDK_INT >= 24;
-    public static float stickerSize = 14.0f;
-    public static boolean unlimitedFavedStickers = false;
     public static boolean disablePhotoSideAction = true;
-    public static boolean unlimitedPinnedDialogs = false;
-    public static boolean openArchiveOnPull = false;
+    public static int mapPreviewProvider = 0;
+    public static float stickerSize = 14.0f;
+    public static int translationProvider = 1;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -40,16 +38,19 @@ public class NekoConfig {
     public static boolean showTranslate = true;
     public static boolean showRepeat = true;
 
+    public static boolean hidePhone = true;
+    public static int typeface = 0;
+    public static boolean transparentStatusBar = false;
+    public static boolean forceTablet = false;
+    public static boolean openArchiveOnPull = false;
+    public static int nameOrder = 1;
     public static int eventType = 0;
-    public static int actionBarDecoration = 0;
     public static boolean newYear = false;
+    public static int actionBarDecoration = 0;
+    public static boolean unlimitedFavedStickers = false;
+    public static boolean unlimitedPinnedDialogs = false;
 
-    public static int translationProvider = 1;
-
-    public static boolean openFilterByActionBar = true;
-    public static boolean openFilterByFab = false;
-
-    public static boolean showTestBackend = false;
+    public static boolean residentNotification = false;
 
     private static boolean configLoaded;
 
@@ -67,9 +68,6 @@ public class NekoConfig {
                 editor.putBoolean("hidePhone", hidePhone);
                 editor.putBoolean("ignoreBlocked", ignoreBlocked);
                 editor.putBoolean("forceTablet", forceTablet);
-                editor.putInt("typeface", typeface);
-                editor.putInt("nameOrder", nameOrder);
-                editor.putInt("mapPreviewProvider", mapPreviewProvider);
                 editor.putBoolean("transparentStatusBar", transparentStatusBar);
                 editor.putBoolean("residentNotification", residentNotification);
                 editor.putBoolean("hideProxySponsorChannel", hideProxySponsorChannel);
@@ -85,7 +83,6 @@ public class NekoConfig {
                 editor.putBoolean("showTranslate", showTranslate);
                 editor.putBoolean("showRepeat", showRepeat);
                 editor.putBoolean("newYear", newYear);
-                editor.putFloat("stickerSize", stickerSize);
                 editor.putBoolean("unlimitedFavedStickers", unlimitedFavedStickers);
                 editor.putBoolean("unlimitedPinnedDialogs", unlimitedPinnedDialogs);
                 editor.putBoolean("disablePhotoSideAction", disablePhotoSideAction);
@@ -93,6 +90,10 @@ public class NekoConfig {
                 editor.putBoolean("openFilterByActionBar", openFilterByActionBar);
                 editor.putBoolean("openFilterByFab", openFilterByFab);
                 editor.putBoolean("showTestBackend", showTestBackend);
+                editor.putFloat("stickerSize", stickerSize);
+                editor.putInt("typeface", typeface);
+                editor.putInt("nameOrder", nameOrder);
+                editor.putInt("mapPreviewProvider", mapPreviewProvider);
                 editor.putInt("translationProvider", translationProvider);
                 editor.putInt("eventType", eventType);
                 editor.putInt("actionBarDecoration", actionBarDecoration);
@@ -290,12 +291,8 @@ public class NekoConfig {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("residentNotification", residentNotification);
         editor.commit();
-        Intent duangIntent = new Intent(ApplicationLoader.applicationContext, DuangService.class);
-        if (residentNotification) {
-            ApplicationLoader.applicationContext.startService(duangIntent);
-        } else {
-            ApplicationLoader.applicationContext.stopService(duangIntent);
-        }
+        ApplicationLoader.applicationContext.stopService(new Intent(ApplicationLoader.applicationContext, NotificationsService.class));
+        ApplicationLoader.startPushService();
     }
 
     public static void toggleHideProxySponsorChannel() {
