@@ -1,7 +1,5 @@
 # Nekogram
-
-[Telegram](https://telegram.org) is a messaging app with a focus on speed and security. It’s superfast, simple and free.
-
+![Logo](https://raw.githubusercontent.com/Nekogram/Nekogram/master/TMessagesProj/src/main/res/mipmap-xxxhdpi/ic_launcher.png)  
 Nekogram is an UNOFFICIAL app that uses Telegram's API.
 
 - Google play store: https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram
@@ -10,7 +8,6 @@ Nekogram is an UNOFFICIAL app that uses Telegram's API.
 - APKs: https://github.com/Nekogram/Nekogram/releases
 - Feedback: https://t.me/nekosupportbot
 - Feedback: https://github.com/Nekogram/Nekogram/issues
-- Chat group (Chinese): Join our channel (https://t.me/zuragram) and click "Chat"
 
 ## API, Protocol documentation
 
