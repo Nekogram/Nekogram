@@ -333,9 +333,6 @@ public class Emoji {
         } else {
             s = Spannable.Factory.getInstance().newSpannable(cs.toString());
         }
-        if (SharedConfig.useSystemEmoji) {
-            return s;
-        }
         long buf = 0;
         int emojiCount = 0;
         char c;
@@ -458,12 +455,14 @@ public class Emoji {
                     if (emojiOnly != null) {
                         emojiOnly[0]++;
                     }
-                    CharSequence code = emojiCode.subSequence(0, emojiCode.length());
-                    drawable = Emoji.getEmojiDrawable(code);
-                    if (drawable != null) {
-                        span = new EmojiSpan(drawable, DynamicDrawableSpan.ALIGN_BOTTOM, size, fontMetrics);
-                        s.setSpan(span, startIndex, startIndex + startLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        emojiCount++;
+                    if (!SharedConfig.useSystemEmoji) {
+                        CharSequence code = emojiCode.subSequence(0, emojiCode.length());
+                        drawable = Emoji.getEmojiDrawable(code);
+                        if (drawable != null) {
+                            span = new EmojiSpan(drawable, DynamicDrawableSpan.ALIGN_BOTTOM, size, fontMetrics);
+                            s.setSpan(span, startIndex, startIndex + startLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            emojiCount++;
+                        }
                     }
                     startLength = 0;
                     startIndex = -1;
