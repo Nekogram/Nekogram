@@ -7132,7 +7132,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             AlertsCreator.showSendMediaAlert(getSendMessagesHelper().sendMessage(arrayList,  did == 0 ? dialog_id : did, notify, scheduleDate), this);
         } else {
             for (MessageObject object : arrayList) {
-                getSendMessagesHelper().processForwardFromMyName(object,  did == 0 ? dialog_id : did);
+                getSendMessagesHelper().processForwardFromMyName(object,  did == 0 ? dialog_id : did, true);
             }
         }
     }
