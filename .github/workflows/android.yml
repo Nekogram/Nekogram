@@ -21,6 +21,18 @@ jobs:
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: |
             ${{ runner.os }}-gradle-
+      - uses: actions/cache@v1
+        with:
+          path: ~/.gradle/wrapper/
+          key: ${{ runner.os }}-gradlewrapper-${{ hashFiles('gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradlewrapper-
+      - uses: actions/cache@v1
+        with:
+          path: ~/.android/build-cache
+          key: ${{ runner.os }}-build-cache-${{ hashFiles('**/*.gradle') }}
+          restore-keys: |
+            ${{ runner.os }}-build-cache-
       - name: Build
         env:
           KEYSTORE_PASS: ${{ secrets.KEYSTORE_PASS }}
