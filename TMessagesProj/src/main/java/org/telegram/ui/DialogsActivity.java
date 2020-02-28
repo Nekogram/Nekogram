@@ -927,6 +927,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
 
+        getMessagesController().getBlockedUsers(true);
+
         if (getArguments() != null) {
             onlySelect = arguments.getBoolean("onlySelect", false);
             cantSendToChannels = arguments.getBoolean("cantSendToChannels", false);
