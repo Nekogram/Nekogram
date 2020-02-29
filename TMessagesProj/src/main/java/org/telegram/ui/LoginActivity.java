@@ -1537,7 +1537,7 @@ public class LoginActivity extends BaseFragment {
                 });
             }
 
-            if (NekoConfig.showTestBackend) {
+            if (NekoConfig.showHiddenFeature) {
                 testBackendCell = new CheckBoxCell(context, 2);
                 testBackendCell.setText(LocaleController.getString("TestBackend", R.string.TestBackend), "", ConnectionsManager.native_isTestBackend(currentAccount) != 0, false);
                 addView(testBackendCell, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));

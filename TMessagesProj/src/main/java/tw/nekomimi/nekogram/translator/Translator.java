@@ -45,7 +45,7 @@ abstract public class Translator {
 
     @SuppressLint("StaticFieldLeak")
     private class MyAsyncTask extends AsyncTask<Void, Integer, String> {
-        TranslateCallBack translateCallBack; // 回调接口
+        TranslateCallBack translateCallBack;
         String query;
         String tl;
 

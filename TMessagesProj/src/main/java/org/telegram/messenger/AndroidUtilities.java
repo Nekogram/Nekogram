@@ -1093,10 +1093,10 @@ public class AndroidUtilities {
         synchronized (typefaceCache) {
             if (NekoConfig.typeface == 1) {
                 if (assetPath.contains("medium") && assetPath.contains("italic")) {
-                    return Typeface.create((Typeface) null, Typeface.BOLD_ITALIC);
+                    return Typeface.create(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP ? "sans-serif-medium" : "sans-serif", Typeface.ITALIC);
                 }
                 if (assetPath.contains("medium")) {
-                    return Typeface.create((Typeface) null, Typeface.BOLD);
+                    return Typeface.create(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP ? "sans-serif-medium" : "sans-serif", Typeface.NORMAL);
                 }
                 if (assetPath.contains("italic")) {
                     return Typeface.create((Typeface) null, Typeface.ITALIC);

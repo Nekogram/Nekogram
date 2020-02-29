@@ -29,7 +29,7 @@ public class GoogleWebTranslator extends Translator {
             "my", "hmn", "xh", "zu", "ne", "no", "pa", "pt", "ps", "ny", "ja", "sv", "sm",
             "sr", "st", "si", "eo", "sk", "sl", "sw", "gd", "ceb", "so", "tg", "te", "ta",
             "th", "tr", "cy", "ur", "uk", "uz", "es", "iw", "el", "haw", "sd", "hu", "sn",
-            "hy", "ig", "it", "yi", "hi", "su", "id", "jw", "en", "yo", "vi", "zh-TW", "zh-CN");
+            "hy", "ig", "it", "yi", "hi", "su", "id", "jw", "en", "yo", "vi", "zh-TW", "zh-CN", "zh");
     private long[] tkk;
 
     static GoogleWebTranslator getInstance() {
@@ -67,20 +67,10 @@ public class GoogleWebTranslator extends Translator {
             return null;
         }
         String tk = Utils.signWeb(query, tkk[0], tkk[1]);
-        String url;
-        if (NekoConfig.translationProvider == 2) {
-            url = "https://translate.google.cn/translate_a/single?client=webapp&dt=t" +
-                    "&sl=auto" +
-                    "&tl=" + tl +
-                    "&tk=" + tk +
-                    "&q=" + Utils.encodeURIComponent(query); // 不能用URLEncoder
-        } else {
-            url = "https://translate.google.com/translate_a/single?client=webapp&dt=t" +
-                    "&sl=" + "auto" +
-                    "&tl=" + tl +
-                    "&tk=" + tk +
-                    "&q=" + Utils.encodeURIComponent(query); // 不能用URLEncoder
-        }
+        String url = "https://translate.google." + (NekoConfig.translationProvider == 2 ? "cn" : "com") + "/translate_a/single?client=webapp&dt=t&sl=auto" +
+                "&tl=" + tl +
+                "&tk=" + tk +
+                "&q=" + Utils.encodeURIComponent(query); // 不能用URLEncoder
         String response = request(url);
         if (TextUtils.isEmpty(response)) {
             return null;
@@ -103,12 +93,7 @@ public class GoogleWebTranslator extends Translator {
     }
 
     private void initTkk() {
-        String response;
-        if (NekoConfig.translationProvider == 2) {
-            response = request("https://translate.google.cn/");
-        } else {
-            response = request("https://translate.google.com/");
-        }
+        String response = request("https://translate.google." + (NekoConfig.translationProvider == 2 ? "cn" : "com"));
         if (TextUtils.isEmpty(response)) {
             FileLog.e("Tkk init failed");
             return;

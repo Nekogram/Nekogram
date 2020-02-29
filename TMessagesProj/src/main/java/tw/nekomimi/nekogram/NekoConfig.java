@@ -14,14 +14,14 @@ public class NekoConfig {
 
     private static final Object sync = new Object();
     public static boolean useIPv6 = false;
-    public static boolean showTestBackend = false;
+    public static boolean showHiddenFeature = false;
 
     public static boolean openFilterByActionBar = true;
     public static boolean openFilterByFab = false;
 
     public static boolean ignoreBlocked = false;
     public static boolean hideProxySponsorChannel = false;
-    public static boolean saveCacheToPrivateDirectory = Build.VERSION.SDK_INT >= 24;
+    public static boolean saveCacheToPrivateDirectory = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
     public static boolean disablePhotoSideAction = true;
     public static int mapPreviewProvider = 0;
     public static float stickerSize = 14.0f;
@@ -39,7 +39,7 @@ public class NekoConfig {
     public static boolean showRepeat = true;
 
     public static boolean hidePhone = true;
-    public static int typeface = 0;
+    public static int typeface = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 1 : 0;
     public static boolean transparentStatusBar = false;
     public static boolean forceTablet = false;
     public static boolean openArchiveOnPull = false;
@@ -47,8 +47,8 @@ public class NekoConfig {
     public static int eventType = 0;
     public static boolean newYear = false;
     public static int actionBarDecoration = 0;
-    public static boolean unlimitedFavedStickers = false;
-    public static boolean unlimitedPinnedDialogs = false;
+    public static boolean unlimitedFavedStickers = true;
+    public static boolean unlimitedPinnedDialogs = true;
 
     public static boolean residentNotification = false;
 
@@ -57,7 +57,6 @@ public class NekoConfig {
     static {
         loadConfig();
     }
-
 
     public static void saveConfig() {
         synchronized (sync) {
@@ -89,7 +88,7 @@ public class NekoConfig {
                 editor.putBoolean("openArchiveOnPull", openArchiveOnPull);
                 editor.putBoolean("openFilterByActionBar", openFilterByActionBar);
                 editor.putBoolean("openFilterByFab", openFilterByFab);
-                editor.putBoolean("showTestBackend", showTestBackend);
+                editor.putBoolean("showHiddenFeature", showHiddenFeature);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
@@ -115,13 +114,13 @@ public class NekoConfig {
             hidePhone = preferences.getBoolean("hidePhone", true);
             ignoreBlocked = preferences.getBoolean("ignoreBlocked", false);
             forceTablet = preferences.getBoolean("forceTablet", false);
-            typeface = preferences.getInt("typeface", 0);
+            typeface = preferences.getInt("typeface", Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 1 : 0);
             nameOrder = preferences.getInt("nameOrder", 1);
             mapPreviewProvider = preferences.getInt("mapPreviewProvider", 0);
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
             hideProxySponsorChannel = preferences.getBoolean("hideProxySponsorChannel", false);
-            saveCacheToPrivateDirectory = preferences.getBoolean("saveCacheToPrivateDirectory", Build.VERSION.SDK_INT >= 24);
+            saveCacheToPrivateDirectory = preferences.getBoolean("saveCacheToPrivateDirectory", Build.VERSION.SDK_INT >= Build.VERSION_CODES.N);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
             showPrPr = preferences.getBoolean("showPrPr", false);
@@ -136,14 +135,14 @@ public class NekoConfig {
             actionBarDecoration = preferences.getInt("actionBarDecoration", 0);
             newYear = preferences.getBoolean("newYear", false);
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
-            unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", false);
-            unlimitedPinnedDialogs = preferences.getBoolean("unlimitedPinnedDialogs", false);
+            unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", true);
+            unlimitedPinnedDialogs = preferences.getBoolean("unlimitedPinnedDialogs", true);
             translationProvider = preferences.getInt("translationProvider", 1);
             disablePhotoSideAction = preferences.getBoolean("disablePhotoSideAction", true);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
             openFilterByActionBar = preferences.getBoolean("openFilterByActionBar", true);
             openFilterByFab = preferences.getBoolean("openFilterByFab", false);
-            showTestBackend = preferences.getBoolean("showTestBackend", false);
+            showHiddenFeature = preferences.getBoolean("showHiddenFeature", false);
             configLoaded = true;
         }
     }
@@ -407,11 +406,11 @@ public class NekoConfig {
         editor.commit();
     }
 
-    public static void toggleShowTestBackend() {
-        showTestBackend = !showTestBackend;
+    public static void toggleShowHiddenFeature() {
+        showHiddenFeature = !showHiddenFeature;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("showTestBackend", showTestBackend);
+        editor.putBoolean("showHiddenFeature", showHiddenFeature);
         editor.commit();
     }
 }

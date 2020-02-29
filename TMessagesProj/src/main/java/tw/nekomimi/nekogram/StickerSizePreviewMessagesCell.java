@@ -175,7 +175,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
                     int viewHeight = getMeasuredHeight();
                     float scaleX = (float) getMeasuredWidth() / (float) drawable.getIntrinsicWidth();
                     float scaleY = (float) (viewHeight) / (float) drawable.getIntrinsicHeight();
-                    float scale = scaleX < scaleY ? scaleY : scaleX;
+                    float scale = Math.max(scaleX, scaleY);
                     int width = (int) Math.ceil(drawable.getIntrinsicWidth() * scale);
                     int height = (int) Math.ceil(drawable.getIntrinsicHeight() * scale);
                     int x = (getMeasuredWidth() - width) / 2;

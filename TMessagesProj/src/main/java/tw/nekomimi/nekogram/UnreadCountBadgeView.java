@@ -23,7 +23,6 @@ public class UnreadCountBadgeView extends View {
         this.countString = countString;
         countWidth = Math.max(AndroidUtilities.dp(12), (int) Math.ceil(Theme.dialogs_countTextPaint.measureText(countString)));
         countLayout = new StaticLayout(countString, Theme.dialogs_countTextPaint, countWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
-
     }
 
     @Override
