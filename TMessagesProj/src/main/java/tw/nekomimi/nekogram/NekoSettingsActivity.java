@@ -83,6 +83,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int saveCacheToPrivateDirectoryRow;
     private int pauseMusicOnRecordRow;
     private int disablePhotoSideActionRow;
+    private int hideKeyboardOnChatScrollRow;
     private int mapPreviewRow;
     private int stickerSizeRow;
     private int translationProviderRow;
@@ -523,6 +524,11 @@ public class NekoSettingsActivity extends BaseFragment {
             } else if (position == connection2Row) {
                 NekoConfig.toggleShowHiddenFeature();
                 updateRows();
+            } else if (position == hideKeyboardOnChatScrollRow) {
+                NekoConfig.toggleHideKeyboardOnChatScroll();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.hideKeyboardOnChatScroll);
+                }
             }
 
         });
@@ -556,6 +562,7 @@ public class NekoSettingsActivity extends BaseFragment {
         saveCacheToPrivateDirectoryRow = NekoConfig.showHiddenFeature && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? rowCount++ : -1;
         pauseMusicOnRecordRow = rowCount++;
         disablePhotoSideActionRow = rowCount++;
+        hideKeyboardOnChatScrollRow = rowCount++;
         mapPreviewRow = rowCount++;
         stickerSizeRow = rowCount++;
         messageMenuRow = rowCount++;
@@ -1055,6 +1062,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("TapOnActionBar", R.string.TapOnActionBar), NekoConfig.openFilterByActionBar, true);
                     } else if (position == openFilterByFabRow) {
                         textCell.setTextAndCheck(LocaleController.getString("TapOnFab", R.string.TapOnFab), NekoConfig.openFilterByFab, false);
+                    } else if (position == hideKeyboardOnChatScrollRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("HideKeyboardOnChatScroll", R.string.HideKeyboardOnChatScroll), NekoConfig.hideKeyboardOnChatScroll, true);
                     }
                     break;
                 }
@@ -1095,7 +1104,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow ||
                     position == translationProviderRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
-                    position == openFilterByActionBarRow || position == openFilterByFabRow || position == connection2Row;
+                    position == openFilterByActionBarRow || position == openFilterByFabRow || position == connection2Row ||
+                    position == hideKeyboardOnChatScrollRow;
         }
 
         @Override
@@ -1148,7 +1158,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
                     position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
-                    position == openFilterByActionBarRow || position == openFilterByFabRow) {
+                    position == openFilterByActionBarRow || position == openFilterByFabRow || position == hideKeyboardOnChatScrollRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow ||
                     position == dialogsFilterRow) {

@@ -23,6 +23,7 @@ public class NekoConfig {
     public static boolean hideProxySponsorChannel = false;
     public static boolean saveCacheToPrivateDirectory = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
     public static boolean disablePhotoSideAction = true;
+    public static boolean hideKeyboardOnChatScroll = false;
     public static int mapPreviewProvider = 0;
     public static float stickerSize = 14.0f;
     public static int translationProvider = 1;
@@ -85,6 +86,7 @@ public class NekoConfig {
                 editor.putBoolean("unlimitedFavedStickers", unlimitedFavedStickers);
                 editor.putBoolean("unlimitedPinnedDialogs", unlimitedPinnedDialogs);
                 editor.putBoolean("disablePhotoSideAction", disablePhotoSideAction);
+                editor.putBoolean("hideKeyboardOnChatScroll", hideKeyboardOnChatScroll);
                 editor.putBoolean("openArchiveOnPull", openArchiveOnPull);
                 editor.putBoolean("openFilterByActionBar", openFilterByActionBar);
                 editor.putBoolean("openFilterByFab", openFilterByFab);
@@ -143,6 +145,7 @@ public class NekoConfig {
             openFilterByActionBar = preferences.getBoolean("openFilterByActionBar", true);
             openFilterByFab = preferences.getBoolean("openFilterByFab", false);
             showHiddenFeature = preferences.getBoolean("showHiddenFeature", false);
+            hideKeyboardOnChatScroll = preferences.getBoolean("hideKeyboardOnChatScroll", false);
             configLoaded = true;
         }
     }
@@ -411,6 +414,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showHiddenFeature", showHiddenFeature);
+        editor.commit();
+    }
+
+    public static void toggleHideKeyboardOnChatScroll() {
+        hideKeyboardOnChatScroll = !hideKeyboardOnChatScroll;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("hideKeyboardOnChatScroll", hideKeyboardOnChatScroll);
         editor.commit();
     }
 }

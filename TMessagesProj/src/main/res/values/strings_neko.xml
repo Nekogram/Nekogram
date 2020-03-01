@@ -90,4 +90,5 @@
     <string name="OpenDialogsFilterBy">Open dialogs filter by</string>
     <string name="TapOnActionBar">Tap on the title bar</string>
     <string name="TapOnFab">Tap on the pencil button</string>
+    <string name="HideKeyboardOnChatScroll">Hide keyboard on chat scroll</string>
 </resources>
