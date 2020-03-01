@@ -313,7 +313,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         });
 
         listView.setOnItemClickListener((view, position) -> {
-            if (!canEdit) {
+            if (!canEdit && position != 0) {
                 return;
             }
             if (position == 0) {
@@ -988,7 +988,7 @@ public class ChatRightsEditActivity extends BaseFragment {
 
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
-            if (!canEdit) {
+            if (!canEdit && holder.getAdapterPosition() != 0) {
                 return false;
             }
             int type = holder.getItemViewType();
