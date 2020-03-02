@@ -48,8 +48,8 @@ public class NekoConfig {
     public static int eventType = 0;
     public static boolean newYear = false;
     public static int actionBarDecoration = 0;
-    public static boolean unlimitedFavedStickers = true;
-    public static boolean unlimitedPinnedDialogs = true;
+    public static boolean unlimitedFavedStickers = false;
+    public static boolean unlimitedPinnedDialogs = false;
 
     public static boolean residentNotification = false;
 
@@ -137,8 +137,8 @@ public class NekoConfig {
             actionBarDecoration = preferences.getInt("actionBarDecoration", 0);
             newYear = preferences.getBoolean("newYear", false);
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
-            unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", true);
-            unlimitedPinnedDialogs = preferences.getBoolean("unlimitedPinnedDialogs", true);
+            unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", false);
+            unlimitedPinnedDialogs = preferences.getBoolean("unlimitedPinnedDialogs", false);
             translationProvider = preferences.getInt("translationProvider", 1);
             disablePhotoSideAction = preferences.getBoolean("disablePhotoSideAction", true);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
