@@ -32,7 +32,7 @@ dependencies {
     implementation 'com.stripe:stripe-android:2.0.2'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation files('libs/libgsaverification-client.aar')
-    implementation "com.microsoft.appcenter:appcenter-analytics:2.5.1"
+    implementation "com.microsoft.appcenter:appcenter-analytics:3.0.0"
 }
 
 android {

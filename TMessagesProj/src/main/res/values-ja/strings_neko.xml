@@ -83,4 +83,5 @@
     <string name="OpenDialogsFilterBy">チャットフィルタを開く方法</string>
     <string name="TapOnActionBar">タイトルバーをタップ</string>
     <string name="TapOnFab">鉛筆ボタンをタップ</string>
+    <string name="HideKeyboardOnChatScroll">チャットスクロールでキーボードを非表示にする</string>
 </resources>

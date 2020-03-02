@@ -85,4 +85,5 @@
     <string name="OpenDialogsFilterBy">对话分类打开方式</string>
     <string name="TapOnActionBar">点按标题栏</string>
     <string name="TapOnFab">点按铅笔按钮</string>
+    <string name="HideKeyboardOnChatScroll">当滚动浏览对话时隐藏键盘</string>
 </resources>

@@ -84,4 +84,6 @@
     <string name="OpenArchiveOnPull">Buka arsip saat ditarik ke bawah</string>
     <string name="OpenDialogsFilterBy">Buka filter dialog dengan</string>
     <string name="TapOnActionBar">Ketuk di atas baris judul</string>
+    <string name="TapOnFab">Ketuk pada tombol pensil</string>
+    <string name="HideKeyboardOnChatScroll">Sembunyikan keyboard saat men-scroll</string>
 </resources>

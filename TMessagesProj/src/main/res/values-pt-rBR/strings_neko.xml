@@ -77,7 +77,7 @@
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Desfazer tradução</string>
     <string name="CopyDetails">Copiar Detalhes</string>
-    <string name="DisablePhotoViewerSideAction">Desativar Virar Fotos ao tocar</string>
+    <string name="DisablePhotoViewerSideAction">Desativar mudança de fotos ao tocar nos cantos</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Chats fixados ilimitados</string>
     <string name="UnlimitedPinnedDialogsAbout">Fixar chats ilimitados desativar a sincronização.</string>
@@ -85,4 +85,5 @@
     <string name="OpenDialogsFilterBy">Abrir filtro de chats por</string>
     <string name="TapOnActionBar">Toque na barra de título \"Nekogram\"</string>
     <string name="TapOnFab">Toque no botão de lápis</string>
+    <string name="HideKeyboardOnChatScroll">Ocultar teclado na rolagem do chat</string>
 </resources>

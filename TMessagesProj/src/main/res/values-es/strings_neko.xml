@@ -85,4 +85,5 @@
     <string name="OpenDialogsFilterBy">Abrir filtro de chats al</string>
     <string name="TapOnActionBar">Tocar en la barra de título</string>
     <string name="TapOnFab">Tocar en el botón del lápiz</string>
+    <string name="HideKeyboardOnChatScroll">Ocultar teclado al desplazar el chat</string>
 </resources>
