@@ -570,7 +570,7 @@ public class NekoSettingsActivity extends BaseFragment {
         chat2Row = rowCount++;
         settingsRow = rowCount++;
         hidePhoneRow = rowCount++;
-        typefaceRow = rowCount++;
+        typefaceRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? rowCount++ : -1;
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
         forceTabletRow = rowCount++;
         openArchiveOnPullRow = rowCount++;

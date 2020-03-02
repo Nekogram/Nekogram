@@ -1091,12 +1091,12 @@ public class AndroidUtilities {
 
     public static Typeface getTypeface(String assetPath) {
         synchronized (typefaceCache) {
-            if (NekoConfig.typeface == 1) {
+            if (NekoConfig.typeface == 1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 if (assetPath.contains("medium") && assetPath.contains("italic")) {
-                    return Typeface.create(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP ? "sans-serif-medium" : "sans-serif", Typeface.ITALIC);
+                    return Typeface.create("sans-serif-medium", Typeface.ITALIC);
                 }
                 if (assetPath.contains("medium")) {
-                    return Typeface.create(Build.VERSION.SDK_INT > Build.VERSION_CODES.LOLLIPOP ? "sans-serif-medium" : "sans-serif", Typeface.NORMAL);
+                    return Typeface.create("sans-serif-medium", Typeface.NORMAL);
                 }
                 if (assetPath.contains("italic")) {
                     return Typeface.create((Typeface) null, Typeface.ITALIC);
