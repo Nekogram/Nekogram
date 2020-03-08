@@ -240,21 +240,16 @@ public class Emoji {
 
         @Override
         public void draw(Canvas canvas) {
-            /*if (MessagesController.getInstance().useSystemEmoji) {
-                //textPaint.setTextSize(getBounds().width());
-                canvas.drawText(EmojiData.data[info.page][info.emojiIndex], getBounds().left, getBounds().bottom, textPaint);
-                return;
-            }*/
+            Rect b;
+            if (fullSize) {
+                b = getDrawRect();
+            } else {
+                b = getBounds();
+            }
             if (SharedConfig.useSystemEmoji) {
-                String emoji = EmojiData.data[info.page][info.emojiIndex];
-                if (EmojiData.emojiToFE0FMap.containsKey(emoji.charAt(0))) {
-                    emoji = emoji.substring(0, 1) + "\uFE0F" + emoji.substring(1);
-                }
-                textPaint.setColor(Theme.getColor(Theme.key_chat_emojiPanelIcon));
-                textPaint.setTextSize(getBounds().width() * 4.0f);
-                textPaint.setTextSize(getBounds().width() * 0.7f * 4.0f * Math.min(0.3f, getBounds().width() / textPaint.measureText(emoji)));
-                textPaint.setTextAlign(Paint.Align.CENTER);
-                canvas.drawText(emoji, getBounds().left + getBounds().width() / 2.0f, getBounds().bottom - getBounds().height() / 5.0f, textPaint);
+                String emoji = fixEmoji(EmojiData.data[info.page][info.emojiIndex]);
+                textPaint.setTextSize(b.height() * 0.8f);
+                canvas.drawText(emoji,  0, emoji.length(), b.left, b.bottom - b.height() * 0.225f, textPaint);
                 return;
             }
             if (emojiBmp[info.page][info.page2] == null) {
@@ -268,13 +263,6 @@ public class Emoji {
                 });
                 canvas.drawRect(getBounds(), placeholderPaint);
                 return;
-            }
-
-            Rect b;
-            if (fullSize) {
-                b = getDrawRect();
-            } else {
-                b = getBounds();
             }
 
             //if (!canvas.quickReject(b.left, b.top, b.right, b.bottom, Canvas.EdgeType.AA)) {
@@ -455,14 +443,12 @@ public class Emoji {
                     if (emojiOnly != null) {
                         emojiOnly[0]++;
                     }
-                    if (!SharedConfig.useSystemEmoji) {
-                        CharSequence code = emojiCode.subSequence(0, emojiCode.length());
-                        drawable = Emoji.getEmojiDrawable(code);
-                        if (drawable != null) {
-                            span = new EmojiSpan(drawable, DynamicDrawableSpan.ALIGN_BOTTOM, size, fontMetrics);
-                            s.setSpan(span, startIndex, startIndex + startLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            emojiCount++;
-                        }
+                    CharSequence code = emojiCode.subSequence(0, emojiCode.length());
+                    drawable = Emoji.getEmojiDrawable(code);
+                    if (drawable != null) {
+                        span = new EmojiSpan(drawable, DynamicDrawableSpan.ALIGN_BOTTOM, size, fontMetrics);
+                        s.setSpan(span, startIndex, startIndex + startLength, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        emojiCount++;
                     }
                     startLength = 0;
                     startIndex = -1;
