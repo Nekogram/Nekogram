@@ -53,7 +53,6 @@ import java.util.concurrent.CountDownLatch;
 
 import androidx.core.app.NotificationManagerCompat;
 
-import tw.nekomimi.nekogram.FilterPopup;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class MessagesController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
@@ -1129,9 +1128,6 @@ public class MessagesController extends BaseController implements NotificationCe
         dialogsUsersOnly.clear();
         dialogMessagesByIds.clear();
         dialogMessagesByRandomIds.clear();
-
-        FilterPopup.getInstance(currentAccount).cleanup();
-
         channelAdmins.clear();
         loadingChannelAdmins.clear();
         users.clear();
@@ -3014,9 +3010,6 @@ public class MessagesController extends BaseController implements NotificationCe
         dialogsGroupsOnly.remove(dialog);
         dialogsUsersOnly.remove(dialog);
         dialogsForward.remove(dialog);
-
-        FilterPopup.getInstance(currentAccount).remove(dialog);
-
         dialogs_dict.remove(did);
 
         ArrayList<TLRPC.Dialog> dialogs = dialogsByFolder.get(dialog.folder_id);
@@ -11127,9 +11120,6 @@ public class MessagesController extends BaseController implements NotificationCe
                 dialogsGroupsOnly.remove(dialog);
                 dialogsUsersOnly.remove(dialog);
                 dialogsForward.remove(dialog);
-
-                FilterPopup.getInstance(currentAccount).remove(dialog);
-
                 dialogs_dict.remove(dialog.id);
                 dialogs_read_inbox_max.remove(dialog.id);
                 dialogs_read_outbox_max.remove(dialog.id);
@@ -11275,7 +11265,6 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void sortDialogs(SparseArray<TLRPC.Chat> chatsDict) {
-        FilterPopup.getInstance(currentAccount).cleanup();
         dialogsServerOnly.clear();
         dialogsCanAddUsers.clear();
         dialogsChannelsOnly.clear();
@@ -11304,7 +11293,6 @@ public class MessagesController extends BaseController implements NotificationCe
             TLRPC.Dialog d = allDialogs.get(a);
             int high_id = (int) (d.id >> 32);
             int lower_id = (int) d.id;
-            FilterPopup.getInstance(currentAccount).sortDialogs(d, high_id, lower_id);
             if (d instanceof TLRPC.TL_dialog) {
                 boolean canAddToForward = true;
                 if (lower_id != 0 && high_id != 1) {

@@ -58,8 +58,6 @@ import org.telegram.ui.DialogsActivity;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.FilterPopup;
-
 public class DialogCell extends BaseCell {
 
     public static class CustomDialog {
@@ -1011,7 +1009,7 @@ public class DialogCell extends BaseCell {
                 }
             }
 
-            if (FilterPopup.DialogType.isDialogsType(dialogsType) && MessagesController.getInstance(currentAccount).isProxyDialog(currentDialogId, true)) {
+            if (dialogsType == 0 && MessagesController.getInstance(currentAccount).isProxyDialog(currentDialogId, true)) {
                 drawPinBackground = true;
                 timeString = LocaleController.getString("UseProxySponsor", R.string.UseProxySponsor);
             }

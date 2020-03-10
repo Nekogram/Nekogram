@@ -26,12 +26,6 @@
     <string name="AddToSavedMessages">Save message</string>
     <string name="CreateMention">Create Mention</string>
     <string name="ForceTabletMode">Force tablet mode*</string>
-    <string name="All">All</string>
-    <string name="Users">Users</string>
-    <string name="Groups">Groups</string>
-    <string name="Channels">Channels</string>
-    <string name="Bots">Bots</string>
-    <string name="Admins">Administrating</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Transparent status bar</string>
     <string name="EnableResidentNotification">Show a resident notification</string>
@@ -87,9 +81,6 @@
     <string name="UnlimitedPinnedDialogs">Unlimited pinned dialogs</string>
     <string name="UnlimitedPinnedDialogsAbout">Pin unlimited dialogs by turn their sync off.</string>
     <string name="OpenArchiveOnPull">Open Archive on pulldown</string>
-    <string name="OpenDialogsFilterBy">Open dialogs filter by</string>
-    <string name="TapOnActionBar">Tap on the title bar</string>
-    <string name="TapOnFab">Tap on the pencil button</string>
     <string name="HideKeyboardOnChatScroll">Hide keyboard on chat scroll</string>
     <string name="UserRestrictionsSendStickers2">Send Stickers</string>
     <string name="UserRestrictionsSendGifs">Send GIFs</string>

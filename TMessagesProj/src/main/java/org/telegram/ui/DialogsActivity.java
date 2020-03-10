@@ -137,10 +137,7 @@ import org.telegram.ui.Components.StickersAlert;
 import org.telegram.ui.Components.UndoView;
 
 import java.util.ArrayList;
-import java.util.Date;
 
-import tw.nekomimi.nekogram.FilterPopup;
-import tw.nekomimi.nekogram.MessageHelper;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
@@ -903,26 +900,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         super(args);
     }
 
-    public void updateDialogsType(int type) {
-        int dialogsTypeOld = dialogsType;
-        dialogsType = type;
-        if (dialogsAdapter != null) {
-            dialogsAdapter.setDialogsType(type);
-            dialogsAdapter.notifyDataSetChanged();
-        }
-        hideFloatingButton(false);
-        if (dialogsTypeOld == dialogsType) {
-            scrollToTop();
-        } else {
-            if (archivePullViewState == ARCHIVE_ITEM_STATE_HIDDEN && hasHiddenArchive()) {
-                layoutManager.scrollToPositionWithOffset(1, 0);
-            } else {
-                layoutManager.scrollToPositionWithOffset(0, 0);
-            }
-        }
-        actionBar.setTitle(getNekoTitle());
-    }
-
     @Override
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
@@ -945,7 +922,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             hasPoll = arguments.getInt("hasPoll", 0);
         }
 
-        if (FilterPopup.DialogType.isDialogsType(dialogsType)) {
+        if (dialogsType == 0) {
             askAboutContacts = MessagesController.getGlobalNotificationsSettings().getBoolean("askAboutContacts", true);
             SharedConfig.loadProxyList();
         }
@@ -1145,26 +1122,18 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 actionBar.setBackButtonContentDescription(LocaleController.getString("AccDescrOpenMenu", R.string.AccDescrOpenMenu));
             }
             if (folderId != 0) {
-                actionBar.setTitle(getNekoTitle());
+                actionBar.setTitle(getNekoTitle(LocaleController.getString("ArchivedChats", R.string.ArchivedChats)));
             } else {
                 if (BuildVars.DEBUG_VERSION) {
                     actionBar.setTitle("Telegram Beta");
                 } else {
-                    actionBar.setTitle(getNekoTitle());
+                    actionBar.setTitle(getNekoTitle(LocaleController.getString("Nekogram", R.string.Nekogram)));
                 }
             }
             if (folderId == 0) {
                 actionBar.setSupportsHolidayImage(true);
             }
         }
-        actionBar.setOnTouchListener((v, event) -> {
-            int x = (int) event.getX();
-            int y = (int) event.getY();
-            if (event.getAction() == MotionEvent.ACTION_DOWN && NekoConfig.openFilterByActionBar) {
-                FilterPopup.getInstance(currentAccount).createMenu(this, x, y, folderId, false);
-            }
-            return NekoConfig.openFilterByActionBar;
-        });
         actionBar.setTitleActionRunnable(() -> {
             hideFloatingButton(false);
             scrollToTop();
@@ -1622,21 +1591,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         floatingButtonContainer.setVisibility(onlySelect || folderId != 0 ? View.GONE : View.VISIBLE);
         contentView.addView(floatingButtonContainer, LayoutHelper.createFrame((Build.VERSION.SDK_INT >= 21 ? 56 : 60) + 20, (Build.VERSION.SDK_INT >= 21 ? 56 : 60) + 14, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.BOTTOM, LocaleController.isRTL ? 4 : 0, 0, LocaleController.isRTL ? 0 : 4, 0));
         floatingButtonContainer.setOnClickListener(v -> {
-            if (!NekoConfig.openFilterByFab) {
-                Bundle args = new Bundle();
-                args.putBoolean("destroyAfterSelect", true);
-                presentFragment(new ContactsActivity(args));
-            } else {
-                FilterPopup.getInstance(currentAccount).createMenu(this, floatingButtonContainer.getRight(), floatingButtonContainer.getTop() + actionBar.getHeight(), folderId, true);
-            }
-        });
-        floatingButtonContainer.setOnLongClickListener(v -> {
-            if (NekoConfig.openFilterByFab) {
-                Bundle args = new Bundle();
-                args.putBoolean("destroyAfterSelect", true);
-                presentFragment(new ContactsActivity(args));
-            }
-            return NekoConfig.openFilterByFab;
+            Bundle args = new Bundle();
+            args.putBoolean("destroyAfterSelect", true);
+            presentFragment(new ContactsActivity(args));
         });
 
         floatingButton = new ImageView(context);
@@ -1904,7 +1861,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             showSearch(false, false);
         }
 
-        if (!onlySelect && FilterPopup.DialogType.isDialogsType(dialogsType)) {
+        if (!onlySelect && dialogsType == 0) {
             FragmentContextView fragmentLocationContextView = new FragmentContextView(context, this, true);
             contentView.addView(fragmentLocationContextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 39, Gravity.TOP | Gravity.LEFT, 0, -36, 0, 0));
 
@@ -2621,10 +2578,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private boolean hasHiddenArchive() {
-        return listView.getAdapter() == dialogsAdapter && !onlySelect
-                && FilterPopup.DialogType.isDialogsType(dialogsType)
-                && folderId == 0
-                && FilterPopup.getInstance(currentAccount).hasHiddenArchive(dialogsType);
+        return listView.getAdapter() == dialogsAdapter && !onlySelect && dialogsType == 0 && folderId == 0 && getMessagesController().hasHiddenArchive();
     }
 
     private boolean waitingForDialogsAnimationEnd() {
@@ -3487,46 +3441,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    private String getNekoTitle() {
-        String title;
-        switch (dialogsType) {
-            case FilterPopup.DialogType.Users:
-                title = LocaleController.getString("Users", R.string.Users);
-                break;
-            case FilterPopup.DialogType.Groups:
-                title = LocaleController.getString("Groups", R.string.Groups);
-                break;
-            case FilterPopup.DialogType.Bots:
-                title = LocaleController.getString("Bots", R.string.Bots);
-                break;
-            case FilterPopup.DialogType.Channels:
-                title = LocaleController.getString("Channels", R.string.Channels);
-                break;
-            case FilterPopup.DialogType.Admin:
-                title = LocaleController.getString("Admins", R.string.Admins);
-                break;
-            case FilterPopup.DialogType.Unmuted:
-                title = LocaleController.getString("NotificationsUnmuted", R.string.NotificationsUnmuted);
-                break;
-            default:
-                if (folderId != 0) {
-                    title = LocaleController.getString("ArchivedChats", R.string.ArchivedChats);
-                } else {
-                    title = LocaleController.getString("Nekogram", R.string.Nekogram);
-                }
-        }
-        if (FilterPopup.getInstance(currentAccount).getTotalUnreadCount() == 0) {
-            return LocaleController.getString("NekogramEmojiDialogs", R.string.NekogramEmojiDialogs) + " " + title;
-        }
-        return LocaleController.getString("NekogramEmojiDialogsUnread", R.string.NekogramEmojiDialogsUnread) + " " + title;
+    private String getNekoTitle(String title) {
+        return LocaleController.getString("NekogramEmojiDialogs", R.string.NekogramEmojiDialogs) + " " + title;
+        //if (FilterPopup.getInstance(currentAccount).getTotalUnreadCount() == 0) {
+        //    return LocaleController.getString("NekogramEmojiDialogs", R.string.NekogramEmojiDialogs) + " " + title;
+        //}
+        //return LocaleController.getString("NekogramEmojiDialogsUnread", R.string.NekogramEmojiDialogsUnread) + " " + title;
     }
 
     @Override
     public void didReceivedNotification(int id, int account, Object... args) {
-        if (actionBar != null && id != NotificationCenter.didUpdateConnectionState) {
-            actionBar.setTitle(getNekoTitle());
-        }
-
         if (id == NotificationCenter.dialogsNeedReload) {
             if (dialogsListFrozen) {
                 return;
@@ -3571,7 +3495,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (dialogsListFrozen) {
                 return;
             }
-            if (FilterPopup.DialogType.isDialogsType(dialogsType) && getMessagesController().getDialogs(folderId).isEmpty()) {
+            if (dialogsType == 0 && getMessagesController().getDialogs(folderId).isEmpty()) {
                 if (dialogsAdapter != null) {
                     dialogsAdapter.notifyDataSetChanged();
                 }
@@ -3579,7 +3503,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 updateVisibleRows(0);
             }
         } else if (id == NotificationCenter.openedChatChanged) {
-            if (FilterPopup.DialogType.isDialogsType(dialogsType) && AndroidUtilities.isTablet()) {
+            if (dialogsType == 0 && AndroidUtilities.isTablet()) {
                 boolean close = (Boolean) args[1];
                 long dialog_id = (Long) args[0];
                 if (close) {
@@ -3688,7 +3612,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (frozen && frozenDialogsList != null) {
             return frozenDialogsList;
         }
-
         MessagesController messagesController = AccountInstance.getInstance(currentAccount).getMessagesController();
         if (dialogsType == 0) {
             return messagesController.getDialogs(folderId);
@@ -3704,9 +3627,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return messagesController.dialogsChannelsOnly;
         } else if (dialogsType == 6) {
             return messagesController.dialogsGroupsOnly;
-        } else {
-            return FilterPopup.getInstance(currentAccount).getDialogs(dialogsType, folderId);
         }
+        return null;
     }
 
     public void setSideMenu(RecyclerView recyclerView) {
@@ -3797,11 +3719,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         } else {
                             if ((mask & MessagesController.UPDATE_MASK_NEW_MESSAGE) != 0) {
                                 cell.checkCurrentDialogIndex(dialogsListFrozen);
-                                if (FilterPopup.DialogType.isDialogsType(dialogsType) && AndroidUtilities.isTablet()) {
+                                if (dialogsType == 0 && AndroidUtilities.isTablet()) {
                                     cell.setDialogSelected(cell.getDialogId() == openedDialogId);
                                 }
                             } else if ((mask & MessagesController.UPDATE_MASK_SELECT_DIALOG) != 0) {
-                                if (FilterPopup.DialogType.isDialogsType(dialogsType) && AndroidUtilities.isTablet()) {
+                                if (dialogsType == 0 && AndroidUtilities.isTablet()) {
                                     cell.setDialogSelected(cell.getDialogId() == openedDialogId);
                                 }
                             } else {

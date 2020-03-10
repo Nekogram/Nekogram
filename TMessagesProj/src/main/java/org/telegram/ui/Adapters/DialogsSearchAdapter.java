@@ -57,8 +57,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import tw.nekomimi.nekogram.FilterPopup;
-
 public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
 
     private Context mContext;
@@ -362,7 +360,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                                 add = true;
                             }
                         }
-                    } else if (FilterPopup.DialogType.isDialogsType(dialogsType) || dialogsType == 3) {
+                    } else if (dialogsType == 0 || dialogsType == 3) {
                         if (!encryptedToLoad.contains(high_id)) {
                             encryptedToLoad.add(high_id);
                             add = true;
@@ -549,7 +547,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
                                 chatsToLoad.add(-lower_id);
                             }
                         }
-                    } else if (FilterPopup.DialogType.isDialogsType(dialogsType) || dialogsType == 3) {
+                    } else if (dialogsType == 0 || dialogsType == 3) {
                         if (!encryptedToLoad.contains(high_id)) {
                             encryptedToLoad.add(high_id);
                         }
