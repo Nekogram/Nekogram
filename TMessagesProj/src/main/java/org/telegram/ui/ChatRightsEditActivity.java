@@ -115,6 +115,7 @@ public class ChatRightsEditActivity extends BaseFragment {
     private int sendMessagesRow;
     private int sendMediaRow;
     private int sendStickersRow;
+    private int sendGifsRow;
     private int sendPollsRow;
     private int embedLinksRow;
     private int untilSectionRow;
@@ -527,7 +528,9 @@ public class ChatRightsEditActivity extends BaseFragment {
                     } else if (position == sendMediaRow) {
                         bannedRights.send_media = !bannedRights.send_media;
                     } else if (position == sendStickersRow) {
-                        bannedRights.send_stickers = bannedRights.send_games = bannedRights.send_gifs = bannedRights.send_inline = !bannedRights.send_stickers;
+                        bannedRights.send_stickers = bannedRights.send_games = bannedRights.send_inline = !bannedRights.send_stickers;
+                    } else if (position == sendGifsRow) {
+                        bannedRights.send_gifs = !bannedRights.send_gifs;
                     } else if (position == embedLinksRow) {
                         bannedRights.embed_links = !bannedRights.embed_links;
                     } else if (position == sendPollsRow) {
@@ -556,8 +559,15 @@ public class ChatRightsEditActivity extends BaseFragment {
                             }
                         }
                         if ((bannedRights.view_messages || bannedRights.send_messages) && !bannedRights.send_stickers) {
-                            bannedRights.send_stickers = bannedRights.send_games = bannedRights.send_gifs = bannedRights.send_inline = true;
+                            bannedRights.send_stickers = bannedRights.send_games = bannedRights.send_inline = true;
                             RecyclerListView.ViewHolder holder = listView.findViewHolderForAdapterPosition(sendStickersRow);
+                            if (holder != null) {
+                                ((TextCheckCell2) holder.itemView).setChecked(false);
+                            }
+                        }
+                        if ((bannedRights.view_messages || bannedRights.send_messages) && !bannedRights.send_gifs) {
+                            bannedRights.send_gifs = true;
+                            RecyclerListView.ViewHolder holder = listView.findViewHolderForAdapterPosition(sendGifsRow);
                             if (holder != null) {
                                 ((TextCheckCell2) holder.itemView).setChecked(false);
                             }
@@ -791,6 +801,7 @@ public class ChatRightsEditActivity extends BaseFragment {
         sendMessagesRow = -1;
         sendMediaRow = -1;
         sendStickersRow = -1;
+        sendGifsRow = -1;
         sendPollsRow = -1;
         embedLinksRow = -1;
         untilSectionRow = -1;
@@ -817,6 +828,7 @@ public class ChatRightsEditActivity extends BaseFragment {
             sendMessagesRow = rowCount++;
             sendMediaRow = rowCount++;
             sendStickersRow = rowCount++;
+            sendGifsRow = rowCount++;
             sendPollsRow = rowCount++;
             embedLinksRow = rowCount++;
             addUsersRow = rowCount++;
@@ -1199,8 +1211,11 @@ public class ChatRightsEditActivity extends BaseFragment {
                         checkCell.setTextAndCheck(LocaleController.getString("UserRestrictionsSendMedia", R.string.UserRestrictionsSendMedia), !bannedRights.send_media && !defaultBannedRights.send_media, true);
                         checkCell.setIcon(defaultBannedRights.send_media ? R.drawable.permission_locked : 0);
                     } else if (position == sendStickersRow) {
-                        checkCell.setTextAndCheck(LocaleController.getString("UserRestrictionsSendStickers", R.string.UserRestrictionsSendStickers), !bannedRights.send_stickers && !defaultBannedRights.send_stickers, true);
+                        checkCell.setTextAndCheck(LocaleController.getString("UserRestrictionsSendStickers2", R.string.UserRestrictionsSendStickers2), !bannedRights.send_stickers && !defaultBannedRights.send_stickers, true);
                         checkCell.setIcon(defaultBannedRights.send_stickers ? R.drawable.permission_locked : 0);
+                    } else if (position == sendGifsRow) {
+                        checkCell.setTextAndCheck(LocaleController.getString("UserRestrictionsSendGifs", R.string.UserRestrictionsSendGifs), !bannedRights.send_gifs && !defaultBannedRights.send_gifs, true);
+                        checkCell.setIcon(defaultBannedRights.send_gifs ? R.drawable.permission_locked : 0);
                     } else if (position == embedLinksRow) {
                         checkCell.setTextAndCheck(LocaleController.getString("UserRestrictionsEmbedLinks", R.string.UserRestrictionsEmbedLinks), !bannedRights.embed_links && !defaultBannedRights.embed_links, true);
                         checkCell.setIcon(defaultBannedRights.embed_links ? R.drawable.permission_locked : 0);
@@ -1209,7 +1224,7 @@ public class ChatRightsEditActivity extends BaseFragment {
                         checkCell.setIcon(defaultBannedRights.send_polls ? R.drawable.permission_locked : 0);
                     }
 
-                    if (position == sendMediaRow || position == sendStickersRow || position == embedLinksRow || position == sendPollsRow) {
+                    if (position == sendMediaRow || position == sendStickersRow || position == sendGifsRow || position == embedLinksRow || position == sendPollsRow) {
                         checkCell.setEnabled(!bannedRights.send_messages && !bannedRights.view_messages && !defaultBannedRights.send_messages && !defaultBannedRights.view_messages);
                     } else if (position == sendMessagesRow) {
                         checkCell.setEnabled(!bannedRights.view_messages && !defaultBannedRights.view_messages);
@@ -1281,8 +1296,8 @@ public class ChatRightsEditActivity extends BaseFragment {
                 return 3;
             } else if (position == changeInfoRow || position == postMessagesRow || position == editMesagesRow || position == deleteMessagesRow ||
                     position == addAdminsRow || position == banUsersRow || position == addUsersRow || position == pinMessagesRow ||
-                    position == sendMessagesRow || position == sendMediaRow || position == sendStickersRow || position == embedLinksRow ||
-                    position == sendPollsRow) {
+                    position == sendMessagesRow || position == sendMediaRow || position == sendStickersRow || position == sendGifsRow ||
+                    position == embedLinksRow || position == sendPollsRow) {
                 return 4;
             } else if (position == cantEditInfoRow || position == rankInfoRow) {
                 return 1;
