@@ -93,4 +93,5 @@
     <string name="HideKeyboardOnChatScroll">Hide keyboard on chat scroll</string>
     <string name="UserRestrictionsSendStickers2">Send Stickers</string>
     <string name="UserRestrictionsSendGifs">Send GIFs</string>
+    <string name="UseAvatarAsDrawerBackground">Use avatar as drawer background</string>
 </resources>

@@ -44,6 +44,7 @@ public class NekoConfig {
     public static boolean transparentStatusBar = false;
     public static boolean forceTablet = false;
     public static boolean openArchiveOnPull = false;
+    public static boolean avatarAsDrawerBackground = false;
     public static int nameOrder = 1;
     public static int eventType = 0;
     public static boolean newYear = false;
@@ -91,6 +92,7 @@ public class NekoConfig {
                 editor.putBoolean("openFilterByActionBar", openFilterByActionBar);
                 editor.putBoolean("openFilterByFab", openFilterByFab);
                 editor.putBoolean("showHiddenFeature", showHiddenFeature);
+                editor.putBoolean("avatarAsDrawerBackground", avatarAsDrawerBackground);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
@@ -146,6 +148,7 @@ public class NekoConfig {
             openFilterByFab = preferences.getBoolean("openFilterByFab", false);
             showHiddenFeature = preferences.getBoolean("showHiddenFeature", false);
             hideKeyboardOnChatScroll = preferences.getBoolean("hideKeyboardOnChatScroll", false);
+            avatarAsDrawerBackground = preferences.getBoolean("avatarAsDrawerBackground", false);
             configLoaded = true;
         }
     }
@@ -422,6 +425,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("hideKeyboardOnChatScroll", hideKeyboardOnChatScroll);
+        editor.commit();
+    }
+
+    public static void toggleAvatarAsDrawerBackground() {
+        avatarAsDrawerBackground = !avatarAsDrawerBackground;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("avatarAsDrawerBackground", avatarAsDrawerBackground);
         editor.commit();
     }
 }

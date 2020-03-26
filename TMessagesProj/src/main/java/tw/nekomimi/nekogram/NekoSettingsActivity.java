@@ -97,6 +97,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int transparentStatusBarRow;
     private int forceTabletRow;
     private int openArchiveOnPullRow;
+    private int avatarAsDrawerBackgroundRow;
     private int eventTypeRow;
     private int newYearRow;
     private int actionBarDecorationRow;
@@ -529,6 +530,12 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.hideKeyboardOnChatScroll);
                 }
+            } else if (position == avatarAsDrawerBackgroundRow) {
+                NekoConfig.toggleAvatarAsDrawerBackground();
+                NotificationCenter.getInstance(UserConfig.selectedAccount).postNotificationName(NotificationCenter.mainUserInfoChanged);
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.avatarAsDrawerBackground);
+                }
             }
 
         });
@@ -574,6 +581,7 @@ public class NekoSettingsActivity extends BaseFragment {
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
         forceTabletRow = rowCount++;
         openArchiveOnPullRow = rowCount++;
+        avatarAsDrawerBackgroundRow = rowCount++;
         nameOrderRow = rowCount++;
         eventTypeRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         newYearRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
@@ -1064,6 +1072,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("TapOnFab", R.string.TapOnFab), NekoConfig.openFilterByFab, false);
                     } else if (position == hideKeyboardOnChatScrollRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HideKeyboardOnChatScroll", R.string.HideKeyboardOnChatScroll), NekoConfig.hideKeyboardOnChatScroll, true);
+                    } else if (position == avatarAsDrawerBackgroundRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("UseAvatarAsDrawerBackground", R.string.UseAvatarAsDrawerBackground), NekoConfig.avatarAsDrawerBackground, true);
                     }
                     break;
                 }
@@ -1105,7 +1115,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == translationProviderRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
                     position == openFilterByActionBarRow || position == openFilterByFabRow || position == connection2Row ||
-                    position == hideKeyboardOnChatScrollRow;
+                    position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow;
         }
 
         @Override
@@ -1158,7 +1168,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
                     position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
-                    position == openFilterByActionBarRow || position == openFilterByFabRow || position == hideKeyboardOnChatScrollRow) {
+                    position == openFilterByActionBarRow || position == openFilterByFabRow || position == hideKeyboardOnChatScrollRow ||
+                    position == avatarAsDrawerBackgroundRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow ||
                     position == dialogsFilterRow) {
