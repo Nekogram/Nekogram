@@ -116,7 +116,7 @@ public class LingoTranslator extends Translator {
         }
     }
 
-    public class LingoRequest {
+    public static class LingoRequest {
 
         @SerializedName("source")
         @Expose
@@ -145,7 +145,7 @@ public class LingoTranslator extends Translator {
 
     }
 
-    class LingoResponse {
+    static class LingoResponse {
 
         @SerializedName("target")
         @Expose

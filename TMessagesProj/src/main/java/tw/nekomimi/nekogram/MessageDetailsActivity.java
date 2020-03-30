@@ -114,12 +114,12 @@ public class MessageDetailsActivity extends BaseFragment {
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
 
-        updateRows(false);
+        updateRows();
 
         return true;
     }
 
-    @SuppressLint("NewApi")
+    @SuppressLint({"NewApi", "RtlHardcoded"})
     @Override
     public View createView(Context context) {
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
@@ -223,7 +223,7 @@ public class MessageDetailsActivity extends BaseFragment {
         }
     }
 
-    private void updateRows(boolean notify) {
+    private void updateRows() {
         rowCount = 0;
         idRow = rowCount++;
         messageRow = TextUtils.isEmpty(messageObject.messageText) ? -1 : rowCount++;
@@ -241,7 +241,7 @@ public class MessageDetailsActivity extends BaseFragment {
         emptyRow = rowCount++;
         exportRow = rowCount++;
         endRow = rowCount++;
-        if (notify && listAdapter != null) {
+        if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
     }
@@ -405,6 +405,7 @@ public class MessageDetailsActivity extends BaseFragment {
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
             }
+            //noinspection ConstantConditions
             view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
             return new RecyclerListView.Holder(view);
         }

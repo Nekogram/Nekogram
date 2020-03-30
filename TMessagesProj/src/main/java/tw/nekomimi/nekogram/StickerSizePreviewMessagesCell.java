@@ -1,5 +1,6 @@
 package tw.nekomimi.nekogram;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Shader;
@@ -24,6 +25,7 @@ import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 
+@SuppressLint("ViewConstructor")
 public class StickerSizePreviewMessagesCell extends LinearLayout {
 
     private BackgroundGradientDrawable.Disposable backgroundGradientDisposable;
@@ -169,8 +171,6 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
                     float scale = 2.0f / AndroidUtilities.density;
                     canvas.scale(scale, scale);
                     drawable.setBounds(0, 0, (int) Math.ceil(getMeasuredWidth() / scale), (int) Math.ceil(getMeasuredHeight() / scale));
-                    drawable.draw(canvas);
-                    canvas.restore();
                 } else {
                     int viewHeight = getMeasuredHeight();
                     float scaleX = (float) getMeasuredWidth() / (float) drawable.getIntrinsicWidth();
@@ -183,9 +183,9 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
                     canvas.save();
                     canvas.clipRect(0, 0, width, getMeasuredHeight());
                     drawable.setBounds(x, y, x + width, y + height);
-                    drawable.draw(canvas);
-                    canvas.restore();
                 }
+                drawable.draw(canvas);
+                canvas.restore();
             }
             if (a == 0 && oldBackgroundDrawable != null && themeAnimationValue >= 1.0f) {
                 if (oldBackgroundGradientDisposable != null) {
@@ -228,6 +228,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
 
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return false;

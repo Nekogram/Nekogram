@@ -1,5 +1,6 @@
 package tw.nekomimi.nekogram;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -9,13 +10,16 @@ import android.os.Build;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationsService;
+import org.telegram.messenger.SharedConfig;
 
+@SuppressLint("ApplySharedPref")
 public class NekoConfig {
 
     private static final Object sync = new Object();
     public static boolean useIPv6 = false;
     public static boolean showHiddenFeature = false;
 
+    public static boolean useSystemEmoji = SharedConfig.useSystemEmoji;
     public static boolean ignoreBlocked = false;
     public static boolean hideProxySponsorChannel = false;
     public static boolean saveCacheToPrivateDirectory = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
@@ -88,6 +92,7 @@ public class NekoConfig {
                 editor.putBoolean("openArchiveOnPull", openArchiveOnPull);
                 editor.putBoolean("showHiddenFeature", showHiddenFeature);
                 editor.putBoolean("avatarAsDrawerBackground", avatarAsDrawerBackground);
+                editor.putBoolean("useSystemEmoji", useSystemEmoji);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
@@ -142,6 +147,7 @@ public class NekoConfig {
             showHiddenFeature = preferences.getBoolean("showHiddenFeature", false);
             hideKeyboardOnChatScroll = preferences.getBoolean("hideKeyboardOnChatScroll", false);
             avatarAsDrawerBackground = preferences.getBoolean("avatarAsDrawerBackground", false);
+            useSystemEmoji = preferences.getBoolean("useSystemEmoji", SharedConfig.useSystemEmoji);
             configLoaded = true;
         }
     }
@@ -410,6 +416,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("avatarAsDrawerBackground", avatarAsDrawerBackground);
+        editor.commit();
+    }
+
+    public static void toggleUseSystemEmoji() {
+        useSystemEmoji = !useSystemEmoji;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("useSystemEmoji", useSystemEmoji);
         editor.commit();
     }
 }
