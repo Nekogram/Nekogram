@@ -18,6 +18,7 @@ import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC;
 
 import java.io.File;
+import java.util.Arrays;
 
 public class UserConfig extends BaseController {
 
@@ -47,6 +48,7 @@ public class UserConfig extends BaseController {
     public int migrateOffsetChatId = -1;
     public int migrateOffsetChannelId = -1;
     public long migrateOffsetAccess = -1;
+    public boolean filtersLoaded;
 
     public int sharingMyLocationUntil;
     public int lastMyLocationShareTime;
@@ -149,6 +151,7 @@ public class UserConfig extends BaseController {
                 editor.putInt("sharingMyLocationUntil", sharingMyLocationUntil);
                 editor.putInt("lastMyLocationShareTime", lastMyLocationShareTime);
                 editor.putBoolean("isBot", isBot);
+                editor.putBoolean("filtersLoaded", filtersLoaded);
                 if (tonEncryptedData != null) {
                     editor.putString("tonEncryptedData", tonEncryptedData);
                     editor.putString("tonPublicKey", tonPublicKey);
@@ -306,6 +309,7 @@ public class UserConfig extends BaseController {
             tonCreationFinished = preferences.getBoolean("tonCreationFinished", true);
             sharingMyLocationUntil = preferences.getInt("sharingMyLocationUntil", 0);
             lastMyLocationShareTime = preferences.getInt("lastMyLocationShareTime", 0);
+            filtersLoaded = preferences.getBoolean("filtersLoaded", false);
             String salt = preferences.getString("tonPasscodeSalt", null);
             if (salt != null) {
                 try {
@@ -420,15 +424,11 @@ public class UserConfig extends BaseController {
     public void resetSavedPassword() {
         savedPasswordTime = 0;
         if (savedPasswordHash != null) {
-            for (int a = 0; a < savedPasswordHash.length; a++) {
-                savedPasswordHash[a] = 0;
-            }
+            Arrays.fill(savedPasswordHash, (byte) 0);
             savedPasswordHash = null;
         }
         if (savedSaltedPassword != null) {
-            for (int a = 0; a < savedSaltedPassword.length; a++) {
-                savedSaltedPassword[a] = 0;
-            }
+            Arrays.fill(savedSaltedPassword, (byte) 0);
             savedSaltedPassword = null;
         }
     }
@@ -482,6 +482,7 @@ public class UserConfig extends BaseController {
         unreadDialogsLoaded = true;
         hasValidDialogLoadIds = true;
         unacceptedTermsOfService = null;
+        filtersLoaded = false;
         pendingAppUpdate = null;
         hasSecureData = false;
         loginTime = (int) (System.currentTimeMillis() / 1000);

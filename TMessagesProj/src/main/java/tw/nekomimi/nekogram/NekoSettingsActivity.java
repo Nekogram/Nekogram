@@ -793,7 +793,7 @@ public class NekoSettingsActivity extends BaseFragment {
         FrameLayout titleLayout = new FrameLayout(context);
         linearLayout.addView(titleLayout);
 
-        HeaderCell headerCell = new HeaderCell(context, true, 23, 15, false);
+        HeaderCell headerCell = new HeaderCell(context, Theme.key_windowBackgroundWhiteBlueHeader, 23, 15, false);
         headerCell.setHeight(47);
         headerCell.setText(LocaleController.getString("StickerSize", R.string.StickerSize));
         titleLayout.addView(headerCell);

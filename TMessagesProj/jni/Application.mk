@@ -1,4 +1,4 @@
 APP_PLATFORM := android-16
 NDK_TOOLCHAIN_VERSION := clang
-APP_STL := c++_static
+APP_STL := c++_shared
 APP_SHORT_COMMANDS := true

@@ -1355,7 +1355,7 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         return false;
     }
 
-    private class StickerPosition {
+    private static class StickerPosition {
         private Point position;
         private float scale;
         private float angle;

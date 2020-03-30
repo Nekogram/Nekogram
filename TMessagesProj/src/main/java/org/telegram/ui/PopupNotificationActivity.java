@@ -392,7 +392,7 @@ public class PopupNotificationActivity extends Activity implements NotificationC
             }
 
             @Override
-            public void didPressedAttachButton() {
+            public void didPressAttachButton() {
 
             }
 
@@ -423,6 +423,11 @@ public class PopupNotificationActivity extends Activity implements NotificationC
 
             @Override
             public void onSendLongClick() {
+
+            }
+
+            @Override
+            public void onAudioVideoInterfaceUpdated() {
 
             }
         });
