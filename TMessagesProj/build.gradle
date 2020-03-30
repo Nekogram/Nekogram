@@ -40,7 +40,7 @@ dependencies {
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
-    //ndkVersion "20.0.5594570"
+    ndkVersion "21.0.6113669"
 
     defaultConfig.applicationId = "tw.nekomimi.nekogram"
 
