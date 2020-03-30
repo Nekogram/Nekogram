@@ -829,7 +829,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         privacyRow = rowCount++;
         dataRow = rowCount++;
         chatRow = rowCount++;
-        if (getMessagesController().filtersEnabled || !getMessagesController().dialogFilters.isEmpty()) {
+        if (true || getMessagesController().filtersEnabled || !getMessagesController().dialogFilters.isEmpty()) {
             filtersRow = rowCount++;
         } else {
             filtersRow = -1;
