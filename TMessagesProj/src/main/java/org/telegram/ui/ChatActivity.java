@@ -11215,7 +11215,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             getMessagesController().loadChannelParticipants(currentChat.id);
                         }
                     }
-                    if (chatFull.participants == null && chatInfo != null) {
+                    if (chatInfo != null) {
                         chatFull.participants = chatInfo.participants;
                     }
                 }
