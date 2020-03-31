@@ -1,6 +1,6 @@
 name: Nekogram
 
-on: 
+on:
  push:
     branches:
     - master
