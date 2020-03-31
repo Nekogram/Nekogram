@@ -21,12 +21,6 @@
     <string name="AddToSavedMessages">拿去自嗨</string>
     <string name="CreateMention">提及使用者</string>
     <string name="ForceTabletMode">強制平板模式*</string>
-    <string name="All">全部</string>
-    <string name="Users">用户</string>
-    <string name="Groups">羣組</string>
-    <string name="Channels">頻道</string>
-    <string name="Bots">機器人</string>
-    <string name="Admins">管理的</string>
     <string name="Prpr">ペロペロ</string>
     <string name="TransparentStatusBar">使用完全透明的狀態欄</string>
     <string name="EnableResidentNotification">請讓貓咪住在通知欄裏吧</string>
@@ -82,8 +76,5 @@
     <string name="UnlimitedPinnedDialogs">無限的置頂對話</string>
     <string name="UnlimitedPinnedDialogsAbout">關閉同步以置頂無限對話。</string>
     <string name="OpenArchiveOnPull">下拉開啟已封存對話</string>
-    <string name="OpenDialogsFilterBy">對話分類開啟方式</string>
-    <string name="TapOnActionBar">點按標題欄</string>
-    <string name="TapOnFab">點按鉛筆按鈕</string>
     <string name="HideKeyboardOnChatScroll">當滾動瀏覽對話時隱藏鍵盤</string>
 </resources>

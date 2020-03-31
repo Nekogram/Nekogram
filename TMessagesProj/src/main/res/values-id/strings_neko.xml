@@ -21,12 +21,6 @@
     <string name="AddToSavedMessages">Simpan pesan</string>
     <string name="CreateMention">Buat sebutan</string>
     <string name="ForceTabletMode">Paksa mode tablet*</string>
-    <string name="All">Semua</string>
-    <string name="Users">Pengguna</string>
-    <string name="Groups">Grup</string>
-    <string name="Channels">Kanal</string>
-    <string name="Bots">Bot</string>
-    <string name="Admins">Pengadministrasian</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Status bar transparan</string>
     <string name="EnableResidentNotification">Tampilkan pemberitahuan penduduk</string>
@@ -82,8 +76,5 @@
     <string name="UnlimitedPinnedDialogs">Pin dialog tak terbatas</string>
     <string name="UnlimitedPinnedDialogsAbout">Pin dialog tak terbatas dengan mematikan sync nya.</string>
     <string name="OpenArchiveOnPull">Buka arsip saat ditarik ke bawah</string>
-    <string name="OpenDialogsFilterBy">Buka filter dialog dengan</string>
-    <string name="TapOnActionBar">Ketuk di atas baris judul</string>
-    <string name="TapOnFab">Ketuk pada tombol pensil</string>
     <string name="HideKeyboardOnChatScroll">Sembunyikan keyboard saat men-scroll</string>
 </resources>

@@ -21,12 +21,6 @@
     <string name="AddToSavedMessages">Salvar mensagem</string>
     <string name="CreateMention">Criar Menção</string>
     <string name="ForceTabletMode">Forçar modo tablet*</string>
-    <string name="All">Todos</string>
-    <string name="Users">Usuários</string>
-    <string name="Groups">Grupos</string>
-    <string name="Channels">Canais</string>
-    <string name="Bots">Bots</string>
-    <string name="Admins">Administrando</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Barra de status transparente</string>
     <string name="EnableResidentNotification">Mostrar notificação de residente</string>
@@ -45,7 +39,7 @@
     <string name="TestBackend">Teste de back-end</string>
     <string name="TestBackendOn">Esta conta se conectará ao teste back-end.</string>
     <string name="TestBackendOff">Esta conta se conectará a produção back-end.</string>
-    <string name="HideProxySponsorChannel">Ocultar canal do patrocinador proxy</string>
+    <string name="HideProxySponsorChannel">Ocultar canal do patrocinador do proxy</string>
     <string name="ViewHistory">Ver histórico</string>
     <string name="Nya">Miau!</string>
     <string name="SaveCacheToPrivateDirectory">Salvar cache no diretório privado*</string>
@@ -82,8 +76,8 @@
     <string name="UnlimitedPinnedDialogs">Chats fixados ilimitados</string>
     <string name="UnlimitedPinnedDialogsAbout">Fixar chats ilimitados desativar a sincronização.</string>
     <string name="OpenArchiveOnPull">Abrir chats arquivados ao puxar para baixo</string>
-    <string name="OpenDialogsFilterBy">Abrir filtro de chats por</string>
-    <string name="TapOnActionBar">Toque na barra de título \"Nekogram\"</string>
-    <string name="TapOnFab">Toque no botão de lápis</string>
     <string name="HideKeyboardOnChatScroll">Ocultar teclado na rolagem do chat</string>
+    <string name="UserRestrictionsSendStickers2">Enviar Stickers</string>
+    <string name="UserRestrictionsSendGifs">Enviar GIFs</string>
+    <string name="UseAvatarAsDrawerBackground">Use o avatar como fundo da gaveta</string>
 </resources>

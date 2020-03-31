@@ -21,12 +21,6 @@
     <string name="AddToSavedMessages">保存消息</string>
     <string name="CreateMention">创建\@</string>
     <string name="ForceTabletMode">强制启用平板模式*</string>
-    <string name="All">全部</string>
-    <string name="Users">用户</string>
-    <string name="Groups">群组</string>
-    <string name="Channels">频道</string>
-    <string name="Bots">机器人</string>
-    <string name="Admins">管理的</string>
     <string name="Prpr">ペロペロ</string>
     <string name="TransparentStatusBar">使用完全透明的状态栏</string>
     <string name="EnableResidentNotification">请让猫咪住在通知栏里吧</string>
@@ -82,8 +76,8 @@
     <string name="UnlimitedPinnedDialogs">无限的置顶对话</string>
     <string name="UnlimitedPinnedDialogsAbout">关闭同步以置顶无限对话。</string>
     <string name="OpenArchiveOnPull">下拉打开已归档对话</string>
-    <string name="OpenDialogsFilterBy">对话分类打开方式</string>
-    <string name="TapOnActionBar">点按标题栏</string>
-    <string name="TapOnFab">点按铅笔按钮</string>
     <string name="HideKeyboardOnChatScroll">当滚动浏览对话时隐藏键盘</string>
+    <string name="UserRestrictionsSendStickers2">发送贴纸</string>
+    <string name="UserRestrictionsSendGifs">发送 GIF</string>
+    <string name="UseAvatarAsDrawerBackground">使用头像作为抽屉背景</string>
 </resources>

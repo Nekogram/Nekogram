@@ -21,12 +21,6 @@
     <string name="AddToSavedMessages">保存用メッセージに追加</string>
     <string name="CreateMention">アットユーザー</string>
     <string name="ForceTabletMode">タブレットモードを強制する*</string>
-    <string name="All">すべて</string>
-    <string name="Users">ユーザー</string>
-    <string name="Groups">グループ</string>
-    <string name="Channels">チャンネル</string>
-    <string name="Bots">ボット</string>
-    <string name="Admins">マネージド</string>
     <string name="Prpr">ペロペロ</string>
     <string name="TransparentStatusBar">完全に透明なステータスバーを使う</string>
     <string name="EnableResidentNotification">常駐通知を表示する</string>
@@ -80,8 +74,7 @@
     <string name="UnlimitedPinnedDialogs">無制限のチャット固定</string>
     <string name="UnlimitedPinnedDialogsAbout">チャットを無制限に固定することができます。固定は同期されなくなります。</string>
     <string name="OpenArchiveOnPull">保管したチャットをプルダウンで開く</string>
-    <string name="OpenDialogsFilterBy">チャットフィルタを開く方法</string>
-    <string name="TapOnActionBar">タイトルバーをタップ</string>
-    <string name="TapOnFab">鉛筆ボタンをタップ</string>
     <string name="HideKeyboardOnChatScroll">チャットスクロールでキーボードを非表示にする</string>
+    <string name="UserRestrictionsSendStickers2">ステッカーの送信</string>
+    <string name="UserRestrictionsSendGifs">GIFの送信</string>
 </resources>

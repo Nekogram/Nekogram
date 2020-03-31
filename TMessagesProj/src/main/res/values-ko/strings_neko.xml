@@ -21,12 +21,6 @@
     <string name="AddToSavedMessages">메세지 저장</string>
     <string name="CreateMention">멘션 만들기</string>
     <string name="ForceTabletMode">태블릿 모드 강제 설정*</string>
-    <string name="All">전체</string>
-    <string name="Users">사용자</string>
-    <string name="Groups">그룹</string>
-    <string name="Channels">채널</string>
-    <string name="Bots">봇</string>
-    <string name="Admins">관리 중</string>
     <string name="Prpr">페로페로</string>
     <string name="TransparentStatusBar">투명 상태 표시줄</string>
     <string name="EnableResidentNotification">참가자 알람 표시</string>
@@ -82,8 +76,8 @@
     <string name="UnlimitedPinnedDialogs">무제한 대화 고정</string>
     <string name="UnlimitedPinnedDialogsAbout">동기화를 해제하여 무제한 대화를 고정 하세요.</string>
     <string name="OpenArchiveOnPull">화면 아래로 당길시 아카이브 열기</string>
-    <string name="OpenDialogsFilterBy">대화 상자 필터 열기</string>
-    <string name="TapOnActionBar">제목 표시 줄을 누르기</string>
-    <string name="TapOnFab">연필 버튼 누르기</string>
     <string name="HideKeyboardOnChatScroll">대화창 스크롤시 키보드 숨기기</string>
+    <string name="UserRestrictionsSendStickers2">스티커 보내기</string>
+    <string name="UserRestrictionsSendGifs">GIF 보내기</string>
+    <string name="UseAvatarAsDrawerBackground">아바타를 서랍 배경으로 사용</string>
 </resources>
