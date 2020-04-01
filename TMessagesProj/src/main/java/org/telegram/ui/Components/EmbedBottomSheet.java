@@ -935,9 +935,9 @@ public class EmbedBottomSheet extends BottomSheet {
             if (videoView.getTextureImageView() != null) {
                 videoView.getTextureImageView().setVisibility(View.INVISIBLE);
             }
-            if ("disabled".equals(MessagesController.getInstance(currentAccount).youtubePipType)) {
+            /*if ("disabled".equals(MessagesController.getInstance(currentAccount).youtubePipType)) {
                 pipButton.setVisibility(View.GONE);
-            }
+            }*/
         }
 
         if (orientationEventListener.canDetectOrientation()) {
