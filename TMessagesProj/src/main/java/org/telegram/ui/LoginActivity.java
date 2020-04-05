@@ -118,6 +118,7 @@ import java.util.Set;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import tw.nekomimi.nekogram.EditTextAutoFill;
 import tw.nekomimi.nekogram.NekoConfig;
 
 @SuppressLint("HardwareIds")
@@ -2884,7 +2885,7 @@ public class LoginActivity extends BaseFragment {
             confirmTextView.setText(LocaleController.getString("LoginPasswordText", R.string.LoginPasswordText));
             addView(confirmTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT));
 
-            codeField = new EditTextBoldCursor(context);
+            codeField = new EditTextAutoFill(context);
             codeField.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             codeField.setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             codeField.setCursorSize(AndroidUtilities.dp(20));
