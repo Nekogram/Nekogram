@@ -12,9 +12,9 @@
     <string name="IgnoreBlocked">Игнорировать заблокированных пользователей в группе</string>
     <string name="Connection">Соединение</string>
     <string name="Chat">Чат</string>
-    <string name="NameOrder">Название заказа*</string>
-    <string name="FirstLast">Первый Последний</string>
-    <string name="LastFirst">Последний Первый</string>
+    <string name="NameOrder">Сортировка имён*</string>
+    <string name="FirstLast">Имя Фамилия</string>
+    <string name="LastFirst">Фамилия Имя</string>
     <string name="TypefaceUseDefault">Использовать системный шрифт по умолчанию*</string>
     <string name="NoQuoteForward">Переслать без цитаты</string>
     <string name="Repeat">Повторить</string>
@@ -34,7 +34,7 @@
     <string name="Valentine">День Святого Валентина</string>
     <string name="Snowflakes">Снежинки</string>
     <string name="Fireworks">Фейерверк</string>
-    <string name="SomeItemsNeedRestart">Опции с * могут потребоваться для перезагрузки.</string>
+    <string name="SomeItemsNeedRestart">Опции с \"*\" требуют перезагрузки.</string>
     <string name="DeleteDownloadedFile">Удалить загруженный файл</string>
     <string name="TestBackend">Test Backend</string>
     <string name="TestBackendOn">Эта учетная запись будет подключена к тестовому бэкэнду.</string>
