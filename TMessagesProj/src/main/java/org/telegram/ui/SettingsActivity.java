@@ -464,7 +464,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             } else if (position == faqRow) {
                 Browser.openUrl(getParentActivity(), LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
             } else if (position == policyRow) {
-                Browser.openUrl(getParentActivity(), LocaleController.getString("PrivacyPolicyUrl", R.string.PrivacyPolicyUrl));
+                Browser.openUrl(getParentActivity(), "https://nekogram.github.io/privacy.html");
             } else if (position == sendLogsRow) {
                 sendLogs();
             } else if (position == clearLogsRow) {
