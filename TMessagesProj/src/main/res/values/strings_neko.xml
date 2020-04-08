@@ -86,4 +86,5 @@
     <string name="UserRestrictionsSendGifs">Send GIFs</string>
     <string name="UseAvatarAsDrawerBackground">Use avatar as drawer background</string>
     <string name="ShowTabsOnForward">Show tabs on forward</string>
+    <string name="CheckAllAdministrated">Add administrated</string>
 </resources>
