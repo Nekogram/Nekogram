@@ -46,6 +46,7 @@ public class NekoConfig {
     public static boolean forceTablet = false;
     public static boolean openArchiveOnPull = false;
     public static boolean avatarAsDrawerBackground = false;
+    public static boolean showTabsOnForward = false;
     public static int nameOrder = 1;
     public static int eventType = 0;
     public static boolean newYear = false;
@@ -93,6 +94,7 @@ public class NekoConfig {
                 editor.putBoolean("showHiddenFeature", showHiddenFeature);
                 editor.putBoolean("avatarAsDrawerBackground", avatarAsDrawerBackground);
                 editor.putBoolean("useSystemEmoji", useSystemEmoji);
+                editor.putBoolean("showTabsOnForward", showTabsOnForward);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
@@ -148,6 +150,7 @@ public class NekoConfig {
             hideKeyboardOnChatScroll = preferences.getBoolean("hideKeyboardOnChatScroll", false);
             avatarAsDrawerBackground = preferences.getBoolean("avatarAsDrawerBackground", false);
             useSystemEmoji = preferences.getBoolean("useSystemEmoji", SharedConfig.useSystemEmoji);
+            showTabsOnForward = preferences.getBoolean("showTabsOnForward", showTabsOnForward);
             configLoaded = true;
         }
     }
@@ -424,6 +427,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("useSystemEmoji", useSystemEmoji);
+        editor.commit();
+    }
+
+    public static void toggleShowTabsOnForward() {
+        showTabsOnForward = !showTabsOnForward;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showTabsOnForward", showTabsOnForward);
         editor.commit();
     }
 }

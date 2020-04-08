@@ -93,6 +93,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int forceTabletRow;
     private int openArchiveOnPullRow;
     private int avatarAsDrawerBackgroundRow;
+    private int showTabsOnForwardRow;
     private int eventTypeRow;
     private int newYearRow;
     private int actionBarDecorationRow;
@@ -510,6 +511,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.avatarAsDrawerBackground);
                 }
+            } else if (position == showTabsOnForwardRow) {
+                NekoConfig.toggleShowTabsOnForward();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.showTabsOnForward);
+                }
             }
 
         });
@@ -552,6 +558,7 @@ public class NekoSettingsActivity extends BaseFragment {
         forceTabletRow = rowCount++;
         openArchiveOnPullRow = rowCount++;
         avatarAsDrawerBackgroundRow = rowCount++;
+        showTabsOnForwardRow = rowCount++;
         nameOrderRow = rowCount++;
         eventTypeRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         newYearRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
@@ -1040,6 +1047,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("HideKeyboardOnChatScroll", R.string.HideKeyboardOnChatScroll), NekoConfig.hideKeyboardOnChatScroll, true);
                     } else if (position == avatarAsDrawerBackgroundRow) {
                         textCell.setTextAndCheck(LocaleController.getString("UseAvatarAsDrawerBackground", R.string.UseAvatarAsDrawerBackground), NekoConfig.avatarAsDrawerBackground, true);
+                    } else if (position == showTabsOnForwardRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("ShowTabsOnForward", R.string.ShowTabsOnForward), NekoConfig.showTabsOnForward, true);
                     }
                     break;
                 }
@@ -1078,7 +1087,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow ||
                     position == translationProviderRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
-                    position == connection2Row || position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow;
+                    position == connection2Row || position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow ||
+                    position == showTabsOnForwardRow;
         }
 
         @Override
@@ -1132,7 +1142,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow ||
                     position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
-                    position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow) {
+                    position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow || position == showTabsOnForwardRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
                 return 4;
