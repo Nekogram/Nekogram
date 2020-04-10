@@ -258,6 +258,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private final static int statistics = 19;
     private final static int start_secret_chat = 20;
     private final static int gallery_menu_save = 21;
+    private final static int event_log = 22;
 
     private Rect rect = new Rect();
 
@@ -1241,6 +1242,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 } else if (id == leave_group) {
                     leaveChatPressed();
+                } else if (id == event_log) {
+                    presentFragment(new ChannelAdminLogActivity(currentChat));
                 } else if (id == edit_channel) {
                     Bundle args = new Bundle();
                     args.putInt("chat_id", chat_id);
@@ -4371,6 +4374,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         if (!currentChat.creator && !currentChat.left && !currentChat.kicked) {
                             otherItem.addSubItem(leave_group, R.drawable.msg_leave, LocaleController.getString("LeaveChannelMenu", R.string.LeaveChannelMenu));
                         }
+                    }
+                    if (ChatObject.hasAdminRights(currentChat)) {
+                        otherItem.addSubItem(event_log, R.drawable.group_log, LocaleController.getString("EventLog", R.string.EventLog));
                     }
                 } else {
                     editItemVisible = true;
