@@ -494,6 +494,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 }
             } else if (position == numberRow) {
                 presentFragment(new ActionIntroActivity(ActionIntroActivity.ACTION_TYPE_CHANGE_PHONE_NUMBER));
+            } else if (position == versionRow) {
+                MessagesController.getInstance(currentAccount).openByUserName("Zuragram", SettingsActivity.this, 1);
             }
         });
 
