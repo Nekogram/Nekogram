@@ -72,6 +72,7 @@ public class MessageDetailsActivity extends BaseFragment {
     private int fileNameRow;
     private int filePathRow;
     private int fileSizeRow;
+    private int dcRow;
     private int emptyRow;
     private int exportRow;
     private int endRow;
@@ -87,14 +88,25 @@ public class MessageDetailsActivity extends BaseFragment {
             fromUser = getMessagesController().getUser(messageObject.messageOwner.from_id);
         }
         filePath = messageObject.messageOwner.attachPath;
-        if (filePath != null && filePath.length() > 0) {
+        if (!TextUtils.isEmpty(filePath)) {
             File temp = new File(filePath);
             if (!temp.exists()) {
                 filePath = null;
             }
         }
-        if (filePath == null || filePath.length() == 0) {
+        if (TextUtils.isEmpty(filePath)) {
             filePath = FileLoader.getPathToMessage(messageObject.messageOwner).toString();
+            File temp = new File(filePath);
+            if (!temp.exists()) {
+                filePath = null;
+            }
+        }
+        if (TextUtils.isEmpty(filePath)) {
+            filePath = FileLoader.getPathToAttach(messageObject.getDocument(), true).toString();
+            File temp = new File(filePath);
+            if (!temp.isFile()) {
+                filePath = null;
+            }
         }
         if (messageObject.messageOwner.media != null && messageObject.messageOwner.media.document != null) {
             if (TextUtils.isEmpty(messageObject.messageOwner.media.document.file_name)) {
@@ -160,7 +172,7 @@ public class MessageDetailsActivity extends BaseFragment {
             if (position == exportRow) {
                 Gson gson = new Gson();
                 try {
-                    AndroidUtilities.addToClipboard(gson.toJson(messageObject));
+                    AndroidUtilities.addToClipboard(gson.toJson(messageObject.messageOwner));
                     Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
                 } catch (Exception e) {
                     FileLog.e(e);
@@ -238,6 +250,14 @@ public class MessageDetailsActivity extends BaseFragment {
         fileNameRow = TextUtils.isEmpty(fileName) ? -1 : rowCount++;
         filePathRow = TextUtils.isEmpty(filePath) ? -1 : rowCount++;
         fileSizeRow = messageObject.getSize() != 0 ? rowCount++ : -1;
+        if (messageObject.messageOwner.media != null && (
+                (messageObject.messageOwner.media.photo != null && messageObject.messageOwner.media.photo.dc_id > 0) ||
+                        (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0)
+        )) {
+            dcRow = rowCount++;
+        } else {
+            dcRow = -1;
+        }
         emptyRow = rowCount++;
         exportRow = rowCount++;
         endRow = rowCount++;
@@ -369,6 +389,12 @@ public class MessageDetailsActivity extends BaseFragment {
                         textCell.setTextWithEmojiAnd21Value("File path", filePath, divider);
                     } else if (position == fileSizeRow) {
                         textCell.setTextWithEmojiAnd21Value("File size", AndroidUtilities.formatFileSize(messageObject.getSize()), divider);
+                    } else if (position == dcRow) {
+                        if (messageObject.messageOwner.media.photo != null && messageObject.messageOwner.media.photo.dc_id > 0) {
+                            textCell.setTextWithEmojiAnd21Value("DC", String.valueOf(messageObject.messageOwner.media.photo.dc_id), divider);
+                        } else if (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0) {
+                            textCell.setTextWithEmojiAnd21Value("DC", String.valueOf(messageObject.messageOwner.media.document.dc_id), divider);
+                        }
                     }
                     break;
                 }

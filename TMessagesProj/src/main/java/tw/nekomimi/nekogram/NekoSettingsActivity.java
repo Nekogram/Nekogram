@@ -497,7 +497,7 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.openArchiveOnPull);
                 }
-            } else if (position == connection2Row) {
+            } else if (position == experimentRow) {
                 NekoConfig.toggleShowHiddenFeature();
                 updateRows();
             } else if (position == hideKeyboardOnChatScrollRow) {
@@ -676,7 +676,7 @@ public class NekoSettingsActivity extends BaseFragment {
         linearLayoutInviteContainer.setOrientation(LinearLayout.VERTICAL);
         linearLayout.addView(linearLayoutInviteContainer, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
-        int count = NekoConfig.showHiddenFeature ? 10 : 9;
+        int count = 10;
         for (int a = 0; a < count; a++) {
             TextCheckCell textCell = new TextCheckCell(context);
             switch (a) {
@@ -1087,7 +1087,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == unlimitedFavedStickersRow || position == messageMenuRow || position == deleteAccountRow ||
                     position == translationProviderRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
-                    position == connection2Row || position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow ||
+                    position == experimentRow || position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow ||
                     position == showTabsOnForwardRow;
         }
 
