@@ -64,6 +64,9 @@ public class TranslateBottomSheet extends BottomSheet {
                 case -3:
                     url = String.format("https://fanyi.baidu.com/?aldtype=38319&tpltype=sigma#auto/zh/%s", Utils.encodeURIComponent(text));
                     break;
+                case -4:
+                    url = String.format("https://www.deepl.com/translator#auto/auto/%s", Utils.encodeURIComponent(text));
+                    break;
             }
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();

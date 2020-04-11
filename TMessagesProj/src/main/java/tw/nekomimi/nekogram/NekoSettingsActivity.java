@@ -446,6 +446,8 @@ public class NekoSettingsActivity extends BaseFragment {
                 types.add(-2);
                 arrayList.add(LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb));
                 types.add(-3);
+                arrayList.add(LocaleController.getString("ProviderDeepLWeb", R.string.ProviderDeepLWeb));
+                types.add(-4);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
@@ -993,6 +995,9 @@ public class NekoSettingsActivity extends BaseFragment {
                                 break;
                             case -3:
                                 value = LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb);
+                                break;
+                            case -4:
+                                value = LocaleController.getString("ProviderDeepLWeb", R.string.ProviderDeepLWeb);
                                 break;
                             case 3:
                             default:

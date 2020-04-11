@@ -87,4 +87,5 @@
     <string name="UseAvatarAsDrawerBackground">Use avatar as drawer background</string>
     <string name="ShowTabsOnForward">Show tabs on forward</string>
     <string name="CheckAllAdministrated">Add administrated</string>
+    <string name="ProviderDeepLWeb">DeepL Translator (Web)</string>
 </resources>
