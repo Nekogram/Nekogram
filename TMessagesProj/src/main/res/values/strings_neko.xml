@@ -89,4 +89,5 @@
     <string name="CheckAllAdministrated">Add administrated</string>
     <string name="ProviderDeepLWeb">DeepL Translator (Web)</string>
     <string name="ChatMessageAnimation">Animate new messages</string>
+    <string name="RearVideoMessages">Rear camera in Video Messages</string>
 </resources>

@@ -79,6 +79,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int pauseMusicOnRecordRow;
     private int disablePhotoSideActionRow;
     private int hideKeyboardOnChatScrollRow;
+    private int rearVideoMessagesRow;
     private int mapPreviewRow;
     private int stickerSizeRow;
     private int translationProviderRow;
@@ -524,6 +525,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.chatMessageAnimation);
                 }
+            } else if (position == rearVideoMessagesRow) {
+                NekoConfig.toggleRearVideoMessages();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.rearVideoMessages);
+                }
             }
 
         });
@@ -554,6 +560,7 @@ public class NekoSettingsActivity extends BaseFragment {
         pauseMusicOnRecordRow = rowCount++;
         disablePhotoSideActionRow = rowCount++;
         hideKeyboardOnChatScrollRow = rowCount++;
+        rearVideoMessagesRow = rowCount++;
         mapPreviewRow = rowCount++;
         stickerSizeRow = rowCount++;
         messageMenuRow = rowCount++;
@@ -1063,6 +1070,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("ShowTabsOnForward", R.string.ShowTabsOnForward), NekoConfig.showTabsOnForward, true);
                     } else if (position == chatMessageAnimationRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ChatMessageAnimation", R.string.ChatMessageAnimation), NekoConfig.chatMessageAnimation, true);
+                    } else if (position == rearVideoMessagesRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("RearVideoMessages", R.string.RearVideoMessages), NekoConfig.rearVideoMessages, true);
                     }
                     break;
                 }
@@ -1102,7 +1111,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == translationProviderRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
                     position == experimentRow || position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow ||
-                    position == showTabsOnForwardRow || position == chatMessageAnimationRow;
+                    position == showTabsOnForwardRow || position == chatMessageAnimationRow || position == rearVideoMessagesRow;
         }
 
         @Override
@@ -1157,7 +1166,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
                     position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow || position == showTabsOnForwardRow ||
-                    position == chatMessageAnimationRow) {
+                    position == chatMessageAnimationRow || position == rearVideoMessagesRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
                 return 4;

@@ -26,6 +26,7 @@ public class NekoConfig {
     public static boolean disablePhotoSideAction = true;
     public static boolean hideKeyboardOnChatScroll = false;
     public static boolean chatMessageAnimation = false;
+    public static boolean rearVideoMessages = false;
     public static int mapPreviewProvider = 0;
     public static float stickerSize = 14.0f;
     public static int translationProvider = 1;
@@ -97,6 +98,7 @@ public class NekoConfig {
                 editor.putBoolean("useSystemEmoji", useSystemEmoji);
                 editor.putBoolean("showTabsOnForward", showTabsOnForward);
                 editor.putBoolean("chatMessageAnimation", chatMessageAnimation);
+                editor.putBoolean("rearVideoMessages", rearVideoMessages);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
@@ -154,6 +156,7 @@ public class NekoConfig {
             useSystemEmoji = preferences.getBoolean("useSystemEmoji", SharedConfig.useSystemEmoji);
             showTabsOnForward = preferences.getBoolean("showTabsOnForward", false);
             chatMessageAnimation = preferences.getBoolean("chatMessageAnimation", false);
+            rearVideoMessages = preferences.getBoolean("rearVideoMessages", false);
             configLoaded = true;
         }
     }
@@ -446,6 +449,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("chatMessageAnimation", chatMessageAnimation);
+        editor.commit();
+    }
+
+    public static void toggleRearVideoMessages() {
+        rearVideoMessages = !rearVideoMessages;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("rearVideoMessages", rearVideoMessages);
         editor.commit();
     }
 }
