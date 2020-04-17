@@ -90,4 +90,6 @@
     <string name="ProviderDeepLWeb">DeepL Translator (Web)</string>
     <string name="ChatMessageAnimation">Animate new messages</string>
     <string name="RearVideoMessages">Rear camera in Video Messages</string>
+    <string name="HideAllTab">Hide \"All Chats\" tab</string>
+    <string name="HideAllTabAbout">Press \"Back\" on home page to open it</string>
 </resources>
