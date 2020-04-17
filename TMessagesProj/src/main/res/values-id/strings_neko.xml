@@ -77,4 +77,10 @@
     <string name="UnlimitedPinnedDialogsAbout">Pin dialog tak terbatas dengan mematikan sync nya.</string>
     <string name="OpenArchiveOnPull">Buka arsip saat ditarik ke bawah</string>
     <string name="HideKeyboardOnChatScroll">Sembunyikan keyboard saat men-scroll</string>
+    <string name="UserRestrictionsSendStickers2">Kirim Stiker</string>
+    <string name="UserRestrictionsSendGifs">Mengirim Gif</string>
+    <string name="UseAvatarAsDrawerBackground">Menggunakan Photo Profil sebagai latar belakang laci</string>
+    <string name="ShowTabsOnForward">Tampilkan label saat meneruskan</string>
+    <string name="CheckAllAdministrated">Tambahkan Admin</string>
+    <string name="ProviderDeepLWeb">Penerjemah DeepL (Web)</string>
 </resources>

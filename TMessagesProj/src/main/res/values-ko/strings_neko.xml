@@ -80,4 +80,11 @@
     <string name="UserRestrictionsSendStickers2">스티커 보내기</string>
     <string name="UserRestrictionsSendGifs">GIF 보내기</string>
     <string name="UseAvatarAsDrawerBackground">아바타를 서랍 배경으로 사용</string>
+    <string name="ShowTabsOnForward">전달에서 탭 표시</string>
+    <string name="CheckAllAdministrated">관리 추가</string>
+    <string name="ProviderDeepLWeb">DeepL 번역 (웹)</string>
+    <string name="ChatMessageAnimation">새 애니메이션 메세지</string>
+    <string name="RearVideoMessages">비디오 메세지에 후면 카메라 사용</string>
+    <string name="HideAllTab">\"모든 채팅\" 탭 숨기기</string>
+    <string name="HideAllTabAbout">홈페이지의 \"뒤로\" 버튼 눌러서 열기</string>
 </resources>

@@ -78,4 +78,5 @@
     <string name="UserRestrictionsSendStickers2">ステッカーの送信</string>
     <string name="UserRestrictionsSendGifs">GIFの送信</string>
     <string name="UseAvatarAsDrawerBackground">アバターをドロワーの背景として使う</string>
+    <string name="ProviderDeepLWeb">DeepL翻訳 (Web)</string>
 </resources>

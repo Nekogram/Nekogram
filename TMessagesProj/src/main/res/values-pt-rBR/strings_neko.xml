@@ -3,7 +3,7 @@
     <string name="NekoSettings">Configurações Neko</string>
     <string name="IPv6">Tentar conexão via IPv6</string>
     <string name="MessageMenu">Menu de mensagens</string>
-    <string name="HidePhone">Ocultar o meu número de telefone</string>
+    <string name="HidePhone">Ocultar meu número de telefone</string>
     <string name="Hide">Ocultar</string>
     <string name="DeleteAllFromSelf">Excluir minhas mensagens</string>
     <string name="DeleteAllFromSelfAlert">Aviso! Isso irá **excluir todas as suas mensagens** nesse chat para **todos** os participantes.</string>
@@ -37,7 +37,7 @@
     <string name="SomeItemsNeedRestart">Opções com * precisam reiniciar o aplicativo para terem efeito.</string>
     <string name="DeleteDownloadedFile">Excluir arquivo baixado</string>
     <string name="TestBackend">Teste de back-end</string>
-    <string name="TestBackendOn">Esta conta se conectará ao teste back-end.</string>
+    <string name="TestBackendOn">Esta conta se conectará ao servidor de testes do Telegram.</string>
     <string name="TestBackendOff">Esta conta se conectará a produção back-end.</string>
     <string name="HideProxySponsorChannel">Ocultar canal do patrocinador do proxy</string>
     <string name="ViewHistory">Ver histórico</string>
@@ -79,5 +79,12 @@
     <string name="HideKeyboardOnChatScroll">Ocultar teclado na rolagem do chat</string>
     <string name="UserRestrictionsSendStickers2">Enviar Stickers</string>
     <string name="UserRestrictionsSendGifs">Enviar GIFs</string>
-    <string name="UseAvatarAsDrawerBackground">Use o avatar como fundo da gaveta</string>
+    <string name="UseAvatarAsDrawerBackground">Usar minha foto de perfil como fundo do menu lateral</string>
+    <string name="ShowTabsOnForward">Mostrar pastas ao encaminhar</string>
+    <string name="CheckAllAdministrated">Adicionar administrado</string>
+    <string name="ProviderDeepLWeb">Tradutor DeepL (Web)</string>
+    <string name="ChatMessageAnimation">Animação de novas mensagens</string>
+    <string name="RearVideoMessages">Câmera traseira em mensagens de vídeo</string>
+    <string name="HideAllTab">Ocultar aba \"Todos os bate-papos\"</string>
+    <string name="HideAllTabAbout">Pressione o botão \"Voltar\" na página inicial, para abri-lo</string>
 </resources>

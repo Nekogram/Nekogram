@@ -80,4 +80,6 @@
     <string name="UserRestrictionsSendStickers2">Inviare Sticker</string>
     <string name="UserRestrictionsSendGifs">Inviare GIF</string>
     <string name="UseAvatarAsDrawerBackground">Utilizza l\'avatar come sfondo del drawer</string>
+    <string name="ShowTabsOnForward">Mostra le tab durante l\'inoltro</string>
+    <string name="CheckAllAdministrated">Aggiungi amministrate</string>
 </resources>
