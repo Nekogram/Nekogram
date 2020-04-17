@@ -15,6 +15,7 @@ import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationChannel;
+import android.app.NotificationChannelGroup;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -265,6 +266,18 @@ public class NotificationsController extends BaseController {
                         String id = channel.getId();
                         if (id.startsWith(keyStart)) {
                             systemNotificationManager.deleteNotificationChannel(id);
+                        }
+                    }
+                } catch (Throwable e) {
+                    FileLog.e(e);
+                }
+                try {
+                    String keyGroup = currentAccount + "group";
+                    List<NotificationChannelGroup> list = systemNotificationManager.getNotificationChannelGroups();
+                    for (NotificationChannelGroup group : list) {
+                        String id = group.getId();
+                        if (id.equals(keyGroup)) {
+                            systemNotificationManager.deleteNotificationChannelGroup(id);
                         }
                     }
                 } catch (Throwable e) {
@@ -2449,6 +2462,11 @@ public class NotificationsController extends BaseController {
             } else {
                 notificationChannel.setSound(null, builder.build());
             }
+            TLRPC.User user = getUserConfig().getCurrentUser();
+            String keyGroup = currentAccount + "group";
+            NotificationChannelGroup notificationChannelGroup = new NotificationChannelGroup(keyGroup, UserObject.getUserName(user));
+            notificationChannel.setGroup(keyGroup);
+            systemNotificationManager.createNotificationChannelGroup(notificationChannelGroup);
             systemNotificationManager.createNotificationChannel(notificationChannel);
             preferences.edit().putString(key, channelId).putString(key + "_s", newSettingsHash).commit();
         }
