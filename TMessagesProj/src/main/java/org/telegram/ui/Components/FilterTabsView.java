@@ -968,7 +968,7 @@ public class FilterTabsView extends FrameLayout {
                 requestLayout();
                 adapter.notifyDataSetChanged();
                 allTabsWidth = 0;
-                tabs.get(0).setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+                if (!NekoConfig.hideAllTab) tabs.get(0).setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
                 for (int b = 0; b < N; b++) {
                     allTabsWidth += tabs.get(b).getWidth(true) + AndroidUtilities.dp(32);
                 }
@@ -997,7 +997,7 @@ public class FilterTabsView extends FrameLayout {
             requestLayout();
             adapter.notifyDataSetChanged();
             allTabsWidth = 0;
-            tabs.get(0).setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+            if (!NekoConfig.hideAllTab) tabs.get(0).setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
             for (int b = 0, N = tabs.size(); b < N; b++) {
                 allTabsWidth += tabs.get(b).getWidth(true) + AndroidUtilities.dp(32);
             }
