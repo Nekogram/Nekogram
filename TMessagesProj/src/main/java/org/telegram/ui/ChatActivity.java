@@ -3291,8 +3291,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         chatListView.setAdapter(chatAdapter = new ChatActivityAdapter(context));
         chatListView.setClipToPadding(false);
         chatListView.setPadding(0, AndroidUtilities.dp(4), 0, AndroidUtilities.dp(3));
-        chatListView.setItemAnimator(null);
-        chatListView.setLayoutAnimation(null);
+        if (!NekoConfig.chatMessageAnimation) {
+            chatListView.setItemAnimator(null);
+            chatListView.setLayoutAnimation(null);
+        }
 
         chatLayoutManager = new GridLayoutManagerFixed(context, 1000, LinearLayoutManager.VERTICAL, true) {
             @Override

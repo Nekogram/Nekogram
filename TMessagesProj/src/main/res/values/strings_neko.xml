@@ -88,4 +88,5 @@
     <string name="ShowTabsOnForward">Show tabs on forward</string>
     <string name="CheckAllAdministrated">Add administrated</string>
     <string name="ProviderDeepLWeb">DeepL Translator (Web)</string>
+    <string name="ChatMessageAnimation">Animate new messages</string>
 </resources>
