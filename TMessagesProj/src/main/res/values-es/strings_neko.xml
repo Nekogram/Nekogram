@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Ajustes de Neko</string>
+    <string name="NekoSettings">Configuraciones de Neko</string>
     <string name="IPv6">Intentar conectar a través de IPv6</string>
     <string name="MessageMenu">Menú contextual</string>
     <string name="HidePhone">Ocultar mi número de teléfono</string>
@@ -84,7 +84,7 @@
     <string name="CheckAllAdministrated">Agregar administrador</string>
     <string name="ProviderDeepLWeb">Traductor de DeepL (Web)</string>
     <string name="ChatMessageAnimation">Animar los mensajes nuevos</string>
-    <string name="RearVideoMessages">Cámara trasera de Mensajes de Vídeo</string>
+    <string name="RearVideoMessages">Usar cámara trasera en Mensajes de Vídeo</string>
     <string name="HideAllTab">Ocultar pestaña \"Todos los chats\"</string>
     <string name="HideAllTabAbout">Presiona \"Atrás\" en la página de inicio para abrirlo</string>
 </resources>

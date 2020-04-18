@@ -80,4 +80,11 @@
     <string name="UserRestrictionsSendStickers2">Отправить стикеры</string>
     <string name="UserRestrictionsSendGifs">Отправить GIF</string>
     <string name="UseAvatarAsDrawerBackground">Использовать аватар в качестве фона меню</string>
+    <string name="ShowTabsOnForward">Показывать вкладки при пересылке</string>
+    <string name="CheckAllAdministrated">Добавить админские</string>
+    <string name="ProviderDeepLWeb">DeepL Переводчик (Веб)</string>
+    <string name="ChatMessageAnimation">Анимировать новые сообщения</string>
+    <string name="RearVideoMessages">Задняя камера в видео сообщениях</string>
+    <string name="HideAllTab">Скрыть \"Все чаты\" во вкладках</string>
+    <string name="HideAllTabAbout">Нажмите \"Назад\" на домашней странице, чтобы открыть</string>
 </resources>

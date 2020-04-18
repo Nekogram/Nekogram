@@ -80,4 +80,11 @@
     <string name="UserRestrictionsSendStickers2">傳送貼圖</string>
     <string name="UserRestrictionsSendGifs">發送動圖</string>
     <string name="UseAvatarAsDrawerBackground">使用頭像作為程式集背景</string>
+    <string name="ShowTabsOnForward">在轉傳的頁面中顯示標籤</string>
+    <string name="CheckAllAdministrated">新增管理員</string>
+    <string name="ProviderDeepLWeb">DeepL 翻譯器 (web)</string>
+    <string name="ChatMessageAnimation">新消息動畫</string>
+    <string name="RearVideoMessages">視頻消息中使用後置攝像頭</string>
+    <string name="HideAllTab">隱藏“所有聊天”標籤</string>
+    <string name="HideAllTabAbout">在主頁上按“返回”以將其打開</string>
 </resources>
