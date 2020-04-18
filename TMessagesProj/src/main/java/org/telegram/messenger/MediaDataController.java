@@ -677,6 +677,9 @@ public class MediaDataController extends BaseController {
     }
 
     public void loadRecents(final int type, final boolean gif, boolean cache, boolean force) {
+        if (NekoConfig.unlimitedFavedStickers && type == TYPE_FAVE && !cache) {
+            return;
+        }
         if (gif) {
             if (loadingRecentGifs) {
                 return;
