@@ -355,18 +355,6 @@ public class LocaleController {
         languagesDict.put("zh_mo", localeInfo);
 
         localeInfo = new LocaleInfo();
-        localeInfo.name = "简体中文";
-        localeInfo.nameEnglish = "Chinese (Simplified, @zh_CN)";
-        localeInfo.shortName = "classic_zh_cn";
-        localeInfo.baseLangCode = "zh_hans_raw";
-        localeInfo.isRtl = false;
-        localeInfo.pathToFile = "unofficial";
-        localeInfo.pluralLangCode = "zh_cn";
-        localeInfo.builtIn = true;
-        languages.add(localeInfo);
-        languagesDict.put(localeInfo.getKey(), localeInfo);
-
-        localeInfo = new LocaleInfo();
         localeInfo.name = "正體中文";
         localeInfo.nameEnglish = "Chinese (zh-Hant-TW)";
         localeInfo.shortName = "taiwan";
