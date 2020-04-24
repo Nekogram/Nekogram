@@ -1441,13 +1441,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         if (!dialogsLoaded[currentAccount]) {
-            getMessagesController().loadGlobalNotificationsSettings();
-            getMessagesController().loadDialogs(folderId, 0, 100, true);
-            getMessagesController().loadHintDialogs();
-            getMessagesController().loadUserInfo(UserConfig.getInstance(currentAccount).getCurrentUser(), false, classGuid);
+            MessagesController messagesController = getMessagesController();
+            messagesController.loadGlobalNotificationsSettings();
+            messagesController.loadDialogs(folderId, 0, 100, true);
+            messagesController.loadHintDialogs();
+            messagesController.loadUserInfo(UserConfig.getInstance(currentAccount).getCurrentUser(), false, classGuid);
             getContactsController().checkInviteText();
             getMediaDataController().loadRecents(MediaDataController.TYPE_FAVE, false, true, false);
             getMediaDataController().checkFeaturedStickers();
+            for (String emoji : messagesController.diceEmojies) {
+                getMediaDataController().loadDiceStickers(emoji, true);
+            }
             dialogsLoaded[currentAccount] = true;
         }
         getMessagesController().loadPinnedDialogs(folderId, 0, null);
@@ -3654,6 +3658,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             return false;
         }
+        if (actionBar.isSearchFieldVisible()) {
+            return false;
+        }
         DialogsAdapter dialogsAdapter = (DialogsAdapter) adapter;
         ArrayList<TLRPC.Dialog> dialogs = getDialogsArray(currentAccount, dialogsType, folderId, dialogsListFrozen);
         position = dialogsAdapter.fixPosition(position);
@@ -4875,7 +4882,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void showFiltersHint() {
-        if (askingForPermissions || !getMessagesController().showFiltersTooltip || filterTabsView == null || filterTabsView.getVisibility() == View.VISIBLE || isPaused || !getUserConfig().filtersLoaded) {
+        if (askingForPermissions || !getMessagesController().dialogFiltersLoaded || !getMessagesController().showFiltersTooltip || filterTabsView == null || filterTabsView.getVisibility() == View.VISIBLE || isPaused || !getUserConfig().filtersLoaded) {
             return;
         }
         SharedPreferences preferences = MessagesController.getGlobalMainSettings();
@@ -5179,7 +5186,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     @Override
-    public ThemeDescription[] getThemeDescriptions() {
+    public ArrayList<ThemeDescription> getThemeDescriptions() {
         ThemeDescription.ThemeDescriptionDelegate cellDelegate = () -> {
             for (int b = 0; b < 3; b++) {
                 RecyclerListView list;
@@ -5477,7 +5484,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         arrayList.add(new ThemeDescription(sideMenu, ThemeDescription.FLAG_IMAGECOLOR, new Class[]{DrawerActionCell.class}, new String[]{"textView"}, null, null, null, Theme.key_chats_menuItemIcon));
         arrayList.add(new ThemeDescription(sideMenu, 0, new Class[]{DrawerActionCell.class}, new String[]{"textView"}, null, null, null, Theme.key_chats_menuItemText));
-        arrayList.add(new ThemeDescription(sideMenu, 0, new Class[]{DrawerActionCell.class}, new String[]{"arrowView"}, null, null, null, Theme.key_chats_menuItemText));
 
         arrayList.add(new ThemeDescription(sideMenu, 0, new Class[]{DrawerUserCell.class}, new String[]{"textView"}, null, null, null, Theme.key_chats_menuItemText));
         arrayList.add(new ThemeDescription(sideMenu, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{DrawerUserCell.class}, new String[]{"checkBox"}, null, null, null, Theme.key_chats_unreadCounterText));
@@ -5595,7 +5601,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_player_button));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_player_buttonActive));
 
-        return arrayList.toArray(new ThemeDescription[0]);
+        return arrayList;
     }
 
     @Override
