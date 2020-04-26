@@ -11,6 +11,15 @@ import java.util.Locale;
 import tw.nekomimi.nekogram.NekoConfig;
 
 abstract public class Translator {
+
+    public static final int PROVIDER_GOOGLE = 1;
+    public static final int PROVIDER_GOOGLE_CN = 2;
+    public static final int PROVIDER_LINGO = 3;
+    public static final int PROVIDER_GOOGLE_WEB = -1;
+    public static final int PROVIDER_GOOGLE_CN_WEB = -2;
+    public static final int PROVIDER_BAIDU_WEB = -3;
+    public static final int PROVIDER_DEEPL_WEB = -4;
+
     public static void translate(String query, TranslateCallBack translateCallBack) {
         Locale locale = LocaleController.getInstance().currentLocale;
         String toLang;
@@ -19,7 +28,7 @@ abstract public class Translator {
         } else {
             toLang = locale.getLanguage();
         }
-        Translator translator = NekoConfig.translationProvider == 3 ? LingoTranslator.getInstance() : GoogleWebTranslator.getInstance();
+        Translator translator = NekoConfig.translationProvider == PROVIDER_LINGO ? LingoTranslator.getInstance() : GoogleWebTranslator.getInstance();
         if (!translator.getTargetLanguages().contains(toLang)) {
             translateCallBack.onUnsupported();
         } else {

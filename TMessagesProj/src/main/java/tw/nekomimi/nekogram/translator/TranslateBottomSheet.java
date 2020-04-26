@@ -55,16 +55,16 @@ public class TranslateBottomSheet extends BottomSheet {
 
         try {
             switch (NekoConfig.translationProvider) {
-                case -1:
+                case Translator.PROVIDER_GOOGLE_WEB:
                     url = String.format("https://translate.google.com/?view=home&op=translate&text=%s", URLEncoder.encode(text, "UTF-8"));
                     break;
-                case -2:
+                case Translator.PROVIDER_GOOGLE_CN_WEB:
                     url = String.format("https://translate.google.cn/?view=home&op=translate&text=%s", URLEncoder.encode(text, "UTF-8"));
                     break;
-                case -3:
+                case Translator.PROVIDER_BAIDU_WEB:
                     url = String.format("https://fanyi.baidu.com/?aldtype=38319&tpltype=sigma#auto/zh/%s", Utils.encodeURIComponent(text));
                     break;
-                case -4:
+                case Translator.PROVIDER_DEEPL_WEB:
                     url = String.format("https://www.deepl.com/translator#auto/auto/%s", Utils.encodeURIComponent(text));
                     break;
             }

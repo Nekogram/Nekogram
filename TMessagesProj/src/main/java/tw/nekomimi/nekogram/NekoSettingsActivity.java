@@ -24,7 +24,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -53,6 +52,8 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
 
 import java.util.ArrayList;
+
+import tw.nekomimi.nekogram.translator.Translator;
 
 @SuppressLint("RtlHardcoded")
 public class NekoSettingsActivity extends BaseFragment {
@@ -156,7 +157,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.useIPv6);
                 }
                 for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
-                    if (UserConfig.getInstance(a).isClientActivated()) {
+                    if (getUserConfig().isClientActivated()) {
                         ConnectionsManager.native_setUseIpv6(a, NekoConfig.useIPv6);
                     }
                 }
@@ -192,8 +193,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.hideProxySponsorChannel);
                 }
                 for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
-                    if (UserConfig.getInstance(a).isClientActivated()) {
-                        MessagesController.getInstance(a).checkProxyInfo(true);
+                    if (getUserConfig().isClientActivated()) {
+                        getMessagesController().checkProxyInfo(true);
                     }
                 }
             } else if (position == saveCacheToPrivateDirectoryRow) {
@@ -439,19 +440,19 @@ public class NekoSettingsActivity extends BaseFragment {
                 ArrayList<String> arrayList = new ArrayList<>();
                 ArrayList<Integer> types = new ArrayList<>();
                 arrayList.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
-                types.add(1);
+                types.add(Translator.PROVIDER_GOOGLE);
                 arrayList.add(LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN));
-                types.add(2);
+                types.add(Translator.PROVIDER_GOOGLE_CN);
                 arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
-                types.add(3);
+                types.add(Translator.PROVIDER_LINGO);
                 arrayList.add(LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb));
-                types.add(-1);
+                types.add(Translator.PROVIDER_GOOGLE_WEB);
                 arrayList.add(LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb));
-                types.add(-2);
+                types.add(Translator.PROVIDER_GOOGLE_CN_WEB);
                 arrayList.add(LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb));
-                types.add(-3);
+                types.add(Translator.PROVIDER_BAIDU_WEB);
                 arrayList.add(LocaleController.getString("ProviderDeepLWeb", R.string.ProviderDeepLWeb));
-                types.add(-4);
+                types.add(Translator.PROVIDER_DEEPL_WEB);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
@@ -513,7 +514,7 @@ public class NekoSettingsActivity extends BaseFragment {
                 }
             } else if (position == avatarAsDrawerBackgroundRow) {
                 NekoConfig.toggleAvatarAsDrawerBackground();
-                NotificationCenter.getInstance(UserConfig.selectedAccount).postNotificationName(NotificationCenter.mainUserInfoChanged);
+                getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.avatarAsDrawerBackground);
                 }
@@ -625,7 +626,7 @@ public class NekoSettingsActivity extends BaseFragment {
         needRestartRow = rowCount++;
         experimentRow = rowCount++;
         smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
-        chatMessageAnimationRow = rowCount++;
+        chatMessageAnimationRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         disableFilteringRow = rowCount++;
         unlimitedFavedStickersRow = rowCount++;
         unlimitedPinnedDialogsRow = rowCount++;
@@ -1040,25 +1041,25 @@ public class NekoSettingsActivity extends BaseFragment {
                     } else if (position == translationProviderRow) {
                         String value;
                         switch (NekoConfig.translationProvider) {
-                            case 1:
+                            case Translator.PROVIDER_GOOGLE:
                                 value = LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate);
                                 break;
-                            case -1:
+                            case Translator.PROVIDER_GOOGLE_WEB:
                                 value = LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb);
                                 break;
-                            case 2:
+                            case Translator.PROVIDER_GOOGLE_CN:
                                 value = LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN);
                                 break;
-                            case -2:
+                            case Translator.PROVIDER_GOOGLE_CN_WEB:
                                 value = LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb);
                                 break;
-                            case -3:
+                            case Translator.PROVIDER_BAIDU_WEB:
                                 value = LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb);
                                 break;
-                            case -4:
+                            case Translator.PROVIDER_DEEPL_WEB:
                                 value = LocaleController.getString("ProviderDeepLWeb", R.string.ProviderDeepLWeb);
                                 break;
-                            case 3:
+                            case Translator.PROVIDER_LINGO:
                             default:
                                 value = LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud);
                                 break;
