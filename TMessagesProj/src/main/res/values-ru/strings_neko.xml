@@ -56,7 +56,6 @@
     <string name="MessageDetails">Подробности</string>
     <string name="ExportAsJson">Экспорт в JSON</string>
     <string name="Translate">Перевод</string>
-    <string name="ServiceByGoogle">Служба перевода предоставлена Google</string>
     <string name="JoinedFormatted">вступил в %1$s</string>
     <string name="JoinedDateFormatted">вступил в %1$s</string>
     <string name="DeleteAccount">Удалить Telegram аккаунт</string>
@@ -67,7 +66,6 @@
     <string name="ProviderGoogleTranslateCN">Google Переводчик CN</string>
     <string name="ProviderGoogleTranslateCNWeb">Google Переводчик CN (Веб)</string>
     <string name="ProviderBaiduFanyiWeb">Baido Переводчик (Веб)</string>
-    <string name="TranslateApiUnsupported">Поставщик переводов который вы выбрали не имеет поддержку Вашего языка</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Отменить перевод</string>
     <string name="CopyDetails">Скопировать подробности</string>
@@ -86,5 +84,5 @@
     <string name="ChatMessageAnimation">Анимировать новые сообщения</string>
     <string name="RearVideoMessages">Задняя камера в видео сообщениях</string>
     <string name="HideAllTab">Скрыть \"Все чаты\" во вкладках</string>
-    <string name="HideAllTabAbout">Нажмите \"Назад\" на домашней странице, чтобы открыть</string>
+    <string name="HideAllTabAbout">Нажмите \"Назад\" на домашней странице, чтобы открыть.</string>
 </resources>

@@ -56,7 +56,6 @@
     <string name="MessageDetails">詳細</string>
     <string name="ExportAsJson">JSONとしてエクスポート</string>
     <string name="Translate">翻訳</string>
-    <string name="ServiceByGoogle">翻訳サービスはGoogleによって提供されています</string>
     <string name="DeleteAccount">Telegramアカウントの削除</string>
     <string name="TranslateFailed">翻訳サーバエラー</string>
     <string name="TranslationProvider">翻訳プロバイダ</string>
@@ -65,7 +64,7 @@
     <string name="ProviderGoogleTranslateCN">Google翻訳 CN</string>
     <string name="ProviderGoogleTranslateCNWeb">Google翻訳 CN (Web)</string>
     <string name="ProviderBaiduFanyiWeb">Baidu翻訳 (Web)</string>
-    <string name="TranslateApiUnsupported">選択した翻訳プロバイダはあなたの言語をサポートしていません</string>
+    <string name="TranslateApiUnsupported">選択した翻訳プロバイダはあなたの言語をサポートしていません.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">翻訳を取り消す</string>
     <string name="CopyDetails">詳細のコピー</string>

@@ -56,7 +56,6 @@
     <string name="MessageDetails">Detail</string>
     <string name="ExportAsJson">Ekspor sebagai JSON</string>
     <string name="Translate">Terjemahan</string>
-    <string name="ServiceByGoogle">Layanan penerjemah disediakan oleh Google</string>
     <string name="JoinedFormatted">bergabung %1$s</string>
     <string name="JoinedDateFormatted">bergabung pada %1$s</string>
     <string name="DeleteAccount">Hapus akun Telegram</string>
@@ -67,7 +66,7 @@
     <string name="ProviderGoogleTranslateCN">Google Translate CN</string>
     <string name="ProviderGoogleTranslateCNWeb">Google Translate CN (Web)</string>
     <string name="ProviderBaiduFanyiWeb">Baidu Translate (Web)</string>
-    <string name="TranslateApiUnsupported">Penyedia terjemahan yang kamu pilih tidak mendukung bahasa anda</string>
+    <string name="TranslateApiUnsupported">Penyedia terjemahan yang kamu pilih tidak mendukung bahasa anda.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Batalkan terjemahan</string>
     <string name="CopyDetails">Salin detail</string>

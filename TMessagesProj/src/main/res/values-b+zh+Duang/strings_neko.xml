@@ -56,7 +56,6 @@
     <string name="MessageDetails">详情</string>
     <string name="ExportAsJson">导出为 JSON</string>
     <string name="Translate">翻译</string>
-    <string name="ServiceByGoogle">翻译服务由 Google 提供</string>
     <string name="JoinedFormatted">加入于 %1$s</string>
     <string name="JoinedDateFormatted">加入于 %1$s</string>
     <string name="DeleteAccount">删除 Telegram 帐户</string>
@@ -67,7 +66,7 @@
     <string name="ProviderGoogleTranslateCN">Google 中国翻译</string>
     <string name="ProviderGoogleTranslateCNWeb">Google 中国翻译（网页）</string>
     <string name="ProviderBaiduFanyiWeb">百度翻译（网页）</string>
-    <string name="TranslateApiUnsupported">您选择的翻译源不支持您的语言</string>
+    <string name="TranslateApiUnsupported">您选择的翻译源不支持您的语言.</string>
     <string name="ProviderLingocloud">彩云小译</string>
     <string name="UndoTranslate">撤销翻译</string>
     <string name="CopyDetails">复制详细信息</string>
@@ -86,5 +85,10 @@
     <string name="ChatMessageAnimation">新消息动画</string>
     <string name="RearVideoMessages">视频留言默认使用后置摄像头</string>
     <string name="HideAllTab">隐藏“全部对话”</string>
-    <string name="HideAllTabAbout">在主页按返回键打开全部对话</string>
+    <string name="HideAllTabAbout">在主页按返回键打开全部对话。</string>
+    <string name="TabTitleType">在标签栏上显示</string>
+    <string name="TabTitleTypeTip">图标由 Telegram 云同步。</string>
+    <string name="TabTitleTypeText">标题</string>
+    <string name="TabTitleTypeIcon">图标</string>
+    <string name="TabTitleTypeMix">图标与标题</string>
 </resources>

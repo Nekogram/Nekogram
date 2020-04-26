@@ -50,7 +50,6 @@
     <string name="MessageDetails">Szczegóły</string>
     <string name="ExportAsJson">Eksportuj jako JSON</string>
     <string name="Translate">Przetłumacz</string>
-    <string name="ServiceByGoogle">Usługa tłumaczeniowa jest świadczona przez Google</string>
     <string name="DeleteAccount">Usuń konto Telegram</string>
     <string name="TranslationProvider">Dostawca tłumaczeń</string>
     <string name="ProviderGoogleTranslate">Tłumacz Google</string>

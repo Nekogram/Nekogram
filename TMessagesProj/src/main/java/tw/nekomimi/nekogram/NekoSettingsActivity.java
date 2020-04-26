@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -157,7 +158,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.useIPv6);
                 }
                 for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
-                    if (getUserConfig().isClientActivated()) {
+                    if (UserConfig.getInstance(a).isClientActivated()) {
                         ConnectionsManager.native_setUseIpv6(a, NekoConfig.useIPv6);
                     }
                 }
@@ -193,8 +194,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.hideProxySponsorChannel);
                 }
                 for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
-                    if (getUserConfig().isClientActivated()) {
-                        getMessagesController().checkProxyInfo(true);
+                    if (UserConfig.getInstance(a).isClientActivated()) {
+                        MessagesController.getInstance(a).checkProxyInfo(true);
                     }
                 }
             } else if (position == saveCacheToPrivateDirectoryRow) {

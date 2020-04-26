@@ -56,7 +56,6 @@
     <string name="MessageDetails">Detalhes</string>
     <string name="ExportAsJson">Exportar como JSON</string>
     <string name="Translate">Traduzir</string>
-    <string name="ServiceByGoogle">O serviço de tradução é fornecido pelo Google</string>
     <string name="JoinedFormatted">visto por último %1$s</string>
     <string name="JoinedDateFormatted">visto por último às %1$s</string>
     <string name="DeleteAccount">Excluir conta do telegram</string>
@@ -67,7 +66,7 @@
     <string name="ProviderGoogleTranslateCN">Google Tradutor CN</string>
     <string name="ProviderGoogleTranslateCNWeb">Google Tradutor CN (Web)</string>
     <string name="ProviderBaiduFanyiWeb">Baidu Tradutor (Web)</string>
-    <string name="TranslateApiUnsupported">O provedor de tradução que você selecionou não suporta o seu idioma</string>
+    <string name="TranslateApiUnsupported">O provedor de tradução que você selecionou não suporta o seu idioma.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Desfazer tradução</string>
     <string name="CopyDetails">Copiar Detalhes</string>
@@ -86,5 +85,5 @@
     <string name="ChatMessageAnimation">Animação de novas mensagens</string>
     <string name="RearVideoMessages">Câmera traseira em mensagens de vídeo</string>
     <string name="HideAllTab">Ocultar aba \"Todos os bate-papos\"</string>
-    <string name="HideAllTabAbout">Pressione o botão \"Voltar\" na página inicial, para abri-lo</string>
+    <string name="HideAllTabAbout">Pressione o botão \"Voltar\" na página inicial, para abri-lo.</string>
 </resources>

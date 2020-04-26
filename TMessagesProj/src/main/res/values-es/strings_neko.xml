@@ -56,7 +56,6 @@
     <string name="MessageDetails">Detalles</string>
     <string name="ExportAsJson">Exportar como JSON</string>
     <string name="Translate">Traducir</string>
-    <string name="ServiceByGoogle">El servicio de traducción es provisto por Google</string>
     <string name="JoinedFormatted">Se unió a las %1$s</string>
     <string name="JoinedDateFormatted">Se unió el %1$s</string>
     <string name="DeleteAccount">Eliminar cuenta de Telegram</string>
@@ -67,7 +66,7 @@
     <string name="ProviderGoogleTranslateCN">Traductor de Google CN</string>
     <string name="ProviderGoogleTranslateCNWeb">Traductor de Google CN (Web)</string>
     <string name="ProviderBaiduFanyiWeb">Traductor de Baidu (Web)</string>
-    <string name="TranslateApiUnsupported">El traductor escogido no soporta tu idioma</string>
+    <string name="TranslateApiUnsupported">El proveedor de traducción seleccionado no soporta su idioma.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Deshacer traducción</string>
     <string name="CopyDetails">Copiar Detalles</string>
@@ -86,5 +85,10 @@
     <string name="ChatMessageAnimation">Animar los mensajes nuevos</string>
     <string name="RearVideoMessages">Usar cámara trasera en Mensajes de Vídeo</string>
     <string name="HideAllTab">Ocultar pestaña \"Todos los chats\"</string>
-    <string name="HideAllTabAbout">Presiona \"Atrás\" en la página de inicio para abrirlo</string>
+    <string name="HideAllTabAbout">Presiona \"Atrás\" en la página de inicio para abrirlo.</string>
+    <string name="TabTitleType">Mostrar en pestañas</string>
+    <string name="TabTitleTypeTip">Los emojis son sincronizados con la nube por Telegram.</string>
+    <string name="TabTitleTypeText">Títulos</string>
+    <string name="TabTitleTypeIcon">Emojis</string>
+    <string name="TabTitleTypeMix">Emojis con títulos</string>
 </resources>

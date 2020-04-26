@@ -56,7 +56,6 @@
     <string name="MessageDetails">정보</string>
     <string name="ExportAsJson">JSON으로 내보내기</string>
     <string name="Translate">번역</string>
-    <string name="ServiceByGoogle">번역 서비스는 Google에서 제공합니다</string>
     <string name="JoinedFormatted">%1$s 님 참여</string>
     <string name="JoinedDateFormatted">%1$s 참여</string>
     <string name="DeleteAccount">텔레그램 계정 삭제</string>
@@ -67,7 +66,7 @@
     <string name="ProviderGoogleTranslateCN">구글 번역 CN</string>
     <string name="ProviderGoogleTranslateCNWeb">구글 번역 CN (웹)</string>
     <string name="ProviderBaiduFanyiWeb">바이두 번역 (웹)</string>
-    <string name="TranslateApiUnsupported">선택한 번역 공급자가 사용자의 언어를 지원하지 않습니다</string>
+    <string name="TranslateApiUnsupported">선택한 번역 공급자가 사용자의 언어를 지원하지 않습니다.</string>
     <string name="ProviderLingocloud">링고 클라우드</string>
     <string name="UndoTranslate">번역 취소</string>
     <string name="CopyDetails">정보 복사</string>
@@ -86,5 +85,5 @@
     <string name="ChatMessageAnimation">새 애니메이션 메세지</string>
     <string name="RearVideoMessages">비디오 메세지에 후면 카메라 사용</string>
     <string name="HideAllTab">\"모든 채팅\" 탭 숨기기</string>
-    <string name="HideAllTabAbout">홈페이지의 \"뒤로\" 버튼 눌러서 열기</string>
+    <string name="HideAllTabAbout">홈페이지의 \"뒤로\" 버튼 눌러서 열기.</string>
 </resources>
