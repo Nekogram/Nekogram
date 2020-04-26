@@ -85,6 +85,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int stickerSizeRow;
     private int translationProviderRow;
     private int messageMenuRow;
+    private int tabsTitleTypeRow;
     private int chat2Row;
 
     private int settingsRow;
@@ -537,6 +538,40 @@ public class NekoSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.hideAllTab);
                 }
                 getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
+            } else if (position == tabsTitleTypeRow) {
+                ArrayList<String> arrayList = new ArrayList<>();
+                ArrayList<Integer> types = new ArrayList<>();
+                arrayList.add(LocaleController.getString("TabTitleTypeText", R.string.TabTitleTypeText));
+                types.add(NekoConfig.TITLE_TYPE_TEXT);
+                arrayList.add(LocaleController.getString("TabTitleTypeIcon", R.string.TabTitleTypeIcon));
+                types.add(NekoConfig.TITLE_TYPE_ICON);
+                arrayList.add(LocaleController.getString("TabTitleTypeMix", R.string.TabTitleTypeMix));
+                types.add(NekoConfig.TITLE_TYPE_MIX);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(LocaleController.getString("TabTitleType", R.string.TabTitleType));
+                builder.setMessage(LocaleController.getString("TabTitleTypeTip", R.string.TabTitleTypeTip));
+                final LinearLayout linearLayout = new LinearLayout(context);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                builder.setView(linearLayout);
+
+                for (int a = 0; a < arrayList.size(); a++) {
+                    RadioColorCell cell = new RadioColorCell(context);
+                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+                    cell.setTag(a);
+                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+                    cell.setTextAndValue(arrayList.get(a), NekoConfig.tabsTitleType == types.get(a));
+                    linearLayout.addView(cell);
+                    cell.setOnClickListener(v -> {
+                        Integer which = (Integer) v.getTag();
+                        NekoConfig.setTabsTitleType(types.get(which));
+                        listAdapter.notifyItemChanged(tabsTitleTypeRow);
+                        getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
+                        builder.getDismissRunnable().run();
+                    });
+                }
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                showDialog(builder.create());
             }
 
         });
@@ -573,6 +608,7 @@ public class NekoSettingsActivity extends BaseFragment {
         stickerSizeRow = rowCount++;
         messageMenuRow = rowCount++;
         translationProviderRow = rowCount++;
+        tabsTitleTypeRow = rowCount++;
         chat2Row = rowCount++;
         settingsRow = rowCount++;
         hidePhoneRow = rowCount++;
@@ -1027,7 +1063,21 @@ public class NekoSettingsActivity extends BaseFragment {
                                 value = LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), value, false);
+                        textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), value, true);
+                    } else if (position == tabsTitleTypeRow) {
+                        String value;
+                        switch (NekoConfig.tabsTitleType) {
+                            case NekoConfig.TITLE_TYPE_TEXT:
+                                value = LocaleController.getString("TabTitleTypeText", R.string.TabTitleTypeText);
+                                break;
+                            case NekoConfig.TITLE_TYPE_ICON:
+                                value = LocaleController.getString("TabTitleTypeIcon", R.string.TabTitleTypeIcon);
+                                break;
+                            case NekoConfig.TITLE_TYPE_MIX:
+                            default:
+                                value = LocaleController.getString("TabTitleTypeMix", R.string.TabTitleTypeMix);
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("TabTitleType", R.string.TabTitleType), value, false);
                     }
                     break;
                 }
@@ -1123,7 +1173,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
                     position == experimentRow || position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow ||
                     position == showTabsOnForwardRow || position == chatMessageAnimationRow || position == rearVideoMessagesRow ||
-                    position == hideAllTabRow;
+                    position == hideAllTabRow || position == tabsTitleTypeRow;
         }
 
         @Override
@@ -1168,7 +1218,8 @@ public class NekoSettingsActivity extends BaseFragment {
             if (position == connection2Row || position == chat2Row || position == experiment2Row) {
                 return 1;
             } else if (position == nameOrderRow || position == mapPreviewRow || position == stickerSizeRow || position == messageMenuRow ||
-                    position == deleteAccountRow || position == translationProviderRow || position == eventTypeRow || position == actionBarDecorationRow) {
+                    position == deleteAccountRow || position == translationProviderRow || position == eventTypeRow || position == actionBarDecorationRow ||
+                    position == tabsTitleTypeRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow ||
                     position == transparentStatusBarRow || position == hideProxySponsorChannelRow ||

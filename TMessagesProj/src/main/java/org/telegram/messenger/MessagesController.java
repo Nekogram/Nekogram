@@ -364,6 +364,7 @@ public class MessagesController extends BaseController implements NotificationCe
         public ArrayList<Integer> neverShow = new ArrayList<>();
         public LongSparseArray<Integer> pinnedDialogs = new LongSparseArray<>();
         public ArrayList<TLRPC.Dialog> dialogs = new ArrayList<>();
+        public String emoticon;
     }
 
     private DialogFilter sortingDialogFilter;

@@ -2959,7 +2959,18 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 filterTabsView.removeTabs();
                 if (!NekoConfig.hideAllTab) filterTabsView.addTab(Integer.MAX_VALUE, LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
                 for (int a = 0, N = filters.size(); a < N; a++) {
-                    filterTabsView.addTab(a, filters.get(a).name);
+                    MessagesController.DialogFilter dialogFilter = filters.get(a);
+                    switch (NekoConfig.tabsTitleType) {
+                        case NekoConfig.TITLE_TYPE_TEXT:
+                            filterTabsView.addTab(a, dialogFilter.name);
+                            break;
+                        case NekoConfig.TITLE_TYPE_ICON:
+                            filterTabsView.addTab(a, dialogFilter.emoticon != null ? dialogFilter.emoticon : "📂");
+                            break;
+                        case NekoConfig.TITLE_TYPE_MIX:
+                            filterTabsView.addTab(a, dialogFilter.emoticon != null ? dialogFilter.emoticon + " " + dialogFilter.name : "📂 " + dialogFilter.name);
+                            break;
+                    }
                 }
                 id = filterTabsView.getCurrentTabId();
                 if (id >= 0) {

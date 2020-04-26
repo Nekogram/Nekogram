@@ -15,6 +15,10 @@ import org.telegram.messenger.SharedConfig;
 @SuppressLint("ApplySharedPref")
 public class NekoConfig {
 
+    public static final int TITLE_TYPE_TEXT = 0;
+    public static final int TITLE_TYPE_ICON = 1;
+    public static final int TITLE_TYPE_MIX = 2;
+
     private static final Object sync = new Object();
     public static boolean useIPv6 = false;
     public static boolean showHiddenFeature = false;
@@ -31,6 +35,7 @@ public class NekoConfig {
     public static int mapPreviewProvider = 0;
     public static float stickerSize = 14.0f;
     public static int translationProvider = 1;
+    public static int tabsTitleType = TITLE_TYPE_TEXT;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -108,6 +113,7 @@ public class NekoConfig {
                 editor.putInt("translationProvider", translationProvider);
                 editor.putInt("eventType", eventType);
                 editor.putInt("actionBarDecoration", actionBarDecoration);
+                editor.putInt("tabsTitleType", tabsTitleType);
                 editor.commit();
             } catch (Exception e) {
                 FileLog.e(e);
@@ -160,6 +166,7 @@ public class NekoConfig {
             chatMessageAnimation = preferences.getBoolean("chatMessageAnimation", false);
             rearVideoMessages = preferences.getBoolean("rearVideoMessages", false);
             hideAllTab = preferences.getBoolean("hideAllTab", false);
+            tabsTitleType = preferences.getInt("tabsTitleType", TITLE_TYPE_TEXT);
             configLoaded = true;
         }
     }
@@ -468,6 +475,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("hideAllTab", hideAllTab);
+        editor.commit();
+    }
+
+    public static void setTabsTitleType(int type) {
+        tabsTitleType = type;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("tabsTitleType", tabsTitleType);
         editor.commit();
     }
 }
