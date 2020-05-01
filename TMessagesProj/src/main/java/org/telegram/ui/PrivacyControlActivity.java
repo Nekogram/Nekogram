@@ -701,7 +701,7 @@ public class PrivacyControlActivity extends BaseFragment implements Notification
         } else {
             nobodyRow = rowCount++;
         }
-        if (rulesType == PRIVACY_RULES_TYPE_PHONE && currentType == TYPE_NOBODY) {
+        if (rulesType == PRIVACY_RULES_TYPE_PHONE/* && currentType == TYPE_NOBODY*/) {
             phoneDetailRow = rowCount++;
             phoneSectionRow = rowCount++;
             phoneEverybodyRow = rowCount++;
