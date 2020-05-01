@@ -3,7 +3,7 @@
     <string name="NekoSettings">Configurações Neko</string>
     <string name="IPv6">Tentar conexão via IPv6</string>
     <string name="MessageMenu">Menu de mensagens</string>
-    <string name="HidePhone">Ocultar meu número de telefone</string>
+    <string name="HidePhone">Ocultar o meu número de telefone</string>
     <string name="Hide">Ocultar</string>
     <string name="DeleteAllFromSelf">Excluir minhas mensagens</string>
     <string name="DeleteAllFromSelfAlert">Aviso! Isso irá **excluir todas as suas mensagens** nesse chat para **todos** os participantes.</string>
@@ -86,4 +86,9 @@
     <string name="RearVideoMessages">Câmera traseira em mensagens de vídeo</string>
     <string name="HideAllTab">Ocultar aba \"Todos os bate-papos\"</string>
     <string name="HideAllTabAbout">Pressione o botão \"Voltar\" na página inicial, para abri-lo.</string>
+    <string name="TabTitleType">Mostrar em abas</string>
+    <string name="TabTitleTypeTip">Os emoticons são sincronizados em nuvem pelo Telegram.</string>
+    <string name="TabTitleTypeText">Títulos</string>
+    <string name="TabTitleTypeIcon">Emoticons</string>
+    <string name="TabTitleTypeMix">Emoticons com títulos</string>
 </resources>
