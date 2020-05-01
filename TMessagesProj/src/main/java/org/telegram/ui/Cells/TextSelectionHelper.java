@@ -50,6 +50,8 @@ import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.MessageHelper;
+
 import static org.telegram.ui.ActionBar.FloatingToolbar.STYLE_THEME;
 import static org.telegram.ui.ActionBar.Theme.key_chat_inTextSelectionHighlight;
 
@@ -1218,6 +1220,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 menu.add(Menu.NONE, android.R.id.copy, 0, android.R.string.copy);
                 menu.add(Menu.NONE, android.R.id.selectAll, 1, android.R.string.selectAll);
+                menu.add(Menu.NONE, R.id.menu_translate, 2, R.string.Translate);
                 return true;
             }
 
@@ -1254,6 +1257,20 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                         invalidate();
                         showActions();
                         return true;
+                    case R.id.menu_translate:
+                        if (!isSelectionMode()) {
+                            return true;
+                        }
+                        CharSequence str = getTextForCopy();
+                        if (str == null) {
+                            return true;
+                        }
+                        MessageHelper.showTranslateDialog(textSelectionOverlay.getContext(), str.toString());
+                        hideActions();
+                        clear(true);
+                        if (TextSelectionHelper.this.callback != null) {
+                            TextSelectionHelper.this.callback.onTextCopied();
+                        }
                     default:
                         clear();
                 }

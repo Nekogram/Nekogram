@@ -1,18 +1,27 @@
 package tw.nekomimi.nekogram;
 
+import android.content.Context;
+
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BaseController;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.Cells.ChatMessageCell;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.translator.TranslateBottomSheet;
+import tw.nekomimi.nekogram.translator.Translator;
+
 public class MessageHelper extends BaseController {
 
     private static volatile MessageHelper[] Instance = new MessageHelper[UserConfig.MAX_ACCOUNT_COUNT];
+    private static AlertDialog progressDialog;
     private int lastReqId;
 
     public MessageHelper(int num) {
@@ -30,6 +39,53 @@ public class MessageHelper extends BaseController {
         messageObject.resetLayout();
         chatMessageCell.requestLayout();
         chatMessageCell.invalidate();
+    }
+
+    public static void showTranslateDialog(Context context, String query) {
+        if (NekoConfig.translationProvider < 0) {
+            TranslateBottomSheet.show(context, query);
+        } else {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
+            }
+            Translator.translate(query, new Translator.TranslateCallBack() {
+                @Override
+                public void onSuccess(String translation) {
+                    if (progressDialog != null) {
+                        progressDialog.dismiss();
+                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage(translation);
+                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                    builder.setNeutralButton(LocaleController.getString("Copy", R.string.Copy), (dialog, which) -> AndroidUtilities.addToClipboard(translation));
+                    builder.show();
+                }
+
+                @Override
+                public void onError() {
+                    if (progressDialog != null) {
+                        progressDialog.dismiss();
+                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                    builder.show();
+                }
+
+                @Override
+                public void onUnsupported() {
+                    if (progressDialog != null) {
+                        progressDialog.dismiss();
+                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
+                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                    builder.show();
+                }
+            });
+            progressDialog = new AlertDialog(context, 3);
+            progressDialog.showDelayed(400);
+        }
     }
 
     public static MessageHelper getInstance(int num) {
