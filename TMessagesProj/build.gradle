@@ -1,5 +1,5 @@
 import java.security.MessageDigest
-import org.apache.tools.ant.taskdefs.condition.Os
+import org.gradle.internal.os.OperatingSystem
 
 apply plugin: 'com.android.application'
 
@@ -20,13 +20,13 @@ configurations.all {
 dependencies {
     implementation 'androidx.core:core:1.1.0-beta01'
     implementation 'androidx.palette:palette:1.0.0'
-    implementation 'androidx.exifinterface:exifinterface:1.1.0'
+    implementation 'androidx.exifinterface:exifinterface:1.2.0'
     implementation 'androidx.dynamicanimation:dynamicanimation:1.0.0'
     implementation 'com.android.support:multidex:1.0.3'
 
     compileOnly 'org.checkerframework:checker-qual:2.5.2'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.0'
-    implementation 'com.google.firebase:firebase-messaging:20.1.4'
+    implementation 'com.google.firebase:firebase-messaging:20.1.6'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.google.android.gms:play-services-vision:16.2.0'
@@ -296,13 +296,13 @@ android {
         }
     }
 
-    defaultConfig.versionCode = 10 * 1942
+    defaultConfig.versionCode = 10 * 1945
 
     def tgVoipDexFileName = "libtgvoip.dex"
     def tgVoipDexClasses = ["AudioRecordJNI", "AudioTrackJNI", "NativeTgVoipDelegate", "NativeTgVoipInstance", "TgVoipNativeLoader", "Resampler", "VLog"]
     def tgVoipDexClassesPath = "org/telegram/messenger/voip"
     def dxUtilPath = "${sdkDirectory.path}/build-tools/${buildToolsVersion}/dx"
-    if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+    if (OperatingSystem.current().isWindows()) {
         dxUtilPath = "${sdkDirectory.path}\\build-tools\\${buildToolsVersion}\\dx.bat"
     }
 
@@ -394,7 +394,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
-        versionName "6.1.0.1"
+        versionName "6.1.1"
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
@@ -428,7 +428,7 @@ private static File findJavaHome() {
 private static File findJavac() {
     File javaHome = findJavaHome()
     if (javaHome != null) {
-        if (Os.isFamily(Os.FAMILY_WINDOWS)) {
+        if (OperatingSystem.current().isWindows()) {
             return new File(javaHome.getParent(), "bin/javac.exe")
         } else {
             return new File(javaHome, "bin/javac")

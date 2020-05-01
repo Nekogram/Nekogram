@@ -638,7 +638,7 @@ public class ConnectionsManager extends BaseController {
             }
             AccountInstance accountInstance = AccountInstance.getInstance(a);
             if (accountInstance.getUserConfig().isClientActivated()) {
-                accountInstance.getMessagesController().checkProxyInfo(true);
+                accountInstance.getMessagesController().checkPromoInfo(true);
             }
         }
     }

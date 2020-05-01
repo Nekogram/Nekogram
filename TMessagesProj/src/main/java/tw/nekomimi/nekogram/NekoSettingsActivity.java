@@ -195,7 +195,7 @@ public class NekoSettingsActivity extends BaseFragment {
                 }
                 for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
                     if (UserConfig.getInstance(a).isClientActivated()) {
-                        MessagesController.getInstance(a).checkProxyInfo(true);
+                        MessagesController.getInstance(a).checkPromoInfo(true);
                     }
                 }
             } else if (position == saveCacheToPrivateDirectoryRow) {
