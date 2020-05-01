@@ -5351,6 +5351,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             if (!animated) {
                 psaButtonProgress = show ? 1.0f : 0.0f;
             } else {
+                setInvalidatesParent(true);
                 invalidate();
             }
         }
@@ -5378,6 +5379,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (invalidatesParent && getParent() != null) {
             View parent = (View) getParent();
             if (parent.getParent() != null) {
+                parent.invalidate();
                 parent = (View) parent.getParent();
                 parent.invalidate();
             }
@@ -8849,6 +8851,35 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             setDrawableBounds(currentBackgroundShadowDrawable, backgroundDrawableLeft, backgroundTop, backgroundDrawableRight, layoutHeight - offsetBottom + additionalBottom);
         }
 
+        if (hasPsaHint) {
+            int x;
+            if (currentPosition == null || (currentPosition.flags & MessageObject.POSITION_FLAG_RIGHT) != 0) {
+                x = currentBackgroundDrawable.getBounds().right;
+            } else {
+                x = 0;
+                int dWidth = getGroupPhotosWidth();
+                for (int a = 0; a < currentMessagesGroup.posArray.size(); a++) {
+                    MessageObject.GroupedMessagePosition position = currentMessagesGroup.posArray.get(a);
+                    if (position.minY == 0) {
+                        x += Math.ceil((position.pw + position.leftSpanOffset) / 1000.0f * dWidth);
+                    } else {
+                        break;
+                    }
+                }
+            }
+            Drawable drawable = Theme.chat_psaHelpDrawable[currentMessageObject.isOutOwner() ? 1 : 0];
+
+            int y;
+            if (currentMessageObject.type == MessageObject.TYPE_ROUND_VIDEO) {
+                y = AndroidUtilities.dp(12);
+            } else {
+                y = AndroidUtilities.dp(10 + (drawNameLayout ? 19 : 0));
+            }
+
+            psaHelpX = x - drawable.getIntrinsicWidth() - AndroidUtilities.dp(currentMessageObject.isOutOwner() ? 20 : 14);
+            psaHelpY = y + AndroidUtilities.dp(4);
+        }
+
         if (checkBoxVisible || checkBoxAnimationInProgress) {
             if (checkBoxVisible && checkBoxAnimationProgress == 1.0f || !checkBoxVisible && checkBoxAnimationProgress == 0.0f) {
                 checkBoxAnimationInProgress = false;
@@ -9163,13 +9194,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             if (hasPsaHint) {
                 if (psaButtonVisible || psaButtonProgress > 0) {
                     Drawable drawable = Theme.chat_psaHelpDrawable[currentMessageObject.isOutOwner() ? 1 : 0];
-                    if (pollVoteInProgress) {
-                        drawable.setAlpha((int) (255 * pollAnimationProgress));
-                    } else {
-                        drawable.setAlpha(255);
-                    }
-                    psaHelpX = currentBackgroundDrawable.getBounds().right - drawable.getIntrinsicWidth() - AndroidUtilities.dp(currentMessageObject.isOutOwner() ? 20 : 14);
-                    psaHelpY = forwardNameY + AndroidUtilities.dp(4);
                     int cx = psaHelpX + drawable.getIntrinsicWidth() / 2;
                     int cy = psaHelpY + drawable.getIntrinsicHeight() / 2;
                     float scale = psaButtonVisible && psaButtonProgress < 1 ? AnimationProperties.overshootInterpolator.getInterpolation(psaButtonProgress) : psaButtonProgress;
@@ -9187,16 +9211,18 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
                 if (psaButtonVisible && psaButtonProgress < 1.0f) {
                     psaButtonProgress += dt / 180.0f;
+                    invalidate();
                     if (psaButtonProgress > 1.0f) {
                         psaButtonProgress = 1.0f;
+                        setInvalidatesParent(false);
                     }
-                    invalidate();
                 } else if (!psaButtonVisible && psaButtonProgress > 0.0f) {
                     psaButtonProgress -= dt / 180.0f;
+                    invalidate();
                     if (psaButtonProgress < 0.0f) {
                         psaButtonProgress = 0.0f;
+                        setInvalidatesParent(false);
                     }
-                    invalidate();
                 }
             }
         }
