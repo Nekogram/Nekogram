@@ -77,7 +77,6 @@ public class NekoSettingsActivity extends BaseFragment {
     private int useSystemEmojiRow;
     private int ignoreBlockedRow;
     private int hideProxySponsorChannelRow;
-    private int saveCacheToPrivateDirectoryRow;
     private int pauseMusicOnRecordRow;
     private int disablePhotoSideActionRow;
     private int hideKeyboardOnChatScrollRow;
@@ -102,16 +101,17 @@ public class NekoSettingsActivity extends BaseFragment {
     private int eventTypeRow;
     private int newYearRow;
     private int actionBarDecorationRow;
-    private int needRestartRow;
+    private int settings2Row;
 
     private int experimentRow;
     private int smoothKeyboardRow;
     private int chatMessageAnimationRow;
+    private int saveCacheToPrivateDirectoryRow;
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
     private int unlimitedPinnedDialogsRow;
     private int deleteAccountRow;
-    private int experiment2Row;
+    private int needRestartRow;
 
     @Override
     public boolean onFragmentCreate() {
@@ -600,7 +600,6 @@ public class NekoSettingsActivity extends BaseFragment {
         useSystemEmojiRow = rowCount++;
         ignoreBlockedRow = rowCount++;
         hideProxySponsorChannelRow = rowCount++;
-        saveCacheToPrivateDirectoryRow = NekoConfig.showHiddenFeature && Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? rowCount++ : -1;
         pauseMusicOnRecordRow = rowCount++;
         disablePhotoSideActionRow = rowCount++;
         hideKeyboardOnChatScrollRow = rowCount++;
@@ -624,15 +623,16 @@ public class NekoSettingsActivity extends BaseFragment {
         eventTypeRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         newYearRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         actionBarDecorationRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
-        needRestartRow = rowCount++;
+        settings2Row = rowCount++;
         experimentRow = rowCount++;
         smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
         chatMessageAnimationRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
+        saveCacheToPrivateDirectoryRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? rowCount++ : -1;
         disableFilteringRow = rowCount++;
         unlimitedFavedStickersRow = rowCount++;
         unlimitedPinnedDialogsRow = rowCount++;
         deleteAccountRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
-        experiment2Row = rowCount++;
+        needRestartRow = rowCount++;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
@@ -967,14 +967,6 @@ public class NekoSettingsActivity extends BaseFragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
-                case 1: {
-                    if (position == experiment2Row) {
-                        holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                    } else {
-                        holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                    }
-                    break;
-                }
                 case 2: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
@@ -1217,7 +1209,7 @@ public class NekoSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == connection2Row || position == chat2Row || position == experiment2Row) {
+            if (position == connection2Row || position == chat2Row || position == settings2Row) {
                 return 1;
             } else if (position == nameOrderRow || position == mapPreviewRow || position == stickerSizeRow || position == messageMenuRow ||
                     position == deleteAccountRow || position == translationProviderRow || position == eventTypeRow || position == actionBarDecorationRow ||
