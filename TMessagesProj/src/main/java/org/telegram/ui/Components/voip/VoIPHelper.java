@@ -57,6 +57,8 @@ import java.util.Collections;
 import java.util.Locale;
 import java.util.Set;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class VoIPHelper {
 
 	public static long lastCallTime = 0;
@@ -64,6 +66,10 @@ public class VoIPHelper {
 	private static final int VOIP_SUPPORT_ID = 4244000;
 
 	public static void startCall(TLRPC.User user, final Activity activity, TLRPC.UserFull userFull) {
+		startCall(user, activity, userFull, false);
+	}
+
+	public static void startCall(TLRPC.User user, final Activity activity, TLRPC.UserFull userFull, boolean confirmed) {
 		if (userFull != null && userFull.phone_calls_private) {
 			new AlertDialog.Builder(activity)
 					.setTitle(LocaleController.getString("VoipFailed", R.string.VoipFailed))
@@ -91,6 +97,16 @@ public class VoIPHelper {
 		if (Build.VERSION.SDK_INT >= 23 && activity.checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED) {
 			activity.requestPermissions(new String[]{Manifest.permission.RECORD_AUDIO}, 101);
 		} else {
+			if (!confirmed && NekoConfig.askBeforeCall) {
+				new AlertDialog.Builder(activity)
+						.setTitle(LocaleController.getString("ConfirmCall", R.string.ConfirmCall))
+						.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("CallTo", R.string.CallTo,
+								ContactsController.formatName(user.first_name, user.last_name))))
+						.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialog, which) -> startCall(user, activity, userFull, true))
+						.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null)
+						.show();
+				return;
+			}
 			initiateCall(user, activity);
 		}
 	}

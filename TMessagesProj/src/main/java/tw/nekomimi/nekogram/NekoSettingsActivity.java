@@ -83,6 +83,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int rearVideoMessagesRow;
     private int hideAllTabRow;
     private int confirmAVRow;
+    private int askBeforeCallRow;
     private int mapPreviewRow;
     private int stickerSizeRow;
     private int translationProviderRow;
@@ -585,6 +586,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.confirmAVMessage);
                 }
+            } else if (position == askBeforeCallRow) {
+                NekoConfig.toggleAskBeforeCall();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.askBeforeCall);
+                }
             }
         });
 
@@ -616,6 +622,7 @@ public class NekoSettingsActivity extends BaseFragment {
         rearVideoMessagesRow = rowCount++;
         hideAllTabRow = rowCount++;
         confirmAVRow = rowCount++;
+        askBeforeCallRow = rowCount++;
         mapPreviewRow = rowCount++;
         stickerSizeRow = rowCount++;
         messageMenuRow = rowCount++;
@@ -1140,6 +1147,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("HideAllTab", R.string.HideAllTab), LocaleController.getString("HideAllTabAbout", R.string.HideAllTabAbout), NekoConfig.hideAllTab, true, true);
                     } else if (position == confirmAVRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ConfirmAVMessage", R.string.ConfirmAVMessage), NekoConfig.confirmAVMessage, true);
+                    } else if (position == askBeforeCallRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("AskBeforeCalling", R.string.AskBeforeCalling), NekoConfig.askBeforeCall, true);
                     }
                     break;
                 }
@@ -1180,7 +1189,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
                     position == experimentRow || position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow ||
                     position == showTabsOnForwardRow || position == chatMessageAnimationRow || position == rearVideoMessagesRow ||
-                    position == hideAllTabRow || position == tabsTitleTypeRow || position == confirmAVRow;
+                    position == hideAllTabRow || position == tabsTitleTypeRow || position == confirmAVRow || position == askBeforeCallRow;
         }
 
         @Override
@@ -1236,7 +1245,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
                     position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow || position == showTabsOnForwardRow ||
-                    position == chatMessageAnimationRow || position == rearVideoMessagesRow || position == hideAllTabRow || position == confirmAVRow) {
+                    position == chatMessageAnimationRow || position == rearVideoMessagesRow || position == hideAllTabRow || position == confirmAVRow ||
+                    position == askBeforeCallRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
                 return 4;
