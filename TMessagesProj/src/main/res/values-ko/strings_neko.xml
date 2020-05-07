@@ -91,4 +91,8 @@
     <string name="TabTitleTypeText">제목</string>
     <string name="TabTitleTypeIcon">이모티콘</string>
     <string name="TabTitleTypeMix">제목이 있는 이모티콘</string>
+    <string name="ConfirmAVMessage">비디오/오디오 메세지 보내기 확인</string>
+    <string name="AskBeforeCalling">통화 연결 전에 묻기</string>
+    <string name="ConfirmCall">통화 연결 확인</string>
+    <string name="CallTo">%1$s 에게 통화 하기</string>
 </resources>

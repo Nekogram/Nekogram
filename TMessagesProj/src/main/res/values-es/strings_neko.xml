@@ -91,4 +91,8 @@
     <string name="TabTitleTypeText">Títulos</string>
     <string name="TabTitleTypeIcon">Emojis</string>
     <string name="TabTitleTypeMix">Emojis con títulos</string>
+    <string name="ConfirmAVMessage">Confirmar el envío de mensaje de video/voz</string>
+    <string name="AskBeforeCalling">Preguntar antes de llamar</string>
+    <string name="ConfirmCall">Confirmar llamada</string>
+    <string name="CallTo">¿Llamar a **%1$s**?</string>
 </resources>
