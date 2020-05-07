@@ -438,45 +438,9 @@ public class NekoSettingsActivity extends BaseFragment {
                     button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
                 }
             } else if (position == translationProviderRow) {
-                ArrayList<String> arrayList = new ArrayList<>();
-                ArrayList<Integer> types = new ArrayList<>();
-                arrayList.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
-                types.add(Translator.PROVIDER_GOOGLE);
-                arrayList.add(LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN));
-                types.add(Translator.PROVIDER_GOOGLE_CN);
-                arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
-                types.add(Translator.PROVIDER_LINGO);
-                arrayList.add(LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb));
-                types.add(Translator.PROVIDER_GOOGLE_WEB);
-                arrayList.add(LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb));
-                types.add(Translator.PROVIDER_GOOGLE_CN_WEB);
-                arrayList.add(LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb));
-                types.add(Translator.PROVIDER_BAIDU_WEB);
-                arrayList.add(LocaleController.getString("ProviderDeepLWeb", R.string.ProviderDeepLWeb));
-                types.add(Translator.PROVIDER_DEEPL_WEB);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
-                final LinearLayout linearLayout = new LinearLayout(context);
-                linearLayout.setOrientation(LinearLayout.VERTICAL);
-                builder.setView(linearLayout);
-
-                for (int a = 0; a < arrayList.size(); a++) {
-                    RadioColorCell cell = new RadioColorCell(context);
-                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
-                    cell.setTag(a);
-                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-                    cell.setTextAndValue(arrayList.get(a), NekoConfig.translationProvider == types.get(a));
-                    linearLayout.addView(cell);
-                    cell.setOnClickListener(v -> {
-                        Integer which = (Integer) v.getTag();
-                        NekoConfig.setTranslationProvider(types.get(which));
-                        listAdapter.notifyItemChanged(translationProviderRow);
-                        builder.getDismissRunnable().run();
-                    });
-                }
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                showDialog(builder.create());
+                AlertDialog dialog = getTranslationProviderAlert(context);
+                dialog.setOnDismissListener(dialog1 -> listAdapter.notifyItemChanged(translationProviderRow));
+                showDialog(dialog);
             } else if (position == pauseMusicOnRecordRow) {
                 SharedConfig.togglePauseMusicOnRecord();
                 if (view instanceof TextCheckCell) {
@@ -722,6 +686,47 @@ public class NekoSettingsActivity extends BaseFragment {
                 AndroidUtilities.runOnUIThread(() -> AlertsCreator.processError(currentAccount, error, this, req));
             }
         }));
+    }
+
+    static public AlertDialog getTranslationProviderAlert(Context context) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<Integer> types = new ArrayList<>();
+        arrayList.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
+        types.add(Translator.PROVIDER_GOOGLE);
+        arrayList.add(LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN));
+        types.add(Translator.PROVIDER_GOOGLE_CN);
+        arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
+        types.add(Translator.PROVIDER_LINGO);
+        arrayList.add(LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb));
+        types.add(Translator.PROVIDER_GOOGLE_WEB);
+        arrayList.add(LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb));
+        types.add(Translator.PROVIDER_GOOGLE_CN_WEB);
+        arrayList.add(LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb));
+        types.add(Translator.PROVIDER_BAIDU_WEB);
+        arrayList.add(LocaleController.getString("ProviderDeepLWeb", R.string.ProviderDeepLWeb));
+        types.add(Translator.PROVIDER_DEEPL_WEB);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
+        final LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        builder.setView(linearLayout);
+
+        for (int a = 0; a < arrayList.size(); a++) {
+            RadioColorCell cell = new RadioColorCell(context);
+            cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+            cell.setTag(a);
+            cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+            cell.setTextAndValue(arrayList.get(a), NekoConfig.translationProvider == types.get(a));
+            linearLayout.addView(cell);
+            cell.setOnClickListener(v -> {
+                Integer which = (Integer) v.getTag();
+                NekoConfig.setTranslationProvider(types.get(which));
+                builder.getDismissRunnable().run();
+            });
+        }
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        return builder.create();
     }
 
     private void showMessageMenuAlert() {

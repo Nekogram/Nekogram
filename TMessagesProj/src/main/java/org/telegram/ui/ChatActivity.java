@@ -206,6 +206,7 @@ import org.telegram.ui.Components.voip.VoIPHelper;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.MessageHelper;
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.NekoSettingsActivity;
 import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.TranslateBottomSheet;
 
@@ -15327,20 +15328,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                             @Override
                             public void onError() {
-                                try {
-                                    Toast.makeText(getParentActivity(), LocaleController.getString("TranslateFailed", R.string.TranslateFailed), Toast.LENGTH_SHORT).show();
-                                } catch (Exception e) {
-                                    FileLog.e(e);
-                                }
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                                builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                                builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(NekoSettingsActivity.getTranslationProviderAlert(getParentActivity())));
+                                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                                builder.show();
                             }
 
                             @Override
                             public void onUnsupported() {
-                                try {
-                                    Toast.makeText(getParentActivity(), LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported), Toast.LENGTH_SHORT).show();
-                                } catch (Exception e) {
-                                    FileLog.e(e);
-                                }
+                                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                                builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
+                                builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(NekoSettingsActivity.getTranslationProviderAlert(getParentActivity())));
+                                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                                showDialog(builder.create());
                             }
                         });
                     }

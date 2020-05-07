@@ -1,5 +1,6 @@
 package tw.nekomimi.nekogram;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -21,6 +22,7 @@ import tw.nekomimi.nekogram.translator.Translator;
 public class MessageHelper extends BaseController {
 
     private static volatile MessageHelper[] Instance = new MessageHelper[UserConfig.MAX_ACCOUNT_COUNT];
+    @SuppressLint("StaticFieldLeak")
     private static AlertDialog progressDialog;
     private int lastReqId;
 
@@ -48,6 +50,8 @@ public class MessageHelper extends BaseController {
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
+            progressDialog = new AlertDialog(context, 3);
+            progressDialog.showDelayed(400);
             Translator.translate(query, new Translator.TranslateCallBack() {
                 @Override
                 public void onSuccess(String translation) {
@@ -68,6 +72,7 @@ public class MessageHelper extends BaseController {
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                    builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> NekoSettingsActivity.getTranslationProviderAlert(context).show());
                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                     builder.show();
                 }
@@ -79,12 +84,11 @@ public class MessageHelper extends BaseController {
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
+                    builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> NekoSettingsActivity.getTranslationProviderAlert(context).show());
                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                     builder.show();
                 }
             });
-            progressDialog = new AlertDialog(context, 3);
-            progressDialog.showDelayed(400);
         }
     }
 
