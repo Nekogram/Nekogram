@@ -96,4 +96,5 @@
     <string name="TabTitleTypeText">Titles</string>
     <string name="TabTitleTypeIcon">Emoticons</string>
     <string name="TabTitleTypeMix">Emoticons with titles</string>
+    <string name="ConfirmAVMessage">Confirm before sending video/voice message</string>
 </resources>

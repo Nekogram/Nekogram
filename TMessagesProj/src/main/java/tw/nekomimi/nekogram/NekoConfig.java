@@ -32,6 +32,7 @@ public class NekoConfig {
     public static boolean chatMessageAnimation = false;
     public static boolean rearVideoMessages = false;
     public static boolean hideAllTab = false;
+    public static boolean confirmAVMessage = true;
     public static int mapPreviewProvider = 0;
     public static float stickerSize = 14.0f;
     public static int translationProvider = 1;
@@ -106,6 +107,7 @@ public class NekoConfig {
                 editor.putBoolean("chatMessageAnimation", chatMessageAnimation);
                 editor.putBoolean("rearVideoMessages", rearVideoMessages);
                 editor.putBoolean("hideAllTab", hideAllTab);
+                editor.putBoolean("confirmAVMessage", confirmAVMessage);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
@@ -167,6 +169,7 @@ public class NekoConfig {
             rearVideoMessages = preferences.getBoolean("rearVideoMessages", false);
             hideAllTab = preferences.getBoolean("hideAllTab", false);
             tabsTitleType = preferences.getInt("tabsTitleType", TITLE_TYPE_TEXT);
+            confirmAVMessage = preferences.getBoolean("confirmAVMessage", true);
             configLoaded = true;
         }
     }
@@ -483,6 +486,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("tabsTitleType", tabsTitleType);
+        editor.commit();
+    }
+
+    public static void toggleConfirmAVMessage() {
+        confirmAVMessage = !confirmAVMessage;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("confirmAVMessage", confirmAVMessage);
         editor.commit();
     }
 }

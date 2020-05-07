@@ -82,6 +82,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int hideKeyboardOnChatScrollRow;
     private int rearVideoMessagesRow;
     private int hideAllTabRow;
+    private int confirmAVRow;
     private int mapPreviewRow;
     private int stickerSizeRow;
     private int translationProviderRow;
@@ -112,6 +113,47 @@ public class NekoSettingsActivity extends BaseFragment {
     private int unlimitedPinnedDialogsRow;
     private int deleteAccountRow;
     private int needRestartRow;
+
+    static public AlertDialog getTranslationProviderAlert(Context context) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<Integer> types = new ArrayList<>();
+        arrayList.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
+        types.add(Translator.PROVIDER_GOOGLE);
+        arrayList.add(LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN));
+        types.add(Translator.PROVIDER_GOOGLE_CN);
+        arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
+        types.add(Translator.PROVIDER_LINGO);
+        arrayList.add(LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb));
+        types.add(Translator.PROVIDER_GOOGLE_WEB);
+        arrayList.add(LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb));
+        types.add(Translator.PROVIDER_GOOGLE_CN_WEB);
+        arrayList.add(LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb));
+        types.add(Translator.PROVIDER_BAIDU_WEB);
+        arrayList.add(LocaleController.getString("ProviderDeepLWeb", R.string.ProviderDeepLWeb));
+        types.add(Translator.PROVIDER_DEEPL_WEB);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
+        final LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        builder.setView(linearLayout);
+
+        for (int a = 0; a < arrayList.size(); a++) {
+            RadioColorCell cell = new RadioColorCell(context);
+            cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+            cell.setTag(a);
+            cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+            cell.setTextAndValue(arrayList.get(a), NekoConfig.translationProvider == types.get(a));
+            linearLayout.addView(cell);
+            cell.setOnClickListener(v -> {
+                Integer which = (Integer) v.getTag();
+                NekoConfig.setTranslationProvider(types.get(which));
+                builder.getDismissRunnable().run();
+            });
+        }
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        return builder.create();
+    }
 
     @Override
     public boolean onFragmentCreate() {
@@ -538,8 +580,12 @@ public class NekoSettingsActivity extends BaseFragment {
                 }
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
+            } else if (position == confirmAVRow) {
+                NekoConfig.toggleConfirmAVMessage();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.confirmAVMessage);
+                }
             }
-
         });
 
         return fragmentView;
@@ -569,6 +615,7 @@ public class NekoSettingsActivity extends BaseFragment {
         hideKeyboardOnChatScrollRow = rowCount++;
         rearVideoMessagesRow = rowCount++;
         hideAllTabRow = rowCount++;
+        confirmAVRow = rowCount++;
         mapPreviewRow = rowCount++;
         stickerSizeRow = rowCount++;
         messageMenuRow = rowCount++;
@@ -686,47 +733,6 @@ public class NekoSettingsActivity extends BaseFragment {
                 AndroidUtilities.runOnUIThread(() -> AlertsCreator.processError(currentAccount, error, this, req));
             }
         }));
-    }
-
-    static public AlertDialog getTranslationProviderAlert(Context context) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        ArrayList<Integer> types = new ArrayList<>();
-        arrayList.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
-        types.add(Translator.PROVIDER_GOOGLE);
-        arrayList.add(LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN));
-        types.add(Translator.PROVIDER_GOOGLE_CN);
-        arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
-        types.add(Translator.PROVIDER_LINGO);
-        arrayList.add(LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb));
-        types.add(Translator.PROVIDER_GOOGLE_WEB);
-        arrayList.add(LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb));
-        types.add(Translator.PROVIDER_GOOGLE_CN_WEB);
-        arrayList.add(LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb));
-        types.add(Translator.PROVIDER_BAIDU_WEB);
-        arrayList.add(LocaleController.getString("ProviderDeepLWeb", R.string.ProviderDeepLWeb));
-        types.add(Translator.PROVIDER_DEEPL_WEB);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
-        final LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        builder.setView(linearLayout);
-
-        for (int a = 0; a < arrayList.size(); a++) {
-            RadioColorCell cell = new RadioColorCell(context);
-            cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
-            cell.setTag(a);
-            cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-            cell.setTextAndValue(arrayList.get(a), NekoConfig.translationProvider == types.get(a));
-            linearLayout.addView(cell);
-            cell.setOnClickListener(v -> {
-                Integer which = (Integer) v.getTag();
-                NekoConfig.setTranslationProvider(types.get(which));
-                builder.getDismissRunnable().run();
-            });
-        }
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        return builder.create();
     }
 
     private void showMessageMenuAlert() {
@@ -1132,6 +1138,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("RearVideoMessages", R.string.RearVideoMessages), NekoConfig.rearVideoMessages, true);
                     } else if (position == hideAllTabRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("HideAllTab", R.string.HideAllTab), LocaleController.getString("HideAllTabAbout", R.string.HideAllTabAbout), NekoConfig.hideAllTab, true, true);
+                    } else if (position == confirmAVRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("ConfirmAVMessage", R.string.ConfirmAVMessage), NekoConfig.confirmAVMessage, true);
                     }
                     break;
                 }
@@ -1172,7 +1180,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
                     position == experimentRow || position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow ||
                     position == showTabsOnForwardRow || position == chatMessageAnimationRow || position == rearVideoMessagesRow ||
-                    position == hideAllTabRow || position == tabsTitleTypeRow;
+                    position == hideAllTabRow || position == tabsTitleTypeRow || position == confirmAVRow;
         }
 
         @Override
@@ -1228,7 +1236,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == disableFilteringRow || position == smoothKeyboardRow || position == pauseMusicOnRecordRow ||
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
                     position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow || position == showTabsOnForwardRow ||
-                    position == chatMessageAnimationRow || position == rearVideoMessagesRow || position == hideAllTabRow) {
+                    position == chatMessageAnimationRow || position == rearVideoMessagesRow || position == hideAllTabRow || position == confirmAVRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
                 return 4;
