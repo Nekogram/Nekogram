@@ -271,6 +271,7 @@ public class MediaActivity extends BaseFragment implements NotificationCenter.No
     private SharedMediaLayout.SharedMediaData[] sharedMediaData = new SharedMediaLayout.SharedMediaData[6];
 
     private final static int forward = 3;
+    private final static int forward_noquote = 93;
     private final static int delete = 4;
     private final static int gotochat = 7;
 
@@ -422,7 +423,7 @@ public class MediaActivity extends BaseFragment implements NotificationCenter.No
                         actionBar.closeSearchField();
                         cantDeleteMessagesCount = 0;
                     });
-                } else if (id == forward) {
+                } else if (id == forward || id == forward_noquote) {
                     Bundle args = new Bundle();
                     args.putBoolean("onlySelect", true);
                     args.putInt("dialogsType", 3);
@@ -452,7 +453,13 @@ public class MediaActivity extends BaseFragment implements NotificationCenter.No
                                 if (message != null) {
                                     SendMessagesHelper.getInstance(currentAccount).sendMessage(message.toString(), did, null, null, true, null, null, null, true, 0);
                                 }
-                                SendMessagesHelper.getInstance(currentAccount).sendMessage(fmessages, did, true, 0);
+                                if (id == forward_noquote) {
+                                    for (MessageObject object : fmessages) {
+                                        SendMessagesHelper.getInstance(currentAccount).processForwardFromMyName(object, did, true, true, 0);
+                                    }
+                                } else {
+                                    SendMessagesHelper.getInstance(currentAccount).sendMessage(fmessages, did, true, 0);
+                                }
                             }
                             fragment1.finishFragment();
                         } else {
@@ -460,6 +467,9 @@ public class MediaActivity extends BaseFragment implements NotificationCenter.No
                             int lower_part = (int) did;
                             int high_part = (int) (did >> 32);
                             Bundle args1 = new Bundle();
+                            if (id == forward_noquote) {
+                                args1.putBoolean("forward_noquote", true);
+                            }
                             args1.putBoolean("scrollToTopOnResume", true);
                             if (lower_part != 0) {
                                 if (lower_part > 0) {
@@ -654,6 +664,7 @@ public class MediaActivity extends BaseFragment implements NotificationCenter.No
 
         if ((int) dialog_id != 0) {
             actionModeViews.add(gotoItem = actionMode.addItemWithWidth(gotochat, R.drawable.msg_message, AndroidUtilities.dp(54), LocaleController.getString("AccDescrGoToMessage", R.string.AccDescrGoToMessage)));
+            actionModeViews.add(actionMode.addItemWithWidth(forward_noquote, R.drawable.msg_forward_noquote, AndroidUtilities.dp(54), LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward)));
             actionModeViews.add(actionMode.addItemWithWidth(forward, R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString("Forward", R.string.Forward)));
         }
         actionModeViews.add(actionMode.addItemWithWidth(delete, R.drawable.msg_delete, AndroidUtilities.dp(54), LocaleController.getString("Delete", R.string.Delete)));

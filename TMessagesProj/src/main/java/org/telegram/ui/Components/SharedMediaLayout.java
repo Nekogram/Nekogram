@@ -48,6 +48,7 @@ import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
@@ -126,6 +127,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     private MediaPage[] mediaPages = new MediaPage[2];
     private ActionBarMenuItem deleteItem;
     private ActionBarMenuItem searchItem;
+    private ActionBarMenuItem forwardNoQuoteItem;
     private ActionBarMenuItem forwardItem;
     private ActionBarMenuItem gotoItem;
     private int searchItemState;
@@ -638,6 +640,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     private SharedMediaPreloader sharedMediaPreloader;
 
     private final static int forward = 100;
+    private final static int forward_noquote = 1001;
     private final static int delete = 101;
     private final static int gotochat = 102;
 
@@ -899,6 +902,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             actionModeLayout.addView(gotoItem, new LinearLayout.LayoutParams(AndroidUtilities.dp(54), ViewGroup.LayoutParams.MATCH_PARENT));
             actionModeViews.add(gotoItem);
             gotoItem.setOnClickListener(v -> onActionBarItemClick(gotochat));
+
+            forwardNoQuoteItem = new ActionBarMenuItem(context, null, Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2), false);
+            forwardNoQuoteItem.setIcon(R.drawable.msg_forward_noquote);
+            forwardNoQuoteItem.setContentDescription(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
+            forwardNoQuoteItem.setDuplicateParentStateEnabled(false);
+            actionModeLayout.addView(forwardNoQuoteItem, new LinearLayout.LayoutParams(AndroidUtilities.dp(54), ViewGroup.LayoutParams.MATCH_PARENT));
+            actionModeViews.add(forwardNoQuoteItem);
+            forwardNoQuoteItem.setOnClickListener(v -> onActionBarItemClick(forward_noquote));
 
             forwardItem = new ActionBarMenuItem(context, null, Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2), false);
             forwardItem.setIcon(R.drawable.msg_forward);
@@ -1508,7 +1519,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 actionBar.closeSearchField();
                 cantDeleteMessagesCount = 0;
             });
-        } else if (id == forward) {
+        } else if (id == forward || id == forward_noquote) {
             Bundle args = new Bundle();
             args.putBoolean("onlySelect", true);
             args.putInt("dialogsType", 3);
@@ -1538,7 +1549,13 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         if (message != null) {
                             profileActivity.getSendMessagesHelper().sendMessage(message.toString(), did, null, null, true, null, null, null, true, 0);
                         }
-                        profileActivity.getSendMessagesHelper().sendMessage(fmessages, did, true, 0);
+                        if (id == forward_noquote) {
+                            for (MessageObject object : fmessages) {
+                                profileActivity.getSendMessagesHelper().processForwardFromMyName(object, did, true, true, 0);
+                            }
+                        } else {
+                            profileActivity.getSendMessagesHelper().sendMessage(fmessages, did, true, 0);
+                        }
                     }
                     fragment1.finishFragment();
                 } else {
@@ -1546,6 +1563,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     int lower_part = (int) did;
                     int high_part = (int) (did >> 32);
                     Bundle args1 = new Bundle();
+                    if (id == forward_noquote) {
+                        args1.putBoolean("forward_noquote", true);
+                    }
                     args1.putBoolean("scrollToTopOnResume", true);
                     if (lower_part != 0) {
                         if (lower_part > 0) {
@@ -4109,6 +4129,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (gotoItem != null) {
             arrayList.add(new ThemeDescription(gotoItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
             arrayList.add(new ThemeDescription(gotoItem, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_actionBarActionModeDefaultSelector));
+        }
+        if (forwardNoQuoteItem != null) {
+            arrayList.add(new ThemeDescription(forwardNoQuoteItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
+            arrayList.add(new ThemeDescription(forwardNoQuoteItem, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_actionBarActionModeDefaultSelector));
         }
         if (forwardItem != null) {
             arrayList.add(new ThemeDescription(forwardItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));

@@ -259,6 +259,7 @@ public class ApplicationLoader extends Application {
                         }).addOnFailureListener(e -> {
                             if (BuildVars.LOGS_ENABLED) {
                                 FileLog.d("Failed to get regid");
+                                FileLog.e(e);
                             }
                             SharedConfig.pushStringStatus = "__FIREBASE_FAILED__";
                             GcmPushListenerService.sendRegistrationToServer(null);
