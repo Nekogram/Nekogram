@@ -26,7 +26,7 @@ dependencies {
 
     compileOnly 'org.checkerframework:checker-qual:2.5.2'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.0'
-    implementation 'com.google.firebase:firebase-messaging:20.1.6'
+    implementation 'com.google.firebase:firebase-messaging:20.1.7'
     implementation 'com.google.android.gms:play-services-maps:17.0.0'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.google.android.gms:play-services-vision:16.2.0'
@@ -42,7 +42,7 @@ dependencies {
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
-    ndkVersion "21.0.6113669"
+    ndkVersion "21.1.6352462"
 
     defaultConfig.applicationId = "tw.nekomimi.nekogram"
 
