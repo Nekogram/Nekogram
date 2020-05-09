@@ -78,4 +78,16 @@
     <string name="UserRestrictionsSendGifs">GIFの送信</string>
     <string name="UseAvatarAsDrawerBackground">アバターをドロワーの背景として使う</string>
     <string name="ProviderDeepLWeb">DeepL翻訳 (Web)</string>
+    <string name="ChatMessageAnimation">新しいメッセージをアニメーションさせる</string>
+    <string name="RearVideoMessages">ビデオメッセージでリアカメラを使用する</string>
+    <string name="HideAllTab">「すべてのチャット」タブを非表示にする</string>
+    <string name="HideAllTabAbout">ホームページで「戻る」を押して開く</string>
+    <string name="TabTitleType">タブに表示する</string>
+    <string name="TabTitleTypeTip">顔文字はTelegramによってクラウド同期されます</string>
+    <string name="TabTitleTypeText">タイトル</string>
+    <string name="TabTitleTypeIcon">顔文字</string>
+    <string name="TabTitleTypeMix">顔文字とタイトル</string>
+    <string name="ConfirmAVMessage">ビデオ/ボイスメッセージを送信するときに確認する</string>
+    <string name="AskBeforeCalling">通話する前に確認する</string>
+    <string name="ConfirmCall">通話を確認</string>
 </resources>
