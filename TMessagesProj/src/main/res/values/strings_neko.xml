@@ -100,4 +100,5 @@
     <string name="AskBeforeCalling">Ask before calling</string>
     <string name="ConfirmCall">Confirm calling</string>
     <string name="CallTo">Call to **%1$s**?</string>
+    <string name="SetAsCurrent">Set as current</string>
 </resources>
