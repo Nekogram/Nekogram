@@ -95,4 +95,5 @@
     <string name="AskBeforeCalling">呼叫前确认</string>
     <string name="ConfirmCall">确认呼叫</string>
     <string name="CallTo">呼叫 **%1$s**？</string>
+    <string name="SetAsCurrent">设为当前头像</string>
 </resources>

@@ -91,4 +91,8 @@
     <string name="TabTitleTypeText">Judul</string>
     <string name="TabTitleTypeIcon">Emoticon</string>
     <string name="TabTitleTypeMix">Emoticon dengan judul</string>
+    <string name="ConfirmAVMessage">Konfirmasikan saat mengirimkan video/pesan suara</string>
+    <string name="AskBeforeCalling">Tanyakan sebelum menelepon</string>
+    <string name="ConfirmCall">Konfirmasikan panggilan</string>
+    <string name="CallTo">Memanggil ke **%1$s**?</string>
 </resources>
