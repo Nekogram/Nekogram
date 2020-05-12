@@ -95,4 +95,6 @@
     <string name="AskBeforeCalling">통화 연결 전에 묻기</string>
     <string name="ConfirmCall">통화 연결 확인</string>
     <string name="CallTo">%1$s 에게 통화 하기</string>
+    <string name="SetAsCurrent">현재로 설정</string>
+    <string name="DisableNumberRounding">숫자 반올림 비활성화</string>
 </resources>

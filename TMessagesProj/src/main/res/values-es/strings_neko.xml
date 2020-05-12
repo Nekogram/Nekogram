@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Configuraciones de Neko</string>
-    <string name="IPv6">Intentar conectar a través de IPv6</string>
+    <string name="IPv6">Intentar conectarse a través de IPv6</string>
     <string name="MessageMenu">Menú contextual</string>
     <string name="HidePhone">Ocultar mi número de teléfono</string>
     <string name="Hide">Ocultar</string>
@@ -80,9 +80,9 @@
     <string name="UserRestrictionsSendGifs">Enviar GIFs</string>
     <string name="UseAvatarAsDrawerBackground">Avatar de fondo en menú lateral</string>
     <string name="ShowTabsOnForward">Mostrar carpetas al reenviar</string>
-    <string name="CheckAllAdministrated">Agregar administrador</string>
+    <string name="CheckAllAdministrated">Añadir chats que administras</string>
     <string name="ProviderDeepLWeb">Traductor de DeepL (Web)</string>
-    <string name="ChatMessageAnimation">Animar los mensajes nuevos</string>
+    <string name="ChatMessageAnimation">Animar mensajes entrantes</string>
     <string name="RearVideoMessages">Usar cámara trasera en Mensajes de Vídeo</string>
     <string name="HideAllTab">Ocultar pestaña \"Todos los chats\"</string>
     <string name="HideAllTabAbout">Presiona \"Atrás\" en la página de inicio para abrirlo.</string>
@@ -95,4 +95,5 @@
     <string name="AskBeforeCalling">Preguntar antes de llamar</string>
     <string name="ConfirmCall">Confirmar llamada</string>
     <string name="CallTo">¿Llamar a **%1$s**?</string>
+    <string name="SetAsCurrent">Poner como actual</string>
 </resources>

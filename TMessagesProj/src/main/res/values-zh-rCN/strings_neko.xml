@@ -96,4 +96,5 @@
     <string name="ConfirmCall">确认呼叫</string>
     <string name="CallTo">呼叫 **%1$s**？</string>
     <string name="SetAsCurrent">设为当前头像</string>
+    <string name="DisableNumberRounding">禁用数字舍入</string>
 </resources>
