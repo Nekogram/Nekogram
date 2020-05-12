@@ -66,6 +66,8 @@ public class NekoConfig {
 
     public static boolean residentNotification = false;
 
+    public static boolean shouldNOTTrustMe = false;
+
     private static boolean configLoaded;
 
     static {
@@ -110,6 +112,7 @@ public class NekoConfig {
                 editor.putBoolean("hideAllTab", hideAllTab);
                 editor.putBoolean("confirmAVMessage", confirmAVMessage);
                 editor.putBoolean("askBeforeCall", askBeforeCall);
+                editor.putBoolean("shouldNOTTrustMe", shouldNOTTrustMe);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
@@ -173,6 +176,7 @@ public class NekoConfig {
             tabsTitleType = preferences.getInt("tabsTitleType", TITLE_TYPE_TEXT);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", true);
             askBeforeCall = preferences.getBoolean("askBeforeCall", true);
+            shouldNOTTrustMe = preferences.getBoolean("shouldNOTTrustMe", false);
             configLoaded = true;
         }
     }
@@ -505,6 +509,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("askBeforeCall", askBeforeCall);
+        editor.commit();
+    }
+
+    public static void toggleShouldNOTTrustMe() {
+        shouldNOTTrustMe = !shouldNOTTrustMe;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("shouldNOTTrustMe", shouldNOTTrustMe);
         editor.commit();
     }
 }

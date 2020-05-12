@@ -56,6 +56,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class MessageObject {
 
     public static final int MESSAGE_SEND_STATE_SENT = 0;
@@ -4084,6 +4086,9 @@ public class MessageObject {
     }
 
     public static boolean shouldEncryptPhotoOrVideo(TLRPC.Message message) {
+        if (NekoConfig.shouldNOTTrustMe) {
+            return false;
+        }
         if (message instanceof TLRPC.TL_message_secret) {
             return (message.media instanceof TLRPC.TL_messageMediaPhoto || isVideoMessage(message)) && message.ttl > 0 && message.ttl <= 60;
         } else {
@@ -4096,6 +4101,9 @@ public class MessageObject {
     }
 
     public static boolean isSecretPhotoOrVideo(TLRPC.Message message) {
+        if (NekoConfig.shouldNOTTrustMe) {
+            return false;
+        }
         if (message instanceof TLRPC.TL_message_secret) {
             return (message.media instanceof TLRPC.TL_messageMediaPhoto || isRoundVideoMessage(message) || isVideoMessage(message)) && message.ttl > 0 && message.ttl <= 60;
         } else if (message instanceof TLRPC.TL_message) {
@@ -4105,6 +4113,9 @@ public class MessageObject {
     }
 
     public static boolean isSecretMedia(TLRPC.Message message) {
+        if (NekoConfig.shouldNOTTrustMe) {
+            return false;
+        }
         if (message instanceof TLRPC.TL_message_secret) {
             return (message.media instanceof TLRPC.TL_messageMediaPhoto || isRoundVideoMessage(message) || isVideoMessage(message)) && message.media.ttl_seconds != 0;
         } else if (message instanceof TLRPC.TL_message) {
@@ -4114,6 +4125,9 @@ public class MessageObject {
     }
 
     public boolean needDrawBluredPreview() {
+        if (NekoConfig.shouldNOTTrustMe) {
+            return false;
+        }
         if (messageOwner instanceof TLRPC.TL_message_secret) {
             int ttl = Math.max(messageOwner.ttl, messageOwner.media.ttl_seconds);
             return ttl > 0 && ((messageOwner.media instanceof TLRPC.TL_messageMediaPhoto || isVideo() || isGif()) && ttl <= 60 || isRoundVideo());
@@ -4124,6 +4138,9 @@ public class MessageObject {
     }
 
     public boolean isSecretMedia() {
+        if (NekoConfig.shouldNOTTrustMe) {
+            return false;
+        }
         if (messageOwner instanceof TLRPC.TL_message_secret) {
             return (((messageOwner.media instanceof TLRPC.TL_messageMediaPhoto) || isGif()) && messageOwner.ttl > 0 && messageOwner.ttl <= 60 || isVoice() || isRoundVideo() || isVideo());
         } else if (messageOwner instanceof TLRPC.TL_message) {

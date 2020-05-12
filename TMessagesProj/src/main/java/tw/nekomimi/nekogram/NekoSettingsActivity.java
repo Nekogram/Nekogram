@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
@@ -114,6 +115,8 @@ public class NekoSettingsActivity extends BaseFragment {
     private int unlimitedPinnedDialogsRow;
     private int deleteAccountRow;
     private int needRestartRow;
+
+    private int shouldNOTTrustMeRow;
 
     static public AlertDialog getTranslationProviderAlert(Context context) {
         ArrayList<String> arrayList = new ArrayList<>();
@@ -591,6 +594,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.askBeforeCall);
                 }
+            } else if (position == shouldNOTTrustMeRow) {
+                NekoConfig.toggleShouldNOTTrustMe();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.shouldNOTTrustMe);
+                }
             }
         });
 
@@ -651,6 +659,7 @@ public class NekoSettingsActivity extends BaseFragment {
         unlimitedPinnedDialogsRow = rowCount++;
         deleteAccountRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         needRestartRow = rowCount++;
+        shouldNOTTrustMeRow = BuildConfig.DEBUG ? rowCount++ : -1;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
@@ -1149,6 +1158,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("ConfirmAVMessage", R.string.ConfirmAVMessage), NekoConfig.confirmAVMessage, true);
                     } else if (position == askBeforeCallRow) {
                         textCell.setTextAndCheck(LocaleController.getString("AskBeforeCalling", R.string.AskBeforeCalling), NekoConfig.askBeforeCall, true);
+                    } else if (position == shouldNOTTrustMeRow) {
+                        textCell.setTextAndCheck("Don't trust me", NekoConfig.shouldNOTTrustMe, false);
                     }
                     break;
                 }
@@ -1189,7 +1200,8 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
                     position == experimentRow || position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow ||
                     position == showTabsOnForwardRow || position == chatMessageAnimationRow || position == rearVideoMessagesRow ||
-                    position == hideAllTabRow || position == tabsTitleTypeRow || position == confirmAVRow || position == askBeforeCallRow;
+                    position == hideAllTabRow || position == tabsTitleTypeRow || position == confirmAVRow || position == askBeforeCallRow ||
+                    position == shouldNOTTrustMeRow;
         }
 
         @Override
@@ -1246,7 +1258,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
                     position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow || position == showTabsOnForwardRow ||
                     position == chatMessageAnimationRow || position == rearVideoMessagesRow || position == hideAllTabRow || position == confirmAVRow ||
-                    position == askBeforeCallRow) {
+                    position == askBeforeCallRow || position == shouldNOTTrustMeRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
                 return 4;
