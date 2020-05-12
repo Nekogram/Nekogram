@@ -15332,16 +15332,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                                 builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
                                 builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(NekoSettingsActivity.getTranslationProviderAlert(getParentActivity())));
-                                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-                                builder.show();
+                                builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> processSelectedOption(option));
+                                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                                showDialog(builder.create());
                             }
 
                             @Override
                             public void onUnsupported() {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                                 builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
-                                builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(NekoSettingsActivity.getTranslationProviderAlert(getParentActivity())));
-                                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                                builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(NekoSettingsActivity.getTranslationProviderAlert(getParentActivity())));
+                                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                                 showDialog(builder.create());
                             }
                         });

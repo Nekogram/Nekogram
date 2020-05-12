@@ -73,7 +73,8 @@ public class MessageHelper extends BaseController {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
                     builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> NekoSettingsActivity.getTranslationProviderAlert(context).show());
-                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                    builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> showTranslateDialog(context, query));
+                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                     builder.show();
                 }
 
@@ -84,8 +85,8 @@ public class MessageHelper extends BaseController {
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
-                    builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> NekoSettingsActivity.getTranslationProviderAlert(context).show());
-                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                    builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> NekoSettingsActivity.getTranslationProviderAlert(context).show());
+                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                     builder.show();
                 }
             });
