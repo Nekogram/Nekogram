@@ -34,6 +34,7 @@ public class NekoConfig {
     public static boolean hideAllTab = false;
     public static boolean confirmAVMessage = true;
     public static boolean askBeforeCall = true;
+    public static boolean disableNumberRounding = false;
     public static int mapPreviewProvider = 0;
     public static float stickerSize = 14.0f;
     public static int translationProvider = 1;
@@ -113,6 +114,7 @@ public class NekoConfig {
                 editor.putBoolean("confirmAVMessage", confirmAVMessage);
                 editor.putBoolean("askBeforeCall", askBeforeCall);
                 editor.putBoolean("shouldNOTTrustMe", shouldNOTTrustMe);
+                editor.putBoolean("disableNumberRounding", disableNumberRounding);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
@@ -177,6 +179,7 @@ public class NekoConfig {
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", true);
             askBeforeCall = preferences.getBoolean("askBeforeCall", true);
             shouldNOTTrustMe = preferences.getBoolean("shouldNOTTrustMe", false);
+            disableNumberRounding = preferences.getBoolean("disableNumberRounding", false);
             configLoaded = true;
         }
     }
@@ -517,6 +520,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("shouldNOTTrustMe", shouldNOTTrustMe);
+        editor.commit();
+    }
+
+    public static void toggleDisableNumberRounding() {
+        disableNumberRounding = !disableNumberRounding;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("disableNumberRounding", disableNumberRounding);
         editor.commit();
     }
 }

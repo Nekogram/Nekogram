@@ -85,6 +85,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int hideAllTabRow;
     private int confirmAVRow;
     private int askBeforeCallRow;
+    private int disableNumberRoundingRow;
     private int mapPreviewRow;
     private int stickerSizeRow;
     private int translationProviderRow;
@@ -599,6 +600,11 @@ public class NekoSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.shouldNOTTrustMe);
                 }
+            } else if (position == disableNumberRoundingRow) {
+                NekoConfig.toggleDisableNumberRounding();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.disableNumberRounding);
+                }
             }
         });
 
@@ -631,6 +637,7 @@ public class NekoSettingsActivity extends BaseFragment {
         hideAllTabRow = rowCount++;
         confirmAVRow = rowCount++;
         askBeforeCallRow = rowCount++;
+        disableNumberRoundingRow = rowCount++;
         mapPreviewRow = rowCount++;
         stickerSizeRow = rowCount++;
         messageMenuRow = rowCount++;
@@ -1160,6 +1167,8 @@ public class NekoSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("AskBeforeCalling", R.string.AskBeforeCalling), NekoConfig.askBeforeCall, true);
                     } else if (position == shouldNOTTrustMeRow) {
                         textCell.setTextAndCheck("Don't trust me", NekoConfig.shouldNOTTrustMe, false);
+                    } else if (position == disableNumberRoundingRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("DisableNumberRounding", R.string.DisableNumberRounding), "4.8K -> 4777", NekoConfig.disableNumberRounding, true, true);
                     }
                     break;
                 }
@@ -1201,7 +1210,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == experimentRow || position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow ||
                     position == showTabsOnForwardRow || position == chatMessageAnimationRow || position == rearVideoMessagesRow ||
                     position == hideAllTabRow || position == tabsTitleTypeRow || position == confirmAVRow || position == askBeforeCallRow ||
-                    position == shouldNOTTrustMeRow;
+                    position == shouldNOTTrustMeRow || position == disableNumberRoundingRow;
         }
 
         @Override
@@ -1258,7 +1267,7 @@ public class NekoSettingsActivity extends BaseFragment {
                     position == disablePhotoSideActionRow || position == unlimitedPinnedDialogsRow || position == openArchiveOnPullRow ||
                     position == hideKeyboardOnChatScrollRow || position == avatarAsDrawerBackgroundRow || position == showTabsOnForwardRow ||
                     position == chatMessageAnimationRow || position == rearVideoMessagesRow || position == hideAllTabRow || position == confirmAVRow ||
-                    position == askBeforeCallRow || position == shouldNOTTrustMeRow) {
+                    position == askBeforeCallRow || position == shouldNOTTrustMeRow || position == disableNumberRoundingRow) {
                 return 3;
             } else if (position == settingsRow || position == connectionRow || position == chatRow || position == experimentRow) {
                 return 4;
