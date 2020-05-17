@@ -1911,6 +1911,8 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                 ClipDescription description = inputContentInfo.getDescription();
                 if (description.hasMimeType("image/gif")) {
                     SendMessagesHelper.prepareSendingDocument(accountInstance, null, null, inputContentInfo.getContentUri(), null, "image/gif", dialog_id, replyingMessageObject, inputContentInfo, null, notify, 0);
+                } else if (description.hasMimeType("image/png")) {
+                    SendMessagesHelper.prepareSendingDocument(accountInstance, null, null, inputContentInfo.getContentUri(), null, "image/webp", dialog_id, replyingMessageObject, inputContentInfo, null, notify, 0);
                 } else {
                     SendMessagesHelper.prepareSendingPhoto(accountInstance, null, inputContentInfo.getContentUri(), dialog_id, replyingMessageObject, null, null, null, inputContentInfo, 0, null, notify, 0);
                 }
