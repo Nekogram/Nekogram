@@ -96,4 +96,5 @@
     <string name="ConfirmCall">تأكيد المكالمة</string>
     <string name="CallTo">الاتصال بـ **%1$s**؟</string>
     <string name="SetAsCurrent">تعيين كحالي</string>
+    <string name="DisableNumberRounding">تعطيل تقريب الأرقام</string>
 </resources>

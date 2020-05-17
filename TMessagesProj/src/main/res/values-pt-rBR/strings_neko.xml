@@ -96,4 +96,5 @@
     <string name="ConfirmCall">Confirmar chamada</string>
     <string name="CallTo">Chamada para **%1$s**?</string>
     <string name="SetAsCurrent">Definir como atual</string>
+    <string name="DisableNumberRounding">Desativar arredondamento</string>
 </resources>
