@@ -5027,6 +5027,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     file.close();
                 } catch (Exception e) {
                     FileLog.e(e);
+                    try {
+                        BitmapFactory.decodeFile(path, bmOptions);
+                    } catch (Exception ignore) { }
                 }
                 if (bmOptions.outWidth != 0 && bmOptions.outHeight != 0 && bmOptions.outWidth <= 800 && bmOptions.outHeight <= 800) {
                     TLRPC.TL_documentAttributeSticker attributeSticker = new TLRPC.TL_documentAttributeSticker();
