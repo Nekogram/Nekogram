@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Настройки Neko</string>
-    <string name="IPv6">Пробовать подключится через IPv6</string>
+    <string name="IPv6">Пробовать подключиться через IPv6</string>
     <string name="MessageMenu">Меню сообщений</string>
     <string name="HidePhone">Скрыть мой номер телефона</string>
     <string name="Hide">Скрыть</string>
@@ -15,7 +15,7 @@
     <string name="NameOrder">Сортировка имён*</string>
     <string name="FirstLast">Имя Фамилия</string>
     <string name="LastFirst">Фамилия Имя</string>
-    <string name="TypefaceUseDefault">Использовать системный шрифт по умолчанию*</string>
+    <string name="TypefaceUseDefault">Использовать шрифт системы по умолчанию*</string>
     <string name="NoQuoteForward">Переслать без цитаты</string>
     <string name="Repeat">Повторить</string>
     <string name="AddToSavedMessages">Сохранить сообщение</string>
@@ -23,8 +23,8 @@
     <string name="ForceTabletMode">Принудительный режим планшета*</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Прозрачная строка состояния</string>
-    <string name="EnableResidentNotification">Показать уведомление жителя</string>
-    <string name="DisableResidentNotification">Отключить уведомление резидента</string>
+    <string name="EnableResidentNotification">Включить постоянное уведомление</string>
+    <string name="DisableResidentNotification">Отключить постоянное уведомление</string>
     <string name="NekogramRunning">Nekogram запущен</string>
     <string name="EventType">Набор значков боковой панели*</string>
     <string name="ChristmasHat">Показывать рождественскую шляпу каждый день*</string>
@@ -37,12 +37,12 @@
     <string name="SomeItemsNeedRestart">Опции с \"*\" могут потребовать перезапуск приложения для применения.</string>
     <string name="DeleteDownloadedFile">Удалить загруженный файл</string>
     <string name="TestBackend">Использовать тестовый сервер</string>
-    <string name="TestBackendOn">Эта учетная запись будет подключена к тестовому серверу.</string>
+    <string name="TestBackendOn">Эта учетная запись будет подключаться к тестовому серверу.</string>
     <string name="TestBackendOff">Эта учетная запись будет подключаться к основному серверу.</string>
-    <string name="HideProxySponsorChannel">Скрыть канал-спонсор для прокси</string>
-    <string name="ViewHistory">Просмотр истории сообщений</string>
+    <string name="HideProxySponsorChannel">Скрыть канал-спонсор прокси</string>
+    <string name="ViewHistory">История сообщений</string>
     <string name="Nya">Мяу!</string>
-    <string name="SaveCacheToPrivateDirectory">Сохранить кэш в приватный каталог*</string>
+    <string name="SaveCacheToPrivateDirectory">Сохранять медиа в приватный каталог*</string>
     <string name="SensitiveDisableFiltering">Отключить фильтрацию деликатного контента</string>
     <string name="SensitiveAbout">Отображать деликатный контент в публичных каналах на всех ваших устройствах.</string>
     <string name="StickerSize">Размер стикера</string>
@@ -52,7 +52,7 @@
     <string name="StickerSizeDialogName">Дуанг</string>
     <string name="Experiment">Экспериментальные настройки</string>
     <string name="UnlimitedFavoredStickers">Неограниченные избранные стикеры</string>
-    <string name="UnlimitedFavoredStickersAbout">Добавить неограниченные количество стикеров в избранное. Они не могут быть синхронизированы с другими устройствами.</string>
+    <string name="UnlimitedFavoredStickersAbout">Добавляйте неограниченное количество стикеров в избранное. Они не могут быть синхронизированы с другими устройствами.</string>
     <string name="MessageDetails">Подробности</string>
     <string name="ExportAsJson">Экспорт в JSON</string>
     <string name="Translate">Перевести</string>
@@ -65,7 +65,7 @@
     <string name="ProviderGoogleTranslateWeb">Google Переводчик (Веб)</string>
     <string name="ProviderGoogleTranslateCN">Google Переводчик Китай</string>
     <string name="ProviderGoogleTranslateCNWeb">Google Переводчик Китай (Веб)</string>
-    <string name="ProviderBaiduFanyiWeb">Baido Переводчик (Веб)</string>
+    <string name="ProviderBaiduFanyiWeb">Baidu Переводчик (Веб)</string>
     <string name="TranslateApiUnsupported">Выбранный переводчик не поддерживает ваш язык.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Отменить перевод</string>
@@ -74,11 +74,11 @@
     <string name="BotToken">Токен</string>
     <string name="UnlimitedPinnedDialogs">Неограниченные закрепленные диалоги</string>
     <string name="UnlimitedPinnedDialogsAbout">Неограниченное закрепление диалогов без синхронизации на других устройствах.</string>
-    <string name="OpenArchiveOnPull">Открывать архив свайпом вниз</string>
-    <string name="HideKeyboardOnChatScroll">Скрывать клавиатуру при пролистывании чата</string>
-    <string name="UserRestrictionsSendStickers2">Отправлять стикеры</string>
-    <string name="UserRestrictionsSendGifs">Отправлять GIF</string>
-    <string name="UseAvatarAsDrawerBackground">Использовать аватар в качестве фона бокового меню</string>
+    <string name="OpenArchiveOnPull">Открывать архив после свайпа вниз</string>
+    <string name="HideKeyboardOnChatScroll">Скрыть клавиатуру при пролистывании чата</string>
+    <string name="UserRestrictionsSendStickers2">Отправка стикеров</string>
+    <string name="UserRestrictionsSendGifs">Отправка GIF</string>
+    <string name="UseAvatarAsDrawerBackground">Аватар в качестве фона бокового меню</string>
     <string name="ShowTabsOnForward">Показывать вкладки при пересылке</string>
     <string name="CheckAllAdministrated">Добавить администратируемые</string>
     <string name="ProviderDeepLWeb">DeepL Переводчик (Веб)</string>

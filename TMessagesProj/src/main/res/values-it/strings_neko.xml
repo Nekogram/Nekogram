@@ -82,4 +82,19 @@
     <string name="ShowTabsOnForward">Mostra le tab durante l\'inoltro</string>
     <string name="CheckAllAdministrated">Aggiungi amministrate</string>
     <string name="ProviderDeepLWeb">DeepL Terjemahan (Web)</string>
+    <string name="ChatMessageAnimation">Anima i nuovi messaggi</string>
+    <string name="RearVideoMessages">Usa fotocamera posteriore in Video Messaggi</string>
+    <string name="HideAllTab">Nascondi la scheda \"Tutte le chat\"</string>
+    <string name="HideAllTabAbout">Premi \"Indietro\" sulla home page per aprirlo.</string>
+    <string name="TabTitleType">Mostra sulle schede</string>
+    <string name="TabTitleTypeTip">Le emoticon sono sincronizzate su cloud tramite Telegram.</string>
+    <string name="TabTitleTypeText">Titoli</string>
+    <string name="TabTitleTypeIcon">Emoticons</string>
+    <string name="TabTitleTypeMix">Emoticons con titoli</string>
+    <string name="ConfirmAVMessage">Conferma l\'invio di video/audio messaggio</string>
+    <string name="AskBeforeCalling">Chiedi prima di chiamare</string>
+    <string name="ConfirmCall">Conferma chiamata</string>
+    <string name="CallTo">Chiamare **%1$s**?</string>
+    <string name="SetAsCurrent">Imposta come corrente</string>
+    <string name="DisableNumberRounding">Disabilita arrotondamento numeri</string>
 </resources>
