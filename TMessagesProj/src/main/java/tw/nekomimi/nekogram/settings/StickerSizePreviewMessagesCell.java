@@ -1,4 +1,4 @@
-package tw.nekomimi.nekogram;
+package tw.nekomimi.nekogram.settings;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -24,6 +24,8 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.LayoutHelper;
+
+import tw.nekomimi.nekogram.NekoConfig;
 
 @SuppressLint("ViewConstructor")
 public class StickerSizePreviewMessagesCell extends LinearLayout {

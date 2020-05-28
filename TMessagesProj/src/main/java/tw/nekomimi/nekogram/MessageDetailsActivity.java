@@ -11,7 +11,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -41,6 +40,7 @@ import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.ProfileActivity;
 
 import java.io.File;
@@ -77,6 +77,8 @@ public class MessageDetailsActivity extends BaseFragment {
     private int emptyRow;
     private int exportRow;
     private int endRow;
+
+    private UndoView copyTooltip;
 
     public MessageDetailsActivity(MessageObject messageObject) {
         this.messageObject = messageObject;
@@ -158,23 +160,15 @@ public class MessageDetailsActivity extends BaseFragment {
 
         listView = new RecyclerListView(context);
         listView.setVerticalScrollBarEnabled(false);
-        listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) {
-            @Override
-            public boolean supportsPredictiveItemAnimations() {
-                return false;
-            }
-        });
-        listView.setGlowColor(Theme.getColor(Theme.key_avatar_backgroundActionBarBlue));
-        listView.setAdapter(listAdapter);
-        listView.setItemAnimator(null);
-        listView.setLayoutAnimation(null);
+        listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
+        listView.setAdapter(listAdapter);
         listView.setOnItemClickListener((view, position, x, y) -> {
             if (position == exportRow) {
                 Gson gson = new Gson();
                 try {
                     AndroidUtilities.addToClipboard(gson.toJson(messageObject.messageOwner));
-                    Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                    copyTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
@@ -182,7 +176,7 @@ public class MessageDetailsActivity extends BaseFragment {
                 TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
                 try {
                     AndroidUtilities.addToClipboard(textCell.getValueTextView().getText());
-                    Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                    copyTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
@@ -225,6 +219,11 @@ public class MessageDetailsActivity extends BaseFragment {
             }
             return true;
         });
+
+        copyTooltip = new UndoView(context);
+        copyTooltip.setInfoText(LocaleController.getString("TextCopied", R.string.TextCopied));
+        frameLayout.addView(copyTooltip, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT, 8, 0, 8, 8));
+
         return fragmentView;
     }
 
@@ -325,6 +324,11 @@ public class MessageDetailsActivity extends BaseFragment {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
                 case 1: {
+                    if (position == endRow) {
+                        holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                    } else {
+                        holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                    }
                     break;
                 }
                 case 2: {
@@ -364,13 +368,13 @@ public class MessageDetailsActivity extends BaseFragment {
                         }
                         textCell.setTextWithEmojiAnd21Value("From", builder.toString(), divider);
                     } else if (position == botRow) {
-                        textCell.setTextWithEmojiAnd21Value("Bot", "Yes", divider);
+                        textCell.setTextAndValue("Bot", "Yes", divider);
                     } else if (position == dateRow) {
                         long date = (long) messageObject.messageOwner.date * 1000;
-                        textCell.setTextWithEmojiAnd21Value("Date", LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date))), divider);
+                        textCell.setTextAndValue("Date", LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date))), divider);
                     } else if (position == editedRow) {
                         long date = (long) messageObject.messageOwner.date * 1000;
-                        textCell.setTextWithEmojiAnd21Value("Edited", LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date))), divider);
+                        textCell.setTextAndValue("Edited", LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date))), divider);
                     } else if (position == forwardRow) {
                         StringBuilder builder = new StringBuilder();
                         if (messageObject.messageOwner.fwd_from.channel_id != 0) {
@@ -398,16 +402,16 @@ public class MessageDetailsActivity extends BaseFragment {
                         }
                         textCell.setTextWithEmojiAnd21Value("Forward from", builder.toString(), divider);
                     } else if (position == fileNameRow) {
-                        textCell.setTextWithEmojiAnd21Value("File name", fileName, divider);
+                        textCell.setTextAndValue("File name", fileName, divider);
                     } else if (position == filePathRow) {
-                        textCell.setTextWithEmojiAnd21Value("File path", filePath, divider);
+                        textCell.setTextAndValue("File path", filePath, divider);
                     } else if (position == fileSizeRow) {
-                        textCell.setTextWithEmojiAnd21Value("File size", AndroidUtilities.formatFileSize(messageObject.getSize()), divider);
+                        textCell.setTextAndValue("File size", AndroidUtilities.formatFileSize(messageObject.getSize()), divider);
                     } else if (position == dcRow) {
                         if (messageObject.messageOwner.media.photo != null && messageObject.messageOwner.media.photo.dc_id > 0) {
-                            textCell.setTextWithEmojiAnd21Value("DC", String.valueOf(messageObject.messageOwner.media.photo.dc_id), divider);
+                            textCell.setTextAndValue("DC", String.valueOf(messageObject.messageOwner.media.photo.dc_id), divider);
                         } else if (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0) {
-                            textCell.setTextWithEmojiAnd21Value("DC", String.valueOf(messageObject.messageOwner.media.document.dc_id), divider);
+                            textCell.setTextAndValue("DC", String.valueOf(messageObject.messageOwner.media.document.dc_id), divider);
                         }
                     }
                     break;

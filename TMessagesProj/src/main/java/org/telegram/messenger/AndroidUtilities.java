@@ -1535,7 +1535,7 @@ public class AndroidUtilities {
 
     public static boolean isTablet() {
         if (NekoConfig.forceTablet) {
-            isTablet = true;
+            return true;
         } else if (isTablet == null) {
             isTablet = ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isTablet);
         }

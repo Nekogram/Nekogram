@@ -206,7 +206,7 @@ import org.telegram.ui.Components.voip.VoIPHelper;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.MessageHelper;
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.NekoSettingsActivity;
+import tw.nekomimi.nekogram.settings.NekoGeneralSettingsActivity;
 import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.TranslateBottomSheet;
 
@@ -3298,10 +3298,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         chatListView.setAdapter(chatAdapter = new ChatActivityAdapter(context));
         chatListView.setClipToPadding(false);
         chatListView.setPadding(0, AndroidUtilities.dp(4), 0, AndroidUtilities.dp(3));
-        if (!NekoConfig.chatMessageAnimation) {
-            chatListView.setItemAnimator(null);
-            chatListView.setLayoutAnimation(null);
-        }
+        chatListView.setItemAnimator(null);
+        chatListView.setLayoutAnimation(null);
 
         chatLayoutManager = new GridLayoutManagerFixed(context, 1000, LinearLayoutManager.VERTICAL, true) {
             @Override
@@ -15331,7 +15329,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             public void onError() {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                                 builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
-                                builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(NekoSettingsActivity.getTranslationProviderAlert(getParentActivity())));
+                                builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(NekoGeneralSettingsActivity.getTranslationProviderAlert(getParentActivity())));
                                 builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> processSelectedOption(option));
                                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                                 showDialog(builder.create());
@@ -15341,7 +15339,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             public void onUnsupported() {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                                 builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
-                                builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(NekoSettingsActivity.getTranslationProviderAlert(getParentActivity())));
+                                builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(NekoGeneralSettingsActivity.getTranslationProviderAlert(getParentActivity())));
                                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                                 showDialog(builder.create());
                             }

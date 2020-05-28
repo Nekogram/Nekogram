@@ -36,6 +36,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class ContactsController extends BaseController {
 
     private Account systemAccount;
@@ -2586,7 +2588,7 @@ public class ContactsController extends BaseController {
             lastName = lastName.trim();
         }
         StringBuilder result = new StringBuilder((firstName != null ? firstName.length() : 0) + (lastName != null ? lastName.length() : 0) + 1);
-        if (LocaleController.nameDisplayOrder == 1) {
+        if (NekoConfig.nameOrder == 1) {
             if (firstName != null && firstName.length() > 0) {
                 result.append(firstName);
                 if (lastName != null && lastName.length() > 0) {

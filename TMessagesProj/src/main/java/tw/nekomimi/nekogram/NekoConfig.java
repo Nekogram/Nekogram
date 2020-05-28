@@ -29,7 +29,6 @@ public class NekoConfig {
     public static boolean saveCacheToPrivateDirectory = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
     public static boolean disablePhotoSideAction = true;
     public static boolean hideKeyboardOnChatScroll = false;
-    public static boolean chatMessageAnimation = false;
     public static boolean rearVideoMessages = false;
     public static boolean hideAllTab = false;
     public static boolean confirmAVMessage = true;
@@ -108,7 +107,6 @@ public class NekoConfig {
                 editor.putBoolean("avatarAsDrawerBackground", avatarAsDrawerBackground);
                 editor.putBoolean("useSystemEmoji", useSystemEmoji);
                 editor.putBoolean("showTabsOnForward", showTabsOnForward);
-                editor.putBoolean("chatMessageAnimation", chatMessageAnimation);
                 editor.putBoolean("rearVideoMessages", rearVideoMessages);
                 editor.putBoolean("hideAllTab", hideAllTab);
                 editor.putBoolean("confirmAVMessage", confirmAVMessage);
@@ -172,7 +170,6 @@ public class NekoConfig {
             avatarAsDrawerBackground = preferences.getBoolean("avatarAsDrawerBackground", false);
             useSystemEmoji = preferences.getBoolean("useSystemEmoji", SharedConfig.useSystemEmoji);
             showTabsOnForward = preferences.getBoolean("showTabsOnForward", false);
-            chatMessageAnimation = preferences.getBoolean("chatMessageAnimation", false);
             rearVideoMessages = preferences.getBoolean("rearVideoMessages", false);
             hideAllTab = preferences.getBoolean("hideAllTab", false);
             tabsTitleType = preferences.getInt("tabsTitleType", TITLE_TYPE_TEXT);
@@ -464,14 +461,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showTabsOnForward", showTabsOnForward);
-        editor.commit();
-    }
-
-    public static void toggleChatMessageAnimation() {
-        chatMessageAnimation = !chatMessageAnimation;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("chatMessageAnimation", chatMessageAnimation);
         editor.commit();
     }
 
