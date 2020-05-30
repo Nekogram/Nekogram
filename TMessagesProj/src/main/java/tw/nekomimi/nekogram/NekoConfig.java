@@ -63,6 +63,7 @@ public class NekoConfig {
     public static int actionBarDecoration = 0;
     public static boolean unlimitedFavedStickers = false;
     public static boolean unlimitedPinnedDialogs = false;
+    public static boolean disableAppBarShadow = false;
 
     public static boolean residentNotification = false;
 
@@ -113,6 +114,7 @@ public class NekoConfig {
                 editor.putBoolean("askBeforeCall", askBeforeCall);
                 editor.putBoolean("shouldNOTTrustMe", shouldNOTTrustMe);
                 editor.putBoolean("disableNumberRounding", disableNumberRounding);
+                editor.putBoolean("disableAppBarShadow", disableAppBarShadow);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
@@ -177,6 +179,7 @@ public class NekoConfig {
             askBeforeCall = preferences.getBoolean("askBeforeCall", true);
             shouldNOTTrustMe = preferences.getBoolean("shouldNOTTrustMe", false);
             disableNumberRounding = preferences.getBoolean("disableNumberRounding", false);
+            disableAppBarShadow = preferences.getBoolean("disableAppBarShadow", false);
             configLoaded = true;
         }
     }
@@ -517,6 +520,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("disableNumberRounding", disableNumberRounding);
+        editor.commit();
+    }
+
+    public static void toggleDisableAppBarShadow() {
+        disableAppBarShadow = !disableAppBarShadow;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("disableAppBarShadow", disableAppBarShadow);
         editor.commit();
     }
 }
