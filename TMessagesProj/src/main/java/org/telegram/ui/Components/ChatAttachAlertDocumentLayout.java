@@ -64,6 +64,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLayout {
 
     public interface DocumentSelectActivityDelegate {
@@ -968,7 +970,12 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
 
         ListItem fs;
         try {
-            File telegramPath = new File(Environment.getExternalStorageDirectory(), "Telegram");
+            File telegramPath;
+            if (NekoConfig.saveCacheToPrivateDirectory) {
+                telegramPath = new File(ApplicationLoader.applicationContext.getFilesDir(), "Telegram");
+            } else {
+                telegramPath = new File(Environment.getExternalStorageDirectory(), "Telegram");
+            }
             if (telegramPath.exists()) {
                 fs = new ListItem();
                 fs.title = "Telegram";
