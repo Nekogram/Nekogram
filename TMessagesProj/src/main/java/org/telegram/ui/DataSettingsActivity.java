@@ -108,8 +108,13 @@ public class DataSettingsActivity extends BaseFragment {
         autoplaySectionRow = rowCount++;
         streamSectionRow = rowCount++;
         enableStreamRow = rowCount++;
-        enableMkvRow = rowCount++;
-        enableAllStreamRow = rowCount++;
+        if (BuildVars.DEBUG_VERSION) {
+            enableMkvRow = rowCount++;
+            enableAllStreamRow = rowCount++;
+        } else {
+            enableAllStreamRow = -1;
+            enableMkvRow = -1;
+        }
         enableAllStreamInfoRow = rowCount++;
         enableCacheStreamRow = -1;//rowCount++;
         callsSectionRow = rowCount++;
@@ -447,9 +452,9 @@ public class DataSettingsActivity extends BaseFragment {
                     } else if (position == enableCacheStreamRow) {
                         //checkCell.setTextAndCheck(LocaleController.getString("CacheStreamFile", R.string.CacheStreamFile), SharedConfig.saveStreamMedia, true);
                     } else if (position == enableMkvRow) {
-                        checkCell.setTextAndCheck("Show MKV as Video", SharedConfig.streamMkv, true);
+                        checkCell.setTextAndCheck("(beta only) Show MKV as Video", SharedConfig.streamMkv, true);
                     } else if (position == enableAllStreamRow) {
-                        checkCell.setTextAndCheck("Stream All Videos", SharedConfig.streamAllVideo, false);
+                        checkCell.setTextAndCheck("(beta only) Stream All Videos", SharedConfig.streamAllVideo, false);
                     } else if (position == autoplayGifsRow) {
                         checkCell.setTextAndCheck(LocaleController.getString("AutoplayGIF", R.string.AutoplayGIF), SharedConfig.autoplayGifs, true);
                     } else if (position == autoplayVideoRow) {
