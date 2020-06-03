@@ -33,6 +33,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
@@ -55,6 +56,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int sourceCodeRow;
     private int translationRow;
     private int donateRow;
+    private int sponsorRow;
     private int about2Row;
 
     @Override
@@ -112,6 +114,8 @@ public class NekoSettingsActivity extends BaseFragment {
                 Browser.openUrl(getParentActivity(), "https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram");
             } else if (position == sourceCodeRow) {
                 Browser.openUrl(getParentActivity(), "https://github.com/Nekogram/Nekogram");
+            } else if (position == sponsorRow) {
+                Browser.openUrl(getParentActivity(), "https://console.argo.moe/auth/register?code=nekogram");
             }
         });
         listView.setOnItemLongClickListener((view, position) -> {
@@ -148,6 +152,11 @@ public class NekoSettingsActivity extends BaseFragment {
         sourceCodeRow = rowCount++;
         translationRow = rowCount++;
         donateRow = rowCount++;
+        if (!LocaleController.getString("SponsorTitle", R.string.SponsorTitle).equals("dummy")) {
+            sponsorRow = rowCount++;
+        } else {
+            sponsorRow = -1;
+        }
         about2Row = rowCount++;
 
         if (listAdapter != null) {
@@ -256,7 +265,9 @@ public class NekoSettingsActivity extends BaseFragment {
                     if (position == translationRow) {
                         textCell.setTextAndValue(LocaleController.getString("Translation", R.string.Translation), LocaleController.getString("TranslationAbout", R.string.TranslationAbout), true);
                     } else if (position == donateRow) {
-                        textCell.setTextAndValue(LocaleController.getString("Donate", R.string.Donate), LocaleController.getString("DonateAbout", R.string.DonateAbout), false);
+                        textCell.setTextAndValue(LocaleController.getString("Donate", R.string.Donate), LocaleController.getString("DonateAbout", R.string.DonateAbout), sponsorRow != -1);
+                    } else if (position == sponsorRow) {
+                        textCell.setTextAndValue(LocaleController.getString("SponsorTitle", R.string.SponsorTitle), LocaleController.getString("SponsorContent", R.string.SponsorContent), false);
                     }
                     break;
                 }
@@ -316,7 +327,7 @@ public class NekoSettingsActivity extends BaseFragment {
                 return 3;
             } else if (position == categoriesRow || position == aboutRow) {
                 return 4;
-            } else if (position == translationRow || position == donateRow) {
+            } else if (position == translationRow || position == donateRow || position == sponsorRow) {
                 return 6;
             }
             return 2;

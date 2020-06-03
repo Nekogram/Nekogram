@@ -115,4 +115,6 @@
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">Restart the app to take effect.</string>
     <string name="DisableAppBarShadow">Disable title bar shadow</string>
+    <string name="SponsorTitle">dummy</string>
+    <string name="SponsorContent">dummy</string>
 </resources>
