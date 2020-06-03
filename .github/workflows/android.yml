@@ -1,7 +1,11 @@
 name: Nekogram
 
 on:
- push:
+  push:
+    paths-ignore:
+      - '**.md'
+      - '.github/**'
+      - '!.github/workflows/**'
     branches:
     - master
 
@@ -29,6 +33,14 @@ jobs:
         run: |
           ./gradlew assembleAfatRelease
           ./gradlew bundleAfatRelease
+      - name: Upload to group
+        env:
+          CHANNEL_ID: ${{ secrets.CHANNEL_ID }}
+          BOT_TOKEN: ${{ secrets.BOT_TOKEN }}
+        run: |
+          OUTPUT="TMessagesProj/build/outputs"
+          export name=$(find $OUTPUT/apk -name "*.apk")
+          curl https://api.telegram.org/bot${BOT_TOKEN}/sendDocument -X POST -F chat_id="$CHANNEL_ID" -F document="@$name"
       - uses: actions/upload-artifact@master
         name: Upload artifact
         with:
