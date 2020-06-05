@@ -3781,6 +3781,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 return false;
             }
+
+            @Override
+            public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {
+                try {
+                    super.onLayoutChildren(recycler, state);
+                } catch (Exception e) {
+                    FileLog.e(e);
+                    AndroidUtilities.runOnUIThread(() -> chatAdapter.notifyDataSetChanged());
+                }
+            }
         };
         chatLayoutManager.setSpanSizeLookup(new GridLayoutManagerFixed.SpanSizeLookup() {
             @Override
