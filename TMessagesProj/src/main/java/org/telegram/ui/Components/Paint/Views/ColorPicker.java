@@ -9,8 +9,6 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
@@ -35,7 +33,6 @@ public class ColorPicker extends FrameLayout {
         void onFinishedColorPicking();
         void onSettingsPressed();
         void onUndoPressed();
-        boolean onColorPicker();
     }
 
     private ColorPickerDelegate delegate;
@@ -68,8 +65,6 @@ public class ColorPicker extends FrameLayout {
             1.0f
     };
 
-    private PorterDuffColorFilter colorPickerFilter = new PorterDuffColorFilter(0xff51bdf3, PorterDuff.Mode.MULTIPLY);
-    private ImageView colorPickerButton;
     private ImageView settingsButton;
     private ImageView undoButton;
     private Drawable shadowDrawable;
@@ -100,25 +95,6 @@ public class ColorPicker extends FrameLayout {
         settingsButton.setOnClickListener(v -> {
             if (delegate != null) {
                 delegate.onSettingsPressed();
-            }
-        });
-
-        colorPickerButton = new ImageView(context);
-        colorPickerButton.setScaleType(ImageView.ScaleType.CENTER);
-        colorPickerButton.setImageResource(R.drawable.photo_color_picker);
-        addView(colorPickerButton, LayoutHelper.createFrame(60, 52));
-        colorPickerButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (delegate != null) {
-                    boolean p = delegate.onColorPicker();
-
-                    PorterDuffColorFilter f = null;
-                    if (p) f = colorPickerFilter;
-
-                    colorPickerButton.setColorFilter(f);
-                    colorPickerButton.setImageResource(R.drawable.photo_color_picker);
-                }
             }
         });
 
@@ -210,13 +186,6 @@ public class ColorPicker extends FrameLayout {
         return Color.argb(255, r, g, b);
     }
 
-    public void setSwatchPaintColor(int color) {
-        findColorLocation(color);
-        swatchPaint.setColor(color);
-        swatchStrokePaint.setColor(color);
-        invalidate();
-    }
-
     public void setLocation(float value) {
         int color = colorForLocation(location = value);
         swatchPaint.setColor(color);
@@ -296,14 +265,12 @@ public class ColorPicker extends FrameLayout {
         int width = right - left;
         int height = bottom - top;
 
-        gradientPaint.setShader(new LinearGradient(AndroidUtilities.dp(56), 0, width - AndroidUtilities.dp(52) * 2, 0, COLORS, LOCATIONS, Shader.TileMode.REPEAT));
+        gradientPaint.setShader(new LinearGradient(AndroidUtilities.dp(56), 0, width - AndroidUtilities.dp(56), 0, COLORS, LOCATIONS, Shader.TileMode.REPEAT));
         int y = height - AndroidUtilities.dp(32);
-        rectF.set(AndroidUtilities.dp(56), y, width - AndroidUtilities.dp(52) * 2, y + AndroidUtilities.dp(12));
+        rectF.set(AndroidUtilities.dp(56), y, width - AndroidUtilities.dp(56), y + AndroidUtilities.dp(12));
 
-        // Move settingButton left after coloPickerButton.
-        settingsButton.layout(width - settingsButton.getMeasuredWidth() * 2 - AndroidUtilities.dp(30), height - AndroidUtilities.dp(52), width, height);
+        settingsButton.layout(width - settingsButton.getMeasuredWidth(), height - AndroidUtilities.dp(52), width, height);
         undoButton.layout(0, height - AndroidUtilities.dp(52), settingsButton.getMeasuredWidth(), height);
-        colorPickerButton.layout(width - colorPickerButton.getMeasuredWidth(), height - AndroidUtilities.dp(52), width, height);
     }
 
     @Override
@@ -354,15 +321,4 @@ public class ColorPicker extends FrameLayout {
             setDraggingFactor(target);
         }
     }
-
-    private void findColorLocation(int color) {
-        for (float i = 0; i <= 1; i += 0.001f) {
-            int colorOnLine = colorForLocation(i);
-            if (Math.abs(color - colorOnLine) < 10000) {
-                setLocation(i);
-                return;
-            }
-        }
-    }
-
 }
