@@ -1187,7 +1187,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     view = new GroupCreateSectionCell(context);
                     break;
                 case 1:
-                    view = new GroupCreateUserCell(context, true, 0);
+                    view = new GroupCreateUserCell(context, true, 0, false);
                     break;
                 case 2:
                 default:
