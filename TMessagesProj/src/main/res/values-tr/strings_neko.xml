@@ -1,2 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="NekoSettings">Neko Ayarları</string>
+    <string name="IPv6">IPv6 aracılığıyla bağlanmayı dene</string>
+    <string name="MessageMenu">Mesaj Menüsü</string>
+    <string name="HidePhone">Telefon numaramı gizle</string>
+    <string name="Hide">Gizle</string>
+    <string name="DeleteAllFromSelf">Hepsini kendinden sil</string>
+    <string name="DeleteAllFromSelfAlert">Uyarı! Bu, **sohbette senden gönderilen tüm mesajları tüm üyeler için silecek**.</string>
+    <string name="BotLogin">Bot Girişi</string>
+    <string name="InvalidAccessToken">Geçersiz erişim anahtarı</string>
+    <string name="IgnoreBlocked">Engellenmiş üyeleri grupta yoksay</string>
+    <string name="Connection">Bağlantı</string>
+    <string name="Chat">Sohbet</string>
+    <string name="NameOrder">İsim sırası</string>
+    <string name="FirstLast">İsim Soyisim</string>
+    <string name="LastFirst">Soyisim İsim</string>
+    <string name="TypefaceUseDefault">Sistem varsayılan yazı tipini kullan</string>
+    <string name="NoQuoteForward">Anonim yönlendir</string>
+    <string name="Repeat">Tekrarla</string>
+    <string name="AddToSavedMessages">Mesajı kaydet</string>
+    <string name="CreateMention">Bahset</string>
+    <string name="ForceTabletMode">Tablet modunu zorla</string>
+    <string name="Prpr">Peropero</string>
+    <string name="TransparentStatusBar">Saydam durum çubuğu</string>
+    <string name="EnableResidentNotification">Kalıcı bildirim göster</string>
+    <string name="DisableResidentNotification">Kalıcı bildirimi devre dışı bırak</string>
+    <string name="NekogramRunning">Nekogram çalışıyor</string>
+</resources>

@@ -49,7 +49,7 @@
     <string name="StickerSizeDialogMessageSmallOne">Маленький</string>
     <string name="StickerSizeDialogMessageReplyTo">Мяу</string>
     <string name="StickerSizeDialogName">Дуанг</string>
-    <string name="Experiment">Экспериментальные настройки</string>
+    <string name="Experiment">Экспериментальные</string>
     <string name="UnlimitedFavoredStickers">Неограниченные избранные стикеры</string>
     <string name="UnlimitedFavoredStickersAbout">Добавляйте неограниченное количество стикеров в избранное. Они не могут быть синхронизированы с другими устройствами.</string>
     <string name="MessageDetails">Подробности</string>
@@ -96,12 +96,12 @@
     <string name="CallTo">Позвонить **%1$s**?</string>
     <string name="SetAsCurrent">Установить как текущее</string>
     <string name="DisableNumberRounding">Убрать округление чисел</string>
-    <string name="Categories">Категории</string>
+    <string name="Categories">Настройки</string>
     <string name="OfficialChannel">Официальный канал</string>
-    <string name="About">Информация</string>
+    <string name="About">О проекте</string>
     <string name="IgnoreBlockedAbout">Вы больше не увидите сообщения от заблокированных пользователей в группах.</string>
-    <string name="Donate">Поддержать</string>
-    <string name="DonateAbout">Поддержите разработку.</string>
+    <string name="Donate">Поддержать Nekogram</string>
+    <string name="DonateAbout">Поддержите разработку проекта.</string>
     <string name="TranslationAbout">Помогите перевести Nekogram на ваш язык.</string>
     <string name="Translation">Перевести Nekogram</string>
     <string name="GooglePlay">Google Play</string>
