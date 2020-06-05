@@ -4436,6 +4436,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     } else {
                         photoImage.setImage(null, null, null, null, messageObject, 0);
                     }
+                    if (messageObject.useCustomPhoto) {
+                        photoImage.setImageBitmap(getResources().getDrawable(R.drawable.sticker));
+                    }
                 } else {
                     currentPhotoObject = FileLoader.getClosestPhotoSizeWithSize(messageObject.photoThumbs, AndroidUtilities.getPhotoSize());
                     photoParentObject = messageObject.photoThumbsObject;

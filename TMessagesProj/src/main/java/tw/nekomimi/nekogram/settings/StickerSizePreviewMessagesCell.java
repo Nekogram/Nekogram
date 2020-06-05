@@ -76,6 +76,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         message.to_id = new TLRPC.TL_peerUser();
         message.to_id.user_id = 0;
         messageObjects[0] = new MessageObject(UserConfig.selectedAccount, message, true);
+        messageObjects[0].useCustomPhoto = true;
 
         message = new TLRPC.TL_message();
         message.message = LocaleController.getString("StickerSizeDialogMessageReplyTo", R.string.StickerSizeDialogMessageReplyTo);
@@ -113,9 +114,6 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
             cells[a].isChat = false;
             cells[a].setFullyDraw(true);
             cells[a].setMessageObject(messageObjects[a], null, false, false);
-            if (a == 0) {
-                cells[a].getPhotoImage().setImageBitmap(getResources().getDrawable(R.drawable.sticker));
-            }
             addView(cells[a], LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         }
     }
