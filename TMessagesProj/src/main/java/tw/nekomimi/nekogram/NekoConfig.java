@@ -64,6 +64,7 @@ public class NekoConfig {
     public static boolean unlimitedFavedStickers = false;
     public static boolean unlimitedPinnedDialogs = false;
     public static boolean disableAppBarShadow = false;
+    public static boolean mediaPreview = false;
 
     public static boolean residentNotification = false;
 
@@ -104,7 +105,7 @@ public class NekoConfig {
                 editor.putBoolean("disablePhotoSideAction", disablePhotoSideAction);
                 editor.putBoolean("hideKeyboardOnChatScroll", hideKeyboardOnChatScroll);
                 editor.putBoolean("openArchiveOnPull", openArchiveOnPull);
-                editor.putBoolean("showHiddenFeature", showHiddenFeature);
+                editor.putBoolean("showHiddenFeature2", showHiddenFeature);
                 editor.putBoolean("avatarAsDrawerBackground", avatarAsDrawerBackground);
                 editor.putBoolean("useSystemEmoji", useSystemEmoji);
                 editor.putBoolean("showTabsOnForward", showTabsOnForward);
@@ -115,6 +116,7 @@ public class NekoConfig {
                 editor.putBoolean("shouldNOTTrustMe", shouldNOTTrustMe);
                 editor.putBoolean("disableNumberRounding", disableNumberRounding);
                 editor.putBoolean("disableAppBarShadow", disableAppBarShadow);
+                editor.putBoolean("mediaPreview", mediaPreview);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
@@ -167,7 +169,7 @@ public class NekoConfig {
             translationProvider = preferences.getInt("translationProvider", 1);
             disablePhotoSideAction = preferences.getBoolean("disablePhotoSideAction", true);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
-            showHiddenFeature = preferences.getBoolean("showHiddenFeature", false);
+            showHiddenFeature = preferences.getBoolean("showHiddenFeature2", false);
             hideKeyboardOnChatScroll = preferences.getBoolean("hideKeyboardOnChatScroll", false);
             avatarAsDrawerBackground = preferences.getBoolean("avatarAsDrawerBackground", false);
             useSystemEmoji = preferences.getBoolean("useSystemEmoji", SharedConfig.useSystemEmoji);
@@ -180,6 +182,7 @@ public class NekoConfig {
             shouldNOTTrustMe = preferences.getBoolean("shouldNOTTrustMe", false);
             disableNumberRounding = preferences.getBoolean("disableNumberRounding", false);
             disableAppBarShadow = preferences.getBoolean("disableAppBarShadow", false);
+            mediaPreview = preferences.getBoolean("mediaPreview", false);
             configLoaded = true;
         }
     }
@@ -431,7 +434,7 @@ public class NekoConfig {
         showHiddenFeature = !showHiddenFeature;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("showHiddenFeature", showHiddenFeature);
+        editor.putBoolean("showHiddenFeature2", showHiddenFeature);
         editor.commit();
     }
 
@@ -528,6 +531,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("disableAppBarShadow", disableAppBarShadow);
+        editor.commit();
+    }
+
+    public static void toggleMediaPreview() {
+        mediaPreview = !mediaPreview;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("mediaPreview", mediaPreview);
         editor.commit();
     }
 }

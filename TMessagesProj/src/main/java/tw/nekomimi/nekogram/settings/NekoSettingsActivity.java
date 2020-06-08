@@ -33,7 +33,6 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
@@ -122,6 +121,9 @@ public class NekoSettingsActivity extends BaseFragment {
             if (position == experimentRow) {
                 NekoConfig.toggleShowHiddenFeature();
                 listView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                if (NekoConfig.showHiddenFeature) {
+                    AndroidUtilities.shakeView(view, 2, 0);
+                }
                 return true;
             }
             return false;

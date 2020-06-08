@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -64,6 +63,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
 
     private int experimentRow;
     private int smoothKeyboardRow;
+    private int mediaPreviewRow;
     private int saveCacheToPrivateDirectoryRow;
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
@@ -73,7 +73,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
 
     private int shouldNOTTrustMeRow;
 
-    private UndoView restartTooltip;
+    private UndoView tooltip;
 
     static public AlertDialog getTranslationProviderAlert(Context context) {
         ArrayList<String> arrayList = new ArrayList<>();
@@ -160,7 +160,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.saveCacheToPrivateDirectory);
                 }
-                restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
+                tooltip.setInfoText(LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect));
+                tooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
             } else if (position == disableFilteringRow) {
                 sensitiveEnabled = !sensitiveEnabled;
                 TLRPC.TL_account_setContentSettings req = new TLRPC.TL_account_setContentSettings();
@@ -258,6 +259,10 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 if (SharedConfig.smoothKeyboard && getParentActivity() != null) {
                     getParentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
                 }
+                if (SharedConfig.smoothKeyboard) {
+                    tooltip.setInfoText(AndroidUtilities.replaceTags(LocaleController.formatString("BetaWarning", R.string.BetaWarning)));
+                    tooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
+                }
             } else if (position == unlimitedPinnedDialogsRow) {
                 NekoConfig.toggleUnlimitedPinnedDialogs();
                 if (view instanceof TextCheckCell) {
@@ -268,12 +273,20 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.shouldNOTTrustMe);
                 }
+            } else if (position == mediaPreviewRow) {
+                NekoConfig.toggleMediaPreview();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.mediaPreview);
+                }
+                if (NekoConfig.mediaPreview) {
+                    tooltip.setInfoText(AndroidUtilities.replaceTags(LocaleController.formatString("BetaWarning", R.string.BetaWarning)));
+                    tooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
+                }
             }
         });
 
-        restartTooltip = new UndoView(context);
-        restartTooltip.setInfoText(LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect));
-        frameLayout.addView(restartTooltip, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT, 8, 0, 8, 8));
+        tooltip = new UndoView(context);
+        frameLayout.addView(tooltip, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT, 8, 0, 8, 8));
 
         return fragmentView;
     }
@@ -292,13 +305,14 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
 
         experimentRow = rowCount++;
         smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
+        mediaPreviewRow = rowCount++;
         saveCacheToPrivateDirectoryRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? rowCount++ : -1;
         disableFilteringRow = rowCount++;
         unlimitedFavedStickersRow = rowCount++;
         unlimitedPinnedDialogsRow = rowCount++;
         deleteAccountRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         experiment2Row = rowCount++;
-        shouldNOTTrustMeRow = BuildConfig.DEBUG ? rowCount++ : -1;
+        shouldNOTTrustMeRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
@@ -439,6 +453,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, deleteAccountRow != -1);
                     } else if (position == shouldNOTTrustMeRow) {
                         textCell.setTextAndCheck("Don't trust me", NekoConfig.shouldNOTTrustMe, false);
+                    } else if (position == mediaPreviewRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("MediaPreview", R.string.MediaPreview), NekoConfig.mediaPreview, true);
                     }
                     break;
                 }
@@ -502,7 +518,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
             } else if (position == deleteAccountRow) {
                 return 2;
             } else if (position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow || position == disableFilteringRow ||
-                    position == smoothKeyboardRow || position == unlimitedPinnedDialogsRow || position == shouldNOTTrustMeRow) {
+                    position == smoothKeyboardRow || position == unlimitedPinnedDialogsRow || position == shouldNOTTrustMeRow || position == mediaPreviewRow) {
                 return 3;
             } else if (position == experimentRow) {
                 return 4;

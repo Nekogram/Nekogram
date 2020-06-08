@@ -63,6 +63,8 @@ import org.telegram.ui.DialogsActivity;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class DialogCell extends BaseCell {
 
 
@@ -845,7 +847,7 @@ public class DialogCell extends BaseCell {
                             currentMessagePaint = Theme.dialogs_messagePrintingPaint[paintIndex];
                         } else {
                             boolean needEmoji = true;
-                            if (BuildVars.DEBUG_VERSION && encryptedChat == null && !message.needDrawBluredPreview() && (message.isPhoto() || message.isNewGif() || message.isVideo())) {
+                            if ((BuildVars.DEBUG_VERSION || NekoConfig.mediaPreview) && encryptedChat == null && !message.needDrawBluredPreview() && (message.isPhoto() || message.isNewGif() || message.isVideo())) {
                                 TLRPC.PhotoSize smallThumb = FileLoader.getClosestPhotoSizeWithSize(message.photoThumbs, 40);
                                 TLRPC.PhotoSize bigThumb = FileLoader.getClosestPhotoSizeWithSize(message.photoThumbs, AndroidUtilities.getPhotoSize());
                                 if (smallThumb == bigThumb) {
