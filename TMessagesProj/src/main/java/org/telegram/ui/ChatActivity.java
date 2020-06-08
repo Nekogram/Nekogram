@@ -13420,9 +13420,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             pinned_msg_id = 0;
         }
         SharedPreferences preferences = MessagesController.getNotificationsSettings(currentAccount);
-        if (chatInfo == null && userInfo == null || pinned_msg_id == 0 || pinned_msg_id == preferences.getInt("pin_" + dialog_id, 0) || actionBar != null && (actionBar.isActionModeShowed() || actionBar.isSearchFieldVisible())) {
+        if (chatInfo == null && userInfo == null || pinned_msg_id == 0 || actionBar != null && (actionBar.isActionModeShowed() || actionBar.isSearchFieldVisible())) {
             changed = hidePinnedMessageView(animated);
+            headerItem.hideSubItem(show_pinned);
+        } else if (pinned_msg_id == preferences.getInt("pin_" + dialog_id, 0)) {
+            changed = hidePinnedMessageView(animated);
+            headerItem.showSubItem(show_pinned);
         } else {
+            headerItem.hideSubItem(show_pinned);
             if (pinnedMessageObject != null) {
                 if (pinnedMessageView.getTag() != null) {
                     pinnedMessageView.setTag(null);
