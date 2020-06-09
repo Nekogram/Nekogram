@@ -90,6 +90,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         types.add(Translator.PROVIDER_GOOGLE_CN);
         arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
         types.add(Translator.PROVIDER_LINGO);
+        arrayList.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
+        types.add(Translator.PROVIDER_YANDEX);
         arrayList.add(LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb));
         types.add(Translator.PROVIDER_GOOGLE_WEB);
         arrayList.add(LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb));
@@ -531,6 +533,9 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                                 break;
                             case Translator.PROVIDER_DEEPL_WEB:
                                 value = LocaleController.getString("ProviderDeepLWeb", R.string.ProviderDeepLWeb);
+                                break;
+                            case Translator.PROVIDER_YANDEX:
+                                value = LocaleController.getString("ProviderYandex", R.string.ProviderYandex);
                                 break;
                             case Translator.PROVIDER_LINGO:
                             default:

@@ -119,4 +119,5 @@
     <string name="SponsorContent">dummy</string>
     <string name="BetaWarning">This is a **beta** feature implemented by **Telegram**.</string>
     <string name="MediaPreview">Media preview in dialog list</string>
+    <string name="ProviderYandex">Yandex Translate</string>
 </resources>

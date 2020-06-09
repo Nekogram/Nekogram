@@ -15,6 +15,7 @@ abstract public class Translator {
     public static final int PROVIDER_GOOGLE = 1;
     public static final int PROVIDER_GOOGLE_CN = 2;
     public static final int PROVIDER_LINGO = 3;
+    public static final int PROVIDER_YANDEX = 4;
     public static final int PROVIDER_GOOGLE_WEB = -1;
     public static final int PROVIDER_GOOGLE_CN_WEB = -2;
     public static final int PROVIDER_BAIDU_WEB = -3;
@@ -23,12 +24,25 @@ abstract public class Translator {
     public static void translate(String query, TranslateCallBack translateCallBack) {
         Locale locale = LocaleController.getInstance().currentLocale;
         String toLang;
-        if (NekoConfig.translationProvider != 3 && locale.getLanguage().equals("zh") && (locale.getCountry().toUpperCase().equals("CN") || locale.getCountry().toUpperCase().equals("TW"))) {
+        if (NekoConfig.translationProvider != PROVIDER_LINGO && NekoConfig.translationProvider != PROVIDER_YANDEX && locale.getLanguage().equals("zh") && (locale.getCountry().toUpperCase().equals("CN") || locale.getCountry().toUpperCase().equals("TW"))) {
             toLang = locale.getLanguage() + "-" + locale.getCountry().toUpperCase();
         } else {
             toLang = locale.getLanguage();
         }
-        Translator translator = NekoConfig.translationProvider == PROVIDER_LINGO ? LingoTranslator.getInstance() : GoogleWebTranslator.getInstance();
+        Translator translator;
+        switch (NekoConfig.translationProvider) {
+            case PROVIDER_YANDEX:
+                translator = YandexTranslator.getInstance();
+                break;
+            case PROVIDER_GOOGLE:
+            case PROVIDER_GOOGLE_CN:
+                translator = GoogleWebTranslator.getInstance();
+                break;
+            case PROVIDER_LINGO:
+            default:
+                translator = LingoTranslator.getInstance();
+                break;
+        }
         if (!translator.getTargetLanguages().contains(toLang)) {
             translateCallBack.onUnsupported();
         } else {
