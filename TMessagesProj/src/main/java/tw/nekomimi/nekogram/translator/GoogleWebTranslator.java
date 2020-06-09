@@ -8,6 +8,7 @@ import org.json.JSONTokener;
 import org.telegram.messenger.FileLog;
 
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
@@ -44,7 +45,7 @@ public class GoogleWebTranslator extends Translator {
     }
 
     @Override
-    protected String translate(String query, String tl) {
+    protected String translate(String query, String tl) throws IOException {
         String result = translateImpl(query, tl);
         if (result == null) {
             tkk = null;
@@ -59,7 +60,7 @@ public class GoogleWebTranslator extends Translator {
     }
 
 
-    private String translateImpl(String query, String tl) {
+    private String translateImpl(String query, String tl) throws IOException {
         if (tkk == null) {
             initTkk();
         }
@@ -92,7 +93,7 @@ public class GoogleWebTranslator extends Translator {
         return sb.toString();
     }
 
-    private void initTkk() {
+    private void initTkk() throws IOException {
         String response = request("https://translate.google." + (NekoConfig.translationProvider == PROVIDER_GOOGLE_CN ? "cn" : "com"));
         if (TextUtils.isEmpty(response)) {
             FileLog.e("Tkk init failed");
@@ -117,46 +118,34 @@ public class GoogleWebTranslator extends Translator {
         return null;
     }
 
-    private String request(String url) {
-        try {
-            ByteArrayOutputStream outbuf;
-            InputStream httpConnectionStream;
-            URL downloadUrl = new URL(url);
-            URLConnection httpConnection = downloadUrl.openConnection();
-            httpConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1");
-            httpConnection.setConnectTimeout(1000);
-            httpConnection.setReadTimeout(2000);
-            httpConnection.connect();
-            httpConnectionStream = httpConnection.getInputStream();
+    private String request(String url) throws IOException {
+        ByteArrayOutputStream outbuf;
+        InputStream httpConnectionStream;
+        URL downloadUrl = new URL(url);
+        URLConnection httpConnection = downloadUrl.openConnection();
+        httpConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1");
+        httpConnection.setConnectTimeout(1000);
+        httpConnection.setReadTimeout(2000);
+        httpConnection.connect();
+        httpConnectionStream = httpConnection.getInputStream();
 
-            outbuf = new ByteArrayOutputStream();
+        outbuf = new ByteArrayOutputStream();
 
-            byte[] data = new byte[1024 * 32];
-            while (true) {
-                int read = httpConnectionStream.read(data);
-                if (read > 0) {
-                    outbuf.write(data, 0, read);
-                } else if (read == -1) {
-                    break;
-                } else {
-                    break;
-                }
+        byte[] data = new byte[1024 * 32];
+        while (true) {
+            int read = httpConnectionStream.read(data);
+            if (read > 0) {
+                outbuf.write(data, 0, read);
+            } else if (read == -1) {
+                break;
+            } else {
+                break;
             }
-            String result = new String(outbuf.toByteArray());
-            try {
-                httpConnectionStream.close();
-            } catch (Throwable e) {
-                FileLog.e(e);
-            }
-            try {
-                outbuf.close();
-            } catch (Exception ignore) {
-
-            }
-            return result;
-        } catch (Throwable e) {
-            FileLog.e(e);
-            return null;
         }
+
+        String result = new String(outbuf.toByteArray());
+        httpConnectionStream.close();
+        outbuf.close();
+        return result;
     }
 }

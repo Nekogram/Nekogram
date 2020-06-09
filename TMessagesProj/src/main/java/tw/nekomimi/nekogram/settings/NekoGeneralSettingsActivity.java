@@ -320,9 +320,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
             } else if (position == translationProviderRow) {
-                AlertDialog dialog = getTranslationProviderAlert(context);
-                dialog.setOnDismissListener(dialog1 -> listAdapter.notifyItemChanged(translationProviderRow));
-                showDialog(dialog);
+                showDialog(getTranslationProviderAlert(context)).setOnDismissListener(dialog1 -> listAdapter.notifyItemChanged(translationProviderRow));
             } else if (position == openArchiveOnPullRow) {
                 NekoConfig.toggleOpenArchiveOnPull();
                 if (view instanceof TextCheckCell) {

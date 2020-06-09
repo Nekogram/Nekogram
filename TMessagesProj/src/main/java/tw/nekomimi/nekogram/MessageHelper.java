@@ -31,12 +31,11 @@ public class MessageHelper extends BaseController {
         super(num);
     }
 
-    public static void setMessageContent(MessageObject messageObject, ChatMessageCell chatMessageCell, String message) {
-        messageObject.messageOwner.message = message;
+    public static void resetMessageContent(MessageObject messageObject, ChatMessageCell chatMessageCell) {
+        messageObject.forceUpdate = true;
         if (messageObject.caption != null) {
             messageObject.caption = null;
             messageObject.generateCaption();
-            messageObject.forceUpdate = true;
         }
         messageObject.applyNewText();
         messageObject.resetLayout();
@@ -55,24 +54,29 @@ public class MessageHelper extends BaseController {
             progressDialog.showDelayed(400);
             Translator.translate(query, new Translator.TranslateCallBack() {
                 @Override
-                public void onSuccess(String translation) {
+                public void onSuccess(Object translation) {
                     if (progressDialog != null) {
                         progressDialog.dismiss();
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage(translation);
+                    builder.setMessage((String) translation);
                     builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-                    builder.setNeutralButton(LocaleController.getString("Copy", R.string.Copy), (dialog, which) -> AndroidUtilities.addToClipboard(translation));
+                    builder.setNeutralButton(LocaleController.getString("Copy", R.string.Copy), (dialog, which) -> AndroidUtilities.addToClipboard((String) translation));
                     builder.show();
                 }
 
                 @Override
-                public void onError() {
+                public void onError(Throwable e) {
                     if (progressDialog != null) {
                         progressDialog.dismiss();
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                    if (e != null && e.getLocalizedMessage() != null) {
+                        builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                        builder.setMessage(e.getLocalizedMessage());
+                    } else {
+                        builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                    }
                     builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> NekoGeneralSettingsActivity.getTranslationProviderAlert(context).show());
                     builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> showTranslateDialog(context, query));
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);

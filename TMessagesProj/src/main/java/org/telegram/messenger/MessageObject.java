@@ -131,6 +131,9 @@ public class MessageObject {
 
     public boolean scheduled;
 
+    public boolean translated;
+    public Object originalMessage;
+
     public ArrayList<TLRPC.TL_pollAnswer> checkedVotes;
 
     public CharSequence editingMessage;

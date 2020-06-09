@@ -3,8 +3,11 @@ package tw.nekomimi.nekogram.translator;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 
+import org.json.JSONException;
 import org.telegram.messenger.LocaleController;
+import org.telegram.tgnet.TLRPC;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
 
@@ -21,7 +24,7 @@ abstract public class Translator {
     public static final int PROVIDER_BAIDU_WEB = -3;
     public static final int PROVIDER_DEEPL_WEB = -4;
 
-    public static void translate(String query, TranslateCallBack translateCallBack) {
+    public static void translate(Object query, TranslateCallBack translateCallBack) {
         Locale locale = LocaleController.getInstance().currentLocale;
         String toLang;
         if (NekoConfig.translationProvider != PROVIDER_LINGO && NekoConfig.translationProvider != PROVIDER_YANDEX && locale.getLanguage().equals("zh") && (locale.getCountry().toUpperCase().equals("CN") || locale.getCountry().toUpperCase().equals("TW"))) {
@@ -50,29 +53,29 @@ abstract public class Translator {
         }
     }
 
-    private void startTask(String query, String toLang, TranslateCallBack translateCallBack) {
+    private void startTask(Object query, String toLang, TranslateCallBack translateCallBack) {
         new MyAsyncTask().request(query, toLang, translateCallBack).execute();
     }
 
-    abstract protected String translate(String query, String tl);
+    abstract protected String translate(String query, String tl) throws IOException, JSONException;
 
     abstract protected List<String> getTargetLanguages();
 
     public interface TranslateCallBack {
-        void onSuccess(String translation);
+        void onSuccess(Object translation);
 
-        void onError();
+        void onError(Throwable e);
 
         void onUnsupported();
     }
 
     @SuppressLint("StaticFieldLeak")
-    private class MyAsyncTask extends AsyncTask<Void, Integer, String> {
+    private class MyAsyncTask extends AsyncTask<Void, Integer, Object> {
         TranslateCallBack translateCallBack;
-        String query;
+        Object query;
         String tl;
 
-        public MyAsyncTask request(String query, String tl, TranslateCallBack translateCallBack) {
+        public MyAsyncTask request(Object query, String tl, TranslateCallBack translateCallBack) {
             this.query = query;
             this.tl = tl;
             this.translateCallBack = translateCallBack;
@@ -80,14 +83,46 @@ abstract public class Translator {
         }
 
         @Override
-        protected String doInBackground(Void... params) {
-            return translate(query, tl);
+        protected Object doInBackground(Void... params) {
+            try {
+                if (query instanceof String) {
+                    return translate((String) query, tl);
+                } else if (query instanceof TLRPC.Poll) {
+                    TLRPC.TL_poll poll = new TLRPC.TL_poll();
+                    TLRPC.TL_poll original = (TLRPC.TL_poll) query;
+                    poll.question = original.question +
+                            "\n" +
+                            "--------" +
+                            "\n" + translate(original.question, tl);
+                    for (int i = 0; i < original.answers.size(); i++) {
+                        TLRPC.TL_pollAnswer answer = new TLRPC.TL_pollAnswer();
+                        answer.text = original.answers.get(i).text + " | " + translate(original.answers.get(i).text, tl);
+                        answer.option = original.answers.get(i).option;
+                        poll.answers.add(answer);
+                    }
+                    poll.close_date = original.close_date;
+                    poll.close_period = original.close_period;
+                    poll.closed = original.closed;
+                    poll.flags = original.flags;
+                    poll.id = original.id;
+                    poll.multiple_choice = original.multiple_choice;
+                    poll.public_voters = original.public_voters;
+                    poll.quiz = original.quiz;
+                    return poll;
+                } else {
+                    throw new UnsupportedOperationException("Unsupported translation query");
+                }
+            } catch (Throwable e) {
+                return e;
+            }
         }
 
         @Override
-        protected void onPostExecute(String result) {
+        protected void onPostExecute(Object result) {
             if (result == null) {
-                translateCallBack.onError();
+                translateCallBack.onError(null);
+            } else if (result instanceof Throwable) {
+                translateCallBack.onError((Throwable) result);
             } else {
                 translateCallBack.onSuccess(result);
             }

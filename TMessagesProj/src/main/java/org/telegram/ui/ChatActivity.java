@@ -14860,9 +14860,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 options.add(89);
                                 icons.add(R.drawable.menu_info);
                             }
-                            if (!TextUtils.isEmpty(selectedObject.messageOwner.message) && NekoConfig.showTranslate) {
-                                Matcher matcher = Pattern.compile("\u200C\u200C\\n\\n--------\\n.*\u200C\u200C", Pattern.DOTALL).matcher(selectedObject.messageOwner.message);
-                                items.add(matcher.find() ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("Translate", R.string.Translate));
+                            if ((!TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.type == MessageObject.TYPE_POLL) && NekoConfig.showTranslate) {
+                                items.add(selectedObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("Translate", R.string.Translate));
                                 options.add(88);
                                 icons.add(R.drawable.ic_translate);
                             }
@@ -15880,7 +15879,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 break;
             } case 88: {
                 if (NekoConfig.translationProvider < 0) {
-                    TranslateBottomSheet.show(getParentActivity(), selectedObject.messageOwner.message);
+                    if (selectedObject.type == MessageObject.TYPE_POLL) {
+                        TLRPC.Poll poll = ((TLRPC.TL_messageMediaPoll) selectedObject.messageOwner.media).poll;
+                        StringBuilder sb = new StringBuilder();
+                        sb.append(poll.question);
+                        sb.append("\n");
+                        sb.append("--------");
+                        for (TLRPC.TL_pollAnswer answer: poll.answers) {
+                            sb.append("\n");
+                            sb.append(answer.text);
+                        }
+                        TranslateBottomSheet.show(getParentActivity(), sb.toString());
+                    } else {
+                        TranslateBottomSheet.show(getParentActivity(), selectedObject.messageOwner.message);
+                    }
                 } else {
                     ChatMessageCell messageCell = null;
                     int count = chatListView.getChildCount();
@@ -15894,38 +15906,53 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                         }
                     }
-                    String original = selectedObject.messageOwner.message;
-                    Matcher matcher = Pattern.compile("\u200C\u200C\\n\\n--------\\n.*\u200C\u200C", Pattern.DOTALL).matcher(original);
-                    if (matcher.find()){
-                        if (messageCell != null) {
-                            MessageHelper.setMessageContent(selectedObject,messageCell,original.replace(matcher.group(),""));
+                    if (selectedObject.translated){
+                        if (messageCell != null && selectedObject.originalMessage != null) {
+                            if (selectedObject.originalMessage instanceof String) {
+                                selectedObject.messageOwner.message = (String) selectedObject.originalMessage;
+                            } else if (selectedObject.originalMessage instanceof TLRPC.TL_poll) {
+                                ((TLRPC.TL_messageMediaPoll) selectedObject.messageOwner.media).poll = (TLRPC.TL_poll) selectedObject.originalMessage;
+                            }
+                            MessageHelper.resetMessageContent(selectedObject, messageCell);
                             chatAdapter.updateRowWithMessageObject(selectedObject, true);
+                            selectedObject.translated = false;
                         }
                     } else {
+                        Object original = selectedObject.type == MessageObject.TYPE_POLL ? ((TLRPC.TL_messageMediaPoll) selectedObject.messageOwner.media).poll : selectedObject.messageOwner.message;
+                        selectedObject.originalMessage = original;
                         ChatMessageCell finalMessageCell = messageCell;
+                        int finalOption = option;
                         Translator.translate(original, new Translator.TranslateCallBack() {
                             @Override
-                            public void onSuccess(String translation) {
+                            public void onSuccess(Object translation) {
                                 if (finalMessageCell != null) {
                                     MessageObject messageObject = finalMessageCell.getMessageObject();
-                                    MessageHelper.setMessageContent(messageObject,finalMessageCell,original +
-                                            "\u200C\u200C\n" +
-                                            "\n" +
-                                            "--------" +
-                                            "\n" +
-                                            translation +
-                                            "\u200C\u200C");
+                                    if (translation instanceof String) {
+                                        messageObject.messageOwner.message = original +
+                                                "\n" +
+                                                "--------" +
+                                                "\n" +
+                                                translation;
+                                    } else if (translation instanceof TLRPC.TL_poll) {
+                                        ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
+                                    }
+                                    MessageHelper.resetMessageContent(messageObject, finalMessageCell);
                                     chatAdapter.updateRowWithMessageObject(messageObject, true);
+                                    messageObject.translated = true;
                                 }
                             }
 
                             @Override
-                            public void onError() {
+                            public void onError(Throwable e) {
                                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                                builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                                if (e != null && e.getLocalizedMessage() != null) {
+                                    builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                                    builder.setMessage(e.getLocalizedMessage());
+                                } else {
+                                    builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                                }
                                 builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(NekoGeneralSettingsActivity.getTranslationProviderAlert(getParentActivity())));
-                                builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> processSelectedOption(option));
-                                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                                 showDialog(builder.create());
                             }
 
