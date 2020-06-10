@@ -112,4 +112,7 @@
     <string name="DisableAppBarShadow">禁用标题栏阴影</string>
     <string name="SponsorTitle">赞助商</string>
     <string name="SponsorContent">您可以使用 Argo Networks 来提供网络加速。</string>
+    <string name="BetaWarning">这是由 **Telegram** 实现的**测试版**特性。</string>
+    <string name="MediaPreview">对话列表中的媒体预览</string>
+    <string name="ProviderYandex">Yandex 翻译</string>
 </resources>

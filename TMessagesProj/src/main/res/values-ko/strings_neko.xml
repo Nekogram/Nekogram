@@ -110,4 +110,7 @@
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">변경된 설정 적용을 위해 앱을 재시작</string>
     <string name="DisableAppBarShadow">제목 표시줄 그림자 비활성화</string>
+    <string name="BetaWarning">\"텔레그램\"의 \"베타\" 기능 입니다.</string>
+    <string name="MediaPreview">대화목록 에서 미디어 미리보기</string>
+    <string name="ProviderYandex">얀덱스 번역</string>
 </resources>

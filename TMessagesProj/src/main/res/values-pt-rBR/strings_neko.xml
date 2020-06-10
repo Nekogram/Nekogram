@@ -110,4 +110,7 @@
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">Reinicie o aplicativo para tirar efeito.</string>
     <string name="DisableAppBarShadow">Desativar sombra da barra de título</string>
+    <string name="BetaWarning">Esse é um recurso **beta** implementado pelo **Telegram**.</string>
+    <string name="MediaPreview">Pré-visualizar mídia na lista de diálogo</string>
+    <string name="ProviderYandex">Yandex Tradutor</string>
 </resources>

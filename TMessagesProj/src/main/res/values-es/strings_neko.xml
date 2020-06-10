@@ -109,4 +109,7 @@
     <string name="ResetStickerSize">Restablecer tamaño del sticker</string>
     <string name="RestartAppToTakeEffect">Reiniciar la app para que tenga efecto.</string>
     <string name="DisableAppBarShadow">Deshabilitar sombra de la barra de título</string>
+    <string name="BetaWarning">Esta es una función **beta** implementada por **Telegram**.</string>
+    <string name="MediaPreview">Vista previa de multimedia en la lista de diálogos</string>
+    <string name="ProviderYandex">Traducción de Yandex</string>
 </resources>
