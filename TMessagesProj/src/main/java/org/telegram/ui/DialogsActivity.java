@@ -1098,7 +1098,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                     }
                                 }
                                 ((DialogCell) view).startOutAnimation();
-
                                 parentPage.archivePullViewState = ARCHIVE_ITEM_STATE_SHOWED;
 
                                 if (NekoConfig.openArchiveOnPull) {
@@ -4922,10 +4921,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     private String getNekoTitle(String title) {
         return LocaleController.getString("NekogramEmojiDialogs", R.string.NekogramEmojiDialogs) + " " + title;
-        //if (FilterPopup.getInstance(currentAccount).getTotalUnreadCount() == 0) {
-        //    return LocaleController.getString("NekogramEmojiDialogs", R.string.NekogramEmojiDialogs) + " " + title;
-        //}
-        //return LocaleController.getString("NekogramEmojiDialogsUnread", R.string.NekogramEmojiDialogsUnread) + " " + title;
     }
 
     @Override

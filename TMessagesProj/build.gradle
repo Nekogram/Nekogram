@@ -36,13 +36,13 @@ dependencies {
     implementation 'com.stripe:stripe-android:2.0.2'
     implementation 'com.google.code.gson:gson:2.8.6'
     implementation files('libs/libgsaverification-client.aar')
-    implementation "com.microsoft.appcenter:appcenter-analytics:3.1.0"
+    implementation "com.microsoft.appcenter:appcenter-analytics:3.2.1"
 }
 
 android {
     compileSdkVersion 29
     buildToolsVersion '29.0.3'
-    ndkVersion "21.1.6352462"
+    ndkVersion "21.3.6528147"
 
     defaultConfig.applicationId = "tw.nekomimi.nekogram"
 
@@ -286,7 +286,7 @@ android {
         }
     }
 
-    defaultConfig.versionCode = 10 * 1989
+    defaultConfig.versionCode = 10 * 1990
 
     def tgVoipDexFileName = "libtgvoip.dex"
     def tgVoipDexClasses = ["AudioRecordJNI", "AudioTrackJNI", "NativeTgVoipDelegate", "NativeTgVoipInstance", "TgVoipNativeLoader", "Resampler", "VLog"]

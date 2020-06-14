@@ -12,7 +12,6 @@
 #include <stdint.h>
 #include <vector>
 #include <map>
-#include <memory>
 #include "Defines.h"
 
 class TL_future_salt;

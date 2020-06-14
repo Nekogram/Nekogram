@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,17 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildConfig;
@@ -25,6 +36,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -44,10 +56,11 @@ import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.ProfileActivity;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class MessageDetailsActivity extends BaseFragment {
+public class MessageDetailsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private RecyclerListView listView;
     private ListAdapter listAdapter;
@@ -61,6 +74,7 @@ public class MessageDetailsActivity extends BaseFragment {
     private int rowCount;
 
     private int idRow;
+    private int scheduledRow;
     private int messageRow;
     private int captionRow;
     private int groupRow;
@@ -74,11 +88,36 @@ public class MessageDetailsActivity extends BaseFragment {
     private int filePathRow;
     private int fileSizeRow;
     private int dcRow;
+    private int buttonsRow;
     private int emptyRow;
     private int exportRow;
     private int endRow;
 
     private UndoView copyTooltip;
+
+    public static final Gson gson = new GsonBuilder()
+            .setExclusionStrategies(new Exclusion())
+            .registerTypeHierarchyAdapter(byte[].class, new ByteArrayToBase64TypeAdapter()).create();
+
+    private static class ByteArrayToBase64TypeAdapter implements JsonSerializer<byte[]>, JsonDeserializer<byte[]> {
+        public byte[] deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return Base64.decode(json.getAsString(), Base64.NO_WRAP);
+        }
+
+        public JsonElement serialize(byte[] src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(Base64.encodeToString(src, Base64.NO_WRAP));
+        }
+    }
+
+    public static class Exclusion implements ExclusionStrategy {
+        public boolean shouldSkipClass(Class<?> arg0) {
+            return false;
+        }
+
+        public boolean shouldSkipField(FieldAttributes f) {
+            return f.getName().equals("disableFree") || f.getName().equals("networkType");
+        }
+    }
 
     public MessageDetailsActivity(MessageObject messageObject) {
         this.messageObject = messageObject;
@@ -129,6 +168,7 @@ public class MessageDetailsActivity extends BaseFragment {
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
 
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiDidLoad);
         updateRows();
 
         return true;
@@ -165,7 +205,6 @@ public class MessageDetailsActivity extends BaseFragment {
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener((view, position, x, y) -> {
             if (position == exportRow) {
-                Gson gson = new Gson();
                 try {
                     AndroidUtilities.addToClipboard(gson.toJson(messageObject.messageOwner));
                     copyTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
@@ -238,6 +277,7 @@ public class MessageDetailsActivity extends BaseFragment {
     private void updateRows() {
         rowCount = 0;
         idRow = rowCount++;
+        scheduledRow = messageObject.scheduled ? rowCount++ : -1;
         messageRow = TextUtils.isEmpty(messageObject.messageText) ? -1 : rowCount++;
         captionRow = TextUtils.isEmpty(messageObject.caption) ? -1 : rowCount++;
         groupRow = fromChat != null && !fromChat.broadcast ? rowCount++ : -1;
@@ -258,6 +298,7 @@ public class MessageDetailsActivity extends BaseFragment {
         } else {
             dcRow = -1;
         }
+        buttonsRow = messageObject.messageOwner.reply_markup instanceof TLRPC.TL_replyInlineMarkup ? rowCount++ : -1;
         emptyRow = rowCount++;
         exportRow = rowCount++;
         endRow = rowCount++;
@@ -307,6 +348,21 @@ public class MessageDetailsActivity extends BaseFragment {
         return themeDescriptions;
     }
 
+    @Override
+    public void didReceivedNotification(int id, int account, Object... args) {
+        if (id == NotificationCenter.emojiDidLoad) {
+            if (listView != null) {
+                listView.invalidateViews();
+            }
+        }
+    }
+
+    @Override
+    public void onFragmentDestroy() {
+        super.onFragmentDestroy();
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiDidLoad);
+    }
+
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
 
         private Context mContext;
@@ -338,9 +394,9 @@ public class MessageDetailsActivity extends BaseFragment {
                     if (position == idRow) {
                         textCell.setTextAndValue("ID", String.valueOf(messageObject.messageOwner.id), divider);
                     } else if (position == messageRow) {
-                        textCell.setTextWithEmojiAnd21Value("Message", messageObject.messageText, divider);
+                        textCell.setTextAndValue("Message", messageObject.messageText, divider);
                     } else if (position == captionRow) {
-                        textCell.setTextWithEmojiAnd21Value("Caption", messageObject.caption, divider);
+                        textCell.setTextAndValue("Caption", messageObject.caption, divider);
                     } else if (position == channelRow || position == groupRow) {
                         StringBuilder builder = new StringBuilder();
                         builder.append(fromChat.title);
@@ -351,7 +407,7 @@ public class MessageDetailsActivity extends BaseFragment {
                             builder.append("\n");
                         }
                         builder.append(fromChat.id);
-                        textCell.setTextWithEmojiAnd21Value(position == channelRow ? "Channel" : "Group", builder.toString(), divider);
+                        textCell.setTextAndValue(position == channelRow ? "Channel" : "Group", builder.toString(), divider);
                     } else if (position == fromRow) {
                         StringBuilder builder = new StringBuilder();
                         if (fromUser != null) {
@@ -366,14 +422,14 @@ public class MessageDetailsActivity extends BaseFragment {
                         } else {
                             builder.append(messageObject.messageOwner.post_author);
                         }
-                        textCell.setTextWithEmojiAnd21Value("From", builder.toString(), divider);
+                        textCell.setTextAndValue("From", builder.toString(), divider);
                     } else if (position == botRow) {
                         textCell.setTextAndValue("Bot", "Yes", divider);
                     } else if (position == dateRow) {
                         long date = (long) messageObject.messageOwner.date * 1000;
-                        textCell.setTextAndValue("Date", LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date))), divider);
+                        textCell.setTextAndValue(messageObject.scheduled ? "Scheduled date" : "Date", messageObject.messageOwner.date == 0x7ffffffe ? "When online" : LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date))), divider);
                     } else if (position == editedRow) {
-                        long date = (long) messageObject.messageOwner.date * 1000;
+                        long date = (long) messageObject.messageOwner.edit_date * 1000;
                         textCell.setTextAndValue("Edited", LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date))), divider);
                     } else if (position == forwardRow) {
                         StringBuilder builder = new StringBuilder();
@@ -400,7 +456,7 @@ public class MessageDetailsActivity extends BaseFragment {
                         } else if (!TextUtils.isEmpty(messageObject.messageOwner.fwd_from.from_name)) {
                             builder.append(messageObject.messageOwner.fwd_from.from_name);
                         }
-                        textCell.setTextWithEmojiAnd21Value("Forward from", builder.toString(), divider);
+                        textCell.setTextAndValue("Forward from", builder.toString(), divider);
                     } else if (position == fileNameRow) {
                         textCell.setTextAndValue("File name", fileName, divider);
                     } else if (position == filePathRow) {
@@ -413,6 +469,10 @@ public class MessageDetailsActivity extends BaseFragment {
                         } else if (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0) {
                             textCell.setTextAndValue("DC", String.valueOf(messageObject.messageOwner.media.document.dc_id), divider);
                         }
+                    } else if (position == scheduledRow) {
+                        textCell.setTextAndValue("Scheduled", "Yes", divider);
+                    } else if (position == buttonsRow) {
+                        textCell.setTextAndValue("Buttons", gson.toJson(messageObject.messageOwner.reply_markup), divider);
                     }
                     break;
                 }

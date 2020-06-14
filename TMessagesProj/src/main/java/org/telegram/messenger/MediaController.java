@@ -3113,7 +3113,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         File file = null;
         if (!TextUtils.isEmpty(fullPath)) {
             file = new File(fullPath);
-            if (!file.exists()) {
+            if (!file.exists() || AndroidUtilities.isInternalUri(Uri.fromFile(file))) {
                 file = null;
             }
         }

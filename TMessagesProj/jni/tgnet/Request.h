@@ -11,7 +11,6 @@
 
 #include <stdint.h>
 #include <vector>
-#include <memory>
 #include "Defines.h"
 
 #ifdef ANDROID

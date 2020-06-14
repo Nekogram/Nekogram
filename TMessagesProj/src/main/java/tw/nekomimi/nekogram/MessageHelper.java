@@ -17,7 +17,6 @@ import org.telegram.ui.Cells.ChatMessageCell;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.settings.NekoGeneralSettingsActivity;
-import tw.nekomimi.nekogram.translator.TranslateBottomSheet;
 import tw.nekomimi.nekogram.translator.Translator;
 
 public class MessageHelper extends BaseController {
@@ -44,58 +43,54 @@ public class MessageHelper extends BaseController {
     }
 
     public static void showTranslateDialog(Context context, String query) {
-        if (NekoConfig.translationProvider < 0) {
-            TranslateBottomSheet.show(context, query);
-        } else {
-            if (progressDialog != null) {
-                progressDialog.dismiss();
-            }
-            progressDialog = new AlertDialog(context, 3);
-            progressDialog.showDelayed(400);
-            Translator.translate(query, new Translator.TranslateCallBack() {
-                @Override
-                public void onSuccess(Object translation) {
-                    if (progressDialog != null) {
-                        progressDialog.dismiss();
-                    }
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage((String) translation);
-                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-                    builder.setNeutralButton(LocaleController.getString("Copy", R.string.Copy), (dialog, which) -> AndroidUtilities.addToClipboard((String) translation));
-                    builder.show();
-                }
-
-                @Override
-                public void onError(Throwable e) {
-                    if (progressDialog != null) {
-                        progressDialog.dismiss();
-                    }
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    if (e != null && e.getLocalizedMessage() != null) {
-                        builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
-                        builder.setMessage(e.getLocalizedMessage());
-                    } else {
-                        builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
-                    }
-                    builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> NekoGeneralSettingsActivity.getTranslationProviderAlert(context).show());
-                    builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> showTranslateDialog(context, query));
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                    builder.show();
-                }
-
-                @Override
-                public void onUnsupported() {
-                    if (progressDialog != null) {
-                        progressDialog.dismiss();
-                    }
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
-                    builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> NekoGeneralSettingsActivity.getTranslationProviderAlert(context).show());
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                    builder.show();
-                }
-            });
+        if (progressDialog != null) {
+            progressDialog.dismiss();
         }
+        progressDialog = new AlertDialog(context, 3);
+        progressDialog.showDelayed(400);
+        Translator.translate(query, new Translator.TranslateCallBack() {
+            @Override
+            public void onSuccess(Object translation) {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage((String) translation);
+                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                builder.setNeutralButton(LocaleController.getString("Copy", R.string.Copy), (dialog, which) -> AndroidUtilities.addToClipboard((String) translation));
+                builder.show();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                if (e != null && e.getLocalizedMessage() != null) {
+                    builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                    builder.setMessage(e.getLocalizedMessage());
+                } else {
+                    builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                }
+                builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> NekoGeneralSettingsActivity.getTranslationProviderAlert(context).show());
+                builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> showTranslateDialog(context, query));
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.show();
+            }
+
+            @Override
+            public void onUnsupported() {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
+                builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> NekoGeneralSettingsActivity.getTranslationProviderAlert(context).show());
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.show();
+            }
+        });
     }
 
     public static MessageHelper getInstance(int num) {

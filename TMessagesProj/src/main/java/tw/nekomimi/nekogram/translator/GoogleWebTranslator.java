@@ -45,7 +45,7 @@ public class GoogleWebTranslator extends Translator {
     }
 
     @Override
-    protected String translate(String query, String tl) throws IOException {
+    protected String translate(String query, String tl) throws IOException, JSONException {
         String result = translateImpl(query, tl);
         if (result == null) {
             tkk = null;
@@ -60,7 +60,7 @@ public class GoogleWebTranslator extends Translator {
     }
 
 
-    private String translateImpl(String query, String tl) throws IOException {
+    private String translateImpl(String query, String tl) throws IOException, JSONException {
         if (tkk == null) {
             initTkk();
         }
@@ -76,12 +76,7 @@ public class GoogleWebTranslator extends Translator {
         if (TextUtils.isEmpty(response)) {
             return null;
         }
-        try {
-            return getResult(response);
-        } catch (JSONException e) {
-            FileLog.e(response + e);
-            return null;
-        }
+        return getResult(response);
     }
 
     private String getResult(String string) throws JSONException {
@@ -142,7 +137,6 @@ public class GoogleWebTranslator extends Translator {
                 break;
             }
         }
-
         String result = new String(outbuf.toByteArray());
         httpConnectionStream.close();
         outbuf.close();

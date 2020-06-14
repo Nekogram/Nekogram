@@ -3158,6 +3158,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         if (prevWidth != layoutParams.width) {
             onlineTextView[1].requestLayout();
+            onlineTextView[2].requestLayout();
         }
 
         width2 = idTextView.getPaint().measureText(idTextView.getText().toString());
@@ -3171,20 +3172,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         if (prevWidth != layoutParams.width) {
             idTextView.requestLayout();
-        }
-    }
-
-    private void loadMediaCounts() {
-        if (dialog_id != 0) {
-            MediaDataController.getInstance(currentAccount).getMediaCounts(dialog_id, classGuid);
-        } else if (user_id != 0) {
-            MediaDataController.getInstance(currentAccount).getMediaCounts(user_id, classGuid);
-        } else if (chat_id > 0) {
-            MediaDataController.getInstance(currentAccount).getMediaCounts(-chat_id, classGuid);
-            if (mergeDialogId != 0) {
-                MediaDataController.getInstance(currentAccount).getMediaCounts(mergeDialogId, classGuid);
-            }
-            onlineTextView[2].requestLayout();
         }
     }
 

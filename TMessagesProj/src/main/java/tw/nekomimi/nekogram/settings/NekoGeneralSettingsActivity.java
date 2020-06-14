@@ -92,14 +92,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         types.add(Translator.PROVIDER_LINGO);
         arrayList.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
         types.add(Translator.PROVIDER_YANDEX);
-        arrayList.add(LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb));
-        types.add(Translator.PROVIDER_GOOGLE_WEB);
-        arrayList.add(LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb));
-        types.add(Translator.PROVIDER_GOOGLE_CN_WEB);
-        arrayList.add(LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb));
-        types.add(Translator.PROVIDER_BAIDU_WEB);
-        arrayList.add(LocaleController.getString("ProviderDeepLWeb", R.string.ProviderDeepLWeb));
-        types.add(Translator.PROVIDER_DEEPL_WEB);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
@@ -517,20 +509,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                             case Translator.PROVIDER_GOOGLE:
                                 value = LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate);
                                 break;
-                            case Translator.PROVIDER_GOOGLE_WEB:
-                                value = LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb);
-                                break;
                             case Translator.PROVIDER_GOOGLE_CN:
                                 value = LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN);
-                                break;
-                            case Translator.PROVIDER_GOOGLE_CN_WEB:
-                                value = LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb);
-                                break;
-                            case Translator.PROVIDER_BAIDU_WEB:
-                                value = LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb);
-                                break;
-                            case Translator.PROVIDER_DEEPL_WEB:
-                                value = LocaleController.getString("ProviderDeepLWeb", R.string.ProviderDeepLWeb);
                                 break;
                             case Translator.PROVIDER_YANDEX:
                                 value = LocaleController.getString("ProviderYandex", R.string.ProviderYandex);

@@ -19,30 +19,34 @@ abstract public class Translator {
     public static final int PROVIDER_GOOGLE_CN = 2;
     public static final int PROVIDER_LINGO = 3;
     public static final int PROVIDER_YANDEX = 4;
-    public static final int PROVIDER_GOOGLE_WEB = -1;
-    public static final int PROVIDER_GOOGLE_CN_WEB = -2;
-    public static final int PROVIDER_BAIDU_WEB = -3;
-    public static final int PROVIDER_DEEPL_WEB = -4;
 
     public static void translate(Object query, TranslateCallBack translateCallBack) {
         Locale locale = LocaleController.getInstance().currentLocale;
         String toLang;
-        if (NekoConfig.translationProvider != PROVIDER_LINGO && NekoConfig.translationProvider != PROVIDER_YANDEX && locale.getLanguage().equals("zh") && (locale.getCountry().toUpperCase().equals("CN") || locale.getCountry().toUpperCase().equals("TW"))) {
-            toLang = locale.getLanguage() + "-" + locale.getCountry().toUpperCase();
-        } else {
-            toLang = locale.getLanguage();
-        }
         Translator translator;
         switch (NekoConfig.translationProvider) {
             case PROVIDER_YANDEX:
+                toLang = locale.getLanguage();
                 translator = YandexTranslator.getInstance();
                 break;
             case PROVIDER_GOOGLE:
             case PROVIDER_GOOGLE_CN:
+                if (locale.getLanguage().equals("zh")) {
+                    if (locale.getCountry().toUpperCase().equals("CN") || locale.getCountry().toUpperCase().equals("DUANG")) {
+                        toLang = "zh-CN";
+                    } else if (locale.getCountry().toUpperCase().equals("TW") || locale.getCountry().toUpperCase().equals("HK")) {
+                        toLang = "zh-TW";
+                    } else {
+                        toLang = locale.getLanguage();
+                    }
+                } else {
+                    toLang = locale.getLanguage();
+                }
                 translator = GoogleWebTranslator.getInstance();
                 break;
             case PROVIDER_LINGO:
             default:
+                toLang = locale.getLanguage();
                 translator = LingoTranslator.getInstance();
                 break;
         }

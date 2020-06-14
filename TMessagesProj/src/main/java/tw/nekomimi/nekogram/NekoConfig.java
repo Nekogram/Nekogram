@@ -31,7 +31,7 @@ public class NekoConfig {
     public static boolean hideKeyboardOnChatScroll = false;
     public static boolean rearVideoMessages = false;
     public static boolean hideAllTab = false;
-    public static boolean confirmAVMessage = true;
+    public static boolean confirmAVMessage = false;
     public static boolean askBeforeCall = true;
     public static boolean disableNumberRounding = false;
     public static int mapPreviewProvider = 0;
@@ -177,7 +177,7 @@ public class NekoConfig {
             rearVideoMessages = preferences.getBoolean("rearVideoMessages", false);
             hideAllTab = preferences.getBoolean("hideAllTab", false);
             tabsTitleType = preferences.getInt("tabsTitleType", TITLE_TYPE_TEXT);
-            confirmAVMessage = preferences.getBoolean("confirmAVMessage", true);
+            confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
             askBeforeCall = preferences.getBoolean("askBeforeCall", true);
             shouldNOTTrustMe = preferences.getBoolean("shouldNOTTrustMe", false);
             disableNumberRounding = preferences.getBoolean("disableNumberRounding", false);

@@ -69,8 +69,6 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import tw.nekomimi.nekogram.NekoConfig;
-
 public class ChatRightsEditActivity extends BaseFragment {
 
     private ListAdapter listViewAdapter;

@@ -3,7 +3,6 @@ package tw.nekomimi.nekogram.translator;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.telegram.messenger.FileLog;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -112,16 +111,8 @@ public class YandexTranslator extends Translator {
             }
         }
         String result = new String(outbuf.toByteArray());
-        try {
-            httpConnectionStream.close();
-        } catch (Throwable e) {
-            FileLog.e(e);
-        }
-        try {
-            outbuf.close();
-        } catch (Exception ignore) {
-
-        }
+        httpConnectionStream.close();
+        outbuf.close();
         return result;
 
     }

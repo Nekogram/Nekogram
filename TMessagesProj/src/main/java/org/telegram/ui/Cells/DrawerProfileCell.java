@@ -295,7 +295,7 @@ public class DrawerProfileCell extends FrameLayout {
         avatarDrawable.setColor(Theme.getColor(Theme.key_avatar_backgroundInProfileBlue));
         avatarImageView.setImage(ImageLocation.getForUser(user, false), "50_50", avatarDrawable, user);
         if (NekoConfig.avatarAsDrawerBackground) {
-            avatarBackgroundView.setImage(ImageLocation.getForUser(user, true), "512_512", avatarDrawable, user);
+            avatarBackgroundView.setImage(ImageLocation.getForUser(user, true), "512_512", new ColorDrawable(0x00000000), user);
             avatarBackgroundView.setVisibility(VISIBLE);
             avatarImageView.setVisibility(INVISIBLE);
         } else {

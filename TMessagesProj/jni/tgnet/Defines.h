@@ -12,7 +12,6 @@
 #include <functional>
 #include <list>
 #include <limits.h>
-#include <memory>
 #include <sstream>
 #include <inttypes.h>
 #include "ByteArray.h"

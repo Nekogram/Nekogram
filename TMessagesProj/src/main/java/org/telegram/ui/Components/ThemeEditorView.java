@@ -911,9 +911,7 @@ public class ThemeEditorView {
             saveButton.setText(LocaleController.getString("Save", R.string.Save).toUpperCase());
             saveButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             linearLayout.addView(saveButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
-            saveButton.setOnClickListener(v -> {
-                setColorPickerVisible(false);
-            });
+            saveButton.setOnClickListener(v -> setColorPickerVisible(false));
         }
 
         private void runShadowAnimation(final int num, final boolean show) {

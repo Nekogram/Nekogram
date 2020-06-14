@@ -84,14 +84,6 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         types.add(Translator.PROVIDER_GOOGLE_CN);
         arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
         types.add(Translator.PROVIDER_LINGO);
-        arrayList.add(LocaleController.getString("ProviderGoogleTranslateWeb", R.string.ProviderGoogleTranslateWeb));
-        types.add(Translator.PROVIDER_GOOGLE_WEB);
-        arrayList.add(LocaleController.getString("ProviderGoogleTranslateCNWeb", R.string.ProviderGoogleTranslateCNWeb));
-        types.add(Translator.PROVIDER_GOOGLE_CN_WEB);
-        arrayList.add(LocaleController.getString("ProviderBaiduFanyiWeb", R.string.ProviderBaiduFanyiWeb));
-        types.add(Translator.PROVIDER_BAIDU_WEB);
-        arrayList.add(LocaleController.getString("ProviderDeepLWeb", R.string.ProviderDeepLWeb));
-        types.add(Translator.PROVIDER_DEEPL_WEB);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
