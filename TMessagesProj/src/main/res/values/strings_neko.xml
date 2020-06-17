@@ -113,4 +113,9 @@
     <string name="BetaWarning">This is a **beta** feature implemented by **Telegram**.</string>
     <string name="MediaPreview">Media preview in dialog list</string>
     <string name="ProviderYandex">Yandex Translate</string>
+    <string name="IdType">Chat ID in profile</string>
+    <string name="IdTypeAbout">Telegram API uses IDs as-is, but Bot API adds minus in the beginning for groups, and -100 for channels and supergroups to fit it in one field.</string>
+    <string name="IdTypeHidden">Hide</string>
+    <string name="IdTypeAPI">Telegram API</string>
+    <string name="IdTypeBOTAPI">Bot API</string>
 </resources>

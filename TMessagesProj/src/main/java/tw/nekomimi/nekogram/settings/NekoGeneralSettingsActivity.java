@@ -77,6 +77,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int openArchiveOnPullRow;
     private int translationProviderRow;
     private int nameOrderRow;
+    private int idTypeRow;
     private int general2Row;
 
     private UndoView restartTooltip;
@@ -341,6 +342,39 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 ActionBarLayout.headerShadowDrawable = NekoConfig.disableAppBarShadow ? null : parentLayout.getResources().getDrawable(R.drawable.header_shadow).mutate();
                 parentLayout.rebuildAllFragmentViews(true, true);
+            } else if (position == idTypeRow) {
+                ArrayList<String> arrayList = new ArrayList<>();
+                ArrayList<Integer> types = new ArrayList<>();
+                arrayList.add(LocaleController.getString("IdTypeHidden", R.string.IdTypeHidden));
+                types.add(NekoConfig.ID_TYPE_HIDDEN);
+                arrayList.add(LocaleController.getString("IdTypeAPI", R.string.IdTypeAPI));
+                types.add(NekoConfig.ID_TYPE_API);
+                arrayList.add(LocaleController.getString("IdTypeBOTAPI", R.string.IdTypeBOTAPI));
+                types.add(NekoConfig.ID_TYPE_BOTAPI);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setTitle(LocaleController.getString("IdType", R.string.IdType));
+                builder.setMessage(LocaleController.getString("IdTypeAbout", R.string.IdTypeAbout));
+                final LinearLayout linearLayout = new LinearLayout(context);
+                linearLayout.setOrientation(LinearLayout.VERTICAL);
+                builder.setView(linearLayout);
+
+                for (int a = 0; a < arrayList.size(); a++) {
+                    RadioColorCell cell = new RadioColorCell(context);
+                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+                    cell.setTag(a);
+                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+                    cell.setTextAndValue(arrayList.get(a), NekoConfig.idType == types.get(a));
+                    linearLayout.addView(cell);
+                    cell.setOnClickListener(v -> {
+                        Integer which = (Integer) v.getTag();
+                        NekoConfig.setIdType(types.get(which));
+                        listAdapter.notifyItemChanged(idTypeRow);
+                        builder.getDismissRunnable().run();
+                    });
+                }
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                showDialog(builder.create());
             }
         });
 
@@ -388,6 +422,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         openArchiveOnPullRow = rowCount++;
         translationProviderRow = rowCount++;
         nameOrderRow = rowCount++;
+        idTypeRow = rowCount++;
         general2Row = rowCount++;
 
         if (listAdapter != null) {
@@ -474,7 +509,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                                 value = LocaleController.getString("FirstLast", R.string.FirstLast);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("NameOrder", R.string.NameOrder), value, false);
+                        textCell.setTextAndValue(LocaleController.getString("NameOrder", R.string.NameOrder), value, true);
                     } else if (position == eventTypeRow) {
                         String value;
                         switch (NekoConfig.eventType) {
@@ -521,6 +556,21 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                                 break;
                         }
                         textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), value, true);
+                    } else if (position == idTypeRow) {
+                        String value;
+                        switch (NekoConfig.idType) {
+                            case NekoConfig.ID_TYPE_HIDDEN:
+                                value = LocaleController.getString("IdTypeHidden", R.string.IdTypeHidden);
+                                break;
+                            case NekoConfig.ID_TYPE_BOTAPI:
+                                value = LocaleController.getString("IdTypeBOTAPI", R.string.IdTypeBOTAPI);
+                                break;
+                            case NekoConfig.ID_TYPE_API:
+                            default:
+                                value = LocaleController.getString("IdTypeAPI", R.string.IdTypeAPI);
+                                break;
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("IdType", R.string.IdType), value, false);
                     }
                     break;
                 }
@@ -619,7 +669,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == connection2Row || position == appearance2Row || position == general2Row) {
                 return 1;
-            } else if (position == nameOrderRow || position == translationProviderRow || position == eventTypeRow || position == actionBarDecorationRow) {
+            } else if (position == nameOrderRow || position == translationProviderRow || position == eventTypeRow || position == actionBarDecorationRow ||
+                    position == idTypeRow) {
                 return 2;
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow || position == transparentStatusBarRow ||
                     position == hideProxySponsorChannelRow || position == useSystemEmojiRow || position == typefaceRow || position == forceTabletRow ||

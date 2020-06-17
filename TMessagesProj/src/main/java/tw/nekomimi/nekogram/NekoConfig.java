@@ -19,6 +19,10 @@ public class NekoConfig {
     public static final int TITLE_TYPE_ICON = 1;
     public static final int TITLE_TYPE_MIX = 2;
 
+    public static final int ID_TYPE_HIDDEN = 0;
+    public static final int ID_TYPE_API = 1;
+    public static final int ID_TYPE_BOTAPI = 2;
+
     private static final Object sync = new Object();
     public static boolean useIPv6 = false;
     public static boolean showHiddenFeature = false;
@@ -38,6 +42,7 @@ public class NekoConfig {
     public static float stickerSize = 14.0f;
     public static int translationProvider = 1;
     public static int tabsTitleType = TITLE_TYPE_TEXT;
+    public static int idType = ID_TYPE_API;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -125,6 +130,7 @@ public class NekoConfig {
                 editor.putInt("eventType", eventType);
                 editor.putInt("actionBarDecoration", actionBarDecoration);
                 editor.putInt("tabsTitleType", tabsTitleType);
+                editor.putInt("idType", idType);
                 editor.commit();
             } catch (Exception e) {
                 FileLog.e(e);
@@ -183,6 +189,7 @@ public class NekoConfig {
             disableNumberRounding = preferences.getBoolean("disableNumberRounding", false);
             disableAppBarShadow = preferences.getBoolean("disableAppBarShadow", false);
             mediaPreview = preferences.getBoolean("mediaPreview", false);
+            idType = preferences.getInt("idType", ID_TYPE_API);
             configLoaded = true;
         }
     }
@@ -539,6 +546,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("mediaPreview", mediaPreview);
+        editor.commit();
+    }
+
+    public static void setIdType(int type) {
+        idType = type;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("idType", idType);
         editor.commit();
     }
 }
