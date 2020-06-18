@@ -7,7 +7,9 @@ on:
       - '.github/**'
       - '!.github/workflows/**'
     branches:
-    - master
+      - '*'         # matches every branch
+      - '*/*'       # matches every branch containing a single '/'
+      - '!l10n_master'   # excludes l10n_master
 
 jobs:
   linux:
