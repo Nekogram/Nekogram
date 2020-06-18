@@ -4,9 +4,15 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Build;
+import android.provider.OpenableColumns;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +25,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -43,6 +50,8 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.UndoView;
 
+import java.io.File;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.MessageHelper;
@@ -62,6 +71,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private int rowCount;
 
     private int experimentRow;
+    private int emojiRow;
     private int smoothKeyboardRow;
     private int mediaPreviewRow;
     private int saveCacheToExternalFilesDirRow;
@@ -274,7 +284,31 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     tooltip.setInfoText(AndroidUtilities.replaceTags(LocaleController.formatString("BetaWarning", R.string.BetaWarning)));
                     tooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
                 }
+            } else if (position == emojiRow) {
+                if (!TextUtils.isEmpty(NekoConfig.customEmojiFontPath) && (LocaleController.isRTL && x <= AndroidUtilities.dp(76) || !LocaleController.isRTL && x >= view.getMeasuredWidth() - AndroidUtilities.dp(76))) {
+                    NotificationsCheckCell checkCell = (NotificationsCheckCell) view;
+                    NekoConfig.toggleCustomEmojiFont();
+                    checkCell.setChecked(NekoConfig.customEmojiFont, 0);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("*/*");
+                    startActivityForResult(intent, 36654);
+                }
+
             }
+        });
+        listView.setOnItemLongClickListener((view, position) -> {
+            if (position == emojiRow) {
+                try {
+                    if (NekoConfig.customEmojiFont) NekoConfig.toggleCustomEmojiFont();
+                    NekoConfig.setCustomEmojiFontPath(null);
+                } catch (Exception e) {
+                    //
+                }
+                listAdapter.notifyItemChanged(emojiRow);
+            }
+            return false;
         });
 
         tooltip = new UndoView(context);
@@ -292,10 +326,48 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         }
     }
 
+    public String getFileName(Uri uri) {
+        String result = null;
+        try (Cursor cursor = getParentActivity().getContentResolver().query(uri, new String[]{OpenableColumns.DISPLAY_NAME}, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                result = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
+            }
+        }
+        return result;
+    }
+
+    @Override
+    public void onActivityResultFragment(int requestCode, int resultCode, Intent data) {
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        if (requestCode == 36654) {
+            if (data != null) {
+                Uri uri = data.getData();
+                if (uri != null) {
+                    try {
+                        InputStream os = getParentActivity().getContentResolver().openInputStream(uri);
+                        if (os != null) {
+                            String fileName = getFileName(uri);
+                            File dest = new File(ApplicationLoader.applicationContext.getExternalCacheDir(), fileName == null ? "emoji.ttf" : fileName);
+                            AndroidUtilities.copyFile(os, dest);
+                            NekoConfig.setCustomEmojiFontPath(dest.toString());
+                            if (!NekoConfig.customEmojiFont) NekoConfig.toggleCustomEmojiFont();
+                        }
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                        AlertsCreator.createSimpleAlert(getParentActivity(), e.getLocalizedMessage());
+                    }
+                }
+            }
+        }
+    }
+
     private void updateRows() {
         rowCount = 0;
 
         experimentRow = rowCount++;
+        emojiRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? rowCount++ : -1;
         smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
         mediaPreviewRow = rowCount++;
         saveCacheToExternalFilesDirRow = rowCount++;
@@ -426,6 +498,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     if (position == deleteAccountRow) {
                         textCell.setText(LocaleController.getString("DeleteAccount", R.string.DeleteAccount), false);
                         textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
+                    } else if (position == emojiRow) {
+                        textCell.setText(LocaleController.getString("CustomEmojiTypeface", R.string.CustomEmojiTypeface), true);
                     }
                     break;
                 }
@@ -457,13 +531,20 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     }
                     break;
                 }
+                case 5: {
+                    NotificationsCheckCell textCell = (NotificationsCheckCell) holder.itemView;
+                    if (position == emojiRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("CustomEmojiTypeface", R.string.CustomEmojiTypeface), new File(NekoConfig.customEmojiFontPath).getName(), NekoConfig.customEmojiFont, true);
+                    }
+                    break;
+                }
             }
         }
 
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int type = holder.getItemViewType();
-            return type == 2 || type == 3;
+            return type == 2 || type == 3 || type == 6 || type == 5;
         }
 
         @Override
@@ -513,6 +594,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 return 3;
             } else if (position == experimentRow) {
                 return 4;
+            } else if (position == emojiRow) {
+                return TextUtils.isEmpty(NekoConfig.customEmojiFontPath) ? 2 : 5;
             }
             return 2;
         }

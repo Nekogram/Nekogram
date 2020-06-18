@@ -2,9 +2,9 @@ package tw.nekomimi.nekogram;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Typeface;
 import android.os.Build;
 
 import org.telegram.messenger.ApplicationLoader;
@@ -73,6 +73,10 @@ public class NekoConfig {
     public static boolean autoPauseVideo = true;
     public static boolean disableProximityEvents = false;
 
+    public static boolean customEmojiFont;
+    public static String customEmojiFontPath;
+    private static Typeface customEmojiTypeface;
+
     public static boolean residentNotification = false;
 
     public static boolean shouldNOTTrustMe = false;
@@ -83,7 +87,7 @@ public class NekoConfig {
         loadConfig();
     }
 
-    public static void saveConfig() {
+    /*public static void saveConfig() {
         synchronized (sync) {
             try {
                 SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfing", Context.MODE_PRIVATE);
@@ -140,7 +144,7 @@ public class NekoConfig {
                 FileLog.e(e);
             }
         }
-    }
+    }*/
 
     public static void loadConfig() {
         synchronized (sync) {
@@ -196,6 +200,8 @@ public class NekoConfig {
             idType = preferences.getInt("idType", ID_TYPE_API);
             autoPauseVideo = preferences.getBoolean("autoPauseVideo", true);
             disableProximityEvents = preferences.getBoolean("disableProximityEvents", false);
+            customEmojiFontPath = preferences.getString("customEmojiFontPath", "");
+            customEmojiFont = preferences.getBoolean("customEmojiFont", false);
             configLoaded = true;
         }
     }
@@ -577,5 +583,42 @@ public class NekoConfig {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("disableProximityEvents", disableProximityEvents);
         editor.commit();
+    }
+
+    public static void toggleCustomEmojiFont() {
+        customEmojiFont = !customEmojiFont;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("customEmojiFont", customEmojiFont);
+        editor.commit();
+    }
+
+    public static void setCustomEmojiFontPath(String path) {
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        try {
+            customEmojiFontPath = path;
+            customEmojiTypeface = Typeface.createFromFile(path);
+        } catch (Exception e) {
+            customEmojiTypeface = null;
+            customEmojiFontPath = null;
+            editor.remove("customEmojiFontPath");
+            editor.commit();
+            throw e;
+        }
+        editor.putString("customEmojiFontPath", customEmojiFontPath);
+        editor.commit();
+    }
+
+    public static Typeface getCustomEmojiTypeface() {
+        if (customEmojiTypeface == null) {
+            try {
+                customEmojiTypeface = Typeface.createFromFile(customEmojiFontPath);
+            } catch (Exception e) {
+                FileLog.e(e);
+                customEmojiTypeface = null;
+            }
+        }
+        return customEmojiTypeface;
     }
 }

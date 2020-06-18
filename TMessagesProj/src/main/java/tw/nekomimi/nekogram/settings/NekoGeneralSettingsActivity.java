@@ -682,7 +682,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     (position >= translationProviderRow && position <= idTypeRow)) {
                 return 2;
             } else if (position == ipv6Row || position == newYearRow ||
-                    (position > appearanceRow && position <= appBarShadowRow) || 
+                    (position > appearanceRow && position <= appBarShadowRow) ||
                     (position > generalRow && position <= autoPauseVideoRow)) {
                 return 3;
             } else if (position == generalRow || position == connectionRow || position == appearanceRow) {

@@ -271,9 +271,10 @@ public class Emoji {
             } else {
                 b = getBounds();
             }
-            if (NekoConfig.useSystemEmoji) {
+            if (NekoConfig.useSystemEmoji || NekoConfig.customEmojiFont) {
                 String emoji = fixEmoji(EmojiData.data[info.page][info.emojiIndex]);
                 textPaint.setTextSize(b.height() * 0.8f);
+                if (NekoConfig.customEmojiFont) textPaint.setTypeface(NekoConfig.getCustomEmojiTypeface());
                 canvas.drawText(emoji,  0, emoji.length(), b.left, b.bottom - b.height() * 0.225f, textPaint);
                 return;
             }
