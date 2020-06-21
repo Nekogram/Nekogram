@@ -843,6 +843,14 @@ public class AlertsCreator {
             builder.setMessageTextViewClickable(false);
             builder.setPositiveButton(LocaleController.getString("Open", R.string.Open), (dialogInterface, i) -> Browser.openUrl(fragment.getParentActivity(), url, inlineReturn == 0, tryTelegraph));
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNeutralButton(LocaleController.getString("Copy", R.string.Copy), (dialogInterface, i) -> {
+                try {
+                    AndroidUtilities.addToClipboard(url);
+                    Toast.makeText(fragment.getParentActivity(), LocaleController.getString("LinkCopied", R.string.LinkCopied), Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+            });
             fragment.showDialog(builder.create());
         }
     }
