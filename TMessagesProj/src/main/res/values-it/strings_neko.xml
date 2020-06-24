@@ -61,14 +61,10 @@
     <string name="TranslateFailed">Errore del server di traduzione</string>
     <string name="TranslationProvider">Fornitore della traduzione</string>
     <string name="ProviderGoogleTranslate">Google Traduttore</string>
-    <string name="ProviderGoogleTranslateWeb">Google Traduttore (Web)</string>
     <string name="ProviderGoogleTranslateCN">Google Traduttore CN</string>
-    <string name="ProviderGoogleTranslateCNWeb">Google Traduttore CN (Web)</string>
-    <string name="ProviderBaiduFanyiWeb">Baidu Traduttore (Web)</string>
     <string name="TranslateApiUnsupported">Il fornitore della traduzione selezionato non supporta la tua lingua.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Annulla traduzione</string>
-    <string name="CopyDetails">Copia Dettagli</string>
     <string name="DisablePhotoViewerSideAction">Disattiva scorrimento delle foto con i tap</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Chat fissate illimitate</string>
@@ -80,8 +76,6 @@
     <string name="UseAvatarAsDrawerBackground">Utilizza l\'avatar come sfondo del drawer</string>
     <string name="ShowTabsOnForward">Mostra le tab durante l\'inoltro</string>
     <string name="CheckAllAdministrated">Aggiungi amministrate</string>
-    <string name="ProviderDeepLWeb">DeepL Terjemahan (Web)</string>
-    <string name="ChatMessageAnimation">Anima i nuovi messaggi</string>
     <string name="RearVideoMessages">Usa fotocamera posteriore in Video Messaggi</string>
     <string name="HideAllTab">Nascondi la scheda \"Tutte le chat\"</string>
     <string name="HideAllTabAbout">Premi \"Indietro\" sulla home page per aprirlo.</string>

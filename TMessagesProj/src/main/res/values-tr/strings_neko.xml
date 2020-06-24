@@ -39,7 +39,7 @@
     <string name="TestBackendOn">Bu hesap test geliştirici kodlarına bağlanacak.</string>
     <string name="TestBackendOff">Bu hesap ürün geliştirici kodlarına bağlanacak.</string>
     <string name="HideProxySponsorChannel">Proxy sponsor kanalını gizle</string>
-    <string name="ViewHistory">Geçmişi görüntüle</string>
+    <string name="ViewHistory">Geçmiş</string>
     <string name="Nya">Miyav!</string>
     <string name="SaveCacheToPrivateDirectory">Önbelleği özel dizine kaydet</string>
     <string name="SensitiveDisableFiltering">Hassas içerik filtrelemeyi devre dışı bırak</string>
@@ -55,20 +55,16 @@
     <string name="MessageDetails">Detaylar</string>
     <string name="ExportAsJson">JSON olarak dışa aktar</string>
     <string name="Translate">Çevir</string>
-    <string name="JoinedFormatted">katıldı %1$s</string>
-    <string name="JoinedDateFormatted">katıldı %1$s</string>
+    <string name="JoinedFormatted">%1$s katıldı</string>
+    <string name="JoinedDateFormatted">%1$s katıldı</string>
     <string name="DeleteAccount">Telegram hesabını sil</string>
     <string name="TranslateFailed">Çeviri sunucu hatası</string>
     <string name="TranslationProvider">Çeviri sağlayıcısı</string>
     <string name="ProviderGoogleTranslate">Google Çeviri</string>
-    <string name="ProviderGoogleTranslateWeb">Google Çeviri (Web)</string>
     <string name="ProviderGoogleTranslateCN">Google Çeviri Çince</string>
-    <string name="ProviderGoogleTranslateCNWeb">Google Çeviri Çince (Web)</string>
-    <string name="ProviderBaiduFanyiWeb">Baidu Çeviri (Web)</string>
     <string name="TranslateApiUnsupported">Seçtiğiniz çeviri sağlayıcısı dilinizi desteklemiyor.</string>
     <string name="ProviderLingocloud">Lingocloud Çeviri</string>
     <string name="UndoTranslate">Çevirme</string>
-    <string name="CopyDetails">Detayları kopyala</string>
     <string name="DisablePhotoViewerSideAction">Dokunarak fotoğraf geçmeyi devre dışı bırak</string>
     <string name="BotToken">Anahtar</string>
     <string name="UnlimitedPinnedDialogs">Sınırsız sabitlenmiş sohbetler</string>
@@ -80,8 +76,6 @@
     <string name="UseAvatarAsDrawerBackground">Sol menü arkaplanında profil resmini kullan</string>
     <string name="ShowTabsOnForward">Mesaj iletme kısmında klasörleri göster</string>
     <string name="CheckAllAdministrated">Yönetilen grup ve kanalları ekle</string>
-    <string name="ProviderDeepLWeb">DeepL Çeviri (Web)</string>
-    <string name="ChatMessageAnimation">Yeni mesaj animasyonu</string>
     <string name="RearVideoMessages">Görüntülü mesajlarda arka kamera kullan</string>
     <string name="HideAllTab">\"Tüm Sohbetler\" sekmesini gizle</string>
     <string name="HideAllTabAbout">\"Geri\" tuşuna basınca, anasayfayı aç.</string>
@@ -109,4 +103,7 @@
     <string name="ResetStickerSize">Çıkartma boyutunu varsayılan yap</string>
     <string name="RestartAppToTakeEffect">Etkili olması için uygulamayı yeniden başlatın.</string>
     <string name="DisableAppBarShadow">Başlık çubuğu gölgesini devre dışı bırak</string>
+    <string name="BetaWarning">**Telegram** tarafından uygulanan bir **beta** özelliğidir.</string>
+    <string name="MediaPreview">Sohbet listesinde medya önizlemesi</string>
+    <string name="ProviderYandex">Yandex Çeviri</string>
 </resources>

@@ -61,14 +61,10 @@
     <string name="TranslateFailed">翻译服务器错误</string>
     <string name="TranslationProvider">翻译源</string>
     <string name="ProviderGoogleTranslate">Google 翻译</string>
-    <string name="ProviderGoogleTranslateWeb">Google 翻译 (Web)</string>
     <string name="ProviderGoogleTranslateCN">Google 中国翻译</string>
-    <string name="ProviderGoogleTranslateCNWeb">Google 中国翻译 (Web)</string>
-    <string name="ProviderBaiduFanyiWeb">百度翻译 (Web)</string>
     <string name="TranslateApiUnsupported">您选择的翻译源不支持您的语言。</string>
     <string name="ProviderLingocloud">彩云小译</string>
     <string name="UndoTranslate">撤销翻译</string>
-    <string name="CopyDetails">复制详细信息</string>
     <string name="DisablePhotoViewerSideAction">禁用点按切换图片</string>
     <string name="BotToken">令牌</string>
     <string name="UnlimitedPinnedDialogs">无限的置顶对话</string>
@@ -80,8 +76,6 @@
     <string name="UseAvatarAsDrawerBackground">使用头像作为抽屉背景</string>
     <string name="ShowTabsOnForward">在转发页面显示文件夹</string>
     <string name="CheckAllAdministrated">添加管理的群组与频道</string>
-    <string name="ProviderDeepLWeb">DeepL 翻译器（网页）</string>
-    <string name="ChatMessageAnimation">新消息动画</string>
     <string name="RearVideoMessages">视频留言默认使用后置摄像头</string>
     <string name="HideAllTab">隐藏“全部对话”</string>
     <string name="HideAllTabAbout">在主页按返回键打开全部对话。</string>
@@ -115,4 +109,9 @@
     <string name="BetaWarning">这是由 **Telegram** 实现的**测试版**特性。</string>
     <string name="MediaPreview">对话列表中的媒体预览</string>
     <string name="ProviderYandex">Yandex 翻译</string>
+    <string name="IdType">个人资料中的 ID</string>
+    <string name="IdTypeAbout">Telegram API按原样使用 ID，但 Bot API 在群组的开头添加负号，在频道的开头添加 -100 使其合并为一个字段。</string>
+    <string name="IdTypeHidden">隐藏</string>
+    <string name="IdTypeAPI">Telegram API</string>
+    <string name="IdTypeBOTAPI">Bot API</string>
 </resources>

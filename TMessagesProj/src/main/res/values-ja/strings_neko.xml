@@ -52,14 +52,10 @@
     <string name="TranslateFailed">翻訳サーバエラー</string>
     <string name="TranslationProvider">翻訳プロバイダ</string>
     <string name="ProviderGoogleTranslate">Google翻訳</string>
-    <string name="ProviderGoogleTranslateWeb">Google翻訳 (Web)</string>
     <string name="ProviderGoogleTranslateCN">Google翻訳 CN</string>
-    <string name="ProviderGoogleTranslateCNWeb">Google翻訳 CN (Web)</string>
-    <string name="ProviderBaiduFanyiWeb">Baidu翻訳 (Web)</string>
     <string name="TranslateApiUnsupported">選択した翻訳プロバイダはあなたの言語をサポートしていません.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">翻訳を取り消す</string>
-    <string name="CopyDetails">詳細のコピー</string>
     <string name="DisablePhotoViewerSideAction">タップして写真めくりを無効にする</string>
     <string name="BotToken">トークン</string>
     <string name="UnlimitedPinnedDialogs">無制限のチャット固定</string>
@@ -69,8 +65,6 @@
     <string name="UserRestrictionsSendStickers2">ステッカーの送信</string>
     <string name="UserRestrictionsSendGifs">GIFの送信</string>
     <string name="UseAvatarAsDrawerBackground">アバターをドロワーの背景として使う</string>
-    <string name="ProviderDeepLWeb">DeepL翻訳 (Web)</string>
-    <string name="ChatMessageAnimation">新しいメッセージをアニメーションさせる</string>
     <string name="RearVideoMessages">ビデオメッセージでリアカメラを使用する</string>
     <string name="HideAllTab">「すべてのチャット」タブを非表示にする</string>
     <string name="HideAllTabAbout">ホームページで「戻る」を押して開く</string>

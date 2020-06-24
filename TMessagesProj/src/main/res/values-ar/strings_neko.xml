@@ -61,14 +61,10 @@
     <string name="TranslateFailed">خطأ في ترجمة الخادم</string>
     <string name="TranslationProvider">موفر الترجمة</string>
     <string name="ProviderGoogleTranslate">ترجمة Google</string>
-    <string name="ProviderGoogleTranslateWeb">ترجمة Google (Web)</string>
     <string name="ProviderGoogleTranslateCN">ترجمة جوجل CN</string>
-    <string name="ProviderGoogleTranslateCNWeb">ترجمة جوجل CN (ويب)</string>
-    <string name="ProviderBaiduFanyiWeb">ترجمة بايدو (الإنترنت)</string>
     <string name="TranslateApiUnsupported">موفر الترجمة الذي اخترته لا يدعم لغتك.</string>
     <string name="ProviderLingocloud">لينغوكلاود</string>
     <string name="UndoTranslate">التراجع عن الترجمة</string>
-    <string name="CopyDetails">نسخ التفاصيل</string>
     <string name="DisablePhotoViewerSideAction">تعطيل قلب الصور بالنقر</string>
     <string name="BotToken">الرمز</string>
     <string name="UnlimitedPinnedDialogs">مربعات حوار مثبتة غير محدودة</string>
@@ -80,8 +76,6 @@
     <string name="UseAvatarAsDrawerBackground">استخدام الصورة الرمزية كخلفية درج</string>
     <string name="ShowTabsOnForward">إظهار علامات التبويب للأمام</string>
     <string name="CheckAllAdministrated">إضافة ادارة</string>
-    <string name="ProviderDeepLWeb">مترجم عميق (الإنترنت)</string>
-    <string name="ChatMessageAnimation">حرك الرسائل الجديدة</string>
     <string name="RearVideoMessages">الكاميرا الخلفية في رسائل الفيديو</string>
     <string name="HideAllTab">إخفاء علامة التبويب \"كل الدردشة\"</string>
     <string name="HideAllTabAbout">اضغط على \"العودة\" على الصفحة الرئيسية لفتحها.</string>

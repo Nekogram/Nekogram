@@ -61,14 +61,10 @@
     <string name="TranslateFailed">Erro no servidor de tradução</string>
     <string name="TranslationProvider">Provedor de tradução</string>
     <string name="ProviderGoogleTranslate">Google Tradutor</string>
-    <string name="ProviderGoogleTranslateWeb">Google Tradutor (Web)</string>
     <string name="ProviderGoogleTranslateCN">Google Tradutor CN</string>
-    <string name="ProviderGoogleTranslateCNWeb">Google Tradutor CN (Web)</string>
-    <string name="ProviderBaiduFanyiWeb">Baidu Tradutor (Web)</string>
     <string name="TranslateApiUnsupported">O provedor de tradução que você selecionou não suporta o seu idioma.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Desfazer tradução</string>
-    <string name="CopyDetails">Copiar Detalhes</string>
     <string name="DisablePhotoViewerSideAction">Desativar toque lateral para mudar fotos</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Chats fixados ilimitados</string>
@@ -80,8 +76,6 @@
     <string name="UseAvatarAsDrawerBackground">Usar minha foto de perfil como fundo do menu lateral</string>
     <string name="ShowTabsOnForward">Mostrar pastas ao encaminhar</string>
     <string name="CheckAllAdministrated">Adicionar administrado</string>
-    <string name="ProviderDeepLWeb">Tradutor DeepL (Web)</string>
-    <string name="ChatMessageAnimation">Animação de novas mensagens</string>
     <string name="RearVideoMessages">Câmera traseira em mensagens de vídeo</string>
     <string name="HideAllTab">Ocultar aba \"Todos os bate-papos\"</string>
     <string name="HideAllTabAbout">Pressione o botão \"Voltar\" na página inicial, para abri-lo.</string>
@@ -113,4 +107,9 @@
     <string name="BetaWarning">Esse é um recurso **beta** implementado pelo **Telegram**.</string>
     <string name="MediaPreview">Pré-visualizar mídia na lista de diálogo</string>
     <string name="ProviderYandex">Yandex Tradutor</string>
+    <string name="IdType">ID do chat no perfil</string>
+    <string name="IdTypeAbout">A API do Telegram usa IDs como está, mas o Bot API adiciona menos no início para grupos, e -100 para que os canais e supergrupos se encaixem em um campo.</string>
+    <string name="IdTypeHidden">Ocultar</string>
+    <string name="IdTypeAPI">API do Telegram</string>
+    <string name="IdTypeBOTAPI">Bot API</string>
 </resources>

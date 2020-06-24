@@ -46,6 +46,5 @@
     <string name="DeleteAccount">Usuń konto Telegram</string>
     <string name="TranslationProvider">Dostawca tłumaczeń</string>
     <string name="ProviderGoogleTranslate">Tłumacz Google</string>
-    <string name="ProviderBaiduFanyiWeb">Tłumaczenie Baidu (Web)</string>
     <string name="UndoTranslate">Cofnij tłumaczenie</string>
 </resources>

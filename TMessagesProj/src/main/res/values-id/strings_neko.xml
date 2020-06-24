@@ -54,14 +54,10 @@
     <string name="TranslateFailed">Server terjemahan error</string>
     <string name="TranslationProvider">Penyedia terjemahan</string>
     <string name="ProviderGoogleTranslate">Google Terjemahan</string>
-    <string name="ProviderGoogleTranslateWeb">Google Terjemahan (Web)</string>
     <string name="ProviderGoogleTranslateCN">Google Terjemahan CN</string>
-    <string name="ProviderGoogleTranslateCNWeb">Google Terjemahan CN (Web)</string>
-    <string name="ProviderBaiduFanyiWeb">Baidu Terjemahan (Web)</string>
     <string name="TranslateApiUnsupported">Penyedia terjemahan yang anda pilih tidak mendukung bahasa Anda.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Batal menerjemahkan</string>
-    <string name="CopyDetails">Salin Detail</string>
     <string name="DisablePhotoViewerSideAction">Nonaktifkan Balikkan Foto dengan mengetuk</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Dialog sematkan tanpa batas</string>
@@ -73,8 +69,6 @@
     <string name="UseAvatarAsDrawerBackground">Gunakan avatar sebagai latar belakang</string>
     <string name="ShowTabsOnForward">Tampilkan label saat meneruskan</string>
     <string name="CheckAllAdministrated">Tambahkan Admin</string>
-    <string name="ProviderDeepLWeb">DeepL Terjemahan (Web)</string>
-    <string name="ChatMessageAnimation">Animasi pesan baru</string>
     <string name="RearVideoMessages">Kamera belakang saat Pesan Video</string>
     <string name="HideAllTab">Sembunyikan tab \"Semua Obrolan\"</string>
     <string name="HideAllTabAbout">Tekan \"Kembali\" di beranda untuk membukanya.</string>

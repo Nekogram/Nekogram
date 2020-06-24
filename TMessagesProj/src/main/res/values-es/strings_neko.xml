@@ -61,14 +61,10 @@
     <string name="TranslateFailed">Error del servidor al traducir</string>
     <string name="TranslationProvider">Proveedor de traducciones</string>
     <string name="ProviderGoogleTranslate">Traductor de Google</string>
-    <string name="ProviderGoogleTranslateWeb">Traductor de Google (Web)</string>
     <string name="ProviderGoogleTranslateCN">Traductor de Google CN</string>
-    <string name="ProviderGoogleTranslateCNWeb">Traductor de Google CN (Web)</string>
-    <string name="ProviderBaiduFanyiWeb">Traductor de Baidu (Web)</string>
     <string name="TranslateApiUnsupported">El proveedor de traducción seleccionado no soporta su idioma.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Deshacer traducción</string>
-    <string name="CopyDetails">Copiar Detalles</string>
     <string name="DisablePhotoViewerSideAction">No cambiar de imagen con toques</string>
     <string name="BotToken">Tóken</string>
     <string name="UnlimitedPinnedDialogs">Chats anclados ilimitados</string>
@@ -80,8 +76,6 @@
     <string name="UseAvatarAsDrawerBackground">Avatar de fondo en menú lateral</string>
     <string name="ShowTabsOnForward">Mostrar carpetas al reenviar</string>
     <string name="CheckAllAdministrated">Añadir chats que administras</string>
-    <string name="ProviderDeepLWeb">Traductor de DeepL (Web)</string>
-    <string name="ChatMessageAnimation">Animar mensajes entrantes</string>
     <string name="RearVideoMessages">Usar cámara trasera en Mensajes de Vídeo</string>
     <string name="HideAllTab">Ocultar pestaña \"Todos los chats\"</string>
     <string name="HideAllTabAbout">Presiona \"Atrás\" en la página de inicio para abrirlo.</string>
@@ -112,4 +106,9 @@
     <string name="BetaWarning">Esta es una función **beta** implementada por **Telegram**.</string>
     <string name="MediaPreview">Vista previa de multimedia en la lista de diálogos</string>
     <string name="ProviderYandex">Traducción de Yandex</string>
+    <string name="IdType">ID del chat en el perfil</string>
+    <string name="IdTypeAbout">La API de Telegram utiliza IDs sin modificar, pero la API de Bot añade \"-\" al principio para grupos, y \"-100\" para canales y supergrupos para que encajen en un solo campo.</string>
+    <string name="IdTypeHidden">Ocultar</string>
+    <string name="IdTypeAPI">API de Telegram</string>
+    <string name="IdTypeBOTAPI">API de Bot</string>
 </resources>
