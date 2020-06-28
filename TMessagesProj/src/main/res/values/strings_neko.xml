@@ -118,4 +118,6 @@
     <string name="IdTypeHidden">Hide</string>
     <string name="IdTypeAPI">Telegram API</string>
     <string name="IdTypeBOTAPI">Bot API</string>
+    <string name="AutoPauseVideo">Auto pause video</string>
+    <string name="AutoPauseVideoAbout">When lock screen/switch to background.</string>
 </resources>

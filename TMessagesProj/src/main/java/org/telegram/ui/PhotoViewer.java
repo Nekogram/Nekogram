@@ -331,6 +331,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private boolean padImageForHorizontalInsets;
 
     private boolean doneButtonPressed;
+    
+    private boolean pausedOnPause = false;
 
     private Runnable setLoadingRunnable = new Runnable() {
         @Override
@@ -9938,6 +9940,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (photoPaintView != null) {
             photoPaintView.onResume();
         }
+        if (pausedOnPause && NekoConfig.autoPauseVideo && videoPlayer != null && !videoPlayer.isPlaying()) {
+            pausedOnPause = false;
+            videoPlayer.play();
+        }
     }
 
     public void onConfigurationChanged(Configuration newConfig) {
@@ -9956,6 +9962,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
         if (videoPlayer != null && playerLooping) {
             videoPlayer.setLooping(false);
+        }
+        if (NekoConfig.autoPauseVideo && videoPlayer != null && videoPlayer.isPlaying()) {
+            pausedOnPause = true;
+            videoPlayer.pause();
         }
     }
 

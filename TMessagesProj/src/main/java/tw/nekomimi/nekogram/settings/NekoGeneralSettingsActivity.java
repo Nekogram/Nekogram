@@ -75,6 +75,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int askBeforeCallRow;
     private int disableNumberRoundingRow;
     private int openArchiveOnPullRow;
+    private int autoPauseVideoRow;
     private int translationProviderRow;
     private int nameOrderRow;
     private int idTypeRow;
@@ -375,6 +376,11 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
+            } else if (position == autoPauseVideoRow) {
+                NekoConfig.toggleAutoPauseVideo();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.autoPauseVideo);
+                }
             }
         });
 
@@ -420,6 +426,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         askBeforeCallRow = rowCount++;
         disableNumberRoundingRow = rowCount++;
         openArchiveOnPullRow = rowCount++;
+        autoPauseVideoRow = rowCount++;
         translationProviderRow = rowCount++;
         nameOrderRow = rowCount++;
         idTypeRow = rowCount++;
@@ -605,6 +612,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("DisableNumberRounding", R.string.DisableNumberRounding), "4.8K -> 4777", NekoConfig.disableNumberRounding, true, true);
                     } else if (position == appBarShadowRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisableAppBarShadow", R.string.DisableAppBarShadow), NekoConfig.disableAppBarShadow, eventTypeRow != -1);
+                    } else if (position == autoPauseVideoRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("AutoPauseVideo", R.string.AutoPauseVideo), LocaleController.getString("AutoPauseVideoAbout", R.string.AutoPauseVideoAbout), NekoConfig.autoPauseVideo, true, true);
                     }
                     break;
                 }
@@ -675,7 +684,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
             } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow || position == transparentStatusBarRow ||
                     position == hideProxySponsorChannelRow || position == useSystemEmojiRow || position == typefaceRow || position == forceTabletRow ||
                     position == newYearRow || position == openArchiveOnPullRow || position == avatarAsDrawerBackgroundRow || position == askBeforeCallRow ||
-                    position == disableNumberRoundingRow || position == appBarShadowRow) {
+                    position == disableNumberRoundingRow || position == appBarShadowRow || position == autoPauseVideoRow) {
                 return 3;
             } else if (position == generalRow || position == connectionRow || position == appearanceRow) {
                 return 4;

@@ -70,6 +70,7 @@ public class NekoConfig {
     public static boolean unlimitedPinnedDialogs = false;
     public static boolean disableAppBarShadow = false;
     public static boolean mediaPreview = false;
+    public static boolean autoPauseVideo = true;
 
     public static boolean residentNotification = false;
 
@@ -122,6 +123,7 @@ public class NekoConfig {
                 editor.putBoolean("disableNumberRounding", disableNumberRounding);
                 editor.putBoolean("disableAppBarShadow", disableAppBarShadow);
                 editor.putBoolean("mediaPreview", mediaPreview);
+                editor.putBoolean("autoPauseVideo", autoPauseVideo);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
@@ -190,6 +192,7 @@ public class NekoConfig {
             disableAppBarShadow = preferences.getBoolean("disableAppBarShadow", false);
             mediaPreview = preferences.getBoolean("mediaPreview", false);
             idType = preferences.getInt("idType", ID_TYPE_API);
+            autoPauseVideo = preferences.getBoolean("autoPauseVideo", true);
             configLoaded = true;
         }
     }
@@ -554,6 +557,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("idType", idType);
+        editor.commit();
+    }
+
+    public static void toggleAutoPauseVideo() {
+        autoPauseVideo = !autoPauseVideo;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("autoPauseVideo", autoPauseVideo);
         editor.commit();
     }
 }
