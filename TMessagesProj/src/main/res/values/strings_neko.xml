@@ -120,4 +120,5 @@
     <string name="IdTypeBOTAPI">Bot API</string>
     <string name="AutoPauseVideo">Auto pause video</string>
     <string name="AutoPauseVideoAbout">When lock screen/switch to background.</string>
+    <string name="DisableProximityEvents">Disable proximity events</string>
 </resources>

@@ -71,6 +71,7 @@ public class NekoConfig {
     public static boolean disableAppBarShadow = false;
     public static boolean mediaPreview = false;
     public static boolean autoPauseVideo = true;
+    public static boolean disableProximityEvents = false;
 
     public static boolean residentNotification = false;
 
@@ -124,6 +125,7 @@ public class NekoConfig {
                 editor.putBoolean("disableAppBarShadow", disableAppBarShadow);
                 editor.putBoolean("mediaPreview", mediaPreview);
                 editor.putBoolean("autoPauseVideo", autoPauseVideo);
+                editor.putBoolean("disableProximityEvents", disableProximityEvents);
                 editor.putFloat("stickerSize", stickerSize);
                 editor.putInt("typeface", typeface);
                 editor.putInt("nameOrder", nameOrder);
@@ -193,6 +195,7 @@ public class NekoConfig {
             mediaPreview = preferences.getBoolean("mediaPreview", false);
             idType = preferences.getInt("idType", ID_TYPE_API);
             autoPauseVideo = preferences.getBoolean("autoPauseVideo", true);
+            disableProximityEvents = preferences.getBoolean("disableProximityEvents", false);
             configLoaded = true;
         }
     }
@@ -565,6 +568,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("autoPauseVideo", autoPauseVideo);
+        editor.commit();
+    }
+
+    public static void toggleDisableProximityEvents() {
+        disableProximityEvents = !disableProximityEvents;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("disableProximityEvents", disableProximityEvents);
         editor.commit();
     }
 }

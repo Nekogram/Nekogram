@@ -37,6 +37,7 @@ import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
+import org.telegram.ui.Components.UndoView;
 
 import java.util.ArrayList;
 
@@ -62,6 +63,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int hideKeyboardOnChatScrollRow;
     private int rearVideoMessagesRow;
     private int confirmAVRow;
+    private int disableProximityEventsRow;
     private int mapPreviewRow;
     private int messageMenuRow;
     private int chat2Row;
@@ -71,6 +73,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int hideAllTabRow;
     private int tabsTitleTypeRow;
     private int folders2Row;
+
+    private UndoView restartTooltip;
 
     @Override
     public boolean onFragmentCreate() {
@@ -227,8 +231,18 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.confirmAVMessage);
                 }
+            } else if (position == disableProximityEventsRow) {
+                NekoConfig.toggleDisableProximityEvents();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.disableProximityEvents);
+                }
+                restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
             }
         });
+
+        restartTooltip = new UndoView(context);
+        restartTooltip.setInfoText(LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect));
+        frameLayout.addView(restartTooltip, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT, 8, 0, 8, 8));
 
         return fragmentView;
     }
@@ -253,6 +267,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         hideKeyboardOnChatScrollRow = rowCount++;
         rearVideoMessagesRow = rowCount++;
         confirmAVRow = rowCount++;
+        disableProximityEventsRow = rowCount++;
         mapPreviewRow = rowCount++;
         messageMenuRow = rowCount++;
         chat2Row = rowCount++;
@@ -585,6 +600,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                         textCell.setTextAndValueAndCheck(LocaleController.getString("HideAllTab", R.string.HideAllTab), LocaleController.getString("HideAllTabAbout", R.string.HideAllTabAbout), NekoConfig.hideAllTab, true, true);
                     } else if (position == confirmAVRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ConfirmAVMessage", R.string.ConfirmAVMessage), NekoConfig.confirmAVMessage, true);
+                    } else if (position == disableProximityEventsRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("DisableProximityEvents", R.string.DisableProximityEvents), NekoConfig.disableProximityEvents, true);
                     }
                     break;
                 }
@@ -656,7 +673,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
             } else if (position == mapPreviewRow || position == messageMenuRow || position == tabsTitleTypeRow) {
                 return 2;
             } else if (position == ignoreBlockedRow || position == disablePhotoSideActionRow || position == hideKeyboardOnChatScrollRow ||
-                    position == showTabsOnForwardRow || position == rearVideoMessagesRow || position == hideAllTabRow || position == confirmAVRow) {
+                    position == showTabsOnForwardRow || position == rearVideoMessagesRow || position == hideAllTabRow || position == confirmAVRow ||
+                    position == disableProximityEventsRow) {
                 return 3;
             } else if (position == chatRow || position == foldersRow || position == stickerSizeHeaderRow) {
                 return 4;
