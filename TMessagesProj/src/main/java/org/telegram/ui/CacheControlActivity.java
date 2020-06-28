@@ -666,23 +666,27 @@ public class CacheControlActivity extends BaseFragment {
                     SharedPreferences preferences = MessagesController.getGlobalMainSettings();
                     slideChooseView.setCallback(index -> {
                         if (index == 0) {
-                            SharedConfig.setKeepMedia(3);
+                            SharedConfig.setKeepMedia(4);
                         } else if (index == 1) {
-                            SharedConfig.setKeepMedia(0);
+                            SharedConfig.setKeepMedia(3);
                         } else if (index == 2) {
-                            SharedConfig.setKeepMedia(1);
+                            SharedConfig.setKeepMedia(0);
                         } else if (index == 3) {
+                            SharedConfig.setKeepMedia(1);
+                        } else if (index == 4) {
                             SharedConfig.setKeepMedia(2);
                         }
                     });
                     int keepMedia = SharedConfig.keepMedia;
                     int index;
                     if (keepMedia == 3) {
+                        index = 1;
+                    } else if (keepMedia == 4) {
                         index = 0;
                     } else {
-                        index = keepMedia + 1;
+                        index = keepMedia + 2;
                     }
-                    slideChooseView.setOptions(index, LocaleController.formatPluralString("Days", 3), LocaleController.formatPluralString("Weeks", 1), LocaleController.formatPluralString("Months", 1), LocaleController.getString("KeepMediaForever", R.string.KeepMediaForever));
+                    slideChooseView.setOptions(index, LocaleController.formatPluralString("Days", 1), LocaleController.formatPluralString("Days", 3), LocaleController.formatPluralString("Weeks", 1), LocaleController.formatPluralString("Months", 1), LocaleController.getString("KeepMediaForever", R.string.KeepMediaForever));
                     break;
                 case 1:
                 default:
