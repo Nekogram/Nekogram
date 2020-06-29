@@ -618,12 +618,6 @@ public class AndroidUtilities {
         if (pathString.matches(Pattern.quote(new File(ApplicationLoader.applicationContext.getCacheDir(), "voip_logs").getAbsolutePath()) + "/\\d+\\.log")) {
             return false;
         }
-        if (NekoConfig.saveCacheToPrivateDirectory && pathString.startsWith(new File(ApplicationLoader.applicationContext.getCacheDir(), "sdcard").getAbsolutePath())) {
-            return false;
-        }
-        if (NekoConfig.saveCacheToPrivateDirectory && pathString.startsWith(new File(ApplicationLoader.applicationContext.getFilesDir(), "Telegram").getAbsolutePath())) {
-            return false;
-        }
         int tries = 0;
         while (true) {
             if (pathString != null && pathString.length() > 4096) {
@@ -1320,7 +1314,7 @@ public class AndroidUtilities {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        if (!NekoConfig.saveCacheToPrivateDirectory && (state == null || state.startsWith(Environment.MEDIA_MOUNTED))) {
+        if (state == null || state.startsWith(Environment.MEDIA_MOUNTED)) {
             try {
                 File file = ApplicationLoader.applicationContext.getExternalCacheDir();
                 if (file != null) {
@@ -1333,10 +1327,6 @@ public class AndroidUtilities {
         try {
             File file = ApplicationLoader.applicationContext.getCacheDir();
             if (file != null) {
-                if(NekoConfig.saveCacheToPrivateDirectory) {
-                    file = new File(file, "sdcard");
-                    file.mkdirs();
-                }
                 return file;
             }
         } catch (Exception e) {

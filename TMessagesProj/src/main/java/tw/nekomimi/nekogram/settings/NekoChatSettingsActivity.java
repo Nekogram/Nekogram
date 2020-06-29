@@ -672,9 +672,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 return 1;
             } else if (position == mapPreviewRow || position == messageMenuRow || position == tabsTitleTypeRow) {
                 return 2;
-            } else if (position == ignoreBlockedRow || position == disablePhotoSideActionRow || position == hideKeyboardOnChatScrollRow ||
-                    position == showTabsOnForwardRow || position == rearVideoMessagesRow || position == hideAllTabRow || position == confirmAVRow ||
-                    position == disableProximityEventsRow) {
+            } else if (position == showTabsOnForwardRow || position == hideAllTabRow ||
+                    (position > chatRow && position <= disableProximityEventsRow)) {
                 return 3;
             } else if (position == chatRow || position == foldersRow || position == stickerSizeHeaderRow) {
                 return 4;

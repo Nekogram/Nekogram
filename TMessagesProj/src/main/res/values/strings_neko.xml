@@ -45,7 +45,8 @@
     <string name="HideProxySponsorChannel">Hide proxy sponsor channel</string>
     <string name="ViewHistory">View history</string>
     <string name="Nya">Meow!</string>
-    <string name="SaveCacheToPrivateDirectory">Save cache to private directory</string>
+    <string name="SaveCacheToExternalFilesDir">Storage isolation</string>
+    <string name="SaveCacheToExternalFilesDirAbout">Save \"Telegram\" folder to app-specific directory to keep shared storage tidy.</string>
     <string name="SensitiveDisableFiltering">Disable sensitive content filtering</string>
     <string name="SensitiveAbout">Display sensitive media in public channels on all your devices.</string>
     <string name="StickerSize">Sticker size</string>

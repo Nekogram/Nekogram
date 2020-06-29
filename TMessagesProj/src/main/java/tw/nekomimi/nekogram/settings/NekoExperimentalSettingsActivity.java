@@ -64,7 +64,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private int experimentRow;
     private int smoothKeyboardRow;
     private int mediaPreviewRow;
-    private int saveCacheToPrivateDirectoryRow;
+    private int saveCacheToExternalFilesDirRow;
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
     private int unlimitedPinnedDialogsRow;
@@ -147,10 +147,10 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener((view, position, x, y) -> {
-            if (position == saveCacheToPrivateDirectoryRow) {
-                NekoConfig.toggleSaveCacheToPrivateDirectory();
+            if (position == saveCacheToExternalFilesDirRow) {
+                NekoConfig.toggleSaveCacheToExternalFilesDir();
                 if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.saveCacheToPrivateDirectory);
+                    ((TextCheckCell) view).setChecked(NekoConfig.saveCacheToExternalFilesDir);
                 }
                 tooltip.setInfoText(LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect));
                 tooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
@@ -298,7 +298,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         experimentRow = rowCount++;
         smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
         mediaPreviewRow = rowCount++;
-        saveCacheToPrivateDirectoryRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N ? rowCount++ : -1;
+        saveCacheToExternalFilesDirRow = rowCount++;
         disableFilteringRow = rowCount++;
         unlimitedFavedStickersRow = rowCount++;
         unlimitedPinnedDialogsRow = rowCount++;
@@ -432,8 +432,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 case 3: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
-                    if (position == saveCacheToPrivateDirectoryRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("SaveCacheToPrivateDirectory", R.string.SaveCacheToPrivateDirectory), NekoConfig.saveCacheToPrivateDirectory, true);
+                    if (position == saveCacheToExternalFilesDirRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("SaveCacheToExternalFilesDir", R.string.SaveCacheToExternalFilesDir), LocaleController.getString("SaveCacheToExternalFilesDirAbout", R.string.SaveCacheToExternalFilesDirAbout), NekoConfig.saveCacheToExternalFilesDir, true, true);
                     } else if (position == disableFilteringRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("SensitiveDisableFiltering", R.string.SensitiveDisableFiltering), LocaleController.getString("SensitiveAbout", R.string.SensitiveAbout), sensitiveEnabled, true, true);
                         textCell.setEnabled(sensitiveCanChange, null);
@@ -509,8 +509,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 return 1;
             } else if (position == deleteAccountRow) {
                 return 2;
-            } else if (position == saveCacheToPrivateDirectoryRow || position == unlimitedFavedStickersRow || position == disableFilteringRow ||
-                    position == smoothKeyboardRow || position == unlimitedPinnedDialogsRow || position == shouldNOTTrustMeRow || position == mediaPreviewRow) {
+            } else if (position >= smoothKeyboardRow && position <= unlimitedPinnedDialogsRow) {
                 return 3;
             } else if (position == experimentRow) {
                 return 4;

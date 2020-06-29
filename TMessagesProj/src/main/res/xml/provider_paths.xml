@@ -2,6 +2,4 @@
 <paths>
     <external-path name="media" path="."/>
     <root-path name="external_files" path="/storage/" />
-    <files-path name="fake_sdcard" path="Telegram/"/>
-    <cache-path name="fake_sdcard_cache" path="sdcard/"/>
 </paths>

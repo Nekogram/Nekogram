@@ -844,8 +844,8 @@ public class SharedConfig {
     public static void checkSaveToGalleryFiles() {
         try {
             File telegramPath;
-            if (NekoConfig.saveCacheToPrivateDirectory) {
-                telegramPath = new File(ApplicationLoader.applicationContext.getFilesDir(), "Telegram");
+            if (NekoConfig.saveCacheToExternalFilesDir) {
+                telegramPath = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "Telegram");
             } else {
                 telegramPath = new File(Environment.getExternalStorageDirectory(), "Telegram");
             }

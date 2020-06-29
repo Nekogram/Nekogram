@@ -62,10 +62,10 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int transparentStatusBarRow;
     private int forceTabletRow;
     private int avatarAsDrawerBackgroundRow;
-    private int eventTypeRow;
-    private int newYearRow;
-    private int actionBarDecorationRow;
     private int appBarShadowRow;
+    private int newYearRow;
+    private int eventTypeRow;
+    private int actionBarDecorationRow;
     private int appearance2Row;
 
     private int generalRow;
@@ -414,8 +414,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         forceTabletRow = rowCount++;
         avatarAsDrawerBackgroundRow = rowCount++;
         appBarShadowRow = rowCount++;
-        eventTypeRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         newYearRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
+        eventTypeRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         actionBarDecorationRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         appearance2Row = rowCount++;
 
@@ -678,13 +678,12 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == connection2Row || position == appearance2Row || position == general2Row) {
                 return 1;
-            } else if (position == nameOrderRow || position == translationProviderRow || position == eventTypeRow || position == actionBarDecorationRow ||
-                    position == idTypeRow) {
+            } else if (position == eventTypeRow || position == actionBarDecorationRow ||
+                    (position >= translationProviderRow && position <= idTypeRow)) {
                 return 2;
-            } else if (position == ipv6Row || position == hidePhoneRow || position == inappCameraRow || position == transparentStatusBarRow ||
-                    position == hideProxySponsorChannelRow || position == useSystemEmojiRow || position == typefaceRow || position == forceTabletRow ||
-                    position == newYearRow || position == openArchiveOnPullRow || position == avatarAsDrawerBackgroundRow || position == askBeforeCallRow ||
-                    position == disableNumberRoundingRow || position == appBarShadowRow || position == autoPauseVideoRow) {
+            } else if (position == ipv6Row || position == newYearRow ||
+                    (position > appearanceRow && position <= appBarShadowRow) || 
+                    (position > generalRow && position <= autoPauseVideoRow)) {
                 return 3;
             } else if (position == generalRow || position == connectionRow || position == appearanceRow) {
                 return 4;

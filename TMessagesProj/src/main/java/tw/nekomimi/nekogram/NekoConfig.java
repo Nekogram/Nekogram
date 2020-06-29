@@ -30,7 +30,7 @@ public class NekoConfig {
     public static boolean useSystemEmoji = SharedConfig.useSystemEmoji;
     public static boolean ignoreBlocked = false;
     public static boolean hideProxySponsorChannel = false;
-    public static boolean saveCacheToPrivateDirectory = Build.VERSION.SDK_INT >= Build.VERSION_CODES.N;
+    public static boolean saveCacheToExternalFilesDir = true;
     public static boolean disablePhotoSideAction = true;
     public static boolean hideKeyboardOnChatScroll = false;
     public static boolean rearVideoMessages = false;
@@ -95,7 +95,7 @@ public class NekoConfig {
                 editor.putBoolean("transparentStatusBar", transparentStatusBar);
                 editor.putBoolean("residentNotification", residentNotification);
                 editor.putBoolean("hideProxySponsorChannel", hideProxySponsorChannel);
-                editor.putBoolean("saveCacheToPrivateDirectory", saveCacheToPrivateDirectory);
+                editor.putBoolean("saveCacheToExternalFilesDir", saveCacheToExternalFilesDir);
                 editor.putBoolean("showAddToSavedMessages", showAddToSavedMessages);
                 editor.putBoolean("showReport", showReport);
                 editor.putBoolean("showPrPr", showPrPr);
@@ -159,7 +159,7 @@ public class NekoConfig {
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
             hideProxySponsorChannel = preferences.getBoolean("hideProxySponsorChannel", false);
-            saveCacheToPrivateDirectory = preferences.getBoolean("saveCacheToPrivateDirectory", Build.VERSION.SDK_INT >= Build.VERSION_CODES.N);
+            saveCacheToExternalFilesDir = preferences.getBoolean("saveCacheToExternalFilesDir", true);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
             showPrPr = preferences.getBoolean("showPrPr", false);
@@ -355,11 +355,11 @@ public class NekoConfig {
         editor.commit();
     }
 
-    public static void toggleSaveCacheToPrivateDirectory() {
-        saveCacheToPrivateDirectory = !saveCacheToPrivateDirectory;
+    public static void toggleSaveCacheToExternalFilesDir() {
+        saveCacheToExternalFilesDir = !saveCacheToExternalFilesDir;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("saveCacheToPrivateDirectory", saveCacheToPrivateDirectory);
+        editor.putBoolean("saveCacheToExternalFilesDir", saveCacheToExternalFilesDir);
         editor.commit();
     }
 

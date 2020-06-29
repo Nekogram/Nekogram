@@ -323,13 +323,13 @@ public class NekoSettingsActivity extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == categories2Row || position == about2Row) {
                 return 1;
-            } else if (position == chatRow || position == generalRow || position == experimentRow) {
+            } else if (position > categoriesRow && position < categories2Row) {
                 return 2;
-            } else if (position == googlePlayRow || position == channelRow || position == sourceCodeRow) {
+            } else if (position >= channelRow && position <= sourceCodeRow) {
                 return 3;
             } else if (position == categoriesRow || position == aboutRow) {
                 return 4;
-            } else if (position == translationRow || position == donateRow || position == sponsorRow) {
+            } else if (position >= translationRow && position <= sponsorRow) {
                 return 6;
             }
             return 2;
