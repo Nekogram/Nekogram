@@ -93,7 +93,6 @@
     <string name="AskBeforeCalling">Ask before calling</string>
     <string name="ConfirmCall">Confirm calling</string>
     <string name="CallTo">Call to **%1$s**?</string>
-    <string name="SetAsCurrent">Set as current</string>
     <string name="DisableNumberRounding">Disable number rounding</string>
     <string name="Categories">Categories</string>
     <string name="OfficialChannel">Official channel</string>

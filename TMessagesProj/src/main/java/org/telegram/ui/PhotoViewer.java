@@ -849,7 +849,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private final static int gallery_menu_openin = 11;
     private final static int gallery_menu_masks = 13;
     private final static int gallery_menu_savegif = 14;
-    private final static int gallery_menu_setascurrent = 94;
     private final static int gallery_menu_masks2 = 15;
 
     private static DecelerateInterpolator decelerateInterpolator;
@@ -3360,47 +3359,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         MediaDataController.getInstance(currentAccount).addRecentGif(document, (int) (System.currentTimeMillis() / 1000));
                     }
                     MessagesController.getInstance(currentAccount).saveGif(currentMessageObject, document);
-                } else if (id == gallery_menu_setascurrent) {
-                    if (!imagesArrLocations.isEmpty()) {
-                        if (currentIndex < 0 || currentIndex >= imagesArrLocations.size()) {
-                            return;
-                        }
-                        TLRPC.Photo photo = avatarsArr.get(currentIndex);
-                        TLRPC.TL_inputPhoto inputPhoto = new TLRPC.TL_inputPhoto();
-                        inputPhoto.id = photo.id;
-                        inputPhoto.access_hash = photo.access_hash;
-                        inputPhoto.file_reference = photo.file_reference;
-                        if (inputPhoto.file_reference == null) {
-                            inputPhoto.file_reference = new byte[0];
-                        }
-                        TLRPC.TL_photos_updateProfilePhoto req = new TLRPC.TL_photos_updateProfilePhoto();
-                        req.id = inputPhoto;
-                        ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> {
-                            if (error == null) {
-                                TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(UserConfig.getInstance(currentAccount).getClientUserId());
-                                if (user == null) {
-                                    user = UserConfig.getInstance(currentAccount).getCurrentUser();
-                                    if (user == null) {
-                                        return;
-                                    }
-                                    MessagesController.getInstance(currentAccount).putUser(user, false);
-                                } else {
-                                    UserConfig.getInstance(currentAccount).setCurrentUser(user);
-                                }
-
-                                MessagesStorage.getInstance(currentAccount).clearUserPhotos(user.id);
-                                ArrayList<TLRPC.User> users = new ArrayList<>();
-                                users.add(user);
-                                MessagesStorage.getInstance(currentAccount).putUsersAndChats(users, null, false, true);
-                            }
-                            AndroidUtilities.runOnUIThread(() -> {
-                                NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.updateInterfaces, MessagesController.UPDATE_MASK_ALL);
-                                NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.mainUserInfoChanged);
-                                UserConfig.getInstance(currentAccount).saveConfig(true);
-                            });
-                        });
-                        closePhoto(false, false);
-                    }
                 }
             }
 
@@ -3433,7 +3391,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         menuItem.addSubItem(gallery_menu_masks2, R.drawable.msg_sticker, LocaleController.getString("ShowStickers", R.string.ShowStickers)).setColors(0xfffafafa, 0xfffafafa);
         menuItem.addSubItem(gallery_menu_share, R.drawable.msg_shareout, LocaleController.getString("ShareFile", R.string.ShareFile)).setColors(0xfffafafa, 0xfffafafa);
         menuItem.addSubItem(gallery_menu_save, R.drawable.msg_gallery, LocaleController.getString("SaveToGallery", R.string.SaveToGallery)).setColors(0xfffafafa, 0xfffafafa);
-        menuItem.addSubItem(gallery_menu_setascurrent, R.drawable.menu_camera, LocaleController.getString("SetAsCurrent", R.string.SetAsCurrent)).setColors(0xfffafafa, 0xfffafafa);
         menuItem.addSubItem(gallery_menu_delete, R.drawable.msg_delete, LocaleController.getString("Delete", R.string.Delete)).setColors(0xfffafafa, 0xfffafafa);
         menuItem.addSubItem(gallery_menu_cancel_loading, R.drawable.msg_cancel, LocaleController.getString("StopDownload", R.string.StopDownload)).setColors(0xfffafafa, 0xfffafafa);
         menuItem.redrawPopup(0xf9222222);
@@ -7637,9 +7594,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (!init && switchingToIndex == index) {
             return;
         }
-
-        menuItem.hideSubItem(gallery_menu_setascurrent);
-
         switchingToIndex = index;
 
         boolean isVideo = false;
@@ -7826,9 +7780,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         } else if (!imagesArrLocations.isEmpty()) {
             if (index < 0 || index >= imagesArrLocations.size()) {
                 return;
-            }
-            if (avatarsDialogId == UserConfig.getInstance(currentAccount).getClientUserId() && index != 0) {
-                menuItem.showSubItem(gallery_menu_setascurrent);
             }
             if (avatarsDialogId < 0) {
                 TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(-avatarsDialogId);
