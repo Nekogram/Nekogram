@@ -3633,9 +3633,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     avatarColor = AndroidUtilities.calcBitmapColor(avatarImage.getImageReceiver().getBitmap());
                     nameTextView[1].setTextColor(Color.WHITE);
                     onlineTextView[1].setTextColor(Color.argb(179, 255, 255, 255));
+                    idTextView.setAlpha(0);
                     idTextView.setTextColor(Color.argb(179, 255, 255, 255));
                     actionBar.setItemsBackgroundColor(Theme.ACTION_BAR_WHITE_SELECTOR_COLOR, false);
                     overlaysView.setOverlaysVisible();
+                    animators.add(ObjectAnimator.ofFloat(idTextView, View.ALPHA, 0.0f, 1.0f));
                 }
                 for (int a = 0; a < 2; a++) {
                     onlineTextView[a].setAlpha(a == 0 ? 1.0f : 0.0f);
@@ -3699,6 +3701,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         avatarImage.setVisibility(View.GONE);
                         avatarsViewPager.resetCurrentItem();
                         avatarsViewPager.setVisibility(View.VISIBLE);
+                        idTextView.setAlpha(1.0f);
                     }
                 }
             });

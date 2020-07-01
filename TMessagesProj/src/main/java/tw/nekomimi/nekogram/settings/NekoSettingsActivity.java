@@ -329,7 +329,7 @@ public class NekoSettingsActivity extends BaseFragment {
                 return 3;
             } else if (position == categoriesRow || position == aboutRow) {
                 return 4;
-            } else if (position >= translationRow && position <= sponsorRow) {
+            } else if (position >= translationRow && position < about2Row) {
                 return 6;
             }
             return 2;
