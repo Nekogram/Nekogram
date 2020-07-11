@@ -1,8 +1,5 @@
 package tw.nekomimi.nekogram.settings;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
@@ -63,10 +60,9 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
 
     private RecyclerListView listView;
     private ListAdapter listAdapter;
-    private AnimatorSet animatorSet;
 
-    private boolean sensitiveCanChange = false;
-    private boolean sensitiveEnabled = false;
+    private boolean sensitiveCanChange;
+    private boolean sensitiveEnabled;
 
     private int rowCount;
 
@@ -84,6 +80,11 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private int shouldNOTTrustMeRow;
 
     private UndoView tooltip;
+
+    NekoExperimentalSettingsActivity(boolean sensitiveCanChange, boolean sensitiveEnabled) {
+        this.sensitiveCanChange = sensitiveCanChange;
+        this.sensitiveEnabled = sensitiveEnabled;
+    }
 
     static public AlertDialog getTranslationProviderAlert(Context context) {
         ArrayList<String> arrayList = new ArrayList<>();
@@ -321,7 +322,6 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     public void onResume() {
         super.onResume();
         if (listAdapter != null) {
-            checkSensitive();
             listAdapter.notifyDataSetChanged();
         }
     }
@@ -371,7 +371,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
         mediaPreviewRow = rowCount++;
         saveCacheToExternalFilesDirRow = rowCount++;
-        disableFilteringRow = rowCount++;
+        disableFilteringRow = sensitiveCanChange ? rowCount++ : -1;
         unlimitedFavedStickersRow = rowCount++;
         unlimitedPinnedDialogsRow = rowCount++;
         deleteAccountRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
@@ -421,51 +421,6 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextDetailSettingsCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
 
         return themeDescriptions;
-    }
-
-    private void checkSensitive() {
-        TLRPC.TL_account_getContentSettings req = new TLRPC.TL_account_getContentSettings();
-        getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-            if (error == null) {
-                TLRPC.TL_account_contentSettings settings = (TLRPC.TL_account_contentSettings) response;
-                sensitiveEnabled = settings.sensitive_enabled;
-                sensitiveCanChange = settings.sensitive_can_change;
-                int count = listView.getChildCount();
-                ArrayList<Animator> animators = new ArrayList<>();
-                for (int a = 0; a < count; a++) {
-                    View child = listView.getChildAt(a);
-                    RecyclerListView.Holder holder = (RecyclerListView.Holder) listView.getChildViewHolder(child);
-                    int position = holder.getAdapterPosition();
-                    if (position == disableFilteringRow) {
-                        TextCheckCell checkCell = (TextCheckCell) holder.itemView;
-                        checkCell.setChecked(sensitiveEnabled);
-                        checkCell.setEnabled(sensitiveCanChange, animators);
-                        if (sensitiveCanChange) {
-                            if (!animators.isEmpty()) {
-                                if (animatorSet != null) {
-                                    animatorSet.cancel();
-                                }
-                                animatorSet = new AnimatorSet();
-                                animatorSet.playTogether(animators);
-                                animatorSet.addListener(new AnimatorListenerAdapter() {
-                                    @Override
-                                    public void onAnimationEnd(Animator animator) {
-                                        if (animator.equals(animatorSet)) {
-                                            animatorSet = null;
-                                        }
-                                    }
-                                });
-                                animatorSet.setDuration(150);
-                                animatorSet.start();
-                            }
-                        }
-
-                    }
-                }
-            } else {
-                AndroidUtilities.runOnUIThread(() -> AlertsCreator.processError(currentAccount, error, this, req));
-            }
-        }));
     }
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {

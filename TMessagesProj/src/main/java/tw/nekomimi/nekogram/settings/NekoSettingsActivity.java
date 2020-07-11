@@ -16,6 +16,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.browser.Browser;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -29,6 +30,7 @@ import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
+import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 
@@ -41,6 +43,10 @@ public class NekoSettingsActivity extends BaseFragment {
 
     private RecyclerListView listView;
     private ListAdapter listAdapter;
+
+    private boolean sensitiveCanChange = false;
+    private boolean sensitiveEnabled = false;
+
     private int rowCount;
 
     private int categoriesRow;
@@ -57,6 +63,19 @@ public class NekoSettingsActivity extends BaseFragment {
     private int donateRow;
     private int sponsorRow;
     private int about2Row;
+
+    private void checkSensitive() {
+        TLRPC.TL_account_getContentSettings req = new TLRPC.TL_account_getContentSettings();
+        getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+            if (error == null) {
+                TLRPC.TL_account_contentSettings settings = (TLRPC.TL_account_contentSettings) response;
+                sensitiveEnabled = settings.sensitive_enabled;
+                sensitiveCanChange = settings.sensitive_can_change;
+            } else {
+                AndroidUtilities.runOnUIThread(() -> AlertsCreator.processError(currentAccount, error, this, req));
+            }
+        }));
+    }
 
     @Override
     public boolean onFragmentCreate() {
@@ -102,7 +121,7 @@ public class NekoSettingsActivity extends BaseFragment {
             } else if (position == generalRow) {
                 presentFragment(new NekoGeneralSettingsActivity());
             } else if (position == experimentRow) {
-                presentFragment(new NekoExperimentalSettingsActivity());
+                presentFragment(new NekoExperimentalSettingsActivity(sensitiveCanChange, sensitiveEnabled));
             } else if (position == channelRow) {
                 MessagesController.getInstance(currentAccount).openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
             } else if (position == donateRow) {
@@ -136,6 +155,7 @@ public class NekoSettingsActivity extends BaseFragment {
     public void onResume() {
         super.onResume();
         if (listAdapter != null) {
+            checkSensitive();
             listAdapter.notifyDataSetChanged();
         }
     }

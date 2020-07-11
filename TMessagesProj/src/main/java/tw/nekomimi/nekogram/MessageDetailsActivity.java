@@ -62,6 +62,11 @@ import java.util.Date;
 
 public class MessageDetailsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
+
+    public static final Gson gson = new GsonBuilder()
+            .setExclusionStrategies(new Exclusion())
+            .registerTypeHierarchyAdapter(byte[].class, new ByteArrayToBase64TypeAdapter()).create();
+
     private RecyclerListView listView;
     private ListAdapter listAdapter;
 
@@ -94,30 +99,6 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     private int endRow;
 
     private UndoView copyTooltip;
-
-    public static final Gson gson = new GsonBuilder()
-            .setExclusionStrategies(new Exclusion())
-            .registerTypeHierarchyAdapter(byte[].class, new ByteArrayToBase64TypeAdapter()).create();
-
-    private static class ByteArrayToBase64TypeAdapter implements JsonSerializer<byte[]>, JsonDeserializer<byte[]> {
-        public byte[] deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return Base64.decode(json.getAsString(), Base64.NO_WRAP);
-        }
-
-        public JsonElement serialize(byte[] src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(Base64.encodeToString(src, Base64.NO_WRAP));
-        }
-    }
-
-    public static class Exclusion implements ExclusionStrategy {
-        public boolean shouldSkipClass(Class<?> arg0) {
-            return false;
-        }
-
-        public boolean shouldSkipField(FieldAttributes f) {
-            return f.getName().equals("disableFree") || f.getName().equals("networkType");
-        }
-    }
 
     public MessageDetailsActivity(MessageObject messageObject) {
         this.messageObject = messageObject;
@@ -361,6 +342,26 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiDidLoad);
+    }
+
+    private static class ByteArrayToBase64TypeAdapter implements JsonSerializer<byte[]>, JsonDeserializer<byte[]> {
+        public byte[] deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+            return Base64.decode(json.getAsString(), Base64.NO_WRAP);
+        }
+
+        public JsonElement serialize(byte[] src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(Base64.encodeToString(src, Base64.NO_WRAP));
+        }
+    }
+
+    public static class Exclusion implements ExclusionStrategy {
+        public boolean shouldSkipClass(Class<?> arg0) {
+            return false;
+        }
+
+        public boolean shouldSkipField(FieldAttributes f) {
+            return f.getName().equals("disableFree") || f.getName().equals("networkType");
+        }
     }
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
