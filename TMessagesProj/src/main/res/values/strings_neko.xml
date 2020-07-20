@@ -60,8 +60,6 @@
     <string name="MessageDetails">Details</string>
     <string name="ExportAsJson">Export as JSON</string>
     <string name="Translate">Translate</string>
-    <string name="JoinedFormatted">joined %1$s</string>
-    <string name="JoinedDateFormatted">joined on %1$s</string>
     <string name="DeleteAccount">Delete Telegram account</string>
     <string name="TranslateFailed">Translate server error</string>
     <string name="TranslationProvider">Translation provider</string>

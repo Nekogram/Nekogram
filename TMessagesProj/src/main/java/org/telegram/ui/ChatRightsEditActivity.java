@@ -77,7 +77,6 @@ public class ChatRightsEditActivity extends BaseFragment {
     private int chatId;
     private TLRPC.User currentUser;
     private TLRPC.Chat currentChat;
-    private TLObject participant;
     private int currentType;
     private boolean isChannel;
 
@@ -133,11 +132,6 @@ public class ChatRightsEditActivity extends BaseFragment {
     }
 
     private final static int done_button = 1;
-
-    public ChatRightsEditActivity(int userId, int channelId, TLRPC.TL_chatAdminRights rightsAdmin, TLRPC.TL_chatBannedRights rightsBannedDefault, TLRPC.TL_chatBannedRights rightsBanned, String rank, int type, boolean edit, boolean addingNew, TLObject part) {
-        this(userId, channelId, rightsAdmin, rightsBannedDefault, rightsBanned, rank, type, edit, addingNew);
-        participant = part;
-    }
 
     public ChatRightsEditActivity(int userId, int channelId, TLRPC.TL_chatAdminRights rightsAdmin, TLRPC.TL_chatBannedRights rightsBannedDefault, TLRPC.TL_chatBannedRights rightsBanned, String rank, int type, boolean edit, boolean addingNew) {
         super();
@@ -1099,17 +1093,7 @@ public class ChatRightsEditActivity extends BaseFragment {
             switch (holder.getItemViewType()) {
                 case 0:
                     UserCell2 userCell2 = (UserCell2) holder.itemView;
-                    String status = null;
-                    if (participant instanceof TLRPC.TL_channelParticipantCreator) {
-                        status = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
-                    } else if (participant instanceof TLRPC.TL_channelParticipantAdmin) {
-                        status = LocaleController.formatDateJoined(((TLRPC.TL_channelParticipantAdmin) participant).date);
-                    } else if (participant instanceof TLRPC.TL_channelParticipant) {
-                        status = LocaleController.formatDateJoined(((TLRPC.TL_channelParticipant) participant).date);
-                    } else if (participant instanceof TLRPC.TL_chatChannelParticipant) {
-                        status = LocaleController.formatDateJoined(((TLRPC.TL_chatChannelParticipant) participant).date);
-                    }
-                    userCell2.setData(currentUser, null, status, 0);
+                    userCell2.setData(currentUser, null, null, 0);
                     break;
                 case 1:
                     TextInfoPrivacyCell privacyCell = (TextInfoPrivacyCell) holder.itemView;

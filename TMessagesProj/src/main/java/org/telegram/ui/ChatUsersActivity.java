@@ -70,8 +70,6 @@ import java.util.Collections;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import tw.nekomimi.nekogram.NekoConfig;
-
 public class ChatUsersActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private ListAdapter listViewAdapter;
@@ -926,7 +924,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                             bannedRights.invite_users = true;
                             bannedRights.change_info = true;
                         }
-                        ChatRightsEditActivity fragment = new ChatRightsEditActivity(user_id, chatId, adminRights, defaultBannedRights, bannedRights, rank, type == TYPE_ADMIN ? ChatRightsEditActivity.TYPE_ADMIN : ChatRightsEditActivity.TYPE_BANNED, canEdit, participant == null, participant);
+                        ChatRightsEditActivity fragment = new ChatRightsEditActivity(user_id, chatId, adminRights, defaultBannedRights, bannedRights, rank, type == TYPE_ADMIN ? ChatRightsEditActivity.TYPE_ADMIN : ChatRightsEditActivity.TYPE_BANNED, canEdit, participant == null);
                         fragment.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() {
                             @Override
                             public void didSetRights(int rights, TLRPC.TL_chatAdminRights rightsAdmin, TLRPC.TL_chatBannedRights rightsBanned, String rank) {
@@ -1072,7 +1070,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     private void openRightsEdit2(int userId, int date, TLObject participant, TLRPC.TL_chatAdminRights adminRights, TLRPC.TL_chatBannedRights bannedRights, String rank, boolean canEditAdmin, int type, boolean removeFragment) {
-        ChatRightsEditActivity fragment = new ChatRightsEditActivity(userId, chatId, adminRights, defaultBannedRights, bannedRights, rank, type, true, false, participant);
+        ChatRightsEditActivity fragment = new ChatRightsEditActivity(userId, chatId, adminRights, defaultBannedRights, bannedRights, rank, type, true, false);
         fragment.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() {
             @Override
             public void didSetRights(int rights, TLRPC.TL_chatAdminRights rightsAdmin, TLRPC.TL_chatBannedRights rightsBanned, String rank) {
@@ -1137,7 +1135,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
     }
 
     private void openRightsEdit(int user_id, TLObject participant, TLRPC.TL_chatAdminRights adminRights, TLRPC.TL_chatBannedRights bannedRights, String rank, boolean canEditAdmin, int type, boolean removeFragment) {
-        ChatRightsEditActivity fragment = new ChatRightsEditActivity(user_id, chatId, adminRights, defaultBannedRights, bannedRights, rank, type, canEditAdmin, participant == null, participant);
+        ChatRightsEditActivity fragment = new ChatRightsEditActivity(user_id, chatId, adminRights, defaultBannedRights, bannedRights, rank, type, canEditAdmin, participant == null);
         fragment.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() {
             @Override
             public void didSetRights(int rights, TLRPC.TL_chatAdminRights rightsAdmin, TLRPC.TL_chatBannedRights rightsBanned, String rank) {
@@ -1423,7 +1421,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             builder.setItems(items, icons, (dialogInterface, i) -> {
                 if (type == TYPE_ADMIN) {
                     if (i == 0 && items.length == 2) {
-                        ChatRightsEditActivity fragment = new ChatRightsEditActivity(userId, chatId, adminRights, null, null, rank, ChatRightsEditActivity.TYPE_ADMIN, true, false, participant);
+                        ChatRightsEditActivity fragment = new ChatRightsEditActivity(userId, chatId, adminRights, null, null, rank, ChatRightsEditActivity.TYPE_ADMIN, true, false);
                         fragment.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() {
                             @Override
                             public void didSetRights(int rights, TLRPC.TL_chatAdminRights rightsAdmin, TLRPC.TL_chatBannedRights rightsBanned, String rank) {
@@ -1449,7 +1447,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 } else if (type == TYPE_BANNED || type == TYPE_KICKED) {
                     if (i == 0) {
                         if (type == TYPE_KICKED) {
-                            ChatRightsEditActivity fragment = new ChatRightsEditActivity(userId, chatId, null, defaultBannedRights, bannedRights, rank, ChatRightsEditActivity.TYPE_BANNED, true, false, participant);
+                            ChatRightsEditActivity fragment = new ChatRightsEditActivity(userId, chatId, null, defaultBannedRights, bannedRights, rank, ChatRightsEditActivity.TYPE_BANNED, true, false);
                             fragment.setDelegate(new ChatRightsEditActivity.ChatRightsEditActivityDelegate() {
                                 @Override
                                 public void didSetRights(int rights, TLRPC.TL_chatAdminRights rightsAdmin, TLRPC.TL_chatBannedRights rightsBanned, String rank) {
@@ -2279,15 +2277,12 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 case 0: {
                     TLObject object = getItem(position);
                     TLRPC.User user;
-                    String joinDate = null;
                     if (object instanceof TLRPC.User) {
                         user = (TLRPC.User) object;
                     } else if (object instanceof TLRPC.ChannelParticipant) {
                         user = getMessagesController().getUser(((TLRPC.ChannelParticipant) object).user_id);
-                        joinDate = LocaleController.formatDateJoined(((TLRPC.ChannelParticipant) object).date);
                     } else if (object instanceof TLRPC.ChatParticipant) {
                         user = getMessagesController().getUser(((TLRPC.ChatParticipant) object).user_id);
-                        joinDate = LocaleController.formatDateJoined(((TLRPC.ChatParticipant) object).date);
                     } else {
                         return;
                     }
@@ -2366,7 +2361,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
 
                     ManageChatUserCell userCell = (ManageChatUserCell) holder.itemView;
                     userCell.setTag(position);
-                    userCell.setData(user, name, username != null ? username : joinDate, false);
+                    userCell.setData(user, name, username, false);
 
                     break;
                 }
@@ -2558,7 +2553,6 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     boolean banned;
                     boolean creator;
                     boolean admin;
-                    String joinDate;
                     if (item instanceof TLRPC.ChannelParticipant) {
                         TLRPC.ChannelParticipant participant = (TLRPC.ChannelParticipant) item;
                         userId = participant.user_id;
@@ -2568,11 +2562,6 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         banned = participant instanceof TLRPC.TL_channelParticipantBanned;
                         creator = participant instanceof TLRPC.TL_channelParticipantCreator;
                         admin = participant instanceof TLRPC.TL_channelParticipantAdmin;
-                        if (creator) {
-                            joinDate = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
-                        } else {
-                            joinDate = LocaleController.formatDateJoined(participant.date);
-                        }
                     } else {
                         TLRPC.ChatParticipant participant = (TLRPC.ChatParticipant) item;
                         userId = participant.user_id;
@@ -2582,11 +2571,6 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         banned = false;
                         creator = participant instanceof TLRPC.TL_chatParticipantCreator;
                         admin = participant instanceof TLRPC.TL_chatParticipantAdmin;
-                        if (creator) {
-                            joinDate = LocaleController.getString("ChannelCreator", R.string.ChannelCreator);
-                        } else {
-                            joinDate = LocaleController.formatDateJoined(participant.date);
-                        }
                     }
                     TLRPC.User user = getMessagesController().getUser(userId);
                     if (user != null) {
@@ -2617,7 +2601,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                             }
                             userCell.setData(user, null, role, position != lastRow - 1);
                         } else if (type == TYPE_USERS) {
-                            userCell.setData(user, null, joinDate, position != lastRow - 1);
+                            userCell.setData(user, null, null, position != lastRow - 1);
                         }
                     }
                     break;
