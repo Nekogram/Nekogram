@@ -4792,7 +4792,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     setAvatarSectionRow = rowCount++;
                 }
                 numberSectionRow = rowCount++;
-                numberRow = rowCount++;
+                if (!NekoConfig.hidePhone) numberRow = rowCount++;
                 setUsernameRow = rowCount++;
                 bioRow = rowCount++;
                 settingsSectionRow = rowCount++;
