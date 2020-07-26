@@ -62,6 +62,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int transparentStatusBarRow;
     private int forceTabletRow;
     private int avatarAsDrawerBackgroundRow;
+    private int mediaPreviewRow;
     private int appBarShadowRow;
     private int newYearRow;
     private int eventTypeRow;
@@ -381,6 +382,11 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.autoPauseVideo);
                 }
+            } else if (position == mediaPreviewRow) {
+                NekoConfig.toggleMediaPreview();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.mediaPreview);
+                }
             }
         });
 
@@ -413,6 +419,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
         forceTabletRow = rowCount++;
         avatarAsDrawerBackgroundRow = rowCount++;
+        mediaPreviewRow = rowCount++;
         appBarShadowRow = rowCount++;
         newYearRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         eventTypeRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
@@ -614,6 +621,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("DisableAppBarShadow", R.string.DisableAppBarShadow), NekoConfig.disableAppBarShadow, eventTypeRow != -1);
                     } else if (position == autoPauseVideoRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("AutoPauseVideo", R.string.AutoPauseVideo), LocaleController.getString("AutoPauseVideoAbout", R.string.AutoPauseVideoAbout), NekoConfig.autoPauseVideo, true, true);
+                    } else if (position == mediaPreviewRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("MediaPreview", R.string.MediaPreview), NekoConfig.mediaPreview, true);
                     }
                     break;
                 }
