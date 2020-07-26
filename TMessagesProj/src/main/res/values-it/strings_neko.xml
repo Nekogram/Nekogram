@@ -41,7 +41,8 @@
     <string name="HideProxySponsorChannel">Nascondi canale sponsor proxy</string>
     <string name="ViewHistory">Visualizza la cronologia</string>
     <string name="Nya">Miao!</string>
-    <string name="SaveCacheToPrivateDirectory">Salva la cache nella directory privata</string>
+    <string name="SaveCacheToExternalFilesDir">Isolamento dello storage</string>
+    <string name="SaveCacheToExternalFilesDirAbout">Salva la cartella \"Telegram\" nella directory specifica dell\'app per mantenere la memoria condivisa in ordine.</string>
     <string name="SensitiveDisableFiltering">Disattiva il filtro dei contenuti sensibili</string>
     <string name="SensitiveAbout">Mostra i media sensibili nei canali pubblici su tutti i tuoi dispositivi.</string>
     <string name="StickerSize">Dimensione dell\'adesivo</string>
@@ -55,8 +56,6 @@
     <string name="MessageDetails">Dettagli</string>
     <string name="ExportAsJson">Esporta come JSON</string>
     <string name="Translate">Traduci</string>
-    <string name="JoinedFormatted">entrato %1$s</string>
-    <string name="JoinedDateFormatted">entrato %1$s</string>
     <string name="DeleteAccount">Elimina l\'account Telegram</string>
     <string name="TranslateFailed">Errore del server di traduzione</string>
     <string name="TranslationProvider">Fornitore della traduzione</string>
@@ -88,7 +87,6 @@
     <string name="AskBeforeCalling">Chiedi prima di chiamare</string>
     <string name="ConfirmCall">Conferma chiamata</string>
     <string name="CallTo">Chiamare **%1$s**?</string>
-    <string name="SetAsCurrent">Imposta come corrente</string>
     <string name="DisableNumberRounding">Disabilita arrotondamento numeri</string>
     <string name="Categories">Categorie</string>
     <string name="OfficialChannel">Canale ufficiale</string>
@@ -105,4 +103,14 @@
     <string name="DisableAppBarShadow">Disabilita l\'ombra della barra del titolo</string>
     <string name="BetaWarning">Questa è una funzione **beta** implementata da **Telegram**.</string>
     <string name="MediaPreview">Anteprima media nella lista chat</string>
+    <string name="ProviderYandex">Yandex Translate</string>
+    <string name="IdType">Chat ID nel profilo</string>
+    <string name="IdTypeAbout">L\'API di Telegram utilizza gli ID as-is, ma la Bot API aggiunge - all\'inizio per gruppi, e -100 per canali e supergruppi per adattarlo in un campo.</string>
+    <string name="IdTypeHidden">Nascondi</string>
+    <string name="IdTypeAPI">API Telegram</string>
+    <string name="IdTypeBOTAPI">Bot API</string>
+    <string name="AutoPauseVideo">Pausa video automatica</string>
+    <string name="AutoPauseVideoAbout">Quando in schermata di blocco/si passa allo sfondo.</string>
+    <string name="DisableProximityEvents">Disabilita gli eventi di prossimità</string>
+    <string name="CustomEmojiTypeface">Font Emoji Personale</string>
 </resources>

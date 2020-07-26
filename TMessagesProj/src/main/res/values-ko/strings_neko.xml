@@ -41,7 +41,8 @@
     <string name="HideProxySponsorChannel">프록시 스폰서 채널 숨기기</string>
     <string name="ViewHistory">이전 기록 보기</string>
     <string name="Nya">야옹!</string>
-    <string name="SaveCacheToPrivateDirectory">개인 디렉터리에 캐시 저장</string>
+    <string name="SaveCacheToExternalFilesDir">저장공간 분리</string>
+    <string name="SaveCacheToExternalFilesDirAbout">공용 저장공간을 깔끔히 하기 위해 \"텔레그램\" 폴더를 앱전용 디렉토리에 저장하기</string>
     <string name="SensitiveDisableFiltering">민감한 콘텐츠 필터링 비활성화</string>
     <string name="SensitiveAbout">모든 장치에서 민감한 채널을 공개 채널로 표시합니다.</string>
     <string name="StickerSize">스티커 크기</string>
@@ -55,8 +56,6 @@
     <string name="MessageDetails">정보</string>
     <string name="ExportAsJson">JSON으로 내보내기</string>
     <string name="Translate">번역</string>
-    <string name="JoinedFormatted">%1$s 님 참여</string>
-    <string name="JoinedDateFormatted">%1$s 참여</string>
     <string name="DeleteAccount">텔레그램 계정 삭제</string>
     <string name="TranslateFailed">번역 서버 오류</string>
     <string name="TranslationProvider">번역 제공자</string>
@@ -88,7 +87,6 @@
     <string name="AskBeforeCalling">통화 연결 전에 묻기</string>
     <string name="ConfirmCall">통화 연결 확인</string>
     <string name="CallTo">%1$s 에게 통화 하기</string>
-    <string name="SetAsCurrent">현재로 설정</string>
     <string name="DisableNumberRounding">숫자 반올림 비활성화</string>
     <string name="Categories">카테고리</string>
     <string name="OfficialChannel">공식 채널</string>
@@ -112,4 +110,8 @@
     <string name="IdTypeHidden">숨기기</string>
     <string name="IdTypeAPI">텔레그램 API</string>
     <string name="IdTypeBOTAPI">봇 API</string>
+    <string name="AutoPauseVideo">비디오 자동 일시정지</string>
+    <string name="AutoPauseVideoAbout">락스크린이 백그라운드로 변경될때</string>
+    <string name="DisableProximityEvents">근접 이벤트 비활성화</string>
+    <string name="CustomEmojiTypeface">사용자 정의 이모지 폰트</string>
 </resources>

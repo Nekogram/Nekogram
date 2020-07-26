@@ -41,7 +41,6 @@
     <string name="HideProxySponsorChannel">إخفاء قناة راعي البروكسي</string>
     <string name="ViewHistory">عرض المحفوظات</string>
     <string name="Nya">ماكيف!</string>
-    <string name="SaveCacheToPrivateDirectory">حفظ ذاكرة التخزين المؤقت في الدليل الخاص</string>
     <string name="SensitiveDisableFiltering">تعطيل تصفية المحتوى الحساسة</string>
     <string name="SensitiveAbout">عرض الوسائط الحساسة في القنوات العامة على جميع أجهزتك.</string>
     <string name="StickerSize">حجم الملصق</string>
@@ -55,8 +54,6 @@
     <string name="MessageDetails">التفاصيل</string>
     <string name="ExportAsJson">تصدير كـ JSON</string>
     <string name="Translate">ترجم</string>
-    <string name="JoinedFormatted">انضم إلى %1$s</string>
-    <string name="JoinedDateFormatted">انضم إلى %1$s</string>
     <string name="DeleteAccount">حذف حساب تيليجرام</string>
     <string name="TranslateFailed">خطأ في ترجمة الخادم</string>
     <string name="TranslationProvider">موفر الترجمة</string>
@@ -88,7 +85,6 @@
     <string name="AskBeforeCalling">اسأل قبل الاتصال</string>
     <string name="ConfirmCall">تأكيد المكالمة</string>
     <string name="CallTo">الاتصال بـ **%1$s**؟</string>
-    <string name="SetAsCurrent">تعيين كحالي</string>
     <string name="DisableNumberRounding">تعطيل تقريب الأرقام</string>
     <string name="Categories">الأقسام</string>
     <string name="OfficialChannel">القناة الرسمية</string>

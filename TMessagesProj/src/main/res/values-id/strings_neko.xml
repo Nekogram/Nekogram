@@ -48,8 +48,6 @@
     <string name="MessageDetails">Detail</string>
     <string name="ExportAsJson">Ekspor sebagai JSON</string>
     <string name="Translate">Terjemahkan</string>
-    <string name="JoinedFormatted">bergabung %1$s</string>
-    <string name="JoinedDateFormatted">bergabung pada %1$s</string>
     <string name="DeleteAccount">Hapus akun Telegram</string>
     <string name="TranslateFailed">Server terjemahan error</string>
     <string name="TranslationProvider">Penyedia terjemahan</string>

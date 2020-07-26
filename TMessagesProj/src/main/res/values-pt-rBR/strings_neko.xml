@@ -41,7 +41,8 @@
     <string name="HideProxySponsorChannel">Ocultar canal do patrocinador do proxy</string>
     <string name="ViewHistory">Ver histórico</string>
     <string name="Nya">Miau!</string>
-    <string name="SaveCacheToPrivateDirectory">Salvar cache no diretório privado</string>
+    <string name="SaveCacheToExternalFilesDir">Armazenamento de isolamento</string>
+    <string name="SaveCacheToExternalFilesDirAbout">Salve a pasta \"Telegram\" no diretório específico do aplicativo para manter a organização do armazenamento compartilhado.</string>
     <string name="SensitiveDisableFiltering">Desabilitar filtragem de conteúdo sensível</string>
     <string name="SensitiveAbout">Exiba mídia sensível em canais públicos em todos os seus dispositivos.</string>
     <string name="StickerSize">Tamanho dos stickers</string>
@@ -55,8 +56,6 @@
     <string name="MessageDetails">Detalhes</string>
     <string name="ExportAsJson">Exportar como JSON</string>
     <string name="Translate">Traduzir</string>
-    <string name="JoinedFormatted">visto por último %1$s</string>
-    <string name="JoinedDateFormatted">visto por último às %1$s</string>
     <string name="DeleteAccount">Excluir conta do telegram</string>
     <string name="TranslateFailed">Erro no servidor de tradução</string>
     <string name="TranslationProvider">Provedor de tradução</string>
@@ -88,7 +87,6 @@
     <string name="AskBeforeCalling">Perguntar antes de ligar</string>
     <string name="ConfirmCall">Confirmar chamada</string>
     <string name="CallTo">Chamada para **%1$s**?</string>
-    <string name="SetAsCurrent">Definir como atual</string>
     <string name="DisableNumberRounding">Desativar arredondamento</string>
     <string name="Categories">Categorias</string>
     <string name="OfficialChannel">Canal oficial</string>
@@ -112,4 +110,8 @@
     <string name="IdTypeHidden">Ocultar</string>
     <string name="IdTypeAPI">API do Telegram</string>
     <string name="IdTypeBOTAPI">Bot API</string>
+    <string name="AutoPauseVideo">Pausar vídeo automaticamente</string>
+    <string name="AutoPauseVideoAbout">Quando bloquear a tela/Alternar para segundo plano</string>
+    <string name="DisableProximityEvents">Desativar eventos de proximidade</string>
+    <string name="CustomEmojiTypeface">Fonte emoji personalizada</string>
 </resources>

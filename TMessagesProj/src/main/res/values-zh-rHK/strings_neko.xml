@@ -41,7 +41,6 @@
     <string name="HideProxySponsorChannel">隱藏代理贊助商頻道</string>
     <string name="ViewHistory">顯示歷史消息</string>
     <string name="Nya">喵！</string>
-    <string name="SaveCacheToPrivateDirectory">快取媒體檔案到應用私有目錄下</string>
     <string name="SensitiveDisableFiltering">禁用敏感內容過濾</string>
     <string name="SensitiveAbout">在您所有設備上顯示公共頻道中的敏感媒體內容。</string>
     <string name="StickerSize">貼圖大小</string>
@@ -55,8 +54,6 @@
     <string name="MessageDetails">資訊</string>
     <string name="ExportAsJson">導出為 JSON</string>
     <string name="Translate">翻譯</string>
-    <string name="JoinedFormatted">加入於 %1$s</string>
-    <string name="JoinedDateFormatted">加入於 %1$s</string>
     <string name="DeleteAccount">刪除 Telegram 帳戶</string>
     <string name="TranslateFailed">翻譯服務器錯誤</string>
     <string name="TranslationProvider">翻譯源</string>

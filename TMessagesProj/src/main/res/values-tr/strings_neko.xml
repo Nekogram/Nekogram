@@ -6,7 +6,7 @@
     <string name="HidePhone">Telefon numaramı gizle</string>
     <string name="Hide">Gizle</string>
     <string name="DeleteAllFromSelf">Kendi mesajlarını sil</string>
-    <string name="DeleteAllFromSelfAlert">Uyarı! Bu, **sohbette senden gönderilen tüm mesajları tüm üyeler için silecek**.</string>
+    <string name="DeleteAllFromSelfAlert">Uyarı! Bu, **sohbette senin gönderdiğin tüm mesajlar tüm üyeler için silinecek**.</string>
     <string name="BotLogin">Bot Girişi</string>
     <string name="InvalidAccessToken">Erişim anahtarı geçersiz</string>
     <string name="IgnoreBlocked">Engellenmiş üyeleri grupta yoksay</string>
@@ -26,7 +26,7 @@
     <string name="EnableResidentNotification">Kalıcı bildirim göster</string>
     <string name="DisableResidentNotification">Kalıcı bildirimi devre dışı bırak</string>
     <string name="NekogramRunning">Nekogram çalışıyor</string>
-    <string name="EventType">Kenar çubuğu simge seti</string>
+    <string name="EventType">Kenar çubuğu ikon ayarı</string>
     <string name="ChristmasHat">Her gün Noel şapkası göster</string>
     <string name="ActionBarDecoration">Başlık çubuğu dekorasyonu</string>
     <string name="DependsOnDate">Tarihe bağlı</string>
@@ -41,7 +41,8 @@
     <string name="HideProxySponsorChannel">Proxy sponsor kanalını gizle</string>
     <string name="ViewHistory">Geçmiş</string>
     <string name="Nya">Miyav!</string>
-    <string name="SaveCacheToPrivateDirectory">Önbelleği özel dizine kaydet</string>
+    <string name="SaveCacheToExternalFilesDir">Depolama yalıtımı</string>
+    <string name="SaveCacheToExternalFilesDirAbout">Paylaşılan depolama alanını düzenli tutmak için \"Telegram\" klasörünü uygulamaya özgü dizine kaydedin.</string>
     <string name="SensitiveDisableFiltering">Hassas içerik filtrelemeyi devre dışı bırak</string>
     <string name="SensitiveAbout">Hassas medyayı tüm cihazlarınızdaki herkese açık kanallarda görüntüleyin.</string>
     <string name="StickerSize">Çıkartma boyutu</string>
@@ -55,8 +56,6 @@
     <string name="MessageDetails">Detaylar</string>
     <string name="ExportAsJson">JSON olarak dışa aktar</string>
     <string name="Translate">Çevir</string>
-    <string name="JoinedFormatted">%1$s katıldı</string>
-    <string name="JoinedDateFormatted">%1$s katıldı</string>
     <string name="DeleteAccount">Telegram hesabını sil</string>
     <string name="TranslateFailed">Çeviri sunucu hatası</string>
     <string name="TranslationProvider">Çeviri sağlayıcısı</string>
@@ -88,7 +87,6 @@
     <string name="AskBeforeCalling">Aramadan önce sor</string>
     <string name="ConfirmCall">Aramayı onayla</string>
     <string name="CallTo">Ara **%1$s**?</string>
-    <string name="SetAsCurrent">Şimdiki olarak ayarla</string>
     <string name="DisableNumberRounding">Sayı yuvarlamayı devre dışı bırak</string>
     <string name="Categories">Kategoriler</string>
     <string name="OfficialChannel">Resmi kanal</string>
@@ -106,4 +104,13 @@
     <string name="BetaWarning">**Telegram** tarafından uygulanan bir **beta** özelliğidir.</string>
     <string name="MediaPreview">Sohbet listesinde medya önizlemesi</string>
     <string name="ProviderYandex">Yandex Çeviri</string>
+    <string name="IdType">Profilde sohbet kimliği</string>
+    <string name="IdTypeAbout">Telegram API, kimlikleri olduğu gibi kullanır, ancak Bot API başlangıçta gruplar için eksi, kanallar ve süpergruplar için bir alana sığması için -100 ekler.</string>
+    <string name="IdTypeHidden">Gizli</string>
+    <string name="IdTypeAPI">Telegram API</string>
+    <string name="IdTypeBOTAPI">Bot API</string>
+    <string name="AutoPauseVideo">Videoyu otomatik duraklat</string>
+    <string name="AutoPauseVideoAbout">Kilit ekranı/arka plana geçildiğinde.</string>
+    <string name="DisableProximityEvents">Yakınlık olaylarını devre dışı bırak</string>
+    <string name="CustomEmojiTypeface">Özel emoji yazı tipi</string>
 </resources>

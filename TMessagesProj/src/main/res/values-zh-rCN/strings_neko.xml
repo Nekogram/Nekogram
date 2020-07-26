@@ -41,7 +41,8 @@
     <string name="HideProxySponsorChannel">隐藏代理赞助商频道</string>
     <string name="ViewHistory">显示历史消息</string>
     <string name="Nya">喵！</string>
-    <string name="SaveCacheToPrivateDirectory">缓存媒体文件到应用私有目录下</string>
+    <string name="SaveCacheToExternalFilesDir">存储空间隔离</string>
+    <string name="SaveCacheToExternalFilesDirAbout">保存 \"Telegram\" 文件夹到应用特定的目录，以保持共享存储空间整洁。</string>
     <string name="SensitiveDisableFiltering">禁用敏感内容过滤</string>
     <string name="SensitiveAbout">在您所有设备上显示公共频道中的敏感媒体内容。</string>
     <string name="StickerSize">贴纸大小</string>
@@ -55,8 +56,6 @@
     <string name="MessageDetails">详情</string>
     <string name="ExportAsJson">导出为 JSON</string>
     <string name="Translate">翻译</string>
-    <string name="JoinedFormatted">加入于 %1$s</string>
-    <string name="JoinedDateFormatted">加入于 %1$s</string>
     <string name="DeleteAccount">删除 Telegram 帐户</string>
     <string name="TranslateFailed">翻译服务器错误</string>
     <string name="TranslationProvider">翻译源</string>
@@ -88,7 +87,6 @@
     <string name="AskBeforeCalling">呼叫前确认</string>
     <string name="ConfirmCall">确认呼叫</string>
     <string name="CallTo">呼叫 **%1$s**？</string>
-    <string name="SetAsCurrent">设为当前头像</string>
     <string name="DisableNumberRounding">禁用数字舍入</string>
     <string name="Categories">类别</string>
     <string name="OfficialChannel">官方频道</string>
@@ -114,4 +112,8 @@
     <string name="IdTypeHidden">隐藏</string>
     <string name="IdTypeAPI">Telegram API</string>
     <string name="IdTypeBOTAPI">Bot API</string>
+    <string name="AutoPauseVideo">自动暂停视频</string>
+    <string name="AutoPauseVideoAbout">当锁定屏幕/切换到后台时。</string>
+    <string name="DisableProximityEvents">禁用距离传感器事件</string>
+    <string name="CustomEmojiTypeface">自定义 Emoji 字体</string>
 </resources>

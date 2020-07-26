@@ -41,7 +41,8 @@
     <string name="HideProxySponsorChannel">Скрыть спонсора прокси</string>
     <string name="ViewHistory">История сообщений</string>
     <string name="Nya">Мяу!</string>
-    <string name="SaveCacheToPrivateDirectory">Сохранять медиа в приватный каталог</string>
+    <string name="SaveCacheToExternalFilesDir">Изоляция хранилища</string>
+    <string name="SaveCacheToExternalFilesDirAbout">Сохраняйте содержимое папки \"Telegram\" на внешнее хранилище для экономии памяти устройства.</string>
     <string name="SensitiveDisableFiltering">Показывать деликатный контент</string>
     <string name="SensitiveAbout">Отображать деликатный контент в публичных каналах на всех ваших устройствах.</string>
     <string name="StickerSize">Размер стикеров</string>
@@ -55,8 +56,6 @@
     <string name="MessageDetails">Подробности</string>
     <string name="ExportAsJson">Экспорт в JSON</string>
     <string name="Translate">Перевести</string>
-    <string name="JoinedFormatted">вступил(а) в %1$s</string>
-    <string name="JoinedDateFormatted">вступил(а) %1$s</string>
     <string name="DeleteAccount">Удалить Telegram аккаунт</string>
     <string name="TranslateFailed">Ошибка сервера переводчика</string>
     <string name="TranslationProvider">Переводчик</string>
@@ -88,7 +87,6 @@
     <string name="AskBeforeCalling">Подтверждать звонки</string>
     <string name="ConfirmCall">Подтверждение звонка</string>
     <string name="CallTo">Позвонить **%1$s**?</string>
-    <string name="SetAsCurrent">Сделать аватаром</string>
     <string name="DisableNumberRounding">Не округлять числа</string>
     <string name="Categories">Настройки</string>
     <string name="OfficialChannel">Официальный канал</string>
@@ -112,4 +110,8 @@
     <string name="IdTypeHidden">Скрыть</string>
     <string name="IdTypeAPI">Telegram API</string>
     <string name="IdTypeBOTAPI">Bot API</string>
+    <string name="AutoPauseVideo">Авто-пауза видео</string>
+    <string name="AutoPauseVideoAbout">Останавливать воспроизведение видео при блокировке экрана или сворачивании приложения.</string>
+    <string name="DisableProximityEvents">Отключить датчик приближения</string>
+    <string name="CustomEmojiTypeface">Шрифт пользовательских эмодзи</string>
 </resources>
