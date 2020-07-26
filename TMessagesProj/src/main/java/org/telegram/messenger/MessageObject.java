@@ -161,6 +161,7 @@ public class MessageObject {
     private boolean layoutCreated;
     private int generatedWithMinSize;
     private float generatedWithDensity;
+    public boolean wasJustSent;
 
     public static Pattern urlPattern;
     public static Pattern instagramUrlPattern;
@@ -791,6 +792,15 @@ public class MessageObject {
             public float captionEnterProgress = 1f;
             public boolean drawCaptionLayout;
             public boolean isNewGroup;
+
+            public void reset() {
+                captionEnterProgress = 1f;
+                offsetBottom = 0;
+                offsetTop = 0;
+                offsetRight = 0;
+                offsetLeft = 0;
+                backgroundChangeBounds = false;
+            }
         }
     }
 
@@ -887,7 +897,7 @@ public class MessageObject {
             messageText = Emoji.replaceEmoji(messageText, paint.getFontMetricsInt(), AndroidUtilities.dp(20), false, emojiOnly);
             checkEmojiOnly(emojiOnly);
             emojiAnimatedSticker = null;
-            if (emojiOnlyCount == 1 && !(message.media instanceof TLRPC.TL_messageMediaWebPage) && message.entities.isEmpty()) {
+            if (emojiOnlyCount == 1 && !(message.media instanceof TLRPC.TL_messageMediaWebPage) && !(message.media instanceof TLRPC.TL_messageMediaInvoice) && message.entities.isEmpty()) {
                 CharSequence emoji = messageText;
                 int index;
                 if ((index = TextUtils.indexOf(emoji, "\uD83C\uDFFB")) >= 0) {
@@ -1024,9 +1034,17 @@ public class MessageObject {
                 messageOwner.action.photo = event.action.new_photo;
 
                 if (chat.megagroup) {
-                    messageText = replaceWithLink(LocaleController.getString("EventLogEditedGroupPhoto", R.string.EventLogEditedGroupPhoto), "un1", fromUser);
+                    if (isVideoAvatar()) {
+                        messageText = replaceWithLink(LocaleController.getString("EventLogEditedGroupVideo", R.string.EventLogEditedGroupVideo), "un1", fromUser);
+                    } else {
+                        messageText = replaceWithLink(LocaleController.getString("EventLogEditedGroupPhoto", R.string.EventLogEditedGroupPhoto), "un1", fromUser);
+                    }
                 } else {
-                    messageText = replaceWithLink(LocaleController.getString("EventLogEditedChannelPhoto", R.string.EventLogEditedChannelPhoto), "un1", fromUser);
+                    if (isVideoAvatar()) {
+                        messageText = replaceWithLink(LocaleController.getString("EventLogEditedChannelVideo", R.string.EventLogEditedChannelVideo), "un1", fromUser);
+                    } else {
+                        messageText = replaceWithLink(LocaleController.getString("EventLogEditedChannelPhoto", R.string.EventLogEditedChannelPhoto), "un1", fromUser);
+                    }
                 }
             }
         } else if (event.action instanceof TLRPC.TL_channelAdminLogEventActionParticipantJoin) {
@@ -2138,6 +2156,10 @@ public class MessageObject {
         }
     }
 
+    public boolean isVideoAvatar() {
+        return messageOwner.action != null && messageOwner.action.photo != null && !messageOwner.action.photo.video_sizes.isEmpty();
+    }
+
     public boolean isFcmMessage() {
         return localType != 0;
     }
@@ -2256,12 +2278,24 @@ public class MessageObject {
                     }
                 } else if (messageOwner.action instanceof TLRPC.TL_messageActionChatEditPhoto) {
                     if (messageOwner.to_id.channel_id != 0 && !isMegagroup()) {
-                        messageText = LocaleController.getString("ActionChannelChangedPhoto", R.string.ActionChannelChangedPhoto);
+                        if (isVideoAvatar()) {
+                            messageText = LocaleController.getString("ActionChannelChangedVideo", R.string.ActionChannelChangedVideo);
+                        } else {
+                            messageText = LocaleController.getString("ActionChannelChangedPhoto", R.string.ActionChannelChangedPhoto);
+                        }
                     } else {
                         if (isOut()) {
-                            messageText = LocaleController.getString("ActionYouChangedPhoto", R.string.ActionYouChangedPhoto);
+                            if (isVideoAvatar()) {
+                                messageText = LocaleController.getString("ActionYouChangedVideo", R.string.ActionYouChangedVideo);
+                            } else {
+                                messageText = LocaleController.getString("ActionYouChangedPhoto", R.string.ActionYouChangedPhoto);
+                            }
                         } else {
-                            messageText = replaceWithLink(LocaleController.getString("ActionChangedPhoto", R.string.ActionChangedPhoto), "un1", fromUser);
+                            if (isVideoAvatar()) {
+                                messageText = replaceWithLink(LocaleController.getString("ActionChangedVideo", R.string.ActionChangedVideo), "un1", fromUser);
+                            } else {
+                                messageText = replaceWithLink(LocaleController.getString("ActionChangedPhoto", R.string.ActionChangedPhoto), "un1", fromUser);
+                            }
                         }
                     }
                 } else if (messageOwner.action instanceof TLRPC.TL_messageActionChatEditTitle) {
@@ -2857,6 +2891,9 @@ public class MessageObject {
                 if (photo.dc_id != 0) {
                     for (int a = 0, N = photoThumbs.size(); a < N; a++) {
                         TLRPC.FileLocation location = photoThumbs.get(a).location;
+                        if (location == null) {
+                            continue;
+                        }
                         location.dc_id = photo.dc_id;
                         location.file_reference = photo.file_reference;
                     }
@@ -4346,7 +4383,7 @@ public class MessageObject {
     }
 
     public static boolean canAutoplayAnimatedSticker(TLRPC.Document document) {
-        return isAnimatedStickerDocument(document, true) && SharedConfig.getDevicePerfomanceClass() != SharedConfig.PERFORMANCE_CLASS_LOW;
+        return isAnimatedStickerDocument(document, true) && SharedConfig.getDevicePerformanceClass() != SharedConfig.PERFORMANCE_CLASS_LOW;
     }
 
     public static boolean isMaskDocument(TLRPC.Document document) {
@@ -4405,7 +4442,7 @@ public class MessageObject {
         return false;
     }
 
-    public static TLRPC.TL_videoSize getDocumentVideoThumb(TLRPC.Document document) {
+    public static TLRPC.VideoSize getDocumentVideoThumb(TLRPC.Document document) {
         if (document == null || document.video_thumbs.isEmpty()) {
             return null;
         }
@@ -4739,7 +4776,7 @@ public class MessageObject {
         if (TextUtils.isEmpty(messageMediaDice.emoticon)) {
             return "\uD83C\uDFB2";
         }
-        return messageMediaDice.emoticon;
+        return messageMediaDice.emoticon.replace("\ufe0f", "");
     }
 
     public int getDiceValue() {
@@ -5177,6 +5214,9 @@ public class MessageObject {
     }
 
     public static boolean canDeleteMessage(int currentAccount, boolean inScheduleMode, TLRPC.Message message, TLRPC.Chat chat) {
+        if (message == null) {
+            return false;
+        }
         if (message.id < 0) {
             return true;
         }
@@ -5319,6 +5359,12 @@ public class MessageObject {
                 if (currentPhotoObject != null) {
                     mediaExists = FileLoader.getPathToAttach(currentPhotoObject, true).exists();
                 }
+            } else if (type == 11) {
+                TLRPC.Photo photo = messageOwner.action.photo;
+                if (photo == null || photo.video_sizes.isEmpty()) {
+                    return;
+                }
+                mediaExists = FileLoader.getPathToAttach(photo.video_sizes.get(0), true).exists();
             }
         }
     }

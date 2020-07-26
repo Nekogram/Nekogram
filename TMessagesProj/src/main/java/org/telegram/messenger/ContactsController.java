@@ -32,6 +32,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
@@ -55,6 +56,7 @@ public class ContactsController extends BaseController {
     private boolean updatingInviteLink;
     private HashMap<String, String> sectionsToReplace = new HashMap<>();
 
+    private int loadingGlobalSettings;
     private int loadingDeleteInfo;
     private int deleteAccountTTL;
     private int[] loadingPrivacyInfo = new int[PRIVACY_RULES_TYPE_COUNT];
@@ -66,6 +68,7 @@ public class ContactsController extends BaseController {
     private ArrayList<TLRPC.PrivacyRule> forwardsPrivacyRules;
     private ArrayList<TLRPC.PrivacyRule> phonePrivacyRules;
     private ArrayList<TLRPC.PrivacyRule> addedByPhonePrivacyRules;
+    private TLRPC.TL_globalPrivacySettings globalPrivacySettings;
 
     public final static int PRIVACY_RULES_TYPE_LASTSEEN = 0;
     public final static int PRIVACY_RULES_TYPE_INVITE = 1;
@@ -253,11 +256,10 @@ public class ContactsController extends BaseController {
         contactsLoaded = false;
         contactsBookLoaded = false;
         lastContactsVersions = "";
+        loadingGlobalSettings = 0;
         loadingDeleteInfo = 0;
         deleteAccountTTL = 0;
-        for (int a = 0; a < loadingPrivacyInfo.length; a++) {
-            loadingPrivacyInfo[a] = 0;
-        }
+        Arrays.fill(loadingPrivacyInfo, 0);
         lastseenPrivacyRules = null;
         groupPrivacyRules = null;
         callPrivacyRules = null;
@@ -2300,6 +2302,19 @@ public class ContactsController extends BaseController {
                 getNotificationCenter().postNotificationName(NotificationCenter.privacyRulesUpdated);
             }));
         }
+        if (loadingGlobalSettings == 0) {
+            loadingGlobalSettings = 1;
+            TLRPC.TL_account_getGlobalPrivacySettings req = new TLRPC.TL_account_getGlobalPrivacySettings();
+            getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+                if (error == null) {
+                    globalPrivacySettings = (TLRPC.TL_globalPrivacySettings) response;
+                    loadingGlobalSettings = 2;
+                } else {
+                    loadingGlobalSettings = 0;
+                }
+                getNotificationCenter().postNotificationName(NotificationCenter.privacyRulesUpdated);
+            }));
+        }
         for (int a = 0; a < loadingPrivacyInfo.length; a++) {
             if (loadingPrivacyInfo[a] != 0) {
                 continue;
@@ -2392,8 +2407,16 @@ public class ContactsController extends BaseController {
         return loadingDeleteInfo != 2;
     }
 
+    public boolean getLoadingGlobalSettings() {
+        return loadingGlobalSettings != 2;
+    }
+
     public boolean getLoadingPrivicyInfo(int type) {
         return loadingPrivacyInfo[type] != 2;
+    }
+
+    public TLRPC.TL_globalPrivacySettings getGlobalPrivacySettings() {
+        return globalPrivacySettings;
     }
 
     public ArrayList<TLRPC.PrivacyRule> getPrivacyRules(int type) {
