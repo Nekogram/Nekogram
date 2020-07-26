@@ -73,6 +73,7 @@ abstract public class Translator {
         void onUnsupported();
     }
 
+    @SuppressWarnings("deprecation")
     @SuppressLint("StaticFieldLeak")
     private class MyAsyncTask extends AsyncTask<Void, Integer, Object> {
         TranslateCallBack translateCallBack;
