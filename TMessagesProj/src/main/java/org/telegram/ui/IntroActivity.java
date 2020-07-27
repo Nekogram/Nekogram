@@ -103,7 +103,7 @@ public class IntroActivity extends Activity implements NotificationCenter.Notifi
                 LocaleController.getString("Page6Title", R.string.Page6Title)
         };
         messages = new String[]{
-                LocaleController.getString("Page1Message", R.string.Page1Message),
+                LocaleController.getString("Page1Message2", R.string.Page1Message2),
                 LocaleController.getString("Page2Message", R.string.Page2Message),
                 LocaleController.getString("Page3Message", R.string.Page3Message),
                 LocaleController.getString("Page5Message", R.string.Page5Message),
