@@ -155,14 +155,14 @@ public class NekoConfig {
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
             useIPv6 = preferences.getBoolean("useIPv6", false);
             hidePhone = preferences.getBoolean("hidePhone", true);
-            ignoreBlocked = preferences.getBoolean("ignoreBlocked", false);
+            ignoreBlocked = preferences.getBoolean("ignoreBlocked2", false);
             forceTablet = preferences.getBoolean("forceTablet", false);
             typeface = preferences.getInt("typeface", Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 1 : 0);
             nameOrder = preferences.getInt("nameOrder", 1);
             mapPreviewProvider = preferences.getInt("mapPreviewProvider", 0);
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
-            hideProxySponsorChannel = preferences.getBoolean("hideProxySponsorChannel", false);
+            hideProxySponsorChannel = preferences.getBoolean("hideProxySponsorChannel2", false);
             saveCacheToExternalFilesDir = preferences.getBoolean("saveCacheToExternalFilesDir", true);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
@@ -183,7 +183,7 @@ public class NekoConfig {
             translationProvider = preferences.getInt("translationProvider", 1);
             disablePhotoSideAction = preferences.getBoolean("disablePhotoSideAction", true);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
-            showHiddenFeature = preferences.getBoolean("showHiddenFeature2", false);
+            showHiddenFeature = preferences.getBoolean("showHiddenFeature3", false);
             hideKeyboardOnChatScroll = preferences.getBoolean("hideKeyboardOnChatScroll", false);
             avatarAsDrawerBackground = preferences.getBoolean("avatarAsDrawerBackground", false);
             useSystemEmoji = preferences.getBoolean("useSystemEmoji", SharedConfig.useSystemEmoji);
@@ -299,7 +299,7 @@ public class NekoConfig {
         ignoreBlocked = !ignoreBlocked;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("ignoreBlocked", ignoreBlocked);
+        editor.putBoolean("ignoreBlocked2", ignoreBlocked);
         editor.commit();
     }
 
@@ -357,7 +357,7 @@ public class NekoConfig {
         hideProxySponsorChannel = !hideProxySponsorChannel;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("hideProxySponsorChannel", hideProxySponsorChannel);
+        editor.putBoolean("hideProxySponsorChannel2", hideProxySponsorChannel);
         editor.commit();
     }
 
@@ -453,7 +453,7 @@ public class NekoConfig {
         showHiddenFeature = !showHiddenFeature;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("showHiddenFeature2", showHiddenFeature);
+        editor.putBoolean("showHiddenFeature3", showHiddenFeature);
         editor.commit();
     }
 

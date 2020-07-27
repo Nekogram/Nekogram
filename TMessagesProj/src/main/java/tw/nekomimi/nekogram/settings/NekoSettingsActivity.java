@@ -137,16 +137,25 @@ public class NekoSettingsActivity extends BaseFragment {
                 Browser.openUrl(getParentActivity(), "https://console.argo.moe/auth/register?code=nekogram");
             }
         });
-        listView.setOnItemLongClickListener((view, position) -> {
-            if (position == experimentRow) {
-                NekoConfig.toggleShowHiddenFeature();
-                listView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
-                if (NekoConfig.showHiddenFeature) {
-                    AndroidUtilities.shakeView(view, 2, 0);
+        listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() {
+
+            private int pressCount = 0;
+
+            @Override
+            public boolean onItemClick(View view, int position) {
+                if (position == experimentRow) {
+                    pressCount++;
+                    if (pressCount >= 2) {
+                        NekoConfig.toggleShowHiddenFeature();
+                        listView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                        if (NekoConfig.showHiddenFeature) {
+                            AndroidUtilities.shakeView(view, 2, 0);
+                        }
+                        return true;
+                    }
                 }
-                return true;
+                return false;
             }
-            return false;
         });
 
         return fragmentView;

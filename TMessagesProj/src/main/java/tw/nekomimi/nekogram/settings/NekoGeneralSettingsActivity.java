@@ -430,7 +430,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         generalRow = rowCount++;
         hidePhoneRow = rowCount++;
         inappCameraRow = rowCount++;
-        hideProxySponsorChannelRow = rowCount++;
+        hideProxySponsorChannelRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         askBeforeCallRow = rowCount++;
         disableNumberRoundingRow = rowCount++;
         openArchiveOnPullRow = rowCount++;
