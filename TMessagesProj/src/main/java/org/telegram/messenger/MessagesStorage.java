@@ -948,9 +948,6 @@ public class MessagesStorage extends BaseController {
     }
 
     public void cleanup(final boolean isLogin) {
-        if (!isLogin) {
-            storageQueue.cleanupQueue();
-        }
         storageQueue.postRunnable(() -> {
             cleanupInternal(true);
             openDatabase(1);
