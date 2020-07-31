@@ -340,6 +340,18 @@ public class LocaleController {
         languagesDict.put("zh_sg", localeInfo);
 
         localeInfo = new LocaleInfo();
+        localeInfo.name = "简体中文 @cnmoe";
+        localeInfo.nameEnglish = "Chinese Simplified (@cnmoe)";
+        localeInfo.shortName = "moecn";
+        localeInfo.baseLangCode = "zh_hans_raw";
+        localeInfo.isRtl = false;
+        localeInfo.pathToFile = "unofficial";
+        localeInfo.pluralLangCode = "zh_cn";
+        localeInfo.builtIn = true;
+        languages.add(localeInfo);
+        languagesDict.put(localeInfo.getKey(), localeInfo);
+
+        localeInfo = new LocaleInfo();
         localeInfo.name = "瓜體中文";
         localeInfo.nameEnglish = "Duangified Chinese (Traditional)";
         localeInfo.shortName = "duang_zh_hant";
