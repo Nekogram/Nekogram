@@ -266,7 +266,11 @@ public class DrawerProfileCell extends FrameLayout {
     }
 
     public boolean isInAvatar(float x, float y) {
-        return x >= avatarImageView.getLeft() && x <= avatarImageView.getRight() && y >= avatarImageView.getTop() && y <= avatarImageView.getBottom();
+        if (NekoConfig.avatarAsDrawerBackground) {
+            return y <= arrowView.getTop();
+        } else {
+            return x >= avatarImageView.getLeft() && x <= avatarImageView.getRight() && y >= avatarImageView.getTop() && y <= avatarImageView.getBottom();
+        }
     }
 
     public boolean hasAvatar() {
