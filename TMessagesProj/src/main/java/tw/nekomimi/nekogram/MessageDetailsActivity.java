@@ -7,7 +7,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Base64;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,18 +16,6 @@ import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildConfig;
@@ -57,16 +44,10 @@ import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.ProfileActivity;
 
 import java.io.File;
-import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class MessageDetailsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
-
-
-    public static final Gson gson = new GsonBuilder()
-            .setExclusionStrategies(new Exclusion())
-            .registerTypeHierarchyAdapter(byte[].class, new ByteArrayToBase64TypeAdapter()).create();
 
     private RecyclerListView listView;
     private ListAdapter listAdapter;
@@ -94,9 +75,6 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     private int filePathRow;
     private int fileSizeRow;
     private int dcRow;
-    private int buttonsRow;
-    private int emptyRow;
-    private int exportRow;
     private int endRow;
 
     private UndoView copyTooltip;
@@ -186,14 +164,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener((view, position, x, y) -> {
-            if (position == exportRow) {
-                try {
-                    AndroidUtilities.addToClipboard(gson.toJson(messageObject.messageOwner));
-                    copyTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-            } else if (position != endRow && position != emptyRow) {
+            if (position != endRow) {
                 TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
                 try {
                     AndroidUtilities.addToClipboard(textCell.getValueTextView().getText());
@@ -280,9 +251,6 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         } else {
             dcRow = -1;
         }
-        buttonsRow = messageObject.messageOwner.reply_markup instanceof TLRPC.TL_replyInlineMarkup ? rowCount++ : -1;
-        emptyRow = rowCount++;
-        exportRow = rowCount++;
         endRow = rowCount++;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -345,26 +313,6 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiDidLoad);
     }
 
-    private static class ByteArrayToBase64TypeAdapter implements JsonSerializer<byte[]>, JsonDeserializer<byte[]> {
-        public byte[] deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-            return Base64.decode(json.getAsString(), Base64.NO_WRAP);
-        }
-
-        public JsonElement serialize(byte[] src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive(Base64.encodeToString(src, Base64.NO_WRAP));
-        }
-    }
-
-    public static class Exclusion implements ExclusionStrategy {
-        public boolean shouldSkipClass(Class<?> arg0) {
-            return false;
-        }
-
-        public boolean shouldSkipField(FieldAttributes f) {
-            return f.getName().equals("disableFree") || f.getName().equals("networkType");
-        }
-    }
-
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
 
         private Context mContext;
@@ -392,7 +340,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                 case 2: {
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
                     textCell.setMultilineDetail(true);
-                    boolean divider = position + 1 != emptyRow;
+                    boolean divider = position + 1 != endRow;
                     if (position == idRow) {
                         textCell.setTextAndValue("ID", String.valueOf(messageObject.messageOwner.id), divider);
                     } else if (position == messageRow) {
@@ -473,16 +421,6 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                         }
                     } else if (position == scheduledRow) {
                         textCell.setTextAndValue("Scheduled", "Yes", divider);
-                    } else if (position == buttonsRow) {
-                        textCell.setTextAndValue("Buttons", gson.toJson(messageObject.messageOwner.reply_markup), divider);
-                    }
-                    break;
-                }
-                case 3: {
-                    TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
-                    if (position == exportRow) {
-                        textCell.setText(LocaleController.getString("ExportAsJson", R.string.ExportAsJson), false);
-                        textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText));
                     }
                     break;
                 }
@@ -492,7 +430,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int position = holder.getAdapterPosition();
-            return position != endRow && position != emptyRow;
+            return position != endRow;
         }
 
         @NonNull
@@ -507,10 +445,6 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                     view = new TextDetailSettingsCell(mContext);
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
-                case 3:
-                    view = new TextSettingsCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
             }
             //noinspection ConstantConditions
             view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
@@ -519,10 +453,8 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
 
         @Override
         public int getItemViewType(int position) {
-            if (position == endRow || position == emptyRow) {
+            if (position == endRow) {
                 return 1;
-            } else if (position == exportRow) {
-                return 3;
             } else {
                 return 2;
             }

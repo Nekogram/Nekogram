@@ -74,13 +74,14 @@ public class NekoConfig {
     public static boolean disableProximityEvents = false;
     public static boolean mapDriftingFix = false;
 
+    public static boolean residentNotification = false;
+
+    public static boolean shouldNOTTrustMe = false;
+
     public static boolean customEmojiFont;
     public static String customEmojiFontPath;
     private static Typeface customEmojiTypeface;
 
-    public static boolean residentNotification = false;
-
-    public static boolean shouldNOTTrustMe = false;
 
     private static boolean configLoaded;
 

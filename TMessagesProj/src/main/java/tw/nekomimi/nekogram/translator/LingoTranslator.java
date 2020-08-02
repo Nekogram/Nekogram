@@ -2,12 +2,8 @@ package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
 
-import androidx.annotation.Keep;
-
-import com.google.gson.Gson;
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
-
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.telegram.messenger.FileLog;
 
 import java.io.ByteArrayOutputStream;
@@ -41,19 +37,23 @@ public class LingoTranslator extends Translator {
     }
 
     @Override
-    protected String translate(String query, String tl) throws IOException {
-        LingoRequest params = new LingoRequest(query, "auto2" + tl);
-        Gson gson = new Gson();
-        String response = request(gson.toJson(params));
+    protected String translate(String query, String tl) throws IOException, JSONException {
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("source", query);
+        jsonObject.put("trans_type", "auto2" + tl);
+        jsonObject.put("request_id", String.valueOf(System.currentTimeMillis()));
+        jsonObject.put("detect", true);
+        FileLog.e(jsonObject.toString());
+        String response = request(jsonObject.toString());
+        FileLog.e(response);
         if (TextUtils.isEmpty(response)) {
             return null;
         }
-        LingoResponse lingoResponse = gson.fromJson(response, LingoResponse.class);
-        if (TextUtils.isEmpty(lingoResponse.target)) {
-            FileLog.e(response);
-            return null;
+        jsonObject = new JSONObject(response);
+        if (!response.contains("target") && response.contains("error")) {
+            throw new IOException(jsonObject.getString("error"));
         }
-        return lingoResponse.target;
+        return new JSONObject(response).getString("target");
     }
 
     private String request(String param) throws IOException {
@@ -97,42 +97,5 @@ public class LingoTranslator extends Translator {
         httpConnectionStream.close();
         outbuf.close();
         return result;
-    }
-
-    public static class LingoRequest {
-
-        @SerializedName("source")
-        @Expose
-        @Keep
-        public String source;
-        @SerializedName("trans_type")
-        @Expose
-        @Keep
-        String transType;
-        @SerializedName("request_id")
-        @Expose
-        @Keep
-        String requestId;
-        @SerializedName("detect")
-        @Expose
-        @Keep
-        Boolean detect;
-
-        LingoRequest(String source, String transType) {
-            super();
-            this.source = source;
-            this.transType = transType;
-            this.requestId = String.valueOf(System.currentTimeMillis());
-            this.detect = true;
-        }
-
-    }
-
-    static class LingoResponse {
-
-        @SerializedName("target")
-        @Expose
-        String target;
-
     }
 }
