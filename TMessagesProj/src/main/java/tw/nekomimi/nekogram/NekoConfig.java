@@ -73,6 +73,7 @@ public class NekoConfig {
     public static boolean autoPauseVideo = true;
     public static boolean disableProximityEvents = false;
     public static boolean mapDriftingFix = false;
+    public static boolean increaseVoiceMessageQuality = false;
 
     public static boolean residentNotification = false;
 
@@ -205,6 +206,7 @@ public class NekoConfig {
             customEmojiFontPath = preferences.getString("customEmojiFontPath", "");
             customEmojiFont = preferences.getBoolean("customEmojiFont", false);
             mapDriftingFix = preferences.getBoolean("mapDriftingFix", false);
+            increaseVoiceMessageQuality = preferences.getBoolean("increaseVoiceMessageQuality", false);
             configLoaded = true;
         }
     }
@@ -593,6 +595,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("mapDriftingFix", mapDriftingFix);
+        editor.commit();
+    }
+
+    public static void toggleIncreaseVoiceMessageQuality() {
+        increaseVoiceMessageQuality = !increaseVoiceMessageQuality;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("increaseVoiceMessageQuality", increaseVoiceMessageQuality);
         editor.commit();
     }
 

@@ -71,6 +71,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private int emojiRow;
     private int smoothKeyboardRow;
     private int mapDriftingFixRow;
+    private int increaseVoiceMessageQualityRow;
     private int saveCacheToExternalFilesDirRow;
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
@@ -294,6 +295,13 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.mapDriftingFix);
                 }
+            } else if (position == increaseVoiceMessageQualityRow) {
+                NekoConfig.toggleIncreaseVoiceMessageQuality();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.increaseVoiceMessageQuality);
+                }
+                tooltip.setInfoText(LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect));
+                tooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
             }
         });
         listView.setOnItemLongClickListener((view, position) -> {
@@ -367,6 +375,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         emojiRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? rowCount++ : -1;
         smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
         mapDriftingFixRow = rowCount++;
+        increaseVoiceMessageQualityRow = rowCount++;
         saveCacheToExternalFilesDirRow = rowCount++;
         disableFilteringRow = sensitiveCanChange ? rowCount++ : -1;
         unlimitedFavedStickersRow = rowCount++;
@@ -473,6 +482,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck("Don't trust me", NekoConfig.shouldNOTTrustMe, false);
                     } else if (position == mapDriftingFixRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MapDriftingFix", R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
+                    } else if (position == increaseVoiceMessageQualityRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("IncreaseVoiceMessageQuality", R.string.IncreaseVoiceMessageQuality), NekoConfig.increaseVoiceMessageQuality, true);
                     }
                     break;
                 }

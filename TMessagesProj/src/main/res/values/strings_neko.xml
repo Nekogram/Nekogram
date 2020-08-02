@@ -122,4 +122,5 @@
     <string name="CustomEmojiTypeface">Custom emoji font</string>
     <string name="Page1Message2">Nekogram is an **unofficial** messaging app\nthat uses Telegram\'s API.</string>
     <string name="MapDriftingFix">Map drifting fix for Mainland China</string>
+    <string name="IncreaseVoiceMessageQuality">Increase voice messages quality</string>
 </resources>
