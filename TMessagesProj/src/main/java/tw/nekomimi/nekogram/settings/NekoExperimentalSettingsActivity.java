@@ -70,6 +70,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private int experimentRow;
     private int emojiRow;
     private int smoothKeyboardRow;
+    private int mapDriftingFixRow;
     private int saveCacheToExternalFilesDirRow;
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
@@ -288,6 +289,11 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     startActivityForResult(intent, 36654);
                 }
 
+            } else if (position == mapDriftingFixRow) {
+                NekoConfig.toggleMapDriftingFix();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.mapDriftingFix);
+                }
             }
         });
         listView.setOnItemLongClickListener((view, position) -> {
@@ -360,6 +366,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         experimentRow = rowCount++;
         emojiRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? rowCount++ : -1;
         smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
+        mapDriftingFixRow = rowCount++;
         saveCacheToExternalFilesDirRow = rowCount++;
         disableFilteringRow = sensitiveCanChange ? rowCount++ : -1;
         unlimitedFavedStickersRow = rowCount++;
@@ -464,6 +471,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, deleteAccountRow != -1);
                     } else if (position == shouldNOTTrustMeRow) {
                         textCell.setTextAndCheck("Don't trust me", NekoConfig.shouldNOTTrustMe, false);
+                    } else if (position == mapDriftingFixRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("MapDriftingFix", R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
                     }
                     break;
                 }

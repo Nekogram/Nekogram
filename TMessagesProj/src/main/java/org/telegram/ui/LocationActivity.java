@@ -117,6 +117,9 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.location.NekoLocationSource;
+
 public class LocationActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private ImageView locationButton;
@@ -1032,6 +1035,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
                         MapsInitializer.initialize(ApplicationLoader.applicationContext);
                         mapView.getMapAsync(map1 -> {
                             googleMap = map1;
+                            if (NekoConfig.mapDriftingFix) googleMap.setLocationSource(new NekoLocationSource(context));
                             if (isActiveThemeDark()) {
                                 currentMapStyleDark = true;
                                 MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(ApplicationLoader.applicationContext, R.raw.mapstyle_night);
@@ -1747,6 +1751,9 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         for (int i = providers.size() - 1; i >= 0; i--) {
             l = lm.getLastKnownLocation(providers.get(i));
             if (l != null) {
+                if (NekoConfig.mapDriftingFix) {
+                    NekoLocationSource.transform(l);
+                }
                 break;
             }
         }

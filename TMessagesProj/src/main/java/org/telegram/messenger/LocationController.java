@@ -44,6 +44,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.location.NekoLocationSource;
+
 public class LocationController extends BaseController implements NotificationCenter.NotificationCenterDelegate, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private LongSparseArray<SharingLocationInfo> sharingLocationsMap = new LongSparseArray<>();
@@ -544,6 +547,9 @@ public class LocationController extends BaseController implements NotificationCe
     }
 
     private void setLastKnownLocation(Location location) {
+        if (NekoConfig.mapDriftingFix && location != null) {
+            NekoLocationSource.transform(location);
+        }
         lastKnownLocation = location;
         if (lastKnownLocation != null) {
             AndroidUtilities.runOnUIThread(() -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.newLocationAvailable));

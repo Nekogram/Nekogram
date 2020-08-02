@@ -96,6 +96,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
+import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.location.NekoLocationSource;
+
 public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
 
     private ImageView locationButton;
@@ -854,6 +857,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                                 loadingMapView.setTag(1);
                                 loadingMapView.animate().alpha(0.0f).setDuration(180).start();
                             }));
+                            if (NekoConfig.mapDriftingFix) googleMap.setLocationSource(new NekoLocationSource(context));
                             if (isActiveThemeDark()) {
                                 currentMapStyleDark = true;
                                 MapStyleOptions style = MapStyleOptions.loadRawResourceStyle(ApplicationLoader.applicationContext, R.raw.mapstyle_night);
@@ -1476,6 +1480,9 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
         for (int i = providers.size() - 1; i >= 0; i--) {
             l = lm.getLastKnownLocation(providers.get(i));
             if (l != null) {
+                if (NekoConfig.mapDriftingFix) {
+                    NekoLocationSource.transform(l);
+                }
                 break;
             }
         }

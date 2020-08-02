@@ -72,6 +72,7 @@ public class NekoConfig {
     public static boolean mediaPreview = true;
     public static boolean autoPauseVideo = true;
     public static boolean disableProximityEvents = false;
+    public static boolean mapDriftingFix = false;
 
     public static boolean customEmojiFont;
     public static String customEmojiFontPath;
@@ -202,6 +203,7 @@ public class NekoConfig {
             disableProximityEvents = preferences.getBoolean("disableProximityEvents", false);
             customEmojiFontPath = preferences.getString("customEmojiFontPath", "");
             customEmojiFont = preferences.getBoolean("customEmojiFont", false);
+            mapDriftingFix = preferences.getBoolean("mapDriftingFix", false);
             configLoaded = true;
         }
     }
@@ -582,6 +584,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("disableProximityEvents", disableProximityEvents);
+        editor.commit();
+    }
+
+    public static void toggleMapDriftingFix() {
+        mapDriftingFix = !mapDriftingFix;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("mapDriftingFix", mapDriftingFix);
         editor.commit();
     }
 
