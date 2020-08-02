@@ -92,5 +92,10 @@
 -dontwarn javax.annotation.**
 
 # Use -keep to explicitly keep any other classes shrinking would remove
--dontoptimize
--dontobfuscate
+#-dontoptimize
+#-dontobfuscate
+-keep class org.telegram.ui.** { *; }
+-renamesourcefileattribute
+-obfuscationdictionary          proguard-dic.txt
+-classobfuscationdictionary     proguard-dic.txt
+-packageobfuscationdictionary   proguard-dic.txt
