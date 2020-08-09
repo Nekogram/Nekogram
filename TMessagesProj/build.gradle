@@ -286,7 +286,7 @@ android {
         }
     }
 
-    defaultConfig.versionCode = 10 * 2042
+    defaultConfig.versionCode = 10 * 2044
 
     def tgVoipDexFileName = "libtgvoip.dex"
     def tgVoipDexClasses = ["AudioRecordJNI", "AudioTrackJNI", "NativeTgVoipDelegate", "NativeTgVoipInstance", "TgVoipNativeLoader", "Resampler", "VLog"]
@@ -384,7 +384,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 28
-        versionName "6.3.0"
+        versionName "6.3.0.1"
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
