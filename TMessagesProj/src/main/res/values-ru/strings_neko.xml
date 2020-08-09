@@ -114,4 +114,6 @@
     <string name="AutoPauseVideoAbout">Останавливать воспроизведение видео при блокировке экрана или сворачивании приложения.</string>
     <string name="DisableProximityEvents">Отключить датчик приближения</string>
     <string name="CustomEmojiTypeface">Шрифт пользовательских эмодзи</string>
+    <string name="MapDriftingFix">Исправление карт для Китая</string>
+    <string name="IncreaseVoiceMessageQuality">Улучшенное качество голосовых сообщений</string>
 </resources>

@@ -114,4 +114,6 @@
     <string name="AutoPauseVideoAbout">Quando bloquear a tela/Alternar para segundo plano</string>
     <string name="DisableProximityEvents">Desativar eventos de proximidade</string>
     <string name="CustomEmojiTypeface">Fonte emoji personalizada</string>
+    <string name="MapDriftingFix">Correção de desvio de mapa para a China continental</string>
+    <string name="IncreaseVoiceMessageQuality">Aumentar a qualidade das mensagens de voz</string>
 </resources>

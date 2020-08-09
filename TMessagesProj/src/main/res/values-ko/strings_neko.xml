@@ -114,4 +114,6 @@
     <string name="AutoPauseVideoAbout">락스크린이 백그라운드로 변경될때</string>
     <string name="DisableProximityEvents">근접 이벤트 비활성화</string>
     <string name="CustomEmojiTypeface">사용자 정의 이모지 폰트</string>
+    <string name="MapDriftingFix">중국지도 표류 수정</string>
+    <string name="IncreaseVoiceMessageQuality">음성 메시지 품질 향상</string>
 </resources>
