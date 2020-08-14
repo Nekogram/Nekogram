@@ -72,7 +72,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
 
     private int generalRow;
     private int hidePhoneRow;
-    private int inappCameraRow;
+    private int disabledInstantCameraRow;
     private int hideProxySponsorChannelRow;
     private int askBeforeCallRow;
     private int disableNumberRoundingRow;
@@ -174,10 +174,10 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.hidePhone);
                 }
-            } else if (position == inappCameraRow) {
-                SharedConfig.toggleInappCamera();
+            } else if (position == disabledInstantCameraRow) {
+                NekoConfig.toggleDisabledInstantCamera();
                 if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(SharedConfig.inappCamera);
+                    ((TextCheckCell) view).setChecked(NekoConfig.disableInstantCamera);
                 }
             } else if (position == forceTabletRow) {
                 NekoConfig.toggleForceTablet();
@@ -429,7 +429,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
 
         generalRow = rowCount++;
         hidePhoneRow = rowCount++;
-        inappCameraRow = rowCount++;
+        disabledInstantCameraRow = rowCount++;
         hideProxySponsorChannelRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         askBeforeCallRow = rowCount++;
         disableNumberRoundingRow = rowCount++;
@@ -596,8 +596,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("IPv6", R.string.IPv6), NekoConfig.useIPv6, false);
                     } else if (position == hidePhoneRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HidePhone", R.string.HidePhone), NekoConfig.hidePhone, true);
-                    } else if (position == inappCameraRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("DebugMenuEnableCamera", R.string.DebugMenuEnableCamera), SharedConfig.inappCamera, true);
+                    } else if (position == disabledInstantCameraRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("DisableInstantCamera", R.string.DisableInstantCamera), NekoConfig.disableInstantCamera, true);
                     } else if (position == transparentStatusBarRow) {
                         textCell.setTextAndCheck(LocaleController.getString("TransparentStatusBar", R.string.TransparentStatusBar), NekoConfig.transparentStatusBar, true);
                     } else if (position == hideProxySponsorChannelRow) {

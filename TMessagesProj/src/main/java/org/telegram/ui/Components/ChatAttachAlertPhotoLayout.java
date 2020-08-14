@@ -86,6 +86,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
 
     private RecyclerListView cameraPhotoRecyclerView;
@@ -593,7 +595,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 PhotoViewer.getInstance().openPhotoForSelect(arrayList, position, type, false, photoViewerProvider, chatActivity);
                 AndroidUtilities.hideKeyboard(parentAlert.baseFragment.getFragmentView().findFocus());
             } else {
-                if (SharedConfig.inappCamera) {
+                if (SharedConfig.inappCamera && !NekoConfig.disableInstantCamera) {
                     openCamera(true);
                 } else {
                     if (parentAlert.delegate != null) {
@@ -1477,7 +1479,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
         boolean old = deviceHasGoodCamera;
         boolean old2 = noCameraPermissions;
-        if (!SharedConfig.inappCamera) {
+        if (!SharedConfig.inappCamera || NekoConfig.disableInstantCamera) {
             deviceHasGoodCamera = false;
         } else {
             if (Build.VERSION.SDK_INT >= 23) {
@@ -2516,7 +2518,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         for (int a = 0; a < count; a++) {
             View child = gridView.getChildAt(a);
             if (child instanceof PhotoAttachCameraCell) {
-                child.setVisibility(View.INVISIBLE);
+                if (cameraView != null) child.setVisibility(View.INVISIBLE);
                 break;
             }
         }

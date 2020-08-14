@@ -74,6 +74,7 @@ public class NekoConfig {
     public static boolean disableProximityEvents = false;
     public static boolean mapDriftingFix = false;
     public static boolean increaseVoiceMessageQuality = false;
+    public static boolean disableInstantCamera = false;
 
     public static boolean residentNotification = false;
 
@@ -207,6 +208,7 @@ public class NekoConfig {
             customEmojiFont = preferences.getBoolean("customEmojiFont", false);
             mapDriftingFix = preferences.getBoolean("mapDriftingFix", false);
             increaseVoiceMessageQuality = preferences.getBoolean("increaseVoiceMessageQuality", false);
+            disableInstantCamera = preferences.getBoolean("disableInstantCamera", false);
             configLoaded = true;
         }
     }
@@ -603,6 +605,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("increaseVoiceMessageQuality", increaseVoiceMessageQuality);
+        editor.commit();
+    }
+
+    public static void toggleDisabledInstantCamera() {
+        disableInstantCamera = !disableInstantCamera;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("disableInstantCamera", disableInstantCamera);
         editor.commit();
     }
 
