@@ -124,4 +124,5 @@
     <string name="MapDriftingFix">Map drifting fix for Mainland China</string>
     <string name="IncreaseVoiceMessageQuality">Increase voice messages quality</string>
     <string name="DisableInstantCamera">Disable instant camera</string>
+    <string name="OpenAllLinksInInstantView">Try to open all links in InstantView</string>
 </resources>

@@ -47,6 +47,8 @@ import org.telegram.ui.LaunchActivity;
 import java.lang.ref.WeakReference;
 import java.util.List;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class Browser {
 
     private static WeakReference<CustomTabsSession> customTabsCurrentSession;
@@ -185,7 +187,7 @@ public class Browser {
         if (tryTelegraph) {
             try {
                 String host = uri.getHost().toLowerCase();
-                if (isTelegraphUrl(host, true) || uri.toString().toLowerCase().contains("telegram.org/faq")) {
+                if (isTelegraphUrl(host, true) || uri.toString().toLowerCase().contains("telegram.org/faq") || NekoConfig.tryToOpenAllLinksInIV) {
                     final AlertDialog[] progressDialog = new AlertDialog[]{new AlertDialog(context, 3)};
 
                     Uri finalUri = uri;

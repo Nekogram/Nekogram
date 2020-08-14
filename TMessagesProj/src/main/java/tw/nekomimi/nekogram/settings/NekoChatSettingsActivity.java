@@ -64,6 +64,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int hideKeyboardOnChatScrollRow;
     private int rearVideoMessagesRow;
     private int confirmAVRow;
+    private int tryToOpenAllLinksInIVRow;
     private int disableProximityEventsRow;
     private int mapPreviewRow;
     private int messageMenuRow;
@@ -238,6 +239,11 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                     ((TextCheckCell) view).setChecked(NekoConfig.disableProximityEvents);
                 }
                 restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
+            } else if (position == tryToOpenAllLinksInIVRow) {
+                NekoConfig.toggleTryToOpenAllLinksInIV();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.tryToOpenAllLinksInIV);
+                }
             }
         });
 
@@ -268,6 +274,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         hideKeyboardOnChatScrollRow = rowCount++;
         rearVideoMessagesRow = rowCount++;
         confirmAVRow = rowCount++;
+        tryToOpenAllLinksInIVRow = rowCount++;
         disableProximityEventsRow = rowCount++;
         mapPreviewRow = rowCount++;
         messageMenuRow = rowCount++;
@@ -603,6 +610,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                         textCell.setTextAndCheck(LocaleController.getString("ConfirmAVMessage", R.string.ConfirmAVMessage), NekoConfig.confirmAVMessage, true);
                     } else if (position == disableProximityEventsRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisableProximityEvents", R.string.DisableProximityEvents), NekoConfig.disableProximityEvents, true);
+                    } else if (position == tryToOpenAllLinksInIVRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("OpenAllLinksInInstantView", R.string.OpenAllLinksInInstantView), NekoConfig.tryToOpenAllLinksInIV, true);
                     }
                     break;
                 }

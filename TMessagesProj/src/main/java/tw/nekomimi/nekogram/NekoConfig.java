@@ -75,6 +75,7 @@ public class NekoConfig {
     public static boolean mapDriftingFix = false;
     public static boolean increaseVoiceMessageQuality = false;
     public static boolean disableInstantCamera = false;
+    public static boolean tryToOpenAllLinksInIV = false;
 
     public static boolean residentNotification = false;
 
@@ -209,6 +210,7 @@ public class NekoConfig {
             mapDriftingFix = preferences.getBoolean("mapDriftingFix", false);
             increaseVoiceMessageQuality = preferences.getBoolean("increaseVoiceMessageQuality", false);
             disableInstantCamera = preferences.getBoolean("disableInstantCamera", false);
+            tryToOpenAllLinksInIV = preferences.getBoolean("tryToOpenAllLinksInIV", false);
             configLoaded = true;
         }
     }
@@ -613,6 +615,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("disableInstantCamera", disableInstantCamera);
+        editor.commit();
+    }
+
+    public static void toggleTryToOpenAllLinksInIV() {
+        tryToOpenAllLinksInIV = !tryToOpenAllLinksInIV;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("tryToOpenAllLinksInIV", tryToOpenAllLinksInIV);
         editor.commit();
     }
 
