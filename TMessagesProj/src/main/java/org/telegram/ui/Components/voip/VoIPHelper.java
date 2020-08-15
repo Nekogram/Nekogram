@@ -63,10 +63,6 @@ public class VoIPHelper {
 	private static final int VOIP_SUPPORT_ID = 4244000;
 
 	public static void startCall(TLRPC.User user, boolean videoCall, boolean canVideoCall, final Activity activity, TLRPC.UserFull userFull) {
-		startCall(user, videoCall, canVideoCall, activity, userFull, false);
-	}
-
-	public static void startCall(TLRPC.User user, boolean videoCall, boolean canVideoCall, final Activity activity, TLRPC.UserFull userFull, boolean confirmed) {
 		if (userFull != null && userFull.phone_calls_private) {
 			new AlertDialog.Builder(activity)
 					.setTitle(LocaleController.getString("VoipFailed", R.string.VoipFailed))
@@ -106,16 +102,6 @@ public class VoIPHelper {
 				activity.requestPermissions(permissions.toArray(new String[0]), videoCall ? 102 : 101);
 			}
 		} else {
-			if (!confirmed && NekoConfig.askBeforeCall) {
-				new AlertDialog.Builder(activity)
-						.setTitle(LocaleController.getString("ConfirmCall", R.string.ConfirmCall))
-						.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("CallTo", R.string.CallTo,
-								ContactsController.formatName(user.first_name, user.last_name))))
-						.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialog, which) -> startCall(user, videoCall, canVideoCall, activity, userFull, true))
-						.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null)
-						.show();
-				return;
-			}
 			initiateCall(user, videoCall, canVideoCall, activity);
 		}
 	}
@@ -145,15 +131,29 @@ public class VoIPHelper {
 				activity.startActivity(new Intent(activity, LaunchActivity.class).setAction("voip"));
 			}
 		} else if (VoIPService.callIShouldHavePutIntoIntent == null) {
-			doInitiateCall(user, videoCall, canVideoCall, activity);
+			doInitiateCall(user, videoCall, canVideoCall, activity, false);
 		}
 	}
 
 	private static void doInitiateCall(TLRPC.User user, boolean videoCall, boolean canVideoCall, Activity activity) {
+		doInitiateCall(user, videoCall, canVideoCall, activity, true);
+	}
+
+	private static void doInitiateCall(TLRPC.User user, boolean videoCall, boolean canVideoCall, Activity activity, boolean confirmed) {
 		if (activity == null || user == null) {
 			return;
 		}
 		if (System.currentTimeMillis() - lastCallTime < 2000) {
+			return;
+		}
+		if (NekoConfig.askBeforeCall && !confirmed) {
+			new AlertDialog.Builder(activity)
+					.setTitle(LocaleController.getString("ConfirmCall", R.string.ConfirmCall))
+					.setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("CallTo", R.string.CallTo,
+							ContactsController.formatName(user.first_name, user.last_name))))
+					.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialog, which) -> doInitiateCall(user, videoCall, canVideoCall, activity, true))
+					.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null)
+					.show();
 			return;
 		}
 		lastCallTime = System.currentTimeMillis();
