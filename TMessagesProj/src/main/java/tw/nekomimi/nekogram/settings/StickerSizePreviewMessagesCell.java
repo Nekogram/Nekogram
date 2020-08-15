@@ -75,7 +75,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         message.out = true;
         message.to_id = new TLRPC.TL_peerUser();
         message.to_id.user_id = 0;
-        messageObjects[0] = new MessageObject(UserConfig.selectedAccount, message, true);
+        messageObjects[0] = new MessageObject(UserConfig.selectedAccount, message, true, false);
         messageObjects[0].useCustomPhoto = true;
 
         message = new TLRPC.TL_message();
@@ -89,7 +89,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         message.to_id = new TLRPC.TL_peerUser();
         message.to_id.user_id = 1;
         messageObjects[0].customReplyName = LocaleController.getString("StickerSizeDialogName", R.string.StickerSizeDialogName);
-        messageObjects[0].replyMessageObject = new MessageObject(UserConfig.selectedAccount, message, true);
+        messageObjects[0].replyMessageObject = new MessageObject(UserConfig.selectedAccount, message, true, false);
 
 
         message = new TLRPC.TL_message();
@@ -102,7 +102,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         message.out = false;
         message.to_id = new TLRPC.TL_peerUser();
         message.to_id.user_id = 1;
-        messageObjects[1] = new MessageObject(UserConfig.selectedAccount, message, true);
+        messageObjects[1] = new MessageObject(UserConfig.selectedAccount, message, true, false);
         TLRPC.User currentUser = MessagesController.getInstance(UserConfig.selectedAccount).getUser(UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId());
         messageObjects[1].customReplyName = ContactsController.formatName(currentUser.first_name, currentUser.last_name);
         messageObjects[1].replyMessageObject = messageObjects[0];

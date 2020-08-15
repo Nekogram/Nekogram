@@ -2563,7 +2563,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 @Override
                 public void notifyDataSetChanged() {
                     viewPage.lastItemsCount = getItemCount();
-                    super.notifyDataSetChanged();
+                    try {
+                        super.notifyDataSetChanged();
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
                 }
             };
             if (AndroidUtilities.isTablet() && openedDialogId != 0) {

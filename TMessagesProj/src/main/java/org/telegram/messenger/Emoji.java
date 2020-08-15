@@ -265,12 +265,19 @@ public class Emoji {
 
         @Override
         public void draw(Canvas canvas) {
+            /*if (MessagesController.getInstance().useSystemEmoji) {
+                //textPaint.setTextSize(getBounds().width());
+                canvas.drawText(EmojiData.data[info.page][info.emojiIndex], getBounds().left, getBounds().bottom, textPaint);
+                return;
+            }*/
+
             Rect b;
             if (fullSize) {
                 b = getDrawRect();
             } else {
                 b = getBounds();
             }
+
             if (NekoConfig.useSystemEmoji || NekoConfig.customEmojiFont) {
                 String emoji = fixEmoji(EmojiData.data[info.page][info.emojiIndex]);
                 textPaint.setTextSize(b.height() * 0.8f);
@@ -278,7 +285,8 @@ public class Emoji {
                 canvas.drawText(emoji,  0, emoji.length(), b.left, b.bottom - b.height() * 0.225f, textPaint);
                 return;
             }
-            if (emojiBmp[info.page][info.page2] == null) {
+
+            if (!isLoaded()) {
                 loadEmoji(info.page, info.page2);
                 canvas.drawRect(getBounds(), placeholderPaint);
                 return;
@@ -302,6 +310,16 @@ public class Emoji {
         @Override
         public void setColorFilter(ColorFilter cf) {
 
+        }
+
+        public boolean isLoaded() {
+            return emojiBmp[info.page][info.page2] != null;
+        }
+
+        public void preload() {
+            if (!isLoaded()) {
+                loadEmoji(info.page, info.page2);
+            }
         }
     }
 
