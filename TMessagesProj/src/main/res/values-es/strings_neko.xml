@@ -115,4 +115,6 @@
     <string name="CustomEmojiTypeface">Fuente de emoji personalizada</string>
     <string name="MapDriftingFix">Mapear la fijación de la deriva para la China de la República Popular</string>
     <string name="IncreaseVoiceMessageQuality">Aumentar la calidad de los mensajes de voz</string>
+    <string name="DisableInstantCamera">Deshabilitar cámara instantánea</string>
+    <string name="OpenAllLinksInInstantView">Intentar abrir todos los links en InstantView</string>
 </resources>

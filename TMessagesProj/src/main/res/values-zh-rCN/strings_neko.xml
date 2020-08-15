@@ -119,4 +119,6 @@
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**应用</string>
     <string name="MapDriftingFix">地图定位漂移修复</string>
     <string name="IncreaseVoiceMessageQuality">提升语音消息质量</string>
+    <string name="DisableInstantCamera">禁用即时相机</string>
+    <string name="OpenAllLinksInInstantView">尝试将所有链接在即时预览中打开</string>
 </resources>

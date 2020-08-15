@@ -116,4 +116,6 @@
     <string name="CustomEmojiTypeface">Шрифт пользовательских эмодзи</string>
     <string name="MapDriftingFix">Исправление карт для Китая</string>
     <string name="IncreaseVoiceMessageQuality">Улучшенное качество голосовых сообщений</string>
+    <string name="DisableInstantCamera">Отключить встроенную камеру</string>
+    <string name="OpenAllLinksInInstantView">Все ссылки в Instant View</string>
 </resources>

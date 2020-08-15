@@ -116,4 +116,6 @@
     <string name="CustomEmojiTypeface">Fonte emoji personalizada</string>
     <string name="MapDriftingFix">Correção de desvio de mapa para a China continental</string>
     <string name="IncreaseVoiceMessageQuality">Aumentar a qualidade das mensagens de voz</string>
+    <string name="DisableInstantCamera">Desabilitar câmera instantânea</string>
+    <string name="OpenAllLinksInInstantView">Tentar abrir todos os links no InstantView</string>
 </resources>
