@@ -115,4 +115,6 @@
     <string name="CustomEmojiTypeface">Phông chữ biểu tượng cảm xúc tùy chỉnh</string>
     <string name="MapDriftingFix">Bản đồ sửa lỗi trôi dạt cho Trung Quốc đại lục</string>
     <string name="IncreaseVoiceMessageQuality">Tăng chất lượng tin nhắn thoại</string>
+    <string name="DisableInstantCamera">Tắt máy ảnh tức thì</string>
+    <string name="OpenAllLinksInInstantView">Cố gắng mở tất cả các liên kết trong xem tức thì</string>
 </resources>
