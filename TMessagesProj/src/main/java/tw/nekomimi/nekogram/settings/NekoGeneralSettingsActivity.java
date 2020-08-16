@@ -1,8 +1,15 @@
 package tw.nekomimi.nekogram.settings;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Build;
+import android.transition.ChangeBounds;
+import android.transition.Fade;
+import android.transition.Transition;
+import android.transition.TransitionManager;
+import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +43,7 @@ import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
+import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.UndoView;
@@ -50,6 +58,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
 
     private RecyclerListView listView;
     private ListAdapter listAdapter;
+    private ValueAnimator statusBarColorAnimator;
 
     private int rowCount;
 
@@ -190,7 +199,15 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.transparentStatusBar);
                 }
-                AndroidUtilities.runOnUIThread(() -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme, false));
+                int color = Theme.getColor(Theme.key_actionBarDefault, null, true);
+                int alpha = AndroidUtilities.computePerceivedBrightness(color) >= 0.721f ? 0x0f : 0x33;
+                if (statusBarColorAnimator != null && statusBarColorAnimator.isRunning()) {
+                    statusBarColorAnimator.end();
+                }
+                statusBarColorAnimator = NekoConfig.transparentStatusBar ? ValueAnimator.ofInt(alpha, 0) : ValueAnimator.ofInt(0, alpha);
+                statusBarColorAnimator.setDuration(300);
+                statusBarColorAnimator.addUpdateListener(animation -> getParentActivity().getWindow().setStatusBarColor(Color.argb((int) animation.getAnimatedValue(), Color.red(0), Color.green(0), Color.blue(0))));
+                statusBarColorAnimator.start();
             } else if (position == hideProxySponsorChannelRow) {
                 NekoConfig.toggleHideProxySponsorChannel();
                 if (view instanceof TextCheckCell) {
