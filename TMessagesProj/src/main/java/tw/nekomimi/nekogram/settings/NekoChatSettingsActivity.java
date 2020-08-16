@@ -66,7 +66,6 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int confirmAVRow;
     private int tryToOpenAllLinksInIVRow;
     private int disableProximityEventsRow;
-    private int mapPreviewRow;
     private int messageMenuRow;
     private int chat2Row;
 
@@ -134,38 +133,6 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.ignoreBlocked);
                 }
-            } else if (position == mapPreviewRow) {
-                ArrayList<String> arrayList = new ArrayList<>();
-                ArrayList<Integer> types = new ArrayList<>();
-                arrayList.add(LocaleController.getString("MapPreviewProviderTelegram", R.string.MapPreviewProviderTelegram));
-                types.add(0);
-                arrayList.add(LocaleController.getString("MapPreviewProviderYandex", R.string.MapPreviewProviderYandex));
-                types.add(1);
-                arrayList.add(LocaleController.getString("MapPreviewProviderNobody", R.string.MapPreviewProviderNobody));
-                types.add(2);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(LocaleController.getString("MapPreviewProviderTitle", R.string.MapPreviewProviderTitle));
-                final LinearLayout linearLayout = new LinearLayout(context);
-                linearLayout.setOrientation(LinearLayout.VERTICAL);
-                builder.setView(linearLayout);
-
-                for (int a = 0; a < arrayList.size(); a++) {
-                    RadioColorCell cell = new RadioColorCell(context);
-                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
-                    cell.setTag(a);
-                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-                    cell.setTextAndValue(arrayList.get(a), NekoConfig.mapPreviewProvider == types.get(a));
-                    linearLayout.addView(cell);
-                    cell.setOnClickListener(v -> {
-                        Integer which = (Integer) v.getTag();
-                        NekoConfig.setMapPreviewProvider(types.get(which));
-                        listAdapter.notifyItemChanged(mapPreviewRow);
-                        builder.getDismissRunnable().run();
-                    });
-                }
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                showDialog(builder.create());
             } else if (position == messageMenuRow) {
                 showMessageMenuAlert();
             } else if (position == disablePhotoSideActionRow) {
@@ -276,7 +243,6 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         confirmAVRow = rowCount++;
         tryToOpenAllLinksInIVRow = rowCount++;
         disableProximityEventsRow = rowCount++;
-        mapPreviewRow = rowCount++;
         messageMenuRow = rowCount++;
         chat2Row = rowCount++;
 
@@ -556,21 +522,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 case 2: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-                    if (position == mapPreviewRow) {
-                        String value;
-                        switch (NekoConfig.mapPreviewProvider) {
-                            case 0:
-                                value = LocaleController.getString("MapPreviewProviderTelegram", R.string.MapPreviewProviderTelegram);
-                                break;
-                            case 1:
-                                value = LocaleController.getString("MapPreviewProviderYandex", R.string.MapPreviewProviderYandex);
-                                break;
-                            case 2:
-                            default:
-                                value = LocaleController.getString("MapPreviewProviderNobody", R.string.MapPreviewProviderNobody);
-                        }
-                        textCell.setTextAndValue(LocaleController.getString("MapPreviewProvider", R.string.MapPreviewProvider), value, true);
-                    } else if (position == stickerSizeRow) {
+                    if (position == stickerSizeRow) {
                         textCell.setTextAndValue(LocaleController.getString("StickerSize", R.string.StickerSize), String.valueOf(Math.round(NekoConfig.stickerSize)), true);
                     } else if (position == messageMenuRow) {
                         textCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu), false);
@@ -681,7 +633,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         public int getItemViewType(int position) {
             if (position == chat2Row || position == folders2Row || position == stickerSize2Row) {
                 return 1;
-            } else if (position == mapPreviewRow || position == messageMenuRow || position == tabsTitleTypeRow) {
+            } else if (position == messageMenuRow || position == tabsTitleTypeRow) {
                 return 2;
             } else if (position == showTabsOnForwardRow || position == hideAllTabRow ||
                     (position > chatRow && position <= disableProximityEventsRow)) {

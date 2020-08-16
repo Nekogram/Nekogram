@@ -1486,7 +1486,7 @@ public class MessagesController extends BaseController implements NotificationCe
             Theme.checkCurrentRemoteTheme(false);
 
             if (config.static_maps_provider == null) {
-                config.static_maps_provider = "telegram";
+                config.static_maps_provider = "google:AIzaSyCGMAA5lSWvRAgaVtF1-Bh3Di07zePnUbA,telegram,yandex";
             }
 
             mapKey = null;

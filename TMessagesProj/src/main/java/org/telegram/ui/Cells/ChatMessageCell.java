@@ -2372,7 +2372,20 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             double lat = object.messageOwner.media.geo.lat;
             double lon = object.messageOwner.media.geo._long;
             String url;
-            boolean isSecretChat = (int) object.getDialogId() == 0;
+            int provider;
+            if ((int) object.getDialogId() == 0) {
+                if (SharedConfig.mapPreviewType == 0) {
+                    provider = -1;
+                } else if (SharedConfig.mapPreviewType == 1) {
+                    provider = 4;
+                } else if (SharedConfig.mapPreviewType == 3) {
+                    provider = 1;
+                } else {
+                    provider = -1;
+                }
+            } else {
+                provider = -1;
+            }
             if (object.messageOwner.media instanceof TLRPC.TL_messageMediaGeoLive) {
                 int photoWidth = backgroundWidth - AndroidUtilities.dp(21);
                 int photoHeight = AndroidUtilities.dp(195);
@@ -2381,15 +2394,15 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 double rad = offset / Math.PI;
                 double y = Math.round(offset - rad * Math.log((1 + Math.sin(lat * Math.PI / 180.0)) / (1 - Math.sin(lat * Math.PI / 180.0))) / 2) - (AndroidUtilities.dp(10.3f) << (21 - 15));
                 lat = (Math.PI / 2.0 - 2 * Math.atan(Math.exp((y - offset) / rad))) * 180.0 / Math.PI;
-                url = AndroidUtilities.formapMapUrl(isSecretChat, lat, lon, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), false, 15);
+                url = AndroidUtilities.formapMapUrl(currentAccount, lat, lon, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), false, 15, provider);
             } else if (!TextUtils.isEmpty(object.messageOwner.media.title)) {
                 int photoWidth = backgroundWidth - AndroidUtilities.dp(21);
                 int photoHeight = AndroidUtilities.dp(195);
-                url = AndroidUtilities.formapMapUrl(isSecretChat, lat, lon, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), true, 15);
+                url = AndroidUtilities.formapMapUrl(currentAccount, lat, lon, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), true, 15, provider);
             } else {
                 int photoWidth = backgroundWidth - AndroidUtilities.dp(12);
                 int photoHeight = AndroidUtilities.dp(195);
-                url = AndroidUtilities.formapMapUrl(isSecretChat, lat, lon, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), true, 15);
+                url = AndroidUtilities.formapMapUrl(currentAccount, lat, lon, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), true, 15, provider);
             }
             return !url.equals(currentUrl);
         } else if (currentPhotoObject == null || currentPhotoObject.location instanceof TLRPC.TL_fileLocationUnavailable) {
@@ -4167,7 +4180,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
 
                 photoImage.setForcePreview(messageObject.needDrawBluredPreview());
-                boolean isSecretChat = (int) messageObject.getDialogId() == 0;
                 if (messageObject.type == 9) {
                     if (AndroidUtilities.isTablet()) {
                         backgroundWidth = Math.min(AndroidUtilities.getMinTabletSide() - AndroidUtilities.dp(isChat && messageObject.needDrawAvatar() && !messageObject.isOutOwner() ? 102 : 50), AndroidUtilities.dp(300));
@@ -4287,7 +4299,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         double rad = offset / Math.PI;
                         double y = Math.round(offset - rad * Math.log((1 + Math.sin(lat * Math.PI / 180.0)) / (1 - Math.sin(lat * Math.PI / 180.0))) / 2) - (AndroidUtilities.dp(10.3f) << (21 - 15));
                         lat = (Math.PI / 2.0 - 2 * Math.atan(Math.exp((y - offset) / rad))) * 180.0 / Math.PI;
-                        currentUrl = AndroidUtilities.formapMapUrl(isSecretChat, lat, lon, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), false, 15);
+                        currentUrl = AndroidUtilities.formapMapUrl(currentAccount, lat, lon, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), false, 15, provider);
                         currentWebFile = WebFile.createWithGeoPoint(lat, lon, point.access_hash, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), 15, Math.min(2, (int) Math.ceil(AndroidUtilities.density)));
 
                         if (!(locationExpired = isCurrentLocationTimeExpired(messageObject))) {
@@ -4332,7 +4344,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         photoHeight = AndroidUtilities.dp(195);
 
                         mediaBackground = false;
-                        currentUrl = AndroidUtilities.formapMapUrl(isSecretChat, lat, lon, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), true, 15);
+                        currentUrl = AndroidUtilities.formapMapUrl(currentAccount, lat, lon, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), true, 15, provider);
                         currentWebFile = WebFile.createWithGeoPoint(point, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), 15, Math.min(2, (int) Math.ceil(AndroidUtilities.density)));
 
                         docTitleLayout = StaticLayoutEx.createStaticLayout(messageObject.messageOwner.media.title, Theme.chat_locationTitlePaint, maxWidth + AndroidUtilities.dp(4), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false, TextUtils.TruncateAt.END, maxWidth, 1);
@@ -4364,10 +4376,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         photoWidth = backgroundWidth - AndroidUtilities.dp(8);
                         photoHeight = AndroidUtilities.dp(195);
 
-                        currentUrl = AndroidUtilities.formapMapUrl(isSecretChat, lat, lon, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), true, 15);
+                        currentUrl = AndroidUtilities.formapMapUrl(currentAccount, lat, lon, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), true, 15, provider);
                         currentWebFile = WebFile.createWithGeoPoint(point, (int) (photoWidth / AndroidUtilities.density), (int) (photoHeight / AndroidUtilities.density), 15, Math.min(2, (int) Math.ceil(AndroidUtilities.density)));
                     }
-                    if (isSecretChat) {
+                    if ((int) messageObject.getDialogId() == 0) {
                         if (SharedConfig.mapPreviewType == 0) {
                             currentMapProvider = 2;
                         } else if (SharedConfig.mapPreviewType == 1) {
@@ -4378,13 +4390,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             currentMapProvider = -1;
                         }
                     } else {
-                        if (NekoConfig.mapPreviewProvider == 0) {
-                            currentMapProvider = 2;
-                        } else if (NekoConfig.mapPreviewProvider == 1) {
-                            currentMapProvider = 1;
-                        } else {
-                            currentMapProvider = -1;
-                        }
+                        currentMapProvider = MessagesController.getInstance(messageObject.currentAccount).mapProvider;
                     }
                     if (currentMapProvider == -1) {
                         photoImage.setImage(null, null, null, null, messageObject, 0);

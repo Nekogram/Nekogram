@@ -841,7 +841,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                                 value = LocaleController.getString("MapPreviewProviderTelegram", R.string.MapPreviewProviderTelegram);
                                 break;
                             case 1:
-                                value = LocaleController.getString("MapPreviewProviderYandex", R.string.MapPreviewProviderYandex);
+                                value = LocaleController.getString("MapPreviewProviderGoogle", R.string.MapPreviewProviderGoogle);
                                 break;
                             case 2:
                                 value = LocaleController.getString("MapPreviewProviderNobody", R.string.MapPreviewProviderNobody);

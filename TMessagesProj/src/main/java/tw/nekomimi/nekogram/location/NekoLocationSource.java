@@ -62,6 +62,22 @@ public class NekoLocationSource implements LocationSource {
         }
     }
 
+    @SuppressLint("DefaultLocale")
+    public static Pair<Double, Double> transform(double lat, double lon) {
+
+        if (recent.contains(new Pair<>(lat, lon).hashCode()))
+            return new Pair<>(lat, lon);    // Dejavu
+
+        final Pair<Double, Double> trans = GeodeticTransform.transform(lat, lon);
+
+        recent.add(trans.hashCode());
+
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d(String.format("%.4f,%.4f => %.4f,%.4f", lat, lon, trans.first, trans.second));
+        }
+        return trans;
+    }
+
     @Override
     public void activate(OnLocationChangedListener onLocationChangedListener) {
         if (checkPermission && Build.VERSION.SDK_INT >= 23) {

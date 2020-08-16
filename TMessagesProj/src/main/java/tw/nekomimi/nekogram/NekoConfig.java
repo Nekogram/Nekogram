@@ -38,7 +38,6 @@ public class NekoConfig {
     public static boolean confirmAVMessage = false;
     public static boolean askBeforeCall = true;
     public static boolean disableNumberRounding = false;
-    public static int mapPreviewProvider = 0;
     public static float stickerSize = 14.0f;
     public static int translationProvider = 1;
     public static int tabsTitleType = TITLE_TYPE_TEXT;
@@ -164,7 +163,6 @@ public class NekoConfig {
             forceTablet = preferences.getBoolean("forceTablet", false);
             typeface = preferences.getInt("typeface", Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 1 : 0);
             nameOrder = preferences.getInt("nameOrder", 1);
-            mapPreviewProvider = preferences.getInt("mapPreviewProvider", 0);
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
             hideProxySponsorChannel = preferences.getBoolean("hideProxySponsorChannel2", false);
@@ -333,14 +331,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("nameOrder", nameOrder);
-        editor.commit();
-    }
-
-    public static void setMapPreviewProvider(int provider) {
-        mapPreviewProvider = provider;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("mapPreviewProvider", mapPreviewProvider);
         editor.commit();
     }
 
