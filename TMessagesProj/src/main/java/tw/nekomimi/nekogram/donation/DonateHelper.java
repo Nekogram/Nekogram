@@ -86,6 +86,7 @@ public class DonateHelper implements BillingClientStateListener, SkuDetailsRespo
             skuTitles.toArray(titles);
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setTitle(LocaleController.getString("Donate", R.string.Donate));
+            builder.setMessage(LocaleController.getString("DonateEvilGoogle", R.string.DonateEvilGoogle));
             builder.setItems(titles,
                     (dialog, which) -> {
                         BillingFlowParams flowParams = BillingFlowParams.newBuilder()
