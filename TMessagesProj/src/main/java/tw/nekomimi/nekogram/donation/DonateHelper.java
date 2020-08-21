@@ -1,6 +1,7 @@
 package tw.nekomimi.nekogram.donation;
 
 import android.app.Activity;
+import android.text.TextUtils;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -18,6 +19,7 @@ import com.android.billingclient.api.SkuDetails;
 import com.android.billingclient.api.SkuDetailsParams;
 import com.android.billingclient.api.SkuDetailsResponseListener;
 
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -63,7 +65,7 @@ public class DonateHelper implements BillingClientStateListener, SkuDetailsRespo
             if (progressDialog != null) {
                 progressDialog.dismiss();
             }
-            showErrorAlert(billingResult.getResponseCode());
+            showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
         }
     }
 
@@ -97,7 +99,7 @@ public class DonateHelper implements BillingClientStateListener, SkuDetailsRespo
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
             builder.show();
         } else {
-            showErrorAlert(billingResult.getResponseCode());
+            showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
         }
     }
 
@@ -111,24 +113,39 @@ public class DonateHelper implements BillingClientStateListener, SkuDetailsRespo
                 }
             }
         } else {
-            showErrorAlert(billingResult.getResponseCode());
+            showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
         }
     }
 
-    private void showErrorAlert(int errorCode) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-        builder.setTitle(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
-        builder.setMessage(String.valueOf(errorCode));
-        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-        builder.show();
+    private void showErrorAlert(int errorCode, String errorMessage) {
+        if (errorCode == BillingClient.BillingResponseCode.USER_CANCELED || errorCode == BillingClient.BillingResponseCode.OK) {
+            return;
+        }
+        if (TextUtils.isEmpty(errorMessage)) {
+            try {
+                Toast.makeText(activity, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + " " + errorCode, Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        } else {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setTitle(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
+            builder.setMessage(errorMessage);
+            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+            builder.show();
+        }
     }
 
     @Override
     public void onConsumeResponse(@NonNull BillingResult billingResult, @NonNull String s) {
         if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-            Toast.makeText(activity, LocaleController.getString("DonateThankYou", R.string.DonateThankYou), Toast.LENGTH_LONG).show();
+            try {
+                Toast.makeText(activity, LocaleController.getString("DonateThankYou", R.string.DonateThankYou), Toast.LENGTH_LONG).show();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
         } else {
-            showErrorAlert(billingResult.getResponseCode());
+            showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
         }
     }
 }
