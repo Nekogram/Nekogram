@@ -187,7 +187,7 @@ public class Browser {
         if (tryTelegraph) {
             try {
                 String host = uri.getHost().toLowerCase();
-                if (isTelegraphUrl(host, true) || uri.toString().toLowerCase().contains("telegram.org/faq") || NekoConfig.tryToOpenAllLinksInIV) {
+                if (isTelegraphUrl(host, true) || host.equals("nekogram.github.io") || uri.toString().toLowerCase().contains("telegram.org/faq") || NekoConfig.tryToOpenAllLinksInIV) {
                     final AlertDialog[] progressDialog = new AlertDialog[]{new AlertDialog(context, 3)};
 
                     Uri finalUri = uri;
