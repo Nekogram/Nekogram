@@ -123,6 +123,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import tw.nekomimi.nekogram.donation.DonateHelper;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 
 public class LaunchActivity extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
@@ -1682,6 +1683,8 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                         } catch (Exception e) {
                                             FileLog.e(e);
                                         }
+                                    } else if (url.startsWith("tg:donate") || url.startsWith("tg://donate")) {
+                                        new DonateHelper(this).showDonationDialog();
                                     } else {
                                         unsupportedUrl = url.replace("tg://", "").replace("tg:", "");
                                         int index;

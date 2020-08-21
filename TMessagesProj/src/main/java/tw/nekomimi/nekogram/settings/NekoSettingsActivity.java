@@ -38,6 +38,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.donation.DonateHelper;
 
 @SuppressLint("RtlHardcoded")
 public class NekoSettingsActivity extends BaseFragment {
@@ -126,7 +127,7 @@ public class NekoSettingsActivity extends BaseFragment {
             } else if (position == channelRow) {
                 MessagesController.getInstance(currentAccount).openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
             } else if (position == donateRow) {
-                Browser.openUrl(getParentActivity(), "https://nekogram.github.io/donation.html");
+                new DonateHelper(getParentActivity()).showDonationDialog();
             } else if (position == translationRow) {
                 Browser.openUrl(getParentActivity(), "https://neko.crowdin.com/nekogram");
             } else if (position == googlePlayRow) {
