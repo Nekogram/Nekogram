@@ -121,4 +121,6 @@
     <string name="IncreaseVoiceMessageQuality">提升语音消息质量</string>
     <string name="DisableInstantCamera">禁用即时相机</string>
     <string name="OpenAllLinksInInstantView">尝试将所有链接在即时预览中打开</string>
+    <string name="DonateThankYou">谢谢！</string>
+    <string name="DonateEvilGoogle">Google 将收取您捐赠的 30%</string>
 </resources>

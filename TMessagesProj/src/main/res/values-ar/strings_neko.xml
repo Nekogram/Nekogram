@@ -116,4 +116,8 @@
     <string name="CustomEmojiTypeface">خطٌ مخصص للرموز التعبيرية</string>
     <string name="MapDriftingFix">تصليح الخرائط للصين</string>
     <string name="IncreaseVoiceMessageQuality">تحسين جودة الرسائل الصوتية</string>
+    <string name="DisableInstantCamera">إيقاف الكاميرا الفورية</string>
+    <string name="OpenAllLinksInInstantView">حاول فتح جميع الروابط في InstantView</string>
+    <string name="DonateThankYou">شكرا لك!</string>
+    <string name="DonateEvilGoogle">سوف تأخذ قوقل ثلاثون بالمئة من تبرعك.</string>
 </resources>

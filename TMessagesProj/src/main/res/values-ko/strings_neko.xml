@@ -118,4 +118,6 @@
     <string name="IncreaseVoiceMessageQuality">음성 메시지 품질 향상</string>
     <string name="DisableInstantCamera">인스턴트 카메라 비활성화</string>
     <string name="OpenAllLinksInInstantView">인스턴트뷰로 모든 링크 열기</string>
+    <string name="DonateThankYou">감사합니다!</string>
+    <string name="DonateEvilGoogle">구글에서 기부금의 30 % 를 가져갑니다.</string>
 </resources>
