@@ -1,4 +1,4 @@
-package tw.nekomimi.nekogram.donation;
+package tw.nekomimi.nekogram.helpers;
 
 import android.app.Activity;
 import android.text.TextUtils;

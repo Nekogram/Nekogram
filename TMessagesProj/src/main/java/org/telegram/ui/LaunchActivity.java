@@ -57,8 +57,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.gms.common.api.Status;
-import com.microsoft.appcenter.AppCenter;
-import com.microsoft.appcenter.analytics.Analytics;
 
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
@@ -123,7 +121,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import tw.nekomimi.nekogram.donation.DonateHelper;
+import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
+import tw.nekomimi.nekogram.helpers.DonateHelper;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 
 public class LaunchActivity extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
@@ -239,11 +238,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
 
     private static final int PLAY_SERVICES_REQUEST_CHECK_SETTINGS = 140;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ApplicationLoader.postInitApplication();
-        AppCenter.start(getApplication(), "033a70ca-ea8d-4c2f-8c2c-b37f1b47f766", Analytics.class);
         AndroidUtilities.checkDisplaySize(this, getResources().getConfiguration());
         currentAccount = UserConfig.selectedAccount;
         if (!UserConfig.getInstance(currentAccount).isClientActivated()) {
@@ -758,7 +755,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             FileLog.e(e);
         }
         MediaController.getInstance().setBaseActivity(this, true);
-        AndroidUtilities.startAppCenter(this);
+        AnalyticsHelper.start(getApplication());
     }
 
     private void openSettings(boolean expanded) {

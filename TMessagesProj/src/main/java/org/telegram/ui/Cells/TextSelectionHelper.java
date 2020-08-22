@@ -50,7 +50,8 @@ import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.MessageHelper;
+import tw.nekomimi.nekogram.translator.Translator;
+
 import static com.google.zxing.common.detector.MathUtils.distance;
 
 import static org.telegram.ui.ActionBar.FloatingToolbar.STYLE_THEME;
@@ -1263,7 +1264,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                         if (str == null) {
                             return true;
                         }
-                        MessageHelper.showTranslateDialog(textSelectionOverlay.getContext(), str.toString());
+                        Translator.showTranslateDialog(textSelectionOverlay.getContext(), str.toString());
                         hideActions();
                         clear(true);
                         if (TextSelectionHelper.this.callback != null) {

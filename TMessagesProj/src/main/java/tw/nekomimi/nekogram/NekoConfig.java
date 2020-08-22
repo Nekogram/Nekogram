@@ -75,6 +75,7 @@ public class NekoConfig {
     public static boolean increaseVoiceMessageQuality = false;
     public static boolean disableInstantCamera = false;
     public static boolean tryToOpenAllLinksInIV = false;
+    public static boolean enableAnalytics = true;
 
     public static boolean residentNotification = false;
 
@@ -209,6 +210,7 @@ public class NekoConfig {
             increaseVoiceMessageQuality = preferences.getBoolean("increaseVoiceMessageQuality", false);
             disableInstantCamera = preferences.getBoolean("disableInstantCamera", false);
             tryToOpenAllLinksInIV = preferences.getBoolean("tryToOpenAllLinksInIV", false);
+            enableAnalytics = preferences.getBoolean("enableAnalytics", true);
             configLoaded = true;
         }
     }

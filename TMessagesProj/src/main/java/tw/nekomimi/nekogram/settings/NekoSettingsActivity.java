@@ -38,7 +38,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.donation.DonateHelper;
+import tw.nekomimi.nekogram.helpers.DonateHelper;
 
 @SuppressLint("RtlHardcoded")
 public class NekoSettingsActivity extends BaseFragment {

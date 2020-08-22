@@ -1,13 +1,21 @@
 package tw.nekomimi.nekogram.translator;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.os.AsyncTask;
+import android.widget.LinearLayout;
 
 import org.json.JSONException;
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.ui.ActionBar.AlertDialog;
+import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Cells.RadioColorCell;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,6 +27,96 @@ abstract public class Translator {
     public static final int PROVIDER_GOOGLE_CN = 2;
     public static final int PROVIDER_LINGO = 3;
     public static final int PROVIDER_YANDEX = 4;
+
+    @SuppressLint("StaticFieldLeak")
+    private static AlertDialog progressDialog;
+
+    public static void showTranslateDialog(Context context, String query) {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+        progressDialog = new AlertDialog(context, 3);
+        progressDialog.showDelayed(400);
+        translate(query, new TranslateCallBack() {
+            @Override
+            public void onSuccess(Object translation) {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage((String) translation);
+                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                builder.setNeutralButton(LocaleController.getString("Copy", R.string.Copy), (dialog, which) -> AndroidUtilities.addToClipboard((String) translation));
+                builder.show();
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                if (e != null && e.getLocalizedMessage() != null) {
+                    builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                    builder.setMessage(e.getLocalizedMessage());
+                } else {
+                    builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                }
+                builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> getTranslationProviderAlert(context).show());
+                builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> showTranslateDialog(context, query));
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.show();
+            }
+
+            @Override
+            public void onUnsupported() {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
+                builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> getTranslationProviderAlert(context).show());
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.show();
+            }
+        });
+    }
+
+
+    public static AlertDialog getTranslationProviderAlert(Context context) {
+        ArrayList<String> arrayList = new ArrayList<>();
+        ArrayList<Integer> types = new ArrayList<>();
+        arrayList.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
+        types.add(Translator.PROVIDER_GOOGLE);
+        arrayList.add(LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN));
+        types.add(Translator.PROVIDER_GOOGLE_CN);
+        arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
+        types.add(Translator.PROVIDER_LINGO);
+        arrayList.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
+        types.add(Translator.PROVIDER_YANDEX);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
+        final LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        builder.setView(linearLayout);
+
+        for (int a = 0; a < arrayList.size(); a++) {
+            RadioColorCell cell = new RadioColorCell(context);
+            cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+            cell.setTag(a);
+            cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+            cell.setTextAndValue(arrayList.get(a), NekoConfig.translationProvider == types.get(a));
+            linearLayout.addView(cell);
+            cell.setOnClickListener(v -> {
+                Integer which = (Integer) v.getTag();
+                NekoConfig.setTranslationProvider(types.get(which));
+                builder.getDismissRunnable().run();
+            });
+        }
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        return builder.create();
+    }
 
     public static void translate(Object query, TranslateCallBack translateCallBack) {
         Locale locale = LocaleController.getInstance().currentLocale;

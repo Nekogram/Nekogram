@@ -52,8 +52,8 @@ import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.MessageHelper;
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 @SuppressLint("RtlHardcoded")

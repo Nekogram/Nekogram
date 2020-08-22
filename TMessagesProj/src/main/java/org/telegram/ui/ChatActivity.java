@@ -208,9 +208,8 @@ import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.voip.VoIPHelper;
 
 import tw.nekomimi.nekogram.MessageDetailsActivity;
-import tw.nekomimi.nekogram.MessageHelper;
+import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.settings.NekoGeneralSettingsActivity;
 import tw.nekomimi.nekogram.translator.Translator;
 
 import java.io.BufferedWriter;
@@ -16345,7 +16344,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             } else {
                                 builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
                             }
-                            builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(NekoGeneralSettingsActivity.getTranslationProviderAlert(getParentActivity())));
+                            builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(Translator.getTranslationProviderAlert(getParentActivity())));
                             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                             showDialog(builder.create());
                         }
@@ -16354,7 +16353,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         public void onUnsupported() {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                             builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
-                            builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(NekoGeneralSettingsActivity.getTranslationProviderAlert(getParentActivity())));
+                            builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(Translator.getTranslationProviderAlert(getParentActivity())));
                             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                             showDialog(builder.create());
                         }

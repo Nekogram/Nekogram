@@ -5,11 +5,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Build;
-import android.transition.ChangeBounds;
-import android.transition.Fade;
-import android.transition.Transition;
-import android.transition.TransitionManager;
-import android.transition.TransitionSet;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,7 +20,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -43,7 +37,6 @@ import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
-import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.UndoView;
@@ -93,41 +86,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int general2Row;
 
     private UndoView restartTooltip;
-
-    static public AlertDialog getTranslationProviderAlert(Context context) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        ArrayList<Integer> types = new ArrayList<>();
-        arrayList.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
-        types.add(Translator.PROVIDER_GOOGLE);
-        arrayList.add(LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN));
-        types.add(Translator.PROVIDER_GOOGLE_CN);
-        arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
-        types.add(Translator.PROVIDER_LINGO);
-        arrayList.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
-        types.add(Translator.PROVIDER_YANDEX);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
-        final LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        builder.setView(linearLayout);
-
-        for (int a = 0; a < arrayList.size(); a++) {
-            RadioColorCell cell = new RadioColorCell(context);
-            cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
-            cell.setTag(a);
-            cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-            cell.setTextAndValue(arrayList.get(a), NekoConfig.translationProvider == types.get(a));
-            linearLayout.addView(cell);
-            cell.setOnClickListener(v -> {
-                Integer which = (Integer) v.getTag();
-                NekoConfig.setTranslationProvider(types.get(which));
-                builder.getDismissRunnable().run();
-            });
-        }
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        return builder.create();
-    }
 
     @Override
     public boolean onFragmentCreate() {
@@ -333,7 +291,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
             } else if (position == translationProviderRow) {
-                showDialog(getTranslationProviderAlert(context)).setOnDismissListener(dialog1 -> listAdapter.notifyItemChanged(translationProviderRow));
+                showDialog(Translator.getTranslationProviderAlert(context)).setOnDismissListener(dialog1 -> listAdapter.notifyItemChanged(translationProviderRow));
             } else if (position == openArchiveOnPullRow) {
                 NekoConfig.toggleOpenArchiveOnPull();
                 if (view instanceof TextCheckCell) {
