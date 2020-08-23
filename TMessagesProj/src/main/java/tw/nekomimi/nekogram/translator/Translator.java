@@ -26,7 +26,6 @@ abstract public class Translator {
     public static final int PROVIDER_GOOGLE = 1;
     public static final int PROVIDER_GOOGLE_CN = 2;
     public static final int PROVIDER_LINGO = 3;
-    public static final int PROVIDER_YANDEX = 4;
 
     @SuppressLint("StaticFieldLeak")
     private static AlertDialog progressDialog;
@@ -92,8 +91,6 @@ abstract public class Translator {
         types.add(Translator.PROVIDER_GOOGLE_CN);
         arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
         types.add(Translator.PROVIDER_LINGO);
-        arrayList.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
-        types.add(Translator.PROVIDER_YANDEX);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
@@ -123,12 +120,13 @@ abstract public class Translator {
         String toLang;
         Translator translator;
         switch (NekoConfig.translationProvider) {
-            case PROVIDER_YANDEX:
+            case PROVIDER_LINGO:
                 toLang = locale.getLanguage();
-                translator = YandexTranslator.getInstance();
+                translator = LingoTranslator.getInstance();
                 break;
             case PROVIDER_GOOGLE:
             case PROVIDER_GOOGLE_CN:
+            default:
                 if (locale.getLanguage().equals("zh")) {
                     if (locale.getCountry().toUpperCase().equals("CN") || locale.getCountry().toUpperCase().equals("DUANG")) {
                         toLang = "zh-CN";
@@ -141,11 +139,6 @@ abstract public class Translator {
                     toLang = locale.getLanguage();
                 }
                 translator = GoogleWebTranslator.getInstance();
-                break;
-            case PROVIDER_LINGO:
-            default:
-                toLang = locale.getLanguage();
-                translator = LingoTranslator.getInstance();
                 break;
         }
         if (!translator.getTargetLanguages().contains(toLang)) {

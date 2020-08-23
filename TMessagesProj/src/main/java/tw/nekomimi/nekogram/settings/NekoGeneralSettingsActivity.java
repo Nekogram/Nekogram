@@ -532,16 +532,13 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         String value;
                         switch (NekoConfig.translationProvider) {
                             case Translator.PROVIDER_GOOGLE:
+                            default:
                                 value = LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate);
                                 break;
                             case Translator.PROVIDER_GOOGLE_CN:
                                 value = LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN);
                                 break;
-                            case Translator.PROVIDER_YANDEX:
-                                value = LocaleController.getString("ProviderYandex", R.string.ProviderYandex);
-                                break;
                             case Translator.PROVIDER_LINGO:
-                            default:
                                 value = LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud);
                                 break;
                         }
