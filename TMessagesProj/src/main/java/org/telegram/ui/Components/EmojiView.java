@@ -2854,13 +2854,13 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
 
         final MediaDataController mediaDataController = MediaDataController.getInstance(currentAccount);
 
-        if (!mediaDataController.getFeaturedStickerSets().isEmpty()) {
+        /*if (!mediaDataController.getFeaturedStickerSets().isEmpty()) {
             final int id = mediaDataController.getUnreadStickerSets().isEmpty() ? 2 : 3;
             final ImageView trendingStickersTabView = stickersTab.addIconTab(id, stickerIcons[id]);
             trendingStickersTabView.setContentDescription(LocaleController.getString("FeaturedStickers", R.string.FeaturedStickers));
             trendingTabNum = stickersTabOffset;
             stickersTabOffset++;
-        }
+        }*/
 
         if (!favouriteStickers.isEmpty()) {
             favTabBum = stickersTabOffset;

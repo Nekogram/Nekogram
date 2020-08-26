@@ -427,7 +427,7 @@ public class StickersActivity extends BaseFragment implements NotificationCenter
             suggestRow = rowCount++;
             loopRow = rowCount++;
             loopInfoRow = rowCount++;
-            featuredRow = -1;
+            featuredRow = rowCount++;
         } else {
             suggestRow = -1;
             loopRow = -1;

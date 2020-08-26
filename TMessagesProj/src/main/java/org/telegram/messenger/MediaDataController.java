@@ -1004,7 +1004,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void loadFeaturedStickers(boolean cache, boolean force) {
-        /*if (loadingFeaturedStickers) {
+        if (loadingFeaturedStickers) {
             return;
         }
         loadingFeaturedStickers = true;
@@ -1059,7 +1059,7 @@ public class MediaDataController extends BaseController {
                     processLoadedFeaturedStickers(null, null, false, (int) (System.currentTimeMillis() / 1000), req.hash);
                 }
             }));
-        }*/
+        }
     }
 
     private void processLoadedFeaturedStickers(final ArrayList<TLRPC.StickerSetCovered> res, final ArrayList<Long> unreadStickers, final boolean cache, final int date, final int hash) {
