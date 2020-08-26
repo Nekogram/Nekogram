@@ -58,7 +58,6 @@
     <string name="UnlimitedFavoredStickers">Unlimited favored stickers</string>
     <string name="UnlimitedFavoredStickersAbout">Add unlimited stickers to favorites. Stickers may not be synchronized to other devices.</string>
     <string name="MessageDetails">Details</string>
-    <string name="ExportAsJson">Export as JSON</string>
     <string name="Translate">Translate</string>
     <string name="DeleteAccount">Delete Telegram account</string>
     <string name="TranslateFailed">Translate server error</string>
