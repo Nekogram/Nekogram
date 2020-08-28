@@ -7,6 +7,7 @@ import android.widget.LinearLayout;
 
 import org.json.JSONException;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
@@ -27,6 +28,7 @@ abstract public class Translator {
     public static final int PROVIDER_GOOGLE_CN = 2;
     public static final int PROVIDER_LINGO = 3;
     public static final int PROVIDER_YANDEX = 4;
+    public static final int PROVIDER_MICROSOFT = 5;
 
     @SuppressLint("StaticFieldLeak")
     private static AlertDialog progressDialog;
@@ -94,6 +96,8 @@ abstract public class Translator {
         types.add(Translator.PROVIDER_LINGO);
         arrayList.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
         types.add(Translator.PROVIDER_YANDEX);
+        arrayList.add(LocaleController.getString("ProviderMicrosoft", R.string.ProviderMicrosoft));
+        types.add(Translator.PROVIDER_MICROSOFT);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
@@ -127,6 +131,24 @@ abstract public class Translator {
                 toLang = locale.getLanguage();
                 translator = YandexTranslator.getInstance();
                 break;
+            case PROVIDER_LINGO:
+                toLang = locale.getLanguage();
+                translator = LingoTranslator.getInstance();
+                break;
+            case PROVIDER_MICROSOFT:
+                if (locale.getLanguage().equals("zh")) {
+                    if (locale.getCountry().toUpperCase().equals("CN") || locale.getCountry().toUpperCase().equals("DUANG")) {
+                        toLang = "zh-Hans";
+                    } else if (locale.getCountry().toUpperCase().equals("TW") || locale.getCountry().toUpperCase().equals("HK")) {
+                        toLang = "zh-Hant";
+                    } else {
+                        toLang = locale.getLanguage();
+                    }
+                } else {
+                    toLang = locale.getLanguage();
+                }
+                translator = MicrosoftTranslator.getInstance();
+                break;
             case PROVIDER_GOOGLE:
             case PROVIDER_GOOGLE_CN:
             default:
@@ -142,10 +164,6 @@ abstract public class Translator {
                     toLang = locale.getLanguage();
                 }
                 translator = GoogleWebTranslator.getInstance();
-                break;
-            case PROVIDER_LINGO:
-                toLang = locale.getLanguage();
-                translator = LingoTranslator.getInstance();
                 break;
         }
         if (!translator.getTargetLanguages().contains(toLang)) {
@@ -216,6 +234,7 @@ abstract public class Translator {
                     throw new UnsupportedOperationException("Unsupported translation query");
                 }
             } catch (Throwable e) {
+                FileLog.e(e);
                 return e;
             }
         }

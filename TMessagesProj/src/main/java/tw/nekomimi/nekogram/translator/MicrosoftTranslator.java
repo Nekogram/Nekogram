@@ -14,34 +14,35 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
-public class LingoTranslator extends Translator {
+public class MicrosoftTranslator extends Translator {
 
-    private static LingoTranslator instance;
-    private List<String> targetLanguages = Arrays.asList("zh", "en", "es", "fr", "ja", "ru");
+    private static MicrosoftTranslator instance;
+    private List<String> targetLanguages = Arrays.asList(
+            "af", "ar", "bg", "bn", "bs", "ca", "cs", "cy", "da", "de", "el", "en", "es",
+            "et", "fa", "fi", "fil", "fj", "fr", "ga", "gu", "he", "hi", "hr", "ht", "hu",
+            "id", "is", "it", "ja", "kk", "kmr", "kn", "ko", "ku", "lt", "lv", "mg", "mi",
+            "ml", "mr", "ms", "mt", "mww", "nb", "nl", "or", "otq", "pa", "pl", "prs", "ps",
+            "pt", "pt-pt", "ro", "ru", "sk", "sl", "sm", "sr-Cyrl", "sr-Latn", "sv", "sw", "ta",
+            "te", "th", "tlh", "tlh-Latn", "tlh-Piqd", "to", "tr", "ty", "uk", "ur", "vi", "yua", "yue", "zh-Hans", "zh-Hant", "zh");
 
-    static LingoTranslator getInstance() {
+    static MicrosoftTranslator getInstance() {
         if (instance == null) {
-            synchronized (LingoTranslator.class) {
+            synchronized (MicrosoftTranslator.class) {
                 if (instance == null) {
-                    instance = new LingoTranslator();
+                    instance = new MicrosoftTranslator();
                 }
             }
         }
         return instance;
     }
 
-    @Override
-    protected List<String> getTargetLanguages() {
-        return targetLanguages;
-    }
-
-    @Override
-    protected String translate(String query, String tl) throws IOException, JSONException {
+    private String translateImpl(String query, String tl) throws IOException, JSONException {
+        long t = System.currentTimeMillis();
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("source", query);
-        jsonObject.put("trans_type", "auto2" + tl);
-        jsonObject.put("request_id", String.valueOf(System.currentTimeMillis()));
-        jsonObject.put("detect", true);
+        jsonObject.put("to", tl);
+        jsonObject.put("query", query);
+        jsonObject.put("t", t);
+        jsonObject.put("k", Hash(tl, query, String.valueOf(t)));
         String response = request(jsonObject.toString());
         if (TextUtils.isEmpty(response)) {
             return null;
@@ -53,16 +54,28 @@ public class LingoTranslator extends Translator {
         return jsonObject.getString("target");
     }
 
+    @Override
+    protected String translate(String query, String tl) throws IOException, JSONException {
+        return translateImpl(query, tl);
+    }
+
+    @Override
+    protected List<String> getTargetLanguages() {
+        return targetLanguages;
+    }
+
+    private native String Hash(String to, String query, String t);
+
+
     private String request(String param) throws IOException {
         ByteArrayOutputStream outbuf;
         InputStream httpConnectionStream;
-        URL downloadUrl = new URL("https://api.interpreter.caiyunai.com/v1/translator");
+        URL downloadUrl = new URL("https://cognitive.rectifier.tech/api/Translate");
         HttpURLConnection httpConnection = (HttpURLConnection) downloadUrl.openConnection();
         httpConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-        httpConnection.addRequestProperty("X-Authorization", "token 9sdftiq37bnv410eon2l");//白嫖
         httpConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1");
-        httpConnection.setConnectTimeout(1000);
-        httpConnection.setReadTimeout(2000);
+        httpConnection.setConnectTimeout(5000);
+        httpConnection.setReadTimeout(5000);
         httpConnection.setRequestMethod("POST");
         httpConnection.setDoOutput(true);
         DataOutputStream dataOutputStream = new DataOutputStream(httpConnection.getOutputStream());

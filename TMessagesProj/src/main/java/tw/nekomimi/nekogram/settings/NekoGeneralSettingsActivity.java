@@ -532,6 +532,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         String value;
                         switch (NekoConfig.translationProvider) {
                             case Translator.PROVIDER_GOOGLE:
+                            default:
                                 value = LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate);
                                 break;
                             case Translator.PROVIDER_GOOGLE_CN:
@@ -541,8 +542,10 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                                 value = LocaleController.getString("ProviderYandex", R.string.ProviderYandex);
                                 break;
                             case Translator.PROVIDER_LINGO:
-                            default:
                                 value = LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud);
+                                break;
+                            case Translator.PROVIDER_MICROSOFT:
+                                value = LocaleController.getString("ProviderMicrosoft", R.string.ProviderMicrosoft);
                                 break;
                         }
                         textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), value, true);

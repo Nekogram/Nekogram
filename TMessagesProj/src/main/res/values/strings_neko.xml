@@ -126,4 +126,5 @@
     <string name="OpenAllLinksInInstantView">Try to open all links in InstantView</string>
     <string name="DonateThankYou">Thank you!</string>
     <string name="DonateEvilGoogle">Google will take 30 percent of your donation.</string>
+    <string name="ProviderMicrosoft">Microsoft Translator</string>
 </resources>
