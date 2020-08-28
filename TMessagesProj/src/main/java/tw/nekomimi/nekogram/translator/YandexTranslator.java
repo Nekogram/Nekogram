@@ -67,9 +67,7 @@ public class YandexTranslator extends Translator {
     }
 
     private String translateImpl(String query, String tl) throws IOException, JSONException {
-        String url = "https://translate.yandex.net/api/v1.5/tr.json/translate"
-                + "?key=trnsl.1.1.20160205T121943Z.0208eaff12c2747d.9526187390798b3098ec23e8f02073168e0b52c1"
-                + "&lang=" + tl;
+        String url = "https://translate.yandex.net/api/v1/tr.json/translate?srv=android&lang=" + tl;
         return getResult(request(url, "text=" + URLEncoder.encode(query, "UTF-8")));
 
     }
