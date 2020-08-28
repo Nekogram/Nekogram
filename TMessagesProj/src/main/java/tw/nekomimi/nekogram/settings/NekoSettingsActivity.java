@@ -185,11 +185,7 @@ public class NekoSettingsActivity extends BaseFragment {
         sourceCodeRow = rowCount++;
         translationRow = rowCount++;
         donateRow = rowCount++;
-        if (!LocaleController.getString("SponsorTitle", R.string.SponsorTitle).equals("dummy")) {
-            sponsorRow = rowCount++;
-        } else {
-            sponsorRow = -1;
-        }
+        sponsorRow = -1;
         about2Row = rowCount++;
 
         if (listAdapter != null) {
