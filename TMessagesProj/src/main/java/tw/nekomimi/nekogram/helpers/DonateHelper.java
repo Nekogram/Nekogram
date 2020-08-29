@@ -22,6 +22,7 @@ import com.android.billingclient.api.SkuDetailsResponseListener;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.AlertDialog;
 
 import java.util.ArrayList;
@@ -97,6 +98,9 @@ public class DonateHelper implements BillingClientStateListener, SkuDetailsRespo
                         billingClient.launchBillingFlow(activity, flowParams);
                     });
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            if (LocaleController.getInstance().currentLocale.getLanguage().equals("zh")) {
+                builder.setNeutralButton(LocaleController.getString("DonateAlipay", R.string.DonateAlipay), (dialogInterface, i) -> Browser.openUrl(activity, "https://qr.alipay.com/fkx12268sqt5zoh5czwhc0c"));
+            }
             builder.show();
         } else {
             showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
@@ -132,6 +136,9 @@ public class DonateHelper implements BillingClientStateListener, SkuDetailsRespo
             builder.setTitle(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
             builder.setMessage(errorMessage);
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+            if (LocaleController.getInstance().currentLocale.getLanguage().equals("zh")) {
+                builder.setNeutralButton(LocaleController.getString("DonateAlipay", R.string.DonateAlipay), (dialogInterface, i) -> Browser.openUrl(activity, "https://qr.alipay.com/fkx12268sqt5zoh5czwhc0c"));
+            }
             builder.show();
         }
     }
