@@ -5419,6 +5419,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             builder.setMessage(AndroidUtilities.replaceTags(message));
             builder.setPositiveButton(buttonText, (dialogInterface, i) -> didSelectResult(dialog_id, false, false));
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            if (getArguments() != null && arguments.getBoolean("editPhoto", false)) {
+                builder.setNeutralButton(LocaleController.getString("Edit", R.string.Edit), (dialogInterface, i) -> didSelectResult(dialog_id, false, true));
+            }
             showDialog(builder.create());
         } else {
             if (delegate != null) {

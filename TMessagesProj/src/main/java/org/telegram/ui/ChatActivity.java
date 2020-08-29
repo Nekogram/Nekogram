@@ -10086,6 +10086,36 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
+    public void openPhotoEditor(String photoPath, String caption) {
+        if (getParentActivity() != null) {
+            PhotoViewer.getInstance().setParentActivity(getParentActivity());
+            final ArrayList<Object> cameraPhoto = new ArrayList<>();
+            MediaController.PhotoEntry entry = new MediaController.PhotoEntry(0, 0, 0, photoPath, 0, false, 0, 0, 0);
+            entry.caption = caption;
+            cameraPhoto.add(entry);
+            PhotoViewer.getInstance().openPhotoForSelect(cameraPhoto, 0, 2, false, new PhotoViewer.EmptyPhotoViewerProvider() {
+                @Override
+                public ImageReceiver.BitmapHolder getThumbForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int index) {
+                    return null;
+                }
+
+                @Override
+                public void sendButtonPressed(int index, VideoEditedInfo videoEditedInfo, boolean notify, int scheduleDate) {
+                    sendMedia((MediaController.PhotoEntry) cameraPhoto.get(0), videoEditedInfo, notify, scheduleDate);
+                }
+
+                @Override
+                public boolean canScrollAway() {
+                    return false;
+                }
+            }, this);
+        } else {
+            fillEditingMediaWithCaption(caption, null);
+            SendMessagesHelper.prepareSendingPhoto(getAccountInstance(), photoPath, null, dialog_id, replyingMessageObject, null, null, null, null, 0, editingMessageObject, true, 0);
+            afterMessageSend();
+        }
+    }
+
     private void showAttachmentError() {
         if (getParentActivity() == null) {
             return;

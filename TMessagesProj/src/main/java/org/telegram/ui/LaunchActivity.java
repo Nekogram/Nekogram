@@ -123,6 +123,7 @@ import java.util.Map;
 
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.DonateHelper;
+import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 
 public class LaunchActivity extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
@@ -1842,6 +1843,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     args.putBoolean("onlySelect", true);
                     args.putInt("dialogsType", 3);
                     args.putBoolean("allowSwitchAccount", true);
+                    args.putBoolean("editPhoto", photoPathsArray != null && photoPathsArray.size() == 1);
                     if (contactsToSend != null) {
                         if (contactsToSend.size() != 1) {
                             args.putString("selectAlertString", LocaleController.getString("SendContactToText", R.string.SendMessagesToText));
@@ -2783,11 +2785,17 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     }
                 }
                 if (photoPathsArray != null) {
-                    if (sendingText != null && sendingText.length() <= 1024 && photoPathsArray.size() == 1) {
-                        photoPathsArray.get(0).caption = sendingText;
+                    if (fragment != null && photoPathsArray.size() == 1 && param) {
+                        actionBarLayout.presentFragment(fragment, dialogsFragment != null, dialogsFragment == null, true, false);
+                        fragment.openPhotoEditor(MessageHelper.saveUriToCache(photoPathsArray.get(0).uri), sendingText);
                         sendingText = null;
+                    } else {
+                        if (sendingText != null && sendingText.length() <= 1024 && photoPathsArray.size() == 1) {
+                            photoPathsArray.get(0).caption = sendingText;
+                            sendingText = null;
+                        }
+                        SendMessagesHelper.prepareSendingMedia(accountInstance, photoPathsArray, did, null, null, false, false, null, true, 0);
                     }
-                    SendMessagesHelper.prepareSendingMedia(accountInstance, photoPathsArray, did, null, null, false, false, null, true, 0);
                 }
                 if (documentsPathsArray != null || documentsUrisArray != null) {
                     String caption = null;
