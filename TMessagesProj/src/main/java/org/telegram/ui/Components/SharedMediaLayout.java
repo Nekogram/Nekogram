@@ -1573,9 +1573,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                             profileActivity.getSendMessagesHelper().sendMessage(message.toString(), did, null, null, true, null, null, null, true, 0);
                         }
                         if (id == forward_noquote) {
-                            for (MessageObject object : fmessages) {
-                                profileActivity.getSendMessagesHelper().processForwardFromMyName(object, did, true, true, 0);
-                            }
+                            profileActivity.getMessageHelper().processForwardFromMyName(fmessages, did, true, 0);
                         } else {
                             profileActivity.getSendMessagesHelper().sendMessage(fmessages, did, true, 0);
                         }

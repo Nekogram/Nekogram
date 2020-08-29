@@ -49,7 +49,7 @@ public class NekoLocationSource implements LocationSource {
         final double latitude = location.getLatitude();
         final double longitude = location.getLongitude();
 
-        if (recent.contains(new Pair<>(latitude, longitude).hashCode())) return;	// Dejavu
+        if (recent.contains(new Pair<>(latitude, longitude).hashCode())) return;    // Dejavu
 
         final Pair<Double, Double> trans = GeodeticTransform.transform(latitude, longitude);
         location.setLatitude(trans.first);

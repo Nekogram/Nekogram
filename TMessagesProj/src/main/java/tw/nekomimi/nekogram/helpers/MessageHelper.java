@@ -4,11 +4,13 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BaseController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Cells.ChatMessageCell;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class MessageHelper extends BaseController {
 
@@ -42,6 +44,73 @@ public class MessageHelper extends BaseController {
             }
         }
         return localInstance;
+    }
+
+    public void processForwardFromMyName(ArrayList<MessageObject> messages, long did, boolean notify, int scheduleDate) {
+        Long groupId = Utilities.random.nextLong();
+        for (int i = 0; i < messages.size(); i++) {
+            MessageObject messageObject = messages.get(i);
+            if (messageObject.messageOwner.media != null && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaEmpty) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGame) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaInvoice)) {
+                HashMap<String, String> params = null;
+                if ((int) did == 0 && messageObject.messageOwner.to_id != null && (messageObject.messageOwner.media.photo instanceof TLRPC.TL_photo || messageObject.messageOwner.media.document instanceof TLRPC.TL_document)) {
+                    params = new HashMap<>();
+                    params.put("parentObject", "sent_" + messageObject.messageOwner.to_id.channel_id + "_" + messageObject.getId());
+                }
+                if (messageObject.messageOwner.grouped_id != 0) {
+                    if (params == null) {
+                        params = new HashMap<>();
+                    }
+                    params.put("groupId", groupId + "");
+                    if (i == messages.size() - 1) {
+                        params.put("final", "true");
+                    }
+                }
+                if (messageObject.messageOwner.media.photo instanceof TLRPC.TL_photo) {
+                    getSendMessagesHelper().sendMessage((TLRPC.TL_photo) messageObject.messageOwner.media.photo, null, did, null, messageObject.messageOwner.message, messageObject.messageOwner.entities, null, params, notify, scheduleDate, messageObject.messageOwner.media.ttl_seconds, messageObject);
+                } else if (messageObject.messageOwner.media.document instanceof TLRPC.TL_document) {
+                    getSendMessagesHelper().sendMessage((TLRPC.TL_document) messageObject.messageOwner.media.document, null, messageObject.messageOwner.attachPath, did, null, messageObject.messageOwner.message, messageObject.messageOwner.entities, null, params, notify, scheduleDate, messageObject.messageOwner.media.ttl_seconds, messageObject);
+                } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaVenue || messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGeo) {
+                    getSendMessagesHelper().sendMessage(messageObject.messageOwner.media, did, null, null, null, notify, scheduleDate);
+                } else if (messageObject.messageOwner.media.phone_number != null) {
+                    TLRPC.User user = new TLRPC.TL_userContact_old2();
+                    user.phone = messageObject.messageOwner.media.phone_number;
+                    user.first_name = messageObject.messageOwner.media.first_name;
+                    user.last_name = messageObject.messageOwner.media.last_name;
+                    user.id = messageObject.messageOwner.media.user_id;
+                    getSendMessagesHelper().sendMessage(user, did, null, null, null, notify, scheduleDate);
+                } else if ((int) did != 0) {
+                    ArrayList<MessageObject> arrayList = new ArrayList<>();
+                    arrayList.add(messageObject);
+                    getSendMessagesHelper().sendMessage(arrayList, did, notify, scheduleDate);
+                }
+            } else if (messageObject.messageOwner.message != null) {
+                TLRPC.WebPage webPage = null;
+                if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage) {
+                    webPage = messageObject.messageOwner.media.webpage;
+                }
+                ArrayList<TLRPC.MessageEntity> entities;
+                if (messageObject.messageOwner.entities != null && !messageObject.messageOwner.entities.isEmpty()) {
+                    entities = new ArrayList<>();
+                    for (int a = 0; a < messageObject.messageOwner.entities.size(); a++) {
+                        TLRPC.MessageEntity entity = messageObject.messageOwner.entities.get(a);
+                        if (entity instanceof TLRPC.TL_messageEntityBold ||
+                                entity instanceof TLRPC.TL_messageEntityItalic ||
+                                entity instanceof TLRPC.TL_messageEntityPre ||
+                                entity instanceof TLRPC.TL_messageEntityCode ||
+                                entity instanceof TLRPC.TL_messageEntityTextUrl) {
+                            entities.add(entity);
+                        }
+                    }
+                } else {
+                    entities = null;
+                }
+                getSendMessagesHelper().sendMessage(messageObject.messageOwner.message, did, null, webPage, true, entities, null, null, notify, scheduleDate);
+            } else if ((int) did != 0) {
+                ArrayList<MessageObject> arrayList = new ArrayList<>();
+                arrayList.add(messageObject);
+                getSendMessagesHelper().sendMessage(arrayList, did, notify, scheduleDate);
+            }
+        }
     }
 
     public void deleteUserChannelHistoryWithSearch(final long dialog_id, final TLRPC.User user) {

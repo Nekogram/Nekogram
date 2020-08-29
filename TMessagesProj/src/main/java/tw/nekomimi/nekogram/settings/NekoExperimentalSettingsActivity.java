@@ -53,7 +53,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 @SuppressLint("RtlHardcoded")
@@ -202,7 +201,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         if (peer.channel_id != 0) {
                             TLRPC.Chat chat = getMessagesController().getChat(peer.channel_id);
                             if (!chat.broadcast) {
-                                MessageHelper.getInstance(currentAccount).deleteUserChannelHistoryWithSearch(TLdialog.id, getMessagesController().getUser(getUserConfig().clientUserId));
+                                getMessageHelper().deleteUserChannelHistoryWithSearch(TLdialog.id, getMessagesController().getUser(getUserConfig().clientUserId));
                             }
                         }
                         if (peer.user_id != 0) {

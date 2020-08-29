@@ -1608,7 +1608,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (ChatObject.canUserDoAction(currentChat, ChatObject.ACTION_DELETE_MESSAGES)) {
                             getMessagesController().deleteUserChannelHistory(currentChat, UserConfig.getInstance(currentAccount).getCurrentUser(), 0);
                         } else {
-                            MessageHelper.getInstance(currentAccount).deleteUserChannelHistoryWithSearch(dialog_id, UserConfig.getInstance(currentAccount).getCurrentUser());
+                            getMessageHelper().deleteUserChannelHistoryWithSearch(dialog_id, UserConfig.getInstance(currentAccount).getCurrentUser());
                         }
                     });
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -8202,9 +8202,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (!fromMyName) {
             AlertsCreator.showSendMediaAlert(getSendMessagesHelper().sendMessage(arrayList,  did == 0 ? dialog_id : did, notify, scheduleDate), this);
         } else {
-            for (MessageObject object : arrayList) {
-                getSendMessagesHelper().processForwardFromMyName(object, did == 0 ? dialog_id : did, true, notify, scheduleDate);
-            }
+            getMessageHelper().processForwardFromMyName(arrayList,  did, notify, scheduleDate);
         }
     }
 
