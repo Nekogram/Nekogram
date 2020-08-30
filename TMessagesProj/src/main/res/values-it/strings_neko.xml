@@ -54,7 +54,6 @@
     <string name="UnlimitedFavoredStickers">Adesivi preferiti illimitati</string>
     <string name="UnlimitedFavoredStickersAbout">Aggiungi adesivi illimitati ai preferiti. Gli adesivi potrebbero non essere sincronizzati con altri dispositivi.</string>
     <string name="MessageDetails">Dettagli</string>
-    <string name="ExportAsJson">Esporta come JSON</string>
     <string name="Translate">Traduci</string>
     <string name="DeleteAccount">Elimina l\'account Telegram</string>
     <string name="TranslateFailed">Errore del server di traduzione</string>
@@ -103,7 +102,6 @@
     <string name="DisableAppBarShadow">Disabilita l\'ombra della barra del titolo</string>
     <string name="BetaWarning">Questa è una funzione **beta** implementata da **Telegram**.</string>
     <string name="MediaPreview">Anteprima media nella lista chat</string>
-    <string name="ProviderYandex">Yandex Translate</string>
     <string name="IdType">Chat ID nel profilo</string>
     <string name="IdTypeAbout">L\'API di Telegram utilizza gli ID as-is, ma la Bot API aggiunge - all\'inizio per gruppi, e -100 per canali e supergruppi per adattarlo in un campo.</string>
     <string name="IdTypeHidden">Nascondi</string>

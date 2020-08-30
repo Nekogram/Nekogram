@@ -6,8 +6,8 @@
     <string name="HidePhone">Ukryj mój numer telefonu</string>
     <string name="Hide">Ukryj</string>
     <string name="DeleteAllFromSelf">Usuń wszystkie swoje wiadomości</string>
-    <string name="DeleteAllFromSelfAlert">Uwaga to usunie wszystkie wiadomości które napisałeś na tym chacie.</string>
-    <string name="BotLogin">Bot Login</string>
+    <string name="DeleteAllFromSelfAlert">Uwaga! To usunie **wszystkie twoje wiadomości** u wszystkich.</string>
+    <string name="BotLogin">Logowanie bota</string>
     <string name="InvalidAccessToken">Nieprawidłowy token dostępu</string>
     <string name="IgnoreBlocked">Ignoruj zablokowanych użytkowników w grupie</string>
     <string name="Connection">Połączenie</string>
@@ -25,7 +25,7 @@
     <string name="TransparentStatusBar">Przezroczysty pasek stanu</string>
     <string name="EnableResidentNotification">Pokaż trwałe powiadomienie</string>
     <string name="DisableResidentNotification">Ukryj trwałe powiadomienie</string>
-    <string name="NekogramRunning">Nekogram działa</string>
+    <string name="NekogramRunning">Nekogram jest uruchomiony</string>
     <string name="EventType">Zestaw ikon paska bocznego</string>
     <string name="ChristmasHat">Pokazuj czapkę świąteczną codziennie</string>
     <string name="ActionBarDecoration">Dekoracja paska tytułu</string>
@@ -36,8 +36,8 @@
     <string name="Fireworks">Fajerwerki</string>
     <string name="DeleteDownloadedFile">Usunąć pobrany plik</string>
     <string name="TestBackend">Backend testowy</string>
-    <string name="TestBackendOn">To konto połączenia do testowego serwera.</string>
-    <string name="TestBackendOff">To konto połączenia do testowego serwera.</string>
+    <string name="TestBackendOn">To konto połączy się z backendem testowym.</string>
+    <string name="TestBackendOff">To konto połączy się z backendem produkcyjnym.</string>
     <string name="HideProxySponsorChannel">Ukryj kanał sponsora proxy</string>
     <string name="ViewHistory">Zobacz historię</string>
     <string name="Nya">Miau!</string>
@@ -45,16 +45,15 @@
     <string name="SaveCacheToExternalFilesDirAbout">Zapisz katalog \"Telegram\" do katalogu, który jest specyficzny dla aplikacji, aby utrzymać porządek w lokalizacji współdzielonej.</string>
     <string name="SensitiveDisableFiltering">Wyłącz filtrowanie wrażliwych treści</string>
     <string name="SensitiveAbout">Wyświetl wrażliwe media w publicznych kanałach na wszystkich urządzeniach.</string>
-    <string name="StickerSize">Rozmiar naklejki</string>
+    <string name="StickerSize">Rozmiar naklejek</string>
     <string name="StickerSizeDialogMessageBigOne">Duży</string>
     <string name="StickerSizeDialogMessageSmallOne">Mały</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Eksperymentalne</string>
-    <string name="UnlimitedFavoredStickers">Nieograniczone ulubione naklejki</string>
-    <string name="UnlimitedFavoredStickersAbout">Dodaj nieograniczony naklejki do ulubionych. Naklejki nie mogą być synchronizowane z innymi urządzeniami.</string>
+    <string name="UnlimitedFavoredStickers">Nieograniczona ilość ulubionych naklejek</string>
+    <string name="UnlimitedFavoredStickersAbout">Dodaj nieograniczoną ilość naklejek do ulubionych. Naklejki mogą się nie synchronizować z innymi urządzeniami.</string>
     <string name="MessageDetails">Szczegóły</string>
-    <string name="ExportAsJson">Eksportuj jako JSON</string>
     <string name="Translate">Przetłumacz</string>
     <string name="DeleteAccount">Usuń konto Telegram</string>
     <string name="TranslateFailed">Błąd serwera tłumaczącego</string>
@@ -67,7 +66,7 @@
     <string name="DisablePhotoViewerSideAction">Wyłącz obracanie zdjęć poprzez dotknięcie</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Nieograniczona ilość przypiętych czatów</string>
-    <string name="UnlimitedPinnedDialogsAbout">Przypinanie nieograniczonej ilości czatów wyłącza ich synchronizację.</string>
+    <string name="UnlimitedPinnedDialogsAbout">Przypinanie nieograniczonej ilości czatów wyłączy ich synchronizację.</string>
     <string name="OpenArchiveOnPull">Otwórz archiwum gestem pociągnięcia w dół</string>
     <string name="HideKeyboardOnChatScroll">Ukryj klawiaturę podczas przewijania czatu</string>
     <string name="UserRestrictionsSendStickers2">Wyślij naklejki</string>
@@ -119,4 +118,5 @@
     <string name="OpenAllLinksInInstantView">Otwieraj wszystkie linki w InstantView</string>
     <string name="DonateThankYou">Dziękuję!</string>
     <string name="DonateEvilGoogle">Google zabierze 30% twojej dotacji.</string>
+    <string name="ProviderMicrosoft">Tłumacz Microsoft</string>
 </resources>

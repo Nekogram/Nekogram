@@ -46,7 +46,6 @@
     <string name="UnlimitedFavoredStickers">Stiker difavoritkan tanpa batas</string>
     <string name="UnlimitedFavoredStickersAbout">Tambahkan stiker tak terbatas ke favorit. Stiker mungkin tidak dapat disinkronkan ke perangkat lain.</string>
     <string name="MessageDetails">Detail</string>
-    <string name="ExportAsJson">Ekspor sebagai JSON</string>
     <string name="Translate">Terjemahkan</string>
     <string name="DeleteAccount">Hapus akun Telegram</string>
     <string name="TranslateFailed">Server terjemahan error</string>

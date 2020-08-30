@@ -54,7 +54,6 @@
     <string name="UnlimitedFavoredStickers">Stickers favoritos ilimitados</string>
     <string name="UnlimitedFavoredStickersAbout">Añade stickers ilimitados a favoritos. Puede que los stickers no se sincronicen con otros dispositivos.</string>
     <string name="MessageDetails">Detalles</string>
-    <string name="ExportAsJson">Exportar como JSON</string>
     <string name="Translate">Traducir</string>
     <string name="DeleteAccount">Eliminar cuenta de Telegram</string>
     <string name="TranslateFailed">Error del servidor al traducir</string>
@@ -103,7 +102,7 @@
     <string name="DisableAppBarShadow">Deshabilitar sombra de la barra de título</string>
     <string name="BetaWarning">Esta es una función **beta** implementada por **Telegram**.</string>
     <string name="MediaPreview">Vista previa de multimedia en la lista de diálogos</string>
-    <string name="ProviderYandex">Traducción de Yandex</string>
+    <string name="ProviderYandex">Traductor Yandex</string>
     <string name="IdType">ID del chat en el perfil</string>
     <string name="IdTypeAbout">La API de Telegram utiliza IDs sin modificar, pero la API de Bot añade \"-\" al principio para grupos, y \"-100\" para canales y supergrupos para que encajen en un solo campo.</string>
     <string name="IdTypeHidden">Ocultar</string>
@@ -117,4 +116,7 @@
     <string name="IncreaseVoiceMessageQuality">Aumentar la calidad de los mensajes de voz</string>
     <string name="DisableInstantCamera">Deshabilitar cámara instantánea</string>
     <string name="OpenAllLinksInInstantView">Intentar abrir todos los links en InstantView</string>
+    <string name="DonateThankYou">Gracias!</string>
+    <string name="DonateEvilGoogle">Google tomará el 30 porciento de tu donación.</string>
+    <string name="ProviderMicrosoft">Traductor de Microsoft</string>
 </resources>

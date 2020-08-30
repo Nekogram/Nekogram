@@ -54,7 +54,6 @@
     <string name="UnlimitedFavoredStickers">Nhãn dán yêu thích không giới hạn</string>
     <string name="UnlimitedFavoredStickersAbout">Thêm nhãn dán không giới hạn vào mục yêu thích. Nhãn dán có thể không được đồng bộ hóa với các thiết bị khác.</string>
     <string name="MessageDetails">Chi tiết</string>
-    <string name="ExportAsJson">Xuất dưới dạng JSON</string>
     <string name="Translate">Dịch</string>
     <string name="DeleteAccount">Xóa tài khoản Telegram</string>
     <string name="TranslateFailed">Server dịch lỗi</string>
@@ -103,7 +102,6 @@
     <string name="DisableAppBarShadow">Vô hiệu hóa bóng thanh tiêu đề</string>
     <string name="BetaWarning">Đây là tính năng **beta** được thực hiện bởi **Telegram**.</string>
     <string name="MediaPreview">Xem trước đa phương tiện trong danh sách hộp thoại</string>
-    <string name="ProviderYandex">Yandex Translate</string>
     <string name="IdType">ID trò chuyện trong hồ sơ</string>
     <string name="IdTypeAbout">API Telegram sử dụng ID như hiện tại, nhưng API Bot thêm điểm trừ vào đầu cho các nhóm, và -100 cho các kênh và siêu nhóm để phù hợp với nó trong một trường.</string>
     <string name="IdTypeHidden">Ẩn</string>
@@ -117,4 +115,6 @@
     <string name="IncreaseVoiceMessageQuality">Tăng chất lượng tin nhắn thoại</string>
     <string name="DisableInstantCamera">Tắt máy ảnh tức thì</string>
     <string name="OpenAllLinksInInstantView">Cố gắng mở tất cả các liên kết trong xem tức thì</string>
+    <string name="DonateThankYou">Cảm ơn! ♥️</string>
+    <string name="DonateEvilGoogle">Google sẽ nhận 30 phần trăm khoản đóng góp của bạn.</string>
 </resources>

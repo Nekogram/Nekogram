@@ -54,7 +54,6 @@
     <string name="UnlimitedFavoredStickers">Sınırsız favori çıkartmaları</string>
     <string name="UnlimitedFavoredStickersAbout">Favorilere sınırsız çıkartmalar ekleyin.  Çıkartmalar diğer cihazlarla senkronize edilemeyebilir.</string>
     <string name="MessageDetails">Detaylar</string>
-    <string name="ExportAsJson">JSON olarak dışa aktar</string>
     <string name="Translate">Çevir</string>
     <string name="DeleteAccount">Telegram hesabını sil</string>
     <string name="TranslateFailed">Çeviri sunucu hatası</string>
@@ -103,7 +102,6 @@
     <string name="DisableAppBarShadow">Başlık çubuğu gölgesini devre dışı bırak</string>
     <string name="BetaWarning">**Telegram** tarafından uygulanan bir **beta** özelliğidir.</string>
     <string name="MediaPreview">Sohbet listesinde medya önizlemesi</string>
-    <string name="ProviderYandex">Yandex Çeviri</string>
     <string name="IdType">Profilde sohbet kimliği</string>
     <string name="IdTypeAbout">Telegram API, kimlikleri olduğu gibi kullanır, ancak Bot API başlangıçta gruplar için eksi, kanallar ve süpergruplar için bir alana sığması için -100 ekler.</string>
     <string name="IdTypeHidden">Gizli</string>
