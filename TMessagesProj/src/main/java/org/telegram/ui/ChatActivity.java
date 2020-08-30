@@ -8202,7 +8202,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (!fromMyName) {
             AlertsCreator.showSendMediaAlert(getSendMessagesHelper().sendMessage(arrayList,  did == 0 ? dialog_id : did, notify, scheduleDate), this);
         } else {
-            getMessageHelper().processForwardFromMyName(arrayList,  did, notify, scheduleDate);
+            getMessageHelper().processForwardFromMyName(arrayList,  did == 0 ? dialog_id : did, notify, scheduleDate);
         }
     }
 

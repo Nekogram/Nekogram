@@ -74,7 +74,7 @@ public class MessageHelper extends BaseController {
     }
 
     public void processForwardFromMyName(ArrayList<MessageObject> messages, long did, boolean notify, int scheduleDate) {
-        Long groupId = Utilities.random.nextLong();
+        HashMap<Long, Long> map = new HashMap<>();
         for (int i = 0; i < messages.size(); i++) {
             MessageObject messageObject = messages.get(i);
             if (messageObject.messageOwner.media != null && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaEmpty) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGame) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaInvoice)) {
@@ -83,13 +83,26 @@ public class MessageHelper extends BaseController {
                     params = new HashMap<>();
                     params.put("parentObject", "sent_" + messageObject.messageOwner.to_id.channel_id + "_" + messageObject.getId());
                 }
-                if (messageObject.messageOwner.grouped_id != 0) {
+                long oldGroupId = messageObject.messageOwner.grouped_id;
+                if (oldGroupId != 0) {
                     if (params == null) {
                         params = new HashMap<>();
                     }
-                    params.put("groupId", groupId + "");
+                    Long groupId;
+                    if (map.containsKey(oldGroupId)) {
+                        groupId = map.get(oldGroupId);
+                    } else {
+                        groupId = Utilities.random.nextLong();
+                        map.put(oldGroupId, groupId);
+                    }
+                    params.put("groupId", String.valueOf(groupId));
                     if (i == messages.size() - 1) {
                         params.put("final", "true");
+                    } else {
+                        long nextOldGroupId = messages.get(i + 1).messageOwner.grouped_id;
+                        if (nextOldGroupId != oldGroupId) {
+                            params.put("final", "true");
+                        }
                     }
                 }
                 if (messageObject.messageOwner.media.photo instanceof TLRPC.TL_photo) {
