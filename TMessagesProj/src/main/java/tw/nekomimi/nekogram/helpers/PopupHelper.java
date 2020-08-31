@@ -2,7 +2,6 @@ package tw.nekomimi.nekogram.helpers;
 
 import android.content.Context;
 import android.os.Build;
-import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
 
