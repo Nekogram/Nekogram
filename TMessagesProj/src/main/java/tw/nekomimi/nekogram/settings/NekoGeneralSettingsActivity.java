@@ -9,7 +9,6 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -24,14 +23,12 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarLayout;
-import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.EmptyCell;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.NotificationsCheckCell;
-import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
@@ -44,6 +41,7 @@ import org.telegram.ui.Components.UndoView;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 @SuppressLint("RtlHardcoded")
@@ -194,96 +192,31 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 types.add(1);
                 arrayList.add(LocaleController.getString("LastFirst", R.string.LastFirst));
                 types.add(2);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(LocaleController.getString("NameOrder", R.string.NameOrder));
-                final LinearLayout linearLayout = new LinearLayout(context);
-                linearLayout.setOrientation(LinearLayout.VERTICAL);
-                builder.setView(linearLayout);
-
-                for (int a = 0; a < arrayList.size(); a++) {
-                    RadioColorCell cell = new RadioColorCell(context);
-                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
-                    cell.setTag(a);
-                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-                    cell.setTextAndValue(arrayList.get(a), NekoConfig.nameOrder == types.get(a));
-                    linearLayout.addView(cell);
-                    cell.setOnClickListener(v -> {
-                        Integer which = (Integer) v.getTag();
-                        NekoConfig.setNameOrder(types.get(which));
-                        listAdapter.notifyItemChanged(nameOrderRow);
-                        builder.getDismissRunnable().run();
-                        parentLayout.rebuildAllFragmentViews(false, false);
-                    });
-                }
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                showDialog(builder.create());
+                PopupHelper.show(arrayList, LocaleController.getString("NameOrder", R.string.NameOrder), types.indexOf(NekoConfig.nameOrder), context, view, i -> {
+                    NekoConfig.setNameOrder(types.get(i));
+                    listAdapter.notifyItemChanged(nameOrderRow);
+                    parentLayout.rebuildAllFragmentViews(false, false);
+                });
             } else if (position == eventTypeRow) {
                 ArrayList<String> arrayList = new ArrayList<>();
-                ArrayList<Integer> types = new ArrayList<>();
                 arrayList.add(LocaleController.getString("DependsOnDate", R.string.DependsOnDate));
-                types.add(0);
                 arrayList.add(LocaleController.getString("Christmas", R.string.Christmas));
-                types.add(1);
                 arrayList.add(LocaleController.getString("Valentine", R.string.Valentine));
-                types.add(2);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(LocaleController.getString("EventType", R.string.EventType));
-                final LinearLayout linearLayout = new LinearLayout(context);
-                linearLayout.setOrientation(LinearLayout.VERTICAL);
-                builder.setView(linearLayout);
-
-                for (int a = 0; a < arrayList.size(); a++) {
-                    RadioColorCell cell = new RadioColorCell(context);
-                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
-                    cell.setTag(a);
-                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-                    cell.setTextAndValue(arrayList.get(a), NekoConfig.eventType == types.get(a));
-                    linearLayout.addView(cell);
-                    cell.setOnClickListener(v -> {
-                        Integer which = (Integer) v.getTag();
-                        NekoConfig.setEventType(types.get(which));
-                        listAdapter.notifyItemChanged(eventTypeRow);
-                        builder.getDismissRunnable().run();
-                        restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
-                    });
-                }
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                showDialog(builder.create());
+                PopupHelper.show(arrayList, LocaleController.getString("EventType", R.string.EventType), NekoConfig.eventType, context, view, i -> {
+                    NekoConfig.setEventType(i);
+                    listAdapter.notifyItemChanged(eventTypeRow);
+                    restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
+                });
             } else if (position == actionBarDecorationRow) {
                 ArrayList<String> arrayList = new ArrayList<>();
-                ArrayList<Integer> types = new ArrayList<>();
                 arrayList.add(LocaleController.getString("DependsOnDate", R.string.DependsOnDate));
-                types.add(0);
                 arrayList.add(LocaleController.getString("Snowflakes", R.string.Snowflakes));
-                types.add(1);
                 arrayList.add(LocaleController.getString("Fireworks", R.string.Fireworks));
-                types.add(2);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(LocaleController.getString("ActionBarDecoration", R.string.ActionBarDecoration));
-                final LinearLayout linearLayout = new LinearLayout(context);
-                linearLayout.setOrientation(LinearLayout.VERTICAL);
-                builder.setView(linearLayout);
-
-                for (int a = 0; a < arrayList.size(); a++) {
-                    RadioColorCell cell = new RadioColorCell(context);
-                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
-                    cell.setTag(a);
-                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-                    cell.setTextAndValue(arrayList.get(a), NekoConfig.actionBarDecoration == types.get(a));
-                    linearLayout.addView(cell);
-                    cell.setOnClickListener(v -> {
-                        Integer which = (Integer) v.getTag();
-                        NekoConfig.setActionBarDecoration(types.get(which));
-                        listAdapter.notifyItemChanged(actionBarDecorationRow);
-                        builder.getDismissRunnable().run();
-                        restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
-                    });
-                }
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                showDialog(builder.create());
+                PopupHelper.show(arrayList, LocaleController.getString("ActionBarDecoration", R.string.ActionBarDecoration), NekoConfig.actionBarDecoration, context, view, i -> {
+                    NekoConfig.setActionBarDecoration(i);
+                    listAdapter.notifyItemChanged(actionBarDecorationRow);
+                    restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
+                });
             } else if (position == newYearRow) {
                 NekoConfig.toggleNewYear();
                 if (view instanceof TextCheckCell) {
@@ -291,7 +224,26 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
             } else if (position == translationProviderRow) {
-                showDialog(Translator.getTranslationProviderAlert(context)).setOnDismissListener(dialog1 -> listAdapter.notifyItemChanged(translationProviderRow));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ArrayList<String> arrayList = new ArrayList<>();
+                    ArrayList<Integer> types = new ArrayList<>();
+                    arrayList.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
+                    types.add(Translator.PROVIDER_GOOGLE);
+                    arrayList.add(LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN));
+                    types.add(Translator.PROVIDER_GOOGLE_CN);
+                    arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
+                    types.add(Translator.PROVIDER_LINGO);
+                    arrayList.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
+                    types.add(Translator.PROVIDER_YANDEX);
+                    arrayList.add(LocaleController.getString("ProviderMicrosoft", R.string.ProviderMicrosoft));
+                    types.add(Translator.PROVIDER_MICROSOFT);
+                    PopupHelper.show(arrayList, LocaleController.getString("TranslationProvider", R.string.TranslationProvider), types.indexOf(NekoConfig.translationProvider), context, view, i -> {
+                        NekoConfig.setTranslationProvider(types.get(i));
+                        listAdapter.notifyItemChanged(translationProviderRow);
+                    });
+                } else {
+                    showDialog(Translator.getTranslationProviderAlert(context)).setOnDismissListener(dialog1 -> listAdapter.notifyItemChanged(translationProviderRow));
+                }
             } else if (position == openArchiveOnPullRow) {
                 NekoConfig.toggleOpenArchiveOnPull();
                 if (view instanceof TextCheckCell) {
@@ -329,30 +281,10 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 types.add(NekoConfig.ID_TYPE_API);
                 arrayList.add(LocaleController.getString("IdTypeBOTAPI", R.string.IdTypeBOTAPI));
                 types.add(NekoConfig.ID_TYPE_BOTAPI);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(LocaleController.getString("IdType", R.string.IdType));
-                builder.setMessage(LocaleController.getString("IdTypeAbout", R.string.IdTypeAbout));
-                final LinearLayout linearLayout = new LinearLayout(context);
-                linearLayout.setOrientation(LinearLayout.VERTICAL);
-                builder.setView(linearLayout);
-
-                for (int a = 0; a < arrayList.size(); a++) {
-                    RadioColorCell cell = new RadioColorCell(context);
-                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
-                    cell.setTag(a);
-                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-                    cell.setTextAndValue(arrayList.get(a), NekoConfig.idType == types.get(a));
-                    linearLayout.addView(cell);
-                    cell.setOnClickListener(v -> {
-                        Integer which = (Integer) v.getTag();
-                        NekoConfig.setIdType(types.get(which));
-                        listAdapter.notifyItemChanged(idTypeRow);
-                        builder.getDismissRunnable().run();
-                    });
-                }
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                showDialog(builder.create());
+                PopupHelper.show(arrayList, LocaleController.getString("IdType", R.string.IdType), types.indexOf(NekoConfig.idType), context, view, i -> {
+                    NekoConfig.setIdType(types.get(i));
+                    listAdapter.notifyItemChanged(idTypeRow);
+                });
             } else if (position == autoPauseVideoRow) {
                 NekoConfig.toggleAutoPauseVideo();
                 if (view instanceof TextCheckCell) {
@@ -616,6 +548,14 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     }
                     break;
                 }
+                case 7: {
+                    TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
+                    if (position == general2Row) {
+                        cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                        cell.setText(LocaleController.getString("IdTypeAbout", R.string.IdTypeAbout));
+                    }
+
+                }
             }
         }
 
@@ -665,7 +605,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == connection2Row || position == appearance2Row || position == general2Row) {
+            if (position == connection2Row || position == appearance2Row) {
                 return 1;
             } else if (position == eventTypeRow || position == actionBarDecorationRow ||
                     (position >= translationProviderRow && position <= idTypeRow)) {
@@ -676,6 +616,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 return 3;
             } else if (position == generalRow || position == connectionRow || position == appearanceRow) {
                 return 4;
+            } else if (position == general2Row) {
+                return 7;
             }
             return 2;
         }

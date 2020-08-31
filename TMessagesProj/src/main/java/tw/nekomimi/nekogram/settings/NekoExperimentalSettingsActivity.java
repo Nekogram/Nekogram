@@ -553,7 +553,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 return 1;
             } else if (position == deleteAccountRow) {
                 return 2;
-            } else if (position >= smoothKeyboardRow && position <= unlimitedPinnedDialogsRow) {
+            } else if (position > emojiRow && position <= unlimitedPinnedDialogsRow) {
                 return 3;
             } else if (position == experimentRow) {
                 return 4;

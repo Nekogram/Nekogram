@@ -29,7 +29,6 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.EmptyCell;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.NotificationsCheckCell;
-import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
@@ -43,6 +42,7 @@ import org.telegram.ui.Components.UndoView;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.PopupHelper;
 
 @SuppressLint("RtlHardcoded")
 public class NekoChatSettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
@@ -170,31 +170,11 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 types.add(NekoConfig.TITLE_TYPE_ICON);
                 arrayList.add(LocaleController.getString("TabTitleTypeMix", R.string.TabTitleTypeMix));
                 types.add(NekoConfig.TITLE_TYPE_MIX);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setTitle(LocaleController.getString("TabTitleType", R.string.TabTitleType));
-                builder.setMessage(LocaleController.getString("TabTitleTypeTip", R.string.TabTitleTypeTip));
-                final LinearLayout linearLayout = new LinearLayout(context);
-                linearLayout.setOrientation(LinearLayout.VERTICAL);
-                builder.setView(linearLayout);
-
-                for (int a = 0; a < arrayList.size(); a++) {
-                    RadioColorCell cell = new RadioColorCell(context);
-                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
-                    cell.setTag(a);
-                    cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-                    cell.setTextAndValue(arrayList.get(a), NekoConfig.tabsTitleType == types.get(a));
-                    linearLayout.addView(cell);
-                    cell.setOnClickListener(v -> {
-                        Integer which = (Integer) v.getTag();
-                        NekoConfig.setTabsTitleType(types.get(which));
-                        listAdapter.notifyItemChanged(tabsTitleTypeRow);
-                        getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
-                        builder.getDismissRunnable().run();
-                    });
-                }
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                showDialog(builder.create());
+                PopupHelper.show(arrayList, LocaleController.getString("TabTitleType", R.string.TabTitleType), types.indexOf(NekoConfig.tabsTitleType), context, view, i -> {
+                    NekoConfig.setTabsTitleType(types.get(i));
+                    listAdapter.notifyItemChanged(tabsTitleTypeRow);
+                    getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
+                });
             } else if (position == confirmAVRow) {
                 NekoConfig.toggleConfirmAVMessage();
                 if (view instanceof TextCheckCell) {
@@ -512,11 +492,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
                 case 1: {
-                    if (position == folders2Row) {
-                        holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                    } else {
-                        holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                    }
+                    holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     break;
                 }
                 case 2: {
@@ -578,6 +554,14 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                     }
                     break;
                 }
+                case 7: {
+                    TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
+                    if (position == folders2Row) {
+                        cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                        cell.setText(LocaleController.getString("TabTitleTypeTip", R.string.TabTitleTypeTip));
+                    }
+
+                }
             }
         }
 
@@ -631,7 +615,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
 
         @Override
         public int getItemViewType(int position) {
-            if (position == chat2Row || position == folders2Row || position == stickerSize2Row) {
+            if (position == chat2Row || position == stickerSize2Row) {
                 return 1;
             } else if (position == messageMenuRow || position == tabsTitleTypeRow) {
                 return 2;
@@ -640,6 +624,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 return 3;
             } else if (position == chatRow || position == foldersRow || position == stickerSizeHeaderRow) {
                 return 4;
+            } else if (position == folders2Row) {
+                return 7;
             } else if (position == stickerSizeRow) {
                 return 8;
             }
