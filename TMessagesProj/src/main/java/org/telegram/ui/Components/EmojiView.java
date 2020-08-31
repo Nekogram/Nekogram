@@ -4277,11 +4277,11 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
 
         @Override
         public void customOnDraw(Canvas canvas, int position) {
-            if (position == 2 && !MediaDataController.getInstance(currentAccount).getUnreadStickerSets().isEmpty() && dotPaint != null) {
+            /*if (position == 2 && !MediaDataController.getInstance(currentAccount).getUnreadStickerSets().isEmpty() && dotPaint != null) {
                 int x = canvas.getWidth() / 2 + AndroidUtilities.dp(4 + 5);
                 int y = canvas.getHeight() / 2 - AndroidUtilities.dp(13 - 5);
                 canvas.drawCircle(x, y, AndroidUtilities.dp(5), dotPaint);
-            }
+            }*/
         }
 
         public Object instantiateItem(ViewGroup viewGroup, int position) {
