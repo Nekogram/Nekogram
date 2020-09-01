@@ -128,4 +128,5 @@
     <string name="DonateEvilGoogle">Google will take 30 percent of your donation.</string>
     <string name="ProviderMicrosoft">Microsoft Translator</string>
     <string name="DonateAlipay">Alipay</string>
+    <string name="JumpToBeginning">Beginning</string>
 </resources>

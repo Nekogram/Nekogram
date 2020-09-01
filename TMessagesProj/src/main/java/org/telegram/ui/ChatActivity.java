@@ -4119,6 +4119,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 dialog.setButton(DialogInterface.BUTTON_NEGATIVE, LocaleController.getString("Cancel", R.string.Cancel), (dialog1, which) -> {
 
                 });
+                dialog.setButton(DialogInterface.BUTTON_NEUTRAL, LocaleController.getString("JumpToBeginning", R.string.JumpToBeginning), (dialogInterface, i) -> jumpToDate(1375315200));
                 if (Build.VERSION.SDK_INT >= 21) {
                     dialog.setOnShowListener(dialog12 -> {
                         int count = datePicker.getChildCount();
@@ -5897,6 +5898,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 dialog.setButton(DialogInterface.BUTTON_NEGATIVE, LocaleController.getString("Cancel", R.string.Cancel), (dialog1, which) -> {
 
                 });
+                dialog.setButton(DialogInterface.BUTTON_NEUTRAL, LocaleController.getString("JumpToBeginning", R.string.JumpToBeginning), (dialogInterface, i) -> jumpToDate(1375315200));
                 if (Build.VERSION.SDK_INT >= 21) {
                     dialog.setOnShowListener(dialog12 -> {
                         int count = datePicker.getChildCount();
