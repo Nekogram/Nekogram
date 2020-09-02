@@ -4,7 +4,6 @@ import android.app.Application;
 
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
-import com.microsoft.appcenter.crashes.Crashes;
 
 import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -16,7 +15,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 public class AnalyticsHelper {
     public static void start(Application application) {
         try {
-            AppCenter.start(application, "033a70ca-ea8d-4c2f-8c2c-b37f1b47f766", Analytics.class, Crashes.class);
+            AppCenter.start(application, "033a70ca-ea8d-4c2f-8c2c-b37f1b47f766", Analytics.class);
             AppCenter.setUserId(String.valueOf(UserConfig.getInstance(UserConfig.selectedAccount).clientUserId));
         } catch (Exception ignore) {
             //
