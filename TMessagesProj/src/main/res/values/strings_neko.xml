@@ -129,4 +129,7 @@
     <string name="ProviderMicrosoft">Microsoft Translator</string>
     <string name="DonateAlipay">Alipay</string>
     <string name="JumpToBeginning">Beginning</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
+    <string name="FormatWithSeconds">Format time with seconds</string>
 </resources>

@@ -77,6 +77,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int askBeforeCallRow;
     private int disableNumberRoundingRow;
     private int openArchiveOnPullRow;
+    private int formatTimeWithSecondsRow;
     private int autoPauseVideoRow;
     private int translationProviderRow;
     private int nameOrderRow;
@@ -302,6 +303,13 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.mediaPreview);
                 }
+            } else if (position == formatTimeWithSecondsRow) {
+                NekoConfig.toggleFormatTimeWithSeconds();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.formatTimeWithSeconds);
+                }
+                LocaleController.getInstance().recreateFormatters();
+                parentLayout.rebuildAllFragmentViews(false, false);
             }
         });
 
@@ -348,6 +356,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         askBeforeCallRow = rowCount++;
         disableNumberRoundingRow = rowCount++;
         openArchiveOnPullRow = rowCount++;
+        formatTimeWithSecondsRow = rowCount++;
         autoPauseVideoRow = rowCount++;
         translationProviderRow = rowCount++;
         nameOrderRow = rowCount++;
@@ -541,6 +550,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("AutoPauseVideo", R.string.AutoPauseVideo), LocaleController.getString("AutoPauseVideoAbout", R.string.AutoPauseVideoAbout), NekoConfig.autoPauseVideo, true, true);
                     } else if (position == mediaPreviewRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MediaPreview", R.string.MediaPreview), NekoConfig.mediaPreview, true);
+                    } else if (position == formatTimeWithSecondsRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("FormatWithSeconds", R.string.FormatWithSeconds), NekoConfig.formatTimeWithSeconds, true);
                     }
                     break;
                 }

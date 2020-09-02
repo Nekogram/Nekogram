@@ -377,10 +377,10 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                         textCell.setTextAndValue("Bot", "Yes", divider);
                     } else if (position == dateRow) {
                         long date = (long) messageObject.messageOwner.date * 1000;
-                        textCell.setTextAndValue(messageObject.scheduled ? "Scheduled date" : "Date", messageObject.messageOwner.date == 0x7ffffffe ? "When online" : LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date))), divider);
+                        textCell.setTextAndValue(messageObject.scheduled ? "Scheduled date" : "Date", messageObject.messageOwner.date == 0x7ffffffe ? "When online" : LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(date))), divider);
                     } else if (position == editedRow) {
                         long date = (long) messageObject.messageOwner.edit_date * 1000;
-                        textCell.setTextAndValue("Edited", LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date))), divider);
+                        textCell.setTextAndValue("Edited", LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(date))), divider);
                     } else if (position == forwardRow) {
                         StringBuilder builder = new StringBuilder();
                         if (messageObject.messageOwner.fwd_from.channel_id != 0) {

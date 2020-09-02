@@ -76,6 +76,7 @@ public class NekoConfig {
     public static boolean disableInstantCamera = false;
     public static boolean tryToOpenAllLinksInIV = false;
     public static boolean enableAnalytics = true;
+    public static boolean formatTimeWithSeconds = false;
 
     public static boolean residentNotification = false;
 
@@ -211,6 +212,7 @@ public class NekoConfig {
             disableInstantCamera = preferences.getBoolean("disableInstantCamera", false);
             tryToOpenAllLinksInIV = preferences.getBoolean("tryToOpenAllLinksInIV", false);
             enableAnalytics = preferences.getBoolean("enableAnalytics", true);
+            formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
             configLoaded = true;
         }
     }
@@ -615,6 +617,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("tryToOpenAllLinksInIV", tryToOpenAllLinksInIV);
+        editor.commit();
+    }
+
+    public static void toggleFormatTimeWithSeconds() {
+        formatTimeWithSeconds = !formatTimeWithSeconds;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("formatTimeWithSeconds", formatTimeWithSeconds);
         editor.commit();
     }
 
