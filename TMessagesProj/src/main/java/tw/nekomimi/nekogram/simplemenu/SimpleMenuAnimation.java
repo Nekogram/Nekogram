@@ -5,7 +5,6 @@ import android.animation.AnimatorSet;
 import android.animation.FloatEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.TypeEvaluator;
-import android.annotation.TargetApi;
 import android.graphics.Rect;
 import android.os.Build;
 import android.view.View;
@@ -13,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 
+import androidx.annotation.RequiresApi;
 import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
 
 /**
@@ -21,7 +21,7 @@ import androidx.interpolator.view.animation.FastOutSlowInInterpolator;
  * TODO let params styleable
  */
 
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 class SimpleMenuAnimation {
 
     public static void startEnterAnimation(final CustomBoundsDrawable background, final View view, int width, int height,

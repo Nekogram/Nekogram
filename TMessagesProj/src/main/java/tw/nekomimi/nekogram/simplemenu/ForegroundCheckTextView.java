@@ -11,15 +11,13 @@ import android.view.Gravity;
 import android.widget.CheckedTextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RestrictTo;
-
-import static androidx.annotation.RestrictTo.Scope.LIBRARY_GROUP_PREFIX;
+import androidx.annotation.RequiresApi;
 
 /**
  * Extension of {@link CheckedTextView} that adds a Foreground drawable.
  */
 
-@RestrictTo(LIBRARY_GROUP_PREFIX)
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ForegroundCheckTextView extends CheckedTextView {
 
     private final Rect mSelfBounds = new Rect();

@@ -1,6 +1,5 @@
 package tw.nekomimi.nekogram.simplemenu;
 
-import android.annotation.TargetApi;
 import android.content.res.ColorStateList;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -12,9 +11,10 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.core.graphics.drawable.DrawableCompat;
 
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 class DrawableWrapper extends Drawable implements Drawable.Callback {
 
     private Drawable mDrawable;

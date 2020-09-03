@@ -63,21 +63,17 @@ public class SimpleMenuPopupWindow extends PopupWindow {
         setFocusable(true);
         setOutsideTouchable(false);
 
-        /*TypedArray a = context.obtainStyledAttributes(
-                attrs, R.styleable.SimpleMenuPopup, defStyleAttr, defStyleRes);*/
-
-        elevation[POPUP_MENU] = AndroidUtilities.dp(8);//(int) a.getDimension(R.styleable.SimpleMenuPopup_pref_listElevation, 4f);
-        elevation[DIALOG] = AndroidUtilities.dp(48);//(int) a.getDimension(R.styleable.SimpleMenuPopup_pref_dialogElevation, 48f);
+        elevation[POPUP_MENU] = AndroidUtilities.dp(8);
+        elevation[DIALOG] = AndroidUtilities.dp(48);
         margin[POPUP_MENU][HORIZONTAL] = AndroidUtilities.isTablet() ? AndroidUtilities.dp(23) : AndroidUtilities.dp(15);
-        //(int) a.getDimension(R.styleable.SimpleMenuPopup_pref_listMarginHorizontal, 0);
-        margin[POPUP_MENU][VERTICAL] = AndroidUtilities.dp(16);//(int) a.getDimension(R.styleable.SimpleMenuPopup_pref_listMarginVertical, 0);
-        margin[DIALOG][HORIZONTAL] = AndroidUtilities.dp(16);//(int) a.getDimension(R.styleable.SimpleMenuPopup_pref_dialogMarginHorizontal, 0);
-        margin[DIALOG][VERTICAL] = AndroidUtilities.dp(24);//(int) a.getDimension(R.styleable.SimpleMenuPopup_pref_dialogMarginVertical, 0);
-        listPadding[POPUP_MENU][HORIZONTAL] = AndroidUtilities.dp(24);//(int) a.getDimension(R.styleable.SimpleMenuPopup_pref_listItemPadding, 0);
-        listPadding[DIALOG][HORIZONTAL] = AndroidUtilities.dp(24);//(int) a.getDimension(R.styleable.SimpleMenuPopup_pref_dialogItemPadding, 0);
-        dialogMaxWidth = AndroidUtilities.dp(600);//(int) a.getDimension(R.styleable.SimpleMenuPopup_pref_dialogMaxWidth, 0);
-        unit = AndroidUtilities.dp(56);//(int) a.getDimension(R.styleable.SimpleMenuPopup_pref_unit, 0);
-        maxUnits = AndroidUtilities.isTablet() ? 7 : 5;//a.getInteger(R.styleable.SimpleMenuPopup_pref_maxUnits, 0);
+        margin[POPUP_MENU][VERTICAL] = AndroidUtilities.dp(16);
+        margin[DIALOG][HORIZONTAL] = AndroidUtilities.dp(16);
+        margin[DIALOG][VERTICAL] = AndroidUtilities.dp(24);
+        listPadding[POPUP_MENU][HORIZONTAL] = AndroidUtilities.dp(24);
+        listPadding[DIALOG][HORIZONTAL] = AndroidUtilities.dp(24);
+        dialogMaxWidth = AndroidUtilities.dp(600);
+        unit = AndroidUtilities.dp(56);
+        maxUnits = AndroidUtilities.isTablet() ? 7 : 5;
 
         Drawable backgroundDrawable = context.getResources().getDrawable(R.drawable.simple_menu_background).mutate();
         backgroundDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground), PorterDuff.Mode.MULTIPLY));
@@ -99,8 +95,6 @@ public class SimpleMenuPopupWindow extends PopupWindow {
 
         mAdapter = new SimpleMenuListAdapter(this);
         mList.setAdapter(mAdapter);
-
-        //a.recycle();
 
         // TODO do not hardcode
         itemHeight = Math.round(context.getResources().getDisplayMetrics().density * 48);
@@ -340,13 +334,6 @@ public class SimpleMenuPopupWindow extends PopupWindow {
 
         getContentView().post(() -> SimpleMenuAnimation.startEnterAnimation(SimpleMenuPopupWindow.this.getBackground(), SimpleMenuPopupWindow.this.getContentView(),
                 width, height, centerX, centerY, animStartRect, animItemHeight, animElevation, index));
-    }
-
-    /**
-     * Request a measurement before next show, call this when entries changed.
-     */
-    public void requestMeasure() {
-        mRequestMeasure = true;
     }
 
     /**

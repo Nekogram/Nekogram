@@ -1,7 +1,6 @@
 package tw.nekomimi.nekogram.location;
 
 import android.Manifest;
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -21,6 +20,7 @@ import org.telegram.messenger.FileLog;
 
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.Locale;
 import java.util.Set;
 
 public class NekoLocationSource implements LocationSource {
@@ -44,12 +44,11 @@ public class NekoLocationSource implements LocationSource {
         this.context = context;
     }
 
-    @SuppressLint("DefaultLocale")
     public static void transform(Location location) {
         final double latitude = location.getLatitude();
         final double longitude = location.getLongitude();
 
-        if (recent.contains(new Pair<>(latitude, longitude).hashCode())) return;    // Dejavu
+        if (recent.contains(new Pair<>(latitude, longitude).hashCode())) return;// Dejavu
 
         final Pair<Double, Double> trans = GeodeticTransform.transform(latitude, longitude);
         location.setLatitude(trans.first);
@@ -58,24 +57,8 @@ public class NekoLocationSource implements LocationSource {
         recent.add(trans.hashCode());
 
         if (BuildVars.LOGS_ENABLED) {
-            FileLog.d(String.format("%.4f,%.4f => %.4f,%.4f", latitude, longitude, trans.first, trans.second));
+            FileLog.d(String.format(Locale.US, "%.4f,%.4f => %.4f,%.4f", latitude, longitude, trans.first, trans.second));
         }
-    }
-
-    @SuppressLint("DefaultLocale")
-    public static Pair<Double, Double> transform(double lat, double lon) {
-
-        if (recent.contains(new Pair<>(lat, lon).hashCode()))
-            return new Pair<>(lat, lon);    // Dejavu
-
-        final Pair<Double, Double> trans = GeodeticTransform.transform(lat, lon);
-
-        recent.add(trans.hashCode());
-
-        if (BuildVars.LOGS_ENABLED) {
-            FileLog.d(String.format("%.4f,%.4f => %.4f,%.4f", lat, lon, trans.first, trans.second));
-        }
-        return trans;
     }
 
     @Override

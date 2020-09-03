@@ -1,15 +1,16 @@
 package tw.nekomimi.nekogram.simplemenu;
 
-import android.annotation.TargetApi;
 import android.graphics.Rect;
 import android.os.Build;
 import android.view.View;
+
+import androidx.annotation.RequiresApi;
 
 /**
  * Holder class holds background drawable and content view.
  */
 
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 class PropertyHolder {
 
     private final CustomBoundsDrawable mBackground;

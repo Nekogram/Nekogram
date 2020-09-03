@@ -1,11 +1,11 @@
 package tw.nekomimi.nekogram.simplemenu;
 
-import android.annotation.TargetApi;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 /**
  * A wrapped {@link Drawable} that force use its own bounds to draw.
@@ -14,7 +14,7 @@ import androidx.annotation.NonNull;
  * one or two frame using wrong bounds because of parent view sets bounds.
  */
 
-@TargetApi(Build.VERSION_CODES.LOLLIPOP)
+@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 class CustomBoundsDrawable extends DrawableWrapper {
 
     public CustomBoundsDrawable(Drawable wrappedDrawable) {

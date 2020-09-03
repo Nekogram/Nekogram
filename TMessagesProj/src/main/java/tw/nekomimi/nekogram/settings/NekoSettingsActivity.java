@@ -135,7 +135,7 @@ public class NekoSettingsActivity extends BaseFragment {
             } else if (position == sourceCodeRow) {
                 Browser.openUrl(getParentActivity(), "https://github.com/Nekogram/Nekogram");
             } else if (position == sponsorRow) {
-                Browser.openUrl(getParentActivity(), "https://console.argo.moe/auth/register?code=nekogram");
+                Browser.openUrl(getParentActivity(), "https://gamma.pcr.cy/auth/register?code=neko");
             }
         });
         listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() {
@@ -185,7 +185,11 @@ public class NekoSettingsActivity extends BaseFragment {
         sourceCodeRow = rowCount++;
         translationRow = rowCount++;
         donateRow = rowCount++;
-        sponsorRow = -1;
+        if (!LocaleController.getString("SponsorTitle", R.string.SponsorTitle).equals("dummy")) {
+            sponsorRow = rowCount++;
+        } else {
+            sponsorRow = -1;
+        }
         about2Row = rowCount++;
 
         if (listAdapter != null) {

@@ -84,7 +84,6 @@ abstract public class Translator {
         });
     }
 
-
     public static AlertDialog getTranslationProviderAlert(Context context) {
         ArrayList<String> arrayList = new ArrayList<>();
         ArrayList<Integer> types = new ArrayList<>();

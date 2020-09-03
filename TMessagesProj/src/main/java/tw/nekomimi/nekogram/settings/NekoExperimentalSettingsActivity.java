@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,7 +36,6 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.EmptyCell;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.NotificationsCheckCell;
-import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
@@ -53,7 +51,6 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.translator.Translator;
 
 @SuppressLint("RtlHardcoded")
 public class NekoExperimentalSettingsActivity extends BaseFragment {
@@ -85,39 +82,6 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     NekoExperimentalSettingsActivity(boolean sensitiveCanChange, boolean sensitiveEnabled) {
         this.sensitiveCanChange = sensitiveCanChange;
         this.sensitiveEnabled = sensitiveEnabled;
-    }
-
-    static public AlertDialog getTranslationProviderAlert(Context context) {
-        ArrayList<String> arrayList = new ArrayList<>();
-        ArrayList<Integer> types = new ArrayList<>();
-        arrayList.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
-        types.add(Translator.PROVIDER_GOOGLE);
-        arrayList.add(LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN));
-        types.add(Translator.PROVIDER_GOOGLE_CN);
-        arrayList.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
-        types.add(Translator.PROVIDER_LINGO);
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
-        final LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        builder.setView(linearLayout);
-
-        for (int a = 0; a < arrayList.size(); a++) {
-            RadioColorCell cell = new RadioColorCell(context);
-            cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
-            cell.setTag(a);
-            cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-            cell.setTextAndValue(arrayList.get(a), NekoConfig.translationProvider == types.get(a));
-            linearLayout.addView(cell);
-            cell.setOnClickListener(v -> {
-                Integer which = (Integer) v.getTag();
-                NekoConfig.setTranslationProvider(types.get(which));
-                builder.getDismissRunnable().run();
-            });
-        }
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        return builder.create();
     }
 
     @Override
@@ -484,8 +448,6 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("DebugMenuEnableSmoothKeyboard", R.string.DebugMenuEnableSmoothKeyboard), SharedConfig.smoothKeyboard, true);
                     } else if (position == unlimitedPinnedDialogsRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, deleteAccountRow != -1);
-                    } else if (position == shouldNOTTrustMeRow) {
-                        textCell.setTextAndCheck("Don't trust me", NekoConfig.shouldNOTTrustMe, false);
                     } else if (position == mapDriftingFixRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MapDriftingFix", R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
                     } else if (position == increaseVoiceMessageQualityRow) {
