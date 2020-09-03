@@ -120,4 +120,8 @@
     <string name="DonateThankYou">Obrigado!</string>
     <string name="DonateEvilGoogle">O Google ficará com 30 por cento de sua doação.</string>
     <string name="ProviderMicrosoft">Tradutor da Microsoft</string>
+    <string name="JumpToBeginning">Começo</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
+    <string name="FormatWithSeconds">Formatar a hora com segundos</string>
 </resources>

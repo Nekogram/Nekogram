@@ -101,8 +101,8 @@
     <string name="OfficialChannelUsername">Zuragram</string>
     <string name="RestartAppToTakeEffect">重启应用以生效。</string>
     <string name="DisableAppBarShadow">禁用标题栏阴影</string>
-    <string name="SponsorTitle">赞助商</string>
-    <string name="SponsorContent">您可以使用 Argo Networks 来提供网络加速。</string>
+    <string name="SponsorTitle">矢矧网络科</string>
+    <string name="SponsorContent">解锁地域限制服务 / 数据收集 / 网络加速</string>
     <string name="BetaWarning">这是由 **Telegram** 实现的**测试版**特性。</string>
     <string name="MediaPreview">对话列表中的媒体预览</string>
     <string name="ProviderYandex">Yandex 翻译</string>
@@ -124,4 +124,8 @@
     <string name="DonateEvilGoogle">Google 将收取您捐赠的 30%</string>
     <string name="ProviderMicrosoft">微软翻译</string>
     <string name="DonateAlipay">支付宝</string>
+    <string name="JumpToBeginning">最早</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
+    <string name="FormatWithSeconds">格式化时间具体到秒</string>
 </resources>

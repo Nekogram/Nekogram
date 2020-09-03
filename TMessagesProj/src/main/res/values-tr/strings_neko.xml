@@ -102,6 +102,7 @@
     <string name="DisableAppBarShadow">Başlık çubuğu gölgesini devre dışı bırak</string>
     <string name="BetaWarning">**Telegram** tarafından uygulanan bir **beta** özelliğidir.</string>
     <string name="MediaPreview">Sohbet listesinde medya önizlemesi</string>
+    <string name="ProviderYandex">Yandex Çeviri</string>
     <string name="IdType">Profilde sohbet kimliği</string>
     <string name="IdTypeAbout">Telegram API, kimlikleri olduğu gibi kullanır, ancak Bot API başlangıçta gruplar için eksi, kanallar ve süpergruplar için bir alana sığması için -100 ekler.</string>
     <string name="IdTypeHidden">Gizli</string>
@@ -111,4 +112,12 @@
     <string name="AutoPauseVideoAbout">Kilit ekranı/arka plana geçildiğinde.</string>
     <string name="DisableProximityEvents">Yakınlık olaylarını devre dışı bırak</string>
     <string name="CustomEmojiTypeface">Özel emoji yazı tipi</string>
+    <string name="MapDriftingFix">Çin Anakarası için harita sürüklenme düzeltmesi</string>
+    <string name="IncreaseVoiceMessageQuality">Sesli mesajların kalitesini artırın</string>
+    <string name="DisableInstantCamera">Anında kamerayı devre dışı bırak</string>
+    <string name="OpenAllLinksInInstantView">InstantView\'da tüm bağlantıları açmayı deneyin</string>
+    <string name="DonateThankYou">Teşekkürler!</string>
+    <string name="DonateEvilGoogle">Google bağışınızın yüzde 30\'unu alacaktır.</string>
+    <string name="ProviderMicrosoft">Microsoft Çeviri</string>
+    <string name="JumpToBeginning">Başlangıç</string>
 </resources>

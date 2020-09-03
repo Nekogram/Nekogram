@@ -120,4 +120,8 @@
     <string name="DonateThankYou">Спасибо!</string>
     <string name="DonateEvilGoogle">Google заберёт 30% от вашего пожертвования.</string>
     <string name="ProviderMicrosoft">Microsoft Переводчик</string>
+    <string name="JumpToBeginning">В начало</string>
+    <string name="formatterDay24HSec">ЧЧ:мм:сс</string>
+    <string name="formatterDay12HSec">ч:мм:сс</string>
+    <string name="FormatWithSeconds">Время с секундами</string>
 </resources>

@@ -120,4 +120,8 @@
     <string name="DonateThankYou">감사합니다!</string>
     <string name="DonateEvilGoogle">구글에서 기부금의 30 % 를 가져갑니다.</string>
     <string name="ProviderMicrosoft">마이크로소프트 번역</string>
+    <string name="JumpToBeginning">시작</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
+    <string name="FormatWithSeconds">초를 포함한 시간표시</string>
 </resources>
