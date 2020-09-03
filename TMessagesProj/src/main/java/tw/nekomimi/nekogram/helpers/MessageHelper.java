@@ -77,6 +77,31 @@ public class MessageHelper extends BaseController {
         HashMap<Long, Long> map = new HashMap<>();
         for (int i = 0; i < messages.size(); i++) {
             MessageObject messageObject = messages.get(i);
+            ArrayList<TLRPC.MessageEntity> entities;
+            if (messageObject.messageOwner.entities != null && !messageObject.messageOwner.entities.isEmpty()) {
+                entities = new ArrayList<>();
+                for (int a = 0; a < messageObject.messageOwner.entities.size(); a++) {
+                    TLRPC.MessageEntity entity = messageObject.messageOwner.entities.get(a);
+                    if (entity instanceof TLRPC.TL_messageEntityBold ||
+                            entity instanceof TLRPC.TL_messageEntityItalic ||
+                            entity instanceof TLRPC.TL_messageEntityPre ||
+                            entity instanceof TLRPC.TL_messageEntityCode ||
+                            entity instanceof TLRPC.TL_messageEntityTextUrl ||
+                            entity instanceof TLRPC.TL_messageEntityStrike ||
+                            entity instanceof TLRPC.TL_messageEntityUnderline) {
+                        entities.add(entity);
+                    }
+                    if (entity instanceof TLRPC.TL_messageEntityMentionName) {
+                        TLRPC.TL_inputMessageEntityMentionName mention = new TLRPC.TL_inputMessageEntityMentionName();
+                        mention.length = entity.length;
+                        mention.offset = entity.offset;
+                        mention.user_id = getMessagesController().getInputUser(((TLRPC.TL_messageEntityMentionName) entity).user_id);
+                        entities.add(mention);
+                    }
+                }
+            } else {
+                entities = null;
+            }
             if (messageObject.messageOwner.media != null && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaEmpty) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGame) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaInvoice)) {
                 HashMap<String, String> params = null;
                 if ((int) did == 0 && messageObject.messageOwner.to_id != null && (messageObject.messageOwner.media.photo instanceof TLRPC.TL_photo || messageObject.messageOwner.media.document instanceof TLRPC.TL_document)) {
@@ -106,9 +131,9 @@ public class MessageHelper extends BaseController {
                     }
                 }
                 if (messageObject.messageOwner.media.photo instanceof TLRPC.TL_photo) {
-                    getSendMessagesHelper().sendMessage((TLRPC.TL_photo) messageObject.messageOwner.media.photo, null, did, null, messageObject.messageOwner.message, messageObject.messageOwner.entities, null, params, notify, scheduleDate, messageObject.messageOwner.media.ttl_seconds, messageObject);
+                    getSendMessagesHelper().sendMessage((TLRPC.TL_photo) messageObject.messageOwner.media.photo, null, did, null, messageObject.messageOwner.message, entities, null, params, notify, scheduleDate, messageObject.messageOwner.media.ttl_seconds, messageObject);
                 } else if (messageObject.messageOwner.media.document instanceof TLRPC.TL_document) {
-                    getSendMessagesHelper().sendMessage((TLRPC.TL_document) messageObject.messageOwner.media.document, null, messageObject.messageOwner.attachPath, did, null, messageObject.messageOwner.message, messageObject.messageOwner.entities, null, params, notify, scheduleDate, messageObject.messageOwner.media.ttl_seconds, messageObject);
+                    getSendMessagesHelper().sendMessage((TLRPC.TL_document) messageObject.messageOwner.media.document, null, messageObject.messageOwner.attachPath, did, null, messageObject.messageOwner.message, entities, null, params, notify, scheduleDate, messageObject.messageOwner.media.ttl_seconds, messageObject);
                 } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaVenue || messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGeo) {
                     getSendMessagesHelper().sendMessage(messageObject.messageOwner.media, did, null, null, null, notify, scheduleDate);
                 } else if (messageObject.messageOwner.media.phone_number != null) {
@@ -128,23 +153,7 @@ public class MessageHelper extends BaseController {
                 if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage) {
                     webPage = messageObject.messageOwner.media.webpage;
                 }
-                ArrayList<TLRPC.MessageEntity> entities;
-                if (messageObject.messageOwner.entities != null && !messageObject.messageOwner.entities.isEmpty()) {
-                    entities = new ArrayList<>();
-                    for (int a = 0; a < messageObject.messageOwner.entities.size(); a++) {
-                        TLRPC.MessageEntity entity = messageObject.messageOwner.entities.get(a);
-                        if (entity instanceof TLRPC.TL_messageEntityBold ||
-                                entity instanceof TLRPC.TL_messageEntityItalic ||
-                                entity instanceof TLRPC.TL_messageEntityPre ||
-                                entity instanceof TLRPC.TL_messageEntityCode ||
-                                entity instanceof TLRPC.TL_messageEntityTextUrl) {
-                            entities.add(entity);
-                        }
-                    }
-                } else {
-                    entities = null;
-                }
-                getSendMessagesHelper().sendMessage(messageObject.messageOwner.message, did, null, webPage, true, entities, null, null, notify, scheduleDate);
+                getSendMessagesHelper().sendMessage(messageObject.messageOwner.message, did, null, webPage, webPage != null, entities, null, null, notify, scheduleDate);
             } else if ((int) did != 0) {
                 ArrayList<MessageObject> arrayList = new ArrayList<>();
                 arrayList.add(messageObject);
