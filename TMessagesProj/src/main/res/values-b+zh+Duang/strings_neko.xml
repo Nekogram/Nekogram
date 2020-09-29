@@ -127,5 +127,5 @@
     <string name="JumpToBeginning">最早</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
-    <string name="FormatWithSeconds">格式化时间具体到秒</string>
+    <string name="FormatWithSeconds">时间精确到秒</string>
 </resources>
