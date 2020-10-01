@@ -185,7 +185,7 @@ public class NekoSettingsActivity extends BaseFragment {
         aboutRow = rowCount++;
         channelRow = rowCount++;
         googlePlayRow = -1;
-        sourceCodeRow = rowCount++;
+        sourceCodeRow = -1;
         translationRow = rowCount++;
         donateRow = rowCount++;
         if (!LocaleController.getString("SponsorTitle", R.string.SponsorTitle).equals("dummy")) {
@@ -360,7 +360,7 @@ public class NekoSettingsActivity extends BaseFragment {
                 return 1;
             } else if (position > categoriesRow && position < categories2Row) {
                 return 2;
-            } else if (position >= channelRow && position <= sourceCodeRow) {
+            } else if (position >= channelRow && position < translationRow) {
                 return 3;
             } else if (position == categoriesRow || position == aboutRow) {
                 return 4;

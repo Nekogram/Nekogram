@@ -16163,8 +16163,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 options.add(93);
                                 icons.add(R.drawable.menu_saved);
                             }
-                            boolean allowRepeat = !isThreadChat() && currentUser != null
-                                    || (currentChat != null && !ChatObject.isNotInChat(currentChat) && ChatObject.canSendMessages(currentChat));
+                            boolean allowRepeat = currentUser != null
+                                    || (!isThreadChat() && currentChat != null && !ChatObject.isNotInChat(currentChat) && ChatObject.canSendMessages(currentChat));
                             if (allowRepeat && NekoConfig.showRepeat) {
                                 items.add(LocaleController.getString("Repeat", R.string.Repeat));
                                 options.add(94);
@@ -16172,8 +16172,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                         }
                         if (!inScheduleMode) {
-                            boolean allowPrpr = !isThreadChat() && currentUser != null
-                                    || (currentChat != null && !ChatObject.isNotInChat(currentChat) && ChatObject.canSendMessages(currentChat) && !currentChat.broadcast &&
+                            boolean allowPrpr = currentUser != null
+                                    || (!isThreadChat() && currentChat != null && !ChatObject.isNotInChat(currentChat) && ChatObject.canSendMessages(currentChat) && !currentChat.broadcast &&
                                     message.isFromUser());
                             boolean allowViewHistory = currentUser == null
                                     && (currentChat != null && !currentChat.broadcast && message.isFromUser());

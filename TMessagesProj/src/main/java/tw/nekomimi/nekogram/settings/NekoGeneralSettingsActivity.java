@@ -243,8 +243,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     types.add(Translator.PROVIDER_LINGO);
                     arrayList.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
                     types.add(Translator.PROVIDER_YANDEX);
-                    arrayList.add(LocaleController.getString("ProviderMicrosoft", R.string.ProviderMicrosoft));
-                    types.add(Translator.PROVIDER_MICROSOFT);
                     PopupHelper.show(arrayList, LocaleController.getString("TranslationProvider", R.string.TranslationProvider), types.indexOf(NekoConfig.translationProvider), context, view, i -> {
                         NekoConfig.setTranslationProvider(types.get(i));
                         listAdapter.notifyItemChanged(translationProviderRow);
@@ -487,9 +485,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                                 break;
                             case Translator.PROVIDER_LINGO:
                                 value = LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud);
-                                break;
-                            case Translator.PROVIDER_MICROSOFT:
-                                value = LocaleController.getString("ProviderMicrosoft", R.string.ProviderMicrosoft);
                                 break;
                         }
                         textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), value, true);

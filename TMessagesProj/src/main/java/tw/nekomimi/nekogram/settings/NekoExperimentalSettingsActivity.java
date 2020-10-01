@@ -65,7 +65,6 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
 
     private int experimentRow;
     private int emojiRow;
-    private int smoothKeyboardRow;
     private int mapDriftingFixRow;
     private int increaseVoiceMessageQualityRow;
     private int saveCacheToExternalFilesDirRow;
@@ -226,18 +225,6 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 if (button != null) {
                     button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
                 }
-            } else if (position == smoothKeyboardRow) {
-                SharedConfig.toggleSmoothKeyboard();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(SharedConfig.smoothKeyboard);
-                }
-                if (SharedConfig.smoothKeyboard && getParentActivity() != null) {
-                    getParentActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-                }
-                if (SharedConfig.smoothKeyboard) {
-                    tooltip.setInfoText(AndroidUtilities.replaceTags(LocaleController.formatString("BetaWarning", R.string.BetaWarning)));
-                    tooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
-                }
             } else if (position == unlimitedPinnedDialogsRow) {
                 NekoConfig.toggleUnlimitedPinnedDialogs();
                 if (view instanceof TextCheckCell) {
@@ -343,7 +330,6 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
 
         experimentRow = rowCount++;
         emojiRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? rowCount++ : -1;
-        smoothKeyboardRow = !AndroidUtilities.isTablet() ? rowCount++ : -1;
         mapDriftingFixRow = rowCount++;
         increaseVoiceMessageQualityRow = rowCount++;
         saveCacheToExternalFilesDirRow = rowCount++;
@@ -444,8 +430,6 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setEnabled(sensitiveCanChange, null);
                     } else if (position == unlimitedFavedStickersRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedFavoredStickers", R.string.UnlimitedFavoredStickers), LocaleController.getString("UnlimitedFavoredStickersAbout", R.string.UnlimitedFavoredStickersAbout), NekoConfig.unlimitedFavedStickers, true, true);
-                    } else if (position == smoothKeyboardRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("DebugMenuEnableSmoothKeyboard", R.string.DebugMenuEnableSmoothKeyboard), SharedConfig.smoothKeyboard, true);
                     } else if (position == unlimitedPinnedDialogsRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, deleteAccountRow != -1);
                     } else if (position == mapDriftingFixRow) {
