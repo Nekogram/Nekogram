@@ -21,7 +21,9 @@ import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.accessibility.AccessibilityManager;
+import android.widget.FrameLayout;
 
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.ApplicationLoader;
@@ -124,6 +126,9 @@ public class BaseFragment {
                 actionBar.setOccupyStatusBar(Build.VERSION.SDK_INT >= 21);
             }
         }
+    }
+
+    protected void onPreviewOpenAnimationEnd() {
     }
 
     protected boolean hideKeyboardOnShow() {
@@ -323,6 +328,16 @@ public class BaseFragment {
         return parentLayout;
     }
 
+    public FrameLayout getLayoutContainer() {
+        if (fragmentView != null) {
+            final ViewParent parent = fragmentView.getParent();
+            if (parent instanceof FrameLayout) {
+                return (FrameLayout) parent;
+            }
+        }
+        return null;
+    }
+
     public boolean presentFragmentAsPreview(BaseFragment fragment) {
         return parentLayout != null && parentLayout.presentFragmentAsPreview(fragment);
     }
@@ -474,7 +489,7 @@ public class BaseFragment {
 
     }
 
-    protected void onPanTranslationUpdate(int y) {
+    protected void onPanTranslationUpdate(float y) {
 
     }
 
@@ -484,10 +499,6 @@ public class BaseFragment {
 
     protected void onPanTransitionEnd() {
 
-    }
-
-    public int getCurrentPanTranslationY() {
-        return parentLayout != null ? parentLayout.getCurrentPanTranslationY() : 0;
     }
 
     public Dialog getVisibleDialog() {
@@ -572,5 +583,11 @@ public class BaseFragment {
 
     public MessageHelper getMessageHelper() {
         return MessageHelper.getInstance(currentAccount);
+    }
+
+    public void setFragmentPanTranslationOffset(int offset) {
+        if (parentLayout != null) {
+            parentLayout.setFragmentPanTranslationOffset(offset);
+        }
     }
 }

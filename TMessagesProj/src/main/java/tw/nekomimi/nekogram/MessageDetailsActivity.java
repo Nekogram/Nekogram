@@ -81,13 +81,13 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
 
     public MessageDetailsActivity(MessageObject messageObject) {
         this.messageObject = messageObject;
-        if (messageObject.messageOwner.to_id != null && messageObject.messageOwner.to_id.channel_id != 0) {
-            fromChat = getMessagesController().getChat(messageObject.messageOwner.to_id.channel_id);
-        } else if (messageObject.messageOwner.to_id != null && messageObject.messageOwner.to_id.chat_id != 0) {
-            fromChat = getMessagesController().getChat(messageObject.messageOwner.to_id.chat_id);
+        if (messageObject.messageOwner.peer_id != null && messageObject.messageOwner.peer_id.channel_id != 0) {
+            fromChat = getMessagesController().getChat(messageObject.messageOwner.peer_id.channel_id);
+        } else if (messageObject.messageOwner.peer_id != null && messageObject.messageOwner.peer_id.chat_id != 0) {
+            fromChat = getMessagesController().getChat(messageObject.messageOwner.peer_id.chat_id);
         }
-        if (messageObject.messageOwner.from_id != 0) {
-            fromUser = getMessagesController().getUser(messageObject.messageOwner.from_id);
+        if (messageObject.messageOwner.from_id.user_id != 0) {
+            fromUser = getMessagesController().getUser(messageObject.messageOwner.from_id.user_id);
         }
         filePath = messageObject.messageOwner.attachPath;
         if (!TextUtils.isEmpty(filePath)) {
@@ -383,8 +383,8 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                         textCell.setTextAndValue("Edited", LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(date))), divider);
                     } else if (position == forwardRow) {
                         StringBuilder builder = new StringBuilder();
-                        if (messageObject.messageOwner.fwd_from.channel_id != 0) {
-                            TLRPC.Chat chat = getMessagesController().getChat(messageObject.messageOwner.fwd_from.channel_id);
+                        if (messageObject.messageOwner.fwd_from.from_id.channel_id != 0) {
+                            TLRPC.Chat chat = getMessagesController().getChat(messageObject.messageOwner.fwd_from.from_id.channel_id);
                             builder.append(chat.title);
                             builder.append("\n");
                             if (!TextUtils.isEmpty(chat.username)) {
@@ -393,8 +393,8 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                                 builder.append("\n");
                             }
                             builder.append(chat.id);
-                        } else if (messageObject.messageOwner.fwd_from.from_id != 0) {
-                            TLRPC.User user = getMessagesController().getUser(messageObject.messageOwner.fwd_from.from_id);
+                        } else if (messageObject.messageOwner.fwd_from.from_id.user_id != 0) {
+                            TLRPC.User user = getMessagesController().getUser(messageObject.messageOwner.fwd_from.from_id.user_id);
                             builder.append(ContactsController.formatName(user.first_name, user.last_name));
                             builder.append("\n");
                             if (!TextUtils.isEmpty(user.username)) {

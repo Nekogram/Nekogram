@@ -104,9 +104,9 @@ public class MessageHelper extends BaseController {
             }
             if (messageObject.messageOwner.media != null && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaEmpty) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGame) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaInvoice)) {
                 HashMap<String, String> params = null;
-                if ((int) did == 0 && messageObject.messageOwner.to_id != null && (messageObject.messageOwner.media.photo instanceof TLRPC.TL_photo || messageObject.messageOwner.media.document instanceof TLRPC.TL_document)) {
+                if ((int) did == 0 && messageObject.messageOwner.peer_id != null && (messageObject.messageOwner.media.photo instanceof TLRPC.TL_photo || messageObject.messageOwner.media.document instanceof TLRPC.TL_document)) {
                     params = new HashMap<>();
-                    params.put("parentObject", "sent_" + messageObject.messageOwner.to_id.channel_id + "_" + messageObject.getId());
+                    params.put("parentObject", "sent_" + messageObject.messageOwner.peer_id.channel_id + "_" + messageObject.getId());
                 }
                 long oldGroupId = messageObject.messageOwner.grouped_id;
                 if (oldGroupId != 0) {
@@ -131,18 +131,18 @@ public class MessageHelper extends BaseController {
                     }
                 }
                 if (messageObject.messageOwner.media.photo instanceof TLRPC.TL_photo) {
-                    getSendMessagesHelper().sendMessage((TLRPC.TL_photo) messageObject.messageOwner.media.photo, null, did, null, messageObject.messageOwner.message, entities, null, params, notify, scheduleDate, messageObject.messageOwner.media.ttl_seconds, messageObject);
+                    getSendMessagesHelper().sendMessage((TLRPC.TL_photo) messageObject.messageOwner.media.photo, null, did, null, null, messageObject.messageOwner.message, entities, null, params, notify, scheduleDate, messageObject.messageOwner.media.ttl_seconds, messageObject);
                 } else if (messageObject.messageOwner.media.document instanceof TLRPC.TL_document) {
-                    getSendMessagesHelper().sendMessage((TLRPC.TL_document) messageObject.messageOwner.media.document, null, messageObject.messageOwner.attachPath, did, null, messageObject.messageOwner.message, entities, null, params, notify, scheduleDate, messageObject.messageOwner.media.ttl_seconds, messageObject);
+                    getSendMessagesHelper().sendMessage((TLRPC.TL_document) messageObject.messageOwner.media.document, null, messageObject.messageOwner.attachPath, did, null, null, messageObject.messageOwner.message, entities, null, params, notify, scheduleDate, messageObject.messageOwner.media.ttl_seconds, messageObject);
                 } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaVenue || messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGeo) {
-                    getSendMessagesHelper().sendMessage(messageObject.messageOwner.media, did, null, null, null, notify, scheduleDate);
+                    getSendMessagesHelper().sendMessage(messageObject.messageOwner.media, did, null, null, null, null, notify, scheduleDate);
                 } else if (messageObject.messageOwner.media.phone_number != null) {
                     TLRPC.User user = new TLRPC.TL_userContact_old2();
                     user.phone = messageObject.messageOwner.media.phone_number;
                     user.first_name = messageObject.messageOwner.media.first_name;
                     user.last_name = messageObject.messageOwner.media.last_name;
                     user.id = messageObject.messageOwner.media.user_id;
-                    getSendMessagesHelper().sendMessage(user, did, null, null, null, notify, scheduleDate);
+                    getSendMessagesHelper().sendMessage(user, did, null, null, null, null, notify, scheduleDate);
                 } else if ((int) did != 0) {
                     ArrayList<MessageObject> arrayList = new ArrayList<>();
                     arrayList.add(messageObject);
@@ -153,7 +153,7 @@ public class MessageHelper extends BaseController {
                 if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage) {
                     webPage = messageObject.messageOwner.media.webpage;
                 }
-                getSendMessagesHelper().sendMessage(messageObject.messageOwner.message, did, null, webPage, webPage != null, entities, null, null, notify, scheduleDate);
+                getSendMessagesHelper().sendMessage(messageObject.messageOwner.message, did, null, null, webPage, webPage != null, entities, null, null, notify, scheduleDate);
             } else if ((int) did != 0) {
                 ArrayList<MessageObject> arrayList = new ArrayList<>();
                 arrayList.add(messageObject);
@@ -200,8 +200,8 @@ public class MessageHelper extends BaseController {
                             if (message.random_id != 0) {
                                 random_ids.add(message.random_id);
                             }
-                            if (message.to_id.channel_id != 0) {
-                                channelId = message.to_id.channel_id;
+                            if (message.peer_id.channel_id != 0) {
+                                channelId = message.peer_id.channel_id;
                             }
                             if (message.id > lastMessageId) {
                                 lastMessageId = message.id;

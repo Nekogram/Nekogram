@@ -184,7 +184,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             public void onSearchExpand() {
                 searching = true;
                 sortItem.setVisibility(View.GONE);
-                parentAlert.makeFocusable(searchItem.getSearchField());
+                parentAlert.makeFocusable(searchItem.getSearchField(), true);
             }
 
             @Override
@@ -272,7 +272,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         listView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-                parentAlert.updateLayout(ChatAttachAlertDocumentLayout.this, true);
+                parentAlert.updateLayout(ChatAttachAlertDocumentLayout.this, true, dy);
                 updateEmptyViewPosition();
             }
 
@@ -1082,7 +1082,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                     view = new HeaderCell(mContext);
                     break;
                 case 1:
-                    view = new SharedDocumentCell(mContext, true);
+                    view = new SharedDocumentCell(mContext, SharedDocumentCell.VIEW_TYPE_PICKER);
                     break;
                 case 2:
                     view = new ShadowSectionCell(mContext);
@@ -1244,7 +1244,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             View view;
             switch (viewType) {
                 case 0:
-                    view = new SharedDocumentCell(mContext, true);
+                    view = new SharedDocumentCell(mContext, SharedDocumentCell.VIEW_TYPE_PICKER);
                     break;
                 case 1:
                 default:

@@ -315,7 +315,7 @@ public class LoginActivity extends BaseFragment {
                                 MessagesStorage.getInstance(currentAccount).putUsersAndChats(users, null, true, true);
                                 MessagesController.getInstance(currentAccount).putUser(res.user, false);
                                 ContactsController.getInstance(currentAccount).checkAppAccount();
-                                MessagesController.getInstance(currentAccount).getBlockedUsers(true);
+                                MessagesController.getInstance(currentAccount).getBlockedPeers(true);
                                 MessagesController.getInstance(currentAccount).checkPromoInfo(true);
                                 ConnectionsManager.getInstance(currentAccount).updateDcSettings();
                                 needFinishActivity(false);
@@ -518,7 +518,6 @@ public class LoginActivity extends BaseFragment {
     @Override
     public void onPause() {
         super.onPause();
-        AndroidUtilities.removeAdjustResize(getParentActivity(), classGuid, true);
         if (newAccount) {
             ConnectionsManager.getInstance(currentAccount).setAppPaused(true, false);
         }
@@ -530,7 +529,7 @@ public class LoginActivity extends BaseFragment {
         if (newAccount) {
             ConnectionsManager.getInstance(currentAccount).setAppPaused(false, false);
         }
-        AndroidUtilities.requestAdjustResize(getParentActivity(), classGuid, true);
+        AndroidUtilities.requestAdjustResize(getParentActivity(), classGuid);
         try {
             if (currentViewNum >= 1 && currentViewNum <= 4 && views[currentViewNum] instanceof LoginActivitySmsView) {
                 int time = ((LoginActivitySmsView) views[currentViewNum]).openTime;
