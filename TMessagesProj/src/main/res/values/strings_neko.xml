@@ -88,8 +88,6 @@
     <string name="TabTitleTypeMix">Emoticons with titles</string>
     <string name="ConfirmAVMessage">Confirm sending video/voice message</string>
     <string name="AskBeforeCalling">Ask before calling</string>
-    <string name="ConfirmCall">Confirm calling</string>
-    <string name="CallTo">Call to **%1$s**?</string>
     <string name="DisableNumberRounding">Disable number rounding</string>
     <string name="Categories">Categories</string>
     <string name="OfficialChannel">Official channel</string>
@@ -126,9 +124,7 @@
     <string name="OpenAllLinksInInstantView">Try to open all links in InstantView</string>
     <string name="DonateThankYou">Thank you!</string>
     <string name="DonateEvilGoogle">Google will take 30 percent of your donation.</string>
-    <string name="ProviderMicrosoft">Microsoft Translator</string>
     <string name="DonateAlipay">Alipay</string>
-    <string name="JumpToBeginning">Beginning</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Format time with seconds</string>
