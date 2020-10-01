@@ -103,6 +103,7 @@
     <string name="DisableAppBarShadow">تعطيل ظل شريط العنوان</string>
     <string name="BetaWarning">هذه ميزةٌ **تجريبية** صنعُت من قبل **تيليجرام**.</string>
     <string name="MediaPreview">صورٌ مصغرة في الشاشة الرئيسية</string>
+    <string name="ProviderYandex">ترجمة Yandex</string>
     <string name="IdType">نوعية ID المحادثة</string>
     <string name="IdTypeAbout">طريقةُ تيليجرام هي عرض ID كما هي حرفيا، اما طريقة البوتات فتقوم بإضافة -100 فقط بداية كل ID.</string>
     <string name="IdTypeHidden">إخفاء</string>
@@ -118,4 +119,9 @@
     <string name="OpenAllLinksInInstantView">حاول فتح جميع الروابط في InstantView</string>
     <string name="DonateThankYou">شكرا لك!</string>
     <string name="DonateEvilGoogle">سوف تأخذ قوقل ثلاثون بالمئة من تبرعك.</string>
+    <string name="ProviderMicrosoft">مترجم مايكـروسـوفت</string>
+    <string name="JumpToBeginning">بداية</string>
+    <string name="formatterDay24HSec">س‌س:د‌د:ث‌ث</string>
+    <string name="formatterDay12HSec">س:د‌د:ت‌ث </string>
+    <string name="FormatWithSeconds">جعل الوقت مع الثواني</string>
 </resources>

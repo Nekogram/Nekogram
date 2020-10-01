@@ -102,6 +102,7 @@
     <string name="DisableAppBarShadow">Disabilita l\'ombra della barra del titolo</string>
     <string name="BetaWarning">Questa è una funzione **beta** implementata da **Telegram**.</string>
     <string name="MediaPreview">Anteprima media nella lista chat</string>
+    <string name="ProviderYandex">Yandex Translate</string>
     <string name="IdType">Chat ID nel profilo</string>
     <string name="IdTypeAbout">L\'API di Telegram utilizza gli ID as-is, ma la Bot API aggiunge - all\'inizio per gruppi, e -100 per canali e supergruppi per adattarlo in un campo.</string>
     <string name="IdTypeHidden">Nascondi</string>
@@ -111,4 +112,15 @@
     <string name="AutoPauseVideoAbout">Quando in schermata di blocco/si passa allo sfondo.</string>
     <string name="DisableProximityEvents">Disabilita gli eventi di prossimità</string>
     <string name="CustomEmojiTypeface">Font Emoji Personalizzato</string>
+    <string name="MapDriftingFix">Mappa linea di deriva per la Cina continentale</string>
+    <string name="IncreaseVoiceMessageQuality">Aumenta qualità messaggi vocali</string>
+    <string name="DisableInstantCamera">Disabilita fotocamera istantanea</string>
+    <string name="OpenAllLinksInInstantView">Prova ad aprire tutti i link in InstantView</string>
+    <string name="DonateThankYou">Grazie!</string>
+    <string name="DonateEvilGoogle">Google prenderà il 30 per cento della tua donazione.</string>
+    <string name="ProviderMicrosoft">Microsoft Translator</string>
+    <string name="JumpToBeginning">Inizio</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
+    <string name="FormatWithSeconds">Formato ora con i secondi</string>
 </resources>

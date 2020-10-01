@@ -120,4 +120,7 @@
     <string name="DonateEvilGoogle">Google bağışınızın yüzde 30\'unu alacaktır.</string>
     <string name="ProviderMicrosoft">Microsoft Çeviri</string>
     <string name="JumpToBeginning">Başlangıç</string>
+    <string name="formatterDay24HSec">SS:dd:ss</string>
+    <string name="formatterDay12HSec">S:dd:ss a</string>
+    <string name="FormatWithSeconds">zamana saniye ekle</string>
 </resources>

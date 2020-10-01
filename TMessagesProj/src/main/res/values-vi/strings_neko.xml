@@ -102,6 +102,7 @@
     <string name="DisableAppBarShadow">Vô hiệu hóa bóng thanh tiêu đề</string>
     <string name="BetaWarning">Đây là tính năng **beta** được thực hiện bởi **Telegram**.</string>
     <string name="MediaPreview">Xem trước đa phương tiện trong danh sách hộp thoại</string>
+    <string name="ProviderYandex">Yandex Dịch</string>
     <string name="IdType">ID trò chuyện trong hồ sơ</string>
     <string name="IdTypeAbout">API Telegram sử dụng ID như hiện tại, nhưng API Bot thêm điểm trừ vào đầu cho các nhóm, và -100 cho các kênh và siêu nhóm để phù hợp với nó trong một trường.</string>
     <string name="IdTypeHidden">Ẩn</string>
@@ -117,4 +118,9 @@
     <string name="OpenAllLinksInInstantView">Cố gắng mở tất cả các liên kết trong xem tức thì</string>
     <string name="DonateThankYou">Cảm ơn! ♥️</string>
     <string name="DonateEvilGoogle">Google sẽ nhận 30 phần trăm khoản đóng góp của bạn.</string>
+    <string name="ProviderMicrosoft">Microsoft Translator</string>
+    <string name="JumpToBeginning">Bắt đầu</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
+    <string name="FormatWithSeconds">Định dạng thời gian bằng giây</string>
 </resources>

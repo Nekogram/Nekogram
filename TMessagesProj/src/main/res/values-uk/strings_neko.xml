@@ -1,2 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="IPv6">Спробувати з\'єднуватись через IPv6</string>
+    <string name="MessageMenu">Меню повідомлення</string>
+    <string name="HidePhone">Заховати мій номер телефону</string>
+    <string name="Hide">Сховати</string>
+    <string name="DeleteAllFromSelf">Видалити все для себе</string>
+    <string name="DeleteAllFromSelfAlert">Увага! Це призведе до ***видалення усіх ваших повідомлень*** для користувачів цього чату.</string>
+    <string name="BotLogin">Бот логін</string>
+    <string name="InvalidAccessToken">Неправильний токен доступу</string>
+    <string name="IgnoreBlocked">Ігнорувати заблокованих користувачів у бесіді</string>
+    <string name="Connection">З\'єднання</string>
+    <string name="Chat">Чат</string>
+    <string name="NameOrder">Порядок йменування</string>
+    <string name="FirstLast">Спочатку ім\'я</string>
+    <string name="LastFirst">Спочатку прізвище</string>
+    <string name="TypefaceUseDefault">Використовувати системний шрифт</string>
+    <string name="NoQuoteForward">Переслати без цитування</string>
+    <string name="Repeat">Повторити</string>
+    <string name="AddToSavedMessages">Зберегти повідомлення</string>
+    <string name="CreateMention">Створити згадку</string>
+    <string name="ForceTabletMode">Примусовий режим планшета</string>
+    <string name="Prpr">Пероперо</string>
+    <string name="TransparentStatusBar">Прозорий рядок стану</string>
+    <string name="NekogramRunning">Некограм запущений</string>
+    <string name="TestBackend">Використовувати тестовий сервер</string>
+    <string name="TestBackendOn">Ця обліковий запис буде підключена до тестового сервера.</string>
+    <string name="HideProxySponsorChannel">Приховати спонсора проксі</string>
+    <string name="ViewHistory">Подивитися історію</string>
+    <string name="Nya">Мяу!</string>
+    <string name="SaveCacheToExternalFilesDir">Ізоляція сховища</string>
+</resources>
