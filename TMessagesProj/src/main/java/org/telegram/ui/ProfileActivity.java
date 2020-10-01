@@ -2365,7 +2365,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else if (position == faqRow) {
                 Browser.openUrl(getParentActivity(), LocaleController.getString("TelegramFaqUrl", R.string.TelegramFaqUrl));
             } else if (position == policyRow) {
-                Browser.openUrl(getParentActivity(), "https://nekogram.github.io/privacy.html");
+                Browser.openUrl(getParentActivity(), LocaleController.getString("PrivacyPolicyUrl", R.string.PrivacyPolicyUrl));
             } else if (position == sendLogsRow) {
                 sendLogs();
             } else if (position == clearLogsRow) {

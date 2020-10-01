@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.microsoft.appcenter.analytics.Analytics;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
@@ -38,6 +39,8 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.DonateHelper;
@@ -184,7 +187,7 @@ public class NekoSettingsActivity extends BaseFragment {
 
         aboutRow = rowCount++;
         channelRow = rowCount++;
-        googlePlayRow = -1;
+        googlePlayRow = installedFromPlay(getParentActivity()) ? rowCount++ : -1;
         sourceCodeRow = -1;
         translationRow = rowCount++;
         donateRow = rowCount++;
@@ -197,6 +200,17 @@ public class NekoSettingsActivity extends BaseFragment {
 
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
+        }
+    }
+
+    private boolean installedFromPlay(Context context) {
+        try {
+            List<String> validInstallers = new ArrayList<>(Arrays.asList("com.android.vending", "com.google.android.feedback"));
+            final String installer = context.getPackageManager().getInstallerPackageName(context.getPackageName());
+            return installer != null && validInstallers.contains(installer);
+        } catch (Exception e) {
+            FileLog.e(e);
+            return false;
         }
     }
 
