@@ -55,6 +55,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         message.date = date + 10;
         message.dialog_id = 1;
         message.flags = 257;
+        message.from_id = new TLRPC.TL_peerUser();
         message.from_id.user_id = UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
         message.id = 1;
         message.media = new TLRPC.TL_messageMediaDocument();

@@ -3845,7 +3845,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         }
                     }
                 } else {
-                    markDialogMessageAsDeleted(messages, channelId);
+                    markDialogMessageAsDeleted(messages, -channelId);
                 }
                 getMessagesStorage().markMessagesAsDeleted(messages, true, channelId, forAll, false);
                 getMessagesStorage().updateDialogsWithDeletedMessages(messages, null, true, channelId);
@@ -10783,10 +10783,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 if (chat_id != 0) {
                     chat = chatsDict.get(chat_id);
-                    if (chat == null) {
+                    if (chat == null || chat.min) {
                         chat = getChat(chat_id);
                     }
-                    if (chat == null) {
+                    if (chat == null || chat.min) {
                         chat = getMessagesStorage().getChatSync(chat_id);
                         putChat(chat, true);
                     }
@@ -10946,7 +10946,7 @@ public class MessagesController extends BaseController implements NotificationCe
                         messages.put(message.dialog_id, arr);
                     }
                     arr.add(obj);
-                    if ((!obj.isOut() || obj.messageOwner.from_scheduled) && obj.isUnread()) {
+                    if ((!obj.isOut() || obj.messageOwner.from_scheduled) && obj.isUnread() && !ChatObject.isNotInChat(chat) && chat.min) {
                         if (pushMessages == null) {
                             pushMessages = new ArrayList<>();
                         }
