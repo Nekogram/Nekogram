@@ -84,8 +84,6 @@
     <string name="TabTitleTypeMix">Biểu tượng cảm xúc với tiêu đề</string>
     <string name="ConfirmAVMessage">Xác nhận gửi tin nhắn video/thoại</string>
     <string name="AskBeforeCalling">Hỏi trước khi gọi</string>
-    <string name="ConfirmCall">Xác nhận cuộc gọi</string>
-    <string name="CallTo">Gọi tới ** %1$s **?</string>
     <string name="DisableNumberRounding">Vô hiệu hóa làm tròn số</string>
     <string name="Categories">Thể loại</string>
     <string name="OfficialChannel">Kênh chính thức</string>
@@ -118,8 +116,6 @@
     <string name="OpenAllLinksInInstantView">Cố gắng mở tất cả các liên kết trong xem tức thì</string>
     <string name="DonateThankYou">Cảm ơn! ♥️</string>
     <string name="DonateEvilGoogle">Google sẽ nhận 30 phần trăm khoản đóng góp của bạn.</string>
-    <string name="ProviderMicrosoft">Microsoft Translator</string>
-    <string name="JumpToBeginning">Bắt đầu</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Định dạng thời gian bằng giây</string>

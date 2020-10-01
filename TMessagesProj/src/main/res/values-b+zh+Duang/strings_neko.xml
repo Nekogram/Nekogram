@@ -84,8 +84,6 @@
     <string name="TabTitleTypeMix">图标与标题</string>
     <string name="ConfirmAVMessage">发送视频/语音留言前确认</string>
     <string name="AskBeforeCalling">呼叫前确认</string>
-    <string name="ConfirmCall">确认呼叫</string>
-    <string name="CallTo">呼叫 **%1$s**？</string>
     <string name="DisableNumberRounding">禁用数字舍入</string>
     <string name="Categories">类别</string>
     <string name="OfficialChannel">官方频道</string>
@@ -122,9 +120,7 @@
     <string name="OpenAllLinksInInstantView">尝试将所有链接在即时预览中打开</string>
     <string name="DonateThankYou">谢谢！</string>
     <string name="DonateEvilGoogle">Google 将收取您捐赠的 30%</string>
-    <string name="ProviderMicrosoft">微软翻译</string>
     <string name="DonateAlipay">支付宝</string>
-    <string name="JumpToBeginning">最早</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">时间精确到秒</string>

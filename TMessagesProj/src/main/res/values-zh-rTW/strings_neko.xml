@@ -82,8 +82,6 @@
     <string name="TabTitleTypeMix">圖示與標題</string>
     <string name="ConfirmAVMessage">傳送影片/語音留言前確認</string>
     <string name="AskBeforeCalling">呼叫前確認</string>
-    <string name="ConfirmCall">確認呼叫</string>
-    <string name="CallTo">呼叫 **%1$s**？</string>
     <string name="DisableNumberRounding">禁用數字舍入</string>
     <string name="Categories">類別</string>
     <string name="OfficialChannel">官方頻道</string>

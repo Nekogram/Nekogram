@@ -84,8 +84,6 @@
     <string name="TabTitleTypeMix">Emotikon z nazwą</string>
     <string name="ConfirmAVMessage">Potwierdzaj wysyłanie wiadomości audio/wideo</string>
     <string name="AskBeforeCalling">Potwierdź przed połączeniem</string>
-    <string name="ConfirmCall">Potwierdź połączenie</string>
-    <string name="CallTo">Zadzwonić do **%1$s**?</string>
     <string name="DisableNumberRounding">Wyłącz zaokrąglanie liczb</string>
     <string name="Categories">Kategorie</string>
     <string name="OfficialChannel">Oficjalny kanał</string>
@@ -118,8 +116,6 @@
     <string name="OpenAllLinksInInstantView">Otwieraj wszystkie linki w InstantView</string>
     <string name="DonateThankYou">Dziękuję!</string>
     <string name="DonateEvilGoogle">Google zabierze 30% twojej dotacji.</string>
-    <string name="ProviderMicrosoft">Tłumacz Microsoft</string>
-    <string name="JumpToBeginning">Początek</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Format czasu z sekundami</string>

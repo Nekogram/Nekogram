@@ -74,5 +74,4 @@
     <string name="TabTitleTypeMix">顔文字とタイトル</string>
     <string name="ConfirmAVMessage">ビデオ/ボイスメッセージを送信するときに確認する</string>
     <string name="AskBeforeCalling">通話する前に確認する</string>
-    <string name="ConfirmCall">通話を確認</string>
 </resources>

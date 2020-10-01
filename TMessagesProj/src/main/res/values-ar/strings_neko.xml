@@ -84,8 +84,6 @@
     <string name="TabTitleTypeMix">صور مع العناوين</string>
     <string name="ConfirmAVMessage">هل أنت متأكد؟</string>
     <string name="AskBeforeCalling">اسأل قبل الاتصال</string>
-    <string name="ConfirmCall">تأكيد المكالمة</string>
-    <string name="CallTo">الاتصال بـ **%1$s**؟</string>
     <string name="DisableNumberRounding">تعطيل اختصارات الأرقام</string>
     <string name="Categories">الاصناف</string>
     <string name="OfficialChannel">القناة الرسمية</string>
@@ -119,8 +117,6 @@
     <string name="OpenAllLinksInInstantView">حاول فتح جميع الروابط في InstantView</string>
     <string name="DonateThankYou">شكرا لك!</string>
     <string name="DonateEvilGoogle">سوف تأخذ قوقل ثلاثون بالمئة من تبرعك.</string>
-    <string name="ProviderMicrosoft">مترجم مايكـروسـوفت</string>
-    <string name="JumpToBeginning">بداية</string>
     <string name="formatterDay24HSec">س‌س:د‌د:ث‌ث</string>
     <string name="formatterDay12HSec">س:د‌د:ت‌ث </string>
     <string name="FormatWithSeconds">جعل الوقت مع الثواني</string>

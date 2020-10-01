@@ -84,8 +84,6 @@
     <string name="TabTitleTypeMix">제목이 있는 이모티콘</string>
     <string name="ConfirmAVMessage">비디오/오디오 메세지 보내기 확인</string>
     <string name="AskBeforeCalling">통화 연결 전에 묻기</string>
-    <string name="ConfirmCall">통화 연결 확인</string>
-    <string name="CallTo">%1$s 에게 통화 하기</string>
     <string name="DisableNumberRounding">숫자 반올림 비활성화</string>
     <string name="Categories">카테고리</string>
     <string name="OfficialChannel">공식 채널</string>
@@ -119,8 +117,6 @@
     <string name="OpenAllLinksInInstantView">인스턴트뷰로 모든 링크 열기</string>
     <string name="DonateThankYou">감사합니다!</string>
     <string name="DonateEvilGoogle">구글에서 기부금의 30 % 를 가져갑니다.</string>
-    <string name="ProviderMicrosoft">마이크로소프트 번역</string>
-    <string name="JumpToBeginning">시작</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">초를 포함한 시간표시</string>

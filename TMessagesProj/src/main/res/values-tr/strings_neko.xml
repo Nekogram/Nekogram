@@ -84,8 +84,6 @@
     <string name="TabTitleTypeMix">Başlıklar ile ifadeler</string>
     <string name="ConfirmAVMessage">Video/sesli mesaj gönderirken onay sor</string>
     <string name="AskBeforeCalling">Aramadan önce sor</string>
-    <string name="ConfirmCall">Aramayı onayla</string>
-    <string name="CallTo">Ara **%1$s**?</string>
     <string name="DisableNumberRounding">Sayı yuvarlamayı devre dışı bırak</string>
     <string name="Categories">Kategoriler</string>
     <string name="OfficialChannel">Resmi kanal</string>
@@ -118,8 +116,6 @@
     <string name="OpenAllLinksInInstantView">InstantView\'da tüm bağlantıları açmayı deneyin</string>
     <string name="DonateThankYou">Teşekkürler!</string>
     <string name="DonateEvilGoogle">Google bağışınızın yüzde 30\'unu alacaktır.</string>
-    <string name="ProviderMicrosoft">Microsoft Çeviri</string>
-    <string name="JumpToBeginning">Başlangıç</string>
     <string name="formatterDay24HSec">SS:dd:ss</string>
     <string name="formatterDay12HSec">S:dd:ss a</string>
     <string name="FormatWithSeconds">zamana saniye ekle</string>
