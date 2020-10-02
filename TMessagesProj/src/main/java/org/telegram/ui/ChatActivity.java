@@ -16186,10 +16186,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 options.add(90);
                                 icons.add(R.drawable.menu_recent);
                             }
-                            if ((!TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.type == MessageObject.TYPE_POLL) && NekoConfig.showTranslate) {
-                                items.add(selectedObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("Translate", R.string.Translate));
-                                options.add(88);
-                                icons.add(R.drawable.ic_translate);
+                            if (NekoConfig.showTranslate) {
+                                MessageObject messageObject = null;
+                                if (selectedObjectGroup != null && selectedObjectGroup.messages.size() != 0) {
+                                    if (!TextUtils.isEmpty(selectedObjectGroup.messages.get(0).messageOwner.message)) {
+                                        messageObject = selectedObjectGroup.messages.get(0);
+                                    }
+                                } else if (!TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.type == MessageObject.TYPE_POLL) {
+                                    messageObject = selectedObject;
+                                }
+                                if (messageObject != null) {
+                                    items.add(messageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("Translate", R.string.Translate));
+                                    options.add(88);
+                                    icons.add(R.drawable.ic_translate);
+                                }
                             }
                         }
                         if (NekoConfig.showMessageDetails) {
@@ -17236,46 +17246,42 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 saveStickerToGallery(selectedObject);
                 break;
             } case 88: {
-                ChatMessageCell messageCell = null;
-                int count = chatListView.getChildCount();
-                for (int a = 0; a < count; a++) {
-                    View child = chatListView.getChildAt(a);
-                    if (child instanceof ChatMessageCell) {
-                        ChatMessageCell cell = (ChatMessageCell) child;
-                        if (cell.getMessageObject() == selectedObject) {
-                            messageCell = cell;
-                            break;
-                        }
+                MessageObject messageObject = null;
+                if (selectedObjectGroup != null && selectedObjectGroup.messages.size() != 0) {
+                    if (!TextUtils.isEmpty(selectedObjectGroup.messages.get(0).messageOwner.message)) {
+                        messageObject = selectedObjectGroup.messages.get(0);
                     }
+                } else if (!TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.type == MessageObject.TYPE_POLL) {
+                    messageObject = selectedObject;
                 }
-                if (selectedObject.translated){
-                    if (messageCell != null && selectedObject.originalMessage != null) {
-                        if (selectedObject.originalMessage instanceof String) {
-                            selectedObject.messageOwner.message = (String) selectedObject.originalMessage;
-                        } else if (selectedObject.originalMessage instanceof TLRPC.TL_poll) {
-                            ((TLRPC.TL_messageMediaPoll) selectedObject.messageOwner.media).poll = (TLRPC.TL_poll) selectedObject.originalMessage;
-                        }
-                        getMessageHelper().resetMessageContent(dialog_id, selectedObject, false);
+                if (messageObject == null) {
+                    return;
+                }
+                if (messageObject.translated && messageObject.originalMessage != null){
+                    if (messageObject.originalMessage instanceof String) {
+                        messageObject.messageOwner.message = (String) messageObject.originalMessage;
+                    } else if (messageObject.originalMessage instanceof TLRPC.TL_poll) {
+                        ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) messageObject.originalMessage;
                     }
+                    getMessageHelper().resetMessageContent(dialog_id, messageObject, false);
                 } else {
-                    Object original = selectedObject.type == MessageObject.TYPE_POLL ? ((TLRPC.TL_messageMediaPoll) selectedObject.messageOwner.media).poll : selectedObject.messageOwner.message;
-                    selectedObject.originalMessage = original;
-                    ChatMessageCell finalMessageCell = messageCell;
+                    Object original = messageObject.type == MessageObject.TYPE_POLL ? ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll : messageObject.messageOwner.message;
+                    messageObject.originalMessage = original;
+                    final MessageObject finalMessageObject = messageObject;
                     Translator.translate(original, new Translator.TranslateCallBack() {
                         @Override
                         public void onSuccess(Object translation) {
-                            if (finalMessageCell != null) {
-                                MessageObject messageObject = finalMessageCell.getMessageObject();
+                            if (finalMessageObject != null) {
                                 if (translation instanceof String) {
-                                    messageObject.messageOwner.message = original +
+                                    finalMessageObject.messageOwner.message = original +
                                             "\n" +
                                             "--------" +
                                             "\n" +
                                             translation;
                                 } else if (translation instanceof TLRPC.TL_poll) {
-                                    ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
+                                    ((TLRPC.TL_messageMediaPoll) finalMessageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
                                 }
-                                getMessageHelper().resetMessageContent(dialog_id, messageObject, true);
+                                getMessageHelper().resetMessageContent(dialog_id, finalMessageObject, true);
                             }
                         }
 
