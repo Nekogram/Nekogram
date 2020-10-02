@@ -1,6 +1,7 @@
 package tw.nekomimi.nekogram.helpers;
 
 import android.net.Uri;
+import android.util.SparseArray;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -8,12 +9,12 @@ import org.telegram.messenger.BaseController;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.Cells.ChatMessageCell;
 
 import java.io.File;
 import java.io.InputStream;
@@ -27,18 +28,6 @@ public class MessageHelper extends BaseController {
 
     public MessageHelper(int num) {
         super(num);
-    }
-
-    public static void resetMessageContent(MessageObject messageObject, ChatMessageCell chatMessageCell) {
-        messageObject.forceUpdate = true;
-        if (messageObject.caption != null) {
-            messageObject.caption = null;
-            messageObject.generateCaption();
-        }
-        messageObject.applyNewText();
-        messageObject.resetLayout();
-        chatMessageCell.requestLayout();
-        chatMessageCell.invalidate();
     }
 
     public static String saveUriToCache(Uri uri) {
@@ -71,6 +60,20 @@ public class MessageHelper extends BaseController {
             }
         }
         return localInstance;
+    }
+
+    public void resetMessageContent(long dialog_id, MessageObject messageObject, boolean translated) {
+        TLRPC.Message message = messageObject.messageOwner;
+        final SparseArray<TLRPC.User> usersDict = new SparseArray<>();
+        final SparseArray<TLRPC.Chat> chatsDict = new SparseArray<>();
+
+        MessageObject obj = new MessageObject(currentAccount, message, usersDict, chatsDict, true, true);
+        obj.originalMessage = messageObject.originalMessage;
+        obj.translated = translated;
+
+        ArrayList<MessageObject> arrayList = new ArrayList<>();
+        arrayList.add(obj);
+        getNotificationCenter().postNotificationName(NotificationCenter.replaceMessagesObjects, dialog_id, arrayList, false);
     }
 
     public void processForwardFromMyName(ArrayList<MessageObject> messages, long did, boolean notify, int scheduleDate) {

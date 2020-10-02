@@ -209,7 +209,6 @@ import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.voip.VoIPHelper;
 
 import tw.nekomimi.nekogram.MessageDetailsActivity;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.translator.Translator;
 
@@ -17256,9 +17255,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         } else if (selectedObject.originalMessage instanceof TLRPC.TL_poll) {
                             ((TLRPC.TL_messageMediaPoll) selectedObject.messageOwner.media).poll = (TLRPC.TL_poll) selectedObject.originalMessage;
                         }
-                        MessageHelper.resetMessageContent(selectedObject, messageCell);
-                        chatAdapter.updateRowWithMessageObject(selectedObject, true);
-                        selectedObject.translated = false;
+                        getMessageHelper().resetMessageContent(dialog_id, selectedObject, false);
                     }
                 } else {
                     Object original = selectedObject.type == MessageObject.TYPE_POLL ? ((TLRPC.TL_messageMediaPoll) selectedObject.messageOwner.media).poll : selectedObject.messageOwner.message;
@@ -17278,9 +17275,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 } else if (translation instanceof TLRPC.TL_poll) {
                                     ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
                                 }
-                                MessageHelper.resetMessageContent(messageObject, finalMessageCell);
-                                chatAdapter.updateRowWithMessageObject(messageObject, true);
-                                messageObject.translated = true;
+                                getMessageHelper().resetMessageContent(dialog_id, messageObject, true);
                             }
                         }
 
