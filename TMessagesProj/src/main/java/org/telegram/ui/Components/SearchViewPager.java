@@ -47,6 +47,8 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 
+import tw.nekomimi.nekogram.helpers.MessageHelper;
+
 public class SearchViewPager extends ViewPagerFixed implements FilteredSearchView.UiCallback {
 
     public FrameLayout searchContainer;
@@ -65,9 +67,11 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
 
     public final static int gotoItemId = 200;
     public final static int forwardItemId = 201;
+    public final static int forwardNoQuoteItemId = 202;
 
     private ActionBarMenuItem gotoItem;
     private ActionBarMenuItem forwardItem;
+    private ActionBarMenuItem forwardNoQuoteItem;
 
     int currentAccount = UserConfig.selectedAccount;
 
@@ -329,6 +333,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             selectedMessagesCountTextView.setOnTouchListener((v, event) -> true);
 
             gotoItem = actionMode.addItemWithWidth(gotoItemId, R.drawable.msg_message, AndroidUtilities.dp(54));
+            forwardNoQuoteItem = actionMode.addItemWithWidth(forwardNoQuoteItemId, R.drawable.msg_forward_noquote, AndroidUtilities.dp(54));
             forwardItem = actionMode.addItemWithWidth(forwardItemId, R.drawable.msg_forward, AndroidUtilities.dp(54));
         }
         if (parent.getActionBar().getBackButton().getDrawable() instanceof MenuDrawable) {
@@ -341,6 +346,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             selectedMessagesCountTextView.setNumber(selectedFiles.size(), false);
             gotoItem.setVisibility(View.VISIBLE);
             forwardItem.setVisibility(View.VISIBLE);
+            forwardNoQuoteItem.setVisibility(View.VISIBLE);
         } else {
             parent.getActionBar().hideActionMode();
             selectedFiles.clear();
@@ -369,7 +375,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             }
             MessageObject messageObject = selectedFiles.values().iterator().next();
             goToMessage(messageObject);
-        } else if (id == forwardItemId) {
+        } else if (id == forwardItemId || id == forwardNoQuoteItemId) {
             Bundle args = new Bundle();
             args.putBoolean("onlySelect", true);
             args.putInt("dialogsType", 3);
@@ -391,7 +397,11 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                         if (message != null) {
                             AccountInstance.getInstance(currentAccount).getSendMessagesHelper().sendMessage(message.toString(), did, null, null, null, true, null, null, null, true, 0);
                         }
-                        AccountInstance.getInstance(currentAccount).getSendMessagesHelper().sendMessage(fmessages, did, true, 0);
+                        if (id == forwardNoQuoteItemId) {
+                            MessageHelper.getInstance(currentAccount).processForwardFromMyName(fmessages, did, true, 0);
+                        } else {
+                            AccountInstance.getInstance(currentAccount).getSendMessagesHelper().sendMessage(fmessages, did, true, 0);
+                        }
                     }
                     fragment1.finishFragment();
                 } else {
@@ -399,6 +409,9 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                     int lower_part = (int) did;
                     int high_part = (int) (did >> 32);
                     Bundle args1 = new Bundle();
+                    if (id == forwardNoQuoteItemId) {
+                        args1.putBoolean("forward_noquote", true);
+                    }
                     args1.putBoolean("scrollToTopOnResume", true);
                     if (lower_part != 0) {
                         if (lower_part > 0) {

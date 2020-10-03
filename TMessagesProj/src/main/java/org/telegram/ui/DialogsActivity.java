@@ -3166,7 +3166,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
             public void onItemClick(int id) {
-                if (id == SearchViewPager.forwardItemId || id == SearchViewPager.gotoItemId && searchViewPager != null) {
+                if (id == SearchViewPager.forwardItemId || id == SearchViewPager.forwardNoQuoteItemId || id == SearchViewPager.gotoItemId && searchViewPager != null) {
                     searchViewPager.onActionBarItemClick(id);
                     return;
                 }
