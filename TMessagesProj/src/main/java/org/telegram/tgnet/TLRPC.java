@@ -43274,7 +43274,6 @@ public class TLRPC {
 		public int views;
         public int forwards;
         public TL_messageReplies replies;
-        public ArrayList<Integer> recent_repliers = new ArrayList<>();
 		public int edit_date;
 		public boolean silent;
 		public boolean post;

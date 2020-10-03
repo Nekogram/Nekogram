@@ -1946,7 +1946,9 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                 } else {
                     if (searchingType != 0) {
                         searchingType = 0;
-                        emojiView.closeSearch(false);
+                        if (emojiView != null) {
+                            emojiView.closeSearch(false);
+                        }
                         messageEditText.requestFocus();
                     }
                     if (stickersExpanded) {
@@ -6004,7 +6006,7 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                 if (replyingMessageObject != null) {
                     openKeyboardInternal();
                     setButtons(botMessageObject, false);
-                } else if (botButtonsMessageObject.messageOwner.reply_markup.single_use) {
+                } else if (botButtonsMessageObject != null && botButtonsMessageObject.messageOwner.reply_markup.single_use) {
                     if (open) {
                         openKeyboardInternal();
                     } else {

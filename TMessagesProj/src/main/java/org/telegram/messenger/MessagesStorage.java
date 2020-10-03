@@ -7585,6 +7585,9 @@ public class MessagesStorage extends BaseController {
                                 }
                                 replies = currentReplies;
                             }
+                            if (currentReplies != null && currentReplies.read_max_id > replies.read_max_id) {
+                                replies.read_max_id = currentReplies.read_max_id;
+                            }
                             state.requery();
                             NativeByteBuffer data = new NativeByteBuffer(replies.getObjectSize());
                             replies.serializeToStream(data);
