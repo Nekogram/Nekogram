@@ -2118,7 +2118,9 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                         }
                         if (searchingType != 0) {
                             searchingType = 0;
-                            emojiView.closeSearch(true);
+                            if (emojiView != null) {
+                                emojiView.closeSearch(true);
+                            }
                             messageEditText.requestFocus();
                         } else {
                             if (stickersExpanded) {

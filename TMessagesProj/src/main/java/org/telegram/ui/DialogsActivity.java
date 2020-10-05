@@ -1760,7 +1760,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             @Override
             public void onTextChanged(EditText editText) {
                 String text = editText.getText().toString();
-                if (text.length() != 0 || searchViewPager.dialogsSearchAdapter != null && searchViewPager.dialogsSearchAdapter.hasRecentRearch()) {
+                if (text.length() != 0 || searchViewPager.dialogsSearchAdapter != null && searchViewPager.dialogsSearchAdapter.hasRecentSearch()) {
                     searchWas = true;
                     if (viewPages[0].listView.getVisibility() == View.VISIBLE) {
                         showSearch(true, true);
@@ -3693,7 +3693,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         searchIsShowed = show;
         if (show) {
             int dialogsCount = getMessagesController().getTotalDialogsCount();
-            boolean onlyDialogsAdapter = onlySelect || !searchViewPager.dialogsSearchAdapter.hasRecentRearch() || dialogsCount <= 10;
+            boolean onlyDialogsAdapter = onlySelect || !searchViewPager.dialogsSearchAdapter.hasRecentSearch() || dialogsCount <= 10;
             searchViewPager.showOnlyDialogsAdapter(onlyDialogsAdapter);
             whiteActionBar = !onlyDialogsAdapter;
             ContentView contentView = (ContentView) fragmentView;
@@ -3739,7 +3739,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         }
 
-        if (animated && searchViewPager.dialogsSearchAdapter.hasRecentRearch()) {
+        if (animated && searchViewPager.dialogsSearchAdapter.hasRecentSearch()) {
             AndroidUtilities.setAdjustResizeToNothing(getParentActivity(), classGuid);
         } else {
             AndroidUtilities.requestAdjustResize(getParentActivity(), classGuid);
