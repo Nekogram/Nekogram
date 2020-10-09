@@ -5352,11 +5352,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else {
                 id = chat_id;
             }
-            if (chat.photo != null && chat.photo.dc_id != 0) {
-                idTextView.setText("ID: " + id + ", DC: " + chat.photo.dc_id);
-            } else {
-                idTextView.setText("ID: " + id);
-            }
+            idTextView.setText("ID: " + id);
         }
         if (id != 0) {
             long finalId = id;
@@ -5446,6 +5442,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (ChatObject.isChannel(chat)) {
                     if (ChatObject.hasAdminRights(chat) || chat.megagroup) {
                         editItemVisible = true;
+                        if (!ChatObject.hasAdminRights(chat)) {
+                            editItem.setIcon(R.drawable.profile_info);
+                        }
                     }
                     if (chatInfo != null && chatInfo.can_view_stats) {
                         otherItem.addSubItem(statistics, R.drawable.msg_stats, LocaleController.getString("Statistics", R.string.Statistics));

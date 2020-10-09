@@ -64,7 +64,6 @@ public class NekoConfig {
     public static int nameOrder = 1;
     public static int eventType = 0;
     public static boolean newYear = false;
-    public static int actionBarDecoration = 0;
     public static boolean unlimitedFavedStickers = false;
     public static boolean unlimitedPinnedDialogs = false;
     public static boolean disableAppBarShadow = false;
@@ -180,7 +179,6 @@ public class NekoConfig {
             showTranslate = preferences.getBoolean("showTranslate", true);
             showRepeat = preferences.getBoolean("showRepeat", true);
             eventType = preferences.getInt("eventType", 0);
-            actionBarDecoration = preferences.getInt("actionBarDecoration", 0);
             newYear = preferences.getBoolean("newYear", false);
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
             unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", false);
@@ -377,14 +375,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("eventType", eventType);
-        editor.commit();
-    }
-
-    public static void setActionBarDecoration(int decoration) {
-        actionBarDecoration = decoration;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("actionBarDecoration", actionBarDecoration);
         editor.commit();
     }
 

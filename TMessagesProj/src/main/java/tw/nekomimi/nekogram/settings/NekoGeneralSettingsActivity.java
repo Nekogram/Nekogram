@@ -67,7 +67,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int appBarShadowRow;
     private int newYearRow;
     private int eventTypeRow;
-    private int actionBarDecorationRow;
     private int appearance2Row;
 
     private int generalRow;
@@ -139,7 +138,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
                     if (UserConfig.getInstance(a).isClientActivated()) {
-                        ConnectionsManager.native_setUseIpv6(a, NekoConfig.useIPv6);
+                        ConnectionsManager.getInstance(a).checkConnection();
                     }
                 }
             } else if (position == hidePhoneRow) {
@@ -147,6 +146,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.hidePhone);
                 }
+                parentLayout.rebuildAllFragmentViews(false, false);
             } else if (position == disabledInstantCameraRow) {
                 NekoConfig.toggleDisabledInstantCamera();
                 if (view instanceof TextCheckCell) {
@@ -213,17 +213,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 PopupHelper.show(arrayList, LocaleController.getString("EventType", R.string.EventType), NekoConfig.eventType, context, view, i -> {
                     NekoConfig.setEventType(i);
                     listAdapter.notifyItemChanged(eventTypeRow);
-                    restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
-                });
-            } else if (position == actionBarDecorationRow) {
-                ArrayList<String> arrayList = new ArrayList<>();
-                arrayList.add(LocaleController.getString("DependsOnDate", R.string.DependsOnDate));
-                arrayList.add(LocaleController.getString("Snowflakes", R.string.Snowflakes));
-                arrayList.add(LocaleController.getString("Fireworks", R.string.Fireworks));
-                PopupHelper.show(arrayList, LocaleController.getString("ActionBarDecoration", R.string.ActionBarDecoration), NekoConfig.actionBarDecoration, context, view, i -> {
-                    NekoConfig.setActionBarDecoration(i);
-                    listAdapter.notifyItemChanged(actionBarDecorationRow);
-                    restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
+                    getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
                 });
             } else if (position == newYearRow) {
                 NekoConfig.toggleNewYear();
@@ -257,10 +247,10 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
             } else if (position == avatarAsDrawerBackgroundRow) {
                 NekoConfig.toggleAvatarAsDrawerBackground();
-                getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.avatarAsDrawerBackground);
                 }
+                getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
             } else if (position == askBeforeCallRow) {
                 NekoConfig.toggleAskBeforeCall();
                 if (view instanceof TextCheckCell) {
@@ -290,6 +280,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 PopupHelper.show(arrayList, LocaleController.getString("IdType", R.string.IdType), types.indexOf(NekoConfig.idType), context, view, i -> {
                     NekoConfig.setIdType(types.get(i));
                     listAdapter.notifyItemChanged(idTypeRow);
+                    parentLayout.rebuildAllFragmentViews(false, false);
                 });
             } else if (position == autoPauseVideoRow) {
                 NekoConfig.toggleAutoPauseVideo();
@@ -344,7 +335,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         appBarShadowRow = rowCount++;
         newYearRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         eventTypeRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
-        actionBarDecorationRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         appearance2Row = rowCount++;
 
         generalRow = rowCount++;
@@ -455,21 +445,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                             default:
                                 value = LocaleController.getString("DependsOnDate", R.string.DependsOnDate);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("EventType", R.string.EventType), value, true);
-                    } else if (position == actionBarDecorationRow) {
-                        String value;
-                        switch (NekoConfig.actionBarDecoration) {
-                            case 1:
-                                value = LocaleController.getString("Snowflakes", R.string.Snowflakes);
-                                break;
-                            case 2:
-                                value = LocaleController.getString("Fireworks", R.string.Fireworks);
-                                break;
-                            case 0:
-                            default:
-                                value = LocaleController.getString("DependsOnDate", R.string.DependsOnDate);
-                        }
-                        textCell.setTextAndValue(LocaleController.getString("ActionBarDecoration", R.string.ActionBarDecoration), value, false);
+                        textCell.setTextAndValue(LocaleController.getString("EventType", R.string.EventType), value, false);
                     } else if (position == translationProviderRow) {
                         String value;
                         switch (NekoConfig.translationProvider) {
@@ -616,7 +592,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == connection2Row || position == appearance2Row) {
                 return 1;
-            } else if (position == eventTypeRow || position == actionBarDecorationRow ||
+            } else if (position == eventTypeRow ||
                     (position >= translationProviderRow && position <= idTypeRow)) {
                 return 2;
             } else if (position == ipv6Row || position == newYearRow ||

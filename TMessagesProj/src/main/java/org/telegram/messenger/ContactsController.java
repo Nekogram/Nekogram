@@ -455,7 +455,7 @@ public class ContactsController extends BaseController {
 
                     }
                     try {
-                        systemAccount = new Account("" + UserConfig.getInstance(currentAccount).getClientUserId(), "tw.nekomimi.nekogram");
+                        systemAccount = new Account("" + getUserConfig().getClientUserId(), "tw.nekomimi.nekogram");
                         am.addAccountExplicitly(systemAccount, "", null);
                     } catch (Exception ignore) {
 

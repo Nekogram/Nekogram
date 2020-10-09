@@ -32,6 +32,8 @@ import java.util.Collections;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
 
     private Context mContext;
@@ -238,7 +240,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         int settingsIcon;
         int inviteIcon;
         int helpIcon;
-        if (eventType == 0) {
+        if (eventType == 0 || NekoConfig.eventType == 1) {
             newGroupIcon = R.drawable.menu_groups_ny;
             newSecretIcon = R.drawable.menu_secret_ny;
             newChannelIcon = R.drawable.menu_channel_ny;
@@ -248,7 +250,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             settingsIcon = R.drawable.menu_settings_ny;
             inviteIcon = R.drawable.menu_invite_ny;
             helpIcon = R.drawable.menu_help_ny;
-        } else if (eventType == 1) {
+        } else if (eventType == 1 || NekoConfig.eventType == 2) {
             newGroupIcon = R.drawable.menu_groups_14;
             newSecretIcon = R.drawable.menu_secret_14;
             newChannelIcon = R.drawable.menu_broadcast_14;

@@ -53,7 +53,6 @@ import java.util.ArrayList;
 import tw.nekomimi.nekogram.translator.Translator;
 
 import static com.google.zxing.common.detector.MathUtils.distance;
-
 import static org.telegram.ui.ActionBar.FloatingToolbar.STYLE_THEME;
 import static org.telegram.ui.ActionBar.Theme.key_chat_inTextSelectionHighlight;
 
