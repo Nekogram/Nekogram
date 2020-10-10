@@ -124,4 +124,5 @@
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">时间精确到秒</string>
+    <string name="JumpToBeginning">跳转到最初消息</string>
 </resources>
