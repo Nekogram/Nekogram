@@ -68,7 +68,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
@@ -6409,7 +6408,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     layoutManager.scrollToPositionWithOffset(1, 0);
                 }
 
-                if (viewPages[a].dialogsAdapter.isDataSetChanged() || args.length > 0) {
+                if (viewPages[a].selectedType >= 0 &&
+                        viewPages[a].selectedType < getMessagesController().dialogFilters.size() &&
+                        getMessagesController().dialogFilters.get(viewPages[a].selectedType) != null &&
+                        getMessagesController().selectedDialogFilter[viewPages[a].dialogsType == 8 ? 1 : 0] != null &&
+                        getMessagesController().dialogFilters.get(viewPages[a].selectedType).id !=
+                                getMessagesController().selectedDialogFilter[viewPages[a].dialogsType == 8 ? 1 : 0].id) {
+                    getMessagesController().selectDialogFilter(getMessagesController().dialogFilters.get(viewPages[a].selectedType), viewPages[a].dialogsType == 8 ? 1 : 0);
+                    viewPages[a].dialogsAdapter.notifyDataSetChanged();
+                } else if (viewPages[a].dialogsAdapter.isDataSetChanged() || args.length > 0) {
                     viewPages[a].dialogsAdapter.notifyDataSetChanged();
                     int newItemCount = viewPages[a].dialogsAdapter.getItemCount();
                     if (newItemCount > oldItemCount && initialDialogsType != 11 && initialDialogsType != 12 && initialDialogsType != 13) {
