@@ -147,6 +147,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.hidePhone);
                 }
                 parentLayout.rebuildAllFragmentViews(false, false);
+                getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
             } else if (position == disabledInstantCameraRow) {
                 NekoConfig.toggleDisabledInstantCamera();
                 if (view instanceof TextCheckCell) {
