@@ -4274,6 +4274,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             calendar.set(year, monthOfYear, dayOfMonth);
             jumpToDate((int) (calendar.getTime().getTime() / 1000));
         });
+        floatingDateView.setOnLongClickListener(v -> {
+            if (getParentActivity() == null) {
+                return false;
+            }
+            showDialog(AlertsCreator.createCalendarPickerDialog(getParentActivity(), 1375315200000L, this::jumpToDate).create());
+            return true;
+        });
 
         if (currentEncryptedChat == null) {
             pinnedMessageView = new FrameLayout(context);

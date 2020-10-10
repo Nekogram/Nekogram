@@ -1886,6 +1886,22 @@ public class AlertsCreator {
         titleLayout.addView(titleView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0, 12, 0, 0));
         titleView.setOnTouchListener((v, event) -> true);
 
+        ActionBarMenuItem optionsButton = new ActionBarMenuItem(context, null, 0, Theme.getColor(Theme.key_sheet_other));
+        optionsButton.setLongClickEnabled(false);
+        optionsButton.setSubMenuOpenSide(2);
+        optionsButton.setIcon(R.drawable.ic_ab_other);
+        optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_player_actionBarSelector), 1));
+        titleLayout.addView(optionsButton, LayoutHelper.createFrame(40, 40, Gravity.TOP | Gravity.RIGHT, 0, 8, 5, 0));
+        optionsButton.addSubItem(1, LocaleController.getString("JumpToBeginning", R.string.JumpToBeginning));
+        optionsButton.setOnClickListener(v -> optionsButton.toggleSubMenu());
+        optionsButton.setDelegate(id -> {
+            if (id == 1) {
+                callback.run(1375315200);
+                builder.getDismissRunnable().run();
+            }
+        });
+        optionsButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
+
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);
         linearLayout.setWeightSum(1.0f);
