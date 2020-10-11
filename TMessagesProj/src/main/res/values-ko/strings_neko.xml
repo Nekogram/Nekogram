@@ -120,4 +120,5 @@
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">초를 포함한 시간표시</string>
+    <string name="JumpToBeginning">처음으로 이동</string>
 </resources>

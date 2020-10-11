@@ -120,4 +120,5 @@
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Formatar a hora com segundos</string>
+    <string name="JumpToBeginning">Pular para o início</string>
 </resources>
