@@ -51,8 +51,24 @@ public class DonateHelper implements BillingClientStateListener, SkuDetailsRespo
             progressDialog.dismiss();
         }
         progressDialog = new AlertDialog(activity, 3);
-        progressDialog.showDelayed(400);
-        startConnection();
+        if (LocaleController.getInstance().currentLocale.getLanguage().equals("zh")) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+            builder.setTitle(LocaleController.getString("Donate", R.string.Donate));
+            builder.setItems(new String[]{LocaleController.getString("DonateAlipay", R.string.DonateAlipay), LocaleController.getString("GooglePlay", R.string.GooglePlay)},
+                    (dialog, which) -> {
+                        if (which == 0) {
+                            Browser.openUrl(activity, "https://qr.alipay.com/fkx12268sqt5zoh5czwhc0c");
+                        } else {
+                            progressDialog.showDelayed(400);
+                            startConnection();
+                        }
+                    });
+            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.show();
+        } else {
+            progressDialog.showDelayed(400);
+            startConnection();
+        }
     }
 
     @Override
