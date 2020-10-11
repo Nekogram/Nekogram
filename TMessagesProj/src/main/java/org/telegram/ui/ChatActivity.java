@@ -16814,6 +16814,35 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
+    private void translateMessage(MessageObject messageObject) {
+        if (messageObject == null) {
+            return;
+        }
+        Object original = messageObject.type == MessageObject.TYPE_POLL ? ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll : messageObject.messageOwner.message;
+        messageObject.originalMessage = original;
+        final MessageObject finalMessageObject = messageObject;
+        Translator.translate(original, new Translator.TranslateCallBack() {
+            @Override
+            public void onSuccess(Object translation) {
+                if (translation instanceof String) {
+                    finalMessageObject.messageOwner.message = original +
+                            "\n" +
+                            "--------" +
+                            "\n" +
+                            translation;
+                } else if (translation instanceof TLRPC.TL_poll) {
+                    ((TLRPC.TL_messageMediaPoll) finalMessageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
+                }
+                getMessageHelper().resetMessageContent(dialog_id, finalMessageObject, true);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                Translator.handleTranslationError(getParentActivity(), e, () -> translateMessage(finalMessageObject));
+            }
+        });
+    }
+
     private void processSelectedOption(int option) {
         if (selectedObject == null || getParentActivity() == null) {
             return;
@@ -17285,49 +17314,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     getMessageHelper().resetMessageContent(dialog_id, messageObject, false);
                 } else {
-                    Object original = messageObject.type == MessageObject.TYPE_POLL ? ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll : messageObject.messageOwner.message;
-                    messageObject.originalMessage = original;
-                    final MessageObject finalMessageObject = messageObject;
-                    Translator.translate(original, new Translator.TranslateCallBack() {
-                        @Override
-                        public void onSuccess(Object translation) {
-                            if (finalMessageObject != null) {
-                                if (translation instanceof String) {
-                                    finalMessageObject.messageOwner.message = original +
-                                            "\n" +
-                                            "--------" +
-                                            "\n" +
-                                            translation;
-                                } else if (translation instanceof TLRPC.TL_poll) {
-                                    ((TLRPC.TL_messageMediaPoll) finalMessageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
-                                }
-                                getMessageHelper().resetMessageContent(dialog_id, finalMessageObject, true);
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                            if (e != null && e.getLocalizedMessage() != null) {
-                                builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
-                                builder.setMessage(e.getLocalizedMessage());
-                            } else {
-                                builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
-                            }
-                            builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(Translator.getTranslationProviderAlert(getParentActivity())));
-                            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-                            showDialog(builder.create());
-                        }
-
-                        @Override
-                        public void onUnsupported() {
-                            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                            builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
-                            builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> showDialog(Translator.getTranslationProviderAlert(getParentActivity())));
-                            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                            showDialog(builder.create());
-                        }
-                    });
+                    translateMessage(messageObject);
                 }
                 break;
             } case 89: {

@@ -52,35 +52,37 @@ abstract public class Translator {
             }
 
             @Override
-            public void onError(Throwable e) {
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                if (e != null && e.getLocalizedMessage() != null) {
-                    builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
-                    builder.setMessage(e.getLocalizedMessage());
-                } else {
-                    builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
-                }
-                builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> getTranslationProviderAlert(context).show());
-                builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> showTranslateDialog(context, query));
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                builder.show();
-            }
-
-            @Override
-            public void onUnsupported() {
-                if (progressDialog != null) {
-                    progressDialog.dismiss();
-                }
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
-                builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> getTranslationProviderAlert(context).show());
-                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                builder.show();
+            public void onError(Exception e) {
+                handleTranslationError(context, e, () -> showTranslateDialog(context, query));
             }
         });
+    }
+
+    public static void handleTranslationError(Context context, final Exception e, final RetryCallback onRetry) {
+        if (context == null) {
+            return;
+        }
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        if (e instanceof UnsupportedTargetLanguageException) {
+            builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
+            builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> getTranslationProviderAlert(context).show());
+        } else {
+            if (e != null && e.getLocalizedMessage() != null) {
+                builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                builder.setMessage(e.getLocalizedMessage());
+            } else {
+                builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+            }
+            if (onRetry != null) {
+                builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> onRetry.run());
+            }
+        }
+        builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> getTranslationProviderAlert(context).show());
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        builder.show();
     }
 
     public static AlertDialog getTranslationProviderAlert(Context context) {
@@ -149,7 +151,7 @@ abstract public class Translator {
                 break;
         }
         if (!translator.getTargetLanguages().contains(toLang)) {
-            translateCallBack.onUnsupported();
+            translateCallBack.onError(new UnsupportedTargetLanguageException());
         } else {
             translator.startTask(query, toLang, translateCallBack);
         }
@@ -163,12 +165,17 @@ abstract public class Translator {
 
     abstract protected List<String> getTargetLanguages();
 
+    public interface RetryCallback {
+        void run();
+    }
+
     public interface TranslateCallBack {
         void onSuccess(Object translation);
 
-        void onError(Throwable e);
+        void onError(Exception e);
+    }
 
-        void onUnsupported();
+    private static class UnsupportedTargetLanguageException extends IllegalArgumentException {
     }
 
     @SuppressWarnings("deprecation")
@@ -225,8 +232,8 @@ abstract public class Translator {
         protected void onPostExecute(Object result) {
             if (result == null) {
                 translateCallBack.onError(null);
-            } else if (result instanceof Throwable) {
-                translateCallBack.onError((Throwable) result);
+            } else if (result instanceof Exception) {
+                translateCallBack.onError((Exception) result);
             } else {
                 translateCallBack.onSuccess(result);
             }
