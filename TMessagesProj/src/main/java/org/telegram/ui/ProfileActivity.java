@@ -169,6 +169,7 @@ import java.util.zip.ZipOutputStream;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
+import tw.nekomimi.nekogram.translator.Translator;
 
 public class ProfileActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, SharedMediaLayout.SharedMediaPreloaderDelegate, ImageUpdater.ImageUpdaterDelegate {
 
@@ -3363,7 +3364,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             return true;
         } else if (position == channelInfoRow || position == userInfoRow || position == locationRow) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, (dialogInterface, i) -> {
+            builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("Translate", R.string.Translate)}, (dialogInterface, i) -> {
                 try {
                     String about;
                     if (position == locationRow) {
@@ -3374,6 +3375,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         about = userInfo != null ? userInfo.about : null;
                     }
                     if (TextUtils.isEmpty(about)) {
+                        return;
+                    }
+                    if (i == 1) {
+                        Translator.showTranslateDialog(getParentActivity(), about);
                         return;
                     }
                     AndroidUtilities.addToClipboard(about);
