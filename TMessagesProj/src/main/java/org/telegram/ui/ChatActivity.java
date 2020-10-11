@@ -17408,7 +17408,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 break;
             } case 93: {
                 ArrayList<MessageObject> messages =  new ArrayList<>();
-                messages.add(selectedObject);
+                if (selectedObjectGroup != null) {
+                    messages.addAll(selectedObjectGroup.messages);
+                } else {
+                    messages.add(selectedObject);
+                }
                 forwardMessages(messages, false, true, 0, getUserConfig().getClientUserId());
                 break;
             } case 94: {
