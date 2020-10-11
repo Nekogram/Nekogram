@@ -53,15 +53,17 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     private ListAdapter listAdapter;
 
     private MessageObject messageObject;
-    private TLRPC.Chat fromChat;
+    private TLRPC.Chat toChat;
     private TLRPC.User fromUser;
+    private TLRPC.Chat fromChat;
+    private TLRPC.Chat forwardFromChat;
+    private TLRPC.User forwardFromUser;
     private String filePath;
     private String fileName;
 
     private int rowCount;
 
     private int idRow;
-    private int scheduledRow;
     private int messageRow;
     private int captionRow;
     private int groupRow;
@@ -81,14 +83,30 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
 
     public MessageDetailsActivity(MessageObject messageObject) {
         this.messageObject = messageObject;
-        if (messageObject.messageOwner.peer_id != null && messageObject.messageOwner.peer_id.channel_id != 0) {
-            fromChat = getMessagesController().getChat(messageObject.messageOwner.peer_id.channel_id);
-        } else if (messageObject.messageOwner.peer_id != null && messageObject.messageOwner.peer_id.chat_id != 0) {
-            fromChat = getMessagesController().getChat(messageObject.messageOwner.peer_id.chat_id);
+
+        if (messageObject.messageOwner.peer_id != null) {
+            if (messageObject.messageOwner.peer_id.channel_id != 0) {
+                toChat = getMessagesController().getChat(messageObject.messageOwner.peer_id.channel_id);
+            } else if (messageObject.messageOwner.peer_id.chat_id != 0) {
+                toChat = getMessagesController().getChat(messageObject.messageOwner.peer_id.chat_id);
+            }
         }
+        if (messageObject.messageOwner.fwd_from != null && messageObject.messageOwner.fwd_from.from_id != null) {
+            if (messageObject.messageOwner.fwd_from.from_id.channel_id != 0) {
+                forwardFromChat = getMessagesController().getChat(messageObject.messageOwner.fwd_from.from_id.channel_id);
+            } else if (messageObject.messageOwner.fwd_from.from_id.chat_id != 0) {
+                forwardFromChat = getMessagesController().getChat(messageObject.messageOwner.fwd_from.from_id.chat_id);
+            } else if (messageObject.messageOwner.fwd_from.from_id.user_id != 0) {
+                forwardFromUser = getMessagesController().getUser(messageObject.messageOwner.fwd_from.from_id.user_id);
+            }
+        }
+
         if (messageObject.messageOwner.from_id.user_id != 0) {
             fromUser = getMessagesController().getUser(messageObject.messageOwner.from_id.user_id);
+        } else if (messageObject.messageOwner.from_id.channel_id != 0) {
+            fromChat = getMessagesController().getChat(messageObject.messageOwner.from_id.channel_id);
         }
+
         filePath = messageObject.messageOwner.attachPath;
         if (!TextUtils.isEmpty(filePath)) {
             File temp = new File(filePath);
@@ -110,6 +128,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                 filePath = null;
             }
         }
+
         if (messageObject.messageOwner.media != null && messageObject.messageOwner.media.document != null) {
             if (TextUtils.isEmpty(messageObject.messageOwner.media.document.file_name)) {
                 for (int a = 0; a < messageObject.messageOwner.media.document.attributes.size(); a++) {
@@ -193,9 +212,9 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                     startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
                 });
             } else if (position == channelRow || position == groupRow) {
-                if (fromChat != null) {
+                if (toChat != null) {
                     Bundle args = new Bundle();
-                    args.putInt("chat_id", fromChat.id);
+                    args.putInt("chat_id", toChat.id);
                     ProfileActivity fragment = new ProfileActivity(args);
                     presentFragment(fragment);
                 }
@@ -203,6 +222,23 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                 if (fromUser != null) {
                     Bundle args = new Bundle();
                     args.putInt("user_id", fromUser.id);
+                    ProfileActivity fragment = new ProfileActivity(args);
+                    presentFragment(fragment);
+                } else if (fromChat != null) {
+                    Bundle args = new Bundle();
+                    args.putInt("chat_id", fromChat.id);
+                    ProfileActivity fragment = new ProfileActivity(args);
+                    presentFragment(fragment);
+                }
+            } else if (position == forwardRow) {
+                if (forwardFromUser != null) {
+                    Bundle args = new Bundle();
+                    args.putInt("user_id", forwardFromUser.id);
+                    ProfileActivity fragment = new ProfileActivity(args);
+                    presentFragment(fragment);
+                } else if (forwardFromChat != null) {
+                    Bundle args = new Bundle();
+                    args.putInt("chat_id", forwardFromChat.id);
                     ProfileActivity fragment = new ProfileActivity(args);
                     presentFragment(fragment);
                 }
@@ -230,12 +266,11 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     private void updateRows() {
         rowCount = 0;
         idRow = rowCount++;
-        scheduledRow = messageObject.scheduled ? rowCount++ : -1;
         messageRow = TextUtils.isEmpty(messageObject.messageText) ? -1 : rowCount++;
         captionRow = TextUtils.isEmpty(messageObject.caption) ? -1 : rowCount++;
-        groupRow = fromChat != null && !fromChat.broadcast ? rowCount++ : -1;
-        channelRow = fromChat != null && fromChat.broadcast ? rowCount++ : -1;
-        fromRow = fromUser != null || messageObject.messageOwner.post_author != null ? rowCount++ : -1;
+        groupRow = toChat != null && !toChat.broadcast ? rowCount++ : -1;
+        channelRow = toChat != null && toChat.broadcast ? rowCount++ : -1;
+        fromRow = fromUser != null || fromChat != null || messageObject.messageOwner.post_author != null ? rowCount++ : -1;
         botRow = fromUser != null && fromUser.bot ? rowCount++ : -1;
         dateRow = messageObject.messageOwner.date != 0 ? rowCount++ : -1;
         editedRow = messageObject.messageOwner.edit_date != 0 ? rowCount++ : -1;
@@ -349,14 +384,14 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                         textCell.setTextAndValue("Caption", messageObject.caption, divider);
                     } else if (position == channelRow || position == groupRow) {
                         StringBuilder builder = new StringBuilder();
-                        builder.append(fromChat.title);
+                        builder.append(toChat.title);
                         builder.append("\n");
-                        if (!TextUtils.isEmpty(fromChat.username)) {
+                        if (!TextUtils.isEmpty(toChat.username)) {
                             builder.append("@");
-                            builder.append(fromChat.username);
+                            builder.append(toChat.username);
                             builder.append("\n");
                         }
-                        builder.append(fromChat.id);
+                        builder.append(toChat.id);
                         textCell.setTextAndValue(position == channelRow ? "Channel" : "Group", builder.toString(), divider);
                     } else if (position == fromRow) {
                         StringBuilder builder = new StringBuilder();
@@ -369,7 +404,16 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                                 builder.append("\n");
                             }
                             builder.append(fromUser.id);
-                        } else {
+                        } else if (fromChat != null) {
+                            builder.append(fromChat.title);
+                            builder.append("\n");
+                            if (!TextUtils.isEmpty(fromChat.username)) {
+                                builder.append("@");
+                                builder.append(fromChat.username);
+                                builder.append("\n");
+                            }
+                            builder.append(fromChat.id);
+                        } else if (!TextUtils.isEmpty(messageObject.messageOwner.post_author)) {
                             builder.append(messageObject.messageOwner.post_author);
                         }
                         textCell.setTextAndValue("From", builder.toString(), divider);
@@ -383,26 +427,38 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                         textCell.setTextAndValue("Edited", LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(date))), divider);
                     } else if (position == forwardRow) {
                         StringBuilder builder = new StringBuilder();
-                        if (messageObject.messageOwner.fwd_from.from_id.channel_id != 0) {
-                            TLRPC.Chat chat = getMessagesController().getChat(messageObject.messageOwner.fwd_from.from_id.channel_id);
-                            builder.append(chat.title);
-                            builder.append("\n");
-                            if (!TextUtils.isEmpty(chat.username)) {
-                                builder.append("@");
-                                builder.append(chat.username);
+                        if (messageObject.messageOwner.fwd_from.from_id != null) {
+                            if (messageObject.messageOwner.fwd_from.from_id.channel_id != 0) {
+                                TLRPC.Chat chat = getMessagesController().getChat(messageObject.messageOwner.fwd_from.from_id.channel_id);
+                                builder.append(chat.title);
                                 builder.append("\n");
-                            }
-                            builder.append(chat.id);
-                        } else if (messageObject.messageOwner.fwd_from.from_id.user_id != 0) {
-                            TLRPC.User user = getMessagesController().getUser(messageObject.messageOwner.fwd_from.from_id.user_id);
-                            builder.append(ContactsController.formatName(user.first_name, user.last_name));
-                            builder.append("\n");
-                            if (!TextUtils.isEmpty(user.username)) {
-                                builder.append("@");
-                                builder.append(user.username);
+                                if (!TextUtils.isEmpty(chat.username)) {
+                                    builder.append("@");
+                                    builder.append(chat.username);
+                                    builder.append("\n");
+                                }
+                                builder.append(chat.id);
+                            } else if (messageObject.messageOwner.fwd_from.from_id.user_id != 0) {
+                                TLRPC.User user = getMessagesController().getUser(messageObject.messageOwner.fwd_from.from_id.user_id);
+                                builder.append(ContactsController.formatName(user.first_name, user.last_name));
                                 builder.append("\n");
+                                if (!TextUtils.isEmpty(user.username)) {
+                                    builder.append("@");
+                                    builder.append(user.username);
+                                    builder.append("\n");
+                                }
+                                builder.append(user.id);
+                            } else if (messageObject.messageOwner.fwd_from.from_id.chat_id != 0) {
+                                TLRPC.Chat chat = getMessagesController().getChat(messageObject.messageOwner.fwd_from.from_id.chat_id);
+                                builder.append(chat.title);
+                                builder.append("\n");
+                                if (!TextUtils.isEmpty(chat.username)) {
+                                    builder.append("@");
+                                    builder.append(chat.username);
+                                    builder.append("\n");
+                                }
+                                builder.append(chat.id);
                             }
-                            builder.append(user.id);
                         } else if (!TextUtils.isEmpty(messageObject.messageOwner.fwd_from.from_name)) {
                             builder.append(messageObject.messageOwner.fwd_from.from_name);
                         }
@@ -419,8 +475,6 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                         } else if (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0) {
                             textCell.setTextAndValue("DC", String.valueOf(messageObject.messageOwner.media.document.dc_id), divider);
                         }
-                    } else if (position == scheduledRow) {
-                        textCell.setTextAndValue("Scheduled", "Yes", divider);
                     }
                     break;
                 }

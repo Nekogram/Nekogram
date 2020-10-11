@@ -16341,7 +16341,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         options.add(1);
                         icons.add(R.drawable.msg_delete);
                     }
-                    if (chatInfo != null && chatInfo.participants != null && chatInfo.participants.participants != null) {
+                    if ((NekoConfig.showAdminActions || NekoConfig.showChangePermissions) && chatInfo != null && chatInfo.participants != null && chatInfo.participants.participants != null) {
                         for (int a = 0; a < chatInfo.participants.participants.size(); a++) {
                             TLRPC.ChatParticipant participant = chatInfo.participants.participants.get(a);
                             if (participant.user_id != selectedObject.messageOwner.from_id.user_id || participant.user_id == getUserConfig().getCurrentUser().id) {
