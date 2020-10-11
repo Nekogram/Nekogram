@@ -32,6 +32,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -41,6 +42,7 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCheckCell;
+import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.LayoutHelper;
@@ -50,6 +52,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.microsoft.appcenter.analytics.Analytics;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,6 +74,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     private int useProxyRow;
     private int useProxyDetailRow;
     private int connectionsHeaderRow;
+    private int sponsorRow;
     private int proxyStartRow;
     private int proxyEndRow;
     private int proxyAddRow;
@@ -357,6 +362,9 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 ConnectionsManager.setProxySettings(useProxySettings, SharedConfig.currentProxy.address, SharedConfig.currentProxy.port, SharedConfig.currentProxy.username, SharedConfig.currentProxy.password, SharedConfig.currentProxy.secret);
             } else if (position == proxyAddRow) {
                 presentFragment(new ProxySettingsActivity());
+            } else if (position == sponsorRow) {
+                Analytics.trackEvent("open_sponsor");
+                Browser.openUrl(getParentActivity(), "https://gamma.pcr.cy/auth/register?code=neko");
             }
         });
         listView.setOnItemLongClickListener((view, position) -> {
@@ -398,6 +406,11 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         useProxyRow = rowCount++;
         useProxyDetailRow = rowCount++;
         connectionsHeaderRow = rowCount++;
+        if (!LocaleController.getString("SponsorTitle", R.string.SponsorTitle).equals("dummy")) {
+            sponsorRow = rowCount++;
+        } else {
+            sponsorRow = -1;
+        }
         if (!SharedConfig.proxyList.isEmpty()) {
             proxyStartRow = rowCount;
             rowCount += SharedConfig.proxyList.size();
@@ -565,6 +578,12 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                     cell.setChecked(SharedConfig.currentProxy == info);
                     break;
                 }
+                case 6: {
+                    TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
+                    if (position == sponsorRow) {
+                        textCell.setTextAndValue(LocaleController.getString("SponsorTitle", R.string.SponsorTitle), LocaleController.getString("SponsorContent", R.string.SponsorContent), true);
+                    }
+                }
             }
         }
 
@@ -599,7 +618,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int position = holder.getAdapterPosition();
-            return position == useProxyRow || position == callsRow || position == proxyAddRow || position >= proxyStartRow && position < proxyEndRow;
+            return position == useProxyRow || position == callsRow || position == proxyAddRow || position >= proxyStartRow && position < proxyEndRow || position == sponsorRow;
         }
 
         @Override
@@ -629,6 +648,10 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                     view = new TextDetailProxyCell(mContext);
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
+                case 6:
+                    view = new TextDetailSettingsCell(mContext);
+                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    break;
             }
             view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
             return new RecyclerListView.Holder(view);
@@ -646,6 +669,8 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 return 2;
             } else if (position >= proxyStartRow && position < proxyEndRow) {
                 return 5;
+            } else if (position == sponsorRow) {
+                return 6;
             } else {
                 return 4;
             }
