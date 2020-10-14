@@ -19,7 +19,7 @@ import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
-public class GoogleWebTranslator extends Translator {
+public class GoogleWebTranslator extends BaseTranslator {
 
     private static GoogleWebTranslator instance;
     private List<String> targetLanguages = Arrays.asList(
@@ -68,7 +68,7 @@ public class GoogleWebTranslator extends Translator {
             return null;
         }
         String tk = Utils.signWeb(query, tkk[0], tkk[1]);
-        String url = "https://translate.google." + (NekoConfig.translationProvider == PROVIDER_GOOGLE_CN ? "cn" : "com") + "/translate_a/single?client=webapp&dt=t&sl=auto" +
+        String url = "https://translate.google." + (NekoConfig.translationProvider == Translator.PROVIDER_GOOGLE_CN ? "cn" : "com") + "/translate_a/single?client=webapp&dt=t&sl=auto" +
                 "&tl=" + tl +
                 "&tk=" + tk +
                 "&q=" + Utils.encodeURIComponent(query); // 不能用URLEncoder
@@ -89,7 +89,7 @@ public class GoogleWebTranslator extends Translator {
     }
 
     private void initTkk() throws IOException {
-        String response = request("https://translate.google." + (NekoConfig.translationProvider == PROVIDER_GOOGLE_CN ? "cn" : "com"));
+        String response = request("https://translate.google." + (NekoConfig.translationProvider == Translator.PROVIDER_GOOGLE_CN ? "cn" : "com"));
         if (TextUtils.isEmpty(response)) {
             FileLog.e("Tkk init failed");
             return;

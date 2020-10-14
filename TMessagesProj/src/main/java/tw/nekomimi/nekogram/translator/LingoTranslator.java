@@ -14,7 +14,7 @@ import java.net.URL;
 import java.util.Arrays;
 import java.util.List;
 
-public class LingoTranslator extends Translator {
+public class LingoTranslator extends BaseTranslator {
 
     private static LingoTranslator instance;
     private List<String> targetLanguages = Arrays.asList("zh", "en", "es", "fr", "ja", "ru");

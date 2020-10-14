@@ -2,32 +2,27 @@ package tw.nekomimi.nekogram.translator;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.widget.LinearLayout;
 
-import org.json.JSONException;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.RadioColorCell;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
-abstract public class Translator {
+public class Translator {
 
     public static final int PROVIDER_GOOGLE = 1;
     public static final int PROVIDER_GOOGLE_CN = 2;
     public static final int PROVIDER_LINGO = 3;
     public static final int PROVIDER_YANDEX = 4;
+    public static final int PROVIDER_DEEPL = 5;
 
     @SuppressLint("StaticFieldLeak")
     private static AlertDialog progressDialog;
@@ -96,6 +91,8 @@ abstract public class Translator {
         types.add(Translator.PROVIDER_LINGO);
         arrayList.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
         types.add(Translator.PROVIDER_YANDEX);
+        arrayList.add(LocaleController.getString("ProviderDeepLTranslate", R.string.ProviderDeepLTranslate));
+        types.add(Translator.PROVIDER_DEEPL);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
@@ -123,7 +120,7 @@ abstract public class Translator {
     public static void translate(Object query, TranslateCallBack translateCallBack) {
         Locale locale = LocaleController.getInstance().currentLocale;
         String toLang;
-        Translator translator;
+        BaseTranslator translator;
         switch (NekoConfig.translationProvider) {
             case PROVIDER_YANDEX:
                 toLang = locale.getLanguage();
@@ -132,6 +129,10 @@ abstract public class Translator {
             case PROVIDER_LINGO:
                 toLang = locale.getLanguage();
                 translator = LingoTranslator.getInstance();
+                break;
+            case PROVIDER_DEEPL:
+                toLang = locale.getLanguage().toUpperCase();
+                translator = DeepLTranslator.getInstance();
                 break;
             case PROVIDER_GOOGLE:
             case PROVIDER_GOOGLE_CN:
@@ -157,14 +158,6 @@ abstract public class Translator {
         }
     }
 
-    private void startTask(Object query, String toLang, TranslateCallBack translateCallBack) {
-        new MyAsyncTask().request(query, toLang, translateCallBack).execute();
-    }
-
-    abstract protected String translate(String query, String tl) throws IOException, JSONException;
-
-    abstract protected List<String> getTargetLanguages();
-
     public interface RetryCallback {
         void run();
     }
@@ -178,67 +171,5 @@ abstract public class Translator {
     private static class UnsupportedTargetLanguageException extends IllegalArgumentException {
     }
 
-    @SuppressWarnings("deprecation")
-    @SuppressLint("StaticFieldLeak")
-    private class MyAsyncTask extends AsyncTask<Void, Integer, Object> {
-        TranslateCallBack translateCallBack;
-        Object query;
-        String tl;
-
-        public MyAsyncTask request(Object query, String tl, TranslateCallBack translateCallBack) {
-            this.query = query;
-            this.tl = tl;
-            this.translateCallBack = translateCallBack;
-            return this;
-        }
-
-        @Override
-        protected Object doInBackground(Void... params) {
-            try {
-                if (query instanceof String) {
-                    return translate((String) query, tl);
-                } else if (query instanceof TLRPC.Poll) {
-                    TLRPC.TL_poll poll = new TLRPC.TL_poll();
-                    TLRPC.TL_poll original = (TLRPC.TL_poll) query;
-                    poll.question = original.question +
-                            "\n" +
-                            "--------" +
-                            "\n" + translate(original.question, tl);
-                    for (int i = 0; i < original.answers.size(); i++) {
-                        TLRPC.TL_pollAnswer answer = new TLRPC.TL_pollAnswer();
-                        answer.text = original.answers.get(i).text + " | " + translate(original.answers.get(i).text, tl);
-                        answer.option = original.answers.get(i).option;
-                        poll.answers.add(answer);
-                    }
-                    poll.close_date = original.close_date;
-                    poll.close_period = original.close_period;
-                    poll.closed = original.closed;
-                    poll.flags = original.flags;
-                    poll.id = original.id;
-                    poll.multiple_choice = original.multiple_choice;
-                    poll.public_voters = original.public_voters;
-                    poll.quiz = original.quiz;
-                    return poll;
-                } else {
-                    throw new UnsupportedOperationException("Unsupported translation query");
-                }
-            } catch (Throwable e) {
-                FileLog.e(e);
-                return e;
-            }
-        }
-
-        @Override
-        protected void onPostExecute(Object result) {
-            if (result == null) {
-                translateCallBack.onError(null);
-            } else if (result instanceof Exception) {
-                translateCallBack.onError((Exception) result);
-            } else {
-                translateCallBack.onSuccess(result);
-            }
-        }
-
-    }
 
 }

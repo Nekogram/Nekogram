@@ -14,7 +14,7 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 
-public class YandexTranslator extends Translator {
+public class YandexTranslator extends BaseTranslator {
 
     private static YandexTranslator instance;
     private List<String> targetLanguages = Arrays.asList(
