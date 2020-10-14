@@ -120,4 +120,5 @@
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Formato de tiempo con segundos</string>
     <string name="JumpToBeginning">Saltar al principio</string>
+    <string name="ProviderDeepLTranslate">Traducir con DeepL</string>
 </resources>
