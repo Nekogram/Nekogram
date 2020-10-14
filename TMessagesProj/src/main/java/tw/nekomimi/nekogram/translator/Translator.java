@@ -28,16 +28,20 @@ public class Translator {
     private static AlertDialog progressDialog;
 
     public static void showTranslateDialog(Context context, String query) {
-        if (progressDialog != null) {
+        try {
             progressDialog.dismiss();
+        } catch (Exception ignore) {
+
         }
         progressDialog = new AlertDialog(context, 3);
         progressDialog.showDelayed(400);
         translate(query, new TranslateCallBack() {
             @Override
             public void onSuccess(Object translation) {
-                if (progressDialog != null) {
+                try {
                     progressDialog.dismiss();
+                } catch (Exception ignore) {
+
                 }
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setMessage((String) translation);
@@ -57,8 +61,10 @@ public class Translator {
         if (context == null) {
             return;
         }
-        if (progressDialog != null) {
+        try {
             progressDialog.dismiss();
+        } catch (Exception ignore) {
+
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         if (e instanceof UnsupportedTargetLanguageException) {
