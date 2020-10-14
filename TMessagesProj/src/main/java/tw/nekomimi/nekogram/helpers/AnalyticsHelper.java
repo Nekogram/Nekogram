@@ -22,6 +22,12 @@ public class AnalyticsHelper {
         }
     }
 
+    public static void trackEvent(String event){
+        if (isEnabled()) {
+            Analytics.trackEvent(event);
+        }
+    }
+
     public static boolean isEnabled() {
         return AppCenter.isConfigured() && NekoConfig.enableAnalytics;
     }

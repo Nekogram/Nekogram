@@ -12,8 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.microsoft.appcenter.analytics.Analytics;
-
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -43,6 +41,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.DonateHelper;
 
 @SuppressLint("RtlHardcoded")
@@ -140,7 +139,7 @@ public class NekoSettingsActivity extends BaseFragment {
             } else if (position == sourceCodeRow) {
                 Browser.openUrl(getParentActivity(), "https://github.com/Nekogram/Nekogram");
             } else if (position == sponsorRow) {
-                Analytics.trackEvent("open_sponsor");
+                AnalyticsHelper.trackEvent("open_sponsor");
                 Browser.openUrl(getParentActivity(), "https://gamma.pcr.cy/auth/register?code=neko");
             }
         });

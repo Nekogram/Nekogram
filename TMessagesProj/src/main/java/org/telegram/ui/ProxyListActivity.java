@@ -53,10 +53,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.microsoft.appcenter.analytics.Analytics;
-
 import java.util.ArrayList;
 import java.util.List;
+
+import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 
 public class ProxyListActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -363,7 +363,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             } else if (position == proxyAddRow) {
                 presentFragment(new ProxySettingsActivity());
             } else if (position == sponsorRow) {
-                Analytics.trackEvent("open_sponsor");
+                AnalyticsHelper.trackEvent("open_sponsor");
                 Browser.openUrl(getParentActivity(), "https://gamma.pcr.cy/auth/register?code=neko");
             }
         });
