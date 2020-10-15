@@ -234,8 +234,9 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     types.add(Translator.PROVIDER_LINGO);
                     arrayList.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
                     types.add(Translator.PROVIDER_YANDEX);
-                    arrayList.add(LocaleController.getString("ProviderDeepLTranslate", R.string.ProviderDeepLTranslate));
-                    types.add(Translator.PROVIDER_DEEPL);
+                    //arrayList.add(LocaleController.getString("ProviderDeepLTranslate", R.string.ProviderDeepLTranslate));
+                    //arrayList.add(LocaleController.getString("ProviderDeepLTranslate", R.string.ProviderDeepLTranslate));
+                    //types.add(Translator.PROVIDER_DEEPL);
                     PopupHelper.show(arrayList, LocaleController.getString("TranslationProvider", R.string.TranslationProvider), types.indexOf(NekoConfig.translationProvider), context, view, i -> {
                         NekoConfig.setTranslationProvider(types.get(i));
                         listAdapter.notifyItemChanged(translationProviderRow);
@@ -465,9 +466,9 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                             case Translator.PROVIDER_LINGO:
                                 value = LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud);
                                 break;
-                            case Translator.PROVIDER_DEEPL:
+                            /*case Translator.PROVIDER_DEEPL:
                                 value = LocaleController.getString("ProviderDeepLTranslate", R.string.ProviderDeepLTranslate);
-                                break;
+                                break;*/
                         }
                         textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), value, true);
                     } else if (position == idTypeRow) {
