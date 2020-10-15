@@ -2275,7 +2275,7 @@ public class AndroidUtilities {
     }
 
     public static CharSequence generateSearchName(String name, String name2, String q) {
-        if (name == null && name2 == null) {
+        if (name == null && name2 == null || TextUtils.isEmpty(q)) {
             return "";
         }
         SpannableStringBuilder builder = new SpannableStringBuilder();
@@ -2308,7 +2308,7 @@ public class AndroidUtilities {
 
             int start = builder.length();
             builder.append(query);
-            builder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4)), start, start + query.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            builder.setSpan(new ForegroundColorSpanThemable(Theme.key_windowBackgroundWhiteBlueText4), start, start + query.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
 
             lastIndex = end;
         }
