@@ -2149,12 +2149,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             boolean allowShowPinned;
             if (currentChat != null) {
                 allowShowPinned = ChatObject.canUserDoAction(currentChat, ChatObject.ACTION_PIN) || ChatObject.isChannel(currentChat);
-            } else if (currentUser != null && currentUser.self) {
-                allowShowPinned = true;
-            } else if (userInfo != null) {
-                allowShowPinned = userInfo.can_pin_message;
             } else {
-                allowShowPinned = false;
+                allowShowPinned = currentUser != null;
             }
             if (allowShowPinned) {
                 headerItem.addSubItem(show_pinned, R.drawable.msg_pin, LocaleController.getString("PinnedMessage", R.string.PinnedMessage));
