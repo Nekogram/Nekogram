@@ -403,7 +403,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
 
-        private Context mContext;
+        private final Context mContext;
 
         public ListAdapter(Context context) {
             mContext = context;

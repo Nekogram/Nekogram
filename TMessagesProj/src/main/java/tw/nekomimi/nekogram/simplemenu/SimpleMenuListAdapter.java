@@ -18,7 +18,7 @@ import static tw.nekomimi.nekogram.simplemenu.SimpleMenuPopupWindow.HORIZONTAL;
 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 class SimpleMenuListAdapter extends RecyclerView.Adapter<SimpleMenuListAdapter.ViewHolder> {
 
-    private SimpleMenuPopupWindow mWindow;
+    private final SimpleMenuPopupWindow mWindow;
 
     public SimpleMenuListAdapter(SimpleMenuPopupWindow window) {
         super();

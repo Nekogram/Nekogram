@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
@@ -37,8 +36,6 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
@@ -186,7 +183,7 @@ public class NekoSettingsActivity extends BaseFragment {
 
         aboutRow = rowCount++;
         channelRow = rowCount++;
-        googlePlayRow = installedFromPlay(getParentActivity()) ? rowCount++ : -1;
+        googlePlayRow = AnalyticsHelper.googlePlay() ? rowCount++ : -1;
         sourceCodeRow = -1;
         translationRow = rowCount++;
         donateRow = rowCount++;
@@ -199,17 +196,6 @@ public class NekoSettingsActivity extends BaseFragment {
 
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private boolean installedFromPlay(Context context) {
-        try {
-            List<String> validInstallers = new ArrayList<>(Arrays.asList("com.android.vending", "com.google.android.feedback"));
-            final String installer = context.getPackageManager().getInstallerPackageName(context.getPackageName());
-            return installer != null && validInstallers.contains(installer);
-        } catch (Exception e) {
-            FileLog.e(e);
-            return false;
         }
     }
 
@@ -256,7 +242,7 @@ public class NekoSettingsActivity extends BaseFragment {
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
 
-        private Context mContext;
+        private final Context mContext;
 
         public ListAdapter(Context context) {
             mContext = context;

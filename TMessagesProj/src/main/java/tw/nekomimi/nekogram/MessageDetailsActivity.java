@@ -52,7 +52,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     private RecyclerListView listView;
     private ListAdapter listAdapter;
 
-    private MessageObject messageObject;
+    private final MessageObject messageObject;
     private TLRPC.Chat toChat;
     private TLRPC.User fromUser;
     private TLRPC.Chat fromChat;
@@ -350,7 +350,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
 
-        private Context mContext;
+        private final Context mContext;
 
         public ListAdapter(Context context) {
             mContext = context;

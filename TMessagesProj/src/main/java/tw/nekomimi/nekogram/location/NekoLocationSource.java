@@ -26,9 +26,9 @@ import java.util.Set;
 public class NekoLocationSource implements LocationSource {
     public final static Set<Integer> recent = Collections.synchronizedSet(Collections.newSetFromMap(new Cache<>()));
     private boolean checkPermission = true;
-    private Context context;
+    private final Context context;
     private OnLocationChangedListener onLocationChangedListener;
-    private LocationCallback callback = new LocationCallback() {
+    private final LocationCallback callback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
             super.onLocationResult(locationResult);

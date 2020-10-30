@@ -426,12 +426,12 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
 
     private class StickerSizeCell extends FrameLayout {
 
-        private StickerSizePreviewMessagesCell messagesCell;
-        private SeekBarView sizeBar;
-        private int startStickerSize = 2;
-        private int endStickerSize = 20;
+        private final StickerSizePreviewMessagesCell messagesCell;
+        private final SeekBarView sizeBar;
+        private final int startStickerSize = 2;
+        private final int endStickerSize = 20;
 
-        private TextPaint textPaint;
+        private final TextPaint textPaint;
 
         public StickerSizeCell(Context context) {
             super(context);
@@ -484,7 +484,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
 
-        private Context mContext;
+        private final Context mContext;
 
         public ListAdapter(Context context) {
             mContext = context;

@@ -52,7 +52,7 @@ public class SimpleMenuPopupWindow extends PopupWindow {
     protected final int maxUnits;
     private int mMode = POPUP_MENU;
     private boolean mRequestMeasure = true;
-    private SimpleMenuListAdapter mAdapter;
+    private final SimpleMenuListAdapter mAdapter;
     private OnItemClickListener mOnItemClickListener;
     private CharSequence[] mEntries;
     private int mSelectedIndex;

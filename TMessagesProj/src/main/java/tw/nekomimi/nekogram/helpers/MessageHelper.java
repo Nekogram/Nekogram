@@ -23,7 +23,7 @@ import java.util.HashMap;
 
 public class MessageHelper extends BaseController {
 
-    private static volatile MessageHelper[] Instance = new MessageHelper[UserConfig.MAX_ACCOUNT_COUNT];
+    private static final MessageHelper[] Instance = new MessageHelper[UserConfig.MAX_ACCOUNT_COUNT];
     private int lastReqId;
 
     public MessageHelper(int num) {

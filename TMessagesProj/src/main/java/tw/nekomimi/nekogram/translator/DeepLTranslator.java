@@ -18,7 +18,7 @@ import java.util.List;
 public class DeepLTranslator extends BaseTranslator {
 
     private static DeepLTranslator instance;
-    private List<String> targetLanguages = Arrays.asList("DE", "EN", "ES", "FR", "IT", "JA", "NL", "PL", "PT", "RU", "ZH");
+    private final List<String> targetLanguages = Arrays.asList("DE", "EN", "ES", "FR", "IT", "JA", "NL", "PL", "PT", "RU", "ZH");
 
     static DeepLTranslator getInstance() {
         if (instance == null) {

@@ -17,7 +17,7 @@ import java.util.List;
 public class LingoTranslator extends BaseTranslator {
 
     private static LingoTranslator instance;
-    private List<String> targetLanguages = Arrays.asList("zh", "en", "es", "fr", "ja", "ru");
+    private final List<String> targetLanguages = Arrays.asList("zh", "en", "es", "fr", "ja", "ru");
 
     static LingoTranslator getInstance() {
         if (instance == null) {

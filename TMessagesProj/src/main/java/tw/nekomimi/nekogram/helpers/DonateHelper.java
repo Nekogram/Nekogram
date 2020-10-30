@@ -30,7 +30,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DonateHelper implements BillingClientStateListener, SkuDetailsResponseListener, PurchasesUpdatedListener, ConsumeResponseListener {
-    private Activity activity;
+    private final Activity activity;
     private AlertDialog progressDialog;
     private BillingClient billingClient;
 

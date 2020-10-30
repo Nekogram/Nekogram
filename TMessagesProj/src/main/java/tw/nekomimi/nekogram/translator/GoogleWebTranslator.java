@@ -22,7 +22,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 public class GoogleWebTranslator extends BaseTranslator {
 
     private static GoogleWebTranslator instance;
-    private List<String> targetLanguages = Arrays.asList(
+    private final List<String> targetLanguages = Arrays.asList(
             "sq", "ar", "am", "az", "ga", "et", "eu", "be", "bg", "is", "pl", "bs", "fa",
             "af", "da", "de", "ru", "fr", "tl", "fi", "fy", "km", "ka", "gu", "kk", "ht",
             "ko", "ha", "nl", "ky", "gl", "ca", "cs", "kn", "co", "hr", "ku", "la", "lv",

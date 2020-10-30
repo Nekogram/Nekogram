@@ -17,7 +17,7 @@ import java.util.List;
 public class YandexTranslator extends BaseTranslator {
 
     private static YandexTranslator instance;
-    private List<String> targetLanguages = Arrays.asList(
+    private final List<String> targetLanguages = Arrays.asList(
             "en", "af", "am", "ar", "az", "be", "bg", "bn", "bs", "ca", "ceb", "cs", "cy",
             "da", "de", "el", "eo", "es", "et", "eu", "fa", "fi", "fr", "ga", "gd", "gl", "gu",
             "he", "hi", "hr", "ht", "hu", "hy", "id", "is", "it", "ja", "jv", "ka", "kk", "km",

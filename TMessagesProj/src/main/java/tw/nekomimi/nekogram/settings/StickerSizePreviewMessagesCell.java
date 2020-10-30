@@ -34,10 +34,10 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
     private BackgroundGradientDrawable.Disposable oldBackgroundGradientDisposable;
     private Drawable backgroundDrawable;
     private Drawable oldBackgroundDrawable;
-    private ChatMessageCell[] cells = new ChatMessageCell[2];
-    private MessageObject[] messageObjects = new MessageObject[2];
-    private Drawable shadowDrawable;
-    private ActionBarLayout parentLayout;
+    private final ChatMessageCell[] cells = new ChatMessageCell[2];
+    private final MessageObject[] messageObjects = new MessageObject[2];
+    private final Drawable shadowDrawable;
+    private final ActionBarLayout parentLayout;
 
     public StickerSizePreviewMessagesCell(Context context, ActionBarLayout layout) {
         super(context);

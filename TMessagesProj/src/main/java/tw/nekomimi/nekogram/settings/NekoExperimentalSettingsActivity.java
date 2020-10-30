@@ -56,7 +56,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private RecyclerListView listView;
     private ListAdapter listAdapter;
 
-    private boolean sensitiveCanChange;
+    private final boolean sensitiveCanChange;
     private boolean sensitiveEnabled;
 
     private int rowCount;
@@ -385,7 +385,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
 
-        private Context mContext;
+        private final Context mContext;
 
         public ListAdapter(Context context) {
             mContext = context;
