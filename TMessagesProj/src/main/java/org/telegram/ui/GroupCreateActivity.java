@@ -106,6 +106,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
     private boolean doneButtonVisible;
     private boolean ignoreScrollEvent;
 
+    private int measuredContainerHeight;
     private int containerHeight;
 
     private int chatId;
@@ -128,6 +129,9 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
     private int fieldY;
 
+    private AnimatorSet currentAnimation;
+    int maxSize;
+
     private final static int done_button = 1;
 
     public interface GroupCreateActivityDelegate {
@@ -144,11 +148,11 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
     private class SpansContainer extends ViewGroup {
 
-        private AnimatorSet currentAnimation;
         private boolean animationStarted;
         private ArrayList<Animator> animators = new ArrayList<>();
         private View addingSpan;
         private View removingSpan;
+        private int animationIndex = -1;
 
         public SpansContainer(Context context) {
             super(context);
@@ -223,6 +227,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     if (containerHeight != resultHeight) {
                         animators.add(ObjectAnimator.ofInt(GroupCreateActivity.this, "containerHeight", resultHeight));
                     }
+                    measuredContainerHeight = Math.max(containerHeight, resultHeight);
                     if (editText.getTranslationX() != fieldX) {
                         animators.add(ObjectAnimator.ofFloat(editText, "translationX", fieldX));
                     }
@@ -231,10 +236,19 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     }
                     editText.setAllowDrawCursor(false);
                     currentAnimation.playTogether(animators);
+                    currentAnimation.addListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            NotificationCenter.getInstance(currentAccount).onAnimationFinish(animationIndex);
+                            requestLayout();
+                            super.onAnimationEnd(animation);
+                        }
+                    });
+                    animationIndex = NotificationCenter.getInstance(currentAccount).setAnimationInProgress(animationIndex, null);
                     currentAnimation.start();
                     animationStarted = true;
                 } else {
-                    containerHeight = currentHeight;
+                    measuredContainerHeight = containerHeight = currentHeight;
                     editText.setTranslationX(fieldX);
                     editText.setTranslationY(fieldY);
                 }
@@ -243,7 +257,8 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                     editText.bringPointIntoView(editText.getSelectionStart());
                 }
             }
-            setMeasuredDimension(width, containerHeight);
+            setMeasuredDimension(width, measuredContainerHeight);
+            listView.setTranslationY(0);
         }
 
         @Override
@@ -448,7 +463,6 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 int width = MeasureSpec.getSize(widthMeasureSpec);
                 int height = MeasureSpec.getSize(heightMeasureSpec);
                 setMeasuredDimension(width, height);
-                int maxSize;
                 if (AndroidUtilities.isTablet() || height > width) {
                     maxSize = AndroidUtilities.dp(144);
                 } else {
@@ -479,11 +493,22 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
             @Override
             protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
-                boolean result = super.drawChild(canvas, child, drawingTime);
                 if (child == listView || child == emptyView) {
-                    parentLayout.drawHeaderShadow(canvas, scrollView.getMeasuredHeight());
+                    canvas.save();
+                    canvas.clipRect(child.getLeft(), Math.min(maxSize, measuredContainerHeight + containerHeight - measuredContainerHeight), child.getRight(), child.getBottom());
+                    boolean result = super.drawChild(canvas, child, drawingTime);
+                    canvas.restore();
+                    parentLayout.drawHeaderShadow(canvas, Math.min(maxSize, measuredContainerHeight + containerHeight - measuredContainerHeight));
+                    return result;
+                } else if (child == scrollView) {
+                    canvas.save();
+                    canvas.clipRect(child.getLeft(), child.getTop(), child.getRight(), Math.min(maxSize, measuredContainerHeight + containerHeight - measuredContainerHeight));
+                    boolean result = super.drawChild(canvas, child, drawingTime);
+                    canvas.restore();
+                    return result;
+                } else {
+                    return super.drawChild(canvas, child, drawingTime);
                 }
-                return result;
             }
         };
         ViewGroup frameLayout = (ViewGroup) fragmentView;
@@ -501,6 +526,8 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 return super.requestChildRectangleOnScreen(child, rectangle, immediate);
             }
         };
+        scrollView.setClipChildren(false);
+        frameLayout.setClipChildren(false);
         scrollView.setVerticalScrollBarEnabled(false);
         AndroidUtilities.setScrollViewEdgeEffectColor(scrollView, Theme.getColor(Theme.key_windowBackgroundWhite));
         frameLayout.addView(scrollView);
@@ -741,6 +768,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 if (newState == RecyclerView.SCROLL_STATE_DRAGGING) {
+                    editText.hideActionMode();
                     AndroidUtilities.hideKeyboard(editText);
                 }
             }
@@ -839,10 +867,13 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
     @Keep
     public void setContainerHeight(int value) {
+        int dy = containerHeight - value;
         containerHeight = value;
-        if (spansContainer != null) {
-            spansContainer.requestLayout();
-        }
+        int measuredH = Math.min(maxSize, measuredContainerHeight);
+        int currentH = Math.min(maxSize, containerHeight);
+        scrollView.scrollTo(0, Math.max(0, scrollView.getScrollY() - dy));
+        listView.setTranslationY(currentH - measuredH);
+        fragmentView.invalidate();
     }
 
     @Keep

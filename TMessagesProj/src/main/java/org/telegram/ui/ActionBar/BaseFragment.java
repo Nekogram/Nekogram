@@ -42,6 +42,7 @@ import org.telegram.messenger.SecretChatHelper;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.ui.Components.LayoutHelper;
 
 import java.util.ArrayList;
 
@@ -431,6 +432,10 @@ public class BaseFragment {
                 }
             }
         }
+    }
+
+    protected int getPreviewHeight() {
+        return LayoutHelper.MATCH_PARENT;
     }
 
     protected void onBecomeFullyHidden() {

@@ -579,6 +579,11 @@ int32_t ConnectionsManager::getCurrentTime() {
     return (int32_t) (getCurrentTimeMillis() / 1000) + timeDifference;
 }
 
+uint32_t ConnectionsManager::getCurrentDatacenterId() {
+    Datacenter *datacenter = getDatacenterWithId(DEFAULT_DATACENTER_ID);
+    return datacenter != nullptr ? datacenter->getDatacenterId() : INT_MAX;
+}
+
 bool ConnectionsManager::isTestBackend() {
     return testBackend;
 }
@@ -2811,7 +2816,7 @@ std::unique_ptr<TLObject> ConnectionsManager::wrapInLayer(TLObject *object, Data
             invokeWithLayer *request2 = new invokeWithLayer();
             request2->layer = currentLayer;
             request2->query = std::unique_ptr<TLObject>(request);
-            if (LOGS_ENABLED) DEBUG_D("wrap in layer %s", typeid(*object).name());
+            if (LOGS_ENABLED) DEBUG_D("wrap in layer %s, flags = %d", typeid(*object).name(), request->flags);
             return std::unique_ptr<TLObject>(request2);
         }
     }

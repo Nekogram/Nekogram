@@ -103,6 +103,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
     private ArrayList<HistoryEntry> history = new ArrayList<>();
     private DocumentSelectActivityDelegate delegate;
     private HashMap<String, ListItem> selectedFiles = new HashMap<>();
+    private ArrayList<String> selectedFilesOrder = new ArrayList<>();
     private boolean scrolling;
     private ArrayList<ListItem> recentItems = new ArrayList<>();
     private int maxSelectedFiles = -1;
@@ -513,7 +514,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             return;
         }
         sendPressed = true;
-        ArrayList<String> files = new ArrayList<>(selectedFiles.keySet());
+        ArrayList<String> files = new ArrayList<>(selectedFilesOrder);
         delegate.didSelectFiles(files, parentAlert.commentTextView.getText().toString(), notify, scheduleDate);
         parentAlert.dismiss();
     }
@@ -526,6 +527,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         boolean add;
         if (selectedFiles.containsKey(path)) {
             selectedFiles.remove(path);
+            selectedFilesOrder.remove(path);
             add = false;
         } else {
             if (!item.file.canRead()) {
@@ -548,6 +550,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 return false;
             }
             selectedFiles.put(path, item);
+            selectedFilesOrder.add(path);
             add = true;
         }
         scrolling = false;
@@ -688,6 +691,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
     @Override
     void onShow() {
         selectedFiles.clear();
+        selectedFilesOrder.clear();
         history.clear();
         listRoots();
         updateSearchButton();

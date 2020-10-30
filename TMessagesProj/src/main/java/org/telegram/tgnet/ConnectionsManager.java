@@ -226,6 +226,10 @@ public class ConnectionsManager extends BaseController {
         return native_getCurrentTime(currentAccount);
     }
 
+    public int getCurrentDatacenterId() {
+        return native_getCurrentDatacenterId(currentAccount);
+    }
+
     public int getTimeDifference() {
         return native_getTimeDifference(currentAccount);
     }
@@ -512,6 +516,9 @@ public class ConnectionsManager extends BaseController {
         int flags = 0;
         EmuDetector detector = EmuDetector.with(ApplicationLoader.applicationContext);
         if (detector.detect()) {
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("detected emu");
+            }
             flags |= 1024;
         }
         return flags;
@@ -656,6 +663,7 @@ public class ConnectionsManager extends BaseController {
     public static native void native_resumeNetwork(int currentAccount, boolean partial);
     public static native long native_getCurrentTimeMillis(int currentAccount);
     public static native int native_getCurrentTime(int currentAccount);
+    public static native int native_getCurrentDatacenterId(int currentAccount);
     public static native int native_getTimeDifference(int currentAccount);
     public static native void native_sendRequest(int currentAccount, long object, RequestDelegateInternal onComplete, QuickAckDelegate onQuickAck, WriteToSocketDelegate onWriteToSocket, int flags, int datacenterId, int connetionType, boolean immediate, int requestToken);
     public static native void native_cancelRequest(int currentAccount, int token, boolean notifyServer);
