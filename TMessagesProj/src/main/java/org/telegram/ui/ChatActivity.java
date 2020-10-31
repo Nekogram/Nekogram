@@ -17526,7 +17526,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             if (NekoConfig.showTranslate) {
                                 MessageObject messageObject = null;
-                                if (selectedObjectGroup != null) {
+                                if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
                                     if (!TextUtils.isEmpty(selectedObjectGroup.messages.get(0).messageOwner.message)) {
                                         messageObject = selectedObjectGroup.messages.get(0);
                                     }
@@ -18774,7 +18774,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 break;
             } case 88: {
                 MessageObject messageObject = null;
-                if (selectedObjectGroup != null) {
+                if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
                     if (!TextUtils.isEmpty(selectedObjectGroup.messages.get(0).messageOwner.message)) {
                         messageObject = selectedObjectGroup.messages.get(0);
                     }
