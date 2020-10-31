@@ -107,7 +107,6 @@ public class GoogleWebTranslator extends BaseTranslator {
             if (matcher.group(1) == null || matcher.group(2) == null) {
                 return null;
             }
-            //noinspection ConstantConditions
             return new long[]{Long.parseLong(matcher.group(1)), Long.parseLong(matcher.group(2))};
         }
         return null;

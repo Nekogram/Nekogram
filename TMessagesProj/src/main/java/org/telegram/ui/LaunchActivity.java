@@ -1773,7 +1773,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                         } else {
                                             open_settings = 1;
                                         }
-                                    }  else if (url.startsWith("tg:meow") || url.startsWith("tg://meow") || url.startsWith("tg:nya") || url.startsWith("tg://nya")) {
+                                    } else if (url.startsWith("tg:meow") || url.startsWith("tg://meow") || url.startsWith("tg:nya") || url.startsWith("tg://nya")) {
                                         try {
                                             Toast.makeText(LaunchActivity.this, LocaleController.getString("Nya", R.string.Nya), Toast.LENGTH_SHORT).show();
                                         } catch (Exception e) {

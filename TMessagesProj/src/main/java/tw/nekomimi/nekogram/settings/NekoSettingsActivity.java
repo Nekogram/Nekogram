@@ -183,7 +183,7 @@ public class NekoSettingsActivity extends BaseFragment {
 
         aboutRow = rowCount++;
         channelRow = rowCount++;
-        googlePlayRow = AnalyticsHelper.googlePlay() ? rowCount++ : -1;
+        googlePlayRow = -1;
         sourceCodeRow = -1;
         translationRow = rowCount++;
         donateRow = rowCount++;
@@ -348,7 +348,6 @@ public class NekoSettingsActivity extends BaseFragment {
                     view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     break;
             }
-            //noinspection ConstantConditions
             view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
             return new RecyclerListView.Holder(view);
         }
