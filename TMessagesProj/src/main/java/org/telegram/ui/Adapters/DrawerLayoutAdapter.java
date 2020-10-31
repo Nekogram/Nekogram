@@ -260,7 +260,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             settingsIcon = R.drawable.menu_settings_14;
             inviteIcon = R.drawable.menu_secret_ny;
             helpIcon = R.drawable.menu_help;
-        } else if (eventType == 2) {
+        } else if (eventType == 2 || NekoConfig.eventType == 3) {
             newGroupIcon = R.drawable.menu_groups_hw;
             newSecretIcon = R.drawable.menu_secret_hw;
             newChannelIcon = R.drawable.menu_broadcast_hw;

@@ -211,6 +211,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 arrayList.add(LocaleController.getString("DependsOnDate", R.string.DependsOnDate));
                 arrayList.add(LocaleController.getString("Christmas", R.string.Christmas));
                 arrayList.add(LocaleController.getString("Valentine", R.string.Valentine));
+                arrayList.add(LocaleController.getString("Halloween", R.string.Halloween));
                 PopupHelper.show(arrayList, LocaleController.getString("EventType", R.string.EventType), NekoConfig.eventType, context, view, i -> {
                     NekoConfig.setEventType(i);
                     listAdapter.notifyItemChanged(eventTypeRow);

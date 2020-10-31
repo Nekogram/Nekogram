@@ -130,4 +130,5 @@
     <string name="FormatWithSeconds">Format time with seconds</string>
     <string name="JumpToBeginning">Jump to beginning</string>
     <string name="ProviderDeepLTranslate">DeepL Translate</string>
+    <string name="Halloween">Halloween</string>
 </resources>
