@@ -121,4 +121,6 @@
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Formatar a hora com segundos</string>
     <string name="JumpToBeginning">Pular para o início</string>
+    <string name="ProviderDeepLTranslate">Tradutor DeepL</string>
+    <string name="Halloween">Dia das Bruxas</string>
 </resources>

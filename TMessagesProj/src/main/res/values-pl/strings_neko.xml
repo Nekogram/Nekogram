@@ -120,4 +120,6 @@
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Format czasu z sekundami</string>
     <string name="JumpToBeginning">Skocz na początek</string>
+    <string name="ProviderDeepLTranslate">Tłumacz DeepL</string>
+    <string name="Halloween">Halloween</string>
 </resources>
