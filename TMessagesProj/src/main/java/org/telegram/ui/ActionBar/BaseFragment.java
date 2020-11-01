@@ -274,6 +274,12 @@ public class BaseFragment {
         return false;
     }
 
+    protected void resumeDelayedFragmentAnimation() {
+        if (parentLayout != null) {
+            parentLayout.resumeDelayedFragmentAnimation();
+        }
+    }
+
     public void onResume() {
         isPaused = false;
         AnalyticsHelper.onFragmentView(this);

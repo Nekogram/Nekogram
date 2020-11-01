@@ -4086,7 +4086,7 @@ public class MessageObject {
                 lastLineWidth = linesMaxWidth;
             }
 
-            linesMaxWidthWithLeft = lastLineWidthWithLeft = (int) Math.ceil(lastLine + lastLeft);
+            linesMaxWidthWithLeft = lastLineWidthWithLeft = (int) Math.ceil(linesMaxWidth + Math.max(0, lastLeft));
 
             if (currentBlockLinesCount > 1) {
                 boolean hasNonRTL = false;
@@ -4099,14 +4099,15 @@ public class MessageObject {
                         lineWidth = 0;
                     }
 
-                    if (lineWidth > maxWidth + 20) {
-                        lineWidth = maxWidth;
-                    }
-
                     try {
                         lineLeft = block.textLayout.getLineLeft(n);
                     } catch (Exception e) {
                         FileLog.e(e);
+                        lineLeft = 0;
+                    }
+
+                    if (lineWidth > maxWidth + 20) {
+                        lineWidth = maxWidth;
                         lineLeft = 0;
                     }
 

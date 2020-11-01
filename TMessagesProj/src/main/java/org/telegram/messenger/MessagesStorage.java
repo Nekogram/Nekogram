@@ -1229,7 +1229,7 @@ public class MessagesStorage extends BaseController {
                                 final int maxIdDelete = data.readInt32(false);
                                 final boolean revoke = data.readBool(false);
                                 TLRPC.InputPeer inputPeer = TLRPC.InputPeer.TLdeserialize(data, data.readInt32(false), false);
-                                AndroidUtilities.runOnUIThread(() -> getMessagesController().deleteDialog(did, first, onlyHistory, maxIdDelete, revoke, inputPeer, taskId));
+                                AndroidUtilities.runOnUIThread(() -> getMessagesController().deleteDialog(did, first ? 1 : 0, onlyHistory, maxIdDelete, revoke, inputPeer, taskId));
                                 break;
                             }
                             case 15: {
@@ -10879,11 +10879,10 @@ public class MessagesStorage extends BaseController {
         });
     }
 
-    public int getDialogMaxMessageId(final long dialog_id) {
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-        final Integer[] max = new Integer[]{0};
+    public void getDialogMaxMessageId(final long dialog_id, IntCallback callback) {
         storageQueue.postRunnable(() -> {
             SQLiteCursor cursor = null;
+            int[] max = new int[1];
             try {
                 cursor = database.queryFinalized("SELECT MAX(mid) FROM messages WHERE uid = " + dialog_id);
                 if (cursor.next()) {
@@ -10896,14 +10895,8 @@ public class MessagesStorage extends BaseController {
                     cursor.dispose();
                 }
             }
-            countDownLatch.countDown();
+            AndroidUtilities.runOnUIThread(() -> callback.run(max[0]));
         });
-        try {
-            countDownLatch.await();
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        return max[0];
     }
 
     public int getDialogReadMax(final boolean outbox, final long dialog_id) {
