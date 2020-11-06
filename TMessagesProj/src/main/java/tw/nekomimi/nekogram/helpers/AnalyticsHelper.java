@@ -5,7 +5,6 @@ import android.content.Context;
 
 import com.microsoft.appcenter.AppCenter;
 import com.microsoft.appcenter.analytics.Analytics;
-import com.microsoft.appcenter.distribute.Distribute;
 
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.UserConfig;
@@ -21,11 +20,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 public class AnalyticsHelper {
     public static void start(Application application) {
         try {
-            if (googlePlay(application)) {
-                AppCenter.start(application, "033a70ca-ea8d-4c2f-8c2c-b37f1b47f766", Analytics.class);
-            } else {
-                AppCenter.start(application, "033a70ca-ea8d-4c2f-8c2c-b37f1b47f766", Analytics.class, Distribute.class);
-            }
+            AppCenter.start(application, "033a70ca-ea8d-4c2f-8c2c-b37f1b47f766", Analytics.class);
             AppCenter.setUserId(String.valueOf(UserConfig.getInstance(UserConfig.selectedAccount).clientUserId));
         } catch (Exception ignore) {
             //

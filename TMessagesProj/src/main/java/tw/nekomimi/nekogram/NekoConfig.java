@@ -81,6 +81,8 @@ public class NekoConfig {
 
     public static boolean shouldNOTTrustMe = false;
 
+    public static long lastSuccessfulCheckUpdateTime = 0;
+
     public static boolean customEmojiFont;
     public static String customEmojiFontPath;
     private static Typeface customEmojiTypeface;
@@ -211,6 +213,7 @@ public class NekoConfig {
             tryToOpenAllLinksInIV = preferences.getBoolean("tryToOpenAllLinksInIV", false);
             enableAnalytics = preferences.getBoolean("enableAnalytics", true);
             formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
+            lastSuccessfulCheckUpdateTime = preferences.getLong("lastSuccessfulCheckUpdateTime", 0);
             configLoaded = true;
         }
     }
@@ -615,6 +618,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("formatTimeWithSeconds", formatTimeWithSeconds);
+        editor.commit();
+    }
+
+    public static void setLastSuccessfulCheckUpdateTime(long time) {
+        lastSuccessfulCheckUpdateTime = time;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putLong("lastSuccessfulCheckUpdateTime", lastSuccessfulCheckUpdateTime);
         editor.commit();
     }
 

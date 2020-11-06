@@ -47,6 +47,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.MANAGE_OWN_CALLS"/>
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES"/>
     <uses-permission android:name="android.permission.USE_FULL_SCREEN_INTENT"/>
 
     <uses-permission android:name="com.sec.android.provider.badge.permission.READ"/>
@@ -299,6 +300,7 @@
         <service android:name=".voip.VoIPService" android:enabled="true"/>
         <service android:name=".GoogleVoiceClientService"/>
         <service android:name=".MusicPlayerService" android:exported="true" android:enabled="true"/>
+        <service android:name="tw.nekomimi.nekogram.updater.UpdateService" android:exported="true" android:enabled="true"/>
         <service android:name=".MusicBrowserService" android:exported="true">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService"/>

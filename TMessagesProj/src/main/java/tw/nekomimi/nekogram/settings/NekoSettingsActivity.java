@@ -40,15 +40,17 @@ import java.util.ArrayList;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.DonateHelper;
+import tw.nekomimi.nekogram.updater.UpdateHelper;
 
 @SuppressLint("RtlHardcoded")
-public class NekoSettingsActivity extends BaseFragment {
+public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.UpdateHelperDelegate {
 
     private RecyclerListView listView;
     private ListAdapter listAdapter;
 
     private boolean sensitiveCanChange = false;
     private boolean sensitiveEnabled = false;
+    private boolean checkingUpdate = false;
 
     private int rowCount;
 
@@ -64,6 +66,7 @@ public class NekoSettingsActivity extends BaseFragment {
     private int sourceCodeRow;
     private int translationRow;
     private int donateRow;
+    private int checkUpdateRow;
     private int sponsorRow;
     private int about2Row;
 
@@ -138,6 +141,10 @@ public class NekoSettingsActivity extends BaseFragment {
             } else if (position == sponsorRow) {
                 AnalyticsHelper.trackEvent("open_sponsor");
                 Browser.openUrl(getParentActivity(), "https://gamma.pcr.cy/auth/register?code=neko");
+            } else if (position == checkUpdateRow) {
+                UpdateHelper.getInstance().checkNewVersionAvailable(this, false);
+                checkingUpdate = true;
+                listAdapter.notifyItemChanged(checkUpdateRow);
             }
         });
         listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() {
@@ -187,6 +194,7 @@ public class NekoSettingsActivity extends BaseFragment {
         sourceCodeRow = -1;
         translationRow = rowCount++;
         donateRow = rowCount++;
+        checkUpdateRow = AnalyticsHelper.googlePlay(getParentActivity()) ? -1 : rowCount++;
         if (!LocaleController.getString("SponsorTitle", R.string.SponsorTitle).equals("dummy")) {
             sponsorRow = rowCount++;
         } else {
@@ -238,6 +246,12 @@ public class NekoSettingsActivity extends BaseFragment {
         themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextDetailSettingsCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
 
         return themeDescriptions;
+    }
+
+    @Override
+    public void didCheckNewVersionAvailable(String error) {
+        checkingUpdate = false;
+        AndroidUtilities.runOnUIThread(() -> listAdapter.notifyItemChanged(checkUpdateRow));
     }
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
@@ -300,9 +314,13 @@ public class NekoSettingsActivity extends BaseFragment {
                     if (position == translationRow) {
                         textCell.setTextAndValue(LocaleController.getString("Translation", R.string.Translation), LocaleController.getString("TranslationAbout", R.string.TranslationAbout), true);
                     } else if (position == donateRow) {
-                        textCell.setTextAndValue(LocaleController.getString("Donate", R.string.Donate), LocaleController.getString("DonateAbout", R.string.DonateAbout), sponsorRow != -1);
+                        textCell.setTextAndValue(LocaleController.getString("Donate", R.string.Donate), LocaleController.getString("DonateAbout", R.string.DonateAbout), position + 1 != about2Row);
                     } else if (position == sponsorRow) {
                         textCell.setTextAndValue(LocaleController.getString("SponsorTitle", R.string.SponsorTitle), LocaleController.getString("SponsorContent", R.string.SponsorContent), false);
+                    } else if (position == checkUpdateRow) {
+                        textCell.setTextAndValue(LocaleController.getString("CheckUpdate", R.string.CheckUpdate),
+                                checkingUpdate ? LocaleController.getString("CheckingUpdate", R.string.CheckingUpdate) :
+                                        UpdateHelper.formatDateUpdate(NekoConfig.lastSuccessfulCheckUpdateTime), position + 1 != about2Row);
                     }
                     break;
                 }
