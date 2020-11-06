@@ -576,7 +576,8 @@ public class ConnectionsManager extends BaseController {
         });
     }
 
-    public static void onProxyError() {
+    public static void onProxyError(int instanceNum) {
+        if (instanceNum != UserConfig.selectedAccount) return;
         AndroidUtilities.runOnUIThread(() -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needShowAlert, 3));
     }
 
