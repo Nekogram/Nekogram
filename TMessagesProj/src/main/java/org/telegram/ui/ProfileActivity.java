@@ -6199,8 +6199,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 abi = "x86_64";
                                 break;
                             case 0:
-                                abi = "play " + Build.CPU_ABI + " " + Build.CPU_ABI2;
-                                break;
                             case 9:
                                 abi = "universal " + Build.CPU_ABI + " " + Build.CPU_ABI2;
                                 break;

@@ -43,6 +43,8 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.0.10'
 }
 
+ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':5, x86:2, x86_64:6, 'universal':0]
+
 android {
     compileSdkVersion 30
     buildToolsVersion '30.0.2'
@@ -112,45 +114,6 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
 
-        /*debugAsan {
-            debuggable true
-            jniDebuggable true
-            signingConfig signingConfigs.debug
-            applicationIdSuffix ".beta"
-            minifyEnabled true
-            multiDexEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
-            packagingOptions {
-                doNotStrip "**.so"
-            }
-
-            sourceSets {
-                main {
-                    jniLibs {
-                        srcDir {
-                            'jniLibs'
-                        }
-                    }
-                    resources {
-                        srcDir {
-                            'jniRes'
-                        }
-                    }
-                }
-            }
-        }*/
-
-        HA {
-            debuggable false
-            jniDebuggable false
-            signingConfig signingConfigs.debug
-            applicationIdSuffix ".beta"
-            minifyEnabled true
-            multiDexEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-
         release {
             debuggable false
             jniDebuggable false
@@ -163,151 +126,23 @@ android {
     }
 
     sourceSets.debug {
-        manifest.srcFile 'config/debug/AndroidManifest.xml'
-    }
-
-    /*sourceSets.debugAsan {
-        manifest.srcFile 'config/debug/AndroidManifest.xml'
-    }*/
-
-    sourceSets.HA {
-        manifest.srcFile 'config/debug/AndroidManifest.xml'
+        manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
     }
 
     sourceSets.release {
-        manifest.srcFile 'config/release/AndroidManifest.xml'
-    }
-
-    flavorDimensions "minApi"
-
-    productFlavors {
-        armv7 {
-            ndk {
-                abiFilters "armeabi-v7a"
-            }
-            ext {
-                abiVersionCode = 1
-            }
-        }
-        x86 {
-            ndk {
-                abiFilters "x86"
-            }
-            ext {
-                abiVersionCode = 2
-            }
-        }
-        armv7_SDK23 {
-            ndk {
-                abiFilters "armeabi-v7a"
-            }
-            sourceSets.debug {
-                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
-            }
-            sourceSets.release {
-                manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
-            }
-            minSdkVersion 23
-            ext {
-                abiVersionCode = 3
-            }
-        }
-        x86_SDK23 {
-            ndk {
-                abiFilters "x86"
-            }
-            sourceSets.debug {
-                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
-            }
-            sourceSets.release {
-                manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
-            }
-            minSdkVersion 23
-            ext {
-                abiVersionCode = 4
-            }
-        }
-        arm64 {
-            ndk {
-                abiFilters "arm64-v8a"
-            }
-            ext {
-                abiVersionCode = 5
-            }
-        }
-        x64 {
-            ndk {
-                abiFilters "x86_64"
-            }
-            ext {
-                abiVersionCode = 6
-            }
-        }
-        arm64_SDK23 {
-            ndk {
-                abiFilters "arm64-v8a"
-            }
-            sourceSets.debug {
-                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
-            }
-            /*sourceSets.debugAsan {
-                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
-            }*/
-            sourceSets.release {
-                manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
-            }
-            minSdkVersion 23
-            ext {
-                abiVersionCode = 7
-            }
-        }
-        x64_SDK23 {
-            ndk {
-                abiFilters "x86_64"
-            }
-            sourceSets.debug {
-                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
-            }
-            sourceSets.release {
-                manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
-            }
-            minSdkVersion 23
-            ext {
-                abiVersionCode = 8
-            }
-        }
-        afat {
-            ndk {
-                abiFilters "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
-            }
-            sourceSets.debug {
-                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
-            }
-            /*sourceSets.debugAsan {
-                manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
-            }*/
-            sourceSets.release {
-                manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
-            }
-            ext {
-                abiVersionCode = 9
-            }
-        }
+        manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
     }
 
     defaultConfig.versionCode = 2139
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
-            outputFileName = "Nekogram-${defaultConfig.versionName}-${defaultConfig.versionCode}-${buildType.name}.apk"
-            output.versionCodeOverride = defaultConfig.versionCode * 10 + variant.productFlavors.get(0).abiVersionCode
-        }
-    }
-
-    variantFilter { variant ->
-        def names = variant.flavors*.name
-        if (variant.buildType.name != "release" && !names.contains("afat")) {
-            setIgnore(true)
+            //noinspection GrDeprecatedAPIUsage
+            def abi = output.getFilter(com.android.build.OutputFile.ABI)
+            if (abi == null) abi = 'universal'
+            outputFileName = "Nekogram-${defaultConfig.versionName}-${defaultConfig.versionCode}-${abi}.apk"
+            def abiVersionCode = project.ext.abiCodes.get(abi)
+            output.versionCodeOverride = defaultConfig.versionCode * 10 + abiVersionCode
         }
     }
 
@@ -330,6 +165,11 @@ android {
         language {
             enableSplit = false
         }
+    }
+
+    splits.abi {
+        enable true
+        universalApk true
     }
 }
 
