@@ -91,12 +91,12 @@ public class GoogleWebTranslator extends BaseTranslator {
     private void initTkk() throws IOException {
         String response = request("https://translate.google." + (NekoConfig.translationProvider == Translator.PROVIDER_GOOGLE_CN ? "cn" : "com"));
         if (TextUtils.isEmpty(response)) {
-            FileLog.e("Tkk init failed");
+            FileLog.e("Request tkk failed");
             return;
         }
         tkk = matchTKK(response);
         if (tkk == null) {
-            FileLog.e("Tkk init failed");
+            FileLog.e("Match ttk failed");
         }
     }
 
@@ -107,6 +107,7 @@ public class GoogleWebTranslator extends BaseTranslator {
             if (matcher.group(1) == null || matcher.group(2) == null) {
                 return null;
             }
+            //noinspection ConstantConditions
             return new long[]{Long.parseLong(matcher.group(1)), Long.parseLong(matcher.group(2))};
         }
         return null;

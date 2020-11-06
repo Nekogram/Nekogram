@@ -215,7 +215,7 @@ public class SimpleMenuPopupWindow extends PopupWindow {
         getContentView().post(() -> {
             // disable over scroll when no scroll
             LinearLayoutManager lm = (LinearLayoutManager) SimpleMenuPopupWindow.this.getContentView().getLayoutManager();
-            if (lm.findFirstCompletelyVisibleItemPosition() == 0
+            if (lm != null && lm.findFirstCompletelyVisibleItemPosition() == 0
                     && lm.findLastCompletelyVisibleItemPosition() == count - 1) {
                 SimpleMenuPopupWindow.this.getContentView().setOverScrollMode(View.OVER_SCROLL_NEVER);
             }

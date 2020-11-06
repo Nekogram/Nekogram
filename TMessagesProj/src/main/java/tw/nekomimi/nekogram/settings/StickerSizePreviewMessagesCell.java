@@ -32,6 +32,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
 
     private BackgroundGradientDrawable.Disposable backgroundGradientDisposable;
     private BackgroundGradientDrawable.Disposable oldBackgroundGradientDisposable;
+
     private Drawable backgroundDrawable;
     private Drawable oldBackgroundDrawable;
     private final ChatMessageCell[] cells = new ChatMessageCell[2];
@@ -152,7 +153,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
             if (drawable == null) {
                 continue;
             }
-            if (a == 1 && oldBackgroundDrawable != null && parentLayout != null) {
+            if (a == 1 && oldBackgroundDrawable != null) {
                 drawable.setAlpha((int) (255 * themeAnimationValue));
             } else {
                 drawable.setAlpha(255);
