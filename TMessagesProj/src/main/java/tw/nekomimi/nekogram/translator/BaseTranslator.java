@@ -65,6 +65,7 @@ abstract public class BaseTranslator {
                     throw new UnsupportedOperationException("Unsupported translation query");
                 }
             } catch (Throwable e) {
+                e.printStackTrace();
                 FileLog.e(e);
                 return e;
             }

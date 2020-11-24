@@ -22,7 +22,7 @@ public class Translator {
     public static final int PROVIDER_GOOGLE_CN = 2;
     public static final int PROVIDER_LINGO = 3;
     public static final int PROVIDER_YANDEX = 4;
-    //public static final int PROVIDER_DEEPL = 5;
+    public static final int PROVIDER_DEEPL = 5;
 
     @SuppressLint("StaticFieldLeak")
     private static AlertDialog progressDialog;
@@ -97,6 +97,8 @@ public class Translator {
         types.add(Translator.PROVIDER_LINGO);
         arrayList.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
         types.add(Translator.PROVIDER_YANDEX);
+        arrayList.add(LocaleController.getString("ProviderDeepLTranslate", R.string.ProviderDeepLTranslate));
+        types.add(Translator.PROVIDER_DEEPL);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setTitle(LocaleController.getString("TranslationProvider", R.string.TranslationProvider));
@@ -133,6 +135,10 @@ public class Translator {
             case PROVIDER_LINGO:
                 toLang = locale.getLanguage();
                 translator = LingoTranslator.getInstance();
+                break;
+            case PROVIDER_DEEPL:
+                toLang = locale.getLanguage().toUpperCase();
+                translator = DeepLTranslator.getInstance();
                 break;
             case PROVIDER_GOOGLE:
             case PROVIDER_GOOGLE_CN:
