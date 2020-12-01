@@ -137,7 +137,7 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
             } else if (position == googlePlayRow) {
                 Browser.openUrl(getParentActivity(), "https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram");
             } else if (position == sourceCodeRow) {
-                Browser.openUrl(getParentActivity(), "https://github.com/Nekogram/Nekogram");
+                Browser.openUrl(getParentActivity(), "https://gitlab.com/Nekogram/Nekogram");
             } else if (position == sponsorRow) {
                 AnalyticsHelper.trackEvent("open_sponsor");
                 Browser.openUrl(getParentActivity(), "https://gamma.pcr.cy/auth/register?code=neko");
@@ -191,7 +191,7 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
         aboutRow = rowCount++;
         channelRow = rowCount++;
         googlePlayRow = -1;
-        sourceCodeRow = -1;
+        sourceCodeRow = rowCount++;
         translationRow = rowCount++;
         donateRow = rowCount++;
         checkUpdateRow = AnalyticsHelper.googlePlay(getParentActivity()) ? -1 : rowCount++;
