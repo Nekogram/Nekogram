@@ -1,13 +1,12 @@
 # Nekogram
-![Logo](https://raw.githubusercontent.com/Nekogram/Nekogram/master/TMessagesProj/src/main/res/mipmap-xxxhdpi/ic_launcher.png)  
+![Logo](https://gitlab.com/Nekogram/Nekogram/-/raw/master/TMessagesProj/src/main/res/mipmap-xxxhdpi/ic_launcher.png)  
 Nekogram is an UNOFFICIAL app that uses Telegram's API.
 
 - Google play store: https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram
 - Update news (English): https://t.me/nekoupdates
 - Update news (Chinese): https://t.me/zuragram
-- APKs: https://github.com/Nekogram/Nekogram/releases
-- Feedback: https://t.me/nekosupportbot
-- Feedback: https://github.com/Nekogram/Nekogram/issues
+- APKs: https://t.me/NekogramAPKs
+- Feedback: https://gitlab.com/Nekogram/Nekogram/-/issues
 
 ## API, Protocol documentation
 
@@ -17,12 +16,11 @@ MTproto protocol manuals: https://core.telegram.org/mtproto
 
 ## Compilation Guide
 
-1. Download the Nekogram source code from https://github.com/Nekogram/Nekogram ( git clone https://github.com/Nekogram/Nekogram.git )
+1. Clone the Nekogram source code from https://gitlab.com/Nekogram/Nekogram
 2. Copy your release.keystore into TMessagesProj/config
 3. Fill out RELEASE_KEY_PASSWORD, RELEASE_KEY_ALIAS, RELEASE_STORE_PASSWORD in local.properties to access your  release.keystore
 4. Open the project in the Studio (note that it should be opened, NOT imported).
-5. If you're compiling DEBUG version, make sure your build variants is set to afatDebugMultidex.
-6. You are ready to compile Nekogram.
+5. You are ready to compile Nekogram.
 
 ## Localization
 
