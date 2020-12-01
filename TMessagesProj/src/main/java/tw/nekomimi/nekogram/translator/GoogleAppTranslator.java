@@ -4,8 +4,7 @@ import android.text.TextUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
-import org.json.JSONTokener;
-import org.telegram.messenger.FileLog;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -14,14 +13,12 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.Arrays;
 import java.util.List;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
-public class GoogleWebTranslator extends BaseTranslator {
+public class GoogleAppTranslator extends BaseTranslator {
 
-    private static GoogleWebTranslator instance;
+    private static GoogleAppTranslator instance;
     private final List<String> targetLanguages = Arrays.asList(
             "sq", "ar", "am", "az", "ga", "et", "eu", "be", "bg", "is", "pl", "bs", "fa",
             "af", "da", "de", "ru", "fr", "tl", "fi", "fy", "km", "ka", "gu", "kk", "ht",
@@ -31,13 +28,12 @@ public class GoogleWebTranslator extends BaseTranslator {
             "sr", "st", "si", "eo", "sk", "sl", "sw", "gd", "ceb", "so", "tg", "te", "ta",
             "th", "tr", "cy", "ur", "uk", "uz", "es", "iw", "el", "haw", "sd", "hu", "sn",
             "hy", "ig", "it", "yi", "hi", "su", "id", "jw", "en", "yo", "vi", "zh-TW", "zh-CN", "zh");
-    private long[] tkk;
 
-    static GoogleWebTranslator getInstance() {
+    static GoogleAppTranslator getInstance() {
         if (instance == null) {
-            synchronized (GoogleWebTranslator.class) {
+            synchronized (GoogleAppTranslator.class) {
                 if (instance == null) {
-                    instance = new GoogleWebTranslator();
+                    instance = new GoogleAppTranslator();
                 }
             }
         }
@@ -46,32 +42,11 @@ public class GoogleWebTranslator extends BaseTranslator {
 
     @Override
     protected String translate(String query, String tl) throws IOException, JSONException {
-        String result = translateImpl(query, tl);
-        if (result == null) {
-            tkk = null;
-            return translateImpl(query, tl);
-        }
-        return result;
-    }
-
-    @Override
-    protected List<String> getTargetLanguages() {
-        return targetLanguages;
-    }
-
-
-    private String translateImpl(String query, String tl) throws IOException, JSONException {
-        if (tkk == null) {
-            initTkk();
-        }
-        if (tkk == null) {
-            return null;
-        }
-        String tk = Utils.signWeb(query, tkk[0], tkk[1]);
-        String url = "https://translate.google." + (NekoConfig.translationProvider == Translator.PROVIDER_GOOGLE_CN ? "cn" : "com") + "/translate_a/single?client=webapp&dt=t&sl=auto" +
+        String url = "https://translate.google." + (NekoConfig.translationProvider == Translator.PROVIDER_GOOGLE_CN ? "cn" : "com") + "/translate_a/single?dj=1" +
+                "&q=" + Utils.encodeURIComponent(query) +
+                "&sl=auto" +
                 "&tl=" + tl +
-                "&tk=" + tk +
-                "&q=" + Utils.encodeURIComponent(query); // 不能用URLEncoder
+                "&ie=UTF-8&oe=UTF-8&client=at&dt=t&otf=2";
         String response = request(url);
         if (TextUtils.isEmpty(response)) {
             return null;
@@ -79,38 +54,18 @@ public class GoogleWebTranslator extends BaseTranslator {
         return getResult(response);
     }
 
+    @Override
+    protected List<String> getTargetLanguages() {
+        return targetLanguages;
+    }
+
     private String getResult(String string) throws JSONException {
         StringBuilder sb = new StringBuilder();
-        JSONArray array = new JSONArray(new JSONTokener(string)).getJSONArray(0);
+        JSONArray array = new JSONObject(string).getJSONArray("sentences");
         for (int i = 0; i < array.length(); i++) {
-            sb.append(array.getJSONArray(i).getString(0));
+            sb.append(array.getJSONObject(i).getString("trans"));
         }
         return sb.toString();
-    }
-
-    private void initTkk() throws IOException {
-        String response = request("https://translate.google." + (NekoConfig.translationProvider == Translator.PROVIDER_GOOGLE_CN ? "cn" : "com"));
-        if (TextUtils.isEmpty(response)) {
-            FileLog.e("Request tkk failed");
-            return;
-        }
-        tkk = matchTKK(response);
-        if (tkk == null) {
-            FileLog.e("Match ttk failed");
-        }
-    }
-
-    private long[] matchTKK(String src) {
-        Matcher matcher = Pattern.compile("tkk\\s*[:=]\\s*['\"]([0-9]+)\\.([0-9]+)['\"]",
-                Pattern.CASE_INSENSITIVE | Pattern.UNICODE_CASE).matcher(src);
-        if (matcher.find()) {
-            if (matcher.group(1) == null || matcher.group(2) == null) {
-                return null;
-            }
-            //noinspection ConstantConditions
-            return new long[]{Long.parseLong(matcher.group(1)), Long.parseLong(matcher.group(2))};
-        }
-        return null;
     }
 
     private String request(String url) throws IOException {
@@ -118,7 +73,7 @@ public class GoogleWebTranslator extends BaseTranslator {
         InputStream httpConnectionStream;
         URL downloadUrl = new URL(url);
         URLConnection httpConnection = downloadUrl.openConnection();
-        httpConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1");
+        httpConnection.addRequestProperty("User-Agent", "GoogleTranslate/6.14.0.04.343003216 (Linux; U; Android 10; Redmi K20 Pro)");
         httpConnection.setConnectTimeout(1000);
         //httpConnection.setReadTimeout(2000);
         httpConnection.connect();

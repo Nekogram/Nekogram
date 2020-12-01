@@ -154,7 +154,7 @@ public class Translator {
                 } else {
                     toLang = locale.getLanguage();
                 }
-                translator = GoogleWebTranslator.getInstance();
+                translator = GoogleAppTranslator.getInstance();
                 break;
         }
         if (!translator.getTargetLanguages().contains(toLang)) {
