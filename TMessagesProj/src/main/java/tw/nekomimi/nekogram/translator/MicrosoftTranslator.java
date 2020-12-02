@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.messenger.FileLog;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
@@ -29,6 +30,7 @@ public class MicrosoftTranslator extends BaseTranslator {
             "fa", "pl", "pt", "pa", "otq", "ro", "ru", "sm", "sr", "sk", "sl",
             "es", "sw", "sv", "ty", "ta", "te", "th", "to", "tr", "uk", "ur",
             "vi", "cy", "yua");
+    private boolean useCN = false;
 
     static MicrosoftTranslator getInstance() {
         if (instance == null) {
@@ -65,13 +67,14 @@ public class MicrosoftTranslator extends BaseTranslator {
     private String request(String param) throws IOException {
         ByteArrayOutputStream outbuf;
         InputStream httpConnectionStream;
-        URL downloadUrl = new URL("https://cn.bing.com/ttranslatev3");
+        URL downloadUrl = new URL("https://" + (useCN ? "cn" : "www") + ".bing.com/ttranslatev3");
         HttpURLConnection httpConnection = (HttpURLConnection) downloadUrl.openConnection();
         httpConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1");
         httpConnection.setConnectTimeout(1000);
         //httpConnection.setReadTimeout(2000);
         httpConnection.setRequestMethod("POST");
         httpConnection.setDoOutput(true);
+        httpConnection.setInstanceFollowRedirects(false);
         DataOutputStream dataOutputStream = new DataOutputStream(httpConnection.getOutputStream());
         byte[] t = param.getBytes(Charset.defaultCharset());
         dataOutputStream.write(t);
@@ -79,6 +82,11 @@ public class MicrosoftTranslator extends BaseTranslator {
         dataOutputStream.close();
         httpConnection.connect();
         if (httpConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
+            if (httpConnection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP) {
+                useCN = !useCN;
+                FileLog.e("Move to " + (useCN ? "cn" : "www"));
+                return request(param);
+            }
             httpConnectionStream = httpConnection.getErrorStream();
         } else {
             httpConnectionStream = httpConnection.getInputStream();
