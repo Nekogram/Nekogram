@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class LingoTranslator extends BaseTranslator {
             return null;
         }
         jsonObject = new JSONObject(response);
-        if (!response.contains("target") && response.contains("error")) {
+        if (!jsonObject.has("target") && jsonObject.has("error")) {
             throw new IOException(jsonObject.getString("error"));
         }
         return jsonObject.getString("target");
@@ -66,8 +67,7 @@ public class LingoTranslator extends BaseTranslator {
         httpConnection.setRequestMethod("POST");
         httpConnection.setDoOutput(true);
         DataOutputStream dataOutputStream = new DataOutputStream(httpConnection.getOutputStream());
-        //noinspection CharsetObjectCanBeUsed
-        byte[] t = param.getBytes("UTF-8");
+        byte[] t = param.getBytes(Charset.defaultCharset());
         dataOutputStream.write(t);
         dataOutputStream.flush();
         dataOutputStream.close();

@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 
@@ -43,7 +44,7 @@ public class GoogleAppTranslator extends BaseTranslator {
     @Override
     protected String translate(String query, String tl) throws IOException, JSONException {
         String url = "https://translate.google." + (NekoConfig.translationProvider == Translator.PROVIDER_GOOGLE_CN ? "cn" : "com") + "/translate_a/single?dj=1" +
-                "&q=" + Utils.encodeURIComponent(query) +
+                "&q=" + URLEncoder.encode(query, "UTF-8") +
                 "&sl=auto" +
                 "&tl=" + tl +
                 "&ie=UTF-8&oe=UTF-8&client=at&dt=t&otf=2";

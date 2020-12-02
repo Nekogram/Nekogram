@@ -11,6 +11,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
@@ -84,8 +85,7 @@ public class YandexTranslator extends BaseTranslator {
         httpConnection.setRequestMethod("POST");
         httpConnection.setDoOutput(true);
         DataOutputStream dataOutputStream = new DataOutputStream(httpConnection.getOutputStream());
-        //noinspection CharsetObjectCanBeUsed
-        byte[] t = param.getBytes("UTF-8");
+        byte[] t = param.getBytes(Charset.defaultCharset());
         dataOutputStream.write(t);
         dataOutputStream.flush();
         dataOutputStream.close();

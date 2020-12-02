@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,7 +40,7 @@ public class YouDaoTranslator extends BaseTranslator {
 
     @Override
     protected String translate(String query, String tl) throws IOException, JSONException {
-        String param = "q=" + Utils.encodeURIComponent(query) +
+        String param = "q=" + URLEncoder.encode(query, "UTF-8") +
                 "&from=Auto" +
                 "&to=en" + tl;
         String response = request(param);
@@ -64,8 +66,7 @@ public class YouDaoTranslator extends BaseTranslator {
         httpConnection.setRequestMethod("POST");
         httpConnection.setDoOutput(true);
         DataOutputStream dataOutputStream = new DataOutputStream(httpConnection.getOutputStream());
-        //noinspection CharsetObjectCanBeUsed
-        byte[] t = param.getBytes("UTF-8");
+        byte[] t = param.getBytes(Charset.defaultCharset());
         dataOutputStream.write(t);
         dataOutputStream.flush();
         dataOutputStream.close();

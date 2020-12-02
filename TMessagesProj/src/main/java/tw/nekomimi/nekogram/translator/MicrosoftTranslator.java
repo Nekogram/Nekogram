@@ -12,6 +12,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
@@ -46,7 +48,7 @@ public class MicrosoftTranslator extends BaseTranslator {
 
     @Override
     protected String translate(String query, String tl) throws IOException, JSONException {
-        String param = "fromLang=auto-detect&text=" + Utils.encodeURIComponent(query) +
+        String param = "fromLang=auto-detect&text=" + URLEncoder.encode(query, "UTF-8") +
                 "&to=" + tl;
         String response = request(param);
         if (TextUtils.isEmpty(response)) {
@@ -71,8 +73,7 @@ public class MicrosoftTranslator extends BaseTranslator {
         httpConnection.setRequestMethod("POST");
         httpConnection.setDoOutput(true);
         DataOutputStream dataOutputStream = new DataOutputStream(httpConnection.getOutputStream());
-        //noinspection CharsetObjectCanBeUsed
-        byte[] t = param.getBytes("UTF-8");
+        byte[] t = param.getBytes(Charset.defaultCharset());
         dataOutputStream.write(t);
         dataOutputStream.flush();
         dataOutputStream.close();
