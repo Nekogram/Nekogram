@@ -74,7 +74,7 @@ public class Translator {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         if (e instanceof UnsupportedTargetLanguageException) {
             builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
-            builder.setPositiveButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> getTranslationProviderAlert(context).show());
+            builder.setPositiveButton(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), (dialog, which) -> getTranslationProviderAlert(context).show());
         } else {
             if (e != null && e.getLocalizedMessage() != null) {
                 builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
@@ -85,8 +85,8 @@ public class Translator {
             if (onRetry != null) {
                 builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> onRetry.run());
             }
+            builder.setNeutralButton(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), (dialog, which) -> getTranslationProviderAlert(context).show());
         }
-        builder.setNeutralButton(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), (dialog, which) -> getTranslationProviderAlert(context).show());
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
         builder.show();
     }

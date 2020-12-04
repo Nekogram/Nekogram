@@ -146,4 +146,5 @@
     <string name="ClickToRetry">Click to retry.</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
     <string name="ProviderYouDao">YouDao Translate</string>
+    <string name="TranslationProviderShort">Provider</string>
 </resources>
