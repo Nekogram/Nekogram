@@ -98,7 +98,6 @@
     <string name="TranslationAbout">Help us to translate Nekogram to your language.</string>
     <string name="Translation">Translate Nekogram</string>
     <string name="GooglePlay">Google Play</string>
-    <string name="SourceCode">Source code on Github</string>
     <string name="ResetStickerSize">Reset sticker size</string>
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">Restart the app to take effect.</string>
@@ -147,4 +146,5 @@
     <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
     <string name="ProviderYouDao">YouDao Translate</string>
     <string name="TranslationProviderShort">Provider</string>
+    <string name="ViewSourceCode">View source code</string>
 </resources>

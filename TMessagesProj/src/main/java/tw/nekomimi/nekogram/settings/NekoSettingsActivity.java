@@ -296,7 +296,7 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
                     } else if (position == googlePlayRow) {
                         textCell.setText(LocaleController.getString("GooglePlay", R.string.GooglePlay), true);
                     } else if (position == sourceCodeRow) {
-                        textCell.setText(LocaleController.getString("SourceCode", R.string.SourceCode), true);
+                        textCell.setText(LocaleController.getString("ViewSourceCode", R.string.ViewSourceCode), true);
                     }
                     break;
                 }
