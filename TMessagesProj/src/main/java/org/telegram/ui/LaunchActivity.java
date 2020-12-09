@@ -2121,7 +2121,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 final boolean videoCall = videoCallUser;
                 contactsFragment.setDelegate((user, param, activity) -> {
                     final TLRPC.UserFull userFull = MessagesController.getInstance(currentAccount).getUserFull(user.id);
-                    VoIPHelper.startCall(user, videoCall, userFull != null && userFull.video_calls_available, LaunchActivity.this, userFull);
+                    VoIPHelper.startCall(user, videoCall, userFull != null && userFull.video_calls_available, LaunchActivity.this, userFull, true);
                 });
                 actionBarLayout.presentFragment(contactsFragment, actionBarLayout.getLastFragment() instanceof ContactsActivity, true, true, false);
                 if (AndroidUtilities.isTablet()) {
