@@ -26,6 +26,7 @@ public class BackupImageView extends View {
     protected ImageReceiver imageReceiver;
     protected int width = -1;
     protected int height = -1;
+    public boolean shouldInvalidate = true;
 
     public BackupImageView(Context context) {
         super(context);
@@ -126,6 +127,10 @@ public class BackupImageView extends View {
         imageReceiver.setImageBitmap(drawable);
     }
 
+    public void setImageDrawable(Drawable drawable, boolean notify) {
+        imageReceiver.setImageBitmap(drawable, notify);
+    }
+
     public void setLayerNum(int value) {
         imageReceiver.setLayerNum(value);
     }
@@ -172,5 +177,15 @@ public class BackupImageView extends View {
             imageReceiver.setImageCoords(0, 0, getWidth(), getHeight());
         }
         imageReceiver.draw(canvas);
+    }
+
+    @Override
+    public void invalidate() {
+        if (shouldInvalidate) super.invalidate();
+    }
+
+    @Override
+    public void invalidate(int l, int t, int r, int b) {
+        if (shouldInvalidate) super.invalidate(l, t, r, b);
     }
 }

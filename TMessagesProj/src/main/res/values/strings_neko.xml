@@ -75,7 +75,6 @@
     <string name="HideKeyboardOnChatScroll">Hide keyboard on chat scroll</string>
     <string name="UserRestrictionsSendStickers2">Send Stickers</string>
     <string name="UserRestrictionsSendGifs">Send GIFs</string>
-    <string name="UseAvatarAsDrawerBackground">Use avatar as drawer background</string>
     <string name="ShowTabsOnForward">Show tabs on forward</string>
     <string name="CheckAllAdministrated">Add administrated</string>
     <string name="RearVideoMessages">Rear camera in Video Messages</string>
@@ -147,4 +146,7 @@
     <string name="ProviderYouDao">YouDao Translate</string>
     <string name="TranslationProviderShort">Provider</string>
     <string name="ViewSourceCode">View source code</string>
+    <string name="AvatarAsBackground">Profile picture as background</string>
+    <string name="BlurAvatarBackground">Blur profile picture</string>
+    <string name="DarkenAvatarBackground">Darken profile picture</string>
 </resources>

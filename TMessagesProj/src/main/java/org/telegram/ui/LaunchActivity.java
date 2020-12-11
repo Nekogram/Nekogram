@@ -487,7 +487,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 }
             } else if (view instanceof DrawerUserCell) {
                 switchToAccount(((DrawerUserCell) view).getAccountNumber(), true);
-                drawerLayoutContainer.closeDrawer(false);
+                //drawerLayoutContainer.closeDrawer(false);
             } else if (view instanceof DrawerAddCell) {
                 int freeAccount = -1;
                 for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
