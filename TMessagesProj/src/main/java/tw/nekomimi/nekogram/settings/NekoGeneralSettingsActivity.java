@@ -13,6 +13,7 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.core.util.Pair;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -52,6 +53,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private RecyclerListView listView;
     private ListAdapter listAdapter;
     private ValueAnimator statusBarColorAnimator;
+    private DrawerProfilePreviewCell profilePreviewCell;
 
     private int rowCount;
 
@@ -96,7 +98,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
 
-        updateRows();
+        updateRows(true);
 
         return true;
     }
@@ -133,8 +135,9 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
             }
         });
         listView.setVerticalScrollBarEnabled(false);
-        listView.setItemAnimator(null);
-        listView.setLayoutAnimation(null);
+        if (listView.getItemAnimator() != null) {
+            ((DefaultItemAnimator) listView.getItemAnimator()).setSupportsChangeAnimations(false);
+        }
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener((view, position, x, y) -> {
@@ -257,8 +260,15 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.avatarAsDrawerBackground);
                 }
                 getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-                TransitionManager.beginDelayedTransition(listView);
+                TransitionManager.beginDelayedTransition(profilePreviewCell);
                 listAdapter.notifyItemChanged(drawerRow);
+                if (NekoConfig.avatarAsDrawerBackground) {
+                    updateRows(false);
+                    listAdapter.notifyItemRangeInserted(avatarBackgroundBlurRow, 2);
+                } else {
+                    listAdapter.notifyItemRangeRemoved(avatarBackgroundBlurRow, 2);
+                    updateRows(false);
+                }
             } else if (position == avatarBackgroundBlurRow) {
                 NekoConfig.toggleAvatarBackgroundBlur();
                 if (view instanceof TextCheckCell) {
@@ -339,7 +349,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         }
     }
 
-    private void updateRows() {
+    private void updateRows(boolean notify) {
         rowCount = 0;
 
         connectionRow = rowCount++;
@@ -349,8 +359,13 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         //drawerHeaderRow = rowCount++;
         drawerRow = rowCount++;
         avatarAsDrawerBackgroundRow = rowCount++;
-        avatarBackgroundBlurRow = rowCount++;
-        avatarBackgroundDarkenRow = rowCount++;
+        if (NekoConfig.avatarAsDrawerBackground) {
+            avatarBackgroundBlurRow = rowCount++;
+            avatarBackgroundDarkenRow = rowCount++;
+        } else {
+            avatarBackgroundBlurRow = -1;
+            avatarBackgroundDarkenRow = -1;
+        }
         hidePhoneRow = rowCount++;
         drawer2Row = rowCount++;
 
@@ -359,7 +374,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         useSystemEmojiRow = rowCount++;
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
         forceTabletRow = rowCount++;
-        //avatarAsDrawerBackgroundRow = rowCount++;
         mediaPreviewRow = rowCount++;
         appBarShadowRow = rowCount++;
         newYearRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
@@ -379,7 +393,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         idTypeRow = rowCount++;
         general2Row = rowCount++;
 
-        if (listAdapter != null) {
+        if (notify && listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
     }
@@ -615,7 +629,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     break;
                 case 8:
-                    view = new DrawerProfilePreviewCell(mContext);
+                    view = profilePreviewCell = new DrawerProfilePreviewCell(mContext);
                     view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     break;
             }
