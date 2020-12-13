@@ -42,6 +42,7 @@ import org.telegram.ui.Components.UndoView;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 
 @SuppressLint("RtlHardcoded")
@@ -223,7 +224,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         stickerSize2Row = rowCount++;
 
         chatRow = rowCount++;
-        ignoreBlockedRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
+        ignoreBlockedRow = !AnalyticsHelper.googlePlay(getParentActivity()) ? rowCount++ : -1;
         disablePhotoSideActionRow = rowCount++;
         hideKeyboardOnChatScrollRow = rowCount++;
         rearVideoMessagesRow = rowCount++;
