@@ -71,7 +71,6 @@
     <string name="HideKeyboardOnChatScroll">대화창 스크롤시 키보드 숨기기</string>
     <string name="UserRestrictionsSendStickers2">스티커 보내기</string>
     <string name="UserRestrictionsSendGifs">GIF 보내기</string>
-    <string name="UseAvatarAsDrawerBackground">아바타를 서랍 배경으로 사용</string>
     <string name="ShowTabsOnForward">전달에서 탭 표시</string>
     <string name="CheckAllAdministrated">관리 추가</string>
     <string name="RearVideoMessages">비디오 메세지에 후면 카메라 사용</string>
@@ -94,7 +93,6 @@
     <string name="TranslationAbout">네코그램 언어 번역 도와주기</string>
     <string name="Translation">네코그램 번역</string>
     <string name="GooglePlay">구글플레이</string>
-    <string name="SourceCode">Github 의 소스코드</string>
     <string name="ResetStickerSize">스티커 사이즈 초기화</string>
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">변경된 설정 적용을 위해 앱을 재시작</string>
@@ -122,4 +120,20 @@
     <string name="FormatWithSeconds">초를 포함한 시간표시</string>
     <string name="JumpToBeginning">처음으로 이동</string>
     <string name="ProviderDeepLTranslate">DeepL 번역</string>
+    <string name="Halloween">할로윈</string>
+    <string name="CheckUpdate">업데이트 확인</string>
+    <string name="LastUpdateFormatted">%1$s 마지막으로 확인</string>
+    <string name="LastUpdateDateFormatted">%1$s 마지막으로 확인</string>
+    <string name="LastUpdateRecently">방금 전 확인 하였습니다</string>
+    <string name="LastUpdateNever">설치 후 한번도 확인 하지 않음</string>
+    <string name="CheckingUpdate">업데이트 확인 중...</string>
+    <string name="NewUpdateAvailable">새 업데이트가 있습니다</string>
+    <string name="GuGuGu">다음에</string>
+    <string name="DownloadNow">지금 다운로드 하기</string>
+    <string name="DownloadingUpdate">업데이트 다운로드 중</string>
+    <string name="DownloadingUpdateFinish">업데이트 다운로드 완료 및 설치 하기</string>
+    <string name="DownloadingUpdateFail">업데이트 다운로드 실패</string>
+    <string name="ClickToRetry">재시도 하기</string>
+    <string name="ProviderMicrosoftTranslator">마이크로소프트 번역기</string>
+    <string name="ProviderYouDao">유다오 번역</string>
 </resources>

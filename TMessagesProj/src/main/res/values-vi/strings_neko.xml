@@ -6,7 +6,7 @@
     <string name="HidePhone">Ẩn số điện thoại của tôi</string>
     <string name="Hide">Ẩn</string>
     <string name="DeleteAllFromSelf">Xoá tất cả từ bạn</string>
-    <string name="DeleteAllFromSelfAlert">Cảnh báo! Điều này sẽ **xóa tất cả các tin nhắn củav bạn** trong cuộc trò chuyện này cho **tất cả* * người tham gia.</string>
+    <string name="DeleteAllFromSelfAlert">Cảnh báo! Điều này sẽ **xóa tất cả các tin nhắn của bạn** trong cuộc trò chuyện này cho **tất cả* * người tham gia.</string>
     <string name="BotLogin">Đăng nhập Bot</string>
     <string name="InvalidAccessToken">Mã token không đúng hoặc không hợp lệ</string>
     <string name="IgnoreBlocked">Bỏ qua người dùng bị chặn trong nhóm</string>
@@ -71,7 +71,6 @@
     <string name="HideKeyboardOnChatScroll">Ẩn bàn phím khi cuộn trò chuyện</string>
     <string name="UserRestrictionsSendStickers2">Gửi nhãn dán</string>
     <string name="UserRestrictionsSendGifs">Gửi GIF</string>
-    <string name="UseAvatarAsDrawerBackground">Sử dụng hình đại diện làm nền ngăn kéo</string>
     <string name="ShowTabsOnForward">Hiển thị các tab về phía trước</string>
     <string name="CheckAllAdministrated">Thêm quản trị viên</string>
     <string name="RearVideoMessages">Camera phía sau trong Tin nhắn Video</string>
@@ -94,7 +93,6 @@
     <string name="TranslationAbout">Hãy giúp chúng tôi dịch Nekogram sang ngôn ngữ của bạn.</string>
     <string name="Translation">Dịch Nekogram</string>
     <string name="GooglePlay">Google Play</string>
-    <string name="SourceCode">Mã nguồn trên Github</string>
     <string name="ResetStickerSize">Đặt lại kích thước nhãn dán</string>
     <string name="RestartAppToTakeEffect">Khởi động lại ứng dụng để có hiệu lực.</string>
     <string name="DisableAppBarShadow">Vô hiệu hóa bóng thanh tiêu đề</string>
@@ -119,4 +117,27 @@
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Định dạng thời gian bằng giây</string>
+    <string name="JumpToBeginning">Bắt đầu</string>
+    <string name="ProviderDeepLTranslate">Dịch DeepL</string>
+    <string name="Halloween">Halloween</string>
+    <string name="CheckUpdate"> Kiểm tra cập nhật</string>
+    <string name="LastUpdateFormatted">Đã kiểm tra thành công lần cuối %1$s.</string>
+    <string name="LastUpdateDateFormatted">Kiểm tra thành công lần cuối vào %1$s.</string>
+    <string name="LastUpdateRecently">Vừa kiểm tra thành công lần cuối.</string>
+    <string name="LastUpdateNever">Không bao giờ kiểm tra trước khi cài </string>
+    <string name="CheckingUpdate">Đang kiểm tra cập nhật…</string>
+    <string name="NewUpdateAvailable">Có một cập nhật mới khả dụng</string>
+    <string name="GuGuGu">Để sau</string>
+    <string name="DownloadNow">Tải xuống ngay</string>
+    <string name="DownloadingUpdate">Đang tải xuống cập nhật ứng dụng</string>
+    <string name="DownloadingUpdateFinish">Đã tải xuống cập nhật, nhấn để cài đặt</string>
+    <string name="DownloadingUpdateFail">Tải xuống cập nhật không thành công</string>
+    <string name="ClickToRetry">Nhấn để thử lại</string>
+    <string name="ProviderMicrosoftTranslator">Microsoft Dịch</string>
+    <string name="ProviderYouDao">YouDao Dịch</string>
+    <string name="TranslationProviderShort">Nhà cung cấp dịch vụ</string>
+    <string name="ViewSourceCode">Xem mã nguồn</string>
+    <string name="AvatarAsBackground">Ảnh đại diện làm hình nền</string>
+    <string name="BlurAvatarBackground">Làm mờ nền ảnh đại diện</string>
+    <string name="DarkenAvatarBackground">Ảnh đại diện nền tối</string>
 </resources>

@@ -63,7 +63,6 @@
     <string name="HideKeyboardOnChatScroll">チャットスクロールでキーボードを非表示にする</string>
     <string name="UserRestrictionsSendStickers2">ステッカーの送信</string>
     <string name="UserRestrictionsSendGifs">GIFの送信</string>
-    <string name="UseAvatarAsDrawerBackground">アバターをドロワーの背景として使う</string>
     <string name="RearVideoMessages">ビデオメッセージでリアカメラを使用する</string>
     <string name="HideAllTab">「すべてのチャット」タブを非表示にする</string>
     <string name="HideAllTabAbout">ホームページで「戻る」を押して開く</string>

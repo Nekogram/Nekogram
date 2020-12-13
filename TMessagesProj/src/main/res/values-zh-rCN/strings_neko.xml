@@ -71,7 +71,6 @@
     <string name="HideKeyboardOnChatScroll">当滚动浏览对话时隐藏键盘</string>
     <string name="UserRestrictionsSendStickers2">发送贴纸</string>
     <string name="UserRestrictionsSendGifs">发送 GIF</string>
-    <string name="UseAvatarAsDrawerBackground">使用头像作为抽屉背景</string>
     <string name="ShowTabsOnForward">在转发页面显示文件夹</string>
     <string name="CheckAllAdministrated">添加管理的群组与频道</string>
     <string name="RearVideoMessages">视频留言默认使用后置摄像头</string>
@@ -94,7 +93,6 @@
     <string name="TranslationAbout">帮助我们将 Nekogram 翻译成您的语言。</string>
     <string name="Translation">翻译 Nekogram</string>
     <string name="GooglePlay">Google Play</string>
-    <string name="SourceCode">Github 上的源代码</string>
     <string name="ResetStickerSize">重置贴纸大小</string>
     <string name="OfficialChannelUsername">Zuragram</string>
     <string name="RestartAppToTakeEffect">重启应用以生效。</string>
@@ -126,4 +124,25 @@
     <string name="FormatWithSeconds">时间精确到秒</string>
     <string name="JumpToBeginning">跳转到最初消息</string>
     <string name="ProviderDeepLTranslate">DeepL 翻译</string>
+    <string name="Halloween">万圣节</string>
+    <string name="CheckUpdate">检查更新</string>
+    <string name="LastUpdateFormatted">最近成功检查更新于 %1$s。</string>
+    <string name="LastUpdateDateFormatted">最近成功检查更新于 %1$s。</string>
+    <string name="LastUpdateRecently">最近成功检查更新于 刚刚。</string>
+    <string name="LastUpdateNever">自上次安装以来从未检查更新。</string>
+    <string name="CheckingUpdate">正在检查更新…</string>
+    <string name="NewUpdateAvailable">有新的更新可用</string>
+    <string name="GuGuGu">稍后再说</string>
+    <string name="DownloadNow">立即下载</string>
+    <string name="DownloadingUpdate">正在下载应用更新</string>
+    <string name="DownloadingUpdateFinish">应用更新下载完毕，点击安装</string>
+    <string name="DownloadingUpdateFail">应用更新下载失败</string>
+    <string name="ClickToRetry">点击重试下载。</string>
+    <string name="ProviderMicrosoftTranslator">微软翻译</string>
+    <string name="ProviderYouDao">有道翻译</string>
+    <string name="TranslationProviderShort">翻译源</string>
+    <string name="ViewSourceCode">查看源代码</string>
+    <string name="AvatarAsBackground">头像作为背景</string>
+    <string name="BlurAvatarBackground">模糊头像</string>
+    <string name="DarkenAvatarBackground">深色遮罩</string>
 </resources>

@@ -71,7 +71,6 @@
     <string name="HideKeyboardOnChatScroll">Sohbeti kaydırırken klavyeyi gizle</string>
     <string name="UserRestrictionsSendStickers2">Çıkartma Gönder</string>
     <string name="UserRestrictionsSendGifs">GIF Gönder</string>
-    <string name="UseAvatarAsDrawerBackground">Sol menü arkaplanında profil resmini kullan</string>
     <string name="ShowTabsOnForward">Mesaj iletme kısmında klasörleri göster</string>
     <string name="CheckAllAdministrated">Yönetilen grup ve kanalları ekle</string>
     <string name="RearVideoMessages">Görüntülü mesajlarda arka kamera kullan</string>
@@ -94,7 +93,6 @@
     <string name="TranslationAbout">Nekogram\'ı kendi dilinize çevirmemize yardımcı olun.</string>
     <string name="Translation">Nekogram\'ı diline çevir</string>
     <string name="GooglePlay">Google Play</string>
-    <string name="SourceCode">Github\'da kaynak kodu</string>
     <string name="ResetStickerSize">Çıkartma boyutunu varsayılan yap</string>
     <string name="RestartAppToTakeEffect">Etkili olması için uygulamayı yeniden başlatın.</string>
     <string name="DisableAppBarShadow">Başlık çubuğu gölgesini devre dışı bırak</string>
@@ -119,4 +117,20 @@
     <string name="formatterDay24HSec">SS:dd:ss</string>
     <string name="formatterDay12HSec">S:dd:ss a</string>
     <string name="FormatWithSeconds">zamana saniye ekle</string>
+    <string name="JumpToBeginning">Başlangıca atla</string>
+    <string name="ProviderDeepLTranslate">DeepL Çeviri</string>
+    <string name="Halloween">Cadılar bayramı</string>
+    <string name="CheckUpdate">Güncelleştirmeleri denetle</string>
+    <string name="LastUpdateFormatted">En son başarılı kontrol %1$s.</string>
+    <string name="LastUpdateDateFormatted">En son %1$s tarihinde başarıyla denetlendi.</string>
+    <string name="LastUpdateRecently">Az önce başarıyla kontrol edildi.</string>
+    <string name="LastUpdateNever">Kurulumdan bu yana hiç kontrol edilmedi.</string>
+    <string name="CheckingUpdate">Güncelleştirmeler denetleniyor…</string>
+    <string name="NewUpdateAvailable">Yeni bir güncelleme mevcut</string>
+    <string name="GuGuGu">Sonra</string>
+    <string name="DownloadNow">Şimdi indir</string>
+    <string name="DownloadingUpdate">Uygulama güncelleştirmesi indiriliyor</string>
+    <string name="DownloadingUpdateFinish">Uygulama güncelleştirmesi indirildi, kurmak için basın</string>
+    <string name="DownloadingUpdateFail">Uygulama indirmesi başarısız oldu</string>
+    <string name="ClickToRetry">Tekrar denemek için basın.</string>
 </resources>
