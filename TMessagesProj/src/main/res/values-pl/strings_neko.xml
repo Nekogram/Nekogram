@@ -71,7 +71,6 @@
     <string name="HideKeyboardOnChatScroll">Ukryj klawiaturę podczas przewijania czatu</string>
     <string name="UserRestrictionsSendStickers2">Wyślij naklejki</string>
     <string name="UserRestrictionsSendGifs">Wyślij GIFy</string>
-    <string name="UseAvatarAsDrawerBackground">Użyj awatara jako tła szuflady</string>
     <string name="ShowTabsOnForward">Pokaż foldery przy przekazywaniu</string>
     <string name="CheckAllAdministrated">Dodaj administrowane</string>
     <string name="RearVideoMessages">Tylna kamera w wiadomościach wideo</string>
@@ -94,7 +93,6 @@
     <string name="TranslationAbout">Pomóż nam przetłumaczyć Nekogram na Twój język.</string>
     <string name="Translation">Tłumacz Nekogram</string>
     <string name="GooglePlay">Google Play</string>
-    <string name="SourceCode">Kod źródłowy na GitHub</string>
     <string name="ResetStickerSize">Resetuj rozmiar naklejek</string>
     <string name="RestartAppToTakeEffect">Zrestartuj aplikację, aby wprowadzić zmiany.</string>
     <string name="DisableAppBarShadow">Wyłącz cień paska tytułowego</string>
@@ -122,4 +120,24 @@
     <string name="JumpToBeginning">Skocz na początek</string>
     <string name="ProviderDeepLTranslate">Tłumacz DeepL</string>
     <string name="Halloween">Halloween</string>
+    <string name="CheckUpdate">Sprawdź aktualizację</string>
+    <string name="LastUpdateFormatted">Ostatnio sprawdzono %1$s.</string>
+    <string name="LastUpdateDateFormatted">Ostatnio sprawdzono %1$s.</string>
+    <string name="LastUpdateRecently">Ostatnio sprawdzono przed chwilą.</string>
+    <string name="LastUpdateNever">Nigdy nie sprawdzane od czasu instalacji.</string>
+    <string name="CheckingUpdate">Sprawdzam aktualizację…</string>
+    <string name="NewUpdateAvailable">Dostępna jest nowa aktualizacja</string>
+    <string name="GuGuGu">Później</string>
+    <string name="DownloadNow">Pobierz teraz</string>
+    <string name="DownloadingUpdate">Pobieranie aktualizacji</string>
+    <string name="DownloadingUpdateFinish">Pobrano aktualizację, kliknij aby zainstalować</string>
+    <string name="DownloadingUpdateFail">Pobieranie nieudane</string>
+    <string name="ClickToRetry">Kliknij, aby spróbować ponownie.</string>
+    <string name="ProviderMicrosoftTranslator">Tłumacz Microsoft</string>
+    <string name="ProviderYouDao">Tłumacz YouDao</string>
+    <string name="TranslationProviderShort">Usługodawca</string>
+    <string name="ViewSourceCode">Zobacz kod źródłowy</string>
+    <string name="AvatarAsBackground">Zdjęcie profilowe jako tło</string>
+    <string name="BlurAvatarBackground">Rozmycie zdjęcia profilowego</string>
+    <string name="DarkenAvatarBackground">Przyciemnij zdjęcie profilowe</string>
 </resources>

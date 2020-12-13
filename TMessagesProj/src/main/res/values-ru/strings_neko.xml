@@ -71,7 +71,6 @@
     <string name="HideKeyboardOnChatScroll">Скрыть клавиатуру при прокрутке</string>
     <string name="UserRestrictionsSendStickers2">Отправка стикеров</string>
     <string name="UserRestrictionsSendGifs">Отправка GIF</string>
-    <string name="UseAvatarAsDrawerBackground">Аватар как фон в боковом меню</string>
     <string name="ShowTabsOnForward">Показывать вкладки при пересылке</string>
     <string name="CheckAllAdministrated">Добавить управляемые</string>
     <string name="RearVideoMessages">Задняя камера в видеосообщениях</string>
@@ -94,7 +93,6 @@
     <string name="TranslationAbout">Помогите перевести Nekogram на ваш язык.</string>
     <string name="Translation">Перевести Nekogram</string>
     <string name="GooglePlay">Google Play</string>
-    <string name="SourceCode">Исходный код на Github</string>
     <string name="ResetStickerSize">Сбросить размер стикера</string>
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">Перезапустите приложение для применения настроек.</string>
@@ -118,4 +116,20 @@
     <string name="DonateThankYou">Спасибо!</string>
     <string name="DonateEvilGoogle">Google заберёт 30% от вашего пожертвования.</string>
     <string name="FormatWithSeconds">Время с секундами</string>
+    <string name="JumpToBeginning">Перейти в начало</string>
+    <string name="ProviderDeepLTranslate">DeepL переводчик</string>
+    <string name="Halloween">Хэллоуин</string>
+    <string name="CheckUpdate">Проверить наличие обновлений</string>
+    <string name="LastUpdateFormatted">Последняя проверка была %1$s.</string>
+    <string name="LastUpdateDateFormatted">Последняя успешная проверка была %1$s.</string>
+    <string name="LastUpdateRecently">Последняя успешная проверка была сейчас.</string>
+    <string name="LastUpdateNever">Обновления не проверялись после установки.</string>
+    <string name="CheckingUpdate">Проверка обновлений…</string>
+    <string name="NewUpdateAvailable">Доступно новое обновление</string>
+    <string name="GuGuGu">Позже</string>
+    <string name="DownloadNow">Загрузить сейчас</string>
+    <string name="DownloadingUpdate">Загрузка обновления</string>
+    <string name="DownloadingUpdateFinish">Обновление загружено, нажмите для установки</string>
+    <string name="DownloadingUpdateFail">Не удалось загрузить обновление</string>
+    <string name="ClickToRetry">Нажмите, чтобы повторить попытку.</string>
 </resources>

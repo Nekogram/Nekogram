@@ -71,7 +71,6 @@
     <string name="HideKeyboardOnChatScroll">Ocultar teclado al desplazar el chat</string>
     <string name="UserRestrictionsSendStickers2">Enviar Stickers</string>
     <string name="UserRestrictionsSendGifs">Enviar GIFs</string>
-    <string name="UseAvatarAsDrawerBackground">Avatar de fondo en menú lateral</string>
     <string name="ShowTabsOnForward">Mostrar carpetas al reenviar</string>
     <string name="CheckAllAdministrated">Añadir chats que administras</string>
     <string name="RearVideoMessages">Usar cámara trasera en Mensajes de Vídeo</string>
@@ -94,7 +93,6 @@
     <string name="TranslationAbout">Ayúdanos a traducir Nekogram a tu idioma.</string>
     <string name="Translation">Traducir Nekogram</string>
     <string name="GooglePlay">Google Play</string>
-    <string name="SourceCode">Código fuente en Github</string>
     <string name="ResetStickerSize">Restablecer tamaño del sticker</string>
     <string name="RestartAppToTakeEffect">Reiniciar la app para que tenga efecto.</string>
     <string name="DisableAppBarShadow">Deshabilitar sombra de la barra de título</string>
@@ -122,4 +120,24 @@
     <string name="JumpToBeginning">Saltar al principio</string>
     <string name="ProviderDeepLTranslate">Traductor DeepL</string>
     <string name="Halloween">Halloween</string>
+    <string name="CheckUpdate">Buscar actualizaciones</string>
+    <string name="LastUpdateFormatted">Última verificación exitosa %1$s.</string>
+    <string name="LastUpdateDateFormatted">Última verificación exitosa a las %1$s.</string>
+    <string name="LastUpdateRecently">Última verificación exitosa hecha recién.</string>
+    <string name="LastUpdateNever">Nunca verificado desde la instalación.</string>
+    <string name="CheckingUpdate">Buscando actualizaciones…</string>
+    <string name="NewUpdateAvailable">Una nueva actualización está disponible</string>
+    <string name="GuGuGu">Más tarde</string>
+    <string name="DownloadNow">Descargar ahora</string>
+    <string name="DownloadingUpdate">Descargando actualización de aplicación</string>
+    <string name="DownloadingUpdateFinish">Actualización de la aplicación descargada, haga clic para instalar</string>
+    <string name="DownloadingUpdateFail">Falló la aplicación descargada</string>
+    <string name="ClickToRetry">Clic para reintentar.</string>
+    <string name="ProviderMicrosoftTranslator">Traductor de Microsoft</string>
+    <string name="ProviderYouDao">Traductor de YouDao</string>
+    <string name="TranslationProviderShort">Proveedor</string>
+    <string name="ViewSourceCode">Ver código fuente</string>
+    <string name="AvatarAsBackground">Foto de perfil como fondo</string>
+    <string name="BlurAvatarBackground">Difuminar foto de perfil</string>
+    <string name="DarkenAvatarBackground">Foto de perfil oscurecida</string>
 </resources>

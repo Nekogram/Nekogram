@@ -71,7 +71,6 @@
     <string name="HideKeyboardOnChatScroll">إخفاء لوحة المفاتيح عند التمرير في المحادثة</string>
     <string name="UserRestrictionsSendStickers2">إرسال ملصقات</string>
     <string name="UserRestrictionsSendGifs">إرسال صور متحركة</string>
-    <string name="UseAvatarAsDrawerBackground">استخدام الصورة كخلفية لدرج التصفح</string>
     <string name="ShowTabsOnForward">إظهار التبويبات عند إعادة التوجيه</string>
     <string name="CheckAllAdministrated">إضافة ادارة</string>
     <string name="RearVideoMessages">افتح الكاميرا الخلفية افتراضيا في رسائل الفيديو</string>
@@ -94,7 +93,6 @@
     <string name="TranslationAbout">ساعدنا على ترجمة نيكوجرام إلى لغتك.</string>
     <string name="Translation">ترجمة نيكوغرام</string>
     <string name="GooglePlay">جوجل بلاي</string>
-    <string name="SourceCode">الشفرة المصدرية على موقع كيتھاب</string>
     <string name="ResetStickerSize">إعادة تعيين حجم ملصق</string>
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">أعد تشغيل التطبيق لرؤية التغييرات.</string>
