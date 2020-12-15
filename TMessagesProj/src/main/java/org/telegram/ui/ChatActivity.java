@@ -17528,14 +17528,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 icons.add(R.drawable.menu_recent);
                             }
                             if (NekoConfig.showTranslate) {
-                                MessageObject messageObject = null;
-                                if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
-                                    if (!TextUtils.isEmpty(selectedObjectGroup.messages.get(0).messageOwner.message)) {
-                                        messageObject = selectedObjectGroup.messages.get(0);
-                                    }
-                                } else if (!TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.type == MessageObject.TYPE_POLL) {
-                                    messageObject = selectedObject;
-                                }
+                                MessageObject messageObject = getMessageForTranslate();
                                 if (messageObject != null) {
                                     items.add(messageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("Translate", R.string.Translate));
                                     options.add(88);
@@ -18227,6 +18220,25 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         });
     }
 
+    private MessageObject getMessageForTranslate() {
+        MessageObject messageObject = null;
+        if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
+            for (MessageObject object : selectedObjectGroup.messages) {
+                if (!TextUtils.isEmpty(object.messageOwner.message)) {
+                    if (messageObject != null) {
+                        messageObject = null;
+                        break;
+                    } else {
+                        messageObject = object;
+                    }
+                }
+            }
+        } else if (!TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.type == MessageObject.TYPE_POLL) {
+            messageObject = selectedObject;
+        }
+        return messageObject;
+    }
+
     private void processSelectedOption(int option) {
         if (selectedObject == null || getParentActivity() == null) {
             return;
@@ -18776,14 +18788,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 saveStickerToGallery(selectedObject);
                 break;
             } case 88: {
-                MessageObject messageObject = null;
-                if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
-                    if (!TextUtils.isEmpty(selectedObjectGroup.messages.get(0).messageOwner.message)) {
-                        messageObject = selectedObjectGroup.messages.get(0);
-                    }
-                } else if (!TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.type == MessageObject.TYPE_POLL) {
-                    messageObject = selectedObject;
-                }
+                MessageObject messageObject = getMessageForTranslate();
                 if (messageObject == null) {
                     return;
                 }
