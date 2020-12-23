@@ -31,8 +31,6 @@ import java.util.Iterator;
 
 import androidx.core.content.pm.ShortcutManagerCompat;
 
-import tw.nekomimi.nekogram.NekoConfig;
-
 public class SharedConfig {
 
     public static String pushString = "";
@@ -862,12 +860,7 @@ public class SharedConfig {
 
     public static void checkSaveToGalleryFiles() {
         try {
-            File telegramPath;
-            if (NekoConfig.saveCacheToExternalFilesDir) {
-                telegramPath = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "Telegram");
-            } else {
-                telegramPath = new File(Environment.getExternalStorageDirectory(), "Telegram");
-            }
+            File telegramPath = new File(Environment.getExternalStorageDirectory(), "Telegram");
             File imagePath = new File(telegramPath, "Telegram Images");
             imagePath.mkdir();
             File videoPath = new File(telegramPath, "Telegram Video");

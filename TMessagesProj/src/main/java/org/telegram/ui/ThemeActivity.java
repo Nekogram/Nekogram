@@ -537,7 +537,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             emojiRow = rowCount++;
             raiseToSpeakRow = rowCount++;
             sendByEnterRow = rowCount++;
-            saveToGalleryRow = NekoConfig.saveCacheToExternalFilesDir ? -1 : rowCount++;
+            saveToGalleryRow = rowCount++;
             distanceRow = rowCount++;
             settings2Row = rowCount++;
             stickersRow = rowCount++;
