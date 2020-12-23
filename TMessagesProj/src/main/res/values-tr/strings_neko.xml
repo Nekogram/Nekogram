@@ -133,4 +133,11 @@
     <string name="DownloadingUpdateFinish">Uygulama güncelleştirmesi indirildi, kurmak için basın</string>
     <string name="DownloadingUpdateFail">Uygulama indirmesi başarısız oldu</string>
     <string name="ClickToRetry">Tekrar denemek için basın.</string>
+    <string name="ProviderMicrosoftTranslator">Microsoft Çevirmen</string>
+    <string name="ProviderYouDao">YouDao Çeviri</string>
+    <string name="TranslationProviderShort">Sağlayıcı</string>
+    <string name="ViewSourceCode">Kaynak kodu görüntüle</string>
+    <string name="AvatarAsBackground">Arka plan olarak profil resmi</string>
+    <string name="BlurAvatarBackground">Profil resmini bulanıklaştır</string>
+    <string name="DarkenAvatarBackground">Profil resmini karart</string>
 </resources>
