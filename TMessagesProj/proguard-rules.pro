@@ -99,6 +99,3 @@
 #-dontobfuscate
 -keep class org.telegram.ui.** { *; }
 -renamesourcefileattribute
--obfuscationdictionary          proguard-dic.txt
--classobfuscationdictionary     proguard-dic.txt
--packageobfuscationdictionary   proguard-dic.txt
