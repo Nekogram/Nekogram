@@ -237,11 +237,9 @@ public class ScrollSlidingTextTabStrip extends HorizontalScrollView {
     public void addTextTab(final int id, CharSequence text) {
         addTextTab(id, text, null, null);
     }
-
     public void addTextTab(final int id, CharSequence text, SparseArray<View> viewsCache) {
         addTextTab(id, text, viewsCache, null);
     }
-
     public void addTextTab(final int id, CharSequence text, SparseArray<View> viewsCache, OnLongClickListener listener) {
         int position = tabCount++;
         if (position == 0 && selectedTabId == -1) {

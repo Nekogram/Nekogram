@@ -15,6 +15,7 @@ import android.media.AudioManager;
 import android.os.Build;
 import android.provider.Settings;
 
+import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import org.telegram.messenger.ApplicationLoader;
@@ -220,14 +221,14 @@ public class UpdateHelper {
         }
     }
 
-    private void checkNewVersionTLCallback(UpdateHelperDelegate delegate, boolean isAutoUpdate, int dialog_id,
+    private void checkNewVersionTLCallback(@Nullable UpdateHelperDelegate delegate, boolean isAutoUpdate, int dialog_id,
                                            TLObject response, TLRPC.TL_error error) {
         long lastDate = NekoConfig.lastSuccessfulCheckUpdateTime;
         if (error == null) {
             final TLRPC.messages_Messages res = (TLRPC.messages_Messages) response;
             getMessagesController().removeDeletedMessagesFromArray(dialog_id, res.messages);
             getShouldUpdateVersion(res.messages);
-            if (updateRefs.size() == 0) {
+            if (delegate != null && updateRefs.size() == 0) {
                 delegate.didCheckNewVersionAvailable(null); // no available version
                 return;
             }
@@ -259,7 +260,7 @@ public class UpdateHelper {
                         break;
                 }
             } catch (Exception exception) {
-                delegate.didCheckNewVersionAvailable(exception.getLocalizedMessage());
+                if (delegate != null) delegate.didCheckNewVersionAvailable(exception.getLocalizedMessage());
                 return;
             }
             int lastVer = 0;
@@ -276,17 +277,17 @@ public class UpdateHelper {
                     askIfShouldDownloadAPK(updateRef);
                 }
             }
-            delegate.didCheckNewVersionAvailable(null);
+            if (delegate != null) delegate.didCheckNewVersionAvailable(null);
         } else {
-            delegate.didCheckNewVersionAvailable(error.text);
+            if (delegate != null) delegate.didCheckNewVersionAvailable(error.text);
         }
     }
 
-    public void checkNewVersionAvailable(UpdateHelperDelegate delegate, boolean isAutoUpdate) {
+    public void checkNewVersionAvailable(@Nullable UpdateHelperDelegate delegate, boolean isAutoUpdate) {
         checkNewVersionAvailable(delegate, isAutoUpdate, false);
     }
 
-    public void checkNewVersionAvailable(UpdateHelperDelegate delegate, boolean isAutoUpdate, boolean forceRefreshAccessHash) {
+    public void checkNewVersionAvailable(@Nullable UpdateHelperDelegate delegate, boolean isAutoUpdate, boolean forceRefreshAccessHash) {
         TLRPC.TL_contacts_resolveUsername req1 = new TLRPC.TL_contacts_resolveUsername();
         int dialog_id = -1302242053;
         req1.username = "NekogramAPKs";
@@ -298,11 +299,11 @@ public class UpdateHelper {
         req.peer = getMessagesController().getInputPeer(dialog_id);
         if (req.peer == null || req.peer.access_hash == 0 || forceRefreshAccessHash) {
             getConnectionsManager().sendRequest(req1, (response1, error1) -> {
-                if (error1 != null) {
+                if (delegate != null && error1 != null) {
                     delegate.didCheckNewVersionAvailable(error1.text);
                     return;
                 }
-                if (!(response1 instanceof TLRPC.TL_contacts_resolvedPeer)) {
+                if (delegate != null && !(response1 instanceof TLRPC.TL_contacts_resolvedPeer)) {
                     delegate.didCheckNewVersionAvailable("Unexpected TL_contacts_resolvedPeer response");
                     return;
                 }
@@ -310,7 +311,7 @@ public class UpdateHelper {
                 getMessagesController().putUsers(resolvedPeer.users, false);
                 getMessagesController().putChats(resolvedPeer.chats, false);
                 getMessagesStorage().putUsersAndChats(resolvedPeer.users, resolvedPeer.chats, false, true);
-                if (resolvedPeer.chats == null || resolvedPeer.chats.size() == 0) {
+                if (delegate != null && (resolvedPeer.chats == null || resolvedPeer.chats.size() == 0)) {
                     delegate.didCheckNewVersionAvailable("Unexpected TL_contacts_resolvedPeer chat size");
                     return;
                 }
@@ -318,7 +319,9 @@ public class UpdateHelper {
                 req.peer.channel_id = resolvedPeer.chats.get(0).id;
                 req.peer.access_hash = resolvedPeer.chats.get(0).access_hash;
                 int reqId = getConnectionsManager().sendRequest(req, (response, error) -> checkNewVersionTLCallback(delegate, isAutoUpdate, dialog_id, response, error));
-                getConnectionsManager().bindRequestToGuid(reqId, delegate.getClassGuid());
+                if (delegate != null) {
+                    getConnectionsManager().bindRequestToGuid(reqId, delegate.getClassGuid());
+                }
             });
         } else {
             int reqId = getConnectionsManager().sendRequest(req, (response, error) -> {
@@ -328,7 +331,9 @@ public class UpdateHelper {
                 }
                 checkNewVersionTLCallback(delegate, isAutoUpdate, dialog_id, response, null);
             });
-            getConnectionsManager().bindRequestToGuid(reqId, delegate.getClassGuid());
+            if (delegate != null) {
+                getConnectionsManager().bindRequestToGuid(reqId, delegate.getClassGuid());
+            }
         }
     }
 

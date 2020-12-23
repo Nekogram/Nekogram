@@ -143,7 +143,7 @@ import tw.nekomimi.nekogram.helpers.DonateHelper;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 
-public class LaunchActivity extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, UpdateHelper.UpdateHelperDelegate {
+public class LaunchActivity extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
 
     private static final String EXTRA_ACTION_TOKEN = "actions.fulfillment.extra.ACTION_TOKEN";
 
@@ -3707,7 +3707,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         } else if (UserConfig.getInstance(0).pendingAppUpdate != null) {
             showUpdateActivity(UserConfig.selectedAccount, UserConfig.getInstance(0).pendingAppUpdate, true);
         }
-        if (!AnalyticsHelper.googlePlay(this)) UpdateHelper.getInstance().checkNewVersionAvailable(this, true);
+        if (!AnalyticsHelper.googlePlay(this)) UpdateHelper.getInstance().checkNewVersionAvailable(null, true);
         checkAppUpdate(false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -4862,19 +4862,5 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             }
         }
         drawerLayoutAdapter.notifyDataSetChanged();
-    }
-
-    @Override
-    public int getClassGuid() {
-        BaseFragment fragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
-        if (fragment != null) {
-            return fragment.getClassGuid();
-        }
-        return 0;
-    }
-
-    @Override
-    public void didCheckNewVersionAvailable(String error) {
-
     }
 }
