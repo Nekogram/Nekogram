@@ -151,6 +151,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private static ArrayList<Object> selectedPhotosOrder = new ArrayList<>();
     private static int lastImageId = -1;
     private boolean cancelTakingPhotos;
+    private boolean checkCameraWhenShown;
 
     private boolean mediaEnabled;
 
@@ -292,6 +293,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 object.imageReceiver = cell.getImageView().getImageReceiver();
                 object.thumb = object.imageReceiver.getBitmapSafe();
                 object.scale = cell.getScale();
+                object.clipBottomAddition = (int) parentAlert.getClipLayoutBottom();
                 cell.showCheck(false);
                 return object;
             }
@@ -2515,6 +2517,14 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 }
             }
         }
+        if (checkCameraWhenShown) {
+            checkCameraWhenShown = false;
+            checkCamera(true);
+        }
+    }
+
+    public void setCheckCameraWhenShown(boolean checkCameraWhenShown) {
+        this.checkCameraWhenShown = checkCameraWhenShown;
     }
 
     @Override

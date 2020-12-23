@@ -2499,8 +2499,9 @@ public class ContactsController extends BaseController {
     }
 
     public void createOrUpdateConnectionServiceContact(int id, String firstName, String lastName) {
-        if (!hasContactsPermission())
+        if (!hasContactsPermission()) {
             return;
+        }
         try {
             ContentResolver resolver = ApplicationLoader.applicationContext.getContentResolver();
             ArrayList<ContentProviderOperation> ops = new ArrayList<>();

@@ -13,6 +13,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.LongSparseArray;
 import android.util.Pair;
 import android.util.SparseArray;
@@ -86,7 +87,7 @@ public class MessagesStorage extends BaseController {
     private CountDownLatch openSync = new CountDownLatch(1);
 
     private static volatile MessagesStorage[] Instance = new MessagesStorage[UserConfig.MAX_ACCOUNT_COUNT];
-    private final static int LAST_DB_VERSION = 73;
+    private final static int LAST_DB_VERSION = 74;
 
     public static MessagesStorage getInstance(int num) {
         MessagesStorage localInstance = Instance[num];
@@ -269,6 +270,7 @@ public class MessagesStorage extends BaseController {
             database.executeFast("PRAGMA secure_delete = ON").stepThis().dispose();
             database.executeFast("PRAGMA temp_store = MEMORY").stepThis().dispose();
             database.executeFast("PRAGMA journal_mode = WAL").stepThis().dispose();
+            database.executeFast("PRAGMA journal_size_limit = 52428800").stepThis().dispose();
 
             if (createTable) {
                 if (BuildVars.LOGS_ENABLED) {
@@ -291,7 +293,6 @@ public class MessagesStorage extends BaseController {
                 database.executeFast("CREATE INDEX IF NOT EXISTS task_idx_messages ON messages(uid, out, read_state, ttl, date, send_state);").stepThis().dispose();
                 database.executeFast("CREATE INDEX IF NOT EXISTS send_state_idx_messages2 ON messages(mid, send_state, date);").stepThis().dispose();
                 database.executeFast("CREATE INDEX IF NOT EXISTS uid_mention_idx_messages ON messages(uid, mention, read_state);").stepThis().dispose();
-                database.executeFast("CREATE INDEX IF NOT EXISTS uid_thread_reply_id_mid_idx_messages ON messages(uid, thread_reply_id, mid) WHERE thread_reply_id != 0;").stepThis().dispose();
 
                 database.executeFast("CREATE TABLE download_queue(uid INTEGER, type INTEGER, date INTEGER, data BLOB, parent TEXT, PRIMARY KEY (uid, type));").stepThis().dispose();
                 database.executeFast("CREATE INDEX IF NOT EXISTS type_date_idx_download_queue ON download_queue(type, date);").stepThis().dispose();
@@ -331,7 +332,7 @@ public class MessagesStorage extends BaseController {
                 database.executeFast("CREATE TABLE bot_keyboard(uid INTEGER PRIMARY KEY, mid INTEGER, info BLOB)").stepThis().dispose();
                 database.executeFast("CREATE INDEX IF NOT EXISTS bot_keyboard_idx_mid ON bot_keyboard(mid);").stepThis().dispose();
 
-                database.executeFast("CREATE TABLE chat_settings_v2(uid INTEGER PRIMARY KEY, info BLOB, pinned INTEGER, online INTEGER)").stepThis().dispose();
+                database.executeFast("CREATE TABLE chat_settings_v2(uid INTEGER PRIMARY KEY, info BLOB, pinned INTEGER, online INTEGER, inviter INTEGER)").stepThis().dispose();
                 database.executeFast("CREATE INDEX IF NOT EXISTS chat_settings_pinned_idx ON chat_settings_v2(uid, pinned) WHERE pinned != 0;").stepThis().dispose();
 
                 database.executeFast("CREATE TABLE user_settings(uid INTEGER PRIMARY KEY, info BLOB, pinned INTEGER)").stepThis().dispose();
@@ -904,7 +905,6 @@ public class MessagesStorage extends BaseController {
                 if (version == 69) {
                     executeNoException("ALTER TABLE messages ADD COLUMN replies_data BLOB default NULL");
                     executeNoException("ALTER TABLE messages ADD COLUMN thread_reply_id INTEGER default 0");
-                    database.executeFast("CREATE INDEX IF NOT EXISTS uid_thread_reply_id_mid_idx_messages ON messages(uid, thread_reply_id, mid) WHERE thread_reply_id != 0;").stepThis().dispose();
                     database.executeFast("PRAGMA user_version = 70").stepThis().dispose();
                     version = 70;
                 }
@@ -924,6 +924,11 @@ public class MessagesStorage extends BaseController {
                     version = 73;
                 }
                 if (version == 73) {
+                    executeNoException("ALTER TABLE chat_settings_v2 ADD COLUMN inviter INTEGER default 0");
+                    database.executeFast("PRAGMA user_version = 74").stepThis().dispose();
+                    version = 74;
+                }
+                if (version == 74) {
 
                 }
             } catch (Exception e) {
@@ -1519,9 +1524,9 @@ public class MessagesStorage extends BaseController {
             NativeByteBuffer data = cursor.byteBufferValue(4);
             if (data != null) {
                 TLRPC.Message message = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
-                message.readAttachPath(data, getUserConfig().clientUserId);
-                data.reuse();
                 if (message != null) {
+                    message.readAttachPath(data, getUserConfig().clientUserId);
+                    data.reuse();
                     MessageObject.setUnreadFlags(message, cursor.intValue(5));
                     message.id = cursor.intValue(6);
                     int date = cursor.intValue(9);
@@ -1540,15 +1545,12 @@ public class MessagesStorage extends BaseController {
                                         message.action instanceof TLRPC.TL_messageActionPaymentSent ||
                                         message.action instanceof TLRPC.TL_messageActionGameScore)) {
                             if (!cursor.isNull(13)) {
-                                data = cursor.byteBufferValue(13);
-                                if (data != null) {
-                                    message.replyMessage = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
-                                    message.replyMessage.readAttachPath(data, getUserConfig().clientUserId);
-                                    data.reuse();
+                                NativeByteBuffer data2 = cursor.byteBufferValue(13);
+                                if (data2 != null) {
+                                    message.replyMessage = TLRPC.Message.TLdeserialize(data2, data2.readInt32(false), false);
+                                    message.replyMessage.readAttachPath(data2, getUserConfig().clientUserId);
+                                    data2.reuse();
                                     if (message.replyMessage != null) {
-                                        if (MessageObject.isMegagroup(message)) {
-                                            message.replyMessage.flags |= TLRPC.MESSAGE_FLAG_MEGAGROUP;
-                                        }
                                         addUsersAndChatsFromMessage(message.replyMessage, usersToLoad, chatsToLoad);
                                     }
                                 }
@@ -1571,6 +1573,8 @@ public class MessagesStorage extends BaseController {
                     } catch (Exception e) {
                         FileLog.e(e);
                     }
+                } else {
+                    data.reuse();
                 }
             }
 
@@ -1612,9 +1616,6 @@ public class MessagesStorage extends BaseController {
                     if (owner != null) {
                         owner.replyMessage = message;
                         message.dialog_id = owner.dialog_id;
-                        if (MessageObject.isMegagroup(owner)) {
-                            owner.replyMessage.flags |= TLRPC.MESSAGE_FLAG_MEGAGROUP;
-                        }
                     }
                 }
             }
@@ -1662,36 +1663,34 @@ public class MessagesStorage extends BaseController {
                         while (cursor2.next()) {
                             long did = cursor2.longValue(0);
                             int lower_id = (int) did;
-                            if (a == 0 || a == 1) {
-                                if (a == 0) {
-                                    if (lower_id != 0) {
-                                        filter.alwaysShow.add(lower_id);
-                                    }
-                                    int pin = cursor2.intValue(1);
-                                    if (pin != Integer.MIN_VALUE) {
-                                        filter.pinnedDialogs.put(did, pin);
-                                        if (!dialogsToLoad.contains(did)) {
-                                            dialogsToLoad.add(did);
-                                        }
-                                    }
-                                } else if (a == 1) {
-                                    if (lower_id != 0) {
-                                        filter.neverShow.add(lower_id);
+                            if (a == 0) {
+                                if (lower_id != 0) {
+                                    filter.alwaysShow.add(lower_id);
+                                }
+                                int pin = cursor2.intValue(1);
+                                if (pin != Integer.MIN_VALUE) {
+                                    filter.pinnedDialogs.put(did, pin);
+                                    if (!dialogsToLoad.contains(did)) {
+                                        dialogsToLoad.add(did);
                                     }
                                 }
-                                if (lower_id < 0) {
-                                    if (!chatsToLoad.contains(-lower_id)) {
-                                        chatsToLoad.add(-lower_id);
-                                    }
-                                } else if (lower_id > 0) {
-                                    if (!usersToLoad.contains(lower_id)) {
-                                        usersToLoad.add(lower_id);
-                                    }
-                                } else {
-                                    int high_id = (int) (did >> 32);
-                                    if (!encryptedToLoad.contains(high_id)) {
-                                        encryptedToLoad.add(high_id);
-                                    }
+                            } else {
+                                if (lower_id != 0) {
+                                    filter.neverShow.add(lower_id);
+                                }
+                            }
+                            if (lower_id < 0) {
+                                if (!chatsToLoad.contains(-lower_id)) {
+                                    chatsToLoad.add(-lower_id);
+                                }
+                            } else if (lower_id > 0) {
+                                if (!usersToLoad.contains(lower_id)) {
+                                    usersToLoad.add(lower_id);
+                                }
+                            } else {
+                                int high_id = (int) (did >> 32);
+                                if (!encryptedToLoad.contains(high_id)) {
+                                    encryptedToLoad.add(high_id);
                                 }
                             }
                         }
@@ -2698,9 +2697,6 @@ public class MessagesStorage extends BaseController {
                                             message.replyMessage.readAttachPath(data, getUserConfig().clientUserId);
                                             data.reuse();
                                             if (message.replyMessage != null) {
-                                                if (MessageObject.isMegagroup(message)) {
-                                                    message.replyMessage.flags |= TLRPC.MESSAGE_FLAG_MEGAGROUP;
-                                                }
                                                 addUsersAndChatsFromMessage(message.replyMessage, usersToLoad, chatsToLoad);
                                             }
                                         }
@@ -2765,7 +2761,7 @@ public class MessagesStorage extends BaseController {
                                 }
                             }
 
-                            pushMessages.add(new MessageObject(currentAccount, message, messageText, name, userName, (flags & 1) != 0, (flags & 2) != 0, false));
+                            pushMessages.add(new MessageObject(currentAccount, message, messageText, name, userName, (flags & 1) != 0, (flags & 2) != 0, (message.flags & 0x80000000) != 0, false));
                             addUsersAndChatsFromMessage(message, usersToLoad, chatsToLoad);
                         }
                     }
@@ -2790,9 +2786,6 @@ public class MessagesStorage extends BaseController {
                                     for (int a = 0; a < arrayList.size(); a++) {
                                         TLRPC.Message m = arrayList.get(a);
                                         m.replyMessage = message;
-                                        if (MessageObject.isMegagroup(m)) {
-                                            m.replyMessage.flags |= TLRPC.MESSAGE_FLAG_MEGAGROUP;
-                                        }
                                     }
                                 }
                             }
@@ -3579,19 +3572,21 @@ public class MessagesStorage extends BaseController {
                     NativeByteBuffer data = cursor.byteBufferValue(0);
                     if (data != null) {
                         TLRPC.Message message = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
-                        message.readAttachPath(data, getUserConfig().clientUserId);
-                        data.reuse();
                         if (message != null) {
+                            message.readAttachPath(data, getUserConfig().clientUserId);
+                            data.reuse();
                             MessageObject.updateReactions(message, reactions);
                             SQLitePreparedStatement state = database.executeFast("UPDATE messages SET data = ? WHERE mid = ?");
-                            data = new NativeByteBuffer(message.getObjectSize());
-                            message.serializeToStream(data);
+                            NativeByteBuffer data2 = new NativeByteBuffer(message.getObjectSize());
+                            message.serializeToStream(data2);
                             state.requery();
-                            state.bindByteBuffer(1, data);
+                            state.bindByteBuffer(1, data2);
                             state.bindLong(2, mid);
                             state.step();
-                            data.reuse();
+                            data2.reuse();
                             state.dispose();
+                        } else {
+                            data.reuse();
                         }
                     }
                 }
@@ -4594,7 +4589,7 @@ public class MessagesStorage extends BaseController {
     }
 
     public void updateDialogsWithReadMessages(final SparseLongArray inbox, final SparseLongArray outbox, final ArrayList<Long> mentions, boolean useQueue) {
-        if (isEmpty(inbox) && isEmpty(mentions)) {
+        if (isEmpty(inbox) && isEmpty(outbox) && isEmpty(mentions)) {
             return;
         }
         if (useQueue) {
@@ -4610,7 +4605,7 @@ public class MessagesStorage extends BaseController {
         }
         storageQueue.postRunnable(() -> {
             try {
-                SQLiteCursor cursor = database.queryFinalized("SELECT info, pinned, online FROM chat_settings_v2 WHERE uid = " + participants.chat_id);
+                SQLiteCursor cursor = database.queryFinalized("SELECT info, pinned, online, inviter FROM chat_settings_v2 WHERE uid = " + participants.chat_id);
                 TLRPC.ChatFull info = null;
                 ArrayList<TLRPC.User> loadedUsers = new ArrayList<>();
                 if (cursor.next()) {
@@ -4620,6 +4615,7 @@ public class MessagesStorage extends BaseController {
                         data.reuse();
                         info.pinned_msg_id = cursor.intValue(1);
                         info.online_count = cursor.intValue(2);
+                        info.inviterId = cursor.intValue(3);
                     }
                 }
                 cursor.dispose();
@@ -4628,13 +4624,14 @@ public class MessagesStorage extends BaseController {
                     final TLRPC.ChatFull finalInfo = info;
                     AndroidUtilities.runOnUIThread(() -> getNotificationCenter().postNotificationName(NotificationCenter.chatInfoDidLoad, finalInfo, 0, false));
 
-                    SQLitePreparedStatement state = database.executeFast("REPLACE INTO chat_settings_v2 VALUES(?, ?, ?, ?)");
+                    SQLitePreparedStatement state = database.executeFast("REPLACE INTO chat_settings_v2 VALUES(?, ?, ?, ?, ?)");
                     NativeByteBuffer data = new NativeByteBuffer(info.getObjectSize());
                     info.serializeToStream(data);
                     state.bindInteger(1, info.id);
                     state.bindByteBuffer(2, data);
                     state.bindInteger(3, info.pinned_msg_id);
                     state.bindInteger(4, info.online_count);
+                    state.bindInteger(5, info.inviterId);
                     state.step();
                     state.dispose();
                     data.reuse();
@@ -4872,13 +4869,30 @@ public class MessagesStorage extends BaseController {
         });
     }
 
+    public void saveChatInviter(int chatId, int inviterId) {
+        storageQueue.postRunnable(() -> {
+            try {
+                SQLitePreparedStatement state = database.executeFast("UPDATE chat_settings_v2 SET inviter = ? WHERE uid = ?");
+                state.requery();
+                state.bindInteger(1, inviterId);
+                state.bindInteger(2, chatId);
+                state.step();
+                state.dispose();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        });
+    }
+
     public void updateChatInfo(final TLRPC.ChatFull info, final boolean ifExist) {
         storageQueue.postRunnable(() -> {
             try {
                 int currentOnline = -1;
-                SQLiteCursor cursor = database.queryFinalized("SELECT online FROM chat_settings_v2 WHERE uid = " + info.id);
+                int inviter = 0;
+                SQLiteCursor cursor = database.queryFinalized("SELECT online, inviter FROM chat_settings_v2 WHERE uid = " + info.id);
                 if (cursor.next()) {
                     currentOnline = cursor.intValue(0);
+                    info.inviterId = cursor.intValue(1);
                 }
                 cursor.dispose();
                 if (ifExist && currentOnline == -1) {
@@ -4889,13 +4903,14 @@ public class MessagesStorage extends BaseController {
                     info.online_count = currentOnline;
                 }
 
-                SQLitePreparedStatement state = database.executeFast("REPLACE INTO chat_settings_v2 VALUES(?, ?, ?, ?)");
+                SQLitePreparedStatement state = database.executeFast("REPLACE INTO chat_settings_v2 VALUES(?, ?, ?, ?, ?)");
                 NativeByteBuffer data = new NativeByteBuffer(info.getObjectSize());
                 info.serializeToStream(data);
                 state.bindInteger(1, info.id);
                 state.bindByteBuffer(2, data);
                 state.bindInteger(3, info.pinned_msg_id);
                 state.bindInteger(4, info.online_count);
+                state.bindInteger(5, info.inviterId);
                 state.step();
                 state.dispose();
                 data.reuse();
@@ -5081,7 +5096,7 @@ public class MessagesStorage extends BaseController {
     public void updateChatInfo(final int chat_id, final int user_id, final int what, final int invited_id, final int version) {
         storageQueue.postRunnable(() -> {
             try {
-                SQLiteCursor cursor = database.queryFinalized("SELECT info, pinned, online FROM chat_settings_v2 WHERE uid = " + chat_id);
+                SQLiteCursor cursor = database.queryFinalized("SELECT info, pinned, online, inviter FROM chat_settings_v2 WHERE uid = " + chat_id);
                 TLRPC.ChatFull info = null;
                 ArrayList<TLRPC.User> loadedUsers = new ArrayList<>();
                 if (cursor.next()) {
@@ -5091,6 +5106,7 @@ public class MessagesStorage extends BaseController {
                         data.reuse();
                         info.pinned_msg_id = cursor.intValue(1);
                         info.online_count = cursor.intValue(2);
+                        info.inviterId = cursor.intValue(3);
                     }
                 }
                 cursor.dispose();
@@ -5137,13 +5153,14 @@ public class MessagesStorage extends BaseController {
                     final TLRPC.ChatFull finalInfo = info;
                     AndroidUtilities.runOnUIThread(() -> getNotificationCenter().postNotificationName(NotificationCenter.chatInfoDidLoad, finalInfo, 0, false));
 
-                    SQLitePreparedStatement state = database.executeFast("REPLACE INTO chat_settings_v2 VALUES(?, ?, ?, ?)");
+                    SQLitePreparedStatement state = database.executeFast("REPLACE INTO chat_settings_v2 VALUES(?, ?, ?, ?, ?)");
                     NativeByteBuffer data = new NativeByteBuffer(info.getObjectSize());
                     info.serializeToStream(data);
                     state.bindInteger(1, chat_id);
                     state.bindByteBuffer(2, data);
                     state.bindInteger(3, info.pinned_msg_id);
                     state.bindInteger(4, info.online_count);
+                    state.bindInteger(5, info.inviterId);
                     state.step();
                     state.dispose();
                     data.reuse();
@@ -5171,15 +5188,44 @@ public class MessagesStorage extends BaseController {
                 }
                 cursor.dispose();
                 result[0] = info instanceof TLRPC.TL_channelFull && info.migrated_from_chat_id != 0;
-                if (countDownLatch != null) {
-                    countDownLatch.countDown();
-                }
+                countDownLatch.countDown();
             } catch (Exception e) {
                 FileLog.e(e);
             } finally {
-                if (countDownLatch != null) {
-                    countDownLatch.countDown();
+                countDownLatch.countDown();
+            }
+        });
+        try {
+            countDownLatch.await();
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return result[0];
+    }
+
+    public boolean hasInviteMeMessage(final int chat_id) {
+        final CountDownLatch countDownLatch = new CountDownLatch(1);
+        final boolean[] result = new boolean[1];
+        storageQueue.postRunnable(() -> {
+            try {
+                int selfId = getUserConfig().getClientUserId();
+                SQLiteCursor cursor = database.queryFinalized("SELECT data FROM messages WHERE uid = " + -chat_id + " AND out = 0 ORDER BY mid DESC LIMIT 100");
+                while (cursor.next()) {
+                    NativeByteBuffer data = cursor.byteBufferValue(0);
+                    if (data != null) {
+                        TLRPC.Message message = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
+                        data.reuse();
+                        if (message.action instanceof TLRPC.TL_messageActionChatAddUser && message.action.users.contains(selfId)) {
+                            result[0] = true;
+                            break;
+                        }
+                    }
                 }
+                cursor.dispose();
+            } catch (Exception e) {
+                FileLog.e(e);
+            } finally {
+                countDownLatch.countDown();
             }
         });
         try {
@@ -5200,7 +5246,7 @@ public class MessagesStorage extends BaseController {
         boolean pinnedEndReached = false;
 
         try {
-            SQLiteCursor cursor = database.queryFinalized("SELECT info, pinned, online FROM chat_settings_v2 WHERE uid = " + chatId);
+            SQLiteCursor cursor = database.queryFinalized("SELECT info, pinned, online, inviter FROM chat_settings_v2 WHERE uid = " + chatId);
             if (cursor.next()) {
                 NativeByteBuffer data = cursor.byteBufferValue(0);
                 if (data != null) {
@@ -5208,6 +5254,7 @@ public class MessagesStorage extends BaseController {
                     data.reuse();
                     info.pinned_msg_id = cursor.intValue(1);
                     info.online_count = cursor.intValue(2);
+                    info.inviterId = cursor.intValue(3);
                 }
             }
             cursor.dispose();
@@ -5270,6 +5317,9 @@ public class MessagesStorage extends BaseController {
                 if (usersToLoad.length() != 0) {
                     getUsersInternal(usersToLoad.toString(), loadedUsers);
                 }
+            }
+            if (info != null && info.inviterId != 0) {
+                getUsersInternal("" + info.inviterId, loadedUsers);
             }
 
             cursor = getMessagesStorage().getDatabase().queryFinalized(String.format(Locale.US, "SELECT mid FROM chat_pinned_v2 WHERE uid = %d ORDER BY mid DESC", -chatId));
@@ -5958,7 +6008,7 @@ public class MessagesStorage extends BaseController {
         });
     }
 
-    public Runnable getMessagesInternal(long dialogId, long mergeDialogId, int count, int max_id, int offset_date, int minDate, int classGuid, int load_type, boolean isChannel, boolean scheduled, int replyMessageId, int loadIndex) {
+    public Runnable getMessagesInternal(long dialogId, long mergeDialogId, int count, int max_id, int offset_date, int minDate, int classGuid, int load_type, boolean isChannel, boolean scheduled, int replyMessageId, int loadIndex, boolean processMessages) {
         TLRPC.TL_messages_messages res = new TLRPC.TL_messages_messages();
         int currentUserId = getUserConfig().clientUserId;
         int count_unread = 0;
@@ -5982,6 +6032,7 @@ public class MessagesStorage extends BaseController {
         }
         boolean isEnd = false;
         int num = dialogId == 777000 ? 10 : 1;
+        int messagesCount = 0;
         try {
             ArrayList<Integer> usersToLoad = new ArrayList<>();
             ArrayList<Integer> chatsToLoad = new ArrayList<>();
@@ -6028,9 +6079,6 @@ public class MessagesStorage extends BaseController {
                                     message.replyMessage.readAttachPath(data, currentUserId);
                                     data.reuse();
                                     if (message.replyMessage != null) {
-                                        if (MessageObject.isMegagroup(message)) {
-                                            message.replyMessage.flags |= TLRPC.MESSAGE_FLAG_MEGAGROUP;
-                                        }
                                         addUsersAndChatsFromMessage(message.replyMessage, usersToLoad, chatsToLoad);
                                     }
                                 }
@@ -6437,6 +6485,10 @@ public class MessagesStorage extends BaseController {
                 int maxId = Integer.MIN_VALUE;
                 if (cursor != null) {
                     while (cursor.next()) {
+                        messagesCount++;
+                        if (!processMessages) {
+                            continue;
+                        }
                         NativeByteBuffer data = cursor.byteBufferValue(1);
                         if (data != null) {
                             TLRPC.Message message = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
@@ -6493,9 +6545,6 @@ public class MessagesStorage extends BaseController {
                                         message.replyMessage.readAttachPath(data, currentUserId);
                                         data.reuse();
                                         if (message.replyMessage != null) {
-                                            if (MessageObject.isMegagroup(message)) {
-                                                message.replyMessage.flags |= TLRPC.MESSAGE_FLAG_MEGAGROUP;
-                                            }
                                             addUsersAndChatsFromMessage(message.replyMessage, usersToLoad, chatsToLoad);
                                         }
                                     }
@@ -6623,9 +6672,6 @@ public class MessagesStorage extends BaseController {
                                 for (int a = 0; a < arrayList.size(); a++) {
                                     TLRPC.Message object = arrayList.get(a);
                                     object.replyMessage = message;
-                                    if (MessageObject.isMegagroup(object)) {
-                                        object.replyMessage.flags |= TLRPC.MESSAGE_FLAG_MEGAGROUP;
-                                    }
                                 }
                             }
                         } else {
@@ -6638,9 +6684,6 @@ public class MessagesStorage extends BaseController {
                                     object.replyMessage = message;
                                     if (object.reply_to != null) {
                                         object.reply_to.reply_to_msg_id = message.id;
-                                    }
-                                    if (MessageObject.isMegagroup(object)) {
-                                        object.replyMessage.flags |= TLRPC.MESSAGE_FLAG_MEGAGROUP;
                                     }
                                 }
                             }
@@ -6688,11 +6731,12 @@ public class MessagesStorage extends BaseController {
                 runnable.run();
             };
         } else {*/
-            return () -> getMessagesController().processLoadedMessages(res, dialogId, mergeDialogId, countQueryFinal, maxIdOverrideFinal, offset_date, true, classGuid, minUnreadIdFinal, lastMessageIdFinal, countUnreadFinal, maxUnreadDateFinal, load_type, isChannel, isEndFinal, scheduled ? 1 : 0, replyMessageId, loadIndex, queryFromServerFinal, mentionsUnreadFinal);
+        int finalMessagesCount = scheduled ? res.messages.size() : messagesCount;
+        return () -> getMessagesController().processLoadedMessages(res, finalMessagesCount, dialogId, mergeDialogId, countQueryFinal, maxIdOverrideFinal, offset_date, true, classGuid, minUnreadIdFinal, lastMessageIdFinal, countUnreadFinal, maxUnreadDateFinal, load_type, isChannel, isEndFinal, scheduled ? 1 : 0, replyMessageId, loadIndex, queryFromServerFinal, mentionsUnreadFinal, processMessages);
         //}
     }
 
-    public void getMessages(long dialogId, long mergeDialogId, boolean loadInfo, int count, int max_id, int offset_date, int minDate, int classGuid, int load_type, boolean isChannel, boolean scheduled, int replyMessageId, int loadIndex) {
+    public void getMessages(long dialogId, long mergeDialogId, boolean loadInfo, int count, int max_id, int offset_date, int minDate, int classGuid, int load_type, boolean isChannel, boolean scheduled, int replyMessageId, int loadIndex, boolean processMessages) {
         storageQueue.postRunnable(() -> {
             long mergeDialogIdFinal = mergeDialogId;
             int lowerId = (int) dialogId;
@@ -6704,7 +6748,7 @@ public class MessagesStorage extends BaseController {
                     }
                 }
             }*/
-            Utilities.stageQueue.postRunnable(getMessagesInternal(dialogId, mergeDialogIdFinal, count, max_id, offset_date, minDate, classGuid, load_type, isChannel, scheduled, replyMessageId, loadIndex));
+            Utilities.stageQueue.postRunnable(getMessagesInternal(dialogId, mergeDialogIdFinal, count, max_id, offset_date, minDate, classGuid, load_type, isChannel, scheduled, replyMessageId, loadIndex, processMessages));
         });
     }
 
@@ -6954,28 +6998,6 @@ public class MessagesStorage extends BaseController {
                 AndroidUtilities.runOnUIThread(onDontExist);
             }
         });
-    }
-
-    public boolean isDialogHasMessages(final long did) {
-        final CountDownLatch countDownLatch = new CountDownLatch(1);
-        final boolean[] result = new boolean[1];
-        storageQueue.postRunnable(() -> {
-            try {
-                SQLiteCursor cursor = database.queryFinalized(String.format(Locale.US, "SELECT mid FROM messages WHERE uid = %d LIMIT 1", did));
-                result[0] = cursor.next();
-                cursor.dispose();
-            } catch (Exception e) {
-                FileLog.e(e);
-            } finally {
-                countDownLatch.countDown();
-            }
-        });
-        try {
-            countDownLatch.await();
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        return result[0];
     }
 
     public boolean hasAuthMessage(final int date) {
@@ -7245,6 +7267,8 @@ public class MessagesStorage extends BaseController {
                                 oldChat.broadcast = chat.broadcast;
                                 oldChat.verified = chat.verified;
                                 oldChat.megagroup = chat.megagroup;
+                                oldChat.call_not_empty = chat.call_not_empty;
+                                oldChat.call_active = chat.call_active;
                                 if (chat.default_banned_rights != null) {
                                     oldChat.default_banned_rights = chat.default_banned_rights;
                                     oldChat.flags |= 262144;
@@ -7648,7 +7672,7 @@ public class MessagesStorage extends BaseController {
                 AndroidUtilities.runOnUIThread(() -> getNotificationCenter().postNotificationName(NotificationCenter.removeAllMessagesFromDialog, did, true));
                 if (checkInvite) {
                     if (newDialogType == 1) {
-                        getMessagesController().checkChannelInviter(channel_id);
+                        getMessagesController().checkChatInviter(channel_id, true);
                     } else {
                         getMessagesController().generateJoinMessage(channel_id, false);
                     }
@@ -8349,7 +8373,7 @@ public class MessagesStorage extends BaseController {
                         last_mid = cursor.intValue(2);
                         old_mentions_count = Math.max(0, cursor.intValue(3));
                     } else if (channelId != 0) {
-                        getMessagesController().checkChannelInviter(channelId);
+                        getMessagesController().checkChatInviter(channelId, true);
                     }
                     cursor.dispose();
 
@@ -9626,12 +9650,8 @@ public class MessagesStorage extends BaseController {
         storageQueue.postRunnable(() -> {
             try {
                 long messageId = message.id;
-                int channelId = 0;
-                if (channelId == 0) {
-                    channelId = message.peer_id.channel_id;
-                }
                 if (message.peer_id.channel_id != 0) {
-                    messageId |= ((long) channelId) << 32;
+                    messageId |= ((long) message.peer_id.channel_id) << 32;
                 }
 
                 SQLiteCursor cursor = null;
@@ -9741,6 +9761,7 @@ public class MessagesStorage extends BaseController {
     public void putMessages(final TLRPC.messages_Messages messages, final long dialog_id, final int load_type, final int max_id, final boolean createDialog, final boolean scheduled) {
         storageQueue.postRunnable(() -> {
             try {
+                FileLog.d("put messages to " + dialog_id);
                 if (scheduled) {
                     database.executeFast(String.format(Locale.US, "DELETE FROM scheduled_messages WHERE uid = %d AND mid > 0", dialog_id)).stepThis().dispose();
                     SQLitePreparedStatement state_messages = database.executeFast("REPLACE INTO scheduled_messages VALUES(?, ?, ?, ?, ?, ?, NULL)");
@@ -9841,7 +9862,7 @@ public class MessagesStorage extends BaseController {
                                     oldMessage.readAttachPath(data, getUserConfig().clientUserId);
                                     data.reuse();
                                     int send_state = cursor.intValue(5);
-                                    if (oldMessage != null && send_state != 3) {
+                                    if (send_state != 3) {
                                         message.attachPath = oldMessage.attachPath;
                                         message.ttl = cursor.intValue(2);
                                     }
@@ -10241,11 +10262,11 @@ public class MessagesStorage extends BaseController {
                                 NativeByteBuffer data = cursor.byteBufferValue(18);
                                 if (data != null) {
                                     dialogFolder.folder = TLRPC.TL_folder.TLdeserialize(data, data.readInt32(false), false);
+                                    data.reuse();
                                 } else {
                                     dialogFolder.folder = new TLRPC.TL_folder();
                                     dialogFolder.folder.id = (int) dialogId;
                                 }
-                                data.reuse();
                             }
                             dialog = dialogFolder;
                             if (a == 0) {
@@ -10286,9 +10307,9 @@ public class MessagesStorage extends BaseController {
                         NativeByteBuffer data = cursor.byteBufferValue(4);
                         if (data != null) {
                             TLRPC.Message message = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
-                            message.readAttachPath(data, getUserConfig().clientUserId);
-                            data.reuse();
                             if (message != null) {
+                                message.readAttachPath(data, getUserConfig().clientUserId);
+                                data.reuse();
                                 MessageObject.setUnreadFlags(message, cursor.intValue(5));
                                 message.id = cursor.intValue(6);
                                 int date = cursor.intValue(9);
@@ -10307,15 +10328,12 @@ public class MessagesStorage extends BaseController {
                                                     message.action instanceof TLRPC.TL_messageActionPaymentSent ||
                                                     message.action instanceof TLRPC.TL_messageActionGameScore)) {
                                         if (!cursor.isNull(13)) {
-                                            data = cursor.byteBufferValue(13);
-                                            if (data != null) {
-                                                message.replyMessage = TLRPC.Message.TLdeserialize(data, data.readInt32(false), false);
-                                                message.replyMessage.readAttachPath(data, getUserConfig().clientUserId);
-                                                data.reuse();
+                                            NativeByteBuffer data2 = cursor.byteBufferValue(13);
+                                            if (data2 != null) {
+                                                message.replyMessage = TLRPC.Message.TLdeserialize(data2, data2.readInt32(false), false);
+                                                message.replyMessage.readAttachPath(data2, getUserConfig().clientUserId);
+                                                data2.reuse();
                                                 if (message.replyMessage != null) {
-                                                    if (MessageObject.isMegagroup(message)) {
-                                                        message.replyMessage.flags |= TLRPC.MESSAGE_FLAG_MEGAGROUP;
-                                                    }
                                                     addUsersAndChatsFromMessage(message.replyMessage, usersToLoad, chatsToLoad);
                                                 }
                                             }
@@ -10338,6 +10356,8 @@ public class MessagesStorage extends BaseController {
                                 } catch (Exception e) {
                                     FileLog.e(e);
                                 }
+                            } else {
+                                data.reuse();
                             }
                         }
 
@@ -10380,9 +10400,6 @@ public class MessagesStorage extends BaseController {
                             if (owner != null) {
                                 owner.replyMessage = message;
                                 message.dialog_id = owner.dialog_id;
-                                if (MessageObject.isMegagroup(owner)) {
-                                    owner.replyMessage.flags |= TLRPC.MESSAGE_FLAG_MEGAGROUP;
-                                }
                             }
                         }
                     }
@@ -10865,6 +10882,23 @@ public class MessagesStorage extends BaseController {
         });
     }
 
+    public void setDialogsPinned(ArrayList<Long> dids, ArrayList<Integer> pinned) {
+        storageQueue.postRunnable(() -> {
+            try {
+                SQLitePreparedStatement state = database.executeFast("UPDATE dialogs SET pinned = ? WHERE did = ?");
+                for (int a = 0, N = dids.size(); a < N; a++) {
+                    state.requery();
+                    state.bindInteger(1, pinned.get(a));
+                    state.bindLong(2, dids.get(a));
+                    state.step();
+                }
+                state.dispose();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        });
+    }
+
     public void putDialogs(final TLRPC.messages_Dialogs dialogs, final int check) {
         if (dialogs.dialogs.isEmpty()) {
             return;
@@ -10948,9 +10982,7 @@ public class MessagesStorage extends BaseController {
                 }
             }
             try {
-                if (countDownLatch != null) {
-                    countDownLatch.countDown();
-                }
+                countDownLatch.countDown();
             } catch (Exception e) {
                 FileLog.e(e);
             }

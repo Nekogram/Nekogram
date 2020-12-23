@@ -81,6 +81,7 @@
         android:theme="@style/Theme.TMessages.Start"
         android:manageSpaceActivity="org.telegram.ui.ExternalActionActivity"
         android:supportsRtl="false"
+        android:requestLegacyExternalStorage="true"
         tools:replace="android:supportsRtl">
 
         <activity
@@ -244,6 +245,14 @@
             android:exported="false">
             <intent-filter>
                 <action android:name="org.telegram.messenger.ACTION_MESSAGE_HEARD"/>
+            </intent-filter>
+        </receiver>
+
+        <receiver
+            android:name=".NotificationsDisabledReceiver"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="android.app.action.NOTIFICATION_CHANNEL_BLOCK_STATE_CHANGED"/>
             </intent-filter>
         </receiver>
 
