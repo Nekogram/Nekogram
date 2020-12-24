@@ -3,7 +3,6 @@ package tw.nekomimi.nekogram.settings;
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.graphics.Color;
 import android.os.Build;
 import android.transition.TransitionManager;
 import android.view.Gravity;
@@ -12,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -129,12 +129,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         FrameLayout frameLayout = (FrameLayout) fragmentView;
 
         listView = new RecyclerListView(context);
-        listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) {
-            @Override
-            public boolean supportsPredictiveItemAnimations() {
-                return false;
-            }
-        });
+        listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         listView.setVerticalScrollBarEnabled(false);
         if (listView.getItemAnimator() != null) {
             ((DefaultItemAnimator) listView.getItemAnimator()).setSupportsChangeAnimations(false);
@@ -183,7 +178,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 statusBarColorAnimator = NekoConfig.transparentStatusBar ? ValueAnimator.ofInt(alpha, 0) : ValueAnimator.ofInt(0, alpha);
                 statusBarColorAnimator.setDuration(300);
-                statusBarColorAnimator.addUpdateListener(animation -> getParentActivity().getWindow().setStatusBarColor(Color.argb((int) animation.getAnimatedValue(), Color.red(0), Color.green(0), Color.blue(0))));
+                statusBarColorAnimator.addUpdateListener(animation -> getParentActivity().getWindow().setStatusBarColor(ColorUtils.setAlphaComponent(0, (int) animation.getAnimatedValue())));
                 statusBarColorAnimator.start();
             } else if (position == hideProxySponsorChannelRow) {
                 NekoConfig.toggleHideProxySponsorChannel();
