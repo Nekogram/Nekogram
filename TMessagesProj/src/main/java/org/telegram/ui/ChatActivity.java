@@ -1794,7 +1794,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     frameLayout.addView(messageTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 24, 57, 24, 9));
                     messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("DeleteAllFromSelfAlert", R.string.DeleteAllFromSelfAlert)));
                     builder.setPositiveButton(LocaleController.getString("DeleteAll", R.string.DeleteAll), (dialogInterface, i) -> {
-                        if (ChatObject.canUserDoAction(currentChat, ChatObject.ACTION_DELETE_MESSAGES)) {
+                        if (ChatObject.isChannel(currentChat) && currentChat.megagroup && ChatObject.canUserDoAction(currentChat, ChatObject.ACTION_DELETE_MESSAGES)) {
                             getMessagesController().deleteUserChannelHistory(currentChat, UserConfig.getInstance(currentAccount).getCurrentUser(), 0);
                         } else {
                             getMessageHelper().deleteUserChannelHistoryWithSearch(dialog_id, UserConfig.getInstance(currentAccount).getCurrentUser());
@@ -2186,7 +2186,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (currentUser == null || !currentUser.self) {
                 muteItem = headerItem.addSubItem(mute, R.drawable.msg_mute, null);
             }
-            if (ChatObject.isChannel(currentChat) && currentChat.megagroup) {
+
+            if (ChatObject.isMegagroup(currentChat) || currentChat != null && !ChatObject.isChannel(currentChat)) {
                 headerItem.addSubItem(delete_history, R.drawable.msg_delete, LocaleController.getString("DeleteAllFromSelf", R.string.DeleteAllFromSelf));
             }
             if (ChatObject.isChannel(currentChat)) {

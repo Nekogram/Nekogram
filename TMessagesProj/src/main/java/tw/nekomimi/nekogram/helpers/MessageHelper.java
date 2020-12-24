@@ -192,23 +192,28 @@ public class MessageHelper extends BaseController {
                         if (size == 0) {
                             return;
                         }
+                        FileLog.d("deleteUserChannelHistoryWithSearch size = " + size);
                         ArrayList<Integer> ids = new ArrayList<>();
-                        ArrayList<Long> random_ids = new ArrayList<>();
                         int channelId = 0;
-                        for (int a = 0; a < res.messages.size(); a++) {
+                        for (int a = 0; a < size; a++) {
                             TLRPC.Message message = res.messages.get(a);
-                            ids.add(message.id);
-                            if (message.random_id != 0) {
-                                random_ids.add(message.random_id);
-                            }
-                            if (message.peer_id.channel_id != 0) {
-                                channelId = message.peer_id.channel_id;
+                            if (message.id == 0) {
+                                continue;
                             }
                             if (message.id > lastMessageId) {
                                 lastMessageId = message.id;
                             }
+                            if (message.peer_id.channel_id != 0) {
+                                channelId = message.peer_id.channel_id;
+                            } else if (message.peer_id.chat_id == 0) {
+                                continue;
+                            }
+                            ids.add(message.id);
                         }
-                        getMessagesController().deleteMessages(ids, random_ids, null, dialog_id, channelId, true, false);
+                        if (ids.size() == 0) {
+                            return;
+                        }
+                        getMessagesController().deleteMessages(ids, null, null, dialog_id, channelId, true, false);
                         deleteUserChannelHistoryWithSearch(dialog_id, user, lastMessageId);
                     }
                 }
