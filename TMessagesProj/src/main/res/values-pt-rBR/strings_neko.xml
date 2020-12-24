@@ -81,7 +81,7 @@
     <string name="TabTitleTypeText">Títulos</string>
     <string name="TabTitleTypeIcon">Emoticons</string>
     <string name="TabTitleTypeMix">Emoticons com títulos</string>
-    <string name="ConfirmAVMessage">Confirmar envio de ádio ou vídeomensagem</string>
+    <string name="ConfirmAVMessage">Confirmar envio de mensagens de vídeo/voz</string>
     <string name="AskBeforeCalling">Perguntar antes de ligar</string>
     <string name="DisableNumberRounding">Desativar arredondamento</string>
     <string name="Categories">Categorias</string>
