@@ -229,7 +229,7 @@ public class DrawerProfileCell extends FrameLayout {
         });
         addView(darkThemeView, LayoutHelper.createFrame(48, 48, Gravity.RIGHT | Gravity.BOTTOM, 0, 0, 6, 90));
 
-        if (Theme.getEventType() == 0) {
+        if (Theme.getEventType() == 0 || NekoConfig.eventType == 1) {
             snowflakesEffect = new SnowflakesEffect();
             snowflakesEffect.setColorKey(Theme.key_chats_menuName);
         }

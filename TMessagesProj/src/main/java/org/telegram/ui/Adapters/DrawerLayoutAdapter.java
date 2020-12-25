@@ -239,6 +239,9 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             return;
         }
         int eventType = Theme.getEventType();
+        if (NekoConfig.eventType > 0) {
+            eventType = NekoConfig.eventType - 1;
+        }
         int newGroupIcon;
         int newSecretIcon;
         int newChannelIcon;
@@ -249,7 +252,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         int inviteIcon;
         int helpIcon;
         int peopleNearbyIcon;
-        if (eventType == 0 || NekoConfig.eventType == 1) {
+        if (eventType == 0) {
             newGroupIcon = R.drawable.menu_groups_ny;
             //newSecretIcon = R.drawable.menu_secret_ny;
             //newChannelIcon = R.drawable.menu_channel_ny;
@@ -260,7 +263,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             inviteIcon = R.drawable.menu_invite_ny;
             helpIcon = R.drawable.menu_help_ny;
             peopleNearbyIcon = R.drawable.menu_nearby_ny;
-        } else if (eventType == 1 || NekoConfig.eventType == 2) {
+        } else if (eventType == 1) {
             newGroupIcon = R.drawable.menu_groups_14;
             //newSecretIcon = R.drawable.menu_secret_14;
             //newChannelIcon = R.drawable.menu_broadcast_14;
@@ -271,7 +274,7 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             inviteIcon = R.drawable.menu_secret_ny;
             helpIcon = R.drawable.menu_help;
             peopleNearbyIcon = R.drawable.menu_secret_14;
-        } else if (eventType == 2 || NekoConfig.eventType == 3) {
+        } else if (eventType == 2) {
             newGroupIcon = R.drawable.menu_groups_hw;
             //newSecretIcon = R.drawable.menu_secret_hw;
             //newChannelIcon = R.drawable.menu_broadcast_hw;
