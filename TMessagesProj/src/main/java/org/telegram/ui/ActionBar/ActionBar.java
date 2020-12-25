@@ -15,6 +15,7 @@ import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.graphics.Canvas;
+import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -217,6 +218,7 @@ public class ActionBar extends FrameLayout {
                 int x = titleTextView[0].getTextStartX() + Theme.getCurrentHolidayDrawableXOffset() + (rect.width() - (drawable.getIntrinsicWidth() + Theme.getCurrentHolidayDrawableXOffset())) / 2;
                 int y = titleTextView[0].getTextStartY() + Theme.getCurrentHolidayDrawableYOffset() + (int) Math.ceil((titleTextView[0].getTextHeight() - rect.height()) / 2.0f);
                 drawable.setBounds(x, y - drawable.getIntrinsicHeight(), x + drawable.getIntrinsicWidth(), y);
+                drawable.setColorFilter(textPaint.getColor(), PorterDuff.Mode.MULTIPLY);
                 drawable.draw(canvas);
                 if (Theme.canStartHolidayAnimation()) {
                     if (snowflakesEffect == null) {
