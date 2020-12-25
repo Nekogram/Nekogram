@@ -260,7 +260,9 @@ public class UpdateHelper {
                         break;
                 }
             } catch (Exception exception) {
-                if (delegate != null) delegate.didCheckNewVersionAvailable(exception.getLocalizedMessage());
+                if (delegate != null) {
+                    delegate.didCheckNewVersionAvailable(exception.getLocalizedMessage());
+                }
                 return;
             }
             int lastVer = 0;

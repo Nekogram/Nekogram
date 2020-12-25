@@ -378,7 +378,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
 
         generalRow = rowCount++;
         disabledInstantCameraRow = rowCount++;
-        hideProxySponsorChannelRow = !AnalyticsHelper.googlePlay(getParentActivity()) ? rowCount++ : -1;
+        hideProxySponsorChannelRow = !AnalyticsHelper.GOOGLE_PLAY || NekoConfig.showHiddenFeature ? rowCount++ : -1;
         askBeforeCallRow = rowCount++;
         disableNumberRoundingRow = rowCount++;
         openArchiveOnPullRow = rowCount++;

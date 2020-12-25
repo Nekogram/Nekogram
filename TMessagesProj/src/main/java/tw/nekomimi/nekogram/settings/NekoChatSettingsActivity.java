@@ -224,7 +224,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         stickerSize2Row = rowCount++;
 
         chatRow = rowCount++;
-        ignoreBlockedRow = !AnalyticsHelper.googlePlay(getParentActivity()) ? rowCount++ : -1;
+        ignoreBlockedRow = !AnalyticsHelper.GOOGLE_PLAY || NekoConfig.showHiddenFeature ? rowCount++ : -1;
         disablePhotoSideActionRow = rowCount++;
         hideKeyboardOnChatScrollRow = rowCount++;
         rearVideoMessagesRow = rowCount++;

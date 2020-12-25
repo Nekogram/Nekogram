@@ -194,7 +194,7 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
         sourceCodeRow = rowCount++;
         translationRow = rowCount++;
         donateRow = rowCount++;
-        checkUpdateRow = AnalyticsHelper.googlePlay(getParentActivity()) ? -1 : rowCount++;
+        checkUpdateRow = AnalyticsHelper.GOOGLE_PLAY ? -1 : rowCount++;
         if (!LocaleController.getString("SponsorTitle", R.string.SponsorTitle).equals("dummy")) {
             sponsorRow = rowCount++;
         } else {

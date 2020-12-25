@@ -434,6 +434,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("MapDriftingFix", R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
                     } else if (position == increaseVoiceMessageQualityRow) {
                         textCell.setTextAndCheck(LocaleController.getString("IncreaseVoiceMessageQuality", R.string.IncreaseVoiceMessageQuality), NekoConfig.increaseVoiceMessageQuality, true);
+                    } else if (position == shouldNOTTrustMeRow) {
+                        textCell.setTextAndCheck("", NekoConfig.shouldNOTTrustMe, false);
                     }
                     break;
                 }
@@ -510,6 +512,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 return 4;
             } else if (position == emojiRow) {
                 return TextUtils.isEmpty(NekoConfig.customEmojiFontPath) ? 2 : 5;
+            } else if (position == shouldNOTTrustMeRow) {
+                return 3;
             }
             return 2;
         }

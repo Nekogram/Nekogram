@@ -3709,7 +3709,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         } else if (UserConfig.getInstance(0).pendingAppUpdate != null) {
             showUpdateActivity(UserConfig.selectedAccount, UserConfig.getInstance(0).pendingAppUpdate, true);
         }
-        if (!AnalyticsHelper.googlePlay(this)) UpdateHelper.getInstance().checkNewVersionAvailable(null, true);
+        if (!AnalyticsHelper.GOOGLE_PLAY) UpdateHelper.getInstance().checkNewVersionAvailable(null, true);
         checkAppUpdate(false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
