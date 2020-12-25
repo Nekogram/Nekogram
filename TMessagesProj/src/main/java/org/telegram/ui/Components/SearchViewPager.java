@@ -267,7 +267,9 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                     emptyView.showProgress(!dialogsSearchAdapter.isSearching(), false);
                     emptyView.showProgress(dialogsSearchAdapter.isSearching(), false);
                 } else {
-                    emptyView.showProgress(dialogsSearchAdapter.isSearching(), true);
+                    if (!dialogsSearchAdapter.hasRecentSearch()) {
+                        emptyView.showProgress(dialogsSearchAdapter.isSearching(), true);
+                    }
                 }
                 if (reset) {
                     noMediaFiltersSearchView.setVisibility(View.GONE);
