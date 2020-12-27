@@ -4115,7 +4115,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 return super.createAccessibilityNodeInfo();
             }
         };
-        if (currentEncryptedChat != null && Build.VERSION.SDK_INT >= 19) {
+        if (/*currentEncryptedChat != null && */Build.VERSION.SDK_INT >= 19) {
             chatListView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
         }
         chatListView.setNestedScrollingEnabled(false);
@@ -20784,9 +20784,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     private void updateMessageListAccessibilityVisibility() {
-        if (currentEncryptedChat != null) {
-            return;
-        }
+        //if (currentEncryptedChat != null) {
+        //    return;
+        //}
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             chatListView.setImportantForAccessibility(mentionContainer.getVisibility() == View.VISIBLE || (scrimPopupWindow != null && scrimPopupWindow.isShowing()) ? View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS : View.IMPORTANT_FOR_ACCESSIBILITY_AUTO);
         }
