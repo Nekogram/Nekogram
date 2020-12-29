@@ -359,7 +359,8 @@ public class LoginActivity extends BaseFragment {
         doneButtonVisible[DONE_TYPE_ACTION] = false;
 
         ActionBarMenu menu = actionBar.createMenu();
-        menu.addItem(2, R.drawable.list_bot);
+        ActionBarMenuItem botItem = menu.addItem(2, R.drawable.list_bot);
+        botItem.setContentDescription(LocaleController.getString("BotLogin", R.string.BotLogin));
         actionBar.setAllowOverlayTitle(true);
         doneItem = menu.addItemWithWidth(done_button, R.drawable.ic_done, AndroidUtilities.dp(56));
         doneProgressView = new ContextProgressView(context, 1);
