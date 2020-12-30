@@ -631,7 +631,7 @@ public class Theme {
                 return;
             }
             ArrayList<ThemeAccent> accentsToLoad = null;
-            for (int b = 0; b < 5; b++) {
+            for (int b = 0; b < 6; b++) {
                 String key;
                 switch (b) {
                     case 0:
@@ -647,8 +647,11 @@ public class Theme {
                         key = "Day";
                         break;
                     case 4:
-                    default:
                         key = "Night";
+                        break;
+                    case 5:
+                    default:
+                        key = "AMOLED";
                         break;
                 }
                 ThemeInfo info = themesDict.get(key);
@@ -4158,6 +4161,27 @@ public class Theme {
                 );
         themes.add(themeInfo);
         themesDict.put("Night", themeInfo);
+
+        themeInfo = new ThemeInfo();
+        themeInfo.name = "AMOLED";
+        themeInfo.assetName = "amoled.attheme";
+        themeInfo.previewBackgroundColor = 0xff000000;
+        themeInfo.previewInColor = 0xff000000;
+        themeInfo.previewOutColor = 0xff75A2E6;
+        themeInfo.sortIndex = 5;
+        themeInfo.setAccentColorOptions(
+                new int[]    {                    0xFF6ABE3F,                    0xFF8D78E3,                    0xFFDE5E7E,                    0xFF5977E8,                    0xFFDBC11A, 0xff3e88f7, 0xff4ab5d3, 0xff4ab841, 0xffd95576, 0xffe27d2b, 0xff936cda, 0xffd04336, 0xffe8ae1c, 0xff7988a3 },
+                new int[]    {                    0xFF8A5294,                    0xFFB46C1B,                    0xFFAF4F6F,                    0xFF266E8D,                    0xFF744EB7, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000 },
+                new int[]    {                    0xFF6855BB,                    0xFFA53B4A,                    0xFF62499C,                    0xFF2F919D,                    0xFF298B95, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000 },
+                new int[]    {                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000 },
+                new int[]    {                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000,                    0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000 },
+                new int[]    {                             9,                            10,                            11,                            12,                            13,          0,          1,          2,          3,          4,          5,          6,          7,          8 },
+                new String[] { "YIxYGEALQVADAAAAA3QbEH0AowY", "9LW_RcoOSVACAAAAFTk3DTyXN-M", "O-wmAfBPSFADAAAA4zINVfD_bro", "F5oWoCs7QFACAAAAgf2bD_mg8Bw", "-Xc-np9y2VMCAAAARKr0yNNPYW0",         "",         "",         "",         "",         "",         "",         "",         "",         "" },
+                new int[]    {                            45,                           135,                             0,                           180,                             0,          0,          0,          0,          0,          0,          0,          0,          0,          0 },
+                new int[]    {                            34,                            47,                            52,                            48,                            54,          0,          0,          0,          0,          0,          0,          0,          0,          0 }
+        );
+        themes.add(themeInfo);
+        themesDict.put("AMOLED", themeInfo);
 
         String themesString = themeConfig.getString("themes2", null);
 
