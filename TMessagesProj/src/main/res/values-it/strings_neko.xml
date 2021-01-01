@@ -69,7 +69,7 @@
     <string name="UnlimitedPinnedDialogsAbout">Fissa chat illimitate disattivando la loro sincronizzazione.</string>
     <string name="OpenArchiveOnPull">Apri l\'archivio tirando giù</string>
     <string name="HideKeyboardOnChatScroll">Nascondi la tastiera quando scorri la chat</string>
-    <string name="UserRestrictionsSendStickers2">Inviare Sticker</string>
+    <string name="UserRestrictionsSendStickers2">Inviare sticker</string>
     <string name="UserRestrictionsSendGifs">Inviare GIF</string>
     <string name="ShowTabsOnForward">Mostra le tab durante l\'inoltro</string>
     <string name="CheckAllAdministrated">Aggiungi amministrate</string>
@@ -117,4 +117,27 @@
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Formato ora con i secondi</string>
+    <string name="JumpToBeginning">Vai all\'inizio</string>
+    <string name="ProviderDeepLTranslate">DeepL Translate</string>
+    <string name="Halloween">Halloween</string>
+    <string name="CheckUpdate">Controlla aggiornamenti</string>
+    <string name="LastUpdateFormatted">Ultimo controllo %1$s.</string>
+    <string name="LastUpdateDateFormatted">Ultimo controllo effettuato il %1$s.</string>
+    <string name="LastUpdateRecently">Ultimo controllo effettuato proprio ora.</string>
+    <string name="LastUpdateNever">Mai controllato dall\'installazione.</string>
+    <string name="CheckingUpdate">Controllo aggiornamenti…</string>
+    <string name="NewUpdateAvailable">Nuovo aggiornamento disponibile</string>
+    <string name="GuGuGu">Dopo</string>
+    <string name="DownloadNow">Scarica ora</string>
+    <string name="DownloadingUpdate">Download aggiornamento in corso</string>
+    <string name="DownloadingUpdateFinish">Aggiornamento scaricato, clicca per installarel</string>
+    <string name="DownloadingUpdateFail">Download fallito</string>
+    <string name="ClickToRetry">Clicca per riprovare.</string>
+    <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
+    <string name="ProviderYouDao">YouDao Translate</string>
+    <string name="TranslationProviderShort">Fornitore</string>
+    <string name="ViewSourceCode">Visualizza codice sorgente</string>
+    <string name="AvatarAsBackground">Immagine del profilo come background</string>
+    <string name="BlurAvatarBackground">Immagine del profilo sfocata</string>
+    <string name="DarkenAvatarBackground">Immagine del profilo scurita</string>
 </resources>
