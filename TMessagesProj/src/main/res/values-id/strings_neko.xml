@@ -133,4 +133,11 @@
     <string name="DownloadingUpdateFinish">Downloaded app update, click to install</string>
     <string name="DownloadingUpdateFail">Downloaded app failed</string>
     <string name="ClickToRetry">Click to retry.</string>
+    <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
+    <string name="ProviderYouDao">YouDao Translate</string>
+    <string name="TranslationProviderShort">Provider</string>
+    <string name="ViewSourceCode">View source code</string>
+    <string name="AvatarAsBackground">Profile picture as background</string>
+    <string name="BlurAvatarBackground">Blur profile picture</string>
+    <string name="DarkenAvatarBackground">Darken profile picture</string>
 </resources>
