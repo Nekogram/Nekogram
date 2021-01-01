@@ -137,7 +137,7 @@ android {
         manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
     }
 
-    defaultConfig.versionCode = 2199
+    defaultConfig.versionCode = 2206
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
