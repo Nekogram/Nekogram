@@ -38,7 +38,7 @@ dependencies {
     implementation 'com.stripe:stripe-android:2.0.2'
     implementation files('libs/libgsaverification-client.aar')
     implementation "com.microsoft.appcenter:appcenter-analytics:3.3.1"
-    implementation 'com.android.billingclient:billing:3.0.1'
+    implementation 'com.android.billingclient:billing:3.0.2'
     implementation files('libs/org.deepl.jar')
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
@@ -137,7 +137,7 @@ android {
         manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
     }
 
-    defaultConfig.versionCode = 2206
+    defaultConfig.versionCode = 2207
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
