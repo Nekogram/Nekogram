@@ -1535,7 +1535,7 @@ public class Theme {
         }
 
         public boolean isDark() {
-            return "Dark Blue".equals(name) || "Night".equals(name);
+            return "Dark Blue".equals(name) || "Night".equals(name) || "AMOLED".equals(name);
         }
 
         public boolean isLight() {
