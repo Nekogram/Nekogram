@@ -145,4 +145,7 @@
     <string name="AvatarAsBackground">头像作为背景</string>
     <string name="BlurAvatarBackground">模糊头像</string>
     <string name="DarkenAvatarBackground">深色遮罩</string>
+    <string name="AccentAsNotificationColor">以强调色作为通知颜色</string>
+    <string name="SilenceNonContacts">静音非联系人</string>
+    <string name="SilenceNonContactsAbout">来自非您的联系人的通知将无声地出现。您可以将用户从他们的个人资料添加到联系人中，而无需知道他们的电话号码。</string>
 </resources>
