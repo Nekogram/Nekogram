@@ -81,6 +81,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
 
     private int notificationRow;
     private int accentAsNotificationColorRow;
+    private int silenceNonContactsRow;
     private int notification2Row;
 
     private int generalRow;
@@ -336,6 +337,11 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.accentAsNotificationColor);
                 }
+            } else if (position == silenceNonContactsRow) {
+                NekoConfig.toggleSilenceNonContacts();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.silenceNonContacts);
+                }
             }
         });
 
@@ -386,6 +392,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
 
         notificationRow = rowCount++;
         accentAsNotificationColorRow = rowCount++;
+        silenceNonContactsRow = rowCount++;
         notification2Row = rowCount++;
 
         generalRow = rowCount++;
@@ -569,7 +576,9 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     } else if (position == avatarBackgroundDarkenRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DarkenAvatarBackground", R.string.DarkenAvatarBackground), NekoConfig.avatarBackgroundDarken, true);
                     } else if (position == accentAsNotificationColorRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("AccentAsNotificationColor", R.string.AccentAsNotificationColor), NekoConfig.accentAsNotificationColor, false);
+                        textCell.setTextAndCheck(LocaleController.getString("AccentAsNotificationColor", R.string.AccentAsNotificationColor), NekoConfig.accentAsNotificationColor, true);
+                    } else if (position == silenceNonContactsRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("SilenceNonContacts", R.string.SilenceNonContacts), NekoConfig.silenceNonContacts, false);
                     }
                     break;
                 }
@@ -591,6 +600,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     if (position == general2Row) {
                         cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                         cell.setText(LocaleController.getString("IdTypeAbout", R.string.IdTypeAbout));
+                    } else if (position == notification2Row) {
+                        cell.setText(LocaleController.getString("SilenceNonContactsAbout", R.string.SilenceNonContactsAbout));
                     }
                     break;
                 }
@@ -652,7 +663,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == connection2Row || position == appearance2Row || position == drawer2Row || position == notification2Row) {
+            if (position == connection2Row || position == appearance2Row || position == drawer2Row) {
                 return 1;
             } else if (position == eventTypeRow ||
                     (position >= translationProviderRow && position <= idTypeRow)) {
@@ -665,7 +676,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 return 3;
             } else if (position == generalRow || position == connectionRow || position == appearanceRow || position == notificationRow) {
                 return 4;
-            } else if (position == general2Row) {
+            } else if (position == general2Row || position == notification2Row) {
                 return 7;
             } else if (position == drawerRow) {
                 return 8;

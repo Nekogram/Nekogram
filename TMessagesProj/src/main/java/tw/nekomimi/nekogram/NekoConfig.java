@@ -79,6 +79,7 @@ public class NekoConfig {
     public static boolean enableAnalytics = true;
     public static boolean formatTimeWithSeconds = false;
     public static boolean accentAsNotificationColor = false;
+    public static boolean silenceNonContacts = false;
 
     public static boolean residentNotification = false;
 
@@ -220,6 +221,7 @@ public class NekoConfig {
             formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
             lastSuccessfulCheckUpdateTime = preferences.getLong("lastSuccessfulCheckUpdateTime", 0);
             accentAsNotificationColor = preferences.getBoolean("accentAsNotificationColor", false);
+            silenceNonContacts = preferences.getBoolean("silenceNonContacts", false);
             configLoaded = true;
         }
     }
@@ -656,6 +658,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("accentAsNotificationColor", accentAsNotificationColor);
+        editor.commit();
+    }
+
+    public static void toggleSilenceNonContacts() {
+        silenceNonContacts = !silenceNonContacts;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("silenceNonContacts", silenceNonContacts);
         editor.commit();
     }
 

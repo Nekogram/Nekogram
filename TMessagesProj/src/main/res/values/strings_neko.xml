@@ -150,4 +150,6 @@
     <string name="BlurAvatarBackground">Blur profile picture</string>
     <string name="DarkenAvatarBackground">Darken profile picture</string>
     <string name="AccentAsNotificationColor">Accent color as notification color</string>
+    <string name="SilenceNonContacts">Silence Non-Contacts</string>
+    <string name="SilenceNonContactsAbout">Notifications from people that are not your contacts will appear without sound. You can add users to contacts from their profile without knowing their phone number.</string>
 </resources>
