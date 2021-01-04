@@ -79,6 +79,10 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int eventTypeRow;
     private int appearance2Row;
 
+    private int notificationRow;
+    private int accentAsNotificationColorRow;
+    private int notification2Row;
+
     private int generalRow;
     private int hidePhoneRow;
     private int disabledInstantCameraRow;
@@ -327,6 +331,11 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 LocaleController.getInstance().recreateFormatters();
                 parentLayout.rebuildAllFragmentViews(false, false);
+            } else if (position == accentAsNotificationColorRow) {
+                NekoConfig.toggleAccentAsNotificationColor();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.accentAsNotificationColor);
+                }
             }
         });
 
@@ -352,7 +361,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         ipv6Row = rowCount++;
         connection2Row = rowCount++;
 
-        //drawerHeaderRow = rowCount++;
         drawerRow = rowCount++;
         avatarAsDrawerBackgroundRow = rowCount++;
         if (NekoConfig.avatarAsDrawerBackground) {
@@ -375,6 +383,10 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         newYearRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         eventTypeRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         appearance2Row = rowCount++;
+
+        notificationRow = rowCount++;
+        accentAsNotificationColorRow = rowCount++;
+        notification2Row = rowCount++;
 
         generalRow = rowCount++;
         disabledInstantCameraRow = rowCount++;
@@ -556,6 +568,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("BlurAvatarBackground", R.string.BlurAvatarBackground), NekoConfig.avatarBackgroundBlur, true);
                     } else if (position == avatarBackgroundDarkenRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DarkenAvatarBackground", R.string.DarkenAvatarBackground), NekoConfig.avatarBackgroundDarken, true);
+                    } else if (position == accentAsNotificationColorRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("AccentAsNotificationColor", R.string.AccentAsNotificationColor), NekoConfig.accentAsNotificationColor, false);
                     }
                     break;
                 }
@@ -567,6 +581,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         headerCell.setText(LocaleController.getString("Connection", R.string.Connection));
                     } else if (position == appearanceRow) {
                         headerCell.setText(LocaleController.getString("Appearance", R.string.Appearance));
+                    } else if (position == notificationRow) {
+                        headerCell.setText(LocaleController.getString("Notifications", R.string.Notifications));
                     }
                     break;
                 }
@@ -636,7 +652,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == connection2Row || position == appearance2Row || position == drawer2Row) {
+            if (position == connection2Row || position == appearance2Row || position == drawer2Row || position == notification2Row) {
                 return 1;
             } else if (position == eventTypeRow ||
                     (position >= translationProviderRow && position <= idTypeRow)) {
@@ -644,9 +660,10 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
             } else if (position == ipv6Row || position == newYearRow ||
                     (position > appearanceRow && position <= appBarShadowRow) ||
                     (position > generalRow && position <= autoPauseVideoRow) ||
-                    (position > drawerRow && position < drawer2Row)) {
+                    (position > drawerRow && position < drawer2Row) ||
+                    (position > notificationRow && position < notification2Row)) {
                 return 3;
-            } else if (position == generalRow || position == connectionRow || position == appearanceRow) {
+            } else if (position == generalRow || position == connectionRow || position == appearanceRow || position == notificationRow) {
                 return 4;
             } else if (position == general2Row) {
                 return 7;

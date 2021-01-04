@@ -149,4 +149,5 @@
     <string name="AvatarAsBackground">Profile picture as background</string>
     <string name="BlurAvatarBackground">Blur profile picture</string>
     <string name="DarkenAvatarBackground">Darken profile picture</string>
+    <string name="AccentAsNotificationColor">Accent color as notification color</string>
 </resources>

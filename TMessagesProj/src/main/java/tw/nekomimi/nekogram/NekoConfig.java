@@ -78,6 +78,7 @@ public class NekoConfig {
     public static boolean tryToOpenAllLinksInIV = false;
     public static boolean enableAnalytics = true;
     public static boolean formatTimeWithSeconds = false;
+    public static boolean accentAsNotificationColor = false;
 
     public static boolean residentNotification = false;
 
@@ -218,6 +219,7 @@ public class NekoConfig {
             enableAnalytics = preferences.getBoolean("enableAnalytics", true);
             formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
             lastSuccessfulCheckUpdateTime = preferences.getLong("lastSuccessfulCheckUpdateTime", 0);
+            accentAsNotificationColor = preferences.getBoolean("accentAsNotificationColor", false);
             configLoaded = true;
         }
     }
@@ -646,6 +648,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putLong("lastSuccessfulCheckUpdateTime", lastSuccessfulCheckUpdateTime);
+        editor.commit();
+    }
+
+    public static void toggleAccentAsNotificationColor() {
+        accentAsNotificationColor = !accentAsNotificationColor;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("accentAsNotificationColor", accentAsNotificationColor);
         editor.commit();
     }
 
