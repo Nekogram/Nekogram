@@ -12,6 +12,11 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationsService;
 import org.telegram.messenger.SharedConfig;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 @SuppressLint("ApplySharedPref")
 public class NekoConfig {
 
@@ -22,6 +27,8 @@ public class NekoConfig {
     public static final int ID_TYPE_HIDDEN = 0;
     public static final int ID_TYPE_API = 1;
     public static final int ID_TYPE_BOTAPI = 2;
+
+    private static final String EMOJI_FONT_AOSP = "NotoColorEmoji.ttf";
 
     private static final Object sync = new Object();
     public static boolean useIPv6 = false;
@@ -90,6 +97,8 @@ public class NekoConfig {
     public static boolean customEmojiFont;
     public static String customEmojiFontPath;
     private static Typeface customEmojiTypeface;
+    private static Typeface systemEmojiTypeface;
+    public static boolean loadSystemEmojiFailed = false;
 
 
     private static boolean configLoaded;
@@ -692,6 +701,37 @@ public class NekoConfig {
         }
         editor.putString("customEmojiFontPath", customEmojiFontPath);
         editor.commit();
+    }
+
+    public static Typeface getSystemEmojiTypeface() {
+        if (!loadSystemEmojiFailed && systemEmojiTypeface == null) {
+            try {
+                Pattern p = Pattern.compile(">(.*emoji.*)</font>", Pattern.CASE_INSENSITIVE);
+                BufferedReader br = new BufferedReader(new FileReader("/system/etc/fonts.xml"));
+                String line;
+                while ((line = br.readLine()) != null) {
+                    Matcher m = p.matcher(line);
+                    if (m.find()) {
+                        systemEmojiTypeface = Typeface.createFromFile("/system/fonts/" + m.group(1));
+                        FileLog.d("emoji font file fonts.xml = " + m.group(1));
+                        break;
+                    }
+                }
+                br.close();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+            if (systemEmojiTypeface == null) {
+                try {
+                    systemEmojiTypeface = Typeface.createFromFile("/system/fonts/" + EMOJI_FONT_AOSP);
+                    FileLog.d("emoji font file = " + EMOJI_FONT_AOSP);
+                } catch (Exception e) {
+                    FileLog.e(e);
+                    loadSystemEmojiFailed = true;
+                }
+            }
+        }
+        return systemEmojiTypeface;
     }
 
     public static Typeface getCustomEmojiTypeface() {

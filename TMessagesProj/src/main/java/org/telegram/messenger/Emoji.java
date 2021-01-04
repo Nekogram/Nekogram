@@ -164,7 +164,8 @@ public class Emoji {
             if (ch >= 0xD83C && ch <= 0xD83E) {
                 if (ch == 0xD83C && a < length - 1) {
                     ch = emoji.charAt(a + 1);
-                    if (ch == 0xDE2F || ch == 0xDC04 || ch == 0xDE1A || ch == 0xDD7F) {
+                    if (ch == 0xDE2F || ch == 0xDC04 || ch == 0xDE1A || ch == 0xDD7F ||
+                            ch == 0xDFF3 || ch == 0xDF2B || ch == 0xDC41 || ch == 0xDD75 || ch == 0xDFCC || ch == 0xDFCB) {
                         emoji = emoji.substring(0, a + 2) + "\uFE0F" + emoji.substring(a + 2);
                         length++;
                         a += 2;
@@ -176,7 +177,7 @@ public class Emoji {
                 }
             } else if (ch == 0x20E3) {
                 return emoji;
-            } else if (ch >= 0x203C && ch <= 0x3299) {
+            } else if (ch >= 0x0023 && ch <= 0x3299) {
                 if (EmojiData.emojiToFE0FMap.containsKey(ch)) {
                     emoji = emoji.substring(0, a + 1) + "\uFE0F" + emoji.substring(a + 1);
                     length++;
@@ -281,7 +282,11 @@ public class Emoji {
             if (NekoConfig.useSystemEmoji || NekoConfig.customEmojiFont) {
                 String emoji = fixEmoji(EmojiData.data[info.page][info.emojiIndex]);
                 textPaint.setTextSize(b.height() * 0.8f);
-                if (NekoConfig.customEmojiFont) textPaint.setTypeface(NekoConfig.getCustomEmojiTypeface());
+                if (NekoConfig.customEmojiFont) {
+                    textPaint.setTypeface(NekoConfig.getCustomEmojiTypeface());
+                } else {
+                    textPaint.setTypeface(NekoConfig.getSystemEmojiTypeface());
+                };
                 canvas.drawText(emoji,  0, emoji.length(), b.left, b.bottom - b.height() * 0.225f, textPaint);
                 return;
             }
