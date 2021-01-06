@@ -4609,6 +4609,10 @@ public class NotificationsController extends BaseController {
             if (color == 0) {
                 color = Theme.getColor(Theme.key_actionBarDefault) | 0xff000000;
             }
+            // too bright
+            if (AndroidUtilities.computePerceivedBrightness(color) >= 0.721f) {
+                color = Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader) | 0xff000000;
+            }
             return color;
         } else {
             return 0xff11acfa;
