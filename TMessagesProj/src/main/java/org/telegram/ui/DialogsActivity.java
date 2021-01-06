@@ -3474,7 +3474,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     }
                 }
                 id = filterTabsView.getCurrentTabId();
-                boolean updateCurrentTab = false;
+                boolean updateCurrentTab = NekoConfig.hideAllTab;
                 if (id >= 0) {
                     if (viewPages[0].selectedType != id) {
                         updateCurrentTab = true;

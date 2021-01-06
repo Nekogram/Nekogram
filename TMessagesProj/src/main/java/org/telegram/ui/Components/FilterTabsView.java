@@ -1394,6 +1394,11 @@ public class FilterTabsView extends FrameLayout {
             int idx1 = fromIndex - 1;
             int idx2 = toIndex - 1;
             int count = tabs.size() - 1;
+            if (NekoConfig.hideAllTab) {
+                idx1++;
+                idx2++;
+                count++;
+            }
             if (idx1 < 0 || idx2 < 0 || idx1 >= count || idx2 >= count) {
                 return;
             }
@@ -1456,7 +1461,7 @@ public class FilterTabsView extends FrameLayout {
 
         @Override
         public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            if (!isEditing || viewHolder.getAdapterPosition() == 0) {
+            if (!isEditing || (!NekoConfig.hideAllTab && viewHolder.getAdapterPosition() == 0)) {
                 return makeMovementFlags(0, 0);
             }
             return makeMovementFlags(ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT, 0);
@@ -1464,7 +1469,7 @@ public class FilterTabsView extends FrameLayout {
 
         @Override
         public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder source, RecyclerView.ViewHolder target) {
-            if (source.getAdapterPosition() == 0 || target.getAdapterPosition() == 0) {
+            if (!NekoConfig.hideAllTab && (source.getAdapterPosition() == 0 || target.getAdapterPosition() == 0)) {
                 return false;
             }
             adapter.swapElements(source.getAdapterPosition(), target.getAdapterPosition());
