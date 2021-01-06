@@ -11091,9 +11091,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     cantSaveMessagesCount--;
                 }
             } else {
-                if (selectedMessagesIds[0].size() + selectedMessagesIds[1].size() >= 100) {
-                    return;
-                }
+                //if (selectedMessagesIds[0].size() + selectedMessagesIds[1].size() >= 100) {
+                //    return;
+                //}
                 selectedMessagesIds[index].put(messageObject.getId(), messageObject);
                 if (messageObject.type == 0 || messageObject.isAnimatedEmoji() || messageObject.caption != null) {
                     selectedMessagesCanCopyIds[index].put(messageObject.getId(), messageObject);
