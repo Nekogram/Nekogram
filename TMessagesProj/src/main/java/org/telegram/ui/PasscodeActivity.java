@@ -14,6 +14,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.hardware.biometrics.BiometricManager;
 import android.os.Build;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -425,8 +426,19 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         if (SharedConfig.passcodeHash.length() > 0) {
             try {
                 if (Build.VERSION.SDK_INT >= 23) {
-                    FingerprintManagerCompat fingerprintManager = FingerprintManagerCompat.from(ApplicationLoader.applicationContext);
-                    if (fingerprintManager.isHardwareDetected()) {
+                    boolean useBiometric;
+                    if (Build.VERSION.SDK_INT >= 29) {
+                        BiometricManager biometricManager = (BiometricManager) ApplicationLoader.applicationContext.getSystemService(Context.BIOMETRIC_SERVICE);
+                        if (Build.VERSION.SDK_INT >= 30) {
+                            useBiometric = biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS;
+                        } else {
+                            useBiometric = biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS;
+                        }
+                    } else {
+                        FingerprintManagerCompat fingerprintManager = FingerprintManagerCompat.from(ApplicationLoader.applicationContext);
+                        useBiometric = fingerprintManager.isHardwareDetected();
+                    }
+                    if (useBiometric) {
                         fingerprintRow = rowCount++;
                     }
                 }
