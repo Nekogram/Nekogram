@@ -37,13 +37,8 @@ public class AnalyticsHelper {
     public static void onFragmentView(BaseFragment fragment) {
         if (isEnabled()) {
             Map<String, String> properties = new java.util.HashMap<>();
-            if (fragment.getClass().getName().startsWith("org.telegram.ui")) {
-                properties.put("fragment_simple_class", fragment.getClass().getSimpleName());
-                properties.put("fragment_class", fragment.getClass().getName());
-            } else {
-                properties.put("fragment_simple_class", "NekoSettings");
-                properties.put("fragment_class", "tw.nekomimi.nekogram.settings");
-            }
+            properties.put("fragment_simple_class", fragment.getClass().getSimpleName());
+            properties.put("fragment_class", fragment.getClass().getName());
             Analytics.trackEvent("fragment_view", properties);
         }
     }

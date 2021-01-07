@@ -16,6 +16,7 @@ configurations.all {
 }
 
 dependencies {
+    implementation "androidx.browser:browser:1.3.0"
     implementation 'androidx.core:core:1.3.2'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.exifinterface:exifinterface:1.3.2'
