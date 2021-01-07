@@ -97,5 +97,7 @@
 # Use -keep to explicitly keep any other classes shrinking would remove
 #-dontoptimize
 #-dontobfuscate
--keep class org.telegram.ui.** { *; }
--renamesourcefileattribute
+-keepnames class org.telegram.ui.* { *; }
+-keepnames class org.telegram.ui.Cells.* { *; }
+-keepnames class tw.nekomimi.nekogram.MessageDetailsActivity { }
+-keepnames class tw.nekomimi.nekogram.settings.* extends org.telegram.ui.ActionBar.BaseFragment { }

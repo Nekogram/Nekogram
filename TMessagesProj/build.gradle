@@ -67,6 +67,16 @@ android {
         disable 'BlockedPrivateApi'
     }
 
+    packagingOptions {
+        exclude 'META-INF/**'
+        exclude 'com/**'
+        exclude 'org/**'
+        exclude '**.properties'
+        exclude '**.bin'
+        exclude '**.lst'
+        exclude '**.txt'
+    }
+
     dexOptions {
         jumboMode = true
     }
