@@ -46,6 +46,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.ui.Components.AudioPlayerAlert;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -61,7 +62,7 @@ public class DrawerProfileCell extends FrameLayout {
 
     private BackupImageView avatarImageView;
     private TextView nameTextView;
-    private TextView phoneTextView;
+    private AudioPlayerAlert.ClippingTextViewSwitcher phoneTextView;
     private ImageView shadowView;
     private ImageView arrowView;
     private RLottieImageView darkThemeView;
@@ -152,12 +153,18 @@ public class DrawerProfileCell extends FrameLayout {
         nameTextView.setEllipsize(TextUtils.TruncateAt.END);
         addView(nameTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.BOTTOM, 16, 0, 76, 28));
 
-        phoneTextView = new TextView(context);
-        phoneTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
-        phoneTextView.setLines(1);
-        phoneTextView.setMaxLines(1);
-        phoneTextView.setSingleLine(true);
-        phoneTextView.setGravity(Gravity.LEFT);
+        phoneTextView = new AudioPlayerAlert.ClippingTextViewSwitcher(context) {
+            @Override
+            protected TextView createTextView() {
+                TextView textView = new TextView(context);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+                textView.setLines(1);
+                textView.setMaxLines(1);
+                textView.setSingleLine(true);
+                textView.setGravity(Gravity.LEFT);
+                return textView;
+            }
+        };
         addView(phoneTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.BOTTOM, 16, 0, 76, 9));
 
         arrowView = new ImageView(context);
@@ -325,7 +332,7 @@ public class DrawerProfileCell extends FrameLayout {
         }
         nameTextView.setTextColor(Theme.getColor(Theme.key_chats_menuName));
         if (!noAvatar && NekoConfig.avatarAsDrawerBackground) {
-            phoneTextView.setTextColor(Theme.getColor(Theme.key_chats_menuPhone));
+            phoneTextView.getTextView().setTextColor(Theme.getColor(Theme.key_chats_menuPhone));
             if (shadowView.getVisibility() != VISIBLE) {
                 shadowView.setVisibility(VISIBLE);
             }
@@ -333,7 +340,7 @@ public class DrawerProfileCell extends FrameLayout {
             imageReceiver.draw(canvas);
             darkBackColor = (Theme.getServiceMessageColor() & 0x00ffffff) | 0x50000000;
         } else if (useImageBackground) {
-            phoneTextView.setTextColor(Theme.getColor(Theme.key_chats_menuPhone));
+            phoneTextView.getTextView().setTextColor(Theme.getColor(Theme.key_chats_menuPhone));
             if (shadowView.getVisibility() != VISIBLE) {
                 shadowView.setVisibility(VISIBLE);
             }
@@ -364,7 +371,7 @@ public class DrawerProfileCell extends FrameLayout {
             if (shadowView.getVisibility() != visibility) {
                 shadowView.setVisibility(visibility);
             }
-            phoneTextView.setTextColor(Theme.getColor(Theme.key_chats_menuPhoneCats));
+            phoneTextView.getTextView().setTextColor(Theme.getColor(Theme.key_chats_menuPhoneCats));
             super.onDraw(canvas);
             darkBackColor = Theme.getColor(Theme.key_listSelector);
         }
