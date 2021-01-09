@@ -67,6 +67,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int confirmAVRow;
     private int tryToOpenAllLinksInIVRow;
     private int disableProximityEventsRow;
+    private int swipeToPiPRow;
     private int messageMenuRow;
     private int chat2Row;
 
@@ -199,6 +200,11 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.tryToOpenAllLinksInIV);
                 }
+            } else if (position == swipeToPiPRow) {
+                NekoConfig.toggleSwipeToPiP();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.swipeToPiP);
+                }
             }
         });
 
@@ -231,6 +237,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         confirmAVRow = rowCount++;
         tryToOpenAllLinksInIVRow = rowCount++;
         disableProximityEventsRow = rowCount++;
+        swipeToPiPRow = rowCount++;
         messageMenuRow = rowCount++;
         chat2Row = rowCount++;
 
@@ -548,6 +555,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                         textCell.setTextAndCheck(LocaleController.getString("DisableProximityEvents", R.string.DisableProximityEvents), NekoConfig.disableProximityEvents, true);
                     } else if (position == tryToOpenAllLinksInIVRow) {
                         textCell.setTextAndCheck(LocaleController.getString("OpenAllLinksInInstantView", R.string.OpenAllLinksInInstantView), NekoConfig.tryToOpenAllLinksInIV, true);
+                    } else if (position == swipeToPiPRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("SwipeToPiP", R.string.SwipeToPiP), NekoConfig.swipeToPiP, true);
                     }
                     break;
                 }
@@ -628,7 +637,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
             } else if (position == messageMenuRow || position == tabsTitleTypeRow) {
                 return 2;
             } else if (position == showTabsOnForwardRow || position == hideAllTabRow ||
-                    (position > chatRow && position <= disableProximityEventsRow)) {
+                    (position > chatRow && position < messageMenuRow)) {
                 return 3;
             } else if (position == chatRow || position == foldersRow || position == stickerSizeHeaderRow) {
                 return 4;

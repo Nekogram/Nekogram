@@ -153,4 +153,5 @@
     <string name="SilenceNonContacts">Silence Non-Contacts</string>
     <string name="SilenceNonContactsAbout">Notifications from people that are not your contacts will appear without sound. You can add users to contacts from their profile without knowing their phone number.</string>
     <string name="SelectBetween">Select between</string>
+    <string name="SwipeToPiP">Swipe up video to open PiP</string>
 </resources>

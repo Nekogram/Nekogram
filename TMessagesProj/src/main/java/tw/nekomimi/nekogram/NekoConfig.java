@@ -87,6 +87,7 @@ public class NekoConfig {
     public static boolean formatTimeWithSeconds = false;
     public static boolean accentAsNotificationColor = false;
     public static boolean silenceNonContacts = false;
+    public static boolean swipeToPiP = false;
 
     public static boolean residentNotification = false;
 
@@ -231,6 +232,7 @@ public class NekoConfig {
             lastSuccessfulCheckUpdateTime = preferences.getLong("lastSuccessfulCheckUpdateTime", 0);
             accentAsNotificationColor = preferences.getBoolean("accentAsNotificationColor", false);
             silenceNonContacts = preferences.getBoolean("silenceNonContacts", false);
+            swipeToPiP = preferences.getBoolean("swipeToPiP", false);
             configLoaded = true;
         }
     }
@@ -675,6 +677,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("silenceNonContacts", silenceNonContacts);
+        editor.commit();
+    }
+
+    public static void toggleSwipeToPiP() {
+        swipeToPiP = !swipeToPiP;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("swipeToPiP", swipeToPiP);
         editor.commit();
     }
 
