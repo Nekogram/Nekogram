@@ -114,7 +114,7 @@
     <string name="DisableInstantCamera">Desabilitar câmera instantânea</string>
     <string name="OpenAllLinksInInstantView">Tentar abrir todos os links no InstantView</string>
     <string name="DonateThankYou">Obrigado!</string>
-    <string name="DonateEvilGoogle">O Google ficará com 30 por cento de sua doação.</string>
+    <string name="DonateEvilGoogle">O Google ficará com 30 por cento da sua doação.</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Formatar a hora com segundos</string>
@@ -141,4 +141,7 @@
     <string name="AvatarAsBackground">Foto do perfil como fundo</string>
     <string name="BlurAvatarBackground">Desfocar foto de perfil</string>
     <string name="DarkenAvatarBackground">Escurecer a foto do perfil</string>
+    <string name="AccentAsNotificationColor">Cor de destaque como cor de notificação</string>
+    <string name="SilenceNonContacts">Silenciar Não Contatos</string>
+    <string name="SilenceNonContactsAbout">Notificações de pessoas que não são seus contatos aparecerão sem som. Você pode adicionar usuários aos contatos a partir do perfil deles sem saber o número do telefone.</string>
 </resources>

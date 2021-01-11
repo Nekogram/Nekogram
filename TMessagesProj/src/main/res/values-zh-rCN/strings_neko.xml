@@ -148,4 +148,6 @@
     <string name="AccentAsNotificationColor">以强调色作为通知颜色</string>
     <string name="SilenceNonContacts">静音非联系人</string>
     <string name="SilenceNonContactsAbout">来自非您的联系人的通知将无声地出现。您可以将用户从他们的个人资料添加到联系人中，而无需知道他们的电话号码。</string>
+    <string name="SelectBetween">选择之间的</string>
+    <string name="SwipeToPiP">向上滑动视频打开画中画</string>
 </resources>

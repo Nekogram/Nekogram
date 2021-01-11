@@ -140,4 +140,9 @@
     <string name="AvatarAsBackground">Foto de perfil como fondo</string>
     <string name="BlurAvatarBackground">Difuminar foto de perfil</string>
     <string name="DarkenAvatarBackground">Foto de perfil oscurecida</string>
+    <string name="AccentAsNotificationColor">Color de acento como color de notificación</string>
+    <string name="SilenceNonContacts">Silenciar a los no-contactos</string>
+    <string name="SilenceNonContactsAbout">Las notificaciones de personas que no son tus contactos aparecerán sin sonido. Puedes agregar usuarios a contactos desde su perfil sin conocer su número de teléfono.</string>
+    <string name="SelectBetween">Seleccionar entre</string>
+    <string name="SwipeToPiP">Desliza el vídeo hacia arriba para abrir PiP</string>
 </resources>
