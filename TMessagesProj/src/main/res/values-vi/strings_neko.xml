@@ -133,11 +133,14 @@
     <string name="DownloadingUpdateFinish">Đã tải xuống cập nhật, nhấn để cài đặt</string>
     <string name="DownloadingUpdateFail">Tải xuống cập nhật không thành công</string>
     <string name="ClickToRetry">Nhấn để thử lại</string>
-    <string name="ProviderMicrosoftTranslator">Microsoft Dịch</string>
-    <string name="ProviderYouDao">YouDao Dịch</string>
+    <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
+    <string name="ProviderYouDao">YouDao Translate</string>
     <string name="TranslationProviderShort">Nhà cung cấp dịch vụ</string>
     <string name="ViewSourceCode">Xem mã nguồn</string>
     <string name="AvatarAsBackground">Ảnh đại diện làm hình nền</string>
     <string name="BlurAvatarBackground">Làm mờ nền ảnh đại diện</string>
     <string name="DarkenAvatarBackground">Ảnh đại diện nền tối</string>
+    <string name="AccentAsNotificationColor">Đặt màu nhấn là màu thông báo</string>
+    <string name="SilenceNonContacts">Tắt tiếng người không có trong danh bạ</string>
+    <string name="SilenceNonContactsAbout">Thông báo từ những người không có trong danh bạ của bạn sẽ xuất hiện không có âm thanh. Bạn có thể thêm họ vào danh bạ từ hồ sơ của họ mà không cần biết số điện thoại của họ.</string>
 </resources>

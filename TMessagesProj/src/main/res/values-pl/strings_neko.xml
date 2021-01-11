@@ -140,4 +140,9 @@
     <string name="AvatarAsBackground">Zdjęcie profilowe jako tło</string>
     <string name="BlurAvatarBackground">Rozmycie zdjęcia profilowego</string>
     <string name="DarkenAvatarBackground">Przyciemnij zdjęcie profilowe</string>
+    <string name="AccentAsNotificationColor">Kolor akcentujący jako kolor powiadomień</string>
+    <string name="SilenceNonContacts">Wycisz osoby, które nie są Twoimi kontaktami</string>
+    <string name="SilenceNonContactsAbout">Powiadomienia od osób, które nie są Twoimi kontaktami, pojawią się bez dźwięku. Możesz dodawać użytkowników do kontaktów z ich profilu, nie znając ich numeru telefonu.</string>
+    <string name="SelectBetween">Wybierz pomiędzy</string>
+    <string name="SwipeToPiP">Przesuń w górę aby włączyć PiP</string>
 </resources>
