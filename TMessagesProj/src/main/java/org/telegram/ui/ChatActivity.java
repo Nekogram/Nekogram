@@ -18882,21 +18882,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         Object original = messageObject.type == MessageObject.TYPE_POLL ? ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll : messageObject.messageOwner.message;
         messageObject.originalMessage = original;
         final MessageObject finalMessageObject = messageObject;
-        try {
-            progressDialog.dismiss();
-        } catch (Throwable ignore) {
-
-        }
-        progressDialog = new AlertDialog(getParentActivity(), 3);
-        progressDialog.showDelayed(400);
         Translator.translate(original, new Translator.TranslateCallBack() {
             @Override
             public void onSuccess(Object translation) {
-                try {
-                    progressDialog.dismiss();
-                } catch (Throwable ignore) {
-
-                }
                 if (translation instanceof String) {
                     finalMessageObject.messageOwner.message = original +
                             "\n" +
@@ -18911,11 +18899,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override
             public void onError(Exception e) {
-                try {
-                    progressDialog.dismiss();
-                } catch (Throwable ignore) {
-
-                }
                 Translator.handleTranslationError(getParentActivity(), e, () -> translateMessage(finalMessageObject));
             }
         });
