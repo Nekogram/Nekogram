@@ -18,7 +18,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -145,6 +144,8 @@ public class LoginActivity extends BaseFragment {
     private AnimatorSet[] showDoneAnimation = new AnimatorSet[2];
     private ActionBarMenuItem doneItem;
     private AnimatorSet doneItemAnimation;
+    private ActionBarMenuItem botItem;
+    private AnimatorSet botItemAnimation;
     private ContextProgressView doneProgressView;
     private AnimatorSet pagesAnimation;
     private ImageView floatingButtonIcon;
@@ -306,7 +307,7 @@ public class LoginActivity extends BaseFragment {
                                 UserConfig.getInstance(currentAccount).clearConfig();
                                 MessagesController.getInstance(currentAccount).cleanup();
                                 UserConfig.getInstance(currentAccount).isBot = true;
-                                UserConfig.getInstance(currentAccount).syncContacts = syncContacts;
+                                UserConfig.getInstance(currentAccount).syncContacts = false;
                                 UserConfig.getInstance(currentAccount).setCurrentUser(res.user);
                                 UserConfig.getInstance(currentAccount).saveConfig(true);
                                 MessagesStorage.getInstance(currentAccount).cleanup(true);
@@ -314,9 +315,6 @@ public class LoginActivity extends BaseFragment {
                                 users.add(res.user);
                                 MessagesStorage.getInstance(currentAccount).putUsersAndChats(users, null, true, true);
                                 MessagesController.getInstance(currentAccount).putUser(res.user, false);
-                                ContactsController.getInstance(currentAccount).checkAppAccount();
-                                MessagesController.getInstance(currentAccount).getBlockedPeers(true);
-                                MessagesController.getInstance(currentAccount).checkPromoInfo(true);
                                 ConnectionsManager.getInstance(currentAccount).updateDcSettings();
                                 needFinishActivity(false);
                             } else {
@@ -339,16 +337,14 @@ public class LoginActivity extends BaseFragment {
                         editText.requestFocus();
                         AndroidUtilities.showKeyboard(editText);
                     });
-                    if (editText != null) {
-                        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) editText.getLayoutParams();
-                        if (layoutParams != null) {
-                            if (layoutParams instanceof FrameLayout.LayoutParams) {
-                                ((FrameLayout.LayoutParams) layoutParams).gravity = Gravity.CENTER_HORIZONTAL;
-                            }
-                            layoutParams.rightMargin = layoutParams.leftMargin = AndroidUtilities.dp(24);
-                            layoutParams.height = AndroidUtilities.dp(36);
-                            editText.setLayoutParams(layoutParams);
+                    ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) editText.getLayoutParams();
+                    if (layoutParams != null) {
+                        if (layoutParams instanceof FrameLayout.LayoutParams) {
+                            ((FrameLayout.LayoutParams) layoutParams).gravity = Gravity.CENTER_HORIZONTAL;
                         }
+                        layoutParams.rightMargin = layoutParams.leftMargin = AndroidUtilities.dp(24);
+                        layoutParams.height = AndroidUtilities.dp(36);
+                        editText.setLayoutParams(layoutParams);
                     }
                 }
             }
@@ -359,7 +355,7 @@ public class LoginActivity extends BaseFragment {
         doneButtonVisible[DONE_TYPE_ACTION] = false;
 
         ActionBarMenu menu = actionBar.createMenu();
-        ActionBarMenuItem botItem = menu.addItem(2, R.drawable.list_bot);
+        botItem = menu.addItem(2, R.drawable.menu_bots);
         botItem.setContentDescription(LocaleController.getString("BotLogin", R.string.BotLogin));
         actionBar.setAllowOverlayTitle(true);
         doneItem = menu.addItemWithWidth(done_button, R.drawable.ic_done, AndroidUtilities.dp(56));
@@ -833,6 +829,62 @@ public class LoginActivity extends BaseFragment {
         }
     }
 
+    private void showBotButton(boolean show, boolean animated) {
+        int newVisibility = show ? View.VISIBLE : View.GONE;
+        if (botItem.getVisibility() == newVisibility) {
+            return;
+        }
+        if (botItemAnimation != null) {
+            botItemAnimation.cancel();
+        }
+        if (animated) {
+            botItemAnimation = new AnimatorSet();
+            if (show) {
+                botItem.setVisibility(View.VISIBLE);
+                botItemAnimation.playTogether(
+                        ObjectAnimator.ofFloat(botItem, View.SCALE_X, 1.0f),
+                        ObjectAnimator.ofFloat(botItem, View.SCALE_Y, 1.0f),
+                        ObjectAnimator.ofFloat(botItem, View.ALPHA, 1.0f));
+            } else {
+                botItemAnimation.playTogether(
+                        ObjectAnimator.ofFloat(botItem, View.SCALE_X, 0.1f),
+                        ObjectAnimator.ofFloat(botItem, View.SCALE_Y, 0.1f),
+                        ObjectAnimator.ofFloat(botItem, View.ALPHA, 0.0f));
+            }
+            botItemAnimation.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    if (botItemAnimation != null && botItemAnimation.equals(animation)) {
+                        if (!show) {
+                            botItem.setVisibility(View.GONE);
+                        }
+                    }
+                }
+
+                @Override
+                public void onAnimationCancel(Animator animation) {
+                    if (botItemAnimation != null && botItemAnimation.equals(animation)) {
+                        botItemAnimation = null;
+                    }
+                }
+            });
+            botItemAnimation.setDuration(150);
+            botItemAnimation.start();
+        } else {
+            if (show) {
+                botItem.setVisibility(View.VISIBLE);
+                botItem.setScaleX(1.0f);
+                botItem.setScaleY(1.0f);
+                botItem.setAlpha(1.0f);
+            } else {
+                botItem.setVisibility(View.GONE);
+                botItem.setScaleX(0.1f);
+                botItem.setScaleY(0.1f);
+                botItem.setAlpha(0.0f);
+            }
+        }
+    }
+
     private void onDoneButtonPressed() {
         if (!doneButtonVisible[currentDoneType]) {
             return;
@@ -1028,6 +1080,7 @@ public class LoginActivity extends BaseFragment {
                 currentDoneType = DONE_TYPE_ACTION;
             }
         }
+        showBotButton(page == 0, animated);
         if (animated) {
             final SlideView outView = views[currentViewNum];
             final SlideView newView = views[page];
@@ -1515,11 +1568,10 @@ public class LoginActivity extends BaseFragment {
                         }
                         if (isTestBackend) {
                             visibleToast = Toast.makeText(getParentActivity(), LocaleController.getString("TestBackendOn", R.string.TestBackendOn), Toast.LENGTH_SHORT);
-                            visibleToast.show();
                         } else {
                             visibleToast = Toast.makeText(getParentActivity(), LocaleController.getString("TestBackendOff", R.string.TestBackendOff), Toast.LENGTH_SHORT);
-                            visibleToast.show();
                         }
+                        visibleToast.show();
                     }
                 });
             }
