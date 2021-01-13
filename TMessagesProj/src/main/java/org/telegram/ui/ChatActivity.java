@@ -275,6 +275,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private FrameLayout bottomOverlayChat;
     private FrameLayout bottomMessagesActionContainer;
     private TextView forwardButton;
+    private ImageView selectButton;
     private TextView replyButton;
     private FrameLayout emptyViewContainer;
     private ChatGreetingsView greetingsViewContainer;
@@ -456,6 +457,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private ObjectAnimator mentiondownButtonAnimation;
     private AnimatorSet replyButtonAnimation;
     private AnimatorSet editButtonAnimation;
+    private AnimatorSet selectButtonAnimation;
     private AnimatorSet forwardButtonAnimation;
 
     private int lastStableId = 10;
@@ -1005,7 +1007,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int copy = 10;
     private final static int forward = 11;
     private final static int forward_noquote = 95;
-    private final static int select_between = 86;
     private final static int delete = 12;
     private final static int chat_enc_timer = 13;
     private final static int chat_menu_attach = 14;
@@ -1737,31 +1738,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         return;
                     }
                     createDeleteMessagesAlert(null, null);
-                } else if (id == select_between) {
-                    ArrayList<Integer> ids = new ArrayList<>();
-                    for (int a = 1; a >= 0; a--) {
-                        for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
-                            ids.add(selectedMessagesIds[a].keyAt(b));
-                        }
-                    }
-                    Collections.sort(ids);
-                    Integer begin = ids.get(0);
-                    Integer end = ids.get(ids.size() - 1);
-                    for (int i = 0; i < messages.size(); i++) {
-                        int msgId = messages.get(i).getId();
-                        if (msgId > begin && msgId < end && selectedMessagesIds[0].indexOfKey(msgId) < 0) {
-                            MessageObject message = messages.get(i);
-                            int type = getMessageType(message);
-
-                            if (type < 2 || type == 20) {
-                                continue;
-                            }
-
-                            addToSelectedMessages(message, true);
-                        }
-                    }
-                    updateActionModeTitle();
-                    updateVisibleRows();
                 } else if (id == forward || id == forward_noquote) {
                     noForwardQuote = id == forward_noquote;
                     openForward();
@@ -2274,7 +2250,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (currentEncryptedChat == null) {
             actionModeViews.add(actionMode.addItemWithWidth(save_to, R.drawable.msg_download, AndroidUtilities.dp(54), LocaleController.getString("SaveToMusic", R.string.SaveToMusic)));
             actionModeViews.add(actionMode.addItemWithWidth(edit, R.drawable.msg_edit, AndroidUtilities.dp(54), LocaleController.getString("Edit", R.string.Edit)));
-            actionModeViews.add(actionMode.addItemWithWidth(select_between, R.drawable.ic_select_between, AndroidUtilities.dp(54), LocaleController.getString("SelectBetween", R.string.SelectBetween)));
             actionModeViews.add(actionMode.addItemWithWidth(star, R.drawable.msg_fave, AndroidUtilities.dp(54), LocaleController.getString("AddToFavorites", R.string.AddToFavorites)));
             actionModeViews.add(actionMode.addItemWithWidth(copy, R.drawable.msg_copy, AndroidUtilities.dp(54), LocaleController.getString("Copy", R.string.Copy)));
             actionModeViews.add(actionMode.addItemWithWidth(forward_noquote, R.drawable.msg_forward_noquote, AndroidUtilities.dp(54), LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward)));
@@ -2282,12 +2257,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             actionModeViews.add(actionMode.addItemWithWidth(delete, R.drawable.msg_delete, AndroidUtilities.dp(54), LocaleController.getString("Delete", R.string.Delete)));
         } else {
             actionModeViews.add(actionMode.addItemWithWidth(edit, R.drawable.msg_edit, AndroidUtilities.dp(54), LocaleController.getString("Edit", R.string.Edit)));
-            actionModeViews.add(actionMode.addItemWithWidth(select_between, R.drawable.ic_select_between, AndroidUtilities.dp(54), LocaleController.getString("SelectBetween", R.string.SelectBetween)));
             actionModeViews.add(actionMode.addItemWithWidth(star, R.drawable.msg_fave, AndroidUtilities.dp(54), LocaleController.getString("AddToFavorites", R.string.AddToFavorites)));
             actionModeViews.add(actionMode.addItemWithWidth(copy, R.drawable.msg_copy, AndroidUtilities.dp(54), LocaleController.getString("Copy", R.string.Copy)));
             actionModeViews.add(actionMode.addItemWithWidth(delete, R.drawable.msg_delete, AndroidUtilities.dp(54), LocaleController.getString("Delete", R.string.Delete)));
         }
-        actionMode.getItem(select_between).setVisibility(selectedMessagesIds[0].size() > 1 ? View.VISIBLE : View.GONE);
         actionMode.getItem(edit).setVisibility(canEditMessagesCount == 1 && selectedMessagesIds[0].size() + selectedMessagesIds[1].size() == 1 ? View.VISIBLE : View.GONE);
         actionMode.getItem(copy).setVisibility(selectedMessagesCanCopyIds[0].size() + selectedMessagesCanCopyIds[1].size() != 0 ? View.VISIBLE : View.GONE);
         actionMode.getItem(star).setVisibility(selectedMessagesCanStarIds[0].size() + selectedMessagesCanStarIds[1].size() != 0 ? View.VISIBLE : View.GONE);
@@ -6837,6 +6810,41 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         });
         bottomMessagesActionContainer.addView(replyButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP));
 
+        selectButton = new ImageView(context);
+        selectButton.setContentDescription(LocaleController.getString("SelectBetween", R.string.SelectBetween));
+        selectButton.setPadding(AndroidUtilities.dp(21), 0, AndroidUtilities.dp(21), 0);
+        selectButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 3));
+        image = context.getResources().getDrawable(R.drawable.ic_select_between).mutate();
+        image.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.MULTIPLY));
+        selectButton.setImageDrawable(image);
+        selectButton.setOnClickListener(v -> {
+            ArrayList<Integer> ids = new ArrayList<>();
+            for (int a = 1; a >= 0; a--) {
+                for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
+                    ids.add(selectedMessagesIds[a].keyAt(b));
+                }
+            }
+            Collections.sort(ids);
+            Integer begin = ids.get(0);
+            Integer end = ids.get(ids.size() - 1);
+            for (int i = 0; i < messages.size(); i++) {
+                int msgId = messages.get(i).getId();
+                if (msgId > begin && msgId < end && selectedMessagesIds[0].indexOfKey(msgId) < 0) {
+                    MessageObject message = messages.get(i);
+                    int type = getMessageType(message);
+
+                    if (type < 2 || type == 20) {
+                        continue;
+                    }
+
+                    addToSelectedMessages(message, true);
+                }
+            }
+            updateActionModeTitle();
+            updateVisibleRows();
+        });
+        bottomMessagesActionContainer.addView(selectButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP));
+
         forwardButton = new TextView(context);
         forwardButton.setText(LocaleController.getString("Forward", R.string.Forward));
         forwardButton.setGravity(Gravity.CENTER_VERTICAL);
@@ -11139,7 +11147,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 ActionBarMenuItem starItem = actionBar.createActionMode().getItem(star);
                 ActionBarMenuItem editItem = actionBar.createActionMode().getItem(edit);
                 ActionBarMenuItem forwardItem = actionBar.createActionMode().getItem(forward);
-                ActionBarMenuItem selectItem = actionBar.createActionMode().getItem(select_between);
 
                 if (prevCantForwardCount == 0 && cantForwardMessagesCount != 0 || prevCantForwardCount != 0 && cantForwardMessagesCount == 0) {
                     forwardButtonAnimation = new AnimatorSet();
@@ -11180,7 +11187,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 int starVisible = starItem.getVisibility();
                 copyItem.setVisibility(selectedMessagesCanCopyIds[0].size() + selectedMessagesCanCopyIds[1].size() != 0 ? View.VISIBLE : View.GONE);
                 starItem.setVisibility(getMediaDataController().canAddStickerToFavorites() && (selectedMessagesCanStarIds[0].size() + selectedMessagesCanStarIds[1].size()) == selectedCount ? View.VISIBLE : View.GONE);
-                selectItem.setVisibility(selectedMessagesIds[0].size() > 1 ? View.VISIBLE : View.GONE);
                 int newCopyVisible = copyItem.getVisibility();
                 int newStarVisible = starItem.getVisibility();
                 actionBar.createActionMode().getItem(delete).setVisibility(cantDeleteMessagesCount == 0 ? View.VISIBLE : View.GONE);
@@ -11277,6 +11283,76 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                         });
                         replyButtonAnimation.start();
+                    }
+                }
+
+                if (selectButton != null) {
+                    int newVisibility = View.GONE;
+                    if (selectedMessagesIds[0].size() > 1) {
+                        ArrayList<Integer> ids = new ArrayList<>();
+                        for (int a = 1; a >= 0; a--) {
+                            for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
+                                ids.add(selectedMessagesIds[a].keyAt(b));
+                            }
+                        }
+                        Collections.sort(ids);
+                        Integer begin = ids.get(0);
+                        Integer end = ids.get(ids.size() - 1);
+                        for (int i = 0; i < messages.size(); i++) {
+                            int msgId = messages.get(i).getId();
+                            if (msgId > begin && msgId < end && selectedMessagesIds[0].indexOfKey(msgId) < 0) {
+                                MessageObject message = messages.get(i);
+                                int type = getMessageType(message);
+
+                                if (type < 2 || type == 20) {
+                                    continue;
+                                }
+
+                                newVisibility = View.VISIBLE;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (selectButton.getVisibility() != newVisibility) {
+                        if (selectButtonAnimation != null) {
+                            selectButtonAnimation.cancel();
+                        }
+                        selectButtonAnimation = new AnimatorSet();
+                        if (newVisibility == View.VISIBLE) {
+                            selectButton.setVisibility(newVisibility);
+                            selectButtonAnimation.playTogether(
+                                    ObjectAnimator.ofFloat(selectButton, View.ALPHA, 1.0f),
+                                    ObjectAnimator.ofFloat(selectButton, View.SCALE_X, 1.0f),
+                                    ObjectAnimator.ofFloat(selectButton, View.SCALE_Y, 1.0f)
+                            );
+                        } else {
+                            selectButtonAnimation.playTogether(
+                                    ObjectAnimator.ofFloat(selectButton, View.ALPHA, 0.0f),
+                                    ObjectAnimator.ofFloat(selectButton, View.SCALE_X, 0.0f),
+                                    ObjectAnimator.ofFloat(selectButton, View.SCALE_Y, 0.0f)
+                            );
+                        }
+                        selectButtonAnimation.setDuration(100);
+                        int newVisibilityFinal = newVisibility;
+                        selectButtonAnimation.addListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                if (selectButtonAnimation != null && selectButtonAnimation.equals(animation)) {
+                                    if (newVisibilityFinal == View.GONE) {
+                                        selectButton.setVisibility(View.GONE);
+                                    }
+                                }
+                            }
+
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+                                if (selectButtonAnimation != null && selectButtonAnimation.equals(animation)) {
+                                    selectButtonAnimation = null;
+                                }
+                            }
+                        });
+                        selectButtonAnimation.start();
                     }
                 }
 
