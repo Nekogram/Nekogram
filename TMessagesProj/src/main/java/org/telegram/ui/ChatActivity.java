@@ -18266,40 +18266,46 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             options.add(2);
                             icons.add(R.drawable.msg_forward);
                         }
-                        if (!selectedObject.needDrawBluredPreview() && !selectedObject.isLiveLocation() && selectedObject.type != 16) {
+                        if (NekoConfig.showNoQuoteForward && !selectedObject.needDrawBluredPreview() && !selectedObject.isPoll() && !selectedObject.isLiveLocation() && selectedObject.type != 16) {
                             items.add(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
                             options.add(95);
                             icons.add(R.drawable.msg_forward_noquote);
                         }
                         if (chatMode != MODE_SCHEDULED && !selectedObject.needDrawBluredPreview() && !selectedObject.isLiveLocation() && selectedObject.type != 16) {
-                            if (!UserObject.isUserSelf(currentUser) && NekoConfig.showAddToSavedMessages) {
+                            if (NekoConfig.showAddToSavedMessages && !UserObject.isUserSelf(currentUser)) {
                                 items.add(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages));
                                 options.add(93);
                                 icons.add(R.drawable.menu_saved);
                             }
-                            boolean allowRepeat = currentUser != null
-                                    || (!isThreadChat() && currentChat != null && !ChatObject.isNotInChat(currentChat) && ChatObject.canSendMessages(currentChat));
-                            if (allowRepeat && NekoConfig.showRepeat) {
-                                items.add(LocaleController.getString("Repeat", R.string.Repeat));
-                                options.add(94);
-                                icons.add(R.drawable.msg_repeat);
+                            if (NekoConfig.showRepeat) {
+                                boolean allowRepeat = currentUser != null
+                                        || (!isThreadChat() && currentChat != null && !ChatObject.isNotInChat(currentChat) && ChatObject.canSendMessages(currentChat));
+                                if (allowRepeat) {
+                                    items.add(LocaleController.getString("Repeat", R.string.Repeat));
+                                    options.add(94);
+                                    icons.add(R.drawable.msg_repeat);
+                                }
                             }
                         }
                         if (chatMode != MODE_SCHEDULED) {
-                            boolean allowPrpr = currentUser != null
-                                    || (currentChat != null && !isThreadChat() && chatMode != MODE_PINNED && !ChatObject.isNotInChat(currentChat) && ChatObject.canSendMessages(currentChat) && !currentChat.broadcast &&
-                                    message.isFromUser());
-                            boolean allowViewHistory = currentUser == null
-                                    && (currentChat != null && !isThreadChat() && chatMode != MODE_PINNED && !currentChat.broadcast && message.isFromUser());
-                            if (allowPrpr && NekoConfig.showPrPr) {
-                                items.add(LocaleController.getString("Prpr", R.string.Prpr));
-                                options.add(92);
-                                icons.add(R.drawable.msg_prpr);
+                            if (NekoConfig.showPrPr) {
+                                boolean allowPrpr = currentUser != null
+                                        || (currentChat != null && !isThreadChat() && chatMode != MODE_PINNED && !ChatObject.isNotInChat(currentChat) && ChatObject.canSendMessages(currentChat) && !currentChat.broadcast &&
+                                        message.isFromUser());
+                                if (allowPrpr) {
+                                    items.add(LocaleController.getString("Prpr", R.string.Prpr));
+                                    options.add(92);
+                                    icons.add(R.drawable.msg_prpr);
+                                }
                             }
-                            if (allowViewHistory && NekoConfig.showViewHistory) {
-                                items.add(LocaleController.getString("ViewUserHistory", R.string.ViewHistory));
-                                options.add(90);
-                                icons.add(R.drawable.menu_recent);
+                            if (NekoConfig.showViewHistory) {
+                                boolean allowViewHistory = currentUser == null
+                                        && (currentChat != null && !isThreadChat() && chatMode != MODE_PINNED && !currentChat.broadcast && message.isFromUser());
+                                if (allowViewHistory) {
+                                    items.add(LocaleController.getString("ViewUserHistory", R.string.ViewHistory));
+                                    options.add(90);
+                                    icons.add(R.drawable.menu_recent);
+                                }
                             }
                             if (NekoConfig.showTranslate) {
                                 MessageObject messageObject = getMessageForTranslate();

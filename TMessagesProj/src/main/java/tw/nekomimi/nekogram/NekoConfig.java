@@ -60,6 +60,7 @@ public class NekoConfig {
     public static boolean showMessageDetails = false;
     public static boolean showTranslate = true;
     public static boolean showRepeat = true;
+    public static boolean showNoQuoteForward = true;
 
     public static boolean hidePhone = true;
     public static int typeface = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 1 : 0;
@@ -233,6 +234,7 @@ public class NekoConfig {
             accentAsNotificationColor = preferences.getBoolean("accentAsNotificationColor", false);
             silenceNonContacts = preferences.getBoolean("silenceNonContacts", false);
             swipeToPiP = preferences.getBoolean("swipeToPiP", false);
+            showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", true);
             configLoaded = true;
         }
     }
@@ -685,6 +687,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("swipeToPiP", swipeToPiP);
+        editor.commit();
+    }
+
+    public static void toggleShowNoQuoteForward() {
+        showNoQuoteForward = !showNoQuoteForward;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showNoQuoteForward", showNoQuoteForward);
         editor.commit();
     }
 
