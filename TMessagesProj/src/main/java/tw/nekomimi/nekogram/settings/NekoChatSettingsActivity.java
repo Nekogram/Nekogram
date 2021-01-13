@@ -68,6 +68,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int tryToOpenAllLinksInIVRow;
     private int disableProximityEventsRow;
     private int swipeToPiPRow;
+    private int autoPauseVideoRow;
     private int messageMenuRow;
     private int chat2Row;
 
@@ -205,6 +206,11 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.swipeToPiP);
                 }
+            } else if (position == autoPauseVideoRow) {
+                NekoConfig.toggleAutoPauseVideo();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.autoPauseVideo);
+                }
             }
         });
 
@@ -238,6 +244,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         tryToOpenAllLinksInIVRow = rowCount++;
         disableProximityEventsRow = rowCount++;
         swipeToPiPRow = rowCount++;
+        autoPauseVideoRow = rowCount++;
         messageMenuRow = rowCount++;
         chat2Row = rowCount++;
 
@@ -566,6 +573,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                         textCell.setTextAndCheck(LocaleController.getString("OpenAllLinksInInstantView", R.string.OpenAllLinksInInstantView), NekoConfig.tryToOpenAllLinksInIV, true);
                     } else if (position == swipeToPiPRow) {
                         textCell.setTextAndCheck(LocaleController.getString("SwipeToPiP", R.string.SwipeToPiP), NekoConfig.swipeToPiP, true);
+                    } else if (position == autoPauseVideoRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("AutoPauseVideo", R.string.AutoPauseVideo), LocaleController.getString("AutoPauseVideoAbout", R.string.AutoPauseVideoAbout), NekoConfig.autoPauseVideo, true, true);
                     }
                     break;
                 }

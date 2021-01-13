@@ -92,7 +92,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int disableNumberRoundingRow;
     private int openArchiveOnPullRow;
     private int formatTimeWithSecondsRow;
-    private int autoPauseVideoRow;
     private int translationProviderRow;
     private int nameOrderRow;
     private int idTypeRow;
@@ -315,11 +314,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     listAdapter.notifyItemChanged(idTypeRow);
                     parentLayout.rebuildAllFragmentViews(false, false);
                 });
-            } else if (position == autoPauseVideoRow) {
-                NekoConfig.toggleAutoPauseVideo();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.autoPauseVideo);
-                }
             } else if (position == mediaPreviewRow) {
                 NekoConfig.toggleMediaPreview();
                 if (view instanceof TextCheckCell) {
@@ -386,6 +380,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         forceTabletRow = rowCount++;
         mediaPreviewRow = rowCount++;
         appBarShadowRow = rowCount++;
+        formatTimeWithSecondsRow = rowCount++;
+        disableNumberRoundingRow = rowCount++;
         newYearRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         eventTypeRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         appearance2Row = rowCount++;
@@ -399,10 +395,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         disabledInstantCameraRow = rowCount++;
         hideProxySponsorChannelRow = !AnalyticsHelper.GOOGLE_PLAY || NekoConfig.showHiddenFeature ? rowCount++ : -1;
         askBeforeCallRow = rowCount++;
-        disableNumberRoundingRow = rowCount++;
         openArchiveOnPullRow = rowCount++;
-        formatTimeWithSecondsRow = rowCount++;
-        autoPauseVideoRow = rowCount++;
         translationProviderRow = rowCount++;
         nameOrderRow = rowCount++;
         idTypeRow = rowCount++;
@@ -562,11 +555,9 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     } else if (position == askBeforeCallRow) {
                         textCell.setTextAndCheck(LocaleController.getString("AskBeforeCalling", R.string.AskBeforeCalling), NekoConfig.askBeforeCall, true);
                     } else if (position == disableNumberRoundingRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("DisableNumberRounding", R.string.DisableNumberRounding), "4.8K -> 4777", NekoConfig.disableNumberRounding, true, true);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("DisableNumberRounding", R.string.DisableNumberRounding), "4.8K -> 4777", NekoConfig.disableNumberRounding, true, eventTypeRow != -1);
                     } else if (position == appBarShadowRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("DisableAppBarShadow", R.string.DisableAppBarShadow), NekoConfig.disableAppBarShadow, eventTypeRow != -1);
-                    } else if (position == autoPauseVideoRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("AutoPauseVideo", R.string.AutoPauseVideo), LocaleController.getString("AutoPauseVideoAbout", R.string.AutoPauseVideoAbout), NekoConfig.autoPauseVideo, true, true);
+                        textCell.setTextAndCheck(LocaleController.getString("DisableAppBarShadow", R.string.DisableAppBarShadow), NekoConfig.disableAppBarShadow, true);
                     } else if (position == mediaPreviewRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MediaPreview", R.string.MediaPreview), NekoConfig.mediaPreview, true);
                     } else if (position == formatTimeWithSecondsRow) {
@@ -601,6 +592,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                         cell.setText(LocaleController.getString("IdTypeAbout", R.string.IdTypeAbout));
                     } else if (position == notification2Row) {
+                        cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                         cell.setText(LocaleController.getString("SilenceNonContactsAbout", R.string.SilenceNonContactsAbout));
                     }
                     break;
@@ -669,8 +661,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     (position >= translationProviderRow && position <= idTypeRow)) {
                 return 2;
             } else if (position == ipv6Row || position == newYearRow ||
-                    (position > appearanceRow && position <= appBarShadowRow) ||
-                    (position > generalRow && position <= autoPauseVideoRow) ||
+                    (position > appearanceRow && position <= disableNumberRoundingRow) ||
+                    (position > generalRow && position < translationProviderRow) ||
                     (position > drawerRow && position < drawer2Row) ||
                     (position > notificationRow && position < notification2Row)) {
                 return 3;
