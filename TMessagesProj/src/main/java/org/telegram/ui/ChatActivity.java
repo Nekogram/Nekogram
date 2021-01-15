@@ -26,7 +26,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Outline;
@@ -220,7 +219,6 @@ import tw.nekomimi.nekogram.translator.Translator;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.net.URLDecoder;
 import java.util.ArrayList;
@@ -18924,39 +18922,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         MediaController.saveFile(path, getParentActivity(), messageObject.isVideo() ? 1 : 0, null, null);
     }
 
-    private void saveStickerToGallery(MessageObject messageObject) {
-        String path = messageObject.messageOwner.attachPath;
-        if (!TextUtils.isEmpty(path)) {
-            File temp = new File(path);
-            if (!temp.exists()) {
-                path = null;
-            }
-        }
-        if (TextUtils.isEmpty(path)) {
-            path = FileLoader.getPathToMessage(messageObject.messageOwner).toString();
-            File temp = new File(path);
-            if (!temp.exists()) {
-                path = null;
-            }
-        }
-        if (TextUtils.isEmpty(path)) {
-            path = FileLoader.getPathToAttach(messageObject.getDocument(), true).toString();
-        }
-        if (!TextUtils.isEmpty(path)) {
-            try {
-                Bitmap image = BitmapFactory.decodeFile(path);
-                if (image != null) {
-                    FileOutputStream stream = new FileOutputStream(path + ".png");
-                    image.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    stream.close();
-                    MediaController.saveFile(path + ".png", getParentActivity(), 0, null, null);
-                }
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
-    }
-
     private void translateMessage(MessageObject messageObject) {
         if (messageObject == null) {
             return;
@@ -19551,7 +19516,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     selectedObjectToEditCaption = null;
                     return;
                 }
-                saveStickerToGallery(selectedObject);
+                if (getMessageHelper().saveStickerToGallery(getParentActivity(), selectedObject)) {
+                    BulletinFactory.of(this).createDownloadBulletin(BulletinFactory.FileType.STICKER).show();
+                }
                 break;
             } case 88: {
                 MessageObject messageObject = getMessageForTranslate();

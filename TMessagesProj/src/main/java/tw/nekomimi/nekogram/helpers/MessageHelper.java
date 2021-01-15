@@ -1,12 +1,19 @@
 package tw.nekomimi.nekogram.helpers;
 
+import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
+import android.text.TextUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BaseController;
+import org.telegram.messenger.Bitmaps;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -17,7 +24,11 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.RandomAccessFile;
+import java.nio.ByteBuffer;
+import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -28,6 +39,58 @@ public class MessageHelper extends BaseController {
 
     public MessageHelper(int num) {
         super(num);
+    }
+
+    public boolean saveStickerToGallery(Activity activity, MessageObject messageObject) {
+        String path = messageObject.messageOwner.attachPath;
+        if (!TextUtils.isEmpty(path)) {
+            File temp = new File(path);
+            if (!temp.exists()) {
+                path = null;
+            }
+        }
+        if (TextUtils.isEmpty(path)) {
+            path = FileLoader.getPathToMessage(messageObject.messageOwner).toString();
+            File temp = new File(path);
+            if (!temp.exists()) {
+                path = null;
+            }
+        }
+        if (TextUtils.isEmpty(path)) {
+            path = FileLoader.getPathToAttach(messageObject.getDocument(), true).toString();
+            File temp = new File(path);
+            if (!temp.exists()) {
+                return false;
+            }
+        }
+        if (!TextUtils.isEmpty(path)) {
+            try {
+                Bitmap image;
+                if (Build.VERSION.SDK_INT >= 19) {
+                    image = BitmapFactory.decodeFile(path);
+                } else {
+                    RandomAccessFile file = new RandomAccessFile(path, "r");
+                    ByteBuffer buffer = file.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, path.length());
+                    BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                    bmOptions.inJustDecodeBounds = true;
+                    Utilities.loadWebpImage(null, buffer, buffer.limit(), bmOptions, true);
+                    image = Bitmaps.createBitmap(bmOptions.outWidth, bmOptions.outHeight, Bitmap.Config.ARGB_8888);
+                    Utilities.loadWebpImage(image, buffer, buffer.limit(), null, true);
+                    file.close();
+                }
+                if (image != null) {
+                    File file = new File(path.replace(".webp", ".png"));
+                    FileOutputStream stream = new FileOutputStream(file);
+                    image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                    stream.close();
+                    MediaController.saveFile(file.toString(), activity, 0, null, null);
+                    return true;
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+        return false;
     }
 
     public static String saveUriToCache(Uri uri) {
