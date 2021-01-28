@@ -24,6 +24,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Environment;
+import android.os.SystemClock;
 import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.SparseArray;
@@ -106,7 +107,6 @@ public class ImageLoader {
 
     private volatile long lastCacheOutTime = 0;
     private int lastImageNum = 0;
-    private long lastProgressUpdateTime = 0;
 
     private File telegramPath = null;
 
@@ -145,7 +145,7 @@ public class ImageLoader {
         }
 
         private void reportProgress(long uploadedSize, long totalSize) {
-            long currentTime = System.currentTimeMillis();
+            long currentTime = SystemClock.elapsedRealtime();
             if (uploadedSize == totalSize || lastProgressTime == 0 || lastProgressTime < currentTime - 100) {
                 lastProgressTime = currentTime;
                 Utilities.stageQueue.postRunnable(() -> {
@@ -443,7 +443,7 @@ public class ImageLoader {
         }
 
         private void reportProgress(long uploadedSize, long totalSize) {
-            long currentTime = System.currentTimeMillis();
+            long currentTime = SystemClock.elapsedRealtime();
             if (uploadedSize == totalSize || lastProgressTime == 0 || lastProgressTime < currentTime - 100) {
                 lastProgressTime = currentTime;
                 Utilities.stageQueue.postRunnable(() -> {
@@ -1076,7 +1076,7 @@ public class ImageLoader {
 
                 if (cacheImage.type == ImageReceiver.TYPE_THUMB) {
                     try {
-                        lastCacheOutTime = System.currentTimeMillis();
+                        lastCacheOutTime = SystemClock.elapsedRealtime();
                         synchronized (sync) {
                             if (isCancelled) {
                                 return;
@@ -1181,10 +1181,10 @@ public class ImageLoader {
                         if (mediaId != null) {
                             delay = 0;
                         }
-                        if (delay != 0 && lastCacheOutTime != 0 && lastCacheOutTime > System.currentTimeMillis() - delay && Build.VERSION.SDK_INT < 21) {
+                        if (delay != 0 && lastCacheOutTime != 0 && lastCacheOutTime > SystemClock.elapsedRealtime() - delay && Build.VERSION.SDK_INT < 21) {
                             Thread.sleep(delay);
                         }
-                        lastCacheOutTime = System.currentTimeMillis();
+                        lastCacheOutTime = SystemClock.elapsedRealtime();
                         synchronized (sync) {
                             if (isCancelled) {
                                 return;
@@ -1676,11 +1676,11 @@ public class ImageLoader {
             final int currentAccount = a;
             FileLoader.getInstance(a).setDelegate(new FileLoader.FileLoaderDelegate() {
                 @Override
-                public void fileUploadProgressChanged(final String location, long uploadedSize, long totalSize, final boolean isEncrypted) {
+                public void fileUploadProgressChanged(FileUploadOperation operation, final String location, long uploadedSize, long totalSize, final boolean isEncrypted) {
                     fileProgresses.put(location, new long[]{uploadedSize, totalSize});
-                    long currentTime = System.currentTimeMillis();
-                    if (lastProgressUpdateTime == 0 || lastProgressUpdateTime < currentTime - 500) {
-                        lastProgressUpdateTime = currentTime;
+                    long currentTime = SystemClock.elapsedRealtime();
+                    if (operation.lastProgressUpdateTime == 0 || operation.lastProgressUpdateTime < currentTime - 100 || uploadedSize == totalSize) {
+                        operation.lastProgressUpdateTime = currentTime;
 
                         AndroidUtilities.runOnUIThread(() -> NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.FileUploadProgressChanged, location, uploadedSize, totalSize, isEncrypted));
                     }
@@ -1726,11 +1726,11 @@ public class ImageLoader {
                 }
 
                 @Override
-                public void fileLoadProgressChanged(final String location, long uploadedSize, long totalSize) {
+                public void fileLoadProgressChanged(FileLoadOperation operation, final String location, long uploadedSize, long totalSize) {
                     fileProgresses.put(location, new long[]{uploadedSize, totalSize});
-                    long currentTime = System.currentTimeMillis();
-                    if (lastProgressUpdateTime == 0 || lastProgressUpdateTime < currentTime - 500 || uploadedSize == 0) {
-                        lastProgressUpdateTime = currentTime;
+                    long currentTime = SystemClock.elapsedRealtime();
+                    if (operation.lastProgressUpdateTime == 0 || operation.lastProgressUpdateTime < currentTime - 500 || uploadedSize == 0) {
+                        operation.lastProgressUpdateTime = currentTime;
                         AndroidUtilities.runOnUIThread(() -> NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.FileLoadProgressChanged, location, uploadedSize, totalSize));
                     }
                 }

@@ -255,7 +255,7 @@ public class DialogCell extends BaseCell {
 
     private boolean drawVerified;
 
-    private boolean drawScam;
+    private int drawScam;
 
     private boolean isSelected;
 
@@ -270,6 +270,8 @@ public class DialogCell extends BaseCell {
     private ValueAnimator statusDrawableAnimator;
     long lastDialogChangedTime;
     private int statusDrawableLeft;
+
+    private DialogsActivity parentFragment;
 
     public static class BounceInterpolator implements Interpolator {
 
@@ -288,13 +290,13 @@ public class DialogCell extends BaseCell {
         }
     }
 
-    public DialogCell(Context context, boolean needCheck, boolean forceThreeLines) {
-        this(context, needCheck, forceThreeLines, UserConfig.selectedAccount);
+    public DialogCell(DialogsActivity fragment, Context context, boolean needCheck, boolean forceThreeLines) {
+        this(fragment, context, needCheck, forceThreeLines, UserConfig.selectedAccount);
     }
 
-    public DialogCell(Context context, boolean needCheck, boolean forceThreeLines, int account) {
+    public DialogCell(DialogsActivity fragment, Context context, boolean needCheck, boolean forceThreeLines, int account) {
         super(context);
-
+        parentFragment = fragment;
         Theme.createDialogsResources(context);
         avatarImage.setRoundRadius(AndroidUtilities.dp(28));
         thumbImage.setRoundRadius(AndroidUtilities.dp(2));
@@ -566,7 +568,7 @@ public class DialogCell extends BaseCell {
         drawNameLock = false;
         drawNameBot = false;
         drawVerified = false;
-        drawScam = false;
+        drawScam = 0;
         drawPinBackground = false;
         hasMessageThumb = false;
         int offsetName = 0;
@@ -746,8 +748,11 @@ public class DialogCell extends BaseCell {
                 if (currentDialogFolderId == 0) {
                     if (chat != null) {
                         if (chat.scam) {
-                            drawScam = true;
+                            drawScam = 1;
                             Theme.dialogs_scamDrawable.checkText();
+                        } else if (chat.fake) {
+                            drawScam = 2;
+                            Theme.dialogs_fakeDrawable.checkText();
                         } else {
                             drawVerified = chat.verified;
                         }
@@ -788,8 +793,11 @@ public class DialogCell extends BaseCell {
                         }
                     } else if (user != null) {
                         if (user.scam) {
-                            drawScam = true;
+                            drawScam = 1;
                             Theme.dialogs_scamDrawable.checkText();
+                        } else if (user.fake) {
+                            drawScam = 2;
+                            Theme.dialogs_fakeDrawable.checkText();
                         } else {
                             drawVerified = user.verified;
                         }
@@ -959,6 +967,8 @@ public class DialogCell extends BaseCell {
                             if (chat != null && chat.id > 0 && fromChat == null && (!ChatObject.isChannel(chat) || ChatObject.isMegagroup(chat))) {
                                 if (message.isOutOwner()) {
                                     messageNameString = LocaleController.getString("FromYou", R.string.FromYou);
+                                } else if (message != null && message.messageOwner.fwd_from != null && message.messageOwner.fwd_from.from_name != null) {
+                                    messageNameString = message.messageOwner.fwd_from.from_name;
                                 } else if (fromUser != null) {
                                     if (useForceThreeLines || SharedConfig.useThreeLinesLayout) {
                                         if (UserObject.isDeleted(fromUser)) {
@@ -1370,7 +1380,7 @@ public class DialogCell extends BaseCell {
             }
         }
 
-        if (dialogMuted && !drawVerified && !drawScam) {
+        if (dialogMuted && !drawVerified && drawScam == 0) {
             int w = AndroidUtilities.dp(6) + Theme.dialogs_muteDrawable.getIntrinsicWidth();
             nameWidth -= w;
             if (LocaleController.isRTL) {
@@ -1382,8 +1392,8 @@ public class DialogCell extends BaseCell {
             if (LocaleController.isRTL) {
                 nameLeft += w;
             }
-        } else if (drawScam) {
-            int w = AndroidUtilities.dp(6) + Theme.dialogs_scamDrawable.getIntrinsicWidth();
+        } else if (drawScam != 0) {
+            int w = AndroidUtilities.dp(6) + (drawScam == 0 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable).getIntrinsicWidth();
             nameWidth -= w;
             if (LocaleController.isRTL) {
                 nameLeft += w;
@@ -1597,12 +1607,12 @@ public class DialogCell extends BaseCell {
             if (nameLayout != null && nameLayout.getLineCount() > 0) {
                 left = nameLayout.getLineLeft(0);
                 widthpx = Math.ceil(nameLayout.getLineWidth(0));
-                if (dialogMuted && !drawVerified && !drawScam) {
+                if (dialogMuted && !drawVerified && drawScam == 0) {
                     nameMuteLeft = (int) (nameLeft + (nameWidth - widthpx) - AndroidUtilities.dp(6) - Theme.dialogs_muteDrawable.getIntrinsicWidth());
                 } else if (drawVerified) {
                     nameMuteLeft = (int) (nameLeft + (nameWidth - widthpx) - AndroidUtilities.dp(6) - Theme.dialogs_verifiedDrawable.getIntrinsicWidth());
-                } else if (drawScam) {
-                    nameMuteLeft = (int) (nameLeft + (nameWidth - widthpx) - AndroidUtilities.dp(6) - Theme.dialogs_scamDrawable.getIntrinsicWidth());
+                } else if (drawScam != 0) {
+                    nameMuteLeft = (int) (nameLeft + (nameWidth - widthpx) - AndroidUtilities.dp(6) - (drawScam == 0 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable).getIntrinsicWidth());
                 }
                 if (left == 0) {
                     if (widthpx < nameWidth) {
@@ -1647,7 +1657,7 @@ public class DialogCell extends BaseCell {
                         nameLeft -= (nameWidth - widthpx);
                     }
                 }
-                if (dialogMuted || drawVerified || drawScam) {
+                if (dialogMuted || drawVerified || drawScam != 0) {
                     nameMuteLeft = (int) (nameLeft + left + AndroidUtilities.dp(6));
                 }
             }
@@ -1777,7 +1787,10 @@ public class DialogCell extends BaseCell {
     }
 
     public void checkCurrentDialogIndex(boolean frozen) {
-        ArrayList<TLRPC.Dialog> dialogsArray = DialogsActivity.getDialogsArray(currentAccount, dialogsType, folderId, frozen);
+        if (parentFragment == null) {
+            return;
+        }
+        ArrayList<TLRPC.Dialog> dialogsArray = parentFragment.getDialogsArray(currentAccount, dialogsType, folderId, frozen);
         if (index < dialogsArray.size()) {
             TLRPC.Dialog dialog = dialogsArray.get(index);
             TLRPC.Dialog nextDialog = index + 1 < dialogsArray.size() ? dialogsArray.get(index + 1) : null;
@@ -1851,7 +1864,10 @@ public class DialogCell extends BaseCell {
     }
 
     private MessageObject findFolderTopMessage() {
-        ArrayList<TLRPC.Dialog> dialogs = DialogsActivity.getDialogsArray(currentAccount, dialogsType, currentDialogFolderId, false);
+        if (parentFragment == null) {
+            return null;
+        }
+        ArrayList<TLRPC.Dialog> dialogs = parentFragment.getDialogsArray(currentAccount, dialogsType, currentDialogFolderId, false);
         MessageObject maxMessage = null;
         if (!dialogs.isEmpty()) {
             for (int a = 0, N = dialogs.size(); a < N; a++) {
@@ -2167,7 +2183,7 @@ public class DialogCell extends BaseCell {
         }
         if (isSliding) {
             boolean prevValue = drawRevealBackground;
-            drawRevealBackground = Math.abs(translationX) >= getMeasuredWidth() * 0.3f;
+            drawRevealBackground = Math.abs(translationX) >= getMeasuredWidth() * 0.45f;
             if (prevValue != drawRevealBackground && archiveHidden == SharedConfig.archiveHidden) {
                 try {
                     performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
@@ -2485,7 +2501,7 @@ public class DialogCell extends BaseCell {
             lastStatusDrawableParams = (this.drawClock ? 1 : 0) +  (this.drawCheck1 ? 2 : 0) + (this.drawCheck2 ? 4 : 0);
         }
 
-        if (dialogMuted && !drawVerified && !drawScam) {
+        if (dialogMuted && !drawVerified && drawScam == 0) {
             setDrawableBounds(Theme.dialogs_muteDrawable, nameMuteLeft - AndroidUtilities.dp(useForceThreeLines || SharedConfig.useThreeLinesLayout ? 0 : 1), AndroidUtilities.dp(SharedConfig.useThreeLinesLayout ? 13.5f : 17.5f));
             Theme.dialogs_muteDrawable.draw(canvas);
         } else if (drawVerified) {
@@ -2493,9 +2509,9 @@ public class DialogCell extends BaseCell {
             setDrawableBounds(Theme.dialogs_verifiedCheckDrawable, nameMuteLeft, AndroidUtilities.dp(useForceThreeLines || SharedConfig.useThreeLinesLayout ? 12.5f : 16.5f));
             Theme.dialogs_verifiedDrawable.draw(canvas);
             Theme.dialogs_verifiedCheckDrawable.draw(canvas);
-        } else if (drawScam) {
-            setDrawableBounds(Theme.dialogs_scamDrawable, nameMuteLeft, AndroidUtilities.dp(useForceThreeLines || SharedConfig.useThreeLinesLayout ? 12 : 15));
-            Theme.dialogs_scamDrawable.draw(canvas);
+        } else if (drawScam != 0) {
+            setDrawableBounds((drawScam == 0 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable), nameMuteLeft, AndroidUtilities.dp(useForceThreeLines || SharedConfig.useThreeLinesLayout ? 12 : 15));
+            (drawScam == 0 ? Theme.dialogs_scamDrawable : Theme.dialogs_fakeDrawable).draw(canvas);
         }
 
         if (drawReorder || reorderIconProgress != 0) {
@@ -2972,7 +2988,7 @@ public class DialogCell extends BaseCell {
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
-        if (currentDialogFolderId != 0 && archiveHidden) {
+        if (isFolderCell() && archivedChatsDrawable != null && archivedChatsDrawable.pullProgress == 0.0f) {
             info.setVisibleToUser(false);
         } else {
             info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
@@ -3075,6 +3091,10 @@ public class DialogCell extends BaseCell {
 
     public void setArchivedPullAnimation(PullForegroundDrawable drawable) {
         archivedChatsDrawable = drawable;
+    }
+
+    public int getCurrentDialogFolderId() {
+        return currentDialogFolderId;
     }
 
     public MessageObject getMessage() {

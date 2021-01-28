@@ -78,6 +78,7 @@ import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.FlickerLoadingView;
+import org.telegram.ui.Components.PermanentLinkBottomSheet;
 import org.telegram.ui.Components.StickerEmptyView;
 import org.telegram.ui.Components.VerticalPositionAutoAnimator;
 import org.telegram.ui.Components.GroupCreateDividerItemDecoration;
@@ -119,6 +120,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
     private int maxCount = getMessagesController().maxMegagroupCount;
     private int chatType = ChatObject.CHAT_TYPE_CHAT;
+    private boolean forImport;
     private boolean isAlwaysShare;
     private boolean isNeverShare;
     private boolean addToGroup;
@@ -135,9 +137,14 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
     int maxSize;
 
     private final static int done_button = 1;
+    private PermanentLinkBottomSheet sharedLinkBottomSheet;
 
     public interface GroupCreateActivityDelegate {
         void didSelectUsers(ArrayList<Integer> ids);
+    }
+
+    public interface GroupCreateActivityImportDelegate {
+        void didCreateChat(int id);
     }
 
     public interface ContactsAddActivityDelegate {
@@ -342,6 +349,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
     public GroupCreateActivity(Bundle args) {
         super(args);
         chatType = args.getInt("chatType", ChatObject.CHAT_TYPE_CHAT);
+        forImport = args.getBoolean("forImport", false);
         isAlwaysShare = args.getBoolean("isAlwaysShare", false);
         isNeverShare = args.getBoolean("isNeverShare", false);
         addToGroup = args.getBoolean("addToGroup", false);
@@ -669,15 +677,19 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
         frameLayout.addView(listView);
         listView.setOnItemClickListener((view, position) -> {
             if (position == 0 && adapter.inviteViaLink != 0 && !adapter.searching) {
-                int id = chatId != 0 ? chatId : channelId;
-                TLRPC.Chat chat = getMessagesController().getChat(id);
-                if (chat != null && chat.has_geo && !TextUtils.isEmpty(chat.username)) {
-                    ChatEditTypeActivity activity = new ChatEditTypeActivity(id, true);
-                    activity.setInfo(info);
-                    presentFragment(activity);
-                    return;
-                }
-                presentFragment(new GroupInviteActivity(id));
+                sharedLinkBottomSheet = new PermanentLinkBottomSheet(context, false, this, info, chatId);
+                showDialog(sharedLinkBottomSheet);
+//                int id = chatId != 0 ? chatId : channelId;
+//                TLRPC.Chat chat = getMessagesController().getChat(id);
+//                if (chat != null && chat.has_geo && !TextUtils.isEmpty(chat.username)) {
+//                    ChatEditTypeActivity activity = new ChatEditTypeActivity(id, true);
+//                    activity.setInfo(info);
+//                    presentFragment(activity);
+//                    return;
+//                }
+//                presentFragment(new GroupInviteActivity(id));
+
+
             } else if (view instanceof GroupCreateUserCell) {
                 GroupCreateUserCell cell = (GroupCreateUserCell) view;
                 Object object = cell.getObject();
@@ -1056,6 +1068,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                         Bundle args = new Bundle();
                         args.putIntegerArrayList("result", result);
                         args.putInt("chatType", chatType);
+                        args.putBoolean("forImport", forImport);
                         presentFragment(new GroupCreateFinalActivity(args));
                     }
                 }
@@ -1633,6 +1646,10 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
 
         themeDescriptions.add(new ThemeDescription(emptyView.title, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
         themeDescriptions.add(new ThemeDescription(emptyView.subtitle, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText));
+
+        if (sharedLinkBottomSheet != null) {
+            themeDescriptions.addAll(sharedLinkBottomSheet.getThemeDescriptions());
+        }
 
         return themeDescriptions;
     }
