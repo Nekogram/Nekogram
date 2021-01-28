@@ -19762,6 +19762,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     messages.add(selectedObject);
                 }
                 forwardMessages(messages, false, true, 0, getUserConfig().getClientUserId());
+                undoView.showWithAction(getUserConfig().getClientUserId(), UndoView.ACTION_FWD_MESSAGES, messages.size());
                 break;
             } case 94: {
                 if (checkSlowMode(chatActivityEnterView.getSendButton())) {
