@@ -141,6 +141,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.updater.UpdateHelper;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
@@ -1309,11 +1310,20 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 } else {
                                     String originalPath = uri.toString();
                                     if (dialogId == 0 && originalPath != null) {
+                                        if (BuildVars.LOGS_ENABLED) {
+                                            FileLog.d("export path = " + originalPath);
+                                        }
                                         Set<String> exportUris = MessagesController.getInstance(intentAccount[0]).exportUri;
+                                        String fileName = FileLoader.fixFileName(MediaController.getFileName(uri));
                                         for (String u : exportUris) {
-                                            if (originalPath.startsWith(u)) {
-                                                exportingChatUri = uri;
-                                                break;
+                                            try {
+                                                Pattern pattern = Pattern.compile(u);
+                                                if (pattern.matcher(originalPath).find() || pattern.matcher(fileName).find()) {
+                                                    exportingChatUri = uri;
+                                                    break;
+                                                }
+                                            } catch (Exception e) {
+                                                FileLog.e(e);
                                             }
                                         }
                                         if (exportingChatUri == null) {
@@ -1407,13 +1417,22 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                         originalPath = path;
                                     }
 
+                                    if (BuildVars.LOGS_ENABLED) {
+                                        FileLog.d("export path = " + originalPath);
+                                    }
                                     if (dialogId == 0 && originalPath != null && exportingChatUri == null) {
                                         boolean ok = false;
+                                        String fileName = FileLoader.fixFileName(MediaController.getFileName(uri));
                                         for (String u : exportUris) {
-                                            if (originalPath.startsWith(u)) {
-                                                exportingChatUri = uri;
-                                                ok = true;
-                                                break;
+                                            try {
+                                                Pattern pattern = Pattern.compile(u);
+                                                if (pattern.matcher(originalPath).find() || pattern.matcher(fileName).find()) {
+                                                    exportingChatUri = uri;
+                                                    ok = true;
+                                                    break;
+                                                }
+                                            } catch (Exception e) {
+                                                FileLog.e(e);
                                             }
                                         }
                                         if (ok) {
