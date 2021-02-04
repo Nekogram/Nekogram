@@ -136,7 +136,14 @@
     <string name="ClickToRetry">재시도 하기</string>
     <string name="ProviderMicrosoftTranslator">마이크로소프트 번역기</string>
     <string name="ProviderYouDao">유다오 번역</string>
+    <string name="TranslationProviderShort">제공자</string>
+    <string name="ViewSourceCode">소스코드 보기</string>
     <string name="AvatarAsBackground">배경으로 프로필 사진 쓰기</string>
     <string name="BlurAvatarBackground">프로필 사진을 흐리게 하기</string>
     <string name="DarkenAvatarBackground">프로필 사진을 어둡게 하기</string>
+    <string name="AccentAsNotificationColor">알림 색상으로 색상 강조</string>
+    <string name="SilenceNonContacts">비연락처 묵음</string>
+    <string name="SilenceNonContactsAbout">연락처가 아닌 사람의 알림은 소리없이 표시됩니다. 전화 번호를 몰라도 프로필에서 연락처에 사용자를 추가 할 수 있습니다.</string>
+    <string name="SelectBetween">사이에서 선택</string>
+    <string name="SwipeToPiP">비디오를 위로 스 와이프하여 PiP 열기</string>
 </resources>

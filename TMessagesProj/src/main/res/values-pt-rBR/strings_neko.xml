@@ -144,4 +144,7 @@
     <string name="AccentAsNotificationColor">Cor de destaque como cor de notificação</string>
     <string name="SilenceNonContacts">Silenciar Não Contatos</string>
     <string name="SilenceNonContactsAbout">Notificações de pessoas que não são seus contatos aparecerão sem som. Você pode adicionar usuários aos contatos a partir do perfil deles sem saber o número do telefone.</string>
+    <string name="SelectBetween">Selecione entre</string>
+    <string name="SwipeToPiP">Deslize o vídeo para cima para abrir o PiP</string>
+    <string name="StickerSavedHint">Salvar sticker na galeria </string>
 </resources>

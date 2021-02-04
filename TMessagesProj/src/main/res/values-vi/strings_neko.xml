@@ -143,4 +143,7 @@
     <string name="AccentAsNotificationColor">Đặt màu nhấn là màu thông báo</string>
     <string name="SilenceNonContacts">Tắt tiếng người không có trong danh bạ</string>
     <string name="SilenceNonContactsAbout">Thông báo từ những người không có trong danh bạ của bạn sẽ xuất hiện không có âm thanh. Bạn có thể thêm họ vào danh bạ từ hồ sơ của họ mà không cần biết số điện thoại của họ.</string>
+    <string name="SelectBetween">Chọn giữa</string>
+    <string name="SwipeToPiP">Vuốt video để mở PiP</string>
+    <string name="StickerSavedHint">Nhãn dán đã được lưu vào thư viện ảnh</string>
 </resources>

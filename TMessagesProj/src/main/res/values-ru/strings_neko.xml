@@ -139,4 +139,10 @@
     <string name="AvatarAsBackground">Фото профиля в качестве фона</string>
     <string name="BlurAvatarBackground">Размытие фотографии профиля</string>
     <string name="DarkenAvatarBackground">Затемнение фотографии профиля</string>
+    <string name="AccentAsNotificationColor">Цвет акцента как цвет уведомления</string>
+    <string name="SilenceNonContacts">Беззвучные уведомление от контактов которых нет в записной книжке</string>
+    <string name="SilenceNonContactsAbout">Уведомления от людей не из ваших контактов будут приходить без звука. Вы можете добавить пользователей в контакты не зная их номера.</string>
+    <string name="SelectBetween">Выбрать между</string>
+    <string name="SwipeToPiP">Смахните видео вверх, чтобы открыть картинку в картинке</string>
+    <string name="StickerSavedHint">Стикер сохранен в галерею</string>
 </resources>
