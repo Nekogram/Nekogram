@@ -23,7 +23,7 @@ import java.util.Arrays;
 public class UserConfig extends BaseController {
 
     public static int selectedAccount;
-    public final static int MAX_ACCOUNT_COUNT = 4;
+    public final static int MAX_ACCOUNT_COUNT = 8;
 
     private final Object sync = new Object();
     private boolean configLoaded;
