@@ -104,7 +104,7 @@ public class MicrosoftTranslator extends BaseTranslator {
                 break;
             }
         }
-        String result = new String(outbuf.toByteArray());
+        String result = outbuf.toString();
         httpConnectionStream.close();
         outbuf.close();
         return result;

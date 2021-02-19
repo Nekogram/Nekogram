@@ -146,7 +146,6 @@ import java.util.regex.Pattern;
 import tw.nekomimi.nekogram.updater.UpdateHelper;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.DonateHelper;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 
 public class LaunchActivity extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {
@@ -3948,7 +3947,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         } else if (UserConfig.getInstance(0).pendingAppUpdate != null) {
             showUpdateActivity(UserConfig.selectedAccount, UserConfig.getInstance(0).pendingAppUpdate, true);
         }
-        if (!AnalyticsHelper.GOOGLE_PLAY) UpdateHelper.getInstance().checkNewVersionAvailable(null, true);
+        UpdateHelper.getInstance().checkNewVersionAvailable(null, true);
         checkAppUpdate(false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
