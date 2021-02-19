@@ -145,4 +145,5 @@
     <string name="SilenceNonContactsAbout">Las notificaciones de personas que no son tus contactos aparecerán sin sonido. Puedes agregar usuarios a contactos desde su perfil sin conocer su número de teléfono.</string>
     <string name="SelectBetween">Seleccionar entre</string>
     <string name="SwipeToPiP">Desliza el vídeo hacia arriba para abrir PiP</string>
+    <string name="StickerSavedHint">Sticker guardado en la galería</string>
 </resources>
