@@ -1716,7 +1716,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         imagePressed = true;
                         result = true;
                     }
-                } else if (!currentMessageObject.isAnyKindOfSticker() || currentMessageObject.getInputStickerSet() != null || currentMessageObject.isAnimatedEmoji() || currentMessageObject.isDice()) {
+                } else if (!currentMessageObject.isAnyKindOfSticker() || currentMessageObject.getInputStickerSet() != null || currentMessageObject.isAnimatedEmoji() || currentMessageObject.isDice() || currentMessageObject.getInputStickerSet() == null && currentMessageObject.isSticker()) {
                     if (x >= photoImage.getImageX() && x <= photoImage.getImageX() + photoImage.getImageWidth() && y >= photoImage.getImageY() && y <= photoImage.getImageY() + photoImage.getImageHeight()) {
                         imagePressed = true;
                         result = true;

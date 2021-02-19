@@ -21596,6 +21596,27 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             SecretMediaViewer.getInstance().setParentActivity(getParentActivity());
                             SecretMediaViewer.getInstance().openMedia(message, photoViewerProvider);
                         } else if (message.type == MessageObject.TYPE_STICKER || message.type == MessageObject.TYPE_ANIMATED_STICKER) {
+                            // In case we have a .webp file that is displayed as a sticker, but
+                            // that doesn't fit in 512x512, we assume it may be a regular large
+                            // .webp image and we allow to open it in media viewer.
+                            // Inspired by https://github.com/telegramdesktop/tdesktop/commit/baccec623d45dbfd1132d5f808192f0f3ad87647
+                            if (message.getInputStickerSet() == null) {
+                                int photoHeight = 0;
+                                int photoWidth = 0;
+                                TLRPC.Document document = message.getDocument();
+                                for (int a = 0, N = document.attributes.size(); a < N; a++) {
+                                    TLRPC.DocumentAttribute attribute = document.attributes.get(a);
+                                    if (attribute instanceof TLRPC.TL_documentAttributeImageSize) {
+                                        photoWidth = attribute.w;
+                                        photoHeight = attribute.h;
+                                        break;
+                                    }
+                                }
+                                if (photoWidth > 512 || photoHeight > 512) {
+                                    openPhotoViewerForMessage(cell, message);
+                                }
+                                return;
+                            }
                             StickersAlert alert = new StickersAlert(getParentActivity(), ChatActivity.this, message.getInputStickerSet(), null, bottomOverlayChat.getVisibility() != View.VISIBLE && (currentChat == null || ChatObject.canSendStickers(currentChat)) ? chatActivityEnterView : null);
                             alert.setCalcMandatoryInsets(isKeyboardVisible());
                             showDialog(alert);
