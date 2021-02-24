@@ -22,6 +22,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -171,16 +172,16 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
             } else if (position == transparentStatusBarRow) {
-                NekoConfig.toggleTransparentStatusBar();
+                SharedConfig.toggleNoStatusBar();
                 if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.transparentStatusBar);
+                    ((TextCheckCell) view).setChecked(SharedConfig.noStatusBar);
                 }
                 int color = Theme.getColor(Theme.key_actionBarDefault, null, true);
                 int alpha = AndroidUtilities.computePerceivedBrightness(color) >= 0.721f ? 0x0f : 0x33;
                 if (statusBarColorAnimator != null && statusBarColorAnimator.isRunning()) {
                     statusBarColorAnimator.end();
                 }
-                statusBarColorAnimator = NekoConfig.transparentStatusBar ? ValueAnimator.ofInt(alpha, 0) : ValueAnimator.ofInt(0, alpha);
+                statusBarColorAnimator = SharedConfig.noStatusBar ? ValueAnimator.ofInt(alpha, 0) : ValueAnimator.ofInt(0, alpha);
                 statusBarColorAnimator.setDuration(300);
                 statusBarColorAnimator.addUpdateListener(animation -> getParentActivity().getWindow().setStatusBarColor(ColorUtils.setAlphaComponent(0, (int) animation.getAnimatedValue())));
                 statusBarColorAnimator.start();
@@ -537,7 +538,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     } else if (position == disabledInstantCameraRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisableInstantCamera", R.string.DisableInstantCamera), NekoConfig.disableInstantCamera, true);
                     } else if (position == transparentStatusBarRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("TransparentStatusBar", R.string.TransparentStatusBar), NekoConfig.transparentStatusBar, true);
+                        textCell.setTextAndCheck(LocaleController.getString("TransparentStatusBar", R.string.TransparentStatusBar), SharedConfig.noStatusBar, true);
                     } else if (position == hideProxySponsorChannelRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HideProxySponsorChannel", R.string.HideProxySponsorChannel), NekoConfig.hideProxySponsorChannel, true);
                     } else if (position == useSystemEmojiRow) {

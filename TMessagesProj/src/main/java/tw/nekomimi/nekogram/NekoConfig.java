@@ -360,14 +360,6 @@ public class NekoConfig {
         editor.commit();
     }
 
-    public static void toggleTransparentStatusBar() {
-        transparentStatusBar = !transparentStatusBar;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("transparentStatusBar", transparentStatusBar);
-        editor.commit();
-    }
-
     public static void toggleResidentNotification() {
         residentNotification = !residentNotification;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);

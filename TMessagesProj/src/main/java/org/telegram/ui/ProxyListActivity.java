@@ -587,6 +587,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             }
         }
 
+        @SuppressWarnings("unchecked")
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, @NonNull List payloads) {
             if (holder.getItemViewType() == 3 && payloads.contains(PAYLOAD_CHECKED_CHANGED)) {
