@@ -1052,7 +1052,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int chat_enc_timer = 13;
     private final static int chat_menu_attach = 14;
     private final static int clear_history = 15;
-    private final static int delete_history = 27;
     private final static int delete_chat = 16;
     private final static int share_contact = 17;
     private final static int mute = 18;
@@ -1062,7 +1061,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int add_shortcut = 24;
     private final static int save_to = 25;
     private final static int auto_delete_timer = 26;
-    private final static int show_pinned = 27;
+
+    private final static int show_pinned = 100;
+    private final static int delete_history = 101;
 
     private final static int bot_help = 30;
     private final static int bot_settings = 31;
