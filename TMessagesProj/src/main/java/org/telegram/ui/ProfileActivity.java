@@ -66,6 +66,7 @@ import android.view.animation.DecelerateInterpolator;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -131,6 +132,7 @@ import org.telegram.ui.Cells.SettingsSearchCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.TextDetailCell;
+import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.UserCell;
 import org.telegram.ui.Components.AlertsCreator;
@@ -168,6 +170,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -179,6 +182,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.RegDate;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 import tw.nekomimi.nekogram.translator.Translator;
 
@@ -5635,6 +5639,51 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else {
                 idTextView.setText("ID: " + id);
             }
+            idTextView.setOnClickListener(v -> {
+                Context context = getParentActivity();
+                LinearLayout ll = new LinearLayout(context);
+                ll.setOrientation(LinearLayout.VERTICAL);
+                for (int i = 0; i < 3; i++) {
+                    TextDetailSettingsCell cell = new TextDetailSettingsCell(context);
+                    cell.setBackground(Theme.getSelectorDrawable(false));
+                    cell.setOnClickListener(v1 -> {
+                        AndroidUtilities.addToClipboard(cell.getValueTextView().getText());
+                        undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+                    });
+                    switch (i) {
+                        case 0:
+                            cell.setTextAndValue(LocaleController.getString("UserID", R.string.UserID), String.valueOf(user_id), true);
+                            break;
+                        case 1:
+                            if (user.photo != null && user.photo.dc_id != 0) {
+                                cell.setTextAndValue(LocaleController.getString("Datacenter", R.string.Datacenter), String.format(Locale.US, "%d, %s", user.photo.dc_id, RegDate.getDCLocation(user.photo.dc_id)), true);
+                            } else {
+                                continue;
+                            }
+                            break;
+                        case 2:
+                            int regDate = RegDate.getRegDate(user_id);
+                            cell.setTextAndValue(LocaleController.getString("RegistrationDate", R.string.RegistrationDate), regDate != 0 ? "~ " + LocaleController.getInstance().formatterMonthYear.format(new Date(regDate * 1000L)) : LocaleController.getString("Loading", R.string.Loading), false);
+                            if (regDate == 0) {
+                                RegDate.getRegDate(user_id, new RegDate.RegDateCallback() {
+                                    @Override
+                                    public void onSuccess(int regDate) {
+                                        cell.setValue("~ " + LocaleController.getInstance().formatterMonthYear.format(new Date(regDate * 1000L)));
+                                    }
+
+                                    @Override
+                                    public void onError(Exception e) {
+                                        cell.setValue(e.getLocalizedMessage());
+                                    }
+                                });
+                            }
+                    }
+                    ll.addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+                }
+                new AlertDialog.Builder(context)
+                        .setView(ll)
+                        .show();
+            });
             avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(photoBig), false);
         } else if (chat_id != 0) {
             TLRPC.Chat chat = getMessagesController().getChat(chat_id);
@@ -5810,7 +5859,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (i == 0) {
                         try {
                             AndroidUtilities.addToClipboard(String.valueOf(finalId));
-                            Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                            undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
                         } catch (Exception e) {
                             FileLog.e(e);
                         }
