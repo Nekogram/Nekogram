@@ -104,6 +104,14 @@ public class VoIPHelper {
 			return;
 		}
 
+		if (NekoConfig.askBeforeCall && !confirmed) {
+			final BaseFragment lastFragment = ((LaunchActivity) activity).getActionBarLayout().getLastFragment();
+			if (lastFragment != null) {
+				AlertsCreator.createCallDialogAlert(lastFragment, lastFragment.getMessagesController().getUser(user.id), videoCall);
+			}
+			return;
+		}
+
 		if (Build.VERSION.SDK_INT >= 23) {
 			int code;
 			ArrayList<String> permissions = new ArrayList<>();
