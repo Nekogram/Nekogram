@@ -32,6 +32,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.CustomTabsCopyReceiver;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -192,7 +193,7 @@ public class Browser {
         if (tryTelegraph) {
             try {
                 String host = uri.getHost().toLowerCase();
-                if (isTelegraphUrl(host, true) || host.equals("nekogram.github.io") || uri.toString().toLowerCase().contains("telegram.org/faq") || NekoConfig.tryToOpenAllLinksInIV) {
+                if (NekoConfig.tryToOpenAllLinksInIV || isTelegraphUrl(host, true) || uri.toString().toLowerCase().contains("telegram.org/faq") || uri.toString().toLowerCase().contains("telegram.org/privacy") || host.equals("nekogram.github.io")) {
                     final AlertDialog[] progressDialog = new AlertDialog[]{new AlertDialog(context, 3)};
 
                     Uri finalUri = uri;

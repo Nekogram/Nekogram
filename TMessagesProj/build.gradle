@@ -33,7 +33,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:19.0.0'
     implementation 'com.google.android.gms:play-services-vision:16.2.0'
     implementation 'com.google.android.gms:play-services-wearable:17.0.0'
-    implementation 'com.google.android.gms:play-services-location:17.1.0'
+    implementation 'com.google.android.gms:play-services-location:18.0.0'
     implementation 'com.google.android.gms:play-services-wallet:18.1.2'
     implementation 'com.googlecode.mp4parser:isoparser:1.0.6'
     implementation 'com.stripe:stripe-android:2.0.2'
@@ -42,7 +42,7 @@ dependencies {
     implementation 'com.android.billingclient:billing:3.0.2'
     implementation files('libs/org.deepl.jar')
 
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.1'
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
 
 ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':5, x86:2, x86_64:6, 'universal':0]
@@ -157,7 +157,7 @@ android {
         manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
     }
 
-    defaultConfig.versionCode = 2247
+    defaultConfig.versionCode = 2264
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
@@ -173,7 +173,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionName "7.5.0.1"
+        versionName "7.6.0"
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
