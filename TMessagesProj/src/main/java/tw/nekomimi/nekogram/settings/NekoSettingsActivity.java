@@ -38,7 +38,6 @@ import org.telegram.ui.Components.RecyclerListView;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.DonateHelper;
 import tw.nekomimi.nekogram.updater.UpdateHelper;
 
@@ -139,7 +138,6 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
             } else if (position == sourceCodeRow) {
                 Browser.openUrl(getParentActivity(), "https://gitlab.com/Nekogram/Nekogram");
             } else if (position == sponsorRow) {
-                AnalyticsHelper.trackEvent("open_sponsor");
                 Browser.openUrl(getParentActivity(), "https://gamma.pcr.cy/auth/register?code=neko");
             } else if (position == checkUpdateRow) {
                 UpdateHelper.getInstance().checkNewVersionAvailable(this, false);
@@ -194,7 +192,7 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
         sourceCodeRow = rowCount++;
         translationRow = rowCount++;
         donateRow = rowCount++;
-        checkUpdateRow = AnalyticsHelper.GOOGLE_PLAY ? -1 : rowCount++;
+        checkUpdateRow = UpdateHelper.GOOGLE_PLAY ? -1 : rowCount++;
         if (!LocaleController.getString("SponsorTitle", R.string.SponsorTitle).equals("dummy")) {
             sponsorRow = rowCount++;
         } else {

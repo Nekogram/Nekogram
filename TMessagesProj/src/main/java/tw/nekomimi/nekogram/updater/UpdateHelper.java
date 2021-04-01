@@ -39,10 +39,10 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 
 public class UpdateHelper {
 
+    public static final boolean GOOGLE_PLAY = false;
     private static volatile UpdateHelper Instance;
     NotificationManager systemNotificationManager = null;
     private static final String NOTIFICATION_CHANNEL_ID = "nekogram-update";
@@ -291,7 +291,7 @@ public class UpdateHelper {
     }
 
     public void checkNewVersionAvailable(@Nullable UpdateHelperDelegate delegate, boolean isAutoUpdate, boolean forceRefreshAccessHash) {
-        if (AnalyticsHelper.GOOGLE_PLAY) return;
+        if (UpdateHelper.GOOGLE_PLAY) return;
         TLRPC.TL_contacts_resolveUsername req1 = new TLRPC.TL_contacts_resolveUsername();
         int dialog_id = -1302242053;
         req1.username = "NekogramAPKs";

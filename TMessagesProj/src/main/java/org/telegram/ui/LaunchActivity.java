@@ -146,7 +146,6 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.updater.UpdateHelper;
-import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.DonateHelper;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 
@@ -859,7 +858,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             FileLog.e(e);
         }
         MediaController.getInstance().setBaseActivity(this, true);
-        AnalyticsHelper.start(getApplication());
         //FileLog.d("UI create time = " + (SystemClock.elapsedRealtime() - ApplicationLoader.startTime));
     }
 

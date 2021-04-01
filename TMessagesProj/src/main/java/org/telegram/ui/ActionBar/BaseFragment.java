@@ -46,7 +46,6 @@ import org.telegram.ui.Components.LayoutHelper;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 
 public class BaseFragment {
@@ -282,7 +281,6 @@ public class BaseFragment {
 
     public void onResume() {
         isPaused = false;
-        AnalyticsHelper.onFragmentView(this);
     }
 
     public void onPause() {

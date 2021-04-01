@@ -45,9 +45,9 @@ import org.telegram.ui.Components.UndoView;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.translator.Translator;
+import tw.nekomimi.nekogram.updater.UpdateHelper;
 
 @SuppressLint("RtlHardcoded")
 public class NekoGeneralSettingsActivity extends BaseFragment {
@@ -394,7 +394,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
 
         generalRow = rowCount++;
         disabledInstantCameraRow = rowCount++;
-        hideProxySponsorChannelRow = !AnalyticsHelper.GOOGLE_PLAY || NekoConfig.showHiddenFeature ? rowCount++ : -1;
+        hideProxySponsorChannelRow = !UpdateHelper.GOOGLE_PLAY || NekoConfig.showHiddenFeature ? rowCount++ : -1;
         askBeforeCallRow = rowCount++;
         openArchiveOnPullRow = rowCount++;
         translationProviderRow = rowCount++;

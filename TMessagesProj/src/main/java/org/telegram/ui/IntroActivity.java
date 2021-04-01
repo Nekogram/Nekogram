@@ -60,8 +60,6 @@ import javax.microedition.khronos.egl.EGLSurface;
 import javax.microedition.khronos.opengles.GL;
 import javax.microedition.khronos.opengles.GL10;
 
-import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
-
 public class IntroActivity extends Activity implements NotificationCenter.NotificationCenterDelegate {
 
     private int currentAccount = UserConfig.selectedAccount;
@@ -292,7 +290,6 @@ public class IntroActivity extends Activity implements NotificationCenter.Notifi
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.suggestedLangpack);
 
         AndroidUtilities.handleProxyIntent(this, getIntent());
-        AnalyticsHelper.start(getApplication());
     }
 
     @Override
