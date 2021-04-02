@@ -5672,6 +5672,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             }
                             break;
                         case 2:
+                            if (!NekoConfig.showHiddenFeature) {
+                                continue;
+                            }
                             int regDate = RegDate.getRegDate(user_id);
                             cell.setTextAndValue(LocaleController.getString("RegistrationDate", R.string.RegistrationDate), regDate != 0 ? "~ " + LocaleController.getInstance().formatterMonthYear.format(new Date(regDate * 1000L)) : LocaleController.getString("Loading", R.string.Loading), false);
                             if (regDate == 0) {
