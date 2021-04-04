@@ -238,7 +238,8 @@ public class Emoji {
 
     public static class EmojiDrawable extends Drawable {
         private DrawableInfo info;
-        private boolean fullSize = false;
+        private boolean fullSize = false, forceDraw = false;
+        private int alpha = 255;
         private static Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
         private static Rect rect = new Rect();
         private static TextPaint textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
@@ -277,14 +278,17 @@ public class Emoji {
             }
 
             if (NekoConfig.useSystemEmoji || NekoConfig.customEmojiFont) {
-                String emoji = fixEmoji(EmojiData.data[info.page][info.emojiIndex]);
-                textPaint.setTextSize(b.height() * 0.8f);
-                if (NekoConfig.customEmojiFont) {
-                    textPaint.setTypeface(NekoConfig.getCustomEmojiTypeface());
-                } else {
-                    textPaint.setTypeface(NekoConfig.getSystemEmojiTypeface());
-                };
-                canvas.drawText(emoji,  0, emoji.length(), b.left, b.bottom - b.height() * 0.225f, textPaint);
+                if (!canvas.quickReject(b.left, b.top, b.right, b.bottom, Canvas.EdgeType.AA) || forceDraw) {
+                    String emoji = fixEmoji(EmojiData.data[info.page][info.emojiIndex]);
+                    textPaint.setAlpha(alpha);
+                    textPaint.setTextSize(b.height() * 0.8f);
+                    if (NekoConfig.customEmojiFont) {
+                        textPaint.setTypeface(NekoConfig.getCustomEmojiTypeface());
+                    } else {
+                        textPaint.setTypeface(NekoConfig.getSystemEmojiTypeface());
+                    }
+                    canvas.drawText(emoji, 0, emoji.length(), b.left, b.bottom - b.height() * 0.225f, textPaint);
+                }
                 return;
             }
 
@@ -294,7 +298,8 @@ public class Emoji {
                 return;
             }
 
-            if (!canvas.quickReject(b.left, b.top, b.right, b.bottom, Canvas.EdgeType.AA)) {
+            if (!canvas.quickReject(b.left, b.top, b.right, b.bottom, Canvas.EdgeType.AA) || forceDraw) {
+                paint.setAlpha(alpha);
                 canvas.drawBitmap(emojiBmp[info.page][info.page2], null, b, paint);
             }
         }
@@ -306,7 +311,16 @@ public class Emoji {
 
         @Override
         public void setAlpha(int alpha) {
+            this.alpha = alpha;
+        }
 
+        @Override
+        public int getAlpha() {
+            return alpha;
+        }
+
+        public void setForceDraw(boolean forceDraw) {
+            this.forceDraw = forceDraw;
         }
 
         @Override

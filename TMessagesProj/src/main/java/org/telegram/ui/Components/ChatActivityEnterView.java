@@ -49,7 +49,6 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.ImageSpan;
-import android.util.Log;
 import android.util.Property;
 import android.util.TypedValue;
 import android.view.ActionMode;
@@ -129,6 +128,7 @@ import java.util.List;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.anim.MessageAnimationHelper;
 
 public class ChatActivityEnterView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate {
 
@@ -225,6 +225,8 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
 
     private Runnable moveToSendStateRunnable;
     boolean messageTransitionIsRunning;
+
+    private MessageAnimationHelper messageAnimationHelper;
 
     private class SeekBarWaveformView extends View {
 
@@ -3328,9 +3330,10 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                         }
                     }
                 });
-                currentTopViewAnimation.setDuration(220);
-                currentTopViewAnimation.setStartDelay(50);
-                currentTopViewAnimation.setInterpolator(CubicBezierInterpolator.DEFAULT);
+//                currentTopViewAnimation.setDuration(220);
+//                currentTopViewAnimation.setStartDelay(50);
+//                currentTopViewAnimation.setInterpolator(CubicBezierInterpolator.DEFAULT);
+                messageAnimationHelper.setupInputDownsizeAnimation(currentTopViewAnimation);
                 currentTopViewAnimation.start();
             } else {
                 topViewEnterProgress = 0f;
@@ -3656,6 +3659,10 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
     public void setWebPage(TLRPC.WebPage webPage, boolean searchWebPages) {
         messageWebPage = webPage;
         messageWebPageSearch = searchWebPages;
+    }
+
+    public boolean hasWebPage() {
+        return messageWebPage != null;
     }
 
     public boolean isMessageWebPageSearchEnabled() {
@@ -6138,6 +6145,8 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                     }
                     setStickersExpanded(false, true, false);
                 }
+                if (messageAnimationHelper != null)
+                    messageAnimationHelper.beforeSendStickerMessage(view);
                 ChatActivityEnterView.this.onStickerSelected(sticker, query, parent, false, notify, scheduleDate);
                 if ((int) dialog_id == 0 && MessageObject.isGifDocument(sticker)) {
                     accountInstance.getMessagesController().saveGif(parent, sticker);
@@ -6168,6 +6177,8 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                         }
                         setStickersExpanded(false, true, false);
                     }
+                    if (messageAnimationHelper != null)
+                        messageAnimationHelper.beforeSendGifMessage(view);
                     if (gif instanceof TLRPC.Document) {
                         TLRPC.Document document = (TLRPC.Document) gif;
                         SendMessagesHelper.getInstance(currentAccount).sendSticker(document, query, dialog_id, replyingMessageObject, getThreadMessage(), parent, notify, scheduleDate);
@@ -7429,6 +7440,14 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
 
     }
 
+    public int getTopViewHeight() {
+        return isTopViewVisible() ? 0 : topView.getHeight();
+    }
+
+    public View getTopView() {
+        return topView;
+    }
+
     private class ScrimDrawable extends Drawable {
 
         private Paint paint;
@@ -7941,5 +7960,9 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
 
     public RecordCircle getRecordCicle() {
         return recordCircle;
+    }
+
+    public void setMessageAnimationHelper(MessageAnimationHelper messageAnimationHelper) {
+        this.messageAnimationHelper = messageAnimationHelper;
     }
 }

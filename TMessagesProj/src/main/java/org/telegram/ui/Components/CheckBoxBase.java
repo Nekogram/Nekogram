@@ -131,7 +131,7 @@ public class CheckBoxBase {
     }
 
     private void invalidate() {
-        if (parentView.getParent() != null) {
+        if (parentView.getParent() instanceof View) {
             View parent = (View) parentView.getParent();
             parent.invalidate();
         }
@@ -408,7 +408,7 @@ public class CheckBoxBase {
                     textPaint.setColor(Theme.getColor(checkColorKey));
                     canvas.save();
                     canvas.scale(checkProgress, 1.0f, cx, cy);
-                    canvas.drawText(checkedText, cx - textPaint.measureText(checkedText) / 2f, AndroidUtilities.dp(y), textPaint);
+                    canvas.drawText(checkedText, cx - textPaint.measureText(checkedText) / 2f, AndroidUtilities.dp(y) + bounds.top, textPaint);
                     canvas.restore();
                 } else {
                     path.reset();

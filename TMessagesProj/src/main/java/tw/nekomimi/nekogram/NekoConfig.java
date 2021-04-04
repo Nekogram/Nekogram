@@ -93,6 +93,7 @@ public class NekoConfig {
     public static boolean accentAsNotificationColor = false;
     public static boolean silenceNonContacts = false;
     public static boolean swipeToPiP = false;
+    public static boolean messageAnimation = true;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;

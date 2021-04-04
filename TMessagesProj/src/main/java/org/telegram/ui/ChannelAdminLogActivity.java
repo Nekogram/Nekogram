@@ -859,7 +859,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         chatListView.setAdapter(chatAdapter = new ChatActivityAdapter(context));
         chatListView.setClipToPadding(false);
         chatListView.setPadding(0, AndroidUtilities.dp(4), 0, AndroidUtilities.dp(3));
-        chatListView.setItemAnimator(chatListItemAnimator = new ChatListItemAnimator(null, chatListView) {
+        chatListView.setItemAnimator(chatListItemAnimator = new ChatListItemAnimator(null, chatListView, null) {
 
             int scrollAnimationIndex = -1;
             Runnable finishRunnable;

@@ -92,6 +92,8 @@ import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import tw.nekomimi.nekogram.anim.MessageAnimationHelper;
+
 public class ChatAttachAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, BottomSheet.BottomSheetDelegateInterface {
 
     private final NumberTextView captionLimitView;
@@ -392,6 +394,9 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
     private Paint attachButtonPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private float bottomPannelTranslation;
     private boolean forceDarkTheme;
+
+    private boolean needCustomizeDismissAnimation;
+    private MessageAnimationHelper messageAnimationHelper;
 
     private class AttachButton extends FrameLayout {
 
@@ -1698,6 +1703,10 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
+    public void setMessageAnimationHelper(MessageAnimationHelper messageAnimationHelper) {
+        this.messageAnimationHelper = messageAnimationHelper;
+    }
+
     @Override
     public void show() {
         super.show();
@@ -1749,6 +1758,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
         applyCaption();
         buttonPressed = true;
+        needCustomizeDismissAnimation = true;
         delegate.didPressedButton(7, true, notify, scheduleDate);
     }
 
@@ -2851,6 +2861,18 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             AndroidUtilities.hideKeyboard(commentTextView.getEditText());
         }
         super.dismiss();
+    }
+
+    @Override
+    protected boolean beforeDismissAnimationStart() {
+        if (needCustomizeDismissAnimation) {
+            needCustomizeDismissAnimation = false;
+            if (messageAnimationHelper != null) {
+                messageAnimationHelper.setupAttachAlertCloseAnimation(currentSheetAnimation);
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
