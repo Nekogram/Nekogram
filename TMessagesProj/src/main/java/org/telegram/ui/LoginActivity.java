@@ -310,7 +310,6 @@ public class LoginActivity extends BaseFragment {
                                 ConnectionsManager.getInstance(currentAccount).setUserId(res.user.id);
                                 UserConfig.getInstance(currentAccount).clearConfig();
                                 MessagesController.getInstance(currentAccount).cleanup();
-                                UserConfig.getInstance(currentAccount).isBot = true;
                                 UserConfig.getInstance(currentAccount).syncContacts = false;
                                 UserConfig.getInstance(currentAccount).setCurrentUser(res.user);
                                 UserConfig.getInstance(currentAccount).saveConfig(true);

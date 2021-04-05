@@ -33,9 +33,9 @@ public class NotificationsService extends Service {
         ApplicationLoader.postInitApplication();
         if (NekoConfig.residentNotification) {
             Intent activityIntent = new Intent(this, LaunchActivity.class);
-            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, activityIntent, 0);
+            PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, activityIntent, Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? PendingIntent.FLAG_IMMUTABLE : 0);
 
-            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.O) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel channel = new NotificationChannel("nekogram", LocaleController.getString("NekogramRunning", R.string.NekogramRunning), NotificationManager.IMPORTANCE_DEFAULT);
                 channel.enableLights(false);
                 channel.enableVibration(false);
@@ -47,7 +47,7 @@ public class NotificationsService extends Service {
             }
             Notification notification = new NotificationCompat.Builder(this, "nekogram")
                     .setSmallIcon(R.drawable.notification)
-                    .setColor(0xff11acfa)
+                    .setColor(NekoConfig.getNotificationColor())
                     .setContentTitle(LocaleController.getString("NekogramRunning", R.string.NekogramRunning))
                     .setContentIntent(pendingIntent)
                     .setCategory(NotificationCompat.CATEGORY_STATUS)

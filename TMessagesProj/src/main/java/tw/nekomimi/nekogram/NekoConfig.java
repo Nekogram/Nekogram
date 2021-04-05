@@ -7,10 +7,12 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
 
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationsService;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.ui.ActionBar.Theme;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -756,5 +758,24 @@ public class NekoConfig {
             }
         }
         return customEmojiTypeface;
+    }
+
+    public static int getNotificationColor() {
+        if (accentAsNotificationColor) {
+            int color = 0;
+            if (Theme.getActiveTheme().hasAccentColors()) {
+                color = Theme.getActiveTheme().getAccentColor(Theme.getActiveTheme().currentAccentId);
+            }
+            if (color == 0) {
+                color = Theme.getColor(Theme.key_actionBarDefault) | 0xff000000;
+            }
+            // too bright
+            if (AndroidUtilities.computePerceivedBrightness(color) >= 0.721f) {
+                color = Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader) | 0xff000000;
+            }
+            return color;
+        } else {
+            return 0xff11acfa;
+        }
     }
 }

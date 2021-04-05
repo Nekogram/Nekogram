@@ -65,7 +65,6 @@ public class UserConfig extends BaseController {
     public long pendingAppUpdateInstallTime;
     public long lastUpdateCheckTime;
     public long autoDownloadConfigLoadTime;
-    public boolean isBot;
 
     public volatile byte[] savedPasswordHash;
     public volatile byte[] savedSaltedPassword;
@@ -150,7 +149,6 @@ public class UserConfig extends BaseController {
                 editor.putBoolean("hasValidDialogLoadIds", hasValidDialogLoadIds);
                 editor.putInt("sharingMyLocationUntil", sharingMyLocationUntil);
                 editor.putInt("lastMyLocationShareTime", lastMyLocationShareTime);
-                editor.putBoolean("isBot", isBot);
                 editor.putBoolean("filtersLoaded", filtersLoaded);
                 if (tonEncryptedData != null) {
                     editor.putString("tonEncryptedData", tonEncryptedData);
@@ -302,7 +300,6 @@ public class UserConfig extends BaseController {
             notificationsSignUpSettingsLoaded = preferences.getBoolean("notificationsSignUpSettingsLoaded", false);
             autoDownloadConfigLoadTime = preferences.getLong("autoDownloadConfigLoadTime", 0);
             hasValidDialogLoadIds = preferences.contains("2dialogsLoadOffsetId") || preferences.getBoolean("hasValidDialogLoadIds", false);
-            isBot = preferences.getBoolean("isBot",false);
             tonEncryptedData = preferences.getString("tonEncryptedData", null);
             tonPublicKey = preferences.getString("tonPublicKey", null);
             tonKeyName = preferences.getString("tonKeyName", "walletKey" + currentAccount);
@@ -488,7 +485,6 @@ public class UserConfig extends BaseController {
         loginTime = (int) (System.currentTimeMillis() / 1000);
         lastContactsSyncTime = (int) (System.currentTimeMillis() / 1000) - 23 * 60 * 60;
         lastHintsSyncTime = (int) (System.currentTimeMillis() / 1000) - 25 * 60 * 60;
-        isBot = false;
         resetSavedPassword();
         boolean hasActivated = false;
         for (int a = 0; a < MAX_ACCOUNT_COUNT; a++) {

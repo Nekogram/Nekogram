@@ -61,7 +61,6 @@ import org.json.JSONObject;
 import org.telegram.messenger.support.SparseLongArray;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.BubbleActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.PopupNotificationActivity;
@@ -3527,7 +3526,7 @@ public class NotificationsController extends BaseController {
                     .setGroupSummary(true)
                     .setShowWhen(true)
                     .setWhen(((long) lastMessageObject.messageOwner.date) * 1000)
-                    .setColor(getNotificationColor());
+                    .setColor(NekoConfig.getNotificationColor());
 
             long[] vibrationPattern = null;
             Uri sound = null;
@@ -4270,7 +4269,7 @@ public class NotificationsController extends BaseController {
                     .setContentText(text.toString())
                     .setAutoCancel(true)
                     .setNumber(messageObjects.size())
-                    .setColor(getNotificationColor())
+                    .setColor(NekoConfig.getNotificationColor())
                     .setGroupSummary(false)
                     .setWhen(date)
                     .setShowWhen(true)
@@ -4670,25 +4669,6 @@ public class NotificationsController extends BaseController {
             return "EnableAll2";
         } else {
             return "EnableChannel2";
-        }
-    }
-
-    private int getNotificationColor() {
-        if (NekoConfig.accentAsNotificationColor) {
-            int color = 0;
-            if (Theme.getActiveTheme().hasAccentColors()) {
-                color = Theme.getActiveTheme().getAccentColor(Theme.getActiveTheme().currentAccentId);
-            }
-            if (color == 0) {
-                color = Theme.getColor(Theme.key_actionBarDefault) | 0xff000000;
-            }
-            // too bright
-            if (AndroidUtilities.computePerceivedBrightness(color) >= 0.721f) {
-                color = Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader) | 0xff000000;
-            }
-            return color;
-        } else {
-            return 0xff11acfa;
         }
     }
 }

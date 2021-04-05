@@ -19264,7 +19264,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         updatePinnedMessageView(true);
         updateVisibleRows();
 
-        if (!messageObject.scheduled && !getUserConfig().isBot) {
+        if (!messageObject.scheduled && !getUserConfig().getCurrentUser().bot) {
             TLRPC.TL_messages_getMessageEditData req = new TLRPC.TL_messages_getMessageEditData();
             req.peer = getMessagesController().getInputPeer((int) dialog_id);
             req.id = messageObject.getId();
