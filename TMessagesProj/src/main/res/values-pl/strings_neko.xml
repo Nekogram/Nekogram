@@ -146,4 +146,9 @@
     <string name="SelectBetween">Wybierz pomiędzy</string>
     <string name="SwipeToPiP">Przesuń w górę aby włączyć PiP</string>
     <string name="StickerSavedHint">Naklejka zapisana w galerii</string>
+    <string name="UserID">ID użytkownika</string>
+    <string name="Datacenter">Centrum danych</string>
+    <string name="RegistrationDate">Data rejestracji</string>
+    <string name="WsDescription">Połącz się z Telegram używając WebSocket przez Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">szczegóły techniczne</a>]]>.</string>
+    <string name="WsEnableTls">Włącz TLS</string>
 </resources>

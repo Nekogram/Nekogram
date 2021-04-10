@@ -146,4 +146,6 @@
     <string name="SelectBetween">Select between</string>
     <string name="SwipeToPiP">Swipe up video to open PiP</string>
     <string name="StickerSavedHint">Sticker saved to gallery</string>
+    <string name="UserID">User ID</string>
+    <string name="Datacenter">Datacenter</string>
 </resources>

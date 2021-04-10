@@ -146,4 +146,8 @@
     <string name="SilenceNonContactsAbout">연락처가 아닌 사람의 알림은 소리없이 표시됩니다. 전화 번호를 몰라도 프로필에서 연락처에 사용자를 추가 할 수 있습니다.</string>
     <string name="SelectBetween">사이에서 선택</string>
     <string name="SwipeToPiP">비디오를 위로 스 와이프하여 PiP 열기</string>
+    <string name="StickerSavedHint">스티커가 갤러리에 저장됨</string>
+    <string name="UserID">사용자 ID</string>
+    <string name="Datacenter">데이터센터</string>
+    <string name="RegistrationDate">가입일</string>
 </resources>

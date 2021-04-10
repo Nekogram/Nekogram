@@ -151,4 +151,9 @@
     <string name="SelectBetween">选择之间的</string>
     <string name="SwipeToPiP">向上滑动视频打开画中画</string>
     <string name="StickerSavedHint">贴纸已保存到相册</string>
+    <string name="UserID">用户 ID</string>
+    <string name="Datacenter">数据中心</string>
+    <string name="RegistrationDate">注册日期</string>
+    <string name="WsDescription">通过 WebSocket 从 Cloudflare 连接到 Telegram，<![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">技术详细信息</a>]]>。</string>
+    <string name="WsEnableTls">启用 TLS</string>
 </resources>

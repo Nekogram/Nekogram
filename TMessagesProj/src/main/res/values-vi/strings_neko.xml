@@ -146,4 +146,7 @@
     <string name="SelectBetween">Chọn giữa</string>
     <string name="SwipeToPiP">Vuốt video để mở PiP</string>
     <string name="StickerSavedHint">Nhãn dán đã được lưu vào thư viện ảnh</string>
+    <string name="UserID">ID người dùng</string>
+    <string name="Datacenter">Trung tâm dữ liệu</string>
+    <string name="RegistrationDate">Ngày đăng ký</string>
 </resources>

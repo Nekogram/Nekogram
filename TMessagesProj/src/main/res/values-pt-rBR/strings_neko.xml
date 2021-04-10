@@ -147,4 +147,7 @@
     <string name="SelectBetween">Selecione entre</string>
     <string name="SwipeToPiP">Deslize o vídeo para cima para abrir o PiP</string>
     <string name="StickerSavedHint">Salvar sticker na galeria </string>
+    <string name="UserID">ID de usuário</string>
+    <string name="Datacenter">Centro de dados</string>
+    <string name="RegistrationDate">Data de registro</string>
 </resources>
