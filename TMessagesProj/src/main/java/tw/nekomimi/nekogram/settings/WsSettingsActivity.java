@@ -102,7 +102,7 @@ public class WsSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.wsEnableTLS);
                 }
-                NekoConfig.restartWs();
+                NekoConfig.setTls();
             }
         });
         return fragmentView;

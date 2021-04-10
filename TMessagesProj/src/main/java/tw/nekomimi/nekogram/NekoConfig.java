@@ -138,12 +138,10 @@ public class NekoConfig {
         }
     }
 
-    public static void restartWs() {
+    public static void setTls() {
         if (tcp2wsServer != null) {
             try {
-                tcp2wsServer.stop();
-                tcp2wsServer = new tcp2wsServer().setTls(wsEnableTLS);
-                tcp2wsServer.start(socksPort);
+                tcp2wsServer.setTls(wsEnableTLS);
             } catch (Exception e) {
                 FileLog.e(e);
             }
