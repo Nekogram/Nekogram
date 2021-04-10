@@ -825,14 +825,21 @@ public class SharedConfig {
             ProxyInfo info = currentProxy = new ProxyInfo(proxyAddress, proxyPort, proxyUsername, proxyPassword, proxySecret);
             proxyList.add(0, info);
         }
+        if (!NekoConfig.WS_ADDRESS.equals(proxyAddress)) {
+            ProxyInfo info = new ProxyInfo(NekoConfig.WS_ADDRESS, 6356, "", "", "");
+            proxyList.add(0, info);
+        }
     }
 
     public static void saveProxyList() {
         SerializedData serializedData = new SerializedData();
         int count = proxyList.size();
-        serializedData.writeInt32(count);
+        serializedData.writeInt32(count - 1);
         for (int a = 0; a < count; a++) {
             ProxyInfo info = proxyList.get(a);
+            if (NekoConfig.WS_ADDRESS.equals(info.address)) {
+                continue;
+            }
             serializedData.writeString(info.address != null ? info.address : "");
             serializedData.writeInt32(info.port);
             serializedData.writeString(info.username != null ? info.username : "");

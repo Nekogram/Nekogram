@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.os.Build;
 
+import org.tcp2ws.tcp2wsServer;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
@@ -16,6 +17,7 @@ import org.telegram.ui.ActionBar.Theme;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.net.ServerSocket;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -92,6 +94,12 @@ public class NekoConfig {
     public static boolean silenceNonContacts = false;
     public static boolean swipeToPiP = false;
 
+    public static final String WS_ADDRESS = "ws.neko";
+    private static int socksPort = -1;
+    private static boolean tcp2wsStarted = false;
+    private static tcp2wsServer tcp2wsServer;
+    public static boolean wsEnableTLS = true;
+
     public static boolean residentNotification = false;
 
     public static boolean shouldNOTTrustMe = false;
@@ -104,71 +112,43 @@ public class NekoConfig {
     private static Typeface systemEmojiTypeface;
     public static boolean loadSystemEmojiFailed = false;
 
-
     private static boolean configLoaded;
 
     static {
         loadConfig();
     }
 
-    /*public static void saveConfig() {
-        synchronized (sync) {
+    public static int getSocksPort() {
+        if (tcp2wsStarted && socksPort != -1) {
+            return socksPort;
+        }
+        try {
+            ServerSocket socket = new ServerSocket(0);
+            socksPort = socket.getLocalPort();
+            socket.close();
+            if (!tcp2wsStarted) {
+                tcp2wsServer = new tcp2wsServer().setTls(wsEnableTLS);
+                tcp2wsServer.start(socksPort);
+                tcp2wsStarted = true;
+            }
+            return socksPort;
+        } catch (Exception e) {
+            FileLog.e(e);
+            return -1;
+        }
+    }
+
+    public static void restartWs() {
+        if (tcp2wsServer != null) {
             try {
-                SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfing", Context.MODE_PRIVATE);
-                SharedPreferences.Editor editor = preferences.edit();
-                editor.putBoolean("useIPv6", useIPv6);
-                editor.putBoolean("hidePhone", hidePhone);
-                editor.putBoolean("ignoreBlocked", ignoreBlocked);
-                editor.putBoolean("forceTablet", forceTablet);
-                editor.putBoolean("transparentStatusBar", transparentStatusBar);
-                editor.putBoolean("residentNotification", residentNotification);
-                editor.putBoolean("hideProxySponsorChannel", hideProxySponsorChannel);
-                editor.putBoolean("saveCacheToExternalFilesDir", saveCacheToExternalFilesDir);
-                editor.putBoolean("showAddToSavedMessages", showAddToSavedMessages);
-                editor.putBoolean("showReport", showReport);
-                editor.putBoolean("showPrPr", showPrPr);
-                editor.putBoolean("showViewHistory", showViewHistory);
-                editor.putBoolean("showAdminActions", showAdminActions);
-                editor.putBoolean("showChangePermissions", showChangePermissions);
-                editor.putBoolean("showDeleteDownloadedFile", showDeleteDownloadedFile);
-                editor.putBoolean("showMessageDetails", showMessageDetails);
-                editor.putBoolean("showTranslate", showTranslate);
-                editor.putBoolean("showRepeat", showRepeat);
-                editor.putBoolean("newYear", newYear);
-                editor.putBoolean("unlimitedFavedStickers", unlimitedFavedStickers);
-                editor.putBoolean("unlimitedPinnedDialogs", unlimitedPinnedDialogs);
-                editor.putBoolean("disablePhotoSideAction", disablePhotoSideAction);
-                editor.putBoolean("hideKeyboardOnChatScroll", hideKeyboardOnChatScroll);
-                editor.putBoolean("openArchiveOnPull", openArchiveOnPull);
-                editor.putBoolean("showHiddenFeature2", showHiddenFeature);
-                editor.putBoolean("avatarAsDrawerBackground", avatarAsDrawerBackground);
-                editor.putBoolean("useSystemEmoji", useSystemEmoji);
-                editor.putBoolean("showTabsOnForward", showTabsOnForward);
-                editor.putBoolean("rearVideoMessages", rearVideoMessages);
-                editor.putBoolean("hideAllTab", hideAllTab);
-                editor.putBoolean("confirmAVMessage", confirmAVMessage);
-                editor.putBoolean("askBeforeCall", askBeforeCall);
-                editor.putBoolean("shouldNOTTrustMe", shouldNOTTrustMe);
-                editor.putBoolean("disableNumberRounding", disableNumberRounding);
-                editor.putBoolean("disableAppBarShadow", disableAppBarShadow);
-                editor.putBoolean("mediaPreview", mediaPreview);
-                editor.putBoolean("autoPauseVideo", autoPauseVideo);
-                editor.putBoolean("disableProximityEvents", disableProximityEvents);
-                editor.putFloat("stickerSize", stickerSize);
-                editor.putInt("typeface", typeface);
-                editor.putInt("nameOrder", nameOrder);
-                editor.putInt("mapPreviewProvider", mapPreviewProvider);
-                editor.putInt("translationProvider", translationProvider);
-                editor.putInt("eventType", eventType);
-                editor.putInt("actionBarDecoration", actionBarDecoration);
-                editor.putInt("tabsTitleType", tabsTitleType);
-                editor.putInt("idType", idType);
-                editor.commit();
+                tcp2wsServer.stop();
+                tcp2wsServer = new tcp2wsServer().setTls(wsEnableTLS);
+                tcp2wsServer.start(socksPort);
             } catch (Exception e) {
                 FileLog.e(e);
             }
         }
-    }*/
+    }
 
     public static void loadConfig() {
         synchronized (sync) {
@@ -237,8 +217,17 @@ public class NekoConfig {
             silenceNonContacts = preferences.getBoolean("silenceNonContacts", false);
             swipeToPiP = preferences.getBoolean("swipeToPiP", false);
             showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", true);
+            wsEnableTLS = preferences.getBoolean("wsEnableTLS", true);
             configLoaded = true;
         }
+    }
+
+    public static void toggleWsEnableTLS() {
+        wsEnableTLS = !wsEnableTLS;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("wsEnableTLS", wsEnableTLS);
+        editor.commit();
     }
 
     public static void toggleShowAddToSavedMessages() {

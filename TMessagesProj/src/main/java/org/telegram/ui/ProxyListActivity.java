@@ -42,7 +42,6 @@ import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCheckCell;
-import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.LayoutHelper;
@@ -55,6 +54,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.settings.WsSettingsActivity;
 
 public class ProxyListActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -72,7 +74,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
     private int useProxyRow;
     private int useProxyDetailRow;
     private int connectionsHeaderRow;
-    private int sponsorRow;
     private int proxyStartRow;
     private int proxyEndRow;
     private int proxyAddRow;
@@ -120,7 +121,13 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             checkImageView.setScaleType(ImageView.ScaleType.CENTER);
             checkImageView.setContentDescription(LocaleController.getString("Edit", R.string.Edit));
             addView(checkImageView, LayoutHelper.createFrame(48, 48, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP, 8, 8, 8, 0));
-            checkImageView.setOnClickListener(v -> presentFragment(new ProxySettingsActivity(currentInfo)));
+            checkImageView.setOnClickListener(v -> {
+                if (NekoConfig.WS_ADDRESS.equals(currentInfo.address)) {
+                    presentFragment(new WsSettingsActivity());
+                } else {
+                    presentFragment(new ProxySettingsActivity(currentInfo));
+                }
+            });
 
             setWillNotDraw(false);
         }
@@ -360,13 +367,14 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 ConnectionsManager.setProxySettings(useProxySettings, SharedConfig.currentProxy.address, SharedConfig.currentProxy.port, SharedConfig.currentProxy.username, SharedConfig.currentProxy.password, SharedConfig.currentProxy.secret);
             } else if (position == proxyAddRow) {
                 presentFragment(new ProxySettingsActivity());
-            } else if (position == sponsorRow) {
-                Browser.openUrl(getParentActivity(), "https://gamma.pcr.cy/auth/register?code=neko");
             }
         });
         listView.setOnItemLongClickListener((view, position) -> {
             if (position >= proxyStartRow && position < proxyEndRow) {
                 final SharedConfig.ProxyInfo info = SharedConfig.proxyList.get(position - proxyStartRow);
+                if (info.address.equals(NekoConfig.WS_ADDRESS)) {
+                    return false;
+                }
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setMessage(LocaleController.getString("DeleteProxy", R.string.DeleteProxy));
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -403,11 +411,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         useProxyRow = rowCount++;
         useProxyDetailRow = rowCount++;
         connectionsHeaderRow = rowCount++;
-        if (!LocaleController.getString("SponsorTitle", R.string.SponsorTitle).equals("dummy")) {
-            sponsorRow = rowCount++;
-        } else {
-            sponsorRow = -1;
-        }
         if (!SharedConfig.proxyList.isEmpty()) {
             proxyStartRow = rowCount;
             rowCount += SharedConfig.proxyList.size();
@@ -575,12 +578,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                     cell.setChecked(SharedConfig.currentProxy == info);
                     break;
                 }
-                case 6: {
-                    TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
-                    if (position == sponsorRow) {
-                        textCell.setTextAndValue(LocaleController.getString("SponsorTitle", R.string.SponsorTitle), LocaleController.getString("SponsorContent", R.string.SponsorContent), true);
-                    }
-                }
             }
         }
 
@@ -616,7 +613,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int position = holder.getAdapterPosition();
-            return position == useProxyRow || position == callsRow || position == proxyAddRow || position >= proxyStartRow && position < proxyEndRow || position == sponsorRow;
+            return position == useProxyRow || position == callsRow || position == proxyAddRow || position >= proxyStartRow && position < proxyEndRow;
         }
 
         @Override
@@ -646,10 +643,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                     view = new TextDetailProxyCell(mContext);
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
-                case 6:
-                    view = new TextDetailSettingsCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
             }
             view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
             return new RecyclerListView.Holder(view);
@@ -667,8 +660,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 return 2;
             } else if (position >= proxyStartRow && position < proxyEndRow) {
                 return 5;
-            } else if (position == sponsorRow) {
-                return 6;
             } else {
                 return 4;
             }
