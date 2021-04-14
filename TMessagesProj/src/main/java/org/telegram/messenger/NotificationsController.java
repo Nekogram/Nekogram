@@ -1406,6 +1406,8 @@ public class NotificationsController extends BaseController {
                         }
                     } else if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionGroupCall) {
                         return LocaleController.formatString("NotificationGroupCreatedCall", R.string.NotificationGroupCreatedCall, name, chat.title);
+                    } else if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionGroupCallScheduled) {
+                        return messageObject.messageText.toString();
                     } else if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionInviteToGroupCall) {
                         int singleUserId = messageObject.messageOwner.action.user_id;
                         if (singleUserId == 0 && messageObject.messageOwner.action.users.size() == 1) {
@@ -2025,6 +2027,8 @@ public class NotificationsController extends BaseController {
                             }
                         } else if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionGroupCall) {
                             msg = LocaleController.formatString("NotificationGroupCreatedCall", R.string.NotificationGroupCreatedCall, name, chat.title);
+                        } else if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionGroupCallScheduled) {
+                            msg = messageObject.messageText.toString();
                         } else if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionInviteToGroupCall) {
                             int singleUserId = messageObject.messageOwner.action.user_id;
                             if (singleUserId == 0 && messageObject.messageOwner.action.users.size() == 1) {

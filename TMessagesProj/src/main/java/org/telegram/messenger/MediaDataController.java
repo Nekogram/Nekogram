@@ -146,6 +146,8 @@ public class MediaDataController extends BaseController {
     public static final int TYPE_FEATURED = 3;
     public static final int TYPE_EMOJI = 4;
 
+    public static final int TYPE_GREETINGS = 3;
+
     private ArrayList<TLRPC.TL_messages_stickerSet>[] stickerSets = new ArrayList[]{new ArrayList<>(), new ArrayList<>(), new ArrayList<>(0), new ArrayList<>(), new ArrayList<>()};
     private LongSparseArray<TLRPC.Document>[] stickersByIds = new LongSparseArray[]{new LongSparseArray<>(), new LongSparseArray<>(), new LongSparseArray<>(), new LongSparseArray<>(), new LongSparseArray<>()};
     private LongSparseArray<TLRPC.TL_messages_stickerSet> stickerSetsById = new LongSparseArray<>();
@@ -170,9 +172,9 @@ public class MediaDataController extends BaseController {
     private HashMap<String, ArrayList<TLRPC.Document>> allStickers = new HashMap<>();
     private HashMap<String, ArrayList<TLRPC.Document>> allStickersFeatured = new HashMap<>();
 
-    private ArrayList<TLRPC.Document>[] recentStickers = new ArrayList[]{new ArrayList<>(), new ArrayList<>(), new ArrayList<>()};
-    private boolean[] loadingRecentStickers = new boolean[3];
-    private boolean[] recentStickersLoaded = new boolean[3];
+    private ArrayList<TLRPC.Document>[] recentStickers = new ArrayList[]{new ArrayList<>(), new ArrayList<>(), new ArrayList<>(), new ArrayList<>()};
+    private boolean[] loadingRecentStickers = new boolean[4];
+    private boolean[] recentStickersLoaded = new boolean[4];
 
     private ArrayList<TLRPC.Document> recentGifs = new ArrayList<>();
     private boolean loadingRecentGifs;
@@ -187,8 +189,10 @@ public class MediaDataController extends BaseController {
     private boolean loadingFeaturedStickers;
     private boolean featuredStickersLoaded;
 
+    private TLRPC.Document greetingsSticker;
+
     public void cleanup() {
-        for (int a = 0; a < 3; a++) {
+        for (int a = 0; a < recentStickers.length; a++) {
             recentStickers[a].clear();
             loadingRecentStickers[a] = false;
             recentStickersLoaded[a] = false;
@@ -285,7 +289,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void addRecentSticker(final int type, Object parentObject, TLRPC.Document document, int date, boolean remove) {
-        if (!MessageObject.isStickerDocument(document) && !MessageObject.isAnimatedStickerDocument(document, true)) {
+        if (type == TYPE_GREETINGS || !MessageObject.isStickerDocument(document) && !MessageObject.isAnimatedStickerDocument(document, true)) {
             return;
         }
         boolean found = false;
@@ -754,6 +758,8 @@ public class MediaDataController extends BaseController {
                         cacheType = 3;
                     } else if (type == TYPE_MASK) {
                         cacheType = 4;
+                    } else if (type == TYPE_GREETINGS) {
+                        cacheType = 6;
                     } else {
                         cacheType = 5;
                     }
@@ -782,6 +788,9 @@ public class MediaDataController extends BaseController {
                             loadingRecentStickers[type] = false;
                             recentStickersLoaded[type] = true;
                         }
+                        if (type == TYPE_GREETINGS) {
+                            preloadNextGreetingsSticker();
+                        }
                         getNotificationCenter().postNotificationName(NotificationCenter.recentDocumentsDidLoad, gif, type);
                         loadRecents(type, gif, false, false);
                     });
@@ -799,6 +808,8 @@ public class MediaDataController extends BaseController {
                     lastLoadTime = preferences.getLong("lastStickersLoadTime", 0);
                 } else if (type == TYPE_MASK) {
                     lastLoadTime = preferences.getLong("lastStickersLoadTimeMask", 0);
+                } else if (type == TYPE_GREETINGS) {
+                    lastLoadTime = preferences.getLong("lastStickersLoadTimeGreet", 0);
                 } else {
                     lastLoadTime = preferences.getLong("lastStickersLoadTimeFavs", 0);
                 }
@@ -828,6 +839,11 @@ public class MediaDataController extends BaseController {
                     TLRPC.TL_messages_getFavedStickers req = new TLRPC.TL_messages_getFavedStickers();
                     req.hash = calcDocumentsHash(recentStickers[type]);
                     request = req;
+                } else if (type == TYPE_GREETINGS) {
+                    TLRPC.TL_messages_getStickers req = new TLRPC.TL_messages_getStickers();
+                    req.emoticon = "\uD83D\uDC4B" + Emoji.fixEmoji("⭐");
+                    req.hash = calcDocumentsHash(recentStickers[type]);
+                    request = req;
                 } else {
                     TLRPC.TL_messages_getRecentStickers req = new TLRPC.TL_messages_getRecentStickers();
                     req.hash = calcDocumentsHash(recentStickers[type]);
@@ -836,7 +852,12 @@ public class MediaDataController extends BaseController {
                 }
                 getConnectionsManager().sendRequest(request, (response, error) -> {
                     ArrayList<TLRPC.Document> arrayList = null;
-                    if (type == TYPE_FAVE) {
+                    if (type == TYPE_GREETINGS) {
+                        if (response instanceof TLRPC.TL_messages_stickers) {
+                            TLRPC.TL_messages_stickers res = (TLRPC.TL_messages_stickers) response;
+                            arrayList = res.stickers;
+                        }
+                    } else if (type == TYPE_FAVE) {
                         if (response instanceof TLRPC.TL_messages_favedStickers) {
                             TLRPC.TL_messages_favedStickers res = (TLRPC.TL_messages_favedStickers) response;
                             arrayList = res.stickers;
@@ -847,10 +868,24 @@ public class MediaDataController extends BaseController {
                             arrayList = res.stickers;
                         }
                     }
-                    processLoadedRecentDocuments(type, arrayList, gif, 0, true);
+                    processLoadedRecentDocuments(type, arrayList, false, 0, true);
                 });
             }
         }
+    }
+
+    private void preloadNextGreetingsSticker() {
+        if (recentStickers[TYPE_GREETINGS].isEmpty()) {
+            return;
+        }
+        greetingsSticker = recentStickers[TYPE_GREETINGS].get(Utilities.random.nextInt(recentStickers[TYPE_GREETINGS].size()));
+        getFileLoader().loadFile(ImageLocation.getForDocument(greetingsSticker), greetingsSticker, null, 0, 1);
+    }
+
+    public TLRPC.Document getGreetingsSticker() {
+        TLRPC.Document result = greetingsSticker;
+        preloadNextGreetingsSticker();
+        return result;
     }
 
     protected void processLoadedRecentDocuments(final int type, final ArrayList<TLRPC.Document> documents, final boolean gif, final int date, boolean replace) {
@@ -862,7 +897,9 @@ public class MediaDataController extends BaseController {
                     if (gif) {
                         maxCount = getMessagesController().maxRecentGifsCount;
                     } else {
-                        if (type == TYPE_FAVE) {
+                        if (type == TYPE_GREETINGS) {
+                            maxCount = 200;
+                        } else if (type == TYPE_FAVE) {
                             maxCount = NekoConfig.unlimitedFavedStickers ? Integer.MAX_VALUE : getMessagesController().maxFaveStickersCount;
                         } else {
                             maxCount = getMessagesController().maxRecentStickersCount;
@@ -879,6 +916,8 @@ public class MediaDataController extends BaseController {
                         cacheType = 3;
                     } else if (type == TYPE_MASK) {
                         cacheType = 4;
+                    } else if (type == TYPE_GREETINGS) {
+                        cacheType = 6;
                     } else {
                         cacheType = 5;
                     }
@@ -904,9 +943,7 @@ public class MediaDataController extends BaseController {
                         document.serializeToStream(data);
                         state.bindByteBuffer(10, data);
                         state.step();
-                        if (data != null) {
-                            data.reuse();
-                        }
+                        data.reuse();
                     }
                     state.dispose();
                     database.commitTransaction();
@@ -936,6 +973,8 @@ public class MediaDataController extends BaseController {
                         editor.putLong("lastStickersLoadTime", System.currentTimeMillis()).commit();
                     } else if (type == TYPE_MASK) {
                         editor.putLong("lastStickersLoadTimeMask", System.currentTimeMillis()).commit();
+                    } else if (type == TYPE_GREETINGS) {
+                        editor.putLong("lastStickersLoadTimeGreet", System.currentTimeMillis()).commit();
                     } else {
                         editor.putLong("lastStickersLoadTimeFavs", System.currentTimeMillis()).commit();
                     }
@@ -945,6 +984,9 @@ public class MediaDataController extends BaseController {
                         recentGifs = documents;
                     } else {
                         recentStickers[type] = documents;
+                    }
+                    if (type == TYPE_GREETINGS) {
+                        preloadNextGreetingsSticker();
                     }
                     getNotificationCenter().postNotificationName(NotificationCenter.recentDocumentsDidLoad, gif, type);
                 } else {

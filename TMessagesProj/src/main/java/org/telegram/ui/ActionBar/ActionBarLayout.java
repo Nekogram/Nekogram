@@ -355,6 +355,11 @@ public class ActionBarLayout extends FrameLayout {
     public void setInnerTranslationX(float value) {
         innerTranslationX = value;
         invalidate();
+
+        if (fragmentsStack.size() >= 2) {
+            BaseFragment prevFragment = fragmentsStack.get(fragmentsStack.size() - 2);
+            prevFragment.onSlideProgress(false, value / containerView.getMeasuredWidth());
+        }
     }
 
     @Keep
@@ -530,9 +535,11 @@ public class ActionBarLayout extends FrameLayout {
                 return;
             }
             BaseFragment lastFragment = fragmentsStack.get(fragmentsStack.size() - 1);
+            lastFragment.prepareFragmentToSlide(true, false);
             lastFragment.onPause();
             lastFragment.onFragmentDestroy();
             lastFragment.setParentLayout(null);
+
             fragmentsStack.remove(fragmentsStack.size() - 1);
 
             LayoutContainer temp = containerView;
@@ -544,11 +551,16 @@ public class ActionBarLayout extends FrameLayout {
             currentActionBar = lastFragment.actionBar;
             lastFragment.onResume();
             lastFragment.onBecomeFullyVisible();
+            lastFragment.prepareFragmentToSlide(false, false);
 
             layoutToIgnore = containerView;
         } else {
             if (fragmentsStack.size() >= 2) {
-                BaseFragment lastFragment = fragmentsStack.get(fragmentsStack.size() - 2);
+                BaseFragment lastFragment = fragmentsStack.get(fragmentsStack.size() - 1);
+                lastFragment.prepareFragmentToSlide(true, false);
+
+                lastFragment = fragmentsStack.get(fragmentsStack.size() - 2);
+                lastFragment.prepareFragmentToSlide(false, false);
                 lastFragment.onPause();
                 if (lastFragment.fragmentView != null) {
                     ViewGroup parent = (ViewGroup) lastFragment.fragmentView.getParent();
@@ -616,6 +628,10 @@ public class ActionBarLayout extends FrameLayout {
         if (themeAnimatorSet != null) {
             presentingFragmentDescriptions = lastFragment.getThemeDescriptions();
         }
+
+        BaseFragment currentFragment = fragmentsStack.get(fragmentsStack.size() - 1);
+        currentFragment.prepareFragmentToSlide(true, true);
+        lastFragment.prepareFragmentToSlide(false, true);
     }
 
     public boolean onTouchEvent(MotionEvent ev) {
@@ -687,19 +703,33 @@ public class ActionBarLayout extends FrameLayout {
                         float distToMove;
                         if (!backAnimation) {
                             distToMove = containerView.getMeasuredWidth() - x;
+                            int duration = Math.max((int) (200.0f / containerView.getMeasuredWidth() * distToMove), 50);
                             animatorSet.playTogether(
-                                    ObjectAnimator.ofFloat(containerView, View.TRANSLATION_X, containerView.getMeasuredWidth()),
-                                    ObjectAnimator.ofFloat(this, "innerTranslationX", (float) containerView.getMeasuredWidth())
+                                    ObjectAnimator.ofFloat(containerView, View.TRANSLATION_X, containerView.getMeasuredWidth()).setDuration(duration),
+                                    ObjectAnimator.ofFloat(this, "innerTranslationX", (float) containerView.getMeasuredWidth()).setDuration(duration)
                             );
                         } else {
                             distToMove = x;
+                            int duration = Math.max((int) (200.0f / containerView.getMeasuredWidth() * distToMove), 50);
                             animatorSet.playTogether(
-                                    ObjectAnimator.ofFloat(containerView, View.TRANSLATION_X, 0),
-                                    ObjectAnimator.ofFloat(this, "innerTranslationX", 0.0f)
+                                    ObjectAnimator.ofFloat(containerView, View.TRANSLATION_X, 0).setDuration(duration),
+                                    ObjectAnimator.ofFloat(this, "innerTranslationX", 0.0f).setDuration(duration)
                             );
                         }
 
-                        animatorSet.setDuration(Math.max((int) (200.0f / containerView.getMeasuredWidth() * distToMove), 50));
+                        Animator customTransition = currentFragment.getCustomSlideTransition(false, backAnimation, distToMove);
+                        if (customTransition != null) {
+                            animatorSet.playTogether(customTransition);
+                        }
+
+                        BaseFragment lastFragment = fragmentsStack.get(fragmentsStack.size() - 2);
+                        if (lastFragment != null) {
+                            customTransition = lastFragment.getCustomSlideTransition(false, backAnimation, distToMove);
+                            if (customTransition != null) {
+                                animatorSet.playTogether(customTransition);
+                            }
+                        }
+
                         animatorSet.addListener(new AnimatorListenerAdapter() {
                             @Override
                             public void onAnimationEnd(Animator animator) {
