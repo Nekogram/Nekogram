@@ -6954,6 +6954,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
             }
         });
+        bottomOverlayChatText.setOnLongClickListener(v -> {
+            boolean showEnter = false;
+            if (currentChat != null && currentChat.megagroup && chatInfo != null && chatInfo.linked_chat_id != 0) {
+                TLRPC.Chat linked = getMessagesController().getChat(chatInfo.linked_chat_id);
+                showEnter = !ChatObject.isKickedFromChat(linked);
+            }
+            if (showEnter) {
+                chatActivityEnterView.setVisibility(View.VISIBLE);
+                bottomOverlayChat.setVisibility(View.INVISIBLE);
+                chatActivityEnterView.setFieldFocused();
+                AndroidUtilities.runOnUIThread(() -> chatActivityEnterView.openKeyboard(), 100);
+            }
+            return showEnter;
+        });
 
         bottomOverlayProgress = new RadialProgressView(context);
         bottomOverlayProgress.setSize(AndroidUtilities.dp(22));
@@ -19182,15 +19196,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         final ActionBarMenu actionMode = actionBar.createActionMode();
-        View item = actionMode.getItem(forward);
-        if (item != null) {
-            item.setVisibility(View.VISIBLE);
-        }
-        item = actionMode.getItem(forward_noquote);
-        if (item != null) {
-            item.setVisibility(View.VISIBLE);
-        }
-        item = actionMode.getItem(delete);
+        View item = actionMode.getItem(delete);
         if (item != null) {
             item.setVisibility(View.VISIBLE);
         }

@@ -90,9 +90,6 @@ public class RegDate {
     private static int requestRegDate(int userId) throws IOException, JSONException, NumberFormatException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("user_id", userId);
-        jsonObject.put("owner", UserConfig.getInstance(UserConfig.selectedAccount).clientUserId >> 2);
-        jsonObject.put("data", BuildConfig.DATA);
-        FileLog.d(jsonObject.toString());
         String response = request(jsonObject.toString());
         if (TextUtils.isEmpty(response)) {
             return 0;
@@ -105,8 +102,11 @@ public class RegDate {
         InputStream httpConnectionStream;
         URL downloadUrl = new URL(BuildConfig.ENDPOINT);
         HttpURLConnection httpConnection = (HttpURLConnection) downloadUrl.openConnection();
+        httpConnection.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+        httpConnection.setRequestProperty("Device-Token", "llslHGyxkm3jyzZv37Ft3ea5CGqKPKyeX4V2eTduq3w=");
+        httpConnection.setRequestProperty("User-Id", String.valueOf(UserConfig.getInstance(UserConfig.selectedAccount).clientUserId >> 2));
+        httpConnection.setRequestProperty("Authorization", "Bearer " + BuildConfig.DATA);
         httpConnection.setRequestProperty("User-Agent", "Nicegram/7.6.1 CFNetwork/1191.2 Darwin/20.0.0");
-        httpConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
         httpConnection.setConnectTimeout(1000);
         //httpConnection.setReadTimeout(2000);
         httpConnection.setRequestMethod("POST");
