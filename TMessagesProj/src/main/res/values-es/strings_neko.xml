@@ -149,4 +149,6 @@
     <string name="UserID">ID de usuario</string>
     <string name="Datacenter">Centro de datos</string>
     <string name="RegistrationDate">Fecha de registro</string>
+    <string name="WsDescription">Conéctate a Telegram a través de WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">detalles técnicos</a>]]>.</string>
+    <string name="WsEnableTls">Activar TLS</string>
 </resources>

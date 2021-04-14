@@ -115,7 +115,8 @@
     <string name="OpenAllLinksInInstantView">Все ссылки в Instant View</string>
     <string name="DonateThankYou">Спасибо!</string>
     <string name="DonateEvilGoogle">Google заберёт 30% от вашего пожертвования.</string>
-    <string name="formatterDay24HSec">ЧЧ:мм:сс</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Время с секундами</string>
     <string name="JumpToBeginning">Перейти в начало</string>
     <string name="ProviderDeepLTranslate">DeepL переводчик</string>

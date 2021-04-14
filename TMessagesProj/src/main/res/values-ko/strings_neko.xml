@@ -150,4 +150,6 @@
     <string name="UserID">사용자 ID</string>
     <string name="Datacenter">데이터센터</string>
     <string name="RegistrationDate">가입일</string>
+    <string name="WsDescription">Cloudflare의 WebSocket을 통해 Telegram에 연결, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">기술적 세부 사항</a>]]></string>
+    <string name="WsEnableTls">TLS 활성화</string>
 </resources>
