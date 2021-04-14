@@ -37,6 +37,7 @@ import org.telegram.ui.Components.URLSpanNoUnderline;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.PopupHelper;
 
 @SuppressLint("RtlHardcoded")
 public class WsSettingsActivity extends BaseFragment {
@@ -49,6 +50,8 @@ public class WsSettingsActivity extends BaseFragment {
     private int descriptionRow;
     private int settingsRow;
     private int enableTLSRow;
+    private int localProxyRow;
+    private int enableDoHRow;
     private int settings2Row;
 
     @Override
@@ -102,7 +105,25 @@ public class WsSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.wsEnableTLS);
                 }
-                NekoConfig.setTls();
+                NekoConfig.wsReloadConfig();
+            } else if (position == localProxyRow) {
+                ArrayList<String> arrayList = new ArrayList<>();
+                ArrayList<Integer> types = new ArrayList<>();
+                arrayList.add(LocaleController.getString("UseProxySocks5", R.string.UseProxySocks5));
+                types.add(1);
+                arrayList.add(LocaleController.getString("UseProxyTelegram", R.string.UseProxyTelegram));
+                types.add(2);
+                PopupHelper.show(arrayList, LocaleController.getString("WsLocalProxy", R.string.WsLocalProxy), NekoConfig.wsUseMTP ? 1 : 0, context, view, i -> {
+                    NekoConfig.setWsUseMTP(i == 1);
+                    listAdapter.notifyItemChanged(localProxyRow);
+                    NekoConfig.wsReloadConfig();
+                });
+            } else if (position == enableDoHRow) {
+                NekoConfig.toggleWsEnableDoH();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.wsUseDoH);
+                }
+                NekoConfig.wsReloadConfig();
             }
         });
         return fragmentView;
@@ -122,6 +143,8 @@ public class WsSettingsActivity extends BaseFragment {
         descriptionRow = rowCount++;
         settingsRow = rowCount++;
         enableTLSRow = rowCount++;
+        localProxyRow = rowCount++;
+        enableDoHRow = rowCount++;
         settings2Row = rowCount++;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -193,9 +216,22 @@ public class WsSettingsActivity extends BaseFragment {
                     }
                     break;
                 }
+                case 2: {
+                    TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
+                    textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+                    if (position == localProxyRow) {
+                        String value = NekoConfig.wsUseMTP ? LocaleController.getString("UseProxyTelegram", R.string.UseProxyTelegram) : LocaleController.getString("UseProxySocks5", R.string.UseProxySocks5);
+                        textCell.setTextAndValue(LocaleController.getString("WsLocalProxy", R.string.WsLocalProxy), value, true);
+                    }
+                    break;
+                }
                 case 3: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
-                    textCell.setTextAndCheck(LocaleController.getString("WsEnableTls", R.string.WsEnableTls), NekoConfig.wsEnableTLS, false);
+                    if (position == enableTLSRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("WsEnableTls", R.string.WsEnableTls), NekoConfig.wsEnableTLS, true);
+                    } else if (position == enableDoHRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("WsEnableDoh", R.string.WsEnableDoh), NekoConfig.wsUseDoH, false);
+                    }
                     break;
                 }
                 case 4: {
@@ -274,7 +310,7 @@ public class WsSettingsActivity extends BaseFragment {
                 return 4;
             } else if (position == settings2Row) {
                 return 1;
-            } else if (position == enableTLSRow) {
+            } else if (position == enableTLSRow || position == enableDoHRow) {
                 return 3;
             }
             return 2;

@@ -99,6 +99,8 @@ public class NekoConfig {
     private static boolean tcp2wsStarted = false;
     private static tcp2wsServer tcp2wsServer;
     public static boolean wsEnableTLS = true;
+    public static boolean wsUseMTP = false;
+    public static boolean wsUseDoH = true;
 
     public static boolean residentNotification = false;
 
@@ -127,7 +129,10 @@ public class NekoConfig {
             socksPort = socket.getLocalPort();
             socket.close();
             if (!tcp2wsStarted) {
-                tcp2wsServer = new tcp2wsServer().setTls(wsEnableTLS);
+                tcp2wsServer = new tcp2wsServer()
+                        .setTls(wsEnableTLS)
+                        .setIfMTP(wsUseMTP)
+                        .setIfDoH(wsUseDoH);
                 tcp2wsServer.start(socksPort);
                 tcp2wsStarted = true;
             }
@@ -138,10 +143,10 @@ public class NekoConfig {
         }
     }
 
-    public static void setTls() {
+    public static void wsReloadConfig() {
         if (tcp2wsServer != null) {
             try {
-                tcp2wsServer.setTls(wsEnableTLS);
+                tcp2wsServer.setTls(wsEnableTLS).setIfMTP(wsUseMTP).setIfDoH(wsUseDoH);
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -216,8 +221,26 @@ public class NekoConfig {
             swipeToPiP = preferences.getBoolean("swipeToPiP", false);
             showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", true);
             wsEnableTLS = preferences.getBoolean("wsEnableTLS", true);
+            wsUseMTP = preferences.getBoolean("wsUseMTP", false);
+            wsUseDoH = preferences.getBoolean("wsUseDoH", true);
             configLoaded = true;
         }
+    }
+
+    public static void setWsUseMTP(boolean use) {
+        wsUseMTP = use;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("wsUseMTP", wsUseMTP);
+        editor.commit();
+    }
+
+    public static void toggleWsEnableDoH() {
+        wsUseDoH = !wsUseDoH;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("wsUseDoH", wsUseDoH);
+        editor.commit();
     }
 
     public static void toggleWsEnableTLS() {
