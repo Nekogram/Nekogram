@@ -14,6 +14,7 @@ import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 public class YandexTranslator extends BaseTranslator {
 
@@ -26,6 +27,7 @@ public class YandexTranslator extends BaseTranslator {
             "ms", "mt", "my", "ne", "nl", "no", "pa", "pl", "pt", "ro", "ru", "si", "sk", "sl",
             "sq", "sr", "su", "sv", "sw", "ta", "te", "tg", "th", "tl", "tr", "tt", "uk", "ur",
             "uz", "vi", "xh", "yi", "zh");
+    private final String uuid = UUID.randomUUID().toString().replace("-", "");
 
     static YandexTranslator getInstance() {
         if (instance == null) {
@@ -38,11 +40,11 @@ public class YandexTranslator extends BaseTranslator {
         return instance;
     }
 
-    private static String getResult(String string) throws JSONException {
+    private static String getResult(String string) throws JSONException, IOException {
         JSONObject json = new JSONObject(string);
         int code = json.getInt("code");
         if (code != 200) {
-            return null;
+            throw new IOException(json.getString("message"));
         }
         JSONArray array = json.getJSONArray("text");
         StringBuilder sb = new StringBuilder();
@@ -55,11 +57,8 @@ public class YandexTranslator extends BaseTranslator {
 
     @Override
     protected String translate(String query, String tl) throws IOException, JSONException {
-        String result = translateImpl(query, tl);
-        if (result == null) {
-            return translateImpl(query, tl);
-        }
-        return result;
+        String url = "https://translate.yandex.net/api/v1/tr.json/translate?srv=android&lang=" + tl + "&uuid=" + uuid;
+        return getResult(request(url, "text=" + URLEncoder.encode(query, "UTF-8")));
     }
 
     @Override
@@ -67,19 +66,13 @@ public class YandexTranslator extends BaseTranslator {
         return targetLanguages;
     }
 
-    private String translateImpl(String query, String tl) throws IOException, JSONException {
-        String url = "https://translate.yandex.net/api/v1/tr.json/translate?srv=android&lang=" + tl;
-        return getResult(request(url, "text=" + URLEncoder.encode(query, "UTF-8")));
-
-    }
-
     private String request(String url, String param) throws IOException {
         ByteArrayOutputStream outbuf;
         InputStream httpConnectionStream;
         URL downloadUrl = new URL(url);
         HttpURLConnection httpConnection = (HttpURLConnection) downloadUrl.openConnection();
-        httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded charset=UTF-8");
-        httpConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1");
+        httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
+        httpConnection.addRequestProperty("User-Agent", "ru.yandex.translate/21.4.2.21291931 (Xiaomi Redmi K20 Pro; Android 11)");
         httpConnection.setConnectTimeout(1000);
         //httpConnection.setReadTimeout(2000);
         httpConnection.setRequestMethod("POST");
