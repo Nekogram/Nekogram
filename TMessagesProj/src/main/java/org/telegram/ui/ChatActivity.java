@@ -1851,7 +1851,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     imageView.setRoundRadius(AndroidUtilities.dp(20));
                     frameLayout.addView(imageView, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 22, 5, 22, 0));
                     avatarDrawable.setInfo(currentChat);
-                    imageView.setImage(ImageLocation.getForUserOrChat(currentChat, ImageLocation.TYPE_SMALL), "50_50", ImageLocation.getForUserOrChat(currentChat, ImageLocation.TYPE_STRIPPED), "50_50", avatarDrawable, currentChat);
+                    imageView.setForUserOrChat(currentChat, avatarDrawable, currentChat);
                     TextView textView = new TextView(context);
                     textView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
                     textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
@@ -1891,9 +1891,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 if (revoke && currentUser != null) {
                                     getMessagesStorage().getMessagesCount(currentUser.id, (count) -> {
                                         if (count >= 50) {
-                                            AlertsCreator.createClearOrDeleteDialogAlert(ChatActivity.this, true, false, true, null, currentUser, false, false, (param) -> {
-                                                performHistoryClear(true);
-                                            });
+                                            AlertsCreator.createClearOrDeleteDialogAlert(ChatActivity.this, true, false, true, null, currentUser, false, false, (param) -> performHistoryClear(true));
                                         } else {
                                             performHistoryClear(true);
                                         }
@@ -5903,6 +5901,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             @Override
             public void didPressUrl(CharacterStyle span) {
                 didPressMessageUrl(span, false, null, null);
+            }
+
+            @Override
+            public void showWithAction(long did, int action, Object infoObject, Object infoObject2, Runnable actionRunnable, Runnable cancelRunnable) {
+                setAdditionalTranslationY(fragmentContextView != null && fragmentContextView.isCallTypeVisible() ? AndroidUtilities.dp(fragmentContextView.getStyleHeight()) : 0);
+                super.showWithAction(did, action, infoObject, infoObject2, actionRunnable, cancelRunnable);
             }
         };
         contentView.addView(topUndoView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, 8, 8, 8, 0));
