@@ -63,6 +63,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
 
     private int experimentRow;
     private int emojiRow;
+    private int messageAnimationRow;
     private int mapDriftingFixRow;
     private int increaseVoiceMessageQualityRow;
     private int saveCacheToExternalFilesDirRow;
@@ -257,6 +258,11 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 }
                 tooltip.setInfoText(LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect));
                 tooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
+            } else if (position == messageAnimationRow) {
+                NekoConfig.toggleMessageAnimation();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.messageAnimation);
+                }
             }
         });
         listView.setOnItemLongClickListener((view, position) -> {
@@ -328,6 +334,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
 
         experimentRow = rowCount++;
         emojiRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? rowCount++ : -1;
+        messageAnimationRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? rowCount++ : -1;
         mapDriftingFixRow = rowCount++;
         increaseVoiceMessageQualityRow = rowCount++;
         saveCacheToExternalFilesDirRow = rowCount++;
@@ -436,6 +443,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("IncreaseVoiceMessageQuality", R.string.IncreaseVoiceMessageQuality), NekoConfig.increaseVoiceMessageQuality, true);
                     } else if (position == shouldNOTTrustMeRow) {
                         textCell.setTextAndCheck("", NekoConfig.shouldNOTTrustMe, false);
+                    } else if (position == messageAnimationRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("MessageSendingAnimation", R.string.MessageSendingAnimation), NekoConfig.messageAnimation, true);
                     }
                     break;
                 }
