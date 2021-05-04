@@ -205,20 +205,10 @@ public class UpdateHelper {
         long currentDate = System.currentTimeMillis();
         final long day = 86400000L;
         Random random = new Random();
-        if (currentDate - date > 6 * day) {
+        if (currentDate - date > day) {
             return true;
-        } else if (currentDate - date > 5 * day) {
-            return random.nextInt(100) < 50;
-        } else if (currentDate - date > 4 * day) {
-            return random.nextInt(100) < 20;
-        } else if (currentDate - date > 3 * day) {
-            return random.nextInt(100) < 10;
-        } else if (currentDate - date > 2 * day) {
-            return random.nextInt(100) < 5;
-        } else if (currentDate - date > day) {
-            return random.nextInt(100) < 2;
         } else {
-            return random.nextInt(100) < 1;
+            return random.nextInt(100) < 50;
         }
     }
 
