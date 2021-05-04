@@ -156,4 +156,7 @@
     <string name="RegistrationDate">注册日期</string>
     <string name="WsDescription">通过 WebSocket 从 Cloudflare 连接到 Telegram，<![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">技术详细信息</a>]]>。</string>
     <string name="WsEnableTls">启用 TLS</string>
+    <string name="WsLocalProxy">本地代理</string>
+    <string name="WsEnableDoh">启用 DoH</string>
+    <string name="MessageSendingAnimation">消息发送动画</string>
 </resources>
