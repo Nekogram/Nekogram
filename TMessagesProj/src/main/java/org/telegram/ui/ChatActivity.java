@@ -2046,6 +2046,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             avatarContainer.onDestroy();
         }
         avatarContainer = new ChatAvatarContainer(context, this, currentEncryptedChat != null);
+        avatarContainer.setOnLongClickListener(v -> {
+            openSearchWithText(null);
+            return true;
+        });
         AndroidUtilities.updateViewVisibilityAnimated(avatarContainer, true, 1f, false);
         if (inPreviewMode || inBubbleMode) {
             avatarContainer.setOccupyStatusBar(false);
