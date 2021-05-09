@@ -82,10 +82,19 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
         }));
     }
 
+    @Override
+    public boolean onFragmentCreate() {
+        super.onFragmentCreate();
+
+        updateRows();
+
+        return true;
+    }
+
+
     @SuppressLint("NewApi")
     @Override
     public View createView(Context context) {
-        updateRows();
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         actionBar.setTitle(LocaleController.getString("NekoSettings", R.string.NekoSettings));
 
@@ -185,7 +194,7 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
         translationRow = rowCount++;
         donateRow = rowCount++;
         checkUpdateRow = UpdateHelper.GOOGLE_PLAY ? -1 : rowCount++;
-        if (getParentActivity().getResources().getBoolean(R.bool.showYahagi)) {
+        if (NekoConfig.isChineseUser) {
             yahagiRow = rowCount++;
         } else {
             yahagiRow = -1;

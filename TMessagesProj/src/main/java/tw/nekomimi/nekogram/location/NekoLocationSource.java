@@ -9,6 +9,8 @@ import android.os.Build;
 import android.os.Looper;
 import android.util.Pair;
 
+import androidx.annotation.NonNull;
+
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
@@ -30,7 +32,7 @@ public class NekoLocationSource implements LocationSource {
     private OnLocationChangedListener onLocationChangedListener;
     private final LocationCallback callback = new LocationCallback() {
         @Override
-        public void onLocationResult(LocationResult locationResult) {
+        public void onLocationResult(@NonNull LocationResult locationResult) {
             super.onLocationResult(locationResult);
             if (onLocationChangedListener != null) {
                 Location location = locationResult.getLastLocation();
@@ -73,7 +75,7 @@ public class NekoLocationSource implements LocationSource {
                 }
             }
         }
-        LocationRequest locationRequest = new LocationRequest();
+        LocationRequest locationRequest = LocationRequest.create();
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(0);
         locationRequest.setFastestInterval(0);

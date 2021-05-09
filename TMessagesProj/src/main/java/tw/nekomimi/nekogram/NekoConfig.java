@@ -12,6 +12,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationsService;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.Theme;
 
@@ -115,6 +116,8 @@ public class NekoConfig {
     private static Typeface systemEmojiTypeface;
     public static boolean loadSystemEmojiFailed = false;
 
+    public static boolean isChineseUser = false;
+
     private static boolean configLoaded;
 
     static {
@@ -159,6 +162,7 @@ public class NekoConfig {
             if (configLoaded) {
                 return;
             }
+            isChineseUser = ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isChineseUser);
 
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
             useIPv6 = preferences.getBoolean("useIPv6", false);
@@ -173,7 +177,7 @@ public class NekoConfig {
             saveCacheToExternalFilesDir = preferences.getBoolean("saveCacheToExternalFilesDir", true);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
-            showPrPr = preferences.getBoolean("showPrPr", false);
+            showPrPr = preferences.getBoolean("showPrPr", isChineseUser);
             showViewHistory = preferences.getBoolean("showViewHistory", false);
             showAdminActions = preferences.getBoolean("showAdminActions", false);
             showChangePermissions = preferences.getBoolean("showChangePermissions", false);
@@ -210,7 +214,7 @@ public class NekoConfig {
             disableProximityEvents = preferences.getBoolean("disableProximityEvents", false);
             customEmojiFontPath = preferences.getString("customEmojiFontPath", "");
             customEmojiFont = preferences.getBoolean("customEmojiFont", false);
-            mapDriftingFix = preferences.getBoolean("mapDriftingFix", false);
+            mapDriftingFix = preferences.getBoolean("mapDriftingFix", isChineseUser);
             increaseVoiceMessageQuality = preferences.getBoolean("increaseVoiceMessageQuality", false);
             disableInstantCamera = preferences.getBoolean("disableInstantCamera", false);
             tryToOpenAllLinksInIV = preferences.getBoolean("tryToOpenAllLinksInIV", false);

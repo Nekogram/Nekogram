@@ -2,5 +2,5 @@
 
 <resources>
     <bool name="useHardwareAcceleration">true</bool>
-    <bool name="showYahagi">false</bool>
+    <bool name="isChineseUser">false</bool>
 </resources>
