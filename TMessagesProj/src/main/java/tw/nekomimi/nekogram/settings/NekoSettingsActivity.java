@@ -193,7 +193,7 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
         sourceCodeRow = rowCount++;
         translationRow = rowCount++;
         donateRow = rowCount++;
-        checkUpdateRow = UpdateHelper.GOOGLE_PLAY ? -1 : rowCount++;
+        checkUpdateRow = NekoConfig.installedFromPlay ? -1 : rowCount++;
         if (NekoConfig.isChineseUser) {
             yahagiRow = rowCount++;
         } else {

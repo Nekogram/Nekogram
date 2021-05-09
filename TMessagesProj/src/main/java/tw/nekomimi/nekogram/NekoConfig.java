@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.graphics.Typeface;
 import android.os.Build;
 
@@ -19,6 +20,7 @@ import org.telegram.ui.ActionBar.Theme;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.net.ServerSocket;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -117,6 +119,7 @@ public class NekoConfig {
     public static boolean loadSystemEmojiFailed = false;
 
     public static boolean isChineseUser = false;
+    public static boolean installedFromPlay = false;
 
     private static boolean configLoaded;
 
@@ -157,11 +160,24 @@ public class NekoConfig {
         }
     }
 
+    private static void determineInstalledFromPlay() {
+        ApplicationInfo applicationInfo = ApplicationLoader.applicationContext.getApplicationInfo();
+        if (applicationInfo.metaData != null && applicationInfo.metaData.containsKey("com.android.stamp.source")) {
+            installedFromPlay = true;
+            return;
+        }
+        final String installer = ApplicationLoader.applicationContext.getPackageManager().getInstallerPackageName(ApplicationLoader.applicationContext.getPackageName());
+        if (installer != null && Arrays.asList(new String[]{"com.android.vending", "com.google.android.feedback"}).contains(installer)) {
+            installedFromPlay = true;
+        }
+    }
+
     public static void loadConfig() {
         synchronized (sync) {
             if (configLoaded) {
                 return;
             }
+            determineInstalledFromPlay();
             isChineseUser = ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isChineseUser);
 
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);

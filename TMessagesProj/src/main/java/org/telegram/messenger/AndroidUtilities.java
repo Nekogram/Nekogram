@@ -154,7 +154,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.updater.UpdateHelper;
 
 public class AndroidUtilities {
 
@@ -373,7 +372,7 @@ public class AndroidUtilities {
 
     private static Boolean standaloneApp;
     public static boolean isStandaloneApp() {
-        return !UpdateHelper.GOOGLE_PLAY;
+        return !NekoConfig.installedFromPlay;
     }
 
     private static Boolean betaApp;

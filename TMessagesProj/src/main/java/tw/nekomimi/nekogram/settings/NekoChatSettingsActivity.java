@@ -43,7 +43,6 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
-import tw.nekomimi.nekogram.updater.UpdateHelper;
 
 @SuppressLint("RtlHardcoded")
 public class NekoChatSettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
@@ -236,7 +235,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         stickerSize2Row = rowCount++;
 
         chatRow = rowCount++;
-        ignoreBlockedRow = !UpdateHelper.GOOGLE_PLAY || NekoConfig.showHiddenFeature ? rowCount++ : -1;
+        ignoreBlockedRow = !NekoConfig.installedFromPlay || NekoConfig.showHiddenFeature ? rowCount++ : -1;
         disablePhotoSideActionRow = rowCount++;
         hideKeyboardOnChatScrollRow = rowCount++;
         rearVideoMessagesRow = rowCount++;
