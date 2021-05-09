@@ -101,8 +101,6 @@
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">Restart the app to take effect.</string>
     <string name="DisableAppBarShadow">Disable title bar shadow</string>
-    <string name="SponsorTitle">dummy</string>
-    <string name="SponsorContent">dummy</string>
     <string name="BetaWarning">This is a **beta** feature implemented by **Telegram**.</string>
     <string name="MediaPreview">Media preview in dialog list</string>
     <string name="ProviderYandex">Yandex Translate</string>

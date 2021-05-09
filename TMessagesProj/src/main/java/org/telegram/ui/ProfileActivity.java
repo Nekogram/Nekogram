@@ -5755,7 +5755,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 Context context = getParentActivity();
                 LinearLayout ll = new LinearLayout(context);
                 ll.setOrientation(LinearLayout.VERTICAL);
-                for (int i = 0; i < 3; i++) {
+                for (int i = 0; i < 2; i++) {
                     TextDetailSettingsCell cell = new TextDetailSettingsCell(context);
                     cell.setBackground(Theme.getSelectorDrawable(false));
                     cell.setOnClickListener(v1 -> {

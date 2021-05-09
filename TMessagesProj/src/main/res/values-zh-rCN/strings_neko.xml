@@ -97,8 +97,6 @@
     <string name="OfficialChannelUsername">Zuragram</string>
     <string name="RestartAppToTakeEffect">重启应用以生效。</string>
     <string name="DisableAppBarShadow">禁用标题栏阴影</string>
-    <string name="SponsorTitle">矢矧网络科</string>
-    <string name="SponsorContent">解锁地域限制服务 / 数据收集 / 网络加速</string>
     <string name="BetaWarning">这是由 **Telegram** 实现的**测试版**特性。</string>
     <string name="MediaPreview">对话列表中的媒体预览</string>
     <string name="ProviderYandex">Yandex 翻译</string>

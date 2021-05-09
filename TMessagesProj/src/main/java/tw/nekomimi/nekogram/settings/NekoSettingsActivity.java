@@ -66,7 +66,7 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
     private int translationRow;
     private int donateRow;
     private int checkUpdateRow;
-    private int sponsorRow;
+    private int yahagiRow;
     private int about2Row;
 
     private void checkSensitive() {
@@ -82,18 +82,10 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
         }));
     }
 
-    @Override
-    public boolean onFragmentCreate() {
-        super.onFragmentCreate();
-
-        updateRows();
-
-        return true;
-    }
-
     @SuppressLint("NewApi")
     @Override
     public View createView(Context context) {
+        updateRows();
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         actionBar.setTitle(LocaleController.getString("NekoSettings", R.string.NekoSettings));
 
@@ -137,8 +129,8 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
                 Browser.openUrl(getParentActivity(), "https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram");
             } else if (position == sourceCodeRow) {
                 Browser.openUrl(getParentActivity(), "https://gitlab.com/Nekogram/Nekogram");
-            } else if (position == sponsorRow) {
-                Browser.openUrl(getParentActivity(), "https://gamma.pcr.cy/auth/register?code=neko");
+            } else if (position == yahagiRow) {
+                Browser.openUrl(getParentActivity(), "https://delta.pcr.cy/auth/register?code=neko");
             } else if (position == checkUpdateRow) {
                 UpdateHelper.getInstance().checkNewVersionAvailable(this, false);
                 checkingUpdate = true;
@@ -193,10 +185,10 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
         translationRow = rowCount++;
         donateRow = rowCount++;
         checkUpdateRow = UpdateHelper.GOOGLE_PLAY ? -1 : rowCount++;
-        if (!LocaleController.getString("SponsorTitle", R.string.SponsorTitle).equals("dummy")) {
-            sponsorRow = rowCount++;
+        if (getParentActivity().getResources().getBoolean(R.bool.showYahagi)) {
+            yahagiRow = rowCount++;
         } else {
-            sponsorRow = -1;
+            yahagiRow = -1;
         }
         about2Row = rowCount++;
 
@@ -309,12 +301,13 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
                 }
                 case 6: {
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
+                    textCell.setMultilineDetail(true);
                     if (position == translationRow) {
                         textCell.setTextAndValue(LocaleController.getString("Translation", R.string.Translation), LocaleController.getString("TranslationAbout", R.string.TranslationAbout), true);
                     } else if (position == donateRow) {
                         textCell.setTextAndValue(LocaleController.getString("Donate", R.string.Donate), LocaleController.getString("DonateAbout", R.string.DonateAbout), position + 1 != about2Row);
-                    } else if (position == sponsorRow) {
-                        textCell.setTextAndValue(LocaleController.getString("SponsorTitle", R.string.SponsorTitle), LocaleController.getString("SponsorContent", R.string.SponsorContent), false);
+                    } else if (position == yahagiRow) {
+                        textCell.setTextAndValue("矢矧网络科", "您的网络需求一站式解决方案\n解锁地域限制服务 / 数据收集 / 网络加速", false);
                     } else if (position == checkUpdateRow) {
                         textCell.setTextAndValue(LocaleController.getString("CheckUpdate", R.string.CheckUpdate),
                                 checkingUpdate ? LocaleController.getString("CheckingUpdate", R.string.CheckingUpdate) :
