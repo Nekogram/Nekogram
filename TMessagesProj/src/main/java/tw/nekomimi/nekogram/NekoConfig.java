@@ -24,6 +24,8 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import tw.nekomimi.nekogram.translator.Translator;
+
 @SuppressLint("ApplySharedPref")
 public class NekoConfig {
 
@@ -53,7 +55,7 @@ public class NekoConfig {
     public static boolean askBeforeCall = true;
     public static boolean disableNumberRounding = false;
     public static float stickerSize = 14.0f;
-    public static int translationProvider = 1;
+    public static int translationProvider = Translator.PROVIDER_GOOGLE;
     public static int tabsTitleType = TITLE_TYPE_TEXT;
     public static int idType = ID_TYPE_API;
 
@@ -206,7 +208,7 @@ public class NekoConfig {
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
             unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", false);
             unlimitedPinnedDialogs = preferences.getBoolean("unlimitedPinnedDialogs", false);
-            translationProvider = preferences.getInt("translationProvider", 1);
+            translationProvider = preferences.getInt("translationProvider", isChineseUser ? Translator.PROVIDER_LINGO : Translator.PROVIDER_GOOGLE);
             disablePhotoSideAction = preferences.getBoolean("disablePhotoSideAction", true);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
             showHiddenFeature = preferences.getBoolean("showHiddenFeature3", false);
