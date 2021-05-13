@@ -128,7 +128,6 @@ public class MessageAnimationHelper {
                     nextMessageStickerCell = null;
                 } else if (cell.getMessageObject().isGif()) {
                     animateGifMessage(cell, animators, nextMessageGifCell);
-                    nextMessageGifCell = null;
                 } else if (cell.getMessageObject().isVoice())
                     animateVoiceMessage(cell, animators);
                 else if (cell.getMessageObject().isPhoto() || cell.getMessageObject().isVideo()) {

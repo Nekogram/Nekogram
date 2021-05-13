@@ -177,7 +177,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.RegDate;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 import tw.nekomimi.nekogram.translator.Translator;
 
@@ -5755,7 +5754,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 Context context = getParentActivity();
                 LinearLayout ll = new LinearLayout(context);
                 ll.setOrientation(LinearLayout.VERTICAL);
-                for (int i = 0; i < 2; i++) {
+                int cellCount = user.photo != null && user.photo.dc_id != 0 ? 2 : 1;
+                for (int i = 0; i < cellCount; i++) {
                     TextDetailSettingsCell cell = new TextDetailSettingsCell(context);
                     cell.setBackground(Theme.getSelectorDrawable(false));
                     cell.setOnClickListener(v1 -> {
@@ -5764,31 +5764,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     });
                     switch (i) {
                         case 0:
-                            cell.setTextAndValue(LocaleController.getString("UserID", R.string.UserID), String.valueOf(user_id), true);
+                            cell.setTextAndValue(LocaleController.getString("UserID", R.string.UserID), String.valueOf(user_id), i != cellCount - 1);
                             break;
                         case 1:
-                            if (user.photo != null && user.photo.dc_id != 0) {
-                                cell.setTextAndValue(LocaleController.getString("Datacenter", R.string.Datacenter), String.format(Locale.US, "%d, %s", user.photo.dc_id, RegDate.getDCLocation(user.photo.dc_id)), true);
-                            } else {
-                                continue;
-                            }
+                            cell.setTextAndValue(LocaleController.getString("Datacenter", R.string.Datacenter), String.format(Locale.US, "%d, %s", user.photo.dc_id, getMessageHelper().getDCLocation(user.photo.dc_id)), false);
                             break;
-                        case 2:
-                            int regDate = RegDate.getRegDate(user_id);
-                            cell.setTextAndValue(LocaleController.getString("RegistrationDate", R.string.RegistrationDate), regDate != 0 ? "~ " + LocaleController.getInstance().formatterMonthYear.format(new Date(regDate * 1000L)) : LocaleController.getString("Loading", R.string.Loading), false);
-                            if (regDate == 0) {
-                                RegDate.getRegDate(user_id, new RegDate.RegDateCallback() {
-                                    @Override
-                                    public void onSuccess(int regDate) {
-                                        cell.setValue("~ " + LocaleController.getInstance().formatterMonthYear.format(new Date(regDate * 1000L)));
-                                    }
-
-                                    @Override
-                                    public void onError(Exception e) {
-                                        cell.setValue(e.getLocalizedMessage());
-                                    }
-                                });
-                            }
                     }
                     ll.addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
                 }

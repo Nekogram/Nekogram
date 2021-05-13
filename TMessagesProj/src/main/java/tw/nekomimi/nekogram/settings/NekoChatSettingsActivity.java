@@ -4,14 +4,18 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.Build;
+import android.os.Bundle;
 import android.text.TextPaint;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -113,7 +117,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 } else if (id == 1) {
                     NekoConfig.setStickerSize(14.0f);
                     menuItem.setVisibility(View.GONE);
-                    stickerSizeCell.invalidate();
+                    listAdapter.notifyItemChanged(stickerSizeRow, new Object());
                 }
             }
         });
@@ -125,17 +129,11 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         FrameLayout frameLayout = (FrameLayout) fragmentView;
 
         listView = new RecyclerListView(context);
-        listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false) {
-            @Override
-            public boolean supportsPredictiveItemAnimations() {
-                return false;
-            }
-        });
+        listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         listView.setVerticalScrollBarEnabled(false);
-        listView.setItemAnimator(null);
-        listView.setLayoutAnimation(null);
-        frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         listView.setAdapter(listAdapter);
+        ((DefaultItemAnimator) listView.getItemAnimator()).setDelayAnimations(false);
+        frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         listView.setOnItemClickListener((view, position, x, y) -> {
             if (position == ignoreBlockedRow) {
                 NekoConfig.toggleIgnoreBlocked();
@@ -455,6 +453,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         private final int endStickerSize = 20;
 
         private final TextPaint textPaint;
+        private int lastWidth;
 
         public StickerSizeCell(Context context) {
             super(context);
@@ -479,9 +478,13 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
 
                 }
             });
+            sizeBar.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
             addView(sizeBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38, Gravity.LEFT | Gravity.TOP, 9, 5, 43, 11));
 
             messagesCell = new StickerSizePreviewMessagesCell(context, parentLayout);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                messagesCell.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+            }
             addView(messagesCell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0, 53, 0, 0));
         }
 
@@ -494,7 +497,11 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-            sizeBar.setProgress((NekoConfig.stickerSize - startStickerSize) / (float) (endStickerSize - startStickerSize));
+            int width = MeasureSpec.getSize(widthMeasureSpec);
+            if (lastWidth != width) {
+                sizeBar.setProgress((NekoConfig.stickerSize - startStickerSize) / (float) (endStickerSize - startStickerSize));
+                lastWidth = width;
+            }
         }
 
         @Override
@@ -502,6 +509,17 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
             super.invalidate();
             messagesCell.invalidate();
             sizeBar.invalidate();
+        }
+
+        @Override
+        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+            super.onInitializeAccessibilityNodeInfo(info);
+            sizeBar.getSeekBarAccessibilityDelegate().onInitializeAccessibilityNodeInfoInternal(this, info);
+        }
+
+        @Override
+        public boolean performAccessibilityAction(int action, Bundle arguments) {
+            return super.performAccessibilityAction(action, arguments) || sizeBar.getSeekBarAccessibilityDelegate().performAccessibilityActionInternal(this, action, arguments);
         }
     }
 

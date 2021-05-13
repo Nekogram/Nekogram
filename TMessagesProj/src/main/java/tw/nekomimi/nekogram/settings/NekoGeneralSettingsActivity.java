@@ -135,11 +135,9 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         listView = new RecyclerListView(context);
         listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         listView.setVerticalScrollBarEnabled(false);
-        if (listView.getItemAnimator() != null) {
-            ((DefaultItemAnimator) listView.getItemAnimator()).setSupportsChangeAnimations(false);
-        }
-        frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         listView.setAdapter(listAdapter);
+        ((DefaultItemAnimator) listView.getItemAnimator()).setDelayAnimations(false);
+        frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         listView.setOnItemClickListener((view, position, x, y) -> {
             if (position == ipv6Row) {
                 NekoConfig.toggleIPv6();
@@ -158,7 +156,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 parentLayout.rebuildAllFragmentViews(false, false);
                 getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-                listAdapter.notifyItemChanged(drawerRow);
+                listAdapter.notifyItemChanged(drawerRow, new Object());
             } else if (position == disabledInstantCameraRow) {
                 NekoConfig.toggleDisabledInstantCamera();
                 if (view instanceof TextCheckCell) {
@@ -261,7 +259,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
                 TransitionManager.beginDelayedTransition(profilePreviewCell);
-                listAdapter.notifyItemChanged(drawerRow);
+                listAdapter.notifyItemChanged(drawerRow, new Object());
                 if (NekoConfig.avatarAsDrawerBackground) {
                     updateRows(false);
                     listAdapter.notifyItemRangeInserted(avatarBackgroundBlurRow, 2);
@@ -275,14 +273,14 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.avatarBackgroundBlur);
                 }
                 getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-                listAdapter.notifyItemChanged(drawerRow);
+                listAdapter.notifyItemChanged(drawerRow, new Object());
             } else if (position == avatarBackgroundDarkenRow) {
                 NekoConfig.toggleAvatarBackgroundDarken();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.avatarBackgroundDarken);
                 }
                 getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-                listAdapter.notifyItemChanged(drawerRow);
+                listAdapter.notifyItemChanged(drawerRow, new Object());
             } else if (position == askBeforeCallRow) {
                 NekoConfig.toggleAskBeforeCall();
                 if (view instanceof TextCheckCell) {

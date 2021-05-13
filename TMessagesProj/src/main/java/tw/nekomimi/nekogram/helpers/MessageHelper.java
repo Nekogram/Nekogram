@@ -283,4 +283,19 @@ public class MessageHelper extends BaseController {
             }
         }), ConnectionsManager.RequestFlagFailOnServerErrors);
     }
+
+    public String getDCLocation(int dc) {
+        switch (dc) {
+            case 1:
+            case 3:
+                return "Miami";
+            case 2:
+            case 4:
+                return "Amsterdam";
+            case 5:
+                return "Singapore";
+            default:
+                return "Unknown";
+        }
+    }
 }
