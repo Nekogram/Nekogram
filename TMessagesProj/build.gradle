@@ -116,7 +116,6 @@ android {
         }
     }
 
-
     buildTypes {
         debug {
             debuggable true
@@ -150,7 +149,7 @@ android {
         manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
     }
 
-    defaultConfig.versionCode = 2296
+    defaultConfig.versionCode = 2297
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
