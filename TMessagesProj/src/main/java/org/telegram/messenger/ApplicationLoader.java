@@ -358,6 +358,13 @@ public class ApplicationLoader extends Application {
 
     public static boolean isConnectionSlow() {
         try {
+            SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+            String proxyAddress = preferences.getString("proxy_ip", "");
+            if (preferences.getBoolean("proxy_enabled", false) && !TextUtils.isEmpty(proxyAddress)) {
+                if (NekoConfig.WS_ADDRESS.equals(proxyAddress)) {
+                    return true;
+                }
+            }
             ensureCurrentNetworkGet(false);
             if (currentNetworkInfo != null && currentNetworkInfo.getType() == ConnectivityManager.TYPE_MOBILE) {
                 switch (currentNetworkInfo.getSubtype()) {
