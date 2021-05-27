@@ -22,14 +22,13 @@ public class MicrosoftTranslator extends BaseTranslator {
 
     private static MicrosoftTranslator instance;
     private final List<String> targetLanguages = Arrays.asList(
-            "ar", "as", "bn", "bs", "bg", "yue", "ca", "zh", "zh-Hans", "zh-Hant",
-            "hr", "cs", "da", "prs", "nl", "en", "et", "fj", "fil", "fi",
-            "fr", "de", "el", "gu", "ht", "he", "hi", "mww", "hu", "is",
-            "id", "ga", "it", "ja", "kn", "kk", "tlh", "ko", "ku", "kmr",
-            "lv", "lt", "mg", "ms", "ml", "mt", "mi", "mr", "nb", "or", "ps",
-            "fa", "pl", "pt", "pa", "otq", "ro", "ru", "sm", "sr", "sk", "sl",
-            "es", "sw", "sv", "ty", "ta", "te", "th", "to", "tr", "uk", "ur",
-            "vi", "cy", "yua");
+            "sq", "ar", "az", "ga", "et", "or", "mww", "bg", "is", "pl", "bs", "fa", "ko",
+            "da", "de", "ru", "fr", "zh-Hant", "fil", "fj", "fi", "gu", "kk", "ht", "nl",
+            "ca", "zh-Hans", "cs", "kn", "otq", "hr", "lv", "lt", "ro", "mg", "mt", "mr",
+            "ml", "ms", "mi", "bn", "af", "ne", "nb", "pa", "pt", "pt-PT", "ja", "sv", "sm",
+            "sr-Latn", "sr-Cyrl", "sk", "sl", "sw", "ty", "te", "ta", "th", "to", "tr", "cy",
+            "ur", "uk", "es", "he", "el", "hu", "hy", "it", "hi", "id", "en", "yua", "yue",
+            "vi", "am", "as", "prs", "fr-CA", "iu", "km", "tlh-Latn", "ku", "kmr", "lo", "my", "ps", "ti");
     private boolean useCN = false;
 
     static MicrosoftTranslator getInstance() {

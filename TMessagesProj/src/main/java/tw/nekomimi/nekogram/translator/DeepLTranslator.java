@@ -9,7 +9,9 @@ import java.util.List;
 public class DeepLTranslator extends BaseTranslator {
 
     private static DeepLTranslator instance;
-    private final List<String> targetLanguages = Arrays.asList("DE", "EN", "ES", "FR", "IT", "JA", "NL", "PL", "PT", "RU", "ZH");
+    private final List<String> targetLanguages = Arrays.asList(
+            "BG", "PL", "DA", "DE", "RU", "FR", "FI", "NL", "CS", "LV", "LT", "RO",
+            "PT", "JA", "SV", "SK", "SL", "ES", "EL", "HU", "IT", "US", "ZH");
     private final DeeplTranslater deeplTranslater = new DeeplTranslater();
 
     static DeepLTranslator getInstance() {
