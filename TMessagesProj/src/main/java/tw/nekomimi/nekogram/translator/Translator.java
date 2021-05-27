@@ -26,7 +26,6 @@ public class Translator {
     public static final int PROVIDER_LINGO = 3;
     public static final int PROVIDER_YANDEX = 4;
     public static final int PROVIDER_DEEPL = 5;
-    public static final int PROVIDER_YOUDAO = 6;
     public static final int PROVIDER_MICROSOFT = 7;
 
     @SuppressLint("StaticFieldLeak")
@@ -104,8 +103,6 @@ public class Translator {
         types.add(Translator.PROVIDER_YANDEX);
         names.add(LocaleController.getString("ProviderDeepLTranslate", R.string.ProviderDeepLTranslate));
         types.add(Translator.PROVIDER_DEEPL);
-        names.add(LocaleController.getString("ProviderYouDao", R.string.ProviderYouDao));
-        types.add(Translator.PROVIDER_YOUDAO);
         names.add(LocaleController.getString("ProviderMicrosoftTranslator", R.string.ProviderMicrosoftTranslator));
         types.add(Translator.PROVIDER_MICROSOFT);
         return new Pair<>(names, types);
@@ -153,9 +150,6 @@ public class Translator {
             case PROVIDER_DEEPL:
                 translator = DeepLTranslator.getInstance();
                 break;
-            case PROVIDER_YOUDAO:
-                translator = YouDaoTranslator.getInstance();
-                break;
             case PROVIDER_MICROSOFT:
                 translator = MicrosoftTranslator.getInstance();
                 break;
@@ -189,13 +183,6 @@ public class Translator {
             case PROVIDER_DEEPL:
                 toLang = language.toUpperCase();
                 break;
-            case PROVIDER_YOUDAO:
-                if (language.equals("zh")) {
-                    toLang = "zh-CHS";
-                } else {
-                    toLang = language;
-                }
-                break;
             case PROVIDER_MICROSOFT:
             case PROVIDER_GOOGLE:
             case PROVIDER_GOOGLE_CN:
@@ -205,7 +192,7 @@ public class Translator {
                     if (countryUpperCase.equals("CN") || countryUpperCase.equals("DUANG")) {
                         toLang = provider == PROVIDER_MICROSOFT ? "zh-Hans" : "zh-CN";
                     } else if (countryUpperCase.equals("TW") || countryUpperCase.equals("HK")) {
-                        toLang = provider == PROVIDER_MICROSOFT ? "zh-HanT" : "zh-TW";
+                        toLang = provider == PROVIDER_MICROSOFT ? "zh-Hant" : "zh-TW";
                     } else {
                         toLang = language;
                     }

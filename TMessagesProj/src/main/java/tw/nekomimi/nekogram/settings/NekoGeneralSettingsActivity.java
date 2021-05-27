@@ -503,10 +503,11 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         }
                         int index = types.indexOf(NekoConfig.translationProvider);
                         if (index < 0) {
-                            return;
+                            textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), "", true);
+                        } else {
+                            String value = names.get(index);
+                            textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), value, true);
                         }
-                        String value = names.get(index);
-                        textCell.setTextAndValue(LocaleController.getString("TranslationProvider", R.string.TranslationProvider), value, true);
                     } else if (position == idTypeRow) {
                         String value;
                         switch (NekoConfig.idType) {
