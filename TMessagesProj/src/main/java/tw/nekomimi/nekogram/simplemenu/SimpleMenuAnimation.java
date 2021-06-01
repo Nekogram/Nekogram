@@ -30,11 +30,13 @@ class SimpleMenuAnimation {
         PropertyHolder holder = new PropertyHolder(background, view);
         Animator backgroundAnimator = createBoundsAnimator(
                 holder, width, height, centerX, centerY, start);
+        Animator elevationAnimator = createElevationAnimator(view, elevation);
 
         AnimatorSet animatorSet = new AnimatorSet();
         animatorSet.playTogether(
                 backgroundAnimator,
                 createElevationAnimator(view, elevation));
+        animatorSet.playTogether(backgroundAnimator, elevationAnimator);
         animatorSet.setDuration(backgroundAnimator.getDuration());
         animatorSet.start();
 

@@ -25,7 +25,7 @@ class PropertyHolder {
         return mBackground;
     }
 
-    private View getContentView() {
+    public View getContentView() {
         return mContentView;
     }
 
