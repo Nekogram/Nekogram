@@ -68,6 +68,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
@@ -344,6 +345,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private TextView updateTextView;
 
     private DialogsActivityDelegate delegate;
+
+    private ChatActivity mLastChatActivity;
 
     private ArrayList<Long> selectedDialogs = new ArrayList<>();
 
@@ -4873,6 +4876,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             if (AndroidUtilities.isTablet()) {
                 if (openedDialogId == dialogId && adapter != searchViewPager.dialogsSearchAdapter) {
+                    if (mLastChatActivity != null) {
+                        mLastChatActivity.onScrollDown();
+                    }
                     return;
                 }
                 if (viewPages != null) {
@@ -4888,7 +4894,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (searchString != null) {
                 if (getMessagesController().checkCanOpenChat(args, DialogsActivity.this)) {
                     getNotificationCenter().postNotificationName(NotificationCenter.closeChats);
-                    presentFragment(new ChatActivity(args));
+                    presentFragment(mLastChatActivity = new ChatActivity(args));
                 }
             } else {
                 if (getMessagesController().checkCanOpenChat(args, DialogsActivity.this)) {
@@ -4899,7 +4905,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             chatActivity.setPreloadedSticker(sticker, true);
                         }
                     }
-                    presentFragment(chatActivity);
+                    presentFragment(mLastChatActivity = chatActivity);
                 }
             }
         }
