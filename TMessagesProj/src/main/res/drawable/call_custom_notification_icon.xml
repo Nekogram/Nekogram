@@ -10,7 +10,6 @@
     <item
         android:drawable="@drawable/notification"
 		android:gravity="center"
-        android:left="-2dp"
         android:width="24dp"
         android:height="24dp" />
 </layer-list>

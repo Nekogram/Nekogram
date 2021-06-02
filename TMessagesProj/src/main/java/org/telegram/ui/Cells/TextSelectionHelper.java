@@ -1269,7 +1269,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                         hideActions();
                         clear(true);
                         if (TextSelectionHelper.this.callback != null) {
-                            TextSelectionHelper.this.callback.onTextCopied();
+                            TextSelectionHelper.this.callback.onTextTranslated();
                         }
                     default:
                         clear();
@@ -1448,6 +1448,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
     public static class Callback {
         public void onStateChanged(boolean isSelected){};
         public void onTextCopied(){};
+        public void onTextTranslated(){};
     }
 
     protected void fillLayoutForOffset(int offset, LayoutBlock layoutBlock) {

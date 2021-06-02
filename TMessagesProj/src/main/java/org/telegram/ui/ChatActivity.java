@@ -7207,6 +7207,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
             }
+
+            @Override
+            public void onTextTranslated() {
+                if (actionBar != null && actionBar.isActionModeShowed()) {
+                    clearSelectionMode();
+                }
+            }
         });
 
         contentView.addView(textSelectionHelper.getOverlayView(context));
@@ -19133,6 +19140,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     canEditAdmin = false;
                                 }
                                 canRestrict = ChatObject.canBlockUsers(currentChat) && (!(channelParticipant instanceof TLRPC.TL_channelParticipantAdmin || channelParticipant instanceof TLRPC.TL_channelParticipantCreator) || channelParticipant.can_edit);
+                                if (currentChat.gigagroup) {
+                                    canRestrict = false;
+                                }
                                 editingAdmin = channelParticipant instanceof TLRPC.TL_channelParticipantAdmin;
                             } else {
                                 canEditAdmin = currentChat.creator;

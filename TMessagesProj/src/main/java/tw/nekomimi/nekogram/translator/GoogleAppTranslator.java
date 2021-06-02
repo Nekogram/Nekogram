@@ -75,7 +75,7 @@ public class GoogleAppTranslator extends BaseTranslator {
         InputStream httpConnectionStream;
         URL downloadUrl = new URL(url);
         URLConnection httpConnection = downloadUrl.openConnection();
-        httpConnection.addRequestProperty("User-Agent", "GoogleTranslate/6.14.0.04.343003216 (Linux; U; Android 10; Redmi K20 Pro)");
+        httpConnection.addRequestProperty("User-Agent", "GoogleTranslate/6.18.0.06.376053713 (Linux; U; Android 11; Redmi K20 Pro)");
         httpConnection.setConnectTimeout(1000);
         //httpConnection.setReadTimeout(2000);
         httpConnection.connect();
