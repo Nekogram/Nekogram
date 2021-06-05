@@ -124,11 +124,11 @@ public class VoiceMessageEnterTransition {
                 messageView.getRadialProgress().setOverrideAlpha(1f);
                 canvas.restore();
 
-//                if (getMeasuredHeight() > 0) {
-//                    gradientMatrix.setTranslate(0, clipBottom);
-//                    gradientShader.setLocalMatrix(gradientMatrix);
-//                    canvas.drawRect(0, clipBottom, getMeasuredWidth(), getMeasuredHeight(), gradientPaint);
-//                }
+                if (getMeasuredHeight() > 0) {
+                    gradientMatrix.setTranslate(0, clipBottom);
+                    gradientShader.setLocalMatrix(gradientMatrix);
+                    canvas.drawRect(0, clipBottom, getMeasuredWidth(), getMeasuredHeight(), gradientPaint);
+                }
 
                 //restore clipRect
                 canvas.restore();
@@ -166,7 +166,7 @@ public class VoiceMessageEnterTransition {
         });
     }
 
-    public Animator getAnimator() {
-        return animator;
+    public void start() {
+        animator.start();
     }
 }

@@ -2163,31 +2163,6 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         return selectedPhotosOrder;
     }
 
-    public ArrayList<PhotoAttachPhotoCell> getSelectedPhotosCells() {
-        ArrayList<PhotoAttachPhotoCell> res = new ArrayList<>();
-        for (Object key : selectedPhotosOrder) {
-            Object photo = selectedPhotos.get(key);
-            if (photo instanceof MediaController.PhotoEntry) {
-                MediaController.PhotoEntry entry = (MediaController.PhotoEntry) photo;
-                boolean found = false;
-                for (int i = 0; i < gridView.getChildCount(); i++) {
-                    View child = gridView.getChildAt(i);
-                    if (child instanceof PhotoAttachPhotoCell) {
-                        PhotoAttachPhotoCell cell = (PhotoAttachPhotoCell) child;
-                        if (cell.getPhotoEntry() == entry) {
-                            res.add(cell);
-                            found = true;
-                            break;
-                        }
-                    }
-                }
-                if (!found)
-                    res.add(null);
-            }
-        }
-        return res;
-    }
-
     public void checkStorage() {
         if (noGalleryPermissions && Build.VERSION.SDK_INT >= 23) {
             noGalleryPermissions = parentAlert.baseFragment.getParentActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED;

@@ -159,5 +159,4 @@
     <string name="WsEnableTls">Enable TLS</string>
     <string name="WsLocalProxy">Local proxy</string>
     <string name="WsEnableDoh">Enable DoH</string>
-    <string name="MessageSendingAnimation">Message sending animations</string>
 </resources>

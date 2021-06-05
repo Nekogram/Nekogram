@@ -98,7 +98,6 @@ public class NekoConfig {
     public static boolean accentAsNotificationColor = false;
     public static boolean silenceNonContacts = false;
     public static boolean swipeToPiP = false;
-    public static boolean messageAnimation = true;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
@@ -246,17 +245,8 @@ public class NekoConfig {
             wsEnableTLS = preferences.getBoolean("wsEnableTLS", true);
             wsUseMTP = preferences.getBoolean("wsUseMTP", false);
             wsUseDoH = preferences.getBoolean("wsUseDoH", true);
-            messageAnimation = preferences.getBoolean("messageAnimation", true);
             configLoaded = true;
         }
-    }
-
-    public static void toggleMessageAnimation() {
-        messageAnimation = !messageAnimation;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("messageAnimation", messageAnimation);
-        editor.commit();
     }
 
     public static void setWsUseMTP(boolean use) {
