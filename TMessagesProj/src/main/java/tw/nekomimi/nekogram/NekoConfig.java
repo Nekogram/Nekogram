@@ -70,6 +70,7 @@ public class NekoConfig {
     public static boolean showTranslate = true;
     public static boolean showRepeat = true;
     public static boolean showNoQuoteForward = true;
+    public static boolean showDate = false;
 
     public static boolean hidePhone = true;
     public static int typeface = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 1 : 0;
@@ -245,6 +246,7 @@ public class NekoConfig {
             wsEnableTLS = preferences.getBoolean("wsEnableTLS", true);
             wsUseMTP = preferences.getBoolean("wsUseMTP", false);
             wsUseDoH = preferences.getBoolean("wsUseDoH", true);
+            showDate = preferences.getBoolean("showDate", false);
             configLoaded = true;
         }
     }
@@ -270,6 +272,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("wsEnableTLS", wsEnableTLS);
+        editor.commit();
+    }
+
+    public static void toggleShowDate() {
+        showDate = !showDate;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showDate", showDate);
         editor.commit();
     }
 
