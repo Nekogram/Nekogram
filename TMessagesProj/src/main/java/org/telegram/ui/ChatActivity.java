@@ -368,6 +368,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private View searchAsListTogglerView;
     private ImageView searchCalendarButton;
     private ImageView searchUserButton;
+    private ImageView searchBeginningButton;
     private ImageView searchUpButton;
     private ImageView searchDownButton;
     private SearchCounterView searchCountText;
@@ -6814,6 +6815,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         });
         final float paddingTop = Theme.chat_composeShadowDrawable.getIntrinsicHeight() / AndroidUtilities.density - 3f;
         searchContainer.addView(searchAsListTogglerView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.NO_GRAVITY, 0, paddingTop, 0, 0));
+
+        searchBeginningButton = new ImageView(context);
+        searchBeginningButton.setScaleType(ImageView.ScaleType.CENTER);
+        searchBeginningButton.setImageResource(R.drawable.ic_upward);
+        searchBeginningButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_searchPanelIcons), PorterDuff.Mode.MULTIPLY));
+        searchBeginningButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 1));
+        searchContainer.addView(searchBeginningButton, LayoutHelper.createFrame(48, 48, Gravity.RIGHT | Gravity.TOP, 0, 0, 96, 0));
+        searchBeginningButton.setOnClickListener(view -> {
+            jumpToDate(1375315200);
+        });
+        searchBeginningButton.setContentDescription(LocaleController.getString("JumpToBeginning", R.string.JumpToBeginning));
 
         searchUpButton = new ImageView(context);
         searchUpButton.setScaleType(ImageView.ScaleType.CENTER);
@@ -23776,6 +23788,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         themeDescriptions.add(new ThemeDescription(replyCloseImageView, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_chat_replyPanelClose));
         themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, selectedBackgroundDelegate, Theme.key_chat_replyPanelName));
 
+        themeDescriptions.add(new ThemeDescription(searchBeginningButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_chat_searchPanelIcons));
+        themeDescriptions.add(new ThemeDescription(searchBeginningButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_actionBarActionModeDefaultSelector));
         themeDescriptions.add(new ThemeDescription(searchUpButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_chat_searchPanelIcons));
         themeDescriptions.add(new ThemeDescription(searchUpButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_actionBarActionModeDefaultSelector));
         themeDescriptions.add(new ThemeDescription(searchDownButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_chat_searchPanelIcons));
