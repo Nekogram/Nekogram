@@ -19,8 +19,8 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.LaunchActivity;
 
 import java.io.File;
@@ -68,11 +68,11 @@ public class UpdateService extends Service implements NotificationCenter.Notific
 
         Intent installIntent = new Intent(Intent.ACTION_VIEW);
         installIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-        File f = getMessageAttachment(updateRef.message);
-        installIntent.setDataAndType(FileProvider.getUriForFile(this,
-                BuildConfig.APPLICATION_ID + ".provider", f), "application/vnd.android.package-archive");
-        PendingIntent installPendingIntent = PendingIntent.getActivity(this, 500, installIntent, 0);
+        File f = FileLoader.getPathToAttach(updateRef.document, true);
         if (f.exists()) {
+            installIntent.setDataAndType(FileProvider.getUriForFile(this,
+                    BuildConfig.APPLICATION_ID + ".provider", f), "application/vnd.android.package-archive");
+            PendingIntent installPendingIntent = PendingIntent.getActivity(this, 500, installIntent, 0);
             builder = getUpdateHelper().createNotificationBuilder(false);
             builder = builder.setSmallIcon(R.drawable.notification).
                     setContentTitle(LocaleController.getString("DownloadingUpdateFinish", R.string.DownloadingUpdateFinish)).
@@ -96,9 +96,7 @@ public class UpdateService extends Service implements NotificationCenter.Notific
                     setGroupSummary(false).
                     setProgress(100, 0, true);
             startForeground(NOTIFICATION_ID_PROGRESS, builder.build());
-            AccountInstance.getInstance(UserConfig.selectedAccount).getFileLoader().loadFile(
-                    updateRef.document, updateRef.message, 0, 0
-            );
+            FileLoader.getInstance(UserConfig.selectedAccount).loadFile(SharedConfig.pendingAppUpdate.document, "update", 1, 1);
             NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.fileLoadProgressChanged);
             NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.fileLoaded);
             NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.httpFileDidLoad);
@@ -136,13 +134,7 @@ public class UpdateService extends Service implements NotificationCenter.Notific
                         setGroupSummary(false);
                 Intent installIntent = new Intent(Intent.ACTION_VIEW);
                 installIntent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                File f = null;
-                if (updateRef.message.attachPath != null && updateRef.message.attachPath.length() != 0) {
-                    f = new File(updateRef.message.attachPath);
-                }
-                if (f == null || !f.exists()) {
-                    f = FileLoader.getPathToMessage(updateRef.message);
-                }
+                File f = FileLoader.getPathToAttach(updateRef.document, true);
                 installIntent.setDataAndType(FileProvider.getUriForFile(this,
                         BuildConfig.APPLICATION_ID + ".provider", f), "application/vnd.android.package-archive");
                 PendingIntent installPendingIntent = PendingIntent.getActivity(this, 500, installIntent, 0);
@@ -193,16 +185,5 @@ public class UpdateService extends Service implements NotificationCenter.Notific
         NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.fileLoadFailed);
         NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.httpFileDidFailedLoad);
         super.onDestroy();
-    }
-
-    private static File getMessageAttachment(TLRPC.Message messageOwner) {
-        File f = null;
-        if (messageOwner.attachPath != null && messageOwner.attachPath.length() != 0) {
-            f = new File(messageOwner.attachPath);
-        }
-        if (f == null || !f.exists()) {
-            f = FileLoader.getPathToMessage(messageOwner);
-        }
-        return f;
     }
 }

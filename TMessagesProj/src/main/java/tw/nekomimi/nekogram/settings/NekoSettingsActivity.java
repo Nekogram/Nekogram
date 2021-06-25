@@ -2,7 +2,6 @@ package tw.nekomimi.nekogram.settings;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.TLRPC;
@@ -35,6 +35,7 @@ import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.LaunchActivity;
 
 import java.util.ArrayList;
 
@@ -43,7 +44,7 @@ import tw.nekomimi.nekogram.helpers.DonateHelper;
 import tw.nekomimi.nekogram.updater.UpdateHelper;
 
 @SuppressLint("RtlHardcoded")
-public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.UpdateHelperDelegate {
+public class NekoSettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private RecyclerListView listView;
     private ListAdapter listAdapter;
@@ -87,6 +88,7 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
 
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.appUpdateAvailable);
         updateRows();
 
         return true;
@@ -143,7 +145,7 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
             } else if (position == yahagiRow) {
                 Browser.openUrl(getParentActivity(), "https://delta.pcr.cy/auth/register?code=neko");
             } else if (position == checkUpdateRow) {
-                UpdateHelper.getInstance().checkNewVersionAvailable(this, false);
+                ((LaunchActivity) getParentActivity()).checkAppUpdate(true);
                 checkingUpdate = true;
                 listAdapter.notifyItemChanged(checkUpdateRow);
             }
@@ -250,9 +252,18 @@ public class NekoSettingsActivity extends BaseFragment implements UpdateHelper.U
     }
 
     @Override
-    public void didCheckNewVersionAvailable(String error) {
-        checkingUpdate = false;
-        AndroidUtilities.runOnUIThread(() -> listAdapter.notifyItemChanged(checkUpdateRow));
+    public void didReceivedNotification(int id, int account, Object... args) {
+        if (id == NotificationCenter.appUpdateAvailable) {
+            checkingUpdate = false;
+            AndroidUtilities.runOnUIThread(() -> listAdapter.notifyItemChanged(checkUpdateRow));
+        }
+    }
+
+    @Override
+    public void onFragmentDestroy() {
+        super.onFragmentDestroy();
+
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.appUpdateAvailable);
     }
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {

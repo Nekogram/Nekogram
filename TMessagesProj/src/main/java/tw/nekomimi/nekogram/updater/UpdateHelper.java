@@ -26,6 +26,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
+import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
@@ -47,7 +48,7 @@ public class UpdateHelper {
     private static final String NOTIFICATION_CHANNEL_ID = "nekogram-update";
     private static final String NOTIFICATION_CHANNEL_ID_PROGRESS = "nekogram-update-progress-2";
     private static final int NOTIFICATION_ID = 78985;
-    UpdateRef updatingRef;
+    public UpdateRef updatingRef;
     ArrayList<UpdateRef> updateRefs = new ArrayList<>();
 
     UpdateHelper() {
@@ -102,9 +103,7 @@ public class UpdateHelper {
     }
 
     public interface UpdateHelperDelegate {
-        int getClassGuid();
-
-        void didCheckNewVersionAvailable(String error);
+        void didCheckNewVersionAvailable(UpdateRef res, String error);
     }
 
     public static UpdateHelper getInstance() {
@@ -133,23 +132,48 @@ public class UpdateHelper {
         return MessagesStorage.getInstance(UserConfig.selectedAccount);
     }
 
-    static class UpdateRef {
+    public static class UpdateRef extends TLObject {
         int versionCode;
         String versionName;
         String abi;
         String filename;
         String realFilename;
-        TLRPC.Document document;
-        TLRPC.Message message;
+        public TLRPC.Document document;
 
-        UpdateRef(int versionCode, String versionName, String abi, String filename, TLRPC.Document document, TLRPC.Message message) {
+        UpdateRef(int versionCode, String versionName, String abi, String filename, TLRPC.Document document) {
             this.versionCode = versionCode;
             this.versionName = versionName;
             this.abi = abi;
             this.filename = filename;
             this.document = document;
-            this.message = message;
             this.realFilename = FileLoader.getAttachFileName(document);
+        }
+
+        public UpdateRef() {
+        }
+
+        public static UpdateRef TLdeserialize(AbstractSerializedData stream, boolean exception) {
+            UpdateRef result = new UpdateRef();
+            result.readParams(stream, exception);
+            return result;
+        }
+
+        public void readParams(AbstractSerializedData stream, boolean exception) {
+            versionCode = stream.readInt32(exception);
+            versionName = stream.readString(exception);
+            abi = stream.readString(exception);
+            filename = stream.readString(exception);
+            realFilename = stream.readString(exception);
+            document = TLRPC.Document.TLdeserialize(stream, stream.readInt32(exception), exception);
+        }
+
+        public void serializeToStream(AbstractSerializedData stream) {
+            stream.writeInt32(versionCode);
+            stream.writeString(versionName);
+            stream.writeString(abi);
+            stream.writeString(filename);
+            stream.writeString(realFilename);
+            document.serializeToStream(stream);
         }
     }
 
@@ -178,7 +202,7 @@ public class UpdateHelper {
                     } catch (NumberFormatException e) {
                         continue;
                     }
-                    this.updateRefs.add(new UpdateRef(ver, m.group(1), m.group(3), filename.file_name, document, message));
+                    this.updateRefs.add(new UpdateRef(ver, m.group(1), m.group(3), filename.file_name, document));
                 }
             }
         }
@@ -211,15 +235,15 @@ public class UpdateHelper {
         }
     }
 
-    private void checkNewVersionTLCallback(@Nullable UpdateHelperDelegate delegate, boolean isAutoUpdate, int dialog_id,
+    private void checkNewVersionTLCallback(@Nullable UpdateHelperDelegate delegate, int dialog_id,
                                            TLObject response, TLRPC.TL_error error) {
-        long lastDate = NekoConfig.lastSuccessfulCheckUpdateTime;
+        NekoConfig.setLastSuccessfulCheckUpdateTime(System.currentTimeMillis());
         if (error == null) {
             final TLRPC.messages_Messages res = (TLRPC.messages_Messages) response;
             getMessagesController().removeDeletedMessagesFromArray(dialog_id, res.messages);
             getShouldUpdateVersion(res.messages);
             if (delegate != null && updateRefs.size() == 0) {
-                delegate.didCheckNewVersionAvailable(null); // no available version
+                delegate.didCheckNewVersionAvailable(null, null); // no available version
                 return;
             }
             int code;
@@ -251,7 +275,7 @@ public class UpdateHelper {
                 }
             } catch (Exception exception) {
                 if (delegate != null) {
-                    delegate.didCheckNewVersionAvailable(exception.getLocalizedMessage());
+                    delegate.didCheckNewVersionAvailable(null, exception.getLocalizedMessage());
                 }
                 return;
             }
@@ -263,23 +287,19 @@ public class UpdateHelper {
                     updateRef = ref;
                 }
             }
-            NekoConfig.setLastSuccessfulCheckUpdateTime(System.currentTimeMillis());
-            if (updateRef != null) {
-                if (!isAutoUpdate || shouldGreyScaleReleaseNotifyUser(lastDate, updateRef)) {
-                    askIfShouldDownloadAPK(updateRef);
-                }
+            if (delegate != null) {
+                delegate.didCheckNewVersionAvailable(updateRef, null);
             }
-            if (delegate != null) delegate.didCheckNewVersionAvailable(null);
         } else {
-            if (delegate != null) delegate.didCheckNewVersionAvailable(error.text);
+            if (delegate != null) delegate.didCheckNewVersionAvailable(null, error.text);
         }
     }
 
-    public void checkNewVersionAvailable(@Nullable UpdateHelperDelegate delegate, boolean isAutoUpdate) {
-        checkNewVersionAvailable(delegate, isAutoUpdate, false);
+    public void checkNewVersionAvailable(@Nullable UpdateHelperDelegate delegate) {
+        checkNewVersionAvailable(delegate, false);
     }
 
-    public void checkNewVersionAvailable(@Nullable UpdateHelperDelegate delegate, boolean isAutoUpdate, boolean forceRefreshAccessHash) {
+    public void checkNewVersionAvailable(@Nullable UpdateHelperDelegate delegate, boolean forceRefreshAccessHash) {
         if (NekoConfig.installedFromPlay) return;
         TLRPC.TL_contacts_resolveUsername req1 = new TLRPC.TL_contacts_resolveUsername();
         int dialog_id = -1302242053;
@@ -293,11 +313,11 @@ public class UpdateHelper {
         if (req.peer == null || req.peer.access_hash == 0 || forceRefreshAccessHash) {
             getConnectionsManager().sendRequest(req1, (response1, error1) -> {
                 if (delegate != null && error1 != null) {
-                    delegate.didCheckNewVersionAvailable(error1.text);
+                    delegate.didCheckNewVersionAvailable(null, error1.text);
                     return;
                 }
                 if (delegate != null && !(response1 instanceof TLRPC.TL_contacts_resolvedPeer)) {
-                    delegate.didCheckNewVersionAvailable("Unexpected TL_contacts_resolvedPeer response");
+                    delegate.didCheckNewVersionAvailable(null, "Unexpected TL_contacts_resolvedPeer response");
                     return;
                 }
                 TLRPC.TL_contacts_resolvedPeer resolvedPeer = (TLRPC.TL_contacts_resolvedPeer) response1;
@@ -305,28 +325,22 @@ public class UpdateHelper {
                 getMessagesController().putChats(resolvedPeer.chats, false);
                 getMessagesStorage().putUsersAndChats(resolvedPeer.users, resolvedPeer.chats, false, true);
                 if (delegate != null && (resolvedPeer.chats == null || resolvedPeer.chats.size() == 0)) {
-                    delegate.didCheckNewVersionAvailable("Unexpected TL_contacts_resolvedPeer chat size");
+                    delegate.didCheckNewVersionAvailable(null, "Unexpected TL_contacts_resolvedPeer chat size");
                     return;
                 }
                 req.peer = new TLRPC.TL_inputPeerChannel();
                 req.peer.channel_id = resolvedPeer.chats.get(0).id;
                 req.peer.access_hash = resolvedPeer.chats.get(0).access_hash;
-                int reqId = getConnectionsManager().sendRequest(req, (response, error) -> checkNewVersionTLCallback(delegate, isAutoUpdate, dialog_id, response, error));
-                if (delegate != null) {
-                    getConnectionsManager().bindRequestToGuid(reqId, delegate.getClassGuid());
-                }
+                int reqId = getConnectionsManager().sendRequest(req, (response, error) -> checkNewVersionTLCallback(delegate, dialog_id, response, error));
             });
         } else {
             int reqId = getConnectionsManager().sendRequest(req, (response, error) -> {
                 if (error != null) {
-                    checkNewVersionAvailable(delegate, isAutoUpdate, true);
+                    checkNewVersionAvailable(delegate, true);
                     return;
                 }
-                checkNewVersionTLCallback(delegate, isAutoUpdate, dialog_id, response, null);
+                checkNewVersionTLCallback(delegate, dialog_id, response, null);
             });
-            if (delegate != null) {
-                getConnectionsManager().bindRequestToGuid(reqId, delegate.getClassGuid());
-            }
         }
     }
 
@@ -366,7 +380,7 @@ public class UpdateHelper {
         return new NotificationCompat.Builder(ApplicationLoader.applicationContext, id);
     }
 
-    private void askIfShouldDownloadAPK(UpdateRef updateRef) {
+    public void askIfShouldDownloadAPK(UpdateRef updateRef) {
         updatingRef = updateRef;
         Intent activityIntent = new Intent(ApplicationLoader.applicationContext, LaunchActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, activityIntent, 0);

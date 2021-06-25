@@ -160,4 +160,5 @@
     <string name="WsLocalProxy">Local proxy</string>
     <string name="WsEnableDoh">Enable DoH</string>
     <string name="MsgDate">Date</string>
+    <string name="AppUpdateNekogram">Update Nekogram</string>
 </resources>
