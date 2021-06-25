@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Pengaturan Neko</string>
-    <string name="IPv6">Try connecting through IPv6 </string>
-    <string name="MessageMenu">what is diz</string>
-    <string name="HidePhone">hide your \"cellphone\" number :D</string>
-    <string name="Hide">hide hide hidee</string>
+    <string name="IPv6">Coba sambungkan melalui IPv6</string>
+    <string name="MessageMenu">Menu pada pesan</string>
+    <string name="HidePhone">sembunyikan nomor telepon saya</string>
+    <string name="Hide">Diam</string>
     <string name="DeleteAllFromSelf">delete all of this, from yourself</string>
     <string name="DeleteAllFromSelfAlert">Warning! This will **delete all messages from you** in this chat for **all** participants.</string>
     <string name="BotLogin">Bot Login</string>
@@ -134,7 +134,6 @@
     <string name="DownloadingUpdateFail">Downloaded app failed</string>
     <string name="ClickToRetry">Click to retry.</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
-    <string name="ProviderYouDao">YouDao Translate</string>
     <string name="TranslationProviderShort">Provider</string>
     <string name="ViewSourceCode">View source code</string>
     <string name="AvatarAsBackground">Profile picture as background</string>
@@ -148,4 +147,9 @@
     <string name="StickerSavedHint">Sticker saved to gallery</string>
     <string name="UserID">User ID</string>
     <string name="Datacenter">Datacenter</string>
+    <string name="RegistrationDate">Registration date</string>
+    <string name="WsDescription">Connect to Telegram through WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">technical details</a>]]>.</string>
+    <string name="WsEnableTls">Enable TLS</string>
+    <string name="WsLocalProxy">Local proxy</string>
+    <string name="WsEnableDoh">Enable DoH</string>
 </resources>

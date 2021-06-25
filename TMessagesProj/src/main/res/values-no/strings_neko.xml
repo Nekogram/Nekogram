@@ -133,7 +133,6 @@
     <string name="DownloadingUpdateFail">Nedlastet app mislyktes</string>
     <string name="ClickToRetry">Klikk for å prøve igjen.</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
-    <string name="ProviderYouDao">YouDao Translate</string>
     <string name="TranslationProviderShort">Forsørger</string>
     <string name="ViewSourceCode">Vis kildekode</string>
     <string name="AvatarAsBackground">Profilbilde som bakgrunn</string>

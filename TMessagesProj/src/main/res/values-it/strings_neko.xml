@@ -134,7 +134,6 @@
     <string name="DownloadingUpdateFail">Download fallito</string>
     <string name="ClickToRetry">Clicca per riprovare.</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
-    <string name="ProviderYouDao">YouDao Translate</string>
     <string name="TranslationProviderShort">Fornitore</string>
     <string name="ViewSourceCode">Visualizza codice sorgente</string>
     <string name="AvatarAsBackground">Immagine del profilo come background</string>

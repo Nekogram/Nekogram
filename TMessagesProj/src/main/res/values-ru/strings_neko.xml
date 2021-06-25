@@ -135,7 +135,6 @@
     <string name="DownloadingUpdateFail">Не удалось загрузить обновление</string>
     <string name="ClickToRetry">Нажмите, чтобы повторить попытку.</string>
     <string name="ProviderMicrosoftTranslator">Перевод Microsoft</string>
-    <string name="ProviderYouDao">Перевод YouDao</string>
     <string name="TranslationProviderShort">Поставщик</string>
     <string name="ViewSourceCode">Посмотреть исходный код</string>
     <string name="AvatarAsBackground">Фото профиля в качестве фона</string>

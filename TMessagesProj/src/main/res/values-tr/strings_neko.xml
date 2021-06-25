@@ -134,7 +134,6 @@
     <string name="DownloadingUpdateFail">Uygulama indirmesi başarısız oldu</string>
     <string name="ClickToRetry">Tekrar denemek için basın.</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Çevirmen</string>
-    <string name="ProviderYouDao">YouDao Çeviri</string>
     <string name="TranslationProviderShort">Sağlayıcı</string>
     <string name="ViewSourceCode">Kaynak kodu görüntüle</string>
     <string name="AvatarAsBackground">Arka plan olarak profil resmi</string>

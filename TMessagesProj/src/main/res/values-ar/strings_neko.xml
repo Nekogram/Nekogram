@@ -133,7 +133,6 @@
     <string name="DownloadingUpdateFail">فشل تنزيل التطبيق</string>
     <string name="ClickToRetry">انقر لإعادة المحاولة.</string>
     <string name="ProviderMicrosoftTranslator">مترجم مايكـروسـوفت</string>
-    <string name="ProviderYouDao">ترجمة YouDao</string>
     <string name="TranslationProviderShort">موفر</string>
     <string name="ViewSourceCode">عرض رمز المصدر</string>
     <string name="AvatarAsBackground">الصورة الشخصية كخلفية</string>
@@ -149,4 +148,6 @@
     <string name="Datacenter">مركز البيانات</string>
     <string name="RegistrationDate">تاريخ التسجيل</string>
     <string name="WsEnableTls">تمكين TLS</string>
+    <string name="WsLocalProxy">بروكسي محلي</string>
+    <string name="WsEnableDoh">تمكين DoH</string>
 </resources>

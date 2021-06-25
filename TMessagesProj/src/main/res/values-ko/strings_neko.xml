@@ -135,7 +135,6 @@
     <string name="DownloadingUpdateFail">업데이트 다운로드 실패</string>
     <string name="ClickToRetry">재시도 하기</string>
     <string name="ProviderMicrosoftTranslator">마이크로소프트 번역기</string>
-    <string name="ProviderYouDao">유다오 번역</string>
     <string name="TranslationProviderShort">제공자</string>
     <string name="ViewSourceCode">소스코드 보기</string>
     <string name="AvatarAsBackground">배경으로 프로필 사진 쓰기</string>
@@ -152,4 +151,7 @@
     <string name="RegistrationDate">가입일</string>
     <string name="WsDescription">Cloudflare의 WebSocket을 통해 Telegram에 연결, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">기술적 세부 사항</a>]]></string>
     <string name="WsEnableTls">TLS 활성화</string>
+    <string name="WsLocalProxy">로컬 프록시</string>
+    <string name="WsEnableDoh">DoH 활성화</string>
+    <string name="MsgDate">날짜</string>
 </resources>

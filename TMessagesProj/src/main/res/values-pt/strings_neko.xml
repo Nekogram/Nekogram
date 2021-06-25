@@ -55,6 +55,7 @@
     <string name="MessageDetails">detalhes</string>
     <string name="Translate">Traduzir</string>
     <string name="DeleteAccount">Excluir conta do Telegram</string>
+    <string name="TranslateFailed">Erro do servidor de tradução</string>
     <string name="AutoPauseVideo">Pausar vídeo automaticamente</string>
     <string name="AutoPauseVideoAbout">Quando bloquear tela/alternar para segundo plano.</string>
     <string name="DisableProximityEvents">Desativar eventos de proximidade</string>

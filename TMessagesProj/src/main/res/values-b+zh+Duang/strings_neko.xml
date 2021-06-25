@@ -101,7 +101,7 @@
     <string name="MediaPreview">对话列表中的媒体预览</string>
     <string name="ProviderYandex">Yandex 翻译</string>
     <string name="IdType">个人资料中的 ID</string>
-    <string name="IdTypeAbout">Telegram API按原样使用 ID，但 Bot API 在群组的开头添加负号，在频道的开头添加 -100 使其合并为一个字段。</string>
+    <string name="IdTypeAbout">Telegram API 按原样使用 ID，但 Bot API 在群组的开头添加负号，在频道的开头添加 -100 使其合并为一个字段。</string>
     <string name="IdTypeHidden">隐藏</string>
     <string name="IdTypeAPI">Telegram API</string>
     <string name="IdTypeBOTAPI">Bot API</string>
@@ -137,7 +137,6 @@
     <string name="DownloadingUpdateFail">应用更新下载失败</string>
     <string name="ClickToRetry">点击重试下载。</string>
     <string name="ProviderMicrosoftTranslator">微软翻译</string>
-    <string name="ProviderYouDao">有道翻译</string>
     <string name="TranslationProviderShort">翻译源</string>
     <string name="ViewSourceCode">查看源代码</string>
     <string name="AvatarAsBackground">头像作为背景</string>
@@ -156,5 +155,4 @@
     <string name="WsEnableTls">启用 TLS</string>
     <string name="WsLocalProxy">本地代理</string>
     <string name="WsEnableDoh">启用 DoH</string>
-    <string name="MessageSendingAnimation">消息发送动画</string>
 </resources>

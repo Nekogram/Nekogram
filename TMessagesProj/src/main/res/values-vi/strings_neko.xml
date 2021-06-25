@@ -134,7 +134,6 @@
     <string name="DownloadingUpdateFail">Tải xuống cập nhật không thành công</string>
     <string name="ClickToRetry">Nhấn để thử lại</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
-    <string name="ProviderYouDao">YouDao Translate</string>
     <string name="TranslationProviderShort">Nhà cung cấp dịch vụ</string>
     <string name="ViewSourceCode">Xem mã nguồn</string>
     <string name="AvatarAsBackground">Ảnh đại diện làm hình nền</string>
@@ -150,4 +149,5 @@
     <string name="Datacenter">Trung tâm dữ liệu</string>
     <string name="RegistrationDate">Ngày đăng ký</string>
     <string name="WsDescription">Connect to Telegram through WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">technical details</a>]]>.</string>
+    <string name="WsEnableTls">Enable TLS</string>
 </resources>

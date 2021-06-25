@@ -134,7 +134,6 @@
     <string name="DownloadingUpdateFail">Pobieranie nieudane</string>
     <string name="ClickToRetry">Kliknij, aby spróbować ponownie.</string>
     <string name="ProviderMicrosoftTranslator">Tłumacz Microsoft</string>
-    <string name="ProviderYouDao">Tłumacz YouDao</string>
     <string name="TranslationProviderShort">Usługodawca</string>
     <string name="ViewSourceCode">Zobacz kod źródłowy</string>
     <string name="AvatarAsBackground">Zdjęcie profilowe jako tło</string>
@@ -151,4 +150,6 @@
     <string name="RegistrationDate">Data rejestracji</string>
     <string name="WsDescription">Połącz się z Telegram używając WebSocket przez Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">szczegóły techniczne</a>]]>.</string>
     <string name="WsEnableTls">Włącz TLS</string>
+    <string name="WsLocalProxy">Lokalne proxy</string>
+    <string name="WsEnableDoh">Włącz DoH</string>
 </resources>
