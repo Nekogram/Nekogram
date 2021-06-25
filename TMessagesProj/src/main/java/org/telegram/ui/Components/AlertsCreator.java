@@ -2623,7 +2623,7 @@ public class AlertsCreator {
         optionsButton.setIcon(R.drawable.ic_ab_other);
         optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_player_actionBarSelector), 1));
         titleLayout.addView(optionsButton, LayoutHelper.createFrame(40, 40, Gravity.TOP | Gravity.RIGHT, 0, 8, 5, 0));
-        optionsButton.addSubItem(1, LocaleController.getString("JumpToBeginning", R.string.JumpToBeginning));
+        optionsButton.addSubItem(1, R.drawable.ic_upward, LocaleController.getString("JumpToBeginning", R.string.JumpToBeginning));
         optionsButton.setOnClickListener(v -> optionsButton.toggleSubMenu());
         optionsButton.setDelegate(id -> {
             if (id == 1) {
