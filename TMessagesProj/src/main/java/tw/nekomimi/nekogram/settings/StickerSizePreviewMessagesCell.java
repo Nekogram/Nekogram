@@ -24,6 +24,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.MotionBackgroundDrawable;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
@@ -158,7 +159,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
             } else {
                 drawable.setAlpha(255);
             }
-            if (drawable instanceof ColorDrawable || drawable instanceof GradientDrawable) {
+            if (drawable instanceof ColorDrawable || drawable instanceof GradientDrawable || drawable instanceof MotionBackgroundDrawable) {
                 drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
                 if (drawable instanceof BackgroundGradientDrawable) {
                     final BackgroundGradientDrawable backgroundGradientDrawable = (BackgroundGradientDrawable) drawable;
