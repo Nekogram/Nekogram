@@ -189,7 +189,7 @@ public class Translator {
             default:
                 if (country != null && language.equals("zh")) {
                     String countryUpperCase = country.toUpperCase();
-                    if (countryUpperCase.equals("CN") || countryUpperCase.equals("DUANG")) {
+                    if (countryUpperCase.equals("CN") || countryUpperCase.equals("DG")) {
                         toLang = provider == PROVIDER_MICROSOFT ? "zh-Hans" : "zh-CN";
                     } else if (countryUpperCase.equals("TW") || countryUpperCase.equals("HK")) {
                         toLang = provider == PROVIDER_MICROSOFT ? "zh-Hant" : "zh-TW";

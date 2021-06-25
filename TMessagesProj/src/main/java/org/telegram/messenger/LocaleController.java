@@ -336,7 +336,7 @@ public class LocaleController {
         localeInfo.baseLangCode = "zh_hans_raw";
         localeInfo.isRtl = false;
         localeInfo.pathToFile = "unofficial";
-        localeInfo.pluralLangCode = "zh_duang";
+        localeInfo.pluralLangCode = "zh_dg";
         localeInfo.builtIn = true;
         languages.add(localeInfo);
         languagesDict.put(localeInfo.getKey(), localeInfo);

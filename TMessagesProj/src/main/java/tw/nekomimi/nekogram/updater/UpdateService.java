@@ -99,10 +99,10 @@ public class UpdateService extends Service implements NotificationCenter.Notific
             AccountInstance.getInstance(UserConfig.selectedAccount).getFileLoader().loadFile(
                     updateRef.document, updateRef.message, 0, 0
             );
-            NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.FileLoadProgressChanged);
-            NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.fileDidLoad);
+            NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.fileLoadProgressChanged);
+            NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.fileLoaded);
             NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.httpFileDidLoad);
-            NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.fileDidFailToLoad);
+            NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.fileLoadFailed);
             NotificationCenter.getInstance(UserConfig.selectedAccount).addObserver(this, NotificationCenter.httpFileDidFailedLoad);
         }
     }
@@ -120,12 +120,12 @@ public class UpdateService extends Service implements NotificationCenter.Notific
     @SuppressLint("DefaultLocale")
     @Override
     public void didReceivedNotification(int id, int account, Object... args) {
-        if (id == NotificationCenter.FileLoadProgressChanged) {
+        if (id == NotificationCenter.fileLoadProgressChanged) {
             if (args[0].equals(updateRef.realFilename)) {
                 getUpdateHelper().getSystemNotificationManager().notify(NOTIFICATION_ID_PROGRESS,
                         builder.setProgress((int) (long) args[2], (int) (long) args[1], false).build());
             }
-        } else if (id == NotificationCenter.fileDidLoad || id == NotificationCenter.httpFileDidLoad) {
+        } else if (id == NotificationCenter.fileLoaded || id == NotificationCenter.httpFileDidLoad) {
             if (args[0].equals(updateRef.realFilename)) {
                 builder = getUpdateHelper().createNotificationBuilder(false);
                 builder = builder.setSmallIcon(R.drawable.notification).
@@ -155,7 +155,7 @@ public class UpdateService extends Service implements NotificationCenter.Notific
                 getUpdateHelper().getSystemNotificationManager().notify(NOTIFICATION_ID, builder.build());
                 stopSelf();
             }
-        } else if (id == NotificationCenter.fileDidFailToLoad || id == NotificationCenter.httpFileDidFailedLoad) {
+        } else if (id == NotificationCenter.fileLoadFailed || id == NotificationCenter.httpFileDidFailedLoad) {
             if (!canceled && args[0].equals(updateRef.realFilename)) {
                 stopForeground(true);
                 Intent downloadIntent = new Intent("download-app-update");
@@ -187,10 +187,10 @@ public class UpdateService extends Service implements NotificationCenter.Notific
 
     @Override
     public void onDestroy() {
-        NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.FileLoadProgressChanged);
-        NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.fileDidLoad);
+        NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.fileLoadProgressChanged);
+        NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.fileLoaded);
         NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.httpFileDidLoad);
-        NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.fileDidFailToLoad);
+        NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.fileLoadFailed);
         NotificationCenter.getInstance(UserConfig.selectedAccount).removeObserver(this, NotificationCenter.httpFileDidFailedLoad);
         super.onDestroy();
     }

@@ -12133,8 +12133,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
 
                 @Override
-                public void sendButtonPressed(int index, VideoEditedInfo videoEditedInfo, boolean notify, int scheduleDate) {
-                    sendMedia((MediaController.PhotoEntry) cameraPhoto.get(0), videoEditedInfo, notify, scheduleDate);
+                public void sendButtonPressed(int index, VideoEditedInfo videoEditedInfo, boolean notify, int scheduleDate, boolean forceDocument) {
+                    sendMedia((MediaController.PhotoEntry) cameraPhoto.get(0), videoEditedInfo, notify, scheduleDate, forceDocument);
                 }
 
                 @Override
@@ -20407,7 +20407,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 TLRPC.User user = getMessagesController().getUser(selectedObject.messageOwner.from_id.user_id);
                 if (user.username != null) {
                     getSendMessagesHelper().sendMessage("/prpr@" + user.username, dialog_id, selectedObject, null, null, false,
-                            null, null, null, true, 0);
+                            null, null, null, true, 0, null);
                 } else {
                     SpannableString spannableString = new SpannableString("/prpr@" + user.first_name);
                     spannableString.setSpan(new URLSpanUserMention(Integer.toString(user.id), 1), 6, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -20423,7 +20423,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     ArrayList<TLRPC.MessageEntity> entities = getMediaDataController().getEntities(cs, supportsSendingNewEntities);
                     getSendMessagesHelper().sendMessage(spannableString.toString(), dialog_id, selectedObject, null, null, false,
-                            entities, null, null, true, 0);
+                            entities, null, null, true, 0, null);
                 }
                 break;
             } case 91: {
@@ -20597,7 +20597,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                         }
                         getSendMessagesHelper().sendMessage(toSend.toString(), dialog_id, selectedObject, null, null, false,
-                                null, null, null, true, 0);
+                                null, null, null, true, 0, null);
                         return true;
                     }
                 }
