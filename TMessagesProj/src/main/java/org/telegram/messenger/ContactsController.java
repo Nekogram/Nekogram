@@ -49,6 +49,7 @@ public class ContactsController extends BaseController {
     private boolean contactsSyncInProgress;
     private final Object observerLock = new Object();
     public boolean contactsLoaded;
+    public boolean doneLoadingContacts;
     private boolean contactsBookLoaded;
     private boolean migratingContacts;
     private String lastContactsVersions = "";
@@ -254,6 +255,7 @@ public class ContactsController extends BaseController {
 
         loadingContacts = false;
         contactsSyncInProgress = false;
+        doneLoadingContacts = false;
         contactsLoaded = false;
         contactsBookLoaded = false;
         lastContactsVersions = "";
@@ -1395,7 +1397,7 @@ public class ContactsController extends BaseController {
 
             final boolean isEmpty = contactsArr.isEmpty();
 
-            if (!contacts.isEmpty()) {
+            if (from == 2 && !contacts.isEmpty()) {
                 for (int a = 0; a < contactsArr.size(); a++) {
                     TLRPC.TL_contact contact = contactsArr.get(a);
                     if (contactsDict.get(contact.user_id) != null) {
@@ -1423,6 +1425,10 @@ public class ContactsController extends BaseController {
                 if (from == 1 && (contactsArr.isEmpty() || Math.abs(System.currentTimeMillis() / 1000 - getUserConfig().lastContactsSyncTime) >= 24 * 60 * 60)) {
                     loadContacts(false, getContactsHash(contactsArr));
                     if (contactsArr.isEmpty()) {
+                        AndroidUtilities.runOnUIThread(() -> {
+                            doneLoadingContacts = true;
+                            getNotificationCenter().postNotificationName(NotificationCenter.contactsDidLoad);
+                        });
                         return;
                     }
                 }
@@ -1438,6 +1444,10 @@ public class ContactsController extends BaseController {
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.d("contacts are broken, load from server");
                         }
+                        AndroidUtilities.runOnUIThread(() -> {
+                            doneLoadingContacts = true;
+                            getNotificationCenter().postNotificationName(NotificationCenter.contactsDidLoad);
+                        });
                         return;
                     }
                 }
@@ -1543,6 +1553,7 @@ public class ContactsController extends BaseController {
                     usersMutualSectionsDict = sectionsDictMutual;
                     sortedUsersSectionsArray = sortedSectionsArray;
                     sortedUsersMutualSectionsArray = sortedSectionsArrayMutual;
+                    doneLoadingContacts = true;
                     if (from != 2) {
                         synchronized (loadContactsSync) {
                             loadingContacts = false;

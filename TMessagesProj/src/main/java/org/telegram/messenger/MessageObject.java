@@ -9,6 +9,7 @@
 package org.telegram.messenger;
 
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.text.Layout;
@@ -152,6 +153,7 @@ public class MessageObject {
     public String previousAttachPath;
 
     public SvgHelper.SvgDrawable pathThumb;
+    public BitmapDrawable strippedThumb;
 
     public int currentAccount;
 
@@ -165,6 +167,8 @@ public class MessageObject {
     public boolean hasRtl;
     public float textXOffset;
     public int linesCount;
+
+    public SendAnimationData sendAnimationData;
 
     private int emojiOnlyCount;
     private boolean layoutCreated;
@@ -197,6 +201,17 @@ public class MessageObject {
             " & ",
             " . "
     };
+
+    public static class SendAnimationData {
+        public float x;
+        public float y;
+        public float width;
+        public float height;
+        public float currentScale;
+        public float currentX;
+        public float currentY;
+        public float timeAlpha;
+    }
 
     public static class VCardData {
 
@@ -980,6 +995,23 @@ public class MessageObject {
             return;
         }
         pathThumb = DocumentObject.getSvgThumb(document, Theme.key_chat_serviceBackground, 1.0f);
+    }
+
+    public void createStrippedThumb() {
+        if (photoThumbs == null || SharedConfig.getDevicePerformanceClass() != SharedConfig.PERFORMANCE_CLASS_HIGH) {
+            return;
+        }
+        try {
+            for (int a = 0, N = photoThumbs.size(); a < N; a++) {
+                TLRPC.PhotoSize photoSize = photoThumbs.get(a);
+                if (photoSize instanceof TLRPC.TL_photoStrippedSize) {
+                    strippedThumb = new BitmapDrawable(ImageLoader.getStrippedPhotoBitmap(photoSize.bytes, "b"));
+                    break;
+                }
+            }
+        } catch (Throwable e) {
+            FileLog.e(e);
+        }
     }
 
     private void createDateArray(int accountNum, TLRPC.TL_channelAdminLogEvent event, ArrayList<MessageObject> messageObjects, HashMap<String, ArrayList<MessageObject>> messagesByDays, boolean addToEnd) {
@@ -1919,7 +1951,7 @@ public class MessageObject {
             return true;
         }
         TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(messageOwner.peer_id.channel_id != 0 ? messageOwner.peer_id.channel_id : messageOwner.peer_id.chat_id);
-        return chat != null && chat.gigagroup || !ChatObject.isActionBanned(chat, ChatObject.ACTION_SEND_STICKERS);
+        return chat != null && chat.gigagroup || (!ChatObject.isActionBanned(chat, ChatObject.ACTION_SEND_STICKERS) || ChatObject.hasAdminRights(chat));
     }
 
     public void generateGameMessageText(TLRPC.User fromUser) {
@@ -2453,12 +2485,15 @@ public class MessageObject {
                         }
                         messageText = LocaleController.formatString("ActionGroupCallEnded", R.string.ActionGroupCallEnded, time);
                     } else {
-                        messageText = LocaleController.getString("ActionGroupCallJustStarted", R.string.ActionGroupCallJustStarted);
-                        /*if (isOut()) {
-                            messageText = LocaleController.getString("ActionGroupCallStartedByYou", R.string.ActionGroupCallStartedByYou);
+                        if (isSupergroup()) {
+                            if (isOut()) {
+                                messageText = LocaleController.getString("ActionGroupCallStartedByYou", R.string.ActionGroupCallStartedByYou);
+                            } else {
+                                messageText = replaceWithLink(LocaleController.getString("ActionGroupCallStarted", R.string.ActionGroupCallStarted), "un1", fromObject);
+                            }
                         } else {
-                            messageText = replaceWithLink(LocaleController.getString("ActionGroupCallStarted", R.string.ActionGroupCallStarted), "un1", fromObject);
-                        }*/
+                            messageText = LocaleController.getString("ActionGroupCallJustStarted", R.string.ActionGroupCallJustStarted);
+                        }
                     }
                 } else if (messageOwner.action instanceof TLRPC.TL_messageActionInviteToGroupCall) {
                     int singleUserId = messageOwner.action.user_id;
@@ -2928,7 +2963,15 @@ public class MessageObject {
                     }
                 }
             } else {
-                messageText = messageOwner.message;
+                if (messageOwner.message != null) {
+                    try {
+                        messageText = AndroidUtilities.BAD_CHARS_MESSAGE_PATTERN.matcher(messageOwner.message).replaceAll("");
+                    } catch (Throwable e) {
+                        messageText = messageOwner.message;
+                    }
+                } else {
+                    messageText = messageOwner.message;
+                }
             }
         }
 
@@ -5271,6 +5314,10 @@ public class MessageObject {
         return isRoundVideoCached == 1;
     }
 
+    public boolean shouldAnimateSending() {
+        return isSending() && (type == MessageObject.TYPE_ROUND_VIDEO || isVoice() || isAnyKindOfSticker() && sendAnimationData != null);
+    }
+
     public boolean hasAttachedStickers() {
         if (messageOwner.media instanceof TLRPC.TL_messageMediaPhoto) {
             return messageOwner.media.photo != null && messageOwner.media.photo.has_stickers;
@@ -5582,7 +5629,7 @@ public class MessageObject {
         if (ChatObject.isChannel(chat) && !chat.megagroup && (chat.creator || chat.admin_rights != null && chat.admin_rights.edit_messages)) {
             return true;
         }
-        if (message.out && chat != null && chat.megagroup && (chat.creator || chat.admin_rights != null && chat.admin_rights.pin_messages)) {
+        if (message.out && chat != null && chat.megagroup && (chat.creator || chat.admin_rights != null && chat.admin_rights.pin_messages || chat.default_banned_rights != null && !chat.default_banned_rights.pin_messages)) {
             return true;
         }
         //
@@ -5630,7 +5677,7 @@ public class MessageObject {
         if (ChatObject.isChannel(chat) && !chat.megagroup && (chat.creator || chat.admin_rights != null && chat.admin_rights.edit_messages)) {
             return true;
         }
-        if (message.out && chat != null && chat.megagroup && (chat.creator || chat.admin_rights != null && chat.admin_rights.pin_messages)) {
+        if (message.out && chat != null && chat.megagroup && (chat.creator || chat.admin_rights != null && chat.admin_rights.pin_messages || chat.default_banned_rights != null && !chat.default_banned_rights.pin_messages)) {
             return true;
         }
         if (!scheduled && Math.abs(message.date - ConnectionsManager.getInstance(currentAccount).getCurrentTime()) > MessagesController.getInstance(currentAccount).maxEditTime) {
