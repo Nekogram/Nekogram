@@ -63,6 +63,7 @@ android {
     }
 
     lintOptions {
+        checkReleaseBuilds false
         disable 'MissingTranslation'
         disable 'ExtraTranslation'
         disable 'BlockedPrivateApi'
