@@ -22,7 +22,6 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -158,8 +157,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.updater.UpdateHelper;
+import tw.nekomimi.nekogram.helpers.UpdateHelper;
 import tw.nekomimi.nekogram.helpers.DonateHelper;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 
@@ -805,7 +803,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         updateTextView = new SimpleTextView(this);
         updateTextView.setTextSize(15);
         updateTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        updateTextView.setText(LocaleController.getString("AppUpdateNekogram", R.string.AppUpdateNekogram));
+        updateTextView.setText(LocaleController.getString("UpdateNekogram", R.string.UpdateNekogram));
         updateTextView.setTextColor(0xffffffff);
         updateTextView.setGravity(Gravity.LEFT);
         updateLayout.addView(updateTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 74, 0, 0, 0));
@@ -969,6 +967,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             FileLog.e(e);
         }
         MediaController.getInstance().setBaseActivity(this, true);
+        AndroidUtilities.startAppCenter(this);
         updateAppUpdateViews(false);
         //FileLog.d("UI create time = " + (SystemClock.elapsedRealtime() - ApplicationLoader.startTime));
     }
@@ -3574,7 +3573,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     showSize = false;
                 } else {
                     updateLayoutIcon.setIcon(MediaActionDrawable.ICON_DOWNLOAD, true, animated);
-                    updateTextView.setText(LocaleController.getString("AppUpdateNekogram", R.string.AppUpdateNekogram));
+                    updateTextView.setText(LocaleController.getString("UpdateNekogram", R.string.UpdateNekogram));
                     showSize = true;
                 }
             }
@@ -3635,29 +3634,48 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
     }
 
     public void checkAppUpdate(boolean force) {
-        if (!force && Math.abs(System.currentTimeMillis() - NekoConfig.lastSuccessfulCheckUpdateTime) < MessagesController.getInstance(0).updateCheckDelay * 1000) {
-            return;
-        }
-        UpdateHelper.getInstance().checkNewVersionAvailable((res, error) -> AndroidUtilities.runOnUIThread(() -> {
-            SharedConfig.setNewAppVersionAvailable(res);
-            drawerLayoutAdapter.notifyDataSetChanged();
-            if (res != null) {
-                try {
-                    UpdateHelper.getInstance().askIfShouldDownloadAPK(res);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-            }
+        checkAppUpdate(force, null);
+    }
 
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable);
-        }));
-        /*if (!force && BuildVars.DEBUG_VERSION || !force && !BuildVars.CHECK_UPDATES) {
+    public void checkAppUpdate(boolean force, Runnable callback) {
+        if (!force && BuildVars.DEBUG_VERSION || !force && !BuildVars.CHECK_UPDATES) {
             return;
         }
         if (!force && Math.abs(System.currentTimeMillis() - SharedConfig.lastUpdateCheckTime) < MessagesController.getInstance(0).updateCheckDelay * 1000) {
             return;
         }
-        TLRPC.TL_help_getAppUpdate req = new TLRPC.TL_help_getAppUpdate();
+        final int accountNum = currentAccount;
+        UpdateHelper.getInstance().checkNewVersionAvailable((res, error) -> {
+            SharedConfig.lastUpdateCheckTime = System.currentTimeMillis();
+            SharedConfig.saveConfig();
+            AndroidUtilities.runOnUIThread(() -> {
+                if (res != null) {
+                    SharedConfig.setNewAppVersionAvailable(res);
+                    if (res.can_not_skip) {
+                        showUpdateActivity(accountNum, res, false);
+                    } else {
+                        drawerLayoutAdapter.notifyDataSetChanged();
+                        try {
+                            (new UpdateAppAlertDialog(LaunchActivity.this, res, accountNum)).show();
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                    }
+                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable);
+                } else {
+                    if (force && error != null) {
+                        Toast.makeText(LaunchActivity.this, error, Toast.LENGTH_SHORT).show();
+                    }
+                    SharedConfig.setNewAppVersionAvailable(null);
+                    drawerLayoutAdapter.notifyDataSetChanged();
+                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable);
+                }
+                if (callback != null) {
+                    callback.run();
+                }
+            });
+        });
+        /*TLRPC.TL_help_getAppUpdate req = new TLRPC.TL_help_getAppUpdate();
         try {
             req.source = ApplicationLoader.applicationContext.getPackageManager().getInstallerPackageName(ApplicationLoader.applicationContext.getPackageName());
         } catch (Exception ignore) {
@@ -4299,9 +4317,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
         }
         if (UserConfig.getInstance(UserConfig.selectedAccount).unacceptedTermsOfService != null) {
             showTosActivity(UserConfig.selectedAccount, UserConfig.getInstance(UserConfig.selectedAccount).unacceptedTermsOfService);
-        }/* else if (SharedConfig.pendingAppUpdate != null && SharedConfig.pendingAppUpdate.can_not_skip) {
+        } else if (SharedConfig.pendingAppUpdate != null && SharedConfig.pendingAppUpdate.can_not_skip) {
             showUpdateActivity(UserConfig.selectedAccount, SharedConfig.pendingAppUpdate, true);
-        }*/
+        }
         checkAppUpdate(false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

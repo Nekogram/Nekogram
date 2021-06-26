@@ -34,10 +34,7 @@ import java.util.Iterator;
 
 import androidx.core.content.pm.ShortcutManagerCompat;
 
-import com.google.android.exoplayer2.util.Log;
-
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.updater.UpdateHelper;
 
 public class SharedConfig {
 
@@ -118,9 +115,9 @@ public class SharedConfig {
     public static int bubbleRadius = 10;
     public static int ivFontSize = 16;
 
-    public static UpdateHelper.UpdateRef pendingAppUpdate;
-    //public static int pendingAppUpdateBuildVersion;
-    //public static long lastUpdateCheckTime;
+    public static TLRPC.TL_help_appUpdate pendingAppUpdate;
+    public static int pendingAppUpdateBuildVersion;
+    public static long lastUpdateCheckTime;
 
     private static int devicePerformanceClass;
 
@@ -211,7 +208,7 @@ public class SharedConfig {
                         pendingAppUpdate.serializeToStream(data);
                         String str = Base64.encodeToString(data.toByteArray(), Base64.DEFAULT);
                         editor.putString("appUpdate", str);
-                        //editor.putInt("appUpdateBuild", pendingAppUpdateBuildVersion);
+                        editor.putInt("appUpdateBuild", pendingAppUpdateBuildVersion);
                         data.cleanup();
                     } catch (Exception ignore) {
 
@@ -219,7 +216,7 @@ public class SharedConfig {
                 } else {
                     editor.remove("appUpdate");
                 }
-                //editor.putLong("appUpdateCheckTime", lastUpdateCheckTime);
+                editor.putLong("appUpdateCheckTime", lastUpdateCheckTime);
 
                 editor.commit();
             } catch (Exception e) {
@@ -275,19 +272,19 @@ public class SharedConfig {
             } else {
                 passcodeSalt = new byte[0];
             }
-            //lastUpdateCheckTime = preferences.getLong("appUpdateCheckTime", System.currentTimeMillis());
+            lastUpdateCheckTime = preferences.getLong("appUpdateCheckTime", System.currentTimeMillis());
             try {
                 String update = preferences.getString("appUpdate", null);
                 if (update != null) {
-                    //pendingAppUpdateBuildVersion = preferences.getInt("appUpdateBuild", BuildVars.BUILD_VERSION);
+                    pendingAppUpdateBuildVersion = preferences.getInt("appUpdateBuild", BuildVars.BUILD_VERSION);
                     byte[] arr = Base64.decode(update, Base64.DEFAULT);
                     if (arr != null) {
                         SerializedData data = new SerializedData(arr);
-                        pendingAppUpdate = UpdateHelper.UpdateRef.TLdeserialize(data, false);
+                        pendingAppUpdate = (TLRPC.TL_help_appUpdate) TLRPC.help_AppUpdate.TLdeserialize(data, data.readInt32(false), false);
                         data.cleanup();
                     }
                 }
-                /*if (pendingAppUpdate != null) {
+                if (pendingAppUpdate != null) {
                     long updateTime = 0;
                     int updateVerstion;
                     try {
@@ -301,7 +298,7 @@ public class SharedConfig {
                         pendingAppUpdate = null;
                         AndroidUtilities.runOnUIThread(SharedConfig::saveConfig);
                     }
-                }*/
+                }
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -422,18 +419,26 @@ public class SharedConfig {
         if (pendingAppUpdate == null || pendingAppUpdate.document == null || !AndroidUtilities.isStandaloneApp()) {
             return false;
         }
-        return true;
+        int currentVersion;
+        try {
+            PackageInfo pInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
+            currentVersion = pInfo.versionCode;
+        } catch (Exception e) {
+            FileLog.e(e);
+            currentVersion = BuildVars.BUILD_VERSION;
+        }
+        return pendingAppUpdateBuildVersion == currentVersion;
     }
 
-    public static void setNewAppVersionAvailable(UpdateHelper.UpdateRef update) {
+    public static void setNewAppVersionAvailable(TLRPC.TL_help_appUpdate update) {
         pendingAppUpdate = update;
-        /*try {
+        try {
             PackageInfo packageInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
             pendingAppUpdateBuildVersion = packageInfo.versionCode;
         } catch (Exception e) {
             FileLog.e(e);
             pendingAppUpdateBuildVersion = BuildVars.BUILD_VERSION;
-        }*/
+        }
         saveConfig();
     }
 

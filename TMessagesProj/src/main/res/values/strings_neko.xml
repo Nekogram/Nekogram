@@ -133,13 +133,6 @@
     <string name="LastUpdateRecently">Last successfully checked just now.</string>
     <string name="LastUpdateNever">Never checked since install.</string>
     <string name="CheckingUpdate">Checking for update…</string>
-    <string name="NewUpdateAvailable">A new update available</string>
-    <string name="GuGuGu">Later</string>
-    <string name="DownloadNow">Download now</string>
-    <string name="DownloadingUpdate">Downloading app update</string>
-    <string name="DownloadingUpdateFinish">Downloaded app update, click to install</string>
-    <string name="DownloadingUpdateFail">Downloaded app failed</string>
-    <string name="ClickToRetry">Click to retry.</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
     <string name="TranslationProviderShort">Provider</string>
     <string name="ViewSourceCode">View source code</string>
@@ -160,5 +153,5 @@
     <string name="WsLocalProxy">Local proxy</string>
     <string name="WsEnableDoh">Enable DoH</string>
     <string name="MsgDate">Date</string>
-    <string name="AppUpdateNekogram">Update Nekogram</string>
+    <string name="UpdateNekogram">Update Nekogram</string>
 </resources>

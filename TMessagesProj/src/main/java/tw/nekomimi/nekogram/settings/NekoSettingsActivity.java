@@ -17,6 +17,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
@@ -41,7 +42,7 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.DonateHelper;
-import tw.nekomimi.nekogram.updater.UpdateHelper;
+import tw.nekomimi.nekogram.helpers.UpdateHelper;
 
 @SuppressLint("RtlHardcoded")
 public class NekoSettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
@@ -333,7 +334,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                     } else if (position == checkUpdateRow) {
                         textCell.setTextAndValue(LocaleController.getString("CheckUpdate", R.string.CheckUpdate),
                                 checkingUpdate ? LocaleController.getString("CheckingUpdate", R.string.CheckingUpdate) :
-                                        UpdateHelper.formatDateUpdate(NekoConfig.lastSuccessfulCheckUpdateTime), position + 1 != about2Row);
+                                        UpdateHelper.formatDateUpdate(SharedConfig.lastUpdateCheckTime), position + 1 != about2Row);
                     }
                     break;
                 }
