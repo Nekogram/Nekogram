@@ -153,22 +153,26 @@ public class UpdateHelper {
             }
             try {
                 TLRPC.TL_help_appUpdate update = new TLRPC.TL_help_appUpdate();
-                TLRPC.Message file = messages.get(json.getJSONArray("files").getInt(currentAbi));
-                if (file == null || file.media == null) {
-                    delegate.didCheckNewVersionAvailable(null, null);
-                    return;
-                }
-                update.document = file.media.document;
                 update.version = json.getString("version");
                 update.can_not_skip = json.getBoolean("can_not_skip");
                 if (json.has("url")) {
                     update.url = json.getString("url");
                 }
+                if (json.has("files")) {
+                    TLRPC.Message file = messages.get(json.getJSONArray("files").getInt(currentAbi));
+                    if (file != null && file.media != null) {
+                        update.document = file.media.document;
+                    }
+                }
                 if (json.has("message")) {
-                    TLRPC.Message message = messages.get(json.getJSONObject("message").getInt(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername)));
-                    if (message != null) {
-                        update.text = message.message;
-                        update.entities = message.entities;
+                    JSONObject messageJson = json.getJSONObject("message");
+                    String channel = LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername);
+                    if (messageJson.has(channel)) {
+                        TLRPC.Message message = messages.get(messageJson.getInt(channel));
+                        if (message != null) {
+                            update.text = message.message;
+                            update.entities = message.entities;
+                        }
                     }
                 }
                 if (json.has("sticker")) {
@@ -201,13 +205,18 @@ public class UpdateHelper {
             try {
                 ArrayList<Integer> ids = new ArrayList<>();
                 if (json.has("message")) {
-                    JSONObject message = json.getJSONObject("message");
-                    ids.add(message.getInt(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername)));
+                    JSONObject messageJson = json.getJSONObject("message");
+                    String channel = LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername);
+                    if (messageJson.has(channel)) {
+                        ids.add(messageJson.getInt(channel));
+                    }
                 }
                 if (json.has("sticker")) {
                     ids.add(json.getInt("sticker"));
                 }
-                ids.add(json.getJSONArray("files").getInt(currentAbi));
+                if (json.has("files")) {
+                    ids.add(json.getJSONArray("files").getInt(currentAbi));
+                }
 
                 TLRPC.TL_channels_getMessages req = new TLRPC.TL_channels_getMessages();
                 req.channel = getMessagesController().getInputChannel(-dialog_id);
