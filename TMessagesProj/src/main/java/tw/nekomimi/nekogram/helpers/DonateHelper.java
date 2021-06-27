@@ -56,17 +56,19 @@ public class DonateHelper implements BillingClientStateListener, SkuDetailsRespo
 
     @Override
     public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
-        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-            List<String> skuList = Arrays.asList("donate001", "donate002", "donate005", "donate010", "donate020", "donate050", "donate100");
-            SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
-            params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
-            billingClient.querySkuDetailsAsync(params.build(), this);
-        } else {
-            if (progressDialog != null) {
-                progressDialog.dismiss();
+        activity.runOnUiThread(() -> {
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                List<String> skuList = Arrays.asList("donate001", "donate002", "donate005", "donate010", "donate020", "donate050", "donate100");
+                SkuDetailsParams.Builder params = SkuDetailsParams.newBuilder();
+                params.setSkusList(skuList).setType(BillingClient.SkuType.INAPP);
+                billingClient.querySkuDetailsAsync(params.build(), this);
+            } else {
+                if (progressDialog != null) {
+                    progressDialog.dismiss();
+                }
+                showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
             }
-            showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
-        }
+        });
     }
 
     @Override
@@ -76,45 +78,64 @@ public class DonateHelper implements BillingClientStateListener, SkuDetailsRespo
 
     @Override
     public void onSkuDetailsResponse(@NonNull BillingResult billingResult, @Nullable List<SkuDetails> list) {
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && list != null) {
-            List<String> skuTitles = new ArrayList<>();
-            for (int i = 0; i < list.size(); i++) {
-                skuTitles.add(list.get(i).getPrice());
+        activity.runOnUiThread(() -> {
+            if (progressDialog != null) {
+                progressDialog.dismiss();
             }
-            String[] titles = new String[skuTitles.size()];
-            skuTitles.toArray(titles);
-            AlertDialog.Builder builder = new AlertDialog.Builder(activity);
-            builder.setTitle(LocaleController.getString("Donate", R.string.Donate));
-            builder.setMessage(LocaleController.getString("DonateEvilGoogle", R.string.DonateEvilGoogle));
-            builder.setItems(titles,
-                    (dialog, which) -> {
-                        BillingFlowParams flowParams = BillingFlowParams.newBuilder()
-                                .setSkuDetails(list.get(which))
-                                .build();
-                        billingClient.launchBillingFlow(activity, flowParams);
-                    });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-            builder.show();
-        } else {
-            showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
-        }
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && list != null) {
+                List<String> skuTitles = new ArrayList<>();
+                for (int i = 0; i < list.size(); i++) {
+                    skuTitles.add(list.get(i).getPrice());
+                }
+                String[] titles = new String[skuTitles.size()];
+                skuTitles.toArray(titles);
+                AlertDialog.Builder builder = new AlertDialog.Builder(activity);
+                builder.setTitle(LocaleController.getString("Donate", R.string.Donate));
+                builder.setMessage(LocaleController.getString("DonateEvilGoogle", R.string.DonateEvilGoogle));
+                builder.setItems(titles,
+                        (dialog, which) -> {
+                            BillingFlowParams flowParams = BillingFlowParams.newBuilder()
+                                    .setSkuDetails(list.get(which))
+                                    .build();
+                            billingClient.launchBillingFlow(activity, flowParams);
+                        });
+                builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                builder.show();
+            } else {
+                showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
+            }
+        });
     }
 
     @Override
     public void onPurchasesUpdated(@NonNull BillingResult billingResult, @Nullable List<Purchase> list) {
-        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && list != null) {
-            // directly consume in-app purchase, so that people can donate multiple times
-            for (Purchase purchase : list) {
-                if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
-                    billingClient.consumeAsync(ConsumeParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build(), this);
+        activity.runOnUiThread(() -> {
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK && list != null) {
+                // directly consume in-app purchase, so that people can donate multiple times
+                for (Purchase purchase : list) {
+                    if (purchase.getPurchaseState() == Purchase.PurchaseState.PURCHASED) {
+                        billingClient.consumeAsync(ConsumeParams.newBuilder().setPurchaseToken(purchase.getPurchaseToken()).build(), this);
+                    }
                 }
+            } else {
+                showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
             }
-        } else {
-            showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
-        }
+        });
+    }
+
+    @Override
+    public void onConsumeResponse(@NonNull BillingResult billingResult, @NonNull String s) {
+        activity.runOnUiThread(() -> {
+            if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                try {
+                    Toast.makeText(activity, LocaleController.getString("DonateThankYou", R.string.DonateThankYou), Toast.LENGTH_LONG).show();
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+            } else {
+                showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
+            }
+        });
     }
 
     private void showErrorAlert(int errorCode, String errorMessage) {
@@ -133,19 +154,6 @@ public class DonateHelper implements BillingClientStateListener, SkuDetailsRespo
             builder.setMessage(errorMessage);
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             builder.show();
-        }
-    }
-
-    @Override
-    public void onConsumeResponse(@NonNull BillingResult billingResult, @NonNull String s) {
-        if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-            try {
-                Toast.makeText(activity, LocaleController.getString("DonateThankYou", R.string.DonateThankYou), Toast.LENGTH_LONG).show();
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        } else {
-            showErrorAlert(billingResult.getResponseCode(), billingResult.getDebugMessage());
         }
     }
 }
