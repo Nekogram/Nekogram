@@ -5,7 +5,6 @@
     <string name="MessageMenu">Меню сообщений</string>
     <string name="HidePhone">Скрыть мой номер телефона</string>
     <string name="Hide">Скрыть</string>
-    <string name="DeleteAllFromSelf">Удалить все мои сообщения</string>
     <string name="DeleteAllFromSelfAlert">Внимание! Это **удалит все ваши сообщения** в этом чате для **всех**.</string>
     <string name="BotLogin">Вход по токену</string>
     <string name="InvalidAccessToken">Токен недействителен</string>
@@ -127,13 +126,6 @@
     <string name="LastUpdateRecently">Последняя успешная проверка была сейчас.</string>
     <string name="LastUpdateNever">Обновления не проверялись после установки.</string>
     <string name="CheckingUpdate">Проверка обновлений…</string>
-    <string name="NewUpdateAvailable">Доступно новое обновление</string>
-    <string name="GuGuGu">Позже</string>
-    <string name="DownloadNow">Загрузить сейчас</string>
-    <string name="DownloadingUpdate">Загрузка обновления</string>
-    <string name="DownloadingUpdateFinish">Обновление загружено, нажмите для установки</string>
-    <string name="DownloadingUpdateFail">Не удалось загрузить обновление</string>
-    <string name="ClickToRetry">Нажмите, чтобы повторить попытку.</string>
     <string name="ProviderMicrosoftTranslator">Перевод Microsoft</string>
     <string name="TranslationProviderShort">Поставщик</string>
     <string name="ViewSourceCode">Посмотреть исходный код</string>

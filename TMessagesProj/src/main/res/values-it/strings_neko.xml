@@ -5,7 +5,6 @@
     <string name="MessageMenu">Menu messaggio</string>
     <string name="HidePhone">Nascondi il mio numero</string>
     <string name="Hide">Nascondi</string>
-    <string name="DeleteAllFromSelf">Elimina tutti i tuoi messaggi</string>
     <string name="DeleteAllFromSelfAlert">Attenzione! Questo eliminerà **tutti i tuoi messaggi** da questa chat per **tutti i partecipanti.**</string>
     <string name="BotLogin">Login con bot token</string>
     <string name="InvalidAccessToken">Accesso col token non valido</string>
@@ -126,13 +125,6 @@
     <string name="LastUpdateRecently">Ultimo controllo effettuato proprio ora.</string>
     <string name="LastUpdateNever">Mai controllato dall\'installazione.</string>
     <string name="CheckingUpdate">Controllo aggiornamenti…</string>
-    <string name="NewUpdateAvailable">Nuovo aggiornamento disponibile</string>
-    <string name="GuGuGu">Dopo</string>
-    <string name="DownloadNow">Scarica ora</string>
-    <string name="DownloadingUpdate">Download aggiornamento in corso</string>
-    <string name="DownloadingUpdateFinish">Aggiornamento scaricato, clicca per installarel</string>
-    <string name="DownloadingUpdateFail">Download fallito</string>
-    <string name="ClickToRetry">Clicca per riprovare.</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
     <string name="TranslationProviderShort">Fornitore</string>
     <string name="ViewSourceCode">Visualizza codice sorgente</string>

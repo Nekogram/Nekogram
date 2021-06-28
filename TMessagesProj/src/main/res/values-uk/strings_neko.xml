@@ -4,7 +4,6 @@
     <string name="MessageMenu">Меню повідомлення</string>
     <string name="HidePhone">Заховати мій номер телефону</string>
     <string name="Hide">Сховати</string>
-    <string name="DeleteAllFromSelf">Видалити все для себе</string>
     <string name="DeleteAllFromSelfAlert">Увага! Це призведе до ***видалення усіх ваших повідомлень*** для користувачів цього чату.</string>
     <string name="BotLogin">Бот логін</string>
     <string name="InvalidAccessToken">Неправильний ключ доступу</string>
@@ -49,6 +48,7 @@
     <string name="StickerSizeDialogMessageReplyTo">Мяу</string>
     <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Експериментальний</string>
+    <string name="UnlimitedFavoredStickers">Необмежені улюблені наліпки</string>
     <string name="MessageDetails">Детальніше</string>
     <string name="Translate">Перекласти</string>
     <string name="DeleteAccount">Видалити обліковий запис Telegram</string>
@@ -61,6 +61,7 @@
     <string name="UndoTranslate">Скасувати переклад</string>
     <string name="DisablePhotoViewerSideAction">Вимкнути перевертання фото дотиком</string>
     <string name="BotToken">Ключ</string>
+    <string name="UnlimitedPinnedDialogs">Необмежені закріплені чати</string>
     <string name="HideKeyboardOnChatScroll">Приховати клавіатуру при прокрутки</string>
     <string name="UserRestrictionsSendStickers2">Надіслати наліпки</string>
     <string name="UserRestrictionsSendGifs">Надіслати GIF</string>
@@ -69,12 +70,18 @@
     <string name="RearVideoMessages">Задня камера в відеоповідомленнях</string>
     <string name="HideAllTab">Сховати вкладку \"Усі чати\"</string>
     <string name="HideAllTabAbout">Натисніть \"Назад\" на головній сторінці, щоб відкрити її.</string>
+    <string name="TabTitleType">Показувати на вкладках</string>
     <string name="TabTitleTypeText">Назви</string>
+    <string name="AskBeforeCalling">Запитувати перед викликом</string>
+    <string name="DisableNumberRounding">Вимкнути округлення чисел</string>
+    <string name="Categories">Категорії</string>
+    <string name="OfficialChannel">Офіційний канал</string>
+    <string name="DonateAbout">Підтримайте нашу розробку.</string>
+    <string name="TranslationAbout">Допоможіть нам перекласти Nekogram на вашу мову.</string>
+    <string name="Translation">Перекласти Nekogram</string>
+    <string name="IdTypeHidden">Приховати</string>
+    <string name="IdTypeAPI">API Telegram</string>
     <string name="CheckingUpdate">Перевірка наявності оновлень…</string>
-    <string name="NewUpdateAvailable">Доступне нове оновлення</string>
-    <string name="GuGuGu">Пізніше</string>
-    <string name="DownloadNow">Завантажити зараз</string>
-    <string name="ClickToRetry">Натисніть, щоб повторити.</string>
     <string name="ProviderMicrosoftTranslator">Перекладач Microsoft</string>
     <string name="TranslationProviderShort">Перекладач</string>
     <string name="ViewSourceCode">Переглянути код</string>

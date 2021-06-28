@@ -5,7 +5,6 @@
     <string name="MessageMenu">メッセージメニュー</string>
     <string name="HidePhone">あなたの携帯電話番号を隠す</string>
     <string name="Hide">隠す</string>
-    <string name="DeleteAllFromSelf">自閉</string>
     <string name="DeleteAllFromSelfAlert">警告！これはこのチャットの **すべての人** が **あなたが送った全部のメッセージ** を削除します。</string>
     <string name="BotLogin">ボットログイン</string>
     <string name="InvalidAccessToken">無効なアクセストークン</string>

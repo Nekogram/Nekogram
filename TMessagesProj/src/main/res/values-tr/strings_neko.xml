@@ -5,7 +5,6 @@
     <string name="MessageMenu">Mesaj Menüsü</string>
     <string name="HidePhone">Telefon numaramı gizle</string>
     <string name="Hide">Gizle</string>
-    <string name="DeleteAllFromSelf">Kendi mesajlarını sil</string>
     <string name="DeleteAllFromSelfAlert">Uyarı! Bu, **sohbette senin gönderdiğin tüm mesajlar tüm üyeler için silinecek**.</string>
     <string name="BotLogin">Bot Girişi</string>
     <string name="InvalidAccessToken">Erişim anahtarı geçersiz</string>
@@ -126,13 +125,6 @@
     <string name="LastUpdateRecently">Az önce başarıyla kontrol edildi.</string>
     <string name="LastUpdateNever">Kurulumdan bu yana hiç kontrol edilmedi.</string>
     <string name="CheckingUpdate">Güncelleştirmeler denetleniyor…</string>
-    <string name="NewUpdateAvailable">Yeni bir güncelleme mevcut</string>
-    <string name="GuGuGu">Sonra</string>
-    <string name="DownloadNow">Şimdi indir</string>
-    <string name="DownloadingUpdate">Uygulama güncelleştirmesi indiriliyor</string>
-    <string name="DownloadingUpdateFinish">Uygulama güncelleştirmesi indirildi, kurmak için basın</string>
-    <string name="DownloadingUpdateFail">Uygulama indirmesi başarısız oldu</string>
-    <string name="ClickToRetry">Tekrar denemek için basın.</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Çevirmen</string>
     <string name="TranslationProviderShort">Sağlayıcı</string>
     <string name="ViewSourceCode">Kaynak kodu görüntüle</string>

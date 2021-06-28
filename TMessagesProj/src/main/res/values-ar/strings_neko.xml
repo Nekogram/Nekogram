@@ -5,7 +5,6 @@
     <string name="MessageMenu">اختيارات ضغطة الرسائل</string>
     <string name="HidePhone">إخفاء رقم هاتفي</string>
     <string name="Hide">إخفاء</string>
-    <string name="DeleteAllFromSelf">احذف جميع رسائِلي</string>
     <string name="DeleteAllFromSelfAlert">تحذير! سيؤدي هذا إلى **حذفَ جميع الرسائل منكَ** في هذه المحادثة لـ **جميع** المشاركين.</string>
     <string name="BotLogin">تسجيل الدخول کبوت</string>
     <string name="InvalidAccessToken">مفتاح التوكن غيرُ صالح</string>
@@ -125,13 +124,6 @@
     <string name="LastUpdateRecently">آخر فحص بنجاح الآن.</string>
     <string name="LastUpdateNever">لم يتم التحقق من ذلك منذ التثبيت.</string>
     <string name="CheckingUpdate">جارٍ التحقق من التحديث…</string>
-    <string name="NewUpdateAvailable">تحديث جديد متوفر</string>
-    <string name="GuGuGu">لاحقاً</string>
-    <string name="DownloadNow">التحميل الآن</string>
-    <string name="DownloadingUpdate">تنزيل تحديث التطبيق</string>
-    <string name="DownloadingUpdateFinish">تم تنزيل تحديث التطبيق، انقر للتثبيت</string>
-    <string name="DownloadingUpdateFail">فشل تنزيل التطبيق</string>
-    <string name="ClickToRetry">انقر لإعادة المحاولة.</string>
     <string name="ProviderMicrosoftTranslator">مترجم مايكـروسـوفت</string>
     <string name="TranslationProviderShort">موفر</string>
     <string name="ViewSourceCode">عرض رمز المصدر</string>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="DeleteAllFromSelf">Delete all from yourself</string>
     <string name="DeleteAllFromSelfAlert">Warning! This will **delete all messages from you** in this chat for **all** participants.</string>
     <string name="BotLogin">Bot Login</string>
     <string name="InvalidAccessToken">Invalid access token</string>

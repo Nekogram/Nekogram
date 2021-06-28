@@ -4,7 +4,6 @@
     <string name="MessageMenu">Meldingsmeny</string>
     <string name="HidePhone">Skjul mitt telefonnummer</string>
     <string name="Hide">Skjul</string>
-    <string name="DeleteAllFromSelf">Slett alt fra deg selv</string>
     <string name="DeleteAllFromSelfAlert">Advarsel! Dette vil **slette alle meldinger fra deg** i denne chatten for **alle** deltakere.</string>
     <string name="BotLogin">Bot innlogging</string>
     <string name="InvalidAccessToken">Ugyldig tilgangstoken</string>
@@ -125,13 +124,6 @@
     <string name="LastUpdateRecently">Sist kontrollert akkurat nå.</string>
     <string name="LastUpdateNever">Aldri sjekket siden installasjonen.</string>
     <string name="CheckingUpdate">Ser etter oppdatering…</string>
-    <string name="NewUpdateAvailable">En ny oppdatering tilgjengelig</string>
-    <string name="GuGuGu">Seinere</string>
-    <string name="DownloadNow">Last ned nå</string>
-    <string name="DownloadingUpdate">Laster ned appoppdatering</string>
-    <string name="DownloadingUpdateFinish">Last ned appoppdatering, klikk for å installere</string>
-    <string name="DownloadingUpdateFail">Nedlastet app mislyktes</string>
-    <string name="ClickToRetry">Klikk for å prøve igjen.</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
     <string name="TranslationProviderShort">Forsørger</string>
     <string name="ViewSourceCode">Vis kildekode</string>

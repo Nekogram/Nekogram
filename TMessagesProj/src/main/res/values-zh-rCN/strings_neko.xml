@@ -5,7 +5,7 @@
     <string name="MessageMenu">消息菜单</string>
     <string name="HidePhone">隐藏您的手机号码</string>
     <string name="Hide">隐藏</string>
-    <string name="DeleteAllFromSelf">删除自己所有消息</string>
+    <string name="DeleteAllFromSelf">删除自己的消息</string>
     <string name="DeleteAllFromSelfAlert">警告！这将为此会话中的 **所有人** 删除 **全部你发出的消息**。</string>
     <string name="BotLogin">机器人登录</string>
     <string name="InvalidAccessToken">无效的访问令牌</string>
@@ -129,13 +129,6 @@
     <string name="LastUpdateRecently">最近成功检查更新于 刚刚。</string>
     <string name="LastUpdateNever">自上次安装以来从未检查更新。</string>
     <string name="CheckingUpdate">正在检查更新…</string>
-    <string name="NewUpdateAvailable">有新的更新可用</string>
-    <string name="GuGuGu">稍后再说</string>
-    <string name="DownloadNow">立即下载</string>
-    <string name="DownloadingUpdate">正在下载应用更新</string>
-    <string name="DownloadingUpdateFinish">应用更新下载完毕，点击安装</string>
-    <string name="DownloadingUpdateFail">应用更新下载失败</string>
-    <string name="ClickToRetry">点击重试下载。</string>
     <string name="ProviderMicrosoftTranslator">微软翻译</string>
     <string name="TranslationProviderShort">翻译源</string>
     <string name="ViewSourceCode">查看源代码</string>
@@ -155,4 +148,6 @@
     <string name="WsEnableTls">启用 TLS</string>
     <string name="WsLocalProxy">本地代理</string>
     <string name="WsEnableDoh">启用 DoH</string>
+    <string name="MsgDate">日期</string>
+    <string name="UpdateNekogram">更新 Nekogram</string>
 </resources>
