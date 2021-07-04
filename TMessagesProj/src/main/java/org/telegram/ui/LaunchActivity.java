@@ -2059,7 +2059,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                             FileLog.e(e);
                                         }
                                     } else if (url.startsWith("tg:donate") || url.startsWith("tg://donate")) {
-                                        new DonateHelper(this).showDonationDialog();
+                                        DonateHelper.getInstance().showDonationDialog(this);
                                     } else if ((url.startsWith("tg:search") || url.startsWith("tg://search"))) {
                                         url = url.replace("tg:search", "tg://telegram.org").replace("tg://search", "tg://telegram.org");
                                         data = Uri.parse(url);

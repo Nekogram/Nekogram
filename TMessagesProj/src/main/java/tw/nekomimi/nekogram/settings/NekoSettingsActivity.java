@@ -136,7 +136,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
             } else if (position == channelRow) {
                 MessagesController.getInstance(currentAccount).openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
             } else if (position == donateRow) {
-                new DonateHelper(getParentActivity()).showDonationDialog();
+                DonateHelper.getInstance().showDonationDialog(getParentActivity());
             } else if (position == translationRow) {
                 Browser.openUrl(getParentActivity(), "https://neko.crowdin.com/nekogram");
             } else if (position == googlePlayRow) {
