@@ -2686,7 +2686,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 SharedConfig.pauseMusicOnRecord ? LocaleController.getString("DebugMenuDisablePauseMusic", R.string.DebugMenuDisablePauseMusic) : LocaleController.getString("DebugMenuEnablePauseMusic", R.string.DebugMenuEnablePauseMusic),
                                 BuildVars.DEBUG_VERSION && !AndroidUtilities.isTablet() && Build.VERSION.SDK_INT >= 23 ? (SharedConfig.smoothKeyboard ? LocaleController.getString("DebugMenuDisableSmoothKeyboard", R.string.DebugMenuDisableSmoothKeyboard) : LocaleController.getString("DebugMenuEnableSmoothKeyboard", R.string.DebugMenuEnableSmoothKeyboard)) : null,
                                 BuildVars.DEBUG_PRIVATE_VERSION ? (SharedConfig.disableVoiceAudioEffects ? "Enable voip audio effects" : "Disable voip audio effects") : null,
-                                null, //Build.VERSION.SDK_INT >= 21 ? (SharedConfig.noStatusBar ? "Show status bar background" : "Hide status bar background") : null,
+                                Build.VERSION.SDK_INT >= 21 ? (SharedConfig.noStatusBar ? "Show status bar background" : "Hide status bar background") : null,
                                 BuildVars.DEBUG_PRIVATE_VERSION ? "Clean app update" : null,
                         };
                         builder.setItems(items, (dialog, which) -> {
@@ -5756,6 +5756,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 nameTextView[a].setRightDrawable(rightIcon);
             }
 
+            avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(photoBig), false);
+
             id = user_id;
             if (user.photo != null && user.photo.dc_id != 0) {
                 idTextView.setText("ID: " + id + ", DC: " + user.photo.dc_id);
@@ -5766,11 +5768,17 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 Context context = getParentActivity();
                 LinearLayout ll = new LinearLayout(context);
                 ll.setOrientation(LinearLayout.VERTICAL);
+
+                AlertDialog dialog = new AlertDialog.Builder(context)
+                        .setView(ll)
+                        .create();
+
                 int cellCount = user.photo != null && user.photo.dc_id != 0 ? 2 : 1;
                 for (int i = 0; i < cellCount; i++) {
                     TextDetailSettingsCell cell = new TextDetailSettingsCell(context);
                     cell.setBackground(Theme.getSelectorDrawable(false));
                     cell.setOnClickListener(v1 -> {
+                        dialog.dismiss();
                         AndroidUtilities.addToClipboard(cell.getValueTextView().getText());
                         BulletinFactory.of((FrameLayout) fragmentView).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
                     });
@@ -5784,11 +5792,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     ll.addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
                 }
-                new AlertDialog.Builder(context)
-                        .setView(ll)
-                        .show();
+
+                showDialog(dialog);
             });
-            avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(photoBig), false);
         } else if (chat_id != 0) {
             TLRPC.Chat chat = getMessagesController().getChat(chat_id);
             if (chat != null) {
