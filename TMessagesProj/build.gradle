@@ -1,3 +1,6 @@
+import java.nio.file.Files
+import java.nio.file.Paths
+
 apply plugin: 'com.android.application'
 
 repositories {
@@ -186,6 +189,21 @@ android {
     splits.abi {
         enable true
         universalApk true
+    }
+}
+
+def patchBundleReleaseManifest = task('patchBundleReleaseManifest').doLast {
+    def manifest = Paths.get(project.buildDir.path, 'intermediates',
+            'bundle_manifest', 'release', 'AndroidManifest.xml')
+    def newManifest = manifest.getText()
+    newManifest = newManifest.replaceAll(".*READ_CALL_LOG.*", "")
+    newManifest = newManifest.replaceAll(".*ACCESS_BACKGROUND_LOCATION.*", "")
+    Files.write(manifest, newManifest.getBytes())
+}
+
+tasks.whenTaskAdded { task ->
+    if (task.name == 'processApplicationManifestReleaseForBundle') {
+        task.finalizedBy patchBundleReleaseManifest
     }
 }
 
