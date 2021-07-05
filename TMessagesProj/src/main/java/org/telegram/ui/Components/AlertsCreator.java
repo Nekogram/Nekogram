@@ -997,7 +997,7 @@ public class AlertsCreator {
             builder.setNeutralButton(LocaleController.getString("Copy", R.string.Copy), (dialogInterface, i) -> {
                 try {
                     AndroidUtilities.addToClipboard(url);
-                    Toast.makeText(fragment.getParentActivity(), LocaleController.getString("LinkCopied", R.string.LinkCopied), Toast.LENGTH_SHORT).show();
+                    BulletinFactory.of((FrameLayout) fragment.getFragmentView()).createCopyLinkBulletin().show();
                 } catch (Exception e) {
                     FileLog.e(e);
                 }

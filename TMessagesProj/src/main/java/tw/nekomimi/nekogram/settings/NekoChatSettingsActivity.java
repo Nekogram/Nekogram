@@ -38,10 +38,10 @@ import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
-import org.telegram.ui.Components.UndoView;
 
 import java.util.ArrayList;
 
@@ -80,8 +80,6 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int hideAllTabRow;
     private int tabsTitleTypeRow;
     private int folders2Row;
-
-    private UndoView restartTooltip;
 
     @Override
     public boolean onFragmentCreate() {
@@ -192,7 +190,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.disableProximityEvents);
                 }
-                restartTooltip.showWithAction(0, UndoView.ACTION_CACHE_WAS_CLEARED, null, null);
+                BulletinFactory.of((FrameLayout) fragmentView).createSimpleBulletin(R.raw.chats_infotip, LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect)).show();
             } else if (position == tryToOpenAllLinksInIVRow) {
                 NekoConfig.toggleTryToOpenAllLinksInIV();
                 if (view instanceof TextCheckCell) {
@@ -210,10 +208,6 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 }
             }
         });
-
-        restartTooltip = new UndoView(context);
-        restartTooltip.setInfoText(LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect));
-        frameLayout.addView(restartTooltip, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM | Gravity.LEFT, 8, 0, 8, 8));
 
         return fragmentView;
     }

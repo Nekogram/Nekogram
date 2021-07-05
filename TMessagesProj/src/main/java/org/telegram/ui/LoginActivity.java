@@ -1574,32 +1574,18 @@ public class LoginActivity extends BaseFragment {
                 testBackendCell = new CheckBoxCell(context, 2);
                 testBackendCell.setText(LocaleController.getString("TestBackend", R.string.TestBackend), "", ConnectionsManager.native_isTestBackend(currentAccount) != 0, false);
                 addView(testBackendCell, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));
-                testBackendCell.setOnClickListener(new OnClickListener() {
-
-                    private Toast visibleToast;
-
-                    @Override
-                    public void onClick(View v) {
-                        if (getParentActivity() == null) {
-                            return;
-                        }
-                        CheckBoxCell cell = (CheckBoxCell) v;
-                        ConnectionsManager.native_switchBackend(currentAccount);
-                        boolean isTestBackend = ConnectionsManager.native_isTestBackend(currentAccount) != 0;
-                        cell.setChecked(isTestBackend, true);
-                        try {
-                            if (visibleToast != null) {
-                                visibleToast.cancel();
-                            }
-                        } catch (Exception e) {
-                            FileLog.e(e);
-                        }
-                        if (isTestBackend) {
-                            visibleToast = Toast.makeText(getParentActivity(), LocaleController.getString("TestBackendOn", R.string.TestBackendOn), Toast.LENGTH_SHORT);
-                        } else {
-                            visibleToast = Toast.makeText(getParentActivity(), LocaleController.getString("TestBackendOff", R.string.TestBackendOff), Toast.LENGTH_SHORT);
-                        }
-                        visibleToast.show();
+                testBackendCell.setOnClickListener(v -> {
+                    if (getParentActivity() == null) {
+                        return;
+                    }
+                    CheckBoxCell cell = (CheckBoxCell) v;
+                    ConnectionsManager.native_switchBackend(currentAccount);
+                    boolean isTestBackend = ConnectionsManager.native_isTestBackend(currentAccount) != 0;
+                    cell.setChecked(isTestBackend, true);
+                    if (isTestBackend) {
+                        BulletinFactory.of((FrameLayout) fragmentView).createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString("TestBackendOn", R.string.TestBackendOn)).show();
+                    } else {
+                        BulletinFactory.of((FrameLayout) fragmentView).createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString("TestBackendOff", R.string.TestBackendOff)).show();
                     }
                 });
             }

@@ -166,7 +166,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -3043,7 +3042,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         if (i == 0) {
                             try {
                                 AndroidUtilities.addToClipboard(((SimpleTextView) v).getText());
-                                Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
+                                BulletinFactory.of((FrameLayout) fragmentView).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
                             } catch (Exception e) {
                                 FileLog.e(e);
                             }
@@ -5773,7 +5772,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     cell.setBackground(Theme.getSelectorDrawable(false));
                     cell.setOnClickListener(v1 -> {
                         AndroidUtilities.addToClipboard(cell.getValueTextView().getText());
-                        undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+                        BulletinFactory.of((FrameLayout) fragmentView).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
                     });
                     switch (i) {
                         case 0:
@@ -5967,7 +5966,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (i == 0) {
                         try {
                             AndroidUtilities.addToClipboard(String.valueOf(finalId));
-                            undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+                            BulletinFactory.of((FrameLayout) fragmentView).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
                         } catch (Exception e) {
                             FileLog.e(e);
                         }
