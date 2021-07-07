@@ -88,7 +88,6 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         return true;
     }
 
-    @SuppressLint("NewApi")
     @Override
     public View createView(Context context) {
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
@@ -314,7 +313,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         rowCount = 0;
 
         experimentRow = rowCount++;
-        emojiRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? rowCount++ : -1;
+        emojiRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ? rowCount++ : -1;
         mapDriftingFixRow = rowCount++;
         increaseVoiceMessageQualityRow = rowCount++;
         saveCacheToExternalFilesDirRow = rowCount++;

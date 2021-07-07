@@ -54,7 +54,6 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private RecyclerListView listView;
     private ListAdapter listAdapter;
     private ActionBarMenuItem menuItem;
-    private StickerSizeCell stickerSizeCell;
 
     private int rowCount;
 
@@ -659,7 +658,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                     view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     break;
                 case 8:
-                    view = stickerSizeCell = new StickerSizeCell(mContext);
+                    view = new StickerSizeCell(mContext);
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
             }

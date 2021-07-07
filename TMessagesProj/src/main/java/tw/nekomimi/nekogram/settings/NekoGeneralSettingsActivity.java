@@ -230,20 +230,16 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 BulletinFactory.of((FrameLayout) fragmentView).createSimpleBulletin(R.raw.chats_infotip, LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect)).show();
             } else if (position == translationProviderRow) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Pair<ArrayList<String>, ArrayList<Integer>> providers = Translator.getProviders();
-                    ArrayList<String> names = providers.first;
-                    ArrayList<Integer> types = providers.second;
-                    if (names == null || types == null) {
-                        return;
-                    }
-                    PopupHelper.show(names, LocaleController.getString("TranslationProvider", R.string.TranslationProvider), types.indexOf(NekoConfig.translationProvider), context, view, i -> {
-                        NekoConfig.setTranslationProvider(types.get(i));
-                        listAdapter.notifyItemChanged(translationProviderRow);
-                    });
-                } else {
-                    showDialog(Translator.getTranslationProviderAlert(context)).setOnDismissListener(dialog1 -> listAdapter.notifyItemChanged(translationProviderRow));
+                Pair<ArrayList<String>, ArrayList<Integer>> providers = Translator.getProviders();
+                ArrayList<String> names = providers.first;
+                ArrayList<Integer> types = providers.second;
+                if (names == null || types == null) {
+                    return;
                 }
+                PopupHelper.show(names, LocaleController.getString("TranslationProvider", R.string.TranslationProvider), types.indexOf(NekoConfig.translationProvider), context, view, i -> {
+                    NekoConfig.setTranslationProvider(types.get(i));
+                    listAdapter.notifyItemChanged(translationProviderRow);
+                });
             } else if (position == openArchiveOnPullRow) {
                 NekoConfig.toggleOpenArchiveOnPull();
                 if (view instanceof TextCheckCell) {

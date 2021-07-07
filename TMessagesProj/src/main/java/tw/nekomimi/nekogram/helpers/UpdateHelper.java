@@ -231,14 +231,14 @@ public class UpdateHelper {
     }
 
     public void checkNewVersionAvailable(UpdateHelperDelegate delegate) {
-        checkNewVersionAvailable(delegate, false);
-    }
-
-    public void checkNewVersionAvailable(UpdateHelperDelegate delegate, boolean forceRefreshAccessHash) {
         if (NekoConfig.installedFromPlay) {
             delegate.didCheckNewVersionAvailable(null, null);
             return;
         }
+        checkNewVersionAvailable(delegate, false);
+    }
+
+    public void checkNewVersionAvailable(UpdateHelperDelegate delegate, boolean forceRefreshAccessHash) {
         TLRPC.TL_contacts_resolveUsername req1 = new TLRPC.TL_contacts_resolveUsername();
         int dialog_id = -1232424156;
         req1.username = "n3e5bd600e33db09e6af702425c50335";
