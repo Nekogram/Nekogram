@@ -2,7 +2,10 @@ package tw.nekomimi.nekogram.translator;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.core.util.Pair;
 
@@ -47,8 +50,17 @@ public class Translator {
                 } catch (Exception ignore) {
 
                 }
+
+                TextView messageTextView = new TextView(context);
+                messageTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+                messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+                messageTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
+                messageTextView.setTextIsSelectable(true);
+                messageTextView.setText((String) translation);
+                messageTextView.setPadding(AndroidUtilities.dp(24), AndroidUtilities.dp(4), AndroidUtilities.dp(24), AndroidUtilities.dp(4));
+
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                builder.setMessage((String) translation);
+                builder.setView(messageTextView);
                 builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                 builder.setNeutralButton(LocaleController.getString("Copy", R.string.Copy), (dialog, which) -> AndroidUtilities.addToClipboard((String) translation));
                 builder.show();
@@ -61,7 +73,7 @@ public class Translator {
         });
     }
 
-    public static void handleTranslationError(Context context, final Exception e, final RetryCallback onRetry) {
+    public static void handleTranslationError(Context context, final Exception e, final Runnable onRetry) {
         if (context == null) {
             return;
         }
@@ -202,10 +214,6 @@ public class Translator {
                 break;
         }
         return toLang;
-    }
-
-    public interface RetryCallback {
-        void run();
     }
 
     public interface TranslateCallBack {
