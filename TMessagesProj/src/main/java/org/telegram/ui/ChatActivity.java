@@ -20372,9 +20372,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     selectedObjectToEditCaption = null;
                     return;
                 }
-                if (getMessageHelper().saveStickerToGallery(getParentActivity(), selectedObject)) {
-                    BulletinFactory.of(this).createDownloadBulletin(BulletinFactory.FileType.STICKER).show();
-                }
+                getMessageHelper().saveStickerToGallery(getParentActivity(), selectedObject, () -> {
+                    if (BulletinFactory.canShowBulletin(ChatActivity.this)) {
+                        BulletinFactory.of(this).createDownloadBulletin(BulletinFactory.FileType.STICKER).show();
+                    }
+                });
                 break;
             } case 88: {
                 MessageObject messageObject = getMessageForTranslate();

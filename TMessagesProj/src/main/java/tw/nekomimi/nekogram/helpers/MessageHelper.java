@@ -44,7 +44,7 @@ public class MessageHelper extends BaseController {
         super(num);
     }
 
-    public boolean saveStickerToGallery(Activity activity, MessageObject messageObject) {
+    public void saveStickerToGallery(Activity activity, MessageObject messageObject, Runnable callback) {
         String path = messageObject.messageOwner.attachPath;
         if (!TextUtils.isEmpty(path)) {
             File temp = new File(path);
@@ -63,37 +63,39 @@ public class MessageHelper extends BaseController {
             path = FileLoader.getPathToAttach(messageObject.getDocument(), true).toString();
             File temp = new File(path);
             if (!temp.exists()) {
-                return false;
+                return;
             }
         }
         if (!TextUtils.isEmpty(path)) {
-            try {
-                Bitmap image;
-                if (Build.VERSION.SDK_INT >= 19) {
-                    image = BitmapFactory.decodeFile(path);
-                } else {
-                    RandomAccessFile file = new RandomAccessFile(path, "r");
-                    ByteBuffer buffer = file.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, path.length());
-                    BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                    bmOptions.inJustDecodeBounds = true;
-                    Utilities.loadWebpImage(null, buffer, buffer.limit(), bmOptions, true);
-                    image = Bitmaps.createBitmap(bmOptions.outWidth, bmOptions.outHeight, Bitmap.Config.ARGB_8888);
-                    Utilities.loadWebpImage(image, buffer, buffer.limit(), null, true);
-                    file.close();
+            final String finalPath = path;
+            Utilities.globalQueue.postRunnable(() -> {
+                try {
+                    Bitmap image;
+                    if (Build.VERSION.SDK_INT >= 19) {
+                        image = BitmapFactory.decodeFile(finalPath);
+                    } else {
+                        RandomAccessFile file = new RandomAccessFile(finalPath, "r");
+                        ByteBuffer buffer = file.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, finalPath.length());
+                        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
+                        bmOptions.inJustDecodeBounds = true;
+                        Utilities.loadWebpImage(null, buffer, buffer.limit(), bmOptions, true);
+                        image = Bitmaps.createBitmap(bmOptions.outWidth, bmOptions.outHeight, Bitmap.Config.ARGB_8888);
+                        Utilities.loadWebpImage(image, buffer, buffer.limit(), null, true);
+                        file.close();
+                    }
+                    if (image != null) {
+                        File file = new File(finalPath.replace(".webp", ".png"));
+                        FileOutputStream stream = new FileOutputStream(file);
+                        image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        stream.close();
+                        MediaController.saveFile(file.toString(), activity, 0, null, null);
+                        AndroidUtilities.runOnUIThread(callback);
+                    }
+                } catch (Exception e) {
+                    FileLog.e(e);
                 }
-                if (image != null) {
-                    File file = new File(path.replace(".webp", ".png"));
-                    FileOutputStream stream = new FileOutputStream(file);
-                    image.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    stream.close();
-                    MediaController.saveFile(file.toString(), activity, 0, null, null);
-                    return true;
-                }
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
+            });
         }
-        return false;
     }
 
     public static String saveUriToCache(Uri uri) {
