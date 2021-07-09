@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -53,6 +54,7 @@ public class WsSettingsActivity extends BaseFragment {
     private int enableTLSRow;
     private int localProxyRow;
     private int enableDoHRow;
+    private int yahagiRow;
     private int settings2Row;
 
     @Override
@@ -117,6 +119,8 @@ public class WsSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.wsUseDoH);
                 }
                 NekoConfig.wsReloadConfig();
+            } else if (position == yahagiRow) {
+                Browser.openUrl(getParentActivity(), "https://delta.pcr.cy/auth/register?code=neko");
             }
         });
         return fragmentView;
@@ -138,6 +142,7 @@ public class WsSettingsActivity extends BaseFragment {
         enableTLSRow = rowCount++;
         localProxyRow = rowCount++;
         enableDoHRow = rowCount++;
+        yahagiRow = NekoConfig.isChineseUser ? rowCount++ : -1;
         settings2Row = rowCount++;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -223,7 +228,7 @@ public class WsSettingsActivity extends BaseFragment {
                     if (position == enableTLSRow) {
                         textCell.setTextAndCheck(LocaleController.getString("WsEnableTls", R.string.WsEnableTls), NekoConfig.wsEnableTLS, true);
                     } else if (position == enableDoHRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("WsEnableDoh", R.string.WsEnableDoh), NekoConfig.wsUseDoH, false);
+                        textCell.setTextAndCheck(LocaleController.getString("WsEnableDoh", R.string.WsEnableDoh), NekoConfig.wsUseDoH, position + 1 != settings2Row);
                     }
                     break;
                 }
@@ -231,6 +236,14 @@ public class WsSettingsActivity extends BaseFragment {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == settingsRow) {
                         headerCell.setText(LocaleController.getString("Settings", R.string.Settings));
+                    }
+                    break;
+                }
+                case 6: {
+                    TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
+                    textCell.setMultilineDetail(true);
+                    if (position == yahagiRow) {
+                        textCell.setTextAndValue(LocaleController.getString("YahagiTitle", R.string.YahagiTitle), LocaleController.getString("YahagiSummary", R.string.YahagiSummary), false);
                     }
                     break;
                 }
@@ -305,6 +318,8 @@ public class WsSettingsActivity extends BaseFragment {
                 return 1;
             } else if (position == enableTLSRow || position == enableDoHRow) {
                 return 3;
+            } else if (position == yahagiRow) {
+                return 6;
             }
             return 2;
         }

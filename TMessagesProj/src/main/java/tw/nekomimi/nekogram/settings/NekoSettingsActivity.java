@@ -199,11 +199,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
         translationRow = rowCount++;
         donateRow = rowCount++;
         checkUpdateRow = NekoConfig.installedFromPlay ? -1 : rowCount++;
-        if (NekoConfig.isChineseUser) {
-            yahagiRow = rowCount++;
-        } else {
-            yahagiRow = -1;
-        }
+        yahagiRow = NekoConfig.isChineseUser ? rowCount++ : -1;
         about2Row = rowCount++;
 
         if (listAdapter != null) {
@@ -330,7 +326,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                     } else if (position == donateRow) {
                         textCell.setTextAndValue(LocaleController.getString("Donate", R.string.Donate), LocaleController.getString("DonateAbout", R.string.DonateAbout), position + 1 != about2Row);
                     } else if (position == yahagiRow) {
-                        textCell.setTextAndValue("矢矧网络科", "您的网络需求一站式解决方案\n解锁地域限制服务 / 数据收集 / 网络加速", false);
+                        textCell.setTextAndValue(LocaleController.getString("YahagiTitle", R.string.YahagiTitle), LocaleController.getString("YahagiSummary", R.string.YahagiSummary), false);
                     } else if (position == checkUpdateRow) {
                         textCell.setTextAndValue(LocaleController.getString("CheckUpdate", R.string.CheckUpdate),
                                 checkingUpdate ? LocaleController.getString("CheckingUpdate", R.string.CheckingUpdate) :
