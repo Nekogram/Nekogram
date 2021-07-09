@@ -25,7 +25,6 @@ import tw.nekomimi.nekogram.NekoConfig;
 public class Translator {
 
     public static final int PROVIDER_GOOGLE = 1;
-    public static final int PROVIDER_GOOGLE_CN = 2;
     public static final int PROVIDER_LINGO = 3;
     public static final int PROVIDER_YANDEX = 4;
     public static final int PROVIDER_DEEPL = 5;
@@ -107,8 +106,6 @@ public class Translator {
         ArrayList<Integer> types = new ArrayList<>();
         names.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
         types.add(Translator.PROVIDER_GOOGLE);
-        names.add(LocaleController.getString("ProviderGoogleTranslateCN", R.string.ProviderGoogleTranslateCN));
-        types.add(Translator.PROVIDER_GOOGLE_CN);
         names.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
         types.add(Translator.PROVIDER_LINGO);
         names.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
@@ -166,7 +163,6 @@ public class Translator {
                 translator = MicrosoftTranslator.getInstance();
                 break;
             case PROVIDER_GOOGLE:
-            case PROVIDER_GOOGLE_CN:
             default:
                 translator = GoogleAppTranslator.getInstance();
                 break;
@@ -197,7 +193,6 @@ public class Translator {
                 break;
             case PROVIDER_MICROSOFT:
             case PROVIDER_GOOGLE:
-            case PROVIDER_GOOGLE_CN:
             default:
                 if (country != null && language.equals("zh")) {
                     String countryUpperCase = country.toUpperCase();

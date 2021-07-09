@@ -15,8 +15,6 @@ import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 
-import tw.nekomimi.nekogram.NekoConfig;
-
 public class GoogleAppTranslator extends BaseTranslator {
 
     private static GoogleAppTranslator instance;
@@ -30,6 +28,7 @@ public class GoogleAppTranslator extends BaseTranslator {
             "tg", "te", "ta", "th", "tr", "tk", "cy", "ug", "ur", "uk", "uz", "es", "iw",
             "el", "haw", "sd", "hu", "sn", "hy", "ig", "it", "yi", "hi", "su", "id", "jw",
             "en", "yo", "vi", "zh-TW", "zh-CN", "zh");
+    private String vipRegion;
 
     static GoogleAppTranslator getInstance() {
         if (instance == null) {
@@ -44,7 +43,14 @@ public class GoogleAppTranslator extends BaseTranslator {
 
     @Override
     protected String translate(String query, String tl) throws IOException, JSONException {
-        String url = "https://translate.google." + (NekoConfig.translationProvider == Translator.PROVIDER_GOOGLE_CN ? "cn" : "com") + "/translate_a/single?dj=1" +
+        if (vipRegion == null) {
+            try {
+                checkRegion();
+            } catch (Exception ignore) {
+                vipRegion = "default";
+            }
+        }
+        String url = "https://translate.google." + ("china".equals(vipRegion) ? "cn" : "com") + "/translate_a/single?dj=1" +
                 "&q=" + URLEncoder.encode(query, "UTF-8") +
                 "&sl=auto" +
                 "&tl=" + tl +
@@ -68,6 +74,12 @@ public class GoogleAppTranslator extends BaseTranslator {
             sb.append(array.getJSONObject(i).getString("trans"));
         }
         return sb.toString();
+    }
+
+    private void checkRegion() throws IOException, JSONException {
+        String response = request("https://regioninfo-pa.googleapis.com/v1/RegionInfo?key=AIzaSyBxK5bTqqtWtRBL8pef259_5A_aXo0lZCY");
+        JSONObject json = new JSONObject(response);
+        vipRegion = json.getString("vipRegion");
     }
 
     private String request(String url) throws IOException {
