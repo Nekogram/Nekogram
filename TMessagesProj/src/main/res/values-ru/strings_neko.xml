@@ -58,7 +58,6 @@
     <string name="TranslateFailed">Ошибка сервера переводчика</string>
     <string name="TranslationProvider">Переводчик</string>
     <string name="ProviderGoogleTranslate">Google Переводчик</string>
-    <string name="ProviderGoogleTranslateCN">Google Переводчик Китай</string>
     <string name="TranslateApiUnsupported">Выбранный переводчик не поддерживает ваш язык.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Отменить перевод</string>

@@ -55,7 +55,6 @@
     <string name="TranslateFailed">Помилка перекладу серверу</string>
     <string name="TranslationProvider">Тип перекладача</string>
     <string name="ProviderGoogleTranslate">Перекладач Google</string>
-    <string name="ProviderGoogleTranslateCN">Перекладач Google CN</string>
     <string name="TranslateApiUnsupported">Постачальник перекладу, обраний вами не підтримує вашу мову.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Скасувати переклад</string>

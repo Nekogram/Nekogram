@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">喵设置</string>
-    <string name="IPv6">优先尝试使用 IPv6 连接</string>
+    <string name="IPv6">Try connecting through IPv6</string>
     <string name="MessageMenu">消息菜单</string>
     <string name="HidePhone">隐藏咱的手机号</string>
-    <string name="Hide">隐藏</string>
+    <string name="Hide">Hide</string>
     <string name="DeleteAllFromSelf">自闭</string>
     <string name="DeleteAllFromSelfAlert">警告！这将为此会话中的 **所有人** 删除 **全部你发出的消息**。</string>
     <string name="BotLogin">机器人登录</string>
@@ -59,7 +59,6 @@
     <string name="TranslateFailed">翻译服务器错误</string>
     <string name="TranslationProvider">翻译源</string>
     <string name="ProviderGoogleTranslate">Google 翻译</string>
-    <string name="ProviderGoogleTranslateCN">Google 中国翻译</string>
     <string name="TranslateApiUnsupported">您选择的翻译源不支持您的语言.</string>
     <string name="ProviderLingocloud">彩云小译</string>
     <string name="UndoTranslate">撤销翻译</string>

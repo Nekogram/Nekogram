@@ -5,6 +5,7 @@
     <string name="MessageMenu">Menu ning pesan</string>
     <string name="HidePhone">Delekne nomerku</string>
     <string name="Hide">Ilangno diluk</string>
+    <string name="DeleteAllFromSelf">Gamon</string>
     <string name="DeleteAllFromSelfAlert">Hayo tiati iki bakal hapus kabeh.</string>
     <string name="BotLogin">Babu login</string>
     <string name="InvalidAccessToken">Goblok salah</string>
@@ -58,7 +59,6 @@
     <string name="TranslateFailed">Server terjemahan error</string>
     <string name="TranslationProvider">Penyedia terjemahan</string>
     <string name="ProviderGoogleTranslate">Google Terjemahan</string>
-    <string name="ProviderGoogleTranslateCN">Google Terjemahan CN</string>
     <string name="TranslateApiUnsupported">Penyedia terjemahan yang anda pilih tidak mendukung bahasa Anda.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Batal menerjemahkan</string>

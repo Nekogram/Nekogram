@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Cài đặt Nekogram</string>
-    <string name="IPv6">Thử kết nối thông qua IPv6</string>
+    <string name="IPv6">Try connecting through IPv6</string>
     <string name="MessageMenu">Menu tin nhắn</string>
     <string name="HidePhone">Ẩn số điện thoại của tôi</string>
     <string name="Hide">Ẩn</string>
+    <string name="DeleteAllFromSelf">Delete own messages</string>
     <string name="DeleteAllFromSelfAlert">Cảnh báo! Điều này sẽ **xóa tất cả các tin nhắn của bạn** trong cuộc trò chuyện này cho **tất cả* * người tham gia.</string>
     <string name="BotLogin">Đăng nhập Bot</string>
     <string name="InvalidAccessToken">Mã token không đúng hoặc không hợp lệ</string>
@@ -58,7 +59,6 @@
     <string name="TranslateFailed">Server dịch lỗi</string>
     <string name="TranslationProvider">Nhà cung cấp dịch thuật</string>
     <string name="ProviderGoogleTranslate">Google Dịch</string>
-    <string name="ProviderGoogleTranslateCN">Google Dịch CN</string>
     <string name="TranslateApiUnsupported">Nhà cung cấp dịch thuật mà bạn đã chọn không hỗ trợ ngôn ngữ của bạn.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Hoàn tác dịch</string>
@@ -145,4 +145,5 @@
     <string name="WsLocalProxy">Proxy cục bộ</string>
     <string name="WsEnableDoh">Bật DoH</string>
     <string name="MsgDate">Ngày</string>
+    <string name="UpdateNekogram">Cập nhật Nekogram</string>
 </resources>

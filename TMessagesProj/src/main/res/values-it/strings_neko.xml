@@ -5,6 +5,7 @@
     <string name="MessageMenu">Menu messaggio</string>
     <string name="HidePhone">Nascondi il mio numero</string>
     <string name="Hide">Nascondi</string>
+    <string name="DeleteAllFromSelf">Elimina i miei messaggi</string>
     <string name="DeleteAllFromSelfAlert">Attenzione! Questo eliminerà **tutti i tuoi messaggi** da questa chat per **tutti i partecipanti.**</string>
     <string name="BotLogin">Login con bot token</string>
     <string name="InvalidAccessToken">Accesso col token non valido</string>
@@ -58,7 +59,6 @@
     <string name="TranslateFailed">Errore del server di traduzione</string>
     <string name="TranslationProvider">Fornitore della traduzione</string>
     <string name="ProviderGoogleTranslate">Google Traduttore</string>
-    <string name="ProviderGoogleTranslateCN">Google Traduttore CN</string>
     <string name="TranslateApiUnsupported">Il fornitore della traduzione selezionato non supporta la tua lingua.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Annulla traduzione</string>
@@ -67,7 +67,7 @@
     <string name="UnlimitedPinnedDialogs">Chat fissate illimitate</string>
     <string name="UnlimitedPinnedDialogsAbout">Fissa chat illimitate disattivando la loro sincronizzazione.</string>
     <string name="OpenArchiveOnPull">Apri l\'archivio tirando giù</string>
-    <string name="HideKeyboardOnChatScroll">Nascondi la tastiera durante lo scorrimento della chat</string>
+    <string name="HideKeyboardOnChatScroll">Nascondi la tastiera allo scorrimento della chat</string>
     <string name="UserRestrictionsSendStickers2">Inviare stickers</string>
     <string name="UserRestrictionsSendGifs">Inviare GIF</string>
     <string name="ShowTabsOnForward">Mostra cartelle durante l\'inoltro</string>
@@ -92,7 +92,7 @@
     <string name="TranslationAbout">Aiutaci a tradurre Nekogram nella tua lingua.</string>
     <string name="Translation">Traduci Nekogram</string>
     <string name="GooglePlay">Google Play</string>
-    <string name="ResetStickerSize">Ripristina dimensione adesivi</string>
+    <string name="ResetStickerSize">Ripristina dimensione stickers</string>
     <string name="RestartAppToTakeEffect">Riavvia l\'app per applicare le modifiche.</string>
     <string name="DisableAppBarShadow">Disabilita l\'ombra della barra del titolo</string>
     <string name="BetaWarning">Questa è una funzione **beta** implementata da **Telegram**.</string>
@@ -108,7 +108,7 @@
     <string name="DisableProximityEvents">Disabilita gli eventi di prossimità</string>
     <string name="CustomEmojiTypeface">Font Emoji Personalizzato</string>
     <string name="MapDriftingFix">Mappa linea di deriva per la Cina continentale</string>
-    <string name="IncreaseVoiceMessageQuality">Aumenta qualità messaggi vocali</string>
+    <string name="IncreaseVoiceMessageQuality">Aumenta la qualità dei messaggi vocali</string>
     <string name="DisableInstantCamera">Disabilita fotocamera istantanea</string>
     <string name="OpenAllLinksInInstantView">Prova ad aprire tutti i link in InstantView</string>
     <string name="DonateThankYou">Grazie!</string>
@@ -128,12 +128,22 @@
     <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
     <string name="TranslationProviderShort">Fornitore</string>
     <string name="ViewSourceCode">Visualizza codice sorgente</string>
-    <string name="AvatarAsBackground">Immagine del profilo come background</string>
-    <string name="BlurAvatarBackground">Immagine del profilo sfocata</string>
+    <string name="AvatarAsBackground">Immagine del profilo come sfondo</string>
+    <string name="BlurAvatarBackground">Sfoca l\'immagine del profilo</string>
     <string name="DarkenAvatarBackground">Immagine del profilo scurita</string>
     <string name="AccentAsNotificationColor">Colore dell\'accento come colore di notifica</string>
-    <string name="SilenceNonContacts">Silenzia non-contatti</string>
+    <string name="SilenceNonContacts">Silenzia i non-contatti</string>
     <string name="SilenceNonContactsAbout">Le notifiche da parte di persone che non sono tuoi contatti appariranno senza suono. È possibile aggiungere gli utenti ai contatti dal loro profilo senza conoscere il loro numero di telefono.</string>
     <string name="SelectBetween">Seleziona tra</string>
     <string name="SwipeToPiP">Scorri il video verso l\'alto per la modalità PiP</string>
+    <string name="StickerSavedHint">Sticker salvato nella galleria</string>
+    <string name="UserID">ID Utente</string>
+    <string name="Datacenter">Datacenter</string>
+    <string name="RegistrationDate">Data di registrazione</string>
+    <string name="WsDescription">Connettiti a Telegram attraverso WebSocket tramite Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">dettagli tecnici</a>]]>.</string>
+    <string name="WsEnableTls">Abilita TLS</string>
+    <string name="WsLocalProxy">Proxy locale</string>
+    <string name="WsEnableDoh">Abilita DoH</string>
+    <string name="MsgDate">Data</string>
+    <string name="UpdateNekogram">Aggiorna Nekogram</string>
 </resources>

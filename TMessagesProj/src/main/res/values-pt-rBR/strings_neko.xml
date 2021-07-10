@@ -58,7 +58,6 @@
     <string name="TranslateFailed">Erro no servidor de tradução</string>
     <string name="TranslationProvider">Provedor de tradução</string>
     <string name="ProviderGoogleTranslate">Google Tradutor</string>
-    <string name="ProviderGoogleTranslateCN">Google Tradutor CN</string>
     <string name="TranslateApiUnsupported">O provedor de tradução que você selecionou não suporta o seu idioma.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Desfazer tradução</string>

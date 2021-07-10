@@ -50,7 +50,6 @@
     <string name="TranslateFailed">翻訳サーバエラー</string>
     <string name="TranslationProvider">翻訳プロバイダ</string>
     <string name="ProviderGoogleTranslate">Google翻訳</string>
-    <string name="ProviderGoogleTranslateCN">Google翻訳 CN</string>
     <string name="TranslateApiUnsupported">選択した翻訳プロバイダはあなたの言語をサポートしていません.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">翻訳を取り消す</string>

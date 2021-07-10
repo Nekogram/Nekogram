@@ -5,6 +5,7 @@
     <string name="MessageMenu">اختيارات ضغطة الرسائل</string>
     <string name="HidePhone">إخفاء رقم هاتفي</string>
     <string name="Hide">إخفاء</string>
+    <string name="DeleteAllFromSelf">حذف الرسائل الخاصة</string>
     <string name="DeleteAllFromSelfAlert">تحذير! سيؤدي هذا إلى **حذفَ جميع الرسائل منكَ** في هذه المحادثة لـ **جميع** المشاركين.</string>
     <string name="BotLogin">تسجيل الدخول کبوت</string>
     <string name="InvalidAccessToken">مفتاح التوكن غيرُ صالح</string>
@@ -58,7 +59,6 @@
     <string name="TranslateFailed">خطأ في خادم الترجمة</string>
     <string name="TranslationProvider">مّوفر الترجمة</string>
     <string name="ProviderGoogleTranslate">ترجمة جوجل</string>
-    <string name="ProviderGoogleTranslateCN">ترجمة جوجل صين</string>
     <string name="TranslateApiUnsupported">مّوفر الترجمة الذي اخترته لا يدعم لغتك.</string>
     <string name="ProviderLingocloud">LingoCloud</string>
     <string name="UndoTranslate">النص الأصلي</string>

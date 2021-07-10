@@ -58,7 +58,6 @@
     <string name="TranslateFailed">Çeviri sunucu hatası</string>
     <string name="TranslationProvider">Çeviri sağlayıcısı</string>
     <string name="ProviderGoogleTranslate">Google Çeviri</string>
-    <string name="ProviderGoogleTranslateCN">Google Çeviri Çince</string>
     <string name="TranslateApiUnsupported">Seçtiğiniz çeviri sağlayıcısı dilinizi desteklemiyor.</string>
     <string name="ProviderLingocloud">Lingocloud Çeviri</string>
     <string name="UndoTranslate">Çevirme</string>

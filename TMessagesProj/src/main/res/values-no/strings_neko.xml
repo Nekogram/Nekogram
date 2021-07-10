@@ -57,7 +57,6 @@
     <string name="TranslateFailed">Oversett serverfeil</string>
     <string name="TranslationProvider">Oversettelsesleverandør</string>
     <string name="ProviderGoogleTranslate">Google Translate</string>
-    <string name="ProviderGoogleTranslateCN">Google Translate CN</string>
     <string name="TranslateApiUnsupported">Oversettelsesleverandøren du valgte støtter ikke språket ditt.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Angre oversettelsen</string>

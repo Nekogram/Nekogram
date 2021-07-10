@@ -56,7 +56,6 @@
     <string name="TranslateFailed">翻譯服務器錯誤</string>
     <string name="TranslationProvider">翻譯源</string>
     <string name="ProviderGoogleTranslate">Google 翻譯</string>
-    <string name="ProviderGoogleTranslateCN">Google 中國翻譯</string>
     <string name="TranslateApiUnsupported">您選擇的翻譯源不支持您的語言.</string>
     <string name="ProviderLingocloud">彩雲小譯</string>
     <string name="UndoTranslate">撤銷翻譯</string>
