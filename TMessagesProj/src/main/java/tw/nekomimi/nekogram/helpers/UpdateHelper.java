@@ -157,11 +157,13 @@ public class UpdateHelper {
                 update.can_not_skip = json.getBoolean("can_not_skip");
                 if (json.has("url")) {
                     update.url = json.getString("url");
+                    update.flags |= 4;
                 }
                 if (json.has("files")) {
                     TLRPC.Message file = messages.get(json.getJSONArray("files").getInt(currentAbi));
                     if (file != null && file.media != null) {
                         update.document = file.media.document;
+                        update.flags |= 2;
                     }
                 }
                 if (json.has("message")) {
@@ -179,6 +181,7 @@ public class UpdateHelper {
                     TLRPC.Message sticker = messages.get(json.getInt("sticker"));
                     if (sticker != null && sticker.media != null) {
                         update.sticker = sticker.media.document;
+                        update.flags |= 8;
                     }
                 }
                 delegate.didCheckNewVersionAvailable(update, null);
