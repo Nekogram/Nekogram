@@ -1265,7 +1265,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                         if (str == null) {
                             return true;
                         }
-                        Translator.showTranslateDialog(textSelectionOverlay.getContext(), str.toString());
+                        Translator.showTranslateDialog(textSelectionOverlay.getContext(), str.toString(), () -> TextSelectionHelper.this.callback.onTextCopied());
                         hideActions();
                         clear(true);
                         if (TextSelectionHelper.this.callback != null) {

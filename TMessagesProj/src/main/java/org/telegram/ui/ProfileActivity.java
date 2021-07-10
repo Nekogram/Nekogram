@@ -3784,7 +3784,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         return;
                     }
                     if (i == 1) {
-                        Translator.showTranslateDialog(getParentActivity(), about);
+                        Translator.showTranslateDialog(getParentActivity(), about, () -> BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show());
                         return;
                     }
                     AndroidUtilities.addToClipboard(about);

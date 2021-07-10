@@ -15,6 +15,7 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.RadioColorCell;
+import org.telegram.ui.Cells.TextSelectionHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class Translator {
     @SuppressLint("StaticFieldLeak")
     private static AlertDialog progressDialog;
 
-    public static void showTranslateDialog(Context context, String query) {
+    public static void showTranslateDialog(Context context, String query, Runnable callback) {
         try {
             progressDialog.dismiss();
         } catch (Exception ignore) {
@@ -61,13 +62,18 @@ public class Translator {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context);
                 builder.setView(messageTextView);
                 builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
-                builder.setNeutralButton(LocaleController.getString("Copy", R.string.Copy), (dialog, which) -> AndroidUtilities.addToClipboard((String) translation));
+                builder.setNeutralButton(LocaleController.getString("Copy", R.string.Copy), (dialog, which) -> {
+                    AndroidUtilities.addToClipboard((String) translation);
+                    if (callback != null) {
+                        callback.run();
+                    }
+                });
                 builder.show();
             }
 
             @Override
             public void onError(Exception e) {
-                handleTranslationError(context, e, () -> showTranslateDialog(context, query));
+                handleTranslationError(context, e, () -> showTranslateDialog(context, query, callback));
             }
         });
     }
