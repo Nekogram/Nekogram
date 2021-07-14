@@ -3,21 +3,56 @@ package tw.nekomimi.nekogram.translator;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 
-import org.json.JSONException;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
 
-import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
+
+import tw.nekomimi.nekogram.NekoConfig;
 
 abstract public class BaseTranslator {
 
-    abstract protected String translate(String query, String tl) throws IOException, JSONException;
+    abstract protected String translate(String query, String tl) throws Exception;
 
-    abstract protected List<String> getTargetLanguages();
+    abstract public List<String> getTargetLanguages();
+
+    public String convertLanguageCode(String language, String country) {
+        return language;
+    }
 
     void startTask(Object query, String toLang, Translator.TranslateCallBack translateCallBack) {
         new MyAsyncTask().request(query, toLang, translateCallBack).execute();
+    }
+
+    public boolean supportLanguage(String language) {
+        return getTargetLanguages().contains(language);
+    }
+
+    public String getCurrentAppLanguage() {
+        String toLang;
+        Locale locale = LocaleController.getInstance().currentLocale;
+        toLang = convertLanguageCode(locale.getLanguage(), locale.getCountry());
+        if (!supportLanguage(toLang)) {
+            toLang = convertLanguageCode(LocaleController.getString("LanguageCode", R.string.LanguageCode), null);
+        }
+        return toLang;
+    }
+
+    public String getTargetLanguage(String language) {
+        String toLang;
+        if (language.equals("app")) {
+            toLang = getCurrentAppLanguage();
+        } else {
+            toLang = language;
+        }
+        return toLang;
+    }
+
+    public String getCurrentTargetLanguage() {
+        return getTargetLanguage(NekoConfig.translationTarget);
     }
 
     @SuppressWarnings("deprecation")

@@ -155,4 +155,10 @@
     <string name="WsEnableDoh">Enable DoH</string>
     <string name="MsgDate">Date</string>
     <string name="UpdateNekogram">Update Nekogram</string>
+    <string name="TranslationTarget">Target language</string>
+    <string name="TranslationTargetShort">Target</string>
+    <string name="TranslationTargetApp">Follow app</string>
+    <string name="Translator">Translator</string>
+    <string name="ResetLanguage">Reset language</string>
+    <string name="UseGoogleTranslate">Use Google</string>
 </resources>

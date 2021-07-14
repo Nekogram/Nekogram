@@ -10,8 +10,8 @@ public class DeepLTranslator extends BaseTranslator {
 
     private static DeepLTranslator instance;
     private final List<String> targetLanguages = Arrays.asList(
-            "BG", "PL", "DA", "DE", "RU", "FR", "FI", "NL", "CS", "LV", "LT", "RO",
-            "PT", "JA", "SV", "SK", "SL", "ES", "EL", "HU", "IT", "US", "ZH");
+            "bg", "pl", "da", "de", "ru", "fr", "fi", "nl", "cs", "lv", "lt", "ro",
+            "pt", "ja", "sv", "sk", "sl", "es", "el", "hu", "it", "en", "zh");
     private final DeeplTranslater deeplTranslater = new DeeplTranslater();
 
     static DeepLTranslator getInstance() {
@@ -26,12 +26,12 @@ public class DeepLTranslator extends BaseTranslator {
     }
 
     @Override
-    protected List<String> getTargetLanguages() {
+    public List<String> getTargetLanguages() {
         return targetLanguages;
     }
 
     @Override
     protected String translate(String query, String tl) throws IOException {
-        return deeplTranslater.translate(query, "auto", tl);
+        return deeplTranslater.translate(query, "auto", tl.toUpperCase());
     }
 }

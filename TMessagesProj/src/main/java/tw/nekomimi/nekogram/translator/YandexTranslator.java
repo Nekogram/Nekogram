@@ -62,7 +62,7 @@ public class YandexTranslator extends BaseTranslator {
     }
 
     @Override
-    protected List<String> getTargetLanguages() {
+    public List<String> getTargetLanguages() {
         return targetLanguages;
     }
 

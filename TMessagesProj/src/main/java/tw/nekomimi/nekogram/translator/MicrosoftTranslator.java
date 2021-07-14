@@ -23,8 +23,8 @@ public class MicrosoftTranslator extends BaseTranslator {
     private static MicrosoftTranslator instance;
     private final List<String> targetLanguages = Arrays.asList(
             "sq", "ar", "az", "ga", "et", "or", "mww", "bg", "is", "pl", "bs", "fa", "ko",
-            "da", "de", "ru", "fr", "zh-Hant", "fil", "fj", "fi", "gu", "kk", "ht", "nl",
-            "ca", "zh-Hans", "cs", "kn", "otq", "hr", "lv", "lt", "ro", "mg", "mt", "mr",
+            "da", "de", "ru", "fr", "zh-TW", "fil", "fj", "fi", "gu", "kk", "ht", "nl",
+            "ca", "zh-CN", "cs", "kn", "otq", "hr", "lv", "lt", "ro", "mg", "mt", "mr",
             "ml", "ms", "mi", "bn", "af", "ne", "nb", "pa", "pt", "pt-PT", "ja", "sv", "sm",
             "sr-Latn", "sr-Cyrl", "sk", "sl", "sw", "ty", "te", "ta", "th", "to", "tr", "cy",
             "ur", "uk", "es", "he", "el", "hu", "hy", "it", "hi", "id", "en", "yua", "yue",
@@ -43,12 +43,35 @@ public class MicrosoftTranslator extends BaseTranslator {
     }
 
     @Override
-    protected List<String> getTargetLanguages() {
+    public List<String> getTargetLanguages() {
         return targetLanguages;
     }
 
     @Override
+    public String convertLanguageCode(String language, String country) {
+        String code;
+        if (country != null && language.equals("zh")) {
+            String countryUpperCase = country.toUpperCase();
+            if (countryUpperCase.equals("CN") || countryUpperCase.equals("DG")) {
+                code = "zh-CN";
+            } else if (countryUpperCase.equals("TW") || countryUpperCase.equals("HK")) {
+                code = "zh-TW";
+            } else {
+                code = language;
+            }
+        } else {
+            code = language;
+        }
+        return code;
+    }
+
+    @Override
     protected String translate(String query, String tl) throws IOException, JSONException {
+        if (tl.equals("zh-CN")) {
+            tl = "zh-Hans";
+        } else if (tl.equals("zh-TW")) {
+            tl = "zh-hant";
+        }
         String param = "fromLang=auto-detect&text=" + URLEncoder.encode(query, "UTF-8") +
                 "&to=" + tl;
         String response = request(param);

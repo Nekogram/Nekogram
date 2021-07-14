@@ -63,8 +63,26 @@ public class GoogleAppTranslator extends BaseTranslator {
     }
 
     @Override
-    protected List<String> getTargetLanguages() {
+    public List<String> getTargetLanguages() {
         return targetLanguages;
+    }
+
+    @Override
+    public String convertLanguageCode(String language, String country) {
+        String code;
+        if (country != null && language.equals("zh")) {
+            String countryUpperCase = country.toUpperCase();
+            if (countryUpperCase.equals("CN") || countryUpperCase.equals("DG")) {
+                code = "zh-CN";
+            } else if (countryUpperCase.equals("TW") || countryUpperCase.equals("HK")) {
+                code = "zh-TW";
+            } else {
+                code = language;
+            }
+        } else {
+            code = language;
+        }
+        return code;
     }
 
     private String getResult(String string) throws JSONException {

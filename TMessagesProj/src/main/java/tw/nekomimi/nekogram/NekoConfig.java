@@ -56,6 +56,7 @@ public class NekoConfig {
     public static boolean disableNumberRounding = false;
     public static float stickerSize = 14.0f;
     public static int translationProvider = Translator.PROVIDER_GOOGLE;
+    public static String translationTarget = "app";
     public static int tabsTitleType = TITLE_TYPE_TEXT;
     public static int idType = ID_TYPE_API;
 
@@ -244,6 +245,7 @@ public class NekoConfig {
             wsUseMTP = preferences.getBoolean("wsUseMTP", false);
             wsUseDoH = preferences.getBoolean("wsUseDoH", true);
             showDate = preferences.getBoolean("showDate", false);
+            translationTarget = preferences.getString("translationTarget", "app");
             configLoaded = true;
         }
     }
@@ -482,6 +484,15 @@ public class NekoConfig {
         editor.putInt("translationProvider", translationProvider);
         editor.commit();
     }
+
+    public static void setTranslationTarget(String target) {
+        translationTarget = target;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("translationTarget", translationTarget);
+        editor.commit();
+    }
+
 
     public static void toggleDisablePhotoSideAction() {
         disablePhotoSideAction = !disablePhotoSideAction;

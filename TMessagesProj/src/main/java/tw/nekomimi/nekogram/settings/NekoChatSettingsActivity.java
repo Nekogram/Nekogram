@@ -90,7 +90,6 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         return true;
     }
 
-    @SuppressLint("NewApi")
     @Override
     public View createView(Context context) {
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
