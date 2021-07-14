@@ -2,7 +2,6 @@ package tw.nekomimi.nekogram.simplemenu;
 
 import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Outline;
 import android.graphics.Paint;
@@ -12,7 +11,6 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewOutlineProvider;
 import android.widget.PopupWindow;
@@ -26,6 +24,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.Arrays;
 
@@ -79,7 +78,9 @@ public class SimpleMenuPopupWindow extends PopupWindow {
         backgroundDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground), PorterDuff.Mode.MULTIPLY));
         setBackgroundDrawable(backgroundDrawable);
 
-        @SuppressLint("InflateParams") RecyclerView mList = (RecyclerView) LayoutInflater.from(context).inflate(R.layout.simple_menu_list, null);
+        RecyclerListView mList = new RecyclerListView(context);
+        mList.setPadding(0, AndroidUtilities.dp(8), 0, AndroidUtilities.dp(8));
+        mList.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
         mList.setFocusable(true);
         mList.setLayoutManager(new LinearLayoutManager(context));
         mList.setItemAnimator(null);
@@ -89,7 +90,15 @@ public class SimpleMenuPopupWindow extends PopupWindow {
                 getBackground().getOutline(outline);
             }
         });
+        mList.setClipToPadding(false);
         mList.setClipToOutline(true);
+        mList.setOnItemClickListener((view, position) -> {
+            mOnItemClickListener.onClick(position);
+
+            if (isShowing()) {
+                dismiss();
+            }
+        });
 
         setContentView(mList);
 
@@ -363,7 +372,7 @@ public class SimpleMenuPopupWindow extends PopupWindow {
 
         Rect bounds = new Rect();
 
-        @SuppressLint("InflateParams") TextView view = LayoutInflater.from(context).inflate(R.layout.simple_menu_item, null, false).findViewById(android.R.id.text1);
+        TextView view = new SimpleMenuItem(context);
         Paint textPaint = view.getPaint();
 
         for (CharSequence chs : entries) {
