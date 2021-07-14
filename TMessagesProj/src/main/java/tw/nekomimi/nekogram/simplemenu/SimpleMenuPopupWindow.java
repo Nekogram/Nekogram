@@ -81,6 +81,7 @@ public class SimpleMenuPopupWindow extends PopupWindow {
         RecyclerListView mList = new RecyclerListView(context);
         mList.setPadding(0, AndroidUtilities.dp(8), 0, AndroidUtilities.dp(8));
         mList.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
+        mList.setVerticalScrollBarEnabled(true);
         mList.setFocusable(true);
         mList.setLayoutManager(new LinearLayoutManager(context));
         mList.setItemAnimator(null);
