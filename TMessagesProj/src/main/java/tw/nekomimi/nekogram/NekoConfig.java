@@ -806,6 +806,8 @@ public class NekoConfig {
             } catch (Exception e) {
                 FileLog.e(e);
                 customEmojiTypeface = null;
+                if (customEmojiFont) NekoConfig.toggleCustomEmojiFont();
+                setCustomEmojiFontPath(null);
             }
         }
         return customEmojiTypeface;
