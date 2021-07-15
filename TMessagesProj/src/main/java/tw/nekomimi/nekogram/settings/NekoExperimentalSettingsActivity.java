@@ -295,7 +295,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         InputStream os = getParentActivity().getContentResolver().openInputStream(uri);
                         if (os != null) {
                             String fileName = getFileName(uri);
-                            File dest = new File(ApplicationLoader.applicationContext.getExternalCacheDir(), fileName == null ? "emoji.ttf" : fileName);
+                            File dest = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), fileName == null ? "emoji.ttf" : fileName);
                             AndroidUtilities.copyFile(os, dest);
                             NekoConfig.setCustomEmojiFontPath(dest.toString());
                             if (!NekoConfig.customEmojiFont) NekoConfig.toggleCustomEmojiFont();
