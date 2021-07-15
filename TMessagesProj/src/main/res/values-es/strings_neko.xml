@@ -146,4 +146,14 @@
     <string name="WsEnableDoh">Habilitar DoH</string>
     <string name="MsgDate">Fecha</string>
     <string name="UpdateNekogram">Actualizar Nekogram</string>
+    <string name="TranslationTarget">Idioma objetivo</string>
+    <string name="TranslationTargetShort">Objetivo</string>
+    <string name="TranslationTargetApp">Seguir app</string>
+    <string name="Translator">Traductor</string>
+    <string name="ResetLanguage">Restablecer idioma</string>
+    <string name="UseGoogleTranslate">Usar Google</string>
+    <string name="DeepLFormality">Formalidad</string>
+    <string name="DeepLFormalityDefault">Predeterminado</string>
+    <string name="DeepLFormalityMore">Más</string>
+    <string name="DeepLFormalityLess">Menos</string>
 </resources>

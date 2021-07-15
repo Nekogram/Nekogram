@@ -147,4 +147,14 @@
     <string name="WsEnableDoh">DoH 활성화</string>
     <string name="MsgDate">날짜</string>
     <string name="UpdateNekogram">Nekogram 업데이트</string>
+    <string name="TranslationTarget">목표 언어</string>
+    <string name="TranslationTargetShort">목표</string>
+    <string name="TranslationTargetApp">앱 팔로우</string>
+    <string name="Translator">번역기</string>
+    <string name="ResetLanguage">언어 초기화</string>
+    <string name="UseGoogleTranslate">구글 사용하기</string>
+    <string name="DeepLFormality">형식</string>
+    <string name="DeepLFormalityDefault">기본값</string>
+    <string name="DeepLFormalityMore">자세히</string>
+    <string name="DeepLFormalityLess">줄이기</string>
 </resources>

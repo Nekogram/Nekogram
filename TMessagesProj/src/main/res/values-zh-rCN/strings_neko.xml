@@ -149,4 +149,11 @@
     <string name="WsEnableDoh">启用 DoH</string>
     <string name="MsgDate">日期</string>
     <string name="UpdateNekogram">更新 Nekogram</string>
+    <string name="TranslationTarget">目标语言</string>
+    <string name="TranslationTargetShort">目标</string>
+    <string name="TranslationTargetApp">跟随应用</string>
+    <string name="Translator">翻译</string>
+    <string name="ResetLanguage">重置语言</string>
+    <string name="UseGoogleTranslate">使用 Google</string>
+    <string name="DeepLFormalityDefault">默认</string>
 </resources>

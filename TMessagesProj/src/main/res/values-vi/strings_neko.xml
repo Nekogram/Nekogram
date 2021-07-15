@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Cài đặt Nekogram</string>
-    <string name="IPv6">Try connecting through IPv6</string>
+    <string name="IPv6">Thử kết nối qua IPv6</string>
     <string name="MessageMenu">Menu tin nhắn</string>
     <string name="HidePhone">Ẩn số điện thoại của tôi</string>
     <string name="Hide">Ẩn</string>
