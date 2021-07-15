@@ -7356,9 +7356,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 int msgId = messages.get(i).getId();
                 if (msgId > begin && msgId < end && selectedMessagesIds[0].indexOfKey(msgId) < 0) {
                     MessageObject message = messages.get(i);
-                    int type = getMessageType(message);
 
-                    if (type < 2 || type == 20) {
+                    if (message.contentType != 0) {
                         continue;
                     }
 
@@ -11985,9 +11984,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             int msgId = messages.get(i).getId();
                             if (msgId > begin && msgId < end && selectedMessagesIds[0].indexOfKey(msgId) < 0) {
                                 MessageObject message = messages.get(i);
-                                int type = getMessageType(message);
 
-                                if (type < 2 || type == 20) {
+                                if (message.contentType != 0) {
                                     continue;
                                 }
 

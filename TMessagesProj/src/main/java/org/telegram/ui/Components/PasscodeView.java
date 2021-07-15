@@ -1125,8 +1125,19 @@ public class PasscodeView extends FrameLayout {
                 FileLog.e(e);
             }
             try {
-                FingerprintManagerCompat fingerprintManager = FingerprintManagerCompat.from(ApplicationLoader.applicationContext);
-                if (fingerprintManager.isHardwareDetected() && fingerprintManager.hasEnrolledFingerprints()) {
+                boolean useBiometric;
+                if (Build.VERSION.SDK_INT >= 29) {
+                    BiometricManager biometricManager = (BiometricManager) ApplicationLoader.applicationContext.getSystemService(Context.BIOMETRIC_SERVICE);
+                    if (Build.VERSION.SDK_INT >= 30) {
+                        useBiometric = biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS;
+                    } else {
+                        useBiometric = biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS;
+                    }
+                } else {
+                    FingerprintManagerCompat fingerprintManager = FingerprintManagerCompat.from(ApplicationLoader.applicationContext);
+                    useBiometric = fingerprintManager.isHardwareDetected();
+                }
+                if (useBiometric) {
                     fingerprintView.setVisibility(VISIBLE);
                 }
             } catch (Throwable e) {
