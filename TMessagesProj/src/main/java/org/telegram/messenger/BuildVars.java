@@ -15,11 +15,11 @@ public class BuildVars {
 
     public static boolean DEBUG_VERSION = false;
     public static boolean DEBUG_PRIVATE_VERSION = false;
-    public static boolean LOGS_ENABLED = false;
+    public static boolean LOGS_ENABLED = true;
     public static boolean USE_CLOUD_STRINGS = true;
     public static boolean CHECK_UPDATES = true;
     public static boolean NO_SCOPED_STORAGE = true/* || Build.VERSION.SDK_INT <= 28*/;
-    public static int BUILD_VERSION = 2360;
+    public static int BUILD_VERSION = 2372;
     public static String BUILD_VERSION_STRING = "7.8.0";
     public static int APP_ID = 336779;
     public static String APP_HASH = "b91eefacc86747c068c8d8a16b41500d";

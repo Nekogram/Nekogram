@@ -372,7 +372,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private boolean padImageForHorizontalInsets;
 
     private boolean doneButtonPressed;
-    
+    boolean keyboardAnimationEnabled;
+
     private boolean pausedOnPause = false;
 
     private Runnable setLoadingRunnable = new Runnable() {
@@ -1850,6 +1851,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         private Paint paint = new Paint();
         private boolean ignoreLayout;
         private boolean captionAbove;
+
         AdjustPanLayoutHelper adjustPanLayoutHelper = new AdjustPanLayoutHelper(this) {
             @Override
             protected void onPanTranslationUpdate(float y, float progress, boolean keyboardVisible) {
@@ -1965,7 +1967,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
             @Override
             protected boolean heightAnimationEnabled() {
-                return !captionEditText.isPopupShowing();
+                return !captionEditText.isPopupShowing() && keyboardAnimationEnabled;
             }
         };
 
@@ -2846,14 +2848,31 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 final float translationY = captionTextViewSwitcher.getTranslationY();
 
                 boolean buttonVisible = scrollY == 0 && translationY == 0;
+                boolean enalrgeIconVisible = scrollY == 0 && translationY == 0;
 
                 if (!buttonVisible) {
                     final int progressBottom = photoProgressViews[0].getY() + photoProgressViews[0].size;
                     final int topMargin = (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0) + ActionBar.getCurrentActionBarHeight();
                     final int captionTop = captionContainer.getTop() + (int) translationY - scrollY + topMargin - AndroidUtilities.dp(12);
+                    final int enlargeIconTop = (int) fullscreenButton[0].getY();
+                    enalrgeIconVisible = captionTop > enlargeIconTop + AndroidUtilities.dp(32);
                     buttonVisible = captionTop > progressBottom;
                 }
+                if (allowShowFullscreenButton) {
+                    if (fullscreenButton[0].getTag() != null && ((Integer) fullscreenButton[0].getTag()) == 3 && enalrgeIconVisible) {
+                        fullscreenButton[0].setTag(2);
+                        fullscreenButton[0].animate().alpha(1).setDuration(150).setListener(new AnimatorListenerAdapter() {
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                fullscreenButton[0].setTag(null);
+                            }
+                        }).start();
+                    } else if (fullscreenButton[0].getTag() == null && !enalrgeIconVisible) {
+                        fullscreenButton[0].setTag(3);
+                        fullscreenButton[0].animate().alpha(0).setListener(null).setDuration(150).start();
+                    }
 
+                }
                 photoProgressViews[0].setIndexedAlpha(2, buttonVisible ? 1f : 0f, true);
             }
         }
@@ -3379,6 +3398,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     public void setParentActivity(final Activity activity) {
+        Theme.createChatResources(activity, false);
         currentAccount = UserConfig.selectedAccount;
         centerImage.setCurrentAccount(currentAccount);
         leftImage.setCurrentAccount(currentAccount);
@@ -5502,6 +5522,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
             @Override
             public boolean onTouchEvent(MotionEvent event) {
+                if (bottomTouchEnabled && event.getAction() == MotionEvent.ACTION_DOWN) {
+                    keyboardAnimationEnabled = true;
+                }
                 return !bottomTouchEnabled && super.onTouchEvent(event);
             }
 
@@ -6297,6 +6320,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (!windowView.isFocusable()) {
             makeFocusable();
         }
+        keyboardAnimationEnabled = true;
         selectedPhotosListView.setEnabled(false);
         photosCounterView.setRotationX(0.0f);
         isPhotosListViewVisible = false;
@@ -7051,7 +7075,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 final int duration = currentMessageObject.getDuration();
                 final String name = currentMessageObject.getFileName();
                 if (!TextUtils.isEmpty(name)) {
-                    if (duration >= 20 * 60) {
+                    if (duration >= 10 * 60) {
                         if (currentMessageObject.forceSeekTo < 0) {
                             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("media_saved_pos", Activity.MODE_PRIVATE);
                             float pos = preferences.getFloat(name, -1);
@@ -13289,7 +13313,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
         if (isActionBarVisible) {
             if (currentScale <= 1.0001f) {
-                if (!allowShowFullscreenButton) {
+                if (!allowShowFullscreenButton && fullscreenButton[0].getTag() == null) {
                     fullscreenButton[0].animate().alpha(1.0f).setDuration(120).setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationEnd(Animator animation) {

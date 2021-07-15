@@ -125,6 +125,7 @@ import org.telegram.ui.Cells.GraySectionCell;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.NotificationsCheckCell;
 import org.telegram.ui.Cells.SettingsSearchCell;
+import org.telegram.ui.Cells.SettingsSuggestionCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.TextDetailCell;
@@ -138,6 +139,7 @@ import org.telegram.ui.Components.AudioPlayerAlert;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.BulletinFactory;
+import org.telegram.ui.Components.ChatAvatarContainer;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.CrossfadeDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -359,6 +361,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int numberRow;
     private int setUsernameRow;
     private int bioRow;
+    private int phoneSuggestionSectionRow;
+    private int phoneSuggestionRow;
+    private int passwordSuggestionSectionRow;
+    private int passwordSuggestionRow;
     private int settingsSectionRow;
     private int settingsSectionRow2;
     private int notificationRow;
@@ -423,6 +429,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private boolean invalidateScroll = true;
 
     PinchToZoomHelper pinchToZoomHelper;
+
+    private View transitionOnlineText;
 
     private final Property<ProfileActivity, Float> HEADER_SHADOW = new AnimationProperties.FloatProperty<ProfileActivity>("headerShadow") {
         @Override
@@ -1321,6 +1329,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
 
             getNotificationCenter().addObserver(this, NotificationCenter.contactsDidLoad);
+            getNotificationCenter().addObserver(this, NotificationCenter.newSuggestionsAvailable);
             getNotificationCenter().addObserver(this, NotificationCenter.encryptedChatCreated);
             getNotificationCenter().addObserver(this, NotificationCenter.encryptedChatUpdated);
             getNotificationCenter().addObserver(this, NotificationCenter.blockedUsersDidLoad);
@@ -1430,6 +1439,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             avatarsViewPager.onDestroy();
         }
         if (user_id != 0) {
+            getNotificationCenter().removeObserver(this, NotificationCenter.newSuggestionsAvailable);
             getNotificationCenter().removeObserver(this, NotificationCenter.contactsDidLoad);
             getNotificationCenter().removeObserver(this, NotificationCenter.encryptedChatCreated);
             getNotificationCenter().removeObserver(this, NotificationCenter.encryptedChatUpdated);
@@ -2681,13 +2691,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 LocaleController.getString("DebugMenuClearMediaCache", R.string.DebugMenuClearMediaCache),
                                 LocaleController.getString("DebugMenuCallSettings", R.string.DebugMenuCallSettings),
                                 NekoConfig.residentNotification ? LocaleController.getString("DisableResidentNotification", R.string.DisableResidentNotification) : LocaleController.getString("EnableResidentNotification", R.string.EnableResidentNotification),
-                                BuildVars.DEBUG_PRIVATE_VERSION ? "Check for app updates" : null,
+                                BuildVars.DEBUG_PRIVATE_VERSION || AndroidUtilities.isStandaloneApp() ? LocaleController.getString("DebugMenuCheckAppUpdate", R.string.DebugMenuCheckAppUpdate) : null,
                                 LocaleController.getString("DebugMenuReadAllDialogs", R.string.DebugMenuReadAllDialogs),
                                 SharedConfig.pauseMusicOnRecord ? LocaleController.getString("DebugMenuDisablePauseMusic", R.string.DebugMenuDisablePauseMusic) : LocaleController.getString("DebugMenuEnablePauseMusic", R.string.DebugMenuEnablePauseMusic),
                                 BuildVars.DEBUG_VERSION && !AndroidUtilities.isTablet() && Build.VERSION.SDK_INT >= 23 ? (SharedConfig.smoothKeyboard ? LocaleController.getString("DebugMenuDisableSmoothKeyboard", R.string.DebugMenuDisableSmoothKeyboard) : LocaleController.getString("DebugMenuEnableSmoothKeyboard", R.string.DebugMenuEnableSmoothKeyboard)) : null,
                                 BuildVars.DEBUG_PRIVATE_VERSION ? (SharedConfig.disableVoiceAudioEffects ? "Enable voip audio effects" : "Disable voip audio effects") : null,
                                 Build.VERSION.SDK_INT >= 21 ? (SharedConfig.noStatusBar ? "Show status bar background" : "Hide status bar background") : null,
                                 BuildVars.DEBUG_PRIVATE_VERSION ? "Clean app update" : null,
+                                BuildVars.DEBUG_PRIVATE_VERSION ? "Reset suggestions" : null,
                         };
                         builder.setItems(items, (dialog, which) -> {
                             if (which == 0) {
@@ -2746,6 +2757,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 SharedConfig.pendingAppUpdate = null;
                                 SharedConfig.saveConfig();
                                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable);
+                            } else if (which == 16) {
+                                Set<String> suggestions = getMessagesController().pendingSuggestions;
+                                suggestions.add("VALIDATE_PHONE_NUMBER");
+                                suggestions.add("VALIDATE_PASSWORD");
+                                getNotificationCenter().postNotificationName(NotificationCenter.newSuggestionsAvailable);
                             }
                         });
                         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -2913,7 +2929,21 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         frameLayout.addView(topView);
 
         avatarContainer = new FrameLayout(context);
-        avatarContainer2 = new FrameLayout(context);
+        avatarContainer2 = new FrameLayout(context) {
+            @Override
+            protected void dispatchDraw(Canvas canvas) {
+                super.dispatchDraw(canvas);
+                if (transitionOnlineText != null) {
+                    canvas.save();
+                    canvas.translate(onlineTextView[0].getX(), onlineTextView[0].getY());
+                    canvas.saveLayerAlpha(0 ,0, transitionOnlineText.getMeasuredWidth(), transitionOnlineText.getMeasuredHeight(), (int) (255 * (1f - animationProgress)), Canvas.ALL_SAVE_FLAG);
+                    transitionOnlineText.draw(canvas);
+                    canvas.restore();
+                    canvas.restore();
+                    invalidate();
+                }
+            }
+        };
         AndroidUtilities.updateViewVisibilityAnimated(avatarContainer2, true, 1f, false);
         frameLayout.addView(avatarContainer2,  LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         avatarContainer.setPivotX(0);
@@ -2934,6 +2964,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
         };
+        avatarImage.getImageReceiver().setAllowDecodeSingleFrame(true);
         avatarImage.setRoundRadius(AndroidUtilities.dp(21));
         avatarImage.setPivotX(0);
         avatarImage.setPivotY(0);
@@ -4775,6 +4806,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     listAdapter.notifyItemInserted(emptyRow);
                 }
             }
+        } else if (id == NotificationCenter.newSuggestionsAvailable) {
+            int prevRow1 = passwordSuggestionRow;
+            int prevRow2 = phoneSuggestionRow;
+            updateRowsIds();
+            if (prevRow1 != passwordSuggestionRow || prevRow2 != phoneSuggestionRow) {
+                listAdapter.notifyDataSetChanged();
+            }
         }
     }
 
@@ -5111,9 +5149,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     animators.add(ObjectAnimator.ofFloat(idTextView, View.ALPHA, 0.0f, 1.0f));
                 }
                 for (int a = 0; a < 2; a++) {
-                    onlineTextView[a].setAlpha(a == 0 ? 1.0f : 0.0f);
                     nameTextView[a].setAlpha(a == 0 ? 1.0f : 0.0f);
-                    animators.add(ObjectAnimator.ofFloat(onlineTextView[a], View.ALPHA, a == 0 ? 0.0f : 1.0f));
                     animators.add(ObjectAnimator.ofFloat(nameTextView[a], View.ALPHA, a == 0 ? 0.0f : 1.0f));
                 }
                 if (timeItem.getTag() != null) {
@@ -5137,6 +5173,26 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     editItem.setAlpha(0.0f);
                     animators.add(ObjectAnimator.ofFloat(editItem, View.ALPHA, 1.0f));
                 }
+
+                boolean onlineTextCrosafade = false;
+                BaseFragment previousFragment = parentLayout.fragmentsStack.size() > 1 ? parentLayout.fragmentsStack.get(parentLayout.fragmentsStack.size() - 2) : null;
+                if (previousFragment instanceof ChatActivity) {
+                    ChatAvatarContainer avatarContainer = ((ChatActivity) previousFragment).getAvatarContainer();
+                    if (avatarContainer.getSubtitleTextView().getLeftDrawable() != null) {
+                        transitionOnlineText = avatarContainer.getSubtitleTextView();
+                        avatarContainer2.invalidate();
+                        onlineTextCrosafade = true;
+                        onlineTextView[0].setAlpha(0f);
+                        onlineTextView[1].setAlpha(0f);
+                        animators.add(ObjectAnimator.ofFloat(onlineTextView[1], View.ALPHA, 1.0f));
+                    }
+                }
+                if (!onlineTextCrosafade) {
+                    for (int a = 0; a < 2; a++) {
+                        onlineTextView[a].setAlpha(a == 0 ? 1.0f : 0.0f);
+                        animators.add(ObjectAnimator.ofFloat(onlineTextView[a], View.ALPHA, a == 0 ? 0.0f : 1.0f));
+                    }
+                }
                 animatorSet.playTogether(animators);
             } else {
                 initialAnimationExtraHeight = extraHeight;
@@ -5148,7 +5204,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     animators.add(ObjectAnimator.ofFloat(writeButton, View.ALPHA, 0.0f));
                 }
                 for (int a = 0; a < 2; a++) {
-                    animators.add(ObjectAnimator.ofFloat(onlineTextView[a], View.ALPHA, a == 0 ? 1.0f : 0.0f));
                     animators.add(ObjectAnimator.ofFloat(nameTextView[a], View.ALPHA, a == 0 ? 1.0f : 0.0f));
                 }
                 if (timeItem.getTag() != null) {
@@ -5171,6 +5226,24 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (editItemVisible) {
                     editItem.setAlpha(1.0f);
                     animators.add(ObjectAnimator.ofFloat(editItem, View.ALPHA, 0.0f));
+                }
+
+                boolean crossfadeOnlineText = false;
+                BaseFragment previousFragment = parentLayout.fragmentsStack.size() > 1 ? parentLayout.fragmentsStack.get(parentLayout.fragmentsStack.size() - 2) : null;
+                if (previousFragment instanceof ChatActivity) {
+                    ChatAvatarContainer avatarContainer = ((ChatActivity) previousFragment).getAvatarContainer();
+                    if (avatarContainer.getSubtitleTextView().getLeftDrawable() != null) {
+                        transitionOnlineText = avatarContainer.getSubtitleTextView();
+                        avatarContainer2.invalidate();
+                        crossfadeOnlineText = true;
+                        animators.add(ObjectAnimator.ofFloat(onlineTextView[0], View.ALPHA, 0.0f));
+                        animators.add(ObjectAnimator.ofFloat(onlineTextView[1], View.ALPHA, 0.0f));
+                    }
+                }
+                if (!crossfadeOnlineText) {
+                    for (int a = 0; a < 2; a++) {
+                        animators.add(ObjectAnimator.ofFloat(onlineTextView[a], View.ALPHA, a == 0 ? 1.0f : 0.0f));
+                    }
                 }
                 animatorSet.playTogether(animators);
             }
@@ -5197,6 +5270,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         avatarsViewPager.setVisibility(View.VISIBLE);
                         idTextView.setAlpha(1.0f);
                     }
+                    transitionOnlineText = null;
+                    avatarContainer2.invalidate();
                     profileTransitionInProgress = false;
                     fragmentView.invalidate();
                 }
@@ -5355,6 +5430,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         numberRow = -1;
         setUsernameRow = -1;
         bioRow = -1;
+        phoneSuggestionSectionRow = -1;
+        phoneSuggestionRow = -1;
+        passwordSuggestionSectionRow = -1;
+        passwordSuggestionRow = -1;
         settingsSectionRow = -1;
         settingsSectionRow2 = -1;
         notificationRow = -1;
@@ -5437,7 +5516,19 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (!NekoConfig.hidePhone) numberRow = rowCount++;
                 setUsernameRow = rowCount++;
                 bioRow = rowCount++;
+
                 settingsSectionRow = rowCount++;
+
+                Set<String> suggestions = getMessagesController().pendingSuggestions;
+                if (suggestions.contains("VALIDATE_PHONE_NUMBER")) {
+                    phoneSuggestionRow = rowCount++;
+                    phoneSuggestionSectionRow = rowCount++;
+                }
+                if (suggestions.contains("VALIDATE_PASSWORD")) {
+                    passwordSuggestionRow = rowCount++;
+                    passwordSuggestionSectionRow = rowCount++;
+                }
+
                 settingsSectionRow2 = rowCount++;
                 notificationRow = rowCount++;
                 privacyRow = rowCount++;
@@ -6874,6 +6965,30 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     view.setBackgroundDrawable(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     break;
                 }
+                case 15: {
+                    view = new SettingsSuggestionCell(mContext) {
+                        @Override
+                        protected void onYesClick(int type) {
+                            getNotificationCenter().removeObserver(ProfileActivity.this, NotificationCenter.newSuggestionsAvailable);
+                            getMessagesController().removeSuggestion(0, type == SettingsSuggestionCell.TYPE_PHONE ? "VALIDATE_PHONE_NUMBER" : "VALIDATE_PASSWORD");
+                            getNotificationCenter().addObserver(ProfileActivity.this, NotificationCenter.newSuggestionsAvailable);
+                            int oldRow = type == SettingsSuggestionCell.TYPE_PHONE ? phoneSuggestionRow : passwordSuggestionRow;
+                            updateRowsIds();
+                            saveScrollPosition();
+                            listAdapter.notifyItemRangeRemoved(oldRow, 2);
+                        }
+
+                        @Override
+                        protected void onNoClick(int type) {
+                            if (type == SettingsSuggestionCell.TYPE_PHONE) {
+                                presentFragment(new ActionIntroActivity(ActionIntroActivity.ACTION_TYPE_CHANGE_PHONE_NUMBER));
+                            } else {
+                                presentFragment(new TwoStepVerificationSetupActivity(TwoStepVerificationSetupActivity.TYPE_VERIFY, null));
+                            }
+                        }
+                    };
+                    break;
+                }
             }
             if (viewType != 13) {
                 view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
@@ -7204,6 +7319,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 case 12:
                     holder.itemView.requestLayout();
                     break;
+                case 15:
+                    SettingsSuggestionCell suggestionCell = (SettingsSuggestionCell) holder.itemView;
+                    suggestionCell.setType(position == passwordSuggestionRow ? SettingsSuggestionCell.TYPE_PASSWORD : SettingsSuggestionCell.TYPE_PHONE);
+                    break;
             }
         }
 
@@ -7262,7 +7381,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return 6;
             } else if (position == infoSectionRow || position == lastSectionRow || position == membersSectionRow ||
                     position == secretSettingsSectionRow || position == settingsSectionRow || position == devicesSectionRow ||
-                    position == helpSectionCell || position == setAvatarSectionRow) {
+                    position == helpSectionCell || position == setAvatarSectionRow || position == passwordSuggestionSectionRow ||
+                    position == phoneSuggestionSectionRow) {
                 return 7;
             } else if (position >= membersStartRow && position < membersEndRow) {
                 return 8;
@@ -7274,6 +7394,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return 13;
             } else if (position == versionRow) {
                 return 14;
+            } else if (position == passwordSuggestionRow || position == phoneSuggestionRow) {
+                return 15;
             }
             return 0;
         }
@@ -7942,6 +8064,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         arrayList.add(new ThemeDescription(listView, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlueHeader));
 
+        arrayList.add(new ThemeDescription(listView, 0, new Class[]{SettingsSuggestionCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlueHeader));
+        arrayList.add(new ThemeDescription(listView, 0, new Class[]{SettingsSuggestionCell.class}, new String[]{"detailTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
+        arrayList.add(new ThemeDescription(listView, ThemeDescription.FLAG_LINKCOLOR, new Class[]{SettingsSuggestionCell.class}, new String[]{"detailTextView"}, null, null, null, Theme.key_windowBackgroundWhiteLinkText));
+        arrayList.add(new ThemeDescription(listView, 0, new Class[]{SettingsSuggestionCell.class}, new String[]{"yesButton"}, null, null, null, Theme.key_featuredStickers_buttonText));
+        arrayList.add(new ThemeDescription(listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE, new Class[]{SettingsSuggestionCell.class}, new String[]{"yesButton"}, null, null, null, Theme.key_featuredStickers_addButton));
+        arrayList.add(new ThemeDescription(listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, new Class[]{SettingsSuggestionCell.class}, new String[]{"yesButton"}, null, null, null, Theme.key_featuredStickers_addButtonPressed));
+        arrayList.add(new ThemeDescription(listView, 0, new Class[]{SettingsSuggestionCell.class}, new String[]{"noButton"}, null, null, null, Theme.key_featuredStickers_buttonText));
+        arrayList.add(new ThemeDescription(listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE, new Class[]{SettingsSuggestionCell.class}, new String[]{"noButton"}, null, null, null, Theme.key_featuredStickers_addButton));
+        arrayList.add(new ThemeDescription(listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, new Class[]{SettingsSuggestionCell.class}, new String[]{"noButton"}, null, null, null, Theme.key_featuredStickers_addButtonPressed));
+
         arrayList.add(new ThemeDescription(listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
         arrayList.add(new ThemeDescription(listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
         arrayList.add(new ThemeDescription(listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"checkBox"}, null, null, null, Theme.key_switchTrack));
@@ -8122,6 +8254,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             put(++pointer, numberRow, sparseIntArray);
             put(++pointer, setUsernameRow, sparseIntArray);
             put(++pointer, bioRow, sparseIntArray);
+            put(++pointer, phoneSuggestionRow, sparseIntArray);
+            put(++pointer, phoneSuggestionSectionRow, sparseIntArray);
+            put(++pointer, passwordSuggestionRow, sparseIntArray);
+            put(++pointer, passwordSuggestionSectionRow, sparseIntArray);
             put(++pointer, settingsSectionRow, sparseIntArray);
             put(++pointer, settingsSectionRow2, sparseIntArray);
             put(++pointer, notificationRow, sparseIntArray);
