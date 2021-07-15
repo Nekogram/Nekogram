@@ -161,4 +161,8 @@
     <string name="Translator">Translator</string>
     <string name="ResetLanguage">Reset language</string>
     <string name="UseGoogleTranslate">Use Google</string>
+    <string name="DeepLFormality">Formality</string>
+    <string name="DeepLFormalityDefault">Default</string>
+    <string name="DeepLFormalityMore">More</string>
+    <string name="DeepLFormalityLess">Less</string>
 </resources>

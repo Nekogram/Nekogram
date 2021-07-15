@@ -49,6 +49,7 @@ import java.util.Locale;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.translator.BaseTranslator;
+import tw.nekomimi.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.translator.Translator;
 
 @SuppressLint("RtlHardcoded")
@@ -90,6 +91,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int translatorRow;
     private int translationProviderRow;
     private int translationTargetRow;
+    private int deepLFormalityRow;
     private int translator2Row;
 
     private int generalRow;
@@ -240,11 +242,23 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 BulletinFactory.of((FrameLayout) fragmentView).createSimpleBulletin(R.raw.chats_infotip, LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect)).show();
             } else if (position == translationProviderRow) {
+                final int oldProvider = NekoConfig.translationProvider;
                 Translator.showTranslationProviderSelector(context, view, param -> {
                     if (param) {
                         listAdapter.notifyItemChanged(translationProviderRow);
                     } else {
                         listAdapter.notifyItemRangeChanged(translationProviderRow, 2);
+                    }
+                    if (oldProvider != NekoConfig.translationProvider) {
+                        if (oldProvider == Translator.PROVIDER_DEEPL) {
+                            listAdapter.notifyItemChanged(translationTargetRow);
+                            listAdapter.notifyItemRemoved(deepLFormalityRow);
+                            updateRows(false);
+                        } else if (NekoConfig.translationProvider == Translator.PROVIDER_DEEPL) {
+                            updateRows(false);
+                            listAdapter.notifyItemChanged(translationTargetRow);
+                            listAdapter.notifyItemInserted(deepLFormalityRow);
+                        }
                     }
                 });
             } else if (position == translationTargetRow) {
@@ -265,6 +279,19 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 PopupHelper.show(names, LocaleController.getString("TranslationProvider", R.string.TranslationProvider), targetLanguages.indexOf(NekoConfig.translationTarget), context, view, i -> {
                     NekoConfig.setTranslationTarget(targetLanguages.get(i));
                     listAdapter.notifyItemChanged(translationTargetRow);
+                });
+            } else if (position == deepLFormalityRow) {
+                ArrayList<String> arrayList = new ArrayList<>();
+                ArrayList<Integer> types = new ArrayList<>();
+                arrayList.add(LocaleController.getString("DeepLFormalityDefault", R.string.DeepLFormalityDefault));
+                types.add(DeepLTranslator.FORMALITY_DEFAULT);
+                arrayList.add(LocaleController.getString("DeepLFormalityMore", R.string.DeepLFormalityMore));
+                types.add(DeepLTranslator.FORMALITY_MORE);
+                arrayList.add(LocaleController.getString("DeepLFormalityLess", R.string.DeepLFormalityLess));
+                types.add(DeepLTranslator.FORMALITY_LESS);
+                PopupHelper.show(arrayList, LocaleController.getString("DeepLFormality", R.string.DeepLFormality), types.indexOf(NekoConfig.deepLFormality), context, view, i -> {
+                    NekoConfig.setDeepLFormality(types.get(i));
+                    listAdapter.notifyItemChanged(deepLFormalityRow);
                 });
             } else if (position == openArchiveOnPullRow) {
                 NekoConfig.toggleOpenArchiveOnPull();
@@ -409,6 +436,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         translatorRow = rowCount++;
         translationProviderRow = rowCount++;
         translationTargetRow = rowCount++;
+        deepLFormalityRow = NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? rowCount++ : -1;
         translator2Row = rowCount++;
 
         generalRow = rowCount++;
@@ -538,7 +566,22 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                             Locale locale = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? Locale.forLanguageTag(language) : new Locale(language);
                             value = locale.getDisplayName();
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TranslationTarget", R.string.TranslationTarget), value, false);
+                        textCell.setTextAndValue(LocaleController.getString("TranslationTarget", R.string.TranslationTarget), value, position + 1 != translator2Row);
+                    } else if (position == deepLFormalityRow) {
+                        String value;
+                        switch (NekoConfig.deepLFormality) {
+                            case DeepLTranslator.FORMALITY_DEFAULT:
+                                value = LocaleController.getString("DeepLFormalityDefault", R.string.DeepLFormalityDefault);
+                                break;
+                            case DeepLTranslator.FORMALITY_MORE:
+                                value = LocaleController.getString("DeepLFormalityMore", R.string.DeepLFormalityMore);
+                                break;
+                            case DeepLTranslator.FORMALITY_LESS:
+                            default:
+                                value = LocaleController.getString("DeepLFormalityLess", R.string.DeepLFormalityLess);
+                                break;
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("DeepLFormality", R.string.DeepLFormality), value, false);
                     } else if (position == idTypeRow) {
                         String value;
                         switch (NekoConfig.idType) {
@@ -689,8 +732,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == connection2Row || position == appearance2Row || position == drawer2Row || position == translator2Row) {
                 return 1;
-            } else if (position == eventTypeRow || position == nameOrderRow || position == idTypeRow ||
-                    (position > translatorRow && position < translator2Row)) {
+            } else if (position == eventTypeRow || position == nameOrderRow || position == idTypeRow || position == translationProviderRow ||
+                    position == translationTargetRow || position == deepLFormalityRow) {
                 return 2;
             } else if (position == ipv6Row || position == newYearRow ||
                     (position > appearanceRow && position <= disableNumberRoundingRow) ||

@@ -24,6 +24,7 @@ import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import tw.nekomimi.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.translator.Translator;
 
 @SuppressLint("ApplySharedPref")
@@ -57,6 +58,7 @@ public class NekoConfig {
     public static float stickerSize = 14.0f;
     public static int translationProvider = Translator.PROVIDER_GOOGLE;
     public static String translationTarget = "app";
+    public static int deepLFormality = DeepLTranslator.FORMALITY_DEFAULT;
     public static int tabsTitleType = TITLE_TYPE_TEXT;
     public static int idType = ID_TYPE_API;
 
@@ -493,6 +495,13 @@ public class NekoConfig {
         editor.commit();
     }
 
+    public static void setDeepLFormality(int formality) {
+        deepLFormality = formality;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("deepLFormality", deepLFormality);
+        editor.commit();
+    }
 
     public static void toggleDisablePhotoSideAction() {
         disablePhotoSideAction = !disablePhotoSideAction;
