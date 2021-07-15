@@ -69,18 +69,25 @@ public class GoogleAppTranslator extends BaseTranslator {
 
     @Override
     public String convertLanguageCode(String language, String country) {
+        String languageLowerCase = language.toLowerCase();
         String code;
-        if (country != null && language.equals("zh")) {
+        if (!TextUtils.isEmpty(country)) {
             String countryUpperCase = country.toUpperCase();
-            if (countryUpperCase.equals("CN") || countryUpperCase.equals("DG")) {
-                code = "zh-CN";
-            } else if (countryUpperCase.equals("TW") || countryUpperCase.equals("HK")) {
-                code = "zh-TW";
+            if (targetLanguages.contains(languageLowerCase + "-" + countryUpperCase)) {
+                code = languageLowerCase + "-" + countryUpperCase;
+            } else if (languageLowerCase.equals("zh")) {
+                if (countryUpperCase.equals("DG")) {
+                    code = "zh-CN";
+                } else if (countryUpperCase.equals("HK")) {
+                    code = "zh-TW";
+                } else {
+                    code = languageLowerCase;
+                }
             } else {
-                code = language;
+                code = languageLowerCase;
             }
         } else {
-            code = language;
+            code = languageLowerCase;
         }
         return code;
     }
