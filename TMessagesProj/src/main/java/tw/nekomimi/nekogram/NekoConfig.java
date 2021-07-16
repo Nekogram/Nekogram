@@ -140,6 +140,7 @@ public class NekoConfig {
             socket.close();
             if (!tcp2wsStarted) {
                 tcp2wsServer = new tcp2wsServer()
+                        .setTgaMode(false)
                         .setTls(wsEnableTLS)
                         .setIfMTP(wsUseMTP)
                         .setIfDoH(wsUseDoH);
