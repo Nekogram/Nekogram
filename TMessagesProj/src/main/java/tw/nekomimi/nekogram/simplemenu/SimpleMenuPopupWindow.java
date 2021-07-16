@@ -5,10 +5,9 @@ import static android.view.ViewGroup.LayoutParams.WRAP_CONTENT;
 import android.content.Context;
 import android.graphics.Outline;
 import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.view.Gravity;
 import android.view.View;
@@ -74,8 +73,9 @@ public class SimpleMenuPopupWindow extends PopupWindow {
         unit = (int) AndroidUtilities.dpf2(56);
         maxUnits = AndroidUtilities.isTablet() ? 7 : 5;
 
-        Drawable backgroundDrawable = context.getResources().getDrawable(R.drawable.simple_menu_background).mutate();
-        backgroundDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground), PorterDuff.Mode.MULTIPLY));
+        GradientDrawable backgroundDrawable = new GradientDrawable();
+        backgroundDrawable.setCornerRadius(AndroidUtilities.dp(4));
+        backgroundDrawable.setColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground));
         setBackgroundDrawable(backgroundDrawable);
 
         RecyclerListView mList = new RecyclerListView(context);
