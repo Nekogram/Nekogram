@@ -5513,7 +5513,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     setAvatarSectionRow = rowCount++;
                 }
                 numberSectionRow = rowCount++;
-                if (!NekoConfig.hidePhone) numberRow = rowCount++;
+                numberRow = rowCount++;
                 setUsernameRow = rowCount++;
                 bioRow = rowCount++;
 
@@ -7066,7 +7066,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } else if (position == numberRow) {
                         TLRPC.User user = UserConfig.getInstance(currentAccount).getCurrentUser();
                         String value;
-                        if (user != null && user.phone != null && user.phone.length() != 0) {
+                        if (NekoConfig.hidePhone) {
+                            value = LocaleController.getString("MobileHidden", R.string.MobileHidden);
+                        } else if (user != null && user.phone != null && user.phone.length() != 0) {
                             value = PhoneFormat.getInstance().format("+" + user.phone);
                         } else {
                             value = LocaleController.getString("NumberUnknown", R.string.NumberUnknown);
