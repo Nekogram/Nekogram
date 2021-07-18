@@ -41,6 +41,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnLayoutChangeListener;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.view.animation.Animation;
@@ -1104,14 +1105,8 @@ public final class FloatingToolbar {
             OverflowPanel(FloatingToolbarPopup popup) {
                 super(popup.mContext);
                 this.mPopup = popup;
-                setVerticalScrollBarEnabled(false);
-                setOutlineProvider(new ViewOutlineProvider() {
-                    @Override
-                    public void getOutline(View view, Outline outline) {
-                        outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), AndroidUtilities.dp(6));
-                    }
-                });
-                setClipToOutline(true);
+                setScrollBarDefaultDelayBeforeFade(ViewConfiguration.getScrollDefaultDelay() * 3);
+                setScrollIndicators(View.SCROLL_INDICATOR_TOP | View.SCROLL_INDICATOR_BOTTOM);
             }
 
             @Override
@@ -1192,7 +1187,7 @@ public final class FloatingToolbar {
         menuItemButton.setOrientation(LinearLayout.HORIZONTAL);
         menuItemButton.setMinimumWidth(AndroidUtilities.dp(48));
         menuItemButton.setMinimumHeight(AndroidUtilities.dp(48));
-        menuItemButton.setPaddingRelative(AndroidUtilities.dp(16), 0, AndroidUtilities.dp(16), 0);
+        menuItemButton.setPaddingRelative(AndroidUtilities.dp(11), 0, AndroidUtilities.dp(11), 0);
 
         TextView textView = new TextView(context);
         textView.setGravity(Gravity.CENTER);
@@ -1251,7 +1246,7 @@ public final class FloatingToolbar {
         GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.RECTANGLE);
         int r = AndroidUtilities.dp(6);
-        shape.setCornerRadii(new float[] { r, r, r, r, r, r, r, r });
+        shape.setCornerRadius(r);
         if (currentStyle == STYLE_DIALOG) {
             shape.setColor(Theme.getColor(Theme.key_dialogBackground));
         } else if (currentStyle == STYLE_BLACK) {
