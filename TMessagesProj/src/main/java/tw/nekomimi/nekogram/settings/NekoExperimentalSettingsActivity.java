@@ -252,6 +252,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
             if (position == emojiRow) {
                 try {
                     if (NekoConfig.customEmojiFont) NekoConfig.toggleCustomEmojiFont();
+                    //noinspection ResultOfMethodCallIgnored
+                    new File(NekoConfig.customEmojiFontPath).delete();
                     NekoConfig.setCustomEmojiFontPath(null);
                 } catch (Exception e) {
                     //
@@ -293,12 +295,15 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 if (uri != null) {
                     try {
                         InputStream os = getParentActivity().getContentResolver().openInputStream(uri);
-                        if (os != null) {
-                            String fileName = getFileName(uri);
-                            File dest = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), fileName == null ? "emoji.ttf" : fileName);
-                            AndroidUtilities.copyFile(os, dest);
-                            NekoConfig.setCustomEmojiFontPath(dest.toString());
+                        String fileName = getFileName(uri);
+                        File dest = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), fileName == null ? "emoji.ttf" : fileName);
+                        AndroidUtilities.copyFile(os, dest);
+                        if (NekoConfig.setCustomEmojiFontPath(dest.toString())) {
                             if (!NekoConfig.customEmojiFont) NekoConfig.toggleCustomEmojiFont();
+                        } else {
+                            BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("InvalidCustomEmojiTypeface", R.string.InvalidCustomEmojiTypeface)).show();
+                            //noinspection ResultOfMethodCallIgnored
+                            dest.delete();
                         }
                     } catch (Exception e) {
                         FileLog.e(e);

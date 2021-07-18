@@ -8,6 +8,8 @@ import android.content.pm.ApplicationInfo;
 import android.graphics.Typeface;
 import android.os.Build;
 
+import com.google.android.exoplayer2.util.Log;
+
 import org.tcp2ws.tcp2wsServer;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -752,21 +754,30 @@ public class NekoConfig {
         editor.commit();
     }
 
-    public static void setCustomEmojiFontPath(String path) {
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        try {
+    public static boolean setCustomEmojiFontPath(String path) {
+        //new Typeface.Builder(path).build();
+        if (path != null) {
+            Typeface typeface;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                typeface = new Typeface.Builder(path)
+                        .build();
+            } else {
+                typeface = Typeface.createFromFile(path);
+            }
+            if (typeface == null || typeface.equals(Typeface.DEFAULT)) {
+                return false;
+            }
+            customEmojiTypeface = typeface;
             customEmojiFontPath = path;
-            customEmojiTypeface = Typeface.createFromFile(path);
-        } catch (Exception e) {
+        } else {
             customEmojiTypeface = null;
             customEmojiFontPath = null;
-            editor.remove("customEmojiFontPath");
-            editor.commit();
-            throw e;
         }
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
         editor.putString("customEmojiFontPath", customEmojiFontPath);
         editor.commit();
+        return true;
     }
 
     public static Typeface getSystemEmojiTypeface() {

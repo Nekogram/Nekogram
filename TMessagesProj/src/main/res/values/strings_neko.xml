@@ -166,4 +166,5 @@
     <string name="DeepLFormalityMore">More</string>
     <string name="DeepLFormalityLess">Less</string>
     <string name="DialogCounter">Chats: %d</string>
+    <string name="InvalidCustomEmojiTypeface">Invalid font file.</string>
 </resources>
