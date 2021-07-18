@@ -338,7 +338,7 @@ public class DrawerProfileCell extends FrameLayout {
             }
             imageReceiver.setImageCoords(0, 0, getWidth(), getHeight());
             imageReceiver.draw(canvas);
-            darkBackColor = (Theme.getServiceMessageColor() & 0x00ffffff) | 0x50000000;
+            darkBackColor = Theme.getColor(Theme.key_listSelector);
         } else if (useImageBackground) {
             phoneTextView.getTextView().setTextColor(Theme.getColor(Theme.key_chats_menuPhone));
             if (shadowView.getVisibility() != VISIBLE) {
