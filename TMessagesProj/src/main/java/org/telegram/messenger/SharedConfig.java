@@ -1009,12 +1009,7 @@ public class SharedConfig {
             try {
 
 
-                File telegramPath;
-                if (NekoConfig.saveCacheToExternalFilesDir) {
-                    telegramPath = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "Telegram");
-                } else {
-                    telegramPath = new File(Environment.getExternalStorageDirectory(), "Telegram");
-                }
+                File telegramPath = new File(NekoConfig.saveCacheToExternalFilesDir ? ApplicationLoader.applicationContext.getExternalFilesDir(null) : Environment.getExternalStorageDirectory(), "Telegram");
                 File imagePath = new File(telegramPath, "Telegram Images");
                 imagePath.mkdir();
                 File videoPath = new File(telegramPath, "Telegram Video");

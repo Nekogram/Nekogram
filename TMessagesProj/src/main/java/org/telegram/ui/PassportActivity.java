@@ -139,6 +139,8 @@ import java.util.TimerTask;
 
 import javax.crypto.Cipher;
 
+import tw.nekomimi.nekogram.EditTextAutoFill;
+
 public class PassportActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     public final static int TYPE_REQUEST = 0;
@@ -1570,7 +1572,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             linearLayout2.addView(inputFieldContainers[a], LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 50));
             inputFieldContainers[a].setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
 
-            inputFields[a] = new EditTextBoldCursor(context);
+            inputFields[a] = new EditTextAutoFill(context);
             inputFields[a].setTag(a);
             inputFields[a].setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             inputFields[a].setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));

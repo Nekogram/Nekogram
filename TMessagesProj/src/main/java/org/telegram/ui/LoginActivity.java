@@ -3635,7 +3635,7 @@ public class LoginActivity extends BaseFragment {
             addView(confirmTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT)));
 
             for (int a = 0; a < codeField.length; a++) {
-                codeField[a] = new EditTextBoldCursor(context);
+                codeField[a] = new EditTextAutoFill(context);
                 codeField[a].setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                 codeField[a].setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                 codeField[a].setCursorSize(AndroidUtilities.dp(20));

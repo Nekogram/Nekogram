@@ -1893,12 +1893,7 @@ public class ImageLoader {
 
         try {
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                File path;
-                if (NekoConfig.saveCacheToExternalFilesDir) {
-                    path = ApplicationLoader.applicationContext.getExternalFilesDir(null);
-                } else {
-                    path = Environment.getExternalStorageDirectory();
-                }
+                File path = NekoConfig.saveCacheToExternalFilesDir ? ApplicationLoader.applicationContext.getExternalFilesDir(null) : Environment.getExternalStorageDirectory();
                 if (Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
                     ArrayList<File> dirs = AndroidUtilities.getRootDirs();
                     for (int a = 0, N = dirs.size(); a < N; a++) {
