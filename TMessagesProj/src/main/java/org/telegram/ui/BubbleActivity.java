@@ -270,7 +270,7 @@ public class BubbleActivity extends Activity implements ActionBarLayout.ActionBa
                     }
                 }
             };
-            if (SharedConfig.appLocked) {
+            if (SharedConfig.appLocked || SharedConfig.autoLockIn == Integer.MAX_VALUE) {
                 AndroidUtilities.runOnUIThread(lockRunnable, 1000);
             } else if (SharedConfig.autoLockIn != 0) {
                 AndroidUtilities.runOnUIThread(lockRunnable, (long) SharedConfig.autoLockIn * 1000 + 1000);

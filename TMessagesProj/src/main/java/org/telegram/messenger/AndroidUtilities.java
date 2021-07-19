@@ -2170,7 +2170,7 @@ public class AndroidUtilities {
             FileLog.d("wasInBackground = " + wasInBackground + " appLocked = " + SharedConfig.appLocked + " autoLockIn = " + SharedConfig.autoLockIn + " lastPauseTime = " + SharedConfig.lastPauseTime + " uptime = " + uptime);
         }
         return SharedConfig.passcodeHash.length() > 0 && wasInBackground &&
-                (SharedConfig.appLocked ||
+                (SharedConfig.appLocked || SharedConfig.autoLockIn == Integer.MAX_VALUE ||
                         SharedConfig.autoLockIn != 0 && SharedConfig.lastPauseTime != 0 && !SharedConfig.appLocked && (SharedConfig.lastPauseTime + SharedConfig.autoLockIn) <= uptime ||
                         uptime + 5 < SharedConfig.lastPauseTime);
     }

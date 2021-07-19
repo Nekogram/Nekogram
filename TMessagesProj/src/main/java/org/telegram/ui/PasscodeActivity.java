@@ -329,7 +329,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                     builder.setTitle(LocaleController.getString("AutoLock", R.string.AutoLock));
                     final NumberPicker numberPicker = new NumberPicker(getParentActivity());
                     numberPicker.setMinValue(0);
-                    numberPicker.setMaxValue(4);
+                    numberPicker.setMaxValue(5);
                     if (SharedConfig.autoLockIn == 0) {
                         numberPicker.setValue(0);
                     } else if (SharedConfig.autoLockIn == 60) {
@@ -340,6 +340,8 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                         numberPicker.setValue(3);
                     } else if (SharedConfig.autoLockIn == 60 * 60 * 5) {
                         numberPicker.setValue(4);
+                    } else if (SharedConfig.autoLockIn == Integer.MAX_VALUE) {
+                        numberPicker.setValue(5);
                     }
                     numberPicker.setFormatter(value -> {
                         if (value == 0) {
@@ -352,6 +354,8 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                             return LocaleController.formatString("AutoLockInTime", R.string.AutoLockInTime, LocaleController.formatPluralString("Hours", 1));
                         } else if (value == 4) {
                             return LocaleController.formatString("AutoLockInTime", R.string.AutoLockInTime, LocaleController.formatPluralString("Hours", 5));
+                        } else if (value == 5) {
+                            return "Instant";
                         }
                         return "";
                     });
@@ -368,6 +372,8 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                             SharedConfig.autoLockIn = 60 * 60;
                         } else if (which == 4) {
                             SharedConfig.autoLockIn = 60 * 60 * 5;
+                        } else if (which == 5) {
+                            SharedConfig.autoLockIn = Integer.MAX_VALUE;
                         }
                         listAdapter.notifyItemChanged(position);
                         UserConfig.getInstance(currentAccount).saveConfig(false);
@@ -676,7 +682,9 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                         }
                     } else if (position == autoLockRow) {
                         String val;
-                        if (SharedConfig.autoLockIn == 0) {
+                        if (SharedConfig.autoLockIn == Integer.MAX_VALUE) {
+                            val = LocaleController.formatString("AutoLockInstant", R.string.AutoLockInstant);
+                        } else if (SharedConfig.autoLockIn == 0) {
                             val = LocaleController.formatString("AutoLockDisabled", R.string.AutoLockDisabled);
                         } else if (SharedConfig.autoLockIn < 60 * 60) {
                             val = LocaleController.formatString("AutoLockInTime", R.string.AutoLockInTime, LocaleController.formatPluralString("Minutes", SharedConfig.autoLockIn / 60));
