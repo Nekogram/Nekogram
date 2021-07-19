@@ -1,11 +1,16 @@
 package tw.nekomimi.nekogram.helpers;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.inputmethod.EditorInfo;
+import android.widget.LinearLayout;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -24,8 +29,16 @@ import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Cells.CheckBoxCell;
+import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
+import org.telegram.ui.Components.BulletinFactory;
+import org.telegram.ui.Components.ChatAttachAlert;
+import org.telegram.ui.Components.EditTextBoldCursor;
+import org.telegram.ui.Components.LayoutHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -278,7 +291,7 @@ public class MessageHelper extends BaseController {
                     deleteUserChannelHistoryWithSearch(fragment, dialog_id, lastMessageId);
                 }
             } else {
-                AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("DeleteAllFromSelf", R.string.DeleteAllFromSelf), LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text);
+                AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("SendWebFile", R.string.SendWebFile), LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text);
             }
         }), ConnectionsManager.RequestFlagFailOnServerErrors);
     }
@@ -296,5 +309,92 @@ public class MessageHelper extends BaseController {
             default:
                 return "Unknown";
         }
+    }
+
+    public void sendWebFile(BaseFragment fragment, int did, String url, boolean isPhoto) {
+        TLRPC.TL_messages_sendMedia req = new TLRPC.TL_messages_sendMedia();
+        TLRPC.InputMedia media;
+        if (isPhoto) {
+            TLRPC.TL_inputMediaPhotoExternal photo = new TLRPC.TL_inputMediaPhotoExternal();
+            photo.url = url;
+            media = photo;
+        } else {
+            TLRPC.TL_inputMediaDocumentExternal document = new TLRPC.TL_inputMediaDocumentExternal();
+            document.url = url;
+            media = document;
+        }
+        req.media = media;
+        req.random_id = Utilities.random.nextLong();
+        req.peer = getMessagesController().getInputPeer(did);
+        req.message = "";
+        getConnectionsManager().sendRequest(req, (response, error) -> {
+            if (error == null) {
+                getMessagesController().processUpdates((TLRPC.Updates) response, false);
+            } else {
+                AndroidUtilities.runOnUIThread(() -> {
+                    if (error.text.equals("MEDIA_EMPTY")) {
+                        BulletinFactory.of(fragment).createErrorBulletin(LocaleController.getString("SendWebFileInvalid", R.string.SendWebFileInvalid)).show();
+                    } else {
+                        AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("SendWebFile", R.string.SendWebFile), LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text);
+                    }
+                });
+            }
+        });
+    }
+
+    @SuppressLint("SetTextI18n")
+    public void showSendWebFileDialog(ChatAttachAlert parentAlert) {
+        ChatActivity fragment = (ChatActivity) parentAlert.getBaseFragment();
+        Context context = fragment.getParentActivity();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(LocaleController.getString("SendWebFile", R.string.SendWebFile));
+        builder.setMessage(LocaleController.getString("SendWebFileInfo", R.string.SendWebFileInfo));
+        builder.setCustomViewOffset(0);
+
+        LinearLayout ll = new LinearLayout(context);
+        ll.setOrientation(LinearLayout.VERTICAL);
+
+        final EditTextBoldCursor editText = new EditTextBoldCursor(context) {
+            @Override
+            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64), MeasureSpec.EXACTLY));
+            }
+        };
+        editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
+        editText.setText("http://");
+        editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+        editText.setHintText(LocaleController.getString("URL", R.string.URL));
+        editText.setHeaderHintColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader));
+        editText.setSingleLine(true);
+        editText.setFocusable(true);
+        editText.setTransformHintToHeader(true);
+        editText.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated), Theme.getColor(Theme.key_windowBackgroundWhiteRedText3));
+        editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        editText.setBackground(null);
+        editText.requestFocus();
+        editText.setPadding(0, 0, 0, 0);
+        ll.addView(editText, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 36, 0, 24, 0, 24, 0));
+
+        CheckBoxCell cell = new CheckBoxCell(context, 1);
+        cell.setBackground(Theme.getSelectorDrawable(false));
+        cell.setText(LocaleController.getString("SendWithoutCompression", R.string.SendWithoutCompression), "", true, false);
+        cell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16) : AndroidUtilities.dp(8), 0, LocaleController.isRTL ? AndroidUtilities.dp(8) : AndroidUtilities.dp(16), 0);
+        ll.addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
+        cell.setOnClickListener(v -> {
+            CheckBoxCell cell12 = (CheckBoxCell) v;
+            cell12.setChecked(!cell12.isChecked(), true);
+        });
+
+        builder.setView(ll);
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> sendWebFile(fragment, (int) fragment.getDialogId(), editText.getText().toString(), !cell.isChecked()));
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.setOnShowListener(dialog -> {
+            editText.requestFocus();
+            AndroidUtilities.showKeyboard(editText);
+        });
+        fragment.showDialog(alertDialog);
+        editText.setSelection(0, editText.getText().length());
     }
 }

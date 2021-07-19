@@ -167,4 +167,9 @@
     <string name="DeepLFormalityLess">Less</string>
     <string name="DialogCounter">Chats: %d</string>
     <string name="InvalidCustomEmojiTypeface">Invalid font file.</string>
+    <string name="AttachWebFile">Web file</string>
+    <string name="WebFileInfo">Send file with URL</string>
+    <string name="SendWebFile">Send web file</string>
+    <string name="SendWebFileInfo">Telegram will download and send the file. 5 MB max size for photos and 20 MB max for other types of content.</string>
+    <string name="SendWebFileInvalid">Invalid file, make sure file is meeting requirements.</string>
 </resources>

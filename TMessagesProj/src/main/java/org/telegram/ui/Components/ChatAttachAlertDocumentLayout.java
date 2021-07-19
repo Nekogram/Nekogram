@@ -373,6 +373,8 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                         }
                     } else if (!BuildVars.NO_SCOPED_STORAGE && item.icon == R.drawable.files_storage) {
                         delegate.startDocumentSelectActivity();
+                    } else if (item.icon == R.drawable.ic_link_28) {
+                        parentAlert.baseFragment.getMessageHelper().showSendWebFileDialog(parentAlert);
                     } else {
                         int top = getTopForScroll();
                         HistoryEntry he = history.remove(history.size() - 1);
@@ -1054,6 +1056,15 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             fs.title = LocaleController.getString("AttachMusic", R.string.AttachMusic);
             fs.subtitle = LocaleController.getString("MusicInfo", R.string.MusicInfo);
             fs.icon = R.drawable.files_music;
+            fs.file = null;
+            items.add(fs);
+        }
+
+        if (parentAlert.getBaseFragment() instanceof ChatActivity && parentAlert.editingMessageObject == null) {
+            fs = new ListItem();
+            fs.title = LocaleController.getString("AttachWebFile", R.string.AttachWebFile);
+            fs.subtitle = LocaleController.getString("WebFileInfo", R.string.WebFileInfo);
+            fs.icon = R.drawable.ic_link_28;
             fs.file = null;
             items.add(fs);
         }
