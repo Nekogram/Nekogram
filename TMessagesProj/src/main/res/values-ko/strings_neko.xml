@@ -157,4 +157,11 @@
     <string name="DeepLFormalityDefault">기본값</string>
     <string name="DeepLFormalityMore">자세히</string>
     <string name="DeepLFormalityLess">줄이기</string>
+    <string name="DialogCounter">대화: %d</string>
+    <string name="InvalidCustomEmojiTypeface">유효하지 않은 폰트 파일</string>
+    <string name="AttachWebFile">웹파일</string>
+    <string name="WebFileInfo">URL 로 파일 보내기</string>
+    <string name="SendWebFile">웹파일 보내기</string>
+    <string name="SendWebFileInfo">텔레그램 에서 파일을 다운로드 하여 보냅니다.  사진의 경우 최대 5MB, 기타 콘텐츠 유형의 경우 최대 20MB 입니다.</string>
+    <string name="SendWebFileInvalid">잘못된 파일입니다. 파일이 요구 사항을 충족하는지 확인하세요.</string>
 </resources>

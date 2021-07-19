@@ -155,4 +155,6 @@
     <string name="DeepLFormalityDefault">Implicit</string>
     <string name="DeepLFormalityMore">Mai multe</string>
     <string name="DeepLFormalityLess">Mai puține</string>
+    <string name="DialogCounter">Conversații: %d</string>
+    <string name="InvalidCustomEmojiTypeface">Fișier font invalid.</string>
 </resources>

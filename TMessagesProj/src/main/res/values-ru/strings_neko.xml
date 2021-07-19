@@ -141,4 +141,11 @@
     <string name="UserID">ID пользователя</string>
     <string name="Datacenter">Дата-центр</string>
     <string name="RegistrationDate">Дата регистрации</string>
+    <string name="WsEnableTls">Включить TLS</string>
+    <string name="WsLocalProxy">Локальный прокси</string>
+    <string name="Translator">Переводчик</string>
+    <string name="ResetLanguage">Сбросить язык</string>
+    <string name="UseGoogleTranslate">Использовать Google</string>
+    <string name="DeepLFormality">Формальный</string>
+    <string name="DeepLFormalityDefault">По умолчанию</string>
 </resources>

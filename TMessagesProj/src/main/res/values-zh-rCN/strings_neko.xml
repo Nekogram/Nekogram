@@ -156,4 +156,12 @@
     <string name="ResetLanguage">重置语言</string>
     <string name="UseGoogleTranslate">使用 Google</string>
     <string name="DeepLFormalityDefault">默认</string>
+    <string name="DialogCounter">对话: %d</string>
+    <string name="InvalidCustomEmojiTypeface">无效的字体文件。</string>
+    <string name="AttachWebFile">网络文件</string>
+    <string name="WebFileInfo">使用 URL 发送文件</string>
+    <string name="SendWebFile">发送网络文件</string>
+    <string name="SendWebFileInfo">Telegram 将下载并发送文件。照片最大 5 MB，其他类型内容最大 20 MB。</string>
+    <string name="SendWebFileInvalid">文件无效，请确保文件符合要求。</string>
+    <string name="AutoLockInstant">即时</string>
 </resources>

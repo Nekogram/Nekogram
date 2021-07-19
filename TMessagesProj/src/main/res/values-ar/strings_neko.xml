@@ -121,6 +121,8 @@
     <string name="ProviderDeepLTranslate">ترجمة عميقة</string>
     <string name="Halloween">Halloween</string>
     <string name="CheckUpdate">التحقق من التحديث</string>
+    <string name="LastUpdateFormatted">اخر فحص بنجاح %1$s.</string>
+    <string name="LastUpdateDateFormatted">اخر فحص بنجاح في %1$s.</string>
     <string name="LastUpdateRecently">آخر فحص بنجاح الآن.</string>
     <string name="LastUpdateNever">لم يتم التحقق من ذلك منذ التثبيت.</string>
     <string name="CheckingUpdate">جارٍ التحقق من التحديث…</string>
@@ -139,7 +141,20 @@
     <string name="UserID">معرف المستخدم</string>
     <string name="Datacenter">مركز البيانات</string>
     <string name="RegistrationDate">تاريخ التسجيل</string>
+    <string name="WsDescription">الاتصال بتيليجرام من خلال WebSocket عبر Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">التفاصيل التقنية</a>]]>.</string>
     <string name="WsEnableTls">تمكين TLS</string>
     <string name="WsLocalProxy">بروكسي محلي</string>
     <string name="WsEnableDoh">تمكين DoH</string>
+    <string name="MsgDate">التاريخ</string>
+    <string name="UpdateNekogram">تحديث نيكوغرام</string>
+    <string name="TranslationTarget">لغة الهدف</string>
+    <string name="TranslationTargetShort">Target</string>
+    <string name="TranslationTargetApp">اتبع التطبيق</string>
+    <string name="Translator">مترجم</string>
+    <string name="ResetLanguage">إعادة تعيين اللغة</string>
+    <string name="UseGoogleTranslate">استخدام جوجل</string>
+    <string name="DeepLFormality">الشكل</string>
+    <string name="DeepLFormalityDefault">الافتراضي</string>
+    <string name="DeepLFormalityMore">المزيد</string>
+    <string name="DeepLFormalityLess">أقل</string>
 </resources>

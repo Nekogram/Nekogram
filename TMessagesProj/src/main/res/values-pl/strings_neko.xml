@@ -5,6 +5,7 @@
     <string name="MessageMenu">Menu wiadomości</string>
     <string name="HidePhone">Ukryj mój numer telefonu</string>
     <string name="Hide">Ukryj</string>
+    <string name="DeleteAllFromSelf">Usuń własne wiadomości</string>
     <string name="DeleteAllFromSelfAlert">Uwaga! To usunie **wszystkie twoje wiadomości** u wszystkich.</string>
     <string name="BotLogin">Logowanie bota</string>
     <string name="InvalidAccessToken">Nieprawidłowy token dostępu</string>
@@ -105,7 +106,7 @@
     <string name="AutoPauseVideo">Automatycznie pauzuj wideo</string>
     <string name="AutoPauseVideoAbout">Po zablokowaniu ekranu/przejściu do tła.</string>
     <string name="DisableProximityEvents">Wyłącz usługi oparte na lokalizacji</string>
-    <string name="CustomEmojiTypeface">Własny font emoji</string>
+    <string name="CustomEmojiTypeface">Własna czcionka emoji</string>
     <string name="MapDriftingFix">Poprawka na dryfowanie map dla Chin kontynentalnych</string>
     <string name="IncreaseVoiceMessageQuality">Zwiększ jakość wiadomości głosowych</string>
     <string name="DisableInstantCamera">Wyłącz natychmiastową kamerę</string>
@@ -143,4 +144,18 @@
     <string name="WsEnableTls">Włącz TLS</string>
     <string name="WsLocalProxy">Lokalne proxy</string>
     <string name="WsEnableDoh">Włącz DoH</string>
+    <string name="MsgDate">Data</string>
+    <string name="UpdateNekogram">Zaktualizuj Nekogram</string>
+    <string name="TranslationTarget">Docelowy język</string>
+    <string name="TranslationTargetShort">Cel</string>
+    <string name="TranslationTargetApp">Śledź aplikację</string>
+    <string name="Translator">Tłumacz</string>
+    <string name="ResetLanguage">Przywróć język</string>
+    <string name="UseGoogleTranslate">Użyj Google</string>
+    <string name="DeepLFormality">Formalność</string>
+    <string name="DeepLFormalityDefault">Domyślny</string>
+    <string name="DeepLFormalityMore">Więcej</string>
+    <string name="DeepLFormalityLess">Mniej</string>
+    <string name="DialogCounter">Czaty: %d</string>
+    <string name="InvalidCustomEmojiTypeface">Nieprawidłowy plik z czcionką.</string>
 </resources>

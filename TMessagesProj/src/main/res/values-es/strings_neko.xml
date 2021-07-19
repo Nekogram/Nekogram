@@ -156,4 +156,11 @@
     <string name="DeepLFormalityDefault">Predeterminado</string>
     <string name="DeepLFormalityMore">Más</string>
     <string name="DeepLFormalityLess">Menos</string>
+    <string name="DialogCounter">Chats: %d</string>
+    <string name="InvalidCustomEmojiTypeface">Archivo de fuente inválido.</string>
+    <string name="AttachWebFile">Archivo web</string>
+    <string name="WebFileInfo">Enviar archivo con URL</string>
+    <string name="SendWebFile">Enviar archivo web</string>
+    <string name="SendWebFileInfo">Telegram descargará y enviará el archivo. El tamaño máximo para fotos es de 5MB y para otros tipos de contenido 20MB máximo.</string>
+    <string name="SendWebFileInvalid">Archivo inválido, asegúrate de que el archivo cumple con los requisitos.</string>
 </resources>
