@@ -146,8 +146,6 @@ import tw.nekomimi.nekogram.NekoConfig;
 
 public class ChatActivityEnterView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate {
 
-    boolean textTransitionIsRunning;
-
     public interface ChatActivityEnterViewDelegate {
         void onMessageSend(CharSequence message, boolean notify, int scheduleDate);
 
@@ -245,6 +243,7 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
 
     private Runnable moveToSendStateRunnable;
     boolean messageTransitionIsRunning;
+    boolean textTransitionIsRunning;
 
     private BotCommandsMenuView botCommandsMenuButton;
     public BotCommandsMenuContainer botCommandsMenuContainer;
@@ -4137,7 +4136,7 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
             }
         }
         if (processSendingText(message, notify, scheduleDate)) {
-            if (delegate.hasForwardingMessages()) {
+            if (delegate.hasForwardingMessages() || (scheduleDate != 0 && !isInScheduleMode()) || isInScheduleMode()) {
                 messageEditText.setText("");
                 if (delegate != null) {
                     delegate.onMessageSend(message, notify, scheduleDate);
