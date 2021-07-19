@@ -355,7 +355,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                         } else if (value == 4) {
                             return LocaleController.formatString("AutoLockInTime", R.string.AutoLockInTime, LocaleController.formatPluralString("Hours", 5));
                         } else if (value == 5) {
-                            return "Instant";
+                            return LocaleController.formatString("AutoLockInstant", R.string.AutoLockInstant);
                         }
                         return "";
                     });
