@@ -453,9 +453,9 @@ public class SharedConfig {
         //if (updateVersionString == null) {
         //    updateVersionString = BuildVars.BUILD_VERSION_STRING;
         //}
-        if (update.version == null/* || updateVersionString.compareTo(update.version) >= 0*/) {
-            return false;
-        }
+        //if (update.version == null || updateVersionString.compareTo(update.version) >= 0) {
+        //    return false;
+        //}
         pendingAppUpdate = update;
         pendingAppUpdateBuildVersion = versionCode;
         saveConfig();
