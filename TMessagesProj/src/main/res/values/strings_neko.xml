@@ -172,4 +172,5 @@
     <string name="SendWebFileInfo">Telegram will download and send the file. 5 MB max size for photos and 20 MB max for other types of content.</string>
     <string name="SendWebFileInvalid">Invalid file, make sure file is meeting requirements.</string>
     <string name="AutoLockInstant">Instant</string>
+    <string name="RestrictionReason">Restriction reason</string>
 </resources>
