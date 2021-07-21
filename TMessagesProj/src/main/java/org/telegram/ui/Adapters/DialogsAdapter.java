@@ -17,6 +17,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.SystemClock;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -208,9 +209,9 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
         if (folderId == 1 && showArchiveHint) {
             count += 2;
         }
-        if (folderId == 0 && dialogsCount != 0) {
+        if (/*folderId == 0 && */dialogsCount != 0) {
             count++;
-            if (dialogsCount > 10 && dialogsType == 0) {
+            if (dialogsCount > 10/* && dialogsType == 0*/) {
                 count++;
             }
         }
@@ -556,8 +557,8 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
             }
             case 11: {
                 TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                boolean hasArchive = dialogsType == 0 && MessagesController.getInstance(currentAccount).dialogs_dict.get(DialogObject.makeFolderDialogId(1)) != null;
-                cell.setText(LocaleController.formatString("DialogCounter", R.string.DialogCounter, dialogsCount - (hasArchive ? 1 : 0)));
+                boolean hasArchive = folderId == 0 && dialogsType == 0 && MessagesController.getInstance(currentAccount).dialogs_dict.get(DialogObject.makeFolderDialogId(1)) != null;
+                cell.setText(LocaleController.formatPluralStringComma("Chats", dialogsCount - (hasArchive ? 1 : 0)));
                 /*if (arrowDrawable == null) {
                     arrowDrawable = mContext.getResources().getDrawable(R.drawable.arrow_newchat);
                     arrowDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText4), PorterDuff.Mode.MULTIPLY));
@@ -637,7 +638,7 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                 i -= 1;
             }
         }
-        if (folderId == 0 && dialogsCount > 10 && i == currentCount - 2 && dialogsType == 0) {
+        if (/*folderId == 0 && */dialogsCount > 10 && i == currentCount - 2/* && dialogsType == 0*/) {
             return 11;
         }
         int size = parentFragment.getDialogsArray(currentAccount, dialogsType, folderId, dialogsListFrozen).size();

@@ -165,7 +165,6 @@
     <string name="DeepLFormalityDefault">Default</string>
     <string name="DeepLFormalityMore">More</string>
     <string name="DeepLFormalityLess">Less</string>
-    <string name="DialogCounter">Chats: %d</string>
     <string name="InvalidCustomEmojiTypeface">Invalid font file.</string>
     <string name="AttachWebFile">Web file</string>
     <string name="WebFileInfo">Send file with URL</string>
