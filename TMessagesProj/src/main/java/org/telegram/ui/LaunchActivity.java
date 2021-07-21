@@ -14,6 +14,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.assist.AssistContent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -5657,5 +5658,22 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             }
         }
         drawerLayoutAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onProvideAssistContent(AssistContent outContent) {
+        if (passcodeView == null || passcodeView.getVisibility() != View.VISIBLE) {
+            BaseFragment topFragment = null;
+            if (!layerFragmentsStack.isEmpty()) {
+                topFragment = layerFragmentsStack.get(layerFragmentsStack.size() - 1);
+            } else if (!rightFragmentsStack.isEmpty()) {
+                topFragment = rightFragmentsStack.get(rightFragmentsStack.size() - 1);
+            } else if (!mainFragmentsStack.isEmpty()) {
+                topFragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
+            }
+            if (topFragment != null) {
+                topFragment.onProvideAssistContent(outContent);
+            }
+        }
     }
 }

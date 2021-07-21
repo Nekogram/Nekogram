@@ -15,6 +15,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.app.Dialog;
+import android.app.assist.AssistContent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -8377,6 +8378,29 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         private void put(int id, int position, SparseIntArray sparseIntArray) {
             if (position >= 0) {
                 sparseIntArray.put(position, id);
+            }
+        }
+    }
+
+    @Override
+    public void onProvideAssistContent(AssistContent outContent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            String username = null;
+            if (user_id != 0) {
+                TLRPC.User user = getMessagesController().getUser(user_id);
+                if (user == null) {
+                    return;
+                }
+                username = user.username;
+            } else if (chat_id != 0) {
+                TLRPC.Chat chat = getMessagesController().getChat(chat_id);
+                if (chat == null) {
+                    return;
+                }
+                username = chat.username;
+            }
+            if (username != null) {
+                outContent.setWebUri(Uri.parse(String.format("https://" + getMessagesController().linkPrefix + "/%s", username)));
             }
         }
     }

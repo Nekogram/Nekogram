@@ -1,7 +1,10 @@
 package tw.nekomimi.nekogram.settings;
 
 import android.annotation.SuppressLint;
+import android.app.assist.AssistContent;
 import android.content.Context;
+import android.net.Uri;
+import android.os.Build;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.ViewGroup;
@@ -395,6 +398,13 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                 return 6;
             }
             return 2;
+        }
+    }
+
+    @Override
+    public void onProvideAssistContent(AssistContent outContent) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            outContent.setWebUri(Uri.parse(String.format("https://" + getMessagesController().linkPrefix + "/%s", LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername))));
         }
     }
 }
