@@ -299,10 +299,10 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                     if (progressViewStyle == 0) {
                         layoutParams = (LayoutParams) contentScrollView.getLayoutParams();
 
-                        if (customView != null) {
+                        if (customView != null && buttonsLayout != null) {
                             layoutParams.topMargin = titleTextView == null && messageTextView.getVisibility() == GONE && items == null ? AndroidUtilities.dp(16) : 0;
                             layoutParams.bottomMargin = buttonsLayout == null ? AndroidUtilities.dp(8) : 0;
-                        } else if (items != null) {
+                        } else if (items != null || customView != null) {
                             layoutParams.topMargin = titleTextView == null && messageTextView.getVisibility() == GONE ? AndroidUtilities.dp(8) : 0;
                             layoutParams.bottomMargin = AndroidUtilities.dp(8);
                         } else if (messageTextView.getVisibility() == VISIBLE) {
