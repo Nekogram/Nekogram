@@ -34,12 +34,9 @@
     <string name="NekogramRunning">Nekogram is running</string>
     <string name="EventType">Sidebar icon set</string>
     <string name="ChristmasHat">Show christmas hat everyday</string>
-    <string name="ActionBarDecoration">Title bar decoration</string>
     <string name="DependsOnDate">Depends on date</string>
     <string name="Christmas">Christmas</string>
     <string name="Valentine">Valentine\'s day</string>
-    <string name="Snowflakes">Snowflakes</string>
-    <string name="Fireworks">Fireworks</string>
     <string name="DeleteDownloadedFile">Delete downloaded file</string>
     <string name="TestBackend">Test Backend</string>
     <string name="TestBackendOn">This account will connect to the test backend.</string>
@@ -102,7 +99,6 @@
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">Restart the app to take effect.</string>
     <string name="DisableAppBarShadow">Disable title bar shadow</string>
-    <string name="BetaWarning">This is a **beta** feature implemented by **Telegram**.</string>
     <string name="MediaPreview">Media preview in dialog list</string>
     <string name="ProviderYandex">Yandex Translate</string>
     <string name="IdType">Chat ID in profile</string>
@@ -121,7 +117,6 @@
     <string name="OpenAllLinksInInstantView">Try to open all links in InstantView</string>
     <string name="DonateThankYou">Thank you!</string>
     <string name="DonateEvilGoogle">Google will take 30 percent of your donation.</string>
-    <string name="DonateAlipay">Alipay</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Format time with seconds</string>
@@ -146,8 +141,6 @@
     <string name="SelectBetween">Select between</string>
     <string name="SwipeToPiP">Swipe up video to open PiP</string>
     <string name="StickerSavedHint">Sticker saved to gallery</string>
-    <string name="UserID">User ID</string>
-    <string name="Datacenter">Datacenter</string>
     <string name="RegistrationDate">Registration date</string>
     <string name="WsDescription">Connect to Telegram through WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">technical details</a>]]>.</string>
     <string name="WsEnableTls">Enable TLS</string>
@@ -156,7 +149,6 @@
     <string name="MsgDate">Date</string>
     <string name="UpdateNekogram">Update Nekogram</string>
     <string name="TranslationTarget">Target language</string>
-    <string name="TranslationTargetShort">Target</string>
     <string name="TranslationTargetApp">Follow app</string>
     <string name="Translator">Translator</string>
     <string name="ResetLanguage">Reset language</string>
