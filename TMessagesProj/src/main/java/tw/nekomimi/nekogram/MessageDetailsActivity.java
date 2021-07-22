@@ -46,6 +46,7 @@ import org.telegram.ui.ProfileActivity;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 
 public class MessageDetailsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -460,11 +461,13 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                     } else if (position == fileSizeRow) {
                         textCell.setTextAndValue("File size", AndroidUtilities.formatFileSize(messageObject.getSize()), divider);
                     } else if (position == dcRow) {
+                        int dc = 0;
                         if (messageObject.messageOwner.media.photo != null && messageObject.messageOwner.media.photo.dc_id > 0) {
-                            textCell.setTextAndValue("DC", String.valueOf(messageObject.messageOwner.media.photo.dc_id), divider);
+                            dc = messageObject.messageOwner.media.photo.dc_id;
                         } else if (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0) {
-                            textCell.setTextAndValue("DC", String.valueOf(messageObject.messageOwner.media.document.dc_id), divider);
+                            dc = messageObject.messageOwner.media.document.dc_id;
                         }
+                        textCell.setTextAndValue("DC", String.format(Locale.US, "%d, %s", dc, getMessageHelper().getDCLocation(dc)), divider);
                     }
                     break;
                 }

@@ -145,6 +145,7 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.CrossfadeDrawable;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.FragmentContextView;
+import org.telegram.ui.Components.HintView;
 import org.telegram.ui.Components.IdenticonDrawable;
 import org.telegram.ui.Components.ImageUpdater;
 import org.telegram.ui.Components.LayoutHelper;
@@ -192,6 +193,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private SimpleTextView[] nameTextView = new SimpleTextView[2];
     private SimpleTextView[] onlineTextView = new SimpleTextView[2];
     private SimpleTextView idTextView;
+    private HintView idHintView;
     private AudioPlayerAlert.ClippingTextViewSwitcher mediaCounterTextView;
     private RLottieImageView writeButton;
     private AnimatorSet writeButtonAnimation;
@@ -5912,40 +5914,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             id = user_id;
             if (user.photo != null && user.photo.dc_id != 0) {
                 idTextView.setText("ID: " + id + ", DC: " + user.photo.dc_id);
+                idTextView.setOnClickListener(v -> showIdHint(user.photo.dc_id));
             } else {
                 idTextView.setText("ID: " + id);
             }
-            idTextView.setOnClickListener(v -> {
-                Context context = getParentActivity();
-                LinearLayout ll = new LinearLayout(context);
-                ll.setOrientation(LinearLayout.VERTICAL);
-
-                AlertDialog dialog = new AlertDialog.Builder(context)
-                        .setView(ll)
-                        .create();
-
-                int cellCount = user.photo != null && user.photo.dc_id != 0 ? 2 : 1;
-                for (int i = 0; i < cellCount; i++) {
-                    TextDetailSettingsCell cell = new TextDetailSettingsCell(context);
-                    cell.setBackground(Theme.getSelectorDrawable(false));
-                    cell.setOnClickListener(v1 -> {
-                        dialog.dismiss();
-                        AndroidUtilities.addToClipboard(cell.getValueTextView().getText());
-                        BulletinFactory.of((FrameLayout) fragmentView).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
-                    });
-                    switch (i) {
-                        case 0:
-                            cell.setTextAndValue(LocaleController.getString("UserID", R.string.UserID), String.valueOf(user_id), false);
-                            break;
-                        case 1:
-                            cell.setTextAndValue(LocaleController.getString("Datacenter", R.string.Datacenter), String.format(Locale.US, "%d, %s", user.photo.dc_id, getMessageHelper().getDCLocation(user.photo.dc_id)), false);
-                            break;
-                    }
-                    ll.addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-                }
-
-                showDialog(dialog);
-            });
         } else if (chat_id != 0) {
             TLRPC.Chat chat = getMessagesController().getChat(chat_id);
             if (chat != null) {
@@ -8423,5 +8395,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 outContent.setWebUri(Uri.parse(String.format("https://" + getMessagesController().linkPrefix + "/%s", username)));
             }
         }
+    }
+
+    private void showIdHint(int dc) {
+        if (getParentActivity() == null || avatarContainer2 == null || idHintView != null && idHintView.getVisibility() == View.VISIBLE) {
+            return;
+        }
+
+        if (idHintView == null) {
+            idHintView = new HintView(getParentActivity(), 100 + dc);
+            idHintView.setVisibility(View.GONE);
+            avatarContainer2.addView(idHintView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 10, 0, 10, 0));
+        }
+
+        idHintView.setText(getMessageHelper().getDCLocation(dc));
+        idHintView.showForView(idTextView, true);
     }
 }
