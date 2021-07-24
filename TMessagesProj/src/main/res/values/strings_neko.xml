@@ -166,4 +166,5 @@
     <string name="AutoLockInstant">Instant</string>
     <string name="RestrictionReason">Restriction reason</string>
     <string name="ProviderTencentTranslator">Tencent Translator</string>
+    <string name="ProviderNiuTrans">Niu Trans</string>
 </resources>

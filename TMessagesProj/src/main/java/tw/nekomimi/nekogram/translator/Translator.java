@@ -29,6 +29,7 @@ public class Translator {
     public static final int PROVIDER_DEEPL = 5;
     public static final int PROVIDER_MICROSOFT = 7;
     public static final int PROVIDER_TENCENT = 8;
+    public static final int PROVIDER_NIU = 9;
 
     @SuppressLint("StaticFieldLeak")
     private static AlertDialog progressDialog;
@@ -121,6 +122,8 @@ public class Translator {
         types.add(Translator.PROVIDER_MICROSOFT);
         names.add(LocaleController.getString("ProviderTencentTranslator", R.string.ProviderTencentTranslator));
         types.add(Translator.PROVIDER_TENCENT);
+        names.add(LocaleController.getString("ProviderNiuTrans", R.string.ProviderNiuTrans));
+        types.add(Translator.PROVIDER_NIU);
         return new Pair<>(names, types);
     }
 
@@ -178,6 +181,8 @@ public class Translator {
                 return MicrosoftTranslator.getInstance();
             case PROVIDER_TENCENT:
                 return TencentTranslator.getInstance();
+            case PROVIDER_NIU:
+                return NiuTranslator.getInstance();
             case PROVIDER_GOOGLE:
             default:
                 return GoogleAppTranslator.getInstance();
