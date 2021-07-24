@@ -28,6 +28,7 @@ public class Translator {
     public static final int PROVIDER_YANDEX = 4;
     public static final int PROVIDER_DEEPL = 5;
     public static final int PROVIDER_MICROSOFT = 7;
+    public static final int PROVIDER_TENCENT = 8;
 
     @SuppressLint("StaticFieldLeak")
     private static AlertDialog progressDialog;
@@ -118,6 +119,8 @@ public class Translator {
         types.add(Translator.PROVIDER_DEEPL);
         names.add(LocaleController.getString("ProviderMicrosoftTranslator", R.string.ProviderMicrosoftTranslator));
         types.add(Translator.PROVIDER_MICROSOFT);
+        names.add(LocaleController.getString("ProviderTencentTranslator", R.string.ProviderTencentTranslator));
+        types.add(Translator.PROVIDER_TENCENT);
         return new Pair<>(names, types);
     }
 
@@ -164,26 +167,21 @@ public class Translator {
     }
 
     public static BaseTranslator getTranslator(int type) {
-        BaseTranslator translator;
         switch (type) {
             case PROVIDER_YANDEX:
-                translator = YandexTranslator.getInstance();
-                break;
+                return YandexTranslator.getInstance();
             case PROVIDER_LINGO:
-                translator = LingoTranslator.getInstance();
-                break;
+                return LingoTranslator.getInstance();
             case PROVIDER_DEEPL:
-                translator = DeepLTranslator.getInstance();
-                break;
+                return DeepLTranslator.getInstance();
             case PROVIDER_MICROSOFT:
-                translator = MicrosoftTranslator.getInstance();
-                break;
+                return MicrosoftTranslator.getInstance();
+            case PROVIDER_TENCENT:
+                return TencentTranslator.getInstance();
             case PROVIDER_GOOGLE:
             default:
-                translator = GoogleAppTranslator.getInstance();
-                break;
+                return GoogleAppTranslator.getInstance();
         }
-        return translator;
     }
 
     public static void translate(Object query, TranslateCallBack translateCallBack) {
