@@ -4981,7 +4981,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             jumpToDate((int) (calendar.getTime().getTime() / 1000));
         });
         floatingDateView.setOnLongClickListener(v -> {
-            if (getParentActivity() == null) {
+            if (floatingDateView.getAlpha() == 0 || actionBar.isActionModeShowed() || reportType >= 0) {
                 return false;
             }
             showDialog(AlertsCreator.createCalendarPickerDialog(getParentActivity(), 1375315200000L, this::jumpToDate).create());
