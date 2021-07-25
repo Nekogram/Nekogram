@@ -25,6 +25,8 @@ import java.util.LinkedList;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class FileLoader extends BaseController {
 
     public interface FileLoaderDelegate {
@@ -926,13 +928,13 @@ public class FileLoader extends BaseController {
             }
         } else {
             if (message.media instanceof TLRPC.TL_messageMediaDocument) {
-                return getPathToAttach(message.media.document, message.media.ttl_seconds != 0);
+                return getPathToAttach(message.media.document, !NekoConfig.shouldNOTTrustMe && message.media.ttl_seconds != 0);
             } else if (message.media instanceof TLRPC.TL_messageMediaPhoto) {
                 ArrayList<TLRPC.PhotoSize> sizes = message.media.photo.sizes;
                 if (sizes.size() > 0) {
                     TLRPC.PhotoSize sizeFull = getClosestPhotoSizeWithSize(sizes, AndroidUtilities.getPhotoSize(), false, null, true);
                     if (sizeFull != null) {
-                        return getPathToAttach(sizeFull, message.media.ttl_seconds != 0);
+                        return getPathToAttach(sizeFull, !NekoConfig.shouldNOTTrustMe && message.media.ttl_seconds != 0);
                     }
                 }
             } else if (message.media instanceof TLRPC.TL_messageMediaWebPage) {

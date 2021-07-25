@@ -11689,7 +11689,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 return 5;
                             }
                         }
-                        if (NekoConfig.shouldNOTTrustMe || messageObject.messageOwner.ttl <= 0) {
+                        if (messageObject.messageOwner.ttl <= 0) {
                             return 4;
                         }
                     }

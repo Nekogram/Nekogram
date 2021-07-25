@@ -425,7 +425,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         formatTimeWithSecondsRow = rowCount++;
         disableNumberRoundingRow = rowCount++;
         newYearRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
-        eventTypeRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
+        eventTypeRow = rowCount++;
         appearance2Row = rowCount++;
 
         notificationRow = rowCount++;
@@ -538,6 +538,9 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                             case 2:
                                 value = LocaleController.getString("Valentine", R.string.Valentine);
                                 break;
+                            case 3:
+                                value = LocaleController.getString("Halloween", R.string.Halloween);
+                                break;
                             case 0:
                             default:
                                 value = LocaleController.getString("DependsOnDate", R.string.DependsOnDate);
@@ -628,7 +631,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     } else if (position == askBeforeCallRow) {
                         textCell.setTextAndCheck(LocaleController.getString("AskBeforeCalling", R.string.AskBeforeCalling), NekoConfig.askBeforeCall, true);
                     } else if (position == disableNumberRoundingRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("DisableNumberRounding", R.string.DisableNumberRounding), "4.8K -> 4777", NekoConfig.disableNumberRounding, true, eventTypeRow != -1);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("DisableNumberRounding", R.string.DisableNumberRounding), "4.8K -> 4777", NekoConfig.disableNumberRounding, true, true);
                     } else if (position == appBarShadowRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisableAppBarShadow", R.string.DisableAppBarShadow), NekoConfig.disableAppBarShadow, true);
                     } else if (position == mediaPreviewRow) {

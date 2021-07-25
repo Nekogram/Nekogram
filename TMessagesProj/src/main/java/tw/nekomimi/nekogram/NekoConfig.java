@@ -8,8 +8,6 @@ import android.content.pm.ApplicationInfo;
 import android.graphics.Typeface;
 import android.os.Build;
 
-import com.google.android.exoplayer2.util.Log;
-
 import org.tcp2ws.tcp2wsServer;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -215,7 +213,7 @@ public class NekoConfig {
             translationProvider = preferences.getInt("translationProvider", isChineseUser ? Translator.PROVIDER_LINGO : Translator.PROVIDER_GOOGLE);
             disablePhotoSideAction = preferences.getBoolean("disablePhotoSideAction", true);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
-            showHiddenFeature = preferences.getBoolean("showHiddenFeature3", false);
+            showHiddenFeature = preferences.getBoolean("showHiddenFeature4", false);
             hideKeyboardOnChatScroll = preferences.getBoolean("hideKeyboardOnChatScroll", false);
             avatarAsDrawerBackground = preferences.getBoolean("avatarAsDrawerBackground", false);
             avatarBackgroundBlur = preferences.getBoolean("avatarBackgroundBlur", false);
@@ -526,7 +524,7 @@ public class NekoConfig {
         showHiddenFeature = !showHiddenFeature;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("showHiddenFeature3", showHiddenFeature);
+        editor.putBoolean("showHiddenFeature4", showHiddenFeature);
         editor.commit();
     }
 

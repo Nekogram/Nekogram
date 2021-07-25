@@ -124,7 +124,6 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import tw.nekomimi.nekogram.EditTextAutoFill;
-import tw.nekomimi.nekogram.NekoConfig;
 
 @SuppressLint("HardwareIds")
 public class LoginActivity extends BaseFragment {
@@ -1584,7 +1583,7 @@ public class LoginActivity extends BaseFragment {
                 });
             }
 
-            if (NekoConfig.showHiddenFeature) {
+            if (newAccount) {
                 testBackendCell = new CheckBoxCell(context, 2);
                 testBackendCell.setText(LocaleController.getString("TestBackend", R.string.TestBackend), "", ConnectionsManager.native_isTestBackend(currentAccount) != 0, false);
                 addView(testBackendCell, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));

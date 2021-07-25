@@ -69,10 +69,11 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
     private int unlimitedPinnedDialogsRow;
-    private int deleteAccountRow;
     private int experiment2Row;
 
+    private int deleteAccountRow;
     private int shouldNOTTrustMeRow;
+    private int hidden2Row;
 
     NekoExperimentalSettingsActivity(boolean sensitiveCanChange, boolean sensitiveEnabled) {
         this.sensitiveCanChange = sensitiveCanChange;
@@ -325,9 +326,16 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         disableFilteringRow = sensitiveCanChange ? rowCount++ : -1;
         unlimitedFavedStickersRow = rowCount++;
         unlimitedPinnedDialogsRow = rowCount++;
-        deleteAccountRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         experiment2Row = rowCount++;
-        shouldNOTTrustMeRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
+        if (NekoConfig.showHiddenFeature) {
+            deleteAccountRow = rowCount++;
+            shouldNOTTrustMeRow = rowCount++;
+            hidden2Row = rowCount++;
+        } else {
+            deleteAccountRow = -1;
+            shouldNOTTrustMeRow = -1;
+            hidden2Row = -1;
+        }
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
@@ -391,7 +399,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
                 case 1: {
-                    if (position == experiment2Row) {
+                    if (position == experiment2Row && hidden2Row == -1 || position == hidden2Row) {
                         holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     } else {
                         holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
@@ -402,7 +410,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == deleteAccountRow) {
-                        textCell.setText(LocaleController.getString("DeleteAccount", R.string.DeleteAccount), false);
+                        textCell.setText(LocaleController.getString("DeleteAccount", R.string.DeleteAccount), true);
                         textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
                     } else if (position == emojiRow) {
                         textCell.setText(LocaleController.getString("CustomEmojiTypeface", R.string.CustomEmojiTypeface), true);
@@ -420,7 +428,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     } else if (position == unlimitedFavedStickersRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedFavoredStickers", R.string.UnlimitedFavoredStickers), LocaleController.getString("UnlimitedFavoredStickersAbout", R.string.UnlimitedFavoredStickersAbout), NekoConfig.unlimitedFavedStickers, true, true);
                     } else if (position == unlimitedPinnedDialogsRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, deleteAccountRow != -1);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, false);
                     } else if (position == mapDriftingFixRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MapDriftingFix", R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
                     } else if (position == increaseVoiceMessageQualityRow) {
@@ -493,7 +501,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == experiment2Row) {
+            if (position == experiment2Row || position == hidden2Row) {
                 return 1;
             } else if (position == deleteAccountRow) {
                 return 2;
