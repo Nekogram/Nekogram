@@ -16,7 +16,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.hardware.biometrics.BiometricManager;
 import android.os.Build;
 import android.os.Vibrator;
 import android.text.Editable;
@@ -49,7 +48,6 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.messenger.support.fingerprint.FingerprintManagerCompat;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -70,6 +68,8 @@ import java.util.ArrayList;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import tw.nekomimi.nekogram.helpers.BiometricPromptHelper;
 
 public class PasscodeActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -435,19 +435,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         if (SharedConfig.passcodeHash.length() > 0) {
             try {
                 if (Build.VERSION.SDK_INT >= 23) {
-                    boolean useBiometric;
-                    if (Build.VERSION.SDK_INT >= 29) {
-                        BiometricManager biometricManager = (BiometricManager) ApplicationLoader.applicationContext.getSystemService(Context.BIOMETRIC_SERVICE);
-                        if (Build.VERSION.SDK_INT >= 30) {
-                            useBiometric = biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_WEAK) == BiometricManager.BIOMETRIC_SUCCESS;
-                        } else {
-                            useBiometric = biometricManager.canAuthenticate() == BiometricManager.BIOMETRIC_SUCCESS;
-                        }
-                    } else {
-                        FingerprintManagerCompat fingerprintManager = FingerprintManagerCompat.from(ApplicationLoader.applicationContext);
-                        useBiometric = fingerprintManager.isHardwareDetected();
-                    }
-                    if (useBiometric) {
+                    if (BiometricPromptHelper.hasBiometricEnrolled()) {
                         fingerprintRow = rowCount++;
                     }
                 }
