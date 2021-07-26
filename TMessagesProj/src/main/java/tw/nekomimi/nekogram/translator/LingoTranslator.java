@@ -15,6 +15,8 @@ import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
+import tw.nekomimi.nekogram.Extra;
+
 public class LingoTranslator extends BaseTranslator {
 
     private static LingoTranslator instance;
@@ -60,7 +62,7 @@ public class LingoTranslator extends BaseTranslator {
         URL downloadUrl = new URL("https://api.interpreter.caiyunai.com/v1/translator");
         HttpURLConnection httpConnection = (HttpURLConnection) downloadUrl.openConnection();
         httpConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-        httpConnection.addRequestProperty("X-Authorization", "token 9sdftiq37bnv410eon2l");//白嫖
+        httpConnection.addRequestProperty("X-Authorization", "token " + Extra.getString("lingo.token"));
         httpConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1");
         httpConnection.setConnectTimeout(1000);
         //httpConnection.setReadTimeout(2000);
