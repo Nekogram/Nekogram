@@ -62,12 +62,12 @@ public class SimpleMenuPopupWindow extends PopupWindow {
         setOutsideTouchable(false);
 
         elevation[POPUP_MENU] = (int) AndroidUtilities.dpf2(8);
-        elevation[DIALOG] = (int) AndroidUtilities.dpf2(48);
+        elevation[DIALOG] = (int) AndroidUtilities.dpf2(24);
         margin[POPUP_MENU][HORIZONTAL] = (int) (AndroidUtilities.isTablet() ? AndroidUtilities.dpf2(23) : AndroidUtilities.dpf2(15));
-        margin[POPUP_MENU][VERTICAL] = (int) AndroidUtilities.dpf2(16);
+        margin[POPUP_MENU][VERTICAL] = (int) AndroidUtilities.dpf2(8);
         margin[DIALOG][HORIZONTAL] = (int) AndroidUtilities.dpf2(16);
         margin[DIALOG][VERTICAL] = (int) AndroidUtilities.dpf2(24);
-        listPadding[POPUP_MENU][HORIZONTAL] = (int) AndroidUtilities.dpf2(24);
+        listPadding[POPUP_MENU][HORIZONTAL] = (int) AndroidUtilities.dpf2(16);
         listPadding[DIALOG][HORIZONTAL] = (int) AndroidUtilities.dpf2(24);
         dialogMaxWidth = (int) AndroidUtilities.dpf2(600);
         unit = (int) AndroidUtilities.dpf2(56);
