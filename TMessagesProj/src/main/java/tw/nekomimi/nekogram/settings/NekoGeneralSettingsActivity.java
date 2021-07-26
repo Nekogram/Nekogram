@@ -276,7 +276,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 targetLanguages.add(0, "app");
                 names.add(0, LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp));
 
-                PopupHelper.show(names, LocaleController.getString("TranslationProvider", R.string.TranslationProvider), targetLanguages.indexOf(NekoConfig.translationTarget), context, view, i -> {
+                PopupHelper.show(names, LocaleController.getString("TranslationTarget", R.string.TranslationTarget), targetLanguages.indexOf(NekoConfig.translationTarget), context, view, i -> {
                     NekoConfig.setTranslationTarget(targetLanguages.get(i));
                     listAdapter.notifyItemChanged(translationTargetRow);
                 });

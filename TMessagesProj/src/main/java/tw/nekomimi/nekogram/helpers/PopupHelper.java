@@ -20,11 +20,7 @@ import tw.nekomimi.nekogram.simplemenu.SimpleMenuPopupWindow;
 public class PopupHelper {
     private static SimpleMenuPopupWindow mPopupWindow;
 
-    public static void show(ArrayList<?> entries, String title, int checkedIndex, Context context, SimpleMenuPopupWindow.OnItemClickListener listener) {
-        show(entries, title, checkedIndex, context, null, listener);
-    }
-
-    public static void show(ArrayList<?> entries, String title, int checkedIndex, Context context, View itemView, SimpleMenuPopupWindow.OnItemClickListener listener) {
+    public static void show(ArrayList<? extends CharSequence> entries, String title, int checkedIndex, Context context, View itemView, SimpleMenuPopupWindow.OnItemClickListener listener) {
         if (itemView == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context);
             builder.setTitle(title);
@@ -37,12 +33,12 @@ public class PopupHelper {
                 cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
                 cell.setTag(a);
                 cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-                cell.setTextAndValue(entries.get(a).toString(), checkedIndex == a);
+                cell.setTextAndValue(entries.get(a), checkedIndex == a);
                 linearLayout.addView(cell);
                 cell.setOnClickListener(v -> {
                     Integer which = (Integer) v.getTag();
-                    listener.onClick(which);
                     builder.getDismissRunnable().run();
+                    listener.onClick(which);
                 });
             }
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -61,7 +57,6 @@ public class PopupHelper {
             }
             mPopupWindow = new SimpleMenuPopupWindow(context);
             mPopupWindow.setOnItemClickListener(listener);
-            //noinspection SuspiciousToArrayCall
             mPopupWindow.setEntries(entries.toArray(new CharSequence[0]));
             mPopupWindow.setSelectedIndex(checkedIndex);
 

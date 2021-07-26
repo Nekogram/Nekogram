@@ -62,6 +62,11 @@ public class RadioColorCell extends FrameLayout {
         radioButton.setChecked(checked, animated);
     }
 
+    public void setTextAndValue(CharSequence text, boolean checked) {
+        textView.setText(text);
+        radioButton.setChecked(checked, false);
+    }
+
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
