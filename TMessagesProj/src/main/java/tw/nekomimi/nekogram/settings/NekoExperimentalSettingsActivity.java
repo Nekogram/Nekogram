@@ -49,6 +49,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.PopupHelper;
 
 @SuppressLint("RtlHardcoded")
 public class NekoExperimentalSettingsActivity extends BaseFragment {
@@ -69,6 +70,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
     private int unlimitedPinnedDialogsRow;
+    private int maxRecentStickersRow;
     private int experiment2Row;
 
     private int deleteAccountRow;
@@ -247,6 +249,18 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.increaseVoiceMessageQuality);
                 }
                 BulletinFactory.of((FrameLayout) fragmentView).createSimpleBulletin(R.raw.chats_infotip, LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect)).show();
+            } else if (position == maxRecentStickersRow) {
+                int[] counts = {20, 30, 40, 50, 80, 100, 120, 150, 180, 200};
+                ArrayList<String> types = new ArrayList<>();
+                for (int count : counts) {
+                    if (count <= getMessagesController().maxRecentStickersCount) {
+                        types.add(String.valueOf(count));
+                    }
+                }
+                PopupHelper.show(types, LocaleController.getString("MaxRecentStickers", R.string.MaxRecentStickers), types.indexOf(String.valueOf(NekoConfig.maxRecentStickers)), context, view, i -> {
+                    NekoConfig.setMaxRecentStickers(Integer.parseInt(types.get(i)));
+                    listAdapter.notifyItemChanged(maxRecentStickersRow);
+                });
             }
         });
         listView.setOnItemLongClickListener((view, position) -> {
@@ -326,6 +340,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         disableFilteringRow = sensitiveCanChange ? rowCount++ : -1;
         unlimitedFavedStickersRow = rowCount++;
         unlimitedPinnedDialogsRow = rowCount++;
+        maxRecentStickersRow = rowCount++;
         experiment2Row = rowCount++;
         if (NekoConfig.showHiddenFeature) {
             deleteAccountRow = rowCount++;
@@ -414,6 +429,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
                     } else if (position == emojiRow) {
                         textCell.setText(LocaleController.getString("CustomEmojiTypeface", R.string.CustomEmojiTypeface), true);
+                    } else if (position == maxRecentStickersRow) {
+                        textCell.setTextAndValue(LocaleController.getString("MaxRecentStickers", R.string.MaxRecentStickers), String.valueOf(NekoConfig.maxRecentStickers), false);
                     }
                     break;
                 }
@@ -428,7 +445,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     } else if (position == unlimitedFavedStickersRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedFavoredStickers", R.string.UnlimitedFavoredStickers), LocaleController.getString("UnlimitedFavoredStickersAbout", R.string.UnlimitedFavoredStickersAbout), NekoConfig.unlimitedFavedStickers, true, true);
                     } else if (position == unlimitedPinnedDialogsRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, false);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, true);
                     } else if (position == mapDriftingFixRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MapDriftingFix", R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
                     } else if (position == increaseVoiceMessageQualityRow) {

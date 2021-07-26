@@ -61,6 +61,7 @@ public class NekoConfig {
     public static int deepLFormality = DeepLTranslator.FORMALITY_DEFAULT;
     public static int tabsTitleType = TITLE_TYPE_TEXT;
     public static int idType = ID_TYPE_API;
+    public static int maxRecentStickers = 20;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -249,6 +250,7 @@ public class NekoConfig {
             wsUseDoH = preferences.getBoolean("wsUseDoH", true);
             showDate = preferences.getBoolean("showDate", false);
             translationTarget = preferences.getString("translationTarget", "app");
+            maxRecentStickers = preferences.getInt("maxRecentStickers", 20);
             configLoaded = true;
         }
     }
@@ -741,6 +743,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showNoQuoteForward", showNoQuoteForward);
+        editor.commit();
+    }
+
+    public static void setMaxRecentStickers(int size) {
+        maxRecentStickers = size;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("maxRecentStickers", maxRecentStickers);
         editor.commit();
     }
 
