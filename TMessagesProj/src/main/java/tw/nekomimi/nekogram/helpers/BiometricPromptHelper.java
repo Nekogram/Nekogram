@@ -172,11 +172,11 @@ public class BiometricPromptHelper {
                     showTemporaryMessage(LocaleController.getString("FingerprintNotRecognized", R.string.FingerprintNotRecognized));
                 }
             }, null);
-        }
 
-        updateState(STATE_AUTHENTICATING);
-        errorTextView.setText(LocaleController.getString("FingerprintHelp", R.string.FingerprintHelp));
-        errorTextView.setVisibility(View.VISIBLE);
+            updateState(STATE_AUTHENTICATING);
+            errorTextView.setText(LocaleController.getString("FingerprintHelp", R.string.FingerprintHelp));
+            errorTextView.setVisibility(View.VISIBLE);
+        }
     }
 
     private void updateState(int newState) {
