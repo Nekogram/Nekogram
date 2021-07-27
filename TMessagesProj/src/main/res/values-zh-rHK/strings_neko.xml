@@ -27,12 +27,9 @@
     <string name="NekogramRunning">貓貓奔跑中</string>
     <string name="EventType">抽屜圖示集</string>
     <string name="ChristmasHat">每天顯示聖誕帽</string>
-    <string name="ActionBarDecoration">標題欄裝飾</string>
     <string name="DependsOnDate">基於日期</string>
     <string name="Christmas">聖誕節</string>
     <string name="Valentine">情人節</string>
-    <string name="Snowflakes">雪花</string>
-    <string name="Fireworks">煙花</string>
     <string name="DeleteDownloadedFile">刪除緩存的文件</string>
     <string name="TestBackend">異世界</string>
     <string name="TestBackendOn">此賬户將連接至測試後端服務器。</string>
@@ -67,5 +64,7 @@
     <string name="HideKeyboardOnChatScroll">當滾動瀏覽對話時隱藏鍵盤</string>
     <string name="UserRestrictionsSendStickers2">傳送貼圖</string>
     <string name="UserRestrictionsSendGifs">發送動圖</string>
+    <string name="ProviderYandex">Yandex 翻譯</string>
+    <string name="IdTypeHidden">隱藏</string>
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**應用</string>
 </resources>

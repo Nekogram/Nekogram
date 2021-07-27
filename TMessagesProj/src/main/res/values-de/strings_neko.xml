@@ -26,12 +26,9 @@
     <string name="NekogramRunning">Nekogram wird ausgeführt</string>
     <string name="EventType">Sidebar Icon-Set</string>
     <string name="ChristmasHat">Weihnachtsmütze jeden Tag anzeigen</string>
-    <string name="ActionBarDecoration">Titelleisten Dekoration</string>
     <string name="DependsOnDate">Abhängig vom Datum</string>
     <string name="Christmas">Weihnachten</string>
     <string name="Valentine">Valentinstag</string>
-    <string name="Snowflakes">Schneeflocken</string>
-    <string name="Fireworks">Feuerwerk</string>
     <string name="DeleteDownloadedFile">Heruntergeladene Datei löschen</string>
     <string name="TestBackend">Test-Backend</string>
     <string name="TestBackendOn">Dieses Konto wird mit dem Test-Backend verbunden.</string>
@@ -93,7 +90,6 @@
     <string name="ResetStickerSize">Stickergröße zurücksetzen</string>
     <string name="RestartAppToTakeEffect">App neu starten, um Änderungen wirksam zu machen.</string>
     <string name="DisableAppBarShadow">Schatten der Titelleiste deaktivieren</string>
-    <string name="BetaWarning">Dies ist eine **beta** Funktion, die von **Telegram** implementiert wurde.</string>
     <string name="MediaPreview">Medienvorschau in der Dialogliste</string>
     <string name="ProviderYandex">Yandex Translate</string>
     <string name="IdType">Chat-ID im Profil</string>
@@ -135,8 +131,6 @@
     <string name="SelectBetween">Wählen Sie zwischen</string>
     <string name="SwipeToPiP">Video hochwischen um PiP zu öffnen</string>
     <string name="StickerSavedHint">Sticker in Galerie gespeichert</string>
-    <string name="UserID">Benutzer-ID</string>
-    <string name="Datacenter">Rechenzentrum</string>
     <string name="RegistrationDate">Registrierungsdatum</string>
     <string name="WsDescription">Mit Telegram über WebSocket über Cloudflare verbinden. <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">Technische Details</a>]]></string>
     <string name="WsEnableTls">TLS aktivieren</string>

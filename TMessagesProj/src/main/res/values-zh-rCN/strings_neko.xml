@@ -28,12 +28,9 @@
     <string name="NekogramRunning">猫猫奔跑中</string>
     <string name="EventType">抽屉图标集</string>
     <string name="ChristmasHat">每天显示圣诞帽</string>
-    <string name="ActionBarDecoration">标题栏装饰</string>
     <string name="DependsOnDate">基于日期</string>
     <string name="Christmas">圣诞节</string>
     <string name="Valentine">情人节</string>
-    <string name="Snowflakes">雪花</string>
-    <string name="Fireworks">烟花</string>
     <string name="DeleteDownloadedFile">删除缓存的文件</string>
     <string name="TestBackend">异世界</string>
     <string name="TestBackendOn">此账户将连接至测试后端服务器。</string>
@@ -96,7 +93,6 @@
     <string name="OfficialChannelUsername">Zuragram</string>
     <string name="RestartAppToTakeEffect">重启应用以生效。</string>
     <string name="DisableAppBarShadow">禁用标题栏阴影</string>
-    <string name="BetaWarning">这是由 **Telegram** 实现的**测试版**特性。</string>
     <string name="MediaPreview">对话列表中的媒体预览</string>
     <string name="ProviderYandex">Yandex 翻译</string>
     <string name="IdType">个人资料中的 ID</string>
@@ -115,7 +111,6 @@
     <string name="OpenAllLinksInInstantView">尝试将所有链接在即时预览中打开</string>
     <string name="DonateThankYou">谢谢！</string>
     <string name="DonateEvilGoogle">Google 将收取您捐赠的 30%</string>
-    <string name="DonateAlipay">支付宝</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">时间精确到秒</string>
@@ -140,8 +135,6 @@
     <string name="SelectBetween">选择之间的</string>
     <string name="SwipeToPiP">向上滑动视频打开画中画</string>
     <string name="StickerSavedHint">贴纸已保存到相册</string>
-    <string name="UserID">用户 ID</string>
-    <string name="Datacenter">数据中心</string>
     <string name="RegistrationDate">注册日期</string>
     <string name="WsDescription">通过 WebSocket 从 Cloudflare 连接到 Telegram，<![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">技术详细信息</a>]]>。</string>
     <string name="WsEnableTls">启用 TLS</string>
@@ -150,13 +143,14 @@
     <string name="MsgDate">日期</string>
     <string name="UpdateNekogram">更新 Nekogram</string>
     <string name="TranslationTarget">目标语言</string>
-    <string name="TranslationTargetShort">目标</string>
     <string name="TranslationTargetApp">跟随应用</string>
     <string name="Translator">翻译</string>
     <string name="ResetLanguage">重置语言</string>
     <string name="UseGoogleTranslate">使用 Google</string>
+    <string name="DeepLFormality">正式度</string>
     <string name="DeepLFormalityDefault">默认</string>
-    <string name="DialogCounter">对话: %d</string>
+    <string name="DeepLFormalityMore">更书面</string>
+    <string name="DeepLFormalityLess">更口语</string>
     <string name="InvalidCustomEmojiTypeface">无效的字体文件。</string>
     <string name="AttachWebFile">网络文件</string>
     <string name="WebFileInfo">使用 URL 发送文件</string>
@@ -164,4 +158,8 @@
     <string name="SendWebFileInfo">Telegram 将下载并发送文件。照片最大 5 MB，其他类型内容最大 20 MB。</string>
     <string name="SendWebFileInvalid">文件无效，请确保文件符合要求。</string>
     <string name="AutoLockInstant">即时</string>
+    <string name="RestrictionReason">限制原因</string>
+    <string name="ProviderTencentTranslator">腾讯翻译君</string>
+    <string name="ProviderNiuTrans">小牛翻译</string>
+    <string name="MaxRecentStickers">最大最近贴纸数量</string>
 </resources>

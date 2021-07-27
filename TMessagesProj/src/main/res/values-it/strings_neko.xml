@@ -28,12 +28,9 @@
     <string name="NekogramRunning">Nekogram è in esecuzione</string>
     <string name="EventType">Set di icone barra laterale</string>
     <string name="ChristmasHat">Mostra il cappello di Natale ogni giorno</string>
-    <string name="ActionBarDecoration">Decorazione barra del titolo</string>
     <string name="DependsOnDate">Dipende dalla data</string>
     <string name="Christmas">Natale</string>
     <string name="Valentine">San Valentino</string>
-    <string name="Snowflakes">Fiocchi di neve</string>
-    <string name="Fireworks">Fuochi d\'artificio</string>
     <string name="DeleteDownloadedFile">Elimina il file scaricato</string>
     <string name="TestBackend">Test Backend</string>
     <string name="TestBackendOn">Questo account si connetterà al server di test.</string>
@@ -70,8 +67,8 @@
     <string name="HideKeyboardOnChatScroll">Nascondi la tastiera allo scorrimento</string>
     <string name="UserRestrictionsSendStickers2">Inviare stickers</string>
     <string name="UserRestrictionsSendGifs">Inviare GIF</string>
-    <string name="ShowTabsOnForward">Mostra cartelle durante l\'inoltro</string>
-    <string name="CheckAllAdministrated">Aggiungi amministrate</string>
+    <string name="ShowTabsOnForward">Mostra le cartelle durante l\'inoltro</string>
+    <string name="CheckAllAdministrated">Aggiungi chat amministrate</string>
     <string name="RearVideoMessages">Fotocamera posteriore nei videomessaggi</string>
     <string name="HideAllTab">Nascondi la cartella \"Tutte le chat\"</string>
     <string name="HideAllTabAbout">Premi \"Indietro\" nella home page per aprirla.</string>
@@ -95,7 +92,6 @@
     <string name="ResetStickerSize">Ripristina dimensione stickers</string>
     <string name="RestartAppToTakeEffect">Riavvia l\'app per applicare le modifiche.</string>
     <string name="DisableAppBarShadow">Disabilita l\'ombra della barra del titolo</string>
-    <string name="BetaWarning">Questa è una funzione **beta** implementata da **Telegram**.</string>
     <string name="MediaPreview">Anteprima media nella lista chat</string>
     <string name="ProviderYandex">Yandex Translate</string>
     <string name="IdType">Chat ID nel profilo</string>
@@ -106,7 +102,7 @@
     <string name="AutoPauseVideo">Pausa video automatica</string>
     <string name="AutoPauseVideoAbout">Quando in schermata di blocco/si passa allo sfondo.</string>
     <string name="DisableProximityEvents">Disabilita gli eventi di prossimità</string>
-    <string name="CustomEmojiTypeface">Font Emoji Personalizzato</string>
+    <string name="CustomEmojiTypeface">Font emoji personalizzato</string>
     <string name="MapDriftingFix">Mappa linea di deriva per la Cina continentale</string>
     <string name="IncreaseVoiceMessageQuality">Aumenta la qualità dei messaggi vocali</string>
     <string name="DisableInstantCamera">Disabilita fotocamera istantanea</string>
@@ -120,14 +116,14 @@
     <string name="ProviderDeepLTranslate">DeepL Traduttore</string>
     <string name="Halloween">Halloween</string>
     <string name="CheckUpdate">Verifica aggiornamenti</string>
-    <string name="LastUpdateFormatted">Ultima verifica %1$s.</string>
+    <string name="LastUpdateFormatted">Ultima verifica con successo %1$s.</string>
     <string name="LastUpdateDateFormatted">Ultima verifica effettuata il %1$s.</string>
     <string name="LastUpdateRecently">Ultima verifica effettuata proprio ora.</string>
     <string name="LastUpdateNever">Mai verificato dall\'installazione.</string>
-    <string name="CheckingUpdate">Verificando gli aggiornamenti…</string>
+    <string name="CheckingUpdate">Verifica aggiornamenti…</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Traduttore</string>
     <string name="TranslationProviderShort">Fornitore</string>
-    <string name="ViewSourceCode">Visualizza codice sorgente</string>
+    <string name="ViewSourceCode">Vedi il codice sorgente</string>
     <string name="AvatarAsBackground">Immagine del profilo come sfondo</string>
     <string name="BlurAvatarBackground">Sfoca l\'immagine del profilo</string>
     <string name="DarkenAvatarBackground">Scurisci l\'immagine del profilo</string>
@@ -137,8 +133,6 @@
     <string name="SelectBetween">Seleziona tra</string>
     <string name="SwipeToPiP">Scorri verso l\'alto per mostrare il video in PiP</string>
     <string name="StickerSavedHint">Sticker salvato nella galleria</string>
-    <string name="UserID">ID Utente</string>
-    <string name="Datacenter">Datacenter</string>
     <string name="RegistrationDate">Data di registrazione</string>
     <string name="WsDescription">Connettiti a Telegram attraverso WebSocket tramite Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">dettagli tecnici</a>]]>.</string>
     <string name="WsEnableTls">Abilita TLS</string>
@@ -147,7 +141,6 @@
     <string name="MsgDate">Data</string>
     <string name="UpdateNekogram">Aggiorna Nekogram</string>
     <string name="TranslationTarget">Lingua di destinazione</string>
-    <string name="TranslationTargetShort">Destinazione</string>
     <string name="TranslationTargetApp">Segui l\'app</string>
     <string name="Translator">Traduttore</string>
     <string name="ResetLanguage">Reimposta lingua</string>
@@ -156,11 +149,15 @@
     <string name="DeepLFormalityDefault">Predefinito</string>
     <string name="DeepLFormalityMore">Più</string>
     <string name="DeepLFormalityLess">Meno</string>
-    <string name="DialogCounter">Chat: %d</string>
     <string name="InvalidCustomEmojiTypeface">File font non valido.</string>
     <string name="AttachWebFile">File web</string>
     <string name="WebFileInfo">Invia file con URL</string>
     <string name="SendWebFile">Invia file web</string>
     <string name="SendWebFileInfo">Telegram scaricherà e invierà il file. La dimensione massima è di 5 MB per le foto e 20 MB per gli altri tipi di contenuti.</string>
     <string name="SendWebFileInvalid">File non valido, assicurati che il file soddisfi i requisiti.</string>
+    <string name="AutoLockInstant">Immediatamente</string>
+    <string name="RestrictionReason">Motivo della restrizione</string>
+    <string name="ProviderTencentTranslator">Mr. Translator</string>
+    <string name="ProviderNiuTrans">Niu Trans</string>
+    <string name="MaxRecentStickers">Numero massimo di adesivi recenti</string>
 </resources>

@@ -28,12 +28,9 @@
     <string name="NekogramRunning">네코그램이 실행 중 입니다</string>
     <string name="EventType">사이드바 아이콘 세트</string>
     <string name="ChristmasHat">크리스마스 모자 매일 보여주기</string>
-    <string name="ActionBarDecoration">제목 표시줄 꾸미기</string>
     <string name="DependsOnDate">날짜에 따라</string>
     <string name="Christmas">크리스마스</string>
     <string name="Valentine">발렌타인데이</string>
-    <string name="Snowflakes">눈송이</string>
-    <string name="Fireworks">불꽃</string>
     <string name="DeleteDownloadedFile">다운로드 한 파일 삭제</string>
     <string name="TestBackend">백엔드 테스트</string>
     <string name="TestBackendOn">이 계정은 테스트 백엔드에 연결됩니다.</string>
@@ -96,7 +93,6 @@
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">변경된 설정 적용을 위해 앱을 재시작</string>
     <string name="DisableAppBarShadow">제목 표시줄 그림자 비활성화</string>
-    <string name="BetaWarning">\"텔레그램\"의 \"베타\" 기능 입니다.</string>
     <string name="MediaPreview">대화목록 에서 미디어 미리보기</string>
     <string name="ProviderYandex">얀덱스 번역</string>
     <string name="IdType">프로파일 내 채팅ID</string>
@@ -138,8 +134,6 @@
     <string name="SelectBetween">사이에서 선택</string>
     <string name="SwipeToPiP">비디오를 위로 스 와이프하여 PiP 열기</string>
     <string name="StickerSavedHint">스티커가 갤러리에 저장됨</string>
-    <string name="UserID">사용자 ID</string>
-    <string name="Datacenter">데이터센터</string>
     <string name="RegistrationDate">가입일</string>
     <string name="WsDescription">Cloudflare의 WebSocket을 통해 Telegram에 연결, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">기술적 세부 사항</a>]]></string>
     <string name="WsEnableTls">TLS 활성화</string>
@@ -147,9 +141,8 @@
     <string name="WsEnableDoh">DoH 활성화</string>
     <string name="MsgDate">날짜</string>
     <string name="UpdateNekogram">Nekogram 업데이트</string>
-    <string name="TranslationTarget">목표 언어</string>
-    <string name="TranslationTargetShort">목표</string>
-    <string name="TranslationTargetApp">앱 팔로우</string>
+    <string name="TranslationTarget">번역 언어</string>
+    <string name="TranslationTargetApp">기기 언어 따라가기</string>
     <string name="Translator">번역기</string>
     <string name="ResetLanguage">언어 초기화</string>
     <string name="UseGoogleTranslate">구글 사용하기</string>
@@ -157,11 +150,15 @@
     <string name="DeepLFormalityDefault">기본값</string>
     <string name="DeepLFormalityMore">자세히</string>
     <string name="DeepLFormalityLess">줄이기</string>
-    <string name="DialogCounter">대화: %d</string>
     <string name="InvalidCustomEmojiTypeface">유효하지 않은 폰트 파일</string>
     <string name="AttachWebFile">웹파일</string>
     <string name="WebFileInfo">URL 로 파일 보내기</string>
     <string name="SendWebFile">웹파일 보내기</string>
     <string name="SendWebFileInfo">텔레그램 에서 파일을 다운로드 하여 보냅니다.  사진의 경우 최대 5MB, 기타 콘텐츠 유형의 경우 최대 20MB 입니다.</string>
     <string name="SendWebFileInvalid">잘못된 파일입니다. 파일이 요구 사항을 충족하는지 확인하세요.</string>
+    <string name="AutoLockInstant">즉시</string>
+    <string name="RestrictionReason">제한 사유</string>
+    <string name="ProviderTencentTranslator">미스터 번역기</string>
+    <string name="ProviderNiuTrans">니우 번역기</string>
+    <string name="MaxRecentStickers">최근 사용 스티커 최대 개수 도달</string>
 </resources>

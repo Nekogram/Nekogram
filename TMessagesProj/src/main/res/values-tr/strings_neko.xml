@@ -27,12 +27,9 @@
     <string name="NekogramRunning">Nekogram çalışıyor</string>
     <string name="EventType">Kenar çubuğu ikon ayarı</string>
     <string name="ChristmasHat">Her gün Noel şapkası göster</string>
-    <string name="ActionBarDecoration">Başlık çubuğu dekorasyonu</string>
     <string name="DependsOnDate">Tarihe bağlı</string>
     <string name="Christmas">Noel</string>
     <string name="Valentine">Sevgililer günü</string>
-    <string name="Snowflakes">Kar taneleri</string>
-    <string name="Fireworks">Havai fişekler</string>
     <string name="DeleteDownloadedFile">İndirilen dosyayı sil</string>
     <string name="TestBackend">Geliştirici Kodları Test Girişi</string>
     <string name="TestBackendOn">Bu hesap test geliştirici kodlarına bağlanacak.</string>
@@ -94,7 +91,6 @@
     <string name="ResetStickerSize">Çıkartma boyutunu varsayılan yap</string>
     <string name="RestartAppToTakeEffect">Etkili olması için uygulamayı yeniden başlatın.</string>
     <string name="DisableAppBarShadow">Başlık çubuğu gölgesini devre dışı bırak</string>
-    <string name="BetaWarning">**Telegram** tarafından uygulanan bir **beta** özelliğidir.</string>
     <string name="MediaPreview">Sohbet listesinde medya önizlemesi</string>
     <string name="ProviderYandex">Yandex Çeviri</string>
     <string name="IdType">Profilde sohbet kimliği</string>

@@ -28,12 +28,9 @@
     <string name="NekogramRunning">نيكوغرام قيدُ التشغيل</string>
     <string name="EventType">مجموعة أيقونات الشريط الجانبي</string>
     <string name="ChristmasHat">إظهار قبعة عيد الميلاد يومياً</string>
-    <string name="ActionBarDecoration">تزيّن شريط العنوان</string>
     <string name="DependsOnDate">يعتمد علىٰ التاريخ</string>
     <string name="Christmas">عيدُ الميلاد</string>
     <string name="Valentine">عيد الحب</string>
-    <string name="Snowflakes">ثلج</string>
-    <string name="Fireworks">ألعابٌ نارية</string>
     <string name="DeleteDownloadedFile">حذف الملف المحمل</string>
     <string name="TestBackend">اختبار الخادم التجريبي</string>
     <string name="TestBackendOn">سيتصل هذا الحساب بالخادم التجريبي.</string>
@@ -96,7 +93,6 @@
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">أعد تشغيل التطبيق لرؤية التغييرات.</string>
     <string name="DisableAppBarShadow">تعطيل ظل شريط العنوان</string>
-    <string name="BetaWarning">هذه ميزةٌ **تجريبية** صنعُت من قبل **تيليجرام**.</string>
     <string name="MediaPreview">صورٌ مصغرة في الشاشة الرئيسية</string>
     <string name="ProviderYandex">ترجمة Yandex</string>
     <string name="IdType">نوعية ID المحادثة</string>
@@ -138,8 +134,6 @@
     <string name="SelectBetween">حدد بين</string>
     <string name="SwipeToPiP">اسحب الفيديو لأعلى لفتح PiP</string>
     <string name="StickerSavedHint">تم حفظ الملصق في معرض الصور</string>
-    <string name="UserID">معرف المستخدم</string>
-    <string name="Datacenter">مركز البيانات</string>
     <string name="RegistrationDate">تاريخ التسجيل</string>
     <string name="WsDescription">الاتصال بتيليجرام من خلال WebSocket عبر Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">التفاصيل التقنية</a>]]>.</string>
     <string name="WsEnableTls">تمكين TLS</string>
@@ -148,7 +142,6 @@
     <string name="MsgDate">التاريخ</string>
     <string name="UpdateNekogram">تحديث نيكوغرام</string>
     <string name="TranslationTarget">لغة الهدف</string>
-    <string name="TranslationTargetShort">Target</string>
     <string name="TranslationTargetApp">اتبع التطبيق</string>
     <string name="Translator">مترجم</string>
     <string name="ResetLanguage">إعادة تعيين اللغة</string>

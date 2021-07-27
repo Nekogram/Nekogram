@@ -28,12 +28,9 @@
     <string name="NekogramRunning">Nekogram запущен</string>
     <string name="EventType">Иконки бокового меню</string>
     <string name="ChristmasHat">Рождественский колпак в заголовке 🎅</string>
-    <string name="ActionBarDecoration">Оформление заголовка</string>
     <string name="DependsOnDate">Зависит от даты</string>
     <string name="Christmas">Рождество</string>
     <string name="Valentine">День Св. Валентина</string>
-    <string name="Snowflakes">Снежинки</string>
-    <string name="Fireworks">Фейерверк</string>
     <string name="DeleteDownloadedFile">Удалить из кеша</string>
     <string name="TestBackend">Использовать тестовый сервер</string>
     <string name="TestBackendOn">Эта учетная запись будет подключаться к тестовому серверу.</string>
@@ -96,7 +93,6 @@
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">Перезапустите приложение для применения настроек.</string>
     <string name="DisableAppBarShadow">Отключить тень заголовка</string>
-    <string name="BetaWarning">Эти функции Telegram находятся в **бета** тестировании.</string>
     <string name="MediaPreview">Предпросмотр медиа в списке чатов</string>
     <string name="ProviderYandex">Яндекс.Переводчик</string>
     <string name="IdType">ID чата в профиле</string>
@@ -138,8 +134,6 @@
     <string name="SelectBetween">Выбрать между</string>
     <string name="SwipeToPiP">Смахните видео вверх, чтобы открыть картинку в картинке</string>
     <string name="StickerSavedHint">Стикер сохранен в галерею</string>
-    <string name="UserID">ID пользователя</string>
-    <string name="Datacenter">Дата-центр</string>
     <string name="RegistrationDate">Дата регистрации</string>
     <string name="WsEnableTls">Включить TLS</string>
     <string name="WsLocalProxy">Локальный прокси</string>

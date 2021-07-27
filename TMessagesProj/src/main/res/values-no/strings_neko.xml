@@ -26,12 +26,9 @@
     <string name="NekogramRunning">Nekogram kjører</string>
     <string name="EventType">Sidefelt ikon sett</string>
     <string name="ChristmasHat">Vis julehatt hver dag</string>
-    <string name="ActionBarDecoration">Tittellinjedekorasjon</string>
     <string name="DependsOnDate">Avhenger av dato</string>
     <string name="Christmas">Jul</string>
     <string name="Valentine">Valentinsdag</string>
-    <string name="Snowflakes">Snøfnugg</string>
-    <string name="Fireworks">Fyrverkeri</string>
     <string name="DeleteDownloadedFile">Slett nedlastet fil</string>
     <string name="TestBackend">Test Backend</string>
     <string name="TestBackendOn">Denne kontoen kobles til test-backend.</string>
@@ -93,7 +90,6 @@
     <string name="ResetStickerSize">Tilbakestill klistremerke</string>
     <string name="RestartAppToTakeEffect">Start appen på nytt for å tre i kraft.</string>
     <string name="DisableAppBarShadow">Deaktiver skygge på tittellinjen</string>
-    <string name="BetaWarning">Dette er en **beta** -funksjon implementert av **Telegram**.</string>
     <string name="MediaPreview">Media forhåndsvisning i dialoglisten</string>
     <string name="ProviderYandex">Yandex Translate</string>
     <string name="IdType">Chat-ID i profil</string>
@@ -135,8 +131,6 @@
     <string name="SelectBetween">Velg mellom</string>
     <string name="SwipeToPiP">Sveip opp video for å åpne PiP</string>
     <string name="StickerSavedHint">Klistremerke lagret i galleriet</string>
-    <string name="UserID">Bruker ID</string>
-    <string name="Datacenter">Datasenter</string>
     <string name="RegistrationDate">Registreringsdato</string>
     <string name="WsDescription">Koble til Telegram gjennom WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">tekniske detaljer</a>]]>.</string>
     <string name="WsEnableTls">Aktiver TLS</string>

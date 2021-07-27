@@ -28,12 +28,9 @@
     <string name="NekogramRunning">Nekogram jest uruchomiony</string>
     <string name="EventType">Zestaw ikon paska bocznego</string>
     <string name="ChristmasHat">Pokazuj czapkę świąteczną codziennie</string>
-    <string name="ActionBarDecoration">Dekoracja paska tytułu</string>
     <string name="DependsOnDate">Zależy od dnia</string>
     <string name="Christmas">Boże narodzenie</string>
     <string name="Valentine">Walentynki</string>
-    <string name="Snowflakes">Płatki śnieżne</string>
-    <string name="Fireworks">Fajerwerki</string>
     <string name="DeleteDownloadedFile">Usunąć pobrany plik</string>
     <string name="TestBackend">Backend testowy</string>
     <string name="TestBackendOn">To konto połączy się z backendem testowym.</string>
@@ -95,7 +92,6 @@
     <string name="ResetStickerSize">Resetuj rozmiar naklejek</string>
     <string name="RestartAppToTakeEffect">Zrestartuj aplikację, aby wprowadzić zmiany.</string>
     <string name="DisableAppBarShadow">Wyłącz cień paska tytułowego</string>
-    <string name="BetaWarning">To funkcja **beta** zaimplementowana przez **Telegram**.</string>
     <string name="MediaPreview">Podgląd multimediów na liście rozmów</string>
     <string name="ProviderYandex">Tłumacz Yandex</string>
     <string name="IdType">Chat ID na profilu</string>
@@ -137,8 +133,6 @@
     <string name="SelectBetween">Wybierz pomiędzy</string>
     <string name="SwipeToPiP">Przesuń w górę aby włączyć PiP</string>
     <string name="StickerSavedHint">Naklejka zapisana w galerii</string>
-    <string name="UserID">ID użytkownika</string>
-    <string name="Datacenter">Centrum danych</string>
     <string name="RegistrationDate">Data rejestracji</string>
     <string name="WsDescription">Połącz się z Telegram używając WebSocket przez Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">szczegóły techniczne</a>]]>.</string>
     <string name="WsEnableTls">Włącz TLS</string>
@@ -147,7 +141,6 @@
     <string name="MsgDate">Data</string>
     <string name="UpdateNekogram">Zaktualizuj Nekogram</string>
     <string name="TranslationTarget">Docelowy język</string>
-    <string name="TranslationTargetShort">Cel</string>
     <string name="TranslationTargetApp">Śledź aplikację</string>
     <string name="Translator">Tłumacz</string>
     <string name="ResetLanguage">Przywróć język</string>
@@ -156,6 +149,15 @@
     <string name="DeepLFormalityDefault">Domyślny</string>
     <string name="DeepLFormalityMore">Więcej</string>
     <string name="DeepLFormalityLess">Mniej</string>
-    <string name="DialogCounter">Czaty: %d</string>
     <string name="InvalidCustomEmojiTypeface">Nieprawidłowy plik z czcionką.</string>
+    <string name="AttachWebFile">Plik internetowy</string>
+    <string name="WebFileInfo">Wyślij plik z adresem URL</string>
+    <string name="SendWebFile">Wyślij plik internetowy</string>
+    <string name="SendWebFileInfo">Telegram pobierze i wyśle plik. Maksymalny rozmiar 5 MB dla zdjęć i maks. 20 MB dla innych typów treści.</string>
+    <string name="SendWebFileInvalid">Niepoprawny plik, upewnij się, że plik spełnia wymagania.</string>
+    <string name="AutoLockInstant">Natychmiast</string>
+    <string name="RestrictionReason">Powód ograniczenia</string>
+    <string name="ProviderTencentTranslator">Pan Tłumacz</string>
+    <string name="ProviderNiuTrans">Niu Trans</string>
+    <string name="MaxRecentStickers">Maksymalna liczba ostatnio używanych naklejek</string>
 </resources>

@@ -27,12 +27,9 @@
     <string name="NekogramRunning">Nekogram rulează</string>
     <string name="EventType">Set pictograme bară laterală</string>
     <string name="ChristmasHat">Arată pălăria de Crăciun zilnic</string>
-    <string name="ActionBarDecoration">Decorare bară de titlu</string>
     <string name="DependsOnDate">În funcție de dată</string>
     <string name="Christmas">Crăciun</string>
     <string name="Valentine">Ziua Îndrăgostiților</string>
-    <string name="Snowflakes">Fulgi de zăpadă</string>
-    <string name="Fireworks">Artificii</string>
     <string name="DeleteDownloadedFile">Șterge fișierul descărcat</string>
     <string name="TestBackend">Testare backend</string>
     <string name="TestBackendOn">Acest cont se va conecta la sistemul backend de testare.</string>
@@ -94,7 +91,6 @@
     <string name="ResetStickerSize">Resetați dimensiunea stickerului</string>
     <string name="RestartAppToTakeEffect">Reporniți aplicația pentru a avea efect.</string>
     <string name="DisableAppBarShadow">Dezactivați umbra din bara de titlu</string>
-    <string name="BetaWarning">Aceasta este o funcție **beta** implementată de **Telegram**.</string>
     <string name="MediaPreview">Previzualizare media în lista de dialog</string>
     <string name="ProviderYandex">Traducere Yandex</string>
     <string name="IdType">ID conversație în profil</string>
@@ -136,8 +132,6 @@
     <string name="SelectBetween">Selectați între</string>
     <string name="SwipeToPiP">Glisați în sus pentru a deschide PiP</string>
     <string name="StickerSavedHint">Sticker salvat în galerie</string>
-    <string name="UserID">ID Utilizator</string>
-    <string name="Datacenter">Datacenter</string>
     <string name="RegistrationDate">Dată înregistrare</string>
     <string name="WsDescription">Conectează-te la Telegram prin WebSocket prin Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">detalii tehnice</a>]]>.</string>
     <string name="WsEnableTls">Activați TLS</string>
@@ -146,7 +140,6 @@
     <string name="MsgDate">Dată</string>
     <string name="UpdateNekogram">Actualizați Nekogram</string>
     <string name="TranslationTarget">Limbă țintă</string>
-    <string name="TranslationTargetShort">Țintă</string>
     <string name="TranslationTargetApp">Urmăriți aplicația</string>
     <string name="Translator">Traducător</string>
     <string name="ResetLanguage">Resetați limbă</string>
@@ -155,6 +148,5 @@
     <string name="DeepLFormalityDefault">Implicit</string>
     <string name="DeepLFormalityMore">Mai multe</string>
     <string name="DeepLFormalityLess">Mai puține</string>
-    <string name="DialogCounter">Conversații: %d</string>
     <string name="InvalidCustomEmojiTypeface">Fișier font invalid.</string>
 </resources>

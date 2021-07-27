@@ -28,12 +28,9 @@
     <string name="NekogramRunning">Nekogram đang chạy</string>
     <string name="EventType">Bộ biểu tượng thanh bên</string>
     <string name="ChristmasHat">Hiển thị mũ Giáng sinh hàng ngày</string>
-    <string name="ActionBarDecoration">Trang trí thanh tiêu đề</string>
     <string name="DependsOnDate">Phụ thuộc vào ngày</string>
     <string name="Christmas">Giáng sinh</string>
     <string name="Valentine">Ngày lễ tình nhân</string>
-    <string name="Snowflakes">Bông tuyết</string>
-    <string name="Fireworks">Phoá hoa</string>
     <string name="DeleteDownloadedFile">Xóa tập tin đã tải xuống</string>
     <string name="TestBackend">Kiểm tra cuối</string>
     <string name="TestBackendOn">Tài khoản này sẽ kết nối với phụ trợ thử nghiệm.</string>
@@ -95,7 +92,6 @@
     <string name="ResetStickerSize">Đặt lại kích thước nhãn dán</string>
     <string name="RestartAppToTakeEffect">Khởi động lại ứng dụng để có hiệu lực.</string>
     <string name="DisableAppBarShadow">Vô hiệu hóa bóng thanh tiêu đề</string>
-    <string name="BetaWarning">Đây là tính năng **beta** được thực hiện bởi **Telegram**.</string>
     <string name="MediaPreview">Xem trước đa phương tiện trong danh sách hộp thoại</string>
     <string name="ProviderYandex">Yandex Dịch</string>
     <string name="IdType">ID trò chuyện trong hồ sơ</string>
@@ -137,8 +133,6 @@
     <string name="SelectBetween">Chọn giữa</string>
     <string name="SwipeToPiP">Vuốt video để mở PiP</string>
     <string name="StickerSavedHint">Nhãn dán đã được lưu vào thư viện ảnh</string>
-    <string name="UserID">ID người dùng</string>
-    <string name="Datacenter">Trung tâm dữ liệu</string>
     <string name="RegistrationDate">Ngày đăng ký</string>
     <string name="WsDescription">Connect to Telegram through WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">technical details</a>]]>.</string>
     <string name="WsEnableTls">Enable TLS</string>

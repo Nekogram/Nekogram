@@ -5,6 +5,7 @@
     <string name="MessageMenu">Menu de mensagens</string>
     <string name="HidePhone">Ocultar meu número de telefone</string>
     <string name="Hide">Ocultar</string>
+    <string name="DeleteAllFromSelf">Apagar minhas mensagens</string>
     <string name="DeleteAllFromSelfAlert">Aviso! Isso irá **excluir todas as suas mensagens** nesse chat para **todos** os participantes.</string>
     <string name="BotLogin">Login via Bot</string>
     <string name="InvalidAccessToken">Token de acesso inválido</string>
@@ -27,12 +28,9 @@
     <string name="NekogramRunning">Nekogram está em execução</string>
     <string name="EventType">Conjunto de ícones da barra lateral</string>
     <string name="ChristmasHat">Mostrar chapéu de Natal todos os dias</string>
-    <string name="ActionBarDecoration">Decoração da barra de título</string>
     <string name="DependsOnDate">Depende da data</string>
     <string name="Christmas">Natal</string>
     <string name="Valentine">Dia dos Namorados</string>
-    <string name="Snowflakes">Flocos de neve</string>
-    <string name="Fireworks">Fogo de artifício</string>
     <string name="DeleteDownloadedFile">Excluir arquivo baixado</string>
     <string name="TestBackend">Teste de back-end</string>
     <string name="TestBackendOn">Esta conta se conectará ao servidor de testes do Telegram.</string>
@@ -95,7 +93,6 @@
     <string name="OfficialChannelUsername">nekoupdates</string>
     <string name="RestartAppToTakeEffect">Reinicie o aplicativo para tirar efeito.</string>
     <string name="DisableAppBarShadow">Desativar sombra da barra de título</string>
-    <string name="BetaWarning">Esse é um recurso **beta** implementado pelo **Telegram**.</string>
     <string name="MediaPreview">Visualizar mídia na lista de conversas</string>
     <string name="ProviderYandex">Yandex Tradutor</string>
     <string name="IdType">ID do chat no perfil</string>
@@ -137,11 +134,27 @@
     <string name="SelectBetween">Selecione entre</string>
     <string name="SwipeToPiP">Deslize o vídeo para cima para abrir o PiP</string>
     <string name="StickerSavedHint">Salvar sticker na galeria </string>
-    <string name="UserID">ID de usuário</string>
-    <string name="Datacenter">Centro de dados</string>
     <string name="RegistrationDate">Data de registro</string>
     <string name="WsDescription">Conecte-se ao Telegram através do WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">detalhes técnicos</a>]]>.</string>
     <string name="WsEnableTls">Habilitar TLS</string>
     <string name="WsLocalProxy">Proxy local</string>
     <string name="WsEnableDoh">Habilitar TLS</string>
+    <string name="MsgDate">Data</string>
+    <string name="UpdateNekogram">Atualizar Nekogram</string>
+    <string name="TranslationTarget">Idioma de destino</string>
+    <string name="TranslationTargetApp">Seguir o aplicativo</string>
+    <string name="Translator">Tradutor</string>
+    <string name="ResetLanguage">Redefinir idioma</string>
+    <string name="UseGoogleTranslate">Utilizar Google</string>
+    <string name="DeepLFormality">Formalidade</string>
+    <string name="DeepLFormalityDefault">Padrão</string>
+    <string name="DeepLFormalityMore">Mais</string>
+    <string name="DeepLFormalityLess">Menos</string>
+    <string name="InvalidCustomEmojiTypeface">Arquivo de fonte inválido.</string>
+    <string name="AttachWebFile">Arquivo da web</string>
+    <string name="WebFileInfo">Enviar arquivo com URL</string>
+    <string name="SendWebFile">Enviar arquivo da web</string>
+    <string name="SendWebFileInfo">O Telegram fará o download e enviará o arquivo. 5 MB de tamanho máximo para fotos e 20 MB máximo para outros tipos de conteúdo.</string>
+    <string name="SendWebFileInvalid">Arquivo inválido, certifique-se de que o arquivo está cumprindo os requisitos.</string>
+    <string name="AutoLockInstant">Instantâneo</string>
 </resources>

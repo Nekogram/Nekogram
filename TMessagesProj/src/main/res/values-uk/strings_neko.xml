@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="NekoSettings">Налаштування Neko</string>
     <string name="IPv6">Спробувати з\'єднуватись через IPv6</string>
     <string name="MessageMenu">Меню повідомлення</string>
     <string name="HidePhone">Заховати мій номер телефону</string>
     <string name="Hide">Сховати</string>
+    <string name="DeleteAllFromSelf">Видалити свої повідомлення</string>
     <string name="DeleteAllFromSelfAlert">Увага! Це призведе до ***видалення усіх ваших повідомлень*** для користувачів цього чату.</string>
     <string name="BotLogin">Бот логін</string>
     <string name="InvalidAccessToken">Неправильний ключ доступу</string>
@@ -25,12 +27,9 @@
     <string name="NekogramRunning">Некограм запущений</string>
     <string name="EventType">Зображення бокової панелі</string>
     <string name="ChristmasHat">Відображати Різдвяний капелюх</string>
-    <string name="ActionBarDecoration">Прикраси панелі заголовків</string>
     <string name="DependsOnDate">Залежить від дати</string>
     <string name="Christmas">Різдво</string>
     <string name="Valentine">День святого Валентина</string>
-    <string name="Snowflakes">Сніжинки</string>
-    <string name="Fireworks">Феєрверк</string>
     <string name="DeleteDownloadedFile">Видалити завантажений файл</string>
     <string name="TestBackend">Використовувати тестовий сервер</string>
     <string name="TestBackendOn">Ця обліковий запис буде підключена до тестового сервера.</string>
@@ -61,6 +60,7 @@
     <string name="DisablePhotoViewerSideAction">Вимкнути перевертання фото дотиком</string>
     <string name="BotToken">Ключ</string>
     <string name="UnlimitedPinnedDialogs">Необмежені закріплені чати</string>
+    <string name="UnlimitedPinnedDialogsAbout">Увімкнути необмежені закріплені чати, вимкнувши їхню синхронізацію.</string>
     <string name="HideKeyboardOnChatScroll">Приховати клавіатуру при прокрутки</string>
     <string name="UserRestrictionsSendStickers2">Надіслати наліпки</string>
     <string name="UserRestrictionsSendGifs">Надіслати GIF</string>
@@ -75,23 +75,41 @@
     <string name="DisableNumberRounding">Вимкнути округлення чисел</string>
     <string name="Categories">Категорії</string>
     <string name="OfficialChannel">Офіційний канал</string>
+    <string name="About">Про додаток</string>
+    <string name="IgnoreBlockedAbout">Ви більше не будете бачити повідомлення від заблокованих користувачів у групах.</string>
     <string name="DonateAbout">Підтримайте нашу розробку.</string>
     <string name="TranslationAbout">Допоможіть нам перекласти Nekogram на вашу мову.</string>
     <string name="Translation">Перекласти Nekogram</string>
+    <string name="GooglePlay">Google Play</string>
+    <string name="RestartAppToTakeEffect">Перезапустіть додаток для застосування змін.</string>
+    <string name="MediaPreview">Попередній перегляд медіа у списку чатів</string>
+    <string name="ProviderYandex">Яндекс Перекладач</string>
+    <string name="IdType">ID чату в профілі</string>
     <string name="IdTypeHidden">Приховати</string>
     <string name="IdTypeAPI">API Telegram</string>
+    <string name="IdTypeBOTAPI">Bot API</string>
+    <string name="AutoPauseVideo">Автопризупинення відео</string>
+    <string name="IncreaseVoiceMessageQuality">Збільшення якості голосових повідомлень</string>
+    <string name="DisableInstantCamera">Вимкнути вбудовану камеру</string>
+    <string name="FormatWithSeconds">Форматувати час з секундами</string>
+    <string name="JumpToBeginning">Перейти до початку</string>
+    <string name="ProviderDeepLTranslate">DeepL Перекладач</string>
+    <string name="CheckUpdate">Перевірити наявність оновлень</string>
     <string name="CheckingUpdate">Перевірка наявності оновлень…</string>
     <string name="ProviderMicrosoftTranslator">Перекладач Microsoft</string>
     <string name="TranslationProviderShort">Перекладач</string>
     <string name="ViewSourceCode">Переглянути код</string>
+    <string name="AvatarAsBackground">Зображення профілю як фон</string>
     <string name="BlurAvatarBackground">Розмити зображення профілю</string>
     <string name="DarkenAvatarBackground">Затемнити зображення профілю</string>
     <string name="SelectBetween">Виберіть між</string>
     <string name="StickerSavedHint">Наліпка збережена в галерею</string>
-    <string name="UserID">ID користувача</string>
-    <string name="Datacenter">База даних</string>
     <string name="RegistrationDate">Дата реєстрації</string>
     <string name="WsEnableTls">Увімкнути TLS</string>
     <string name="WsLocalProxy">Локальне проксі</string>
     <string name="WsEnableDoh">Увімкнути DoH</string>
+    <string name="MsgDate">Дата</string>
+    <string name="UpdateNekogram">Оновити Nekogram</string>
+    <string name="TranslationTarget">Цільова мова</string>
+    <string name="Translator">Перекладач</string>
 </resources>
