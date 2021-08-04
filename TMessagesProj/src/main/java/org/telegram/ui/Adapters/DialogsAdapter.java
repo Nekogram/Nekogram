@@ -17,7 +17,6 @@ import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.SystemClock;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -209,11 +208,14 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
         if (folderId == 1 && showArchiveHint) {
             count += 2;
         }
-        if (/*folderId == 0 && */dialogsCount != 0) {
+        if (folderId == 0 && dialogsCount != 0) {
             count++;
-            if (dialogsCount > 10/* && dialogsType == 0*/) {
+            if (dialogsCount > 10 && dialogsType == 0) {
                 count++;
             }
+        }
+        if (folderId == 1 && dialogsCount > 10 && dialogsType == 0) {
+            count++;
         }
         if (dialogsType == 11 || dialogsType == 13) {
             count += 2;
@@ -638,7 +640,10 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
                 i -= 1;
             }
         }
-        if (/*folderId == 0 && */dialogsCount > 10 && i == currentCount - 2/* && dialogsType == 0*/) {
+        if (folderId == 0 && dialogsCount > 10 && i == currentCount - 2 && dialogsType == 0) {
+            return 11;
+        }
+        if (folderId == 1 && dialogsCount > 10 && i == currentCount -1 && dialogsType == 0) {
             return 11;
         }
         int size = parentFragment.getDialogsArray(currentAccount, dialogsType, folderId, dialogsListFrozen).size();
