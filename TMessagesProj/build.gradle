@@ -157,7 +157,7 @@ android {
         manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
     }
 
-    defaultConfig.versionCode = 2378
+    defaultConfig.versionCode = 2387
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
@@ -172,7 +172,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionName "7.8.2.1"
+        versionName "7.9.1"
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
@@ -200,8 +200,10 @@ def patchBundleReleaseManifest = task('patchBundleReleaseManifest').doLast {
     def manifest = Paths.get(project.buildDir.path, 'intermediates',
             'bundle_manifest', 'release', 'AndroidManifest.xml')
     def newManifest = manifest.getText()
-    newManifest = newManifest.replaceAll(".*READ_CALL_LOG.*", "")
-    newManifest = newManifest.replaceAll(".*ACCESS_BACKGROUND_LOCATION.*", "")
+    newManifest = newManifest.replace("<uses-permission android:name=\"android.permission.ACCESS_BACKGROUND_LOCATION\" />", "")
+    newManifest = newManifest.replace("<uses-permission android:name=\"android.permission.READ_CALL_LOG\" />", "")
+    newManifest = newManifest.replace("nekogram.apks", "nekogram.bundle")
+    System.console().printf(newManifest)
     Files.write(manifest, newManifest.getBytes())
 }
 

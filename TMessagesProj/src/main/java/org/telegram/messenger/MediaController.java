@@ -496,6 +496,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private long lastSaveTime;
     private float currentPlaybackSpeed = 1.0f;
     private float currentMusicPlaybackSpeed = 1.0f;
+    private float fastPlaybackSpeed = 1.0f;
+    private float fastMusicPlaybackSpeed = 1.0f;
     private float seekToProgressPending;
     private long lastProgress = 0;
     private MessageObject playingMessageObject;
@@ -872,6 +874,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             try {
                 currentPlaybackSpeed = MessagesController.getGlobalMainSettings().getFloat("playbackSpeed", 1.0f);
                 currentMusicPlaybackSpeed = MessagesController.getGlobalMainSettings().getFloat("musicPlaybackSpeed", 1.0f);
+                fastPlaybackSpeed = MessagesController.getGlobalMainSettings().getFloat("fastPlaybackSpeed", 1.8f);
+                fastMusicPlaybackSpeed = MessagesController.getGlobalMainSettings().getFloat("fastMusicPlaybackSpeed", 1.8f);
                 sensorManager = (SensorManager) ApplicationLoader.applicationContext.getSystemService(Context.SENSOR_SERVICE);
                 linearSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
                 gravitySensor = sensorManager.getDefaultSensor(Sensor.TYPE_GRAVITY);
@@ -1021,6 +1025,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         } catch (Exception e) {
             FileLog.e(e);
         }
+    }
+
+    public VideoPlayer getVideoPlayer() {
+        return videoPlayer;
     }
 
     private void startProgressTimer(final MessageObject currentPlayingMessageObject) {
@@ -2504,20 +2512,32 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 }, 50);
             }
             currentMusicPlaybackSpeed = speed;
+            if (Math.abs(speed - 1.0f) > 0.001f) {
+                fastMusicPlaybackSpeed = speed;
+            }
         } else {
             currentPlaybackSpeed = speed;
+            if (Math.abs(speed - 1.0f) > 0.001f) {
+                fastPlaybackSpeed = speed;
+            }
         }
         if (audioPlayer != null) {
             audioPlayer.setPlaybackSpeed(speed);
         } else if (videoPlayer != null) {
             videoPlayer.setPlaybackSpeed(speed);
         }
-        MessagesController.getGlobalMainSettings().edit().putFloat(music ? "musicPlaybackSpeed" : "playbackSpeed", speed).commit();
+        MessagesController.getGlobalMainSettings().edit()
+                .putFloat(music ? "musicPlaybackSpeed" : "playbackSpeed", speed)
+                .putFloat(music ? "fastMusicPlaybackSpeed" : "fastPlaybackSpeed", music ? fastMusicPlaybackSpeed : fastPlaybackSpeed).commit();
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.messagePlayingSpeedChanged);
     }
 
     public float getPlaybackSpeed(boolean music) {
         return music ? currentMusicPlaybackSpeed : currentPlaybackSpeed;
+    }
+
+    public float getFastPlaybackSpeed(boolean music) {
+        return music ? fastMusicPlaybackSpeed : fastPlaybackSpeed;
     }
 
     private void updateVideoState(MessageObject messageObject, int[] playCount, boolean destroyAtEnd, boolean playWhenReady, int playbackState) {
@@ -3008,8 +3028,13 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             }
             if (messageObject.isRoundVideo()) {
                 videoPlayer.setStreamType(useFrontSpeaker ? AudioManager.STREAM_VOICE_CALL : AudioManager.STREAM_MUSIC);
-                if (currentPlaybackSpeed > 1.0f) {
+                if (Math.abs(currentPlaybackSpeed - 1.0f) > 0.001f) {
                     videoPlayer.setPlaybackSpeed(currentPlaybackSpeed);
+                }
+
+                if (messageObject.forceSeekTo >= 0) {
+                    messageObject.audioProgress = seekToProgressPending = messageObject.forceSeekTo;
+                    messageObject.forceSeekTo = -1;
                 }
             } else {
                 videoPlayer.setStreamType(AudioManager.STREAM_MUSIC);
@@ -3029,6 +3054,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             return;
                         }
                         if (playbackState == ExoPlayer.STATE_ENDED || (playbackState == ExoPlayer.STATE_IDLE || playbackState == ExoPlayer.STATE_BUFFERING) && playWhenReady && messageObject.audioProgress >= 0.999f) {
+                            messageObject.audioProgress = 1f;
+                            NotificationCenter.getInstance(messageObject.currentAccount).postNotificationName(NotificationCenter.messagePlayingProgressDidChanged, messageObject.getId(), 0);
                             if (!playlist.isEmpty() && (playlist.size() > 1 || !messageObject.isVoice())) {
                                 playNextMessageWithoutOrder(true);
                             } else {
@@ -3110,7 +3137,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         }
                         shouldSavePositionForCurrentAudio = name;
                     }
-                    if (currentPlaybackSpeed > 1.0f) {
+                    if (Math.abs(currentPlaybackSpeed - 1.0f) > 0.001f) {
                         audioPlayer.setPlaybackSpeed(currentPlaybackSpeed);
                     }
                     audioInfo = null;
@@ -3129,7 +3156,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             messageObject.audioProgress = seekToProgressPending = pos;
                         }
                         shouldSavePositionForCurrentAudio = name;
-                        if (currentMusicPlaybackSpeed > 1.0f) {
+                        if (Math.abs(currentMusicPlaybackSpeed - 1.0f) > 0.001f) {
                             audioPlayer.setPlaybackSpeed(currentMusicPlaybackSpeed);
                         }
                     }

@@ -141,6 +141,7 @@ public class LoginActivity extends BaseFragment {
     private boolean checkShowPermissions = true;
     private boolean newAccount;
     private boolean syncContacts = false;
+    private boolean testBackend = false;
 
     private int scrollHeight;
 
@@ -1273,7 +1274,7 @@ public class LoginActivity extends BaseFragment {
         private TextView textView;
         private TextView textView2;
         private CheckBoxCell checkBoxCell;
-        private CheckBoxCell testBackendCell;
+        private CheckBoxCell testBackendCheckBox;
 
         private int countryState = 0;
 
@@ -1584,18 +1585,17 @@ public class LoginActivity extends BaseFragment {
             }
 
             if (newAccount) {
-                testBackendCell = new CheckBoxCell(context, 2);
-                testBackendCell.setText(LocaleController.getString("TestBackend", R.string.TestBackend), "", ConnectionsManager.native_isTestBackend(currentAccount) != 0, false);
-                addView(testBackendCell, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));
-                testBackendCell.setOnClickListener(v -> {
+                testBackendCheckBox = new CheckBoxCell(context, 2);
+                testBackendCheckBox.setText(LocaleController.getString("TestBackend", R.string.TestBackend), "", testBackend, false);
+                addView(testBackendCheckBox, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));
+                testBackendCheckBox.setOnClickListener(v -> {
                     if (getParentActivity() == null) {
                         return;
                     }
                     CheckBoxCell cell = (CheckBoxCell) v;
-                    ConnectionsManager.native_switchBackend(currentAccount);
-                    boolean isTestBackend = ConnectionsManager.native_isTestBackend(currentAccount) != 0;
-                    cell.setChecked(isTestBackend, true);
-                    if (isTestBackend) {
+                    testBackend = !testBackend;
+                    cell.setChecked(testBackend, true);
+                    if (testBackend) {
                         BulletinFactory.of((FrameLayout) fragmentView).createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString("TestBackendOn", R.string.TestBackendOn)).show();
                     } else {
                         BulletinFactory.of((FrameLayout) fragmentView).createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString("TestBackendOff", R.string.TestBackendOff)).show();
@@ -1784,6 +1784,11 @@ public class LoginActivity extends BaseFragment {
                 return;
             }
             String phone = PhoneFormat.stripExceptNumbers("" + codeField.getText() + phoneField.getText());
+            boolean isTestBakcend = /*BuildVars.DEBUG_PRIVATE_VERSION && */getConnectionsManager().isTestBackend();
+            if (isTestBakcend != testBackend) {
+                getConnectionsManager().switchBackend(false);
+                isTestBakcend = testBackend;
+            }
             if (getParentActivity() instanceof LaunchActivity) {
                 for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
                     UserConfig userConfig = UserConfig.getInstance(a);
@@ -1791,7 +1796,7 @@ public class LoginActivity extends BaseFragment {
                         continue;
                     }
                     String userPhone = userConfig.getCurrentUser().phone;
-                    if (PhoneNumberUtils.compare(phone, userPhone) && ConnectionsManager.native_isTestBackend(currentAccount) == ConnectionsManager.native_isTestBackend(a)) {
+                    if (PhoneNumberUtils.compare(phone, userPhone) && ConnectionsManager.getInstance(a).isTestBackend() == isTestBakcend) {
                         final int num = a;
                         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                         builder.setTitle(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji));

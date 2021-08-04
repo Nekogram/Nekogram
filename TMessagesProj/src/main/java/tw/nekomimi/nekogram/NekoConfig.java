@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Bundle;
 
 import org.tcp2ws.tcp2wsServer;
 import org.telegram.messenger.AndroidUtilities;
@@ -20,7 +21,6 @@ import org.telegram.ui.ActionBar.Theme;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.net.ServerSocket;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -167,13 +167,9 @@ public class NekoConfig {
 
     private static void determineInstalledFromPlay() {
         ApplicationInfo applicationInfo = ApplicationLoader.applicationContext.getApplicationInfo();
-        if (applicationInfo.metaData != null && applicationInfo.metaData.containsKey("com.android.stamp.source")) {
-            installedFromPlay = true;
-            return;
-        }
-        final String installer = ApplicationLoader.applicationContext.getPackageManager().getInstallerPackageName(ApplicationLoader.applicationContext.getPackageName());
-        if (installer != null && Arrays.asList(new String[]{"com.android.vending", "com.google.android.feedback"}).contains(installer)) {
-            installedFromPlay = true;
+        Bundle meta = applicationInfo.metaData;
+        if (meta != null && meta.containsKey("tw.nekomimi.nekogram.referer")) {
+            installedFromPlay = meta.getString("tw.nekomimi.nekogram.referer").equals("nekogram.bundle");
         }
     }
 
