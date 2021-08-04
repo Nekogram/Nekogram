@@ -38,7 +38,7 @@
     <string name="HideProxySponsorChannel">Nascondi canale sponsor proxy</string>
     <string name="ViewHistory">Visualizza la cronologia</string>
     <string name="Nya">Miao!</string>
-    <string name="SaveCacheToExternalFilesDir">Isolamento dello storage</string>
+    <string name="SaveCacheToExternalFilesDir">Isolamento dell\'archiviazione</string>
     <string name="SaveCacheToExternalFilesDirAbout">Salva la cartella \"Telegram\" nella directory specifica dell\'app per mantenere la memoria condivisa in ordine.</string>
     <string name="SensitiveDisableFiltering">Disattiva il filtro dei contenuti sensibili</string>
     <string name="SensitiveAbout">Mostra i media sensibili nei canali pubblici su tutti i tuoi dispositivi.</string>
@@ -64,7 +64,7 @@
     <string name="UnlimitedPinnedDialogs">Chat fissate illimitate</string>
     <string name="UnlimitedPinnedDialogsAbout">Fissa chat illimitate disattivando la loro sincronizzazione.</string>
     <string name="OpenArchiveOnPull">Apri l\'archivio tirando giù</string>
-    <string name="HideKeyboardOnChatScroll">Nascondi la tastiera allo scorrimento</string>
+    <string name="HideKeyboardOnChatScroll">Nascondi la tastiera durante lo scorrimento della chat</string>
     <string name="UserRestrictionsSendStickers2">Inviare stickers</string>
     <string name="UserRestrictionsSendGifs">Inviare GIF</string>
     <string name="ShowTabsOnForward">Mostra le cartelle durante l\'inoltro</string>
@@ -99,8 +99,8 @@
     <string name="IdTypeHidden">Nascondi</string>
     <string name="IdTypeAPI">API Telegram</string>
     <string name="IdTypeBOTAPI">Bot API</string>
-    <string name="AutoPauseVideo">Pausa video automatica</string>
-    <string name="AutoPauseVideoAbout">Quando in schermata di blocco/si passa allo sfondo.</string>
+    <string name="AutoPauseVideo">Metti in pausa il video automaticamente</string>
+    <string name="AutoPauseVideoAbout">Quando lo schermo è bloccato/si passa allo sfondo.</string>
     <string name="DisableProximityEvents">Disabilita gli eventi di prossimità</string>
     <string name="CustomEmojiTypeface">Font emoji personalizzato</string>
     <string name="MapDriftingFix">Mappa linea di deriva per la Cina continentale</string>
@@ -159,5 +159,5 @@
     <string name="RestrictionReason">Motivo della restrizione</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="ProviderNiuTrans">Niu Trans</string>
-    <string name="MaxRecentStickers">Numero massimo di adesivi recenti</string>
+    <string name="MaxRecentStickers">Numero massimo di stickers recenti</string>
 </resources>

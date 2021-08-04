@@ -150,4 +150,16 @@
     <string name="DeepLFormalityDefault">الافتراضي</string>
     <string name="DeepLFormalityMore">المزيد</string>
     <string name="DeepLFormalityLess">أقل</string>
+    <string name="InvalidCustomEmojiTypeface">ملف الخط غير صالح.</string>
+    <string name="AttachWebFile">ملف ويب</string>
+    <string name="WebFileInfo">إرسال ملف مع عنوان URL</string>
+    <string name="SendWebFile">إرسال ملف ويب</string>
+    <string name="SendWebFileInfo">تيليجرام سيقوم بتنزيل وإرسال الملف. 
+علمًا بأن أقصى حجم للصور 5 ميغابايت وأقصى حجم لأي نوع آخر من المحتويات 20 ميغابايت.</string>
+    <string name="SendWebFileInvalid">ملف غير صالح، تأكد من أن الملف يتوافق مع المتطلبات.</string>
+    <string name="AutoLockInstant">فوري</string>
+    <string name="RestrictionReason">سبب التقييد</string>
+    <string name="ProviderTencentTranslator">الأستاذ المترجم</string>
+    <string name="ProviderNiuTrans">نيو ترانس</string>
+    <string name="MaxRecentStickers">الحد الأقصى للملصقات الأخيرة</string>
 </resources>

@@ -5,6 +5,7 @@
     <string name="MessageMenu">Mesaj Menüsü</string>
     <string name="HidePhone">Telefon numaramı gizle</string>
     <string name="Hide">Gizle</string>
+    <string name="DeleteAllFromSelf">Kendi mesajlarını sil</string>
     <string name="DeleteAllFromSelfAlert">Uyarı! Bu, **sohbette senin gönderdiğin tüm mesajlar tüm üyeler için silinecek**.</string>
     <string name="BotLogin">Bot Girişi</string>
     <string name="InvalidAccessToken">Erişim anahtarı geçersiz</string>
@@ -126,4 +127,36 @@
     <string name="AvatarAsBackground">Arka plan olarak profil resmi</string>
     <string name="BlurAvatarBackground">Profil resmini bulanıklaştır</string>
     <string name="DarkenAvatarBackground">Profil resmini karart</string>
+    <string name="AccentAsNotificationColor">Bildirim rengi olarak vurgu rengi</string>
+    <string name="SilenceNonContacts">Temassız Kişileri Sessize Al</string>
+    <string name="SilenceNonContactsAbout">Kişileriniz olmayan kişilerden gelen bildirimler sessiz olarak görünecektir. Kullanıcıları, telefon numaralarını bilmeden profillerinden kişilere ekleyebilirsiniz.</string>
+    <string name="SelectBetween">Arasında seçim yapın</string>
+    <string name="SwipeToPiP">PiP\'yi açmak için videoyu yukarı kaydırın</string>
+    <string name="StickerSavedHint">Çıkartma galeriye kaydedildi</string>
+    <string name="WsDescription">Cloudflare aracılığıyla WebSocket aracılığıyla Telegram\'a bağlanın, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">teknik ayrıntılar</a>]]>.</string>
+    <string name="WsEnableTls">TLS\'yi etkinleştir</string>
+    <string name="WsLocalProxy">Yerel proxy</string>
+    <string name="WsEnableDoh">DoH\'u etkinleştir</string>
+    <string name="MsgDate">Tarih</string>
+    <string name="UpdateNekogram">Nekogram\'ı Güncelleştir</string>
+    <string name="TranslationTarget">Hedef dil</string>
+    <string name="TranslationTargetApp">Uygulamayı takip et</string>
+    <string name="Translator">Çevirmen</string>
+    <string name="ResetLanguage">Dili sıfırla</string>
+    <string name="UseGoogleTranslate">Google\'ı kullan</string>
+    <string name="DeepLFormality">Formalite</string>
+    <string name="DeepLFormalityDefault">Varsayılan</string>
+    <string name="DeepLFormalityMore">Daha fazla</string>
+    <string name="DeepLFormalityLess">Daha az</string>
+    <string name="InvalidCustomEmojiTypeface">Geçersiz yazı tipi dosyası.</string>
+    <string name="AttachWebFile">Web dosyası</string>
+    <string name="WebFileInfo">URL ile dosya gönder</string>
+    <string name="SendWebFile">Web dosyası gönder</string>
+    <string name="SendWebFileInfo">Telegram dosyayı indirip gönderecektir. Fotoğraflar için 5 MB en büyük boyut ve diğer içerik türleri için en fazla 20 MB.</string>
+    <string name="SendWebFileInvalid">Geçersiz dosya, dosyanın gereksinimleri karşıladığınızdan emin olun.</string>
+    <string name="AutoLockInstant">Ani</string>
+    <string name="RestrictionReason">Kısıtlama nedeni</string>
+    <string name="ProviderTencentTranslator">Sayın Çevirmen</string>
+    <string name="ProviderNiuTrans">Niu Trans</string>
+    <string name="MaxRecentStickers">Maksimum son çıkartmalar</string>
 </resources>

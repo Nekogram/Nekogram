@@ -157,4 +157,8 @@
     <string name="SendWebFileInfo">O Telegram fará o download e enviará o arquivo. 5 MB de tamanho máximo para fotos e 20 MB máximo para outros tipos de conteúdo.</string>
     <string name="SendWebFileInvalid">Arquivo inválido, certifique-se de que o arquivo está cumprindo os requisitos.</string>
     <string name="AutoLockInstant">Instantâneo</string>
+    <string name="RestrictionReason">Motivo de restrição</string>
+    <string name="ProviderTencentTranslator">Sr. Tradutor</string>
+    <string name="ProviderNiuTrans">Niu Trans</string>
+    <string name="MaxRecentStickers">Stickers recentes máx</string>
 </resources>

@@ -135,11 +135,29 @@
     <string name="SwipeToPiP">Смахните видео вверх, чтобы открыть картинку в картинке</string>
     <string name="StickerSavedHint">Стикер сохранен в галерею</string>
     <string name="RegistrationDate">Дата регистрации</string>
+    <string name="WsDescription">Подключитесь к Telegram через WebSocket посредством Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">технические детали</a>]]>.</string>
     <string name="WsEnableTls">Включить TLS</string>
     <string name="WsLocalProxy">Локальный прокси</string>
+    <string name="WsEnableDoh">Включить DoH</string>
+    <string name="MsgDate">Дата</string>
+    <string name="UpdateNekogram">Обновить Nekogram</string>
+    <string name="TranslationTarget">Целевой язык</string>
+    <string name="TranslationTargetApp">Системный</string>
     <string name="Translator">Переводчик</string>
     <string name="ResetLanguage">Сбросить язык</string>
     <string name="UseGoogleTranslate">Использовать Google</string>
     <string name="DeepLFormality">Формальный</string>
     <string name="DeepLFormalityDefault">По умолчанию</string>
+    <string name="DeepLFormalityMore">Больше</string>
+    <string name="DeepLFormalityLess">Меньше</string>
+    <string name="InvalidCustomEmojiTypeface">Недопустимый формат шрифта.</string>
+    <string name="AttachWebFile">Web-Файл</string>
+    <string name="WebFileInfo">Отправить файл ссылкой</string>
+    <string name="SendWebFile">Отправить Web-Файл</string>
+    <string name="SendWebFileInfo">Telegram загрузит и отправит файл. Максимальный размер для отправки фотографий - 5 МБ, для других видов файлов - 20 МБ.</string>
+    <string name="SendWebFileInvalid">Недопустимый файл, убедитесь что файл соответствует требованиям.</string>
+    <string name="AutoLockInstant">Мгновенно</string>
+    <string name="RestrictionReason">Причина ограничения</string>
+    <string name="ProviderNiuTrans">Niu Переводчик</string>
+    <string name="MaxRecentStickers">Максимальное количество недавних стикеров</string>
 </resources>
