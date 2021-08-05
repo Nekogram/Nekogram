@@ -799,8 +799,15 @@ public class ActionBar extends FrameLayout {
         }
     }
 
-    public void setActionBarColor(int actionBarColor) {
-        this.actionBarColor = actionBarColor;
+    public void setActionBarOverrideColor(int color, boolean updateLight) {
+        this.actionBarColor = color;
+        if (SharedConfig.noStatusBar && updateLight) {
+            if (AndroidUtilities.computePerceivedBrightness(color) < 0.721f) {
+                AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), false);
+            } else {
+                AndroidUtilities.setLightStatusBar(((Activity) getContext()).getWindow(), true);
+            }
+        }
     }
 
     public boolean isActionModeShowed() {
