@@ -3839,7 +3839,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public void didAddedNewTask(final int minDate, final SparseArray<ArrayList<Long>> mids) {
         Utilities.stageQueue.postRunnable(() -> {
             if (currentDeletingTaskMids == null && !gettingNewDeleteTask || currentDeletingTaskTime != 0 && minDate < currentDeletingTaskTime) {
-                getNewDeleteTask(null, 0);
+                getNewDeleteTask(null, 0, false);
             }
         });
         if (mids != null) {
@@ -3847,10 +3847,10 @@ public class MessagesController extends BaseController implements NotificationCe
         }
     }
 
-    public void getNewDeleteTask(final ArrayList<Integer> oldTask, final int channelId) {
+    public void getNewDeleteTask(final ArrayList<Integer> oldTask, final int channelId, boolean oldMedia) {
         Utilities.stageQueue.postRunnable(() -> {
             gettingNewDeleteTask = true;
-            getMessagesStorage().getNewTask(oldTask, channelId);
+            getMessagesStorage().getNewTask(oldTask, channelId, oldMedia);
         });
     }
 
@@ -3871,7 +3871,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     deleteMessages(mids, null, null, 0, 0, false, false, !mids.isEmpty() && mids.get(0) > 0);
                 }
                 Utilities.stageQueue.postRunnable(() -> {
-                    getNewDeleteTask(mids, currentDeletingTaskChannelId);
+                    getNewDeleteTask(mids, currentDeletingTaskChannelId, currentDeletingTaskMedia);
                     currentDeletingTaskTime = 0;
                     currentDeletingTaskMids = null;
                     currentDeletingTaskMedia = false;
@@ -5199,10 +5199,18 @@ public class MessagesController extends BaseController implements NotificationCe
             if (info != null) {
                 if (fullUsers.get(user.id) == null) {
                     fullUsers.put(user.id, info);
+
+                    int index = blockePeers.indexOfKey(user.id);
                     if (info.blocked) {
-                        blockePeers.put(user.id, 1);
+                        if (index < 0) {
+                            blockePeers.put(user.id, 1);
+                            getNotificationCenter().postNotificationName(NotificationCenter.blockedUsersDidLoad);
+                        }
                     } else {
-                        blockePeers.delete(user.id);
+                        if (index >= 0) {
+                            blockePeers.removeAt(index);
+                            getNotificationCenter().postNotificationName(NotificationCenter.blockedUsersDidLoad);
+                        }
                     }
                 }
                 getNotificationCenter().postNotificationName(NotificationCenter.userInfoDidLoad, user.id, info);
@@ -7477,7 +7485,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public void processLoadedDialogs(final TLRPC.messages_Dialogs dialogsRes, final ArrayList<TLRPC.EncryptedChat> encChats, final int folderId, final int offset, final int count, final int loadType, final boolean resetEnd, final boolean migrate, final boolean fromCache) {
         Utilities.stageQueue.postRunnable(() -> {
             if (!firstGettingTask) {
-                getNewDeleteTask(null, 0);
+                getNewDeleteTask(null, 0, false);
                 firstGettingTask = true;
             }
 

@@ -57,7 +57,6 @@ import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.URLSpan;
-import android.util.Log;
 import android.util.LongSparseArray;
 import android.util.Property;
 import android.util.SparseArray;
@@ -6816,28 +6815,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         replyLayout.setOnClickListener(v -> {
             if (forwardingMessages != null && !forwardingMessages.isEmpty()) {
-                int hasPoll = 0;
-                boolean hasInvoice = false;
-                for (int a = 0, N = forwardingMessages.size(); a < N; a++) {
-                    MessageObject messageObject = forwardingMessages.get(a);
-                    if (messageObject.isPoll()) {
-                        if (hasPoll != 2) {
-                            hasPoll = messageObject.isPublicPoll() ? 2 : 1;
-                        }
-                    } else if (messageObject.isInvoice()) {
-                        hasInvoice = true;
-                    }
-                    selectedMessagesIds[0].put(messageObject.getId(), messageObject);
-                }
-                Bundle args = new Bundle();
-                args.putBoolean("onlySelect", true);
-                args.putInt("dialogsType", 3);
-                args.putInt("hasPoll", hasPoll);
-                args.putBoolean("hasInvoice", hasInvoice);
-                args.putInt("messagesCount", forwardingMessages.size());
-                DialogsActivity fragment = new DialogsActivity(args);
-                fragment.setDelegate(ChatActivity.this);
-                presentFragment(fragment);
+                openAnotherForward();
             } else if (replyingMessageObject != null && (!isThreadChat() || replyingMessageObject.getId() != threadMessageId)) {
                 scrollToMessageId(replyingMessageObject.getId(), 0, true, 0, true, 0);
             } else if (editingMessageObject != null) {
@@ -6882,28 +6860,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 });
                 builder.setNegativeButton(LocaleController.getString("SelectOtherChat", R.string.SelectOtherChat), (dialogInterface, i) -> {
                     if (forwardingMessages != null && !forwardingMessages.isEmpty()) {
-                        int hasPoll = 0;
-                        boolean hasInvoice = false;
-                        for (int a = 0, N = forwardingMessages.size(); a < N; a++) {
-                            MessageObject messageObject = forwardingMessages.get(a);
-                            if (messageObject.isPoll()) {
-                                if (hasPoll != 2) {
-                                    hasPoll = messageObject.isPublicPoll() ? 2 : 1;
-                                }
-                            } else if (messageObject.isInvoice()) {
-                                hasInvoice = true;
-                            }
-                            selectedMessagesIds[0].put(messageObject.getId(), messageObject);
-                        }
-                        Bundle args = new Bundle();
-                        args.putBoolean("onlySelect", true);
-                        args.putInt("dialogsType", 3);
-                        args.putInt("hasPoll", hasPoll);
-                        args.putBoolean("hasInvoice", hasInvoice);
-                        args.putInt("messagesCount", forwardingMessages.size());
-                        DialogsActivity fragment = new DialogsActivity(args);
-                        fragment.setDelegate(ChatActivity.this);
-                        presentFragment(fragment);
+                        openAnotherForward();
                     }
                 });
                 builder.show();
@@ -7753,6 +7710,31 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 invalidateChatListViewTopPadding();
             }
         }
+    }
+
+    private void openAnotherForward() {
+        int hasPoll = 0;
+        boolean hasInvoice = false;
+        for (int a = 0, N = forwardingMessages.size(); a < N; a++) {
+            MessageObject messageObject = forwardingMessages.get(a);
+            if (messageObject.isPoll()) {
+                if (hasPoll != 2) {
+                    hasPoll = messageObject.isPublicPoll() ? 2 : 1;
+                }
+            } else if (messageObject.isInvoice()) {
+                hasInvoice = true;
+            }
+            selectedMessagesIds[0].put(messageObject.getId(), messageObject);
+        }
+        Bundle args = new Bundle();
+        args.putBoolean("onlySelect", true);
+        args.putInt("dialogsType", 3);
+        args.putInt("hasPoll", hasPoll);
+        args.putBoolean("hasInvoice", hasInvoice);
+        args.putInt("messagesCount", forwardingMessages.size());
+        DialogsActivity fragment = new DialogsActivity(args);
+        fragment.setDelegate(ChatActivity.this);
+        presentFragment(fragment);
     }
 
     private void openPinnedMessagesList(boolean preview) {
@@ -10395,7 +10377,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             replyObjectTextView.setLayoutParams(layoutParams2);
             chatActivityEnterView.showTopView(true, openKeyboard);
         } else {
-            if (replyingMessageObject == null && forwardingMessages == null && foundWebPage == null && editingMessageObject == null) {
+            if (replyingMessageObject == null && forwardingMessages == null && foundWebPage == null && editingMessageObject == null && !chatActivityEnterView.isTopViewVisible()) {
                 return;
             }
             if (replyingMessageObject != null && replyingMessageObject.messageOwner.reply_markup instanceof TLRPC.TL_replyKeyboardForceReply) {
@@ -20895,6 +20877,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         if (dids.size() > 1 || dids.get(0) == getUserConfig().getClientUserId() || message != null) {
+            forwardingMessages = null;
             hideFieldPanel(false);
             for (int a = 0; a < dids.size(); a++) {
                 long did = dids.get(a);
@@ -22691,31 +22674,30 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             cell.invalidate();
                             SecretMediaViewer.getInstance().setParentActivity(getParentActivity());
                             SecretMediaViewer.getInstance().openMedia(message, photoViewerProvider, action);
+                        } else if (message.getInputStickerSet() != null) {
+                            StickersAlert alert = new StickersAlert(getParentActivity(), ChatActivity.this, message.getInputStickerSet(), null, bottomOverlayChat.getVisibility() != View.VISIBLE && (currentChat == null || ChatObject.canSendStickers(currentChat)) ? chatActivityEnterView : null);
+                            alert.setCalcMandatoryInsets(isKeyboardVisible());
+                            showDialog(alert);
                         } else if (message.type == MessageObject.TYPE_STICKER || message.type == MessageObject.TYPE_ANIMATED_STICKER) {
                             // In case we have a .webp file that is displayed as a sticker, but
                             // that doesn't fit in 512x512, we assume it may be a regular large
                             // .webp image and we allow to open it in media viewer.
                             // Inspired by https://github.com/telegramdesktop/tdesktop/commit/baccec623d45dbfd1132d5f808192f0f3ad87647
-                            if (message.getInputStickerSet() == null) {
-                                int photoHeight = 0;
-                                int photoWidth = 0;
-                                TLRPC.Document document = message.getDocument();
-                                for (int a = 0, N = document.attributes.size(); a < N; a++) {
-                                    TLRPC.DocumentAttribute attribute = document.attributes.get(a);
-                                    if (attribute instanceof TLRPC.TL_documentAttributeImageSize) {
-                                        photoWidth = attribute.w;
-                                        photoHeight = attribute.h;
-                                        break;
-                                    }
+                            int photoHeight = 0;
+                            int photoWidth = 0;
+                            TLRPC.Document document = message.getDocument();
+                            for (int a = 0, N = document.attributes.size(); a < N; a++) {
+                                TLRPC.DocumentAttribute attribute = document.attributes.get(a);
+                                if (attribute instanceof TLRPC.TL_documentAttributeImageSize) {
+                                    photoWidth = attribute.w;
+                                    photoHeight = attribute.h;
+                                    break;
                                 }
-                                if (photoWidth > 512 || photoHeight > 512) {
-                                    openPhotoViewerForMessage(cell, message);
-                                }
-                                return;
                             }
-                            StickersAlert alert = new StickersAlert(getParentActivity(), ChatActivity.this, message.getInputStickerSet(), null, bottomOverlayChat.getVisibility() != View.VISIBLE && (currentChat == null || ChatObject.canSendStickers(currentChat)) ? chatActivityEnterView : null);
-                            alert.setCalcMandatoryInsets(isKeyboardVisible());
-                            showDialog(alert);
+                            if (photoWidth > 512 || photoHeight > 512) {
+                                openPhotoViewerForMessage(cell, message);
+                            }
+                            return;
                         } else if (message.isVideo() || message.type == 1 || message.type == 0 && !message.isWebpageDocument() || message.isGif()) {
                             openPhotoViewerForMessage(cell, message);
                         } else if (message.type == 3) {

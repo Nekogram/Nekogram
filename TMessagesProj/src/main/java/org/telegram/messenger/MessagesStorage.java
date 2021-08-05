@@ -93,7 +93,7 @@ public class MessagesStorage extends BaseController {
     private CountDownLatch openSync = new CountDownLatch(1);
 
     private static volatile MessagesStorage[] Instance = new MessagesStorage[UserConfig.MAX_ACCOUNT_COUNT];
-    private final static int LAST_DB_VERSION = 79;
+    private final static int LAST_DB_VERSION = 80;
 
     public static MessagesStorage getInstance(int num) {
         MessagesStorage localInstance = Instance[num];
@@ -323,8 +323,8 @@ public class MessagesStorage extends BaseController {
                 database.executeFast("CREATE TABLE randoms(random_id INTEGER, mid INTEGER, PRIMARY KEY (random_id, mid))").stepThis().dispose();
                 database.executeFast("CREATE INDEX IF NOT EXISTS mid_idx_randoms ON randoms(mid);").stepThis().dispose();
 
-                database.executeFast("CREATE TABLE enc_tasks_v2(mid INTEGER PRIMARY KEY, date INTEGER, media INTEGER)").stepThis().dispose();
-                database.executeFast("CREATE INDEX IF NOT EXISTS date_idx_enc_tasks_v2 ON enc_tasks_v2(date);").stepThis().dispose();
+                database.executeFast("CREATE TABLE enc_tasks_v3(mid INTEGER, date INTEGER, media INTEGER, PRIMARY KEY(mid, media))").stepThis().dispose();
+                database.executeFast("CREATE INDEX IF NOT EXISTS date_idx_enc_tasks_v3 ON enc_tasks_v3(date);").stepThis().dispose();
 
                 database.executeFast("CREATE TABLE messages_seq(mid INTEGER PRIMARY KEY, seq_in INTEGER, seq_out INTEGER);").stepThis().dispose();
                 database.executeFast("CREATE INDEX IF NOT EXISTS seq_idx_messages_seq ON messages_seq(seq_in, seq_out);").stepThis().dispose();
@@ -964,6 +964,34 @@ public class MessagesStorage extends BaseController {
                     version = 79;
                 }
                 if (version == 79) {
+                    database.executeFast("CREATE TABLE IF NOT EXISTS enc_tasks_v3(mid INTEGER, date INTEGER, media INTEGER, PRIMARY KEY(mid, media))").stepThis().dispose();
+                    database.executeFast("CREATE INDEX IF NOT EXISTS date_idx_enc_tasks_v3 ON enc_tasks_v3(date);").stepThis().dispose();
+
+                    database.beginTransaction();
+                    SQLiteCursor cursor = database.queryFinalized("SELECT mid, date, media FROM enc_tasks_v2 WHERE 1");
+                    SQLitePreparedStatement state = database.executeFast("REPLACE INTO enc_tasks_v3 VALUES(?, ?, ?)");
+                    if (cursor.next()) {
+                        long mid = cursor.longValue(0);
+                        int date = cursor.intValue(1);
+                        int media = cursor.intValue(2);
+
+                        state.requery();
+                        state.bindLong(1, mid);
+                        state.bindInteger(2, date);
+                        state.bindInteger(3, media);
+                        state.step();
+                    }
+                    state.dispose();
+                    cursor.dispose();
+                    database.commitTransaction();
+
+                    database.executeFast("DROP INDEX IF EXISTS date_idx_enc_tasks_v2;").stepThis().dispose();
+                    database.executeFast("DROP TABLE IF EXISTS enc_tasks_v2;").stepThis().dispose();
+
+                    database.executeFast("PRAGMA user_version = 80").stepThis().dispose();
+                    version = 80;
+                }
+                if (version == 80) {
 
                 }
             } catch (Exception e) {
@@ -3655,7 +3683,7 @@ public class MessagesStorage extends BaseController {
         });
     }
 
-    public void getNewTask(final ArrayList<Integer> oldTask, final int channelId) {
+    public void getNewTask(final ArrayList<Integer> oldTask, final int channelId, boolean isMediaTask) {
         storageQueue.postRunnable(() -> {
             try {
                 if (oldTask != null) {
@@ -3674,13 +3702,17 @@ public class MessagesStorage extends BaseController {
                     } else {
                         ids = TextUtils.join(",", oldTask);
                     }
-                    database.executeFast(String.format(Locale.US, "DELETE FROM enc_tasks_v2 WHERE mid IN(%s)", ids)).stepThis().dispose();
+                    if (isMediaTask) {
+                        database.executeFast(String.format(Locale.US, "DELETE FROM enc_tasks_v3 WHERE mid IN(%s) AND media = 1", ids)).stepThis().dispose();
+                    } else {
+                        database.executeFast(String.format(Locale.US, "DELETE FROM enc_tasks_v3 WHERE mid IN(%s) AND media = 0", ids)).stepThis().dispose();
+                    }
                 }
                 int date = 0;
                 int channelId1 = -1;
-                boolean media = false;
+                Boolean media = null;
                 ArrayList<Integer> arr = null;
-                SQLiteCursor cursor = database.queryFinalized("SELECT mid, date, media FROM enc_tasks_v2 WHERE date = (SELECT min(date) FROM enc_tasks_v2)");
+                SQLiteCursor cursor = database.queryFinalized("SELECT mid, date, media FROM enc_tasks_v3 WHERE date = (SELECT min(date) FROM enc_tasks_v3)");
                 while (cursor.next()) {
                     long mid = cursor.longValue(0);
                     if (channelId1 == -1) {
@@ -3694,13 +3726,19 @@ public class MessagesStorage extends BaseController {
                         arr = new ArrayList<>();
                     }
                     int m = (int) mid;
-                    arr.add(m);
+                    boolean newMedia;
                     int isMedia = cursor.intValue(2);
                     if (isMedia == -1) {
-                        media = m > 0;
+                        newMedia = m > 0;
                     } else {
-                        media = isMedia != 0;
+                        newMedia = isMedia != 0;
                     }
+                    if (media == null) {
+                        media = newMedia;
+                    } else if (media != newMedia) {
+                        continue;
+                    }
+                    arr.add(m);
                 }
                 cursor.dispose();
                 getMessagesController().processLoadedDeleteTask(date, arr, media, channelId1);
@@ -3797,7 +3835,7 @@ public class MessagesStorage extends BaseController {
                     getNotificationCenter().postNotificationName(NotificationCenter.messagesReadContent, midsArray);
                 });
 
-                SQLitePreparedStatement state = database.executeFast("REPLACE INTO enc_tasks_v2 VALUES(?, ?, ?)");
+                SQLitePreparedStatement state = database.executeFast("REPLACE INTO enc_tasks_v3 VALUES(?, ?, ?)");
                 for (int a = 0; a < messages.size(); a++) {
                     int key = messages.keyAt(a);
                     ArrayList<Long> arr = messages.get(key);
@@ -3865,7 +3903,7 @@ public class MessagesStorage extends BaseController {
 
                 if (messages.size() != 0) {
                     database.beginTransaction();
-                    SQLitePreparedStatement state = database.executeFast("REPLACE INTO enc_tasks_v2 VALUES(?, ?, ?)");
+                    SQLitePreparedStatement state = database.executeFast("REPLACE INTO enc_tasks_v3 VALUES(?, ?, ?)");
                     for (int a = 0; a < messages.size(); a++) {
                         int key = messages.keyAt(a);
                         ArrayList<Long> arr = messages.get(key);
@@ -6718,7 +6756,7 @@ public class MessagesStorage extends BaseController {
                             }
                             if (MessageObject.isSecretMedia(message)) {
                                 try {
-                                    SQLiteCursor cursor2 = database.queryFinalized(String.format(Locale.US, "SELECT date FROM enc_tasks_v2 WHERE mid = %d", message.id));
+                                    SQLiteCursor cursor2 = database.queryFinalized(String.format(Locale.US, "SELECT date FROM enc_tasks_v3 WHERE mid = %d", message.id));
                                     if (cursor2.next()) {
                                         message.destroyTime = cursor2.intValue(0);
                                     }
@@ -8675,7 +8713,7 @@ public class MessagesStorage extends BaseController {
 
                     if (message.ttl_period != 0 && message.id > 0) {
                         if (state_tasks == null) {
-                            state_tasks = database.executeFast("REPLACE INTO enc_tasks_v2 VALUES(?, ?, ?)");
+                            state_tasks = database.executeFast("REPLACE INTO enc_tasks_v3 VALUES(?, ?, ?)");
                         }
                         state_tasks.requery();
                         state_tasks.bindLong(1, messageId);
@@ -10496,7 +10534,7 @@ public class MessagesStorage extends BaseController {
 
                         if (message.ttl_period != 0 && message.id > 0) {
                             if (state_tasks == null) {
-                                state_tasks = database.executeFast("REPLACE INTO enc_tasks_v2 VALUES(?, ?, ?)");
+                                state_tasks = database.executeFast("REPLACE INTO enc_tasks_v3 VALUES(?, ?, ?)");
                             }
                             state_tasks.requery();
                             state_tasks.bindLong(1, messageId);
@@ -11112,7 +11150,7 @@ public class MessagesStorage extends BaseController {
 
                         if (message.ttl_period != 0 && message.id > 0) {
                             if (state_tasks == null) {
-                                state_tasks = database.executeFast("REPLACE INTO enc_tasks_v2 VALUES(?, ?, ?)");
+                                state_tasks = database.executeFast("REPLACE INTO enc_tasks_v3 VALUES(?, ?, ?)");
                             }
                             state_tasks.requery();
                             state_tasks.bindLong(1, messageId);

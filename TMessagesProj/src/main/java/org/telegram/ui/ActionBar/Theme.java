@@ -32,7 +32,6 @@ import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.PorterDuffXfermode;
-import android.graphics.RadialGradient;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Shader;
@@ -123,7 +122,6 @@ import java.util.concurrent.CountDownLatch;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
-import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 
 import tw.nekomimi.nekogram.NekoConfig;
@@ -7406,7 +7404,7 @@ public class Theme {
         }
     }
 
-    public static void createCommonChatResources() {
+    public static void createCommonMessageResources() {
         synchronized (sync) {
             if (chat_msgTextPaint == null) {
                 chat_msgTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
@@ -7425,6 +7423,10 @@ public class Theme {
             chat_msgGameTextPaint.setTextSize(AndroidUtilities.dp(14));
             chat_msgBotButtonPaint.setTextSize(AndroidUtilities.dp(15));
         }
+    }
+
+    public static void createCommonChatResources() {
+        createCommonMessageResources();
 
         if (chat_infoPaint == null) {
             chat_infoPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
@@ -7497,17 +7499,10 @@ public class Theme {
             chat_composeBackgroundPaint = new Paint();
             chat_radialProgressPausedPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             chat_radialProgressPausedSeekbarPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        }
-        if (chat_actionBackgroundPaint == null) {
+
             chat_actionBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        }
-        if (chat_actionBackgroundSelectedPaint == null) {
             chat_actionBackgroundSelectedPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        }
-        if (chat_actionBackgroundPaint2 == null) {
             chat_actionBackgroundPaint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
-        }
-        if (chat_actionBackgroundSelectedPaint2 == null) {
             chat_actionBackgroundSelectedPaint2 = new Paint(Paint.ANTI_ALIAS_FLAG);
         }
     }
