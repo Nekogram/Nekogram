@@ -2,9 +2,11 @@ package tw.nekomimi.nekogram;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -166,11 +168,24 @@ public class NekoConfig {
     }
 
     private static void determineInstalledFromPlay() {
-        ApplicationInfo applicationInfo = ApplicationLoader.applicationContext.getApplicationInfo();
-        Bundle meta = applicationInfo.metaData;
-        if (meta != null && meta.containsKey("tw.nekomimi.nekogram.referer")) {
-            installedFromPlay = meta.getString("tw.nekomimi.nekogram.referer").equals("nekogram.bundle");
+        Context context = ApplicationLoader.applicationContext;
+        ApplicationInfo applicationInfo;
+        try {
+            applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+        } catch (Exception e) {
+            installedFromPlay = true;
+            return;
         }
+        if (applicationInfo == null) {
+            installedFromPlay = true;
+            return;
+        }
+        Bundle meta = applicationInfo.metaData;
+        if (meta == null || !meta.containsKey("tw.nekomimi.nekogram.referer")) {
+            installedFromPlay = true;
+            return;
+        }
+        installedFromPlay = meta.getString("tw.nekomimi.nekogram.referer").equals("nekogram.bundle");
     }
 
     public static void loadConfig() {
