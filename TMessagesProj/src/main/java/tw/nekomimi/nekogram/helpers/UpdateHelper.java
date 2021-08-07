@@ -21,6 +21,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 
+import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class UpdateHelper {
@@ -244,7 +245,7 @@ public class UpdateHelper {
     public void checkNewVersionAvailable(UpdateHelperDelegate delegate, boolean forceRefreshAccessHash) {
         TLRPC.TL_contacts_resolveUsername req1 = new TLRPC.TL_contacts_resolveUsername();
         int dialog_id = -1232424156;
-        req1.username = "n3e5bd600e33db09e6af702425c50335";
+        req1.username = Extra.getString("neko.update_channel");
         TLRPC.TL_messages_search req = new TLRPC.TL_messages_search();
         req.limit = 10;
         req.offset_id = 0;

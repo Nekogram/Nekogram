@@ -15,6 +15,7 @@ public class Extra {
         map.put("tencent.SecretId", data.readString(false));
         map.put("tencent.SecretKey", data.readString(false));
         map.put("lingo.token", data.readString(false));
+        map.put("neko.update_channel", data.readString(false));
         data.cleanup();
     }
 
