@@ -6,15 +6,9 @@ import android.util.Base64;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -105,48 +99,11 @@ public class TencentTranslator extends BaseTranslator {
             hashMap.put("Target", tl);
             hashMap.put("ProjectId", "0");
             hashMap.put("Signature", sign("POSTtmt.tencentcloudapi.com/?" + buildQuery(hashMap, true)));
-            return request(buildQuery(hashMap, false));
-        }
-
-        private static String request(String param) throws IOException {
-            ByteArrayOutputStream outbuf;
-            InputStream httpConnectionStream;
-            URL downloadUrl = new URL("https://tmt.tencentcloudapi.com");
-            HttpURLConnection httpConnection = (HttpURLConnection) downloadUrl.openConnection();
-            httpConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-            httpConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (Linux; U; Android 11; zh-cn; Redmi K20 Pro Build/RQ3A.210705.001) AppleWebKit/533.1 (KHTML, like Gecko) Mobile Safari/533.1");
-            httpConnection.setConnectTimeout(1000);
-            //httpConnection.setReadTimeout(2000);
-            httpConnection.setRequestMethod("POST");
-            httpConnection.setDoOutput(true);
-            DataOutputStream dataOutputStream = new DataOutputStream(httpConnection.getOutputStream());
-            byte[] t = param.getBytes(Charset.defaultCharset());
-            dataOutputStream.write(t);
-            dataOutputStream.flush();
-            dataOutputStream.close();
-            httpConnection.connect();
-            if (httpConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-                httpConnectionStream = httpConnection.getErrorStream();
-            } else {
-                httpConnectionStream = httpConnection.getInputStream();
-            }
-            outbuf = new ByteArrayOutputStream();
-
-            byte[] data = new byte[1024 * 32];
-            while (true) {
-                int read = httpConnectionStream.read(data);
-                if (read > 0) {
-                    outbuf.write(data, 0, read);
-                } else if (read == -1) {
-                    break;
-                } else {
-                    break;
-                }
-            }
-            String result = outbuf.toString();
-            httpConnectionStream.close();
-            outbuf.close();
-            return result;
+            return new Http("https://tmt.tencentcloudapi.com")
+                    .header("Content-Type", "application/json; charset=UTF-8")
+                    .header("User-Agent", "Mozilla/5.0 (Linux; U; Android 11; zh-cn; Redmi K20 Pro Build/RQ3A.210705.001) AppleWebKit/533.1 (KHTML, like Gecko) Mobile Safari/533.1")
+                    .data(buildQuery(hashMap, false))
+                    .request();
         }
     }
 }

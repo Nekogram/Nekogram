@@ -5,11 +5,7 @@ import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
@@ -65,7 +61,9 @@ public class NiuTranslator extends BaseTranslator {
                 "&to=" + tl +
                 "&src_text=" + URLEncoder.encode(query, "UTF-8") +
                 "&source=text&dictNo=&memoryNo=&isUseDict=0&isUseMemory=0&time=" + System.currentTimeMillis();
-        String response = request(url);
+        String response = new Http(url)
+                .header("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1")
+                .request();
         if (TextUtils.isEmpty(response)) {
             return null;
         }
@@ -104,35 +102,5 @@ public class NiuTranslator extends BaseTranslator {
             code = languageLowerCase;
         }
         return code;
-    }
-
-    private String request(String url) throws IOException {
-        ByteArrayOutputStream outbuf;
-        InputStream httpConnectionStream;
-        URL downloadUrl = new URL(url);
-        URLConnection httpConnection = downloadUrl.openConnection();
-        httpConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1");
-        httpConnection.setConnectTimeout(1000);
-        //httpConnection.setReadTimeout(2000);
-        httpConnection.connect();
-        httpConnectionStream = httpConnection.getInputStream();
-
-        outbuf = new ByteArrayOutputStream();
-
-        byte[] data = new byte[1024 * 32];
-        while (true) {
-            int read = httpConnectionStream.read(data);
-            if (read > 0) {
-                outbuf.write(data, 0, read);
-            } else if (read == -1) {
-                break;
-            } else {
-                break;
-            }
-        }
-        String result = outbuf.toString();
-        httpConnectionStream.close();
-        outbuf.close();
-        return result;
     }
 }

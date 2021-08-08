@@ -6,11 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
@@ -55,7 +51,9 @@ public class GoogleAppTranslator extends BaseTranslator {
                 "&sl=auto" +
                 "&tl=" + tl +
                 "&ie=UTF-8&oe=UTF-8&client=at&dt=t&otf=2";
-        String response = request(url);
+        String response = new Http(url)
+                .header("User-Agent", "GoogleTranslate/6.21.0.03.386984393 (Linux; U; Android 11; Redmi K20 Pro)")
+                .request();
         if (TextUtils.isEmpty(response)) {
             return null;
         }
@@ -102,38 +100,10 @@ public class GoogleAppTranslator extends BaseTranslator {
     }
 
     private void checkRegion() throws IOException, JSONException {
-        String response = request("https://regioninfo-pa.googleapis.com/v1/RegionInfo?key=AIzaSyBxK5bTqqtWtRBL8pef259_5A_aXo0lZCY");
+        String response = new Http("https://regioninfo-pa.googleapis.com/v1/RegionInfo?key=AIzaSyBxK5bTqqtWtRBL8pef259_5A_aXo0lZCY")
+                .header("User-Agent", "com.google.android.apps.translate/69510893 (Linux; U; Android 11; zh_CN; Redmi K20 Pro; Build/RQ3A.210705.001; Cronet/93.0.4572.0)")
+                .request();
         JSONObject json = new JSONObject(response);
         vipRegion = json.getString("vipRegion");
-    }
-
-    private String request(String url) throws IOException {
-        ByteArrayOutputStream outbuf;
-        InputStream httpConnectionStream;
-        URL downloadUrl = new URL(url);
-        URLConnection httpConnection = downloadUrl.openConnection();
-        httpConnection.addRequestProperty("User-Agent", "GoogleTranslate/6.18.0.06.376053713 (Linux; U; Android 11; Redmi K20 Pro)");
-        httpConnection.setConnectTimeout(1000);
-        //httpConnection.setReadTimeout(2000);
-        httpConnection.connect();
-        httpConnectionStream = httpConnection.getInputStream();
-
-        outbuf = new ByteArrayOutputStream();
-
-        byte[] data = new byte[1024 * 32];
-        while (true) {
-            int read = httpConnectionStream.read(data);
-            if (read > 0) {
-                outbuf.write(data, 0, read);
-            } else if (read == -1) {
-                break;
-            } else {
-                break;
-            }
-        }
-        String result = outbuf.toString();
-        httpConnectionStream.close();
-        outbuf.close();
-        return result;
     }
 }

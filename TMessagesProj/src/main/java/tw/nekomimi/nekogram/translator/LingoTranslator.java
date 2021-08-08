@@ -5,13 +5,7 @@ import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.List;
 
@@ -45,7 +39,12 @@ public class LingoTranslator extends BaseTranslator {
         jsonObject.put("trans_type", "auto2" + tl);
         jsonObject.put("request_id", String.valueOf(System.currentTimeMillis()));
         jsonObject.put("detect", true);
-        String response = request(jsonObject.toString());
+        String response = new Http("https://api.interpreter.caiyunai.com/v1/translator")
+                .header("Content-Type", "application/json; charset=UTF-8")
+                .header("X-Authorization", "token " + Extra.getString("lingo.token"))
+                .header("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1")
+                .data(jsonObject.toString())
+                .request();
         if (TextUtils.isEmpty(response)) {
             return null;
         }
@@ -54,47 +53,5 @@ public class LingoTranslator extends BaseTranslator {
             throw new IOException(jsonObject.getString("error"));
         }
         return jsonObject.getString("target");
-    }
-
-    private String request(String param) throws IOException {
-        ByteArrayOutputStream outbuf;
-        InputStream httpConnectionStream;
-        URL downloadUrl = new URL("https://api.interpreter.caiyunai.com/v1/translator");
-        HttpURLConnection httpConnection = (HttpURLConnection) downloadUrl.openConnection();
-        httpConnection.setRequestProperty("Content-Type", "application/json; charset=UTF-8");
-        httpConnection.addRequestProperty("X-Authorization", "token " + Extra.getString("lingo.token"));
-        httpConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1");
-        httpConnection.setConnectTimeout(1000);
-        //httpConnection.setReadTimeout(2000);
-        httpConnection.setRequestMethod("POST");
-        httpConnection.setDoOutput(true);
-        DataOutputStream dataOutputStream = new DataOutputStream(httpConnection.getOutputStream());
-        byte[] t = param.getBytes(Charset.defaultCharset());
-        dataOutputStream.write(t);
-        dataOutputStream.flush();
-        dataOutputStream.close();
-        httpConnection.connect();
-        if (httpConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-            httpConnectionStream = httpConnection.getErrorStream();
-        } else {
-            httpConnectionStream = httpConnection.getInputStream();
-        }
-        outbuf = new ByteArrayOutputStream();
-
-        byte[] data = new byte[1024 * 32];
-        while (true) {
-            int read = httpConnectionStream.read(data);
-            if (read > 0) {
-                outbuf.write(data, 0, read);
-            } else if (read == -1) {
-                break;
-            } else {
-                break;
-            }
-        }
-        String result = outbuf.toString();
-        httpConnectionStream.close();
-        outbuf.close();
-        return result;
     }
 }

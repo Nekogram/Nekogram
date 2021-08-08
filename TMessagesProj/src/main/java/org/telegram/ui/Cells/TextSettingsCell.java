@@ -140,7 +140,7 @@ public class TextSettingsCell extends FrameLayout {
         setWillNotDraw(!divider);
     }
 
-    public void setTextAndValue(String text, String value, boolean divider) {
+    public void setTextAndValue(String text, CharSequence value, boolean divider) {
         textView.setText(text);
         valueImageView.setVisibility(INVISIBLE);
         if (value != null) {

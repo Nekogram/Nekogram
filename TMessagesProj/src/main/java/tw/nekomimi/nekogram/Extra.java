@@ -16,6 +16,7 @@ public class Extra {
         map.put("tencent.SecretKey", data.readString(false));
         map.put("lingo.token", data.readString(false));
         map.put("neko.update_channel", data.readString(false));
+        map.put("microsoft.SecretKey", data.readByteArray(false));
         data.cleanup();
     }
 
@@ -24,6 +25,14 @@ public class Extra {
             return (String) map.get(key);
         } else {
             return "";
+        }
+    }
+
+    public static byte[] getByteArray(String key) {
+        if (map.containsKey(key)) {
+            return (byte[]) map.get(key);
+        } else {
+            return new byte[0];
         }
     }
 }

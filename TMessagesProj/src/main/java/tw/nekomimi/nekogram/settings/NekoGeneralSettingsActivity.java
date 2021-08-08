@@ -562,12 +562,16 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         }
                     } else if (position == translationTargetRow) {
                         String language = NekoConfig.translationTarget;
-                        String value;
+                        CharSequence value;
                         if (language.equals("app")) {
                             value = LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp);
                         } else {
                             Locale locale = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? Locale.forLanguageTag(language) : new Locale(language);
-                            value = locale.getDisplayName();
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !TextUtils.isEmpty(locale.getScript())) {
+                                value = HtmlCompat.fromHtml(locale.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY);
+                            } else {
+                                value = locale.getDisplayName();
+                            }
                         }
                         textCell.setTextAndValue(LocaleController.getString("TranslationTarget", R.string.TranslationTarget), value, position + 1 != translator2Row);
                     } else if (position == deepLFormalityRow) {

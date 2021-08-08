@@ -1,22 +1,28 @@
 package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
+import android.util.Base64;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.telegram.messenger.FileLog;
 
-import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.nio.charset.Charset;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
+import java.util.TimeZone;
+import java.util.UUID;
+
+import javax.crypto.Mac;
+import javax.crypto.spec.SecretKeySpec;
+
+import tw.nekomimi.nekogram.Extra;
 
 public class MicrosoftTranslator extends BaseTranslator {
 
@@ -29,7 +35,6 @@ public class MicrosoftTranslator extends BaseTranslator {
             "sr-Latn", "sr-Cyrl", "sk", "sl", "sw", "ty", "te", "ta", "th", "to", "tr", "cy",
             "ur", "uk", "es", "he", "el", "hu", "hy", "it", "hi", "id", "en", "yua", "yue",
             "vi", "am", "as", "prs", "fr-CA", "iu", "km", "tlh-Latn", "ku", "kmr", "lo", "my", "ps", "ti");
-    private boolean useCN = false;
 
     static MicrosoftTranslator getInstance() {
         if (instance == null) {
@@ -79,63 +84,56 @@ public class MicrosoftTranslator extends BaseTranslator {
         } else if (tl.equals("zh-TW")) {
             tl = "zh-hant";
         }
-        String param = "fromLang=auto-detect&text=" + URLEncoder.encode(query, "UTF-8") +
-                "&to=" + tl;
-        String response = request(param);
+        String response = Cognitive.translate(query, tl);
         if (TextUtils.isEmpty(response)) {
             return null;
         }
-        JSONObject jsonObject = new JSONArray(response).getJSONObject(0);
-        if (!jsonObject.has("translations")) {
-            throw new IOException(response);
+        JSONObject jsonObject;
+        try {
+            jsonObject = new JSONArray(response).getJSONObject(0);
+        } catch (JSONException e) {
+            jsonObject = new JSONObject(response);
+        }
+        if (!jsonObject.has("translations") && jsonObject.has("message")) {
+            throw new IOException(jsonObject.getString("message"));
         }
         JSONArray array = jsonObject.getJSONArray("translations");
         return array.getJSONObject(0).getString("text");
     }
 
-    private String request(String param) throws IOException {
-        ByteArrayOutputStream outbuf;
-        InputStream httpConnectionStream;
-        URL downloadUrl = new URL("https://" + (useCN ? "cn" : "www") + ".bing.com/ttranslatev3");
-        HttpURLConnection httpConnection = (HttpURLConnection) downloadUrl.openConnection();
-        httpConnection.addRequestProperty("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1");
-        httpConnection.setConnectTimeout(1000);
-        //httpConnection.setReadTimeout(2000);
-        httpConnection.setRequestMethod("POST");
-        httpConnection.setDoOutput(true);
-        httpConnection.setInstanceFollowRedirects(false);
-        DataOutputStream dataOutputStream = new DataOutputStream(httpConnection.getOutputStream());
-        byte[] t = param.getBytes(Charset.defaultCharset());
-        dataOutputStream.write(t);
-        dataOutputStream.flush();
-        dataOutputStream.close();
-        httpConnection.connect();
-        if (httpConnection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-            if (httpConnection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP) {
-                useCN = !useCN;
-                FileLog.e("Move to " + (useCN ? "cn" : "www"));
-                return request(param);
+    private static class Cognitive {
+        private static String sign(String url) {
+            String uuid = UUID.randomUUID().toString().replaceAll("-", "");
+            try {
+                String encode = URLEncoder.encode(url, "UTF-8");
+                String time = formatTime();
+                byte[] bytes = String.format("%s%s%s%s", "MSTranslatorAndroidApp", encode, time, uuid).toLowerCase().getBytes(Charset.defaultCharset());
+                SecretKeySpec secretKeySpec = new SecretKeySpec(Extra.getByteArray("microsoft.SecretKey"), "HmacSHA256");
+                Mac instance = Mac.getInstance("HmacSHA256");
+                instance.init(secretKeySpec);
+                return String.format("%s::%s::%s::%s", "MSTranslatorAndroidApp", Base64.encodeToString(instance.doFinal(bytes), 2), time, uuid);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
             }
-            httpConnectionStream = httpConnection.getErrorStream();
-        } else {
-            httpConnectionStream = httpConnection.getInputStream();
         }
-        outbuf = new ByteArrayOutputStream();
 
-        byte[] data = new byte[1024 * 32];
-        while (true) {
-            int read = httpConnectionStream.read(data);
-            if (read > 0) {
-                outbuf.write(data, 0, read);
-            } else if (read == -1) {
-                break;
-            } else {
-                break;
-            }
+        private static String formatTime() {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.US);
+            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
+            return simpleDateFormat.format(new Date(Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTimeInMillis())).toLowerCase() + "GMT";
         }
-        String result = outbuf.toString();
-        httpConnectionStream.close();
-        outbuf.close();
-        return result;
+
+        public static String translate(String query, String tl) throws JSONException, IOException {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("Text", query);
+            String url = "api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=&to=" + tl;
+            return new Http("https://" + url)
+                    .header("Content-Type", "application/json; charset=UTF-8")
+                    .header("X-Mt-Signature", sign(url))
+                    .header("User-Agent", "okhttp/4.5.0")
+                    .data(new JSONArray().put(new JSONObject().put("Text", query)).toString())
+                    .request();
+        }
     }
 }
