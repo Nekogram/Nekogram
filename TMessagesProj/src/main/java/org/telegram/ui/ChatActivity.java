@@ -11695,6 +11695,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         return 5;
                                     } else if (!messageObject.isNewGif() && mime.endsWith("/mp4") || mime.endsWith("/png") || mime.endsWith("/jpg") || mime.endsWith("/jpeg")) {
                                         return 6;
+                                    } else if (mime.startsWith("font/")) {
+                                        return 100;
                                     }
                                 }
                             }
@@ -19256,7 +19258,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 if (NekoConfig.showDeleteDownloadedFile) {
                                     items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
                                     options.add(91);
-                                    icons.add(R.drawable.menu_clearcache);
+                                    icons.add(R.drawable.msg_clear);
                                 }
                                 items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
                                 options.add(6);
@@ -19278,7 +19280,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (NekoConfig.showDeleteDownloadedFile) {
                                 items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
                                 options.add(91);
-                                icons.add(R.drawable.menu_clearcache);
+                                icons.add(R.drawable.msg_clear);
                             }
                             items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
                             options.add(6);
@@ -19293,7 +19295,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (NekoConfig.showDeleteDownloadedFile) {
                                 items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
                                 options.add(91);
-                                icons.add(R.drawable.menu_clearcache);
+                                icons.add(R.drawable.msg_clear);
+                            }
+                            items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
+                            options.add(6);
+                            icons.add(R.drawable.msg_shareout);
+                        } else if (type == 100 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                            items.add(LocaleController.getString("ApplyEmojiFont", R.string.ApplyEmojiFont));
+                            options.add(5);
+                            icons.add(R.drawable.smiles_tab_smiles);
+                            items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
+                            options.add(10);
+                            icons.add(R.drawable.msg_download);
+                            if (NekoConfig.showDeleteDownloadedFile) {
+                                items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
+                                options.add(91);
+                                icons.add(R.drawable.msg_clear);
                             }
                             items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
                             options.add(6);
@@ -19308,7 +19325,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (NekoConfig.showDeleteDownloadedFile) {
                                 items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
                                 options.add(91);
-                                icons.add(R.drawable.menu_clearcache);
+                                icons.add(R.drawable.msg_clear);
                             }
                             items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
                             options.add(6);
@@ -19581,13 +19598,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                             if (canEditAdmin && NekoConfig.showAdminActions) {
                                 items.add(editingAdmin ? LocaleController.getString("EditAdminRights", R.string.EditAdminRights) : LocaleController.getString("SetAsAdmin", R.string.SetAsAdmin));
-                                icons.add(R.drawable.actions_addadmin);
+                                icons.add(R.drawable.profile_admin);
                                 options.add(97);
                                 selectedParticipant = participant;
                             }
                             if (canRestrict && NekoConfig.showChangePermissions) {
                                 items.add(LocaleController.getString("ChangePermissions", R.string.ChangePermissions));
-                                icons.add(R.drawable.actions_permissions);
+                                icons.add(R.drawable.msg_permissions);
                                 options.add(98);
                                 selectedParticipant = participant;
                             }
@@ -20257,6 +20274,23 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             builder.setMessage(LocaleController.getString("IncorrectTheme", R.string.IncorrectTheme));
                             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                             showDialog(builder.create());
+                        }
+                    } else if (getMessageType(selectedObject) == 100) {
+                        try {
+                            String fileName = FileLoader.getDocumentFileName(selectedObject.getDocument());
+                            if (TextUtils.isEmpty(fileName)) {
+                                fileName = selectedObject.getFileName();
+                            }
+                            File dest = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), fileName == null ? "emoji.ttf" : fileName);
+                            AndroidUtilities.copyFile(locFile, dest);
+                            if (NekoConfig.setCustomEmojiFontPath(dest.toString())) {
+                                if (!NekoConfig.customEmojiFont) NekoConfig.toggleCustomEmojiFont();
+                            } else {
+                                BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("InvalidCustomEmojiTypeface", R.string.InvalidCustomEmojiTypeface)).show();
+                            }
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                            AlertsCreator.showSimpleAlert(this, e.getLocalizedMessage());
                         }
                     } else {
                         if (LocaleController.getInstance().applyLanguageFile(locFile, currentAccount)) {

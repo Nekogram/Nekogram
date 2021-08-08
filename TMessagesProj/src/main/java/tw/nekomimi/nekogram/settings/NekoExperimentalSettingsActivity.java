@@ -322,7 +322,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         }
                     } catch (Exception e) {
                         FileLog.e(e);
-                        AlertsCreator.createSimpleAlert(getParentActivity(), e.getLocalizedMessage());
+                        AlertsCreator.showSimpleAlert(this, e.getLocalizedMessage());
                     }
                 }
             }

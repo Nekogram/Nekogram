@@ -98,6 +98,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 
+import tw.nekomimi.nekogram.helpers.PopupHelper;
+import tw.nekomimi.nekogram.simplemenu.SimpleMenuPopupWindow;
+
 @SuppressWarnings("unchecked")
 public class SharedMediaLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
 
@@ -2614,30 +2617,12 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         ArrayList<String> entries = new ArrayList<>();
                         entries.add(LocaleController.getString("SharedPhotosAndVideos", R.string.SharedPhotosAndVideos));
                         entries.add(LocaleController.getString("AllVideos", R.string.AllVideos));
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
-                        builder.setTitle(LocaleController.getString("SharedMediaTabFull2", R.string.SharedMediaTabFull2));
-                        final LinearLayout linearLayout = new LinearLayout(getContext());
-                        linearLayout.setOrientation(LinearLayout.VERTICAL);
-                        builder.setView(linearLayout);
-
-                        for (int a = 0; a < entries.size(); a++) {
-                            RadioColorCell cell = new RadioColorCell(getContext());
-                            cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
-                            cell.setTag(a);
-                            cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
-                            cell.setTextAndValue(entries.get(a), (a == 0) != skipPhotos);
-                            linearLayout.addView(cell);
-                            cell.setOnClickListener(v -> {
-                                Integer which = (Integer) v.getTag();
-                                skipPhotos = which == 1;
-                                sharedMediaData[0] = new SharedMediaData();
-                                sharedMediaData[0].max_id[0] = ((int) dialog_id) == 0 ? Integer.MIN_VALUE : Integer.MAX_VALUE;
-                                switchToCurrentSelectedMode(false);
-                                builder.getDismissRunnable().run();
-                            });
-                        }
-                        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                        builder.show();
+                        PopupHelper.show(entries, LocaleController.getString("SharedMediaTabFull2", R.string.SharedMediaTabFull2), skipPhotos ? 1 : 0, getContext(), null, i -> {
+                            skipPhotos = i == 1;
+                            sharedMediaData[0] = new SharedMediaData();
+                            sharedMediaData[0].max_id[0] = ((int) dialog_id) == 0 ? Integer.MIN_VALUE : Integer.MAX_VALUE;
+                            switchToCurrentSelectedMode(false);
+                        });
                         return true;
                     };
                     if (hasMedia[1] == 0 && hasMedia[2] == 0 && hasMedia[3] == 0 && hasMedia[4] == 0 && hasMedia[5] == 0 && hasMedia[6] == 0 && chatUsersAdapter.chatInfo == null) {

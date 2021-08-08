@@ -12,7 +12,6 @@ import android.os.CancellationSignal;
 import android.os.Vibrator;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
