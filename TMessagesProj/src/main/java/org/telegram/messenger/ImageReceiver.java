@@ -750,7 +750,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         if (notify && delegate != null) {
             delegate.didSetImage(this, currentThumbDrawable != null || staticThumbDrawable != null, true, false);
         }
-        if (parentView != null) {
+        if (notify && parentView != null) {
             if (invalidateAll) {
                 parentView.invalidate();
             } else {
