@@ -741,7 +741,7 @@ public class MessagesController extends BaseController implements NotificationCe
         revokeTimePmLimit = mainPreferences.getInt("revokeTimePmLimit", revokeTimePmLimit);
         canRevokePmInbox = mainPreferences.getBoolean("canRevokePmInbox", canRevokePmInbox);
         preloadFeaturedStickers = mainPreferences.getBoolean("preloadFeaturedStickers", false);
-        youtubePipType = mainPreferences.getString("youtubePipType", "disabled");
+        youtubePipType = "enabled";//mainPreferences.getString("youtubePipType", "disabled");
         keepAliveService = mainPreferences.getBoolean("keepAliveService", false);
         backgroundConnection = mainPreferences.getBoolean("keepAliveService", false);
         promoDialogId = mainPreferences.getLong("proxy_dialog", 0);
@@ -1392,7 +1392,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             }
                             break;
                         }
-                        case "youtube_pip": {
+                        /*case "youtube_pip": {
                             if (value.value instanceof TLRPC.TL_jsonString) {
                                 TLRPC.TL_jsonString string = (TLRPC.TL_jsonString) value.value;
                                 if (!string.value.equals(youtubePipType)) {
@@ -1402,7 +1402,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                 }
                             }
                             break;
-                        }
+                        }*/
                         case "background_connection": {
                             if (value.value instanceof TLRPC.TL_jsonBool) {
                                 TLRPC.TL_jsonBool bool = (TLRPC.TL_jsonBool) value.value;
@@ -1904,7 +1904,7 @@ public class MessagesController extends BaseController implements NotificationCe
             Theme.checkCurrentRemoteTheme(false);
 
             if (config.static_maps_provider == null) {
-                config.static_maps_provider = "google:AIzaSyCGMAA5lSWvRAgaVtF1-Bh3Di07zePnUbA,telegram,yandex";
+                config.static_maps_provider = "telegram,google:AIzaSyB0y3zA4LbA04ZPaHKsr_Xt5ZQWbMftj8I";
             }
 
             mapKey = null;
