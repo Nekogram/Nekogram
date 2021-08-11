@@ -41,7 +41,7 @@ public class LingoTranslator extends BaseTranslator {
         jsonObject.put("detect", true);
         String response = new Http("https://api.interpreter.caiyunai.com/v1/translator")
                 .header("Content-Type", "application/json; charset=UTF-8")
-                .header("X-Authorization", "token " + Extra.getString("lingo.token"))
+                .header("X-Authorization", "token " + Extra.LINGO_TOKEN)
                 .header("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1")
                 .data(jsonObject.toString())
                 .request();

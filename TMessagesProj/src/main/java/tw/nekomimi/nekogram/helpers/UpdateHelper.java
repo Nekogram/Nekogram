@@ -244,8 +244,8 @@ public class UpdateHelper {
 
     public void checkNewVersionAvailable(UpdateHelperDelegate delegate, boolean forceRefreshAccessHash) {
         TLRPC.TL_contacts_resolveUsername req1 = new TLRPC.TL_contacts_resolveUsername();
-        int dialog_id = -1232424156;
-        req1.username = Extra.getString("neko.update_channel");
+        int dialog_id = Extra.UPDATE_CHANNEL_ID;
+        req1.username = Extra.UPDATE_CHANNEL;
         TLRPC.TL_messages_search req = new TLRPC.TL_messages_search();
         req.limit = 10;
         req.offset_id = 0;

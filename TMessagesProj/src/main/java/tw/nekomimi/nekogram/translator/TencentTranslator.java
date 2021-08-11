@@ -61,7 +61,7 @@ public class TencentTranslator extends BaseTranslator {
 
         private static String sign(String param) {
             try {
-                SecretKeySpec secretKeySpec = new SecretKeySpec(Extra.getString("tencent.SecretKey").getBytes(), "HmacSHA1");
+                SecretKeySpec secretKeySpec = new SecretKeySpec(Extra.TENCENT_SECRET_KEY.getBytes(), "HmacSHA1");
                 Mac mac = Mac.getInstance("HmacSHA1");
                 mac.init(secretKeySpec);
                 return Base64.encodeToString(mac.doFinal(param.getBytes()), Base64.NO_WRAP);
@@ -92,7 +92,7 @@ public class TencentTranslator extends BaseTranslator {
             hashMap.put("Region", "ap-guangzhou");
             hashMap.put("Timestamp", String.valueOf(System.currentTimeMillis() / 1000));
             hashMap.put("Nonce", String.valueOf(new Random().nextInt(Integer.MAX_VALUE)));
-            hashMap.put("SecretId", Extra.getString("tencent.SecretId"));
+            hashMap.put("SecretId", Extra.TENCENT_SECRET_ID);
             hashMap.put("Version", "2018-03-21");
             hashMap.put("SourceText", query);
             hashMap.put("Source", "auto");

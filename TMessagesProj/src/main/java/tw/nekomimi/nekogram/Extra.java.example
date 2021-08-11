@@ -1,0 +1,14 @@
+package tw.nekomimi.nekogram;
+
+public class Extra {
+    public static final int UPDATE_CHANNEL_ID = 0;
+    public static final String UPDATE_CHANNEL = "";
+    public static final String TENCENT_SECRET_ID = "";
+    public static final String TENCENT_SECRET_KEY = "";
+    public static final String LINGO_TOKEN = "";
+    public static final String MICROSOFT_SECRET_KEY = "";
+    public static int APP_ID = 0;
+    public static String APP_HASH = "";
+    public static String SMS_HASH = "";
+    public static String PLAYSTORE_APP_URL = "";
+}

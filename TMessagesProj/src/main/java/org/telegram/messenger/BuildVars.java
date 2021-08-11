@@ -11,6 +11,7 @@ package org.telegram.messenger;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class BuildVars {
@@ -32,10 +33,10 @@ public class BuildVars {
     public static String PLAYSTORE_APP_URL = "https://play.google.com/store/apps/details?id=org.telegram.messenger";
 
     static {
-        APP_ID = 336779;
-        APP_HASH = "b91eefacc86747c068c8d8a16b41500d";
-        SMS_HASH = "hut44lCKZO+";
-        PLAYSTORE_APP_URL = "https://telegra.ph/Update-Nekogram-10-30";
+        APP_ID = Extra.APP_ID;
+        APP_HASH = Extra.APP_HASH;
+        SMS_HASH = Extra.SMS_HASH;
+        PLAYSTORE_APP_URL = Extra.PLAYSTORE_APP_URL;
         if (ApplicationLoader.applicationContext != null) {
             SharedPreferences sharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("systemConfig", Context.MODE_PRIVATE);
             LOGS_ENABLED = DEBUG_VERSION || sharedPreferences.getBoolean("logsEnabled", DEBUG_VERSION);

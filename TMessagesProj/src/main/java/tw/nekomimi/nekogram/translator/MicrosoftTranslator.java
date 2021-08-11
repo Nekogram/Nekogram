@@ -108,7 +108,7 @@ public class MicrosoftTranslator extends BaseTranslator {
                 String encode = URLEncoder.encode(url, "UTF-8");
                 String time = formatTime();
                 byte[] bytes = String.format("%s%s%s%s", "MSTranslatorAndroidApp", encode, time, uuid).toLowerCase().getBytes(Charset.defaultCharset());
-                SecretKeySpec secretKeySpec = new SecretKeySpec(Extra.getByteArray("microsoft.SecretKey"), "HmacSHA256");
+                SecretKeySpec secretKeySpec = new SecretKeySpec(Base64.decode(Extra.MICROSOFT_SECRET_KEY, Base64.NO_WRAP | Base64.NO_PADDING), "HmacSHA256");
                 Mac instance = Mac.getInstance("HmacSHA256");
                 instance.init(secretKeySpec);
                 return String.format("%s::%s::%s::%s", "MSTranslatorAndroidApp", Base64.encodeToString(instance.doFinal(bytes), 2), time, uuid);
