@@ -141,4 +141,25 @@
     <string name="WsEnableDoh">啟動 EoH</string>
     <string name="MsgDate">日期</string>
     <string name="UpdateNekogram">更新 Nekogram</string>
+    <string name="TranslationTarget">目標語言</string>
+    <string name="TranslationTargetApp">跟隨應用</string>
+    <string name="Translator">翻譯</string>
+    <string name="ResetLanguage">重置語言</string>
+    <string name="UseGoogleTranslate">使用谷歌</string>
+    <string name="DeepLFormality">形式</string>
+    <string name="DeepLFormalityDefault">默認</string>
+    <string name="DeepLFormalityMore">更書面</string>
+    <string name="DeepLFormalityLess">更口語</string>
+    <string name="InvalidCustomEmojiTypeface">無效字體文件</string>
+    <string name="AttachWebFile">網路文件</string>
+    <string name="WebFileInfo">使用URL發送文件</string>
+    <string name="SendWebFile">發送網路文件</string>
+    <string name="SendWebFileInfo">Telegram 將下載併發送文件。照片最大尺寸為5MB，其他類型文件最大尺寸為20MB。</string>
+    <string name="SendWebFileInvalid">文件無效，請確保其符合要求。</string>
+    <string name="AutoLockInstant">即時</string>
+    <string name="RestrictionReason">限制原因</string>
+    <string name="ProviderTencentTranslator">騰訊翻譯</string>
+    <string name="ProviderNiuTrans">小牛翻譯</string>
+    <string name="MaxRecentStickers">最大最近貼紙數量</string>
+    <string name="ApplyEmojiFont">應用 Emoji 字體</string>
 </resources>

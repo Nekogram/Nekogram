@@ -161,4 +161,5 @@
     <string name="ProviderTencentTranslator">Sr. Tradutor</string>
     <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Stickers recentes máx</string>
+    <string name="ApplyEmojiFont">Aplicar fonte de emoji customizada</string>
 </resources>

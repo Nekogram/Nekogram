@@ -161,4 +161,5 @@
     <string name="ProviderTencentTranslator">미스터 번역기</string>
     <string name="ProviderNiuTrans">니우 번역기</string>
     <string name="MaxRecentStickers">최근 사용 스티커 최대 개수 도달</string>
+    <string name="ApplyEmojiFont">이모티콘 글꼴 적용</string>
 </resources>

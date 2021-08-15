@@ -107,7 +107,6 @@
     <string name="OpenAllLinksInInstantView">Намагатися відкривати усі посилання в Instant View</string>
     <string name="DonateThankYou">Дякую!</string>
     <string name="DonateEvilGoogle">Гугл візьме 30 відсотків від твого донату.</string>
-    <string name="formatterDay24HSec">ГГ:хвхв:сс</string>
     <string name="FormatWithSeconds">Форматувати час з секундами</string>
     <string name="JumpToBeginning">Перейти до початку</string>
     <string name="ProviderDeepLTranslate">DeepL Перекладач</string>

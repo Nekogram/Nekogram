@@ -160,4 +160,5 @@
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Numero massimo di stickers recenti</string>
+    <string name="ApplyEmojiFont">Applica font emoji</string>
 </resources>

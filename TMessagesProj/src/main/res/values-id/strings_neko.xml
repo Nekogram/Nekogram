@@ -160,4 +160,5 @@
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Maksimum stiker terakhir digunakan</string>
+    <string name="ApplyEmojiFont">Terapkan fon emoji</string>
 </resources>

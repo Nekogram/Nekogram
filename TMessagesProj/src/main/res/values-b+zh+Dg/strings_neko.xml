@@ -162,4 +162,5 @@
     <string name="ProviderTencentTranslator">腾讯翻译君</string>
     <string name="ProviderNiuTrans">小牛翻译</string>
     <string name="MaxRecentStickers">最大最近贴纸数量</string>
+    <string name="ApplyEmojiFont">应用 Emoji 字体</string>
 </resources>
