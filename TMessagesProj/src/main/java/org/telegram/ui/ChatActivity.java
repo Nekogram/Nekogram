@@ -19430,7 +19430,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             if (NekoConfig.showViewHistory) {
                                 boolean allowViewHistory = currentUser == null
-                                        && (currentChat != null && !isThreadChat() && chatMode != MODE_PINNED && !currentChat.broadcast && message.isFromUser());
+                                        && (currentChat != null && !isThreadChat() && chatMode != MODE_PINNED && !currentChat.broadcast);
                                 if (allowViewHistory) {
                                     items.add(LocaleController.getString("ViewUserHistory", R.string.ViewHistory));
                                     options.add(90);
@@ -20740,8 +20740,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 presentFragment(new MessageDetailsActivity(selectedObject));
                 break;
             } case 90: {
-                TLRPC.User user = getMessagesController().getUser(selectedObject.messageOwner.from_id.user_id);
-                getMediaDataController().searchMessagesInChat("", dialog_id, mergeDialogId, classGuid, 0, threadMessageId, user, searchingChatMessages);
+                TLRPC.Peer peer = selectedObject.messageOwner.from_id;
+                openSearchWithText("");
+                if (peer.user_id != 0) {
+                    TLRPC.User user = getMessagesController().getUser(peer.user_id);
+                    searchUserMessages(user, null);
+                } else if (peer.chat_id != 0) {
+                    TLRPC.Chat chat = getMessagesController().getChat(peer.chat_id);
+                    searchUserMessages(null, chat);
+                } else if (peer.channel_id != 0) {
+                    TLRPC.Chat chat = getMessagesController().getChat(peer.channel_id);
+                    searchUserMessages(null, chat);
+                }
                 showMessagesSearchListView(true);
                 break;
             } case 92: {
