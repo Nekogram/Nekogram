@@ -120,7 +120,7 @@ public class WsSettingsActivity extends BaseFragment {
                 }
                 NekoConfig.wsReloadConfig();
             } else if (position == yahagiRow) {
-                Browser.openUrl(getParentActivity(), "https://delta.pcr.cy/auth/register?code=neko");
+                Browser.openUrl(getParentActivity(), LocaleController.getString("YahagiLink", R.string.YahagiLink));
             }
         });
         return fragmentView;

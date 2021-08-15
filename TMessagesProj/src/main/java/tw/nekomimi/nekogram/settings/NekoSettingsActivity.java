@@ -147,7 +147,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
             } else if (position == sourceCodeRow) {
                 Browser.openUrl(getParentActivity(), "https://gitlab.com/Nekogram/Nekogram");
             } else if (position == yahagiRow) {
-                Browser.openUrl(getParentActivity(), "https://delta.pcr.cy/auth/register?code=neko");
+                Browser.openUrl(getParentActivity(), LocaleController.getString("YahagiLink", R.string.YahagiLink));
             } else if (position == checkUpdateRow) {
                 ((LaunchActivity) getParentActivity()).checkAppUpdate(true);
                 checkingUpdate = true;
