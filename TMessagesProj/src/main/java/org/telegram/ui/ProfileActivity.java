@@ -431,6 +431,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     private boolean firstLayout = true;
     private boolean invalidateScroll = true;
+    private boolean hidePhone = false;
 
     PinchToZoomHelper pinchToZoomHelper;
 
@@ -3813,6 +3814,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             items.add(LocaleController.getString("Copy", R.string.Copy));
             actions.add(1);
+            items.add(LocaleController.getString("Hide", R.string.Hide));
+            actions.add(4);
             builder.setItems(items.toArray(new CharSequence[0]), (dialogInterface, i) -> {
                 i = actions.get(i);
                 if (i == 0) {
@@ -3834,6 +3837,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 } else if (i == 2 || i == 3) {
                     VoIPHelper.startCall(user, i == 3, userInfo != null && userInfo.video_calls_available, getParentActivity(), userInfo, getAccountInstance());
+                } else if (i == 4) {
+                    hidePhone = true;
+                    int oldRow = numberRow;
+                    updateRowsIds();
+                    saveScrollPosition();
+                    if (listAdapter != null) {
+                        listAdapter.notifyItemRemoved(oldRow);
+                    }
                 }
             });
             showDialog(builder.create());
@@ -5574,7 +5585,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     setAvatarSectionRow = rowCount++;
                 }
                 numberSectionRow = rowCount++;
-                numberRow = rowCount++;
+                numberRow = hidePhone ? -1 : rowCount++;
                 setUsernameRow = rowCount++;
                 bioRow = rowCount++;
 
@@ -7128,9 +7139,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } else if (position == numberRow) {
                         TLRPC.User user = UserConfig.getInstance(currentAccount).getCurrentUser();
                         String value;
-                        if (NekoConfig.hidePhone) {
-                            value = LocaleController.getString("MobileHidden", R.string.MobileHidden);
-                        } else if (user != null && user.phone != null && user.phone.length() != 0) {
+                        if (user != null && user.phone != null && user.phone.length() != 0) {
                             value = PhoneFormat.getInstance().format("+" + user.phone);
                         } else {
                             value = LocaleController.getString("NumberUnknown", R.string.NumberUnknown);
