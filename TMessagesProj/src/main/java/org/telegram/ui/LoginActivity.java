@@ -1275,6 +1275,7 @@ public class LoginActivity extends BaseFragment {
         private TextView textView2;
         private CheckBoxCell checkBoxCell;
         private CheckBoxCell testBackendCheckBox;
+        private TextView proxyView;
 
         private int countryState = 0;
 
@@ -1602,6 +1603,20 @@ public class LoginActivity extends BaseFragment {
                     }
                 });
             }
+
+            final FrameLayout proxyLayout = new FrameLayout(context);
+            proxyLayout.setClipToPadding(false);
+            proxyLayout.setPadding(0, AndroidUtilities.dp(28f), AndroidUtilities.dp(100f), AndroidUtilities.dp(16f));
+            addView(proxyLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.BOTTOM));
+
+            proxyView = new TextView(context);
+            proxyView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
+            proxyView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+            proxyView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
+            proxyView.setText(LocaleController.getString("ProxySettings", R.string.ProxySettings));
+            proxyView.setOnClickListener(view -> presentFragment(new ProxyListActivity()));
+            VerticalPositionAutoAnimator.attach(proxyView);
+            proxyLayout.addView(proxyView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.BOTTOM));
 
             HashMap<String, String> languageMap = new HashMap<>();
             try {
