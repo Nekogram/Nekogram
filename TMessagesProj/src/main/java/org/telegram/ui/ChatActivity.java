@@ -20930,6 +20930,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     private boolean processSelectedOptionLongClick(int option) {
         switch (option) {
+            case 88: {
+                Translator.showTranslationTargetSelector(getParentActivity(), null, () -> processSelectedOption(88));
+                return true;
+            }
             case 94: {
                 ArrayList<MessageObject> messages =  new ArrayList<>();
                 messages.add(selectedObject);

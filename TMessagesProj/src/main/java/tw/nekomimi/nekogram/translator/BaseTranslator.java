@@ -40,7 +40,7 @@ abstract public class BaseTranslator {
 
     public String getCurrentAppLanguage() {
         String toLang;
-        Locale locale = LocaleController.getInstance().currentLocale;
+        Locale locale = LocaleController.getInstance().getCurrentLocale();
         toLang = convertLanguageCode(locale.getLanguage(), locale.getCountry());
         if (!supportLanguage(toLang)) {
             toLang = convertLanguageCode(LocaleController.getString("LanguageCode", R.string.LanguageCode), null);

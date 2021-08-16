@@ -2,11 +2,14 @@ package tw.nekomimi.nekogram.translator;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
+import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.core.text.HtmlCompat;
 import androidx.core.util.Pair;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -17,6 +20,7 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
@@ -125,6 +129,27 @@ public class Translator {
         names.add(LocaleController.getString("ProviderNiuTrans", R.string.ProviderNiuTrans));
         types.add(Translator.PROVIDER_NIU);
         return new Pair<>(names, types);
+    }
+
+    public static void showTranslationTargetSelector(Context context, View view, Runnable callback) {
+        BaseTranslator translator = Translator.getCurrentTranslator();
+        ArrayList<String> targetLanguages = new ArrayList<>(translator.getTargetLanguages());
+        ArrayList<CharSequence> names = new ArrayList<>();
+        for (String language : targetLanguages) {
+            Locale locale = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? Locale.forLanguageTag(language) : new Locale(language);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !TextUtils.isEmpty(locale.getScript())) {
+                names.add(HtmlCompat.fromHtml(String.format("%s - %s", locale.getDisplayScript(), locale.getDisplayScript(locale)), HtmlCompat.FROM_HTML_MODE_LEGACY));
+            } else {
+                names.add(String.format("%s - %s", locale.getDisplayName(), locale.getDisplayName(locale)));
+            }
+        }
+        targetLanguages.add(0, "app");
+        names.add(0, LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp));
+
+        PopupHelper.show(names, LocaleController.getString("TranslationTarget", R.string.TranslationTarget), targetLanguages.indexOf(NekoConfig.translationTarget), context, view, i -> {
+            NekoConfig.setTranslationTarget(targetLanguages.get(i));
+            callback.run();
+        });
     }
 
     public static void showTranslationProviderSelector(Context context, View view, MessagesStorage.BooleanCallback callback) {

@@ -72,7 +72,7 @@ public class LocaleController {
 
     private HashMap<String, PluralRules> allRules = new HashMap<>();
 
-    public Locale currentLocale;
+    private Locale currentLocale;
     private Locale systemDefaultLocale;
     private PluralRules currentPluralRules;
     private LocaleInfo currentLocaleInfo;
