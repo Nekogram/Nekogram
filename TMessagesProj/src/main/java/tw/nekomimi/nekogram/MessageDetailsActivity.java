@@ -81,6 +81,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     private int fileSizeRow;
     private int dcRow;
     private int restrictionReasonRow;
+    private int forwardsRow;
     private int endRow;
 
     public MessageDetailsActivity(MessageObject messageObject) {
@@ -309,6 +310,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
             dcRow = -1;
         }
         restrictionReasonRow = messageObject.messageOwner.restriction_reason.isEmpty() ? -1 : rowCount++;
+        forwardsRow = messageObject.messageOwner.forwards > 0 ? rowCount++ : -1;
         endRow = rowCount++;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -508,6 +510,8 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                             }
                         }
                         textCell.setTextAndValue("Restriction reason", value.toString(), divider);
+                    } else if (position == forwardsRow) {
+                        textCell.setTextAndValue("Forwards", String.format(Locale.US, "%d", messageObject.messageOwner.forwards), divider);
                     }
                     break;
                 }
