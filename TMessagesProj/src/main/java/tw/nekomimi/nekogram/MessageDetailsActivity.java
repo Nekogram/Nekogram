@@ -11,6 +11,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
@@ -28,6 +29,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
@@ -78,6 +80,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     private int filePathRow;
     private int fileSizeRow;
     private int dcRow;
+    private int restrictionReasonRow;
     private int endRow;
 
     public MessageDetailsActivity(MessageObject messageObject) {
@@ -241,6 +244,30 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                     ProfileActivity fragment = new ProfileActivity(args);
                     presentFragment(fragment);
                 }
+            } else if (position == restrictionReasonRow) {
+                ArrayList<TLRPC.TL_restrictionReason> reasons = messageObject.messageOwner.restriction_reason;
+                LinearLayout ll = new LinearLayout(context);
+                ll.setOrientation(LinearLayout.VERTICAL);
+
+                AlertDialog dialog = new AlertDialog.Builder(context)
+                        .setView(ll)
+                        .create();
+
+                for (TLRPC.TL_restrictionReason reason : reasons) {
+                    TextDetailSettingsCell cell = new TextDetailSettingsCell(context);
+                    cell.setBackground(Theme.getSelectorDrawable(false));
+                    cell.setMultilineDetail(true);
+                    cell.setOnClickListener(v1 -> {
+                        dialog.dismiss();
+                        AndroidUtilities.addToClipboard(cell.getValueTextView().getText());
+                        BulletinFactory.of((FrameLayout) fragmentView).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                    });
+                    cell.setTextAndValue(reason.reason + "-" + reason.platform, reason.text, false);
+
+                    ll.addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+                }
+
+                showDialog(dialog);
             } else {
                 return false;
             }
@@ -281,6 +308,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         } else {
             dcRow = -1;
         }
+        restrictionReasonRow = messageObject.messageOwner.restriction_reason.isEmpty() ? -1 : rowCount++;
         endRow = rowCount++;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -468,6 +496,18 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                             dc = messageObject.messageOwner.media.document.dc_id;
                         }
                         textCell.setTextAndValue("DC", String.format(Locale.US, "%d, %s", dc, getMessageHelper().getDCLocation(dc)), divider);
+                    } else if (position == restrictionReasonRow) {
+                        ArrayList<TLRPC.TL_restrictionReason> reasons = messageObject.messageOwner.restriction_reason;
+                        StringBuilder value = new StringBuilder();
+                        for (TLRPC.TL_restrictionReason reason : reasons) {
+                            value.append(reason.reason);
+                            value.append("-");
+                            value.append(reason.platform);
+                            if (reasons.indexOf(reason) != reasons.size() - 1) {
+                                value.append(", ");
+                            }
+                        }
+                        textCell.setTextAndValue("Restriction reason", value.toString(), divider);
                     }
                     break;
                 }
