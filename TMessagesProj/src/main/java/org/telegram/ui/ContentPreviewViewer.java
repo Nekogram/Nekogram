@@ -60,6 +60,8 @@ import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.helpers.MessageHelper;
+
 public class ContentPreviewViewer {
 
     private class FrameLayoutDrawer extends FrameLayout {
@@ -189,6 +191,11 @@ public class ContentPreviewViewer {
                         icons.add(R.drawable.msg_delete);
                         actions.add(5);
                     }
+                    if (currentStickerSet != null) {
+                        items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
+                        icons.add(R.drawable.msg_gallery);
+                        actions.add(110);
+                    }
                 }
                 if (!MessageObject.isMaskDocument(currentDocument) && (inFavs || MediaDataController.getInstance(currentAccount).canAddStickerToFavorites() && MessageObject.isStickerHasSet(currentDocument))) {
                     items.add(inFavs ? LocaleController.getString("DeleteFromFavorites", R.string.DeleteFromFavorites) : LocaleController.getString("AddToFavorites", R.string.AddToFavorites));
@@ -231,6 +238,8 @@ public class ContentPreviewViewer {
                         MediaDataController.getInstance(currentAccount).addRecentSticker(MediaDataController.TYPE_IMAGE, parentObject, currentDocument, (int) (System.currentTimeMillis() / 1000), true);
                     } else if (actions.get(which) == 5) {
                         delegate.remove(importingSticker);
+                    } else if (actions.get(which) == 110) {
+                        MessageHelper.saveStickerToGallery(parentActivity, currentDocument, () -> {});
                     }
                 });
                 builder.setDimBehind(false);
