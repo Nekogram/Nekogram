@@ -411,11 +411,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                         if (message != null) {
                             AccountInstance.getInstance(currentAccount).getSendMessagesHelper().sendMessage(message.toString(), did, null, null, null, true, null, null, null, true, 0, null);
                         }
-                        if (id == forwardNoQuoteItemId) {
-                            MessageHelper.getInstance(currentAccount).processForwardFromMyName(fmessages, did, true, 0);
-                        } else {
-                            AccountInstance.getInstance(currentAccount).getSendMessagesHelper().sendMessage(fmessages, did, true, 0);
-                        }
+                        AccountInstance.getInstance(currentAccount).getSendMessagesHelper().sendMessage(fmessages, did, id == forwardNoQuoteItemId,false, true, 0);
                     }
                     fragment1.finishFragment();
                 } else {

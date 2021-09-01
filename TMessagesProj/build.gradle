@@ -28,7 +28,7 @@ dependencies {
     compileOnly 'org.checkerframework:checker-qual:2.5.2'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.0'
     implementation 'com.google.firebase:firebase-messaging:22.0.0'
-    //implementation 'com.google.firebase:firebase-config:21.0.0'
+    //implementation 'com.google.firebase:firebase-config:21.0.1'
     implementation 'com.google.firebase:firebase-datatransport:18.0.1'
     implementation 'com.google.firebase:firebase-appindexing:20.0.0'
     implementation 'com.google.android.gms:play-services-maps:17.0.1'
@@ -157,7 +157,7 @@ android {
         manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
     }
 
-    defaultConfig.versionCode = 2391
+    defaultConfig.versionCode = 2406
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
@@ -172,7 +172,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionName "7.9.3.1"
+        versionName "8.0.0"
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
@@ -207,10 +207,8 @@ def patchBundleReleaseManifest = task('patchBundleReleaseManifest').doLast {
     Files.write(manifest, newManifest.getBytes())
 }
 
-tasks.whenTaskAdded { task ->
-    if (task.name == 'processApplicationManifestReleaseForBundle') {
-        task.finalizedBy patchBundleReleaseManifest
-    }
+afterEvaluate {
+    tasks.getByName("processApplicationManifestReleaseForBundle").finalizedBy patchBundleReleaseManifest
 }
 
 apply plugin: 'com.google.gms.google-services'

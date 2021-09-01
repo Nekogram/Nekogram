@@ -85,6 +85,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Cells.ThemesHorizontalListCell;
 import org.telegram.ui.Components.AudioVisualizerDrawable;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
+import org.telegram.ui.Components.ChoosingStickerStatusDrawable;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.FragmentContextViewWavesDrawable;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
@@ -134,12 +135,15 @@ public class Theme {
 
     public static class MessageDrawable extends Drawable {
 
-        private LinearGradient gradientShader;
+        private Shader gradientShader;
         private int currentBackgroundHeight;
         private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         private Paint selectedPaint;
         private int currentColor;
-        private int currentGradientColor;
+        private int currentGradientColor1;
+        private int currentGradientColor2;
+        private int currentGradientColor3;
+        private boolean currentAnimateGradient;
 
         private RectF rect = new RectF();
         private Matrix matrix = new Matrix();
@@ -154,6 +158,8 @@ public class Theme {
         private int topY;
         private boolean isTopNear;
         private boolean isBottomNear;
+
+        public static MotionBackgroundDrawable[] motionBackground = new MotionBackgroundDrawable[2];
 
         private int[] currentShadowDrawableRadius = new int[]{-1, -1, -1, -1};
         private Drawable[] shadowDrawable = new Drawable[4];
@@ -174,6 +180,7 @@ public class Theme {
         Drawable transitionDrawable;
         int transitionDrawableColor;
         private int alpha;
+        private boolean drawFullBubble;
 
         public MessageDrawable(int type, boolean out, boolean selected) {
             super();
@@ -189,7 +196,18 @@ public class Theme {
             return gradientShader != null && shouldDrawGradientIcons;
         }
 
-        public LinearGradient getGradientShader() {
+        public void applyMatrixScale() {
+            if (gradientShader instanceof BitmapShader) {
+                int num = currentType == TYPE_PREVIEW ? 1 : 0;
+                Bitmap bitmap = motionBackground[num].getBitmap();
+                float scaleW = (bitmap.getWidth() / (float) motionBackground[num].getBounds().width());
+                float scaleH = (bitmap.getHeight() / (float) motionBackground[num].getBounds().height());
+                float scale = 1.0f / Math.min(scaleW, scaleH);
+                matrix.postScale(scale, scale);
+            }
+        }
+
+        public Shader getGradientShader() {
             return gradientShader;
         }
 
@@ -205,38 +223,85 @@ public class Theme {
             return Theme.currentColors.get(key);
         }
 
-        public void setTop(int top, int backgroundHeight, boolean topNear, boolean bottomNear) {
+        public void setTop(int top, int backgroundWidth, int backgroundHeight, boolean topNear, boolean bottomNear) {
+            setTop(top, backgroundWidth, backgroundHeight, backgroundHeight, topNear, bottomNear);
+        }
+
+        public void setTop(int top, int backgroundWidth, int backgroundHeight, int heightOffset, boolean topNear, boolean bottomNear) {
             int color;
-            Integer gradientColor;
+            Integer gradientColor1;
+            Integer gradientColor2;
+            Integer gradientColor3;
+            boolean animatedGradient;
             if (isOut) {
                 color = getColor(isSelected ? key_chat_outBubbleSelected : key_chat_outBubble);
-                gradientColor = getCurrentColor(key_chat_outBubbleGradient);
+                gradientColor1 = getCurrentColor(key_chat_outBubbleGradient1);
+                gradientColor2 = getCurrentColor(key_chat_outBubbleGradient2);
+                gradientColor3 = getCurrentColor(key_chat_outBubbleGradient3);
+                Integer val = getCurrentColor(key_chat_outBubbleGradientAnimated);
+                animatedGradient = val != null && val != 0;
             } else {
                 color = getColor(isSelected ? key_chat_inBubbleSelected : key_chat_inBubble);
-                gradientColor = null;
+                gradientColor1 = null;
+                gradientColor2 = null;
+                gradientColor3 = null;
+                animatedGradient = false;
             }
-            if (gradientColor != null) {
+            if (gradientColor1 != null) {
                 color = getColor(key_chat_outBubble);
             }
-            if (gradientColor == null) {
-                gradientColor = 0;
+            if (gradientColor1 == null) {
+                gradientColor1 = 0;
             }
-            if (gradientColor != 0 && (gradientShader == null || backgroundHeight != currentBackgroundHeight || currentColor != color || currentGradientColor != gradientColor)) {
-                gradientShader = new LinearGradient(0, 0, 0, backgroundHeight, new int[]{gradientColor, color}, null, Shader.TileMode.CLAMP);
+            if (gradientColor2 == null) {
+                gradientColor2 = 0;
+            }
+            if (gradientColor3 == null) {
+                gradientColor3 = 0;
+            }
+            int num = currentType == TYPE_PREVIEW ? 1 : 0;
+            if (gradientColor1 != 0 && (gradientShader == null || backgroundHeight != currentBackgroundHeight || currentColor != color || currentGradientColor1 != gradientColor1 || currentGradientColor2 != gradientColor2 || currentGradientColor3 != gradientColor3 || currentAnimateGradient != animatedGradient)) {
+                if (gradientColor2 != 0 && animatedGradient) {
+                    if (motionBackground[num] == null) {
+                        motionBackground[num] = new MotionBackgroundDrawable();
+                        if (currentType != TYPE_PREVIEW) {
+                            motionBackground[num].setPostInvalidateParent(true);
+                        }
+                        motionBackground[num].setRoundRadius(AndroidUtilities.dp(1));
+                    }
+                    motionBackground[num].setColors(color, gradientColor1, gradientColor2, gradientColor3);
+                    gradientShader = motionBackground[num].getBitmapShader();
+                } else {
+                    if (gradientColor2 != 0) {
+                        if (gradientColor3 != 0) {
+                            gradientShader = new LinearGradient(0, 0, 0, backgroundHeight, new int[]{gradientColor3, gradientColor2, gradientColor1, color}, null, Shader.TileMode.CLAMP);
+                        } else {
+                            gradientShader = new LinearGradient(0, 0, 0, backgroundHeight, new int[]{gradientColor2, gradientColor1, color}, null, Shader.TileMode.CLAMP);
+                        }
+                    } else {
+                        gradientShader = new LinearGradient(0, 0, 0, backgroundHeight, new int[]{gradientColor1, color}, null, Shader.TileMode.CLAMP);
+                    }
+                }
                 paint.setShader(gradientShader);
                 currentColor = color;
-                currentGradientColor = gradientColor;
+                currentAnimateGradient = animatedGradient;
+                currentGradientColor1 = gradientColor1;
+                currentGradientColor2 = gradientColor2;
+                currentGradientColor3 = gradientColor3;
                 paint.setColor(0xffffffff);
-            } else if (gradientColor == 0) {
+            } else if (gradientColor1 == 0) {
                 if (gradientShader != null) {
                     gradientShader = null;
                     paint.setShader(null);
                 }
                 paint.setColor(color);
             }
+            if (gradientShader instanceof BitmapShader) {
+                motionBackground[num].setBounds(0, 0, backgroundWidth, backgroundHeight - (gradientShader instanceof BitmapShader ? heightOffset : 0));
+            }
             currentBackgroundHeight = backgroundHeight;
 
-            topY = top;
+            topY = top - (gradientShader instanceof BitmapShader ? heightOffset : 0);
             isTopNear = topNear;
             isBottomNear = bottomNear;
         }
@@ -358,6 +423,10 @@ public class Theme {
             }
 
             return transitionDrawable;
+        }
+
+        public MotionBackgroundDrawable getMotionBackgroundDrawable() {
+            return motionBackground[currentType == TYPE_PREVIEW ? 1 : 0];
         }
 
         public Drawable getShadowDrawable() {
@@ -484,6 +553,7 @@ public class Theme {
 
             if (paintToUse == null && gradientShader != null) {
                 matrix.reset();
+                applyMatrixScale();
                 matrix.postTranslate(0, -topY);
                 gradientShader.setLocalMatrix(matrix);
             }
@@ -491,7 +561,7 @@ public class Theme {
             int top = Math.max(bounds.top, 0);
             path.reset();
             if (isOut) {
-                if (currentType == TYPE_PREVIEW || paintToUse != null || topY + bounds.bottom - rad < currentBackgroundHeight) {
+                if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || topY + bounds.bottom - rad < currentBackgroundHeight) {
                     if (currentType == TYPE_MEDIA) {
                         path.moveTo(bounds.right - dp(8) - rad, bounds.bottom - padding);
                     } else {
@@ -504,7 +574,7 @@ public class Theme {
                     path.moveTo(bounds.right - dp(8), top - topY + currentBackgroundHeight);
                     path.lineTo(bounds.left + padding, top - topY + currentBackgroundHeight);
                 }
-                if (currentType == TYPE_PREVIEW || paintToUse != null || topY + rad * 2 >= 0) {
+                if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || topY + rad * 2 >= 0) {
                     path.lineTo(bounds.left + padding, bounds.top + padding + rad);
                     rect.set(bounds.left + padding, bounds.top + padding, bounds.left + padding + rad * 2, bounds.top + padding + rad * 2);
                     path.arcTo(rect, 180, 90, false);
@@ -537,7 +607,7 @@ public class Theme {
                         path.lineTo(bounds.right - padding, top - topY + currentBackgroundHeight);
                     }
                 } else {
-                    if (currentType == TYPE_PREVIEW || paintToUse != null || topY + bounds.bottom - smallRad * 2 < currentBackgroundHeight) {
+                    if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || topY + bounds.bottom - smallRad * 2 < currentBackgroundHeight) {
                         path.lineTo(bounds.right - dp(8), bounds.bottom - padding - smallRad - dp(3));
                         rect.set(bounds.right - dp(8), bounds.bottom - padding - smallRad * 2 - dp(9), bounds.right - dp(7) + smallRad * 2, bounds.bottom - padding - dp(1));
                         path.arcTo(rect, 180, -83, false);
@@ -546,7 +616,7 @@ public class Theme {
                     }
                 }
             } else {
-                if (currentType == TYPE_PREVIEW || paintToUse != null || topY + bounds.bottom - rad < currentBackgroundHeight) {
+                if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || topY + bounds.bottom - rad < currentBackgroundHeight) {
                     if (currentType == TYPE_MEDIA) {
                         path.moveTo(bounds.left + dp(8) + rad, bounds.bottom - padding);
                     } else {
@@ -559,7 +629,7 @@ public class Theme {
                     path.moveTo(bounds.left + dp(8), top - topY + currentBackgroundHeight);
                     path.lineTo(bounds.right - padding, top - topY + currentBackgroundHeight);
                 }
-                if (currentType == TYPE_PREVIEW || paintToUse != null || topY + rad * 2 >= 0) {
+                if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || topY + rad * 2 >= 0) {
                     path.lineTo(bounds.right - padding, bounds.top + padding + rad);
                     rect.set(bounds.right - padding - rad * 2, bounds.top + padding, bounds.right - padding, bounds.top + padding + rad * 2);
                     path.arcTo(rect, 0, -90, false);
@@ -592,7 +662,7 @@ public class Theme {
                         path.lineTo(bounds.left + padding, top - topY + currentBackgroundHeight);
                     }
                 } else {
-                    if (currentType == TYPE_PREVIEW || paintToUse != null || topY + bounds.bottom - smallRad * 2 < currentBackgroundHeight) {
+                    if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || topY + bounds.bottom - smallRad * 2 < currentBackgroundHeight) {
                         path.lineTo(bounds.left + dp(8), bounds.bottom - padding - smallRad - dp(3));
                         rect.set(bounds.left + dp(7) - smallRad * 2, bounds.bottom - padding - smallRad * 2 - dp(9), bounds.left + dp(8), bounds.bottom - padding - dp(1));
                         path.arcTo(rect, 0, 83, false);
@@ -609,6 +679,10 @@ public class Theme {
                 selectedPaint.setColor(ColorUtils.setAlphaComponent(color, (int) (Color.alpha(color) * alpha / 255f)));
                 canvas.drawPath(path, selectedPaint);
             }
+        }
+
+        public void setDrawFullBubble(boolean drawFullBuble) {
+            this.drawFullBubble = drawFullBuble;
         }
 
         @Override
@@ -954,7 +1028,10 @@ public class Theme {
 
         public int accentColor;
         public int myMessagesAccentColor;
-        public int myMessagesGradientAccentColor;
+        public int myMessagesGradientAccentColor1;
+        public int myMessagesGradientAccentColor2;
+        public int myMessagesGradientAccentColor3;
+        public boolean myMessagesAnimated;
         public long backgroundOverrideColor;
         public long backgroundGradientOverrideColor1;
         public long backgroundGradientOverrideColor2;
@@ -1010,7 +1087,7 @@ public class Theme {
                 }
             }
             int myMessagesAccent = myMessagesAccentColor;
-            if ((myMessagesAccentColor != 0 || accentColor != 0) && myMessagesGradientAccentColor != 0) {
+            if ((myMessagesAccentColor != 0 || accentColor != 0) && myMessagesGradientAccentColor1 != 0) {
                 int firstColor = myMessagesAccentColor != 0 ? myMessagesAccentColor : accentColor;
                 Integer color = currentColorsNoAccent.get(key_chat_outBubble);
                 if (color == null) {
@@ -1018,7 +1095,7 @@ public class Theme {
                 }
                 int newColor = changeColorAccent(hsvTemp1, hsvTemp2, color, isDarkTheme);
                 int distance1 = AndroidUtilities.getColorDistance(firstColor, newColor);
-                int distance2 = AndroidUtilities.getColorDistance(firstColor, myMessagesGradientAccentColor);
+                int distance2 = AndroidUtilities.getColorDistance(firstColor, myMessagesGradientAccentColor1);
                 isMyMessagesGradientColorsNear = distance1 <= 35000 && distance2 <= 35000;
                 myMessagesAccent = getAccentColor(hsvTemp1, color, firstColor);
             }
@@ -1046,11 +1123,22 @@ public class Theme {
                 }
             }
             if (!isMyMessagesGradientColorsNear) {
-                if (myMessagesGradientAccentColor != 0) {
+                if (myMessagesGradientAccentColor1 != 0) {
                     int textColor;
                     int subTextColor;
                     int seekbarColor;
-                    if (useBlackText(myMessagesAccentColor, myMessagesGradientAccentColor)) {
+                    boolean useBlackText;
+                    if (myMessagesGradientAccentColor2 != 0) {
+                        int color = AndroidUtilities.getAverageColor(myMessagesAccentColor, myMessagesGradientAccentColor1);
+                        color = AndroidUtilities.getAverageColor(color, myMessagesGradientAccentColor2);
+                        if (myMessagesGradientAccentColor3 != 0) {
+                            color = AndroidUtilities.getAverageColor(color, myMessagesGradientAccentColor3);
+                        }
+                        useBlackText = AndroidUtilities.computePerceivedBrightness(color) > 0.705f;
+                    } else {
+                        useBlackText = useBlackText(myMessagesAccentColor, myMessagesGradientAccentColor1);
+                    }
+                    if (useBlackText) {
                         textColor = 0xff212121;
                         subTextColor = 0xff555555;
                         seekbarColor = 0x4d000000;
@@ -1140,9 +1228,16 @@ public class Theme {
                     isMyMessagesGradientColorsNear = false;
                 }
             }
-            if (myMessagesAccentColor != 0 && myMessagesGradientAccentColor != 0) {
+            if (myMessagesAccentColor != 0 && myMessagesGradientAccentColor1 != 0) {
                 currentColors.put(key_chat_outBubble, myMessagesAccentColor);
-                currentColors.put(key_chat_outBubbleGradient, myMessagesGradientAccentColor);
+                currentColors.put(key_chat_outBubbleGradient1, myMessagesGradientAccentColor1);
+                if (myMessagesGradientAccentColor2 != 0) {
+                    currentColors.put(key_chat_outBubbleGradient2, myMessagesGradientAccentColor2);
+                    if (myMessagesGradientAccentColor3 != 0) {
+                        currentColors.put(key_chat_outBubbleGradient3, myMessagesGradientAccentColor3);
+                    }
+                }
+                currentColors.put(key_chat_outBubbleGradientAnimated, myMessagesAnimated ? 1 : 0);
             }
             int backgroundOverride = (int) backgroundOverrideColor;
             if (backgroundOverride != 0) {
@@ -1618,7 +1713,11 @@ public class Theme {
             if (defaultAccent == null || accent == null) {
                 return false;
             }
-            return defaultAccent.myMessagesAccentColor == accent.myMessagesAccentColor && defaultAccent.myMessagesGradientAccentColor == accent.myMessagesGradientAccentColor;
+            return defaultAccent.myMessagesAccentColor == accent.myMessagesAccentColor &&
+                    defaultAccent.myMessagesGradientAccentColor1 == accent.myMessagesGradientAccentColor1 &&
+                    defaultAccent.myMessagesGradientAccentColor2 == accent.myMessagesGradientAccentColor2 &&
+                    defaultAccent.myMessagesGradientAccentColor3 == accent.myMessagesGradientAccentColor3 &&
+                    defaultAccent.myMessagesAnimated == accent.myMessagesAnimated;
         }
 
         private boolean isDefaultMainAccent() {
@@ -1713,7 +1812,7 @@ public class Theme {
                     themeAccent.myMessagesAccentColor = myMessages[a];
                 }
                 if (myMessagesGradient != null) {
-                    themeAccent.myMessagesGradientAccentColor = myMessagesGradient[a];
+                    themeAccent.myMessagesGradientAccentColor1 = myMessagesGradient[a];
                 }
                 if (background != null) {
                     themeAccent.backgroundOverrideColor = background[a];
@@ -1786,10 +1885,13 @@ public class Theme {
         }
 
         public static boolean accentEquals(ThemeAccent accent, TLRPC.TL_themeSettings settings) {
-            int myMessagesGradientAccentColor = settings.message_top_color;
-            if (settings.message_bottom_color == myMessagesGradientAccentColor) {
-                myMessagesGradientAccentColor = 0;
+            int bottomColor = settings.message_colors.size() > 0 ? settings.message_colors.get(0) | 0xff000000 : 0;
+            int myMessagesGradientAccentColor1 = settings.message_colors.size() > 1 ? settings.message_colors.get(1) | 0xff000000 : 0;
+            if (bottomColor == myMessagesGradientAccentColor1) {
+                myMessagesGradientAccentColor1 = 0;
             }
+            int myMessagesGradientAccentColor2 = settings.message_colors.size() > 2 ? settings.message_colors.get(2) | 0xff000000 : 0;
+            int myMessagesGradientAccentColor3 = settings.message_colors.size() > 3 ? settings.message_colors.get(3) | 0xff000000 : 0;
             int backgroundOverrideColor = 0;
             long backgroundGradientOverrideColor1 = 0;
             long backgroundGradientOverrideColor2 = 0;
@@ -1821,8 +1923,11 @@ public class Theme {
                 }
             }
             return settings.accent_color == accent.accentColor &&
-                    settings.message_bottom_color == accent.myMessagesAccentColor &&
-                    myMessagesGradientAccentColor == accent.myMessagesGradientAccentColor &&
+                    bottomColor == accent.myMessagesAccentColor &&
+                    myMessagesGradientAccentColor1 == accent.myMessagesGradientAccentColor1 &&
+                    myMessagesGradientAccentColor2 == accent.myMessagesGradientAccentColor2 &&
+                    myMessagesGradientAccentColor3 == accent.myMessagesGradientAccentColor3 &&
+                    settings.message_colors_animated == accent.myMessagesAnimated &&
                     backgroundOverrideColor == accent.backgroundOverrideColor &&
                     backgroundGradientOverrideColor1 == accent.backgroundGradientOverrideColor1 &&
                     backgroundGradientOverrideColor2 == accent.backgroundGradientOverrideColor2 &&
@@ -1834,11 +1939,14 @@ public class Theme {
 
         public static void fillAccentValues(ThemeAccent themeAccent, TLRPC.TL_themeSettings settings) {
             themeAccent.accentColor = settings.accent_color;
-            themeAccent.myMessagesAccentColor = settings.message_bottom_color;
-            themeAccent.myMessagesGradientAccentColor = settings.message_top_color;
-            if (themeAccent.myMessagesAccentColor == themeAccent.myMessagesGradientAccentColor) {
-                themeAccent.myMessagesGradientAccentColor = 0;
+            themeAccent.myMessagesAccentColor = settings.message_colors.size() > 0 ? settings.message_colors.get(0) | 0xff000000 : 0;
+            themeAccent.myMessagesGradientAccentColor1 = settings.message_colors.size() > 1 ? settings.message_colors.get(1) | 0xff000000 : 0;
+            if (themeAccent.myMessagesAccentColor == themeAccent.myMessagesGradientAccentColor1) {
+                themeAccent.myMessagesGradientAccentColor1 = 0;
             }
+            themeAccent.myMessagesGradientAccentColor2 = settings.message_colors.size() > 2 ? settings.message_colors.get(2) | 0xff000000 : 0;
+            themeAccent.myMessagesGradientAccentColor3 = settings.message_colors.size() > 3 ? settings.message_colors.get(3) | 0xff000000 : 0;
+            themeAccent.myMessagesAnimated = settings.message_colors_animated;
             if (settings.wallpaper != null && settings.wallpaper.settings != null) {
                 themeAccent.backgroundOverrideColor = getWallpaperColor(settings.wallpaper.settings.background_color);
                 if ((settings.wallpaper.settings.flags & 16) != 0 && settings.wallpaper.settings.second_background_color == 0) {
@@ -1901,7 +2009,10 @@ public class Theme {
                 ThemeAccent themeAccent = new ThemeAccent();
                 themeAccent.accentColor = accent.accentColor;
                 themeAccent.myMessagesAccentColor = accent.myMessagesAccentColor;
-                themeAccent.myMessagesGradientAccentColor = accent.myMessagesGradientAccentColor;
+                themeAccent.myMessagesGradientAccentColor1 = accent.myMessagesGradientAccentColor1;
+                themeAccent.myMessagesGradientAccentColor2 = accent.myMessagesGradientAccentColor2;
+                themeAccent.myMessagesGradientAccentColor3 = accent.myMessagesGradientAccentColor3;
+                themeAccent.myMessagesAnimated = accent.myMessagesAnimated;
                 themeAccent.backgroundOverrideColor = accent.backgroundOverrideColor;
                 themeAccent.backgroundGradientOverrideColor1 = accent.backgroundGradientOverrideColor1;
                 themeAccent.backgroundGradientOverrideColor2 = accent.backgroundGradientOverrideColor2;
@@ -2261,6 +2372,7 @@ public class Theme {
 
     public static Drawable chat_msgNoSoundDrawable;
     public static Drawable chat_composeShadowDrawable;
+    public static Drawable chat_composeShadowRoundDrawable;
     public static Drawable chat_roundVideoShadow;
     public static MessageDrawable chat_msgInDrawable;
     public static MessageDrawable chat_msgInSelectedDrawable;
@@ -2270,7 +2382,7 @@ public class Theme {
     public static MessageDrawable chat_msgInMediaSelectedDrawable;
     public static MessageDrawable chat_msgOutMediaDrawable;
     public static MessageDrawable chat_msgOutMediaSelectedDrawable;
-    private static StatusDrawable[] chat_status_drawables = new StatusDrawable[5];
+    private static StatusDrawable[] chat_status_drawables = new StatusDrawable[6];
 
     public static PathAnimator playPauseAnimator;
     public static Drawable chat_msgOutCheckDrawable;
@@ -2675,7 +2787,10 @@ public class Theme {
     public static final String key_chat_inBubbleSelected = "chat_inBubbleSelected";
     public static final String key_chat_inBubbleShadow = "chat_inBubbleShadow";
     public static final String key_chat_outBubble = "chat_outBubble";
-    public static final String key_chat_outBubbleGradient = "chat_outBubbleGradient";
+    public static final String key_chat_outBubbleGradient1 = "chat_outBubbleGradient";
+    public static final String key_chat_outBubbleGradient2 = "chat_outBubbleGradient2";
+    public static final String key_chat_outBubbleGradient3 = "chat_outBubbleGradient3";
+    public static final String key_chat_outBubbleGradientAnimated = "chat_outBubbleGradientAnimated";
     public static final String key_chat_outBubbleGradientSelectedOverlay = "chat_outBubbleGradientSelectedOverlay";
     public static final String key_chat_outBubbleSelected = "chat_outBubbleSelected";
     public static final String key_chat_outBubbleShadow = "chat_outBubbleShadow";
@@ -4167,7 +4282,7 @@ public class Theme {
         myMessagesColorKeys.add(key_chat_outBubble);
         myMessagesColorKeys.add(key_chat_outBubbleSelected);
         myMessagesColorKeys.add(key_chat_outBubbleShadow);
-        myMessagesColorKeys.add(key_chat_outBubbleGradient);
+        myMessagesColorKeys.add(key_chat_outBubbleGradient1);
         myMessagesColorKeys.add(key_chat_outSentCheck);
         myMessagesColorKeys.add(key_chat_outSentCheckSelected);
         myMessagesColorKeys.add(key_chat_outSentCheckRead);
@@ -4484,7 +4599,14 @@ public class Theme {
                                 accent.accentColor = data.readInt32(true);
                                 accent.parentTheme = info;
                                 accent.myMessagesAccentColor = data.readInt32(true);
-                                accent.myMessagesGradientAccentColor = data.readInt32(true);
+                                accent.myMessagesGradientAccentColor1 = data.readInt32(true);
+                                if (version >= 7) {
+                                    accent.myMessagesGradientAccentColor2 = data.readInt32(true);
+                                    accent.myMessagesGradientAccentColor3 = data.readInt32(true);
+                                }
+                                if (version >= 8) {
+                                    accent.myMessagesAnimated = data.readBool(true);
+                                }
                                 if (version >= 3) {
                                     accent.backgroundOverrideColor = data.readInt64(true);
                                 } else {
@@ -4555,13 +4677,16 @@ public class Theme {
                                 info.lastAccentId = 101;
 
                                 SerializedData data = new SerializedData(4 * (15 + 2));
-                                data.writeInt32(6);
+                                data.writeInt32(8);
                                 data.writeInt32(1);
 
                                 data.writeInt32(accent.id);
                                 data.writeInt32(accent.accentColor);
                                 data.writeInt32(accent.myMessagesAccentColor);
-                                data.writeInt32(accent.myMessagesGradientAccentColor);
+                                data.writeInt32(accent.myMessagesGradientAccentColor1);
+                                data.writeInt32(accent.myMessagesGradientAccentColor2);
+                                data.writeInt32(accent.myMessagesGradientAccentColor3);
+                                data.writeBool(accent.myMessagesAnimated);
                                 data.writeInt64(accent.backgroundOverrideColor);
                                 data.writeInt64(accent.backgroundGradientOverrideColor1);
                                 data.writeInt64(accent.backgroundGradientOverrideColor2);
@@ -5672,10 +5797,10 @@ public class Theme {
     }
 
     public static void refreshThemeColors() {
-        refreshThemeColors(false);
+        refreshThemeColors(false, false);
     }
 
-    public static void refreshThemeColors(boolean bg) {
+    public static void refreshThemeColors(boolean bg, boolean messages) {
         currentColors.clear();
         currentColors.putAll(currentColorsNoAccent);
         shouldDrawGradientIcons = true;
@@ -5683,7 +5808,9 @@ public class Theme {
         if (accent != null) {
             shouldDrawGradientIcons = accent.fillAccentColors(currentColorsNoAccent, currentColors);
         }
-        reloadWallpaper();
+        if (!messages) {
+            reloadWallpaper();
+        }
         applyCommonTheme();
         applyDialogsTheme();
         applyProfileTheme();
@@ -5842,7 +5969,7 @@ public class Theme {
                 int N = theme.themeAccents.size();
                 int count = Math.max(0, N - theme.defaultAccentCount);
                 SerializedData data = new SerializedData(4 * (count * 15 + 2));
-                data.writeInt32(6);
+                data.writeInt32(8);
                 data.writeInt32(count);
                 for (int a = 0; a < N; a++) {
                     ThemeAccent accent = theme.themeAccents.get(a);
@@ -5852,7 +5979,10 @@ public class Theme {
                     data.writeInt32(accent.id);
                     data.writeInt32(accent.accentColor);
                     data.writeInt32(accent.myMessagesAccentColor);
-                    data.writeInt32(accent.myMessagesGradientAccentColor);
+                    data.writeInt32(accent.myMessagesGradientAccentColor1);
+                    data.writeInt32(accent.myMessagesGradientAccentColor2);
+                    data.writeInt32(accent.myMessagesGradientAccentColor3);
+                    data.writeBool(accent.myMessagesAnimated);
                     data.writeInt64(accent.backgroundOverrideColor);
                     data.writeInt64(accent.backgroundGradientOverrideColor1);
                     data.writeInt64(accent.backgroundGradientOverrideColor2);
@@ -5995,6 +6125,10 @@ public class Theme {
 
     public static boolean isCurrentThemeNight() {
         return currentTheme == currentNightTheme;
+    }
+
+    public static boolean isCurrentThemeDark() {
+        return currentTheme.isDark();
     }
 
     public static ThemeInfo getActiveTheme() {
@@ -6318,10 +6452,19 @@ public class Theme {
         StringBuilder result = new StringBuilder();
         if (colorsMap != defaultColors) {
             int outBubbleColor = accent != null ? accent.myMessagesAccentColor : 0;
-            int outBubbleGradient = accent != null ? accent.myMessagesGradientAccentColor : 0;
-            if (outBubbleColor != 0 && outBubbleGradient != 0) {
+            int outBubbleGradient1 = accent != null ? accent.myMessagesGradientAccentColor1 : 0;
+            int outBubbleGradient2 = accent != null ? accent.myMessagesGradientAccentColor2 : 0;
+            int outBubbleGradient3 = accent != null ? accent.myMessagesGradientAccentColor3 : 0;
+            if (outBubbleColor != 0 && outBubbleGradient1 != 0) {
                 colorsMap.put(key_chat_outBubble, outBubbleColor);
-                colorsMap.put(key_chat_outBubbleGradient, outBubbleGradient);
+                colorsMap.put(key_chat_outBubbleGradient1, outBubbleGradient1);
+                if (outBubbleGradient2 != 0) {
+                    colorsMap.put(key_chat_outBubbleGradient2, outBubbleGradient2);
+                    if (outBubbleGradient3 != 0) {
+                        colorsMap.put(key_chat_outBubbleGradient3, outBubbleGradient3);
+                    }
+                }
+                colorsMap.put(key_chat_outBubbleGradientAnimated, accent != null && accent.myMessagesAnimated ? 1 : 0);
             }
         }
         for (HashMap.Entry<String, Integer> entry : colorsMap.entrySet()) {
@@ -6765,7 +6908,7 @@ public class Theme {
             int messageFieldIconColor = getPreviewColor(colors, key_chat_messagePanelIcons);
             int messageInColor = getPreviewColor(colors, key_chat_inBubble);
             int messageOutColor = getPreviewColor(colors, key_chat_outBubble);
-            Integer messageOutGradientColor = colors.get(key_chat_outBubbleGradient);
+            Integer messageOutGradientColor = colors.get(key_chat_outBubbleGradient1);
             Integer backgroundColor = colors.get(key_chat_wallpaper);
             Integer gradientToColor1 = colors.get(key_chat_wallpaper_gradient_to1);
             Integer gradientToColor2 = colors.get(key_chat_wallpaper_gradient_to2);
@@ -6988,15 +7131,15 @@ public class Theme {
                 otherDrawable.draw(canvas);
             }
             msgDrawable[1].setBounds(161, 216, bitmap.getWidth() - 20, 216 + 92);
-            msgDrawable[1].setTop(0, 522, false, false);
+            msgDrawable[1].setTop(0, 560, 522, false, false);
             msgDrawable[1].draw(canvas);
 
             msgDrawable[1].setBounds(161, 430, bitmap.getWidth() - 20, 430 + 92);
-            msgDrawable[1].setTop(430, 522, false, false);
+            msgDrawable[1].setTop(430, 560, 522, false, false);
             msgDrawable[1].draw(canvas);
 
             msgDrawable[0].setBounds(20, 323, 399, 323 + 92);
-            msgDrawable[0].setTop(323, 522, false, false);
+            msgDrawable[0].setTop(323, 560, 522, false, false);
             msgDrawable[0].draw(canvas);
 
             paint.setColor(messageFieldColor);
@@ -7723,7 +7866,8 @@ public class Theme {
             chat_locationDrawable[0] = resources.getDrawable(R.drawable.msg_location).mutate();
             chat_locationDrawable[1] = resources.getDrawable(R.drawable.msg_location).mutate();
 
-            chat_composeShadowDrawable = context.getResources().getDrawable(R.drawable.compose_panel_shadow);
+            chat_composeShadowDrawable = context.getResources().getDrawable(R.drawable.compose_panel_shadow).mutate();
+            chat_composeShadowRoundDrawable = context.getResources().getDrawable(R.drawable.sheet_shadow_round).mutate();
 
             try {
                 int bitmapSize = AndroidUtilities.roundMessageSize + AndroidUtilities.dp(6);
@@ -7778,7 +7922,6 @@ public class Theme {
             chat_instantViewPaint.setTextSize(AndroidUtilities.dp(13));
             chat_instantViewRectPaint.setStrokeWidth(AndroidUtilities.dp(1));
             chat_pollTimerPaint.setStrokeWidth(AndroidUtilities.dp(1.1f));
-            chat_statusRecordPaint.setStrokeWidth(AndroidUtilities.dp(2));
             chat_actionTextPaint.setTextSize(AndroidUtilities.dp(Math.max(16, SharedConfig.fontSize) - 2));
             chat_contextResult_titleTextPaint.setTextSize(AndroidUtilities.dp(15));
             chat_contextResult_descriptionTextPaint.setTextSize(AndroidUtilities.dp(13));
@@ -7989,6 +8132,7 @@ public class Theme {
             setDrawableColor(chat_psaHelpDrawable[1], getColor(key_chat_outViews));
 
             setDrawableColorByKey(chat_composeShadowDrawable, key_chat_messagePanelShadow);
+            setDrawableColorByKey(chat_composeShadowRoundDrawable, key_chat_messagePanelBackground);
 
             int color = getColor(key_chat_outAudioSeekbarFill);
             if (color == 0xffffffff) {
@@ -9021,7 +9165,7 @@ public class Theme {
     }
 
     public static StatusDrawable getChatStatusDrawable(int type) {
-        if (type < 0 || type > 4) {
+        if (type < 0 || type > 5) {
             return null;
         }
         StatusDrawable statusDrawable = chat_status_drawables[type];
@@ -9043,6 +9187,9 @@ public class Theme {
                 break;
             case 4:
                 chat_status_drawables[4] = new RoundStatusDrawable(true);
+                break;
+            case 5:
+                chat_status_drawables[5] = new ChoosingStickerStatusDrawable(true);
                 break;
         }
         statusDrawable = chat_status_drawables[type];
