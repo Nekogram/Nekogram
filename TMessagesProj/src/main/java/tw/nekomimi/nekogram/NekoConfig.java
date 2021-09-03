@@ -105,6 +105,7 @@ public class NekoConfig {
     public static boolean accentAsNotificationColor = false;
     public static boolean silenceNonContacts = false;
     public static boolean swipeToPiP = false;
+    public static boolean disableJumpToNextChannel = false;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
@@ -262,6 +263,7 @@ public class NekoConfig {
             showDate = preferences.getBoolean("showDate", false);
             translationTarget = preferences.getString("translationTarget", "app");
             maxRecentStickers = preferences.getInt("maxRecentStickers", 20);
+            disableJumpToNextChannel = preferences.getBoolean("disableJumpToNextChannel", false);
             configLoaded = true;
         }
     }
@@ -746,6 +748,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("swipeToPiP", swipeToPiP);
+        editor.commit();
+    }
+
+    public static void toggleDisableJumpToNextChannel() {
+        disableJumpToNextChannel = !disableJumpToNextChannel;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("disableJumpToNextChannel", disableJumpToNextChannel);
         editor.commit();
     }
 

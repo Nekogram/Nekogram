@@ -70,6 +70,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int tryToOpenAllLinksInIVRow;
     private int disableProximityEventsRow;
     private int swipeToPiPRow;
+    private int disableJumpToNextRow;
     private int autoPauseVideoRow;
     private int messageMenuRow;
     private int chat2Row;
@@ -204,6 +205,11 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.autoPauseVideo);
                 }
+            } else if (position == disableJumpToNextRow) {
+                NekoConfig.toggleDisableJumpToNextChannel();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.disableJumpToNextChannel);
+                }
             }
         });
 
@@ -233,6 +239,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         tryToOpenAllLinksInIVRow = rowCount++;
         disableProximityEventsRow = rowCount++;
         swipeToPiPRow = rowCount++;
+        disableJumpToNextRow = rowCount++;
         autoPauseVideoRow = rowCount++;
         messageMenuRow = rowCount++;
         chat2Row = rowCount++;
@@ -593,6 +600,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                         textCell.setTextAndCheck(LocaleController.getString("SwipeToPiP", R.string.SwipeToPiP), NekoConfig.swipeToPiP, true);
                     } else if (position == autoPauseVideoRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("AutoPauseVideo", R.string.AutoPauseVideo), LocaleController.getString("AutoPauseVideoAbout", R.string.AutoPauseVideoAbout), NekoConfig.autoPauseVideo, true, true);
+                    } else if (position == disableJumpToNextRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("DisableJumpToNextChannel", R.string.DisableJumpToNextChannel), NekoConfig.disableJumpToNextChannel, true);
                     }
                     break;
                 }

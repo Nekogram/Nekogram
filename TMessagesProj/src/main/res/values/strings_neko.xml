@@ -66,7 +66,7 @@
     <string name="TranslateApiUnsupported">The translation provider you selected don\'t support your language.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Undo translate</string>
-    <string name="DisablePhotoViewerSideAction">Disable Flip Photos by tapping</string>
+    <string name="DisablePhotoViewerSideAction">Disable \"Flip Photos by tapping\"</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Unlimited pinned dialogs</string>
     <string name="UnlimitedPinnedDialogsAbout">Pin unlimited dialogs by turn their sync off.</string>
@@ -170,4 +170,5 @@
     <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Max recent stickers</string>
     <string name="ApplyEmojiFont">Apply emoji font</string>
+    <string name="DisableJumpToNextChannel">Disable \"Jump to Next Channel\"</string>
 </resources>
