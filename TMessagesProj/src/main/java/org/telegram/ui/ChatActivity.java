@@ -20124,16 +20124,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                     }
                 }
-            }
-            if (NekoConfig.showMessageDetails) {
-                items.add(LocaleController.getString("MessageDetails", R.string.MessageDetails));
-                options.add(89);
-                icons.add(R.drawable.menu_info);
-            }
-            if (NekoConfig.showDate) {
-                items.add(LocaleController.getString("MsgDate", R.string.MsgDate));
-                icons.add(R.drawable.msg_calendar);
-                options.add(86);
+
+                if (NekoConfig.showMessageDetails) {
+                    items.add(LocaleController.getString("MessageDetails", R.string.MessageDetails));
+                    options.add(89);
+                    icons.add(R.drawable.menu_info);
+                }
+                if (NekoConfig.showDate) {
+                    items.add(LocaleController.getString("MsgDate", R.string.MsgDate));
+                    icons.add(R.drawable.msg_calendar);
+                    options.add(86);
+                }
             }
             if (options.isEmpty()) {
                 return;
