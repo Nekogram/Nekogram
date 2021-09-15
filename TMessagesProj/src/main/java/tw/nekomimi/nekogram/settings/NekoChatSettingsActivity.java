@@ -48,7 +48,7 @@ import java.util.ArrayList;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 
-@SuppressLint("RtlHardcoded")
+@SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
 public class NekoChatSettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private RecyclerListView listView;

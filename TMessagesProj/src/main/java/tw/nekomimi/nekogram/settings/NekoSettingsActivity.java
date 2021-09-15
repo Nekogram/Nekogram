@@ -47,7 +47,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.DonateHelper;
 import tw.nekomimi.nekogram.helpers.UpdateHelper;
 
-@SuppressLint("RtlHardcoded")
+@SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
 public class NekoSettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private RecyclerListView listView;

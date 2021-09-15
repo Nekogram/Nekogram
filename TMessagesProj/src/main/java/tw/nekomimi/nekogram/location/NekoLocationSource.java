@@ -64,7 +64,7 @@ public class NekoLocationSource implements LocationSource {
     }
 
     @Override
-    public void activate(OnLocationChangedListener onLocationChangedListener) {
+    public void activate(@NonNull OnLocationChangedListener onLocationChangedListener) {
         if (checkPermission && Build.VERSION.SDK_INT >= 23) {
             if (context instanceof Activity) {
                 checkPermission = false;

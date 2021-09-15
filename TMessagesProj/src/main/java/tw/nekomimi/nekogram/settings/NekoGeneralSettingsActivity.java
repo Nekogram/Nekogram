@@ -51,7 +51,7 @@ import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.translator.Translator;
 
-@SuppressLint("RtlHardcoded")
+@SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
 public class NekoGeneralSettingsActivity extends BaseFragment {
 
     private RecyclerListView listView;

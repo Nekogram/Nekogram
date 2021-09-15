@@ -41,7 +41,7 @@ import java.util.ArrayList;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 
-@SuppressLint("RtlHardcoded")
+@SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
 public class WsSettingsActivity extends BaseFragment {
 
     private RecyclerListView listView;

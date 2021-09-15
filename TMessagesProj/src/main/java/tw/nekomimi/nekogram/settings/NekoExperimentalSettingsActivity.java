@@ -51,7 +51,7 @@ import java.util.ArrayList;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 
-@SuppressLint("RtlHardcoded")
+@SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
 public class NekoExperimentalSettingsActivity extends BaseFragment {
 
     private RecyclerListView listView;
@@ -227,17 +227,18 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.shouldNOTTrustMe);
                 }
             } else if (position == emojiRow) {
-                if (!TextUtils.isEmpty(NekoConfig.customEmojiFontPath) && (LocaleController.isRTL && x <= AndroidUtilities.dp(76) || !LocaleController.isRTL && x >= view.getMeasuredWidth() - AndroidUtilities.dp(76))) {
-                    NotificationsCheckCell checkCell = (NotificationsCheckCell) view;
-                    NekoConfig.toggleCustomEmojiFont();
-                    checkCell.setChecked(NekoConfig.customEmojiFont, 0);
-                } else {
-                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                    intent.addCategory(Intent.CATEGORY_OPENABLE);
-                    intent.setType("*/*");
-                    startActivityForResult(intent, 36654);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                    if (!TextUtils.isEmpty(NekoConfig.customEmojiFontPath) && (LocaleController.isRTL && x <= AndroidUtilities.dp(76) || !LocaleController.isRTL && x >= view.getMeasuredWidth() - AndroidUtilities.dp(76))) {
+                        NotificationsCheckCell checkCell = (NotificationsCheckCell) view;
+                        NekoConfig.toggleCustomEmojiFont();
+                        checkCell.setChecked(NekoConfig.customEmojiFont, 0);
+                    } else {
+                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                        intent.addCategory(Intent.CATEGORY_OPENABLE);
+                        intent.setType("*/*");
+                        startActivityForResult(intent, 36654);
+                    }
                 }
-
             } else if (position == mapDriftingFixRow) {
                 NekoConfig.toggleMapDriftingFix();
                 if (view instanceof TextCheckCell) {
