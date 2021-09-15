@@ -59,7 +59,7 @@
     <string name="TranslateApiUnsupported">Penyedia terjemahan yang Anda pilih tidak mendukung bahasa Anda.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Batalkan terjemahan</string>
-    <string name="DisablePhotoViewerSideAction">Nonaktifkan ketuk untuk melihat foto berikut/sebelumnya</string>
+    <string name="DisablePhotoViewerSideAction">Matikan ketuk untuk melihat foto berikut/sebelumnya</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Obrolan disematkan tanpa batas</string>
     <string name="UnlimitedPinnedDialogsAbout">Sematkan obrolan tanpa batas dan matikan sinkronisasi.</string>
@@ -161,4 +161,5 @@
     <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Maksimum stiker terakhir digunakan</string>
     <string name="ApplyEmojiFont">Terapkan fon emoji</string>
+    <string name="DisableJumpToNextChannel">Matikan loncat ke Channel berikutnya</string>
 </resources>

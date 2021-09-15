@@ -51,7 +51,6 @@
     <string name="TranslateApiUnsupported">選択した翻訳プロバイダはあなたの言語をサポートしていません.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">翻訳を取り消す</string>
-    <string name="DisablePhotoViewerSideAction">タップして写真めくりを無効にする</string>
     <string name="BotToken">トークン</string>
     <string name="UnlimitedPinnedDialogs">無制限のチャット固定</string>
     <string name="UnlimitedPinnedDialogsAbout">チャットを無制限に固定することができます。固定は同期されなくなります。</string>

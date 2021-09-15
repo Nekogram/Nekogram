@@ -59,7 +59,7 @@
     <string name="TranslateApiUnsupported">선택한 변환 공급자가 사용자의 언어를 지원하지 않습니다.</string>
     <string name="ProviderLingocloud">링고 클라우드</string>
     <string name="UndoTranslate">번역 취소</string>
-    <string name="DisablePhotoViewerSideAction">눌러서 사진 뒤집기 비활성화</string>
+    <string name="DisablePhotoViewerSideAction">\"탭하여 사진 뒤집기\" 비활성화</string>
     <string name="BotToken">토큰</string>
     <string name="UnlimitedPinnedDialogs">무제한 대화 고정</string>
     <string name="UnlimitedPinnedDialogsAbout">동기화를 해제하여 대화를 무제한으로 고정하세요.</string>
@@ -162,4 +162,5 @@
     <string name="ProviderNiuTrans">니우 번역기</string>
     <string name="MaxRecentStickers">최근 사용 스티커 최대 개수 도달</string>
     <string name="ApplyEmojiFont">이모티콘 글꼴 적용</string>
+    <string name="DisableJumpToNextChannel">\"다음 채널로 이동\" 비활성화</string>
 </resources>

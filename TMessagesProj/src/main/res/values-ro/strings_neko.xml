@@ -58,7 +58,6 @@
     <string name="TranslateApiUnsupported">Furnizorul de traduceri selectat nu acceptă limba dvs.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Anulați traducere</string>
-    <string name="DisablePhotoViewerSideAction">Dezactivați rotirea fotografiilor prin apăsare</string>
     <string name="BotToken">Cod</string>
     <string name="UnlimitedPinnedDialogs">Dialoguri fixate nelimitate</string>
     <string name="UnlimitedPinnedDialogsAbout">Fixați dialoguri nelimitate dezactivând sincronizarea lor.</string>

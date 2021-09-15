@@ -59,7 +59,7 @@
     <string name="TranslateApiUnsupported">El proveedor de traducción seleccionado no soporta su idioma.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Deshacer traducción</string>
-    <string name="DisablePhotoViewerSideAction">No cambiar de imagen con toques</string>
+    <string name="DisablePhotoViewerSideAction">Desactivar \"Voltear fotos tocando\"</string>
     <string name="BotToken">Tóken</string>
     <string name="UnlimitedPinnedDialogs">Chats anclados ilimitados</string>
     <string name="UnlimitedPinnedDialogsAbout">Ancla tantos chats como quieras, pero desactiva su sincronización.</string>
@@ -159,4 +159,7 @@
     <string name="RestrictionReason">Razón de restricción</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="ProviderNiuTrans">Niu Trans</string>
+    <string name="MaxRecentStickers">Máximo de stickers recientes</string>
+    <string name="ApplyEmojiFont">Aplicar fuente de emoji</string>
+    <string name="DisableJumpToNextChannel">Desactivar \"Saltar al siguiente canal\"</string>
 </resources>

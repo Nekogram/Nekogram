@@ -57,7 +57,6 @@
     <string name="TranslateApiUnsupported">Oversettelsesleverandøren du valgte støtter ikke språket ditt.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Angre oversettelsen</string>
-    <string name="DisablePhotoViewerSideAction">Deaktiver Flip Bilder ved å trykke på</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Ubegrenset festede dialoger</string>
     <string name="UnlimitedPinnedDialogsAbout">Fest ubegrensede dialoger ved å slå av synkroniseringen.</string>

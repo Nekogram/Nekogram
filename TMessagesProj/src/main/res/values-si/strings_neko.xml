@@ -58,7 +58,6 @@
     <string name="TranslateApiUnsupported">ඔබ තෝරාගත් පරිවර්තන සැපයුම්කරු ඔබේ භාෂාව සමග ක්‍රියා නොකරයි.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">පරිවර්තනය ආපසු හරවන්න</string>
-    <string name="DisablePhotoViewerSideAction">තට්ටු කරන විට ඡායාරූප පෙරලීම වළක්වන්න</string>
     <string name="BotToken">ටෝකනය</string>
     <string name="UnlimitedPinnedDialogs">සීමාවක් රහිත දෙබස් පින් කිරීම</string>
     <string name="UnlimitedPinnedDialogsAbout">මෙමගින් එම පින් කරන ලද දෙබස් උපාංග අතර sync වීම වළකයි.</string>

@@ -58,7 +58,6 @@
     <string name="TranslateApiUnsupported">Постачальник перекладу, обраний вами не підтримує вашу мову.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Скасувати переклад</string>
-    <string name="DisablePhotoViewerSideAction">Вимкнути перевертання фото дотиком</string>
     <string name="BotToken">Ключ</string>
     <string name="UnlimitedPinnedDialogs">Необмежені закріплені чати</string>
     <string name="UnlimitedPinnedDialogsAbout">Увімкнути необмежені закріплені чати, вимкнувши їхню синхронізацію.</string>
@@ -94,6 +93,7 @@
     <string name="MediaPreview">Попередній перегляд медіа у списку чатів</string>
     <string name="ProviderYandex">Яндекс Перекладач</string>
     <string name="IdType">ID чату в профілі</string>
+    <string name="IdTypeAbout">API Telegram використовує ID як є, але API Бот додає мінус на початку груп, і -100 для каналів і супергруп по ній розміщено в одному полі.</string>
     <string name="IdTypeHidden">Приховати</string>
     <string name="IdTypeAPI">API Telegram</string>
     <string name="IdTypeBOTAPI">Bot API</string>
@@ -107,6 +107,8 @@
     <string name="OpenAllLinksInInstantView">Намагатися відкривати усі посилання в Instant View</string>
     <string name="DonateThankYou">Дякую!</string>
     <string name="DonateEvilGoogle">Гугл візьме 30 відсотків від твого донату.</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Форматувати час з секундами</string>
     <string name="JumpToBeginning">Перейти до початку</string>
     <string name="ProviderDeepLTranslate">DeepL Перекладач</string>
@@ -155,4 +157,5 @@
     <string name="ProviderTencentTranslator">Містер Перекладач</string>
     <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Макс. кількість наліпок</string>
+    <string name="ApplyEmojiFont">Застосувати шрифт емодзі</string>
 </resources>

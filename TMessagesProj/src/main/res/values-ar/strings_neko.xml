@@ -59,7 +59,6 @@
     <string name="TranslateApiUnsupported">مّوفر الترجمة الذي اخترته لا يدعم لغتك.</string>
     <string name="ProviderLingocloud">LingoCloud</string>
     <string name="UndoTranslate">النص الأصلي</string>
-    <string name="DisablePhotoViewerSideAction">تعطيل قلب الصور بالنقر</string>
     <string name="BotToken">توكن</string>
     <string name="UnlimitedPinnedDialogs">تثبيت محادثات لا نهائي</string>
     <string name="UnlimitedPinnedDialogsAbout">تثبيت محادثات غير محدودة بإيقاف مزامنتها.</string>

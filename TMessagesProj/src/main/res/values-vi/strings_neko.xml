@@ -59,7 +59,6 @@
     <string name="TranslateApiUnsupported">Nhà cung cấp dịch thuật mà bạn đã chọn không hỗ trợ ngôn ngữ của bạn.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Hoàn tác dịch</string>
-    <string name="DisablePhotoViewerSideAction">Tắt lật đa phương tiện bằng cách nhấn</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Ghim không giới hạn hộp thoại</string>
     <string name="UnlimitedPinnedDialogsAbout">Ghim các hộp thoại không giới hạn bằng cách tắt đồng bộ hóa của chúng.</string>

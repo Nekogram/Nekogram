@@ -59,7 +59,7 @@
     <string name="TranslateApiUnsupported">您选择的翻译源不支持您的语言。</string>
     <string name="ProviderLingocloud">彩云小译</string>
     <string name="UndoTranslate">撤销翻译</string>
-    <string name="DisablePhotoViewerSideAction">禁用点按切换图片</string>
+    <string name="DisablePhotoViewerSideAction">禁用“点按切换图片”</string>
     <string name="BotToken">令牌</string>
     <string name="UnlimitedPinnedDialogs">无限的置顶对话</string>
     <string name="UnlimitedPinnedDialogsAbout">关闭同步以置顶无限对话。</string>
@@ -163,4 +163,5 @@
     <string name="ProviderNiuTrans">小牛翻译</string>
     <string name="MaxRecentStickers">最大最近贴纸数量</string>
     <string name="ApplyEmojiFont">应用 Emoji 字体</string>
+    <string name="DisableJumpToNextChannel">禁用“跳转到下一个频道”</string>
 </resources>

@@ -1,2 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="NekoSettings">Neko sozlamalari</string>
+    <string name="MessageMenu">Xabarlar menyusi</string>
+    <string name="HidePhone">Telefon raqamimni yashirish</string>
+    <string name="Hide">Yashirish</string>
+    <string name="Translate">Tarjima</string>
+    <string name="DeleteAccount">Telegram akkountni oʻchirish</string>
+</resources>

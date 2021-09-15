@@ -59,7 +59,6 @@
     <string name="TranslateApiUnsupported">Выбранный переводчик не поддерживает ваш язык.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Отменить перевод</string>
-    <string name="DisablePhotoViewerSideAction">Пролистывать фото нажатием</string>
     <string name="BotToken">Токен</string>
     <string name="UnlimitedPinnedDialogs">Неограниченные закрепленные диалоги</string>
     <string name="UnlimitedPinnedDialogsAbout">Неограниченное закрепление диалогов без синхронизации на других устройствах.</string>

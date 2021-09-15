@@ -59,7 +59,7 @@
     <string name="TranslateApiUnsupported">Il fornitore della traduzione selezionato non supporta la tua lingua.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Annulla traduzione</string>
-    <string name="DisablePhotoViewerSideAction">Disattiva lo scorrimento dei media al tocco</string>
+    <string name="DisablePhotoViewerSideAction">Disabilita \"Sfoglia le foto toccando\"</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Chat fissate illimitate</string>
     <string name="UnlimitedPinnedDialogsAbout">Fissa chat illimitate disattivando la loro sincronizzazione.</string>
@@ -160,5 +160,6 @@
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Numero massimo di stickers recenti</string>
-    <string name="ApplyEmojiFont">Applica font emoji</string>
+    <string name="ApplyEmojiFont">Applica il font emoji </string>
+    <string name="DisableJumpToNextChannel">Disabilita \"Passa al canale successivo\"</string>
 </resources>
