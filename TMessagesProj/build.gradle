@@ -133,7 +133,6 @@ android {
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             ndk.debugSymbolLevel = 'FULL'
-            buildConfigField("String", "EXTRA", "\"${extra}\"")
         }
 
         release {
@@ -145,7 +144,6 @@ android {
             multiDexEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
             ndk.debugSymbolLevel = 'FULL'
-            buildConfigField("String", "EXTRA", "\"${extra}\"")
         }
     }
 
@@ -157,7 +155,7 @@ android {
         manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
     }
 
-    defaultConfig.versionCode = 2406
+    defaultConfig.versionCode = 2407
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
@@ -172,7 +170,7 @@ android {
     defaultConfig {
         minSdkVersion 16
         targetSdkVersion 29
-        versionName "8.0.0"
+        versionName "8.0.0.1"
 
         vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
@@ -203,7 +201,6 @@ def patchBundleReleaseManifest = task('patchBundleReleaseManifest').doLast {
     newManifest = newManifest.replace("<uses-permission android:name=\"android.permission.ACCESS_BACKGROUND_LOCATION\" />", "")
     newManifest = newManifest.replace("<uses-permission android:name=\"android.permission.READ_CALL_LOG\" />", "")
     newManifest = newManifest.replace("nekogram.apks", "nekogram.bundle")
-    System.console().printf(newManifest)
     Files.write(manifest, newManifest.getBytes())
 }
 
