@@ -171,8 +171,7 @@ public class ApplicationLoader extends Application {
             ContactsController.getInstance(a).checkAppAccount();
             DownloadController.getInstance(a);
         }
-
-        WearDataLayerListenerService.updateWatchConnectionState();
+        ChatThemeController.init();
     }
 
     public ApplicationLoader() {

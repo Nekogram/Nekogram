@@ -191,7 +191,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                 TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
                 try {
                     AndroidUtilities.addToClipboard(textCell.getValueTextView().getText());
-                    BulletinFactory.of((FrameLayout) fragmentView).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                    BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
                 } catch (Exception e) {
                     FileLog.e(e);
                 }
@@ -218,31 +218,31 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
             } else if (position == channelRow || position == groupRow) {
                 if (toChat != null) {
                     Bundle args = new Bundle();
-                    args.putInt("chat_id", toChat.id);
+                    args.putLong("chat_id", toChat.id);
                     ProfileActivity fragment = new ProfileActivity(args);
                     presentFragment(fragment);
                 }
             } else if (position == fromRow) {
                 if (fromUser != null) {
                     Bundle args = new Bundle();
-                    args.putInt("user_id", fromUser.id);
+                    args.putLong("user_id", fromUser.id);
                     ProfileActivity fragment = new ProfileActivity(args);
                     presentFragment(fragment);
                 } else if (fromChat != null) {
                     Bundle args = new Bundle();
-                    args.putInt("chat_id", fromChat.id);
+                    args.putLong("chat_id", fromChat.id);
                     ProfileActivity fragment = new ProfileActivity(args);
                     presentFragment(fragment);
                 }
             } else if (position == forwardRow) {
                 if (forwardFromUser != null) {
                     Bundle args = new Bundle();
-                    args.putInt("user_id", forwardFromUser.id);
+                    args.putLong("user_id", forwardFromUser.id);
                     ProfileActivity fragment = new ProfileActivity(args);
                     presentFragment(fragment);
                 } else if (forwardFromChat != null) {
                     Bundle args = new Bundle();
-                    args.putInt("chat_id", forwardFromChat.id);
+                    args.putLong("chat_id", forwardFromChat.id);
                     ProfileActivity fragment = new ProfileActivity(args);
                     presentFragment(fragment);
                 }
@@ -262,7 +262,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                     cell.setOnClickListener(v1 -> {
                         dialog.dismiss();
                         AndroidUtilities.addToClipboard(cell.getValueTextView().getText());
-                        BulletinFactory.of((FrameLayout) fragmentView).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                        BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
                     });
                     cell.setTextAndValue(reason.reason + "-" + reason.platform, reason.text, false);
 

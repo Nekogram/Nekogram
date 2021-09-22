@@ -120,10 +120,18 @@ public class ActionBar extends FrameLayout {
     private boolean centerScale;
     private CharSequence subtitle;
 
+    private View.OnTouchListener interceptTouchEventListener;
+    private final Theme.ResourcesProvider resourcesProvider;
+
     EllipsizeSpanAnimator ellipsizeSpanAnimator = new EllipsizeSpanAnimator(this);
 
     public ActionBar(Context context) {
+        this(context, null);
+    }
+
+    public ActionBar(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
+        this.resourcesProvider = resourcesProvider;
         setOnClickListener(v -> {
             if (isSearchFieldVisible()) {
                 return;
@@ -211,7 +219,7 @@ public class ActionBar extends FrameLayout {
                 }
             }
         }
-        return super.onInterceptTouchEvent(ev);
+        return interceptTouchEventListener != null && interceptTouchEventListener.onTouch(this, ev) || super.onInterceptTouchEvent(ev);
     }
 
     protected boolean shouldClipChild(View child) {
@@ -292,7 +300,7 @@ public class ActionBar extends FrameLayout {
         subtitleTextView = new SimpleTextView(getContext());
         subtitleTextView.setGravity(Gravity.LEFT);
         subtitleTextView.setVisibility(GONE);
-        subtitleTextView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubtitle));
+        subtitleTextView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubtitle));
         addView(subtitleTextView, 0, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
     }
 
@@ -303,7 +311,7 @@ public class ActionBar extends FrameLayout {
         additionalSubtitleTextView = new SimpleTextView(getContext());
         additionalSubtitleTextView.setGravity(Gravity.LEFT);
         additionalSubtitleTextView.setVisibility(GONE);
-        additionalSubtitleTextView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubtitle));
+        additionalSubtitleTextView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubtitle));
         addView(additionalSubtitleTextView, 0, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
     }
 
@@ -347,7 +355,7 @@ public class ActionBar extends FrameLayout {
         if (titleColorToSet != 0) {
             titleTextView[i].setTextColor(titleColorToSet);
         } else {
-            titleTextView[i].setTextColor(Theme.getColor(Theme.key_actionBarDefaultTitle));
+            titleTextView[i].setTextColor(getThemedColor(Theme.key_actionBarDefaultTitle));
         }
         titleTextView[i].setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         addView(titleTextView[i], 0, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP));
@@ -486,7 +494,7 @@ public class ActionBar extends FrameLayout {
         };
         actionMode.isActionMode = true;
         actionMode.setClickable(true);
-        actionMode.setBackgroundColor(Theme.getColor(Theme.key_actionBarActionModeDefault));
+        actionMode.setBackgroundColor(getThemedColor(Theme.key_actionBarActionModeDefault));
         addView(actionMode, indexOfChild(backButtonImageView));
         actionMode.setPadding(0, occupyStatusBar ? AndroidUtilities.statusBarHeight : 0, 0, 0);
         FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) actionMode.getLayoutParams();
@@ -499,7 +507,7 @@ public class ActionBar extends FrameLayout {
 
         if (occupyStatusBar && needTop && actionModeTop == null) {
             actionModeTop = new View(getContext());
-            actionModeTop.setBackgroundColor(Theme.getColor(Theme.key_actionBarActionModeDefaultTop));
+            actionModeTop.setBackgroundColor(getThemedColor(Theme.key_actionBarActionModeDefaultTop));
             addView(actionModeTop);
             layoutParams = (FrameLayout.LayoutParams) actionModeTop.getLayoutParams();
             layoutParams.height = AndroidUtilities.statusBarHeight;
@@ -756,7 +764,7 @@ public class ActionBar extends FrameLayout {
     public void showActionModeTop() {
         if (occupyStatusBar && actionModeTop == null) {
             actionModeTop = new View(getContext());
-            actionModeTop.setBackgroundColor(Theme.getColor(Theme.key_actionBarActionModeDefaultTop));
+            actionModeTop.setBackgroundColor(getThemedColor(Theme.key_actionBarActionModeDefaultTop));
             addView(actionModeTop);
             FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) actionModeTop.getLayoutParams();
             layoutParams.height = AndroidUtilities.statusBarHeight;
@@ -887,6 +895,10 @@ public class ActionBar extends FrameLayout {
 
     public void setInterceptTouches(boolean value) {
         interceptTouches = value;
+    }
+
+    public void setInterceptTouchEventListener(View.OnTouchListener listener) {
+        interceptTouchEventListener = listener;
     }
 
     public void setExtraHeight(int value) {
@@ -1472,12 +1484,14 @@ public class ActionBar extends FrameLayout {
                 public Animator createAnimator(ViewGroup sceneRoot, TransitionValues startValues, TransitionValues endValues) {
                     if (startValues != null && startValues.view instanceof SimpleTextView) {
                         AnimatorSet animatorSet = new AnimatorSet();
-                        Animator animator = super.createAnimator(sceneRoot, startValues, endValues);
-                        float s = (float) startValues.values.get("text_size") / (float) endValues.values.get("text_size");
-                        startValues.view.setScaleX(s);
-                        startValues.view.setScaleY(s);
-                        if (animator != null) {
-                            animatorSet.playTogether(animator);
+                        if (startValues != null && endValues != null) {
+                            Animator animator = super.createAnimator(sceneRoot, startValues, endValues);
+                            float s = (float) startValues.values.get("text_size") / (float) endValues.values.get("text_size");
+                            startValues.view.setScaleX(s);
+                            startValues.view.setScaleY(s);
+                            if (animator != null) {
+                                animatorSet.playTogether(animator);
+                            }
                         }
                         animatorSet.playTogether(ObjectAnimator.ofFloat(startValues.view, SCALE_X, 1f));
                         animatorSet.playTogether(ObjectAnimator.ofFloat(startValues.view, SCALE_Y, 1f));
@@ -1506,5 +1520,13 @@ public class ActionBar extends FrameLayout {
             transitionSet.setInterpolator(CubicBezierInterpolator.DEFAULT);
             TransitionManager.beginDelayedTransition(this, transitionSet);
         }
+    }
+
+    private int getThemedColor(String key) {
+        Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
+        if (color == null) {
+            color = parentFragment != null ? parentFragment.getThemedColor(key) : null;
+        }
+        return color != null ? color : Theme.getColor(key);
     }
 }

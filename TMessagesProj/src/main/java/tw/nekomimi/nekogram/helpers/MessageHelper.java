@@ -191,7 +191,7 @@ public class MessageHelper extends BaseController {
                     }
                     FileLog.d("deleteUserChannelHistoryWithSearch size = " + size);
                     ArrayList<Integer> ids = new ArrayList<>();
-                    int channelId = 0;
+                    long channelId = 0;
                     for (int a = 0; a < size; a++) {
                         TLRPC.Message message = res.messages.get(a);
                         if (message.id > lastMessageId) {
@@ -207,7 +207,7 @@ public class MessageHelper extends BaseController {
                     if (ids.size() == 0) {
                         return;
                     }
-                    getMessagesController().deleteMessages(ids, null, null, 0, channelId, true, false);
+                    getMessagesController().deleteMessages(ids, null, null, -channelId, true, true, false);
                     deleteUserChannelHistoryWithSearch(fragment, dialog_id, lastMessageId);
                 }
             } else {
