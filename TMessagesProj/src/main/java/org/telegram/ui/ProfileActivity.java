@@ -3797,7 +3797,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     reasons = user.restriction_reason;
                 }
             } else if (currentChat != null) {
-                TLRPC.Chat chat = getMessagesController().getChat(userId);
+                TLRPC.Chat chat = getMessagesController().getChat(chatId);
                 reasons = chat.restriction_reason;
             }
             Context context = getParentActivity();
@@ -7141,7 +7141,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 reasons = user.restriction_reason;
                             }
                         } else if (currentChat != null) {
-                            TLRPC.Chat chat = getMessagesController().getChat(userId);
+                            TLRPC.Chat chat = getMessagesController().getChat(chatId);
                             reasons = chat.restriction_reason;
                         }
                         StringBuilder value = new StringBuilder();
