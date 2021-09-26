@@ -374,7 +374,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                     } else if (!BuildVars.NO_SCOPED_STORAGE && item.icon == R.drawable.files_storage) {
                         delegate.startDocumentSelectActivity();
                     } else if (item.icon == R.drawable.ic_link_28) {
-                        parentAlert.baseFragment.getMessageHelper().showSendWebFileDialog(parentAlert);
+                        parentAlert.baseFragment.getMessageHelper().showSendWebFileDialog(parentAlert, resourcesProvider);
                     } else {
                         int top = getTopForScroll();
                         HistoryEntry he = history.remove(history.size() - 1);

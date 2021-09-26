@@ -231,7 +231,7 @@ public class MessageHelper extends BaseController {
         }
     }
 
-    public void sendWebFile(BaseFragment fragment, int did, String url, boolean isPhoto) {
+    public void sendWebFile(BaseFragment fragment, int did, String url, boolean isPhoto, Theme.ResourcesProvider resourcesProvider) {
         TLRPC.TL_messages_sendMedia req = new TLRPC.TL_messages_sendMedia();
         TLRPC.InputMedia media;
         if (isPhoto) {
@@ -253,9 +253,9 @@ public class MessageHelper extends BaseController {
             } else {
                 AndroidUtilities.runOnUIThread(() -> {
                     if (error.text.equals("MEDIA_EMPTY")) {
-                        BulletinFactory.of(fragment).createErrorBulletin(LocaleController.getString("SendWebFileInvalid", R.string.SendWebFileInvalid)).show();
+                        BulletinFactory.of(fragment).createErrorBulletin(LocaleController.getString("SendWebFileInvalid", R.string.SendWebFileInvalid), resourcesProvider).show();
                     } else {
-                        AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("SendWebFile", R.string.SendWebFile), LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text);
+                        AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("SendWebFile", R.string.SendWebFile), LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text, resourcesProvider);
                     }
                 });
             }
@@ -263,10 +263,10 @@ public class MessageHelper extends BaseController {
     }
 
     @SuppressLint("SetTextI18n")
-    public void showSendWebFileDialog(ChatAttachAlert parentAlert) {
+    public void showSendWebFileDialog(ChatAttachAlert parentAlert, Theme.ResourcesProvider resourcesProvider) {
         ChatActivity fragment = (ChatActivity) parentAlert.getBaseFragment();
         Context context = fragment.getParentActivity();
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
         builder.setTitle(LocaleController.getString("SendWebFile", R.string.SendWebFile));
         builder.setMessage(LocaleController.getString("SendWebFileInfo", R.string.SendWebFileInfo));
         builder.setCustomViewOffset(0);
@@ -282,20 +282,20 @@ public class MessageHelper extends BaseController {
         };
         editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
         editText.setText("http://");
-        editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+        editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
         editText.setHintText(LocaleController.getString("URL", R.string.URL));
-        editText.setHeaderHintColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader));
+        editText.setHeaderHintColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider));
         editText.setSingleLine(true);
         editText.setFocusable(true);
         editText.setTransformHintToHeader(true);
-        editText.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated), Theme.getColor(Theme.key_windowBackgroundWhiteRedText3));
+        editText.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteRedText3, resourcesProvider));
         editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
         editText.setBackground(null);
         editText.requestFocus();
         editText.setPadding(0, 0, 0, 0);
         ll.addView(editText, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 36, 0, 24, 0, 24, 0));
 
-        CheckBoxCell cell = new CheckBoxCell(context, 1);
+        CheckBoxCell cell = new CheckBoxCell(context, 1, resourcesProvider);
         cell.setBackground(Theme.getSelectorDrawable(false));
         cell.setText(LocaleController.getString("SendWithoutCompression", R.string.SendWithoutCompression), "", true, false);
         cell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16) : AndroidUtilities.dp(8), 0, LocaleController.isRTL ? AndroidUtilities.dp(8) : AndroidUtilities.dp(16), 0);
@@ -306,7 +306,7 @@ public class MessageHelper extends BaseController {
         });
 
         builder.setView(ll);
-        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> sendWebFile(fragment, (int) fragment.getDialogId(), editText.getText().toString(), !cell.isChecked()));
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> sendWebFile(fragment, (int) fragment.getDialogId(), editText.getText().toString(), !cell.isChecked(), resourcesProvider));
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
 
         AlertDialog alertDialog = builder.create();

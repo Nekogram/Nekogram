@@ -39,12 +39,16 @@ public class Translator {
     private static AlertDialog progressDialog;
 
     public static void showTranslateDialog(Context context, String query, Runnable callback) {
+        showTranslateDialog(context, query, callback, null);
+    }
+
+    public static void showTranslateDialog(Context context, String query, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
         try {
             progressDialog.dismiss();
         } catch (Exception ignore) {
 
         }
-        progressDialog = new AlertDialog(context, 3);
+        progressDialog = new AlertDialog(context, 3, resourcesProvider);
         progressDialog.showDelayed(400);
         translate(query, new TranslateCallBack() {
             @Override
@@ -56,14 +60,14 @@ public class Translator {
                 }
 
                 TextView messageTextView = new TextView(context);
-                messageTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+                messageTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
                 messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                 messageTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
                 messageTextView.setTextIsSelectable(true);
                 messageTextView.setText((String) translation);
                 messageTextView.setPadding(AndroidUtilities.dp(24), AndroidUtilities.dp(4), AndroidUtilities.dp(24), AndroidUtilities.dp(4));
 
-                AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
                 builder.setView(messageTextView);
                 builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
                 builder.setNeutralButton(LocaleController.getString("Copy", R.string.Copy), (dialog, which) -> {
@@ -77,12 +81,12 @@ public class Translator {
 
             @Override
             public void onError(Exception e) {
-                handleTranslationError(context, e, () -> showTranslateDialog(context, query, callback));
+                handleTranslationError(context, e, () -> showTranslateDialog(context, query, callback, resourcesProvider), resourcesProvider);
             }
         });
     }
 
-    public static void handleTranslationError(Context context, final Exception e, final Runnable onRetry) {
+    public static void handleTranslationError(Context context, final Exception e, final Runnable onRetry, Theme.ResourcesProvider resourcesProvider) {
         if (context == null) {
             return;
         }
@@ -91,10 +95,10 @@ public class Translator {
         } catch (Exception ignore) {
 
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
         if (e instanceof UnsupportedTargetLanguageException) {
             builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
-            builder.setPositiveButton(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(context, null, null));
+            builder.setPositiveButton(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(context, null, null, resourcesProvider));
         } else {
             if (e != null && e.getLocalizedMessage() != null) {
                 builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
@@ -105,7 +109,7 @@ public class Translator {
             if (onRetry != null) {
                 builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> onRetry.run());
             }
-            builder.setNeutralButton(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(context, null, null));
+            builder.setNeutralButton(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(context, null, null, resourcesProvider));
         }
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
         builder.show();
@@ -132,6 +136,10 @@ public class Translator {
     }
 
     public static void showTranslationTargetSelector(Context context, View view, Runnable callback) {
+        showTranslationTargetSelector(context, view, callback, null);
+    }
+
+    public static void showTranslationTargetSelector(Context context, View view, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
         BaseTranslator translator = Translator.getCurrentTranslator();
         ArrayList<String> targetLanguages = new ArrayList<>(translator.getTargetLanguages());
         ArrayList<CharSequence> names = new ArrayList<>();
@@ -149,10 +157,14 @@ public class Translator {
         PopupHelper.show(names, LocaleController.getString("TranslationTarget", R.string.TranslationTarget), targetLanguages.indexOf(NekoConfig.translationTarget), context, view, i -> {
             NekoConfig.setTranslationTarget(targetLanguages.get(i));
             callback.run();
-        });
+        }, resourcesProvider);
     }
 
     public static void showTranslationProviderSelector(Context context, View view, MessagesStorage.BooleanCallback callback) {
+        showTranslationProviderSelector(context, view, callback, null);
+    }
+
+    public static void showTranslationProviderSelector(Context context, View view, MessagesStorage.BooleanCallback callback, Theme.ResourcesProvider resourcesProvider) {
         Pair<ArrayList<String>, ArrayList<Integer>> providers = getProviders();
         ArrayList<String> names = providers.first;
         ArrayList<Integer> types = providers.second;
@@ -167,7 +179,7 @@ public class Translator {
                 NekoConfig.setTranslationProvider(types.get(i));
                 if (callback != null) callback.run(true);
             } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context)
+                AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider)
                         .setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
                 if ("app".equals(NekoConfig.translationTarget)) {
                     builder.setPositiveButton(LocaleController.getString("UseGoogleTranslate", R.string.UseGoogleTranslate), (dialog, which) -> {
@@ -187,7 +199,7 @@ public class Translator {
                 }
                 builder.show();
             }
-        });
+        }, resourcesProvider);
     }
 
     public static BaseTranslator getCurrentTranslator() {

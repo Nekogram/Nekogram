@@ -2070,9 +2070,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     showDialog(AlertsCreator.createTTLAlert(getParentActivity(), currentEncryptedChat, themeDelegate).create());
                 } else if (id == delete_history) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context, themeDelegate);
                     TextView messageTextView = new TextView(context);
-                    messageTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+                    messageTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
                     messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                     messageTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
                     FrameLayout frameLayout = new FrameLayout(context);
@@ -2085,7 +2085,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     avatarDrawable.setInfo(currentChat);
                     imageView.setForUserOrChat(currentChat, avatarDrawable, currentChat);
                     TextView textView = new TextView(context);
-                    textView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
+                    textView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
                     textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
                     textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
                     textView.setLines(1);
@@ -2109,7 +2109,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     showDialog(alertDialog);
                     TextView button = (TextView) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
                     if (button != null) {
-                        button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
+                        button.setTextColor(getThemedColor(Theme.key_dialogTextRed2));
                     }
                 } else if (id == clear_history || id == delete_chat || id == auto_delete_timer) {
                     if (getParentActivity() == null) {
@@ -7489,8 +7489,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         searchBeginningButton = new ImageView(context);
         searchBeginningButton.setScaleType(ImageView.ScaleType.CENTER);
         searchBeginningButton.setImageResource(R.drawable.ic_upward);
-        searchBeginningButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_chat_searchPanelIcons), PorterDuff.Mode.MULTIPLY));
-        searchBeginningButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 1));
+        searchBeginningButton.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_searchPanelIcons), PorterDuff.Mode.MULTIPLY));
+        searchBeginningButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 1));
         searchContainer.addView(searchBeginningButton, LayoutHelper.createFrame(48, 48, Gravity.RIGHT | Gravity.TOP, 0, 0, 96, 0));
         searchBeginningButton.setOnClickListener(view -> {
             jumpToDate(1375315200);
@@ -7767,9 +7767,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         selectButton = new ImageView(context);
         selectButton.setContentDescription(LocaleController.getString("SelectBetween", R.string.SelectBetween));
         selectButton.setPadding(AndroidUtilities.dp(21), 0, AndroidUtilities.dp(21), 0);
-        selectButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 3));
+        selectButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 3));
         image = context.getResources().getDrawable(R.drawable.ic_select_between).mutate();
-        image.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.MULTIPLY));
+        image.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.MULTIPLY));
         selectButton.setImageDrawable(image);
         selectButton.setOnClickListener(v -> {
             ArrayList<Integer> ids = new ArrayList<>();
@@ -20378,7 +20378,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (option == 86) {
                     long date = (long) selectedObject.messageOwner.date * 1000;
                     cell.setSubtext(selectedObject.messageOwner.date == 0x7ffffffe ? "When online" : LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(date))));
-                    cell.setSubtextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
+                    cell.setSubtextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText6));
                 }
                 scrimPopupWindowItems[a] = cell;
                 popupLayout.addView(cell);
@@ -21007,7 +21007,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override
             public void onError(Exception e) {
-                Translator.handleTranslationError(getParentActivity(), e, () -> translateMessage(finalMessageObject));
+                Translator.handleTranslationError(getParentActivity(), e, () -> translateMessage(finalMessageObject), themeDelegate);
             }
         });
     }
@@ -21819,7 +21819,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private boolean processSelectedOptionLongClick(int option) {
         switch (option) {
             case 88: {
-                Translator.showTranslationTargetSelector(getParentActivity(), null, () -> processSelectedOption(88));
+                Translator.showTranslationTargetSelector(getParentActivity(), null, () -> processSelectedOption(88), themeDelegate);
                 return true;
             }
             case 94: {
@@ -26470,7 +26470,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             editingAdmin = participant instanceof TLRPC.TL_chatParticipantAdmin;
         }
         if (action == 1 && (channelParticipant instanceof TLRPC.TL_channelParticipantAdmin || participant instanceof TLRPC.TL_chatParticipantAdmin)) {
-            AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity());
+            AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity(), themeDelegate);
             builder2.setTitle(LocaleController.getString("AppName", R.string.AppName));
             builder2.setMessage(LocaleController.formatString("AdminWillBeRemoved", R.string.AdminWillBeRemoved, ContactsController.formatName(user.first_name, user.last_name)));
             builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialog, which) -> {

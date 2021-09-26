@@ -15343,7 +15343,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         } catch (Throwable ignore) {
 
         }
-        progressDialog = new AlertDialog(parentActivity, 3);
+        progressDialog = new AlertDialog(parentActivity, 3, resourcesProvider);
         progressDialog.showDelayed(400);
         Translator.translate(original, new Translator.TranslateCallBack() {
             @Override
@@ -15376,7 +15376,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 } catch (Throwable ignore) {
 
                 }
-                Translator.handleTranslationError(parentActivity, e, () -> translateCaption());
+                Translator.handleTranslationError(parentActivity, e, () -> translateCaption(), resourcesProvider);
             }
         });
     }

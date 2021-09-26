@@ -21,8 +21,12 @@ public class PopupHelper {
     private static SimpleMenuPopupWindow mPopupWindow;
 
     public static void show(ArrayList<? extends CharSequence> entries, String title, int checkedIndex, Context context, View itemView, SimpleMenuPopupWindow.OnItemClickListener listener) {
+        show(entries, title, checkedIndex, context, itemView, listener, null);
+    }
+
+    public static void show(ArrayList<? extends CharSequence> entries, String title, int checkedIndex, Context context, View itemView, SimpleMenuPopupWindow.OnItemClickListener listener, Theme.ResourcesProvider resourcesProvider) {
         if (itemView == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
             builder.setTitle(title);
             final LinearLayout linearLayout = new LinearLayout(context);
             linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -32,7 +36,7 @@ public class PopupHelper {
                 RadioColorCell cell = new RadioColorCell(context);
                 cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
                 cell.setTag(a);
-                cell.setCheckColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_dialogRadioBackgroundChecked));
+                cell.setCheckColor(Theme.getColor(Theme.key_radioBackground, resourcesProvider), Theme.getColor(Theme.key_dialogRadioBackgroundChecked, resourcesProvider));
                 cell.setTextAndValue(entries.get(a), checkedIndex == a);
                 linearLayout.addView(cell);
                 cell.setOnClickListener(v -> {
