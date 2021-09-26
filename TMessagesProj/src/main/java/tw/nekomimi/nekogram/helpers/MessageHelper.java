@@ -152,7 +152,7 @@ public class MessageHelper extends BaseController {
         return localInstance;
     }
 
-    public void resetMessageContent(long dialog_id, MessageObject messageObject, boolean translated) {
+    public void resetMessageContent(long dialogId, MessageObject messageObject, boolean translated) {
         TLRPC.Message message = messageObject.messageOwner;
 
         MessageObject obj = new MessageObject(currentAccount, message, true, true);
@@ -161,28 +161,28 @@ public class MessageHelper extends BaseController {
 
         ArrayList<MessageObject> arrayList = new ArrayList<>();
         arrayList.add(obj);
-        getNotificationCenter().postNotificationName(NotificationCenter.replaceMessagesObjects, dialog_id, arrayList, false);
+        getNotificationCenter().postNotificationName(NotificationCenter.replaceMessagesObjects, dialogId, arrayList, false);
     }
 
-    public void deleteUserChannelHistoryWithSearch(BaseFragment fragment, final long dialog_id) {
-        deleteUserChannelHistoryWithSearch(fragment, dialog_id, 0);
+    public void deleteUserChannelHistoryWithSearch(BaseFragment fragment, final long dialogId) {
+        deleteUserChannelHistoryWithSearch(fragment, dialogId, 0, -1);
     }
 
-    public void deleteUserChannelHistoryWithSearch(BaseFragment fragment, final long dialog_id, final int offset_id) {
+    public void deleteUserChannelHistoryWithSearch(BaseFragment fragment, final long dialogId, final int offsetId, int lastSize) {
         final TLRPC.TL_messages_search req = new TLRPC.TL_messages_search();
-        req.peer = getMessagesController().getInputPeer((int) dialog_id);
+        req.peer = getMessagesController().getInputPeer(dialogId);
         if (req.peer == null) {
             return;
         }
         req.limit = 100;
         req.q = "";
-        req.offset_id = offset_id;
+        req.offset_id = offsetId;
         req.from_id = MessagesController.getInputPeer(getUserConfig().getCurrentUser());
         req.flags |= 1;
         req.filter = new TLRPC.TL_inputMessagesFilterEmpty();
         getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
             if (error == null) {
-                int lastMessageId = offset_id;
+                int lastMessageId = offsetId;
                 if (response != null) {
                     TLRPC.messages_Messages res = (TLRPC.messages_Messages) response;
                     int size = res.messages.size();
@@ -204,14 +204,14 @@ public class MessageHelper extends BaseController {
                         }
                         ids.add(message.id);
                     }
-                    if (ids.size() == 0) {
+                    getMessagesController().deleteMessages(ids, null, null, -channelId, true, false);
+                    if (ids.size() == 0 || (offsetId == lastMessageId && lastSize == ids.size())) {
                         return;
                     }
-                    getMessagesController().deleteMessages(ids, null, null, -channelId, true, true, false);
-                    deleteUserChannelHistoryWithSearch(fragment, dialog_id, lastMessageId);
+                    deleteUserChannelHistoryWithSearch(fragment, dialogId, lastMessageId, ids.size());
                 }
             } else {
-                AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("SendWebFile", R.string.SendWebFile), LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text);
+                AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text);
             }
         }), ConnectionsManager.RequestFlagFailOnServerErrors);
     }
