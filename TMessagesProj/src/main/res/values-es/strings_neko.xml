@@ -16,7 +16,7 @@
     <string name="FirstLast">Nombre Apellido</string>
     <string name="LastFirst">Apellido Nombre</string>
     <string name="TypefaceUseDefault">Usar la fuente predeterminada del sistema</string>
-    <string name="NoQuoteForward">Reenviar sin mención</string>
+    <string name="NoQuoteForward">Reenviar sin citar</string>
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Guardar mensaje</string>
     <string name="CreateMention">Crear mención</string>

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Paramètres Neko</string>
-    <string name="IPv6">Essayez de vous connecter via IPv6</string>
-    <string name="MessageMenu">Menu des messages</string>
+    <string name="IPv6">Essayez de se connecter en IPv6</string>
+    <string name="MessageMenu">Menu de message</string>
     <string name="HidePhone">Masquer mon numéro de téléphone</string>
     <string name="Hide">Masquer</string>
     <string name="DeleteAllFromSelf">Supprimer ses propres messages</string>
-    <string name="DeleteAllFromSelfAlert">Attention ! Cela **supprimera tous les messages de votre part** dans ce chat pour **tous** les participants.</string>
+    <string name="DeleteAllFromSelfAlert">Attention ! Cela **supprimera tous les messages de votre part** dans cet échange pour **tous** les participants.</string>
     <string name="BotLogin">Connexion au bot</string>
     <string name="InvalidAccessToken">Token d\'accès invalide</string>
     <string name="IgnoreBlocked">Ignorer les utilisateurs bloqués dans un groupe</string>
     <string name="Connection">Connexion</string>
-    <string name="Chat">Chat</string>
+    <string name="Chat">Échange</string>
     <string name="NameOrder">Ordre des noms</string>
-    <string name="FirstLast">Premier Dernier</string>
-    <string name="LastFirst">Dernier Premier</string>
+    <string name="FirstLast">Prénom Nom</string>
+    <string name="LastFirst">Nom Prénom</string>
     <string name="TypefaceUseDefault">Utiliser la police système par défaut</string>
-    <string name="NoQuoteForward">Transfert de citation</string>
+    <string name="NoQuoteForward">Transfert sans citation</string>
     <string name="Repeat">Répéter</string>
     <string name="AddToSavedMessages">Sauvegarder le message</string>
     <string name="CreateMention">Créer une mention</string>
@@ -59,17 +59,18 @@
     <string name="TranslateApiUnsupported">Le fournisseur de traduction que vous avez sélectionné ne prend pas en charge votre langue.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Annuler la traduction</string>
+    <string name="DisablePhotoViewerSideAction">Désactiver \"Défilement de photos en appuyant\"</string>
     <string name="BotToken">Jeton d\'authentification</string>
     <string name="UnlimitedPinnedDialogs">Dialogues épinglés illimités</string>
     <string name="UnlimitedPinnedDialogsAbout">Épingler les dialogues illimités en désactivant leur synchronisation.</string>
     <string name="OpenArchiveOnPull">Ouvrir les archives dans le menu déroulant</string>
-    <string name="HideKeyboardOnChatScroll">Masquer le clavier lors du défilement du chat</string>
+    <string name="HideKeyboardOnChatScroll">Cacher clavier lors du défilement</string>
     <string name="UserRestrictionsSendStickers2">Envoyer des autocollants</string>
     <string name="UserRestrictionsSendGifs">Envoyer des GIFs</string>
     <string name="ShowTabsOnForward">Afficher les onglets sur l\'avant</string>
     <string name="CheckAllAdministrated">Ajouter administrateur</string>
     <string name="RearVideoMessages">Caméra arrière dans les messages vidéo</string>
-    <string name="HideAllTab">Masquer l\'onglet \"Toutes les discussions\"</string>
+    <string name="HideAllTab">Masquer l\'onglet \"Tous\"</string>
     <string name="HideAllTabAbout">Appuyez sur \"Back\" sur la page d\'accueil pour l\'ouvrir.</string>
     <string name="TabTitleType">Afficher sur les onglets</string>
     <string name="TabTitleTypeTip">Les émoticônes sont synchronisées sur le cloud par Telegram.</string>
@@ -159,4 +160,5 @@
     <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Nombre maximum d\'autocollants récents</string>
     <string name="ApplyEmojiFont">Appliquer la police d\'emoji</string>
+    <string name="DisableJumpToNextChannel">Désactiver « Passer au canal suivant »</string>
 </resources>

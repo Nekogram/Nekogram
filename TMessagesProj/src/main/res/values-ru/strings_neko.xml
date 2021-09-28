@@ -59,6 +59,7 @@
     <string name="TranslateApiUnsupported">Выбранный переводчик не поддерживает ваш язык.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Отменить перевод</string>
+    <string name="DisablePhotoViewerSideAction">Отключить \"Переворачивание фотографий при нажатии\"</string>
     <string name="BotToken">Токен</string>
     <string name="UnlimitedPinnedDialogs">Неограниченные закрепленные диалоги</string>
     <string name="UnlimitedPinnedDialogsAbout">Неограниченное закрепление диалогов без синхронизации на других устройствах.</string>
@@ -157,6 +158,9 @@
     <string name="SendWebFileInvalid">Недопустимый файл, убедитесь что файл соответствует требованиям.</string>
     <string name="AutoLockInstant">Мгновенно</string>
     <string name="RestrictionReason">Причина ограничения</string>
+    <string name="ProviderTencentTranslator">Г-н. Переводчик</string>
     <string name="ProviderNiuTrans">Niu Переводчик</string>
     <string name="MaxRecentStickers">Максимальное количество недавних стикеров</string>
+    <string name="ApplyEmojiFont">Включить шрифт эмодзи</string>
+    <string name="DisableJumpToNextChannel">Выключить \"Перейти на следующий канал\"</string>
 </resources>
