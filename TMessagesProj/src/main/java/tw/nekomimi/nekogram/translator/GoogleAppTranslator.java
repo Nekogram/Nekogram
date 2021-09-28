@@ -24,7 +24,6 @@ public class GoogleAppTranslator extends BaseTranslator {
             "tg", "te", "ta", "th", "tr", "tk", "cy", "ug", "ur", "uk", "uz", "es", "iw",
             "el", "haw", "sd", "hu", "sn", "hy", "ig", "it", "yi", "hi", "su", "id", "jw",
             "en", "yo", "vi", "zh-TW", "zh-CN", "zh");
-    private String vipRegion;
 
     static GoogleAppTranslator getInstance() {
         if (instance == null) {
@@ -39,14 +38,7 @@ public class GoogleAppTranslator extends BaseTranslator {
 
     @Override
     protected String translate(String query, String tl) throws IOException, JSONException {
-        if (vipRegion == null) {
-            try {
-                checkRegion();
-            } catch (Exception ignore) {
-                vipRegion = "default";
-            }
-        }
-        String url = "https://translate.google." + ("china".equals(vipRegion) ? "cn" : "com") + "/translate_a/single?dj=1" +
+        String url = "https://translate.google.com/translate_a/single?dj=1" +
                 "&q=" + URLEncoder.encode(query, "UTF-8") +
                 "&sl=auto" +
                 "&tl=" + tl +
@@ -97,13 +89,5 @@ public class GoogleAppTranslator extends BaseTranslator {
             sb.append(array.getJSONObject(i).getString("trans"));
         }
         return sb.toString();
-    }
-
-    private void checkRegion() throws IOException, JSONException {
-        String response = new Http("https://regioninfo-pa.googleapis.com/v1/RegionInfo?key=AIzaSyBxK5bTqqtWtRBL8pef259_5A_aXo0lZCY")
-                .header("User-Agent", "com.google.android.apps.translate/69510893 (Linux; U; Android 11; zh_CN; Redmi K20 Pro; Build/RQ3A.210705.001; Cronet/93.0.4572.0)")
-                .request();
-        JSONObject json = new JSONObject(response);
-        vipRegion = json.getString("vipRegion");
     }
 }
