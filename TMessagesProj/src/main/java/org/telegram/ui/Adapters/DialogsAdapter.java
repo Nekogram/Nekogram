@@ -235,9 +235,6 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter {
         }
         currentCount = count;
 
-        if (BuildVars.LOGS_ENABLED) {
-            FileLog.d("DialogsAdapter dialogsCount=" + dialogsCount + " dialogsType=" + dialogsType);
-        }
         return count;
     }
 
