@@ -53,6 +53,7 @@ public class ChatGreetingsView extends LinearLayout {
         stickerToSendView = new BackupImageView(context);
 
         stickerToSendView.setContentDescription("\uD83D\uDC4B");
+        stickerToSendView.setFocusable(true);
         addView(titleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 20, 14, 20, 14));
         addView(descriptionView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 20, 12, 20, 0));
         addView(stickerToSendView, LayoutHelper.createLinear(112, 112, Gravity.CENTER_HORIZONTAL, 0, 16, 0, 16));

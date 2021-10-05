@@ -2441,6 +2441,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             TLRPC.UserFull userFull = null;
             if (currentUser != null) {
                 audioCallIconItem = menu.addItem(call, R.drawable.ic_call, themeDelegate);
+                audioCallIconItem.setContentDescription(LocaleController.getString("Call",R.string.Call));
                 userFull = getMessagesController().getUserFull(currentUser.id);
                 if (userFull != null && userFull.phone_calls_available) {
                     showAudioCallAsIcon = !inPreviewMode;

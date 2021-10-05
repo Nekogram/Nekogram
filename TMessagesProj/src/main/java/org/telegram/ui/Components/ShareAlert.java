@@ -322,6 +322,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             clearSearchImageView.setScaleY(0.1f);
             clearSearchImageView.setAlpha(0.0f);
             clearSearchImageView.setColorFilter(new PorterDuffColorFilter(getThemedColor(darkTheme ? Theme.key_voipgroup_searchPlaceholder : Theme.key_dialogSearchIcon), PorterDuff.Mode.MULTIPLY));
+            clearSearchImageView.setContentDescription(LocaleController.getString("ClearButton",R.string.ClearButton));
             addView(clearSearchImageView, LayoutHelper.createFrame(36, 36, Gravity.RIGHT | Gravity.TOP, 14, 11, 14, 0));
             clearSearchImageView.setOnClickListener(v -> {
                 updateSearchAdapter = true;

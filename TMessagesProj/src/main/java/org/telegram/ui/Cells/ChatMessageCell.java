@@ -13712,6 +13712,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
                 return true;
             }
+        } else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
+            currentFocusedVirtualViewId = -2;
         }
         return false;
     }
