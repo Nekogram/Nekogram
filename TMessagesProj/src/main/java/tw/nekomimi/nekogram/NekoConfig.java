@@ -57,6 +57,7 @@ public class NekoConfig {
     public static boolean confirmAVMessage = false;
     public static boolean askBeforeCall = true;
     public static boolean disableNumberRounding = false;
+    public static boolean disableGreetingSticker = false;
     public static float stickerSize = 14.0f;
     public static int translationProvider = Translator.PROVIDER_GOOGLE;
     public static String translationTarget = "app";
@@ -264,6 +265,7 @@ public class NekoConfig {
             translationTarget = preferences.getString("translationTarget", "app");
             maxRecentStickers = preferences.getInt("maxRecentStickers", 20);
             disableJumpToNextChannel = preferences.getBoolean("disableJumpToNextChannel", false);
+            disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
             configLoaded = true;
         }
     }
@@ -644,6 +646,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("disableNumberRounding", disableNumberRounding);
+        editor.commit();
+    }
+
+    public static void toggleDisableGreetingSticker() {
+        disableGreetingSticker = !disableGreetingSticker;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("disableGreetingSticker", disableGreetingSticker);
         editor.commit();
     }
 

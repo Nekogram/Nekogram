@@ -71,6 +71,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int disableProximityEventsRow;
     private int swipeToPiPRow;
     private int disableJumpToNextRow;
+    private int disableGreetingStickerRow;
     private int autoPauseVideoRow;
     private int messageMenuRow;
     private int chat2Row;
@@ -210,6 +211,11 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.disableJumpToNextChannel);
                 }
+            } else if (position == disableGreetingStickerRow) {
+                NekoConfig.toggleDisableGreetingSticker();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.disableGreetingSticker);
+                }
             }
         });
 
@@ -240,6 +246,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         disableProximityEventsRow = rowCount++;
         swipeToPiPRow = rowCount++;
         disableJumpToNextRow = rowCount++;
+        disableGreetingStickerRow = rowCount++;
         autoPauseVideoRow = rowCount++;
         messageMenuRow = rowCount++;
         chat2Row = rowCount++;
@@ -602,6 +609,9 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                         textCell.setTextAndValueAndCheck(LocaleController.getString("AutoPauseVideo", R.string.AutoPauseVideo), LocaleController.getString("AutoPauseVideoAbout", R.string.AutoPauseVideoAbout), NekoConfig.autoPauseVideo, true, true);
                     } else if (position == disableJumpToNextRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisableJumpToNextChannel", R.string.DisableJumpToNextChannel), NekoConfig.disableJumpToNextChannel, true);
+                    } else if (position == disableGreetingStickerRow) {
+
+                        textCell.setTextAndCheck(LocaleController.getString("DisableGreetingSticker", R.string.DisableGreetingSticker), NekoConfig.disableGreetingSticker, true);
                     }
                     break;
                 }

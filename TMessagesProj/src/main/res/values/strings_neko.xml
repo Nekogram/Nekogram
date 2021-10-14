@@ -171,4 +171,5 @@
     <string name="MaxRecentStickers">Max recent stickers</string>
     <string name="ApplyEmojiFont">Apply emoji font</string>
     <string name="DisableJumpToNextChannel">Disable \"Jump to Next Channel\"</string>
+    <string name="DisableGreetingSticker">Disable greeting sticker</string>
 </resources>
