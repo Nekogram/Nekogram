@@ -31,6 +31,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -290,6 +291,12 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         }
 
         @Override
+        public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
+            super.onInitializeAccessibilityEvent(event);
+            accessibilityDelegate.onInitializeAccessibilityEvent(this, event);
+        }
+
+        @Override
         public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
             super.onInitializeAccessibilityNodeInfo(info);
             accessibilityDelegate.onInitializeAccessibilityNodeInfoInternal(this, info);
@@ -361,6 +368,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             selectedSlowmode = index;
             listViewAdapter.notifyItemChanged(slowmodeInfoRow);
             invalidate();
+            accessibilityDelegate.postAccessibilityEventRunnable(this);
         }
 
         @Override

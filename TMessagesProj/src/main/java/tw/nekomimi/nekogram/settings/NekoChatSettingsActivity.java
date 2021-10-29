@@ -9,6 +9,7 @@ import android.text.TextPaint;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -473,6 +474,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
             sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate() {
                 @Override
                 public void onSeekBarDrag(boolean stop, float progress) {
+                    sizeBar.getSeekBarAccessibilityDelegate().postAccessibilityEventRunnable(StickerSizeCell.this);
                     NekoConfig.setStickerSize(startStickerSize + (endStickerSize - startStickerSize) * progress);
                     StickerSizeCell.this.invalidate();
                     menuItem.setVisibility(View.VISIBLE);
@@ -512,6 +514,12 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
             super.invalidate();
             messagesCell.invalidate();
             sizeBar.invalidate();
+        }
+
+        @Override
+        public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
+            super.onInitializeAccessibilityEvent(event);
+            sizeBar.getSeekBarAccessibilityDelegate().onInitializeAccessibilityEvent(this, event);
         }
 
         @Override

@@ -423,6 +423,57 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     };
 
+    final VideoPlayerSeekBar.SeekBarDelegate seekBarDelegate = new VideoPlayerSeekBar.SeekBarDelegate() {
+        @Override
+        public void onSeekBarDrag(float progress) {
+            if (videoPlayer != null) {
+                accessibilityDelegate.postAccessibilityEventRunnable(videoPlayerSeekbarView);
+                if (!inPreview && videoTimelineView.getVisibility() == View.VISIBLE) {
+                    progress = videoTimelineView.getLeftProgress() + (videoTimelineView.getRightProgress() - videoTimelineView.getLeftProgress()) * progress;
+                }
+                long duration = videoPlayer.getDuration();
+                if (duration == C.TIME_UNSET) {
+                    seekToProgressPending = progress;
+                } else {
+                    videoPlayer.seekTo((int) (progress * duration));
+                }
+                showVideoSeekPreviewPosition(false);
+                needShowOnReady = false;
+            }
+        }
+
+        @Override
+        public void onSeekBarContinuousDrag(float progress) {
+            if (videoPlayer != null && videoPreviewFrame != null) {
+                videoPreviewFrame.setProgress(progress, videoPlayerSeekbar.getWidth());
+            }
+            accessibilityDelegate.postAccessibilityEventRunnable(videoPlayerSeekbarView);
+            showVideoSeekPreviewPosition(true);
+            updateVideoSeekPreviewPosition();
+        }
+    };
+
+    final FloatSeekBarAccessibilityDelegate accessibilityDelegate = new FloatSeekBarAccessibilityDelegate() {
+        @Override
+        public float getProgress() {
+            return videoPlayerSeekbar.getProgress();
+        }
+
+        @Override
+        public void setProgress(float progress) {
+            seekBarDelegate.onSeekBarDrag(progress);
+            videoPlayerSeekbar.setProgress(progress);
+            videoPlayerSeekbarView.invalidate();
+        }
+
+        @Override
+        public String getContentDescription(View host) {
+            final String time = LocaleController.formatPluralString("Minutes", videoPlayerCurrentTime[0]) + ' ' + LocaleController.formatPluralString("Seconds", videoPlayerCurrentTime[1]);
+            final String totalTime = LocaleController.formatPluralString("Minutes", videoPlayerTotalTime[0]) + ' ' + LocaleController.formatPluralString("Seconds", videoPlayerTotalTime[1]);
+            return LocaleController.formatString("AccDescrPlayerDuration", R.string.AccDescrPlayerDuration, time, totalTime);
+        }
+    };
+
     private AspectRatioFrameLayout aspectRatioFrameLayout;
     private View flashView;
     private AnimatorSet flashAnimator;
@@ -6457,54 +6508,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         videoPlayerControlFrameLayout = new VideoPlayerControlFrameLayout(containerView.getContext());
         containerView.addView(videoPlayerControlFrameLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.BOTTOM | Gravity.LEFT));
 
-        final VideoPlayerSeekBar.SeekBarDelegate seekBarDelegate = new VideoPlayerSeekBar.SeekBarDelegate() {
-            @Override
-            public void onSeekBarDrag(float progress) {
-                if (videoPlayer != null) {
-                    if (!inPreview && videoTimelineView.getVisibility() == View.VISIBLE) {
-                        progress = videoTimelineView.getLeftProgress() + (videoTimelineView.getRightProgress() - videoTimelineView.getLeftProgress()) * progress;
-                    }
-                    long duration = videoPlayer.getDuration();
-                    if (duration == C.TIME_UNSET) {
-                        seekToProgressPending = progress;
-                    } else {
-                        videoPlayer.seekTo((int) (progress * duration));
-                    }
-                    showVideoSeekPreviewPosition(false);
-                    needShowOnReady = false;
-                }
-            }
-
-            @Override
-            public void onSeekBarContinuousDrag(float progress) {
-                if (videoPlayer != null && videoPreviewFrame != null) {
-                    videoPreviewFrame.setProgress(progress, videoPlayerSeekbar.getWidth());
-                }
-                showVideoSeekPreviewPosition(true);
-                updateVideoSeekPreviewPosition();
-            }
-        };
-
-        final FloatSeekBarAccessibilityDelegate accessibilityDelegate = new FloatSeekBarAccessibilityDelegate() {
-            @Override
-            public float getProgress() {
-                return videoPlayerSeekbar.getProgress();
-            }
-
-            @Override
-            public void setProgress(float progress) {
-                seekBarDelegate.onSeekBarDrag(progress);
-                videoPlayerSeekbar.setProgress(progress);
-                videoPlayerSeekbarView.invalidate();
-            }
-
-            @Override
-            public String getContentDescription(View host) {
-                final String time = LocaleController.formatPluralString("Minutes", videoPlayerCurrentTime[0]) + ' ' + LocaleController.formatPluralString("Seconds", videoPlayerCurrentTime[1]);
-                final String totalTime = LocaleController.formatPluralString("Minutes", videoPlayerTotalTime[0]) + ' ' + LocaleController.formatPluralString("Seconds", videoPlayerTotalTime[1]);
-                return LocaleController.formatString("AccDescrPlayerDuration", R.string.AccDescrPlayerDuration, time, totalTime);
-            }
-        };
         videoPlayerSeekbarView = new View(containerView.getContext()) {
             @Override
             protected void onDraw(Canvas canvas) {
@@ -9617,6 +9620,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
+    private boolean isVideo(final int index) {
+        return currentMessageObject != null && currentMessageObject.isVideo() || currentBotInlineResult != null && (currentBotInlineResult.type.equals("video") || MessageObject.isVideoDocument(currentBotInlineResult.document)) || pageBlocksAdapter != null && pageBlocksAdapter.isVideo(index);
+    }
+
     private void onPhotoShow(final MessageObject messageObject, final TLRPC.FileLocation fileLocation, ImageLocation imageLocation, ImageLocation videoLocation, final ArrayList<MessageObject> messages, final ArrayList<SecureDocument> documents, final List<Object> photos, int index, final PlaceProviderObject object) {
         classGuid = ConnectionsManager.generateClassGuid();
         currentMessageObject = null;
@@ -10012,7 +10019,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 MessagesController.getInstance(currentAccount).loadDialogPhotos(avatarsDialogId, 80, 0, true, classGuid);
             }
         }
-        if (currentMessageObject != null && currentMessageObject.isVideo() || currentBotInlineResult != null && (currentBotInlineResult.type.equals("video") || MessageObject.isVideoDocument(currentBotInlineResult.document)) || pageBlocksAdapter != null && pageBlocksAdapter.isVideo(index)) {
+        if (isVideo(index)) {
             playerAutoStarted = true;
             onActionClick(false);
         } else if (!imagesArrLocals.isEmpty()) {
@@ -12469,7 +12476,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
 
         AccessibilityManager am = (AccessibilityManager) parentActivity.getSystemService(Context.ACCESSIBILITY_SERVICE);
-        if (am.isTouchExplorationEnabled()) {
+        // Check,whether we open photo,or play video. If photo,announce about it. May be exists more correct way to check,what we open now?
+        if (am.isTouchExplorationEnabled() && !isVideo(index) && (currentMessageObject != null && currentMessageObject.isPhoto() || currentMessageObject == null && (!imagesArrLocals.isEmpty() || videoLocation == null))) {
             AccessibilityEvent event = AccessibilityEvent.obtain();
             event.setEventType(AccessibilityEvent.TYPE_ANNOUNCEMENT);
             event.getText().add(LocaleController.getString("AccDescrPhotoViewer", R.string.AccDescrPhotoViewer));

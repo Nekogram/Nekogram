@@ -623,6 +623,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             @Override
             public void onSeekBarDrag(boolean stop, float progress) {
                 if (stop) {
+                    seekBarView.getSeekBarAccessibilityDelegate().postAccessibilityEventRunnable(seekBarView);
                     MediaController.getInstance().seekToProgress(MediaController.getInstance().getPlayingMessageObject(), progress);
                 }
                 MessageObject messageObject = MediaController.getInstance().getPlayingMessageObject();

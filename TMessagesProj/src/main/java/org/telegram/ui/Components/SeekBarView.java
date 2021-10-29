@@ -59,6 +59,9 @@ public class SeekBarView extends FrameLayout {
         default int getStepsCount() {
             return 0;
         }
+        default int getValueUsingProgress(int startValue, int endValue, float progress) {
+            return Math.round((endValue - startValue) * progress + startValue);
+        }
     }
 
     public SeekBarView(Context context) {

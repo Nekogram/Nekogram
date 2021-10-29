@@ -687,6 +687,7 @@ public class CacheControlActivity extends BaseFragment {
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     SharedPreferences preferences = MessagesController.getGlobalMainSettings();
                     slideChooseView.setCallback(index -> {
+                        slideChooseView.accessibilityDelegate.postAccessibilityEventRunnable(slideChooseView);
                         if (index == 0) {
                             SharedConfig.setKeepMedia(4);
                         } else if (index == 1) {

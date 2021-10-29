@@ -99,6 +99,7 @@ public class MaxFileSizeCell extends FrameLayout {
                         }
                     }
                 }
+                seekBarView.getSeekBarAccessibilityDelegate().postAccessibilityEventRunnable(seekBarView);
                 sizeTextView.setText(LocaleController.formatString("AutodownloadSizeLimitUpTo", R.string.AutodownloadSizeLimitUpTo, AndroidUtilities.formatFileSize(size)));
                 currentSize = size;
                 didChangedSizeValue(size);

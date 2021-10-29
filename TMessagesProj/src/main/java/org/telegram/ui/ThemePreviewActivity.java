@@ -1774,6 +1774,7 @@ public class ThemePreviewActivity extends BaseFragment implements DownloadContro
                         intensitySeekBar.setDelegate(new SeekBarView.SeekBarViewDelegate() {
                             @Override
                             public void onSeekBarDrag(boolean stop, float progress) {
+                                intensitySeekBar.getSeekBarAccessibilityDelegate().postAccessibilityEventRunnable(intensitySeekBar);
                                 currentIntensity = progress;
                                 backgroundImage.getImageReceiver().setAlpha(Math.abs(currentIntensity));
                                 backgroundImage.invalidate();

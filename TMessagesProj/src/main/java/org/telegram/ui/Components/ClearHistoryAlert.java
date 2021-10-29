@@ -341,6 +341,7 @@ public class ClearHistoryAlert extends BottomSheet {
         slideChooseView.setCallback(new SlideChooseView.Callback() {
             @Override
             public void onOptionSelected(int index) {
+                slideChooseView.accessibilityDelegate.postAccessibilityEventRunnable(slideChooseView);
                 newTimer = index;
                 updateTimerButton(true);
             }

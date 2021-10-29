@@ -501,6 +501,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 public void onSeekBarDrag(boolean stop, float progress) {
                     int fontSize = Math.round(startFontSize + (endFontSize - startFontSize) * progress);
                     if (fontSize != SharedConfig.ivFontSize) {
+                        sizeBar.getSeekBarAccessibilityDelegate().postAccessibilityEventRunnable(sizeBar);
                         SharedConfig.ivFontSize = fontSize;
                         SharedPreferences preferences = MessagesController.getGlobalMainSettings();
                         SharedPreferences.Editor editor = preferences.edit();

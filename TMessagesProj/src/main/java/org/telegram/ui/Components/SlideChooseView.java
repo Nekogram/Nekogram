@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextPaint;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -15,7 +16,7 @@ import org.telegram.ui.ActionBar.Theme;
 
 public class SlideChooseView extends View {
 
-    private final SeekBarAccessibilityDelegate accessibilityDelegate;
+    public final SeekBarAccessibilityDelegate accessibilityDelegate;
 
     private Paint paint;
     private Paint linePaint;
@@ -228,6 +229,12 @@ public class SlideChooseView extends View {
                 canvas.drawText(text, cx - size / 2, AndroidUtilities.dp(28), textPaint);
             }
         }
+    }
+
+    @Override
+    public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
+        super.onInitializeAccessibilityEvent(event);
+        accessibilityDelegate.onInitializeAccessibilityEvent(this, event);
     }
 
     @Override

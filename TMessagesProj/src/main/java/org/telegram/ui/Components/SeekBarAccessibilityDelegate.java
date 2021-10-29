@@ -43,9 +43,6 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
     public boolean performAccessibilityActionInternal(@Nullable View host, int action, Bundle args) {
         if (action == AccessibilityNodeInfo.ACTION_SCROLL_FORWARD || action == AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD) {
             doScroll(host, action == AccessibilityNodeInfo.ACTION_SCROLL_BACKWARD);
-            if (host != null) {
-                postAccessibilityEventRunnable(host);
-            }
             return true;
         }
         return false;
@@ -55,7 +52,7 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
         return performAccessibilityActionInternal(null, action, args);
     }
 
-    private void postAccessibilityEventRunnable(@NonNull View host) {
+    public void postAccessibilityEventRunnable(@NonNull View host) {
         if (!ViewCompat.isAttachedToWindow(host)) {
             return;
         }
@@ -65,8 +62,9 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
             host.addOnAttachStateChangeListener(onAttachStateChangeListener);
         } else {
             host.removeCallbacks(runnable);
+            host.removeOnAttachStateChangeListener(onAttachStateChangeListener);
         }
-        host.postDelayed(runnable, 400);
+        host.postDelayed(runnable, 200);
     }
 
     @Override
@@ -93,6 +91,12 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
 
     public final void onInitializeAccessibilityNodeInfoInternal(AccessibilityNodeInfo info) {
         onInitializeAccessibilityNodeInfoInternal(null, info);
+    }
+
+    @Override
+    public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
+        super.onInitializeAccessibilityEvent(host, event);
+        event.setClassName(SEEK_BAR_CLASS_NAME);
     }
 
     protected CharSequence getContentDescription(@Nullable View host) {
