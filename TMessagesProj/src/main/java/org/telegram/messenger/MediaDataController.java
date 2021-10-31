@@ -2333,25 +2333,19 @@ public class MediaDataController extends BaseController {
     public final static int MEDIA_TYPES_COUNT = 6;
 
     public void loadMedia(long dialogId, int count, int max_id, int type, int fromCache, int classGuid) {
-        loadMedia(dialogId, count, max_id, type, fromCache, classGuid, false);
-    }
-
-    public void loadMedia(long dialogId, int count, int max_id, int type, int fromCache, int classGuid, boolean skipPhotos) {
         boolean isChannel = DialogObject.isChatDialog(dialogId) && ChatObject.isChannel(-dialogId, currentAccount);
 
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("load media did " + dialogId + " count = " + count + " max_id " + max_id + " type = " + type + " cache = " + fromCache + " classGuid = " + classGuid);
         }
         if (fromCache != 0 || DialogObject.isEncryptedDialog(dialogId)) {
-            loadMediaDatabase(dialogId, count, max_id, type, classGuid, isChannel, fromCache, skipPhotos);
+            loadMediaDatabase(dialogId, count, max_id, type, classGuid, isChannel, fromCache);
         } else {
             TLRPC.TL_messages_search req = new TLRPC.TL_messages_search();
             req.limit = count;
             req.offset_id = max_id;
             if (type == MEDIA_PHOTOVIDEO) {
-                req.filter = skipPhotos
-                    ? new TLRPC.TL_inputMessagesFilterVideo()
-                    : new TLRPC.TL_inputMessagesFilterPhotoVideo();
+                req.filter = new TLRPC.TL_inputMessagesFilterPhotoVideo();
             } else if (type == MEDIA_FILE) {
                 req.filter = new TLRPC.TL_inputMessagesFilterDocument();
             } else if (type == MEDIA_AUDIO) {
@@ -2372,7 +2366,7 @@ public class MediaDataController extends BaseController {
                 if (error == null) {
                     TLRPC.messages_Messages res = (TLRPC.messages_Messages) response;
                     getMessagesController().removeDeletedMessagesFromArray(dialogId, res.messages);
-                    processLoadedMedia(res, dialogId, count, max_id, type, 0, classGuid, isChannel, res.messages.size() == 0, skipPhotos);
+                    processLoadedMedia(res, dialogId, count, max_id, type, 0, classGuid, isChannel, res.messages.size() == 0);
                 }
             });
             getConnectionsManager().bindRequestToGuid(reqId, classGuid);
@@ -2579,7 +2573,7 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    private void processLoadedMedia(TLRPC.messages_Messages res, long dialogId, int count, int max_id, int type, int fromCache, int classGuid, boolean isChannel, boolean topReached, boolean skipPhotos) {
+    private void processLoadedMedia(TLRPC.messages_Messages res, long dialogId, int count, int max_id, int type, int fromCache, int classGuid, boolean isChannel, boolean topReached) {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("process load media did " + dialogId + " count = " + count + " max_id " + max_id + " type = " + type + " cache = " + fromCache + " classGuid = " + classGuid);
         }
@@ -2587,7 +2581,7 @@ public class MediaDataController extends BaseController {
             if (fromCache == 2) {
                 return;
             }
-            loadMedia(dialogId, count, max_id, type, 0, classGuid, skipPhotos);
+            loadMedia(dialogId, count, max_id, type, 0, classGuid);
         } else {
             if (fromCache == 0) {
                 ImageLoader.saveMessagesThumbs(res.messages);
@@ -2604,11 +2598,6 @@ public class MediaDataController extends BaseController {
                 ArrayList<MessageObject> objects = new ArrayList<>();
                 for (int a = 0; a < res.messages.size(); a++) {
                     TLRPC.Message message = res.messages.get(a);
-
-                    if (skipPhotos && message.media != null && message.media.photo != null) {
-                        continue;
-                    }
-
                     MessageObject messageObject = new MessageObject(currentAccount, message, usersDict, true, true);
                     messageObject.createStrippedThumb();
                     objects.add(messageObject);
@@ -2686,7 +2675,7 @@ public class MediaDataController extends BaseController {
         });
     }
 
-    private void loadMediaDatabase(long uid, int count, int max_id, int type, int classGuid, boolean isChannel, int fromCache, boolean skipPhotos) {
+    private void loadMediaDatabase(long uid, int count, int max_id, int type, int classGuid, boolean isChannel, int fromCache) {
         Runnable runnable = new Runnable() {
             @Override
             public void run() {
@@ -2767,11 +2756,6 @@ public class MediaDataController extends BaseController {
                             if (DialogObject.isEncryptedDialog(uid)) {
                                 message.random_id = cursor.longValue(2);
                             }
-
-                            if (skipPhotos && message.media != null && message.media.photo != null) {
-                                continue;
-                            }
-
                             res.messages.add(message);
                             MessagesStorage.addUsersAndChatsFromMessage(message, usersToLoad, chatsToLoad);
                         }
@@ -2797,7 +2781,7 @@ public class MediaDataController extends BaseController {
                 } finally {
                     Runnable task = this;
                     AndroidUtilities.runOnUIThread(() -> getMessagesStorage().completeTaskForGuid(task, classGuid));
-                    processLoadedMedia(res, uid, count, max_id, type, fromCache, classGuid, isChannel, topReached, skipPhotos);
+                    processLoadedMedia(res, uid, count, max_id, type, fromCache, classGuid, isChannel, topReached);
                 }
             }
         };
