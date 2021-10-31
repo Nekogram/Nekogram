@@ -16,6 +16,11 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.EncodeHintType;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
@@ -49,6 +54,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -58,6 +64,19 @@ public class MessageHelper extends BaseController {
 
     public MessageHelper(int num) {
         super(num);
+    }
+
+    public Bitmap createQR(Context context, String key) {
+        try {
+            HashMap<EncodeHintType, Object> hints = new HashMap<>();
+            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
+            hints.put(EncodeHintType.MARGIN, 0);
+            QRCodeWriter writer = new QRCodeWriter();
+            return writer.encode(key, BarcodeFormat.QR_CODE, 768, 768, hints, null, context);
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return null;
     }
 
     public String generateUpdateInfo(SparseArray<MessageObject>[] selectedMessagesIds) {

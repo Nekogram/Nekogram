@@ -160,7 +160,7 @@ public class LoginActivity extends BaseFragment {
     private ActionBarMenuItem doneItem;
     private AnimatorSet doneItemAnimation;
     private ActionBarMenuItem botItem;
-    private AnimatorSet botItemAnimation;
+    private ActionBarMenuItem qrItem;
     private ContextProgressView doneProgressView;
     private ImageView floatingButtonIcon;
     private FrameLayout floatingButtonContainer;
@@ -172,6 +172,8 @@ public class LoginActivity extends BaseFragment {
     private static final int DONE_TYPE_ACTION = 1;
 
     private final static int done_button = 1;
+    private final static int bot_login = 2;
+    private final static int qr_login = 3;
 
     private boolean needRequestPermissions;
 
@@ -274,7 +276,7 @@ public class LoginActivity extends BaseFragment {
                     if (onBackPressed()) {
                         finishFragment();
                     }
-                } else if (id == 2) {
+                } else if (id == bot_login) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle(LocaleController.getString("BotLogin", R.string.BotLogin));
 
@@ -361,6 +363,8 @@ public class LoginActivity extends BaseFragment {
                         layoutParams.height = AndroidUtilities.dp(36);
                         editText.setLayoutParams(layoutParams);
                     }
+                } else if (id == qr_login) {
+                    ((PhoneView) views[0]).exportLoginToken(true);
                 }
             }
         });
@@ -370,8 +374,10 @@ public class LoginActivity extends BaseFragment {
         doneButtonVisible[DONE_TYPE_ACTION] = false;
 
         ActionBarMenu menu = actionBar.createMenu();
-        botItem = menu.addItem(2, R.drawable.menu_bots);
+        botItem = menu.addItem(bot_login, R.drawable.menu_bots);
         botItem.setContentDescription(LocaleController.getString("BotLogin", R.string.BotLogin));
+        qrItem = menu.addItem(qr_login, R.drawable.msg_qrcode);
+        qrItem.setContentDescription(LocaleController.getString("QRLoginTitle", R.string.QRLoginTitle));
         actionBar.setAllowOverlayTitle(true);
         doneItem = menu.addItemWithWidth(done_button, R.drawable.ic_done, AndroidUtilities.dp(56));
         doneProgressView = new ContextProgressView(context, 1);
@@ -884,62 +890,6 @@ public class LoginActivity extends BaseFragment {
         }
     }
 
-    private void showBotButton(boolean show, boolean animated) {
-        int newVisibility = show ? View.VISIBLE : View.GONE;
-        if (botItem.getVisibility() == newVisibility) {
-            return;
-        }
-        if (botItemAnimation != null) {
-            botItemAnimation.cancel();
-        }
-        if (animated) {
-            botItemAnimation = new AnimatorSet();
-            if (show) {
-                botItem.setVisibility(View.VISIBLE);
-                botItemAnimation.playTogether(
-                        ObjectAnimator.ofFloat(botItem, View.SCALE_X, 1.0f),
-                        ObjectAnimator.ofFloat(botItem, View.SCALE_Y, 1.0f),
-                        ObjectAnimator.ofFloat(botItem, View.ALPHA, 1.0f));
-            } else {
-                botItemAnimation.playTogether(
-                        ObjectAnimator.ofFloat(botItem, View.SCALE_X, 0.1f),
-                        ObjectAnimator.ofFloat(botItem, View.SCALE_Y, 0.1f),
-                        ObjectAnimator.ofFloat(botItem, View.ALPHA, 0.0f));
-            }
-            botItemAnimation.addListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    if (botItemAnimation != null && botItemAnimation.equals(animation)) {
-                        if (!show) {
-                            botItem.setVisibility(View.GONE);
-                        }
-                    }
-                }
-
-                @Override
-                public void onAnimationCancel(Animator animation) {
-                    if (botItemAnimation != null && botItemAnimation.equals(animation)) {
-                        botItemAnimation = null;
-                    }
-                }
-            });
-            botItemAnimation.setDuration(150);
-            botItemAnimation.start();
-        } else {
-            if (show) {
-                botItem.setVisibility(View.VISIBLE);
-                botItem.setScaleX(1.0f);
-                botItem.setScaleY(1.0f);
-                botItem.setAlpha(1.0f);
-            } else {
-                botItem.setVisibility(View.GONE);
-                botItem.setScaleX(0.1f);
-                botItem.setScaleY(0.1f);
-                botItem.setAlpha(0.0f);
-            }
-        }
-    }
-
     private void onDoneButtonPressed() {
         if (!doneButtonVisible[currentDoneType]) {
             return;
@@ -1135,7 +1085,8 @@ public class LoginActivity extends BaseFragment {
                 currentDoneType = DONE_TYPE_ACTION;
             }
         }
-        showBotButton(page == 0, animated);
+        AndroidUtilities.updateViewVisibilityAnimated(botItem, page == 0, 0.5f, true);
+        AndroidUtilities.updateViewVisibilityAnimated(qrItem, page == 0, 0.5f, true);
         if (animated) {
             final SlideView outView = views[currentViewNum];
             final SlideView newView = views[page];
@@ -1292,7 +1243,7 @@ public class LoginActivity extends BaseFragment {
 
     private TLRPC.TL_help_termsOfService currentTermsOfService;
 
-    public class PhoneView extends SlideView implements AdapterView.OnItemSelectedListener {
+    public class PhoneView extends SlideView implements AdapterView.OnItemSelectedListener, NotificationCenter.NotificationCenterDelegate {
 
         private EditTextBoldCursor codeField;
         private HintEditText phoneField;
@@ -1303,6 +1254,10 @@ public class LoginActivity extends BaseFragment {
         private CheckBoxCell checkBoxCell;
         private CheckBoxCell testBackendCheckBox;
         private TextView proxyView;
+
+        AlertDialog progressDialog = null;
+        AlertDialog qrDialog = null;
+        ImageView imageView = null;
 
         private int countryState = 0;
 
@@ -2148,6 +2103,165 @@ public class LoginActivity extends BaseFragment {
             if (phone != null) {
                 phoneField.setText(phone);
             }
+        }
+
+        public void exportLoginToken(boolean show) {
+            getNotificationCenter().removeObserver(this, NotificationCenter.onUpdateLoginToken);
+
+            Context context = getContext();
+            if (context == null) {
+                return;
+            }
+
+            if (show)  {
+                ConnectionsManager.getInstance(currentAccount).cleanup(false);
+            } else if (qrDialog == null || !qrDialog.isShowing()) {
+                return;
+            }
+
+            if (progressDialog == null) {
+                progressDialog = new AlertDialog(getParentActivity(), 3);
+                progressDialog.setCanCacnel(false);
+            }
+            progressDialog.show();
+
+            TLRPC.TL_auth_exportLoginToken req = new TLRPC.TL_auth_exportLoginToken();
+            req.api_hash = BuildVars.APP_HASH;
+            req.api_id = BuildVars.APP_ID;
+            for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+                UserConfig userConfig = UserConfig.getInstance(a);
+                if (userConfig.isClientActivated()) {
+                    long uid = userConfig.getClientUserId();
+                    req.except_ids.add(uid);
+                }
+            }
+            ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+                progressDialog.dismiss();
+                if (error == null) {
+                    if (response instanceof TLRPC.TL_auth_loginToken) {
+                        getNotificationCenter().addObserver(this, NotificationCenter.onUpdateLoginToken);
+                        TLRPC.TL_auth_loginToken res = (TLRPC.TL_auth_loginToken) response;
+                        if (show) {
+                            LinearLayout linearLayout = new LinearLayout(context);
+                            linearLayout.setOrientation(LinearLayout.VERTICAL);
+                            linearLayout.setLayoutParams(LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, 4, 4, 4, 4));
+
+                            TextView titleTextView = new TextView(context);
+                            titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                            titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+                            titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+                            titleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+                            titleTextView.setText(LocaleController.getString("QRLoginTitle", R.string.QRLoginTitle));
+                            linearLayout.addView(titleTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 8, 24, 8, 0));
+
+                            TextView descriptionTextView = new TextView(context);
+                            descriptionTextView.setGravity(Gravity.CENTER_HORIZONTAL);
+                            descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+                            descriptionTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+                            descriptionTextView.setText(LocaleController.getString("QRLoginMessage", R.string.QRLoginMessage));
+                            descriptionTextView.setPadding(0, AndroidUtilities.dp(8), 0, 0);
+                            linearLayout.addView(descriptionTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 8, 0, 8, 0));
+
+                            imageView = new ImageView(context) {
+                                @Override
+                                protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                                    int size = MeasureSpec.getSize(widthMeasureSpec);
+                                    super.onMeasure(MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY));
+                                }
+                            };
+                            imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+                            imageView.setOutlineProvider(new ViewOutlineProvider() {
+                                @Override
+                                public void getOutline(View view, Outline outline) {
+                                    outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), AndroidUtilities.dp(12));
+                                }
+                            });
+                            imageView.setClipToOutline(true);
+
+                            String link = "tg://login?token=" + Base64.encodeToString(res.token, Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING);
+                            imageView.setImageBitmap(getMessageHelper().createQR(context, link));
+                            linearLayout.addView(imageView, LayoutHelper.createLinear(240, 240, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 24, 24, 24, 24));
+
+                            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                            builder.setView(linearLayout);
+                            qrDialog = builder.create();
+                            qrDialog.setOnDismissListener(d -> getNotificationCenter().removeObserver(this, NotificationCenter.onUpdateLoginToken));
+                            showDialog(qrDialog);
+                        } else {
+                            String link = "tg://login?token=" + Base64.encodeToString(res.token, Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING);
+                            imageView.setImageBitmap(getMessageHelper().createQR(imageView.getContext(), link));
+                        }
+                        long expires = res.expires * 1000L - System.currentTimeMillis();
+                        AndroidUtilities.runOnUIThread(() -> exportLoginToken(false), expires);
+                    } else if (response instanceof TLRPC.TL_auth_loginTokenSuccess) {
+                        qrDialog.dismiss();
+                        postDelayed(() -> {
+                            needHideProgress(false, false);
+                            AndroidUtilities.hideKeyboard(codeField);
+                            onAuthSuccess((TLRPC.TL_auth_authorization) ((TLRPC.TL_auth_loginTokenSuccess) response).authorization);
+                        }, 150);
+                    } else if (response instanceof TLRPC.TL_auth_loginTokenMigrateTo) {
+                        qrDialog.dismiss();
+                        TLRPC.TL_auth_loginTokenMigrateTo res = (TLRPC.TL_auth_loginTokenMigrateTo) response;
+                        progressDialog.show();
+
+                        ConnectionsManager.native_moveToDatacenter(currentAccount, res.dc_id);
+                        TLRPC.TL_auth_importLoginToken request = new TLRPC.TL_auth_importLoginToken();
+                        request.token = res.token;
+                        getConnectionsManager().sendRequest(request, (response1, error1) -> AndroidUtilities.runOnUIThread(() -> {
+                            progressDialog.dismiss();
+                            if (error1 == null) {
+                                if (response1 instanceof TLRPC.TL_auth_loginTokenSuccess) {
+                                    postDelayed(() -> {
+                                        needHideProgress(false, false);
+                                        AndroidUtilities.hideKeyboard(codeField);
+                                        onAuthSuccess((TLRPC.TL_auth_authorization) ((TLRPC.TL_auth_loginTokenSuccess) response1).authorization);
+                                    }, 150);
+                                }
+                            } else if (error1.text != null) {
+                                handleError(error1.text);
+                            }
+                        }), ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagWithoutLogin | ConnectionsManager.RequestFlagTryDifferentDc | ConnectionsManager.RequestFlagEnableUnauthorized);
+                    }
+                } else if (error.text != null) {
+                    handleError(error.text);
+                }
+
+            }), ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagWithoutLogin | ConnectionsManager.RequestFlagTryDifferentDc | ConnectionsManager.RequestFlagEnableUnauthorized);
+        }
+
+        private void handleError(String errorText) {
+            if (errorText.contains("SESSION_PASSWORD_NEEDED")) {
+                qrDialog.dismiss();
+                TLRPC.TL_account_getPassword req = new TLRPC.TL_account_getPassword();
+                ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+                    nextPressed = false;
+                    showDoneButton(false, true);
+                    if (error == null) {
+                        TLRPC.TL_account_password password = (TLRPC.TL_account_password) response;
+                        if (!TwoStepVerificationActivity.canHandleCurrentPassword(password, true)) {
+                            AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", R.string.UpdateAppAlert), true);
+                            return;
+                        }
+                        Bundle bundle = new Bundle();
+                        SerializedData data = new SerializedData(password.getObjectSize());
+                        password.serializeToStream(data);
+                        bundle.putString("password", Utilities.bytesToHex(data.toByteArray()));
+                        setPage(6, true, bundle, false);
+                    } else {
+                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
+                    }
+                }), ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagWithoutLogin);
+            } else if (errorText.startsWith("FLOOD_WAIT")) {
+                needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("FloodWait", R.string.FloodWait));
+            } else {
+                needShowAlert(LocaleController.getString("AppName", R.string.AppName), errorText);
+            }
+        }
+
+        @Override
+        public void didReceivedNotification(int id, int account, Object... args) {
+            exportLoginToken(false);
         }
     }
 

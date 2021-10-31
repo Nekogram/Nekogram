@@ -169,6 +169,7 @@ public class CameraScanActivity extends BaseFragment implements Camera.PreviewCa
             }
         };
 
+        bottomSheet.setUseLightStatusBar(false);
         bottomSheet.show();
         return actionBarLayout;
     }
@@ -359,6 +360,7 @@ public class CameraScanActivity extends BaseFragment implements Camera.PreviewCa
         } else {
             actionBar.setBackgroundDrawable(null);
             actionBar.setAddToContainer(false);
+            actionBar.setTitleColor(0xffffffff);
             actionBar.setItemsColor(0xffffffff, false);
             actionBar.setItemsBackgroundColor(0x22ffffff, false);
             viewGroup.setBackgroundColor(Theme.getColor(Theme.key_wallet_blackBackground));
