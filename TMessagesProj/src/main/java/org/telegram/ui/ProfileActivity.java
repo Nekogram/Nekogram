@@ -6218,7 +6218,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (ChatObject.isChannel(chat)) {
                 if (ChatObject.hasAdminRights(chat) || chat.megagroup) {
                     editItemVisible = true;
-                    if (!ChatObject.hasAdminRights(chat)) {
+                    if (!ChatObject.hasAdminRights(chat) && !(chat.megagroup && ChatObject.canChangeChatInfo(chat))) {
                         editItem.setIcon(R.drawable.profile_info);
                     }
                 }
