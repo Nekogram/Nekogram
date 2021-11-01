@@ -10140,6 +10140,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         date = (long) newMessageObject.messageOwner.date * 1000;
                     }
                     String dateString = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date)));
+                    if (newMessageObject.messageOwner.media.document != null) {
+                        dateString = String.format(Locale.US, "%s, DC%d", dateString, newMessageObject.messageOwner.media.document.dc_id);
+                    } else if (newMessageObject.messageOwner.media.photo != null) {
+                        dateString = String.format(Locale.US, "%s, DC%d", dateString, newMessageObject.messageOwner.media.photo.dc_id);
+                    }
                     if (newFileName != null && isVideo) {
                         dateTextView.setText(String.format("%s (%s)", dateString, AndroidUtilities.formatFileSize(newMessageObject.getDocument().size)), animated);
                     } else {
@@ -10275,9 +10280,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     nameTextView.setText("");
                 }
             }
-            long date =  (long) avatarsArr.get(switchingToIndex).date * 1000;
+            TLRPC.Photo avatar = avatarsArr.get(switchingToIndex);
+            long date =  (long) avatar.date * 1000;
             if (date != 0) {
                 String dateString = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date)));
+                dateString = String.format(Locale.US, "%s, DC%d", dateString, avatar.dc_id);
                 dateTextView.setText(dateString);
             }
             if (canEditAvatar && !avatarsArr.isEmpty()) {

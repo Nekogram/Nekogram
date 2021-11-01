@@ -20312,11 +20312,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     options.add(89);
                     icons.add(R.drawable.menu_info);
                 }
-                if (NekoConfig.showDate) {
-                    items.add(LocaleController.getString("MsgDate", R.string.MsgDate));
-                    icons.add(R.drawable.msg_calendar);
-                    options.add(86);
-                }
             }
             if (options.isEmpty()) {
                 return;
@@ -20378,11 +20373,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (option == 1 && selectedObject.messageOwner.ttl_period != 0) {
                     menuDeleteItem = cell;
                     updateDeleteItemRunnable.run();
-                    cell.setSubtextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText6));
-                }
-                if (option == 86) {
-                    long date = (long) selectedObject.messageOwner.date * 1000;
-                    cell.setSubtext(selectedObject.messageOwner.date == 0x7ffffffe ? "When online" : LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(date))));
                     cell.setSubtextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText6));
                 }
                 scrimPopupWindowItems[a] = cell;
