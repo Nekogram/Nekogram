@@ -3221,7 +3221,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
 
         final MediaDataController mediaDataController = MediaDataController.getInstance(currentAccount);
 
-        SharedPreferences preferences = MessagesController.getEmojiSettings(currentAccount);
+        /*SharedPreferences preferences = MessagesController.getEmojiSettings(currentAccount);
         featuredStickerSets.clear();
         ArrayList<TLRPC.StickerSetCovered> featured = mediaDataController.getFeaturedStickerSets();
         for (int a = 0, N = featured.size(); a < N; a++) {
@@ -3234,7 +3234,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         if (trendingAdapter != null) {
             trendingAdapter.notifyDataSetChanged();
         }
-        /*if (!featured.isEmpty() && (featuredStickerSets.isEmpty() || preferences.getLong("featured_hidden", 0) == featured.get(0).set.id)) {
+        if (!featured.isEmpty() && (featuredStickerSets.isEmpty() || preferences.getLong("featured_hidden", 0) == featured.get(0).set.id)) {
             final int id = mediaDataController.getUnreadStickerSets().isEmpty() ? 2 : 3;
             final StickerTabView trendingStickersTabView = stickersTab.addStickerIconTab(id, stickerIcons[id]);
             trendingStickersTabView.textView.setText(LocaleController.getString("FeaturedStickersShort", R.string.FeaturedStickersShort));
