@@ -1782,6 +1782,11 @@ public class LocaleController {
     }
 
     public static String formatSectionDate(long date) {
+        return formatYearMont(date, false);
+    }
+
+
+    public static String formatYearMont(long date, boolean alwaysShowYear) {
         try {
             date *= 1000;
             Calendar rightNow = Calendar.getInstance();
@@ -1804,7 +1809,7 @@ public class LocaleController {
                     LocaleController.getString("November", R.string.November),
                     LocaleController.getString("December", R.string.December)
             };
-            if (year == dateYear) {
+            if (year == dateYear && !alwaysShowYear) {
                 return months[month];
             } else {
                 return months[month] + " " + dateYear;

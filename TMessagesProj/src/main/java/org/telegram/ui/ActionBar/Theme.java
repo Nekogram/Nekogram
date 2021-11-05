@@ -66,6 +66,8 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.Bitmaps;
 import org.telegram.messenger.BuildVars;
+import org.telegram.messenger.ChatThemeController;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
@@ -85,6 +87,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Cells.ThemesHorizontalListCell;
 import org.telegram.ui.Components.AudioVisualizerDrawable;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
+import org.telegram.ui.Components.ChatThemeBottomSheet;
 import org.telegram.ui.Components.ChoosingStickerStatusDrawable;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.FragmentContextViewWavesDrawable;
@@ -105,7 +108,6 @@ import org.telegram.ui.RoundVideoProgressShadow;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.lang.reflect.Field;
@@ -118,6 +120,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.CountDownLatch;
@@ -206,6 +209,8 @@ public class Theme {
         public boolean lastDrawWithShadow;
         private Bitmap crosfadeFromBitmap;
         private Shader crosfadeFromBitmapShader;
+
+        PathDrawParams pathDrawCacheParams;
 
         public MessageDrawable(int type, boolean out, boolean selected) {
             this(type, out, selected, null);
@@ -621,6 +626,17 @@ public class Theme {
             return buffer;
         }
 
+        public void drawCached(Canvas canvas, PathDrawParams patchDrawCacheParams) {
+            this.pathDrawCacheParams = patchDrawCacheParams;
+            if (crossfadeFromDrawable != null) {
+                crossfadeFromDrawable.pathDrawCacheParams = patchDrawCacheParams;
+            }
+            draw(canvas);
+            this.pathDrawCacheParams = null;
+            if (crossfadeFromDrawable != null) {
+                crossfadeFromDrawable.pathDrawCacheParams = null;
+            }
+        }
         @Override
         public void draw(Canvas canvas) {
             if (crossfadeFromDrawable != null) {
@@ -665,119 +681,138 @@ public class Theme {
             }
 
             int top = Math.max(bounds.top, 0);
-            path.reset();
-            if (isOut) {
-                if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || topY + bounds.bottom - rad < currentBackgroundHeight) {
-                    if (currentType == TYPE_MEDIA) {
-                        path.moveTo(bounds.right - dp(8) - rad, bounds.bottom - padding);
-                    } else {
-                        path.moveTo(bounds.right - dp(2.6f), bounds.bottom - padding);
-                    }
-                    path.lineTo(bounds.left + padding + rad, bounds.bottom - padding);
-                    rect.set(bounds.left + padding, bounds.bottom - padding - rad * 2, bounds.left + padding + rad * 2, bounds.bottom - padding);
-                    path.arcTo(rect, 90, 90, false);
-                } else {
-                    path.moveTo(bounds.right - dp(8), top - topY + currentBackgroundHeight);
-                    path.lineTo(bounds.left + padding, top - topY + currentBackgroundHeight);
-                }
-                if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || topY + rad * 2 >= 0) {
-                    path.lineTo(bounds.left + padding, bounds.top + padding + rad);
-                    rect.set(bounds.left + padding, bounds.top + padding, bounds.left + padding + rad * 2, bounds.top + padding + rad * 2);
-                    path.arcTo(rect, 180, 90, false);
-
-                    int radToUse = isTopNear ? nearRad : rad;
-                    if (currentType == TYPE_MEDIA) {
-                        path.lineTo(bounds.right - padding - radToUse, bounds.top + padding);
-                        rect.set(bounds.right - padding - radToUse * 2, bounds.top + padding, bounds.right - padding, bounds.top + padding + radToUse * 2);
-                    } else {
-                        path.lineTo(bounds.right - dp(8) - radToUse, bounds.top + padding);
-                        rect.set(bounds.right - dp(8) - radToUse * 2, bounds.top + padding, bounds.right - dp(8), bounds.top + padding + radToUse * 2);
-                    }
-                    path.arcTo(rect, 270, 90, false);
-                } else {
-                    path.lineTo(bounds.left + padding, top - topY - dp(2));
-                    if (currentType == TYPE_MEDIA) {
-                        path.lineTo(bounds.right - padding, top - topY - dp(2));
-                    } else {
-                        path.lineTo(bounds.right - dp(8), top - topY - dp(2));
-                    }
-                }
-                if (currentType == TYPE_MEDIA) {
-                    if (paintToUse != null || topY + bounds.bottom - rad < currentBackgroundHeight) {
-                        int radToUse = isBottomNear ? nearRad : rad;
-
-                        path.lineTo(bounds.right - padding, bounds.bottom - padding - radToUse);
-                        rect.set(bounds.right - padding - radToUse * 2, bounds.bottom - padding - radToUse * 2, bounds.right - padding, bounds.bottom - padding);
-                        path.arcTo(rect, 0, 90, false);
-                    } else {
-                        path.lineTo(bounds.right - padding, top - topY + currentBackgroundHeight);
-                    }
-                } else {
-                    if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || topY + bounds.bottom - smallRad * 2 < currentBackgroundHeight) {
-                        path.lineTo(bounds.right - dp(8), bounds.bottom - padding - smallRad - dp(3));
-                        rect.set(bounds.right - dp(8), bounds.bottom - padding - smallRad * 2 - dp(9), bounds.right - dp(7) + smallRad * 2, bounds.bottom - padding - dp(1));
-                        path.arcTo(rect, 180, -83, false);
-                    } else {
-                        path.lineTo(bounds.right - dp(8), top - topY + currentBackgroundHeight);
-                    }
-                }
+            boolean drawFullBottom, drawFullTop;
+            if (pathDrawCacheParams != null && bounds.height() < currentBackgroundHeight) {
+                drawFullBottom = true;
+                drawFullTop = true;
             } else {
-                if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || topY + bounds.bottom - rad < currentBackgroundHeight) {
-                    if (currentType == TYPE_MEDIA) {
-                        path.moveTo(bounds.left + dp(8) + rad, bounds.bottom - padding);
+                drawFullBottom = currentType == TYPE_MEDIA ? topY + bounds.bottom - smallRad * 2 < currentBackgroundHeight : topY + bounds.bottom - rad < currentBackgroundHeight;
+                drawFullTop = topY + rad * 2 >= 0;
+            }
+            Path path;
+            boolean invalidatePath;
+            if (pathDrawCacheParams != null) {
+                path = pathDrawCacheParams.path;
+                invalidatePath = pathDrawCacheParams.invalidatePath(bounds, drawFullBottom, drawFullTop);
+            } else {
+                path = this.path;
+                invalidatePath = true;
+            }
+            if (invalidatePath) {
+                path.reset();
+                if (isOut) {
+                    if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || drawFullBottom) {
+                        if (currentType == TYPE_MEDIA) {
+                            path.moveTo(bounds.right - dp(8) - rad, bounds.bottom - padding);
+                        } else {
+                            path.moveTo(bounds.right - dp(2.6f), bounds.bottom - padding);
+                        }
+                        path.lineTo(bounds.left + padding + rad, bounds.bottom - padding);
+                        rect.set(bounds.left + padding, bounds.bottom - padding - rad * 2, bounds.left + padding + rad * 2, bounds.bottom - padding);
+                        path.arcTo(rect, 90, 90, false);
                     } else {
-                        path.moveTo(bounds.left + dp(2.6f), bounds.bottom - padding);
-                    }
-                    path.lineTo(bounds.right - padding - rad, bounds.bottom - padding);
-                    rect.set(bounds.right - padding - rad * 2, bounds.bottom - padding - rad * 2, bounds.right - padding, bounds.bottom - padding);
-                    path.arcTo(rect, 90, -90, false);
-                } else {
-                    path.moveTo(bounds.left + dp(8), top - topY + currentBackgroundHeight);
-                    path.lineTo(bounds.right - padding, top - topY + currentBackgroundHeight);
-                }
-                if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || topY + rad * 2 >= 0) {
-                    path.lineTo(bounds.right - padding, bounds.top + padding + rad);
-                    rect.set(bounds.right - padding - rad * 2, bounds.top + padding, bounds.right - padding, bounds.top + padding + rad * 2);
-                    path.arcTo(rect, 0, -90, false);
-
-                    int radToUse = isTopNear ? nearRad : rad;
-                    if (currentType == TYPE_MEDIA) {
-                        path.lineTo(bounds.left + padding + radToUse, bounds.top + padding);
-                        rect.set(bounds.left + padding, bounds.top + padding, bounds.left + padding + radToUse * 2, bounds.top + padding + radToUse * 2);
-                    } else {
-                        path.lineTo(bounds.left + dp(8) + radToUse, bounds.top + padding);
-                        rect.set(bounds.left + dp(8), bounds.top + padding, bounds.left + dp(8) + radToUse * 2, bounds.top + padding + radToUse * 2);
-                    }
-                    path.arcTo(rect, 270, -90, false);
-                } else {
-                    path.lineTo(bounds.right - padding, top - topY - dp(2));
-                    if (currentType == TYPE_MEDIA) {
-                        path.lineTo(bounds.left + padding, top - topY - dp(2));
-                    } else {
-                        path.lineTo(bounds.left + dp(8), top - topY - dp(2));
-                    }
-                }
-                if (currentType == TYPE_MEDIA) {
-                    if (paintToUse != null || topY + bounds.bottom - rad < currentBackgroundHeight) {
-                        int radToUse = isBottomNear ? nearRad : rad;
-
-                        path.lineTo(bounds.left + padding, bounds.bottom - padding - radToUse);
-                        rect.set(bounds.left + padding, bounds.bottom - padding - radToUse * 2, bounds.left + padding + radToUse * 2, bounds.bottom - padding);
-                        path.arcTo(rect, 180, -90, false);
-                    } else {
+                        path.moveTo(bounds.right - dp(8), top - topY + currentBackgroundHeight);
                         path.lineTo(bounds.left + padding, top - topY + currentBackgroundHeight);
                     }
-                } else {
-                    if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || topY + bounds.bottom - smallRad * 2 < currentBackgroundHeight) {
-                        path.lineTo(bounds.left + dp(8), bounds.bottom - padding - smallRad - dp(3));
-                        rect.set(bounds.left + dp(7) - smallRad * 2, bounds.bottom - padding - smallRad * 2 - dp(9), bounds.left + dp(8), bounds.bottom - padding - dp(1));
-                        path.arcTo(rect, 0, 83, false);
+                    if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || drawFullTop) {
+                        path.lineTo(bounds.left + padding, bounds.top + padding + rad);
+                        rect.set(bounds.left + padding, bounds.top + padding, bounds.left + padding + rad * 2, bounds.top + padding + rad * 2);
+                        path.arcTo(rect, 180, 90, false);
+
+                        int radToUse = isTopNear ? nearRad : rad;
+                        if (currentType == TYPE_MEDIA) {
+                            path.lineTo(bounds.right - padding - radToUse, bounds.top + padding);
+                            rect.set(bounds.right - padding - radToUse * 2, bounds.top + padding, bounds.right - padding, bounds.top + padding + radToUse * 2);
+                        } else {
+                            path.lineTo(bounds.right - dp(8) - radToUse, bounds.top + padding);
+                            rect.set(bounds.right - dp(8) - radToUse * 2, bounds.top + padding, bounds.right - dp(8), bounds.top + padding + radToUse * 2);
+                        }
+                        path.arcTo(rect, 270, 90, false);
                     } else {
-                        path.lineTo(bounds.left + dp(8), top - topY + currentBackgroundHeight);
+                        path.lineTo(bounds.left + padding, top - topY - dp(2));
+                        if (currentType == TYPE_MEDIA) {
+                            path.lineTo(bounds.right - padding, top - topY - dp(2));
+                        } else {
+                            path.lineTo(bounds.right - dp(8), top - topY - dp(2));
+                        }
+                    }
+                    if (currentType == TYPE_MEDIA) {
+                        if (paintToUse != null || drawFullBottom) {
+                            int radToUse = isBottomNear ? nearRad : rad;
+
+                            path.lineTo(bounds.right - padding, bounds.bottom - padding - radToUse);
+                            rect.set(bounds.right - padding - radToUse * 2, bounds.bottom - padding - radToUse * 2, bounds.right - padding, bounds.bottom - padding);
+                            path.arcTo(rect, 0, 90, false);
+                        } else {
+                            path.lineTo(bounds.right - padding, top - topY + currentBackgroundHeight);
+                        }
+                    } else {
+                        if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || drawFullBottom) {
+                            path.lineTo(bounds.right - dp(8), bounds.bottom - padding - smallRad - dp(3));
+                            rect.set(bounds.right - dp(8), bounds.bottom - padding - smallRad * 2 - dp(9), bounds.right - dp(7) + smallRad * 2, bounds.bottom - padding - dp(1));
+                            path.arcTo(rect, 180, -83, false);
+                        } else {
+                            path.lineTo(bounds.right - dp(8), top - topY + currentBackgroundHeight);
+                        }
+                    }
+                } else {
+                    if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || drawFullBottom) {
+                        if (currentType == TYPE_MEDIA) {
+                            path.moveTo(bounds.left + dp(8) + rad, bounds.bottom - padding);
+                        } else {
+                            path.moveTo(bounds.left + dp(2.6f), bounds.bottom - padding);
+                        }
+                        path.lineTo(bounds.right - padding - rad, bounds.bottom - padding);
+                        rect.set(bounds.right - padding - rad * 2, bounds.bottom - padding - rad * 2, bounds.right - padding, bounds.bottom - padding);
+                        path.arcTo(rect, 90, -90, false);
+                    } else {
+                        path.moveTo(bounds.left + dp(8), top - topY + currentBackgroundHeight);
+                        path.lineTo(bounds.right - padding, top - topY + currentBackgroundHeight);
+                    }
+                    if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || drawFullTop) {
+                        path.lineTo(bounds.right - padding, bounds.top + padding + rad);
+                        rect.set(bounds.right - padding - rad * 2, bounds.top + padding, bounds.right - padding, bounds.top + padding + rad * 2);
+                        path.arcTo(rect, 0, -90, false);
+
+                        int radToUse = isTopNear ? nearRad : rad;
+                        if (currentType == TYPE_MEDIA) {
+                            path.lineTo(bounds.left + padding + radToUse, bounds.top + padding);
+                            rect.set(bounds.left + padding, bounds.top + padding, bounds.left + padding + radToUse * 2, bounds.top + padding + radToUse * 2);
+                        } else {
+                            path.lineTo(bounds.left + dp(8) + radToUse, bounds.top + padding);
+                            rect.set(bounds.left + dp(8), bounds.top + padding, bounds.left + dp(8) + radToUse * 2, bounds.top + padding + radToUse * 2);
+                        }
+                        path.arcTo(rect, 270, -90, false);
+                    } else {
+                        path.lineTo(bounds.right - padding, top - topY - dp(2));
+                        if (currentType == TYPE_MEDIA) {
+                            path.lineTo(bounds.left + padding, top - topY - dp(2));
+                        } else {
+                            path.lineTo(bounds.left + dp(8), top - topY - dp(2));
+                        }
+                    }
+                    if (currentType == TYPE_MEDIA) {
+                        if (paintToUse != null || drawFullBottom) {
+                            int radToUse = isBottomNear ? nearRad : rad;
+
+                            path.lineTo(bounds.left + padding, bounds.bottom - padding - radToUse);
+                            rect.set(bounds.left + padding, bounds.bottom - padding - radToUse * 2, bounds.left + padding + radToUse * 2, bounds.bottom - padding);
+                            path.arcTo(rect, 180, -90, false);
+                        } else {
+                            path.lineTo(bounds.left + padding, top - topY + currentBackgroundHeight);
+                        }
+                    } else {
+                        if (drawFullBubble || currentType == TYPE_PREVIEW || paintToUse != null || drawFullBottom) {
+                            path.lineTo(bounds.left + dp(8), bounds.bottom - padding - smallRad - dp(3));
+                            rect.set(bounds.left + dp(7) - smallRad * 2, bounds.bottom - padding - smallRad * 2 - dp(9), bounds.left + dp(8), bounds.bottom - padding - dp(1));
+                            path.arcTo(rect, 0, 83, false);
+                        } else {
+                            path.lineTo(bounds.left + dp(8), top - topY + currentBackgroundHeight);
+                        }
                     }
                 }
+                path.close();
             }
-            path.close();
 
             canvas.drawPath(path, p);
             if (gradientShader != null && isSelected && paintToUse == null) {
@@ -832,6 +867,21 @@ public class Theme {
             super.setBounds(left, top, right, bottom);
             if (crossfadeFromDrawable != null) {
                 crossfadeFromDrawable.setBounds(left, top, right, bottom);
+            }
+        }
+
+        public static class PathDrawParams {
+            Path path = new Path();
+            Rect lastRect = new Rect();
+            boolean lastDrawFullTop;
+            boolean lastDrawFullBottom;
+
+            public boolean invalidatePath(Rect bounds, boolean drawFullBottom, boolean drawFullTop) {
+                boolean invalidate = lastRect.isEmpty() || lastRect.top != bounds.top || lastRect.bottom != bounds.bottom || lastRect.right != bounds.right || lastRect.left != bounds.left || lastDrawFullTop != drawFullTop || lastDrawFullBottom != drawFullBottom || !drawFullTop || !drawFullBottom;
+                lastDrawFullTop = drawFullTop;
+                lastDrawFullBottom = drawFullBottom;
+                lastRect.set(bounds);
+                return invalidate;
             }
         }
     }
@@ -1012,7 +1062,7 @@ public class Theme {
                 }
                 ThemeInfo themeInfo = accent.parentTheme;
                 HashMap<String, Integer> values = getThemeFileValues(null, themeInfo.assetName, null);
-
+                checkIsDark(values, themeInfo);
                 int backgroundAccent = accent.accentColor;
 
                 int backgroundColor = (int) accent.backgroundOverrideColor;
@@ -1172,6 +1222,7 @@ public class Theme {
         public TLRPC.InputFile uploadedFile;
 
         public OverrideWallpaperInfo overrideWallpaper;
+        public boolean isDefault;
 
         ThemeAccent() {
 
@@ -1475,7 +1526,6 @@ public class Theme {
             if (id < 100) {
                 return !TextUtils.isEmpty(patternSlug) ? new File(ApplicationLoader.getFilesDirFixed(), String.format(Locale.US, "%s_%d_%s_v5.jpg", parentTheme.getKey(), id, patternSlug)) : null;
             } else {
-               // return !TextUtils.isEmpty(patternSlug) ? new File(ApplicationLoader.getFilesDirFixed(), String.format(Locale.US, "%s_%d_%s_v4.jpg", parentTheme.getKey(), id, patternSlug)) : null;
                 return !TextUtils.isEmpty(patternSlug) ? new File(ApplicationLoader.getFilesDirFixed(), String.format(Locale.US, "%s_%d_%s_v8_dubug.jpg", parentTheme.getKey(), id, patternSlug)) : null;
             }
         }
@@ -1748,6 +1798,11 @@ public class Theme {
         private String newPathToWallpaper;
 
         public OverrideWallpaperInfo overrideWallpaper;
+        private int isDark = UNKNOWN;
+
+        private final static int DARK= 1;
+        private final static int LIGHT = 0;
+        private final static int UNKNOWN = -1;
 
         ThemeInfo() {
 
@@ -2009,7 +2064,20 @@ public class Theme {
         }
 
         public boolean isDark() {
-            return "Dark Blue".equals(name) || "Night".equals(name) || "AMOLED".equals(name);
+            if (isDark != UNKNOWN) {
+                return isDark == DARK;
+            }
+            if ("Dark Blue".equals(name) || "Night".equals(name) || "AMOLED".equals(name)) {
+                isDark = DARK;
+            } else if ("Blue".equals(name) || "Arctic Blue".equals(name) || "Day".equals(name)) {
+                isDark = LIGHT;
+            }
+            if (isDark == UNKNOWN) {
+                String[] wallpaperLink = new String[1];
+                HashMap<String, Integer> colors = getThemeFileValues(new File(pathToFile), null, wallpaperLink);
+                checkIsDark(colors, this);
+            }
+            return isDark == DARK;
         }
 
         public boolean isLight() {
@@ -2075,6 +2143,7 @@ public class Theme {
             themeAccents = new ArrayList<>();
             themeAccentsMap = new SparseArray<>();
             accentsByThemeId = new LongSparseArray<>();
+
             for (int a = 0; a < accent.length; a++) {
                 ThemeAccent themeAccent = new ThemeAccent();
                 themeAccent.id = ids != null ? ids[a] : a;
@@ -2152,7 +2221,7 @@ public class Theme {
             previewParsed = false;
             saveOtherThemes(true);
             if (this == currentTheme && previousTheme == null) {
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, this, this == currentNightTheme, null, -1);
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, this, this == currentNightTheme, null, -1, fallbackKeys);
             }
         }
 
@@ -2259,12 +2328,16 @@ public class Theme {
         }
 
         public ThemeAccent createNewAccent(TLRPC.TL_theme info, int account) {
-            return createNewAccent(info, account, false);
+            return createNewAccent(info, account, false, 0);
         }
 
-        public ThemeAccent createNewAccent(TLRPC.TL_theme info, int account, boolean ignoreThemeInfoId) {
+        public ThemeAccent createNewAccent(TLRPC.TL_theme info, int account, boolean ignoreThemeInfoId, int settingsIndex) {
             if (info == null) {
                 return null;
+            }
+            TLRPC.ThemeSettings settings = null;
+            if (settingsIndex < info.settings.size()) {
+                settings = info.settings.get(settingsIndex);
             }
             if (ignoreThemeInfoId) {
                 ThemeAccent themeAccent = chatAccentsByThemeId.get(info.id);
@@ -2272,7 +2345,7 @@ public class Theme {
                     return themeAccent;
                 }
                 int id = ++lastChatThemeId;
-                themeAccent = createNewAccent(info.settings);
+                themeAccent = createNewAccent(settings);
                 themeAccent.id = id;
                 themeAccent.info = info;
                 themeAccent.account = account;
@@ -2284,7 +2357,7 @@ public class Theme {
                     return themeAccent;
                 }
                 int id = ++lastAccentId;
-                themeAccent = createNewAccent(info.settings);
+                themeAccent = createNewAccent(settings);
                 themeAccent.id = id;
                 themeAccent.info = info;
                 themeAccent.account = account;
@@ -2529,6 +2602,7 @@ public class Theme {
     private static long[] remoteThemesHash = new long[UserConfig.MAX_ACCOUNT_COUNT];
 
     public static ArrayList<ThemeInfo> themes;
+    public static final ArrayList<ChatThemeBottomSheet.ChatThemeItem> defaultEmojiThemes = new ArrayList<>();
     private static ArrayList<ThemeInfo> otherThemes;
     private static HashMap<String, ThemeInfo> themesDict;
     private static ThemeInfo currentTheme;
@@ -3642,6 +3716,8 @@ public class Theme {
     public static final String key_drawable_shareIcon = "drawableShareIcon";
     public static final String key_drawable_muteIconDrawable = "drawableMuteIcon";
     public static final String key_drawable_lockIconDrawable = "drawableLockIcon";
+    public static final String key_drawable_chat_pollHintDrawableOut = "drawable_chat_pollHintDrawableOut";
+    public static final String key_drawable_chat_pollHintDrawableIn = "drawable_chat_pollHintDrawableIn";
     private static final HashMap<String, Drawable> defaultChatDrawables = new HashMap<>();
     private static final HashMap<String, String> defaultChatDrawableColorKeys = new HashMap<>();
 
@@ -5030,6 +5106,9 @@ public class Theme {
                                             accent.info = (TLRPC.TL_theme) TLRPC.Theme.TLdeserialize(data, data.readInt32(true), true);
                                         }
                                     }
+                                    if (accent.info != null) {
+                                        accent.isDefault = accent.info.isDefault;
+                                    }
                                     info.themeAccentsMap.put(accent.id, accent);
                                     if (accent.info != null) {
                                         info.accentsByThemeId.put(accent.info.id, accent);
@@ -5037,11 +5116,12 @@ public class Theme {
                                     newAccents.add(accent);
                                     info.lastAccentId = Math.max(info.lastAccentId, accent.id);
                                 } catch (Throwable e) {
-
+                                    throw new RuntimeException(e);
                                 }
                             }
                         } catch (Throwable e) {
                             FileLog.e(e);
+                            throw new RuntimeException(e);
                         }
                     } else {
                         String key = "accent_for_" + info.assetName;
@@ -5148,6 +5228,7 @@ public class Theme {
             autoNightLastSunCheckDay = preferences.getInt("autoNightLastSunCheckDay", -1);
         } catch (Exception e) {
             FileLog.e(e);
+            throw new RuntimeException(e);
         }
         if (applyingTheme == null) {
             applyingTheme = defaultTheme;
@@ -5191,6 +5272,35 @@ public class Theme {
         }
         applyTheme(applyingTheme, false, false, switchToTheme == 2);
         AndroidUtilities.runOnUIThread(Theme::checkAutoNightThemeConditions);
+
+        preferences = ApplicationLoader.applicationContext.getSharedPreferences("emojithemes_config", Context.MODE_PRIVATE);
+        int count = preferences.getInt("count", 0);
+        ArrayList<ChatThemeBottomSheet.ChatThemeItem> previewItems = new ArrayList<>();
+        previewItems.add(new ChatThemeBottomSheet.ChatThemeItem(EmojiThemes.createHomePreviewTheme()));
+        for (int i = 0; i < count; ++i) {
+            String value = preferences.getString("theme_" + i, "");
+            SerializedData serializedData = new SerializedData(Utilities.hexToBytes(value));
+            try {
+                TLRPC.TL_theme theme = TLRPC.Theme.TLdeserialize(serializedData, serializedData.readInt32(true), true);
+                previewItems.add(new ChatThemeBottomSheet.ChatThemeItem(EmojiThemes.createPreviewFullTheme(theme)));
+
+                ChatThemeController.chatThemeQueue.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        for (int i = 0; i < previewItems.size(); i++) {
+                            previewItems.get(i).chatTheme.loadPreviewColors(0);
+                        }
+                        AndroidUtilities.runOnUIThread(() -> {
+                            defaultEmojiThemes.clear();
+                            defaultEmojiThemes.addAll(previewItems);
+                            NotificationCenter.getInstance(0).postNotificationName(NotificationCenter.emojiPreviewThemesChanged);
+                        });
+                    }
+                });
+            } catch (Throwable e) {
+                FileLog.e(e);
+            }
+        }
     }
 
     private static Method StateListDrawable_getStateDrawableMethod;
@@ -5918,7 +6028,8 @@ public class Theme {
             themeInfo.account = UserConfig.selectedAccount;
 
             String[] wallpaperLink = new String[1];
-            getThemeFileValues(new File(themeInfo.pathToFile), null, wallpaperLink);
+            HashMap<String, Integer> colors = getThemeFileValues(new File(themeInfo.pathToFile), null, wallpaperLink);
+            checkIsDark(colors, themeInfo);
 
             if (!TextUtils.isEmpty(wallpaperLink[0])) {
                 String link = wallpaperLink[0];
@@ -6992,13 +7103,17 @@ public class Theme {
                 boolean changed = false;
                 if (response instanceof TLRPC.TL_theme) {
                     TLRPC.TL_theme theme = (TLRPC.TL_theme) response;
-                    if (accent != null && theme.settings != null) {
-                        if (!ThemeInfo.accentEquals(accent, theme.settings)) {
+                    TLRPC.ThemeSettings settings = null;
+                    if (theme.settings.size() > 0) {
+                        settings = theme.settings.get(0);
+                    }
+                    if (accent != null && settings != null) {
+                        if (!ThemeInfo.accentEquals(accent, settings)) {
                             File file = accent.getPathToWallpaper();
                             if (file != null) {
                                 file.delete();
                             }
-                            ThemeInfo.fillAccentValues(accent, theme.settings);
+                            ThemeInfo.fillAccentValues(accent, settings);
                             if (currentTheme == themeInfo && currentTheme.currentAccentId == accent.id) {
                                 refreshThemeColors();
                                 createChatResources(ApplicationLoader.applicationContext, false);
@@ -7007,7 +7122,7 @@ public class Theme {
                             PatternsLoader.createLoader(true);
                             changed = true;
                         }
-                        accent.patternMotion = theme.settings.wallpaper != null && theme.settings.wallpaper.settings != null && theme.settings.wallpaper.settings.motion;
+                        accent.patternMotion = settings.wallpaper != null && settings.wallpaper.settings != null && settings.wallpaper.settings.motion;
                     } else if (theme.document != null && theme.document.id != info.document.id) {
                         if (accent != null) {
                             accent.info = theme;
@@ -7027,7 +7142,7 @@ public class Theme {
     }
 
     public static void loadRemoteThemes(final int currentAccount, boolean force) {
-        if (loadingRemoteThemes[currentAccount] || !force && Math.abs(System.currentTimeMillis() / 1000 - lastLoadingThemesTime[currentAccount]) < 60 * 60 || !UserConfig.getInstance(currentAccount).isClientActivated()) {
+        if (loadingRemoteThemes[currentAccount]) {
             return;
         }
         loadingRemoteThemes[currentAccount] = true;
@@ -7040,6 +7155,7 @@ public class Theme {
                 TLRPC.TL_account_themes res = (TLRPC.TL_account_themes) response;
                 remoteThemesHash[currentAccount] = res.hash;
                 lastLoadingThemesTime[currentAccount] = (int) (System.currentTimeMillis() / 1000);
+                ArrayList<TLRPC.TL_theme> emojiPreviewThemes = new ArrayList<>();
                 ArrayList<Object> oldServerThemes = new ArrayList<>();
                 for (int a = 0, N = themes.size(); a < N; a++) {
                     ThemeInfo info = themes.get(a);
@@ -7062,36 +7178,47 @@ public class Theme {
                         continue;
                     }
                     TLRPC.TL_theme theme = (TLRPC.TL_theme) t;
-                    if (theme.settings != null) {
-                        String key = getBaseThemeKey(theme.settings);
-                        if (key == null) {
-                            continue;
-                        }
-                        ThemeInfo info = themesDict.get(key);
-                        if (info == null || info.themeAccents == null) {
-                            continue;
-                        }
-                        ThemeAccent accent = info.accentsByThemeId.get(theme.id);
-                        if (accent != null) {
-                            if (!ThemeInfo.accentEquals(accent, theme.settings)) {
-                                File file = accent.getPathToWallpaper();
-                                if (file != null) {
-                                    file.delete();
+                    if (theme.isDefault) {
+                        //TODO new emoji themes
+                        continue;
+                        //emojiPreviewThemes.add(theme);
+                    }
+                    if (theme.settings != null && theme.settings.size() > 0) {
+                        for (int i = 0; i < theme.settings.size(); i++) {
+                            TLRPC.ThemeSettings settings = theme.settings.get(i);
+                            if (settings != null) {
+                                String key = getBaseThemeKey(settings);
+                                if (key == null) {
+                                    continue;
                                 }
-                                ThemeInfo.fillAccentValues(accent, theme.settings);
-                                loadPatterns = true;
-                                added = true;
-                                if (currentTheme == info && currentTheme.currentAccentId == accent.id) {
-                                    refreshThemeColors();
-                                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, currentTheme, currentNightTheme == currentTheme, null, -1);
+                                ThemeInfo info = themesDict.get(key);
+                                if (info == null || info.themeAccents == null) {
+                                    continue;
                                 }
-                            }
-                            accent.patternMotion = theme.settings.wallpaper != null && theme.settings.wallpaper.settings != null && theme.settings.wallpaper.settings.motion;
-                            oldServerThemes.remove(accent);
-                        } else {
-                            accent = info.createNewAccent(theme, currentAccount);
-                            if (!TextUtils.isEmpty(accent.patternSlug)) {
-                                loadPatterns = true;
+                                ThemeAccent accent = info.accentsByThemeId.get(theme.id);
+                                if (accent != null) {
+                                    if (!ThemeInfo.accentEquals(accent, settings)) {
+                                        File file = accent.getPathToWallpaper();
+                                        if (file != null) {
+                                            file.delete();
+                                        }
+                                        ThemeInfo.fillAccentValues(accent, settings);
+                                        loadPatterns = true;
+                                        added = true;
+                                        if (currentTheme == info && currentTheme.currentAccentId == accent.id) {
+                                            refreshThemeColors();
+                                            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, currentTheme, currentNightTheme == currentTheme, null, -1);
+                                        }
+                                    }
+                                    accent.patternMotion = settings.wallpaper != null && settings.wallpaper.settings != null && settings.wallpaper.settings.motion;
+                                    oldServerThemes.remove(accent);
+                                } else {
+                                    accent = info.createNewAccent(theme, currentAccount);
+                                    if (!TextUtils.isEmpty(accent.patternSlug)) {
+                                        loadPatterns = true;
+                                    }
+                                }
+                                accent.isDefault = theme.isDefault;
                             }
                         }
                     } else {
@@ -7151,8 +7278,50 @@ public class Theme {
                 if (loadPatterns) {
                     PatternsLoader.createLoader(true);
                 }
+                generateEmojiPreviewThemes(emojiPreviewThemes, currentAccount);
             }
         }));
+    }
+
+    private static void generateEmojiPreviewThemes(final ArrayList<TLRPC.TL_theme> emojiPreviewThemes, int currentAccount) {
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("emojithemes_config", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("count", emojiPreviewThemes.size());
+        for (int i = 0; i < emojiPreviewThemes.size(); ++i) {
+            TLRPC.TL_theme tlChatTheme = emojiPreviewThemes.get(i);
+            SerializedData data = new SerializedData(tlChatTheme.getObjectSize());
+            tlChatTheme.serializeToStream(data);
+            editor.putString("theme_" + i, Utilities.bytesToHex(data.toByteArray()));
+            EmojiThemes chatTheme = new EmojiThemes(tlChatTheme, false);
+        }
+        editor.apply();
+
+        if (!emojiPreviewThemes.isEmpty()) {
+            final ArrayList<ChatThemeBottomSheet.ChatThemeItem> previewItems = new ArrayList<>();
+            previewItems.add(new ChatThemeBottomSheet.ChatThemeItem(EmojiThemes.createHomePreviewTheme()));
+            for (int i = 0; i < emojiPreviewThemes.size(); i++) {
+                TLRPC.TL_theme theme = emojiPreviewThemes.get(i);
+                EmojiThemes chatTheme = EmojiThemes.createPreviewFullTheme(theme);
+                ChatThemeBottomSheet.ChatThemeItem item = new ChatThemeBottomSheet.ChatThemeItem(chatTheme);
+                previewItems.add(item);
+            }
+            ChatThemeController.chatThemeQueue.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    for (int i = 0; i < previewItems.size(); i++) {
+                        previewItems.get(i).chatTheme.loadPreviewColors(currentAccount);
+                    }
+                    AndroidUtilities.runOnUIThread(() -> {
+                        defaultEmojiThemes.clear();
+                        defaultEmojiThemes.addAll(previewItems);
+                        NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.emojiPreviewThemesChanged);
+                    });
+                }
+            });
+        } else {
+            defaultEmojiThemes.clear();
+            NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.emojiPreviewThemesChanged);
+        }
     }
 
     public static String getBaseThemeKey(TLRPC.ThemeSettings settings) {
@@ -7206,9 +7375,13 @@ public class Theme {
         if (info == null) {
             return;
         }
-        if (info.settings != null) {
+        TLRPC.ThemeSettings settings = null;
+        if (info.settings.size() > 0) {
+            settings = info.settings.get(0);
+        }
+        if (settings != null) {
             if (theme == null) {
-                String key = getBaseThemeKey(info.settings);
+                String key = getBaseThemeKey(settings);
                 if (key == null) {
                     return;
                 }
@@ -7227,19 +7400,21 @@ public class Theme {
             accent.info = info;
             accent.account = account;
             theme.accentsByThemeId.put(info.id, accent);
-            if (!ThemeInfo.accentEquals(accent, info.settings)) {
+
+
+            if (!ThemeInfo.accentEquals(accent, settings)) {
                 File file = accent.getPathToWallpaper();
                 if (file != null) {
                     file.delete();
                 }
-                ThemeInfo.fillAccentValues(accent, info.settings);
+                ThemeInfo.fillAccentValues(accent, settings);
                 if (currentTheme == theme && currentTheme.currentAccentId == accent.id) {
                     refreshThemeColors();
                     NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needSetDayNightTheme, currentTheme, currentNightTheme == currentTheme, null, -1);
                 }
                 PatternsLoader.createLoader(true);
             }
-            accent.patternMotion = info.settings.wallpaper != null && info.settings.wallpaper.settings != null && info.settings.wallpaper.settings.motion;
+            accent.patternMotion = settings.wallpaper != null && settings.wallpaper.settings != null && settings.wallpaper.settings.motion;
             theme.previewParsed = false;
         } else {
             String key;
@@ -7306,6 +7481,7 @@ public class Theme {
         try {
             String[] wallpaperLink = new String[1];
             HashMap<String, Integer> colors = getThemeFileValues(new File(pathToFile), null, wallpaperLink);
+            checkIsDark(colors, accent.parentTheme);
             Integer wallpaperFileOffset = colors.get("wallpaperFileOffset");
             Bitmap bitmap = Bitmaps.createBitmap(560, 678, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
@@ -7582,6 +7758,21 @@ public class Theme {
             FileLog.e(e);
         }
         return null;
+    }
+
+    private static void checkIsDark(HashMap<String, Integer> colors, Theme.ThemeInfo info) {
+        if (info == null || colors == null) {
+            return;
+        }
+        if (info.isDark == ThemeInfo.UNKNOWN) {
+            int averageBackgroundColor = getPreviewColor(colors, key_windowBackgroundWhite);
+            averageBackgroundColor = ColorUtils.blendARGB(averageBackgroundColor, getPreviewColor(colors, key_windowBackgroundWhite), 0.5f);
+            if (ColorUtils.calculateLuminance(averageBackgroundColor) < 0.5f) {
+                info.isDark = ThemeInfo.DARK;
+            } else {
+                info.isDark = ThemeInfo.LIGHT;
+            }
+        }
     }
 
     public static HashMap<String, Integer> getThemeFileValues(File file, String assetName, String[] wallpaperLink) {
@@ -8349,6 +8540,8 @@ public class Theme {
             addChatDrawable(key_drawable_shareIcon, chat_shareIconDrawable, key_chat_serviceIcon);
             addChatDrawable(key_drawable_muteIconDrawable, chat_muteIconDrawable, key_chat_muteIcon);
             addChatDrawable(key_drawable_lockIconDrawable, chat_lockIconDrawable, key_chat_lockIcon);
+            addChatDrawable(key_drawable_chat_pollHintDrawableOut, chat_pollHintDrawable[1], key_chat_outPreviewInstantText);
+            addChatDrawable(key_drawable_chat_pollHintDrawableIn, chat_pollHintDrawable[0], key_chat_inPreviewInstantText);
 
             applyChatTheme(fontsOnly, false);
         }
@@ -8682,7 +8875,8 @@ public class Theme {
         }
 
         Drawable drawable = wallpaperOverride != null ? wallpaperOverride : currentWallpaper;
-        if (drawable instanceof MotionBackgroundDrawable) {
+        boolean drawServiceGradient = drawable instanceof MotionBackgroundDrawable && SharedConfig.getDevicePerformanceClass() != SharedConfig.PERFORMANCE_CLASS_LOW;
+        if (drawServiceGradient) {
             Bitmap newBitmap = ((MotionBackgroundDrawable) drawable).getBitmap();
             if (serviceBitmap != newBitmap) {
                 serviceBitmap = newBitmap;
@@ -9168,8 +9362,12 @@ public class Theme {
         if (accent != null) {
             wallpaperFile = accent.getPathToWallpaper();
             wallpaperMotion = accent.patternMotion;
-            if (accent.info != null && accent.info.settings != null && accent.info.settings.wallpaper != null) {
-                wallpaperDocument = accent.info.settings.wallpaper.document;
+            TLRPC.ThemeSettings settings = null;
+            if (accent.info != null && accent.info.settings.size() > 0) {
+                settings = accent.info.settings.get(0);
+            }
+            if (accent.info != null && settings != null && settings.wallpaper != null) {
+                wallpaperDocument = settings.wallpaper.document;
             }
         } else {
             wallpaperFile = null;
@@ -9184,7 +9382,7 @@ public class Theme {
         }
 
         TLRPC.Document finalWallpaperDocument = wallpaperDocument;
-        Utilities.searchQueue.postRunnable(wallpaperLoadTask = () -> {
+        Utilities.themeQueue.postRunnable(wallpaperLoadTask = () -> {
             BackgroundDrawableSettings settings = createBackgroundDrawable(
                     currentTheme,
                     overrideWallpaper,
@@ -9630,7 +9828,7 @@ public class Theme {
         }
         if (drawable == null && wallpaperLoadTask != null) {
             CountDownLatch countDownLatch = new CountDownLatch(1);
-            Utilities.searchQueue.postRunnable(countDownLatch::countDown);
+            Utilities.themeQueue.postRunnable(countDownLatch::countDown);
             try {
                 countDownLatch.await();
             } catch (Exception e) {
@@ -9801,9 +9999,7 @@ public class Theme {
         }
     }
 
-    public static void setColorToPaint(Paint paint, int color) {
-        if (paint.getColor() != color) {
-            paint.setColor(color);
-        }
+    public static boolean isCurrentThemeDay() {
+        return !getActiveTheme().isDark();
     }
 }

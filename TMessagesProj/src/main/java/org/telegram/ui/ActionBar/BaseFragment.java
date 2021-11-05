@@ -724,5 +724,4 @@ public abstract class BaseFragment {
     public void onProvideAssistContent(AssistContent outContent) {
 
     }
-
 }
