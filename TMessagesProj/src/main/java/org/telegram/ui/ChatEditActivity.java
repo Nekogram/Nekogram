@@ -1454,6 +1454,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                         }
                         blockCell.setTextAndValueAndIcon(LocaleController.getString("ChannelPermissions", R.string.ChannelPermissions), String.format("%d/%d", count, 9), R.drawable.actions_permissions, true);
                     }
+                    if (memberRequestsCell != null) {
+                        memberRequestsCell.setTextAndValueAndIcon(LocaleController.getString("MemberRequests", R.string.MemberRequests), String.format("%d", info.requests_pending), R.drawable.actions_requests, logCell != null && logCell.getVisibility() == View.VISIBLE);
+                    }
                 }
                 if (ChatObject.hasAdminRights(currentChat)) {
                     adminCell.setTextAndValueAndIcon(LocaleController.getString("ChannelAdministrators", R.string.ChannelAdministrators), String.format("%d", ChatObject.isChannel(currentChat) ? info.admins_count : getAdminCount()), R.drawable.actions_addadmin, true);
@@ -1463,9 +1466,6 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                         getRealChannelAdminCount();
                     } else {
                         adminCell.setTextAndValueAndIcon(LocaleController.getString("ChannelAdministrators", R.string.ChannelAdministrators), String.format("%d", ChatObject.isChannel(currentChat) ? realAdminCount == 0 ? getChannelAdminCount() : realAdminCount : getAdminCount()), R.drawable.actions_addadmin, true);
-                    }
-                    if (memberRequestsCell != null) {
-                        memberRequestsCell.setTextAndValueAndIcon(LocaleController.getString("MemberRequests", R.string.MemberRequests), String.format("%d", info.requests_pending), R.drawable.actions_requests, logCell != null && logCell.getVisibility() == View.VISIBLE);
                     }
                 }
             } else {
