@@ -158,6 +158,10 @@ public class MessageHelper extends BaseController {
         MessageObject obj = new MessageObject(currentAccount, message, true, true);
         obj.originalMessage = messageObject.originalMessage;
         obj.translated = translated;
+        if (messageObject.isSponsored()) {
+            obj.sponsoredId = messageObject.sponsoredId;
+            obj.botStartParam = messageObject.botStartParam;
+        }
 
         ArrayList<MessageObject> arrayList = new ArrayList<>();
         arrayList.add(obj);

@@ -44,7 +44,7 @@ public class GoogleAppTranslator extends BaseTranslator {
                 "&tl=" + tl +
                 "&ie=UTF-8&oe=UTF-8&client=at&dt=t&otf=2";
         String response = new Http(url)
-                .header("User-Agent", "GoogleTranslate/6.21.0.03.386984393 (Linux; U; Android 11; Redmi K20 Pro)")
+                .header("User-Agent", "GoogleTranslate/6.25.0.02.404801591 (Linux; U; Android 11; Redmi K20 Pro)")
                 .request();
         if (TextUtils.isEmpty(response)) {
             return null;
