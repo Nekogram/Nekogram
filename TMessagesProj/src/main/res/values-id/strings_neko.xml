@@ -162,4 +162,5 @@
     <string name="MaxRecentStickers">Maksimum stiker terakhir digunakan</string>
     <string name="ApplyEmojiFont">Terapkan fon emoji</string>
     <string name="DisableJumpToNextChannel">Matikan loncat ke Channel berikutnya</string>
+    <string name="DisableGreetingSticker">Matikan stiker salam</string>
 </resources>

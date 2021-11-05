@@ -162,4 +162,5 @@
     <string name="MaxRecentStickers">Numero massimo di sticker recenti</string>
     <string name="ApplyEmojiFont">Applica il font emoji</string>
     <string name="DisableJumpToNextChannel">Disattiva \"Passa al canale successivo\"</string>
+    <string name="DisableGreetingSticker">Disattiva lo sticker di benvenuto</string>
 </resources>

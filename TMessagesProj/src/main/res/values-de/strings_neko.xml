@@ -55,10 +55,11 @@
     <string name="DeleteAccount">Telegram-Konto löschen</string>
     <string name="TranslateFailed">Übersetzer-Serverfehler</string>
     <string name="TranslationProvider">Übersetzungsdienst</string>
-    <string name="ProviderGoogleTranslate">Google Translate</string>
+    <string name="ProviderGoogleTranslate">Google Übersetzer</string>
     <string name="TranslateApiUnsupported">Der von Ihnen gewählte Übersetzungsdienst unterstützt Ihre Sprache nicht.</string>
-    <string name="ProviderLingocloud">Lingocloud</string>
+    <string name="ProviderLingocloud">LingoCloud Übersetzer</string>
     <string name="UndoTranslate">Übersetzung zurücksetzen</string>
+    <string name="DisablePhotoViewerSideAction">Deaktiviere \"Fotos wechseln durch abtippen\"</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Unbegrenzte angepinnte Dialoge</string>
     <string name="UnlimitedPinnedDialogsAbout">Pinnen Sie unbegrenzte Dialoge an, indem Sie die Synchronisierung ausschalten.</string>
@@ -92,7 +93,7 @@
     <string name="RestartAppToTakeEffect">App neu starten, um Änderungen wirksam zu machen.</string>
     <string name="DisableAppBarShadow">Schatten der Titelleiste deaktivieren</string>
     <string name="MediaPreview">Medienvorschau in der Dialogliste</string>
-    <string name="ProviderYandex">Yandex Translate</string>
+    <string name="ProviderYandex">Yandex Übersetzer</string>
     <string name="IdType">Chat-ID im Profil</string>
     <string name="IdTypeAbout">Telegram-API verwendet die IDs wie sie sind, aber Bot-API fügt am Anfang Minus für Gruppen hinzu und -100 für Kanäle und Supergruppen, damit sie in ein Feld passen.</string>
     <string name="IdTypeHidden">Ausblenden</string>
@@ -112,7 +113,7 @@
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Zeit mit Sekunden formatieren</string>
     <string name="JumpToBeginning">Zum Anfang springen</string>
-    <string name="ProviderDeepLTranslate">DeepL Translate</string>
+    <string name="ProviderDeepLTranslate">DeepL Übersetzer</string>
     <string name="Halloween">Halloween</string>
     <string name="CheckUpdate">Nach Updates suchen</string>
     <string name="LastUpdateFormatted">Zuletzt erfolgreich %1$s überprüft.</string>
@@ -156,8 +157,9 @@
     <string name="SendWebFileInvalid">Ungültige Datei, sicherstellen, dass die Datei den Anforderungen entspricht.</string>
     <string name="AutoLockInstant">Sofort</string>
     <string name="RestrictionReason">Einschränkungsgrund</string>
-    <string name="ProviderTencentTranslator">Mr. Translator</string>
-    <string name="ProviderNiuTrans">Niu Trans</string>
+    <string name="ProviderTencentTranslator">Mr. Translator Übersetzer</string>
+    <string name="ProviderNiuTrans">NiuTrans Übersetzer</string>
     <string name="MaxRecentStickers">Max. aktuelle Sticker</string>
     <string name="ApplyEmojiFont">Emoji-Schriftart anwenden</string>
+    <string name="DisableJumpToNextChannel">Deaktiviere \"zum nächsten Kanal springen\"</string>
 </resources>

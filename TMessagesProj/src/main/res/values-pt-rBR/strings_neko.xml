@@ -59,6 +59,7 @@
     <string name="TranslateApiUnsupported">O provedor de tradução que você selecionou não suporta o seu idioma.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Desfazer tradução</string>
+    <string name="DisablePhotoViewerSideAction">Desativar \"Inverter fotos pelo toque\"</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Chats fixados ilimitados</string>
     <string name="UnlimitedPinnedDialogsAbout">Fixar chats ilimitados desativar a sincronização.</string>
@@ -159,6 +160,8 @@
     <string name="RestrictionReason">Motivo de restrição</string>
     <string name="ProviderTencentTranslator">Sr. Tradutor</string>
     <string name="ProviderNiuTrans">Niu Trans</string>
-    <string name="MaxRecentStickers">Stickers recentes máx</string>
+    <string name="MaxRecentStickers">Máximo de adesivos recentes</string>
     <string name="ApplyEmojiFont">Aplicar fonte de emoji customizada</string>
+    <string name="DisableJumpToNextChannel">Desativar \"Pular para o Próximo Canal\"</string>
+    <string name="DisableGreetingSticker">Desativar sticker de saudação</string>
 </resources>

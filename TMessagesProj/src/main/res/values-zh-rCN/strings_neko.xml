@@ -164,4 +164,5 @@
     <string name="MaxRecentStickers">最大最近贴纸数量</string>
     <string name="ApplyEmojiFont">应用 Emoji 字体</string>
     <string name="DisableJumpToNextChannel">禁用“跳转到下一个频道”</string>
+    <string name="DisableGreetingSticker">禁用问候贴纸</string>
 </resources>

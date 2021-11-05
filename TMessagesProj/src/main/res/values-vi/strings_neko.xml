@@ -139,4 +139,16 @@
     <string name="WsEnableDoh">Bật DoH</string>
     <string name="MsgDate">Ngày</string>
     <string name="UpdateNekogram">Cập nhật Nekogram</string>
+    <string name="TranslationTarget">Tập trung vào ngôn ngữ</string>
+    <string name="TranslationTargetApp">Dựa theo ứng dụng</string>
+    <string name="Translator">Công cụ dịch</string>
+    <string name="ResetLanguage">Đặt lại ngôn ngữ</string>
+    <string name="UseGoogleTranslate">Sử dụng Google Dịch</string>
+    <string name="DeepLFormality">Hình thức dịch</string>
+    <string name="InvalidCustomEmojiTypeface">Font Emoji không hợp lệ.</string>
+    <string name="AttachWebFile">Tệp trên Web</string>
+    <string name="WebFileInfo">Gửi tệp bằng đường dẫn</string>
+    <string name="SendWebFile">Gửi tệp trên Web</string>
+    <string name="SendWebFileInfo">Telegram sẽ tải xuống và gửi tệp tin. Tối đa 5MB cho hình ảnh và 20MB cho những định dạng khác.</string>
+    <string name="AutoLockInstant">Ngay lập tức</string>
 </resources>

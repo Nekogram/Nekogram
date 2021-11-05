@@ -59,6 +59,7 @@
     <string name="TranslateApiUnsupported">Wybrany przez Ciebie dostawca tłumaczeń nie obsługuje twojego języka.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Cofnij tłumaczenie</string>
+    <string name="DisablePhotoViewerSideAction">Wyłącz obracanie zdjęć poprzez dotknięcie\"</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Nieograniczona ilość przypiętych czatów</string>
     <string name="UnlimitedPinnedDialogsAbout">Przypinanie nieograniczonej ilości czatów wyłączy ich synchronizację.</string>
@@ -160,4 +161,6 @@
     <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Maksymalna liczba ostatnio używanych naklejek</string>
     <string name="ApplyEmojiFont">Używaj czcionki emoji</string>
+    <string name="DisableJumpToNextChannel">Wyłącz \"Przejdź do następnego kanału\"</string>
+    <string name="DisableGreetingSticker">Wyłącz naklejkę powitalną</string>
 </resources>

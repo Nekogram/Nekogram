@@ -7,7 +7,7 @@
     <string name="Hide">Masquer</string>
     <string name="DeleteAllFromSelf">Supprimer ses propres messages</string>
     <string name="DeleteAllFromSelfAlert">Attention ! Cela **supprimera tous les messages de votre part** dans cet échange pour **tous** les participants.</string>
-    <string name="BotLogin">Connexion au bot</string>
+    <string name="BotLogin">Connexion avec bot</string>
     <string name="InvalidAccessToken">Token d\'accès invalide</string>
     <string name="IgnoreBlocked">Ignorer les utilisateurs bloqués dans un groupe</string>
     <string name="Connection">Connexion</string>

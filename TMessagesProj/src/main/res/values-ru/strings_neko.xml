@@ -5,16 +5,16 @@
     <string name="MessageMenu">Меню сообщений</string>
     <string name="HidePhone">Скрыть мой номер телефона</string>
     <string name="Hide">Скрыть</string>
-    <string name="DeleteAllFromSelf">Удалить свои сообщения</string>
-    <string name="DeleteAllFromSelfAlert">Внимание! Это **удалит все ваши сообщения** в этом чате для **всех**.</string>
+    <string name="DeleteAllFromSelf">Удалить сообщення</string>
+    <string name="DeleteAllFromSelfAlert">Внимання! Ето **удалит все ваши сообщення** в етом чате для **всех**.</string>
     <string name="BotLogin">Вход по токену</string>
     <string name="InvalidAccessToken">Токен недействителен</string>
-    <string name="IgnoreBlocked">Игнорировать заблокированных пользователей в группе</string>
+    <string name="IgnoreBlocked">Игнорировать плохих людей Nekogramma в группе</string>
     <string name="Connection">Соединение</string>
     <string name="Chat">Чат</string>
     <string name="NameOrder">Сортировка имён</string>
-    <string name="FirstLast">Имя Фамилия</string>
-    <string name="LastFirst">Фамилия Имя</string>
+    <string name="FirstLast">Кличка Фамилия </string>
+    <string name="LastFirst">Фамилия Кличка</string>
     <string name="TypefaceUseDefault">Использовать системный шрифт</string>
     <string name="NoQuoteForward">Переслать без автора</string>
     <string name="Repeat">Повторить</string>
@@ -30,7 +30,7 @@
     <string name="ChristmasHat">Рождественский колпак в заголовке 🎅</string>
     <string name="DependsOnDate">Зависит от даты</string>
     <string name="Christmas">Рождество</string>
-    <string name="Valentine">День Св. Валентина</string>
+    <string name="Valentine">День Святофо Валентина</string>
     <string name="DeleteDownloadedFile">Удалить из кеша</string>
     <string name="TestBackend">Использовать тестовый сервер</string>
     <string name="TestBackendOn">Эта учетная запись будет подключаться к тестовому серверу.</string>
@@ -75,8 +75,8 @@
     <string name="TabTitleType">Показывать на вкладках</string>
     <string name="TabTitleTypeTip">Эмодзи синхронизируются в облаке Telegram.</string>
     <string name="TabTitleTypeText">Названия</string>
-    <string name="TabTitleTypeIcon">Эмодзи</string>
-    <string name="TabTitleTypeMix">Названия и эмодзи</string>
+    <string name="TabTitleTypeIcon">Емодзи</string>
+    <string name="TabTitleTypeMix">Названня и емодзи</string>
     <string name="ConfirmAVMessage">Подтверждение аудио/видео сообщений</string>
     <string name="AskBeforeCalling">Подтверждать звонки</string>
     <string name="DisableNumberRounding">Не округлять числа</string>
@@ -133,14 +133,14 @@
     <string name="SilenceNonContactsAbout">Уведомления от людей не из ваших контактов будут приходить без звука. Вы можете добавить пользователей в контакты не зная их номера.</string>
     <string name="SelectBetween">Выбрать между</string>
     <string name="SwipeToPiP">Смахните видео вверх, чтобы открыть картинку в картинке</string>
-    <string name="StickerSavedHint">Стикер сохранен в галерею</string>
+    <string name="StickerSavedHint">Стикер запрыгнул к вам в хранилище~</string>
     <string name="RegistrationDate">Дата регистрации</string>
     <string name="WsDescription">Подключитесь к Telegram через WebSocket посредством Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">технические детали</a>]]>.</string>
     <string name="WsEnableTls">Включить TLS</string>
     <string name="WsLocalProxy">Локальный прокси</string>
     <string name="WsEnableDoh">Включить DoH</string>
     <string name="MsgDate">Дата</string>
-    <string name="UpdateNekogram">Обновить Nekogram</string>
+    <string name="UpdateNekogram">Обнови меня ~ Nekogram</string>
     <string name="TranslationTarget">Целевой язык</string>
     <string name="TranslationTargetApp">Системный</string>
     <string name="Translator">Переводчик</string>
@@ -163,4 +163,5 @@
     <string name="MaxRecentStickers">Максимальное количество недавних стикеров</string>
     <string name="ApplyEmojiFont">Включить шрифт эмодзи</string>
     <string name="DisableJumpToNextChannel">Выключить \"Перейти на следующий канал\"</string>
+    <string name="DisableGreetingSticker">DisableGreetingStiicker</string>
 </resources>
