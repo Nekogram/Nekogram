@@ -1999,11 +1999,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                             open_settings = 1;
                                         }
                                     } else if (url.startsWith("tg:meow") || url.startsWith("tg://meow") || url.startsWith("tg:nya") || url.startsWith("tg://nya")) {
-                                        try {
-                                            Toast.makeText(LaunchActivity.this, LocaleController.getString("Nya", R.string.Nya), Toast.LENGTH_SHORT).show();
-                                        } catch (Exception e) {
-                                            FileLog.e(e);
-                                        }
+                                        showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("Nya", R.string.Nya)));
+                                    } else if (url.startsWith("tg:upgrade") || url.startsWith("tg://upgrade") || url.startsWith("tg:update") || url.startsWith("tg://update")) {
+                                        checkAppUpdate(true);
                                     } else if (url.startsWith("tg:donate") || url.startsWith("tg://donate")) {
                                         DonateHelper.getInstance().showDonationDialog(this);
                                     } else if ((url.startsWith("tg:search") || url.startsWith("tg://search"))) {

@@ -14,6 +14,7 @@ import android.os.Bundle;
 import org.tcp2ws.tcp2wsServer;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationsService;
 import org.telegram.messenger.R;
@@ -207,7 +208,7 @@ public class NekoConfig {
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
             hideProxySponsorChannel = preferences.getBoolean("hideProxySponsorChannel2", false);
-            saveCacheToExternalFilesDir = preferences.getBoolean("saveCacheToExternalFilesDir", true);
+            saveCacheToExternalFilesDir = !BuildVars.NO_SCOPED_STORAGE || preferences.getBoolean("saveCacheToExternalFilesDir", true);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
             showPrPr = preferences.getBoolean("showPrPr", isChineseUser);
