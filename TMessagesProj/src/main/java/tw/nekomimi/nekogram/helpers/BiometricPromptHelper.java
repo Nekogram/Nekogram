@@ -61,7 +61,7 @@ public class BiometricPromptHelper {
         if (Build.VERSION.SDK_INT >= 28) {
             cancellationSignal = new CancellationSignal();
             BiometricPrompt.Builder builder = new BiometricPrompt.Builder(activity);
-            builder.setTitle(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji));
+            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), activity.getMainExecutor(), (dialog, which) -> {
             });
             if (Build.VERSION.SDK_INT >= 29) {
@@ -91,7 +91,7 @@ public class BiometricPromptHelper {
             titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
             titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             titleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-            titleTextView.setText(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji));
+            titleTextView.setText(LocaleController.getString("AppName", R.string.AppName));
             linearLayout.addView(titleTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 24, 24, 24, 0));
 
             TextView descriptionTextView = new TextView(activity);
@@ -110,7 +110,7 @@ public class BiometricPromptHelper {
             errorTextView.setGravity(Gravity.CENTER_HORIZONTAL);
             errorTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             errorTextView.setTextColor(Theme.getColor(Theme.key_dialogTextGray2));
-            errorTextView.setText(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji));
+            errorTextView.setText(LocaleController.getString("AppName", R.string.AppName));
             errorTextView.setPadding(0, AndroidUtilities.dp(16), 0, AndroidUtilities.dp(24));
             linearLayout.addView(errorTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 24, 0, 24, 0));
 

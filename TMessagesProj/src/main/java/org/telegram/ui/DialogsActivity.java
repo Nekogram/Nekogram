@@ -2117,7 +2117,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (BuildVars.DEBUG_VERSION) {
                     actionBar.setTitle("Telegram Beta");
                 } else {
-                    actionBar.setTitle(getNekoTitle(LocaleController.getString("Nekogram", R.string.Nekogram)));
+                    actionBar.setTitle(getNekoTitle(LocaleController.getString("AppName", R.string.AppName)));
                 }
             }
             if (folderId == 0) {

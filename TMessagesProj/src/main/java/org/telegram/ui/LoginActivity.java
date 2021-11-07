@@ -255,7 +255,7 @@ public class LoginActivity extends BaseFragment {
 
     @Override
     public View createView(Context context) {
-        actionBar.setTitle(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji));
+        actionBar.setTitle(LocaleController.getString("AppName", R.string.AppName));
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
             public void onItemClick(int id) {
@@ -939,7 +939,7 @@ public class LoginActivity extends BaseFragment {
                 return;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setTitle(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji));
+            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
             builder.setMessage(LocaleController.getString("StopLoading", R.string.StopLoading));
             builder.setPositiveButton(LocaleController.getString("WaitMore", R.string.WaitMore), null);
             builder.setNegativeButton(LocaleController.getString("Stop", R.string.Stop), (dialogInterface, i) -> {
@@ -1811,14 +1811,14 @@ public class LoginActivity extends BaseFragment {
                 }
             }
             if (countryState == 1) {
-                needShowAlert(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji), LocaleController.getString("ChooseCountry", R.string.ChooseCountry));
+                needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("ChooseCountry", R.string.ChooseCountry));
                 return;
             } else if (countryState == 2 && !BuildVars.DEBUG_VERSION) {
-                needShowAlert(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji), LocaleController.getString("WrongCountry", R.string.WrongCountry));
+                needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("WrongCountry", R.string.WrongCountry));
                 return;
             }
             if (codeField.length() == 0) {
-                needShowAlert(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji), LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
+                needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidPhoneNumber", R.string.InvalidPhoneNumber));
                 return;
             }
             if (phoneField.length() == 0) {
@@ -1841,7 +1841,7 @@ public class LoginActivity extends BaseFragment {
                     if (PhoneNumberUtils.compare(phone, userPhone) && ConnectionsManager.getInstance(a).isTestBackend() == isTestBakcend) {
                         final int num = a;
                         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                        builder.setTitle(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji));
+                        builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
                         builder.setMessage(LocaleController.getString("AccountAlreadyLoggedIn", R.string.AccountAlreadyLoggedIn));
                         builder.setPositiveButton(LocaleController.getString("AccountSwitch", R.string.AccountSwitch), (dialog, which) -> {
                             if (UserConfig.selectedAccount != num) {
@@ -2792,7 +2792,7 @@ public class LoginActivity extends BaseFragment {
         public boolean onBackPressed(boolean force) {
             if (!force) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji));
+                builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
                 builder.setMessage(LocaleController.getString("StopVerification", R.string.StopVerification));
                 builder.setPositiveButton(LocaleController.getString("Continue", R.string.Continue), null);
                 builder.setNegativeButton(LocaleController.getString("Stop", R.string.Stop), (dialogInterface, i) -> {
@@ -4284,7 +4284,7 @@ public class LoginActivity extends BaseFragment {
         public boolean onBackPressed(boolean force) {
             if (!force) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("NekogramWithEmoji", R.string.NekogramWithEmoji));
+                builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
                 builder.setMessage(LocaleController.getString("AreYouSureRegistration", R.string.AreYouSureRegistration));
                 builder.setNegativeButton(LocaleController.getString("Stop", R.string.Stop), (dialogInterface, i) -> {
                     onBackPressed(true);

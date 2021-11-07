@@ -14,6 +14,8 @@ import android.os.IBinder;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class VideoEncodingService extends Service implements NotificationCenter.NotificationCenterDelegate {
 
     private NotificationCompat.Builder builder;
@@ -97,7 +99,8 @@ public class VideoEncodingService extends Service implements NotificationCenter.
             builder.setSmallIcon(android.R.drawable.stat_sys_upload);
             builder.setWhen(System.currentTimeMillis());
             builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
-            builder.setContentTitle(LocaleController.getString("Nekogram", R.string.Nekogram));
+            builder.setContentTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setColor(NekoConfig.getNotificationColor());
             if (isGif) {
                 builder.setTicker(LocaleController.getString("SendingGif", R.string.SendingGif));
                 builder.setContentText(LocaleController.getString("SendingGif", R.string.SendingGif));
