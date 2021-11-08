@@ -32,6 +32,7 @@ import tw.nekomimi.nekogram.translator.Translator;
 
 @SuppressLint("ApplySharedPref")
 public class NekoConfig {
+    //TODO: refactor
 
     public static final int TITLE_TYPE_TEXT = 0;
     public static final int TITLE_TYPE_ICON = 1;
@@ -119,6 +120,7 @@ public class NekoConfig {
     public static boolean residentNotification = false;
 
     public static boolean shouldNOTTrustMe = false;
+    public static boolean blockSponsoredMessage = false;
 
     public static boolean customEmojiFont;
     public static String customEmojiFontPath;
@@ -265,6 +267,7 @@ public class NekoConfig {
             maxRecentStickers = preferences.getInt("maxRecentStickers", 20);
             disableJumpToNextChannel = preferences.getBoolean("disableJumpToNextChannel", false);
             disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
+            blockSponsoredMessage = preferences.getBoolean("blockSponsoredMessage", false);
             configLoaded = true;
         }
     }
@@ -765,6 +768,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showNoQuoteForward", showNoQuoteForward);
+        editor.commit();
+    }
+
+    public static void toggleBlockSponsoredMessage() {
+        blockSponsoredMessage = !blockSponsoredMessage;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("blockSponsoredMessage", blockSponsoredMessage);
         editor.commit();
     }
 

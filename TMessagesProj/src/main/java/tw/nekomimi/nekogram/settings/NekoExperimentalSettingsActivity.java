@@ -75,6 +75,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private int experiment2Row;
 
     private int deleteAccountRow;
+    private int blockSponsoredMessageRow;
     private int shouldNOTTrustMeRow;
     private int hidden2Row;
 
@@ -263,6 +264,11 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     NekoConfig.setMaxRecentStickers(Integer.parseInt(types.get(i)));
                     listAdapter.notifyItemChanged(maxRecentStickersRow);
                 });
+            } else if (position == blockSponsoredMessageRow) {
+                NekoConfig.toggleBlockSponsoredMessage();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.blockSponsoredMessage);
+                }
             }
         });
         listView.setOnItemLongClickListener((view, position) -> {
@@ -346,10 +352,12 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         experiment2Row = rowCount++;
         if (NekoConfig.showHiddenFeature) {
             deleteAccountRow = rowCount++;
+            blockSponsoredMessageRow = rowCount++;
             shouldNOTTrustMeRow = rowCount++;
             hidden2Row = rowCount++;
         } else {
             deleteAccountRow = -1;
+            blockSponsoredMessageRow = -1;
             shouldNOTTrustMeRow = -1;
             hidden2Row = -1;
         }
@@ -454,6 +462,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("IncreaseVoiceMessageQuality", R.string.IncreaseVoiceMessageQuality), NekoConfig.increaseVoiceMessageQuality, true);
                     } else if (position == shouldNOTTrustMeRow) {
                         textCell.setTextAndCheck("", NekoConfig.shouldNOTTrustMe, false);
+                    } else if (position == blockSponsoredMessageRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("BlockSponsoredMessage", R.string.BlockSponsoredMessage), NekoConfig.blockSponsoredMessage, true);
                     }
                     break;
                 }
@@ -530,7 +540,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 return 4;
             } else if (position == emojiRow) {
                 return TextUtils.isEmpty(NekoConfig.customEmojiFontPath) ? 2 : 5;
-            } else if (position == shouldNOTTrustMeRow) {
+            } else if (position == shouldNOTTrustMeRow || position == blockSponsoredMessageRow) {
                 return 3;
             }
             return 2;
