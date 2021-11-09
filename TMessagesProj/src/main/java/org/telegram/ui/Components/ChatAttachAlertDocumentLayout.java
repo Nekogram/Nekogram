@@ -328,6 +328,10 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             if (object instanceof ListItem) {
                 ListItem item = (ListItem) object;
                 File file = item.file;
+                boolean isExternalStorageManager = false;
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+                    isExternalStorageManager = Environment.isExternalStorageManager();
+                }
                 if (file == null) {
                     if (item.icon == R.drawable.files_gallery) {
                         HashMap<Object, Object> selectedPhotos = new HashMap<>();
@@ -371,7 +375,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                         if (delegate != null) {
                             delegate.startMusicSelectActivity();
                         }
-                    } else if (!BuildVars.NO_SCOPED_STORAGE && item.icon == R.drawable.files_storage) {
+                    } else if (!BuildVars.NO_SCOPED_STORAGE && item.icon == R.drawable.files_storage && !isExternalStorageManager) {
                         delegate.startDocumentSelectActivity();
                     } else if (item.icon == R.drawable.ic_link_28) {
                         parentAlert.baseFragment.getMessageHelper().showSendWebFileDialog(parentAlert, resourcesProvider);
@@ -946,7 +950,11 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
         items.clear();
 
         HashSet<String> paths = new HashSet<>();
-        if (!BuildVars.NO_SCOPED_STORAGE) {
+        boolean isExternalStorageManager = false;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.R) {
+            isExternalStorageManager = Environment.isExternalStorageManager();
+        }
+        if (!BuildVars.NO_SCOPED_STORAGE && !isExternalStorageManager) {
             ListItem ext = new ListItem();
             ext.title = LocaleController.getString("InternalStorage", R.string.InternalStorage);
             ext.icon = R.drawable.files_storage;
