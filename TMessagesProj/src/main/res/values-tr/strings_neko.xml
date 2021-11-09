@@ -59,6 +59,7 @@
     <string name="TranslateApiUnsupported">Seçtiğiniz çeviri sağlayıcısı dilinizi desteklemiyor.</string>
     <string name="ProviderLingocloud">Lingocloud Çeviri</string>
     <string name="UndoTranslate">Çevirme</string>
+    <string name="DisablePhotoViewerSideAction">\"Dokunarak Fotoğraf Geç\"i devre dışı bırak</string>
     <string name="BotToken">Anahtar</string>
     <string name="UnlimitedPinnedDialogs">Sınırsız sabitlenmiş sohbetler</string>
     <string name="UnlimitedPinnedDialogsAbout">Sabitlenmiş sohbetler senkronizasyonlarını kapatarak mesajları sınırsız sabitleyin.</string>
@@ -158,4 +159,8 @@
     <string name="ProviderTencentTranslator">Sayın Çevirmen</string>
     <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Maksimum son çıkartmalar</string>
+    <string name="ApplyEmojiFont">Özel emoji yazı tipini uygula</string>
+    <string name="DisableJumpToNextChannel">\"Sonraki Kanala Atla\"yı devre dışı bırak</string>
+    <string name="DisableGreetingSticker">Selamlama etiketini devre dışı bırak</string>
+    <string name="BlockSponsoredMessage">Sponsorlu mesajı engelle</string>
 </resources>

@@ -163,4 +163,6 @@
     <string name="MaxRecentStickers">최근 사용 스티커 최대 개수 도달</string>
     <string name="ApplyEmojiFont">이모티콘 글꼴 적용</string>
     <string name="DisableJumpToNextChannel">\"다음 채널로 이동\" 비활성화</string>
+    <string name="DisableGreetingSticker">인사말 스티커 사용 안함</string>
+    <string name="BlockSponsoredMessage">스폰서 메시지 차단</string>
 </resources>

@@ -165,4 +165,5 @@
     <string name="ApplyEmojiFont">应用 Emoji 字体</string>
     <string name="DisableJumpToNextChannel">禁用“跳转到下一个频道”</string>
     <string name="DisableGreetingSticker">禁用问候贴纸</string>
+    <string name="BlockSponsoredMessage">屏蔽赞助消息</string>
 </resources>

@@ -162,4 +162,6 @@
     <string name="MaxRecentStickers">Máximo de stickers recientes</string>
     <string name="ApplyEmojiFont">Aplicar fuente de emoji</string>
     <string name="DisableJumpToNextChannel">Desactivar \"Saltar al siguiente canal\"</string>
+    <string name="DisableGreetingSticker">Desactivar sticker de saludo</string>
+    <string name="BlockSponsoredMessage">Bloquear mensaje patrocinado</string>
 </resources>
