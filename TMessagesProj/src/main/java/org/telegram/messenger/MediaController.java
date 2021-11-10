@@ -3938,23 +3938,23 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             if (type == 0) {
                                 uriToInsert = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
                                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    File dirDest = new File(Environment.DIRECTORY_PICTURES, "Telegram");
+                                    File dirDest = new File(Environment.DIRECTORY_PICTURES, "Nekogram");
                                     contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
                                 }
                                 contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, AndroidUtilities.generateFileName(0, extension));
                                 contentValues.put(MediaStore.Images.Media.MIME_TYPE, mimeType);
                             } else if (type == 1) {
-                                File dirDest = new File(Environment.DIRECTORY_MOVIES, "Telegram");
+                                File dirDest = new File(Environment.DIRECTORY_MOVIES, "Nekogram");
                                 contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
                                 uriToInsert = MediaStore.Video.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
                                 contentValues.put(MediaStore.Video.Media.DISPLAY_NAME, AndroidUtilities.generateFileName(1, extension));
                             } else if (type == 2) {
-                                File dirDest = new File(Environment.DIRECTORY_DOWNLOADS, "Telegram");
+                                File dirDest = new File(Environment.DIRECTORY_DOWNLOADS, "Nekogram");
                                 contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
                                 uriToInsert = MediaStore.Downloads.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
                                 contentValues.put(MediaStore.Downloads.DISPLAY_NAME, sourceFile.getName());
                             } else {
-                                File dirDest = new File(Environment.DIRECTORY_MUSIC, "Telegram");
+                                File dirDest = new File(Environment.DIRECTORY_MUSIC, "Nekogram");
                                 contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
                                 uriToInsert = MediaStore.Audio.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
                                 contentValues.put(MediaStore.Audio.Media.DISPLAY_NAME, sourceFile.getName());
@@ -3976,11 +3976,11 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     } else {
                         File destFile;
                         if (type == 0) {
-                            destFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Telegram");
+                            destFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "Nekogram");
                             destFile.mkdirs();
                             destFile = new File(destFile, AndroidUtilities.generateFileName(0, FileLoader.getFileExtension(sourceFile)));
                         } else if (type == 1) {
-                            destFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "Telegram");
+                            destFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES), "Nekogram");
                             destFile.mkdirs();
                             destFile = new File(destFile, AndroidUtilities.generateFileName(1, FileLoader.getFileExtension(sourceFile)));
                         } else {
@@ -3990,7 +3990,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             } else {
                                 dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MUSIC);
                             }
-                            dir = new File(dir, "Telegram");
+                            dir = new File(dir, "Nekogram");
                             dir.mkdirs();
                             destFile = new File(dir, name);
                             if (destFile.exists()) {
