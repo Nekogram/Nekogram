@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.view.View;
@@ -229,17 +228,15 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.shouldNOTTrustMe);
                 }
             } else if (position == emojiRow) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    if (!TextUtils.isEmpty(NekoConfig.customEmojiFontPath) && (LocaleController.isRTL && x <= AndroidUtilities.dp(76) || !LocaleController.isRTL && x >= view.getMeasuredWidth() - AndroidUtilities.dp(76))) {
-                        NotificationsCheckCell checkCell = (NotificationsCheckCell) view;
-                        NekoConfig.toggleCustomEmojiFont();
-                        checkCell.setChecked(NekoConfig.customEmojiFont, 0);
-                    } else {
-                        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
-                        intent.addCategory(Intent.CATEGORY_OPENABLE);
-                        intent.setType("*/*");
-                        startActivityForResult(intent, 36654);
-                    }
+                if (!TextUtils.isEmpty(NekoConfig.customEmojiFontPath) && (LocaleController.isRTL && x <= AndroidUtilities.dp(76) || !LocaleController.isRTL && x >= view.getMeasuredWidth() - AndroidUtilities.dp(76))) {
+                    NotificationsCheckCell checkCell = (NotificationsCheckCell) view;
+                    NekoConfig.toggleCustomEmojiFont();
+                    checkCell.setChecked(NekoConfig.customEmojiFont, 0);
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                    intent.addCategory(Intent.CATEGORY_OPENABLE);
+                    intent.setType("*/*");
+                    startActivityForResult(intent, 36654);
                 }
             } else if (position == mapDriftingFixRow) {
                 NekoConfig.toggleMapDriftingFix();
@@ -341,7 +338,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         rowCount = 0;
 
         experimentRow = rowCount++;
-        emojiRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT ? rowCount++ : -1;
+        emojiRow = rowCount++;
         mapDriftingFixRow = rowCount++;
         increaseVoiceMessageQualityRow = rowCount++;
         saveCacheToExternalFilesDirRow = BuildVars.NO_SCOPED_STORAGE ? rowCount++ : -1;

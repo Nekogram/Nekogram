@@ -81,7 +81,7 @@ public class NekoConfig {
     public static boolean showNoQuoteForward = true;
 
     public static boolean hidePhone = true;
-    public static int typeface = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 1 : 0;
+    public static int typeface = 1;
     public static boolean transparentStatusBar = false;
     public static boolean forceTablet = false;
     public static boolean openArchiveOnPull = false;
@@ -205,7 +205,7 @@ public class NekoConfig {
             hidePhone = preferences.getBoolean("hidePhone", true);
             ignoreBlocked = preferences.getBoolean("ignoreBlocked2", false);
             forceTablet = preferences.getBoolean("forceTablet", false);
-            typeface = preferences.getInt("typeface", Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? 1 : 0);
+            typeface = preferences.getInt("typeface", 1);
             nameOrder = preferences.getInt("nameOrder", 1);
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
@@ -796,7 +796,6 @@ public class NekoConfig {
     }
 
     public static boolean setCustomEmojiFontPath(String path) {
-        //new Typeface.Builder(path).build();
         if (path != null) {
             Typeface typeface;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.inputmethod.EditorInfo;
@@ -15,7 +14,6 @@ import android.widget.LinearLayout;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BaseController;
-import org.telegram.messenger.Bitmaps;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -43,9 +41,6 @@ import org.telegram.ui.Components.LayoutHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.RandomAccessFile;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
 public class MessageHelper extends BaseController {
@@ -93,19 +88,7 @@ public class MessageHelper extends BaseController {
     private static void saveStickerToGallery(Activity activity, String path, Runnable callback) {
         Utilities.globalQueue.postRunnable(() -> {
             try {
-                Bitmap image;
-                if (Build.VERSION.SDK_INT >= 19) {
-                    image = BitmapFactory.decodeFile(path);
-                } else {
-                    RandomAccessFile file = new RandomAccessFile(path, "r");
-                    ByteBuffer buffer = file.getChannel().map(FileChannel.MapMode.READ_ONLY, 0, path.length());
-                    BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                    bmOptions.inJustDecodeBounds = true;
-                    Utilities.loadWebpImage(null, buffer, buffer.limit(), bmOptions, true);
-                    image = Bitmaps.createBitmap(bmOptions.outWidth, bmOptions.outHeight, Bitmap.Config.ARGB_8888);
-                    Utilities.loadWebpImage(image, buffer, buffer.limit(), null, true);
-                    file.close();
-                }
+                Bitmap image = BitmapFactory.decodeFile(path);
                 if (image != null) {
                     File file = new File(path.replace(".webp", ".png"));
                     FileOutputStream stream = new FileOutputStream(file);

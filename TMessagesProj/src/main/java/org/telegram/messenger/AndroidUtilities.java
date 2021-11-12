@@ -1321,7 +1321,7 @@ public class AndroidUtilities {
 
     public static Typeface getTypeface(String assetPath) {
         synchronized (typefaceCache) {
-            if (NekoConfig.typeface == 1 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (NekoConfig.typeface == 1) {
                 if (assetPath.contains("medium") && assetPath.contains("italic")) {
                     return Typeface.create("sans-serif-medium", Typeface.ITALIC);
                 }

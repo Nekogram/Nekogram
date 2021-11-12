@@ -1,7 +1,6 @@
 package tw.nekomimi.nekogram.helpers;
 
 import android.content.Context;
-import android.os.Build;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -25,7 +24,7 @@ public class PopupHelper {
     }
 
     public static void show(ArrayList<? extends CharSequence> entries, String title, int checkedIndex, Context context, View itemView, SimpleMenuPopupWindow.OnItemClickListener listener, Theme.ResourcesProvider resourcesProvider) {
-        if (itemView == null || Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+        if (itemView == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
             builder.setTitle(title);
             final LinearLayout linearLayout = new LinearLayout(context);

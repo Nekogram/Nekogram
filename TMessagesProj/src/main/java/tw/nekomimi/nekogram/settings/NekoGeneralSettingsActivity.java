@@ -174,9 +174,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 }
                 BulletinFactory.of(this).createSimpleBulletin(R.raw.chats_infotip, LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect)).show();
             } else if (position == transparentStatusBarRow) {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
-                    return;
-                }
                 SharedConfig.toggleNoStatusBar();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(SharedConfig.noStatusBar);
@@ -286,9 +283,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.avatarAsDrawerBackground);
                 }
                 getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-                    TransitionManager.beginDelayedTransition(profilePreviewCell);
-                }
+                TransitionManager.beginDelayedTransition(profilePreviewCell);
                 listAdapter.notifyItemChanged(drawerRow, new Object());
                 if (NekoConfig.avatarAsDrawerBackground) {
                     updateRows(false);
@@ -398,7 +393,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         drawer2Row = rowCount++;
 
         appearanceRow = rowCount++;
-        typefaceRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? rowCount++ : -1;
+        typefaceRow = rowCount++;
         useSystemEmojiRow = rowCount++;
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
         forceTabletRow = rowCount++;
@@ -548,8 +543,8 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         if (language.equals("app")) {
                             value = LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp);
                         } else {
-                            Locale locale = Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? Locale.forLanguageTag(language) : new Locale(language);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && !TextUtils.isEmpty(locale.getScript())) {
+                            Locale locale = Locale.forLanguageTag(language);
+                            if (!TextUtils.isEmpty(locale.getScript())) {
                                 value = HtmlCompat.fromHtml(locale.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY);
                             } else {
                                 value = locale.getDisplayName();
