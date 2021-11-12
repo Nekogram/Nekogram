@@ -668,6 +668,8 @@ target_include_directories(${NATIVE_LIB} PUBLIC
         webrtc/
         lz4)
 
+find_package(xposeddetector REQUIRED CONFIG)
+
 target_link_libraries(${NATIVE_LIB}
         -Wl,--whole-archive rnnoise openh264 voipandroid -Wl,--no-whole-archive
         tgvoip
@@ -695,7 +697,8 @@ target_link_libraries(${NATIVE_LIB}
         EGL
         android
         OpenSLES
-        cpufeatures)
+        cpufeatures
+        xposeddetector::xposed_detector)
 
 if (${ANDROID_ABI} STREQUAL "x86" OR ${ANDROID_ABI} STREQUAL "x86_64")
     target_link_libraries(${NATIVE_LIB}

@@ -59,18 +59,13 @@ public class RadioColorCell extends FrameLayout {
         radioButton.setColor(color1, color2);
     }
 
-    public void setTextAndValue(String text, boolean checked) {
+    public void setTextAndValue(CharSequence text, boolean checked) {
         textView.setText(text);
         radioButton.setChecked(checked, false);
     }
 
     public void setChecked(boolean checked, boolean animated) {
         radioButton.setChecked(checked, animated);
-    }
-
-    public void setTextAndValue(CharSequence text, boolean checked) {
-        textView.setText(text);
-        radioButton.setChecked(checked, false);
     }
 
     @Override

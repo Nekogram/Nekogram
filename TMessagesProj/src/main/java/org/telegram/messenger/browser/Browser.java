@@ -192,7 +192,7 @@ public class Browser {
         if (tryTelegraph) {
             try {
                 String host = uri.getHost().toLowerCase();
-                if (NekoConfig.tryToOpenAllLinksInIV || isTelegraphUrl(host, true) || uri.toString().toLowerCase().contains("telegram.org/faq") || uri.toString().toLowerCase().contains("telegram.org/privacy") || host.equals("nekogram.github.io")) {
+                if (NekoConfig.tryToOpenAllLinksInIV || isTelegraphUrl(host, true) || uri.toString().toLowerCase().contains("telegram.org/faq") || uri.toString().toLowerCase().contains("telegram.org/privacy")) {
                     final AlertDialog[] progressDialog = new AlertDialog[]{new AlertDialog(context, 3)};
 
                     Uri finalUri = uri;
@@ -320,13 +320,7 @@ public class Browser {
                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder(getSession());
                     builder.addMenuItem(LocaleController.getString("CopyLink", R.string.CopyLink), copy);
 
-                    boolean dark = false;
-                    if (Theme.getActiveTheme().isDark()) {
-                        dark = true;
-                    } else if (AndroidUtilities.computePerceivedBrightness(Theme.getColor(Theme.key_windowBackgroundWhite)) < 0.721f) {
-                        dark = true;
-                    }
-                    builder.setColorScheme(dark ? CustomTabsIntent.COLOR_SCHEME_DARK : CustomTabsIntent.COLOR_SCHEME_LIGHT);
+                    builder.setColorScheme(Theme.getActiveTheme().isDark() ? CustomTabsIntent.COLOR_SCHEME_DARK : CustomTabsIntent.COLOR_SCHEME_LIGHT);
                     CustomTabColorSchemeParams params = new CustomTabColorSchemeParams.Builder()
                             .setToolbarColor(Theme.getColor(Theme.key_actionBarBrowser))
                             .build();

@@ -5,14 +5,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BaseController;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
@@ -22,7 +20,6 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
@@ -40,7 +37,6 @@ import org.telegram.ui.Components.LayoutHelper;
 
 import java.io.File;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.util.ArrayList;
 
 public class MessageHelper extends BaseController {
@@ -101,25 +97,6 @@ public class MessageHelper extends BaseController {
                 FileLog.e(e);
             }
         });
-    }
-
-    public static String saveUriToCache(Uri uri) {
-        try {
-            InputStream inputStream = ApplicationLoader.applicationContext.getContentResolver().openInputStream(uri);
-            String fileName = Integer.MIN_VALUE + "_" + SharedConfig.getLastLocalId();
-            File fileDir = FileLoader.getDirectory(FileLoader.MEDIA_DIR_CACHE);
-            final File cacheFile = new File(fileDir, fileName);
-            if (inputStream != null) {
-                AndroidUtilities.copyFile(inputStream, cacheFile);
-                SharedConfig.saveConfig();
-                return cacheFile.getAbsolutePath();
-            } else {
-                return null;
-            }
-        } catch (Exception e) {
-            FileLog.e(e);
-            return null;
-        }
     }
 
     public static MessageHelper getInstance(int num) {

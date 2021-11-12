@@ -2666,20 +2666,14 @@ public class AlertsCreator {
         titleView.setOnTouchListener((v, event) -> true);
 
         ActionBarMenuItem optionsButton = new ActionBarMenuItem(context, null, 0, Theme.getColor(Theme.key_sheet_other, resourcesProvider));
-        optionsButton.setLongClickEnabled(false);
-        optionsButton.setSubMenuOpenSide(2);
-        optionsButton.setIcon(R.drawable.ic_ab_other);
+        optionsButton.setIcon(R.drawable.ic_upward);
         optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_player_actionBarSelector, resourcesProvider), 1));
         titleLayout.addView(optionsButton, LayoutHelper.createFrame(40, 40, Gravity.TOP | Gravity.RIGHT, 0, 8, 5, 0));
-        optionsButton.addSubItem(1, R.drawable.ic_upward, LocaleController.getString("JumpToBeginning", R.string.JumpToBeginning));
-        optionsButton.setOnClickListener(v -> optionsButton.toggleSubMenu());
-        optionsButton.setDelegate(id -> {
-            if (id == 1) {
-                callback.run(1375315200);
-                builder.getDismissRunnable().run();
-            }
+        optionsButton.setOnClickListener(v -> {
+            callback.run(1375315200);
+            builder.getDismissRunnable().run();
         });
-        optionsButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
+        optionsButton.setContentDescription(LocaleController.getString("JumpToBeginning", R.string.JumpToBeginning));
 
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.HORIZONTAL);

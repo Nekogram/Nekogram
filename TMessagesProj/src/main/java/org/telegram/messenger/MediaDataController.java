@@ -1367,7 +1367,7 @@ public class MediaDataController extends BaseController {
                 archivedStickersCount[type] = count;
                 getNotificationCenter().postNotificationName(NotificationCenter.archivedStickersCountDidLoad, type);
             }
-        } else if(!getUserConfig().getCurrentUser().bot)  {
+        } else if (!getUserConfig().getCurrentUser().bot) {
             TLRPC.TL_messages_getArchivedStickers req = new TLRPC.TL_messages_getArchivedStickers();
             req.limit = 0;
             req.masks = type == TYPE_MASK;
@@ -1589,7 +1589,7 @@ public class MediaDataController extends BaseController {
                 }
                 processLoadedStickers(type, newStickerArray, true, date, hash);
             });
-        } else if(!getUserConfig().getCurrentUser().bot)  {
+        } else if (!getUserConfig().getCurrentUser().bot) {
             if (type == TYPE_FEATURED) {
                 TLRPC.TL_messages_allStickers response = new TLRPC.TL_messages_allStickers();
                 response.hash = loadFeaturedHash;

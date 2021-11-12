@@ -130,8 +130,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.UiThread;
 import androidx.core.graphics.ColorUtils;
 
-import com.google.android.exoplayer2.util.Log;
-
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class Theme {
