@@ -88,13 +88,9 @@ android {
         exclude '**.txt'
     }
 
-    dexOptions {
-        jumboMode = true
-    }
-
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
 
         coreLibraryDesugaringEnabled true
     }
@@ -174,8 +170,6 @@ android {
         minSdkVersion 21
         targetSdkVersion 30
         versionName "8.2.3"
-
-        vectorDrawables.generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
 
         externalNativeBuild {
             cmake {
