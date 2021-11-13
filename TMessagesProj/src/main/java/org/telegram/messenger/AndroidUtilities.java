@@ -1321,38 +1321,26 @@ public class AndroidUtilities {
 
     public static Typeface getTypeface(String assetPath) {
         synchronized (typefaceCache) {
-            if (NekoConfig.typeface == 1) {
-                if (assetPath.contains("medium") && assetPath.contains("italic")) {
-                    return Typeface.create("sans-serif-medium", Typeface.ITALIC);
-                }
-                if (assetPath.contains("medium")) {
-                    return Typeface.create("sans-serif-medium", Typeface.NORMAL);
-                }
-                if (assetPath.contains("italic")) {
-                    return Typeface.create((Typeface) null, Typeface.ITALIC);
-                }
-                if (assetPath.contains("mono")) {
-                    return Typeface.MONOSPACE;
-                }
-                if (assetPath.contains("mw_bold")) {
-                    return Typeface.create("serif", Typeface.BOLD);
-                }
-                //return Typeface.create((Typeface) null, Typeface.NORMAL);
-            }
             if (!typefaceCache.containsKey(assetPath)) {
                 try {
                     Typeface t;
-                    if (Build.VERSION.SDK_INT >= 26) {
-                        Typeface.Builder builder = new Typeface.Builder(ApplicationLoader.applicationContext.getAssets(), assetPath);
-                        if (assetPath.contains("medium")) {
-                            builder.setWeight(700);
-                        }
-                        if (assetPath.contains("italic")) {
-                            builder.setItalic(true);
-                        }
-                        t = builder.build();
-                    } else {
-                        t = Typeface.createFromAsset(ApplicationLoader.applicationContext.getAssets(), assetPath);
+                    switch (assetPath) {
+                        default:
+                        case "fonts/rmedium.ttf":
+                            t = Typeface.create("sans-serif-medium", Typeface.NORMAL);
+                            break;
+                        case "fonts/ritalic.ttf":
+                            t = Typeface.create((Typeface) null, Typeface.ITALIC);
+                            break;
+                        case "fonts/rmediumitalic.ttf":
+                            t = Typeface.create("sans-serif-medium", Typeface.ITALIC);
+                            break;
+                        case "fonts/rmono.ttf":
+                            t = Typeface.MONOSPACE;
+                            break;
+                        case "fonts/mw_bold.ttf":
+                            t = Typeface.create("serif", Typeface.BOLD);
+                            break;
                     }
                     typefaceCache.put(assetPath, t);
                 } catch (Exception e) {

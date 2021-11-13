@@ -72,7 +72,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int drawer2Row;
 
     private int appearanceRow;
-    private int typefaceRow;
     private int useSystemEmojiRow;
     private int transparentStatusBarRow;
     private int forceTabletRow;
@@ -202,12 +201,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.useSystemEmoji);
                 }
-            } else if (position == typefaceRow) {
-                NekoConfig.toggleTypeface();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.typeface == 1);
-                }
-                parentLayout.rebuildAllFragmentViews(true, true);
             } else if (position == nameOrderRow) {
                 ArrayList<String> arrayList = new ArrayList<>();
                 ArrayList<Integer> types = new ArrayList<>();
@@ -393,7 +386,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         drawer2Row = rowCount++;
 
         appearanceRow = rowCount++;
-        typefaceRow = rowCount++;
         useSystemEmojiRow = rowCount++;
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
         forceTabletRow = rowCount++;
@@ -599,8 +591,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("HideProxySponsorChannel", R.string.HideProxySponsorChannel), NekoConfig.hideProxySponsorChannel, true);
                     } else if (position == useSystemEmojiRow) {
                         textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), NekoConfig.useSystemEmoji, true);
-                    } else if (position == typefaceRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("TypefaceUseDefault", R.string.TypefaceUseDefault), NekoConfig.typeface == 1, true);
                     } else if (position == forceTabletRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ForceTabletMode", R.string.ForceTabletMode), NekoConfig.forceTablet, true);
                     } else if (position == newYearRow) {
