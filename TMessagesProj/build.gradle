@@ -154,7 +154,7 @@ android {
         manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
     }
 
-    defaultConfig.versionCode = 2466
+    defaultConfig.versionCode = 2470
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
@@ -169,7 +169,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 30
-        versionName "8.2.3"
+        versionName "8.2.7"
 
         externalNativeBuild {
             cmake {
