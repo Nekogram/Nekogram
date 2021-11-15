@@ -8,4 +8,21 @@
     <string name="DeleteAllFromSelf">Poista myös viestini</string>
     <string name="DeleteAllFromSelfAlert">Varoitus! Tämä **poistaa kaikki viestit sinulta** tässä keskustelussa **kaikille** osallistujille.</string>
     <string name="BotLogin">Bot Kirjautuminen</string>
+    <string name="InvalidAccessToken">Virheellinen käyttötunnus</string>
+    <string name="IgnoreBlocked">Ohita estetyt käyttäjät ryhmässä</string>
+    <string name="Connection">Yhteys</string>
+    <string name="Chat">Chatti</string>
+    <string name="NameOrder">Nimijärjestys</string>
+    <string name="FirstLast">Etunimi Sukunimi</string>
+    <string name="LastFirst">Sukunimi Etunimi</string>
+    <string name="TypefaceUseDefault">Käytä järjestelmän oletusfonttia</string>
+    <string name="NoQuoteForward">Noteeraus eteenpäin</string>
+    <string name="Repeat">Toistaa</string>
+    <string name="AddToSavedMessages">Tallenna viesti</string>
+    <string name="CreateMention">Luo Maininta</string>
+    <string name="ForceTabletMode">Pakota tablet-tila</string>
+    <string name="Prpr">Peropero</string>
+    <string name="TransparentStatusBar">Läpinäkyvä tilapalkki</string>
+    <string name="EnableResidentNotification">Näytä asukasilmoitus</string>
+    <string name="DisableResidentNotification">Poista asukasilmoitus käytöstä</string>
 </resources>

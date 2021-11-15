@@ -43,8 +43,8 @@
     <string name="SensitiveDisableFiltering">Desactivar filtrado de contenido sensible</string>
     <string name="SensitiveAbout">Mostrar multimedia sensible en canales públicos en todos tus dispositivos.</string>
     <string name="StickerSize">Tamaño de stickers</string>
-    <string name="StickerSizeDialogMessageBigOne">Grandote</string>
-    <string name="StickerSizeDialogMessageSmallOne">Chiquitito</string>
+    <string name="StickerSizeDialogMessageBigOne">Grande</string>
+    <string name="StickerSizeDialogMessageSmallOne">Pequeño</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Experimental</string>

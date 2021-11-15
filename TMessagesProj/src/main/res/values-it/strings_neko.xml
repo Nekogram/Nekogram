@@ -5,17 +5,17 @@
     <string name="MessageMenu">Menu messaggio</string>
     <string name="HidePhone">Nascondi il mio numero</string>
     <string name="Hide">Nascondi</string>
-    <string name="DeleteAllFromSelf">Elimina i miei messaggi</string>
+    <string name="DeleteAllFromSelf">Elimina tutti i miei messaggi</string>
     <string name="DeleteAllFromSelfAlert">Attenzione! Questo eliminerà **tutti i tuoi messaggi** da questa chat per **tutti i partecipanti.**</string>
     <string name="BotLogin">Login con bot token</string>
     <string name="InvalidAccessToken">Accesso col token non valido</string>
     <string name="IgnoreBlocked">Ignora gli utenti bloccati nel gruppo</string>
     <string name="Connection">Connessione</string>
     <string name="Chat">Chat</string>
-    <string name="NameOrder">Ordinamento nome</string>
+    <string name="NameOrder">Ordinamento dei nomi</string>
     <string name="FirstLast">Dal primo all\'ultimo</string>
     <string name="LastFirst">Dall\'ultimo al primo</string>
-    <string name="TypefaceUseDefault">Usa font predefinito di sistema</string>
+    <string name="TypefaceUseDefault">Usa il font di sistema predefinito</string>
     <string name="NoQuoteForward">Inoltro senza citare</string>
     <string name="Repeat">Ripeti</string>
     <string name="AddToSavedMessages">Salva messaggio</string>
@@ -163,4 +163,5 @@
     <string name="ApplyEmojiFont">Applica il font emoji</string>
     <string name="DisableJumpToNextChannel">Disattiva \"Passa al canale successivo\"</string>
     <string name="DisableGreetingSticker">Disattiva lo sticker di benvenuto</string>
+    <string name="BlockSponsoredMessage">Blocca messaggio sponsorizzato</string>
 </resources>
