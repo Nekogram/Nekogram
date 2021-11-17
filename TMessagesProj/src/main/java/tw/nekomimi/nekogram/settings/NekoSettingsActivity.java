@@ -46,6 +46,7 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.DonateHelper;
+import tw.nekomimi.nekogram.helpers.NewsHelper;
 import tw.nekomimi.nekogram.helpers.UpdateHelper;
 
 @SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
@@ -53,6 +54,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
 
     private RecyclerListView listView;
     private ListAdapter listAdapter;
+    private final ArrayList<NewsHelper.NewsItem> news = NewsHelper.getNews();
 
     private boolean sensitiveCanChange = false;
     private boolean sensitiveEnabled = false;
@@ -73,8 +75,10 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
     private int translationRow;
     private int donateRow;
     private int checkUpdateRow;
-    private int yahagiRow;
     private int about2Row;
+
+    private int sponsorRow;
+    private int sponsor2Row;
 
     private void checkSensitive() {
         TLRPC.TL_account_getContentSettings req = new TLRPC.TL_account_getContentSettings();
@@ -147,12 +151,13 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                 Browser.openUrl(getParentActivity(), "https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram");
             } else if (position == sourceCodeRow) {
                 Browser.openUrl(getParentActivity(), "https://gitlab.com/Nekogram/Nekogram");
-            } else if (position == yahagiRow) {
-                Browser.openUrl(getParentActivity(), LocaleController.getString("YahagiLink", R.string.YahagiLink));
             } else if (position == checkUpdateRow) {
                 ((LaunchActivity) getParentActivity()).checkAppUpdate(true);
                 checkingUpdate = true;
                 listAdapter.notifyItemChanged(checkUpdateRow);
+            } else if (position >= sponsorRow && position < sponsor2Row) {
+                NewsHelper.NewsItem item = news.get(position - sponsorRow);
+                Browser.openUrl(getParentActivity(), item.url);
             }
         });
         listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() {
@@ -204,8 +209,16 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
         translationRow = rowCount++;
         donateRow = rowCount++;
         checkUpdateRow = NekoConfig.installedFromPlay ? -1 : rowCount++;
-        yahagiRow = NekoConfig.isChineseUser ? rowCount++ : -1;
         about2Row = rowCount++;
+
+        if (news.size() != 0) {
+            sponsorRow = rowCount++;
+            rowCount += news.size() - 1;
+            sponsor2Row = rowCount++;
+        } else {
+            sponsorRow = -1;
+            sponsor2Row = -1;
+        }
 
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -285,7 +298,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
                 case 1: {
-                    if (position == about2Row) {
+                    if ((position == about2Row && sponsor2Row == -1) || position == sponsor2Row) {
                         holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     } else {
                         holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
@@ -330,12 +343,13 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                         textCell.setTextAndValue(LocaleController.getString("Translation", R.string.Translation), LocaleController.getString("TranslationAbout", R.string.TranslationAbout), true);
                     } else if (position == donateRow) {
                         textCell.setTextAndValue(LocaleController.getString("Donate", R.string.Donate), LocaleController.getString("DonateAbout", R.string.DonateAbout), position + 1 != about2Row);
-                    } else if (position == yahagiRow) {
-                        textCell.setTextAndValue(LocaleController.getString("YahagiTitle", R.string.YahagiTitle), LocaleController.getString("YahagiSummary", R.string.YahagiSummary), false);
                     } else if (position == checkUpdateRow) {
                         textCell.setTextAndValue(LocaleController.getString("CheckUpdate", R.string.CheckUpdate),
                                 checkingUpdate ? LocaleController.getString("CheckingUpdate", R.string.CheckingUpdate) :
                                         UpdateHelper.formatDateUpdate(SharedConfig.lastUpdateCheckTime), position + 1 != about2Row);
+                    } else if (position >= sponsorRow && position < sponsor2Row) {
+                        NewsHelper.NewsItem item = news.get(position - sponsorRow);
+                        textCell.setTextAndValue(item.title, item.summary, position + 1 != sponsor2Row);
                     }
                     break;
                 }
@@ -388,7 +402,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
 
         @Override
         public int getItemViewType(int position) {
-            if (position == categories2Row || position == about2Row) {
+            if (position == categories2Row || position == about2Row || position == sponsor2Row) {
                 return 1;
             } else if (position > categoriesRow && position < categories2Row) {
                 return 2;
@@ -396,7 +410,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                 return 3;
             } else if (position == categoriesRow || position == aboutRow) {
                 return 4;
-            } else if (position >= translationRow && position < about2Row) {
+            } else if ((position >= translationRow && position < about2Row) || (position >= sponsorRow && position < sponsor2Row)) {
                 return 6;
             }
             return 2;

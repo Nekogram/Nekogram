@@ -235,6 +235,7 @@ public class UpdateHelper {
     }
 
     public void checkNewVersionAvailable(UpdateHelperDelegate delegate) {
+        NewsHelper.getInstance().checkNews();
         if (NekoConfig.installedFromPlay) {
             delegate.didCheckNewVersionAvailable(null, null);
             return;
