@@ -146,14 +146,6 @@ android {
         }
     }
 
-    sourceSets.debug {
-        manifest.srcFile 'config/debug/AndroidManifest_SDK23.xml'
-    }
-
-    sourceSets.release {
-        manifest.srcFile 'config/release/AndroidManifest_SDK23.xml'
-    }
-
     defaultConfig.versionCode = 2470
 
     applicationVariants.all { variant ->
