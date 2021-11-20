@@ -163,7 +163,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         if (peer.channel_id != 0) {
                             TLRPC.Chat chat = getMessagesController().getChat(peer.channel_id);
                             if (!chat.broadcast) {
-                                getMessageHelper().deleteUserChannelHistoryWithSearch(NekoExperimentalSettingsActivity.this, TLdialog.id);
+                                getMessageHelper().deleteUserChannelHistoryWithSearch(NekoExperimentalSettingsActivity.this, TLdialog.id, 0);
                             }
                         }
                         if (peer.user_id != 0) {

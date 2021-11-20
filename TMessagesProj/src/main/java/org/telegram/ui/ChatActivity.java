@@ -2071,47 +2071,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     showDialog(AlertsCreator.createTTLAlert(getParentActivity(), currentEncryptedChat, themeDelegate).create());
                 } else if (id == delete_history) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(context, themeDelegate);
-                    TextView messageTextView = new TextView(context);
-                    messageTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
-                    messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-                    messageTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
-                    FrameLayout frameLayout = new FrameLayout(context);
-                    builder.setView(frameLayout);
-                    AvatarDrawable avatarDrawable = new AvatarDrawable();
-                    avatarDrawable.setTextSize(AndroidUtilities.dp(12));
-                    BackupImageView imageView = new BackupImageView(context);
-                    imageView.setRoundRadius(AndroidUtilities.dp(20));
-                    frameLayout.addView(imageView, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 22, 5, 22, 0));
-                    avatarDrawable.setInfo(currentChat);
-                    imageView.setForUserOrChat(currentChat, avatarDrawable, currentChat);
-                    TextView textView = new TextView(context);
-                    textView.setTextColor(getThemedColor(Theme.key_actionBarDefaultSubmenuItem));
-                    textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
-                    textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-                    textView.setLines(1);
-                    textView.setMaxLines(1);
-                    textView.setSingleLine(true);
-                    textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
-                    textView.setEllipsize(TextUtils.TruncateAt.END);
-                    textView.setText(LocaleController.getString("DeleteAllFromSelf", R.string.DeleteAllFromSelf));
-                    frameLayout.addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, (LocaleController.isRTL ? 21 : 76), 11, (LocaleController.isRTL ? 76 : 21), 0));
-                    frameLayout.addView(messageTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 24, 57, 24, 9));
-                    messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("DeleteAllFromSelfAlert", R.string.DeleteAllFromSelfAlert)));
-                    builder.setPositiveButton(LocaleController.getString("DeleteAll", R.string.DeleteAll), (dialogInterface, i) -> {
-                        if (ChatObject.isChannel(currentChat) && !ChatObject.shouldSendAnonymously(currentChat) && ChatObject.canUserDoAction(currentChat, ChatObject.ACTION_DELETE_MESSAGES)) {
-                            getMessagesController().deleteUserChannelHistory(currentChat, getUserConfig().getCurrentUser(), 0);
-                        } else {
-                            getMessageHelper().deleteUserChannelHistoryWithSearch(ChatActivity.this, dialog_id);
-                        }
-                    });
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                    AlertDialog alertDialog = builder.create();
-                    showDialog(alertDialog);
-                    TextView button = (TextView) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                    if (button != null) {
-                        button.setTextColor(getThemedColor(Theme.key_dialogTextRed2));
-                    }
+                    getMessageHelper().createDeleteHistoryAlert(ChatActivity.this, currentChat, mergeDialogId, themeDelegate);
                 } else if (id == clear_history || id == delete_chat || id == auto_delete_timer) {
                     if (getParentActivity() == null) {
                         return;

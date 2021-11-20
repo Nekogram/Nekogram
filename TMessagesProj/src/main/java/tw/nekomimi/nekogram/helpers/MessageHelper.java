@@ -3,15 +3,20 @@ package tw.nekomimi.nekogram.helpers;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.inputmethod.EditorInfo;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BaseController;
+import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -30,6 +35,8 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.CheckBoxCell;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
+import org.telegram.ui.Components.AvatarDrawable;
+import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.EditTextBoldCursor;
@@ -112,6 +119,84 @@ public class MessageHelper extends BaseController {
         return localInstance;
     }
 
+    public void createDeleteHistoryAlert(BaseFragment fragment, TLRPC.Chat chat, long mergeDialogId, Theme.ResourcesProvider resourcesProvider) {
+        if (fragment == null || fragment.getParentActivity() == null || chat == null) {
+            return;
+        }
+
+        Context context = fragment.getParentActivity();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
+
+        CheckBoxCell cell = ChatObject.isChannel(chat) && ChatObject.canUserDoAction(chat, ChatObject.ACTION_DELETE_MESSAGES) ? new CheckBoxCell(context, 1, resourcesProvider) : null;
+
+        TextView messageTextView = new TextView(context);
+        messageTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+        messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        messageTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
+
+        FrameLayout frameLayout = new FrameLayout(context) {
+            @Override
+            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+                if (cell != null) {
+                    setMeasuredDimension(getMeasuredWidth(), getMeasuredHeight() + cell.getMeasuredHeight() + AndroidUtilities.dp(7));
+                }
+            }
+        };
+        builder.setView(frameLayout);
+
+        AvatarDrawable avatarDrawable = new AvatarDrawable();
+        avatarDrawable.setTextSize(AndroidUtilities.dp(12));
+        avatarDrawable.setInfo(chat);
+
+        BackupImageView imageView = new BackupImageView(context);
+        imageView.setRoundRadius(AndroidUtilities.dp(20));
+        imageView.setForUserOrChat(chat, avatarDrawable);
+        frameLayout.addView(imageView, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 22, 5, 22, 0));
+
+        TextView textView = new TextView(context);
+        textView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView.setLines(1);
+        textView.setMaxLines(1);
+        textView.setSingleLine(true);
+        textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
+        textView.setText(LocaleController.getString("DeleteAllFromSelf", R.string.DeleteAllFromSelf));
+
+        frameLayout.addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, (LocaleController.isRTL ? 21 : 76), 11, (LocaleController.isRTL ? 76 : 21), 0));
+        frameLayout.addView(messageTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 24, 57, 24, 9));
+
+        if (cell != null) {
+            cell.setBackground(Theme.getSelectorDrawable(false));
+            cell.setText(LocaleController.getString("DeleteAllFromSelfAdmin", R.string.DeleteAllFromSelfAdmin), "", !ChatObject.shouldSendAnonymously(chat), false);
+            cell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16) : AndroidUtilities.dp(8), 0, LocaleController.isRTL ? AndroidUtilities.dp(8) : AndroidUtilities.dp(16), 0);
+            frameLayout.addView(cell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.BOTTOM | Gravity.LEFT, 0, 0, 0, 0));
+            cell.setOnClickListener(v -> {
+                CheckBoxCell cell1 = (CheckBoxCell) v;
+                cell1.setChecked(!cell1.isChecked(), true);
+            });
+        }
+
+        messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("DeleteAllFromSelfAlert", R.string.DeleteAllFromSelfAlert)));
+
+        builder.setPositiveButton(LocaleController.getString("DeleteAll", R.string.DeleteAll), (dialogInterface, i) -> {
+            if (cell != null && cell.isChecked()) {
+                getMessagesController().deleteUserChannelHistory(chat, getUserConfig().getCurrentUser(), 0);
+            } else {
+                deleteUserChannelHistoryWithSearch(fragment, -chat.id, mergeDialogId);
+            }
+        });
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        AlertDialog alertDialog = builder.create();
+        fragment.showDialog(alertDialog);
+        TextView button = (TextView) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
+        if (button != null) {
+            button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
+        }
+    }
+
     public void resetMessageContent(long dialogId, MessageObject messageObject, boolean translated) {
         TLRPC.Message message = messageObject.messageOwner;
 
@@ -128,11 +213,11 @@ public class MessageHelper extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.replaceMessagesObjects, dialogId, arrayList, false);
     }
 
-    public void deleteUserChannelHistoryWithSearch(BaseFragment fragment, final long dialogId) {
-        deleteUserChannelHistoryWithSearch(fragment, dialogId, 0, -1);
+    public void deleteUserChannelHistoryWithSearch(BaseFragment fragment, final long dialogId, final long mergeDialogId) {
+        deleteUserChannelHistoryWithSearch(fragment, dialogId, mergeDialogId, 0, -1);
     }
 
-    public void deleteUserChannelHistoryWithSearch(BaseFragment fragment, final long dialogId, final int offsetId, int lastSize) {
+    public void deleteUserChannelHistoryWithSearch(BaseFragment fragment, final long dialogId, final long mergeDialogId, final int offsetId, int lastSize) {
         final TLRPC.TL_messages_search req = new TLRPC.TL_messages_search();
         req.peer = getMessagesController().getInputPeer(dialogId);
         if (req.peer == null) {
@@ -146,38 +231,33 @@ public class MessageHelper extends BaseController {
         req.filter = new TLRPC.TL_inputMessagesFilterEmpty();
         getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
             if (error == null) {
-                int lastMessageId = offsetId;
                 if (response != null) {
                     TLRPC.messages_Messages res = (TLRPC.messages_Messages) response;
-                    int size = res.messages.size();
-                    if (size == 0) {
+                    if (res.messages.size() == 0) {
                         return;
                     }
-                    FileLog.d("deleteUserChannelHistoryWithSearch size = " + size);
                     ArrayList<Integer> ids = new ArrayList<>();
-                    long channelId = 0;
-                    for (int a = 0; a < size; a++) {
-                        TLRPC.Message message = res.messages.get(a);
-                        if (message.id > lastMessageId) {
-                            lastMessageId = message.id;
-                        }
-                        if (message.peer_id.channel_id != 0) {
-                            channelId = message.peer_id.channel_id;
-                        } else if (message.peer_id.chat_id == 0) {
-                            continue;
-                        }
+                    int newOffsetId = res.messages.get(0).id;
+                    for (TLRPC.Message message : res.messages) {
+                        newOffsetId = Math.min(newOffsetId, message.id);
                         ids.add(message.id);
                     }
-                    getMessagesController().deleteMessages(ids, null, null, -channelId, true, false);
-                    if (ids.size() == 0 || (offsetId == lastMessageId && lastSize == ids.size())) {
+                    if (ids.size() == 0) {
                         return;
                     }
-                    deleteUserChannelHistoryWithSearch(fragment, dialogId, lastMessageId, ids.size());
+                    getMessagesController().deleteMessages(ids, null, null, dialogId, true, false);
+                    if (offsetId == newOffsetId && lastSize == ids.size()) {
+                        return;
+                    }
+                    deleteUserChannelHistoryWithSearch(fragment, dialogId, mergeDialogId, newOffsetId, ids.size());
                 }
             } else {
                 AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text);
             }
         }), ConnectionsManager.RequestFlagFailOnServerErrors);
+        if (offsetId == 0 && mergeDialogId != 0) {
+            deleteUserChannelHistoryWithSearch(fragment, mergeDialogId, 0, 0, -1);
+        }
     }
 
     public String getDCLocation(int dc) {
