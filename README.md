@@ -1,4 +1,4 @@
-# Nekogram
+# 🐾 Nekogram
 ![Logo](https://gitlab.com/Nekogram/Nekogram/-/raw/master/TMessagesProj/src/main/res/mipmap-xxxhdpi/ic_launcher.png)  
 Nekogram is an UNOFFICIAL app that uses Telegram's API.
 
