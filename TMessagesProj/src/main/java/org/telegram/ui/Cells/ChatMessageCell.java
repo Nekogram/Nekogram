@@ -9386,7 +9386,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
             }
         }
-        if (currentFocusedVirtualView == -1 && hasFocus()) announceForAccessibility((progress * 100) + "%");
+        sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_ANNOUNCEMENT, (int)(progress * 100) + "%");
     }
 
     @Override
@@ -9403,7 +9403,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
         }
         createLoadingProgressLayout(uploadedSize, totalSize);
-        if (currentFocusedVirtualView == -1 && hasFocus()) announceForAccessibility((progress * 100) + "%");
+        sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_ANNOUNCEMENT, (int)(progress * 100) + "%");
     }
 
     private void createLoadingProgressLayout(TLRPC.Document document) {
@@ -13716,18 +13716,21 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         return new MessageAccessibilityNodeProvider();
     }
 
-    private void sendAccessibilityEventForVirtualView(int viewId, int eventType) {
+    private void sendAccessibilityEventForVirtualView(int viewId, int eventType, CharSequence text) {
         AccessibilityManager am = (AccessibilityManager) getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
         if (am.isTouchExplorationEnabled()) {
             AccessibilityEvent event = AccessibilityEvent.obtain(eventType);
             event.setPackageName(getContext().getPackageName());
             event.setSource(ChatMessageCell.this, viewId);
+            if (text != null) event.getText().add(text);
             if (getParent() != null) {
                 getParent().requestSendAccessibilityEvent(ChatMessageCell.this, event);
             }
         }
     }
-
+    private void sendAccessibilityEventForVirtualView(int viewId, int eventType) {
+        sendAccessibilityEventForVirtualView(viewId, eventType, null);
+    }
     public static Point getMessageSize(int imageW, int imageH) {
         return getMessageSize(imageW, imageH, 0, 0);
     }
