@@ -826,7 +826,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     float roundSeekbarOutAlpha;
 
     private float lastDrawingAudioProgress;
-    private int currentFocusedVirtualView = -1;
+    private int currentFocusedVirtualViewId = -2;
+    private boolean touch; //To catch,whether was touch before clear_accessibility_focus action was performed.
     public boolean drawFromPinchToZoom;
 
     private Theme.MessageDrawable.PathDrawParams backgroundCacheParams = new Theme.MessageDrawable.PathDrawParams();
@@ -7653,7 +7654,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             canvas.translate(timeAudioX + songX, AndroidUtilities.dp(13) + namesOffset + mediaOffsetY);
             songLayout.draw(canvas);
             canvas.restore();
-            
+
             boolean showSeekbar = MediaController.getInstance().isPlayingMessage(currentMessageObject);
             if (showSeekbar && toSeekBarProgress != 1f) {
                 toSeekBarProgress += 16f / 100f;
@@ -9386,7 +9387,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
             }
         }
-        sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_ANNOUNCEMENT, (int)(progress * 100) + "%");
+        if (currentFocusedVirtualViewId == -1) sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_ANNOUNCEMENT, (int)(progress * 100) + "%");
     }
 
     @Override
@@ -9403,7 +9404,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
         }
         createLoadingProgressLayout(uploadedSize, totalSize);
-        sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_ANNOUNCEMENT, (int)(progress * 100) + "%");
+        if (currentFocusedVirtualViewId == -1) sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_ANNOUNCEMENT, (int)(progress * 100) + "%");
     }
 
     private void createLoadingProgressLayout(TLRPC.Document document) {
@@ -13642,7 +13643,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     @Override
     public boolean performAccessibilityAction(int action, Bundle arguments) {
         if (action == AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS) {
-            currentFocusedVirtualView = -1;
+            currentFocusedVirtualViewId = -1;
+        } else if(action==AccessibilityNodeInfo.ACTION_CLEAR_ACCESSIBILITY_FOCUS) {
+            if (!touch) {
+                currentFocusedVirtualViewId = -2;
+            } else touch = false;
         } else if (action == AccessibilityNodeInfo.ACTION_CLICK) {
             int icon = getIconForCurrentState();
             if (icon != MediaActionDrawable.ICON_NONE && icon != MediaActionDrawable.ICON_FILE) {
@@ -13693,17 +13698,22 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 Rect rect = accessibilityVirtualViewBounds.valueAt(i);
                 if (rect.contains(x, y)) {
                     int id = accessibilityVirtualViewBounds.keyAt(i);
-                    if (id != currentFocusedVirtualView) {
-                        currentFocusedVirtualView = id;
+                    if (id != currentFocusedVirtualViewId) {
+                        currentFocusedVirtualViewId = id;
+                        touch=true;
                         sendAccessibilityEventForVirtualView(id, AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
                     }
                     return true;
                 }
             }
-        } else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
-            currentFocusedVirtualView = -1;
+            if (currentFocusedVirtualViewId != -1) {
+                currentFocusedVirtualViewId = -1;
+                touch = true;
+                sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
+                return true;
+            }
         }
-        return super.dispatchHoverEvent(event);
+        return false;
     }
 
     @Override
@@ -13728,9 +13738,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
         }
     }
+
     private void sendAccessibilityEventForVirtualView(int viewId, int eventType) {
         sendAccessibilityEventForVirtualView(viewId, eventType, null);
     }
+
     public static Point getMessageSize(int imageW, int imageH) {
         return getMessageSize(imageW, imageH, 0, 0);
     }
@@ -14174,18 +14186,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     linkPath.computeBounds(rectF, true);
                     rect.set((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
                     rect.offset((int) captionX, (int) captionY);
-                    info.setBoundsInParent(rect);
-                    if (accessibilityVirtualViewBounds.get(virtualViewId) == null) {
-                        accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
-                    }
-                    rect.offset(pos[0], pos[1]);
-                    info.setBoundsInScreen(rect);
 
                     info.setClassName("android.widget.TextView");
-                    info.setEnabled(true);
-                    info.setClickable(true);
                     info.setLongClickable(true);
-                    info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
                     info.addAction(AccessibilityNodeInfo.ACTION_LONG_CLICK);
                 } else if (virtualViewId >= LINK_IDS_START) {
                     if (!(currentMessageObject.messageText instanceof Spannable)) {
@@ -14207,21 +14210,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             rect.set((int) rectF.left, (int) rectF.top, (int) rectF.right, (int) rectF.bottom);
                             rect.offset(0, (int) block.textYOffset);
                             rect.offset(textX, textY);
-                            info.setBoundsInParent(rect);
-                            if (accessibilityVirtualViewBounds.get(virtualViewId) == null) {
-                                accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
-                            }
-                            rect.offset(pos[0], pos[1]);
-                            info.setBoundsInScreen(rect);
                             break;
                         }
                     }
 
                     info.setClassName("android.widget.TextView");
-                    info.setEnabled(true);
-                    info.setClickable(true);
                     info.setLongClickable(true);
-                    info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
                     info.addAction(AccessibilityNodeInfo.ACTION_LONG_CLICK);
                 } else if (virtualViewId >= BOT_BUTTONS_START) {
                     int buttonIndex = virtualViewId - BOT_BUTTONS_START;
@@ -14231,10 +14225,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     BotButton button = botButtons.get(buttonIndex);
                     info.setText(button.title.getText());
                     info.setClassName("android.widget.Button");
-                    info.setEnabled(true);
-                    info.setClickable(true);
-                    info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
-
                     rect.set(button.x, button.y, button.x + button.width, button.y + button.height);
                     int addX;
                     if (currentMessageObject.isOutOwner()) {
@@ -14243,12 +14233,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         addX = backgroundDrawableLeft + AndroidUtilities.dp(mediaBackground ? 1 : 7);
                     }
                     rect.offset(addX, layoutHeight);
-                    info.setBoundsInParent(rect);
-                    if (accessibilityVirtualViewBounds.get(virtualViewId) == null) {
-                        accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
-                    }
-                    rect.offset(pos[0], pos[1]);
-                    info.setBoundsInScreen(rect);
                 } else if (virtualViewId >= POLL_BUTTONS_START) {
                     int buttonIndex = virtualViewId - POLL_BUTTONS_START;
                     if (buttonIndex >= pollButtons.size()) {
@@ -14266,67 +14250,29 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         }
                     }
                     info.setText(sb);
-                    info.setEnabled(true);
-                    info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
 
                     final int y = button.y + namesOffset;
                     final int w = backgroundWidth - AndroidUtilities.dp(76);
                     rect.set(button.x, y, button.x + w, y + button.height);
-                    info.setBoundsInParent(rect);
-                    if (accessibilityVirtualViewBounds.get(virtualViewId) == null) {
-                        accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
-                    }
-                    rect.offset(pos[0], pos[1]);
-                    info.setBoundsInScreen(rect);
-
-                    info.setClickable(true);
                 } else if (virtualViewId == POLL_HINT) {
                     info.setClassName("android.widget.Button");
-                    info.setEnabled(true);
                     info.setText(LocaleController.getString("AccDescrQuizExplanation", R.string.AccDescrQuizExplanation));
-                    info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
                     rect.set(pollHintX - AndroidUtilities.dp(8), pollHintY - AndroidUtilities.dp(8), pollHintX + AndroidUtilities.dp(32), pollHintY + AndroidUtilities.dp(32));
-                    info.setBoundsInParent(rect);
-                    if (accessibilityVirtualViewBounds.get(virtualViewId) == null || !accessibilityVirtualViewBounds.get(virtualViewId).equals(rect)) {
-                        accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
-                    }
-                    rect.offset(pos[0], pos[1]);
-                    info.setBoundsInScreen(rect);
-                    info.setClickable(true);
                 } else if (virtualViewId == INSTANT_VIEW) {
                     info.setClassName("android.widget.Button");
-                    info.setEnabled(true);
                     if (instantViewLayout != null) {
                         info.setText(instantViewLayout.getText());
                     }
-                    info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
                     instantButtonRect.round(rect);
-                    info.setBoundsInParent(rect);
-                    if (accessibilityVirtualViewBounds.get(virtualViewId) == null || !accessibilityVirtualViewBounds.get(virtualViewId).equals(rect)) {
-                        accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
-                    }
-                    rect.offset(pos[0], pos[1]);
-                    info.setBoundsInScreen(rect);
-                    info.setClickable(true);
                 } else if (virtualViewId == SHARE) {
                     info.setClassName("android.widget.ImageButton");
-                    info.setEnabled(true);
                     if (isOpenChatByShare(currentMessageObject)) {
                         info.setContentDescription(LocaleController.getString("AccDescrOpenChat", R.string.AccDescrOpenChat));
                     } else {
                         info.setContentDescription(LocaleController.getString("ShareFile", R.string.ShareFile));
                     }
-                    info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
                     rect.set((int) sideStartX, (int) sideStartY, (int) sideStartX + AndroidUtilities.dp(40), (int) sideStartY + AndroidUtilities.dp(32));
-                    info.setBoundsInParent(rect);
-                    if (accessibilityVirtualViewBounds.get(virtualViewId) == null || !accessibilityVirtualViewBounds.get(virtualViewId).equals(rect)) {
-                        accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
-                    }
-                    rect.offset(pos[0], pos[1]);
-                    info.setBoundsInScreen(rect);
-                    info.setClickable(true);
                 } else if (virtualViewId == REPLY) {
-                    info.setEnabled(true);
                     StringBuilder sb = new StringBuilder();
                     sb.append(LocaleController.getString("Reply", R.string.Reply));
                     sb.append(", ");
@@ -14338,64 +14284,45 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         sb.append(replyTextLayout.getText());
                     }
                     info.setContentDescription(sb.toString());
-                    info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
-
                     rect.set(replyStartX, replyStartY, replyStartX + Math.max(replyNameWidth, replyTextWidth), replyStartY + AndroidUtilities.dp(35));
-                    info.setBoundsInParent(rect);
-                    if (accessibilityVirtualViewBounds.get(virtualViewId) == null || !accessibilityVirtualViewBounds.get(virtualViewId).equals(rect)) {
-                        accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
-                    }
-                    rect.offset(pos[0], pos[1]);
-                    info.setBoundsInScreen(rect);
-                    info.setClickable(true);
                 } else if (virtualViewId == FORWARD) {
-                    info.setEnabled(true);
                     info.setContentDescription(currentForwardNameString);
-                    info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
 
                     int x = (int) Math.min(forwardNameX - forwardNameOffsetX[0], forwardNameX - forwardNameOffsetX[1]);
                     rect.set(x, forwardNameY, x + forwardedNameWidth, forwardNameY + AndroidUtilities.dp(32));
-                    info.setBoundsInParent(rect);
-                    if (accessibilityVirtualViewBounds.get(virtualViewId) == null || !accessibilityVirtualViewBounds.get(virtualViewId).equals(rect)) {
-                        accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
-                    }
-                    rect.offset(pos[0], pos[1]);
-                    info.setBoundsInScreen(rect);
-                    info.setClickable(true);
                 } else if (virtualViewId == COMMENT) {
-                    info.setClassName("android.widget.Button");
-                    info.setEnabled(true);
-                    if (commentLayout != null) {
+                    info.setClassName("android.widget.Button");                    if (commentLayout != null) {
                         //commentLayout not give for us text information about number of comments,so we shouldn't use text of layout for viryual node.
                         int commentCount = getRepliesCount();
                         info.setText(isRepliesChat ? LocaleController.getString("ViewInChat", R.string.ViewInChat) : commentCount == 0 ? LocaleController.getString("LeaveAComment", R.string.LeaveAComment) : LocaleController.formatPluralString("CommentsCount", commentCount));
                     }
-                    info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
                     rect.set(commentButtonRect);
-                    info.setBoundsInParent(rect);
-                    if (accessibilityVirtualViewBounds.get(virtualViewId) == null || !accessibilityVirtualViewBounds.get(virtualViewId).equals(rect)) {
-                        accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
-                    }
-                    rect.offset(pos[0], pos[1]);
-                    info.setBoundsInScreen(rect);
-                    info.setClickable(true);
                 }
                 info.setFocusable(true);
                 info.setVisibleToUser(true);
+                info.setEnabled(true);
+                info.setClickable(true);
+                info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
+                info.setBoundsInParent(rect);
+                if (accessibilityVirtualViewBounds.get(virtualViewId) == null || !accessibilityVirtualViewBounds.get(virtualViewId).equals(rect)) {
+                    accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
+                }
+                rect.offset(pos[0], pos[1]);
+                info.setBoundsInScreen(rect);
                 return info;
             }
         }
 
         @Override
         public boolean performAction(int virtualViewId, int action, Bundle arguments) {
-            if (virtualViewId == HOST_VIEW_ID) {
+            if (virtualViewId == HOST_VIEW_ID ||action==AccessibilityNodeInfo.ACTION_CLEAR_ACCESSIBILITY_FOCUS) {
                 performAccessibilityAction(action, arguments);
             } else {
                 if (action == AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS) {
-                    currentFocusedVirtualView = virtualViewId;
+                    currentFocusedVirtualViewId = virtualViewId;
                     sendAccessibilityEventForVirtualView(virtualViewId, AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
                 } else if (action == AccessibilityNodeInfo.ACTION_CLICK) {
-                     if (virtualViewId >= LINK_CAPTION_IDS_START) {
+                    if (virtualViewId >= LINK_CAPTION_IDS_START) {
                         ClickableSpan link = getLinkById(virtualViewId, true);
                         if (link != null) {
                             delegate.didPressUrl(ChatMessageCell.this, link, false);
@@ -14450,16 +14377,16 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             delegate.didPressReplyMessage(ChatMessageCell.this, currentMessageObject.getReplyMsgId());
                         }
                     } else if (virtualViewId == FORWARD) {
-                         if (delegate != null) {
-                             if (currentForwardChannel != null) {
-                                 delegate.didPressChannelAvatar(ChatMessageCell.this, currentForwardChannel, currentMessageObject.messageOwner.fwd_from.channel_post, lastTouchX, lastTouchY);
-                             } else if (currentForwardUser != null) {
-                                 delegate.didPressUserAvatar(ChatMessageCell.this, currentForwardUser, lastTouchX, lastTouchY);
-                             } else if (currentForwardName != null) {
-                                 delegate.didPressHiddenForward(ChatMessageCell.this);
-                             }
-                         }
-                     } else if (virtualViewId == COMMENT) {
+                        if (delegate != null) {
+                            if (currentForwardChannel != null) {
+                                delegate.didPressChannelAvatar(ChatMessageCell.this, currentForwardChannel, currentMessageObject.messageOwner.fwd_from.channel_post, lastTouchX, lastTouchY);
+                            } else if (currentForwardUser != null) {
+                                delegate.didPressUserAvatar(ChatMessageCell.this, currentForwardUser, lastTouchX, lastTouchY);
+                            } else if (currentForwardName != null) {
+                                delegate.didPressHiddenForward(ChatMessageCell.this);
+                            }
+                        }
+                    } else if (virtualViewId == COMMENT) {
                         if (delegate != null) {
                             if (isRepliesChat) {
                                 delegate.didPressSideButton(ChatMessageCell.this);
@@ -15086,7 +15013,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         Paint paint = resourcesProvider != null ? resourcesProvider.getPaint(paintKey) : null;
         return paint != null ? paint : Theme.getThemePaint(paintKey);
     }
-    
+
     private boolean hasGradientService() {
         return resourcesProvider != null ? resourcesProvider.hasGradientService() : Theme.hasGradientService();
     }
