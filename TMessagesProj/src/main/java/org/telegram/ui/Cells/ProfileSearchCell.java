@@ -674,6 +674,7 @@ public class ProfileSearchCell extends BaseCell {
             builder.append(statusLayout.getText());
         }
         info.setText(builder.toString());
+        if (checkBox != null) info.setSelected(checkBox.isChecked());
     }
 
     public long getDialogId() {
