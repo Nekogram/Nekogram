@@ -208,7 +208,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
         sourceCodeRow = rowCount++;
         translationRow = rowCount++;
         donateRow = rowCount++;
-        checkUpdateRow = NekoConfig.installedFromPlay ? -1 : rowCount++;
+        checkUpdateRow = rowCount++;
         about2Row = rowCount++;
 
         if (news.size() != 0) {

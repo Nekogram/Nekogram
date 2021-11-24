@@ -13,7 +13,6 @@ import android.content.SharedPreferences;
 import android.os.Build;
 
 import tw.nekomimi.nekogram.Extra;
-import tw.nekomimi.nekogram.NekoConfig;
 
 public class BuildVars {
 
@@ -44,7 +43,7 @@ public class BuildVars {
 
     private static Boolean standaloneApp;
     public static boolean isStandaloneApp() {
-        return !NekoConfig.installedFromPlay;
+        return true;
         /*if (standaloneApp == null) {
             standaloneApp = ApplicationLoader.applicationContext != null && "org.telegram.messenger.web".equals(ApplicationLoader.applicationContext.getPackageName());
         }

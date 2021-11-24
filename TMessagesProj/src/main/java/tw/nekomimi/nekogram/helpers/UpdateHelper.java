@@ -22,7 +22,6 @@ import java.util.Date;
 import java.util.HashMap;
 
 import tw.nekomimi.nekogram.Extra;
-import tw.nekomimi.nekogram.NekoConfig;
 
 public class UpdateHelper {
 
@@ -31,7 +30,6 @@ public class UpdateHelper {
     private int currentAbi;
 
     UpdateHelper() {
-        if (NekoConfig.installedFromPlay) return;
         try {
             PackageInfo pInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
             currentVersion = pInfo.versionCode / 10;
@@ -236,10 +234,6 @@ public class UpdateHelper {
 
     public void checkNewVersionAvailable(UpdateHelperDelegate delegate) {
         NewsHelper.getInstance().checkNews();
-        if (NekoConfig.installedFromPlay) {
-            delegate.didCheckNewVersionAvailable(null, null);
-            return;
-        }
         checkNewVersionAvailable(delegate, false);
     }
 

@@ -183,18 +183,4 @@ android {
     }
 }
 
-def patchBundleReleaseManifest = task('patchBundleReleaseManifest').doLast {
-    def manifest = Paths.get(project.buildDir.path, 'intermediates',
-            'bundle_manifest', 'release', 'AndroidManifest.xml')
-    def newManifest = manifest.getText()
-    newManifest = newManifest.replace("<uses-permission android:name=\"android.permission.ACCESS_BACKGROUND_LOCATION\" />", "")
-    newManifest = newManifest.replace("<uses-permission android:name=\"android.permission.READ_CALL_LOG\" />", "")
-    newManifest = newManifest.replace("nekogram.apks", "nekogram.bundle")
-    Files.write(manifest, newManifest.getBytes())
-}
-
-afterEvaluate {
-    tasks.getByName("processApplicationManifestReleaseForBundle").finalizedBy patchBundleReleaseManifest
-}
-
 apply plugin: 'com.google.gms.google-services'
