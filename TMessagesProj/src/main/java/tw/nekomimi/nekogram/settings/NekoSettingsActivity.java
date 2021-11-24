@@ -45,7 +45,6 @@ import org.telegram.ui.LaunchActivity;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.DonateHelper;
 import tw.nekomimi.nekogram.helpers.NewsHelper;
 import tw.nekomimi.nekogram.helpers.UpdateHelper;
 
@@ -73,7 +72,6 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
     private int googlePlayRow;
     private int sourceCodeRow;
     private int translationRow;
-    private int donateRow;
     private int checkUpdateRow;
     private int about2Row;
 
@@ -143,8 +141,6 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                 presentFragment(new NekoExperimentalSettingsActivity(sensitiveCanChange, sensitiveEnabled));
             } else if (position == channelRow) {
                 MessagesController.getInstance(currentAccount).openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
-            } else if (position == donateRow) {
-                DonateHelper.getInstance().showDonationDialog(getParentActivity());
             } else if (position == translationRow) {
                 Browser.openUrl(getParentActivity(), "https://neko.crowdin.com/nekogram");
             } else if (position == googlePlayRow) {
@@ -207,7 +203,6 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
         googlePlayRow = -1;
         sourceCodeRow = rowCount++;
         translationRow = rowCount++;
-        donateRow = rowCount++;
         checkUpdateRow = rowCount++;
         about2Row = rowCount++;
 
@@ -341,8 +336,6 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                     textCell.setMultilineDetail(true);
                     if (position == translationRow) {
                         textCell.setTextAndValue(LocaleController.getString("Translation", R.string.Translation), LocaleController.getString("TranslationAbout", R.string.TranslationAbout), true);
-                    } else if (position == donateRow) {
-                        textCell.setTextAndValue(LocaleController.getString("Donate", R.string.Donate), LocaleController.getString("DonateAbout", R.string.DonateAbout), position + 1 != about2Row);
                     } else if (position == checkUpdateRow) {
                         textCell.setTextAndValue(LocaleController.getString("CheckUpdate", R.string.CheckUpdate),
                                 checkingUpdate ? LocaleController.getString("CheckingUpdate", R.string.CheckingUpdate) :
