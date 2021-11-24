@@ -15,7 +15,6 @@
     <string name="NameOrder">Urutan nama</string>
     <string name="FirstLast">Depan Belakang</string>
     <string name="LastFirst">Belakang Depan</string>
-    <string name="TypefaceUseDefault">Use system default font</string>
     <string name="NoQuoteForward">Teruskan Tanpa Kutip</string>
     <string name="Repeat">Ulangi</string>
     <string name="AddToSavedMessages">Simpan pesan</string>
@@ -43,10 +42,8 @@
     <string name="SensitiveDisableFiltering">Nonaktifkan penyaringan konten sensitif</string>
     <string name="SensitiveAbout">Tampilkan media sensitif di channel publik di semua perangkat Anda.</string>
     <string name="StickerSize">Ukuran stiker</string>
-    <string name="StickerSizeDialogMessageBigOne">Stikernya besar</string>
-    <string name="StickerSizeDialogMessageSmallOne">Stikernya kecil</string>
+    <string name="StickerSizeDialogMessage">Wah Kucing Hitam! Imut sekali!</string>
     <string name="StickerSizeDialogMessageReplyTo">Meong</string>
-    <string name="StickerSizeDialogName">Dewi</string>
     <string name="Experiment">Eksperimental</string>
     <string name="UnlimitedFavoredStickers">Stiker favorit tak terbatas</string>
     <string name="UnlimitedFavoredStickersAbout">Tambahkan stiker tak terbatas ke favorit. Stiker mungkin tidak dapat disinkronkan ke perangkat lain.</string>
@@ -138,7 +135,6 @@
     <string name="WsEnableTls">Nyalakan TLS</string>
     <string name="WsLocalProxy">Proksi lokal</string>
     <string name="WsEnableDoh">Nyalakan DoH</string>
-    <string name="MsgDate">Tanggal</string>
     <string name="UpdateNekogram">Perbarui Nekogram</string>
     <string name="TranslationTarget">Bahasa tujuan</string>
     <string name="TranslationTargetApp">Ikuti aplikasi</string>
@@ -164,4 +160,5 @@
     <string name="DisableJumpToNextChannel">Matikan loncat ke Channel berikutnya</string>
     <string name="DisableGreetingSticker">Matikan stiker salam</string>
     <string name="BlockSponsoredMessage">Blokir pesan disponsori</string>
+    <string name="DeleteAllFromSelfAdmin">Dengan hak admin</string>
 </resources>

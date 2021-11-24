@@ -15,7 +15,6 @@
     <string name="NameOrder">姓名顺序</string>
     <string name="FirstLast">名字 姓氏</string>
     <string name="LastFirst">姓氏 名字</string>
-    <string name="TypefaceUseDefault">使用系统默认字体</string>
     <string name="NoQuoteForward">无引用转发</string>
     <string name="Repeat">复读</string>
     <string name="AddToSavedMessages">拿去自嗨</string>
@@ -43,10 +42,8 @@
     <string name="SensitiveDisableFiltering">禁用敏感内容过滤</string>
     <string name="SensitiveAbout">在您所有设备上显示公共频道中的敏感媒体内容。</string>
     <string name="StickerSize">贴纸大小</string>
-    <string name="StickerSizeDialogMessageBigOne">一大只</string>
-    <string name="StickerSizeDialogMessageSmallOne">一小只</string>
+    <string name="StickerSizeDialogMessage">呜好可爱！黑色猫猫！</string>
     <string name="StickerSizeDialogMessageReplyTo">喵</string>
-    <string name="StickerSizeDialogName">呆瓜</string>
     <string name="Experiment">实验性</string>
     <string name="UnlimitedFavoredStickers">无限的收藏贴纸</string>
     <string name="UnlimitedFavoredStickersAbout">向收藏夹添加无限贴纸，贴纸可能将不能同步到其它设备。</string>
@@ -140,7 +137,6 @@
     <string name="WsEnableTls">启用 TLS</string>
     <string name="WsLocalProxy">本地代理</string>
     <string name="WsEnableDoh">启用 DoH</string>
-    <string name="MsgDate">日期</string>
     <string name="UpdateNekogram">更新 Nekogram</string>
     <string name="TranslationTarget">目标语言</string>
     <string name="TranslationTargetApp">跟随应用</string>
@@ -166,4 +162,5 @@
     <string name="DisableJumpToNextChannel">禁用“跳转到下一个频道”</string>
     <string name="DisableGreetingSticker">禁用问候贴纸</string>
     <string name="BlockSponsoredMessage">屏蔽恰饭消息</string>
+    <string name="DeleteAllFromSelfAdmin">使用绒布球特权</string>
 </resources>

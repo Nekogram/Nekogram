@@ -15,7 +15,6 @@
     <string name="NameOrder">Ordinamento dei nomi</string>
     <string name="FirstLast">Dal primo all\'ultimo</string>
     <string name="LastFirst">Dall\'ultimo al primo</string>
-    <string name="TypefaceUseDefault">Usa il font di sistema predefinito</string>
     <string name="NoQuoteForward">Inoltro senza citare</string>
     <string name="Repeat">Ripeti</string>
     <string name="AddToSavedMessages">Salva messaggio</string>
@@ -43,10 +42,8 @@
     <string name="SensitiveDisableFiltering">Disattiva il filtro dei contenuti sensibili</string>
     <string name="SensitiveAbout">Mostra i media sensibili nei canali pubblici su tutti i tuoi dispositivi.</string>
     <string name="StickerSize">Dimensione dell\'adesivo</string>
-    <string name="StickerSizeDialogMessageBigOne">Uno grande</string>
-    <string name="StickerSizeDialogMessageSmallOne">Uno piccolo</string>
+    <string name="StickerSizeDialogMessage">Oh che carino! Un gatto nero!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miao</string>
-    <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Sperimentale</string>
     <string name="UnlimitedFavoredStickers">Adesivi preferiti illimitati</string>
     <string name="UnlimitedFavoredStickersAbout">Aggiungi adesivi illimitati ai preferiti. Gli adesivi potrebbero non essere sincronizzati con altri dispositivi.</string>
@@ -138,7 +135,6 @@
     <string name="WsEnableTls">Abilita TLS</string>
     <string name="WsLocalProxy">Proxy locale</string>
     <string name="WsEnableDoh">Abilita DoH</string>
-    <string name="MsgDate">Data</string>
     <string name="UpdateNekogram">Aggiorna Nekogram</string>
     <string name="TranslationTarget">Lingua di destinazione</string>
     <string name="TranslationTargetApp">Segui l\'app</string>
@@ -164,4 +160,5 @@
     <string name="DisableJumpToNextChannel">Disattiva \"Passa al canale successivo\"</string>
     <string name="DisableGreetingSticker">Disattiva lo sticker di benvenuto</string>
     <string name="BlockSponsoredMessage">Blocca messaggio sponsorizzato</string>
+    <string name="DeleteAllFromSelfAdmin">Con i permessi da amministratore</string>
 </resources>

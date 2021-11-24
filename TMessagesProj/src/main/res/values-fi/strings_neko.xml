@@ -15,7 +15,6 @@
     <string name="NameOrder">Nimijärjestys</string>
     <string name="FirstLast">Etunimi Sukunimi</string>
     <string name="LastFirst">Sukunimi Etunimi</string>
-    <string name="TypefaceUseDefault">Käytä järjestelmän oletusfonttia</string>
     <string name="NoQuoteForward">Noteeraus eteenpäin</string>
     <string name="Repeat">Toistaa</string>
     <string name="AddToSavedMessages">Tallenna viesti</string>

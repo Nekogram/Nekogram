@@ -15,7 +15,6 @@
     <string name="NameOrder">ترتيبُ الاسمِ</string>
     <string name="FirstLast">الأول ثم الآخر</string>
     <string name="LastFirst">الآخر ثم الأول</string>
-    <string name="TypefaceUseDefault">استخدام الخط الافتراضي للنظام</string>
     <string name="NoQuoteForward">توجيه دون اسم</string>
     <string name="Repeat">كَرر</string>
     <string name="AddToSavedMessages">حفظُ الرسالة</string>
@@ -43,10 +42,7 @@
     <string name="SensitiveDisableFiltering">تعطيل حظر المحتويات الحساسة</string>
     <string name="SensitiveAbout">عرض المحتويات الحساسة في القنوات العامة على جميع أجهزتك.</string>
     <string name="StickerSize">حجم الملصقات</string>
-    <string name="StickerSizeDialogMessageBigOne">كبيرة</string>
-    <string name="StickerSizeDialogMessageSmallOne">صغيرة</string>
     <string name="StickerSizeDialogMessageReplyTo">مياو</string>
-    <string name="StickerSizeDialogName">احمد</string>
     <string name="Experiment">تجريبية</string>
     <string name="UnlimitedFavoredStickers">ملصقات مفضلة غير محدودة</string>
     <string name="UnlimitedFavoredStickersAbout">إضافة ملصقات غير محدودة إلى المفضلة. الملصقات قد لا تتم مزامنتها مع الأجهزة الأخرى.</string>
@@ -138,7 +134,6 @@
     <string name="WsEnableTls">تمكين TLS</string>
     <string name="WsLocalProxy">بروكسي محلي</string>
     <string name="WsEnableDoh">تمكين DoH</string>
-    <string name="MsgDate">التاريخ</string>
     <string name="UpdateNekogram">تحديث نيكوغرام</string>
     <string name="TranslationTarget">لغة الهدف</string>
     <string name="TranslationTargetApp">اتبع التطبيق</string>

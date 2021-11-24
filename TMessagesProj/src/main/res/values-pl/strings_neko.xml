@@ -15,7 +15,6 @@
     <string name="NameOrder">Format imienia i nazwiska</string>
     <string name="FirstLast">Imię - nazwisko</string>
     <string name="LastFirst">Nazwisko - imię</string>
-    <string name="TypefaceUseDefault">Użyj domyślnej czcionki systemowej</string>
     <string name="NoQuoteForward">Przekaż bez cytowania</string>
     <string name="Repeat">Powtórz</string>
     <string name="AddToSavedMessages">Zapisz wiadomość</string>
@@ -43,10 +42,7 @@
     <string name="SensitiveDisableFiltering">Wyłącz filtrowanie wrażliwych treści</string>
     <string name="SensitiveAbout">Wyświetl wrażliwe media w publicznych kanałach na wszystkich urządzeniach.</string>
     <string name="StickerSize">Rozmiar naklejek</string>
-    <string name="StickerSizeDialogMessageBigOne">Duży</string>
-    <string name="StickerSizeDialogMessageSmallOne">Mały</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
-    <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Eksperymentalne</string>
     <string name="UnlimitedFavoredStickers">Nieograniczona ilość ulubionych naklejek</string>
     <string name="UnlimitedFavoredStickersAbout">Dodaj nieograniczoną ilość naklejek do ulubionych. Naklejki mogą się nie synchronizować z innymi urządzeniami.</string>
@@ -138,7 +134,6 @@
     <string name="WsEnableTls">Włącz TLS</string>
     <string name="WsLocalProxy">Lokalne proxy</string>
     <string name="WsEnableDoh">Włącz DoH</string>
-    <string name="MsgDate">Data</string>
     <string name="UpdateNekogram">Zaktualizuj Nekogram</string>
     <string name="TranslationTarget">Docelowy język</string>
     <string name="TranslationTargetApp">Śledź aplikację</string>

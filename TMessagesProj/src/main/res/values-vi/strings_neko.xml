@@ -15,7 +15,6 @@
     <string name="NameOrder">Kiểu tên</string>
     <string name="FirstLast">Tên đứng ở cuối cùng</string>
     <string name="LastFirst">Tên đứng ở đầu tiên</string>
-    <string name="TypefaceUseDefault">Sử dụng phông chữ mặc định của hệ thống</string>
     <string name="NoQuoteForward">Chuyển tiếp không trích dẫn</string>
     <string name="Repeat">Lặp lại tin nhắn</string>
     <string name="AddToSavedMessages">Lưu tin nhắn</string>
@@ -43,10 +42,7 @@
     <string name="SensitiveDisableFiltering">Vô hiệu hóa lọc nội dung nhạy cảm</string>
     <string name="SensitiveAbout">Hiển thị phương tiện nhạy cảm trong các kênh công cộng trên tất cả các thiết bị của bạn.</string>
     <string name="StickerSize">Kích thước nhãn dán</string>
-    <string name="StickerSizeDialogMessageBigOne">Rất dễ thương</string>
-    <string name="StickerSizeDialogMessageSmallOne">Rất đẹp trai</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
-    <string name="StickerSizeDialogName">Bạn gái</string>
     <string name="Experiment">Thử nghiệm</string>
     <string name="UnlimitedFavoredStickers">Nhãn dán yêu thích không giới hạn</string>
     <string name="UnlimitedFavoredStickersAbout">Thêm nhãn dán không giới hạn vào mục yêu thích. Nhãn dán có thể không được đồng bộ hóa với các thiết bị khác.</string>
@@ -138,7 +134,6 @@
     <string name="WsEnableTls">Kích hoạt TLS</string>
     <string name="WsLocalProxy">Proxy cục bộ</string>
     <string name="WsEnableDoh">Kích hoạt DoH</string>
-    <string name="MsgDate">Ngày</string>
     <string name="UpdateNekogram">Cập nhật Nekogram</string>
     <string name="TranslationTarget">Tập trung vào ngôn ngữ</string>
     <string name="TranslationTargetApp">Dựa theo ứng dụng</string>

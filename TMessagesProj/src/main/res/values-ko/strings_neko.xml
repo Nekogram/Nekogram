@@ -15,7 +15,6 @@
     <string name="NameOrder">이름순서</string>
     <string name="FirstLast">이름</string>
     <string name="LastFirst">성</string>
-    <string name="TypefaceUseDefault">시스템 기본 글꼴 사용</string>
     <string name="NoQuoteForward">인용 없이 전달</string>
     <string name="Repeat">반복</string>
     <string name="AddToSavedMessages">메세지 저장</string>
@@ -43,10 +42,8 @@
     <string name="SensitiveDisableFiltering">민감한 콘텐츠 필터링 비활성화</string>
     <string name="SensitiveAbout">모든 장치에서 민감한 채널을 공개 채널로 표시합니다.</string>
     <string name="StickerSize">스티커 크기</string>
-    <string name="StickerSizeDialogMessageBigOne">큰 스티커</string>
-    <string name="StickerSizeDialogMessageSmallOne">작은 스티커</string>
+    <string name="StickerSizeDialogMessage">오, 너무 귀여워! 검은 고양이!</string>
     <string name="StickerSizeDialogMessageReplyTo">야옹</string>
-    <string name="StickerSizeDialogName">두왕</string>
     <string name="Experiment">실험용</string>
     <string name="UnlimitedFavoredStickers">무제한 스티커 저장</string>
     <string name="UnlimitedFavoredStickersAbout">즐겨찾기에 스티커를 무제한 저장합니다. 스티커가 다른 장치와 동기화되지 않을 수 있습니다.</string>
@@ -139,7 +136,6 @@
     <string name="WsEnableTls">TLS 활성화</string>
     <string name="WsLocalProxy">로컬 프록시</string>
     <string name="WsEnableDoh">DoH 활성화</string>
-    <string name="MsgDate">날짜</string>
     <string name="UpdateNekogram">Nekogram 업데이트</string>
     <string name="TranslationTarget">번역 언어</string>
     <string name="TranslationTargetApp">기기 언어 따라가기</string>
@@ -165,4 +161,5 @@
     <string name="DisableJumpToNextChannel">\"다음 채널로 이동\" 비활성화</string>
     <string name="DisableGreetingSticker">인사말 스티커 사용 안함</string>
     <string name="BlockSponsoredMessage">스폰서 메시지 차단</string>
+    <string name="DeleteAllFromSelfAdmin">관리자 권한</string>
 </resources>

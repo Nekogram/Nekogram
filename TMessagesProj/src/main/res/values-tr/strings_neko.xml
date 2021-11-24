@@ -15,7 +15,6 @@
     <string name="NameOrder">İsim sırası</string>
     <string name="FirstLast">Ad Soyad</string>
     <string name="LastFirst">Soyad Ad</string>
-    <string name="TypefaceUseDefault">Sistem varsayılan yazı tipini kullan</string>
     <string name="NoQuoteForward">Anonim yönlendir</string>
     <string name="Repeat">Tekrarla</string>
     <string name="AddToSavedMessages">Mesajı kaydet</string>
@@ -43,10 +42,7 @@
     <string name="SensitiveDisableFiltering">Hassas içerik filtrelemeyi devre dışı bırak</string>
     <string name="SensitiveAbout">Hassas medyayı tüm cihazlarınızdaki herkese açık kanallarda görüntüleyin.</string>
     <string name="StickerSize">Çıkartma boyutu</string>
-    <string name="StickerSizeDialogMessageBigOne">Büyük bir tane</string>
-    <string name="StickerSizeDialogMessageSmallOne">Küçük bir tane</string>
     <string name="StickerSizeDialogMessageReplyTo">Miyav</string>
-    <string name="StickerSizeDialogName">MUTLU TELEGRAM</string>
     <string name="Experiment">Deneysel</string>
     <string name="UnlimitedFavoredStickers">Sınırsız favori çıkartmaları</string>
     <string name="UnlimitedFavoredStickersAbout">Favorilere sınırsız çıkartmalar ekleyin.  Çıkartmalar diğer cihazlarla senkronize edilemeyebilir.</string>
@@ -137,7 +133,6 @@
     <string name="WsEnableTls">TLS\'yi etkinleştir</string>
     <string name="WsLocalProxy">Yerel proxy</string>
     <string name="WsEnableDoh">DoH\'u etkinleştir</string>
-    <string name="MsgDate">Tarih</string>
     <string name="UpdateNekogram">Nekogram\'ı Güncelleştir</string>
     <string name="TranslationTarget">Hedef dil</string>
     <string name="TranslationTargetApp">Uygulamayı takip et</string>

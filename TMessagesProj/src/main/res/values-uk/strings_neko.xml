@@ -15,7 +15,6 @@
     <string name="NameOrder">Порядок йменування</string>
     <string name="FirstLast">Спочатку ім\'я</string>
     <string name="LastFirst">Спочатку прізвище</string>
-    <string name="TypefaceUseDefault">Використовувати системний шрифт</string>
     <string name="NoQuoteForward">Переслати без цитування</string>
     <string name="Repeat">Повторити</string>
     <string name="AddToSavedMessages">Зберегти повідомлення</string>
@@ -42,10 +41,7 @@
     <string name="SensitiveDisableFiltering">Вимкнути фільтр м\'якого контенту</string>
     <string name="SensitiveAbout">Показувати м\'який контент в публічних каналах на всіх ваших пристроях.</string>
     <string name="StickerSize">Розмір наліпки</string>
-    <string name="StickerSizeDialogMessageBigOne">Великий</string>
-    <string name="StickerSizeDialogMessageSmallOne">Малий</string>
     <string name="StickerSizeDialogMessageReplyTo">Мяу</string>
-    <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Експериментальний</string>
     <string name="UnlimitedFavoredStickers">Необмежені улюблені наліпки</string>
     <string name="UnlimitedFavoredStickersAbout">Додати необмежену кількість стікерів до обраних. Стікери можуть не синхронізуватися з іншими пристроями.</string>
@@ -136,7 +132,6 @@
     <string name="WsEnableTls">Увімкнути TLS</string>
     <string name="WsLocalProxy">Локальне проксі</string>
     <string name="WsEnableDoh">Увімкнути DoH</string>
-    <string name="MsgDate">Дата</string>
     <string name="UpdateNekogram">Оновити Nekogram</string>
     <string name="TranslationTarget">Цільова мова</string>
     <string name="TranslationTargetApp">Мова додатку</string>

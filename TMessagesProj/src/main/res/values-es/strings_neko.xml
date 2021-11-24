@@ -15,7 +15,6 @@
     <string name="NameOrder">Orden de nombres</string>
     <string name="FirstLast">Nombre Apellido</string>
     <string name="LastFirst">Apellido Nombre</string>
-    <string name="TypefaceUseDefault">Usar la fuente predeterminada del sistema</string>
     <string name="NoQuoteForward">Reenviar sin citar</string>
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Guardar mensaje</string>
@@ -43,10 +42,8 @@
     <string name="SensitiveDisableFiltering">Desactivar filtrado de contenido sensible</string>
     <string name="SensitiveAbout">Mostrar multimedia sensible en canales públicos en todos tus dispositivos.</string>
     <string name="StickerSize">Tamaño de stickers</string>
-    <string name="StickerSizeDialogMessageBigOne">Grande</string>
-    <string name="StickerSizeDialogMessageSmallOne">Pequeño</string>
+    <string name="StickerSizeDialogMessage">¡Oh, es tan lindo! ¡Un gato negro!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
-    <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Experimental</string>
     <string name="UnlimitedFavoredStickers">Stickers favoritos ilimitados</string>
     <string name="UnlimitedFavoredStickersAbout">Añade stickers ilimitados a favoritos. Puede que los stickers no se sincronicen con otros dispositivos.</string>
@@ -138,7 +135,6 @@
     <string name="WsEnableTls">Activar TLS</string>
     <string name="WsLocalProxy">Proxy local</string>
     <string name="WsEnableDoh">Habilitar DoH</string>
-    <string name="MsgDate">Fecha</string>
     <string name="UpdateNekogram">Actualizar Nekogram</string>
     <string name="TranslationTarget">Idioma objetivo</string>
     <string name="TranslationTargetApp">Seguir app</string>
@@ -164,4 +160,5 @@
     <string name="DisableJumpToNextChannel">Desactivar \"Saltar al siguiente canal\"</string>
     <string name="DisableGreetingSticker">Desactivar sticker de saludo</string>
     <string name="BlockSponsoredMessage">Bloquear mensaje patrocinado</string>
+    <string name="DeleteAllFromSelfAdmin">Con derechos de administrador</string>
 </resources>

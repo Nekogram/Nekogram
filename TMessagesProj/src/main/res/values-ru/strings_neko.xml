@@ -15,7 +15,6 @@
     <string name="NameOrder">Сортировка имён</string>
     <string name="FirstLast">Имя Фамилия</string>
     <string name="LastFirst">Фамилия Имя</string>
-    <string name="TypefaceUseDefault">Использовать системный шрифт</string>
     <string name="NoQuoteForward">Переслать без автора</string>
     <string name="Repeat">Повторить</string>
     <string name="AddToSavedMessages">Сохранить сообщение</string>
@@ -43,10 +42,8 @@
     <string name="SensitiveDisableFiltering">Показывать деликатный контент</string>
     <string name="SensitiveAbout">Отображать деликатный контент в публичных каналах на всех ваших устройствах.</string>
     <string name="StickerSize">Размер стикеров</string>
-    <string name="StickerSizeDialogMessageBigOne">Большой</string>
-    <string name="StickerSizeDialogMessageSmallOne">Маленький</string>
+    <string name="StickerSizeDialogMessage">Ооо так мило! Черная кошка!</string>
     <string name="StickerSizeDialogMessageReplyTo">Мяу</string>
-    <string name="StickerSizeDialogName">Дуанг</string>
     <string name="Experiment">Экспериментальные</string>
     <string name="UnlimitedFavoredStickers">Неограниченные избранные стикеры</string>
     <string name="UnlimitedFavoredStickersAbout">Добавляйте неограниченное количество стикеров в избранное. Они не могут быть синхронизированы с другими устройствами.</string>
@@ -139,7 +136,6 @@
     <string name="WsEnableTls">Включить TLS</string>
     <string name="WsLocalProxy">Локальный прокси</string>
     <string name="WsEnableDoh">Включить DoH</string>
-    <string name="MsgDate">Дата</string>
     <string name="UpdateNekogram">Обнови меня ~ Nekogram</string>
     <string name="TranslationTarget">Целевой язык</string>
     <string name="TranslationTargetApp">Системный</string>
@@ -165,4 +161,5 @@
     <string name="DisableJumpToNextChannel">Выключить \"Перейти на следующий канал\"</string>
     <string name="DisableGreetingSticker">Отключить приветственный стикер</string>
     <string name="BlockSponsoredMessage">Блокировка спонсируемого сообщения</string>
+    <string name="DeleteAllFromSelfAdmin">С правами администратора</string>
 </resources>

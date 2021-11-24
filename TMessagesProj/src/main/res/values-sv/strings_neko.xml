@@ -13,6 +13,5 @@
     <string name="NameOrder">Namnordning</string>
     <string name="FirstLast">Första Sist</string>
     <string name="LastFirst">Sist Först</string>
-    <string name="TypefaceUseDefault">Använd systemets standardteckensnitt</string>
     <string name="IdTypeHidden">Dölj</string>
 </resources>

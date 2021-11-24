@@ -15,7 +15,6 @@
     <string name="NameOrder">Ordem do nome</string>
     <string name="FirstLast">Primeiro Último</string>
     <string name="LastFirst">Último Primeiro</string>
-    <string name="TypefaceUseDefault">Usar a fonte padrão do sistema</string>
     <string name="NoQuoteForward">Encaminhar sem citar</string>
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Salvar mensagem</string>
@@ -43,10 +42,7 @@
     <string name="SensitiveDisableFiltering">Desabilitar filtro de conteúdo sensível</string>
     <string name="SensitiveAbout">Exiba mídia sensível em canais públicos em todos os seus dispositivos.</string>
     <string name="StickerSize">Tamanho dos stickers</string>
-    <string name="StickerSizeDialogMessageBigOne">Um grande</string>
-    <string name="StickerSizeDialogMessageSmallOne">Um pequeno</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
-    <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Experimental</string>
     <string name="UnlimitedFavoredStickers">Adesivos favoritos ilimitados</string>
     <string name="UnlimitedFavoredStickersAbout">Adicione adesivos ilimitados aos favoritos. Os adesivos podem não estar sincronizados com outros dispositivos</string>
@@ -139,7 +135,6 @@
     <string name="WsEnableTls">Habilitar TLS</string>
     <string name="WsLocalProxy">Proxy local</string>
     <string name="WsEnableDoh">Habilitar TLS</string>
-    <string name="MsgDate">Data</string>
     <string name="UpdateNekogram">Atualizar Nekogram</string>
     <string name="TranslationTarget">Idioma de destino</string>
     <string name="TranslationTargetApp">Seguir o aplicativo</string>
@@ -164,4 +159,5 @@
     <string name="ApplyEmojiFont">Aplicar fonte de emoji customizada</string>
     <string name="DisableJumpToNextChannel">Desativar \"Pular para o Próximo Canal\"</string>
     <string name="DisableGreetingSticker">Desativar sticker de saudação</string>
+    <string name="BlockSponsoredMessage">Bloquear mensagem patrocinada</string>
 </resources>

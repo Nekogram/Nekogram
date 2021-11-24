@@ -15,7 +15,6 @@
     <string name="NameOrder">名前の順序</string>
     <string name="FirstLast">名前 姓氏</string>
     <string name="LastFirst">姓氏 名前</string>
-    <string name="TypefaceUseDefault">システムの既定のフォントを使用</string>
     <string name="NoQuoteForward">見積もりなしで転送</string>
     <string name="Repeat">繰り返す</string>
     <string name="AddToSavedMessages">保存用メッセージに追加</string>
@@ -27,6 +26,7 @@
     <string name="DisableResidentNotification">常駐通知を無効にする</string>
     <string name="NekogramRunning">Nekogram ランニング</string>
     <string name="EventType">サイドバーアイコンの設定</string>
+    <string name="ChristmasHat">クリスマスの帽子を毎日表示</string>
     <string name="DependsOnDate">日付に依存</string>
     <string name="Christmas">クリスマス</string>
     <string name="Valentine">バレンタイン</string>
@@ -40,10 +40,7 @@
     <string name="SensitiveDisableFiltering">Sensitiveな内容のfilteringを無効にする</string>
     <string name="SensitiveAbout">公開チャンネルに投稿されたセンシティブな内容をすべてあなたの端末に表示します。</string>
     <string name="StickerSize">ステッカーのサイズ</string>
-    <string name="StickerSizeDialogMessageBigOne">大きな子</string>
-    <string name="StickerSizeDialogMessageSmallOne">小さな子</string>
     <string name="StickerSizeDialogMessageReplyTo">にゃ</string>
-    <string name="StickerSizeDialogName">ドゥアン</string>
     <string name="Experiment">実験的</string>
     <string name="UnlimitedFavoredStickers">無制限のお気に入りのステッカー</string>
     <string name="UnlimitedFavoredStickersAbout">お気に入りに無制限のステッカーを追加します。ステッカーは他の端末と同期されない場合があります。</string>

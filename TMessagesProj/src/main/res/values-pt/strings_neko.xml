@@ -14,7 +14,6 @@
     <string name="NameOrder">Pedido em nome</string>
     <string name="FirstLast">Primeiro Último</string>
     <string name="LastFirst">Último primeiro</string>
-    <string name="TypefaceUseDefault">Usar fonte padrão do sistema</string>
     <string name="NoQuoteForward">Redirecionamento de notas</string>
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Salvar mensagem</string>
@@ -42,10 +41,7 @@
     <string name="SensitiveDisableFiltering">Desabilitar filtragem confidencial de conteúdo</string>
     <string name="SensitiveAbout">Exibir mídia sensível em canais públicos em todos os seus dispositivos.</string>
     <string name="StickerSize">Tamanho do adesivo</string>
-    <string name="StickerSizeDialogMessageBigOne">Um grande</string>
-    <string name="StickerSizeDialogMessageSmallOne">Um pequeno</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
-    <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Experimental</string>
     <string name="UnlimitedFavoredStickers">Adesivos favoritos ilimitados</string>
     <string name="UnlimitedFavoredStickersAbout">Adicione stickers ilimitados aos favoritos. Stickers podem não ser sincronizados com outros dispositivos.</string>

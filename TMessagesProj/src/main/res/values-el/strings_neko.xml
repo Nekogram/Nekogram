@@ -1,2 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources></resources>
+<resources>
+    <string name="NekoSettings">Neko Settings</string>
+    <string name="IPv6">Try connecting through IPv6</string>
+    <string name="MessageMenu">Message menu</string>
+    <string name="HidePhone">Hide my phone number</string>
+    <string name="Hide">Hide</string>
+    <string name="DeleteAllFromSelf">Delete own messages</string>
+    <string name="DeleteAllFromSelfAlert">Warning! This will **delete all messages from you** in this chat for **all** participants.</string>
+    <string name="BotLogin">Bot Login</string>
+    <string name="InvalidAccessToken">Invalid access token</string>
+    <string name="IgnoreBlocked">Ignore blocked users in group</string>
+    <string name="Connection">Σύνδεση</string>
+    <string name="Chat">Κουβέντα</string>
+    <string name="TranslateFailed">Translate server error</string>
+    <string name="TranslationProvider">Translation provider</string>
+    <string name="ProviderGoogleTranslate">Google Translate</string>
+    <string name="TranslateApiUnsupported">The translation provider you selected don\'t support your language.</string>
+    <string name="ProviderLingocloud">Lingocloud</string>
+    <string name="UndoTranslate">Undo translate</string>
+    <string name="DisablePhotoViewerSideAction">Disable \"Flip Photos by tapping\"</string>
+    <string name="RearVideoMessages">Rear camera in Video Messages</string>
+    <string name="HideAllTab">Hide \"All Chats\" tab</string>
+    <string name="HideAllTabAbout">Press \"Back\" on home page to open it.</string>
+    <string name="TabTitleType">Show on tabs</string>
+    <string name="TabTitleTypeTip">Emoticons are cloud-synced by Telegram.</string>
+    <string name="TabTitleTypeText">Titles</string>
+    <string name="TabTitleTypeIcon">Emoticons</string>
+    <string name="TabTitleTypeMix">Emoticons with titles</string>
+    <string name="ConfirmAVMessage">Confirm sending video/voice message</string>
+    <string name="AskBeforeCalling">Ask before calling</string>
+</resources>

@@ -13,7 +13,6 @@
     <string name="NameOrder">Navn på ordre</string>
     <string name="FirstLast">Først Sist</string>
     <string name="LastFirst">Siste Først</string>
-    <string name="TypefaceUseDefault">Bruk systemets standardskrifttype</string>
     <string name="NoQuoteForward">NoQuote fremover</string>
     <string name="Repeat">Gjenta</string>
     <string name="AddToSavedMessages">Lagre melding</string>
@@ -41,10 +40,7 @@
     <string name="SensitiveDisableFiltering">Deaktiver filtrering av sensitivt innhold</string>
     <string name="SensitiveAbout">Vis sensitiv media i offentlige kanaler på alle enhetene dine.</string>
     <string name="StickerSize">Klistremerke størrelse</string>
-    <string name="StickerSizeDialogMessageBigOne">En stor en</string>
-    <string name="StickerSizeDialogMessageSmallOne">En liten</string>
     <string name="StickerSizeDialogMessageReplyTo">Mjau</string>
-    <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Eksperimentell</string>
     <string name="UnlimitedFavoredStickers">Ubegrenset favoritt klistremerker</string>
     <string name="UnlimitedFavoredStickersAbout">Legg til ubegrenset klistremerker til favoritter. Klistremerker kan ikke synkroniseres med andre enheter.</string>

@@ -15,7 +15,6 @@
     <string name="NameOrder">Ordre des noms</string>
     <string name="FirstLast">Prénom Nom</string>
     <string name="LastFirst">Nom Prénom</string>
-    <string name="TypefaceUseDefault">Utiliser la police système par défaut</string>
     <string name="NoQuoteForward">Transfert sans citation</string>
     <string name="Repeat">Répéter</string>
     <string name="AddToSavedMessages">Sauvegarder le message</string>
@@ -43,10 +42,7 @@
     <string name="SensitiveDisableFiltering">Désactiver le filtrage des contenus sensibles</string>
     <string name="SensitiveAbout">Afficher les médias sensibles dans les chaînes publiques sur tous vos appareils.</string>
     <string name="StickerSize">Taille des autocollants</string>
-    <string name="StickerSizeDialogMessageBigOne">Un gros</string>
-    <string name="StickerSizeDialogMessageSmallOne">Un petit</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
-    <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Expérimental</string>
     <string name="UnlimitedFavoredStickers">Autocollants préférés illimités</string>
     <string name="UnlimitedFavoredStickersAbout">Ajoutez des autocollants illimités aux favoris. Les autocollants ne peuvent pas être synchronisés sur d\'autres appareils.</string>
@@ -137,7 +133,6 @@
     <string name="WsEnableTls">Activer le TLS</string>
     <string name="WsLocalProxy">Proxy local</string>
     <string name="WsEnableDoh">Activer le DoH</string>
-    <string name="MsgDate">Date</string>
     <string name="UpdateNekogram">Mettre à jour Nekogram</string>
     <string name="TranslationTarget">Langue cible</string>
     <string name="TranslationTargetApp">Suivre l\'application</string>

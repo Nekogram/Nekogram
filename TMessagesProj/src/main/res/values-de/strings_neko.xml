@@ -15,7 +15,6 @@
     <string name="NameOrder">Namensreihenfolge</string>
     <string name="FirstLast">Nachname zuerst</string>
     <string name="LastFirst">Vorname zuerst</string>
-    <string name="TypefaceUseDefault">Systemschriftart nutzen</string>
     <string name="NoQuoteForward">Ohne Zitat weiterleiten</string>
     <string name="Repeat">Wiederholen</string>
     <string name="AddToSavedMessages">Nachricht speichern</string>
@@ -43,10 +42,7 @@
     <string name="SensitiveDisableFiltering">Filter für sensiblen Inhalt deaktivieren</string>
     <string name="SensitiveAbout">Sensible Medien in öffentlichen Kanälen auf all Ihren Geräten anzeigen.</string>
     <string name="StickerSize">Stickergröße</string>
-    <string name="StickerSizeDialogMessageBigOne">Ein Großer</string>
-    <string name="StickerSizeDialogMessageSmallOne">Ein Kleiner</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
-    <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Experimentell</string>
     <string name="UnlimitedFavoredStickers">Unbegrenzte favorisierte Sticker</string>
     <string name="UnlimitedFavoredStickersAbout">Fügen Sie unbegrenzt viele Sticker zu den Favoriten hinzu. Sticker werden möglicherweise nicht mit anderen Geräten synchronisiert.</string>
@@ -138,7 +134,6 @@
     <string name="WsEnableTls">TLS aktivieren</string>
     <string name="WsLocalProxy">Lokaler Proxy</string>
     <string name="WsEnableDoh">DoH aktivieren</string>
-    <string name="MsgDate">Datum</string>
     <string name="UpdateNekogram">Nekogram aktualisieren</string>
     <string name="TranslationTarget">Zielsprache</string>
     <string name="TranslationTargetApp">System folgen</string>

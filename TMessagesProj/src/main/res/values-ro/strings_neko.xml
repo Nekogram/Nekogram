@@ -14,7 +14,6 @@
     <string name="NameOrder">Ordine nume</string>
     <string name="FirstLast">Nume</string>
     <string name="LastFirst">Prenume</string>
-    <string name="TypefaceUseDefault">Folosește fontul implicit al sistemului</string>
     <string name="NoQuoteForward">NoProformă înainte</string>
     <string name="Repeat">Repetă</string>
     <string name="AddToSavedMessages">Salvează mesaj</string>
@@ -42,10 +41,7 @@
     <string name="SensitiveDisableFiltering">Dezactivează filtrarea conținutului sensibil</string>
     <string name="SensitiveAbout">Afișează fișierele media sensibile în canalele publice pe toate dispozitivele tale.</string>
     <string name="StickerSize">Dimensiune sticker</string>
-    <string name="StickerSizeDialogMessageBigOne">Unul mare</string>
-    <string name="StickerSizeDialogMessageSmallOne">Unul mic</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
-    <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">Experimental</string>
     <string name="UnlimitedFavoredStickers">Stickere favorite nelimitate</string>
     <string name="UnlimitedFavoredStickersAbout">Adăugați stickere nelimitate la favorite. Este posibil ca stickerele să nu fie sincronizate cu alte dispozitive.</string>
@@ -136,7 +132,6 @@
     <string name="WsEnableTls">Activați TLS</string>
     <string name="WsLocalProxy">Proxy local</string>
     <string name="WsEnableDoh">Activați DoH</string>
-    <string name="MsgDate">Dată</string>
     <string name="UpdateNekogram">Actualizați Nekogram</string>
     <string name="TranslationTarget">Limbă țintă</string>
     <string name="TranslationTargetApp">Urmăriți aplicația</string>

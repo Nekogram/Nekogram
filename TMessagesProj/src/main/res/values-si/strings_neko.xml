@@ -14,7 +14,6 @@
     <string name="NameOrder">නම් අනුපිළිවෙල</string>
     <string name="FirstLast">මුල සිට අගට</string>
     <string name="LastFirst">අග සිට මුලට</string>
-    <string name="TypefaceUseDefault">පද්ධතියේ අකුරු හැඩ භාවිතා කරන්න</string>
     <string name="NoQuoteForward">අන්තර්ගතය පමණක් ආපසු යවන්න</string>
     <string name="Repeat">නැවත</string>
     <string name="AddToSavedMessages">පණිවිඩය සුරකින්න</string>
@@ -42,10 +41,7 @@
     <string name="SensitiveDisableFiltering">සංවේදී අන්තර්ගත ඉවත් කිරීම අක්‍රීය කරන්න</string>
     <string name="SensitiveAbout">ඔබේ උපාංගයේ පොදු නාලිකාවල ඇති සංවේදී දර්ශන පෙන්වීම.</string>
     <string name="StickerSize">ස්ටිකර් වල විශාලත්වය</string>
-    <string name="StickerSizeDialogMessageBigOne">විශාල එකක්</string>
-    <string name="StickerSizeDialogMessageSmallOne">කුඩා එකක්</string>
     <string name="StickerSizeDialogMessageReplyTo">ඤාව්</string>
-    <string name="StickerSizeDialogName">Duang</string>
     <string name="Experiment">පර්යේෂණාත්මක</string>
     <string name="UnlimitedFavoredStickers">අසීමිත කැමති ස්ටිකර්</string>
     <string name="UnlimitedFavoredStickersAbout">ඔබගේ කැමැත්තට අනුව අසීමිත ස්ටිකර එකතු කරන්න. මේවා අනෙක් උපාංග සමග sync නොවේ.</string>
