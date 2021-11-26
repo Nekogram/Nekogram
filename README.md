@@ -1,11 +1,11 @@
 # 🐾 Nekogram
-![Logo](https://gitlab.com/Nekogram/Nekogram/-/raw/master/TMessagesProj/src/main/res/mipmap-xxxhdpi/ic_launcher.png)  
-Nekogram is an UNOFFICIAL app that uses Telegram's API.
+[![Crowdin](https://badges.crowdin.net/e/a094217ac83905ae1625526d59bba8dc/localized.svg)](https://neko.crowdin.com/nekogram)  
+Nekogram is a third-party Telegram client with not many but useful modifications.
 
-- Google play store: https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram
-- Update news (English): https://t.me/nekoupdates
-- Update news (Chinese): https://t.me/zuragram
-- APKs: https://t.me/NekogramAPKs
+- Official site: https://nekogram.app
+- Telegram channel: https://t.me/nekoupdates
+- Telegram channel (Chinese): https://t.me/zuragram
+- Downloads: https://nekogram.app/download
 - Feedback: https://gitlab.com/Nekogram/Nekogram/-/issues
 
 ## API, Protocol documentation
