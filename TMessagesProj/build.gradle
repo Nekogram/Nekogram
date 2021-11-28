@@ -1,15 +1,11 @@
-import java.nio.file.Files
-import java.nio.file.Paths
-
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+}
 
 repositories {
     mavenCentral()
     google()
-}
-
-configurations {
-    compile.exclude module: 'support-v4'
 }
 
 configurations.all {
@@ -25,7 +21,7 @@ dependencies {
     implementation 'androidx.multidex:multidex:2.0.1'
     implementation "androidx.sharetarget:sharetarget:1.1.0"
 
-    compileOnly 'org.checkerframework:checker-qual:2.5.2'
+    compileOnly 'org.checkerframework:checker-qual:3.5.0'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.0'
     implementation 'com.google.firebase:firebase-messaging:23.0.0'
     //implementation 'com.google.firebase:firebase-config:21.0.1'
@@ -78,13 +74,9 @@ android {
     }
 
     packagingOptions {
-        exclude 'META-INF/**'
-        exclude 'com/**'
-        exclude 'org/**'
-        exclude '**.properties'
-        exclude '**.bin'
-        exclude '**.lst'
-        exclude '**.txt'
+        resources {
+            excludes += '**'
+        }
     }
 
     compileOptions {
@@ -112,36 +104,19 @@ android {
             keyAlias alias != null ? alias : System.getenv("ALIAS_NAME")
             keyPassword pwd != null ? pwd : System.getenv("ALIAS_PASS")
         }
-        debug {
-            storeFile file("config/release.keystore")
-            storePassword keystorePwd != null ? keystorePwd : System.getenv("KEYSTORE_PASS")
-            keyAlias alias != null ? alias : System.getenv("ALIAS_NAME")
-            keyPassword pwd != null ? pwd : System.getenv("ALIAS_PASS")
-        }
     }
 
     buildTypes {
         debug {
-            debuggable true
-            jniDebuggable true
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
             applicationIdSuffix ".beta"
-            minifyEnabled false
-            shrinkResources false
-            multiDexEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            ndk.debugSymbolLevel = 'FULL'
         }
 
         release {
-            debuggable false
-            jniDebuggable false
             signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
-            multiDexEnabled true
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
-            ndk.debugSymbolLevel = 'FULL'
+            proguardFiles 'proguard-rules.pro'
         }
     }
 
@@ -170,16 +145,10 @@ android {
         }
     }
 
-    bundle {
-        language {
-            enableSplit = false
-        }
-    }
-
     splits.abi {
         enable true
         universalApk true
     }
-}
 
-apply plugin: 'com.google.gms.google-services'
+    dependenciesInfo.includeInApk false
+}

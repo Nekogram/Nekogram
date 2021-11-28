@@ -101,6 +101,9 @@
 -keepclassmembernames class org.telegram.ui.* { *; }
 -keepclassmembernames class org.telegram.ui.Cells.* { *; }
 -keepclassmembernames class org.telegram.ui.Components.* { *; }
+-keepclasseswithmembernames,includedescriptorclasses class * {
+    native <methods>;
+}
 
 -dontwarn org.jetbrains.annotations.NotNull
 -dontwarn org.jetbrains.annotations.Nullable
