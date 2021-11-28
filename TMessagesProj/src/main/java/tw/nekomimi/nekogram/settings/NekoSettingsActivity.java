@@ -69,7 +69,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
 
     private int aboutRow;
     private int channelRow;
-    private int googlePlayRow;
+    private int websiteRow;
     private int sourceCodeRow;
     private int translationRow;
     private int checkUpdateRow;
@@ -143,8 +143,8 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                 MessagesController.getInstance(currentAccount).openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
             } else if (position == translationRow) {
                 Browser.openUrl(getParentActivity(), "https://neko.crowdin.com/nekogram");
-            } else if (position == googlePlayRow) {
-                Browser.openUrl(getParentActivity(), "https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram");
+            } else if (position == websiteRow) {
+                Browser.openUrl(getParentActivity(), "https://nekogram.app");
             } else if (position == sourceCodeRow) {
                 Browser.openUrl(getParentActivity(), "https://gitlab.com/Nekogram/Nekogram");
             } else if (position == checkUpdateRow) {
@@ -200,7 +200,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
 
         aboutRow = rowCount++;
         channelRow = rowCount++;
-        googlePlayRow = -1;
+        websiteRow = rowCount++;
         sourceCodeRow = rowCount++;
         translationRow = rowCount++;
         checkUpdateRow = rowCount++;
@@ -315,8 +315,8 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     if (position == channelRow) {
                         textCell.setTextAndValue(LocaleController.getString("OfficialChannel", R.string.OfficialChannel), "@" + LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), true);
-                    } else if (position == googlePlayRow) {
-                        textCell.setText(LocaleController.getString("GooglePlay", R.string.GooglePlay), true);
+                    } else if (position == websiteRow) {
+                        textCell.setTextAndValue(LocaleController.getString("OfficialSite", R.string.OfficialSite), "nekogram.app", true);
                     } else if (position == sourceCodeRow) {
                         textCell.setText(LocaleController.getString("ViewSourceCode", R.string.ViewSourceCode), true);
                     }
@@ -413,7 +413,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
     @Override
     public void onProvideAssistContent(AssistContent outContent) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            outContent.setWebUri(Uri.parse(String.format("https://" + getMessagesController().linkPrefix + "/%s", LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername))));
+            outContent.setWebUri(Uri.parse("https://nekogram.app"));
         }
     }
 }
