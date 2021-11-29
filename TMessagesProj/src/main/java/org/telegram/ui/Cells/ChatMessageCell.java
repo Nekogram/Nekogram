@@ -13692,7 +13692,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     public boolean isSeekbarCell() {
-        return !(buttonState == 1 && loadingProgressLayout != null) && (currentMessageObject.isVoice() || currentMessageObject.isRoundVideo() || currentMessageObject.isMusic());
+        return currentMessageObject.isVoice() || currentMessageObject.isRoundVideo() || currentMessageObject.isMusic();
     }
 
     @Override

@@ -171,4 +171,6 @@
     <string name="BlockSponsoredMessage">Block sponsored message</string>
     <string name="DeleteAllFromSelfAdmin">With admin rights</string>
     <string name="OfficialSite">Official site</string>
+    <string name="MutualContact">Mutual contact</string>
+    <string name="MutualContactDescription">This contact is a mutual contact.</string>
 </resources>
