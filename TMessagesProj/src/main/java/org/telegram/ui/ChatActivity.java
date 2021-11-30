@@ -172,7 +172,6 @@ import org.telegram.ui.Cells.TextSelectionHelper;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AnimatedFileDrawable;
 import org.telegram.ui.Components.AnimationProperties;
-import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.BlurBehindDrawable;
 import org.telegram.ui.Components.BluredView;
@@ -20058,7 +20057,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
                             options.add(6);
                             icons.add(R.drawable.msg_shareout);
-                        } else if (type == 100 && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+                        } else if (type == 100) {
                             items.add(LocaleController.getString("ApplyEmojiFont", R.string.ApplyEmojiFont));
                             options.add(5);
                             icons.add(R.drawable.smiles_tab_smiles);
@@ -20157,21 +20156,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("Forward", R.string.Forward));
                             options.add(2);
                             icons.add(R.drawable.msg_forward);
-                        }
-                        if (NekoConfig.showNoQuoteForward && !selectedObject.isSponsored() && chatMode != MODE_SCHEDULED && !selectedObject.needDrawBluredPreview() && !selectedObject.isLiveLocation() && selectedObject.type != 16) {
-                            items.add(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
-                            options.add(95);
-                            icons.add(R.drawable.msg_forward_noquote);
-                        }
-                        if (chatMode != MODE_SCHEDULED && !selectedObject.needDrawBluredPreview() && !selectedObject.isLiveLocation() && selectedObject.type != 16) {
+                            if (NekoConfig.showNoQuoteForward) {
+                                items.add(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
+                                options.add(95);
+                                icons.add(R.drawable.msg_forward_noquote);
+                            }
                             if (NekoConfig.showAddToSavedMessages && !UserObject.isUserSelf(currentUser)) {
                                 items.add(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages));
                                 options.add(93);
                                 icons.add(R.drawable.menu_saved);
                             }
                             if (NekoConfig.showRepeat) {
-                                boolean allowRepeat = currentUser != null
-                                        || (!isThreadChat() && currentChat != null && !ChatObject.isNotInChat(currentChat) && ChatObject.canSendMessages(currentChat));
+                                boolean allowRepeat = allowChatActions &&
+                                        ((!isThreadChat()/* && TODO:!noforwards*/) ||
+                                                selectedObject.type == 0 ||
+                                                selectedObject.isAnimatedEmoji() ||
+                                                getMessageCaption(selectedObject, selectedObjectGroup) != null);
                                 if (allowRepeat) {
                                     items.add(LocaleController.getString("Repeat", R.string.Repeat));
                                     options.add(94);
@@ -20180,19 +20180,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                         }
                         if (chatMode != MODE_SCHEDULED) {
-                            if (NekoConfig.showPrPr) {
-                                boolean allowPrpr = currentUser != null
-                                        || (currentChat != null && !isThreadChat() && chatMode != MODE_PINNED && !ChatObject.isNotInChat(currentChat) && ChatObject.canSendMessages(currentChat) && !currentChat.broadcast &&
-                                        message.isFromUser());
-                                if (allowPrpr) {
-                                    items.add(LocaleController.getString("Prpr", R.string.Prpr));
-                                    options.add(92);
-                                    icons.add(R.drawable.msg_prpr);
-                                }
+                            if (NekoConfig.showPrPr && allowChatActions) {
+                                items.add(LocaleController.getString("Prpr", R.string.Prpr));
+                                options.add(92);
+                                icons.add(R.drawable.msg_prpr);
                             }
                             if (NekoConfig.showViewHistory) {
-                                boolean allowViewHistory = currentUser == null
-                                        && (currentChat != null && !isThreadChat() && chatMode != MODE_PINNED && !currentChat.broadcast);
+                                boolean allowViewHistory = currentChat != null && !isThreadChat() && chatMode != MODE_PINNED && !currentChat.broadcast;
                                 if (allowViewHistory) {
                                     items.add(LocaleController.getString("ViewUserHistory", R.string.ViewHistory));
                                     options.add(90);
@@ -21714,7 +21708,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 TLRPC.User user = getMessagesController().getUser(selectedObject.messageOwner.from_id.user_id);
                 if (user.username != null) {
-                    getSendMessagesHelper().sendMessage("/prpr@" + user.username, dialog_id, selectedObject, null, null, false,
+                    getSendMessagesHelper().sendMessage("/prpr@" + user.username, dialog_id, selectedObject, threadMessageObject, null, false,
                             null, null, null, true, 0, null);
                 } else {
                     SpannableString spannableString = new SpannableString("/prpr@" + user.first_name);
@@ -21730,7 +21724,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                     }
                     ArrayList<TLRPC.MessageEntity> entities = getMediaDataController().getEntities(cs, supportsSendingNewEntities);
-                    getSendMessagesHelper().sendMessage(spannableString.toString(), dialog_id, selectedObject, null, null, false,
+                    getSendMessagesHelper().sendMessage(spannableString.toString(), dialog_id, selectedObject, threadMessageObject, null, false,
                             entities, null, null, true, 0, null);
                 }
                 break;
@@ -21790,13 +21784,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (checkSlowMode(chatActivityEnterView.getSendButton())) {
                     return;
                 }
-                ArrayList<MessageObject> messages =  new ArrayList<>();
-                if (selectedObjectGroup != null) {
-                    messages.addAll(selectedObjectGroup.messages);
-                } else {
-                    messages.add(selectedObject);
-                }
-                forwardMessages(messages, false, false, true, 0);
+                processRepeatMessage(false);
                 break;
             } case 95: {
                 noForwardQuote = true;
@@ -21889,16 +21877,24 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 return true;
             }
             case 94: {
-                ArrayList<MessageObject> messages =  new ArrayList<>();
-                messages.add(selectedObject);
-                if (selectedObject.type == 0 || selectedObject.isAnimatedEmoji() || getMessageCaption(selectedObject, selectedObjectGroup) != null) {
-                    CharSequence caption = getMessageCaption(selectedObject, selectedObjectGroup);
-                    if (caption == null) {
-                        caption = getMessageContent(selectedObject, 0, false);
-                    }
-                    if (caption != null) {
+                return processRepeatMessage(true);
+            }
+        }
+        return false;
+    }
+
+    public boolean processRepeatMessage(boolean longClick) {
+        if (longClick || isThreadChat()/* || TODO:noforwards*/) {
+            if (selectedObject.type == 0 || selectedObject.isAnimatedEmoji() || getMessageCaption(selectedObject, selectedObjectGroup) != null) {
+                CharSequence caption = getMessageCaption(selectedObject, selectedObjectGroup);
+                if (caption == null) {
+                    caption = getMessageContent(selectedObject, 0, false);
+                }
+                if (!TextUtils.isEmpty(caption)) {
+                    String message;
+                    if (longClick) {
                         StringBuilder toSend = new StringBuilder();
-                        for (int i = 0; i < caption.length(); i++){
+                        for (int i = 0; i < caption.length(); i++) {
                             char c = caption.charAt(i);
                             if (c == '我') {
                                 toSend.append('你');
@@ -21908,12 +21904,23 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 toSend.append(c);
                             }
                         }
-                        getSendMessagesHelper().sendMessage(toSend.toString(), dialog_id, selectedObject, null, null, false,
-                                null, null, null, true, 0, null);
-                        return true;
+                        message = toSend.toString();
+                    } else {
+                        message = caption.toString();
                     }
+                    getSendMessagesHelper().sendMessage(message, dialog_id, longClick ? selectedObject : threadMessageObject, threadMessageObject, null, false,
+                            selectedObject.messageOwner.entities, null, null, true, 0, null);
+                    return true;
                 }
             }
+        } else {
+            ArrayList<MessageObject> messages = new ArrayList<>();
+            if (selectedObjectGroup != null) {
+                messages.addAll(selectedObjectGroup.messages);
+            } else {
+                messages.add(selectedObject);
+            }
+            forwardMessages(messages, false, false, true, 0);
         }
         return false;
     }
