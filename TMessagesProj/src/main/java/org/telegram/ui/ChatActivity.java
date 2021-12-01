@@ -20168,10 +20168,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             if (NekoConfig.showRepeat) {
                                 boolean allowRepeat = allowChatActions &&
-                                        ((!isThreadChat()/* && TODO:!noforwards*/) ||
-                                                selectedObject.type == 0 ||
-                                                selectedObject.isAnimatedEmoji() ||
-                                                getMessageCaption(selectedObject, selectedObjectGroup) != null);
+                                        (!isThreadChat()/* && TODO:!noforwards*/ ||
+                                                getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup) != null);
                                 if (allowRepeat) {
                                     items.add(LocaleController.getString("Repeat", R.string.Repeat));
                                     options.add(94);
@@ -20194,7 +20192,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 }
                             }
                             if (NekoConfig.showTranslate) {
-                                MessageObject messageObject = getMessageForTranslate();
+                                MessageObject messageObject = getMessageHelper().getMessageForTranslate(selectedObject, selectedObjectGroup);
                                 if (messageObject != null) {
                                     items.add(messageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("Translate", R.string.Translate));
                                     options.add(88);
@@ -21072,25 +21070,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         });
     }
 
-    private MessageObject getMessageForTranslate() {
-        MessageObject messageObject = null;
-        if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
-            for (MessageObject object : selectedObjectGroup.messages) {
-                if (!TextUtils.isEmpty(object.messageOwner.message)) {
-                    if (messageObject != null) {
-                        messageObject = null;
-                        break;
-                    } else {
-                        messageObject = object;
-                    }
-                }
-            }
-        } else if (!TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.type == MessageObject.TYPE_POLL) {
-            messageObject = selectedObject;
-        }
-        return messageObject;
-    }
-
     private void processSelectedOption(int option) {
         if (selectedObject == null || getParentActivity() == null) {
             return;
@@ -21669,7 +21648,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 });
                 break;
             } case 88: {
-                MessageObject messageObject = getMessageForTranslate();
+                MessageObject messageObject = getMessageHelper().getMessageForTranslate(selectedObject, selectedObjectGroup);
                 if (messageObject == null) {
                     return;
                 }
@@ -21885,17 +21864,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     public boolean processRepeatMessage(boolean longClick) {
         if (longClick || isThreadChat()/* || TODO:noforwards*/) {
-            if (selectedObject.type == 0 || selectedObject.isAnimatedEmoji() || getMessageCaption(selectedObject, selectedObjectGroup) != null) {
-                CharSequence caption = getMessageCaption(selectedObject, selectedObjectGroup);
-                if (caption == null) {
-                    caption = getMessageContent(selectedObject, 0, false);
-                }
-                if (!TextUtils.isEmpty(caption)) {
-                    String message;
+            var messageObject = getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup);
+            if (messageObject != null) {
+                var message = messageObject.messageOwner.message;
+                if (!TextUtils.isEmpty(message)) {
                     if (longClick) {
                         StringBuilder toSend = new StringBuilder();
-                        for (int i = 0; i < caption.length(); i++) {
-                            char c = caption.charAt(i);
+                        for (int i = 0; i < message.length(); i++) {
+                            char c = message.charAt(i);
                             if (c == '我') {
                                 toSend.append('你');
                             } else if (c == '你') {
@@ -21905,11 +21881,26 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                         }
                         message = toSend.toString();
-                    } else {
-                        message = caption.toString();
                     }
-                    getSendMessagesHelper().sendMessage(message, dialog_id, longClick ? selectedObject : threadMessageObject, threadMessageObject, null, false,
-                            selectedObject.messageOwner.entities, null, null, true, 0, null);
+                    ArrayList<TLRPC.MessageEntity> entities;
+                    if (messageObject.messageOwner.entities != null && !messageObject.messageOwner.entities.isEmpty()) {
+                        entities = new ArrayList<>();
+                        for (TLRPC.MessageEntity entity : messageObject.messageOwner.entities) {
+                            if (entity instanceof TLRPC.TL_messageEntityMentionName) {
+                                TLRPC.TL_inputMessageEntityMentionName mention = new TLRPC.TL_inputMessageEntityMentionName();
+                                mention.length = entity.length;
+                                mention.offset = entity.offset;
+                                mention.user_id = getMessagesController().getInputUser(((TLRPC.TL_messageEntityMentionName) entity).user_id);
+                                entities.add(mention);
+                            } else {
+                                entities.add(entity);
+                            }
+                        }
+                    } else {
+                        entities = null;
+                    }
+                    getSendMessagesHelper().sendMessage(message, dialog_id, longClick ? messageObject : threadMessageObject, threadMessageObject, null, false,
+                            entities, null, null, true, 0, null);
                     return true;
                 }
             }

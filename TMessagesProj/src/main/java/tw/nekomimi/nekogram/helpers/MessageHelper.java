@@ -54,6 +54,41 @@ public class MessageHelper extends BaseController {
         super(num);
     }
 
+    private MessageObject getTargetMessageObjectFromGroup(MessageObject.GroupedMessages selectedObjectGroup) {
+        MessageObject messageObject = null;
+        for (MessageObject object : selectedObjectGroup.messages) {
+            if (!TextUtils.isEmpty(object.messageOwner.message)) {
+                if (messageObject != null) {
+                    messageObject = null;
+                    break;
+                } else {
+                    messageObject = object;
+                }
+            }
+        }
+        return messageObject;
+    }
+
+    public MessageObject getMessageForTranslate(MessageObject selectedObject, MessageObject.GroupedMessages selectedObjectGroup) {
+        MessageObject messageObject = null;
+        if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
+            messageObject = getTargetMessageObjectFromGroup(selectedObjectGroup);
+        } else if (!selectedObject.isAnimatedEmoji() && !TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.type == MessageObject.TYPE_POLL) {
+            messageObject = selectedObject;
+        }
+        return messageObject;
+    }
+
+    public MessageObject getMessageForRepeat(MessageObject selectedObject, MessageObject.GroupedMessages selectedObjectGroup) {
+        MessageObject messageObject = null;
+        if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
+            messageObject = getTargetMessageObjectFromGroup(selectedObjectGroup);
+        } else if (!TextUtils.isEmpty(selectedObject.messageOwner.message)) {
+            messageObject = selectedObject;
+        }
+        return messageObject;
+    }
+
     public void saveStickerToGallery(Activity activity, MessageObject messageObject, Runnable callback) {
         String path = messageObject.messageOwner.attachPath;
         if (!TextUtils.isEmpty(path)) {
