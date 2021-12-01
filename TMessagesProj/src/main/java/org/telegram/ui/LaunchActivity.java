@@ -3680,10 +3680,6 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
     }
 
     public void checkAppUpdate(boolean force) {
-        checkAppUpdate(force, null);
-    }
-
-    public void checkAppUpdate(boolean force, Runnable callback) {
         if (!force && BuildVars.DEBUG_VERSION || !force && !BuildVars.CHECK_UPDATES) {
             return;
         }
@@ -3707,55 +3703,16 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             FileLog.e(e);
                         }
                     }
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable);
                 } else {
-                    if (force && error != null) {
-                        Toast.makeText(LaunchActivity.this, error, Toast.LENGTH_SHORT).show();
+                    if (force) {
+                        showBulletin(factory -> factory.createErrorBulletin(error != null ? error : LocaleController.getString("NoUpdateAvailable", R.string.NoUpdateAvailable)));
                     }
                     SharedConfig.setNewAppVersionAvailable(null);
                     drawerLayoutAdapter.notifyDataSetChanged();
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable);
                 }
-                if (callback != null) {
-                    callback.run();
-                }
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable);
             });
         });
-        /*TLRPC.TL_help_getAppUpdate req = new TLRPC.TL_help_getAppUpdate();
-        try {
-            req.source = ApplicationLoader.applicationContext.getPackageManager().getInstallerPackageName(ApplicationLoader.applicationContext.getPackageName());
-        } catch (Exception ignore) {
-
-        }
-        if (req.source == null) {
-            req.source = "";
-        }
-        final int accountNum = currentAccount;
-        ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> {
-            SharedConfig.lastUpdateCheckTime = System.currentTimeMillis();
-            SharedConfig.saveConfig();
-            if (response instanceof TLRPC.TL_help_appUpdate) {
-                final TLRPC.TL_help_appUpdate res = (TLRPC.TL_help_appUpdate) response;
-                AndroidUtilities.runOnUIThread(() -> {
-                    if (SharedConfig.pendingAppUpdate != null && SharedConfig.pendingAppUpdate.version.equals(res.version)) {
-                        return;
-                    }
-                    if (SharedConfig.setNewAppVersionAvailable(res)) {
-                        if (res.can_not_skip) {
-                            showUpdateActivity(accountNum, res, false);
-                        } else {
-                            drawerLayoutAdapter.notifyDataSetChanged();
-                            try {
-                                (new UpdateAppAlertDialog(LaunchActivity.this, res, accountNum)).show();
-                            } catch (Exception e) {
-                                FileLog.e(e);
-                            }
-                        }
-                        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable);
-                    }
-                });
-            }
-        });*/
     }
 
     public AlertDialog showAlertDialog(AlertDialog.Builder builder) {
