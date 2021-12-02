@@ -174,4 +174,6 @@
     <string name="MutualContact">Mutual contact</string>
     <string name="MutualContactDescription">This contact is a mutual contact.</string>
     <string name="NoUpdateAvailable">No update available.</string>
+    <string name="InviteTextNeko">Hey, I\'m using Nekogram to chat. Join me! Download it here: %1$s</string>
+    <string name="ShareNekogram">Share Nekogram...</string>
 </resources>
