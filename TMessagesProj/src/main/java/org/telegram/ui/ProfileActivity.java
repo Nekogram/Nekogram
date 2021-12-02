@@ -7093,7 +7093,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 }
                                 break;
                         }
-                        cell.setText(String.format("Nekogram %s", String.format(Locale.US, "v%s (%d) %s", pInfo.versionName, code, abi)));
+                        cell.setText(LocaleController.formatString("NekogramVersion", R.string.NekogramVersion, String.format(Locale.US, "v%s (%d) %s", pInfo.versionName, code, abi), String.format(Locale.US, "v%s (%d)", BuildVars.BUILD_VERSION_STRING, BuildVars.BUILD_VERSION), "@Duang"));
                     } catch (Exception e) {
                         FileLog.e(e);
                     }
