@@ -83,7 +83,7 @@ public class MessageHelper extends BaseController {
         MessageObject messageObject = null;
         if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
             messageObject = getTargetMessageObjectFromGroup(selectedObjectGroup);
-        } else if (!TextUtils.isEmpty(selectedObject.messageOwner.message)) {
+        } else if (!TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.isAnyKindOfSticker()) {
             messageObject = selectedObject;
         }
         return messageObject;

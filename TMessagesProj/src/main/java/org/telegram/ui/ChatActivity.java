@@ -20169,6 +20169,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (NekoConfig.showRepeat) {
                                 boolean allowRepeat = allowChatActions &&
                                         (!isThreadChat()/* && TODO:!noforwards*/ ||
+                                                selectedObject.isAnyKindOfSticker()/* && TODO:!noforwards*/ ||
                                                 getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup) != null);
                                 if (allowRepeat) {
                                     items.add(LocaleController.getString("Repeat", R.string.Repeat));
@@ -21866,42 +21867,51 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (longClick || isThreadChat()/* || TODO:noforwards*/) {
             var messageObject = getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup);
             if (messageObject != null) {
-                var message = messageObject.messageOwner.message;
-                if (!TextUtils.isEmpty(message)) {
-                    if (longClick) {
-                        StringBuilder toSend = new StringBuilder();
-                        for (int i = 0; i < message.length(); i++) {
-                            char c = message.charAt(i);
-                            if (c == '我') {
-                                toSend.append('你');
-                            } else if (c == '你') {
-                                toSend.append('我');
-                            } else {
-                                toSend.append(c);
-                            }
-                        }
-                        message = toSend.toString();
-                    }
-                    ArrayList<TLRPC.MessageEntity> entities;
-                    if (messageObject.messageOwner.entities != null && !messageObject.messageOwner.entities.isEmpty()) {
-                        entities = new ArrayList<>();
-                        for (TLRPC.MessageEntity entity : messageObject.messageOwner.entities) {
-                            if (entity instanceof TLRPC.TL_messageEntityMentionName) {
-                                TLRPC.TL_inputMessageEntityMentionName mention = new TLRPC.TL_inputMessageEntityMentionName();
-                                mention.length = entity.length;
-                                mention.offset = entity.offset;
-                                mention.user_id = getMessagesController().getInputUser(((TLRPC.TL_messageEntityMentionName) entity).user_id);
-                                entities.add(mention);
-                            } else {
-                                entities.add(entity);
-                            }
-                        }
-                    } else {
-                        entities = null;
-                    }
-                    getSendMessagesHelper().sendMessage(message, dialog_id, longClick ? messageObject : threadMessageObject, threadMessageObject, null, false,
-                            entities, null, null, true, 0, null);
+                if (messageObject.isAnyKindOfSticker()) {
+                    getSendMessagesHelper().sendSticker(
+                            selectedObject.getDocument(), null, dialog_id, longClick ? messageObject : threadMessageObject,
+                            threadMessageObject, null, null, true, 0);
                     return true;
+                } else {
+                    var message = messageObject.messageOwner.message;
+                    if (!TextUtils.isEmpty(message)) {
+                        if (longClick) {
+                            StringBuilder toSend = new StringBuilder();
+                            for (int i = 0; i < message.length(); i++) {
+                                char c = message.charAt(i);
+                                if (c == '我') {
+                                    toSend.append('你');
+                                } else if (c == '你') {
+                                    toSend.append('我');
+                                } else {
+                                    toSend.append(c);
+                                }
+                            }
+                            message = toSend.toString();
+                        }
+                        ArrayList<TLRPC.MessageEntity> entities;
+                        if (messageObject.messageOwner.entities != null && !messageObject.messageOwner.entities.isEmpty()) {
+                            entities = new ArrayList<>();
+                            for (TLRPC.MessageEntity entity : messageObject.messageOwner.entities) {
+                                if (entity instanceof TLRPC.TL_messageEntityMentionName) {
+                                    TLRPC.TL_inputMessageEntityMentionName mention = new TLRPC.TL_inputMessageEntityMentionName();
+                                    mention.length = entity.length;
+                                    mention.offset = entity.offset;
+                                    mention.user_id = getMessagesController().getInputUser(((TLRPC.TL_messageEntityMentionName) entity).user_id);
+                                    entities.add(mention);
+                                } else {
+                                    entities.add(entity);
+                                }
+                            }
+                        } else {
+                            entities = null;
+                        }
+                        getSendMessagesHelper().sendMessage(
+                                message, dialog_id, longClick ? messageObject : threadMessageObject,
+                                threadMessageObject, null, false, entities,
+                                null, null, true, 0, null);
+                        return true;
+                    }
                 }
             }
         } else {
