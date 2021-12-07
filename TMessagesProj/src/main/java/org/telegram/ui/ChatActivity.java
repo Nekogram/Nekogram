@@ -2125,7 +2125,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     createDeleteMessagesAlert(null, null);
                 } else if (id == forward || id == forward_noquote) {
                     noForwardQuote = id == forward_noquote;
-                    openForward(true);
+                    openForward(true, id == forward_noquote);
                 } else if (id == save_to) {
                     ArrayList<MessageObject> messageObjects = new ArrayList<>();
                     for (int a = 1; a >= 0; a--) {
@@ -9032,6 +9032,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     private void openForward(boolean fromActionBar) {
+        openForward(fromActionBar, false);
+    }
+
+    private void openForward(boolean fromActionBar, boolean noquote) {
         if (getMessagesController().isChatNoForwards(currentChat)) {
             // We should update text if user changed locale without re-opening chat activity
             String str = ChatObject.isChannel(currentChat) && !currentChat.megagroup ? LocaleController.getString("ForwardsRestrictedInfoChannel", R.string.ForwardsRestrictedInfoChannel) :
@@ -9050,7 +9054,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
 
                 fwdRestrictedTopHint.setText(str);
-                fwdRestrictedTopHint.showForView(actionBar.getActionMode().getItem(forward), true);
+                fwdRestrictedTopHint.showForView(actionBar.getActionMode().getItem(noquote ? forward_noquote : forward), true);
             } else {
                 if (fwdRestrictedBottomHint == null) {
                     SizeNotifierFrameLayout frameLayout = (SizeNotifierFrameLayout) fragmentView;
@@ -12782,8 +12786,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                     }
                     if (forwardNoQuoteItem != null) {
-                        forwardNoQuoteItem.setEnabled(cantForwardMessagesCount == 0);
+                        forwardNoQuoteItem.setEnabled(cantForwardMessagesCount == 0 || noforwards);
                         animators.add(ObjectAnimator.ofFloat(forwardNoQuoteItem, View.ALPHA, cantForwardMessagesCount == 0 ? 1.0f : 0.5f));
+
+                        if (noforwards) {
+                            if (forwardNoQuoteItem.getBackground() != null) forwardNoQuoteItem.setBackground(null);
+                        } else if (forwardNoQuoteItem.getBackground() == null) {
+                            forwardNoQuoteItem.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 5));
+                        }
                     }
                     if (forwardButton != null) {
                         forwardButton.setEnabled(cantForwardMessagesCount == 0 || noforwards);
@@ -20500,10 +20510,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 options.add(93);
                                 icons.add(R.drawable.menu_saved);
                             }
-                            if (NekoConfig.showRepeat) {
+                        }
+                        if (NekoConfig.showRepeat) {
+                            if (!selectedObject.isSponsored() && chatMode != MODE_SCHEDULED && !selectedObject.needDrawBluredPreview() && !selectedObject.isLiveLocation() && selectedObject.type != 16) {
                                 boolean allowRepeat = allowChatActions &&
-                                        (!isThreadChat()/* && TODO:!noforwards*/ ||
-                                                selectedObject.isAnyKindOfSticker()/* && TODO:!noforwards*/ ||
+                                        (!isThreadChat() && !getMessagesController().isChatNoForwards(currentChat) ||
+                                                selectedObject.isAnyKindOfSticker() && !getMessagesController().isChatNoForwards(currentChat) ||
                                                 getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup) != null);
                                 if (allowRepeat) {
                                     items.add(LocaleController.getString("Repeat", R.string.Repeat));
@@ -22221,7 +22233,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     public boolean processRepeatMessage(boolean longClick) {
-        if (longClick || isThreadChat()/* || TODO:noforwards*/) {
+        if (longClick || isThreadChat() || getMessagesController().isChatNoForwards(currentChat)) {
             var messageObject = getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup);
             if (messageObject != null) {
                 if (messageObject.isAnyKindOfSticker()) {

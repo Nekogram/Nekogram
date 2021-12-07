@@ -1499,10 +1499,13 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
             boolean noforwards = profileActivity.getMessagesController().isChatNoForwards(-dialog_id);
             forwardItem.setAlpha(noforwards ? 0.5f : 1f);
+            forwardNoQuoteItem.setAlpha(noforwards ? 0.5f : 1f);
             if (noforwards) {
                 if (forwardItem.getBackground() != null) forwardItem.setBackground(null);
+                if (forwardNoQuoteItem.getBackground() != null) forwardNoQuoteItem.setBackground(null);
             } else if (forwardItem.getBackground() == null) {
                 forwardItem.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 5));
+                forwardNoQuoteItem.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 5));
             }
         }
         deleteItem = new ActionBarMenuItem(context, null, Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2), false);
