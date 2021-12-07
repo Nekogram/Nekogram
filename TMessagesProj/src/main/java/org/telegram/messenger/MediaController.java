@@ -57,9 +57,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.FrameLayout;
-import android.media.audiofx.AcousticEchoCanceler;
-import android.media.audiofx.AutomaticGainControl;
-import android.media.audiofx.NoiseSuppressor;
 
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -106,10 +103,6 @@ import java.util.concurrent.CountDownLatch;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class MediaController implements AudioManager.OnAudioFocusChangeListener, NotificationCenter.NotificationCenterDelegate, SensorEventListener {
-
-    AutomaticGainControl agc = null;
-    NoiseSuppressor ns = null;
-    AcousticEchoCanceler aec = null;
 
     private native int startRecord(String path, int sampleRate);
 
@@ -3492,8 +3485,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 recordReplyingTopMsg = replyToTopMsg;
                 fileBuffer.rewind();
 
-                initVoiceEnhancements(audioRecorder);
-
                 audioRecorder.startRecording();
             } catch (Exception e) {
                 FileLog.e(e);
@@ -3502,7 +3493,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 recordingAudioFile.delete();
                 recordingAudioFile = null;
                 try {
-                    releaseVoiceEnhancements();
                     audioRecorder.release();
                     audioRecorder = null;
                 } catch (Exception e2) {
@@ -3596,7 +3586,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
         try {
             if (audioRecorder != null) {
-                releaseVoiceEnhancements();
                 audioRecorder.release();
                 audioRecorder = null;
             }
@@ -3642,39 +3631,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             }
             AndroidUtilities.runOnUIThread(() -> NotificationCenter.getInstance(recordingCurrentAccount).postNotificationName(NotificationCenter.recordStopped, recordingGuid, send == 2 ? 1 : 0));
         });
-    }
-
-    private void initVoiceEnhancements(AudioRecord audioRecord) {
-        if (!NekoConfig.increaseVoiceMessageQuality)
-            return;
-        if (AutomaticGainControl.isAvailable()) {
-            agc = AutomaticGainControl.create(audioRecord.getAudioSessionId());
-            agc.setEnabled(true);
-        }
-        if (NoiseSuppressor.isAvailable()) {
-            ns = NoiseSuppressor.create(audioRecord.getAudioSessionId());
-            ns.setEnabled(true);
-        }
-
-        if (AcousticEchoCanceler.isAvailable()) {
-            aec = AcousticEchoCanceler.create(audioRecord.getAudioSessionId());
-            aec.setEnabled(true);
-        }
-    }
-
-    private void releaseVoiceEnhancements() {
-        if (!NekoConfig.increaseVoiceMessageQuality)
-            return;
-        if (agc != null)
-            agc.release();
-        if (ns != null)
-            ns.release();
-        if (aec != null)
-            aec.release();
-
-        agc = null;
-        ns = null;
-        aec = null;
     }
 
     private static class MediaLoader implements NotificationCenter.NotificationCenterDelegate {
