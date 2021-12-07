@@ -161,4 +161,11 @@
     <string name="DisableGreetingSticker">Disattiva lo sticker di benvenuto</string>
     <string name="BlockSponsoredMessage">Blocca messaggio sponsorizzato</string>
     <string name="DeleteAllFromSelfAdmin">Con i permessi da amministratore</string>
+    <string name="OfficialSite">Sito ufficiale</string>
+    <string name="MutualContact">Contatto reciproco</string>
+    <string name="MutualContactDescription">Questo contatto è un contatto reciproco.</string>
+    <string name="NoUpdateAvailable">Nessun aggiornamento disponibile.</string>
+    <string name="InviteTextNeko">Hey, sto usando Nekogram per chattare. Unisciti a me! Scaricalo qui: %1$s</string>
+    <string name="ShareNekogram">Condividi Nekogram...</string>
+    <string name="NekogramVersion">Nekogram %1$s\nBasato su Telegram %2$s\nProgettato da %3$s</string>
 </resources>

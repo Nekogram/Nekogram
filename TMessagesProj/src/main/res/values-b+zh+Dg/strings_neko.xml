@@ -163,4 +163,11 @@
     <string name="DisableGreetingSticker">禁用问候贴纸</string>
     <string name="BlockSponsoredMessage">屏蔽恰饭消息</string>
     <string name="DeleteAllFromSelfAdmin">使用绒布球特权</string>
+    <string name="OfficialSite">官方网站</string>
+    <string name="MutualContact">双向联系人</string>
+    <string name="MutualContactDescription">此联系人是一个双向联系人。</string>
+    <string name="NoUpdateAvailable">没有可用的更新。</string>
+    <string name="InviteTextNeko">嗨，我在使用 Nekogram 聊天。加入我们吧！从这里下载：%1$s</string>
+    <string name="ShareNekogram">分享 Nekogram...</string>
+    <string name="NekogramVersion">Nekogram %1$s\n基于 Telegram %2$s\n由 %3$s 设计</string>
 </resources>

@@ -42,6 +42,7 @@
     <string name="SensitiveDisableFiltering">Desabilitar filtro de conteúdo sensível</string>
     <string name="SensitiveAbout">Exiba mídia sensível em canais públicos em todos os seus dispositivos.</string>
     <string name="StickerSize">Tamanho dos stickers</string>
+    <string name="StickerSizeDialogMessage">Oh, tão fofo! Um gato preto!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="Experiment">Experimental</string>
     <string name="UnlimitedFavoredStickers">Adesivos favoritos ilimitados</string>
@@ -115,7 +116,7 @@
     <string name="CheckUpdate">Verifique atualizações</string>
     <string name="LastUpdateFormatted">Última verificação com sucesso %1$s</string>
     <string name="LastUpdateDateFormatted">Última verificação com sucesso em %1$s</string>
-    <string name="LastUpdateRecently">Última verificação com sucesso agora mesmo.</string>
+    <string name="LastUpdateRecently">Última verificação, com sucesso, feita nesse instante.</string>
     <string name="LastUpdateNever">Nunca verificado desde a instalação.</string>
     <string name="CheckingUpdate">Verificando atualizações…</string>
     <string name="ProviderMicrosoftTranslator">Tradutor da Microsoft</string>
@@ -160,4 +161,12 @@
     <string name="DisableJumpToNextChannel">Desativar \"Pular para o Próximo Canal\"</string>
     <string name="DisableGreetingSticker">Desativar sticker de saudação</string>
     <string name="BlockSponsoredMessage">Bloquear mensagem patrocinada</string>
+    <string name="DeleteAllFromSelfAdmin">Com direitos de administrador</string>
+    <string name="OfficialSite">Site oficial</string>
+    <string name="MutualContact">Contato em comum</string>
+    <string name="MutualContactDescription">Este é um contato em comum.</string>
+    <string name="NoUpdateAvailable">Nenhuma atualização disponível.</string>
+    <string name="InviteTextNeko">Ei, estou usando Nekogram para conversar. Junte-se a mim! Baixe aqui: %1$s</string>
+    <string name="ShareNekogram">Compartilhar Nekogram...</string>
+    <string name="NekogramVersion">Nekogram %1$s\nCom base no Telegram %2$s\nProjetado por %3$s</string>
 </resources>

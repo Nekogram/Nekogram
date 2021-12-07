@@ -42,6 +42,7 @@
     <string name="SensitiveDisableFiltering">Wyłącz filtrowanie wrażliwych treści</string>
     <string name="SensitiveAbout">Wyświetl wrażliwe media w publicznych kanałach na wszystkich urządzeniach.</string>
     <string name="StickerSize">Rozmiar naklejek</string>
+    <string name="StickerSizeDialogMessage">Och, tak słodko! Czarny kot!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="Experiment">Eksperymentalne</string>
     <string name="UnlimitedFavoredStickers">Nieograniczona ilość ulubionych naklejek</string>
@@ -158,4 +159,9 @@
     <string name="ApplyEmojiFont">Używaj czcionki emoji</string>
     <string name="DisableJumpToNextChannel">Wyłącz \"Przejdź do następnego kanału\"</string>
     <string name="DisableGreetingSticker">Wyłącz naklejkę powitalną</string>
+    <string name="BlockSponsoredMessage">Zablokuj sponsorowaną wiadomość</string>
+    <string name="DeleteAllFromSelfAdmin">Z prawami administratora</string>
+    <string name="OfficialSite">Oficjalna strona</string>
+    <string name="MutualContact">Kontakt wzajemny</string>
+    <string name="MutualContactDescription">Ten kontakt jest kontaktem wzajemnym.</string>
 </resources>

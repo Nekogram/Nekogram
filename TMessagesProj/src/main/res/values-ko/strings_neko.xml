@@ -162,4 +162,10 @@
     <string name="DisableGreetingSticker">인사말 스티커 사용 안함</string>
     <string name="BlockSponsoredMessage">스폰서 메시지 차단</string>
     <string name="DeleteAllFromSelfAdmin">관리자 권한</string>
+    <string name="OfficialSite">공식 사이트</string>
+    <string name="MutualContact">공통 연락처</string>
+    <string name="MutualContactDescription">이 연락처는 공통 연락처 입니다.</string>
+    <string name="NoUpdateAvailable">사용할 수 있는 업데이트가 없습니다.</string>
+    <string name="InviteTextNeko">안녕, 나는 네코그램을 사용하고 있어요. 한번 사용해 보실래요? 여기에서 다운로드 하세요: %1$s</string>
+    <string name="ShareNekogram">네코그램 공유하기</string>
 </resources>

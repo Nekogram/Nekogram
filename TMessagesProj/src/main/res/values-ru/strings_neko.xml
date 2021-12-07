@@ -162,4 +162,11 @@
     <string name="DisableGreetingSticker">Отключить приветственный стикер</string>
     <string name="BlockSponsoredMessage">Блокировка спонсируемого сообщения</string>
     <string name="DeleteAllFromSelfAdmin">С правами администратора</string>
+    <string name="OfficialSite">Официальный сайт</string>
+    <string name="MutualContact">Общий контакт</string>
+    <string name="MutualContactDescription">Этот контакт является общим.</string>
+    <string name="NoUpdateAvailable">Нет обновлений.</string>
+    <string name="InviteTextNeko">Привет, я использую Nekogram, чтобы общаться. Присоединяйся ко мне! Скачайте здесь: %1$s</string>
+    <string name="ShareNekogram">Поделиться Nekogram...</string>
+    <string name="NekogramVersion">Nekogram %1$s\nНа основе Telegram %2$s\nДизайн %3$s</string>
 </resources>

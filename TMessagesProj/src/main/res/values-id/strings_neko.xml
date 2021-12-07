@@ -18,7 +18,7 @@
     <string name="NoQuoteForward">Teruskan Tanpa Kutip</string>
     <string name="Repeat">Ulangi</string>
     <string name="AddToSavedMessages">Simpan pesan</string>
-    <string name="CreateMention">Buat sebutan</string>
+    <string name="CreateMention">Buat Mention</string>
     <string name="ForceTabletMode">Paksa mode tablet</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Bilah status transparan</string>
@@ -161,4 +161,11 @@
     <string name="DisableGreetingSticker">Matikan stiker salam</string>
     <string name="BlockSponsoredMessage">Blokir pesan disponsori</string>
     <string name="DeleteAllFromSelfAdmin">Dengan hak admin</string>
+    <string name="OfficialSite">Hai</string>
+    <string name="MutualContact">Ahh</string>
+    <string name="MutualContactDescription">Anda saling menyimpan nomor dengan kontak ini.</string>
+    <string name="NoUpdateAvailable">Tidak ada pembaruan tersedia.</string>
+    <string name="InviteTextNeko">Hai, saya menggunakan Nekogram untuk mengobrol. Ayo ikut! Unduh di sini: %1$s</string>
+    <string name="ShareNekogram">Bagikan Nekogram...</string>
+    <string name="NekogramVersion">Nekogram %1$s\nBerdasarkan Telegram %2$s\nDibuat oleh %3$s</string>
 </resources>
