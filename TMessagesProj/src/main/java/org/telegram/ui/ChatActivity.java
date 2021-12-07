@@ -22236,7 +22236,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (longClick || isThreadChat() || getMessagesController().isChatNoForwards(currentChat)) {
             var messageObject = getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup);
             if (messageObject != null) {
-                if (messageObject.isAnyKindOfSticker()) {
+                if (messageObject.isAnyKindOfSticker() && !messageObject.isAnimatedEmoji()) {
                     getSendMessagesHelper().sendSticker(
                             selectedObject.getDocument(), null, dialog_id, longClick ? messageObject : threadMessageObject,
                             threadMessageObject, null, null, true, 0);
