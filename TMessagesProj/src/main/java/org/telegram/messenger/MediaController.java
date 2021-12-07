@@ -64,6 +64,7 @@ import android.media.audiofx.NoiseSuppressor;
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import com.google.android.exoplayer2.util.Log;
 
 import org.telegram.messenger.audioinfo.AudioInfo;
 import org.telegram.messenger.video.MediaCodecVideoConvertor;
@@ -3969,6 +3970,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
             new Thread(() -> {
                 try {
+
                     boolean result = true;
                     if (Build.VERSION.SDK_INT >= 29) {
                         try {
@@ -3990,10 +3992,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             }
                             if (selectedType == 0) {
                                 uriToInsert = MediaStore.Images.Media.getContentUri(MediaStore.VOLUME_EXTERNAL_PRIMARY);
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                                    File dirDest = new File(Environment.DIRECTORY_PICTURES, "Nekogram");
-                                    contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
-                                }
+                                File dirDest = new File(Environment.DIRECTORY_PICTURES, "Nekogram");
+                                contentValues.put(MediaStore.MediaColumns.RELATIVE_PATH, dirDest + File.separator);
                                 contentValues.put(MediaStore.Images.Media.DISPLAY_NAME, AndroidUtilities.generateFileName(0, extension));
                                 contentValues.put(MediaStore.Images.Media.MIME_TYPE, mimeType);
                             } else if (selectedType == 1) {
@@ -4869,6 +4869,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         MediaCodecVideoConvertor videoConvertor = new MediaCodecVideoConvertor();
         boolean error = videoConvertor.convertVideo(videoPath, cacheFile,
                 rotationValue, isSecret,
+                originalWidth, originalHeight,
                 resultWidth, resultHeight,
                 framerate, bitrate, originalBitrate,
                 startTime, endTime, avatarStartTime,

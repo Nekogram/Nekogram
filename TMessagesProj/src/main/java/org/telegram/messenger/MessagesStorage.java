@@ -50,6 +50,25 @@ import androidx.collection.LongSparseArray;
 
 public class MessagesStorage extends BaseController {
 
+    public ArrayList<Integer> getCachedMessagesInRange(long dialogId, int minDate, int maxDate) {
+        ArrayList<Integer> messageIds = new ArrayList<>();
+        try {
+            SQLiteCursor cursor = database.queryFinalized(String.format(Locale.US, "SELECT mid FROM messages_v2 WHERE uid = %d AND date >= %d AND date <= %d", dialogId, minDate, maxDate));
+            try {
+                while (cursor.next()) {
+                    int mid = cursor.intValue(0);
+                    messageIds.add(mid);
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+            cursor.dispose();
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return messageIds;
+    }
+
     public interface IntCallback {
         void run(int param);
     }
@@ -10587,7 +10606,7 @@ public class MessagesStorage extends BaseController {
                             try {
                                 database.executeFast(String.format(Locale.US, "UPDATE media_holes_v2 SET end = %d WHERE uid = %d AND type = %d AND start = %d AND end = %d", minId, did, hole.type, hole.start, hole.end)).stepThis().dispose();
                             } catch (Exception e) {
-                                FileLog.e(e);
+                                FileLog.e(e, false);
                             }
                         }
                     } else if (minId <= hole.start + 1) {
@@ -10595,7 +10614,7 @@ public class MessagesStorage extends BaseController {
                             try {
                                 database.executeFast(String.format(Locale.US, "UPDATE media_holes_v2 SET start = %d WHERE uid = %d AND type = %d AND start = %d AND end = %d", maxId, did, hole.type, hole.start, hole.end)).stepThis().dispose();
                             } catch (Exception e) {
-                                FileLog.e(e);
+                                FileLog.e(e, false);
                             }
                         }
                     } else {
@@ -10649,7 +10668,7 @@ public class MessagesStorage extends BaseController {
                             try {
                                 database.executeFast(String.format(Locale.US, "UPDATE " + table + " SET end = %d WHERE uid = %d AND start = %d AND end = %d", minId, did, hole.start, hole.end)).stepThis().dispose();
                             } catch (Exception e) {
-                                FileLog.e(e);
+                                FileLog.e(e, false);
                             }
                         }
                     } else if (minId <= hole.start + 1) {
@@ -10657,7 +10676,7 @@ public class MessagesStorage extends BaseController {
                             try {
                                 database.executeFast(String.format(Locale.US, "UPDATE " + table + " SET start = %d WHERE uid = %d AND start = %d AND end = %d", maxId, did, hole.start, hole.end)).stepThis().dispose();
                             } catch (Exception e) {
-                                FileLog.e(e);
+                                FileLog.e(e, false);
                             }
                         }
                     } else {

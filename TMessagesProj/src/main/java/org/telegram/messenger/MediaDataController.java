@@ -142,6 +142,8 @@ public class MediaDataController extends BaseController {
                 //igonre
             }
         }
+
+        loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, true);
     }
 
     public static final int TYPE_IMAGE = 0;

@@ -578,16 +578,17 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             backgroundRow = rowCount++;
             newThemeInfoRow = rowCount++;
             themeHeaderRow = rowCount++;
-            // TODO
-            //themeListRow2 = rowCount++;
-            themeListRow = rowCount++;
-            hasThemeAccents = Theme.getCurrentTheme().hasAccentColors();
-            if (themesHorizontalListCell != null) {
-                themesHorizontalListCell.setDrawDivider(hasThemeAccents);
-            }
-            if (hasThemeAccents) {
-                themeAccentListRow = rowCount++;
-            }
+
+            themeListRow2 = rowCount++;
+            //
+//            themeListRow = rowCount++;
+//            hasThemeAccents = Theme.getCurrentTheme().hasAccentColors();
+//            if (themesHorizontalListCell != null) {
+//                themesHorizontalListCell.setDrawDivider(hasThemeAccents);
+//            }
+//            if (hasThemeAccents) {
+//                themeAccentListRow = rowCount++;
+//            }
             //
             themeInfoRow = rowCount++;
 
@@ -744,6 +745,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.needShareTheme);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.needSetDayNightTheme);
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiPreviewThemesChanged);
         getNotificationCenter().addObserver(this, NotificationCenter.themeUploadedToServer);
         getNotificationCenter().addObserver(this, NotificationCenter.themeUploadError);
         if (currentType == THEME_TYPE_BASIC) {
@@ -764,6 +766,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.needShareTheme);
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.needSetDayNightTheme);
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiPreviewThemesChanged);
         getNotificationCenter().removeObserver(this, NotificationCenter.themeUploadedToServer);
         getNotificationCenter().removeObserver(this, NotificationCenter.themeUploadError);
         Theme.saveAutoNightThemeConfig();
@@ -816,6 +819,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         } else if (id == NotificationCenter.needSetDayNightTheme) {
             updateMenuItem();
             checkCurrentDayNight();
+        } else if (id == NotificationCenter.emojiPreviewThemesChanged) {
+            if (themeListRow2 >= 0) {
+                listAdapter.notifyItemChanged(themeListRow2);
+            }
         }
     }
 
@@ -1917,7 +1924,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                             return false;
                         }
                         Theme.ThemeAccent accent = accentsAdapter.themeAccents.get(position);
-                        if (accent.id >= 100) {
+                        if (accent.id >= 100 && !accent.isDefault) {
                             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                             CharSequence[] items = new CharSequence[]{
                                     LocaleController.getString("OpenInEditor", R.string.OpenInEditor),
@@ -2003,6 +2010,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 case 17:
                     DefaultThemesPreviewCell cell = new DefaultThemesPreviewCell(mContext, ThemeActivity.this, currentType);
                     view = cell;
+                    cell.setFocusable(false);
                     view.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                     break;
             }

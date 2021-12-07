@@ -339,6 +339,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private boolean allowSwitchAccount;
     private boolean checkCanWrite;
     private boolean afterSignup;
+    private boolean showSetPasswordConfirm;
+    private int otherwiseReloginDays;
 
     private FrameLayout updateLayout;
     private AnimatorSet updateLayoutAnimator;
@@ -1195,7 +1197,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         @Override
         protected void dispatchDraw(Canvas canvas) {
-            parentPage.recyclerItemsEnterAnimator.dispatchDraw();
             super.dispatchDraw(canvas);
             if (drawMovingViewsOverlayed()) {
                 paint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite));
@@ -1237,9 +1238,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         @Override
         protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
-            if (parentPage != null && parentPage.recyclerItemsEnterAnimator != null) {
-                parentPage.recyclerItemsEnterAnimator.onDetached();
-            }
         }
 
         @Override
@@ -1803,6 +1801,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             messagesCount = arguments.getInt("messagesCount", 0);
             hasPoll = arguments.getInt("hasPoll", 0);
             hasInvoice = arguments.getBoolean("hasInvoice", false);
+            showSetPasswordConfirm = arguments.getBoolean("showSetPasswordConfirm", showSetPasswordConfirm);
+            otherwiseReloginDays = arguments.getInt("otherwiseRelogin");
         }
 
         if (initialDialogsType == 0) {
@@ -4190,6 +4190,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             AndroidUtilities.requestAdjustResize(getParentActivity(), classGuid);
         }
         updateVisibleRows(0, false);
+
     }
 
     @Override
