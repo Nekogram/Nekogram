@@ -20323,6 +20323,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 icons.add(R.drawable.msg_gif);
                             }
                         } else if (type == 4) {
+                            if (NekoConfig.showDeleteDownloadedFile && selectedObject.getDocument() != null) {
+                                items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
+                                options.add(91);
+                                icons.add(R.drawable.msg_clear);
+                            }
                             if (!getMessagesController().isChatNoForwards(currentChat)) {
                                 if (selectedObject.isVideo()) {
                                     if (!selectedObject.needDrawBluredPreview()) {
@@ -20364,11 +20369,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("ApplyLocalizationFile", R.string.ApplyLocalizationFile));
                             options.add(5);
                             icons.add(R.drawable.msg_language);
-                            if (NekoConfig.showDeleteDownloadedFile) {
-                                items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
-                                options.add(91);
-                                icons.add(R.drawable.msg_clear);
-                            }
                             if (!getMessagesController().isChatNoForwards(currentChat)) {
                                 items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
                                 options.add(10);
@@ -20381,20 +20381,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("ApplyThemeFile", R.string.ApplyThemeFile));
                             options.add(5);
                             icons.add(R.drawable.msg_theme);
-                            if (NekoConfig.showDeleteDownloadedFile) {
-                                items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
-                                options.add(91);
-                                icons.add(R.drawable.msg_clear);
-                            }
                             if (!getMessagesController().isChatNoForwards(currentChat)) {
                                 items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
                                 options.add(10);
                                 icons.add(R.drawable.msg_download);
-                                if (NekoConfig.showDeleteDownloadedFile) {
-                                    items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
-                                    options.add(91);
-                                    icons.add(R.drawable.msg_clear);
-                                }
                                 items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
                                 options.add(6);
                                 icons.add(R.drawable.msg_shareout);
@@ -20403,17 +20393,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("ApplyEmojiFont", R.string.ApplyEmojiFont));
                             options.add(5);
                             icons.add(R.drawable.smiles_tab_smiles);
-                            items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
-                            options.add(10);
-                            icons.add(R.drawable.msg_download);
-                            if (NekoConfig.showDeleteDownloadedFile) {
-                                items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
-                                options.add(91);
-                                icons.add(R.drawable.msg_clear);
+                            if (!getMessagesController().isChatNoForwards(currentChat)) {
+                                items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
+                                options.add(10);
+                                icons.add(R.drawable.msg_download);
+                                items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
+                                options.add(6);
+                                icons.add(R.drawable.msg_shareout);
                             }
-                            items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
-                            options.add(6);
-                            icons.add(R.drawable.msg_shareout);
                         } else if (type == 6 && !getMessagesController().isChatNoForwards(currentChat)) {
                             items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
                             options.add(7);
@@ -20421,11 +20408,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             items.add(LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
                             options.add(10);
                             icons.add(R.drawable.msg_download);
-                            if (NekoConfig.showDeleteDownloadedFile) {
-                                items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
-                                options.add(91);
-                                icons.add(R.drawable.msg_clear);
-                            }
                             items.add(LocaleController.getString("ShareFile", R.string.ShareFile));
                             options.add(6);
                             icons.add(R.drawable.msg_shareout);
