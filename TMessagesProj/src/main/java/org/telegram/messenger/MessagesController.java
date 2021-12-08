@@ -316,6 +316,7 @@ public class MessagesController extends BaseController implements NotificationCe
     public Set<String> exportPrivateUri;
     public boolean autoarchiveAvailable;
     public int groipCallVideoMaxParticipants;
+    public int chatReadMarkSizeThreshold;
     public boolean suggestStickersApiOnly;
     public ArrayList<String> gifSearchEmojies = new ArrayList<>();
     public HashSet<String> diceEmojies;
@@ -786,6 +787,7 @@ public class MessagesController extends BaseController implements NotificationCe
         showFiltersTooltip = mainPreferences.getBoolean("showFiltersTooltip", false);
         autoarchiveAvailable = mainPreferences.getBoolean("autoarchiveAvailable", false);
         groipCallVideoMaxParticipants = mainPreferences.getInt("groipCallVideoMaxParticipants", 30);
+        chatReadMarkSizeThreshold = mainPreferences.getInt("chatReadMarkSizeThreshold", 100);
         suggestStickersApiOnly = mainPreferences.getBoolean("suggestStickersApiOnly", false);
         roundVideoSize = mainPreferences.getInt("roundVideoSize", 384);
         roundVideoBitrate = mainPreferences.getInt("roundVideoBitrate", 1000);
@@ -1624,6 +1626,18 @@ public class MessagesController extends BaseController implements NotificationCe
                                 if (number.value != groipCallVideoMaxParticipants) {
                                     groipCallVideoMaxParticipants = (int) number.value;
                                     editor.putInt("groipCallVideoMaxParticipants", groipCallVideoMaxParticipants);
+                                    changed = true;
+                                }
+                            }
+                            break;
+                        }
+                        case "chat_read_mark_size_threshold": {
+                            if (value.value instanceof TLRPC.TL_jsonNumber) {
+                                TLRPC.TL_jsonNumber number = (TLRPC.TL_jsonNumber) value.value;
+                                Log.e("test", chatReadMarkSizeThreshold + "");
+                                if (number.value != chatReadMarkSizeThreshold) {
+                                    chatReadMarkSizeThreshold = (int) number.value;
+                                    editor.putInt("chatReadMarkSizeThreshold", chatReadMarkSizeThreshold);
                                     changed = true;
                                 }
                             }
