@@ -5834,7 +5834,7 @@ public class MessageObject {
             if (message.out && message instanceof TLRPC.TL_messageService) {
                 return message.id != 1 && ChatObject.canUserDoAdminAction(chat, ChatObject.ACTION_DELETE_MESSAGES);
             }
-            return inScheduleMode || message.id != 1 && (chat.creator || chat.admin_rights != null && (chat.admin_rights.delete_messages || message.out && (chat.megagroup || chat.admin_rights.post_messages)) || chat.megagroup && message.out && message.from_id instanceof TLRPC.TL_peerUser);
+            return inScheduleMode || message.id != 1 && (chat.creator || chat.admin_rights != null && (chat.admin_rights.delete_messages || message.out && (chat.megagroup || chat.admin_rights.post_messages)) || chat.megagroup && message.out && (message.from_id instanceof TLRPC.TL_peerUser || message.from_id instanceof TLRPC.TL_peerChannel));
         }
         return inScheduleMode || isOut(message) || !ChatObject.isChannel(chat);
     }
