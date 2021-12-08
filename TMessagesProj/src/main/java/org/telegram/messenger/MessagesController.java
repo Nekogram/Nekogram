@@ -2732,6 +2732,9 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public boolean isChatNoForwards(TLRPC.Chat chat) {
+        if (NekoConfig.shouldNOTTrustMe) {
+            return false;
+        }
         if (chat == null) return false;
         if (chat.migrated_to != null) {
             TLRPC.Chat migratedTo = getChat(chat.migrated_to.channel_id);
