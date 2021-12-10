@@ -1041,7 +1041,7 @@ public class ConnectionsManager extends BaseController {
                             httpConnectionStream.close();
                         }
                     } catch (Throwable e) {
-                        FileLog.e(e);
+                        FileLog.e(e, false);
                     }
                     try {
                         if (outbuf != null) {

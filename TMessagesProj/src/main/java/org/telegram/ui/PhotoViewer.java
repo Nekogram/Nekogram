@@ -9684,7 +9684,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         isEvent = object != null && object.isEvent;
         sharedMediaType = MediaDataController.MEDIA_PHOTOVIDEO;
         allMediaItem.setText(LocaleController.getString("ShowAllMedia", R.string.ShowAllMedia));
-        menuItem.setVisibility(View.VISIBLE);
         setItemVisible(sendNoQuoteItem, false, false);
         setItemVisible(sendItem, false, false);
         setItemVisible(pipItem, false, true);
@@ -9935,7 +9934,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 cameraItem.setVisibility(View.VISIBLE);
                 cameraItem.setTag(1);
             }
-            menuItem.setVisibility(View.GONE);
             imagesArrLocals.addAll(photos);
             Object obj = imagesArrLocals.get(index);
             boolean allowCaption;
@@ -10626,7 +10624,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 actionBar.setTitle(LocaleController.getString("AttachGif", R.string.AttachGif));
             } else {
-                menuItem.setVisibility(View.VISIBLE);
                 if (size == 1) {
                     if (isVideo) {
                         actionBar.setTitle(LocaleController.getString("AttachVideo", R.string.AttachVideo));
@@ -12423,7 +12420,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         disableShowCheck = false;
                         object.imageReceiver.setVisible(false, true);
                     };
-                    if (parentChatActivity != null) {
+                    if (parentChatActivity != null && parentChatActivity.getFragmentView() != null) {
                         parentChatActivity.getUndoView().hide(false, 1);
                         parentChatActivity.getFragmentView().invalidate();
                     }

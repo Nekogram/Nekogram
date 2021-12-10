@@ -71,7 +71,7 @@
     <uses-permission android:name="com.oppo.launcher.permission.WRITE_SETTINGS"/>
     <uses-permission android:name="me.everything.badger.permission.BADGE_COUNT_READ"/>
     <uses-permission android:name="me.everything.badger.permission.BADGE_COUNT_WRITE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29" tools:node="replace" />
 
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
@@ -92,7 +92,9 @@
         android:manageSpaceActivity="org.telegram.ui.ExternalActionActivity"
         android:supportsRtl="false"
         android:requestLegacyExternalStorage="true"
-        android:allowAudioPlaybackCapture="true">
+        android:preserveLegacyExternalStorage="true"
+        android:allowAudioPlaybackCapture="true"
+        tools:replace="android:supportsRtl">
 
         <activity
             android:name="org.telegram.ui.LaunchActivity"
@@ -459,6 +461,7 @@
 <!--        <service android:name=".FeedWidgetService"-->
 <!--            android:permission="android.permission.BIND_REMOTEVIEWS"-->
 <!--            android:exported="false" />-->
+        <service android:name=".FilesMigrationService" android:exported="false"/>
 
         <service
             android:name=".GcmPushListenerService" android:exported="false">

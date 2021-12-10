@@ -219,7 +219,7 @@ public class MessageHelper extends BaseController {
 
         builder.setPositiveButton(LocaleController.getString("DeleteAll", R.string.DeleteAll), (dialogInterface, i) -> {
             if (cell != null && cell.isChecked()) {
-                getMessagesController().deleteUserChannelHistory(chat, getUserConfig().getCurrentUser(), 0);
+                getMessagesController().deleteUserChannelHistory(chat, getUserConfig().getCurrentUser(), null, 0);
             } else {
                 deleteUserChannelHistoryWithSearch(fragment, -chat.id, mergeDialogId);
             }
