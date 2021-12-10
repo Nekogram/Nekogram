@@ -337,12 +337,13 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             if (object instanceof ListItem) {
                 ListItem item = (ListItem) object;
                 File file = item.file;
-                boolean isExternalStorageManager = false;
+                /*boolean isExternalStorageManager = false;
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
                     isExternalStorageManager = Environment.isExternalStorageManager();
-                }
-                if (!BuildVars.NO_SCOPED_STORAGE && (item.icon == R.drawable.files_storage || item.icon == R.drawable.files_internal) && !isExternalStorageManager) {
-                    if (SharedConfig.dontAskManageStorage) {
+                }*/
+                if (!BuildVars.NO_SCOPED_STORAGE && (item.icon == R.drawable.files_storage || item.icon == R.drawable.files_internal)/* && !isExternalStorageManager*/) {
+                    delegate.startDocumentSelectActivity();
+                    /*if (SharedConfig.dontAskManageStorage) {
                         delegate.startDocumentSelectActivity();
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -370,7 +371,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                             delegate.startDocumentSelectActivity();
                         });
                         builder.show();
-                    }
+                    }*/
                 } else if (file == null) {
                     if (item.icon == R.drawable.files_gallery) {
                         HashMap<Object, Object> selectedPhotos = new HashMap<>();
