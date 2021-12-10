@@ -287,17 +287,17 @@ public class FilesMigrationService extends Service {
 
         public void migrateOldFolder() {
             Activity activity = fragment.getParentActivity();
-            boolean canWrite = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
+            //boolean canWrite = activity.checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
             boolean canRead = activity.checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED;
 
-            if (!canRead || !canWrite) {
+            if (!canRead/* || !canWrite*/) {
                 ArrayList<String> permissions = new ArrayList<>();
                 if (!canRead) {
                     permissions.add(Manifest.permission.READ_EXTERNAL_STORAGE);
-                }
+                }/*
                 if (!canWrite) {
                     permissions.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
-                }
+                }*/
                 String[] string = new String[permissions.size()];
                 activity.requestPermissions(permissions.toArray(string), 4);
                 return;
