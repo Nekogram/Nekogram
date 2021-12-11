@@ -104,6 +104,9 @@
 -keepclasseswithmembernames,includedescriptorclasses class * {
     native <methods>;
 }
+-keepclassmembers class * {
+    @android.webkit.JavascriptInterface <methods>;
+}
 
 -dontwarn org.jetbrains.annotations.NotNull
 -dontwarn org.jetbrains.annotations.Nullable
