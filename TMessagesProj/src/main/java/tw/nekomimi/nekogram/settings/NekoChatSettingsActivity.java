@@ -1,5 +1,6 @@
 package tw.nekomimi.nekogram.settings;
 
+import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -53,7 +54,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
 
     private RecyclerListView listView;
     private ListAdapter listAdapter;
-    private ActionBarMenuItem menuItem;
+    private ActionBarMenuItem resetItem;
+    private StickerSizeCell stickerSizeCell;
 
     private int rowCount;
 
@@ -102,20 +104,26 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         }
 
         ActionBarMenu menu = actionBar.createMenu();
-        menuItem = menu.addItem(0, R.drawable.ic_ab_other);
-        menuItem.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
-        menuItem.addSubItem(1, R.drawable.msg_reset, LocaleController.getString("ResetStickerSize", R.string.ResetStickerSize));
-        menuItem.setVisibility(NekoConfig.stickerSize != 14.0f ? View.VISIBLE : View.GONE);
+        resetItem = menu.addItem(0, R.drawable.msg_reset);
+        resetItem.setContentDescription(LocaleController.getString("ResetStickerSize", R.string.ResetStickerSize));
+        resetItem.setVisibility(NekoConfig.stickerSize != 14.0f ? View.VISIBLE : View.GONE);
+        resetItem.setTag(null);
+        resetItem.setOnClickListener(v -> {
+            AndroidUtilities.updateViewVisibilityAnimated(resetItem, false, 0.5f, true);
+            ValueAnimator animator = ValueAnimator.ofFloat(NekoConfig.stickerSize, 14.0f);
+            animator.setDuration(150);
+            animator.addUpdateListener(valueAnimator -> {
+                NekoConfig.setStickerSize((Float) valueAnimator.getAnimatedValue());
+                stickerSizeCell.invalidate();
+            });
+            animator.start();
+        });
 
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
             public void onItemClick(int id) {
                 if (id == -1) {
                     finishFragment();
-                } else if (id == 1) {
-                    NekoConfig.setStickerSize(14.0f);
-                    menuItem.setVisibility(View.GONE);
-                    listAdapter.notifyItemChanged(stickerSizeRow, new Object());
                 }
             }
         });
@@ -477,7 +485,9 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                     sizeBar.getSeekBarAccessibilityDelegate().postAccessibilityEventRunnable(StickerSizeCell.this);
                     NekoConfig.setStickerSize(startStickerSize + (endStickerSize - startStickerSize) * progress);
                     StickerSizeCell.this.invalidate();
-                    menuItem.setVisibility(View.VISIBLE);
+                    if (resetItem.getVisibility() != VISIBLE) {
+                        AndroidUtilities.updateViewVisibilityAnimated(resetItem, true, 0.5f, true);
+                    }
                 }
 
                 @Override
@@ -512,6 +522,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         @Override
         public void invalidate() {
             super.invalidate();
+            lastWidth = -1;
             messagesCell.invalidate();
             sizeBar.invalidate();
         }
@@ -671,7 +682,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                     view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     break;
                 case 8:
-                    view = new StickerSizeCell(mContext);
+                    view = stickerSizeCell = new StickerSizeCell(mContext);
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
             }
