@@ -1634,7 +1634,6 @@ public class MessagesController extends BaseController implements NotificationCe
                         case "chat_read_mark_size_threshold": {
                             if (value.value instanceof TLRPC.TL_jsonNumber) {
                                 TLRPC.TL_jsonNumber number = (TLRPC.TL_jsonNumber) value.value;
-                                Log.e("test", chatReadMarkSizeThreshold + "");
                                 if (number.value != chatReadMarkSizeThreshold) {
                                     chatReadMarkSizeThreshold = (int) number.value;
                                     editor.putInt("chatReadMarkSizeThreshold", chatReadMarkSizeThreshold);
