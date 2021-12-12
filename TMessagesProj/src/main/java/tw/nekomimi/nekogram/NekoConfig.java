@@ -15,11 +15,13 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationsService;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.net.ServerSocket;
+import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -39,6 +41,8 @@ public class NekoConfig {
     public static final int ID_TYPE_BOTAPI = 2;
 
     private static final String EMOJI_FONT_AOSP = "NotoColorEmoji.ttf";
+
+    private static final int[] OFFICIAL_CHANNELS = {1302242053, 1406090861, 1221673407, 1339737452, 1349472891};
 
     private static final Object sync = new Object();
     public static boolean useIPv6 = false;
@@ -241,6 +245,10 @@ public class NekoConfig {
             blockSponsoredMessage = preferences.getBoolean("blockSponsoredMessage", false);
             configLoaded = true;
         }
+    }
+
+    public static boolean isChatCat(TLRPC.Chat chat) {
+        return Arrays.stream(OFFICIAL_CHANNELS).anyMatch(id -> id == chat.id);
     }
 
     public static void setWsUseMTP(boolean use) {

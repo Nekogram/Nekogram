@@ -2726,6 +2726,7 @@ public class Theme {
     public static TextPaint profile_aboutTextPaint;
     public static Drawable profile_verifiedDrawable;
     public static Drawable profile_verifiedCheckDrawable;
+    public static Drawable profile_verifiedCatDrawable;
 
     public static Paint chat_docBackPaint;
     public static Paint chat_deleteProgressPaint;
@@ -9000,6 +9001,7 @@ public class Theme {
 
             profile_verifiedDrawable = resources.getDrawable(R.drawable.verified_area).mutate();
             profile_verifiedCheckDrawable = resources.getDrawable(R.drawable.verified_check).mutate();
+            profile_verifiedCatDrawable = resources.getDrawable(R.drawable.black_cat_18dp).mutate();
 
             applyProfileTheme();
         }
