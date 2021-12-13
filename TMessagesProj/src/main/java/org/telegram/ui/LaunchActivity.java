@@ -4713,6 +4713,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 String name = FileLoader.getAttachFileName(SharedConfig.pendingAppUpdate.document);
                 if (name.equals(path)) {
                     updateAppUpdateViews(true);
+                    checkAppUpdate(true);
                 }
             }
         } else if (id == NotificationCenter.screenStateChanged) {
