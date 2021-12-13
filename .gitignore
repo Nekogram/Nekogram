@@ -4,8 +4,6 @@ build/
 obj/
 *.iml
 local.properties
-.externalNativeBuild
 .cxx
-afat
-arm64
+.DS_Store
 /TMessagesProj/src/main/java/tw/nekomimi/nekogram/Extra.java
