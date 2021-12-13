@@ -1,4 +1,0 @@
-APP_PLATFORM := android-16
-NDK_TOOLCHAIN_VERSION := clang
-APP_SHORT_COMMANDS := true
-APP_STL := c++_static
