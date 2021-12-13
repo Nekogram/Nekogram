@@ -97,7 +97,7 @@ public class MusicBrowserService extends MediaBrowserService implements Notifica
 
         Context context = getApplicationContext();
         Intent intent = new Intent(context, LaunchActivity.class);
-        PendingIntent pi = PendingIntent.getActivity(context, 99, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pi = PendingIntent.getActivity(context, 99, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
         mediaSession.setSessionActivity(pi);
 
         Bundle extras = new Bundle();

@@ -1549,7 +1549,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 					.putExtra("call_access_hash", privateCall.access_hash)
 					.putExtra("call_video", privateCall.video)
 					.putExtra("account", currentAccount)
-					.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP), 0).send();
+					.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP), PendingIntent.FLAG_IMMUTABLE).send();
 		} catch (Exception x) {
 			if (BuildVars.LOGS_ENABLED) {
 				FileLog.e("Error starting incall activity", x);
@@ -2814,7 +2814,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		}
 		Notification.Builder builder = new Notification.Builder(this)
 				.setContentText(name)
-				.setContentIntent(PendingIntent.getActivity(this, 50, intent, 0));
+				.setContentIntent(PendingIntent.getActivity(this, 50, intent, PendingIntent.FLAG_IMMUTABLE));
 		if (groupCall != null) {
 			builder.setContentTitle(ChatObject.isChannelOrGiga(chat) ? LocaleController.getString("VoipLiveStream", R.string.VoipLiveStream) : LocaleController.getString("VoipVoiceChat", R.string.VoipVoiceChat));
 			builder.setSmallIcon(isMicMute() ? R.drawable.voicechat_muted : R.drawable.voicechat_active);
@@ -2826,9 +2826,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			Intent endIntent = new Intent(this, VoIPActionsReceiver.class);
 			endIntent.setAction(getPackageName() + ".END_CALL");
 			if (groupCall != null) {
-				builder.addAction(R.drawable.ic_call_end_white_24dp, ChatObject.isChannelOrGiga(chat) ? LocaleController.getString("VoipChannelLeaveAlertTitle", R.string.VoipChannelLeaveAlertTitle) : LocaleController.getString("VoipGroupLeaveAlertTitle", R.string.VoipGroupLeaveAlertTitle), PendingIntent.getBroadcast(this, 0, endIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+				builder.addAction(R.drawable.ic_call_end_white_24dp, ChatObject.isChannelOrGiga(chat) ? LocaleController.getString("VoipChannelLeaveAlertTitle", R.string.VoipChannelLeaveAlertTitle) : LocaleController.getString("VoipGroupLeaveAlertTitle", R.string.VoipGroupLeaveAlertTitle), PendingIntent.getBroadcast(this, 0, endIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
 			} else {
-				builder.addAction(R.drawable.ic_call_end_white_24dp, LocaleController.getString("VoipEndCall", R.string.VoipEndCall), PendingIntent.getBroadcast(this, 0, endIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+				builder.addAction(R.drawable.ic_call_end_white_24dp, LocaleController.getString("VoipEndCall", R.string.VoipEndCall), PendingIntent.getBroadcast(this, 0, endIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
 			}
 			builder.setPriority(Notification.PRIORITY_MAX);
 		}
@@ -3263,7 +3263,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 				FileLog.d("Starting incall activity for incoming call");
 			}
 			try {
-				PendingIntent.getActivity(VoIPService.this, 12345, new Intent(VoIPService.this, LaunchActivity.class).setAction("voip"), 0).send();
+				PendingIntent.getActivity(VoIPService.this, 12345, new Intent(VoIPService.this, LaunchActivity.class).setAction("voip"), PendingIntent.FLAG_IMMUTABLE).send();
 			} catch (Exception x) {
 				if (BuildVars.LOGS_ENABLED) {
 					FileLog.e("Error starting incall activity", x);
@@ -3816,7 +3816,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 				.setContentText(name)
 				.setSmallIcon(R.drawable.notification)
 				.setSubText(subText)
-				.setContentIntent(PendingIntent.getActivity(this, 0, intent, 0));
+				.setContentIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE));
 		Uri soundProviderUri = Uri.parse("content://" + BuildConfig.APPLICATION_ID + ".call_sound_provider/start_ringing");
 		if (Build.VERSION.SDK_INT >= 26) {
 			SharedPreferences nprefs = MessagesController.getGlobalNotificationsSettings();
@@ -3871,7 +3871,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			endTitle = new SpannableString(endTitle);
 			((SpannableString) endTitle).setSpan(new ForegroundColorSpan(0xFFF44336), 0, endTitle.length(), 0);
 		}
-		PendingIntent endPendingIntent = PendingIntent.getBroadcast(this, 0, endIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent endPendingIntent = PendingIntent.getBroadcast(this, 0, endIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 		builder.addAction(R.drawable.ic_call_end_white_24dp, endTitle, endPendingIntent);
 		Intent answerIntent = new Intent(this, VoIPActionsReceiver.class);
 		answerIntent.setAction(getPackageName() + ".ANSWER_CALL");
@@ -3881,7 +3881,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			answerTitle = new SpannableString(answerTitle);
 			((SpannableString) answerTitle).setSpan(new ForegroundColorSpan(0xFF00AA00), 0, answerTitle.length(), 0);
 		}
-		PendingIntent answerPendingIntent = PendingIntent.getBroadcast(this, 0, answerIntent, PendingIntent.FLAG_CANCEL_CURRENT);
+		PendingIntent answerPendingIntent = PendingIntent.getBroadcast(this, 0, answerIntent, PendingIntent.FLAG_CANCEL_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 		builder.addAction(R.drawable.ic_call, answerTitle, answerPendingIntent);
 		builder.setPriority(Notification.PRIORITY_MAX);
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -3891,7 +3891,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			builder.setColor(0xff2ca5e0);
 			builder.setVibrate(new long[0]);
 			builder.setCategory(Notification.CATEGORY_CALL);
-			builder.setFullScreenIntent(PendingIntent.getActivity(this, 0, intent, 0), true);
+			builder.setFullScreenIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE), true);
 			if (userOrChat instanceof TLRPC.User) {
 				TLRPC.User user = (TLRPC.User) userOrChat;
 				if (!TextUtils.isEmpty(user.phone)) {
@@ -4171,7 +4171,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && Build.VERSION.SDK_INT < Build.VERSION_CODES.R && (checkSelfPermission(Manifest.permission.RECORD_AUDIO) != PackageManager.PERMISSION_GRANTED || privateCall.video && checkSelfPermission(Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
 			try {
 				//intent.addFlags(Intent.FLAG_ACTIVITY_NEW_DOCUMENT);
-				PendingIntent.getActivity(VoIPService.this, 0, new Intent(VoIPService.this, VoIPPermissionActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), PendingIntent.FLAG_ONE_SHOT).send();
+				PendingIntent.getActivity(VoIPService.this, 0, new Intent(VoIPService.this, VoIPPermissionActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK), PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE).send();
 			} catch (Exception x) {
 				if (BuildVars.LOGS_ENABLED) {
 					FileLog.e("Error starting permission activity", x);
@@ -4181,7 +4181,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		}
 		acceptIncomingCall();
 		try {
-			PendingIntent.getActivity(VoIPService.this, 0, new Intent(VoIPService.this, getUIActivityClass()).setAction("voip"), 0).send();
+			PendingIntent.getActivity(VoIPService.this, 0, new Intent(VoIPService.this, getUIActivityClass()).setAction("voip"), PendingIntent.FLAG_IMMUTABLE).send();
 		} catch (Exception x) {
 			if (BuildVars.LOGS_ENABLED) {
 				FileLog.e("Error starting incall activity", x);

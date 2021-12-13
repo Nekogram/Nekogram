@@ -2503,7 +2503,7 @@ public class NotificationsController extends BaseController {
         try {
             Intent intent = new Intent(ApplicationLoader.applicationContext, NotificationRepeat.class);
             intent.putExtra("currentAccount", currentAccount);
-            PendingIntent pintent = PendingIntent.getService(ApplicationLoader.applicationContext, 0, intent, 0);
+            PendingIntent pintent = PendingIntent.getService(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_MUTABLE);
             SharedPreferences preferences = getAccountInstance().getNotificationsSettings();
             int minutes = preferences.getInt("repeat_messages", 60);
             if (minutes > 0 && personalCount > 0) {
@@ -2882,7 +2882,7 @@ public class NotificationsController extends BaseController {
             }
             NotificationCompat.BubbleMetadata.Builder bubbleBuilder =
                     new NotificationCompat.BubbleMetadata.Builder(
-                            PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT),
+                            PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE),
                             icon);
             bubbleBuilder.setSuppressNotification(openedDialogId == did);
             bubbleBuilder.setAutoExpandBubble(false);
@@ -3651,7 +3651,7 @@ public class NotificationsController extends BaseController {
                 }
             }
             intent.putExtra("currentAccount", currentAccount);
-            PendingIntent contentIntent = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent contentIntent = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
             mBuilder.setContentTitle(name)
                     .setSmallIcon(R.drawable.notification)
@@ -3675,7 +3675,7 @@ public class NotificationsController extends BaseController {
             Intent dismissIntent = new Intent(ApplicationLoader.applicationContext, NotificationDismissReceiver.class);
             dismissIntent.putExtra("messageDate", lastMessageObject.messageOwner.date);
             dismissIntent.putExtra("currentAccount", currentAccount);
-            mBuilder.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+            mBuilder.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 1, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
 
             if (photoPath != null) {
                 BitmapDrawable img = ImageLoader.getInstance().getImageFromMemory(photoPath, null, "50_50");
@@ -3794,7 +3794,7 @@ public class NotificationsController extends BaseController {
                                     callbackIntent.putExtra("data", button.data);
                                 }
                                 callbackIntent.putExtra("mid", lastMessageObject.getId());
-                                mBuilder.addAction(0, button.text, PendingIntent.getBroadcast(ApplicationLoader.applicationContext, lastButtonId++, callbackIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+                                mBuilder.addAction(0, button.text, PendingIntent.getBroadcast(ApplicationLoader.applicationContext, lastButtonId++, callbackIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
                                 hasCallback = true;
                             }
                         }
@@ -3808,7 +3808,7 @@ public class NotificationsController extends BaseController {
                 if (Build.VERSION.SDK_INT <= 19) {
                     mBuilder.addAction(R.drawable.ic_ab_reply2, LocaleController.getString("Reply", R.string.Reply), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT));
                 } else {
-                    mBuilder.addAction(R.drawable.ic_ab_reply, LocaleController.getString("Reply", R.string.Reply), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+                    mBuilder.addAction(R.drawable.ic_ab_reply, LocaleController.getString("Reply", R.string.Reply), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 2, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
                 }
             }
             showExtraNotifications(mBuilder, detailText, dialog_id, chatName, vibrationPattern, ledColor, sound, configImportance, isDefault, isInApp, notifyDisabled, chatType);
@@ -4088,7 +4088,7 @@ public class NotificationsController extends BaseController {
                 replyIntent.putExtra("dialog_id", dialogId);
                 replyIntent.putExtra("max_id", maxId);
                 replyIntent.putExtra("currentAccount", currentAccount);
-                PendingIntent replyPendingIntent = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, internalId, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent replyPendingIntent = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, internalId, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
                 RemoteInput remoteInputWear = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString("Reply", R.string.Reply)).build();
                 String replyToString;
                 if (DialogObject.isChatDialog(dialogId)) {
@@ -4320,7 +4320,7 @@ public class NotificationsController extends BaseController {
                 intent.putExtra("chatId", -dialogId);
             }
             intent.putExtra("currentAccount", currentAccount);
-            PendingIntent contentIntent = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT);
+            PendingIntent contentIntent = PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_ONE_SHOT | PendingIntent.FLAG_IMMUTABLE);
 
             NotificationCompat.WearableExtender wearableExtender = new NotificationCompat.WearableExtender();
             if (wearReplyAction != null) {
@@ -4332,7 +4332,7 @@ public class NotificationsController extends BaseController {
             msgHeardIntent.putExtra("dialog_id", dialogId);
             msgHeardIntent.putExtra("max_id", maxId);
             msgHeardIntent.putExtra("currentAccount", currentAccount);
-            PendingIntent readPendingIntent = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, internalId, msgHeardIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent readPendingIntent = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, internalId, msgHeardIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             NotificationCompat.Action readAction = new NotificationCompat.Action.Builder(R.drawable.menu_read, LocaleController.getString("MarkAsRead", R.string.MarkAsRead), readPendingIntent)
                     .setSemanticAction(NotificationCompat.Action.SEMANTIC_ACTION_MARK_AS_READ)
                     .setShowsUserInterface(false)
@@ -4381,7 +4381,7 @@ public class NotificationsController extends BaseController {
             dismissIntent.putExtra("messageDate", maxDate);
             dismissIntent.putExtra("dialogId", dialogId);
             dismissIntent.putExtra("currentAccount", currentAccount);
-            builder.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, internalId, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+            builder.setDeleteIntent(PendingIntent.getBroadcast(ApplicationLoader.applicationContext, internalId, dismissIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
 
             if (useSummaryNotification) {
                 builder.setGroup(notificationGroup);
@@ -4418,7 +4418,7 @@ public class NotificationsController extends BaseController {
                                     callbackIntent.putExtra("data", button.data);
                                 }
                                 callbackIntent.putExtra("mid", rowsMid);
-                                builder.addAction(0, button.text, PendingIntent.getBroadcast(ApplicationLoader.applicationContext, lastButtonId++, callbackIntent, PendingIntent.FLAG_UPDATE_CURRENT));
+                                builder.addAction(0, button.text, PendingIntent.getBroadcast(ApplicationLoader.applicationContext, lastButtonId++, callbackIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
                             }
                         }
                     }
