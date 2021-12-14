@@ -47,6 +47,8 @@ import org.telegram.ui.Components.voip.CellFlickerDrawable;
 import java.io.File;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.helpers.ApkInstaller;
+
 public class BlockingUpdateView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
 
     private TextView textView;
@@ -255,19 +257,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
             String fileName = FileLoader.getAttachFileName(document);
             File f = FileLoader.getPathToAttach(document, true);
             if (exists = f.exists()) {
-                Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-
-                if (Build.VERSION.SDK_INT >= 24) {
-                    intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", f), "application/vnd.android.package-archive");
-                } else {
-                    intent.setDataAndType(Uri.fromFile(f), "application/vnd.android.package-archive");
-                }
-                try {
-                    activity.startActivityForResult(intent, 500);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
+                ApkInstaller.installUpdate(activity, SharedConfig.pendingAppUpdate.document);
             }
         } catch (Exception e) {
             FileLog.e(e);

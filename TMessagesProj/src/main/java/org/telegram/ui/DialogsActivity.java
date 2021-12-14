@@ -179,6 +179,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.ApkInstaller;
 
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -3414,7 +3415,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (!SharedConfig.isAppUpdateAvailable()) {
                     return;
                 }
-                AndroidUtilities.openForView(SharedConfig.pendingAppUpdate.document, true, getParentActivity());
+                ApkInstaller.installUpdate(getParentActivity(), SharedConfig.pendingAppUpdate.document);
             });
 
             updateLayoutIcon = new RadialProgress2(updateLayout);

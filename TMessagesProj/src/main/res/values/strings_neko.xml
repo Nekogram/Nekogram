@@ -177,4 +177,6 @@
     <string name="InviteTextNeko">Hey, I\'m using Nekogram to chat. Join me! Download it here: %1$s</string>
     <string name="ShareNekogram">Share Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBased on Telegram %2$s\nDesigned by %3$s</string>
+    <string name="UpdateInstalling">Update is installing...</string>
+    <string name="UpdateFailedToInstall">Failed to install new update: %d</string>
 </resources>

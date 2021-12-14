@@ -163,6 +163,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import tw.nekomimi.nekogram.helpers.ApkInstaller;
 import tw.nekomimi.nekogram.helpers.UpdateHelper;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 
@@ -3572,7 +3573,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 FileLoader.getInstance(currentAccount).cancelLoadFile(SharedConfig.pendingAppUpdate.document);
                 updateAppUpdateViews(true);
             } else {
-                AndroidUtilities.openForView(SharedConfig.pendingAppUpdate.document, true, this);
+                ApkInstaller.installUpdate(this, SharedConfig.pendingAppUpdate.document);
             }
         });
         updateLayoutIcon = new RadialProgress2(updateLayout);
