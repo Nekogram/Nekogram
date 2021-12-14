@@ -3122,12 +3122,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                     builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, (dialogInterface, i) -> {
                         if (i == 0) {
-                            try {
-                                AndroidUtilities.addToClipboard(((SimpleTextView) v).getText());
-                                BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
-                            } catch (Exception e) {
-                                FileLog.e(e);
-                            }
+                            AndroidUtilities.addToClipboard(((SimpleTextView) v).getText());
+                            BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
                         }
                     });
                     showDialog(builder.create());
@@ -6215,12 +6211,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                 builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, (dialogInterface, i) -> {
                     if (i == 0) {
-                        try {
-                            AndroidUtilities.addToClipboard(String.valueOf(finalId));
-                            BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
-                        } catch (Exception e) {
-                            FileLog.e(e);
-                        }
+                        AndroidUtilities.addToClipboard(String.valueOf(finalId));
+                        BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
                     }
                 });
                 showDialog(builder.create());

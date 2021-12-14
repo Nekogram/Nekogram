@@ -22,7 +22,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.FileLoader;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
@@ -189,19 +188,29 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener((view, position, x, y) -> {
             if (position != endRow) {
-                TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
-                try {
+                if (getMessagesController().isChatNoForwards(toChat) && (position == messageRow || position == captionRow)) {
+                    if (toChat.broadcast) {
+                        BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("ForwardsRestrictedInfoChannel", R.string.ForwardsRestrictedInfoChannel)).show();
+                    } else {
+                        BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("ForwardsRestrictedInfoGroup", R.string.ForwardsRestrictedInfoGroup)).show();
+                    }
+                } else {
+                    TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
                     AndroidUtilities.addToClipboard(textCell.getValueTextView().getText());
                     BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
-                } catch (Exception e) {
-                    FileLog.e(e);
                 }
             }
 
         });
         listView.setOnItemLongClickListener((view, position) -> {
             if (position == filePathRow) {
-                AndroidUtilities.runOnUIThread(() -> {
+                if (getMessagesController().isChatNoForwards(toChat)) {
+                    if (toChat.broadcast) {
+                        BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("ForwardsRestrictedInfoChannel", R.string.ForwardsRestrictedInfoChannel)).show();
+                    } else {
+                        BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("ForwardsRestrictedInfoGroup", R.string.ForwardsRestrictedInfoGroup)).show();
+                    }
+                } else {
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     intent.setType("application/octet-stream");
                     if (Build.VERSION.SDK_INT >= 24) {
@@ -215,7 +224,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                         intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
                     }
                     startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
-                });
+                }
             } else if (position == channelRow || position == groupRow) {
                 if (toChat != null) {
                     Bundle args = new Bundle();
