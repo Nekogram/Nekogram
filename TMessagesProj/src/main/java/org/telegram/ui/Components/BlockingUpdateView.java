@@ -150,9 +150,6 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         acceptButton.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
         addView(acceptButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 46, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0, 0, 45));
         acceptButton.setOnClickListener(view1 -> {
-            if (!checkApkInstallPermissions(getContext())) {
-                return;
-            }
             if (appUpdate.document instanceof TLRPC.TL_document) {
                 if (!openApkInstall((Activity) getContext(), appUpdate.document)) {
                     FileLoader.getInstance(accountNum).loadFile(appUpdate.document, "update", 2, 1);
@@ -230,25 +227,6 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
                 radialProgress.setProgress(progress, true);
             }
         }
-    }
-
-    public static boolean checkApkInstallPermissions(final Context context) {
-        if (Build.VERSION.SDK_INT >= 26 && !ApplicationLoader.applicationContext.getPackageManager().canRequestPackageInstalls()) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(context);
-            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-            builder.setMessage(LocaleController.getString("ApkRestricted", R.string.ApkRestricted));
-            builder.setPositiveButton(LocaleController.getString("PermissionOpenSettings", R.string.PermissionOpenSettings), (dialogInterface, i) -> {
-                try {
-                    context.startActivity(new Intent(Settings.ACTION_MANAGE_UNKNOWN_APP_SOURCES, Uri.parse("package:" + ApplicationLoader.applicationContext.getPackageName())));
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
-            });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-            builder.show();
-            return false;
-        }
-        return true;
     }
 
     public static boolean openApkInstall(Activity activity, TLRPC.Document document) {
