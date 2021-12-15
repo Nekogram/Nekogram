@@ -1,6 +1,7 @@
 package tw.nekomimi.nekogram.helpers;
 
 import android.content.pm.PackageInfo;
+import android.os.Build;
 import android.text.TextUtils;
 
 import org.json.JSONException;
@@ -24,19 +25,41 @@ import java.util.HashMap;
 import tw.nekomimi.nekogram.Extra;
 
 public class UpdateHelper {
+    private static final String UPDATE_TAG = "#updatev2";
 
     private static volatile UpdateHelper Instance;
-    private int currentVersion;
-    private int currentAbi;
+    private int installedVersion;
+    private String installedAbi;
 
     UpdateHelper() {
         try {
-            PackageInfo pInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
-            currentVersion = pInfo.versionCode / 10;
-            currentAbi = pInfo.versionCode % 10;
+            var pInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
+            installedVersion = pInfo.versionCode / 10;
+            switch (pInfo.versionCode % 10) {
+                case 1:
+                case 3:
+                    installedAbi = "arm-v7a";
+                    break;
+                case 2:
+                case 4:
+                    installedAbi = "x86";
+                    break;
+                case 5:
+                case 7:
+                    installedAbi = "arm64-v8a";
+                    break;
+                case 6:
+                case 8:
+                    installedAbi = "x86_64";
+                    break;
+                case 0:
+                case 9:
+                    installedAbi = "universal";
+                    break;
+            }
         } catch (Exception ignore) {
-            currentVersion = -1;
-            currentAbi = -1;
+            installedVersion = -1;
+            installedAbi = "universal";
         }
     }
 
@@ -118,117 +141,129 @@ public class UpdateHelper {
         return MessagesStorage.getInstance(UserConfig.selectedAccount);
     }
 
+    private int getPreferredAbiFile(JSONObject files) throws JSONException {
+        for (String abi : Build.SUPPORTED_ABIS) {
+            if (files.has(abi)) {
+                return files.getInt(abi);
+            }
+        }
+        if (files.has(installedAbi)) {
+            return files.getInt(installedAbi);
+        } else {
+            return files.getInt("universal");
+        }
+    }
+
     private JSONObject getShouldUpdateVersion(ArrayList<TLRPC.Message> messages) {
-        int maxVersion = currentVersion;
+        int maxVersion = installedVersion;
         JSONObject ref = null;
-        for (TLRPC.Message message : messages) {
-            if (TextUtils.isEmpty(message.message) || !message.message.startsWith("#update")) {
+        for (var message : messages) {
+            if (TextUtils.isEmpty(message.message) || !message.message.startsWith(UPDATE_TAG)) {
                 continue;
             }
             try {
-                JSONObject json = new JSONObject(message.message.substring(7).trim());
+                JSONObject json = new JSONObject(message.message.substring(UPDATE_TAG.length()).trim());
                 int version_code = json.getInt("version_code");
                 if (version_code > maxVersion) {
                     maxVersion = version_code;
                     ref = json;
                 }
-            } catch (JSONException ignore) {
-
+            } catch (JSONException e) {
+                FileLog.e(e);
             }
         }
         return ref;
     }
 
-    private void getNewVersionMessagesTLCallback(UpdateHelperDelegate delegate, int dialog_id, JSONObject json,
-                                                 TLObject response, TLRPC.TL_error error) {
-
-        if (error == null) {
-            final TLRPC.messages_Messages res = (TLRPC.messages_Messages) response;
-            getMessagesController().removeDeletedMessagesFromArray(dialog_id, res.messages);
-
-            HashMap<Integer, TLRPC.Message> messages = new HashMap<>();
-            for (TLRPC.Message message : res.messages) {
-                messages.put(message.id, message);
+    private void getNewVersionMessagesCallback(UpdateHelperDelegate delegate, int dialog_id, JSONObject json,
+                                               HashMap<String, Integer> ids, TLObject response) {
+        try {
+            var update = new TLRPC.TL_help_appUpdate();
+            update.version = json.getString("version");
+            update.can_not_skip = json.getBoolean("can_not_skip");
+            if (json.has("url")) {
+                update.url = json.getString("url");
+                update.flags |= 4;
             }
-            try {
-                TLRPC.TL_help_appUpdate update = new TLRPC.TL_help_appUpdate();
-                update.version = json.getString("version");
-                update.can_not_skip = json.getBoolean("can_not_skip");
-                if (json.has("url")) {
-                    update.url = json.getString("url");
-                    update.flags |= 4;
+            if (response != null) {
+                var res = (TLRPC.messages_Messages) response;
+                getMessagesController().removeDeletedMessagesFromArray(dialog_id, res.messages);
+                var messages = new HashMap<Integer, TLRPC.Message>();
+                for (var message : res.messages) {
+                    messages.put(message.id, message);
                 }
-                if (json.has("files")) {
-                    TLRPC.Message file = messages.get(json.getJSONArray("files").getInt(currentAbi));
+
+                if (ids.containsKey("file")) {
+                    var file = messages.get(ids.get("file"));
                     if (file != null && file.media != null) {
                         update.document = file.media.document;
                         update.flags |= 2;
                     }
                 }
-                if (json.has("message")) {
-                    JSONObject messageJson = json.getJSONObject("message");
-                    String channel = LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername);
-                    if (messageJson.has(channel)) {
-                        TLRPC.Message message = messages.get(messageJson.getInt(channel));
-                        if (message != null) {
-                            update.text = message.message;
-                            update.entities = message.entities;
-                        }
+                if (ids.containsKey("message")) {
+                    var message = messages.get(ids.get("message"));
+                    if (message != null) {
+                        update.text = message.message;
+                        update.entities = message.entities;
                     }
                 }
-                if (json.has("sticker")) {
-                    TLRPC.Message sticker = messages.get(json.getInt("sticker"));
+                if (ids.containsKey("sticker")) {
+                    var sticker = messages.get(ids.get("sticker"));
                     if (sticker != null && sticker.media != null) {
                         update.sticker = sticker.media.document;
                         update.flags |= 8;
                     }
                 }
-                delegate.didCheckNewVersionAvailable(update, null);
-            } catch (JSONException e) {
-                delegate.didCheckNewVersionAvailable(null, e.getLocalizedMessage());
             }
-        } else {
-            delegate.didCheckNewVersionAvailable(null, error.text);
+            delegate.didCheckNewVersionAvailable(update, null);
+        } catch (JSONException e) {
+            FileLog.e(e);
+            delegate.didCheckNewVersionAvailable(null, e.getLocalizedMessage());
         }
     }
 
-    private void checkNewVersionTLCallback(UpdateHelperDelegate delegate, int dialog_id,
-                                           TLObject response, TLRPC.TL_error error) {
-        if (error == null) {
-            final TLRPC.messages_Messages res = (TLRPC.messages_Messages) response;
-            getMessagesController().removeDeletedMessagesFromArray(dialog_id, res.messages);
+    private void checkNewVersionCallback(UpdateHelperDelegate delegate, int dialog_id, TLObject response) {
+        var res = (TLRPC.messages_Messages) response;
+        getMessagesController().removeDeletedMessagesFromArray(dialog_id, res.messages);
+        var json = getShouldUpdateVersion(res.messages);
+        if (json == null) {
+            delegate.didCheckNewVersionAvailable(null, null); // no available version
+            return;
+        }
 
-            JSONObject json = getShouldUpdateVersion(res.messages);
-            if (json == null) {
-                delegate.didCheckNewVersionAvailable(null, null); // no available version
-                return;
+        try {
+            var ids = new HashMap<String, Integer>();
+            if (json.has("message")) {
+                var messageJson = json.getJSONObject("message");
+                var channel = LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername);
+                if (messageJson.has(channel)) {
+                    ids.put("message", messageJson.getInt(channel));
+                }
+            }
+            if (json.has("sticker")) {
+                ids.put("sticker", json.getInt("sticker"));
+            }
+            if (json.has("files")) {
+                ids.put("file", getPreferredAbiFile(json.getJSONObject("files")));
             }
 
-            try {
-                ArrayList<Integer> ids = new ArrayList<>();
-                if (json.has("message")) {
-                    JSONObject messageJson = json.getJSONObject("message");
-                    String channel = LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername);
-                    if (messageJson.has(channel)) {
-                        ids.add(messageJson.getInt(channel));
-                    }
-                }
-                if (json.has("sticker")) {
-                    ids.add(json.getInt("sticker"));
-                }
-                if (json.has("files")) {
-                    ids.add(json.getJSONArray("files").getInt(currentAbi));
-                }
-
-                TLRPC.TL_channels_getMessages req = new TLRPC.TL_channels_getMessages();
+            if (ids.isEmpty()) {
+                getNewVersionMessagesCallback(delegate, dialog_id, json, null, null);
+            } else {
+                var req = new TLRPC.TL_channels_getMessages();
                 req.channel = getMessagesController().getInputChannel(-dialog_id);
-                req.id = ids;
-                getConnectionsManager().sendRequest(req, (response1, error1) -> getNewVersionMessagesTLCallback(delegate, dialog_id, json, response1, error1));
-            } catch (Exception e) {
-                delegate.didCheckNewVersionAvailable(null, e.getLocalizedMessage());
+                req.id = new ArrayList<>(ids.values());
+                getConnectionsManager().sendRequest(req, (response1, error1) -> {
+                    if (error1 == null) {
+                        getNewVersionMessagesCallback(delegate, dialog_id, json, ids, response1);
+                    } else {
+                        delegate.didCheckNewVersionAvailable(null, error1.text);
+                    }
+                });
             }
-        } else {
-            delegate.didCheckNewVersionAvailable(null, error.text);
+        } catch (JSONException e) {
+            FileLog.e(e);
+            delegate.didCheckNewVersionAvailable(null, e.getLocalizedMessage());
         }
     }
 
@@ -238,16 +273,16 @@ public class UpdateHelper {
     }
 
     public void checkNewVersionAvailable(UpdateHelperDelegate delegate, boolean forceRefreshAccessHash) {
-        TLRPC.TL_contacts_resolveUsername req1 = new TLRPC.TL_contacts_resolveUsername();
-        int dialog_id = Extra.UPDATE_CHANNEL_ID;
-        req1.username = Extra.UPDATE_CHANNEL;
+        var dialog_id = Extra.UPDATE_CHANNEL_ID;
         TLRPC.TL_messages_search req = new TLRPC.TL_messages_search();
         req.limit = 10;
         req.offset_id = 0;
         req.filter = new TLRPC.TL_inputMessagesFilterEmpty();
-        req.q = "#update";
+        req.q = UPDATE_TAG;
         req.peer = getMessagesController().getInputPeer(dialog_id);
         if (req.peer == null || req.peer.access_hash == 0 || forceRefreshAccessHash) {
+            var req1 = new TLRPC.TL_contacts_resolveUsername();
+            req1.username = Extra.UPDATE_CHANNEL;
             getConnectionsManager().sendRequest(req1, (response1, error1) -> {
                 if (error1 != null) {
                     delegate.didCheckNewVersionAvailable(null, error1.text);
@@ -268,15 +303,21 @@ public class UpdateHelper {
                 req.peer = new TLRPC.TL_inputPeerChannel();
                 req.peer.channel_id = resolvedPeer.chats.get(0).id;
                 req.peer.access_hash = resolvedPeer.chats.get(0).access_hash;
-                getConnectionsManager().sendRequest(req, (response, error) -> checkNewVersionTLCallback(delegate, dialog_id, response, error));
+                getConnectionsManager().sendRequest(req, (response, error) -> {
+                    if (error == null) {
+                        checkNewVersionCallback(delegate, dialog_id, response);
+                    } else {
+                        delegate.didCheckNewVersionAvailable(null, error.text);
+                    }
+                });
             });
         } else {
             getConnectionsManager().sendRequest(req, (response, error) -> {
-                if (error != null) {
+                if (error == null) {
+                    checkNewVersionCallback(delegate, dialog_id, response);
+                } else {
                     checkNewVersionAvailable(delegate, true);
-                    return;
                 }
-                checkNewVersionTLCallback(delegate, dialog_id, response, null);
             });
         }
     }
