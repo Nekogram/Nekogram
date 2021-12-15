@@ -1,6 +1,7 @@
 package tw.nekomimi.nekogram.helpers;
 
 
+import android.annotation.SuppressLint;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,17 +10,27 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInstaller;
 import android.net.Uri;
 import android.os.Build;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
+import android.view.Gravity;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
+import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Bulletin;
+import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.RLottieImageView;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -30,6 +41,9 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 public final class ApkInstaller {
+    @SuppressLint("StaticFieldLeak")
+    private static AlertDialog dialog;
+
     // @WorkerThread
     private static void installapk(Context context, File apk) {
         //noinspection InlinedApi
@@ -50,8 +64,12 @@ public final class ApkInstaller {
             }
             session.commit(pending.getIntentSender());
         } catch (IOException e) {
+            if (dialog != null) {
+                dialog.dismiss();
+                dialog = null;
+            }
             NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needShowAlert, 2, e.getLocalizedMessage(), "");
-            Log.e(ApkInstaller.class.getSimpleName(), "", e);
+            FileLog.e(e);
         }
     }
 
@@ -63,13 +81,46 @@ public final class ApkInstaller {
         if (apk == null) {
             return;
         }
-        AlertDialog dialog = new AlertDialog(context, 1);
-        dialog.setMessage(LocaleController.getString("UpdateInstalling", R.string.UpdateInstalling));
+        if (dialog != null) {
+            try {
+                dialog.dismiss();
+            } catch (Exception ignore) {
+            }
+            dialog = null;
+        }
+        LinearLayout linearLayout = new LinearLayout(context);
+        linearLayout.setOrientation(LinearLayout.VERTICAL);
+        linearLayout.setLayoutParams(LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.LEFT, 4, 4, 4, 4));
+
+        RLottieImageView imageView = new RLottieImageView(context);
+        imageView.setAutoRepeat(true);
+        imageView.setAnimation(R.raw.db_migration_placeholder, 160, 160);
+        imageView.playAnimation();
+        linearLayout.addView(imageView, LayoutHelper.createLinear(160, 160, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 24, 17, 0));
+
+        TextView textView = new TextView(context);
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+        textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+        textView.setSingleLine(true);
+        textView.setEllipsize(TextUtils.TruncateAt.END);
+        textView.setText(LocaleController.getString("UpdateInstalling", R.string.UpdateInstalling));
+        linearLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 20, 17, 24));
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setView(linearLayout);
+        dialog = builder.create();
         dialog.setCanceledOnTouchOutside(false);
         dialog.setCancelable(false);
         dialog.show();
         Utilities.globalQueue.postRunnable(() -> {
-            var receiver = register(context, dialog::dismiss);
+            var receiver = register(context, () -> {
+                try {
+                    dialog.dismiss();
+                } catch (Exception ignore) {
+                }
+                dialog = null;
+            });
             installapk(context, apk);
             Intent intent = receiver.waitIntent();
             if (intent != null) {
