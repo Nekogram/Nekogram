@@ -239,6 +239,7 @@ import org.telegram.ui.Components.ViewHelper;
 import org.telegram.ui.Components.voip.VoIPHelper;
 import org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate;
 
+import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.translator.Translator;
@@ -2094,6 +2095,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             finishFragment();
                         }
                     }
+                } else if (id == 102) {
+                    AndroidUtilities.addToClipboard(getMessageHelper().generateUpdateInfo(selectedMessagesIds));
+                    undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+                    clearSelectionMode();
                 } else if (id == copy) {
                     String str = "";
                     long previousUid = 0;
@@ -2729,6 +2734,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         selectedMessagesCountTextView.setOnTouchListener((v, event) -> true);
 
         if (currentEncryptedChat == null) {
+            if (dialog_id == Extra.UPDATE_CHANNEL_ID) {
+                actionModeViews.add(actionMode.addItemWithWidth(102, R.drawable.msg_copy, AndroidUtilities.dp(54)));
+            }
             actionModeViews.add(actionMode.addItemWithWidth(save_to, R.drawable.msg_download, AndroidUtilities.dp(54), LocaleController.getString("SaveToMusic", R.string.SaveToMusic)));
             actionModeViews.add(actionMode.addItemWithWidth(edit, R.drawable.msg_edit, AndroidUtilities.dp(54), LocaleController.getString("Edit", R.string.Edit)));
             actionModeViews.add(actionMode.addItemWithWidth(star, R.drawable.msg_fave, AndroidUtilities.dp(54), LocaleController.getString("AddToFavorites", R.string.AddToFavorites)));

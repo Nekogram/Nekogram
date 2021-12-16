@@ -6,7 +6,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.text.TextUtils;
+import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.inputmethod.EditorInfo;
@@ -14,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BaseController;
 import org.telegram.messenger.ChatObject;
@@ -45,6 +49,8 @@ import org.telegram.ui.Components.LayoutHelper;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MessageHelper extends BaseController {
 
@@ -52,6 +58,69 @@ public class MessageHelper extends BaseController {
 
     public MessageHelper(int num) {
         super(num);
+    }
+
+    public String generateUpdateInfo(SparseArray<MessageObject>[] selectedMessagesIds) {
+        ArrayList<MessageObject> messageObjects = new ArrayList<>();
+        for (int a = 1; a >= 0; a--) {
+            for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
+                messageObjects.add(selectedMessagesIds[a].valueAt(b));
+            }
+        }
+        try {
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("can_not_skip", false);
+            Pattern regex = Pattern.compile("Nekogram-(.*)-([0-9]+)-(.*)\\.apk");
+            JSONObject file = new JSONObject();
+            JSONObject message = new JSONObject();
+            for (MessageObject messageObject : messageObjects) {
+                if (messageObject.isAnyKindOfSticker()) {
+                    jsonObject.put("sticker", messageObject.getId());
+                } else if (messageObject.getDocument() != null) {
+                    Matcher m = regex.matcher(messageObject.getDocumentName());
+                    if (m.find()) {
+                        if (!jsonObject.has("version")) {
+                            jsonObject.put("version", m.group(1));
+                            jsonObject.put("version_code", m.group(2));
+                        }
+                        String abi = m.group(3);
+                        if (abi != null) file.put(abi, messageObject.getId());
+                    }
+                } else {
+                    if (containsHanScript(messageObject.messageOwner.message)) {
+                        message.put("Zuragram", messageObject.getId());
+                    } else {
+                        message.put("nekoupdates", messageObject.getId());
+                    }
+                }
+            }
+            if (message.length() != 0) {
+                jsonObject.put("messages", message);
+                if (message.has("nekoupdates") && !message.has("Zuragram")) {
+                    message.put("Zuragram", message.getInt("nekoupdates"));
+                }
+            }
+            if (file.length() != 0) {
+                jsonObject.put("files", file);
+            }
+            return UpdateHelper.UPDATE_TAG + jsonObject.toString();
+        } catch (JSONException e) {
+            FileLog.e(e);
+            return "";
+        }
+    }
+
+    public static boolean containsHanScript(String s) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            return s.codePoints().anyMatch(Character::isIdeographic);
+        } else {
+            for (int i = 0; i < s.length(); i++) {
+                if (Character.isIdeographic(s.codePointAt(i))) {
+                    return true;
+                }
+            }
+            return false;
+        }
     }
 
     private MessageObject getTargetMessageObjectFromGroup(MessageObject.GroupedMessages selectedObjectGroup) {

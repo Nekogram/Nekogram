@@ -25,7 +25,7 @@ import java.util.HashMap;
 import tw.nekomimi.nekogram.Extra;
 
 public class UpdateHelper {
-    private static final String UPDATE_TAG = "#updatev2";
+    public static final String UPDATE_TAG = "#updatev2";
 
     private static volatile UpdateHelper Instance;
     private int installedVersion;
@@ -233,8 +233,8 @@ public class UpdateHelper {
 
         try {
             var ids = new HashMap<String, Integer>();
-            if (json.has("message")) {
-                var messageJson = json.getJSONObject("message");
+            if (json.has("messages")) {
+                var messageJson = json.getJSONObject("messages");
                 var channel = LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername);
                 if (messageJson.has(channel)) {
                     ids.put("message", messageJson.getInt(channel));
