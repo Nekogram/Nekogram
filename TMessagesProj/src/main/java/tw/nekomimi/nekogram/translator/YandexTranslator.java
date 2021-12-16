@@ -51,9 +51,9 @@ public class YandexTranslator extends BaseTranslator {
 
     @Override
     protected String translate(String query, String tl) throws IOException, JSONException {
-        return getResult(new Http("https://translate.yandex.net/api/v1/tr.json/translate?srv=android&&uuid=" + uuid)
+        return getResult(new Http("https://translate.yandex.net/api/v1/tr.json/translate?id=" + uuid + "-0-0&srv=android")
                 .header("Content-Type", "application/x-www-form-urlencoded")
-                .header("User-Agent", "ru.yandex.translate/21.9.2.21342195 (Xiaomi Redmi K20 Pro; Android 11)")
+                .header("User-Agent", "ru.yandex.translate/21.15.4.21402814 (Xiaomi Redmi K20 Pro; Android 11)")
                 .data("lang=" + tl + "&text=" + URLEncoder.encode(query, "UTF-8"))
                 .request());
     }
