@@ -11,7 +11,6 @@ import android.content.pm.PackageInstaller;
 import android.net.Uri;
 import android.os.Build;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.LinearLayout;
@@ -22,15 +21,15 @@ import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Components.Bulletin;
+import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
+import org.telegram.ui.LaunchActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -64,12 +63,12 @@ public final class ApkInstaller {
             }
             session.commit(pending.getIntentSender());
         } catch (IOException e) {
+            FileLog.e(e);
             if (dialog != null) {
                 dialog.dismiss();
                 dialog = null;
             }
-            NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needShowAlert, 2, e.getLocalizedMessage(), "");
-            FileLog.e(e);
+            AlertsCreator.createSimpleAlert(context, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + e.getLocalizedMessage()).show();
         }
     }
 
@@ -81,12 +80,8 @@ public final class ApkInstaller {
         if (apk == null) {
             return;
         }
-        if (dialog != null) {
-            try {
-                dialog.dismiss();
-            } catch (Exception ignore) {
-            }
-            dialog = null;
+        if (dialog != null && dialog.isShowing()) {
+            return;
         }
         LinearLayout linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -115,11 +110,10 @@ public final class ApkInstaller {
         dialog.show();
         Utilities.globalQueue.postRunnable(() -> {
             var receiver = register(context, () -> {
-                try {
+                if (dialog != null) {
                     dialog.dismiss();
-                } catch (Exception ignore) {
+                    dialog = null;
                 }
-                dialog = null;
             });
             installapk(context, apk);
             Intent intent = receiver.waitIntent();
@@ -183,7 +177,9 @@ public final class ApkInstaller {
                 case PackageInstaller.STATUS_FAILURE_INCOMPATIBLE:
                 case PackageInstaller.STATUS_FAILURE_INVALID:
                 case PackageInstaller.STATUS_FAILURE_STORAGE:
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_ERROR, LocaleController.formatString("UpdateFailedToInstall", R.string.UpdateFailedToInstall, status));
+                    if (context instanceof LaunchActivity) {
+                        ((LaunchActivity) context).showBulletin(factory -> factory.createErrorBulletin(LocaleController.formatString("UpdateFailedToInstall", R.string.UpdateFailedToInstall, status)));
+                    }
                 case PackageInstaller.STATUS_FAILURE_ABORTED:
                 case PackageInstaller.STATUS_SUCCESS:
                 default:

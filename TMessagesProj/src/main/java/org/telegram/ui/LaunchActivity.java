@@ -3706,7 +3706,11 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     }
                 } else {
                     if (force) {
-                        showBulletin(factory -> factory.createErrorBulletin(error != null ? error : LocaleController.getString("NoUpdateAvailable", R.string.NoUpdateAvailable)));
+                        if (error == null) {
+                            showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("NoUpdateAvailable", R.string.NoUpdateAvailable)));
+                        } else {
+                            AlertsCreator.createSimpleAlert(this, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error).show();
+                        }
                     }
                     SharedConfig.setNewAppVersionAvailable(null);
                     drawerLayoutAdapter.notifyDataSetChanged();
