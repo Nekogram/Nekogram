@@ -235,7 +235,7 @@ public class MemberRequestsDelegate implements MemberRequestCell.OnClickListener
                 fragment.getMessagesController().putUser(user, false);
                 boolean isLandscape = AndroidUtilities.displaySize.x > AndroidUtilities.displaySize.y;
                 boolean showProfile = user.photo == null || isLandscape;
-                if (showProfile) {
+                if (true) {
                     isNeedRestoreList = true;
                     fragment.dismissCurrentDialog();
                     Bundle args = new Bundle();
