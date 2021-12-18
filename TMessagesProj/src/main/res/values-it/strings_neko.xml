@@ -168,4 +168,8 @@
     <string name="InviteTextNeko">Hey, sto usando Nekogram per chattare. Unisciti a me! Scaricalo qui: %1$s</string>
     <string name="ShareNekogram">Condividi Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBasato su Telegram %2$s\nProgettato da %3$s</string>
+    <string name="UpdateInstalling">Installazione aggiornamento...</string>
+    <string name="UpdateFailedToInstall">Installazione aggiornamento non riuscita: %d</string>
+    <string name="QRLoginMessage">Scansiona il Codice QR con un altro dispositivo per accedere.</string>
+    <string name="QRLoginTitle">QR Login</string>
 </resources>

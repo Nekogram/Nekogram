@@ -169,4 +169,6 @@
     <string name="InviteTextNeko">Привет, я использую Nekogram, чтобы общаться. Присоединяйся ко мне! Скачайте здесь: %1$s</string>
     <string name="ShareNekogram">Поделиться Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nНа основе Telegram %2$s\nДизайн %3$s</string>
+    <string name="UpdateInstalling">Установка обновления...</string>
+    <string name="UpdateFailedToInstall">Не удалось установить обновление: %d</string>
 </resources>

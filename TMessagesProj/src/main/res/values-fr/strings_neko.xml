@@ -42,6 +42,7 @@
     <string name="SensitiveDisableFiltering">Désactiver le filtrage des contenus sensibles</string>
     <string name="SensitiveAbout">Afficher les médias sensibles dans les chaînes publiques sur tous vos appareils.</string>
     <string name="StickerSize">Taille des autocollants</string>
+    <string name="StickerSizeDialogMessage">Oh trop mignon ! Un chat noir !</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
     <string name="Experiment">Expérimental</string>
     <string name="UnlimitedFavoredStickers">Autocollants préférés illimités</string>
@@ -156,4 +157,18 @@
     <string name="MaxRecentStickers">Nombre maximum d\'autocollants récents</string>
     <string name="ApplyEmojiFont">Appliquer la police d\'emoji</string>
     <string name="DisableJumpToNextChannel">Désactiver « Passer au canal suivant »</string>
+    <string name="DisableGreetingSticker">Désactiver l\'autocollant de salutation</string>
+    <string name="BlockSponsoredMessage">Bloquer les messages sponsorisés</string>
+    <string name="DeleteAllFromSelfAdmin">Avec les droits d\'administrateur</string>
+    <string name="OfficialSite">Site officiel</string>
+    <string name="MutualContact">Contact commun</string>
+    <string name="MutualContactDescription">Ce contact est un contact commun.</string>
+    <string name="NoUpdateAvailable">Aucune mise à jour disponible.</string>
+    <string name="InviteTextNeko">Hey, j\'utilise Nekogram pour échanger. Rejoignez-moi ! Téléchargez-la ici : %1$s</string>
+    <string name="ShareNekogram">Partager Nekogram...</string>
+    <string name="NekogramVersion">Nekogram %1$s\nBasé sur Telegram %2$s\nConçu par %3$s</string>
+    <string name="UpdateInstalling">Installation de la mise à jour...</string>
+    <string name="UpdateFailedToInstall">Échec d\'installation de la mise à jour : %d</string>
+    <string name="QRLoginMessage">Scannez ce QRCode avec un autre appareil pour vous connecter.</string>
+    <string name="QRLoginTitle">Connexion avec QR Code</string>
 </resources>

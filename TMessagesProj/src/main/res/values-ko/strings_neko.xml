@@ -168,4 +168,9 @@
     <string name="NoUpdateAvailable">사용할 수 있는 업데이트가 없습니다.</string>
     <string name="InviteTextNeko">안녕, 나는 네코그램을 사용하고 있어요. 한번 사용해 보실래요? 여기에서 다운로드 하세요: %1$s</string>
     <string name="ShareNekogram">네코그램 공유하기</string>
+    <string name="NekogramVersion">네코그램 %1$s 은 텔레그램 %2$s 기반으로 %3$s 이 제작 하였습니다</string>
+    <string name="UpdateInstalling">업데이트 설치 중...</string>
+    <string name="UpdateFailedToInstall">업데이트를 설치하지 못했습니다: %d</string>
+    <string name="QRLoginMessage">다른 장치로 QRCode 를 스캔하여 로그인 하기</string>
+    <string name="QRLoginTitle">QR 로그인</string>
 </resources>
