@@ -41,7 +41,6 @@ import org.telegram.ui.Components.ForegroundDetector;
 import java.io.File;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import androidx.multidex.MultiDex;
 
 public class ApplicationLoader extends Application {
 
@@ -64,12 +63,6 @@ public class ApplicationLoader extends Application {
     public static volatile long mainInterfacePausedStageQueueTime;
 
     public static boolean hasPlayServices;
-
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        MultiDex.install(this);
-    }
 
     public static File getFilesDirFixed() {
         for (int a = 0; a < 10; a++) {
