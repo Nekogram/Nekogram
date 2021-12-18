@@ -1983,45 +1983,7 @@ public class ImageLoader {
 
         try {
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                File path = NekoConfig.saveCacheToExternalFilesDir ? ApplicationLoader.applicationContext.getExternalFilesDir(null) : Environment.getExternalStorageDirectory();
-                if (Build.VERSION.SDK_INT >= 19 && !TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
-                    ArrayList<File> dirs = AndroidUtilities.getRootDirs();
-                    if (dirs != null) {
-                        for (int a = 0, N = dirs.size(); a < N; a++) {
-                            File dir = dirs.get(a);
-                            if (dir.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
-                                path = dir;
-                                break;
-                            }
-                        }
-                    }
-                }
-
-                if (Build.VERSION.SDK_INT >= 30) {
-                    File newPath = ApplicationLoader.applicationContext.getExternalFilesDir(null);
-                    telegramPath = new File(newPath, "Telegram");
-//                    File oldPath = new File(path, "Telegram");
-//                    long moveStart = System.currentTimeMillis();
-//                    moveDirectory(oldPath, telegramPath);
-//                    long dt = System.currentTimeMillis() - moveStart;
-//                    FileLog.d("move time = " + dt);
-                } else {
-                    telegramPath = new File(path, "Telegram");
-                }
-                telegramPath.mkdirs();
-
-                if (Build.VERSION.SDK_INT >= 19 && !telegramPath.isDirectory()) {
-                    ArrayList<File> dirs = AndroidUtilities.getDataDirs();
-                    for (int a = 0, N = dirs.size(); a < N; a++) {
-                        File dir = dirs.get(a);
-                        if (dir.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
-                            path = dir;
-                            telegramPath = new File(path, "Telegram");
-                            telegramPath.mkdirs();
-                            break;
-                        }
-                    }
-                }
+                telegramPath = NekoConfig.getTelegramPath();
 
                 if (telegramPath.isDirectory()) {
                     try {

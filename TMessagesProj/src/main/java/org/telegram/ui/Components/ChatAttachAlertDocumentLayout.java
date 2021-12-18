@@ -1077,7 +1077,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
 
         ListItem fs;
         try {
-            File telegramPath = new File(NekoConfig.saveCacheToExternalFilesDir ? ApplicationLoader.applicationContext.getExternalFilesDir(null) : Environment.getExternalStorageDirectory(), "Telegram");
+            File telegramPath = NekoConfig.getTelegramPath();
             if (telegramPath.exists()) {
                 fs = new ListItem();
                 fs.title = "Telegram";

@@ -1061,7 +1061,7 @@ public class SharedConfig {
     public static void checkSaveToGalleryFiles() {
         Utilities.globalQueue.postRunnable(() -> {
             try {
-                File telegramPath = new File(NekoConfig.saveCacheToExternalFilesDir ? ApplicationLoader.applicationContext.getExternalFilesDir(null) : Environment.getExternalStorageDirectory(), "Telegram");
+                File telegramPath = NekoConfig.getTelegramPath();;
                 File imagePath = new File(telegramPath, "Telegram Images");
                 imagePath.mkdir();
                 File videoPath = new File(telegramPath, "Telegram Video");
