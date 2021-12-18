@@ -20547,7 +20547,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     icons.add(R.drawable.menu_recent);
                                 }
                             }
-                            if (NekoConfig.showTranslate) {
+                            if (NekoConfig.showTranslate && !(NekoConfig.useExternalTranslator && getMessagesController().isChatNoForwards(currentChat))) {
                                 MessageObject messageObject = getMessageHelper().getMessageForTranslate(selectedObject, selectedObjectGroup);
                                 if (messageObject != null) {
                                     items.add(messageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("Translate", R.string.Translate));
@@ -21422,6 +21422,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     private void translateMessage(MessageObject messageObject) {
         if (messageObject == null) {
+            return;
+        }
+        if (NekoConfig.useExternalTranslator) {
+            Translator.startExternalTranslator(getParentActivity(), messageObject.messageOwner.message);
             return;
         }
         Object original = messageObject.type == MessageObject.TYPE_POLL ? ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll : messageObject.messageOwner.message;

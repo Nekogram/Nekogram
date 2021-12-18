@@ -58,6 +58,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class MessageHelper extends BaseController {
 
     private static final MessageHelper[] Instance = new MessageHelper[UserConfig.MAX_ACCOUNT_COUNT];
@@ -161,7 +163,7 @@ public class MessageHelper extends BaseController {
         MessageObject messageObject = null;
         if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
             messageObject = getTargetMessageObjectFromGroup(selectedObjectGroup);
-        } else if (!selectedObject.isAnimatedEmoji() && !TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.type == MessageObject.TYPE_POLL) {
+        } else if (!selectedObject.isAnimatedEmoji() && !TextUtils.isEmpty(selectedObject.messageOwner.message) || (!NekoConfig.useExternalTranslator && selectedObject.type == MessageObject.TYPE_POLL)) {
             messageObject = selectedObject;
         }
         return messageObject;

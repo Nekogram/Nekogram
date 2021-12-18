@@ -266,6 +266,10 @@ public class TextCheckCell extends FrameLayout {
         }
     }
 
+    public void setNeedDivider(boolean needDivider) {
+        this.needDivider = needDivider;
+    }
+
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);

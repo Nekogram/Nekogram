@@ -181,4 +181,6 @@
     <string name="UpdateFailedToInstall">Failed to install update: %d</string>
     <string name="QRLoginMessage">Scan QRCode with another device to login.</string>
     <string name="QRLoginTitle">QR Login</string>
+    <string name="NoTranslatorAppInstalled">You don\'t have applications that can handle translate intent, please install one to continue</string>
+    <string name="UseExternalTranslatorApp">Use external translator app</string>
 </resources>

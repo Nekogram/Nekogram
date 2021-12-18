@@ -1,7 +1,9 @@
 package tw.nekomimi.nekogram.translator;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -42,6 +44,10 @@ public class Translator {
     }
 
     public static void showTranslateDialog(Context context, String query, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
+        if (NekoConfig.useExternalTranslator) {
+            Translator.startExternalTranslator(context, query);
+            return;
+        }
         try {
             progressDialog.dismiss();
         } catch (Exception ignore) {
@@ -183,7 +189,7 @@ public class Translator {
                 if ("app".equals(NekoConfig.translationTarget)) {
                     builder.setPositiveButton(LocaleController.getString("UseGoogleTranslate", R.string.UseGoogleTranslate), (dialog, which) -> {
                         NekoConfig.setTranslationProvider(Translator.PROVIDER_GOOGLE);
-                        if (callback != null) callback.run(false);
+                        if (callback != null) callback.run(true);
                     });
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 } else if (translator.supportLanguage(translator.getCurrentAppLanguage())) {
@@ -234,6 +240,19 @@ public class Translator {
             translateCallBack.onError(new UnsupportedTargetLanguageException());
         } else {
             translator.startTask(query, language, translateCallBack);
+        }
+    }
+
+    public static void startExternalTranslator(Context context, String text) {
+        @SuppressLint("InlinedApi") var intent = new Intent(Intent.ACTION_TRANSLATE);
+        intent.putExtra(Intent.EXTRA_TEXT, text);
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            new AlertDialog.Builder(context)
+                    .setTitle(LocaleController.getString("AppName", R.string.AppName))
+                    .setMessage(LocaleController.getString("NoTranslatorAppInstalled", R.string.NoTranslatorAppInstalled))
+                    .show();
         }
     }
 
