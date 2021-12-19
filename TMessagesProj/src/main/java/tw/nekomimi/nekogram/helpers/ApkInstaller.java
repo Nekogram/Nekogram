@@ -100,7 +100,13 @@ public final class ApkInstaller {
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setText(LocaleController.getString("UpdateInstalling", R.string.UpdateInstalling));
-        linearLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 20, 17, 24));
+        linearLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 20, 17, 0));
+
+        TextView textView2 = new TextView(context);
+        textView2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
+        textView2.setTextColor(Theme.getColor(Theme.key_dialogTextGray));
+        textView2.setText(LocaleController.getString("UpdateInstallingRelaunch", R.string.UpdateInstallingRelaunch));
+        linearLayout.addView(textView2, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 4, 17, 24));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setView(linearLayout);
@@ -197,6 +203,16 @@ public final class ApkInstaller {
             } catch (Exception ignored) {
             }
             return intent;
+        }
+    }
+
+    public static class UpdateReceiver extends BroadcastReceiver {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
+                context.startActivity(new Intent().setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setClass(context, LaunchActivity.class));
+            }
         }
     }
 }

@@ -178,6 +178,7 @@
     <string name="ShareNekogram">Share Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBased on Telegram %2$s\nDesigned by %3$s</string>
     <string name="UpdateInstalling">Installing update...</string>
+    <string name="UpdateInstallingRelaunch">Nekogram will relaunch when update completes.</string>
     <string name="UpdateFailedToInstall">Failed to install update: %d</string>
     <string name="QRLoginMessage">Scan QRCode with another device to login.</string>
     <string name="QRLoginTitle">QR Login</string>
