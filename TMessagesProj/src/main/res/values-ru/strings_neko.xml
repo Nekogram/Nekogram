@@ -170,5 +170,10 @@
     <string name="ShareNekogram">Поделиться Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nНа основе Telegram %2$s\nДизайн %3$s</string>
     <string name="UpdateInstalling">Установка обновления...</string>
+    <string name="UpdateInstallingRelaunch">Nekogram будет перезапущен после завершения обновления.</string>
     <string name="UpdateFailedToInstall">Не удалось установить обновление: %d</string>
+    <string name="QRLoginMessage">Сканируйте QRCode с помощью другого устройства для входа в систему.</string>
+    <string name="QRLoginTitle">Вход при помощи QR кода</string>
+    <string name="NoTranslatorAppInstalled">У вас нет приложений, которые могут обрабатывать интент перевода. Пожалуйста, установите приложение для перевода, чтобы продолжить</string>
+    <string name="UseExternalTranslatorApp">Использовать внешнее приложение-переводчик</string>
 </resources>

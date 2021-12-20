@@ -171,6 +171,7 @@
     <string name="ShareNekogram">分享 Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\n基于 Telegram %2$s\n由 %3$s 设计</string>
     <string name="UpdateInstalling">正在安装更新...</string>
+    <string name="UpdateInstallingRelaunch">Nekogram 将在更新完成后重新启动。</string>
     <string name="UpdateFailedToInstall">无法安装更新：%d</string>
     <string name="QRLoginMessage">使用其他设备扫描二维码以登录。</string>
     <string name="QRLoginTitle">二维码登陆</string>

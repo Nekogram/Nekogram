@@ -170,7 +170,10 @@
     <string name="ShareNekogram">네코그램 공유하기</string>
     <string name="NekogramVersion">네코그램 %1$s 은 텔레그램 %2$s 기반으로 %3$s 이 제작 하였습니다</string>
     <string name="UpdateInstalling">업데이트 설치 중...</string>
+    <string name="UpdateInstallingRelaunch">업데이트가 완료되면 네코그램이 다시 시작됩니다.</string>
     <string name="UpdateFailedToInstall">업데이트를 설치하지 못했습니다: %d</string>
     <string name="QRLoginMessage">다른 장치로 QRCode 를 스캔하여 로그인 하기</string>
     <string name="QRLoginTitle">QR 로그인</string>
+    <string name="NoTranslatorAppInstalled">번역을 할 수 있는 프로그램이 없습니다. 번역 프로그램을 설치해 주십시오.</string>
+    <string name="UseExternalTranslatorApp">외부 번역기 앱 사용</string>
 </resources>
