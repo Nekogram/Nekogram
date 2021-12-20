@@ -379,6 +379,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int settingsSectionRow2;
     private int notificationRow;
     private int nekoRow;
+    private int nekoSectionRow;
     private int languageRow;
     private int privacyRow;
     private int dataRow;
@@ -5605,6 +5606,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         settingsSectionRow2 = -1;
         notificationRow = -1;
         nekoRow = -1;
+        nekoSectionRow = -1;
         languageRow = -1;
         privacyRow = -1;
         dataRow = -1;
@@ -5698,6 +5700,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     passwordSuggestionSectionRow = rowCount++;
                 }
 
+                nekoRow = rowCount++;
+                nekoSectionRow = rowCount++;
+
                 settingsSectionRow2 = rowCount++;
                 notificationRow = rowCount++;
                 privacyRow = rowCount++;
@@ -5707,7 +5712,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     filtersRow = rowCount++;
                 }
                 devicesRow = rowCount++;
-                nekoRow = rowCount++;
                 languageRow = rowCount++;
                 devicesSectionRow = rowCount++;
                 helpHeaderRow = rowCount++;
@@ -7343,7 +7347,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         textCell.setText(LocaleController.getString("ReportUserLocation", R.string.ReportUserLocation), false);
                         textCell.setColors(null, Theme.key_windowBackgroundWhiteRedText5);
                     } else if (position == nekoRow) {
-                        textCell.setTextAndIcon(LocaleController.getString("NekoSettings", R.string.NekoSettings), R.drawable.menu_settings, true);
+                        textCell.setTextAndIcon(LocaleController.getString("NekoSettings", R.string.NekoSettings), R.drawable.menu_settings, false);
                     } else if (position == languageRow) {
                         textCell.setTextAndIcon(LocaleController.getString("Language", R.string.Language), R.drawable.menu_language, false);
                     } else if (position == notificationRow) {
@@ -7553,7 +7557,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             } else if (position == infoSectionRow || position == lastSectionRow || position == membersSectionRow ||
                     position == secretSettingsSectionRow || position == settingsSectionRow || position == devicesSectionRow ||
                     position == helpSectionCell || position == setAvatarSectionRow || position == passwordSuggestionSectionRow ||
-                    position == phoneSuggestionSectionRow) {
+                    position == phoneSuggestionSectionRow || position == nekoSectionRow) {
                 return 7;
             } else if (position >= membersStartRow && position < membersEndRow) {
                 return 8;
@@ -8437,6 +8441,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             put(++pointer, settingsSectionRow2, sparseIntArray);
             put(++pointer, notificationRow, sparseIntArray);
             put(++pointer, nekoRow, sparseIntArray);
+            put(++pointer, nekoSectionRow, sparseIntArray);
             put(++pointer, languageRow, sparseIntArray);
             put(++pointer, privacyRow, sparseIntArray);
             put(++pointer, dataRow, sparseIntArray);
