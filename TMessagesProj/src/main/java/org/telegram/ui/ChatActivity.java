@@ -22235,7 +22235,21 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private boolean processSelectedOptionLongClick(int option) {
         switch (option) {
             case 88: {
-                Translator.showTranslationTargetSelector(getParentActivity(), null, () -> processSelectedOption(88), themeDelegate);
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                builder.setItems(new CharSequence[]{
+                        LocaleController.getString("TranslationTarget", R.string.TranslationTarget),
+                        LocaleController.getString("TranslationProvider", R.string.TranslationProvider),
+                }, (dialog, which) -> {
+                    switch (which) {
+                        case 0:
+                            Translator.showTranslationTargetSelector(getParentActivity(), null, null, themeDelegate);
+                            break;
+                        case 1:
+                            Translator.showTranslationProviderSelector(getParentActivity(), null, null, themeDelegate);
+                            break;
+                    }
+                });
+                showDialog(builder.create());
                 return true;
             }
             case 94: {
