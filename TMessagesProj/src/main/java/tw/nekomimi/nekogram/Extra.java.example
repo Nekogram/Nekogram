@@ -1,14 +1,25 @@
 package tw.nekomimi.nekogram;
 
 public class Extra {
+    // See UpdateHelper.java
     public static final int UPDATE_CHANNEL_ID = 0;
     public static final String UPDATE_CHANNEL = "";
+
+    // https://fanyi.qq.com/translateapi
     public static final String TENCENT_SECRET_ID = "";
     public static final String TENCENT_SECRET_KEY = "";
+
+    // https://open.caiyunapp.com/%E4%BA%94%E5%88%86%E9%92%9F%E5%AD%A6%E4%BC%9A%E5%BD%A9%E4%BA%91%E5%B0%8F%E8%AF%91_API
     public static final String LINGO_TOKEN = "";
+
     public static final String MICROSOFT_SECRET_KEY = "";
+
+    // https://core.telegram.org/api/obtaining_api_id
     public static int APP_ID = 0;
     public static String APP_HASH = "";
+
+    // https://developers.google.com/identity/sms-retriever/verify#computing_your_apps_hash_string
     public static String SMS_HASH = "";
+
     public static String PLAYSTORE_APP_URL = "";
 }
