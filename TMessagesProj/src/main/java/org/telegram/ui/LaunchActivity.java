@@ -4714,7 +4714,8 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             if (path.equals(loadingThemeFileName) || path.equals(loadingThemeWallpaperName)) {
                 onThemeLoadFinish();
             }
-            if (SharedConfig.isAppUpdateAvailable()) {
+            int canceled = (int) args[1];
+            if (canceled != 1 && SharedConfig.isAppUpdateAvailable()) {
                 String name = FileLoader.getAttachFileName(SharedConfig.pendingAppUpdate.document);
                 if (name.equals(path)) {
                     updateAppUpdateViews(true);

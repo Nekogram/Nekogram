@@ -2,6 +2,7 @@ package tw.nekomimi.nekogram.helpers;
 
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,6 +24,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.XiaomiUtilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
@@ -72,8 +74,12 @@ public final class ApkInstaller {
         }
     }
 
-    public static void installUpdate(Context context, TLRPC.Document document) {
+    public static void installUpdate(Activity context, TLRPC.Document document) {
         if (context == null || document == null) {
+            return;
+        }
+        if (XiaomiUtilities.isMIUI()) {
+            AndroidUtilities.openForView(document, context);
             return;
         }
         var apk = FileLoader.getPathToAttach(document, true);
