@@ -13658,7 +13658,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     public boolean performAccessibilityAction(int action, Bundle arguments) {
         if (action == AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS) {
             currentFocusedVirtualViewId = -1;
-        } else if(action==AccessibilityNodeInfo.ACTION_CLEAR_ACCESSIBILITY_FOCUS) {
+        } else if (action==AccessibilityNodeInfo.ACTION_CLEAR_ACCESSIBILITY_FOCUS) {
             if (!touch) {
                 currentFocusedVirtualViewId = -2;
             } else touch = false;
@@ -13731,7 +13731,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 return true;
             }
         } else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
-            currentFocusedVirtualViewId = -2;
+            //currentFocusedVirtualViewId = -2;
         }
         return false;
     }
@@ -13977,6 +13977,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         private final int COMMENT = 496;
         private final int POLL_HINT = 495;
         private final int FORWARD = 494;
+        private final int USER = 493;
         private Path linkPath = new Path();
         private RectF rectF = new RectF();
         private Rect rect = new Rect();
@@ -14138,7 +14139,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 if (isSeekbarCell()) {
                     seekBarAccessibilityDelegate.onInitializeAccessibilityNodeInfoInternal(info);
                 }
-                //smallest ids should be added at first,because talkback can focus on it not always in correct order
+                //smallest ids should be added at first, because talkback can focus on it not always in correct order
+                if (currentUser != null) {
+                    info.addChild(ChatMessageCell.this, USER);
+                }
                 if (forwardedNameLayout[1] != null) {
                     info.addChild(ChatMessageCell.this, FORWARD);
                 }
@@ -14319,18 +14323,33 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     int x = (int) Math.min(forwardNameX - forwardNameOffsetX[0], forwardNameX - forwardNameOffsetX[1]);
                     rect.set(x, forwardNameY, x + forwardedNameWidth, forwardNameY + AndroidUtilities.dp(32));
                 } else if (virtualViewId == COMMENT) {
-                    info.setClassName("android.widget.Button");                    if (commentLayout != null) {
-                        //commentLayout not give for us text information about number of comments,so we shouldn't use text of layout for viryual node.
+                    info.setClassName("android.widget.Button");
+                    if (commentLayout != null) {
+                        //commentLayout not give for us text information about number of comments, so we shouldn't use text of layout for virtual node.
                         int commentCount = getRepliesCount();
                         info.setText(isRepliesChat ? LocaleController.getString("ViewInChat", R.string.ViewInChat) : commentCount == 0 ? LocaleController.getString("LeaveAComment", R.string.LeaveAComment) : LocaleController.formatPluralString("CommentsCount", commentCount));
                     }
                     rect.set(commentButtonRect);
+                } else if (virtualViewId == USER) {
+                    String adminLabel = delegate.getAdminRank(currentUser.id);
+                    String contentDescription = UserObject.getUserName(currentUser);
+                    if (adminLabel != null) {
+                        if (adminLabel.length() == 0) {
+                            adminLabel = LocaleController.getString("ChatAdmin", R.string.ChatAdmin);
+                        }
+                        contentDescription = contentDescription + " " + adminLabel;
+                    }
+                    info.setContentDescription(contentDescription);
+                    avatarDrawable.copyBounds(rect);
+                    info.setLongClickable(true);
+                    info.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_LONG_CLICK);
                 }
                 info.setFocusable(true);
                 info.setVisibleToUser(true);
                 info.setEnabled(true);
                 info.setClickable(true);
                 info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
+                if (virtualViewId == USER) rect.offset(-pos[0], -pos[1]);
                 info.setBoundsInParent(rect);
                 if (accessibilityVirtualViewBounds.get(virtualViewId) == null || !accessibilityVirtualViewBounds.get(virtualViewId).equals(rect)) {
                     accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
@@ -14422,8 +14441,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 delegate.didPressCommentButton(ChatMessageCell.this);
                             }
                         }
+                    } else if (virtualViewId == USER) {
+                        if (delegate != null) delegate.didPressUserAvatar(ChatMessageCell.this, currentUser, 0, 0);
                     }
                 } else if (action == AccessibilityNodeInfo.ACTION_LONG_CLICK) {
+                    if (virtualViewId == USER) {
+                        delegate.didLongPressUserAvatar(ChatMessageCell.this, currentUser, 0, 0);
+                        return true;
+                    }
                     ClickableSpan link = getLinkById(virtualViewId, virtualViewId >= LINK_CAPTION_IDS_START);
                     if (link != null) {
                         delegate.didPressUrl(ChatMessageCell.this, link, true);

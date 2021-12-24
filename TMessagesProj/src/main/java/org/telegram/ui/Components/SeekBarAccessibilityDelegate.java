@@ -86,7 +86,9 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
             if (canScrollForward(host)) {
                 info.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_SCROLL_FORWARD);
             }
+            info.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_ACCESSIBILITY_FOCUS);
         }
+        info.setFocusable(true);
     }
 
     public final void onInitializeAccessibilityNodeInfoInternal(AccessibilityNodeInfo info) {

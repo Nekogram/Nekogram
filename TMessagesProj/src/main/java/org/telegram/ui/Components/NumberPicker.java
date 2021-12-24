@@ -105,7 +105,7 @@ public class NumberPicker extends LinearLayout {
     private boolean mDecrementVirtualButtonPressed;
     private PressedStateHelper mPressedStateHelper;
     private int mLastHandledDownDpadKeyCode = -1;
-    private SeekBarAccessibilityDelegate accessibilityDelegate;
+    private IntSeekBarAccessibilityDelegate accessibilityDelegate;
     private final Theme.ResourcesProvider resourcesProvider;
 
     private boolean drawDividers = true;
@@ -194,7 +194,7 @@ public class NumberPicker extends LinearLayout {
         updateInputTextView();
 
         setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);
-        setAccessibilityDelegate(accessibilityDelegate = new SeekBarAccessibilityDelegate() {
+        setAccessibilityDelegate(accessibilityDelegate = new IntSeekBarAccessibilityDelegate() {
             @Override
             protected void doScroll(View host, boolean backward) {
                 changeValueByOne(!backward);
@@ -213,6 +213,26 @@ public class NumberPicker extends LinearLayout {
             @Override
             public CharSequence getContentDescription(View host) {
                 return NumberPicker.this.getContentDescription(mValue);
+            }
+
+            @Override
+            protected int getMinValue() {
+                return NumberPicker.this.getMinValue();
+            }
+
+            @Override
+            protected int getMaxValue() {
+                return NumberPicker.this.getMaxValue();
+            }
+
+            @Override
+            protected int getProgress() {
+                return getValue();
+            }
+
+            @Override
+            protected void setProgress(int progress) {
+                setValue(progress);
             }
         });
     }
@@ -971,6 +991,7 @@ public class NumberPicker extends LinearLayout {
         if (mOnValueChangeListener != null) {
             mOnValueChangeListener.onValueChange(this, previous, mValue);
         }
+        if (previous != current) accessibilityDelegate.postAccessibilityEventRunnable(this);
     }
 
     private void postChangeCurrentByOneFromLongPress(boolean increment, long delayMillis) {

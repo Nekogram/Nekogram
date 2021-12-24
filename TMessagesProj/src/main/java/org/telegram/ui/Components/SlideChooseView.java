@@ -61,6 +61,7 @@ public class SlideChooseView extends View {
         linePaint.setStrokeCap(Paint.Cap.ROUND);
         textPaint.setTextSize(AndroidUtilities.dp(13));
 
+        setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_YES);
         accessibilityDelegate = new IntSeekBarAccessibilityDelegate() {
             @Override
             protected int getProgress() {
@@ -168,11 +169,13 @@ public class SlideChooseView extends View {
     }
 
     private void setOption(int index) {
+        int prevIndex = selectedIndex;
         selectedIndex = index;
         if (callback != null) {
             callback.onOptionSelected(index);
         }
         invalidate();
+        if (prevIndex != selectedIndex) accessibilityDelegate.postAccessibilityEventRunnable(this);
     }
 
     @Override

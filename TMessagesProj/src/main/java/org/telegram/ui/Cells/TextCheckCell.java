@@ -273,7 +273,7 @@ public class TextCheckCell extends FrameLayout {
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
-        info.setClassName("android.widget.Switch");
+        info.setClassName("android.widget.CheckBox");
         info.setCheckable(true);
         info.setChecked(checkBox.isChecked());
     }
