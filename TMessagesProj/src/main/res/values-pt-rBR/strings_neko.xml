@@ -173,4 +173,5 @@
     <string name="UpdateFailedToInstall">Falha ao instalar a atualização: %d</string>
     <string name="QRLoginMessage">Leia o QRCode com outro dispositivo para fazer o login.</string>
     <string name="QRLoginTitle">QR Login</string>
+    <!-- Accessibility -->
 </resources>

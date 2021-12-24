@@ -168,4 +168,5 @@
     <string name="InviteTextNeko">Hai, saya menggunakan Nekogram untuk mengobrol. Ayo ikut! Unduh di sini: %1$s</string>
     <string name="ShareNekogram">Bagikan Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBerdasarkan Telegram %2$s\nDibuat oleh %3$s</string>
+    <!-- Accessibility -->
 </resources>

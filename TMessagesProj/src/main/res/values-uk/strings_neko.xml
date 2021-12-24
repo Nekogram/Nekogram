@@ -153,4 +153,5 @@
     <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Макс. кількість наліпок</string>
     <string name="ApplyEmojiFont">Застосувати шрифт емодзі</string>
+    <!-- Accessibility -->
 </resources>

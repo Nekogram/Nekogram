@@ -171,4 +171,5 @@
     <string name="UpdateFailedToInstall">Échec d\'installation de la mise à jour : %d</string>
     <string name="QRLoginMessage">Scannez ce QRCode avec un autre appareil pour vous connecter.</string>
     <string name="QRLoginTitle">Connexion avec QR Code</string>
+    <!-- Accessibility -->
 </resources>

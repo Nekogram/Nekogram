@@ -158,4 +158,5 @@
     <string name="ApplyEmojiFont">Áp dụng phông biểu tượng cảm xúc</string>
     <string name="DisableJumpToNextChannel">Vô hiệu \"Nhảy tới kênh tiếp theo\"</string>
     <string name="DisableGreetingSticker">Vô hiệu nhãn dán chào hỏi</string>
+    <!-- Accessibility -->
 </resources>

@@ -156,4 +156,5 @@
     <string name="ProviderNiuTrans">小牛翻譯</string>
     <string name="MaxRecentStickers">最大最近貼紙數量</string>
     <string name="ApplyEmojiFont">應用 Emoji 字體</string>
+    <!-- Accessibility -->
 </resources>

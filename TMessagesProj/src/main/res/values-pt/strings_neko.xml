@@ -55,4 +55,5 @@
     <string name="DisableProximityEvents">Desativar eventos de proximidade</string>
     <string name="CustomEmojiTypeface">Fontes de emojis personalizada</string>
     <string name="MapDriftingFix">Correção de deriva no mapa para a China continental</string>
+    <!-- Accessibility -->
 </resources>

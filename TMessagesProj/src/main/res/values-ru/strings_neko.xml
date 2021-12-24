@@ -176,4 +176,26 @@
     <string name="QRLoginTitle">Вход при помощи QR кода</string>
     <string name="NoTranslatorAppInstalled">У вас нет приложений, которые могут обрабатывать интент перевода. Пожалуйста, установите приложение для перевода, чтобы продолжить</string>
     <string name="UseExternalTranslatorApp">Использовать внешнее приложение-переводчик</string>
+    <!-- Accessibility -->
+    <string name="AccessibilitySettings">Специальные возможности</string>
+    <string name="AccRewindHeading">Настройки перемотки</string>
+    <string name="AccSeekbarHeading">Настройки ползунков</string>
+    <string name="AccDifferentHeading">Разное</string>
+    <string name="AccTypeOfRewindHeading">Выберите тип перемотки медиа контента</string>
+    <string name="AccTypeOfRewind">Тип перемотки</string>
+    <string name="AccTypeOfRewindVideoHeading">Выберите тип перемотки видео</string>
+    <string name="AccTypeOfRewindVideo">Тип перемотки видео</string>
+    <string name="AccTypeOfAddingHeading">Выберите, где добавлять тип чата</string>
+    <string name="AccTypeOfAdding">Добавлять тип чата</string>
+    <string name="AccRewindTypesWithout">Без перемотки</string>
+    <string name="AccRewindTypesPercent">Процентная перемотка</string>
+    <string name="AccRewindTypesSecond">Секундная перемотка</string>
+    <string name="AccRewindTypesSelect">Выбирать автоматически</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatStart">В начале</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatMiddle">В середине</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatEnd">В конце</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatNo">Не где</string>
+    <string name="AccNumberOfItems">Показывать количество элементов</string>
+    <string name="AccIndexOfItem">Показывать текущую позицию</string>
+    <string name="AccShowValueChanges">Озвучивать изменений значения во время его ручного изменения</string>
 </resources>

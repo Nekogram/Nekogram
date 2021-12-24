@@ -176,4 +176,5 @@
     <string name="QRLoginTitle">QR 로그인</string>
     <string name="NoTranslatorAppInstalled">번역을 할 수 있는 프로그램이 없습니다. 번역 프로그램을 설치해 주십시오.</string>
     <string name="UseExternalTranslatorApp">외부 번역기 앱 사용</string>
+    <!-- Accessibility -->
 </resources>

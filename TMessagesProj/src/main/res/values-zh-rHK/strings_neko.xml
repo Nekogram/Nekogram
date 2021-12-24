@@ -82,4 +82,5 @@
     <string name="ProviderYandex">Yandex 翻譯</string>
     <string name="IdTypeHidden">隱藏</string>
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**應用</string>
+    <!-- Accessibility -->
 </resources>

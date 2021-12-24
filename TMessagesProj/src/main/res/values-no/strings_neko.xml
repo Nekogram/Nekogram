@@ -129,4 +129,5 @@
     <string name="RegistrationDate">Registreringsdato</string>
     <string name="WsDescription">Koble til Telegram gjennom WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">tekniske detaljer</a>]]>.</string>
     <string name="WsEnableTls">Aktiver TLS</string>
+    <!-- Accessibility -->
 </resources>

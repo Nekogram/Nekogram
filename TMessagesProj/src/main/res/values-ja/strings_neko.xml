@@ -71,4 +71,5 @@
     <string name="ConfirmAVMessage">ビデオ/ボイスメッセージを送信するときに確認する</string>
     <string name="AskBeforeCalling">通話する前に確認する</string>
     <string name="IdTypeHidden">隠す</string>
+    <!-- Accessibility -->
 </resources>

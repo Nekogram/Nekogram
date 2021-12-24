@@ -174,4 +174,5 @@
     <string name="QRLoginTitle">Inicio de sesión con QR</string>
     <string name="NoTranslatorAppInstalled">No tienes aplicaciones que puedan manejar la intención de traducir, por favor instala una para continuar</string>
     <string name="UseExternalTranslatorApp">Usar aplicación de traducción externa</string>
+    <!-- Accessibility -->
 </resources>

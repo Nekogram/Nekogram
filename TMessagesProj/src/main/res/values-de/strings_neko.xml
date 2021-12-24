@@ -157,4 +157,5 @@
     <string name="MaxRecentStickers">Max. aktuelle Sticker</string>
     <string name="ApplyEmojiFont">Emoji-Schriftart anwenden</string>
     <string name="DisableJumpToNextChannel">Deaktiviere \"zum nächsten Kanal springen\"</string>
+    <!-- Accessibility -->
 </resources>

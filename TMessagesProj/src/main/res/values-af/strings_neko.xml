@@ -25,4 +25,5 @@
     <string name="ChristmasHat">Show christmas hat everyday</string>
     <string name="TestBackendOn">mau naqi.</string>
     <string name="TestBackendOff">This account will connect to the production backend.</string>
+    <!-- Accessibility -->
 </resources>

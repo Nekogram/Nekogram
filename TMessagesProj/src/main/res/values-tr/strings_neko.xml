@@ -158,4 +158,5 @@
     <string name="DisableJumpToNextChannel">\"Sonraki Kanala Atla\"yı devre dışı bırak</string>
     <string name="DisableGreetingSticker">Selamlama etiketini devre dışı bırak</string>
     <string name="BlockSponsoredMessage">Sponsorlu mesajı engelle</string>
+    <!-- Accessibility -->
 </resources>

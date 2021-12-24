@@ -87,4 +87,5 @@
     <string name="RestartAppToTakeEffect">මෙය ක්‍රියාත්මක වීම සදහා ඇප් එක නැවත ක්‍රියාත්මක කරන්න.</string>
     <string name="DisableAppBarShadow">මාතෘකා තීරු සෙවනැල්ල අක්‍රීය කරන්න</string>
     <string name="IdTypeHidden">හංගන්න</string>
+    <!-- Accessibility -->
 </resources>

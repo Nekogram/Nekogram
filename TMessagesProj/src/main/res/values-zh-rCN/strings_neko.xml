@@ -177,4 +177,5 @@
     <string name="QRLoginTitle">二维码登陆</string>
     <string name="NoTranslatorAppInstalled">您没有安装可以处理翻译意图的应用，请先安装一个再继续</string>
     <string name="UseExternalTranslatorApp">使用外部翻译应用</string>
+    <!-- Accessibility -->
 </resources>

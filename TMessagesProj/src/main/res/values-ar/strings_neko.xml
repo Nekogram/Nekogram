@@ -156,4 +156,5 @@
     <string name="ProviderTencentTranslator">الأستاذ المترجم</string>
     <string name="ProviderNiuTrans">نيو ترانس</string>
     <string name="MaxRecentStickers">الحد الأقصى للملصقات الأخيرة</string>
+    <!-- Accessibility -->
 </resources>

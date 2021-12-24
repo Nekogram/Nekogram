@@ -143,4 +143,5 @@
     <string name="DeepLFormalityMore">Mai multe</string>
     <string name="DeepLFormalityLess">Mai puține</string>
     <string name="InvalidCustomEmojiTypeface">Fișier font invalid.</string>
+    <!-- Accessibility -->
 </resources>

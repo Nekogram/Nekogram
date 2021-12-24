@@ -66,4 +66,5 @@
     <string name="TabTitleTypeMix">Emoticons with titles</string>
     <string name="ConfirmAVMessage">Confirm sending video/voice message</string>
     <string name="AskBeforeCalling">Ask before calling</string>
+    <!-- Accessibility -->
 </resources>
