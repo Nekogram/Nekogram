@@ -15,6 +15,8 @@ import androidx.core.view.ViewCompat;
 import java.util.HashMap;
 import java.util.Map;
 
+import tw.nekomimi.nekogram.accessbility.AccConfig;
+
 public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDelegate {
 
     private static final CharSequence SEEK_BAR_CLASS_NAME = SeekBar.class.getName();
@@ -53,7 +55,7 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
     }
 
     public void postAccessibilityEventRunnable(@NonNull View host) {
-        if (!ViewCompat.isAttachedToWindow(host)) {
+        if (!ViewCompat.isAttachedToWindow(host) || !AccConfig.SHOW_SEEKBAR_VALUE_CHANGES) {
             return;
         }
         Runnable runnable = accessibilityEventRunnables.get(host);

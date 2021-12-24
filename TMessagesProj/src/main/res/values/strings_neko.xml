@@ -184,4 +184,27 @@
     <string name="QRLoginTitle">QR Login</string>
     <string name="NoTranslatorAppInstalled">You don\'t have applications that can handle translate intent, please install one to continue</string>
     <string name="UseExternalTranslatorApp">Use external translator app</string>
+
+    <!-- Accessibility -->
+    <string name="AccessibilitySettings">Accessibility settings</string>
+    <string name="AccRewindHeading">Settings of rewind</string>
+    <string name="AccSeekbarHeading">Seekbar settings</string>
+    <string name="AccDifferentHeading">Different</string>
+    <string name="AccTypeOfRewindHeading">Select type of rewind of media content</string>
+    <string name="AccTypeOfRewind">Type of rewind</string>
+    <string name="AccTypeOfRewindVideoHeading">Select type of rewind of video</string>
+    <string name="AccTypeOfRewindVideo">Type of rewind of video</string>
+    <string name="AccTypeOfAddingHeading">Select in what place to add description about type of chat</string>
+    <string name="AccTypeOfAdding">Add information about type of chat</string>
+    <string name="AccRewindTypesWithout">Without rewind</string>
+    <string name="AccRewindTypesPercent">Percent rewind</string>
+    <string name="AccRewindTypesSecond">Second rewind</string>
+    <string name="AccRewindTypesSelect">Select auto</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatStart">At the start</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatMiddle">At the middle</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatEnd">At the end</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatNo">Not where</string>
+    <string name="AccNumberOfItems">Show number of items</string>
+    <string name="AccIndexOfItem">Show current position</string>
+    <string name="AccShowValueChanges">Announce changes of value during manual changes</string>
 </resources>

@@ -8,6 +8,7 @@ import android.os.Build;
 import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -45,6 +47,7 @@ import org.telegram.ui.LaunchActivity;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.accessbility.AccessibilitySettingsActivity;
 import tw.nekomimi.nekogram.helpers.NewsHelper;
 import tw.nekomimi.nekogram.helpers.UpdateHelper;
 
@@ -65,6 +68,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
     private int generalRow;
     private int chatRow;
     private int experimentRow;
+    private int accessibilityRow;
     private int categories2Row;
 
     private int aboutRow;
@@ -139,6 +143,8 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                 presentFragment(new NekoGeneralSettingsActivity());
             } else if (position == experimentRow) {
                 presentFragment(new NekoExperimentalSettingsActivity(sensitiveCanChange, sensitiveEnabled));
+            } else if (position == accessibilityRow) {
+                presentFragment(new AccessibilitySettingsActivity());
             } else if (position == channelRow) {
                 MessagesController.getInstance(currentAccount).openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
             } else if (position == translationRow) {
@@ -196,6 +202,12 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
         generalRow = rowCount++;
         chatRow = rowCount++;
         experimentRow = rowCount++;
+        AccessibilityManager am = (AccessibilityManager) ApplicationLoader.applicationContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
+        if (am != null && am.isTouchExplorationEnabled()) {
+            accessibilityRow = rowCount++;
+        } else {
+            accessibilityRow = -1;
+        }
         categories2Row = rowCount++;
 
         aboutRow = rowCount++;
@@ -307,7 +319,9 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                     } else if (position == generalRow) {
                         textCell.setTextAndIcon(LocaleController.getString("General", R.string.General), R.drawable.msg_theme, true);
                     } else if (position == experimentRow) {
-                        textCell.setTextAndIcon(LocaleController.getString("Experiment", R.string.Experiment), R.drawable.msg_fave, false);
+                        textCell.setTextAndIcon(LocaleController.getString("Experiment", R.string.Experiment), R.drawable.msg_fave, accessibilityRow != -1);
+                    } else if (position == accessibilityRow) {
+                        textCell.setText(LocaleController.getString("AccessibilitySettings", R.string.AccessibilitySettings), false);
                     }
                     break;
                 }

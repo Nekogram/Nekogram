@@ -247,8 +247,8 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import tw.nekomimi.nekogram.accessbility.AccConfig;
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 @SuppressWarnings("unchecked")
@@ -6514,7 +6514,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 videoPlayerSeekbar.draw(canvas, this);
             }
         };
-        videoPlayerSeekbarView.setAccessibilityDelegate(accessibilityDelegate);
+        if (AccConfig.TYPE_OF_REWIND_VIDEO != AccConfig.TYPE_NO_REWIND) videoPlayerSeekbarView.setAccessibilityDelegate(accessibilityDelegate);
         videoPlayerSeekbarView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
         videoPlayerControlFrameLayout.addView(videoPlayerSeekbarView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 

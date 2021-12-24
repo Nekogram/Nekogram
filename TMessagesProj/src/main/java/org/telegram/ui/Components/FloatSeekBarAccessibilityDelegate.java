@@ -8,6 +8,8 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import androidx.annotation.Nullable;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 
+import tw.nekomimi.nekogram.accessbility.AccConfig;
+
 public abstract class FloatSeekBarAccessibilityDelegate extends SeekBarAccessibilityDelegate {
 
     private final boolean setPercentsEnabled;
@@ -64,8 +66,8 @@ public abstract class FloatSeekBarAccessibilityDelegate extends SeekBarAccessibi
     @Override
     public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(host, event);
-        event.setItemCount((int)((getMaxValue() - getMinValue()) * 100));
-        event.setCurrentItemIndex((int) (getProgress() * 100));
+        if (AccConfig.SHOW_NUMBERS_OF_ITEMS) event.setItemCount((int)((getMaxValue() - getMinValue()) * 100));
+        if (AccConfig.SHOW_INDEX_OF_ITEM) event.setCurrentItemIndex((int) (getProgress() * 100));
     }
 
     protected abstract float getProgress();

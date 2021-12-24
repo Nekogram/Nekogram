@@ -3,6 +3,8 @@ package org.telegram.ui.Components;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 
+import tw.nekomimi.nekogram.accessbility.AccConfig;
+
 public abstract class IntSeekBarAccessibilityDelegate extends SeekBarAccessibilityDelegate {
 
     @Override
@@ -27,8 +29,8 @@ public abstract class IntSeekBarAccessibilityDelegate extends SeekBarAccessibili
     @Override
     public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(host, event);
-        event.setItemCount(getMaxValue() - getMinValue());
-        event.setCurrentItemIndex(getProgress());
+        if (AccConfig.SHOW_NUMBERS_OF_ITEMS) event.setItemCount(getMaxValue() - getMinValue());
+        if (AccConfig.SHOW_INDEX_OF_ITEM) event.setCurrentItemIndex(getProgress());
     }
 
     protected abstract int getProgress();

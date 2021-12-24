@@ -72,6 +72,7 @@ import org.telegram.ui.Components.SwipeGestureSettingsView;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.accessbility.AccConfig;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class DialogCell extends BaseCell {
@@ -3167,13 +3168,12 @@ public class DialogCell extends BaseCell {
             info.addAction(AccessibilityNodeInfo.ACTION_LONG_CLICK);
             if (checkBox != null) info.setSelected(checkBox.isChecked());
             StringBuilder sb = new StringBuilder();
+            String typeOfChat = null;
             if (currentDialogFolderId == 1) {
-                sb.append(LocaleController.getString("ArchivedChats", R.string.ArchivedChats));
-                sb.append(". ");
+                typeOfChat = LocaleController.getString("ArchivedChats", R.string.ArchivedChats);
             } else {
                 if (encryptedChat != null) {
-                    sb.append(LocaleController.getString("AccDescrSecretChat", R.string.AccDescrSecretChat));
-                    sb.append(". ");
+                    typeOfChat = LocaleController.getString("AccDescrSecretChat", R.string.AccDescrSecretChat);
                 }
                 if (user != null) {
                     if (UserObject.isReplyUser(user)) {
@@ -3192,20 +3192,34 @@ public class DialogCell extends BaseCell {
                     sb.append(". ");
                 } else if (chat != null) {
                     if (chat.broadcast) {
-                        sb.append(LocaleController.getString("AccDescrChannel", R.string.AccDescrChannel));
+                        typeOfChat = LocaleController.getString("AccDescrChannel", R.string.AccDescrChannel);
                     } else {
-                        sb.append(LocaleController.getString("AccDescrGroup", R.string.AccDescrGroup));
+                        typeOfChat = LocaleController.getString("AccDescrGroup", R.string.AccDescrGroup);
                     }
-                    sb.append(". ");
                     sb.append(chat.title);
                     sb.append(". ");
                 }
             }
+            if (chat != null && AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION == AccConfig.TYPE_AT_FIRST) {
+                sb.insert(0, typeOfChat + ": ");
+            }
             if (unreadCount > 0) {
                 sb.append(LocaleController.formatPluralString("NewMessages", unreadCount));
-                sb.append(". ");
+                if (typeOfChat == null || AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION != AccConfig.TYPE_AT_MIDDLE) {
+                    sb.append(". ");
+                }
+            }
+            if (typeOfChat != null && AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION == AccConfig.TYPE_AT_MIDDLE) {
+                sb.append("(");
+                sb.append(typeOfChat);
+                sb.append("). ");
             }
             if (message == null || currentDialogFolderId != 0) {
+                if (typeOfChat != null && AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION == AccConfig.TYPE_AT_SECOND) {
+                    sb.append("(");
+                    sb.append(typeOfChat);
+                    sb.append(").");
+                }
                 info.setContentDescription(sb.toString());
                 return;
             }
@@ -3235,6 +3249,11 @@ public class DialogCell extends BaseCell {
                         sb.append(message.caption);
                     }
                 }
+            }
+            if (typeOfChat != null && AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION == AccConfig.TYPE_AT_SECOND) {
+                sb.append("(");
+                sb.append(typeOfChat);
+                sb.append(").");
             }
             info.setContentDescription(sb.toString());
         }
