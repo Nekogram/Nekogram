@@ -2882,7 +2882,7 @@ public class NotificationsController extends BaseController {
             }
             NotificationCompat.BubbleMetadata.Builder bubbleBuilder =
                     new NotificationCompat.BubbleMetadata.Builder(
-                            PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE),
+                            PendingIntent.getActivity(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE),
                             icon);
             bubbleBuilder.setSuppressNotification(openedDialogId == did);
             bubbleBuilder.setAutoExpandBubble(false);
