@@ -184,6 +184,7 @@
     <string name="QRLoginTitle">QR Login</string>
     <string name="NoTranslatorAppInstalled">You don\'t have applications that can handle translate intent, please install one to continue</string>
     <string name="UseExternalTranslatorApp">Use external translator app</string>
+    <string name="DisableVoiceMessagesAutoPlay">Disable auto-play of voice messages</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

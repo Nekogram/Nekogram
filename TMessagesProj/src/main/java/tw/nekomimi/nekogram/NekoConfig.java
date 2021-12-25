@@ -111,6 +111,7 @@ public class NekoConfig {
     public static boolean swipeToPiP = false;
     public static boolean disableJumpToNextChannel = false;
     public static boolean useExternalTranslator = false;
+    public static boolean disableVoiceMessageAutoPlay = false;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
@@ -248,6 +249,7 @@ public class NekoConfig {
             disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
             blockSponsoredMessage = preferences.getBoolean("blockSponsoredMessage", false);
             useExternalTranslator = preferences.getBoolean("useExternalTranslator", false);
+            disableVoiceMessageAutoPlay = preferences.getBoolean("disableVoiceMessageAutoPlay", false);
             configLoaded = true;
         }
     }
@@ -760,6 +762,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("useExternalTranslator", useExternalTranslator);
+        editor.commit();
+    }
+
+    public static void toggleDisableVoiceMessageAutoPlay() {
+        disableVoiceMessageAutoPlay = !disableVoiceMessageAutoPlay;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("disableVoiceMessageAutoPlay", disableVoiceMessageAutoPlay);
         editor.commit();
     }
 

@@ -23838,7 +23838,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     public boolean needPlayMessage(MessageObject messageObject) {
                         if (messageObject.isVoice() || messageObject.isRoundVideo()) {
                             boolean result = MediaController.getInstance().playMessage(messageObject);
-                            MediaController.getInstance().setVoiceMessagesPlaylist(result ? createVoiceMessagesPlaylist(messageObject, false) : null, false);
+                            if (!NekoConfig.disableVoiceMessageAutoPlay) MediaController.getInstance().setVoiceMessagesPlaylist(result ? createVoiceMessagesPlaylist(messageObject, false) : null, false);
                             return result;
                         } else if (messageObject.isMusic()) {
                             return MediaController.getInstance().setPlaylist(messages, messageObject, mergeDialogId);

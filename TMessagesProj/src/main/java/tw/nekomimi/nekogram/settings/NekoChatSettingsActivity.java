@@ -74,6 +74,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int swipeToPiPRow;
     private int disableJumpToNextRow;
     private int disableGreetingStickerRow;
+    private int disableVoiceMessageAutoPlayRow;
     private int autoPauseVideoRow;
     private int messageMenuRow;
     private int chat2Row;
@@ -224,6 +225,11 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.disableGreetingSticker);
                 }
+            } else if (position == disableVoiceMessageAutoPlayRow) {
+                NekoConfig.toggleDisableVoiceMessageAutoPlay();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.disableVoiceMessageAutoPlay);
+                }
             }
         });
 
@@ -255,6 +261,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         swipeToPiPRow = rowCount++;
         disableJumpToNextRow = rowCount++;
         disableGreetingStickerRow = rowCount++;
+        disableVoiceMessageAutoPlayRow = rowCount++;
         autoPauseVideoRow = rowCount++;
         messageMenuRow = rowCount++;
         chat2Row = rowCount++;
@@ -618,6 +625,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                         textCell.setTextAndCheck(LocaleController.getString("DisableJumpToNextChannel", R.string.DisableJumpToNextChannel), NekoConfig.disableJumpToNextChannel, true);
                     } else if (position == disableGreetingStickerRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisableGreetingSticker", R.string.DisableGreetingSticker), NekoConfig.disableGreetingSticker, true);
+                    } else if (position == disableVoiceMessageAutoPlayRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("DisableVoiceMessagesAutoPlay", R.string.DisableVoiceMessagesAutoPlay), NekoConfig.disableVoiceMessageAutoPlay, true);
                     }
                     break;
                 }
