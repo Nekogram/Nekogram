@@ -43,8 +43,8 @@ public class AccConfig {
             }
 
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("accconfig", Activity.MODE_PRIVATE);
-            TYPE_OF_REWIND = preferences.getInt(TYPE_OF_REWIND_KEY, TYPE_AUTO_REWIND);
-            TYPE_OF_REWIND_VIDEO = preferences.getInt(TYPE_OF_REWIND_VIDEO_KEY, TYPE_AUTO_REWIND);
+            TYPE_OF_REWIND = preferences.getInt(TYPE_OF_REWIND_KEY, TYPE_PERCENT_REWIND);
+            TYPE_OF_REWIND_VIDEO = preferences.getInt(TYPE_OF_REWIND_VIDEO_KEY, TYPE_PERCENT_REWIND);
             ADD_TYPE_OF_CHAT_TO_DESCRIPTION = preferences.getInt(ADD_TYPE_OF_CHAT_TO_DESCRIPTION_KEY, TYPE_AT_FIRST);
             SHOW_NUMBERS_OF_ITEMS = preferences.getBoolean(SHOW_NUMBERS_OF_ITEMS_KEY, true);
             SHOW_INDEX_OF_ITEM = preferences.getBoolean(SHOW_INDEX_OF_ITEM_KEY, true);

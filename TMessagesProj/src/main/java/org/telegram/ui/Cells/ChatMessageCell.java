@@ -140,6 +140,7 @@ import org.telegram.ui.PinchToZoomHelper;
 import org.telegram.ui.SecretMediaViewer;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.accessbility.AccConfig;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -13704,7 +13705,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     public boolean isSeekbarCell() {
-        return currentMessageObject.isVoice() || currentMessageObject.isRoundVideo() || currentMessageObject.isMusic();
+        return AccConfig.TYPE_OF_REWIND != AccConfig.TYPE_NO_REWIND && (currentMessageObject.isVoice() || currentMessageObject.isRoundVideo() || currentMessageObject.isMusic());
     }
 
     @Override
@@ -14340,7 +14341,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         contentDescription = contentDescription + " " + adminLabel;
                     }
                     info.setContentDescription(contentDescription);
-                    avatarDrawable.copyBounds(rect);
+                    avatarImage.getDrawRegion().round(rect);
                     info.setLongClickable(true);
                     info.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_LONG_CLICK);
                 }
@@ -14349,12 +14350,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 info.setEnabled(true);
                 info.setClickable(true);
                 info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
-                if (virtualViewId == USER) rect.offset(-pos[0], -pos[1]);
                 info.setBoundsInParent(rect);
                 if (accessibilityVirtualViewBounds.get(virtualViewId) == null || !accessibilityVirtualViewBounds.get(virtualViewId).equals(rect)) {
                     accessibilityVirtualViewBounds.put(virtualViewId, new Rect(rect));
                 }
-                rect.offset(pos[0], pos[1]);
+                if (virtualViewId != USER) rect.offset(pos[0], pos[1]);
                 info.setBoundsInScreen(rect);
                 return info;
             }

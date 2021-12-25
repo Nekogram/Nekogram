@@ -3,6 +3,7 @@ package tw.nekomimi.nekogram.settings;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.MotionEvent;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.Cells.DrawerProfileCell;
@@ -43,5 +44,10 @@ public class DrawerProfilePreviewCell extends DrawerProfileCell {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         return false;
+    }
+
+    @Override
+    public AccessibilityNodeInfo createAccessibilityNodeInfo() {
+        return null;
     }
 }
