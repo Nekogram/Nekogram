@@ -921,6 +921,12 @@ public final class Bulletin {
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             addView(textView, LayoutHelper.createFrameRelatively(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 56, 0, 16, 0));
         }
+
+        @Override
+        protected void onShow() {
+            super.onShow();
+            AndroidUtilities.makeAccessibilityAnnouncement(textView.getText());
+        }
     }
 
     @SuppressLint("ViewConstructor")
@@ -939,6 +945,12 @@ public final class Bulletin {
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             textView.setTypeface(Typeface.SANS_SERIF);
             addView(textView, LayoutHelper.createFrameRelatively(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.START | Gravity.CENTER_VERTICAL, 56, 0, 16, 0));
+        }
+
+        @Override
+        protected void onShow() {
+            super.onShow();
+            AndroidUtilities.makeAccessibilityAnnouncement(textView.getText());
         }
     }
 
@@ -975,6 +987,11 @@ public final class Bulletin {
             linearLayout.addView(subtitleTextView);
         }
 
+        @Override
+        protected void onShow() {
+            super.onShow();
+            AndroidUtilities.makeAccessibilityAnnouncement(titleTextView.getText() + ". " + subtitleTextView.getText());
+        }
     }
 
     public static class TwoLineLottieLayout extends ButtonLayout {
@@ -1018,6 +1035,7 @@ public final class Bulletin {
         protected void onShow() {
             super.onShow();
             imageView.playAnimation();
+            AndroidUtilities.makeAccessibilityAnnouncement(titleTextView.getText() + ". " + subtitleTextView.getText());
         }
 
         public void setAnimation(int resId, String... layers) {
@@ -1073,6 +1091,7 @@ public final class Bulletin {
         protected void onShow() {
             super.onShow();
             imageView.playAnimation();
+            AndroidUtilities.makeAccessibilityAnnouncement(textView.getText());
         }
 
         public void setAnimation(int resId, String... layers) {
