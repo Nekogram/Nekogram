@@ -2445,6 +2445,7 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
         }
 
         senderSelectView = new SenderSelectView(getContext());
+        senderSelectView.setContentDescription(LocaleController.getString("SendMessageAsTitle", R.string.SendMessageAsTitle));
         senderSelectView.setOnClickListener(v -> {
             if (getTranslationY() != 0) {
                 onEmojiSearchClosed = () -> senderSelectView.callOnClick();
@@ -2602,6 +2603,7 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                                 avatar.setAvatar(chat);
                             }
                             avatar.setSelected(chatFull.default_send_as != null && chatFull.default_send_as.channel_id == peer.channel_id, false);
+                            holder.itemView.setSelected(chatFull.default_send_as != null && chatFull.default_send_as.channel_id == peer.channel_id);
                         } else {
                             TLRPC.User user = controller.getUser(peerId);
                             if (user != null) {
@@ -2610,6 +2612,7 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                                 avatar.setAvatar(user);
                             }
                             avatar.setSelected(chatFull.default_send_as != null && chatFull.default_send_as.user_id == peer.user_id, false);
+                            holder.itemView.setSelected(chatFull.default_send_as != null && chatFull.default_send_as.channel_id == peer.channel_id);
                         }
                     }
 
