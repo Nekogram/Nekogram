@@ -3205,6 +3205,10 @@ public class DialogCell extends BaseCell {
             }
             if (unreadCount > 0) {
                 sb.append(LocaleController.formatPluralString("NewMessages", unreadCount));
+                if (chat != null && mentionCount > 0 && drawMention) {
+                    sb.append(": ");
+                    sb.append(LocaleController.formatPluralString("Replies", mentionCount));
+                }
                 if (typeOfChat == null || AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION != AccConfig.TYPE_AT_MIDDLE) {
                     sb.append(". ");
                 }

@@ -170,7 +170,6 @@ public class FilterTabsView extends FrameLayout {
         public void setTab(Tab tab, int position) {
             currentTab = tab;
             currentPosition = position;
-            setContentDescription(tab.title);
             requestLayout();
         }
 
@@ -205,6 +204,11 @@ public class FilterTabsView extends FrameLayout {
         @SuppressLint("DrawAllocation")
         @Override
         protected void onDraw(Canvas canvas) {
+            if (currentTab.counter > 0) {
+                setContentDescription(currentTab.title + " ("+ currentTab.counter + ")");
+            } else {
+                setContentDescription(currentTab.title);
+            }
             if (currentTab.id != Integer.MAX_VALUE && editingAnimationProgress != 0) {
                 canvas.save();
                 float p = editingAnimationProgress * (currentPosition % 2 == 0 ? 1.0f : -1.0f);

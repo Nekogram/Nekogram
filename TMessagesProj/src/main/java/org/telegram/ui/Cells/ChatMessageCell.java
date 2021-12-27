@@ -14141,7 +14141,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     seekBarAccessibilityDelegate.onInitializeAccessibilityNodeInfoInternal(info);
                 }
                 //smallest ids should be added at first, because talkback can focus on it not always in correct order
-                if (currentUser != null) {
+                if (currentUser != null && UserConfig.getInstance(currentAccount).getClientUserId() != currentUser.id) {
                     info.addChild(ChatMessageCell.this, USER);
                 }
                 if (forwardedNameLayout[1] != null) {
@@ -14195,6 +14195,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 if (drawSelectionBackground || getBackground() != null) {
                     info.setSelected(true);
                 }
+                info.setAccessibilityFocused(true);
                 return info;
             } else {
                 AccessibilityNodeInfo info = AccessibilityNodeInfo.obtain();
@@ -14442,7 +14443,13 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             }
                         }
                     } else if (virtualViewId == USER) {
-                        if (delegate != null) delegate.didPressUserAvatar(ChatMessageCell.this, currentUser, 0, 0);
+                        if (delegate != null)  {
+                            if (currentUser.id != 0) {
+                                delegate.didPressUserAvatar(ChatMessageCell.this, currentUser, 0, 0);
+                            } else {
+                                delegate.didPressHiddenForward(ChatMessageCell.this);
+                            }
+                        }
                     }
                 } else if (action == AccessibilityNodeInfo.ACTION_LONG_CLICK) {
                     if (virtualViewId == USER) {
