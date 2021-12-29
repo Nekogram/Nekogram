@@ -161,7 +161,7 @@ public class Translator {
 
         PopupHelper.show(names, LocaleController.getString("TranslationTarget", R.string.TranslationTarget), targetLanguages.indexOf(NekoConfig.translationTarget), context, view, i -> {
             NekoConfig.setTranslationTarget(targetLanguages.get(i));
-            callback.run();
+            if (callback != null) callback.run();
         }, resourcesProvider);
     }
 
