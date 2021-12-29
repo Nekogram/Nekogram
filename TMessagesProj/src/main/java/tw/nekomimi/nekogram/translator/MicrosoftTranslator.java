@@ -6,6 +6,7 @@ import android.util.Base64;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.messenger.FileLog;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -78,7 +79,7 @@ public class MicrosoftTranslator extends BaseTranslator {
     }
 
     @Override
-    protected String translate(String query, String tl) throws IOException, JSONException {
+    protected Result translate(String query, String tl) throws IOException, JSONException {
         if (tl.equals("zh-CN")) {
             tl = "zh-Hans";
         } else if (tl.equals("zh-TW")) {
@@ -98,7 +99,13 @@ public class MicrosoftTranslator extends BaseTranslator {
             throw new IOException(jsonObject.getString("message"));
         }
         JSONArray array = jsonObject.getJSONArray("translations");
-        return array.getJSONObject(0).getString("text");
+        String sourceLang = null;
+        try {
+            sourceLang = jsonObject.getJSONObject("detectedLanguage").getString("language");
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return new Result(array.getJSONObject(0).getString("text"), sourceLang);
     }
 
     private static class Cognitive {
@@ -128,7 +135,7 @@ public class MicrosoftTranslator extends BaseTranslator {
             JSONObject jsonObject = new JSONObject();
             jsonObject.put("Text", query);
             String url = "api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=&to=" + tl;
-            return new Http("https://" + url)
+            return Http.url("https://" + url)
                     .header("Content-Type", "application/json; charset=UTF-8")
                     .header("X-Mt-Signature", sign(url))
                     .header("User-Agent", "okhttp/4.5.0")

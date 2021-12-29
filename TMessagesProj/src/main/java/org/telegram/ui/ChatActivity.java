@@ -21433,7 +21433,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         final MessageObject finalMessageObject = messageObject;
         Translator.translate(original, new Translator.TranslateCallBack() {
             @Override
-            public void onSuccess(Object translation) {
+            public void onSuccess(Object translation, String sourceLanguage) {
                 if (translation instanceof String) {
                     finalMessageObject.messageOwner.message = original +
                             "\n" +

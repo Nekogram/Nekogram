@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.messenger.FileLog;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -37,13 +38,13 @@ public class GoogleAppTranslator extends BaseTranslator {
     }
 
     @Override
-    protected String translate(String query, String tl) throws IOException, JSONException {
+    protected Result translate(String query, String tl) throws IOException, JSONException {
         String url = "https://translate.googleapis.com/translate_a/single?dj=1" +
                 "&q=" + URLEncoder.encode(query, "UTF-8") +
                 "&sl=auto" +
                 "&tl=" + tl +
                 "&ie=UTF-8&oe=UTF-8&client=at&dt=t&otf=2";
-        String response = new Http(url)
+        String response = Http.url(url)
                 .header("User-Agent", "GoogleTranslate/6.27.0.08.415126308 (Linux; U; Android 11; Redmi K20 Pro)")
                 .request();
         if (TextUtils.isEmpty(response)) {
@@ -82,12 +83,19 @@ public class GoogleAppTranslator extends BaseTranslator {
         return code;
     }
 
-    private String getResult(String string) throws JSONException {
+    private Result getResult(String string) throws JSONException {
         StringBuilder sb = new StringBuilder();
-        JSONArray array = new JSONObject(string).getJSONArray("sentences");
+        JSONObject object = new JSONObject(string);
+        JSONArray array = object.getJSONArray("sentences");
         for (int i = 0; i < array.length(); i++) {
             sb.append(array.getJSONObject(i).getString("trans"));
         }
-        return sb.toString();
+        String sourceLang = null;
+        try {
+            sourceLang = object.getJSONObject("ld_result").getJSONArray("srclangs").getString(0);
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return new Result(sb.toString(), sourceLang);
     }
 }

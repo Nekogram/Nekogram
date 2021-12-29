@@ -4,6 +4,7 @@ import android.text.TextUtils;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.messenger.FileLog;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -50,7 +51,7 @@ public class NiuTranslator extends BaseTranslator {
     }
 
     @Override
-    protected String translate(String query, String tl) throws IOException, JSONException {
+    protected Result translate(String query, String tl) throws IOException, JSONException {
         if (tl.equals("zh-CN")) {
             tl = "zh";
         } else if (tl.equals("zh-TW")) {
@@ -61,7 +62,7 @@ public class NiuTranslator extends BaseTranslator {
                 "&to=" + tl +
                 "&src_text=" + URLEncoder.encode(query, "UTF-8") +
                 "&source=text&dictNo=&memoryNo=&isUseDict=0&isUseMemory=0&time=" + System.currentTimeMillis();
-        String response = new Http(url)
+        String response = Http.url(url)
                 .header("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1")
                 .request();
         if (TextUtils.isEmpty(response)) {
@@ -71,7 +72,13 @@ public class NiuTranslator extends BaseTranslator {
         if (!jsonObject.has("tgt_text") && jsonObject.has("error_msg")) {
             throw new IOException(jsonObject.getString("error_msg"));
         }
-        return jsonObject.getString("tgt_text");
+        String sourceLang = null;
+        try {
+            sourceLang = jsonObject.getString("from");
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return new Result(jsonObject.getString("tgt_text"), sourceLang);
     }
 
     @Override

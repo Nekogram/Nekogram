@@ -5,6 +5,7 @@ import android.util.Base64;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.messenger.FileLog;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -45,7 +46,7 @@ public class TencentTranslator extends BaseTranslator {
     }
 
     @Override
-    protected String translate(String query, String tl) throws IOException, JSONException {
+    protected Result translate(String query, String tl) throws IOException, JSONException {
         String response = TmtClient.translate(query, tl);
         if (TextUtils.isEmpty(response)) {
             return null;
@@ -54,7 +55,13 @@ public class TencentTranslator extends BaseTranslator {
         if (!jsonObject.has("TargetText") && jsonObject.has("Error")) {
             throw new IOException(jsonObject.getJSONObject("Error").getString("Message"));
         }
-        return jsonObject.getString("TargetText");
+        String sourceLang = null;
+        try {
+            sourceLang = jsonObject.getString("Source");
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return new Result(jsonObject.getString("TargetText"), sourceLang);
     }
 
     private static class TmtClient {
@@ -99,7 +106,7 @@ public class TencentTranslator extends BaseTranslator {
             hashMap.put("Target", tl);
             hashMap.put("ProjectId", "0");
             hashMap.put("Signature", sign("POSTtmt.tencentcloudapi.com/?" + buildQuery(hashMap, true)));
-            return new Http("https://tmt.tencentcloudapi.com")
+            return Http.url("https://tmt.tencentcloudapi.com")
                     .header("Content-Type", "application/json; charset=UTF-8")
                     .header("User-Agent", "Mozilla/5.0 (Linux; U; Android 11; zh-cn; Redmi K20 Pro Build/RQ3A.210705.001) AppleWebKit/533.1 (KHTML, like Gecko) Mobile Safari/533.1")
                     .data(buildQuery(hashMap, false))

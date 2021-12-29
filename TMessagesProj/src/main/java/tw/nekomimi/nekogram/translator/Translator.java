@@ -57,7 +57,7 @@ public class Translator {
         progressDialog.showDelayed(400);
         translate(query, new TranslateCallBack() {
             @Override
-            public void onSuccess(Object translation) {
+            public void onSuccess(Object translation, String sourceLanguage) {
                 try {
                     progressDialog.dismiss();
                 } catch (Exception ignore) {
@@ -257,7 +257,7 @@ public class Translator {
     }
 
     public interface TranslateCallBack {
-        void onSuccess(Object translation);
+        void onSuccess(Object translation, String sourceLanguage);
 
         void onError(Exception e);
     }

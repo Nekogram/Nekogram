@@ -33,16 +33,16 @@ public class LingoTranslator extends BaseTranslator {
     }
 
     @Override
-    protected String translate(String query, String tl) throws IOException, JSONException {
+    protected Result translate(String query, String tl) throws IOException, JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("source", query);
         jsonObject.put("trans_type", "auto2" + tl);
         jsonObject.put("request_id", String.valueOf(System.currentTimeMillis()));
         jsonObject.put("detect", true);
-        String response = new Http("https://api.interpreter.caiyunai.com/v1/translator")
+        String response = Http.url("https://api.interpreter.caiyunai.com/v1/translator")
                 .header("Content-Type", "application/json; charset=UTF-8")
                 .header("X-Authorization", "token " + Extra.LINGO_TOKEN)
-                .header("User-Agent", "Mozilla/5.0 (iPhone; CPU iPhone OS 10_0 like Mac OS X) AppleWebKit/602.1.38 (KHTML, like Gecko) Version/10.0 Mobile/14A5297c Safari/602.1")
+                .header("User-Agent", "okhttp/3.12.3")
                 .data(jsonObject.toString())
                 .request();
         if (TextUtils.isEmpty(response)) {
@@ -52,6 +52,6 @@ public class LingoTranslator extends BaseTranslator {
         if (!jsonObject.has("target") && jsonObject.has("error")) {
             throw new IOException(jsonObject.getString("error"));
         }
-        return jsonObject.getString("target");
+        return new Result(jsonObject.getString("target"), null);
     }
 }

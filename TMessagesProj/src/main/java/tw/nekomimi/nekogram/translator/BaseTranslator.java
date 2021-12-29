@@ -3,6 +3,8 @@ package tw.nekomimi.nekogram.translator;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 
+import androidx.annotation.Nullable;
+
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -22,7 +24,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 
 abstract public class BaseTranslator {
 
-    abstract protected String translate(String query, String tl) throws Exception;
+    abstract protected Result translate(String query, String tl) throws Exception;
 
     abstract public List<String> getTargetLanguages();
 
@@ -120,7 +122,8 @@ abstract public class BaseTranslator {
             } else if (result instanceof Exception) {
                 translateCallBack.onError((Exception) result);
             } else {
-                translateCallBack.onSuccess(result);
+                Result translationResult = (Result) result;
+                translateCallBack.onSuccess(translationResult.translation, translationResult.sourceLanguage);
             }
         }
 
@@ -129,10 +132,14 @@ abstract public class BaseTranslator {
     public static class Http {
         private final HttpURLConnection httpURLConnection;
 
-        public Http(String url) throws IOException {
+        private Http(String url) throws IOException {
             httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
             httpURLConnection.setConnectTimeout(1000);
             //httpURLConnection.setReadTimeout(2000);
+        }
+
+        public static Http url(String url) throws IOException {
+            return new Http(url);
         }
 
         public Http header(String key, String value) {
@@ -158,10 +165,20 @@ abstract public class BaseTranslator {
             } else {
                 stream = httpURLConnection.getErrorStream();
             }
-
             return new Scanner(stream, "UTF-8")
                     .useDelimiter("\\A")
                     .next();
+        }
+    }
+
+    public static class Result {
+        public Object translation;
+        @Nullable
+        public String sourceLanguage;
+
+        public Result(Object translation, @Nullable String sourceLanguage) {
+            this.translation = translation;
+            this.sourceLanguage = sourceLanguage;
         }
     }
 }

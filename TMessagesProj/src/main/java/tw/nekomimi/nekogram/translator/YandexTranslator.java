@@ -3,6 +3,7 @@ package tw.nekomimi.nekogram.translator;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.messenger.FileLog;
 
 import java.io.IOException;
 import java.net.URLEncoder;
@@ -35,7 +36,7 @@ public class YandexTranslator extends BaseTranslator {
         return instance;
     }
 
-    private static String getResult(String string) throws JSONException, IOException {
+    private static Result getResult(String string) throws JSONException, IOException {
         JSONObject json = new JSONObject(string);
         if (!json.has("text") && json.has("message")) {
             throw new IOException(json.getString("message"));
@@ -46,12 +47,18 @@ public class YandexTranslator extends BaseTranslator {
         for (int i = 0; i < length; i++) {
             sb.append(array.getString(i));
         }
-        return sb.toString();
+        String sourceLang = null;
+        try {
+            sourceLang = json.getString("lang").split("-")[0];
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return new Result(sb.toString(), sourceLang);
     }
 
     @Override
-    protected String translate(String query, String tl) throws IOException, JSONException {
-        return getResult(new Http("https://translate.yandex.net/api/v1/tr.json/translate?id=" + uuid + "-0-0&srv=android")
+    protected Result translate(String query, String tl) throws IOException, JSONException {
+        return getResult(Http.url("https://translate.yandex.net/api/v1/tr.json/translate?id=" + uuid + "-0-0&srv=android")
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("User-Agent", "ru.yandex.translate/21.15.4.21402814 (Xiaomi Redmi K20 Pro; Android 11)")
                 .data("lang=" + tl + "&text=" + URLEncoder.encode(query, "UTF-8"))
