@@ -802,6 +802,9 @@ public class LoginActivity extends BaseFragment {
             return;
         }
         if (showDoneAnimation[currentDoneType] != null) {
+            if (animated) {
+                showDoneAnimation[currentDoneType].removeAllListeners();
+            }
             showDoneAnimation[currentDoneType].cancel();
         }
         doneButtonVisible[currentDoneType] = show;
@@ -809,7 +812,10 @@ public class LoginActivity extends BaseFragment {
             showDoneAnimation[currentDoneType] = new AnimatorSet();
             if (show) {
                 if (floating) {
-                    floatingButtonContainer.setVisibility(View.VISIBLE);
+                    if (floatingButtonContainer.getVisibility() != View.VISIBLE) {
+                        floatingButtonContainer.setTranslationY(AndroidUtilities.dpf2(70f));
+                        floatingButtonContainer.setVisibility(View.VISIBLE);
+                    }
                     showDoneAnimation[currentDoneType].play(ObjectAnimator.ofFloat(floatingButtonContainer, View.TRANSLATION_Y, 0f));
                 } else {
                     doneItem.setVisibility(View.VISIBLE);
@@ -2254,7 +2260,7 @@ public class LoginActivity extends BaseFragment {
                             showDialog(qrDialog);
                         }
                         String link = "tg://login?token=" + Base64.encodeToString(res.token, Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING);
-                        imageView.setImageBitmap(getMessageHelper().createQR(context, link));
+                        imageView.setImageBitmap(getMessageHelper().createQR(link));
                         long expires = res.expires - getConnectionsManager().getCurrentTime();
                         if (expires < 0) {
                             expires = 20;

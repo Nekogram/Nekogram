@@ -358,7 +358,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     TextCheckCell cell = (TextCheckCell) view;
                     cell.setChecked(NekoConfig.useExternalTranslator);
-                    cell.setNeedDivider(!NekoConfig.useExternalTranslator);
+                    cell.setDivider(!NekoConfig.useExternalTranslator);
                 }
                 if (NekoConfig.useExternalTranslator) {
                     listAdapter.notifyItemRangeRemoved(translationProviderRow, NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 3 : 2);

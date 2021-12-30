@@ -68,13 +68,13 @@ public class MessageHelper extends BaseController {
         super(num);
     }
 
-    public Bitmap createQR(Context context, String key) {
+    public Bitmap createQR(String key) {
         try {
             HashMap<EncodeHintType, Object> hints = new HashMap<>();
             hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
             hints.put(EncodeHintType.MARGIN, 0);
             QRCodeWriter writer = new QRCodeWriter();
-            return writer.encode(key, BarcodeFormat.QR_CODE, 768, 768, hints, null, context);
+            return writer.encode(key, 768, 768, hints, null);
         } catch (Exception e) {
             FileLog.e(e);
         }
