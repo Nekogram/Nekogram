@@ -163,7 +163,6 @@
     <string name="AutoLockInstant">Instant</string>
     <string name="RestrictionReason">Restriction reason</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
-    <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Max recent stickers</string>
     <string name="ApplyEmojiFont">Apply emoji font</string>
     <string name="DisableJumpToNextChannel">Disable \"Jump to Next Channel\"</string>
