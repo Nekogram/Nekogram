@@ -4515,7 +4515,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         menuItem.addSubItem(gallery_menu_set_as_main, R.drawable.menu_private, LocaleController.getString("SetAsMain", R.string.SetAsMain)).setColors(0xfffafafa, 0xfffafafa);
         menuItem.addSubItem(gallery_menu_delete, R.drawable.msg_delete, LocaleController.getString("Delete", R.string.Delete)).setColors(0xfffafafa, 0xfffafafa);
         menuItem.addSubItem(gallery_menu_cancel_loading, R.drawable.msg_cancel, LocaleController.getString("StopDownload", R.string.StopDownload)).setColors(0xfffafafa, 0xfffafafa);
-        translateItem = menuItem.addSubItem(gallery_menu_translate, R.drawable.ic_translate, LocaleController.getString("Translate", R.string.Translate));
+        translateItem = menuItem.addSubItem(gallery_menu_translate, R.drawable.msg_translate, LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
         translateItem.setColors(0xfffafafa, 0xfffafafa);
         menuItem.redrawPopup(0xf9222222);
         menuItemSpeed.redrawPopup(0xf9222222);
@@ -10105,7 +10105,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             } else {
                 if (newMessageObject.caption != null) {
                     menuItem.showSubItem(gallery_menu_translate);
-                    translateItem.setText(newMessageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("Translate", R.string.Translate));
+                    translateItem.setText(newMessageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
                 } else {
                     menuItem.hideSubItem(gallery_menu_translate);
                 }
@@ -15434,7 +15434,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             currentMessageObject.generateCaption();
 
             setCurrentCaption(currentMessageObject, finalMessage, true);
-            translateItem.setText(LocaleController.getString("Translate", R.string.Translate));
+            translateItem.setText(LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
+            return;
+        }
+        if (NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO) {
+            Translator.showTranslateDialog(parentActivity, currentMessageObject.messageOwner.message, MessagesController.getInstance(UserConfig.selectedAccount).isChatNoForwards(currentMessageObject.getChatId()));
             return;
         }
         Object original = currentMessageObject.messageOwner.message;

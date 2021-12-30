@@ -362,7 +362,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                     break;
                 }
                 case 6: {
-                    textCell.setTextAndCheck(LocaleController.getString("Translate", R.string.Translate), NekoConfig.showTranslate, false);
+                    textCell.setTextAndCheck(LocaleController.getString("TranslateMessage", R.string.TranslateMessage), NekoConfig.showTranslate, false);
                     break;
                 }
                 case 7: {

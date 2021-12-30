@@ -16,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.google.zxing.BarcodeFormat;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -163,7 +162,7 @@ public class MessageHelper extends BaseController {
         MessageObject messageObject = null;
         if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
             messageObject = getTargetMessageObjectFromGroup(selectedObjectGroup);
-        } else if (!selectedObject.isAnimatedEmoji() && !TextUtils.isEmpty(selectedObject.messageOwner.message) || (!NekoConfig.useExternalTranslator && selectedObject.type == MessageObject.TYPE_POLL)) {
+        } else if (!selectedObject.isAnimatedEmoji() && !TextUtils.isEmpty(selectedObject.messageOwner.message) || (NekoConfig.transType == NekoConfig.TRANS_TYPE_NEKO && selectedObject.type == MessageObject.TYPE_POLL)) {
             messageObject = selectedObject;
         }
         return messageObject;

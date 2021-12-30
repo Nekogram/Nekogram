@@ -3929,7 +3929,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return false;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("Translate", R.string.Translate)}, (dialogInterface, i) -> {
+            builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("TranslateMessage", R.string.TranslateMessage)}, (dialogInterface, i) -> {
                 try {
                     String about;
                     if (position == locationRow) {
@@ -3943,7 +3943,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         return;
                     }
                     if (i == 1) {
-                        Translator.showTranslateDialog(getParentActivity(), about, () -> BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show());
+                        Translator.showTranslateDialog(getParentActivity(), about, false);
                         return;
                     }
                     AndroidUtilities.addToClipboard(about);

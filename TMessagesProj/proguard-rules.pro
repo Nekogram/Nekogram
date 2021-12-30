@@ -110,6 +110,10 @@
 -keepclassmembers class * {
     @android.webkit.JavascriptInterface <methods>;
 }
+-keepclassmembernames class tw.nekomimi.nekogram.settings.NekoGeneralSettingsActivity {
+    private org.telegram.ui.Components.RecyclerListView listView;
+    private int translatorTypeRow;
+}
 
 -dontwarn org.jetbrains.annotations.NotNull
 -dontwarn org.jetbrains.annotations.Nullable

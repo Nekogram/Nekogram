@@ -55,7 +55,6 @@
     <string name="UnlimitedFavoredStickers">Unlimited favored stickers</string>
     <string name="UnlimitedFavoredStickersAbout">Add unlimited stickers to favorites. Stickers may not be synchronized to other devices.</string>
     <string name="MessageDetails">Details</string>
-    <string name="Translate">Translate</string>
     <string name="DeleteAccount">Delete Telegram account</string>
     <string name="TranslateFailed">Translate server error</string>
     <string name="TranslationProvider">Translation provider</string>
@@ -182,8 +181,11 @@
     <string name="QRLoginMessage">Scan QRCode with another device to login.</string>
     <string name="QRLoginTitle">QR Login</string>
     <string name="NoTranslatorAppInstalled">You don\'t have applications that can handle translate intent, please install one to continue</string>
-    <string name="UseExternalTranslatorApp">Use external translator app</string>
     <string name="DisableVoiceMessagesAutoPlay">Disable auto-play of voice messages</string>
+    <string name="TranslatorType">Type</string>
+    <string name="TranslatorTypeNeko">In message</string>
+    <string name="TranslatorTypeTG">Popup dialog</string>
+    <string name="TranslatorTypeExternal">External app</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

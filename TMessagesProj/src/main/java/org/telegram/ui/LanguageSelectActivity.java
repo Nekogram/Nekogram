@@ -56,6 +56,8 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Timer;
 
+import tw.nekomimi.nekogram.settings.NekoGeneralSettingsActivity;
+
 public class LanguageSelectActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private ListAdapter listAdapter;
@@ -419,7 +421,18 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             header.setText(LocaleController.getString("TranslateMessages", R.string.TranslateMessages));
             addView(header, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
-            boolean value = getValue();
+            TextSettingsCell cell = new TextSettingsCell(context);
+            cell.setText(LocaleController.getString("NekoSettings", R.string.NekoSettings), false);
+            cell.setBackground(Theme.createSelectorWithBackgroundDrawable(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(Theme.key_listSelector)));
+            cell.setOnClickListener(e -> {
+                presentFragment(new NekoGeneralSettingsActivity());
+                AndroidUtilities.scrollToFragmentRow(parentLayout, "translatorTypeRow");
+            });
+            addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+
+            addView(new ShadowSectionCell(context), LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+
+            /*boolean value = getValue();
             showButtonCheck = new TextCheckCell(context);
             showButtonCheck.setBackground(Theme.createSelectorWithBackgroundDrawable(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(Theme.key_listSelector)));
             showButtonCheck.setTextAndCheck(
@@ -461,9 +474,9 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 //            header2.setTranslationY(-Math.max(doNotTranslateCell.getHeight(), info2.getHeight()));
 //            addView(header2, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM));
 
-//            setLayoutParams(new RecyclerView.LayoutParams(LayoutHelper.MATCH_PARENT, height()));
+//            setLayoutParams(new RecyclerView.LayoutParams(LayoutHelper.MATCH_PARENT, height()));*/
             updateHeight();
-            update();
+            //update();
         }
 
         private boolean getValue() {
@@ -546,10 +559,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             }
         }
         int height() {
-            return Math.max(AndroidUtilities.dp(40), header.getMeasuredHeight()) +
-                   Math.max(AndroidUtilities.dp(50), showButtonCheck.getMeasuredHeight()) +
-                   Math.max(Math.max(AndroidUtilities.dp(50), doNotTranslateCell.getMeasuredHeight()), (info2.getMeasuredHeight() <= 0 ? AndroidUtilities.dp(51) : info2.getMeasuredHeight())) +
-                   (info.getMeasuredHeight() <= 0 ? AndroidUtilities.dp(62) : info.getMeasuredHeight());/* + header2.getHeight()*/
+            return LayoutHelper.WRAP_CONTENT;
         }
 
         @Override
@@ -557,7 +567,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             updateHeight();
         }
-
+/*
         @Override
         protected void onAttachedToWindow() {
             super.onAttachedToWindow();
@@ -571,12 +581,12 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             });
             updateHeight();
         }
-
         @Override
         protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
             preferences.unregisterOnSharedPreferenceChangeListener(listener);
         }
+*/
     }
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {

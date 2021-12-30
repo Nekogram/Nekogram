@@ -94,6 +94,9 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Locale;
+
+import tw.nekomimi.nekogram.translator.Translator;
 
 public class TranslateAlert extends Dialog {
     private FrameLayout statusBar;
@@ -932,19 +935,14 @@ public class TranslateAlert extends Dialog {
     public String languageName(String locale) {
         if (locale == null || locale.equals("und") || locale.equals("auto"))
             return null;
-//        if (locale != null && !locale.equals("und") && !locale.equals("auto")) {
-//            String passportLang = LocaleController.getString("PassportLanguage_" + locale.toUpperCase());
-//            if (passportLang != null && passportLang.length() > 0)
-//                return passportLang;
-//        }
-        LocaleController.LocaleInfo localeInfo = LocaleController.getInstance().getLanguageByPlural(locale);
-        boolean isCurrentLanguageEnglish = false;
-        try {
-            isCurrentLanguageEnglish = LocaleController.getInstance().getCurrentLocaleInfo().pluralLangCode.equals("en");
-        } catch (Exception e) {}
-        if (localeInfo != null && ((isCurrentLanguageEnglish && localeInfo.nameEnglish != null) || (!isCurrentLanguageEnglish && localeInfo.name != null)))
-            return isCurrentLanguageEnglish ? localeInfo.nameEnglish : localeInfo.name;
-        return null;
+        String toLang;
+        if (locale.equals("app")) {
+            toLang = LocaleController.getInstance().getCurrentLocaleInfo().name;
+        } else {
+            Locale l = Locale.forLanguageTag(locale);
+            toLang = l.getDisplayName(l);
+        }
+        return toLang;
     }
 
     public void updateSourceLanguage() {
@@ -1079,83 +1077,20 @@ public class TranslateAlert extends Dialog {
     }
     private long minFetchingDuration = 1000;
     private void fetchTranslation(CharSequence text, OnTranslationSuccess onSuccess, OnTranslationFail onFail) {
-        new Thread() {
+        Translator.translate(text, new Translator.TranslateCallBack() {
             @Override
-            public void run() {
-                String uri = "";
-                HttpURLConnection connection = null;
-                long start = SystemClock.elapsedRealtime();
-                try {
-                    uri = "https://translate.goo";
-                    uri += "gleapis.com/transl";
-                    uri += "ate_a";
-                    uri += "/singl";
-                    uri += "e?client=gtx&sl=" + Uri.encode(fromLanguage) + "&tl=" + Uri.encode(toLanguage) + "&dt=t" + "&ie=UTF-8&oe=UTF-8&otf=1&ssel=0&tsel=0&kc=7&dt=at&dt=bd&dt=ex&dt=ld&dt=md&dt=qca&dt=rw&dt=rm&dt=ss&q=";
-                    uri += Uri.encode(text.toString());
-                    connection = (HttpURLConnection) new URI(uri).toURL().openConnection();
-                    connection.setRequestMethod("GET");
-                    connection.setRequestProperty("User-Agent", userAgents[(int) Math.round(Math.random() * (userAgents.length - 1))]);
-                    connection.setRequestProperty("Content-Type", "application/json");
-
-                    StringBuilder textBuilder = new StringBuilder();
-                    try (Reader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), Charset.forName("UTF-8")))) {
-                        int c = 0;
-                        while ((c = reader.read()) != -1) {
-                            textBuilder.append((char) c);
-                        }
-                    }
-                    String jsonString = textBuilder.toString();
-
-                    JSONTokener tokener = new JSONTokener(jsonString);
-                    JSONArray array = new JSONArray(tokener);
-                    JSONArray array1 = array.getJSONArray(0);
-                    String sourceLanguage = null;
-                    try {
-                        sourceLanguage = array.getString(2);
-                    } catch (Exception e2) {}
-                    if (sourceLanguage != null && sourceLanguage.contains("-")) {
-                        sourceLanguage = sourceLanguage.substring(0, sourceLanguage.indexOf("-"));
-                    }
-                    String result = "";
-                    for (int i = 0; i < array1.length(); ++i) {
-                        String blockText = array1.getJSONArray(i).getString(0);
-                        if (blockText != null && !blockText.equals("null"))
-                            result += /*(i > 0 ? "\n" : "") +*/ blockText;
-                    }
-                    if (text.length() > 0 && text.charAt(0) == '\n')
-                        result = "\n" + result;
-                    final String finalResult = result;
-                    final String finalSourceLanguage = sourceLanguage;
-                    long elapsed = SystemClock.elapsedRealtime() - start;
-                    if (elapsed < minFetchingDuration)
-                        sleep(minFetchingDuration - elapsed);
-                    AndroidUtilities.runOnUIThread(() -> {
-                        if (onSuccess != null)
-                            onSuccess.run(finalResult, finalSourceLanguage);
-                    });
-                } catch (Exception e) {
-                    try {
-                        Log.e("translate", "failed to translate a text " + (connection != null ? connection.getResponseCode() : null) + " " + (connection != null ? connection.getResponseMessage() : null));
-                    } catch (IOException ioException) {
-                        ioException.printStackTrace();
-                    }
-                    e.printStackTrace();
-
-                    if (onFail != null && !dismissed) {
-                        try {
-                            final boolean rateLimit = connection != null && connection.getResponseCode() == 429;
-                            AndroidUtilities.runOnUIThread(() -> {
-                                onFail.run(rateLimit);
-                            });
-                        } catch (Exception e2) {
-                            AndroidUtilities.runOnUIThread(() -> {
-                                onFail.run(false);
-                            });
-                        }
-                    }
-                }
+            public void onSuccess(Object translation, String sourceLanguage) {
+                AndroidUtilities.runOnUIThread(() -> {
+                    if (onSuccess != null)
+                        onSuccess.run((String) translation, sourceLanguage);
+                });
             }
-        }.start();
+
+            @Override
+            public void onError(Exception e) {
+                Translator.handleTranslationError(getContext(), e, () -> fetchTranslation(text, onSuccess, onFail), null);
+            }
+        });
     }
 
     public static void showAlert(Context context, BaseFragment fragment, String fromLanguage, String toLanguage, CharSequence text, boolean noforwards) {

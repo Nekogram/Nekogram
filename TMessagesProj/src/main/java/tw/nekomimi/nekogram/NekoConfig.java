@@ -43,6 +43,10 @@ public class NekoConfig {
     public static final int ID_TYPE_API = 1;
     public static final int ID_TYPE_BOTAPI = 2;
 
+    public static final int TRANS_TYPE_NEKO = 0;
+    public static final int TRANS_TYPE_TG = 1;
+    public static final int TRANS_TYPE_EXTERNAL = 2;
+
     private static final String EMOJI_FONT_AOSP = "NotoColorEmoji.ttf";
 
     private static final int[] OFFICIAL_CHANNELS = {1302242053, 1406090861, 1221673407, 1339737452, 1349472891};
@@ -70,6 +74,7 @@ public class NekoConfig {
     public static int tabsTitleType = TITLE_TYPE_TEXT;
     public static int idType = ID_TYPE_API;
     public static int maxRecentStickers = 20;
+    public static int transType = TRANS_TYPE_NEKO;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -250,12 +255,21 @@ public class NekoConfig {
             blockSponsoredMessage = preferences.getBoolean("blockSponsoredMessage", false);
             useExternalTranslator = preferences.getBoolean("useExternalTranslator", false);
             disableVoiceMessageAutoPlay = preferences.getBoolean("disableVoiceMessageAutoPlay", false);
+            transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
             configLoaded = true;
         }
     }
 
     public static boolean isChatCat(TLRPC.Chat chat) {
         return Arrays.stream(OFFICIAL_CHANNELS).anyMatch(id -> id == chat.id);
+    }
+
+    public static void setTransType(int type) {
+        transType = type;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("transType", transType);
+        editor.commit();
     }
 
     public static void setWsUseMTP(boolean use) {
