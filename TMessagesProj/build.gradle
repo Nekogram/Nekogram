@@ -148,3 +148,7 @@ android {
 
     dependenciesInfo.includeInApk false
 }
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs << '-Xlint:none'
+}
