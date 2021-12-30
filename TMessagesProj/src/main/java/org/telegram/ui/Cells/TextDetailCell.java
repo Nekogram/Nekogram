@@ -61,6 +61,7 @@ public class TextDetailCell extends FrameLayout {
 
         imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.CENTER);
+        imageView.setVisibility(GONE);
         addView(imageView, LayoutHelper.createFrameRelatively(48, 48, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 12, 0));
     }
 
@@ -79,8 +80,10 @@ public class TextDetailCell extends FrameLayout {
     public void setImage(Drawable drawable) {
         imageView.setImageDrawable(drawable);
         if (drawable == null) {
+            imageView.setVisibility(GONE);
             imageView.setBackground(null);
         } else {
+            imageView.setVisibility(VISIBLE);
             imageView.setBackground(Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(48), Color.TRANSPARENT, Theme.getColor(Theme.key_listSelector)));
         }
     }
