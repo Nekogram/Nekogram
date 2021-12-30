@@ -89,10 +89,10 @@ abstract public class BaseTranslator {
                     poll.question = original.question +
                             "\n" +
                             "--------" +
-                            "\n" + translate(original.question, tl);
+                            "\n" + translate(original.question, tl).translation;
                     for (int i = 0; i < original.answers.size(); i++) {
                         TLRPC.TL_pollAnswer answer = new TLRPC.TL_pollAnswer();
-                        answer.text = original.answers.get(i).text + " | " + translate(original.answers.get(i).text, tl);
+                        answer.text = original.answers.get(i).text + " | " + translate(original.answers.get(i).text, tl).translation;
                         answer.option = original.answers.get(i).option;
                         poll.answers.add(answer);
                     }
@@ -104,7 +104,7 @@ abstract public class BaseTranslator {
                     poll.multiple_choice = original.multiple_choice;
                     poll.public_voters = original.public_voters;
                     poll.quiz = original.quiz;
-                    return poll;
+                    return new Result(poll, null);
                 } else {
                     throw new UnsupportedOperationException("Unsupported translation query");
                 }
