@@ -46,7 +46,6 @@
     <string name="UnlimitedFavoredStickers">Stickere favorite nelimitate</string>
     <string name="UnlimitedFavoredStickersAbout">Adăugați stickere nelimitate la favorite. Este posibil ca stickerele să nu fie sincronizate cu alte dispozitive.</string>
     <string name="MessageDetails">Detalii</string>
-    <string name="Translate">Traducere</string>
     <string name="DeleteAccount">Ștergeți contul Telegram</string>
     <string name="TranslateFailed">Eroare server de traducere</string>
     <string name="TranslationProvider">Furnizor de traduceri</string>

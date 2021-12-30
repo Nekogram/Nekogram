@@ -48,7 +48,6 @@
     <string name="UnlimitedFavoredStickers">Autocollants préférés illimités</string>
     <string name="UnlimitedFavoredStickersAbout">Ajoutez des autocollants illimités aux favoris. Les autocollants ne peuvent pas être synchronisés sur d\'autres appareils.</string>
     <string name="MessageDetails">Détail</string>
-    <string name="Translate">Traduire</string>
     <string name="DeleteAccount">Effacer le compte Telegram</string>
     <string name="TranslateFailed">Erreur de traduction du serveur</string>
     <string name="TranslationProvider">Fournisseur de traduction</string>
@@ -153,7 +152,6 @@
     <string name="AutoLockInstant">Instantané</string>
     <string name="RestrictionReason">Motif de la restriction</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
-    <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Nombre maximum d\'autocollants récents</string>
     <string name="ApplyEmojiFont">Appliquer la police d\'emoji</string>
     <string name="DisableJumpToNextChannel">Désactiver « Passer au canal suivant »</string>

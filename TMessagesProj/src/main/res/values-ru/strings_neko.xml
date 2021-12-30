@@ -35,7 +35,7 @@
     <string name="TestBackendOn">Эта учетная запись будет подключаться к тестовому серверу.</string>
     <string name="TestBackendOff">Эта учетная запись будет подключаться к основному серверу.</string>
     <string name="HideProxySponsorChannel">Скрыть спонсора прокси</string>
-    <string name="ViewHistory">История сообщений</string>
+    <string name="ViewHistory">Сообщения пользователя</string>
     <string name="Nya">Мяу!</string>
     <string name="SaveCacheToExternalFilesDir">Изоляция хранилища</string>
     <string name="SaveCacheToExternalFilesDirAbout">Сохранять содержимое папки \"Telegram\" на внешнее хранилище, для экономии памяти устройства.</string>
@@ -48,7 +48,6 @@
     <string name="UnlimitedFavoredStickers">Неограниченные избранные стикеры</string>
     <string name="UnlimitedFavoredStickersAbout">Добавляйте неограниченное количество стикеров в избранное. Они не могут быть синхронизированы с другими устройствами.</string>
     <string name="MessageDetails">Подробности</string>
-    <string name="Translate">Перевести</string>
     <string name="DeleteAccount">Удалить Telegram аккаунт</string>
     <string name="TranslateFailed">Ошибка сервера переводчика</string>
     <string name="TranslationProvider">Переводчик</string>
@@ -155,7 +154,6 @@
     <string name="AutoLockInstant">Мгновенно</string>
     <string name="RestrictionReason">Причина ограничения</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
-    <string name="ProviderNiuTrans">Niu Переводчик</string>
     <string name="MaxRecentStickers">Максимальное количество недавних стикеров</string>
     <string name="ApplyEmojiFont">Включить шрифт эмодзи</string>
     <string name="DisableJumpToNextChannel">Выключить \"Перейти на следующий канал\"</string>
@@ -175,7 +173,7 @@
     <string name="QRLoginMessage">Сканируйте QRCode с помощью другого устройства для входа в систему.</string>
     <string name="QRLoginTitle">Вход при помощи QR кода</string>
     <string name="NoTranslatorAppInstalled">У вас нет приложений, которые могут обрабатывать интент перевода. Пожалуйста, установите приложение для перевода, чтобы продолжить</string>
-    <string name="UseExternalTranslatorApp">Использовать внешнее приложение-переводчик</string>
+    <string name="DisableVoiceMessagesAutoPlay">Отключить автовоспроизведение голосовых сообщений</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>
@@ -194,7 +192,7 @@
     <string name="AccTypeOfAnnouncingTypeOfChatStart">В начале</string>
     <string name="AccTypeOfAnnouncingTypeOfChatMiddle">В середине</string>
     <string name="AccTypeOfAnnouncingTypeOfChatEnd">В конце</string>
-    <string name="AccTypeOfAnnouncingTypeOfChatNo">Не где</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatNo">Нигде</string>
     <string name="AccNumberOfItems">Показывать количество элементов</string>
     <string name="AccIndexOfItem">Показывать текущую позицию</string>
     <string name="AccShowValueChanges">Озвучивать изменений значения во время его ручного изменения</string>

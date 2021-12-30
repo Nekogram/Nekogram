@@ -45,7 +45,6 @@
     <string name="UnlimitedFavoredStickers">無制限のお気に入りのステッカー</string>
     <string name="UnlimitedFavoredStickersAbout">お気に入りに無制限のステッカーを追加します。ステッカーは他の端末と同期されない場合があります。</string>
     <string name="MessageDetails">詳細</string>
-    <string name="Translate">翻訳</string>
     <string name="DeleteAccount">Telegramアカウントの削除</string>
     <string name="TranslateFailed">翻訳サーバエラー</string>
     <string name="TranslationProvider">翻訳プロバイダ</string>

@@ -41,7 +41,6 @@
     <string name="UnlimitedFavoredStickers">Απεριόριστα αγαπημένα αυτοκόλλητα</string>
     <string name="UnlimitedFavoredStickersAbout">Προσθέστε απεριόριστα αυτοκόλλητα στα αγαπημένα. Τα αυτοκόλλητα μπορεί να μην συγχρονίζονται σε άλλες συσκευές.</string>
     <string name="MessageDetails">Λεπτομέρειες</string>
-    <string name="Translate">Μετάφραση</string>
     <string name="DeleteAccount">Διαγραφή λογαριασμού Telegram</string>
     <string name="TranslateFailed">Translate server error</string>
     <string name="TranslationProvider">Translation provider</string>

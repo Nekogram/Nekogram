@@ -46,7 +46,6 @@
     <string name="UnlimitedFavoredStickers">Adesivos favoritos ilimitados</string>
     <string name="UnlimitedFavoredStickersAbout">Adicione stickers ilimitados aos favoritos. Stickers podem não ser sincronizados com outros dispositivos.</string>
     <string name="MessageDetails">detalhes</string>
-    <string name="Translate">Traduzir</string>
     <string name="DeleteAccount">Excluir conta do Telegram</string>
     <string name="TranslateFailed">Erro do servidor de tradução</string>
     <string name="IdTypeHidden">Ocultar</string>

@@ -48,7 +48,6 @@
     <string name="UnlimitedFavoredStickers">Adesivi preferiti illimitati</string>
     <string name="UnlimitedFavoredStickersAbout">Aggiungi adesivi illimitati ai preferiti. Gli adesivi potrebbero non essere sincronizzati con altri dispositivi.</string>
     <string name="MessageDetails">Dettagli</string>
-    <string name="Translate">Traduci</string>
     <string name="DeleteAccount">Elimina l\'account Telegram</string>
     <string name="TranslateFailed">Errore del server di traduzione</string>
     <string name="TranslationProvider">Fornitore della traduzione</string>
@@ -154,7 +153,6 @@
     <string name="AutoLockInstant">Immediatamente</string>
     <string name="RestrictionReason">Motivo della restrizione</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
-    <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Numero massimo di sticker recenti</string>
     <string name="ApplyEmojiFont">Applica il font emoji</string>
     <string name="DisableJumpToNextChannel">Disattiva \"Passa al canale successivo\"</string>
@@ -174,6 +172,5 @@
     <string name="QRLoginMessage">Scansiona il Codice QR con un altro dispositivo per accedere.</string>
     <string name="QRLoginTitle">QR Login</string>
     <string name="NoTranslatorAppInstalled">Non hai applicazioni in grado di gestire la traduzione, installane una per continuare</string>
-    <string name="UseExternalTranslatorApp">Usa un traduttore esterno</string>
     <!-- Accessibility -->
 </resources>

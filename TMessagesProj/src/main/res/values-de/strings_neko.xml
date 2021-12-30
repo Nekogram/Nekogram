@@ -47,7 +47,6 @@
     <string name="UnlimitedFavoredStickers">Unbegrenzte favorisierte Sticker</string>
     <string name="UnlimitedFavoredStickersAbout">Fügen Sie unbegrenzt viele Sticker zu den Favoriten hinzu. Sticker werden möglicherweise nicht mit anderen Geräten synchronisiert.</string>
     <string name="MessageDetails">Details</string>
-    <string name="Translate">Übersetzen</string>
     <string name="DeleteAccount">Telegram-Konto löschen</string>
     <string name="TranslateFailed">Übersetzer-Serverfehler</string>
     <string name="TranslationProvider">Übersetzungsdienst</string>
@@ -153,7 +152,6 @@
     <string name="AutoLockInstant">Sofort</string>
     <string name="RestrictionReason">Einschränkungsgrund</string>
     <string name="ProviderTencentTranslator">Mr. Translator Übersetzer</string>
-    <string name="ProviderNiuTrans">NiuTrans Übersetzer</string>
     <string name="MaxRecentStickers">Max. aktuelle Sticker</string>
     <string name="ApplyEmojiFont">Emoji-Schriftart anwenden</string>
     <string name="DisableJumpToNextChannel">Deaktiviere \"zum nächsten Kanal springen\"</string>

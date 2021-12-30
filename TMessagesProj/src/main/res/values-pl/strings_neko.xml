@@ -48,7 +48,6 @@
     <string name="UnlimitedFavoredStickers">Nieograniczona ilość ulubionych naklejek</string>
     <string name="UnlimitedFavoredStickersAbout">Dodaj nieograniczoną ilość naklejek do ulubionych. Naklejki mogą się nie synchronizować z innymi urządzeniami.</string>
     <string name="MessageDetails">Szczegóły</string>
-    <string name="Translate">Przetłumacz</string>
     <string name="DeleteAccount">Usuń konto Telegram</string>
     <string name="TranslateFailed">Błąd serwera tłumaczącego</string>
     <string name="TranslationProvider">Dostawca tłumaczeń</string>
@@ -154,7 +153,6 @@
     <string name="AutoLockInstant">Natychmiast</string>
     <string name="RestrictionReason">Powód ograniczenia</string>
     <string name="ProviderTencentTranslator">Pan Tłumacz</string>
-    <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Maksymalna liczba ostatnio używanych naklejek</string>
     <string name="ApplyEmojiFont">Używaj czcionki emoji</string>
     <string name="DisableJumpToNextChannel">Wyłącz \"Przejdź do następnego kanału\"</string>

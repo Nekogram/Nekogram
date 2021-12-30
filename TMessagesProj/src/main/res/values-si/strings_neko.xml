@@ -46,7 +46,6 @@
     <string name="UnlimitedFavoredStickers">අසීමිත කැමති ස්ටිකර්</string>
     <string name="UnlimitedFavoredStickersAbout">ඔබගේ කැමැත්තට අනුව අසීමිත ස්ටිකර එකතු කරන්න. මේවා අනෙක් උපාංග සමග sync නොවේ.</string>
     <string name="MessageDetails">විස්තර</string>
-    <string name="Translate">පරිවර්තන</string>
     <string name="DeleteAccount">ටෙලිග්‍රෑම් ගිණුම මකා දමන්න</string>
     <string name="TranslateFailed">පරිවර්තන සේවාදායකාගේ දෝෂයක්</string>
     <string name="TranslationProvider">පරිවර්තන සේවාදායකයා</string>

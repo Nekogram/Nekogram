@@ -47,7 +47,6 @@
     <string name="UnlimitedFavoredStickers">無限的收藏貼圖</string>
     <string name="UnlimitedFavoredStickersAbout">向收藏夾添加無限貼圖，貼圖可能將不能同步到其它裝置。</string>
     <string name="MessageDetails">資訊</string>
-    <string name="Translate">翻譯</string>
     <string name="DeleteAccount">刪除 Telegram 帳戶</string>
     <string name="TranslateFailed">翻譯伺服器錯誤</string>
     <string name="TranslationProvider">翻譯源</string>
@@ -153,7 +152,6 @@
     <string name="AutoLockInstant">即時</string>
     <string name="RestrictionReason">限制原因</string>
     <string name="ProviderTencentTranslator">騰訊翻譯</string>
-    <string name="ProviderNiuTrans">小牛翻譯</string>
     <string name="MaxRecentStickers">最大最近貼紙數量</string>
     <string name="ApplyEmojiFont">應用 Emoji 字體</string>
     <!-- Accessibility -->

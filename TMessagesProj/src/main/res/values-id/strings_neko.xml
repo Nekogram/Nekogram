@@ -48,7 +48,6 @@
     <string name="UnlimitedFavoredStickers">Stiker favorit tak terbatas</string>
     <string name="UnlimitedFavoredStickersAbout">Tambahkan stiker tak terbatas ke favorit. Stiker mungkin tidak dapat disinkronkan ke perangkat lain.</string>
     <string name="MessageDetails">Detail</string>
-    <string name="Translate">Terjemahkan</string>
     <string name="DeleteAccount">Hapus akun Telegram</string>
     <string name="TranslateFailed">Server terjemahan error</string>
     <string name="TranslationProvider">Penyedia terjemahan</string>
@@ -154,7 +153,6 @@
     <string name="AutoLockInstant">Langsung</string>
     <string name="RestrictionReason">Alasan pembatasan</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
-    <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Maksimum stiker terakhir digunakan</string>
     <string name="ApplyEmojiFont">Terapkan fon emoji</string>
     <string name="DisableJumpToNextChannel">Matikan loncat ke Channel berikutnya</string>

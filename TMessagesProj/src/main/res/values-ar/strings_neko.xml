@@ -47,7 +47,6 @@
     <string name="UnlimitedFavoredStickers">ملصقات مفضلة غير محدودة</string>
     <string name="UnlimitedFavoredStickersAbout">إضافة ملصقات غير محدودة إلى المفضلة. الملصقات قد لا تتم مزامنتها مع الأجهزة الأخرى.</string>
     <string name="MessageDetails">التفاصيل</string>
-    <string name="Translate">ترجمة</string>
     <string name="DeleteAccount">حذف حسابك في تيليجرام</string>
     <string name="TranslateFailed">خطأ في خادم الترجمة</string>
     <string name="TranslationProvider">مّوفر الترجمة</string>
@@ -154,7 +153,6 @@
     <string name="AutoLockInstant">فوري</string>
     <string name="RestrictionReason">سبب التقييد</string>
     <string name="ProviderTencentTranslator">الأستاذ المترجم</string>
-    <string name="ProviderNiuTrans">نيو ترانس</string>
     <string name="MaxRecentStickers">الحد الأقصى للملصقات الأخيرة</string>
     <!-- Accessibility -->
 </resources>

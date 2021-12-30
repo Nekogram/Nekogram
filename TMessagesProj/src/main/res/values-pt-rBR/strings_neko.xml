@@ -31,7 +31,7 @@
     <string name="Christmas">Natal</string>
     <string name="Valentine">Dia dos Namorados</string>
     <string name="DeleteDownloadedFile">Excluir arquivo baixado</string>
-    <string name="TestBackend">Teste de back-end</string>
+    <string name="TestBackend">Testar backend</string>
     <string name="TestBackendOn">Esta conta se conectará ao servidor de testes do Telegram.</string>
     <string name="TestBackendOff">Esta conta se conectará ao back-end de produção.</string>
     <string name="HideProxySponsorChannel">Ocultar canal do patrocinador do proxy</string>
@@ -48,7 +48,6 @@
     <string name="UnlimitedFavoredStickers">Adesivos favoritos ilimitados</string>
     <string name="UnlimitedFavoredStickersAbout">Adicione adesivos ilimitados aos favoritos. Os adesivos podem não estar sincronizados com outros dispositivos</string>
     <string name="MessageDetails">Detalhes</string>
-    <string name="Translate">Traduzir</string>
     <string name="DeleteAccount">Excluir conta do telegram</string>
     <string name="TranslateFailed">Erro no servidor de tradução</string>
     <string name="TranslationProvider">Provedor de tradução</string>
@@ -70,10 +69,10 @@
     <string name="HideAllTab">Ocultar aba \"Todos os bate-papos\"</string>
     <string name="HideAllTabAbout">Pressione o botão \"Voltar\" na página inicial, para abri-lo.</string>
     <string name="TabTitleType">Mostrar nas abas</string>
-    <string name="TabTitleTypeTip">Os emoticons são sincronizados em nuvem pelo Telegram.</string>
+    <string name="TabTitleTypeTip">Os emojis são sincronizados em nuvem pelo Telegram.</string>
     <string name="TabTitleTypeText">Títulos</string>
-    <string name="TabTitleTypeIcon">Emoticons</string>
-    <string name="TabTitleTypeMix">Emoticons com títulos</string>
+    <string name="TabTitleTypeIcon">Emojis</string>
+    <string name="TabTitleTypeMix">Emojis com títulos</string>
     <string name="ConfirmAVMessage">Confirmar envio de mensagens de vídeo/voz</string>
     <string name="AskBeforeCalling">Perguntar antes de ligar</string>
     <string name="DisableNumberRounding">Desativar arredondamento</string>
@@ -155,7 +154,6 @@
     <string name="AutoLockInstant">Instantâneo</string>
     <string name="RestrictionReason">Motivo de restrição</string>
     <string name="ProviderTencentTranslator">Sr. Tradutor</string>
-    <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Máximo de adesivos recentes</string>
     <string name="ApplyEmojiFont">Aplicar fonte de emoji customizada</string>
     <string name="DisableJumpToNextChannel">Desativar \"Pular para o Próximo Canal\"</string>
@@ -170,8 +168,36 @@
     <string name="ShareNekogram">Compartilhar Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nCom base no Telegram %2$s\nProjetado por %3$s</string>
     <string name="UpdateInstalling">Instalando atualização...</string>
+    <string name="UpdateInstallingRelaunch">O Nekogram irá reiniciar assim que a atualização for concluída.</string>
     <string name="UpdateFailedToInstall">Falha ao instalar a atualização: %d</string>
     <string name="QRLoginMessage">Leia o QRCode com outro dispositivo para fazer o login.</string>
     <string name="QRLoginTitle">QR Login</string>
+    <string name="NoTranslatorAppInstalled">Você não possui aplicativos que lidam com intents de tradução, por favor instale um para continuar</string>
+    <string name="DisableVoiceMessagesAutoPlay">Desativar reprodução automática das mensagens de voz</string>
+    <string name="TranslatorType">Tipo</string>
+    <string name="TranslatorTypeNeko">Na mensagem</string>
+    <string name="TranslatorTypeTG">Diálogo popup</string>
+    <string name="TranslatorTypeExternal">Aplicativo externo</string>
     <!-- Accessibility -->
+    <string name="AccessibilitySettings">Configurações de acessibilidade</string>
+    <string name="AccRewindHeading">Configurações de retrocesso</string>
+    <string name="AccSeekbarHeading">Configurações da Seekbar</string>
+    <string name="AccDifferentHeading">Diferente</string>
+    <string name="AccTypeOfRewindHeading">Selecione o tipo de retrocesso do conteúdo de mídia</string>
+    <string name="AccTypeOfRewind">Tipo de retrocesso</string>
+    <string name="AccTypeOfRewindVideoHeading">Selecione o tipo de retrocesso do vídeo</string>
+    <string name="AccTypeOfRewindVideo">Tipo de retrocesso do vídeo</string>
+    <string name="AccTypeOfAddingHeading">Selecione em que lugar adicionar descrição sobre o tipo de chat</string>
+    <string name="AccTypeOfAdding">Adicionar informações sobre o tipo de chat</string>
+    <string name="AccRewindTypesWithout">Sem retroceder</string>
+    <string name="AccRewindTypesPercent">Porcentagem de retrocesso</string>
+    <string name="AccRewindTypesSecond">Segundo retrocesso</string>
+    <string name="AccRewindTypesSelect">Selecionar automaticamente</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatStart">No início</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatMiddle">No meio</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatEnd">No fim</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatNo">Não aonde</string>
+    <string name="AccNumberOfItems">Mostrar número de itens</string>
+    <string name="AccIndexOfItem">Mostrar posição atual</string>
+    <string name="AccShowValueChanges">Anunciar mudanças de valor durante alterações manuais</string>
 </resources>

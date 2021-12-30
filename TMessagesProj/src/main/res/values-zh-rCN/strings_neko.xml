@@ -48,7 +48,6 @@
     <string name="UnlimitedFavoredStickers">无限的收藏贴纸</string>
     <string name="UnlimitedFavoredStickersAbout">向收藏夹添加无限贴纸，贴纸可能将不能同步到其它设备。</string>
     <string name="MessageDetails">详情</string>
-    <string name="Translate">翻译</string>
     <string name="DeleteAccount">删除 Telegram 帐户</string>
     <string name="TranslateFailed">翻译服务器错误</string>
     <string name="TranslationProvider">翻译源</string>
@@ -156,7 +155,6 @@
     <string name="AutoLockInstant">即时</string>
     <string name="RestrictionReason">限制原因</string>
     <string name="ProviderTencentTranslator">腾讯翻译君</string>
-    <string name="ProviderNiuTrans">小牛翻译</string>
     <string name="MaxRecentStickers">最大最近贴纸数量</string>
     <string name="ApplyEmojiFont">应用 Emoji 字体</string>
     <string name="DisableJumpToNextChannel">禁用“跳转到下一个频道”</string>
@@ -176,6 +174,11 @@
     <string name="QRLoginMessage">使用其他设备扫描二维码以登录。</string>
     <string name="QRLoginTitle">二维码登陆</string>
     <string name="NoTranslatorAppInstalled">您没有安装可以处理翻译意图的应用，请先安装一个再继续</string>
-    <string name="UseExternalTranslatorApp">使用外部翻译应用</string>
+    <string name="DisableVoiceMessagesAutoPlay">禁用语音留言自动播放</string>
+    <string name="TranslatorType">类型</string>
+    <string name="TranslatorTypeNeko">消息内</string>
+    <string name="TranslatorTypeTG">弹出对话框</string>
+    <string name="TranslatorTypeExternal">外部应用</string>
     <!-- Accessibility -->
+    <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

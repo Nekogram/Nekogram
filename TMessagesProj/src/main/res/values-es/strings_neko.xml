@@ -48,7 +48,6 @@
     <string name="UnlimitedFavoredStickers">Stickers favoritos ilimitados</string>
     <string name="UnlimitedFavoredStickersAbout">Añade stickers ilimitados a favoritos. Puede que los stickers no se sincronicen con otros dispositivos.</string>
     <string name="MessageDetails">Detalles</string>
-    <string name="Translate">Traducir</string>
     <string name="DeleteAccount">Eliminar cuenta de Telegram</string>
     <string name="TranslateFailed">Error del servidor al traducir</string>
     <string name="TranslationProvider">Proveedor de traducciones</string>
@@ -154,7 +153,6 @@
     <string name="AutoLockInstant">Instantáneo</string>
     <string name="RestrictionReason">Razón de restricción</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
-    <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Máximo de stickers recientes</string>
     <string name="ApplyEmojiFont">Aplicar fuente de emoji</string>
     <string name="DisableJumpToNextChannel">Desactivar \"Saltar al siguiente canal\"</string>
@@ -169,10 +167,32 @@
     <string name="ShareNekogram">Compartir Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBasado en Telegram %2$s\nDiseñado por %3$s</string>
     <string name="UpdateInstalling">Instalando actualización...</string>
+    <string name="UpdateInstallingRelaunch">Nekogram se reiniciará cuando se complete la actualización.</string>
     <string name="UpdateFailedToInstall">Error al instalar la actualización: %d</string>
     <string name="QRLoginMessage">Escanea el código QR con otro dispositivo para iniciar sesión.</string>
     <string name="QRLoginTitle">Inicio de sesión con QR</string>
     <string name="NoTranslatorAppInstalled">No tienes aplicaciones que puedan manejar la intención de traducir, por favor instala una para continuar</string>
-    <string name="UseExternalTranslatorApp">Usar aplicación de traducción externa</string>
+    <string name="DisableVoiceMessagesAutoPlay">Desactivar auto-reproducción de mensajes de voz</string>
     <!-- Accessibility -->
+    <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
+    <string name="AccRewindHeading">Ajustes de rebobinado</string>
+    <string name="AccSeekbarHeading">Configuración de la barra de búsqueda</string>
+    <string name="AccDifferentHeading">Diferente</string>
+    <string name="AccTypeOfRewindHeading">Selecciona el tipo de rebobinado del contenido multimedia</string>
+    <string name="AccTypeOfRewind">Tipo de rebobinado</string>
+    <string name="AccTypeOfRewindVideoHeading">Selecciona el tipo de rebobinado de vídeo</string>
+    <string name="AccTypeOfRewindVideo">Tipo de rebobinado de video</string>
+    <string name="AccTypeOfAddingHeading">Selecciona en qué lugar desea agregar una descripción sobre el tipo de chat</string>
+    <string name="AccTypeOfAdding">Agregar información sobre el tipo de chat</string>
+    <string name="AccRewindTypesWithout">Sin rebobinado</string>
+    <string name="AccRewindTypesPercent">Porcentaje de rebobinado</string>
+    <string name="AccRewindTypesSecond">Segundo rebobinado</string>
+    <string name="AccRewindTypesSelect">Seleccionar automáticamente</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatStart">Al principio</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatMiddle">En el medio</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatEnd">Al final</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatNo">En ningún lado</string>
+    <string name="AccNumberOfItems">Mostrar número de elementos</string>
+    <string name="AccIndexOfItem">Mostrar posición actual</string>
+    <string name="AccShowValueChanges">Anunciar cambios de valor durante los cambios manuales</string>
 </resources>

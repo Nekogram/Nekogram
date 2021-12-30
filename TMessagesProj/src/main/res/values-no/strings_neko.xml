@@ -45,7 +45,6 @@
     <string name="UnlimitedFavoredStickers">Ubegrenset favoritt klistremerker</string>
     <string name="UnlimitedFavoredStickersAbout">Legg til ubegrenset klistremerker til favoritter. Klistremerker kan ikke synkroniseres med andre enheter.</string>
     <string name="MessageDetails">Detaljer</string>
-    <string name="Translate">Oversett</string>
     <string name="DeleteAccount">Slett Telegram-konto</string>
     <string name="TranslateFailed">Oversett serverfeil</string>
     <string name="TranslationProvider">Oversettelsesleverandør</string>

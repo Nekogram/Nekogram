@@ -48,7 +48,6 @@
     <string name="UnlimitedFavoredStickers">Ubegrænsede foretrukne klistermærker</string>
     <string name="UnlimitedFavoredStickersAbout">Tilføj ubegrænset klistermærker til favoritter. Klistermærker synkroniseres muligvis ikke til andre enheder.</string>
     <string name="MessageDetails">Detaljer</string>
-    <string name="Translate">Oversæt</string>
     <string name="DeleteAccount">Slet Telegram konto</string>
     <string name="TranslateFailed">Oversæt serverfejl</string>
     <string name="TranslationProvider">Oversættelsesudbyder</string>
@@ -153,7 +152,6 @@
     <string name="AutoLockInstant">Omgående</string>
     <string name="RestrictionReason">Årsag til begrænsning</string>
     <string name="ProviderTencentTranslator">Hr. Oversætter</string>
-    <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Max seneste klistermærker</string>
     <string name="ApplyEmojiFont">Anvend emoji-skrifttype</string>
     <string name="DisableJumpToNextChannel">Deaktivér \"Hop til næste kanal\"</string>
@@ -173,6 +171,27 @@
     <string name="QRLoginMessage">Scan QRCode med en anden enhed for at logge ind.</string>
     <string name="QRLoginTitle">QR Login</string>
     <string name="NoTranslatorAppInstalled">Du har ikke applikationer, der kan håndtere oversættelseshensigter. Installer venligst en for at fortsætte</string>
-    <string name="UseExternalTranslatorApp">Brug ekstern oversætter app</string>
+    <string name="DisableVoiceMessagesAutoPlay">Deaktiver automatisk afspilning af talebeskeder</string>
     <!-- Accessibility -->
+    <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
+    <string name="AccRewindHeading">Indstillinger for tilbagespoling</string>
+    <string name="AccSeekbarHeading">Indstillinger for søgepanel</string>
+    <string name="AccDifferentHeading">Forskellig</string>
+    <string name="AccTypeOfRewindHeading">Vælg type tilbagespoling af medieindhold</string>
+    <string name="AccTypeOfRewind">Tilbagespolingstype</string>
+    <string name="AccTypeOfRewindVideoHeading">Vælg type tilbagespoling af video</string>
+    <string name="AccTypeOfRewindVideo">Type tilbagespoling af video</string>
+    <string name="AccTypeOfAddingHeading">Vælg, hvilket sted du vil tilføje en beskrivelse af chat typen</string>
+    <string name="AccTypeOfAdding">Tilføj oplysninger om chat typen</string>
+    <string name="AccRewindTypesWithout">Uden tilbagespoling</string>
+    <string name="AccRewindTypesPercent">Tilbagespoling i procent</string>
+    <string name="AccRewindTypesSecond">Anden tilbagespoling</string>
+    <string name="AccRewindTypesSelect">Vælg automatisk</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatStart">I starten</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatMiddle">I midten</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatEnd">I slutningen</string>
+    <string name="AccTypeOfAnnouncingTypeOfChatNo">Ikke hvor</string>
+    <string name="AccNumberOfItems">Vis antal elementer</string>
+    <string name="AccIndexOfItem">Vis aktuel position</string>
+    <string name="AccShowValueChanges">Annoncere værdiændringer under manuelle ændringer</string>
 </resources>

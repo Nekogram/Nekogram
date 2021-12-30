@@ -47,7 +47,6 @@
     <string name="UnlimitedFavoredStickers">Nhãn dán yêu thích không giới hạn</string>
     <string name="UnlimitedFavoredStickersAbout">Thêm nhãn dán không giới hạn vào mục yêu thích. Nhãn dán có thể không được đồng bộ hóa với các thiết bị khác.</string>
     <string name="MessageDetails">Chi tiết</string>
-    <string name="Translate">Dịch</string>
     <string name="DeleteAccount">Xóa tài khoản Telegram</string>
     <string name="TranslateFailed">Máy chủ dịch lỗi</string>
     <string name="TranslationProvider">Nhà cung cấp dịch thuật</string>
@@ -153,7 +152,6 @@
     <string name="AutoLockInstant">Ngay lập tức</string>
     <string name="RestrictionReason">Lý do hạn chế</string>
     <string name="ProviderTencentTranslator">Công cụ dịch</string>
-    <string name="ProviderNiuTrans">Niu Trans</string>
     <string name="MaxRecentStickers">Nhãn dán tối đa hiện tại</string>
     <string name="ApplyEmojiFont">Áp dụng phông biểu tượng cảm xúc</string>
     <string name="DisableJumpToNextChannel">Vô hiệu \"Nhảy tới kênh tiếp theo\"</string>
