@@ -2230,6 +2230,8 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                         if (availableReaction != null) {
                             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(availableReaction.static_icon.thumbs, Theme.key_windowBackgroundGray, 1.0f);
                             settingsCell.getValueBackupImageView().getImageReceiver().setImage(ImageLocation.getForDocument(availableReaction.static_icon), "100_100", svgThumb, "webp", availableReaction, 1);
+                        } else {
+                            settingsCell.getValueBackupImageView().setImageResource(R.drawable.transparent);
                         }
                     }
                     break;

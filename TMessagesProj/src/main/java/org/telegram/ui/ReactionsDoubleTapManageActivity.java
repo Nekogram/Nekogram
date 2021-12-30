@@ -159,7 +159,13 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
     }
 
     private List<TLRPC.TL_availableReaction> getAvailableReactions() {
-        return getMediaDataController().getReactionsList();
+        List<TLRPC.TL_availableReaction> availableReactions = new ArrayList<>();
+        TLRPC.TL_availableReaction reaction = new TLRPC.TL_availableReaction();
+        reaction.title = LocaleController.getString("Disable", R.string.Disable);
+        reaction.reaction = "disabled";
+        availableReactions.add(reaction);
+        availableReactions.addAll(getMediaDataController().getReactionsList());
+        return availableReactions;
     }
 
     @Override

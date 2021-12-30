@@ -15,6 +15,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DocumentObject;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.messenger.SvgHelper;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
@@ -84,8 +85,12 @@ public class AvailableReactionCell extends FrameLayout {
         }
         this.react = react;
         textView.setText(react.title);
-        SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(react.static_icon, Theme.key_windowBackgroundGray, 1.0f);
-        imageView.setImage(ImageLocation.getForDocument(react.static_icon), "50_50", "webp", svgThumb, react);
+        if (react.static_icon != null) {
+            SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(react.static_icon, Theme.key_windowBackgroundGray, 1.0f);
+            imageView.setImage(ImageLocation.getForDocument(react.static_icon), "50_50", "webp", svgThumb, react);
+        } else {
+            imageView.setImageResource(R.drawable.transparent);
+        }
         setChecked(checked, animated);
     }
 
