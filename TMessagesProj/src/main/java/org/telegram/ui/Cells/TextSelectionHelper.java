@@ -37,6 +37,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.Emoji;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -1220,7 +1221,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 menu.add(Menu.NONE, android.R.id.copy, 0, android.R.string.copy);
                 menu.add(Menu.NONE, android.R.id.selectAll, 1, android.R.string.selectAll);
-                menu.add(Menu.NONE, R.id.menu_translate, 2, R.string.TranslateMessage);
+                menu.add(Menu.NONE, R.id.menu_translate, 2, LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
                 return true;
             }
 
