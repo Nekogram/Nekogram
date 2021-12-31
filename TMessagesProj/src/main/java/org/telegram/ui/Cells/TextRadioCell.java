@@ -267,6 +267,5 @@ public class TextRadioCell extends FrameLayout {
         info.setClassName("android.widget.RadioButton");
         info.setCheckable(true);
         info.setChecked(radioButton.isChecked());
-        info.setContentDescription(radioButton.isChecked() ? LocaleController.getString("NotificationsOn", R.string.NotificationsOn) : LocaleController.getString("NotificationsOff", R.string.NotificationsOff));
     }
 }

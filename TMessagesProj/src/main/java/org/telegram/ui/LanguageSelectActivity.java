@@ -215,7 +215,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 }
                 boolean search = listView.getAdapter() == searchListViewAdapter;
                 if (!search)
-                    position--;
+                    position -= 2;
                 LocaleController.LocaleInfo localeInfo;
                 if (search) {
                     localeInfo = searchResult.get(position);
@@ -227,7 +227,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     }
                     localeInfo = sortedLanguages.get(position);
                 }
-                if (localeInfo == null || localeInfo.pathToFile == null || localeInfo.isRemote() && localeInfo.serverIndex != Integer.MAX_VALUE) {
+                if (localeInfo == null || localeInfo.pathToFile == null || localeInfo.builtIn || localeInfo.isRemote() && localeInfo.serverIndex != Integer.MAX_VALUE) {
                     return false;
                 }
                 final LocaleController.LocaleInfo finalLocaleInfo = localeInfo;
