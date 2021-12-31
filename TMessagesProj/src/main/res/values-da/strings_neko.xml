@@ -172,6 +172,10 @@
     <string name="QRLoginTitle">QR Login</string>
     <string name="NoTranslatorAppInstalled">Du har ikke applikationer, der kan håndtere oversættelseshensigter. Installer venligst en for at fortsætte</string>
     <string name="DisableVoiceMessagesAutoPlay">Deaktiver automatisk afspilning af talebeskeder</string>
+    <string name="TranslatorType">Type</string>
+    <string name="TranslatorTypeNeko">I meddelelse</string>
+    <string name="TranslatorTypeTG">Popup dialog</string>
+    <string name="TranslatorTypeExternal">Ekstern app</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
     <string name="AccRewindHeading">Indstillinger for tilbagespoling</string>
