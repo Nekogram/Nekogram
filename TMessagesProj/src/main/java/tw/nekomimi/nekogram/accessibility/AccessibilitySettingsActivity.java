@@ -1,4 +1,4 @@
-package tw.nekomimi.nekogram.accessbility;
+package tw.nekomimi.nekogram.accessibility;
 
 import android.content.Context;
 import android.view.View;
@@ -33,6 +33,7 @@ import tw.nekomimi.nekogram.helpers.PopupHelper;
 public class AccessibilitySettingsActivity extends BaseFragment {
     private static final ArrayList<String> REWIND_TYPES = new ArrayList<>();
     private static final ArrayList<String> ADD_TYPES = new ArrayList<>();
+    private static final ArrayList<String> SEEKBAR_TIME_VALUES = new ArrayList<>();
 
     private ListAdapter listAdapter;
 
@@ -46,9 +47,12 @@ public class AccessibilitySettingsActivity extends BaseFragment {
     private final int showNumbersOfItemsRow = rowCount++;
     private final int showIndexOfItemRow = rowCount++;
     private final int showValueChangesRow = rowCount++;
+    private final int timeBeforeAnnouncingOfSeekbarRow = rowCount++;
     private final int seekbarHeading2Row = rowCount++;
     private final int differentHeadingRow = rowCount++;
     private final int addTypeOfChatToDescriptionRow = rowCount++;
+    private final int showLinkNodesRow = rowCount++;
+    private final int hideLinksRow = rowCount++;
     private final int differentHeading2Row = rowCount++;
 
     static {
@@ -61,6 +65,11 @@ public class AccessibilitySettingsActivity extends BaseFragment {
         ADD_TYPES.add(LocaleController.getString("AccTypeOfAnnouncingTypeOfChatMiddle", R.string.AccTypeOfAnnouncingTypeOfChatMiddle));
         ADD_TYPES.add(LocaleController.getString("AccTypeOfAnnouncingTypeOfChatEnd", R.string.AccTypeOfAnnouncingTypeOfChatEnd));
         ADD_TYPES.add(LocaleController.getString("AccTypeOfAnnouncingTypeOfChatNo", R.string.AccTypeOfAnnouncingTypeOfChatNo));
+
+        SEEKBAR_TIME_VALUES.add(LocaleController.getString("AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay", R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay));
+        for (int a = 1; a <= 4; a++) {
+            SEEKBAR_TIME_VALUES.add(LocaleController.formatString("AccTimeBeforeAnnouncingOfChangesOfSeekbarValue", R.string.AccTimeBeforeAnnouncingOfChangesOfSeekbarValue, 50 * a));
+        }
     }
 
     @Override
@@ -92,12 +101,14 @@ public class AccessibilitySettingsActivity extends BaseFragment {
         ((DefaultItemAnimator) listView.getItemAnimator()).setDelayAnimations(false);
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         listView.setOnItemClickListener((view, position, x, y) -> {
-            if (position == typeOfRewindRow || position == typeOfRewindVideoRow || position == addTypeOfChatToDescriptionRow) {
+            if (position == typeOfRewindRow || position == typeOfRewindVideoRow || position == addTypeOfChatToDescriptionRow || position == timeBeforeAnnouncingOfSeekbarRow) {
                 var values = new ArrayList<String>();
                 if (position == typeOfRewindRow || position == typeOfRewindVideoRow) {
                     values.addAll(REWIND_TYPES);
-                } else {
+                } else if (position == addTypeOfChatToDescriptionRow) {
                     values.addAll(ADD_TYPES);
+                } else {
+                    values.addAll(SEEKBAR_TIME_VALUES);
                 }
                 // Second and auto rewind not implemented yet,delete this values from ArrayList. Auto rewind mean,what message have <= 100 seconds length,we use percent rewind,else second rewind. When this two rewind will be implemented for audio and video,remove this part of code.
                 if (position == typeOfRewindRow || position == typeOfRewindVideoRow) {
@@ -108,23 +119,29 @@ public class AccessibilitySettingsActivity extends BaseFragment {
                                 LocaleController.getString("AccTypeOfRewindHeading", R.string.AccTypeOfRewindHeading) :
                                 position == typeOfRewindVideoRow ?
                                         LocaleController.getString("AccTypeOfRewindVideoHeading", R.string.AccTypeOfRewindVideoHeading) :
-                                        LocaleController.getString("AccTypeOfAddingHeading", R.string.AccTypeOfAddingHeading),
+                                        position == addTypeOfChatToDescriptionRow ?
+                                                LocaleController.getString("AccTypeOfAddingHeading", R.string.AccTypeOfAddingHeading) :
+                                                LocaleController.getString("AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading", R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading),
                         position == typeOfRewindRow ?
                                 AccConfig.TYPE_OF_REWIND :
                                 position == typeOfRewindVideoRow ?
                                         AccConfig.TYPE_OF_REWIND_VIDEO :
-                                        AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION,
+                                        position == addTypeOfChatToDescriptionRow ?
+                                                AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION :
+                                                AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE / 50,
                         context, view, i -> {
                             if (position == typeOfRewindRow) {
                                 AccConfig.setTypeOfRewind(i);
                             } else if (position == typeOfRewindVideoRow) {
                                 AccConfig.setTypeOfRewindVideo(i);
-                            } else {
+                            } else if (position == addTypeOfChatToDescriptionRow) {
                                 AccConfig.setAddTypeOfChatToDescription(i);
+                            } else {
+                                AccConfig.setDelayBetweenAnnouncingOfChangingOfSeekbarValue(i * 50);
                             }
                             listAdapter.notifyItemChanged(position);
                         });
-            } else if (position == showNumbersOfItemsRow || position == showIndexOfItemRow || position == showValueChangesRow) {
+            } else if (position == showNumbersOfItemsRow || position == showIndexOfItemRow || position == showValueChangesRow || position == showLinkNodesRow || position == hideLinksRow) {
                 TextCheckCell cell = (TextCheckCell) view;
                 if (position == showNumbersOfItemsRow) {
                     AccConfig.saveShowNumbersOfItems();
@@ -132,9 +149,15 @@ public class AccessibilitySettingsActivity extends BaseFragment {
                 } else if (position == showIndexOfItemRow) {
                     AccConfig.saveShowIndexOfItem();
                     cell.setChecked(AccConfig.SHOW_INDEX_OF_ITEM);
-                } else {
+                } else if (position == showValueChangesRow) {
                     AccConfig.saveShowSeekbarValueChanges();
                     cell.setChecked(AccConfig.SHOW_SEEKBAR_VALUE_CHANGES);
+                } else if (position == showLinkNodesRow) {
+                    AccConfig.saveShowLinkNodes();
+                    cell.setChecked(AccConfig.SHOW_LINK_NODES);
+                } else {
+                    AccConfig.saveHideLinks();
+                    cell.setChecked(AccConfig.HIDE_LINKS);
                 }
             }
         });
@@ -163,16 +186,6 @@ public class AccessibilitySettingsActivity extends BaseFragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            String[] values = {
-                    LocaleController.getString("AccRewindHeading", R.string.AccRewindHeading),
-                    LocaleController.formatString("AccTypeOfRewind", R.string.AccTypeOfRewind, REWIND_TYPES.get(AccConfig.TYPE_OF_REWIND)),
-                    LocaleController.formatString("AccTypeOfRewindVideo", R.string.AccTypeOfRewindVideo, REWIND_TYPES.get(AccConfig.TYPE_OF_REWIND_VIDEO)),
-                    LocaleController.getString("AccSeekbarHeading", R.string.AccSeekbarHeading),
-                    LocaleController.getString("AccNumberOfItems", R.string.AccNumberOfItems),
-                    LocaleController.getString("AccIndexOfItem", R.string.AccIndexOfItem),
-                    LocaleController.getString("AccShowValueChanges", R.string.AccShowValueChanges),
-                    LocaleController.getString("AccDifferentHeading", R.string.AccDifferentHeading),
-                    LocaleController.formatString("AccTypeOfAdding", R.string.AccTypeOfAdding, ADD_TYPES.get(AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION))};
             switch (holder.getItemViewType()) {
                 case 1: {
                     if (position == differentHeading2Row) {
@@ -189,7 +202,9 @@ public class AccessibilitySettingsActivity extends BaseFragment {
                     } else if (position == typeOfRewindVideoRow) {
                         textCell.setTextAndValue(LocaleController.getString("AccTypeOfRewindVideo", R.string.AccTypeOfRewindVideo), REWIND_TYPES.get(AccConfig.TYPE_OF_REWIND_VIDEO), false);
                     } else if (position == addTypeOfChatToDescriptionRow) {
-                        textCell.setTextAndValue(LocaleController.getString("AccTypeOfAdding", R.string.AccTypeOfAdding), ADD_TYPES.get(AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION), false);
+                        textCell.setTextAndValue(LocaleController.getString("AccTypeOfAdding", R.string.AccTypeOfAdding), ADD_TYPES.get(AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION), true);
+                    } else if (position == timeBeforeAnnouncingOfSeekbarRow) {
+                        textCell.setTextAndValue(LocaleController.getString("AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar", R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar), AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE > 0 ? LocaleController.formatString("AccTimeBeforeAnnouncingOfChangesOfSeekbarValue", R.string.AccTimeBeforeAnnouncingOfChangesOfSeekbarValue, AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE) : LocaleController.getString("AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay", R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay), false);
                     }
                     break;
                 }
@@ -200,7 +215,11 @@ public class AccessibilitySettingsActivity extends BaseFragment {
                     } else if (position == showIndexOfItemRow) {
                         textCell.setTextAndCheck(LocaleController.getString("AccIndexOfItem", R.string.AccIndexOfItem), AccConfig.SHOW_INDEX_OF_ITEM, true);
                     } else if (position == showValueChangesRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("AccShowValueChanges", R.string.AccShowValueChanges), AccConfig.SHOW_SEEKBAR_VALUE_CHANGES, false);
+                        textCell.setTextAndCheck(LocaleController.getString("AccShowValueChanges", R.string.AccShowValueChanges), AccConfig.SHOW_SEEKBAR_VALUE_CHANGES, true);
+                    } else if (position == showLinkNodesRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("AccShowLinksForNodes", R.string.AccShowLinksForNodes), AccConfig.SHOW_LINK_NODES, true);
+                    } else if (position == hideLinksRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("AccHideLinks", R.string.AccHideLinks), AccConfig.HIDE_LINKS, false);
                     }
                     break;
                 }
@@ -266,7 +285,7 @@ public class AccessibilitySettingsActivity extends BaseFragment {
         public int getItemViewType(int position) {
             if (position == seekbarHeadingRow || position == rewindHeadingRow || position == differentHeadingRow) {
                 return 4;
-            } else if (position == typeOfRewindRow || position == typeOfRewindVideoRow || position == addTypeOfChatToDescriptionRow) {
+            } else if (position == typeOfRewindRow || position == typeOfRewindVideoRow || position == addTypeOfChatToDescriptionRow || position == timeBeforeAnnouncingOfSeekbarRow) {
                 return 2;
             } else if (position == seekbarHeading2Row || position == rewindHeading2Row || position == differentHeading2Row) {
                 return 1;

@@ -15,7 +15,7 @@ import androidx.core.view.ViewCompat;
 import java.util.HashMap;
 import java.util.Map;
 
-import tw.nekomimi.nekogram.accessbility.AccConfig;
+import tw.nekomimi.nekogram.accessibility.AccConfig;
 
 public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDelegate {
 
@@ -58,6 +58,10 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
         if (!ViewCompat.isAttachedToWindow(host) || !AccConfig.SHOW_SEEKBAR_VALUE_CHANGES) {
             return;
         }
+        if (AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE == 0) {
+            sendAccessibilityEvent(host, AccessibilityEvent.TYPE_VIEW_SELECTED);
+            return;
+        }
         Runnable runnable = accessibilityEventRunnables.get(host);
         if (runnable == null) {
             accessibilityEventRunnables.put(host, runnable = () -> sendAccessibilityEvent(host, AccessibilityEvent.TYPE_VIEW_SELECTED));
@@ -66,7 +70,7 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
             host.removeCallbacks(runnable);
             host.removeOnAttachStateChangeListener(onAttachStateChangeListener);
         }
-        host.postDelayed(runnable, 200);
+        host.postDelayed(runnable, AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE);
     }
 
     @Override
@@ -90,6 +94,7 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
             }
             info.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_ACCESSIBILITY_FOCUS);
         }
+        info.setEnabled(true);
         info.setFocusable(true);
     }
 

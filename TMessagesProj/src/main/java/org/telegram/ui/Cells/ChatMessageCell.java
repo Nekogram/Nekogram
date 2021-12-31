@@ -68,8 +68,6 @@ import android.widget.Toast;
 
 import androidx.core.graphics.ColorUtils;
 
-import com.google.android.exoplayer2.util.Log;
-
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
@@ -144,7 +142,7 @@ import org.telegram.ui.PinchToZoomHelper;
 import org.telegram.ui.SecretMediaViewer;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.accessbility.AccConfig;
+import tw.nekomimi.nekogram.accessibility.AccConfig;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -311,6 +309,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
 
         default String getAdminRank(long uid) {
+            return getAdminRank(uid, false);
+        }
+
+        default String getAdminRank(long uid, boolean accessibility) {
             return null;
         }
 
@@ -14286,7 +14288,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 return true;
             }
         } else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
-            //currentFocusedVirtualViewId = -2;
+            currentFocusedVirtualViewId = -2;
         }
         return false;
     }
@@ -14647,27 +14649,31 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     }
                     sb.append("\n");
 
-                    CharacterStyle[] links = sb.getSpans(0, sb.length(), ClickableSpan.class);
+                    if (!AccConfig.HIDE_LINKS) {
+                        CharacterStyle[] links = sb.getSpans(0, sb.length(), ClickableSpan.class);
 
-                    for (CharacterStyle link : links) {
-                        int start = sb.getSpanStart(link);
-                        int end = sb.getSpanEnd(link);
-                        sb.removeSpan(link);
+                        for (CharacterStyle link : links) {
+                            int start = sb.getSpanStart(link);
+                            int end = sb.getSpanEnd(link);
+                            sb.removeSpan(link);
 
-                        ClickableSpan underlineSpan = new ClickableSpan() {
-                            @Override
-                            public void onClick(View view) {
-                                if (delegate != null) {
-                                    delegate.didPressUrl(ChatMessageCell.this, link, false);
+                            ClickableSpan underlineSpan = new ClickableSpan() {
+                                @Override
+                                public void onClick(View view) {
+                                    if (delegate != null) {
+                                        delegate.didPressUrl(ChatMessageCell.this, link, false);
+                                    }
                                 }
-                            }
-                        };
-                        sb.setSpan(underlineSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            };
+                            sb.setSpan(underlineSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        }
+                        accessibilityText = sb;
+                    } else {
+                        accessibilityText = sb.toString();
                     }
-                    accessibilityText = sb;
                 }
 
-                info.setText(accessibilityText);
+                info.setContentDescription(accessibilityText);
                 info.setEnabled(true);
                 if (Build.VERSION.SDK_INT >= 19) {
                     AccessibilityNodeInfo.CollectionItemInfo itemInfo = info.getCollectionItemInfo();
@@ -14723,6 +14729,27 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
 
                 int i = 0;
+
+                if (AccConfig.SHOW_LINK_NODES) {
+                    if (currentMessageObject.messageText instanceof Spannable) {
+                        Spannable buffer = (Spannable) currentMessageObject.messageText;
+                        CharacterStyle[] links = buffer.getSpans(0, buffer.length(), ClickableSpan.class);
+                        i = 0;
+                        for (CharacterStyle link : links) {
+                            info.addChild(ChatMessageCell.this, LINK_IDS_START + i);
+                            i++;
+                        }
+                    }
+                    if (currentMessageObject.caption instanceof Spannable && captionLayout != null) {
+                        Spannable buffer = (Spannable) currentMessageObject.caption;
+                        CharacterStyle[] links = buffer.getSpans(0, buffer.length(), ClickableSpan.class);
+                        i = 0;
+                        for (CharacterStyle link : links) {
+                            info.addChild(ChatMessageCell.this, LINK_CAPTION_IDS_START + i);
+                            i++;
+                        }
+                    }
+                }
                 for (BotButton button : botButtons) {
                     info.addChild(ChatMessageCell.this, BOT_BUTTONS_START + i);
                     i++;
@@ -14888,7 +14915,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     }
                     rect.set(commentButtonRect);
                 } else if (virtualViewId == USER) {
-                    String adminLabel = delegate.getAdminRank(currentUser.id);
+                    String adminLabel = delegate.getAdminRank(currentUser.id, true);
                     String contentDescription = UserObject.getUserName(currentUser);
                     if (adminLabel != null) {
                         if (adminLabel.length() == 0) {

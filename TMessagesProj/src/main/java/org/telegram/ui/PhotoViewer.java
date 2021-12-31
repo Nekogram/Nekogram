@@ -66,7 +66,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScrollerEnd;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.text.Editable;
 import android.text.Layout;
 import android.text.Selection;
 import android.text.Spannable;
@@ -126,7 +125,6 @@ import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
 import com.google.android.exoplayer2.analytics.AnalyticsListener;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
-import com.google.android.exoplayer2.util.Log;
 import com.google.android.gms.vision.Frame;
 import com.google.android.gms.vision.face.Face;
 import com.google.android.gms.vision.face.FaceDetector;
@@ -248,7 +246,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import tw.nekomimi.nekogram.accessbility.AccConfig;
+import tw.nekomimi.nekogram.accessibility.AccConfig;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.translator.Translator;
 

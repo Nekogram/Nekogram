@@ -29,7 +29,6 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ReplacementSpan;
 import android.view.HapticFeedbackConstants;
-import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
@@ -73,13 +72,12 @@ import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.Components.URLSpanNoUnderlineBold;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.DialogsActivity;
-import org.telegram.ui.Components.SwipeGestureSettingsView;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import tw.nekomimi.nekogram.accessbility.AccConfig;
+import tw.nekomimi.nekogram.accessibility.AccConfig;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class DialogCell extends BaseCell {

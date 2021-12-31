@@ -47,7 +47,7 @@ import org.telegram.ui.LaunchActivity;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.accessbility.AccessibilitySettingsActivity;
+import tw.nekomimi.nekogram.accessibility.AccessibilitySettingsActivity;
 import tw.nekomimi.nekogram.helpers.NewsHelper;
 import tw.nekomimi.nekogram.helpers.UpdateHelper;
 

@@ -198,6 +198,10 @@
     <string name="AccTypeOfRewindVideo">Type of rewind of video</string>
     <string name="AccTypeOfAddingHeading">Select in what place to add description about type of chat</string>
     <string name="AccTypeOfAdding">Add information about type of chat</string>
+    <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading">Select time in ms, after which changing of seekbar value will be announced, if you selected this option</string>
+    <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar">Delay before announcing of changing of seekbar value</string>
+    <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay">Without delay</string>
+    <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
     <string name="AccRewindTypesWithout">Without rewind</string>
     <string name="AccRewindTypesPercent">Percent rewind</string>
     <string name="AccRewindTypesSecond">Second rewind</string>
@@ -206,6 +210,8 @@
     <string name="AccTypeOfAnnouncingTypeOfChatMiddle">At the middle</string>
     <string name="AccTypeOfAnnouncingTypeOfChatEnd">At the end</string>
     <string name="AccTypeOfAnnouncingTypeOfChatNo">Not where</string>
+    <string name="AccShowLinksForNodes">Add nodes for links</string>
+    <string name="AccHideLinks">Hide links for screenreaders</string>
     <string name="AccNumberOfItems">Show number of items</string>
     <string name="AccIndexOfItem">Show current position</string>
     <string name="AccShowValueChanges">Announce changes of value during manual changes</string>
