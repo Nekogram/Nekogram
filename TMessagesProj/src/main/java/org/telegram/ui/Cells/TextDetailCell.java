@@ -86,6 +86,13 @@ public class TextDetailCell extends FrameLayout {
             imageView.setVisibility(VISIBLE);
             imageView.setBackground(Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(48), Color.TRANSPARENT, Theme.getColor(Theme.key_listSelector)));
         }
+        int margin = AndroidUtilities.dp(23) + (drawable == null ? 0 : AndroidUtilities.dp(48));
+        if (LocaleController.isRTL) {
+            ((MarginLayoutParams) textView.getLayoutParams()).leftMargin = margin;
+        } else {
+            ((MarginLayoutParams) textView.getLayoutParams()).rightMargin = margin;
+        }
+        textView.requestLayout();
     }
 
     public void setImageClickListener(View.OnClickListener clickListener) {

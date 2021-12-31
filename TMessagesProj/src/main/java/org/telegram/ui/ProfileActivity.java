@@ -1944,8 +1944,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         ActionBarMenu menu = actionBar.createMenu();
 
-        if (userId == getUserConfig().clientUserId && !TextUtils.isEmpty(getUserConfig().getCurrentUser().username)) {
+        if (userId == getUserConfig().clientUserId) {
             qrItem = menu.addItem(qr_button, R.drawable.msg_qr_mini, getResourceProvider());
+            qrItem.setVisibility(isQrNeedVisible() ? View.VISIBLE : View.GONE);
             qrItem.setContentDescription(LocaleController.getString("AuthAnotherClientScan", R.string.AuthAnotherClientScan));
         }
         if (imageUpdater != null) {
@@ -3279,6 +3280,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             avatarImage.setRoundRadius((int) AndroidUtilities.lerp(AndroidUtilities.dpf2(21f), 0f, value));
             if (searchItem != null) {
                 searchItem.setAlpha(1.0f - value);
+                searchItem.setScaleY(1.0f - value);
                 searchItem.setVisibility(searchItem.getAlpha() == 0f ? View.GONE : View.VISIBLE);
                 if (qrItem != null && searchItem.getVisibility() == View.VISIBLE) {
                     float translation = AndroidUtilities.dp(48) * value;
@@ -4400,14 +4402,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                     qrItemAnimation.setInterpolator(new DecelerateInterpolator());
                                     qrItemAnimation.playTogether(
                                             ObjectAnimator.ofFloat(qrItem, View.ALPHA, 1.0f),
-                                            ObjectAnimator.ofFloat(qrItem, View.TRANSLATION_X, 0),
+                                            ObjectAnimator.ofFloat(qrItem, View.SCALE_Y, 1f),
                                             ObjectAnimator.ofFloat(avatarsViewPagerIndicatorView, View.TRANSLATION_X, -AndroidUtilities.dp(48))
                                     );
                                 } else {
                                     qrItemAnimation.setInterpolator(new AccelerateInterpolator());
                                     qrItemAnimation.playTogether(
                                             ObjectAnimator.ofFloat(qrItem, View.ALPHA, 0.0f),
-                                            ObjectAnimator.ofFloat(qrItem, View.TRANSLATION_X, AndroidUtilities.dp(48)),
+                                            ObjectAnimator.ofFloat(qrItem, View.SCALE_Y, 0f),
                                             ObjectAnimator.ofFloat(avatarsViewPagerIndicatorView, View.TRANSLATION_X, 0)
                                     );
                                 }
@@ -6283,6 +6285,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 return false;
             });
         }
+
+        if (qrItem != null) {
+            qrItem.setVisibility(isQrNeedVisible() ? View.VISIBLE : View.GONE);
+        }
     }
 
     private void createActionBarMenu(boolean animated) {
@@ -6613,7 +6619,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             otherItem.setVisibility(itemVisibility);
         }
         if (qrItem != null) {
-            qrItem.setVisibility(itemVisibility);
+            qrItem.setVisibility(isQrNeedVisible() && searchTransitionProgress > 0.5f ? View.VISIBLE : View.GONE);
         }
         searchItem.setVisibility(itemVisibility);
 
@@ -6667,7 +6673,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             if (qrItem != null) {
                 qrItem.setAlpha(progressHalf);
-                qrItem.setVisibility(visibility);
+                qrItem.setVisibility(searchTransitionProgress > 0.5f && isQrNeedVisible() ? View.VISIBLE : View.GONE);
             }
             searchItem.setVisibility(visibility);
 
@@ -6734,7 +6740,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         if (qrItem != null) {
             qrItem.setAlpha(1f);
-            qrItem.setVisibility(hide);
+            qrItem.setVisibility(enter || !isQrNeedVisible() ? View.GONE : View.VISIBLE);
         }
         searchItem.setVisibility(hide);
 
@@ -8464,6 +8470,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             args.putLong("user_id", userId);
             presentFragment(new QrActivity(args));
         }
+    }
+
+    private boolean isQrNeedVisible() {
+        return !TextUtils.isEmpty(getUserConfig().getCurrentUser().username);
     }
 
     private class DiffCallback extends DiffUtil.Callback {

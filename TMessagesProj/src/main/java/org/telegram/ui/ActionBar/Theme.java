@@ -3685,6 +3685,8 @@ public class Theme {
     public static final String key_chat_inReactionButtonBackground = "chat_inReactionButtonBackground";
     public static final String key_chat_outReactionButtonText = "chat_outReactionButtonText";
     public static final String key_chat_inReactionButtonText = "chat_inReactionButtonText";
+    public static final String key_chat_inReactionButtonTextSelected = "chat_inReactionButtonTextSelected";
+    public static final String key_chat_outReactionButtonTextSelected = "chat_outReactionButtonTextSelected";
 
 
     public static final String key_drawable_botInline = "drawableBotInline";
@@ -4543,8 +4545,10 @@ public class Theme {
 
         defaultColors.put(key_chat_outReactionButtonBackground, 0xff78c272);
         defaultColors.put(key_chat_inReactionButtonBackground, 0xff72b5e8);
-        defaultColors.put(key_chat_inReactionButtonText, 0xffffffff);
-        defaultColors.put(key_chat_outReactionButtonText, 0xffffffff);
+        defaultColors.put(key_chat_inReactionButtonText, 0xff3a8ccf);
+        defaultColors.put(key_chat_outReactionButtonText, 0xff55ab4f);
+        defaultColors.put(key_chat_inReactionButtonTextSelected, 0xffffffff);
+        defaultColors.put(key_chat_outReactionButtonTextSelected, 0xffffffff);
 
 
         fallbackKeys.put(key_chat_inAdminText, key_chat_inTimeText);
@@ -4686,6 +4690,8 @@ public class Theme {
         fallbackKeys.put(key_chat_outReactionButtonBackground, key_chat_outLoader);
         fallbackKeys.put(key_chat_inReactionButtonText, key_chat_inPreviewInstantText);
         fallbackKeys.put(key_chat_outReactionButtonText, key_chat_outPreviewInstantText);
+        fallbackKeys.put(key_chat_inReactionButtonTextSelected, key_windowBackgroundWhite);
+        fallbackKeys.put(key_chat_outReactionButtonTextSelected, key_windowBackgroundWhite);
 
         themeAccentExclusionKeys.addAll(Arrays.asList(keys_avatar_background));
         themeAccentExclusionKeys.addAll(Arrays.asList(keys_avatar_nameInMessage));
@@ -5524,7 +5530,7 @@ public class Theme {
             int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
             int minutes = calendar.get(Calendar.MINUTE);
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            if (monthOfYear == 0 && dayOfMonth == 1 && minutes <= 10 && hour == 0) {
+            if (monthOfYear == 0 && dayOfMonth == 1 && hour <= 23) {
                 canStartHolidayAnimation = true;
             } else {
                 canStartHolidayAnimation = false;
