@@ -24,6 +24,7 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
 
@@ -83,6 +84,7 @@ public class TextDetailCell extends FrameLayout {
             imageView.setVisibility(GONE);
             imageView.setBackground(null);
         } else {
+            imageView.setContentDescription(LocaleController.getString("QrCode", R.string.QrCode));
             imageView.setVisibility(VISIBLE);
             imageView.setBackground(Theme.createSimpleSelectorCircleDrawable(AndroidUtilities.dp(48), Color.TRANSPARENT, Theme.getColor(Theme.key_listSelector)));
         }

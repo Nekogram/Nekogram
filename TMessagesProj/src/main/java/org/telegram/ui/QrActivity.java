@@ -297,6 +297,7 @@ public class QrActivity extends BaseFragment {
         closeImageView.setImageResource(R.drawable.ic_ab_back);
         closeImageView.setScaleType(ImageView.ScaleType.CENTER);
         closeImageView.setOnClickListener(v -> finishFragment());
+        closeImageView.setContentDescription(LocaleController.getString("AccDescrGoBack", R.string.AccDescrGoBack));
         rootLayout.addView(closeImageView, LayoutHelper.createFrame(34, 34));
 
         emojiThemeIcon = Bitmap.createBitmap(AndroidUtilities.dp(32), AndroidUtilities.dp(32), Bitmap.Config.ARGB_8888);

@@ -896,6 +896,7 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                     }
                 }
             });
+            imageView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             int[] colors = new int[8];
             colors[0] = 0x333333;
             colors[1] = Theme.getColor(Theme.key_windowBackgroundWhiteBlackText);
