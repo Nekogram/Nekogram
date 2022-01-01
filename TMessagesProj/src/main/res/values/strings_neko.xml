@@ -68,8 +68,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Pin unlimited dialogs by turn their sync off.</string>
     <string name="OpenArchiveOnPull">Open Archive on pulldown</string>
     <string name="HideKeyboardOnChatScroll">Hide keyboard on chat scroll</string>
-    <string name="UserRestrictionsSendStickers2">Send Stickers</string>
-    <string name="UserRestrictionsSendGifs">Send GIFs</string>
     <string name="ShowTabsOnForward">Show tabs on forward</string>
     <string name="CheckAllAdministrated">Add administrated</string>
     <string name="RearVideoMessages">Rear camera in Video Messages</string>

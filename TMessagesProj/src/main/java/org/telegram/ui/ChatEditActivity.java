@@ -1454,9 +1454,6 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                             if (!currentChat.default_banned_rights.send_stickers) {
                                 count++;
                             }
-                            if (!currentChat.default_banned_rights.send_gifs) {
-                                count++;
-                            }
                             if (!currentChat.default_banned_rights.send_media) {
                                 count++;
                             }
@@ -1479,9 +1476,9 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                                 count++;
                             }
                         } else {
-                            count = 9;
+                            count = 8;
                         }
-                        blockCell.setTextAndValueAndIcon(LocaleController.getString("ChannelPermissions", R.string.ChannelPermissions), String.format("%d/%d", count, 9), R.drawable.actions_permissions, true);
+                        blockCell.setTextAndValueAndIcon(LocaleController.getString("ChannelPermissions", R.string.ChannelPermissions), String.format("%d/%d", count, 8), R.drawable.actions_permissions, true);
                     }
                     if (memberRequestsCell != null) {
                         memberRequestsCell.setTextAndValueAndIcon(LocaleController.getString("MemberRequests", R.string.MemberRequests), String.format("%d", info.requests_pending), R.drawable.actions_requests, logCell != null && logCell.getVisibility() == View.VISIBLE);
