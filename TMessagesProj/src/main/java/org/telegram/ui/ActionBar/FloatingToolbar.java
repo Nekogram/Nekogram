@@ -31,6 +31,7 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Size;
 import android.util.TypedValue;
@@ -1196,7 +1197,7 @@ public final class FloatingToolbar {
         textView.setGravity(Gravity.CENTER);
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
-        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        if (Build.VERSION.SDK_INT < 31) textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         textView.setFocusable(false);
         textView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
@@ -1248,7 +1249,7 @@ public final class FloatingToolbar {
         contentContainer.setFocusableInTouchMode(true);
         GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.RECTANGLE);
-        int r = AndroidUtilities.dp(6);
+        int r = AndroidUtilities.dp(Build.VERSION.SDK_INT < 31 ? 6 : 24);
         shape.setCornerRadius(r);
         if (currentStyle == STYLE_DIALOG) {
             shape.setColor(getThemedColor(Theme.key_dialogBackground));
