@@ -4110,7 +4110,7 @@ public class NotificationsController extends BaseController {
                 replyIntent.putExtra("max_id", maxId);
                 replyIntent.putExtra("currentAccount", currentAccount);
                 PendingIntent replyPendingIntent = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, internalId, replyIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE);
-                RemoteInput remoteInputWear = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setLabel(LocaleController.getString("Reply", R.string.Reply)).build();
+                RemoteInput remoteInputWear = new RemoteInput.Builder(EXTRA_VOICE_REPLY).setAllowDataType("image/*", true).setLabel(LocaleController.getString("Reply", R.string.Reply)).build();
                 String replyToString;
                 if (DialogObject.isChatDialog(dialogId)) {
                     replyToString = LocaleController.formatString("ReplyToGroup", R.string.ReplyToGroup, name);
