@@ -118,7 +118,7 @@ public class ReactionsContainerLayout extends FrameLayout {
         });
         recyclerListView.setLayoutManager(linearLayoutManager);
         recyclerListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        recyclerListView.setAdapter(listAdapter = new RecyclerView.Adapter() {
+        recyclerListView.setAdapter(listAdapter = new RecyclerListView.SelectionAdapter() {
             @NonNull
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -139,6 +139,11 @@ public class ReactionsContainerLayout extends FrameLayout {
             @Override
             public int getItemCount() {
                 return reactionsList.size();
+            }
+
+            @Override
+            public boolean isEnabled(RecyclerView.ViewHolder holder) {
+                return true;
             }
         });
         recyclerListView.setOnItemClickListener((view, position) -> {
@@ -195,6 +200,7 @@ public class ReactionsContainerLayout extends FrameLayout {
                     outRect.right = AndroidUtilities.dp(8);
             }
         });
+        recyclerListView.setContentDescription(LocaleController.getString("Reactions", R.string.Reactions));
         addView(recyclerListView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         invalidateShaders();
 
@@ -405,6 +411,7 @@ public class ReactionsContainerLayout extends FrameLayout {
             currentReaction = react;
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(currentReaction.appear_animation, Theme.key_windowBackgroundGray, 1.0f);
             backupImageView.getImageReceiver().setImage(ImageLocation.getForDocument(currentReaction.appear_animation), "80_80_nolimit", null, null, svgThumb, 0, "tgs", react, 0);
+            setContentDescription(currentReaction.reaction);
         }
 
         public void play(int delay) {

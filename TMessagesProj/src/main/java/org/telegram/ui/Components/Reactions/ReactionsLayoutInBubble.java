@@ -141,6 +141,10 @@ public class ReactionsLayoutInBubble {
         isEmpty = reactionButtons.isEmpty();
     }
 
+    public ArrayList<ReactionButton> getReactionButtons() {
+        return reactionButtons;
+    }
+
     public void measure(int availableWidth) {
         height = 0;
         width = 0;
@@ -333,7 +337,7 @@ public class ReactionsLayoutInBubble {
 
     public class ReactionButton {
 
-        private final TLRPC.TL_reactionCount reactionCount;
+        public final TLRPC.TL_reactionCount reactionCount;
         public int animationType;
         public int animateFromX;
         public int animateFromY;
@@ -344,13 +348,13 @@ public class ReactionsLayoutInBubble {
         public boolean drawImage = true;
         public boolean lastImageDrawn;
 
-        String countText;
-        String reaction;
+        public String countText;
+        public String reaction;
         int count;
         public int x;
         public int y;
-        int width;
-        int height;
+        public int width;
+        public int height;
         ImageReceiver imageReceiver = new ImageReceiver();
         CounterView.CounterDrawable counterDrawable = new CounterView.CounterDrawable(parentView, false, null);
         int backgroundColor;

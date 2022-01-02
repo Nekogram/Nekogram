@@ -75,7 +75,12 @@ public class ReactedUsersListView extends FrameLayout {
             listView.setPadding(0, 0, 0, AndroidUtilities.dp(8));
             listView.setClipToPadding(false);
         }
-        listView.setAdapter(adapter = new RecyclerView.Adapter() {
+        listView.setAdapter(adapter = new RecyclerListView.SelectionAdapter() {
+            @Override
+            public boolean isEnabled(RecyclerView.ViewHolder holder) {
+                return true;
+            }
+
             @NonNull
             @Override
             public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -232,7 +237,7 @@ public class ReactedUsersListView extends FrameLayout {
         TextView titleView;
         BackupImageView reactView;
         AvatarDrawable avatarDrawable = new AvatarDrawable();
-        View overlaySelectorView;
+        //View overlaySelectorView;
 
         ReactedUserHolderView(@NonNull Context context) {
             super(context);
@@ -252,9 +257,9 @@ public class ReactedUsersListView extends FrameLayout {
             reactView = new BackupImageView(context);
             addView(reactView, LayoutHelper.createFrameRelatively(24, 24, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 12, 0));
 
-            overlaySelectorView = new View(context);
-            overlaySelectorView.setBackground(Theme.getSelectorDrawable(false));
-            addView(overlaySelectorView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+            //overlaySelectorView = new View(context);
+            //overlaySelectorView.setBackground(Theme.getSelectorDrawable(false));
+            //addView(overlaySelectorView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         }
 
         void setUserReaction(TLRPC.TL_messageUserReaction reaction) {
@@ -270,6 +275,7 @@ public class ReactedUsersListView extends FrameLayout {
                     reactView.setImage(ImageLocation.getForDocument(r.static_icon), "50_50", "webp", svgThumb, r);
                 }
             }
+            setContentDescription(UserObject.getUserName(u) + (reaction.reaction != null ? " " + reaction.reaction : ""));
         }
 
         @Override

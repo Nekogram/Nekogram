@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -29,7 +30,6 @@ public class AvailableReactionCell extends FrameLayout {
     private BackupImageView imageView;
     private Switch switchView;
     private CheckBox2 checkBox;
-    private View overlaySelectorView;
     public TLRPC.TL_availableReaction react;
 
     public AvailableReactionCell(@NonNull Context context, boolean checkbox) {
@@ -62,9 +62,6 @@ public class AvailableReactionCell extends FrameLayout {
             switchView.setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, Theme.key_switchTrackBlueThumb, Theme.key_switchTrackBlueThumbChecked);
             addView(switchView, LayoutHelper.createFrameRelatively(37, 20, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 22, 0));
         }
-        overlaySelectorView = new View(context);
-        overlaySelectorView.setBackground(Theme.getSelectorDrawable(false));
-        addView(overlaySelectorView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         setWillNotDraw(false);
     }
 
@@ -129,5 +126,14 @@ public class AvailableReactionCell extends FrameLayout {
         }
 
         canvas.drawLine(getPaddingLeft() + l, getHeight() - w, getWidth() - getPaddingRight() - r, getHeight() - w, Theme.dividerPaint);
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setText(react.reaction);
+        info.setClassName("android.widget.CheckBox");
+        info.setCheckable(true);
+        info.setChecked(checkBox != null ? checkBox.isChecked() : switchView.isChecked());
     }
 }

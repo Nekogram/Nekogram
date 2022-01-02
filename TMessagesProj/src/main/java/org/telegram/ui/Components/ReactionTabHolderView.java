@@ -77,6 +77,7 @@ public class ReactionTabHolderView extends FrameLayout {
 
     public void setCounter(int count) {
         counterView.setText(String.format("%s", LocaleController.formatShortNumber(count, null)));
+        setContentDescription(LocaleController.getString("Reactions", R.string.Reactions) + " " + counterView.getText());
         iconView.setVisibility(VISIBLE);
         reactView.setVisibility(GONE);
     }
@@ -84,6 +85,7 @@ public class ReactionTabHolderView extends FrameLayout {
     public void setCounter(int currentAccount, TLRPC.TL_reactionCount counter) {
         counterView.setText(String.format("%s", LocaleController.formatShortNumber(counter.count, null)));
         String e = counter.reaction;
+        setContentDescription(e + " " + counterView.getText());
         for (TLRPC.TL_availableReaction r : MediaDataController.getInstance(currentAccount).getReactionsList()) {
             if (r.reaction.equals(e)) {
                 SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(r.static_icon, Theme.key_windowBackgroundGray, 1.0f);
