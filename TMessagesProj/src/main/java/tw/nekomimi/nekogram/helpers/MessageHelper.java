@@ -2,6 +2,8 @@ package tw.nekomimi.nekogram.helpers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -16,6 +18,8 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.FileProvider;
+
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -23,7 +27,9 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BaseController;
+import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
@@ -63,6 +69,26 @@ public class MessageHelper extends BaseController {
 
     public MessageHelper(int num) {
         super(num);
+    }
+
+    public static void addFileToClipboard(File file, Runnable callback) {
+        try {
+            var context = ApplicationLoader.applicationContext;
+            var clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            var uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
+            var clip = ClipData.newUri(context.getContentResolver(), "label", uri);
+            clipboard.setPrimaryClip(clip);
+            callback.run();
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+    }
+
+    public void addMessageToClipboard(MessageObject selectedObject, Runnable callback) {
+        var path = getPathToMessage(selectedObject);
+        if (!TextUtils.isEmpty(path)) {
+            addFileToClipboard(new File(path), callback);
+        }
     }
 
     public Bitmap createQR(String key) {
@@ -193,7 +219,7 @@ public class MessageHelper extends BaseController {
         return messageObject;
     }
 
-    public void saveStickerToGallery(Activity activity, MessageObject messageObject, Runnable callback) {
+    public String getPathToMessage(MessageObject messageObject) {
         String path = messageObject.messageOwner.attachPath;
         if (!TextUtils.isEmpty(path)) {
             File temp = new File(path);
@@ -212,10 +238,14 @@ public class MessageHelper extends BaseController {
             path = FileLoader.getPathToAttach(messageObject.getDocument(), true).toString();
             File temp = new File(path);
             if (!temp.exists()) {
-                return;
+                return null;
             }
         }
-        saveStickerToGallery(activity, path, callback);
+        return path;
+    }
+
+    public void saveStickerToGallery(Activity activity, MessageObject messageObject, Runnable callback) {
+        saveStickerToGallery(activity, getPathToMessage(messageObject), callback);
     }
 
     public static void saveStickerToGallery(Activity activity, TLRPC.Document document, Runnable callback) {

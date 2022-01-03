@@ -184,6 +184,8 @@
     <string name="TranslatorTypeNeko">In message</string>
     <string name="TranslatorTypeTG">Popup dialog</string>
     <string name="TranslatorTypeExternal">External app</string>
+    <string name="CopyPhoto">Copy photo</string>
+    <string name="PhotoCopied">Photo copied to clipboard</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

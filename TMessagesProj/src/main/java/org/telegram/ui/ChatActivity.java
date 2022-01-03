@@ -20501,7 +20501,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 icons.add(R.drawable.msg_gif);
                             }
                         } else if (type == 4) {
-                            if (NekoConfig.showDeleteDownloadedFile && selectedObject.getDocument() != null) {
+                            if (NekoConfig.showDeleteDownloadedFile && !selectedObject.needDrawBluredPreview() && selectedObject.getDocument() != null) {
                                 items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
                                 options.add(91);
                                 icons.add(R.drawable.msg_clear);
@@ -20540,6 +20540,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
                                         options.add(4);
                                         icons.add(R.drawable.msg_gallery);
+                                        if (NekoConfig.showCopyPhoto) {
+                                            items.add(LocaleController.getString("CopyPhoto", R.string.CopyPhoto));
+                                            options.add(86);
+                                            icons.add(R.drawable.msg_copy);
+                                        }
                                     }
                                 }
                             }
@@ -22545,6 +22550,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
+                break;
+            } case 86: {
+                getMessageHelper().addMessageToClipboard(selectedObject, () -> {
+                    if (BulletinFactory.canShowBulletin(ChatActivity.this)) {
+                        BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("PhotoCopied", R.string.PhotoCopied)).show();
+                    }
+                });
                 break;
             } case 87: {
                 if (Build.VERSION.SDK_INT >= 23 && (Build.VERSION.SDK_INT <= 28 || BuildVars.NO_SCOPED_STORAGE) && getParentActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {

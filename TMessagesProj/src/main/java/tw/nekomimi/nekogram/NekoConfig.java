@@ -87,6 +87,7 @@ public class NekoConfig {
     public static boolean showTranslate = true;
     public static boolean showRepeat = true;
     public static boolean showNoQuoteForward = true;
+    public static boolean showCopyPhoto = false;
 
     public static boolean hidePhone = true;
     public static boolean transparentStatusBar = false;
@@ -256,6 +257,7 @@ public class NekoConfig {
             useExternalTranslator = preferences.getBoolean("useExternalTranslator", false);
             disableVoiceMessageAutoPlay = preferences.getBoolean("disableVoiceMessageAutoPlay", false);
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
+            showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
             configLoaded = true;
         }
     }
@@ -760,6 +762,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showNoQuoteForward", showNoQuoteForward);
+        editor.commit();
+    }
+
+    public static void toggleShowCopyPhoto() {
+        showCopyPhoto = !showCopyPhoto;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showCopyPhoto", showCopyPhoto);
         editor.commit();
     }
 
