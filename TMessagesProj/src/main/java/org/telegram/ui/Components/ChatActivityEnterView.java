@@ -58,6 +58,7 @@ import android.text.style.ImageSpan;
 import android.util.Property;
 import android.util.TypedValue;
 import android.view.ActionMode;
+import android.view.ContentInfo;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
@@ -1838,6 +1839,18 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                 }
             }
 
+            @Nullable
+            @Override
+            public ContentInfo onReceiveContent(@NonNull ContentInfo payload) {
+                ClipData clipData = payload.getClip();
+                if (clipData != null) {
+                    if (clipData.getItemCount() == 1 && clipData.getDescription().hasMimeType("image/*")) {
+                        editPhoto(clipData.getItemAt(0).getUri(), clipData.getDescription().getMimeType(0));
+                    }
+                }
+                return super.onReceiveContent(payload);
+            }
+
             @Override
             public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
                 final InputConnection ic = super.onCreateInputConnection(editorInfo);
@@ -1952,11 +1965,13 @@ public class ChatActivityEnterView extends FrameLayout implements NotificationCe
                     isPaste = true;
                 }
 
-                ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clipData = clipboard.getPrimaryClip();
-                if (clipData != null) {
-                    if (clipData.getItemCount() == 1 && clipData.getDescription().hasMimeType("image/*")) {
-                        editPhoto(clipData.getItemAt(0).getUri(), clipData.getDescription().getMimeType(0));
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S && id == android.R.id.paste) {
+                    ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                    ClipData clipData = clipboard.getPrimaryClip();
+                    if (clipData != null) {
+                        if (clipData.getItemCount() == 1 && clipData.getDescription().hasMimeType("image/*")) {
+                            editPhoto(clipData.getItemAt(0).getUri(), clipData.getDescription().getMimeType(0));
+                        }
                     }
                 }
                 return super.onTextContextMenuItem(id);
