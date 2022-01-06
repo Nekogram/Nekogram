@@ -253,6 +253,7 @@ public class ActionBar extends FrameLayout {
                         invalidate();
                     }
                 }
+            }
 
                 if (Theme.canStartHolidayAnimation()) {
                     if (snowflakesEffect == null) {
@@ -268,7 +269,7 @@ public class ActionBar extends FrameLayout {
                 } else if (fireworksEffect != null) {
                     fireworksEffect.onDraw(this, canvas);
                 }
-            }
+
         }
         if (clip) {
             canvas.restore();

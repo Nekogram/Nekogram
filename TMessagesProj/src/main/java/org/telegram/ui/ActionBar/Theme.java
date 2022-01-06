@@ -5532,6 +5532,8 @@ public class Theme {
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             if (monthOfYear == 0 && dayOfMonth == 1 && hour <= 23) {
                 canStartHolidayAnimation = true;
+            } else if (calendar.get(Calendar.YEAR) == 2022 && monthOfYear == 1 && dayOfMonth == 1) {
+                canStartHolidayAnimation = true;
             } else {
                 canStartHolidayAnimation = false;
             }
@@ -5544,6 +5546,14 @@ public class Theme {
             }
         }
         return dialogs_holidayDrawable;
+    }
+
+    public static boolean canStartLunarHolidayAnimation() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        int monthOfYear = calendar.get(Calendar.MONTH);
+        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
+        return calendar.get(Calendar.YEAR) == 2022 && ((monthOfYear == 0 && dayOfMonth == 31) || (monthOfYear == 1 && dayOfMonth <= 6));
     }
 
     public static int getCurrentHolidayDrawableXOffset() {
