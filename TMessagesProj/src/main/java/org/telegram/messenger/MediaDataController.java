@@ -4899,8 +4899,8 @@ public class MediaDataController extends BaseController {
         Matcher m = pattern.matcher(cs);
         int offset = 0;
         while (m.find()) {
-            if (checkInclusion(m.start(), entities, false) || checkIntersection(m.start(), m.end(), entities)) {
-
+            if (checkInclusion(m.start(), entities, false) || checkInclusion(m.start(), entities, true) || checkIntersection(m.start(), m.end(), entities)) {
+                continue;
             }
 
             String gr = m.group(1);
