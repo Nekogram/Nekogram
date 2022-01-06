@@ -3220,8 +3220,7 @@ public class DialogCell extends BaseCell {
                         sb.append(LocaleController.getString("RepliesTitle", R.string.RepliesTitle));
                     } else {
                         if (user.bot) {
-                            sb.append(LocaleController.getString("Bot", R.string.Bot));
-                            sb.append(". ");
+                            typeOfChat = LocaleController.getString("Bot", R.string.Bot);
                         }
                         if (user.self) {
                             sb.append(LocaleController.getString("SavedMessages", R.string.SavedMessages));
@@ -3237,20 +3236,27 @@ public class DialogCell extends BaseCell {
                         typeOfChat = LocaleController.getString("AccDescrGroup", R.string.AccDescrGroup);
                     }
                     sb.append(chat.title);
-                    sb.append(". ");
+                    sb.append(" - ");
                 }
             }
-            if (chat != null && AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION == AccConfig.TYPE_AT_FIRST) {
+            if (typeOfChat != null && AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION == AccConfig.TYPE_AT_FIRST) {
                 sb.insert(0, typeOfChat + ": ");
             }
-            if (unreadCount > 0) {
-                sb.append(LocaleController.formatPluralString("NewMessages", unreadCount));
-                if (chat != null && mentionCount > 0 && drawMention) {
-                    sb.append(": ");
+            if (unreadCount + mentionCount > 0) {
+                if (chat != null && drawMention) {
                     sb.append(LocaleController.formatPluralString("Replies", mentionCount));
+                    if (unreadCount > 0) {
+                        sb.append(", ");
+                    } else if (AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION != AccConfig.TYPE_AT_MIDDLE) {
+                        sb.append(". ");
+                    }
                 }
                 if (typeOfChat == null || AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION != AccConfig.TYPE_AT_MIDDLE) {
                     sb.append(". ");
+                }
+                if (unreadCount > 0) {
+                    sb.append(LocaleController.formatPluralString("NewMessages", unreadCount));
+                    sb.append(": ");
                 }
             }
             if (typeOfChat != null && AccConfig.ADD_TYPE_OF_CHAT_TO_DESCRIPTION == AccConfig.TYPE_AT_MIDDLE) {
