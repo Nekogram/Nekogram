@@ -3,8 +3,6 @@ package tw.nekomimi.nekogram;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -212,17 +210,10 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                     }
                 } else {
                     Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType("application/octet-stream");
-                    if (Build.VERSION.SDK_INT >= 24) {
-                        try {
-                            intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(filePath)));
-                            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        } catch (Exception ignore) {
-                            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
-                        }
-                    } else {
-                        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(filePath)));
-                    }
+                    var uri = FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(filePath));
+                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);
+                    intent.setDataAndType(uri, messageObject.getMimeType());
                     startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
                 }
             } else if (position == channelRow || position == groupRow) {

@@ -126,8 +126,9 @@ public class QRCodeBottomSheet extends BottomSheet {
             if (uri != null) {
                 Intent i = new Intent(Intent.ACTION_SEND);
 
-                i.setType("image/*");
+                i.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 i.putExtra(Intent.EXTRA_STREAM, uri);
+                i.setDataAndType(uri, "image/png");
                 try {
                     AndroidUtilities.findActivity(context).startActivityForResult(Intent.createChooser(i, LocaleController.getString("InviteByQRCode", R.string.InviteByQRCode)), 500);
                 } catch (ActivityNotFoundException ex) {

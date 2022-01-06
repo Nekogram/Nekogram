@@ -7003,20 +7003,21 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     if (finished[0]) {
                         Uri uri;
-                        if (Build.VERSION.SDK_INT >= 24) {
+                        //if (Build.VERSION.SDK_INT >= 24) {
                             uri = FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", zipFile);
-                        } else {
-                            uri = Uri.fromFile(zipFile);
-                        }
+                        //} else {
+                        //    uri = Uri.fromFile(zipFile);
+                        //}
 
                         Intent i = new Intent(Intent.ACTION_SEND);
-                        if (Build.VERSION.SDK_INT >= 24) {
+                        //if (Build.VERSION.SDK_INT >= 24) {
                             i.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        }
-                        i.setType("message/rfc822");
+                        //}
+                        //i.setType("message/rfc822");
                         i.putExtra(Intent.EXTRA_EMAIL, "");
                         i.putExtra(Intent.EXTRA_SUBJECT, "Logs from " + LocaleController.getInstance().formatterStats.format(System.currentTimeMillis()));
                         i.putExtra(Intent.EXTRA_STREAM, uri);
+                        i.setDataAndType(uri, "application/zip");
                         if (getParentActivity() != null) {
                             try {
                                 getParentActivity().startActivityForResult(Intent.createChooser(i, "Select email application."), 500);

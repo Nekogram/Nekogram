@@ -2830,20 +2830,20 @@ public class AndroidUtilities {
                             }
                         }
                     }
-                    if (Build.VERSION.SDK_INT >= 24) {
+                    //if (Build.VERSION.SDK_INT >= 24) {
                         intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", f), realMimeType != null ? realMimeType : "text/plain");
-                    } else {
-                        intent.setDataAndType(Uri.fromFile(f), realMimeType != null ? realMimeType : "text/plain");
-                    }
+                    //} else {
+                    //    intent.setDataAndType(Uri.fromFile(f), realMimeType != null ? realMimeType : "text/plain");
+                    //}
                     if (realMimeType != null) {
                         try {
                             activity.startActivityForResult(intent, 500);
                         } catch (Exception e) {
-                            if (Build.VERSION.SDK_INT >= 24) {
+                            //if (Build.VERSION.SDK_INT >= 24) {
                                 intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", f), "text/plain");
-                            } else {
-                                intent.setDataAndType(Uri.fromFile(f), "text/plain");
-                            }
+                            //} else {
+                            //    intent.setDataAndType(Uri.fromFile(f), "text/plain");
+                            //}
                             activity.startActivityForResult(intent, 500);
                         }
                     } else {
@@ -2899,20 +2899,20 @@ public class AndroidUtilities {
                 builder.show();
                 return true;
             }*/
-            if (Build.VERSION.SDK_INT >= 24) {
+            //if (Build.VERSION.SDK_INT >= 24) {
                 intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", f), realMimeType != null ? realMimeType : "text/plain");
-            } else {
-                intent.setDataAndType(Uri.fromFile(f), realMimeType != null ? realMimeType : "text/plain");
-            }
+            //} else {
+            //    intent.setDataAndType(Uri.fromFile(f), realMimeType != null ? realMimeType : "text/plain");
+            //}
             if (realMimeType != null) {
                 try {
                     activity.startActivityForResult(intent, 500);
                 } catch (Exception e) {
-                    if (Build.VERSION.SDK_INT >= 24) {
+                    //if (Build.VERSION.SDK_INT >= 24) {
                         intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", f), "text/plain");
-                    } else {
-                        intent.setDataAndType(Uri.fromFile(f), "text/plain");
-                    }
+                    //} else {
+                    //    intent.setDataAndType(Uri.fromFile(f), "text/plain");
+                    //}
                     activity.startActivityForResult(intent, 500);
                 }
             } else {
@@ -3037,11 +3037,11 @@ public class AndroidUtilities {
                     }
                 }
             }
-            if (Build.VERSION.SDK_INT >= 24) {
+            //if (Build.VERSION.SDK_INT >= 24) {
                 intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", f), realMimeType != null ? realMimeType : "text/plain");
-            } else {
-                intent.setDataAndType(Uri.fromFile(f), realMimeType != null ? realMimeType : "text/plain");
-            }
+            //} else {
+            //    intent.setDataAndType(Uri.fromFile(f), realMimeType != null ? realMimeType : "text/plain");
+            //}
             if (realMimeType != null) {
                 try {
                     activity.startActivityForResult(intent, 500);

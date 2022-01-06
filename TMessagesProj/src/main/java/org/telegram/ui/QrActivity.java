@@ -614,8 +614,9 @@ public class QrActivity extends BaseFragment {
         Uri uri = AndroidUtilities.getBitmapShareUri(bitmap, "qr_tmp.jpg", Bitmap.CompressFormat.JPEG);
         if (uri != null) {
             Intent intent = new Intent(Intent.ACTION_SEND)
-                    .setType("image/*")
-                    .putExtra(Intent.EXTRA_STREAM, uri);
+                    .putExtra(Intent.EXTRA_STREAM, uri)
+                    .setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
+                    .setDataAndType(uri, "image/jpeg");
             try {
                 Intent chooserIntent = Intent.createChooser(intent, LocaleController.getString("InviteByQRCode", R.string.InviteByQRCode));
                 getParentActivity().startActivityForResult(chooserIntent, 500);

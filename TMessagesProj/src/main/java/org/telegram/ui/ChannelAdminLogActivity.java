@@ -1469,17 +1469,10 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     path = FileLoader.getPathToMessage(selectedObject.messageOwner).toString();
                 }
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                intent.setType(selectedObject.getDocument().mime_type);
-                if (Build.VERSION.SDK_INT >= 24) {
-                    try {
-                        intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(path)));
-                        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    } catch (Exception ignore) {
-                        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(path)));
-                    }
-                } else {
-                    intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(new File(path)));
-                }
+                var uri = FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(path));
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                intent.setDataAndType(uri, selectedObject.getDocument().mime_type);
                 getParentActivity().startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
                 break;
             }
@@ -2253,12 +2246,12 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                                     f = FileLoader.getPathToMessage(message.messageOwner);
                                 }
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                                if (Build.VERSION.SDK_INT >= 24) {
+                                //if (Build.VERSION.SDK_INT >= 24) {
                                     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                     intent.setDataAndType(FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", f), "video/mp4");
-                                } else {
-                                    intent.setDataAndType(Uri.fromFile(f), "video/mp4");
-                                }
+                                //} else {
+                                //    intent.setDataAndType(Uri.fromFile(f), "video/mp4");
+                                //}
                                 getParentActivity().startActivityForResult(intent, 500);
                             } catch (Exception e) {
                                 alertUserOpenError(message);

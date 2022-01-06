@@ -1730,17 +1730,10 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                             return;
                         }
                         Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setType("text/xml");
-                        if (Build.VERSION.SDK_INT >= 24) {
-                            try {
-                                intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", finalFile));
-                                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                            } catch (Exception ignore) {
-                                intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(finalFile));
-                            }
-                        } else {
-                            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(finalFile));
-                        }
+                        var uri = FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", finalFile);
+                        intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                        intent.putExtra(Intent.EXTRA_STREAM, uri);
+                        intent.setDataAndType(uri, "text/xml");
                         startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
                     } catch (Exception e) {
                         FileLog.e(e);

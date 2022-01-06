@@ -10525,13 +10525,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 File image = AndroidUtilities.generatePicturePath();
                 if (image != null) {
-                    if (Build.VERSION.SDK_INT >= 24) {
+                    //if (Build.VERSION.SDK_INT >= 24) {
                         takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", image));
                         takePictureIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                         takePictureIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    } else {
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
-                    }
+                    //} else {
+                    //    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(image));
+                    //}
                     currentPicturePath = image.getAbsolutePath();
                 }
                 startActivityForResult(takePictureIntent, 0);
@@ -10598,13 +10598,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 Intent takeVideoIntent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
                 File video = AndroidUtilities.generateVideoPath();
                 if (video != null) {
-                    if (Build.VERSION.SDK_INT >= 24) {
+                    //if (Build.VERSION.SDK_INT >= 24) {
                         takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", video));
                         takeVideoIntent.addFlags(Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
                         takeVideoIntent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    } else if (Build.VERSION.SDK_INT >= 18) {
-                        takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(video));
-                    }
+                    //} else if (Build.VERSION.SDK_INT >= 18) {
+                    //    takeVideoIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(video));
+                    //}
                     takeVideoIntent.putExtra(MediaStore.EXTRA_SIZE_LIMIT, FileLoader.MAX_FILE_SIZE);
                     currentPicturePath = video.getAbsolutePath();
                 }
@@ -24963,12 +24963,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     f = FileLoader.getPathToMessage(message.messageOwner);
                                 }
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                                if (Build.VERSION.SDK_INT >= 24) {
+                                //if (Build.VERSION.SDK_INT >= 24) {
                                     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                                     intent.setDataAndType(FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", f), "video/mp4");
-                                } else {
-                                    intent.setDataAndType(Uri.fromFile(f), "video/mp4");
-                                }
+                                //} else {
+                                //    intent.setDataAndType(Uri.fromFile(f), "video/mp4");
+                                //}
                                 getParentActivity().startActivityForResult(intent, 500);
                             } catch (Exception e) {
                                 FileLog.e(e);

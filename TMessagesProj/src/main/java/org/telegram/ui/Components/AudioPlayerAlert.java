@@ -1414,17 +1414,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
 
                 if (f.exists()) {
                     Intent intent = new Intent(Intent.ACTION_SEND);
-                    intent.setType(messageObject.getMimeType());
-                    if (Build.VERSION.SDK_INT >= 24) {
-                        try {
-                            intent.putExtra(Intent.EXTRA_STREAM, FileProvider.getUriForFile(ApplicationLoader.applicationContext, BuildConfig.APPLICATION_ID + ".provider", f));
-                            intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                        } catch (Exception ignore) {
-                            intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
-                        }
-                    } else {
-                        intent.putExtra(Intent.EXTRA_STREAM, Uri.fromFile(f));
-                    }
+                    var uri = FileProvider.getUriForFile(parentActivity, BuildConfig.APPLICATION_ID + ".provider", f);
+                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    intent.putExtra(Intent.EXTRA_STREAM, uri);
+                    intent.setDataAndType(uri, messageObject.getMimeType());
 
                     parentActivity.startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
                 } else {
