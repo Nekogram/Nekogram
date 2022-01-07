@@ -316,6 +316,7 @@
 
         <receiver
             android:name=".SmsReceiver"
+            android:permission="com.google.android.gms.auth.api.phone.permission.SEND"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED"/>
@@ -360,7 +361,7 @@
             android:enabled="true"/>
         <service android:name=".voip.VoIPService" android:enabled="true" android:foregroundServiceType="mediaProjection|camera|microphone|mediaPlayback" android:exported="false"/>
         <service android:name=".GoogleVoiceClientService" android:exported="false"/>
-        <service android:name=".MusicPlayerService" android:exported="true" android:enabled="true" android:foregroundServiceType="mediaPlayback"/>
+        <service android:name=".MusicPlayerService" android:exported="false" android:foregroundServiceType="mediaPlayback"/>
         <service android:name=".MusicBrowserService" android:exported="true">
             <intent-filter>
                 <action android:name="android.media.browse.MediaBrowserService"/>
@@ -372,7 +373,7 @@
             </intent-filter>
         </service>
 
-		<receiver android:name=".MusicPlayerReceiver" android:exported="true">
+		<receiver android:name=".MusicPlayerReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="org.telegram.android.musicplayer.close" />
                 <action android:name="org.telegram.android.musicplayer.pause" />
