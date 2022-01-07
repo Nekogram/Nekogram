@@ -1243,37 +1243,39 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                 if (!isSelectionMode()) {
                     return true;
                 }
-                switch (item.getItemId()) {
-                    case android.R.id.copy:
-                        copyText();
+                int itemId = item.getItemId();
+                if (itemId == android.R.id.copy) {
+                    copyText();
+                    return true;
+                } else if (itemId == android.R.id.selectAll) {
+                    CharSequence text = getText(selectedView, false);
+                    if (text == null) {
                         return true;
-                    case android.R.id.selectAll:
-                        CharSequence text = getText(selectedView, false);
-                        if (text == null) {
-                            return true;
-                        }
-                        selectionStart = 0;
-                        selectionEnd = text.length();
-                        hideActions();
-                        invalidate();
-                        showActions();
+                    }
+                    selectionStart = 0;
+                    selectionEnd = text.length();
+                    hideActions();
+                    invalidate();
+                    showActions();
+                    return true;
+                } else if (itemId == R.id.menu_translate) {
+                    if (!isSelectionMode()) {
                         return true;
-                    case R.id.menu_translate:
-                        if (!isSelectionMode()) {
-                            return true;
-                        }
-                        CharSequence str = getTextForCopy();
-                        if (str == null) {
-                            return true;
-                        }
-                        Translator.showTranslateDialog(textSelectionOverlay.getContext(), str.toString(), false);
-                        hideActions();
-                        clear(true);
-                        if (TextSelectionHelper.this.callback != null) {
-                            TextSelectionHelper.this.callback.onTextTranslated();
-                        }
-                    default:
-                        clear();
+                    }
+                    CharSequence str = getTextForCopy();
+                    if (str == null) {
+                        return true;
+                    }
+                    Translator.showTranslateDialog(textSelectionOverlay.getContext(), str.toString(), false);
+                    hideActions();
+                    clear(true);
+                    if (TextSelectionHelper.this.callback != null) {
+                        TextSelectionHelper.this.callback.onTextTranslated();
+                    }
+
+                    clear();
+                } else {
+                    clear();
                 }
                 return true;
             }
