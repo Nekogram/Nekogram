@@ -20,6 +20,7 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextPaint;
@@ -116,7 +117,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
 
     private boolean checkFocusable = true;
 
-    private Drawable shadowDrawable;
+    private GradientDrawable shadowDrawable;
     private Rect backgroundPaddings;
 
     private boolean focusable;
@@ -210,9 +211,9 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
 
         backgroundPaddings = new Rect();
         if (progressStyle != 3) {
-            shadowDrawable = context.getResources().getDrawable(R.drawable.popup_fixed_alert).mutate();
-            shadowDrawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_dialogBackground), PorterDuff.Mode.MULTIPLY));
-            shadowDrawable.getPadding(backgroundPaddings);
+            shadowDrawable = new GradientDrawable();
+            shadowDrawable.setCornerRadius(AndroidUtilities.dp(6));
+            shadowDrawable.setColor(getThemedColor(Theme.key_dialogBackground));
         }
 
         progressViewStyle = progressStyle;
@@ -299,7 +300,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                         availableHeight -= topImageView.getMeasuredHeight() - AndroidUtilities.dp(8);
                     }
                     if (topView != null) {
-                        int w = width - AndroidUtilities.dp(16);
+                        int w = width;
                         int h;
                         if (aspectRatio == 0) {
                             float scale = w / 936.0f;
@@ -418,7 +419,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
 
             @Override
             protected void dispatchDraw(Canvas canvas) {
-                if (drawBackground) {
+                /*if (drawBackground) {
                     shadowDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
                     if (topView != null && notDrawBackgroundOnTopView) {
                         int clipTop = topView.getBottom();
@@ -429,12 +430,12 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                     } else {
                         shadowDrawable.draw(canvas);
                     }
-                }
+                }*/
                 super.dispatchDraw(canvas);
             }
         };
         containerView.setOrientation(LinearLayout.VERTICAL);
-        if (progressViewStyle == 3) {
+        /*if (progressViewStyle == 3) {
             containerView.setBackgroundDrawable(null);
             containerView.setPadding(0, 0, 0, 0);
             drawBackground = false;
@@ -450,7 +451,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                 containerView.setBackgroundDrawable(shadowDrawable);
                 drawBackground = false;
             }
-        }
+        }*/
         containerView.setFitsSystemWindows(Build.VERSION.SDK_INT >= 21);
         setContentView(containerView);
 
@@ -468,10 +469,9 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
                 topImageView.playAnimation();
             }
             topImageView.setScaleType(ImageView.ScaleType.CENTER);
-            topImageView.setBackgroundDrawable(getContext().getResources().getDrawable(R.drawable.popup_fixed_top));
-            topImageView.getBackground().setColorFilter(new PorterDuffColorFilter(topBackgroundColor, PorterDuff.Mode.MULTIPLY));
+            topImageView.setBackgroundColor(topBackgroundColor);
             topImageView.setPadding(0, 0, 0, 0);
-            containerView.addView(topImageView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, topHeight, Gravity.LEFT | Gravity.TOP, -8, -8, 0, 0));
+            containerView.addView(topImageView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, topHeight, Gravity.LEFT | Gravity.TOP, 0, -8, 0, 0));
         } else if (topView != null) {
             topView.setPadding(0, 0, 0, 0);
             containerView.addView(topView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, topHeight, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));
@@ -860,13 +860,17 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
         }
 
         Window window = getWindow();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP_MR1) {
+            window.setClipToOutline(true);
+        }
+        window.setBackgroundDrawable(shadowDrawable);
         WindowManager.LayoutParams params = new WindowManager.LayoutParams();
         params.copyFrom(window.getAttributes());
         if (progressViewStyle == 3) {
             params.width = WindowManager.LayoutParams.MATCH_PARENT;
         } else {
             if (dimEnabled) {
-                params.dimAmount = 0.6f;
+                params.dimAmount = 0.32f;
                 params.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
             }
 
@@ -922,7 +926,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
     }
 
     public void setBackgroundColor(int color) {
-        shadowDrawable.setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.MULTIPLY));
+        shadowDrawable.setColor(color);
     }
 
     public void setTextColor(int color) {

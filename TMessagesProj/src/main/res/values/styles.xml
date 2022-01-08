@@ -81,12 +81,12 @@
     </style>
 
     <style name="PopupContextAnimation" parent="android:Animation" mce_bogus="1">
-        <item name="android:windowEnterAnimation">@anim/popup_context_in</item>
+        <item name="android:windowEnterAnimation">@anim/rd_dialog_enter</item>
     </style>
 
     <style name="PopupContextAnimation2" parent="android:Animation" mce_bogus="1">
-        <item name="android:windowEnterAnimation">@anim/popup_context_in</item>
-        <item name="android:windowExitAnimation">@anim/popup_out</item>
+        <item name="android:windowEnterAnimation">@anim/rd_dialog_enter</item>
+        <item name="android:windowExitAnimation">@anim/rd_dialog_exit</item>
     </style>
 
     <!--ACTION BAR-->
