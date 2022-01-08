@@ -186,6 +186,12 @@
     <string name="TranslatorTypeExternal">External app</string>
     <string name="CopyPhoto">Copy photo</string>
     <string name="PhotoCopied">Photo copied to clipboard</string>
+    <string name="SaveToDownloadCount_zero">Saving %1$d files to downloads</string>
+    <string name="SaveToDownloadCount_one">Saving %1$d file to downloads</string>
+    <string name="SaveToDownloadCount_two">Saving %1$d files to downloads</string>
+    <string name="SaveToDownloadCount_few">Saving %1$d files to downloads</string>
+    <string name="SaveToDownloadCount_many">Saving %1$d files to downloads</string>
+    <string name="SaveToDownloadCount_other">Saving %1$d files to downloads</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

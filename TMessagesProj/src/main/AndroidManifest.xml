@@ -490,6 +490,12 @@
             </intent-filter>
         </receiver>
 
+        <receiver android:name="tw.nekomimi.nekogram.SaveToDownloadReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="${applicationId}.CANCEL_SAVE_TO_DOWNLOAD" />
+            </intent-filter>
+        </receiver>
+
         <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyCGMAA5lSWvRAgaVtF1-Bh3Di07zePnUbA" />
 
         <meta-data android:name="firebase_analytics_collection_deactivated" android:value="true" />
