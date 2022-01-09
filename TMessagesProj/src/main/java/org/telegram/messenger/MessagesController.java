@@ -9783,21 +9783,12 @@ public class MessagesController extends BaseController implements NotificationCe
     private boolean gettingAppChangelog;
 
     public void generateUpdateMessage() {
-        if (gettingAppChangelog || BuildVars.DEBUG_VERSION || SharedConfig.lastUpdateVersion == null || SharedConfig.lastUpdateVersion.equals(BuildVars.BUILD_VERSION_STRING)) {
+        if (NekoConfig.pendingChangelog == null || SharedConfig.lastUpdateVersion == null || SharedConfig.lastUpdateVersion.equals(BuildConfig.VERSION_NAME)) {
             return;
         }
-        gettingAppChangelog = true;
-        TLRPC.TL_help_getAppChangelog req = new TLRPC.TL_help_getAppChangelog();
-        req.prev_app_version = SharedConfig.lastUpdateVersion;
-        getConnectionsManager().sendRequest(req, (response, error) -> {
-            if (error == null) {
-                SharedConfig.lastUpdateVersion = BuildVars.BUILD_VERSION_STRING;
-                SharedConfig.saveConfig();
-            }
-            if (response instanceof TLRPC.Updates) {
-                processUpdates((TLRPC.Updates) response, false);
-            }
-        });
+        SharedConfig.lastUpdateVersion = BuildConfig.VERSION_NAME;
+        SharedConfig.saveConfig();
+        processUpdateArray(NekoConfig.pendingChangelog, null, null, false, 0);
     }
 
     public void registerForPush(final String regid) {

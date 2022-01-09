@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import org.tcp2ws.tcp2wsServer;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationsService;
@@ -24,6 +25,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.net.ServerSocket;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -138,12 +140,27 @@ public class NekoConfig {
     private static Typeface systemEmojiTypeface;
     public static boolean loadSystemEmojiFailed = false;
 
+    public static ArrayList<TLRPC.Update> pendingChangelog;
+
     public static boolean isChineseUser = false;
 
     private static boolean configLoaded;
 
     static {
         loadConfig();
+    }
+
+    public static void buildAppChangelog(TLRPC.TL_help_appUpdate appUpdate) {
+        if (!BuildConfig.VERSION_NAME.equals(appUpdate.version) || appUpdate.text == null) {
+            return;
+        }
+        var update = new TLRPC.TL_updateServiceNotification();
+        update.flags = 2;
+        update.message = appUpdate.text;
+        update.entities = appUpdate.entities;
+        ArrayList<TLRPC.Update> updates = new ArrayList<>();
+        updates.add(update);
+        NekoConfig.pendingChangelog = updates;
     }
 
     public static int getSocksPort() {

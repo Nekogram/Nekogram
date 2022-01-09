@@ -320,6 +320,7 @@ public class SharedConfig {
                     //    updateVersionString = BuildVars.BUILD_VERSION_STRING;
                     //}
                     if (pendingAppUpdateBuildVersion != updateVersion || pendingAppUpdate.version == null/* || updateVersionString.compareTo(pendingAppUpdate.version) >= 0*/) {
+                        NekoConfig.buildAppChangelog(pendingAppUpdate);
                         pendingAppUpdate = null;
                         AndroidUtilities.runOnUIThread(SharedConfig::saveConfig);
                     }
@@ -538,7 +539,7 @@ public class SharedConfig {
         useFingerprint = true;
         isWaitingForPasscodeEnter = false;
         allowScreenCapture = false;
-        lastUpdateVersion = BuildVars.BUILD_VERSION_STRING;
+        lastUpdateVersion = BuildConfig.VERSION_NAME;
         textSelectionHintShows = 0;
         scheduledOrNoSoundHintShows = 0;
         lockRecordAudioVideoHint = 0;
