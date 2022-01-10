@@ -67,6 +67,7 @@ public class ReactionsLayoutInBubble {
     ChatMessageCell parentView;
     MessageObject messageObject;
     Theme.ResourcesProvider resourcesProvider;
+    private String scrimViewReaction;
 
     int availableWidth;
     private int lastDrawnWidth;
@@ -125,6 +126,9 @@ public class ReactionsLayoutInBubble {
                         reactionButtons.add(new ReactionButton(reactionCount));
                         reactionButtons.get(0).isSelected = false;
                         reactionButtons.get(1).isSelected = true;
+                        reactionButtons.get(0).realCount = 1;
+                        reactionButtons.get(1).realCount = 1;
+                        reactionButtons.get(1).key = reactionButtons.get(1).key + "_";
                         break;
                     }
                     if (isSmall && i == 2) {
@@ -135,8 +139,10 @@ public class ReactionsLayoutInBubble {
                     }
                 }
             }
-            comparator.currentAccount = currentAccount;
-            Collections.sort(reactionButtons, comparator);
+            if (!isSmall) {
+                comparator.currentAccount = currentAccount;
+                Collections.sort(reactionButtons, comparator);
+            }
         }
         isEmpty = reactionButtons.isEmpty();
     }
@@ -194,7 +200,7 @@ public class ReactionsLayoutInBubble {
         drawServiceShaderBackground = false;
     }
 
-    public void draw(Canvas canvas, float animationProgress) {
+    public void draw(Canvas canvas, float animationProgress, String drawOnlyReaction) {
         if (isEmpty && outButtons.isEmpty()) {
             return;
         }
@@ -211,6 +217,9 @@ public class ReactionsLayoutInBubble {
         canvas.translate(totalX, totalY);
         for (int i = 0; i < reactionButtons.size(); i++) {
             ReactionButton reactionButton = reactionButtons.get(i);
+            if (reactionButton.reaction.equals(scrimViewReaction) || (drawOnlyReaction != null && !reactionButton.reaction.equals(drawOnlyReaction))) {
+                continue;
+            }
             canvas.save();
             float x = reactionButton.x;
             float y = reactionButton.y;
@@ -225,7 +234,7 @@ public class ReactionsLayoutInBubble {
                 alpha = animationProgress;
                 canvas.scale(s, s, reactionButton.width / 2f, reactionButton.height / 2f);
             }
-            reactionButton.draw(canvas, reactionButton.animationType == ANIMATION_TYPE_IN ? 1f : animationProgress, alpha);
+            reactionButton.draw(canvas, reactionButton.animationType == ANIMATION_TYPE_MOVE ? animationProgress : 1f, alpha, drawOnlyReaction != null);
             canvas.restore();
         }
 
@@ -235,7 +244,7 @@ public class ReactionsLayoutInBubble {
             canvas.translate(reactionButton.x, reactionButton.y);
             float s = 0.5f + 0.5f * (1f - animationProgress);
             canvas.scale(s, s, reactionButton.width / 2f, reactionButton.height / 2f);
-            outButtons.get(i).draw(canvas, 1f, (1f - animationProgress));
+            outButtons.get(i).draw(canvas, 1f, (1f - animationProgress), false);
             canvas.restore();
         }
         canvas.restore();
@@ -244,7 +253,7 @@ public class ReactionsLayoutInBubble {
     public void recordDrawingState() {
         lastDrawingReactionButtons.clear();
         for (int i = 0; i < reactionButtons.size(); i++) {
-            lastDrawingReactionButtons.put(reactionButtons.get(i).reaction, reactionButtons.get(i));
+            lastDrawingReactionButtons.put(reactionButtons.get(i).key, reactionButtons.get(i));
         }
         wasDrawn = !isEmpty;
         lastDrawnX = x;
@@ -253,6 +262,9 @@ public class ReactionsLayoutInBubble {
     }
 
     public boolean animateChange() {
+        if (messageObject == null) {
+            return false;
+        }
         boolean changed = false;
         lastDrawingReactionButtonsTmp.clear();
         for (int i = 0; i < outButtons.size(); i++) {
@@ -262,12 +274,13 @@ public class ReactionsLayoutInBubble {
         lastDrawingReactionButtonsTmp.putAll(lastDrawingReactionButtons);
         for (int i = 0; i < reactionButtons.size(); i++) {
             ReactionButton button = reactionButtons.get(i);
-            ReactionButton lastButton = lastDrawingReactionButtonsTmp.remove(button.reaction);
+            ReactionButton lastButton = lastDrawingReactionButtonsTmp.remove(button.key);
             if (lastButton != null) {
-                if (button.animateFromX != lastButton.x || button.animateFromY != lastButton.y || button.animateFromWidth != lastButton.width || button.count != lastButton.count || button.backgroundColor != lastButton.backgroundColor) {
+                if (button.x != lastButton.x || button.y != lastButton.y || button.width != lastButton.width || button.count != lastButton.count || button.backgroundColor != lastButton.backgroundColor) {
                     button.animateFromX = lastButton.x;
                     button.animateFromY = lastButton.y;
                     button.animateFromWidth = lastButton.width;
+
                     button.fromTextColor = lastButton.lastDrawnTextColor;
                     button.fromBackgroundColor = lastButton.lastDrawnBackgroundColor;
                     button.animationType = ANIMATION_TYPE_MOVE;
@@ -332,7 +345,17 @@ public class ReactionsLayoutInBubble {
     }
 
     public ReactionButton getReactionButton(String reaction) {
+        if (isSmall) {
+            ReactionButton button = lastDrawingReactionButtons.get(reaction + "_");
+            if (button != null) {
+                return button;
+            }
+        }
         return lastDrawingReactionButtons.get(reaction);
+    }
+
+    public void setScrimReaction(String scrimViewReaction) {
+        this.scrimViewReaction = scrimViewReaction;
     }
 
     public class ReactionButton {
@@ -347,9 +370,12 @@ public class ReactionsLayoutInBubble {
         public int realCount;
         public boolean drawImage = true;
         public boolean lastImageDrawn;
+        public boolean wasDrawn;
+        public String key;
 
         public String countText;
         public String reaction;
+
         int count;
         public int x;
         public int y;
@@ -373,10 +399,12 @@ public class ReactionsLayoutInBubble {
             this.reaction = reactionCount.reaction;
             this.count = reactionCount.count;
             this.realCount = reactionCount.count;
+            this.key = this.reaction;
             countText = Integer.toString(reactionCount.count);
             imageReceiver.setParentView(parentView);
             isSelected = reactionCount.chosen;
             counterDrawable.updateVisibility = false;
+            counterDrawable.shortFormat = true;
             if (reactionCount.chosen) {
                 backgroundColor = Theme.getColor(messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonBackground : Theme.key_chat_inReactionButtonBackground, resourcesProvider);
                 textColor = Theme.getColor(messageObject.isOutOwner() ? Theme.key_chat_outReactionButtonTextSelected : Theme.key_chat_inReactionButtonTextSelected, resourcesProvider);
@@ -406,20 +434,17 @@ public class ReactionsLayoutInBubble {
             counterDrawable.gravity = Gravity.LEFT;
         }
 
-        public void draw(Canvas canvas, float progress, float alpha) {
+        public void draw(Canvas canvas, float progress, float alpha, boolean drawOverlayScrim) {
+            wasDrawn = true;
             if (isSmall) {
                 imageReceiver.setAlpha(alpha);
                 imageReceiver.setImageCoords(0, 0, AndroidUtilities.dp(14), AndroidUtilities.dp(14));
                 drawImage(canvas);
                 return;
             }
-            if (drawServiceShaderBackground) {
-                textPaint.setColor(lastDrawnTextColor = ColorUtils.blendARGB(fromTextColor, serviceTextColor, progress));
-                paint.setColor(lastDrawnBackgroundColor = ColorUtils.blendARGB(fromBackgroundColor, serviceBackgroundColor, progress));
-            } else {
-                textPaint.setColor(lastDrawnTextColor = ColorUtils.blendARGB(fromTextColor, textColor, progress));
-                paint.setColor(lastDrawnBackgroundColor = ColorUtils.blendARGB(fromBackgroundColor, backgroundColor, progress));
-            }
+            updateColors(progress);
+            textPaint.setColor(lastDrawnTextColor);
+            paint.setColor(lastDrawnBackgroundColor);
 
             if (alpha != 1f) {
                 textPaint.setAlpha((int) (textPaint.getAlpha() * alpha));
@@ -447,6 +472,12 @@ public class ReactionsLayoutInBubble {
                 paint1.setAlpha(oldAlpha);
                 paint2.setAlpha(oldAlpha2);
             }
+            if (!drawServiceShaderBackground && drawOverlayScrim) {
+                Theme.MessageDrawable messageBackground = parentView.getCurrentBackgroundDrawable(false);
+                if (messageBackground != null) {
+                    canvas.drawRoundRect(AndroidUtilities.rectTmp, rad, rad, messageBackground.getPaint());
+                }
+            }
             canvas.drawRoundRect(AndroidUtilities.rectTmp, rad, rad, paint);
 
             imageReceiver.setImageCoords(AndroidUtilities.dp(8), (height - AndroidUtilities.dp(20)) / 2f, AndroidUtilities.dp(20), AndroidUtilities.dp(20));
@@ -465,6 +496,16 @@ public class ReactionsLayoutInBubble {
                 avatarsDarawable.setAlpha(alpha);
                 avatarsDarawable.onDraw(canvas);
                 canvas.restore();
+            }
+        }
+
+        private void updateColors(float progress) {
+            if (drawServiceShaderBackground) {
+                lastDrawnTextColor = ColorUtils.blendARGB(fromTextColor, serviceTextColor, progress);
+                lastDrawnBackgroundColor = ColorUtils.blendARGB(fromBackgroundColor, serviceBackgroundColor, progress);
+            } else {
+                lastDrawnTextColor = ColorUtils.blendARGB(fromTextColor, textColor, progress);
+                lastDrawnBackgroundColor = ColorUtils.blendARGB(fromBackgroundColor, backgroundColor, progress);
             }
         }
 
@@ -501,8 +542,6 @@ public class ReactionsLayoutInBubble {
             }
         }
 
-
-
         public void attach() {
             if (imageReceiver != null) {
                 imageReceiver.onAttachedToWindow();
@@ -521,7 +560,6 @@ public class ReactionsLayoutInBubble {
             }
         }
     }
-    static int attachedCount;
 
     float lastX;
     float lastY;
@@ -530,7 +568,7 @@ public class ReactionsLayoutInBubble {
     Runnable longPressRunnable;
 
     public boolean chekTouchEvent(MotionEvent event) {
-        if (isEmpty || messageObject == null || messageObject.messageOwner == null || messageObject.messageOwner.reactions == null) {
+        if (isEmpty || isSmall || messageObject == null || messageObject.messageOwner == null || messageObject.messageOwner.reactions == null) {
             return false;
         }
         float x = event.getX() - this.x;
@@ -542,16 +580,18 @@ public class ReactionsLayoutInBubble {
                     lastX = event.getX();
                     lastY = event.getY();
                     lastSelectedButton = reactionButtons.get(i);
-                    if (longPressRunnable != null && messageObject.messageOwner.reactions.can_see_list) {
+                    if (longPressRunnable != null) {
                         AndroidUtilities.cancelRunOnUIThread(longPressRunnable);
                         longPressRunnable = null;
                     }
 
                     final ReactionButton selectedButtonFinal = lastSelectedButton;
-                    AndroidUtilities.runOnUIThread(longPressRunnable = () -> {
-                        parentView.getDelegate().didPressReaction(parentView, selectedButtonFinal.reactionCount, true);
-                        longPressRunnable = null;
-                    }, ViewConfiguration.getLongPressTimeout());
+                    if (messageObject.messageOwner.reactions.can_see_list) {
+                        AndroidUtilities.runOnUIThread(longPressRunnable = () -> {
+                            parentView.getDelegate().didPressReaction(parentView, selectedButtonFinal.reactionCount, true);
+                            longPressRunnable = null;
+                        }, ViewConfiguration.getLongPressTimeout());
+                    }
                     pressed = true;
                     break;
                 }
