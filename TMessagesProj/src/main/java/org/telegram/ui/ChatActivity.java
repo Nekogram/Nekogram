@@ -22045,7 +22045,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             } else {
                 message = messageObject.messageOwner.message;
             }
-            Translator.showTranslateDialog(getParentActivity(), message, getMessagesController().isChatNoForwards(currentChat));
+            Translator.showTranslateDialog(getParentActivity(), message, getMessagesController().isChatNoForwards(currentChat), this, link -> didPressMessageUrl(link, false, selectedObject, null));
             return;
         }
         Object original = messageObject.isPoll() ? ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll : messageObject.messageOwner.message;

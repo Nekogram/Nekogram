@@ -1158,8 +1158,9 @@ public class TranslateAlert extends Dialog {
                                         onLinkPress.run(urlSpan);
                                         fastHide = true;
                                         dismiss();
-                                    } else
-                                        AlertsCreator.showOpenUrlAlert(fragment, urlSpan.getURL(), false, false);
+                                    } else {
+                                        Browser.openUrl(view.getContext(), urlSpan.getURL(), true, true);
+                                    }
                                 }
 
                                 @Override
@@ -1189,7 +1190,11 @@ public class TranslateAlert extends Dialog {
                             new ClickableSpan() {
                                 @Override
                                 public void onClick(@NonNull View view) {
-                                    AlertsCreator.showOpenUrlAlert(fragment, urlSpan.getURL(), false, false);
+                                    if (fragment != null) {
+                                        AlertsCreator.showOpenUrlAlert(fragment, urlSpan.getURL(), false, false);
+                                    } else {
+                                        Browser.openUrl(view.getContext(), urlSpan.getURL(), true, true);
+                                    }
                                 }
 
                                 @Override
