@@ -13435,7 +13435,8 @@ public class MessagesController extends BaseController implements NotificationCe
                                 }
                             }
                             TelephonyManager tm = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService(Context.TELEPHONY_SERVICE);
-                            if (svc != null || VoIPService.callIShouldHavePutIntoIntent != null || tm.getCallState() != TelephonyManager.CALL_STATE_IDLE) {
+                            boolean ongoingcall = (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || ApplicationLoader.applicationContext.checkSelfPermission(android.Manifest.permission.READ_PHONE_STATE) == android.content.pm.PackageManager.PERMISSION_GRANTED) && tm.getCallState() != TelephonyManager.CALL_STATE_IDLE;
+                            if (svc != null || VoIPService.callIShouldHavePutIntoIntent != null || ongoingcall) {
                                 if (BuildVars.LOGS_ENABLED) {
                                     FileLog.d("Auto-declining call " + call.id + " because there's already active one");
                                 }
