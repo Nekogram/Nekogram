@@ -51,7 +51,7 @@
     <string name="TranslateFailed">Помилка сервера перекладу</string>
     <string name="TranslationProvider">Постачальник перекладу</string>
     <string name="ProviderGoogleTranslate">Перекладач Google</string>
-    <string name="TranslateApiUnsupported">Обраний постачальник перекладу не підтримує вашу мову.</string>
+    <string name="TranslateApiUnsupported">Обраний сервіс перекладу не підтримує вашу мову.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Скасувати переклад</string>
     <string name="DisablePhotoViewerSideAction">Вимкнути перегортання фотографій дотиком</string>
@@ -60,8 +60,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Закріпити необмежені чати, вимкнувши їхню синхронізацію.</string>
     <string name="OpenArchiveOnPull">Відкрити архів витягуванням до низу</string>
     <string name="HideKeyboardOnChatScroll">Приховати клавіатуру під час прокрутки чату</string>
-    <string name="UserRestrictionsSendStickers2">Надіслати наліпки</string>
-    <string name="UserRestrictionsSendGifs">Надіслати GIF</string>
     <string name="ShowTabsOnForward">Показувати вкладки під час переходу вперед</string>
     <string name="CheckAllAdministrated">Додати адміністраторів</string>
     <string name="RearVideoMessages">Задня камера у відеоповідомленнях</string>
@@ -117,7 +115,7 @@
     <string name="LastUpdateNever">Ніколи не перевірялося від запуску.</string>
     <string name="CheckingUpdate">Перевірка наявності оновлень…</string>
     <string name="ProviderMicrosoftTranslator">Перекладач Microsoft</string>
-    <string name="TranslationProviderShort">Постачальник</string>
+    <string name="TranslationProviderShort">Сервіс</string>
     <string name="ViewSourceCode">Переглянути початковий код</string>
     <string name="AvatarAsBackground">Зображення профілю як фон</string>
     <string name="BlurAvatarBackground">Розмити зображення профілю</string>
@@ -169,7 +167,20 @@
     <string name="UpdateFailedToInstall">Помилка під час встановлення оновлення: %d</string>
     <string name="QRLoginMessage">Для входу відскануйте QR-код з іншого пристрою.</string>
     <string name="QRLoginTitle">Вхід через QR</string>
+    <string name="NoTranslatorAppInstalled">У вас не встановлено жодного додатка, який може виконати переклад. Будь ласка для продовження встановіть такий додаток</string>
     <string name="DisableVoiceMessagesAutoPlay">Вимкнути автоматичне відтворення голосових повідомлень</string>
+    <string name="TranslatorType">Тип</string>
+    <string name="TranslatorTypeNeko">У полі повідомлення</string>
+    <string name="TranslatorTypeTG">Спливаючий діалог</string>
+    <string name="TranslatorTypeExternal">Зовнішній додаток</string>
+    <string name="CopyPhoto">Копіювати фото</string>
+    <string name="PhotoCopied">Фото скопійовано до буфера обміну</string>
+    <string name="SaveToDownloadCount_zero">Збереження %1$d файлів до завантажень</string>
+    <string name="SaveToDownloadCount_one">Збереження %1$d файлу до завантажень</string>
+    <string name="SaveToDownloadCount_two">Збереження %1$d файлів до завантажень</string>
+    <string name="SaveToDownloadCount_few">Збереження %1$d файлів до завантажень</string>
+    <string name="SaveToDownloadCount_many">Збереження %1$d файлів до завантажень</string>
+    <string name="SaveToDownloadCount_other">Збереження %1$d файлів до завантажень</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccRewindHeading">Налаштування перемотки</string>

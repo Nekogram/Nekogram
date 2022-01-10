@@ -61,8 +61,6 @@
     <string name="UnlimitedPinnedDialogsAbout">关闭同步以置顶无限对话。</string>
     <string name="OpenArchiveOnPull">下拉打开里世界</string>
     <string name="HideKeyboardOnChatScroll">当滚动浏览对话时隐藏键盘</string>
-    <string name="UserRestrictionsSendStickers2">发送贴纸</string>
-    <string name="UserRestrictionsSendGifs">发送 GIF</string>
     <string name="ShowTabsOnForward">在转发页面显示文件夹</string>
     <string name="CheckAllAdministrated">添加管理的群组与频道</string>
     <string name="RearVideoMessages">视频留言默认使用后置摄像头</string>
@@ -179,6 +177,14 @@
     <string name="TranslatorTypeNeko">消息内</string>
     <string name="TranslatorTypeTG">弹出对话框</string>
     <string name="TranslatorTypeExternal">外部应用</string>
+    <string name="CopyPhoto">复制图片</string>
+    <string name="PhotoCopied">图片已复制到剪贴板</string>
+    <string name="SaveToDownloadCount_zero">正在保存 %1$d 个文件到下载</string>
+    <string name="SaveToDownloadCount_one">正在保存 %1$d 个文件到下载</string>
+    <string name="SaveToDownloadCount_two">正在保存 %1$d 个文件到下载</string>
+    <string name="SaveToDownloadCount_few">正在保存 %1$d 个文件到下载</string>
+    <string name="SaveToDownloadCount_many">正在保存 %1$d 个文件到下载</string>
+    <string name="SaveToDownloadCount_other">正在保存 %1$d 个文件到下载</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

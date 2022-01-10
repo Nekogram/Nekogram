@@ -61,8 +61,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Fissa chat illimitate disattivando la loro sincronizzazione.</string>
     <string name="OpenArchiveOnPull">Apri l\'archivio tirando giù</string>
     <string name="HideKeyboardOnChatScroll">Nascondi la tastiera durante lo scorrimento della chat</string>
-    <string name="UserRestrictionsSendStickers2">Inviare sticker</string>
-    <string name="UserRestrictionsSendGifs">Inviare GIF</string>
     <string name="ShowTabsOnForward">Mostra le cartelle durante l\'inoltro</string>
     <string name="CheckAllAdministrated">Aggiungi chat amministrate</string>
     <string name="RearVideoMessages">Fotocamera posteriore nei videomessaggi</string>
@@ -172,5 +170,13 @@
     <string name="QRLoginMessage">Scansiona il Codice QR con un altro dispositivo per accedere.</string>
     <string name="QRLoginTitle">QR Login</string>
     <string name="NoTranslatorAppInstalled">Non hai applicazioni in grado di gestire la traduzione, installane una per continuare</string>
+    <string name="DisableVoiceMessagesAutoPlay">Disattiva la riproduzione automatica dei messaggi vocali</string>
+    <string name="TranslatorType">Tipo</string>
+    <string name="TranslatorTypeNeko">Nel messaggio</string>
+    <string name="TranslatorTypeTG">Popup a comparsa</string>
+    <string name="TranslatorTypeExternal">App esterna</string>
+    <string name="CopyPhoto">Copia foto</string>
+    <string name="PhotoCopied">Foto copiata negli appunti</string>
     <!-- Accessibility -->
+    <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>

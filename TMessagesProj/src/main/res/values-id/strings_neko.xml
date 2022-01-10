@@ -61,8 +61,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Sematkan obrolan tanpa batas dan matikan sinkronisasi.</string>
     <string name="OpenArchiveOnPull">Buka Arsip pada saat menarik ke bawah</string>
     <string name="HideKeyboardOnChatScroll">Sembunyikan keyboard saat menggulir obrolan</string>
-    <string name="UserRestrictionsSendStickers2">Kirim Stiker</string>
-    <string name="UserRestrictionsSendGifs">Kirim GIF</string>
     <string name="ShowTabsOnForward">Tampilkan tab saat meneruskan</string>
     <string name="CheckAllAdministrated">Tambahkan admin</string>
     <string name="RearVideoMessages">Gunakan kamera belakang dalam Pesan Video</string>
@@ -166,5 +164,19 @@
     <string name="InviteTextNeko">Hai, saya menggunakan Nekogram untuk mengobrol. Ayo ikut! Unduh di sini: %1$s</string>
     <string name="ShareNekogram">Bagikan Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBerdasarkan Telegram %2$s\nDibuat oleh %3$s</string>
+    <string name="UpdateInstalling">Memasang Pembaruan...</string>
+    <string name="UpdateInstallingRelaunch">Nekogeam Akan Memulai Ulang Ketika Update Selesai.</string>
+    <string name="UpdateFailedToInstall">Gagal Menginstal Pembaruan: %d</string>
+    <string name="QRLoginMessage">Scan QRCode dengan Perangkat Lain Untuk Login.</string>
+    <string name="QRLoginTitle">QR Login</string>
+    <string name="NoTranslatorAppInstalled">Anda Tidak Mempunyai Aplikasi Terjemahan, Tolong Pasang Terjemahan Untuk Melanjutkan</string>
+    <string name="DisableVoiceMessagesAutoPlay">Matiin Otomatis Memulai Pesan Suara</string>
+    <string name="TranslatorType">Jenis</string>
+    <string name="TranslatorTypeNeko">Didalam Pesan</string>
+    <string name="TranslatorTypeTG">Pesan PopUp</string>
+    <string name="TranslatorTypeExternal">Aplikasi Eksternal</string>
+    <string name="CopyPhoto">Salin Poto</string>
+    <string name="PhotoCopied">Poto disalin Di Clipboard</string>
     <!-- Accessibility -->
+    <string name="AccessibilitySettings">Setelan Aksesibilitas</string>
 </resources>

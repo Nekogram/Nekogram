@@ -58,8 +58,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Fixați dialoguri nelimitate dezactivând sincronizarea lor.</string>
     <string name="OpenArchiveOnPull">Deschideți arhiva la tragere</string>
     <string name="HideKeyboardOnChatScroll">Ascundeți tastatura pe derularea conversațiilor</string>
-    <string name="UserRestrictionsSendStickers2">Trimiteți stickere</string>
-    <string name="UserRestrictionsSendGifs">Trimiteți GIF-uri</string>
     <string name="ShowTabsOnForward">Afișați filele pe înainte</string>
     <string name="CheckAllAdministrated">Adăugați administrator</string>
     <string name="RearVideoMessages">Camera din spate în mesajele video</string>

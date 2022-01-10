@@ -59,8 +59,6 @@
     <string name="UnlimitedPinnedDialogsAbout">關閉同步以置頂無限對話。</string>
     <string name="OpenArchiveOnPull">下拉開啟已封存對話</string>
     <string name="HideKeyboardOnChatScroll">當滾動瀏覽對話時隱藏鍵盤</string>
-    <string name="UserRestrictionsSendStickers2">傳送貼圖</string>
-    <string name="UserRestrictionsSendGifs">發送動圖</string>
     <string name="ShowTabsOnForward">在轉傳的頁面中顯示標籤</string>
     <string name="CheckAllAdministrated">新增管理員</string>
     <string name="RearVideoMessages">視頻消息中使用後置攝像頭</string>

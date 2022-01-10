@@ -59,8 +59,6 @@
     <string name="UnlimitedPinnedDialogsAbout">تثبيت محادثات غير محدودة بإيقاف مزامنتها.</string>
     <string name="OpenArchiveOnPull">فتح الأرشيف عند السحب للأسفل</string>
     <string name="HideKeyboardOnChatScroll">إخفاء لوحة المفاتيح عند التمرير في المحادثة</string>
-    <string name="UserRestrictionsSendStickers2">إرسال ملصقات</string>
-    <string name="UserRestrictionsSendGifs">إرسال صور متحركة</string>
     <string name="ShowTabsOnForward">إظهار التبويبات عند إعادة التوجيه</string>
     <string name="CheckAllAdministrated">إضافة ادارة</string>
     <string name="RearVideoMessages">افتح الكاميرا الخلفية افتراضيا في رسائل الفيديو</string>

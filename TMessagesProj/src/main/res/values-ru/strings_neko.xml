@@ -61,8 +61,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Неограниченное закрепление диалогов без синхронизации на других устройствах.</string>
     <string name="OpenArchiveOnPull">Открывать архив после свайпа</string>
     <string name="HideKeyboardOnChatScroll">Скрыть клавиатуру при прокрутке</string>
-    <string name="UserRestrictionsSendStickers2">Отправка стикеров</string>
-    <string name="UserRestrictionsSendGifs">Отправка GIF</string>
     <string name="ShowTabsOnForward">Показывать вкладки при пересылке</string>
     <string name="CheckAllAdministrated">Добавить управляемые</string>
     <string name="RearVideoMessages">Задняя камера в видеосообщениях</string>
@@ -170,7 +168,7 @@
     <string name="UpdateInstalling">Установка обновления...</string>
     <string name="UpdateInstallingRelaunch">Nekogram будет перезапущен после завершения обновления.</string>
     <string name="UpdateFailedToInstall">Не удалось установить обновление: %d</string>
-    <string name="QRLoginMessage">Сканируйте QRCode с помощью другого устройства для входа в систему.</string>
+    <string name="QRLoginMessage">Отсканируйте QR код с помощью другого устройства для входа в систему.</string>
     <string name="QRLoginTitle">Вход при помощи QR кода</string>
     <string name="NoTranslatorAppInstalled">У вас нет приложений, которые могут обрабатывать интент перевода. Пожалуйста, установите приложение для перевода, чтобы продолжить</string>
     <string name="DisableVoiceMessagesAutoPlay">Отключить автовоспроизведение голосовых сообщений</string>
@@ -178,6 +176,14 @@
     <string name="TranslatorTypeNeko">В сообщении</string>
     <string name="TranslatorTypeTG">Всплывающее окно</string>
     <string name="TranslatorTypeExternal">Внешнее приложение</string>
+    <string name="CopyPhoto">Копировать фото</string>
+    <string name="PhotoCopied">Фото скопировано в буфер обмена</string>
+    <string name="SaveToDownloadCount_zero">Сохранение %1$d файлов в загрузки</string>
+    <string name="SaveToDownloadCount_one">Сохранение %1$d файла в загрузки</string>
+    <string name="SaveToDownloadCount_two">Сохранение %1$d файлов в загрузки</string>
+    <string name="SaveToDownloadCount_few">Сохранение %1$d файлов в загрузки</string>
+    <string name="SaveToDownloadCount_many">Сохранение %1$d файлов в загрузки</string>
+    <string name="SaveToDownloadCount_other">Сохранение %1$d файлов в загрузки</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>

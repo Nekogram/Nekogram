@@ -58,8 +58,6 @@
     <string name="UnlimitedPinnedDialogsAbout">මෙමගින් එම පින් කරන ලද දෙබස් උපාංග අතර sync වීම වළකයි.</string>
     <string name="OpenArchiveOnPull">සංරක්ෂිතය විවෘත කිරීමට පහළට අදින්න</string>
     <string name="HideKeyboardOnChatScroll">කතාබස නරඹන විටදී යතුරු පුවරුව සඟවන්න</string>
-    <string name="UserRestrictionsSendStickers2">ස්ටිකර යවන්න</string>
-    <string name="UserRestrictionsSendGifs">GIF යවන්න</string>
     <string name="ShowTabsOnForward">Show tabs on forward</string>
     <string name="CheckAllAdministrated">පරිපාලනයට යොදවන්න</string>
     <string name="RearVideoMessages">විඩීයෝ මැසේජ සදහා පසුපස කැමරාව භාවිතා කරන්න</string>

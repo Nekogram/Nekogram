@@ -61,8 +61,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Fastgør ubegrænsede dialogbokse ved at slå synkroniseringen fra.</string>
     <string name="OpenArchiveOnPull">Åbn arkiv ved at trække ned</string>
     <string name="HideKeyboardOnChatScroll">Skjul tastatur ved chat scroll</string>
-    <string name="UserRestrictionsSendStickers2">Send Klistermærker</string>
-    <string name="UserRestrictionsSendGifs">Send GIF\'er</string>
     <string name="ShowTabsOnForward">Vis faneblade fremad</string>
     <string name="CheckAllAdministrated">Tilføj administreret</string>
     <string name="RearVideoMessages">Bageste kamera i videobeskeder</string>
@@ -176,6 +174,11 @@
     <string name="TranslatorTypeNeko">I meddelelse</string>
     <string name="TranslatorTypeTG">Popup dialog</string>
     <string name="TranslatorTypeExternal">Ekstern app</string>
+    <string name="CopyPhoto">Kopier foto</string>
+    <string name="PhotoCopied">Foto kopieret til udklipsholder</string>
+    <string name="SaveToDownloadCount_zero">Gemmer %1$d filer til downloads</string>
+    <string name="SaveToDownloadCount_one">Gemmer %1$d filer til downloads</string>
+    <string name="SaveToDownloadCount_two">Gemmer %1$d filer til downloads</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
     <string name="AccRewindHeading">Indstillinger for tilbagespoling</string>

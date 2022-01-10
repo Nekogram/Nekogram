@@ -61,8 +61,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Ancla tantos chats como quieras, pero desactiva su sincronización.</string>
     <string name="OpenArchiveOnPull">Abrir Archivo al deslizar hacia abajo</string>
     <string name="HideKeyboardOnChatScroll">Ocultar teclado al desplazar el chat</string>
-    <string name="UserRestrictionsSendStickers2">Enviar Stickers</string>
-    <string name="UserRestrictionsSendGifs">Enviar GIFs</string>
     <string name="ShowTabsOnForward">Mostrar carpetas al reenviar</string>
     <string name="CheckAllAdministrated">Añadir chats que administras</string>
     <string name="RearVideoMessages">Usar cámara trasera en Mensajes de Vídeo</string>
@@ -173,6 +171,18 @@
     <string name="QRLoginTitle">Inicio de sesión con QR</string>
     <string name="NoTranslatorAppInstalled">No tienes aplicaciones que puedan manejar la intención de traducir, por favor instala una para continuar</string>
     <string name="DisableVoiceMessagesAutoPlay">Desactivar auto-reproducción de mensajes de voz</string>
+    <string name="TranslatorType">Estilo</string>
+    <string name="TranslatorTypeNeko">En mensaje</string>
+    <string name="TranslatorTypeTG">Diálogo emergente</string>
+    <string name="TranslatorTypeExternal">Aplicación externa</string>
+    <string name="CopyPhoto">Copiar foto</string>
+    <string name="PhotoCopied">Foto copiada al portapapeles</string>
+    <string name="SaveToDownloadCount_zero">Guardando %1$d archivos en descargas</string>
+    <string name="SaveToDownloadCount_one">Guardando %1$d archivos en descargas</string>
+    <string name="SaveToDownloadCount_two">Guardando %1$d archivos en descargas</string>
+    <string name="SaveToDownloadCount_few">Guardando %1$d archivos en descargas</string>
+    <string name="SaveToDownloadCount_many">Guardando %1$d archivos en descargas</string>
+    <string name="SaveToDownloadCount_other">Guardando %1$d archivos en descargas</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccRewindHeading">Ajustes de rebobinado</string>

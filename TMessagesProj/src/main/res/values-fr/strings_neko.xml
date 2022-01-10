@@ -15,7 +15,7 @@
     <string name="NameOrder">Ordre des noms</string>
     <string name="FirstLast">Prénom Nom</string>
     <string name="LastFirst">Nom Prénom</string>
-    <string name="NoQuoteForward">Transfert sans citation</string>
+    <string name="NoQuoteForward">Transférer sans citer</string>
     <string name="Repeat">Répéter</string>
     <string name="AddToSavedMessages">Sauvegarder le message</string>
     <string name="CreateMention">Créer une mention</string>
@@ -57,12 +57,10 @@
     <string name="UndoTranslate">Annuler la traduction</string>
     <string name="DisablePhotoViewerSideAction">Désactiver \"Défilement de photos en appuyant\"</string>
     <string name="BotToken">Jeton d\'authentification</string>
-    <string name="UnlimitedPinnedDialogs">Dialogues épinglés illimités</string>
-    <string name="UnlimitedPinnedDialogsAbout">Épingler les dialogues illimités en désactivant leur synchronisation.</string>
+    <string name="UnlimitedPinnedDialogs">Échanges épinglés illimités</string>
+    <string name="UnlimitedPinnedDialogsAbout">Épingler des échanges en illimités en désactivant leur synchronisation.</string>
     <string name="OpenArchiveOnPull">Ouvrir les archives dans le menu déroulant</string>
     <string name="HideKeyboardOnChatScroll">Cacher clavier lors du défilement</string>
-    <string name="UserRestrictionsSendStickers2">Envoyer des autocollants</string>
-    <string name="UserRestrictionsSendGifs">Envoyer des GIFs</string>
     <string name="ShowTabsOnForward">Afficher les onglets sur l\'avant</string>
     <string name="CheckAllAdministrated">Ajouter administrateur</string>
     <string name="RearVideoMessages">Caméra arrière dans les messages vidéo</string>
@@ -88,9 +86,9 @@
     <string name="ResetStickerSize">Réinitialiser la taille des autocollants</string>
     <string name="RestartAppToTakeEffect">Redémarrez l\'application pour prendre en les changements en compte.</string>
     <string name="DisableAppBarShadow">Désactiver l\'ombre de la barre de titre</string>
-    <string name="MediaPreview">Aperçu des médias dans la liste des dialogues</string>
+    <string name="MediaPreview">Aperçu des médias dans la liste des échanges</string>
     <string name="ProviderYandex">Traduction Yandex</string>
-    <string name="IdType">ID de chat dans le profil</string>
+    <string name="IdType">ChatID sur le profil</string>
     <string name="IdTypeAbout">L\'API Telegram utilise les IDs tels quels, mais l\'API Bot ajoute moins au début pour les groupes, et -100 pour les canaux et les supergroupes pour l\'adapter dans un seul champ.</string>
     <string name="IdTypeHidden">Masquer</string>
     <string name="IdTypeAPI">API Telegram</string>
@@ -162,12 +160,28 @@
     <string name="MutualContact">Contact commun</string>
     <string name="MutualContactDescription">Ce contact est un contact commun.</string>
     <string name="NoUpdateAvailable">Aucune mise à jour disponible.</string>
-    <string name="InviteTextNeko">Hey, j\'utilise Nekogram pour échanger. Rejoignez-moi ! Téléchargez-la ici : %1$s</string>
+    <string name="InviteTextNeko">Hey, j\'utilise Nekogram pour échanger. Rejoignez-moi ! Téléchargez le ici : %1$s</string>
     <string name="ShareNekogram">Partager Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBasé sur Telegram %2$s\nConçu par %3$s</string>
     <string name="UpdateInstalling">Installation de la mise à jour...</string>
+    <string name="UpdateInstallingRelaunch">Nekogram redémarrera quand la mise à jour sera terminée.</string>
     <string name="UpdateFailedToInstall">Échec d\'installation de la mise à jour : %d</string>
     <string name="QRLoginMessage">Scannez ce QRCode avec un autre appareil pour vous connecter.</string>
     <string name="QRLoginTitle">Connexion avec QR Code</string>
+    <string name="NoTranslatorAppInstalled">Vous n\'avez pas d\'applications capables de traduire, veuillez en installer une pour continuer</string>
+    <string name="DisableVoiceMessagesAutoPlay">Désactiver la lecture automatique des vocaux</string>
+    <string name="TranslatorType">Type</string>
+    <string name="TranslatorTypeNeko">Dans le message</string>
+    <string name="TranslatorTypeTG">Boîte de dialogue</string>
+    <string name="TranslatorTypeExternal">Application externe</string>
+    <string name="CopyPhoto">Copier la photo</string>
+    <string name="PhotoCopied">Photo copiée dans le presse-papiers</string>
+    <string name="SaveToDownloadCount_zero">Enregistrement de %1$d fichiers dans les téléchargements</string>
+    <string name="SaveToDownloadCount_one">Enregistrement de %1$d fichier dans les téléchargements</string>
+    <string name="SaveToDownloadCount_two">Enregistrement de %1$d fichiers dans les téléchargements</string>
+    <string name="SaveToDownloadCount_few">Enregistrement de %1$d fichiers dans les téléchargements</string>
+    <string name="SaveToDownloadCount_many">Enregistrement de %1$d fichiers dans les téléchargements</string>
+    <string name="SaveToDownloadCount_other">Enregistrement de %1$d fichiers dans les téléchargements</string>
     <!-- Accessibility -->
+    <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

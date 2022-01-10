@@ -42,6 +42,7 @@
     <string name="SensitiveDisableFiltering">Filter für sensiblen Inhalt deaktivieren</string>
     <string name="SensitiveAbout">Sensible Medien in öffentlichen Kanälen auf all Ihren Geräten anzeigen.</string>
     <string name="StickerSize">Stickergröße</string>
+    <string name="StickerSizeDialogMessage">Oh wie süß, eine schwarze Katze!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="Experiment">Experimentell</string>
     <string name="UnlimitedFavoredStickers">Unbegrenzte favorisierte Sticker</string>
@@ -60,8 +61,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Pinnen Sie unbegrenzte Dialoge an, indem Sie die Synchronisierung ausschalten.</string>
     <string name="OpenArchiveOnPull">Archiv durch Herunterziehen öffnen</string>
     <string name="HideKeyboardOnChatScroll">Tastatur beim Scrollen im Chat ausblenden</string>
-    <string name="UserRestrictionsSendStickers2">Sticker senden</string>
-    <string name="UserRestrictionsSendGifs">GIFs senden</string>
     <string name="ShowTabsOnForward">Tabs bei Weiterleitung anzeigen</string>
     <string name="CheckAllAdministrated">Administrierte Gruppen/Kanäle hinzufügen</string>
     <string name="RearVideoMessages">Rückkamera in Videonachrichten</string>
@@ -155,5 +154,29 @@
     <string name="MaxRecentStickers">Max. aktuelle Sticker</string>
     <string name="ApplyEmojiFont">Emoji-Schriftart anwenden</string>
     <string name="DisableJumpToNextChannel">Deaktiviere \"zum nächsten Kanal springen\"</string>
+    <string name="DisableGreetingSticker">Grußsticker deaktivieren</string>
+    <string name="BlockSponsoredMessage">Gesponserte Nachricht blockieren</string>
+    <string name="DeleteAllFromSelfAdmin">Mit Admin-Rechten</string>
+    <string name="OfficialSite">Offizielle Webseite</string>
+    <string name="MutualContact">Gegenseitiger Kontakt</string>
+    <string name="MutualContactDescription">Dieser Kontakt ist ein gegenseitiger Kontakt.</string>
+    <string name="NoUpdateAvailable">Kein Update verfügbar.</string>
+    <string name="InviteTextNeko">Hey, ich benutze Nekogram um zu chatten. Mach mit! Lade es hier herunter: %1$s</string>
+    <string name="ShareNekogram">Nekogram teilen...</string>
+    <string name="NekogramVersion">Nekogram %1$s\nbasiert auf Telegramm %2$s\n, die von %3$sentworfen wurden</string>
+    <string name="UpdateInstalling">Update wird installiert...</string>
+    <string name="UpdateInstallingRelaunch">Nekogram wird neu gestartet, sobald das Update abgeschlossen ist.</string>
+    <string name="UpdateFailedToInstall">Update konnte nicht installiert werden: %d</string>
+    <string name="QRLoginMessage">Scanne den QRCode mit einem anderen Gerät, um dich anzumelden.</string>
+    <string name="QRLoginTitle">QR-Anmeldung</string>
+    <string name="NoTranslatorAppInstalled">Du hast keine Anwendungen, die mit der Übersetzungsabsicht umgehen können, bitte installiere eine, um fortzufahren</string>
+    <string name="DisableVoiceMessagesAutoPlay">Deaktivieren der automatischen Wiedergabe von Sprachnachrichten</string>
+    <string name="TranslatorType">Art</string>
+    <string name="TranslatorTypeNeko">In Nachricht</string>
+    <string name="TranslatorTypeTG">Popup-Dialog</string>
+    <string name="TranslatorTypeExternal">Externe App</string>
+    <string name="CopyPhoto">Foto kopieren</string>
+    <string name="PhotoCopied">Foto in Zwischenablage kopiert</string>
     <!-- Accessibility -->
+    <string name="AccessibilitySettings">Bedienungshilfen</string>
 </resources>

@@ -60,8 +60,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Ghim các hộp thoại không giới hạn bằng cách tắt đồng bộ hóa của chúng.</string>
     <string name="OpenArchiveOnPull">Kéo xuống để mở Lưu trữ </string>
     <string name="HideKeyboardOnChatScroll">Ẩn bàn phím khi cuộn trò chuyện</string>
-    <string name="UserRestrictionsSendStickers2">Gửi nhãn dán</string>
-    <string name="UserRestrictionsSendGifs">Gửi ảnh động</string>
     <string name="ShowTabsOnForward">Hiển thị các tab về phía trước</string>
     <string name="CheckAllAdministrated">Thêm quản trị viên</string>
     <string name="RearVideoMessages">Camera phía sau trong Tin nhắn Video</string>

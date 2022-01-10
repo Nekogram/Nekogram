@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="NekoSettings">नेको सेटिंग्स</string>
+    <string name="IPv6">IPv6 से कनेक्ट करने का प्रयास करें</string>
+    <string name="MessageMenu">संदेश मेनू</string>
+    <string name="HidePhone">मेरा फोन नंबर छिपाएं</string>
+    <string name="Hide">छुपाओ</string>
+    <string name="DeleteAllFromSelf">स्वयं के संदेश न्शट करो</string>
+    <string name="DeleteAllFromSelfAlert">सावधान! इस चैट में, **आपके भेजें सभी संदेशो को न्शट कर दिया जाएगा**, **सभी** प्रतिभागियों के लिए।</string>
+    <string name="BotLogin">बॉट लॉगिन</string>
+    <string name="InvalidAccessToken">एक्सेस टोकन गलत है</string>
+    <string name="IgnoreBlocked">ग्रुप में ब्लॉक्ड व्यक्ति को अनदेखा करे</string>
+    <string name="Connection">कनेक्शन</string>
+    <string name="Chat">चैट</string>
+    <string name="NameOrder">नाम क्रम</string>
+    <string name="FirstLast">नाम उपनाम</string>
+    <string name="LastFirst">उपनाम नाम</string>
+    <string name="Repeat">दोहराएं</string>
+    <string name="AddToSavedMessages">संदेश सेव करो</string>
+    <string name="ForceTabletMode">फोर्स टैबलेट मोड</string>
+    <string name="Prpr">पेरोपेरो</string>
+    <string name="TransparentStatusBar">पारदर्शी स्टेटस बार</string>
+    <string name="NekogramRunning">नेकोग्राम चल रहा है</string>
+    <string name="EventType">साइडबार आइकन सेट</string>
+    <string name="ChristmasHat">हर रोज क्रिसमस टोपी दिखाएं</string>
+    <string name="DependsOnDate">तारीख पर निर्भर करता है</string>
+    <string name="Christmas">क्रिसमस</string>
+    <string name="Valentine">वेलेंटाइन डे</string>
+    <string name="DeleteDownloadedFile">डाउनलोड की गई फ़ाइल को न्शट करे</string>
+    <string name="TestBackend">टेस्ट बैकएंड</string>
+    <string name="TestBackendOn">यह अकाउंट टेस्ट बैकएंड से कनेक्ट करेगा।</string>
+    <string name="TestBackendOff">यह खाता प्रोडक्शन बैकएंड से कनेक्ट करेगा।</string>
+    <string name="HideProxySponsorChannel">प्रॉक्सी प्रायोजक चैनल छिपाएं</string>
+    <string name="ViewHistory">इतिहास दिखाओ</string>
+    <string name="Nya">म्याऊँ!</string>
+    <string name="SaveCacheToExternalFilesDir">स्टोरेज आइसोलेशन</string>
+    <string name="SaveCacheToExternalFilesDirAbout">\"टेलीग्राम\" फोल्डर को एप-विशिष्ट जगह पर सेव करें, स्टोरेज को स्वच्छ रखने के लिए।</string>
+    <string name="SensitiveDisableFiltering">डिसेबल सेंसिटिव कॉन्टेंट फिल्टरिंग</string>
+    <string name="SensitiveAbout">सभी डिवाइस, सभी पब्लिक चैनलों में सेंसिटिव मीडिया दिखाइए।</string>
+    <string name="StickerSize">स्टीकर का माप</string>
+    <string name="StickerSizeDialogMessage">ओह, बहुत प्यारा! एक काली बिल्ली!</string>
+    <string name="StickerSizeDialogMessageReplyTo">म्याऊँ</string>
+    <string name="Experiment">प्रायोगि</string>
+    <string name="UnlimitedFavoredStickers">असीमित फेवरेट स्टिकर</string>
+    <!-- Accessibility -->
+</resources>

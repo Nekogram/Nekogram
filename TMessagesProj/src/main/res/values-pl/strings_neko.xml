@@ -61,8 +61,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Przypinanie nieograniczonej ilości czatów wyłączy ich synchronizację.</string>
     <string name="OpenArchiveOnPull">Otwórz archiwum gestem pociągnięcia w dół</string>
     <string name="HideKeyboardOnChatScroll">Ukryj klawiaturę podczas przewijania czatu</string>
-    <string name="UserRestrictionsSendStickers2">Wyślij naklejki</string>
-    <string name="UserRestrictionsSendGifs">Wyślij GIFy</string>
     <string name="ShowTabsOnForward">Pokaż foldery przy przekazywaniu</string>
     <string name="CheckAllAdministrated">Dodaj administrowane</string>
     <string name="RearVideoMessages">Tylna kamera w wiadomościach wideo</string>

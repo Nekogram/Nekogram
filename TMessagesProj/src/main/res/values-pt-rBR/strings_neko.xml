@@ -61,8 +61,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Fixar chats ilimitados desativar a sincronização.</string>
     <string name="OpenArchiveOnPull">Mostrar arquivados ao puxar para baixo</string>
     <string name="HideKeyboardOnChatScroll">Ocultar teclado ao rolar a conversa</string>
-    <string name="UserRestrictionsSendStickers2">Enviar Stickers</string>
-    <string name="UserRestrictionsSendGifs">Enviar GIFs</string>
     <string name="ShowTabsOnForward">Mostrar pastas ao encaminhar</string>
     <string name="CheckAllAdministrated">Adicionar administrados</string>
     <string name="RearVideoMessages">Câmera traseira em mensagens de vídeo</string>

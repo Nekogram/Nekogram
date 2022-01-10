@@ -57,8 +57,6 @@
     <string name="UnlimitedPinnedDialogsAbout">チャットを無制限に固定することができます。固定は同期されなくなります。</string>
     <string name="OpenArchiveOnPull">保管したチャットをプルダウンで開く</string>
     <string name="HideKeyboardOnChatScroll">チャットスクロールでキーボードを非表示にする</string>
-    <string name="UserRestrictionsSendStickers2">ステッカーの送信</string>
-    <string name="UserRestrictionsSendGifs">GIFの送信</string>
     <string name="RearVideoMessages">ビデオメッセージでリアカメラを使用する</string>
     <string name="HideAllTab">「すべてのチャット」タブを非表示にする</string>
     <string name="HideAllTabAbout">ホームページで「戻る」を押して開く</string>

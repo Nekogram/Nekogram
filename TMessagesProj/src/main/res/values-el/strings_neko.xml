@@ -53,8 +53,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Καρφίτσωμα απεριόριστων διαλόγων απενεργοποιώντας τον συγχρονισμό.</string>
     <string name="OpenArchiveOnPull">Άνοιγμα αρχείου κατά το τράβηγμα</string>
     <string name="HideKeyboardOnChatScroll">Απόκρυψη πληκτρολογίου στην κύλιση συνομιλίας</string>
-    <string name="UserRestrictionsSendStickers2">Αποστολή Αυτοκόλλητων</string>
-    <string name="UserRestrictionsSendGifs">Αποστολή GIFs</string>
     <string name="RearVideoMessages">Rear camera in Video Messages</string>
     <string name="HideAllTab">Hide \"All Chats\" tab</string>
     <string name="HideAllTabAbout">Press \"Back\" on home page to open it.</string>

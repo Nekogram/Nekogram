@@ -57,8 +57,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Fest ubegrensede dialoger ved å slå av synkroniseringen.</string>
     <string name="OpenArchiveOnPull">Åpne arkivet på nedtrappingen</string>
     <string name="HideKeyboardOnChatScroll">Skjul tastaturet ditt på chatterullingen</string>
-    <string name="UserRestrictionsSendStickers2">Send klistremerker</string>
-    <string name="UserRestrictionsSendGifs">Send GIF-er</string>
     <string name="ShowTabsOnForward">Vis faner fremover</string>
     <string name="CheckAllAdministrated">Legg til administrert</string>
     <string name="RearVideoMessages">Bakre kamera i videomeldinger</string>

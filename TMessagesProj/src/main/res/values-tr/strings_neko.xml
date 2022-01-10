@@ -61,8 +61,6 @@
     <string name="UnlimitedPinnedDialogsAbout">Sabitlenmiş sohbetler senkronizasyonlarını kapatarak mesajları sınırsız sabitleyin.</string>
     <string name="OpenArchiveOnPull">Gizli arşiv sohbetleri menüsünü aşağıya çekerek aç</string>
     <string name="HideKeyboardOnChatScroll">Sohbeti kaydırırken klavyeyi gizle</string>
-    <string name="UserRestrictionsSendStickers2">Çıkartma Gönder</string>
-    <string name="UserRestrictionsSendGifs">GIF Gönder</string>
     <string name="ShowTabsOnForward">Mesaj iletme kısmında klasörleri göster</string>
     <string name="CheckAllAdministrated">Yönetilen grup ve kanalları ekle</string>
     <string name="RearVideoMessages">Görüntülü mesajlarda arka kamera kullan</string>
