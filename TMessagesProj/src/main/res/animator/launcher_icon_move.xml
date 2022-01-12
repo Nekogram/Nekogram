@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<set xmlns:android="http://schemas.android.com/apk/res/android">
+    <objectAnimator
+        android:duration="500"
+        android:propertyName="translateX"
+        android:valueFrom="95.90"
+        android:valueTo="17.28"
+        android:interpolator="@android:interpolator/decelerate_cubic" />
+    <objectAnimator
+        android:duration="500"
+        android:propertyName="translateY"
+        android:valueFrom="95.90"
+        android:valueTo="17.28"
+        android:interpolator="@android:interpolator/decelerate_cubic" />
+    <objectAnimator
+        android:duration="500"
+        android:propertyName="scaleX"
+        android:valueFrom="0.07344"
+        android:valueTo="0.1836"
+        android:interpolator="@android:interpolator/decelerate_cubic" />
+    <objectAnimator
+        android:duration="500"
+        android:propertyName="scaleY"
+        android:valueFrom="0.07344"
+        android:valueTo="0.1836"
+        android:interpolator="@android:interpolator/decelerate_cubic" />
+</set>
