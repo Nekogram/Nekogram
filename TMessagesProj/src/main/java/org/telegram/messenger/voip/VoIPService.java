@@ -3932,6 +3932,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			builder.setStyle(callStyle);
 			builder.setContentText(video ? LocaleController.getString("VoipInVideoCallBranding", R.string.VoipInVideoCallBranding) : LocaleController.getString("VoipInCallBranding", R.string.VoipInCallBranding));
 		}
+		builder.setLargeIcon(avatar);
+		Notification notification;
 		if (Build.VERSION.SDK_INT < 31) {
 			RemoteViews customView = new RemoteViews(getPackageName(), LocaleController.isRTL ? R.layout.call_notification_rtl : R.layout.call_notification);
 			customView.setTextViewText(R.id.name, name);
@@ -3959,11 +3961,19 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			customView.setOnClickPendingIntent(R.id.answer_btn, answerPendingIntent);
 			customView.setOnClickPendingIntent(R.id.decline_btn, endPendingIntent);
 
-			builder.setCustomHeadsUpContentView(customView);
-			builder.setCustomBigContentView(customView);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+				builder.setCustomHeadsUpContentView(customView);
+				builder.setCustomBigContentView(customView);
+				notification = builder.build();
+			} else {
+				notification = builder.build();
+				notification.headsUpContentView = customView;
+				notification.bigContentView = customView;
+			}
+		} else {
+			notification = builder.build();
 		}
-		builder.setLargeIcon(avatar);
-		startForeground(ID_INCOMING_CALL_NOTIFICATION, builder.build());
+		startForeground(ID_INCOMING_CALL_NOTIFICATION, notification);
 		startRingtoneAndVibration();
 	}
 
