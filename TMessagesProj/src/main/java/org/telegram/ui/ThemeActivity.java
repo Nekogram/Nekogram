@@ -184,6 +184,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
     private int themePreviewRow;
     private int editThemeRow;
     private int createNewThemeRow;
+    private int themesChannelRow;
 
     private int rowCount;
 
@@ -534,6 +535,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
         themePreviewRow = -1;
         editThemeRow = -1;
         createNewThemeRow = -1;
+        themesChannelRow = -1;
 
         defaultThemes.clear();
         darkThemes.clear();
@@ -575,6 +577,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 editThemeRow = rowCount++;
             }
             createNewThemeRow = rowCount++;
+            themesChannelRow = rowCount++;
             swipeGestureInfoRow = rowCount++;
         } else if (currentType == THEME_TYPE_BASIC) {
             textSizeHeaderRow = rowCount++;
@@ -1175,6 +1178,8 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 createNewTheme();
             } else if (position == editThemeRow) {
                 editTheme();
+            } else if (position == themesChannelRow) {
+                getMessagesController().openByUserName("NekogramThemes", this, 1);
             }
         });
 
@@ -2205,7 +2210,9 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     } else if (position == editThemeRow) {
                         cell.setTextAndIcon(LocaleController.getString("EditCurrentTheme", R.string.EditCurrentTheme), R.drawable.msg_theme, true);
                     } else if (position == createNewThemeRow) {
-                        cell.setTextAndIcon(LocaleController.getString("CreateNewTheme", R.string.CreateNewTheme), R.drawable.msg_colors, false);
+                        cell.setTextAndIcon(LocaleController.getString("CreateNewTheme", R.string.CreateNewTheme), R.drawable.msg_colors, true);
+                    } else if (position == themesChannelRow) {
+                        cell.setTextAndIcon(LocaleController.getString("ThemesChannel", R.string.ThemesChannel), R.drawable.msg_channel, false);
                     }
                     break;
                 }
@@ -2279,7 +2286,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 return 12;
             } else if (position == bubbleRadiusRow) {
                 return 13;
-            } else if (position == backgroundRow || position == editThemeRow || position == createNewThemeRow) {
+            } else if (position == backgroundRow || position == editThemeRow || position == createNewThemeRow || position == themesChannelRow) {
                 return 14;
             } else if (position == swipeGestureRow) {
                 return 15;
