@@ -15,6 +15,8 @@ import android.os.IBinder;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class ImportingService extends Service implements NotificationCenter.NotificationCenterDelegate {
 
     private NotificationCompat.Builder builder;
@@ -90,6 +92,7 @@ public class ImportingService extends Service implements NotificationCenter.Noti
             builder.setWhen(System.currentTimeMillis());
             builder.setChannelId(NotificationsController.OTHER_NOTIFICATIONS_CHANNEL);
             builder.setContentTitle(LocaleController.getString("AppName", R.string.AppName));
+            builder.setColor(NekoConfig.getNotificationColor());
             if (hasImportingHistory()) {
                 builder.setTicker(LocaleController.getString("ImporImportingService", R.string.ImporImportingService));
                 builder.setContentText(LocaleController.getString("ImporImportingService", R.string.ImporImportingService));
