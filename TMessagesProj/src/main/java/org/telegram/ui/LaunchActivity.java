@@ -164,7 +164,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
-import tw.nekomimi.nekogram.helpers.UpdateHelper;
+import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 
 public class LaunchActivity extends Activity implements ActionBarLayout.ActionBarLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate {

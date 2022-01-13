@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
@@ -48,15 +47,15 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.accessibility.AccessibilitySettingsActivity;
-import tw.nekomimi.nekogram.helpers.NewsHelper;
-import tw.nekomimi.nekogram.helpers.UpdateHelper;
+import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
+import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
 @SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
 public class NekoSettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private RecyclerListView listView;
     private ListAdapter listAdapter;
-    private final ArrayList<NewsHelper.NewsItem> news = NewsHelper.getNews();
+    private final ArrayList<ConfigHelper.NewsItem> news = ConfigHelper.getNews();
 
     private boolean sensitiveCanChange = false;
     private boolean sensitiveEnabled = false;
@@ -146,7 +145,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
             } else if (position == accessibilityRow) {
                 presentFragment(new AccessibilitySettingsActivity());
             } else if (position == channelRow) {
-                MessagesController.getInstance(currentAccount).openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
+                getMessagesController().openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
             } else if (position == translationRow) {
                 Browser.openUrl(getParentActivity(), "https://neko.crowdin.com/nekogram");
             } else if (position == websiteRow) {
@@ -158,7 +157,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                 checkingUpdate = true;
                 listAdapter.notifyItemChanged(checkUpdateRow);
             } else if (position >= sponsorRow && position < sponsor2Row) {
-                NewsHelper.NewsItem item = news.get(position - sponsorRow);
+                ConfigHelper.NewsItem item = news.get(position - sponsorRow);
                 Browser.openUrl(getParentActivity(), item.url);
             }
         });
@@ -355,7 +354,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                                 checkingUpdate ? LocaleController.getString("CheckingUpdate", R.string.CheckingUpdate) :
                                         UpdateHelper.formatDateUpdate(SharedConfig.lastUpdateCheckTime), position + 1 != about2Row);
                     } else if (position >= sponsorRow && position < sponsor2Row) {
-                        NewsHelper.NewsItem item = news.get(position - sponsorRow);
+                        ConfigHelper.NewsItem item = news.get(position - sponsorRow);
                         textCell.setTextAndValue(item.title, item.summary, position + 1 != sponsor2Row);
                     }
                     break;

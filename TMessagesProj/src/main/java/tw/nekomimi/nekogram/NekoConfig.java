@@ -26,10 +26,10 @@ import java.io.File;
 import java.io.FileReader;
 import java.net.ServerSocket;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import tw.nekomimi.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.translator.Translator;
 
@@ -50,8 +50,6 @@ public class NekoConfig {
     public static final int TRANS_TYPE_EXTERNAL = 2;
 
     private static final String EMOJI_FONT_AOSP = "NotoColorEmoji.ttf";
-
-    private static final int[] OFFICIAL_CHANNELS = {1302242053, 1406090861, 1221673407, 1339737452, 1349472891};
 
     private static final Object sync = new Object();
     public static boolean useIPv6 = false;
@@ -280,7 +278,7 @@ public class NekoConfig {
     }
 
     public static boolean isChatCat(TLRPC.Chat chat) {
-        return Arrays.stream(OFFICIAL_CHANNELS).anyMatch(id -> id == chat.id);
+        return ConfigHelper.getVerify().stream().anyMatch(id -> id == chat.id);
     }
 
     public static void setTransType(int type) {

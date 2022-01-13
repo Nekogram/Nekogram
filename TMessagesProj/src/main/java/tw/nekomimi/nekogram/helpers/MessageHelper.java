@@ -63,6 +63,8 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
+
 public class MessageHelper extends BaseController {
 
     private static final MessageHelper[] Instance = new MessageHelper[UserConfig.MAX_ACCOUNT_COUNT];
@@ -147,7 +149,7 @@ public class MessageHelper extends BaseController {
             if (file.length() != 0) {
                 jsonObject.put("files", file);
             }
-            return UpdateHelper.UPDATE_TAG + jsonObject.toString();
+            return "#" + UpdateHelper.UPDATE_TAG + jsonObject.toString();
         } catch (JSONException e) {
             FileLog.e(e);
             return "";
