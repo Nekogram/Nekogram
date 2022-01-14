@@ -71,7 +71,7 @@ public class NekoConfig {
     public static int translationProvider = Translator.PROVIDER_GOOGLE;
     public static String translationTarget = "app";
     public static int deepLFormality = DeepLTranslator.FORMALITY_DEFAULT;
-    public static int tabsTitleType = TITLE_TYPE_TEXT;
+    public static int tabsTitleType = TITLE_TYPE_MIX;
     public static int idType = ID_TYPE_API;
     public static int maxRecentStickers = 20;
     public static int transType = TRANS_TYPE_NEKO;
@@ -239,7 +239,7 @@ public class NekoConfig {
             showTabsOnForward = preferences.getBoolean("showTabsOnForward", false);
             rearVideoMessages = preferences.getBoolean("rearVideoMessages", false);
             hideAllTab = preferences.getBoolean("hideAllTab", false);
-            tabsTitleType = preferences.getInt("tabsTitleType", TITLE_TYPE_TEXT);
+            tabsTitleType = preferences.getInt("tabsTitleType2", TITLE_TYPE_MIX);
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
             askBeforeCall = preferences.getBoolean("askBeforeCall", true);
             shouldNOTTrustMe = preferences.getBoolean("shouldNOTTrustMe", false);
@@ -616,7 +616,7 @@ public class NekoConfig {
         tabsTitleType = type;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("tabsTitleType", tabsTitleType);
+        editor.putInt("tabsTitleType2", tabsTitleType);
         editor.commit();
     }
 
