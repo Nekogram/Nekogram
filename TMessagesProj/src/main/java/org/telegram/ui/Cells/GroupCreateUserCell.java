@@ -16,6 +16,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -425,5 +426,19 @@ public class GroupCreateUserCell extends FrameLayout {
     @Override
     public boolean hasOverlappingRendering() {
         return false;
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        if (checkBox != null) {
+            info.setCheckable(true);
+            info.setChecked(checkBox.isChecked());
+            info.setClassName("android.widget.CheckBox");
+        } else if (checkBoxType == 2) {
+            info.setCheckable(true);
+            info.setChecked(isChecked);
+            info.setClassName("android.widget.CheckBox");
+        }
     }
 }

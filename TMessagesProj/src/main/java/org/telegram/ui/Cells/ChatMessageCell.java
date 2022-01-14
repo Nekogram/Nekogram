@@ -935,7 +935,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     float roundSeekbarOutAlpha;
 
     private float lastDrawingAudioProgress;
-    private int currentFocusedVirtualViewId = -2;
+    private int currentFocusedVirtualView = -2;
     private boolean touch; //To catch,whether was touch before clear_accessibility_focus action was performed.
     public boolean drawFromPinchToZoom;
 
@@ -9921,7 +9921,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
             }
         }
-        if (currentFocusedVirtualViewId == -1) sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_ANNOUNCEMENT, (int)(progress * 100) + "%");
+        if (currentFocusedVirtualView == -1) sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_ANNOUNCEMENT, (int)(progress * 100) + "%");
     }
 
     @Override
@@ -9938,7 +9938,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
         }
         createLoadingProgressLayout(uploadedSize, totalSize);
-        if (currentFocusedVirtualViewId == -1) sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_ANNOUNCEMENT, (int)(progress * 100) + "%");
+        if (currentFocusedVirtualView == -1) sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_ANNOUNCEMENT, (int)(progress * 100) + "%");
     }
 
     private void createLoadingProgressLayout(TLRPC.Document document) {
@@ -14273,10 +14273,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     @Override
     public boolean performAccessibilityAction(int action, Bundle arguments) {
         if (action == AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS) {
-            currentFocusedVirtualViewId = -1;
-        } else if (action==AccessibilityNodeInfo.ACTION_CLEAR_ACCESSIBILITY_FOCUS) {
+            currentFocusedVirtualView = -1;
+        } else if (action == AccessibilityNodeInfo.ACTION_CLEAR_ACCESSIBILITY_FOCUS) {
             if (!touch) {
-                currentFocusedVirtualViewId = -2;
+                currentFocusedVirtualView = -2;
             } else touch = false;
         } else if (action == AccessibilityNodeInfo.ACTION_CLICK) {
             int icon = getIconForCurrentState();
@@ -14319,7 +14319,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
     }
 
-    public boolean isSeekbarCell() {
+    private boolean isSeekbarCell() {
         return AccConfig.TYPE_OF_REWIND != AccConfig.TYPE_NO_REWIND && (currentMessageObject.isVoice() || currentMessageObject.isRoundVideo() || currentMessageObject.isMusic());
     }
 
@@ -14332,22 +14332,22 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 Rect rect = accessibilityVirtualViewBounds.valueAt(i);
                 if (rect.contains(x, y)) {
                     int id = accessibilityVirtualViewBounds.keyAt(i);
-                    if (id != currentFocusedVirtualViewId) {
-                        currentFocusedVirtualViewId = id;
-                        touch=true;
+                    if (id != currentFocusedVirtualView) {
+                        currentFocusedVirtualView = id;
+                        touch = true;
                         sendAccessibilityEventForVirtualView(id, AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
                     }
                     return true;
                 }
             }
-            if (currentFocusedVirtualViewId != -1) {
-                currentFocusedVirtualViewId = -1;
+            if (currentFocusedVirtualView != -1) {
+                currentFocusedVirtualView = -1;
                 touch = true;
                 sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
                 return true;
             }
         } else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
-            currentFocusedVirtualViewId = -2;
+            currentFocusedVirtualView = -2;
         }
         return false;
     }
@@ -14711,14 +14711,14 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     }
                     sb.append("\n");
 
-                    if (!AccConfig.HIDE_LINKS) {
-                        CharacterStyle[] links = sb.getSpans(0, sb.length(), ClickableSpan.class);
+                    CharacterStyle[] links = sb.getSpans(0, sb.length(), ClickableSpan.class);
 
-                        for (CharacterStyle link : links) {
-                            int start = sb.getSpanStart(link);
-                            int end = sb.getSpanEnd(link);
-                            sb.removeSpan(link);
+                    for (CharacterStyle link : links) {
+                        int start = sb.getSpanStart(link);
+                        int end = sb.getSpanEnd(link);
+                        sb.removeSpan(link);
 
+                        if (!AccConfig.HIDE_LINKS) {
                             ClickableSpan underlineSpan = new ClickableSpan() {
                                 @Override
                                 public void onClick(View view) {
@@ -14729,13 +14729,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             };
                             sb.setSpan(underlineSpan, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         }
-                        accessibilityText = sb;
-                    } else {
-                        accessibilityText = sb.toString();
                     }
+                    accessibilityText = sb;
                 }
 
-                info.setContentDescription(accessibilityText);
+                info.setText(accessibilityText);
                 info.setEnabled(true);
                 if (Build.VERSION.SDK_INT >= 19) {
                     AccessibilityNodeInfo.CollectionItemInfo itemInfo = info.getCollectionItemInfo();
@@ -15047,7 +15045,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 performAccessibilityAction(action, arguments);
             } else {
                 if (action == AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS) {
-                    currentFocusedVirtualViewId = virtualViewId;
+                    currentFocusedVirtualView = virtualViewId;
                     sendAccessibilityEventForVirtualView(virtualViewId, AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
                 } else if (action == AccessibilityNodeInfo.ACTION_CLICK) {
                     if (virtualViewId >= LINK_CAPTION_IDS_START) {

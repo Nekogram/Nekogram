@@ -19,6 +19,7 @@ import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import org.telegram.messenger.AndroidUtilities;
 
@@ -231,6 +232,12 @@ public class NumberTextView extends View {
 
     public float getTextWidth() {
         return textWidth;
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        info.setContentDescription(String.valueOf(currentNumber));
     }
 
     public interface OnTextWidthProgressChangedListener {
