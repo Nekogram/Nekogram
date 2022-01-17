@@ -9,7 +9,7 @@
 #include <unistd.h>
 #include <dirent.h>
 #include <sys/stat.h>
-#include "xposed-detector.h"
+#include "genuine.h"
 
 int registerNativeTgNetFunctions(JavaVM *vm, JNIEnv *env);
 int videoOnJNILoad(JavaVM *vm, JNIEnv *env);
@@ -19,13 +19,14 @@ int tgvoipOnJNILoad(JavaVM *vm, JNIEnv *env);
 jint JNI_OnLoad(JavaVM *vm, void *reserved) {
 	JNIEnv *env = 0;
     srand(time(NULL));
-    
+
 	if ((*vm)->GetEnv(vm, (void **) &env, JNI_VERSION_1_6) != JNI_OK) {
 		return -1;
 	}
 
-    int xposed_stat = get_xposed_status(env, android_get_device_api_level());
-    if (xposed_stat == CAN_NOT_ANTI_XPOSED) return JNI_ERR;
+    if (!checkGenuine(env)) {
+        return JNI_ERR;
+    }
 
     if (imageOnJNILoad(vm, env) != JNI_TRUE) {
         return -1;

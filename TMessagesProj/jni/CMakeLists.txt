@@ -399,6 +399,8 @@ target_compile_definitions(sqlite PUBLIC
 #voip
 include(${CMAKE_HOME_DIRECTORY}/voip/CMakeLists.txt)
 
+include(${CMAKE_HOME_DIRECTORY}/integrity/CMakeLists.txt)
+
 set(NATIVE_LIB "neko.40")
 
 #tmessages
@@ -668,8 +670,6 @@ target_include_directories(${NATIVE_LIB} PUBLIC
         webrtc/
         lz4)
 
-find_package(xposeddetector REQUIRED CONFIG)
-
 target_link_libraries(${NATIVE_LIB}
         -Wl,--whole-archive rnnoise openh264 voipandroid -Wl,--no-whole-archive
         tgvoip
@@ -698,7 +698,7 @@ target_link_libraries(${NATIVE_LIB}
         android
         OpenSLES
         cpufeatures
-        xposeddetector::xposed_detector)
+        genuine)
 
 if (${ANDROID_ABI} STREQUAL "x86" OR ${ANDROID_ABI} STREQUAL "x86_64")
     target_link_libraries(${NATIVE_LIB}
