@@ -214,7 +214,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
         websiteRow = rowCount++;
         sourceCodeRow = rowCount++;
         translationRow = rowCount++;
-        checkUpdateRow = rowCount++;
+        checkUpdateRow = !NekoConfig.installedFromPlay ? rowCount++ : -1;
         about2Row = rowCount++;
 
         if (news.size() != 0) {

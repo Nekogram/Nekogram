@@ -521,6 +521,8 @@
 
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notification" />
 
+        <meta-data android:name="tw.nekomimi.nekogram.referer" android:value="nekogram.apks" />
+
     </application>
 
 </manifest>

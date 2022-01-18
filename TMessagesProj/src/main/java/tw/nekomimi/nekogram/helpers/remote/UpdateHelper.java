@@ -18,9 +18,10 @@ import java.util.Date;
 import java.util.HashMap;
 
 import tw.nekomimi.nekogram.Extra;
+import tw.nekomimi.nekogram.NekoConfig;
 
 public class UpdateHelper extends BaseRemoteHelper {
-    public static final String UPDATE_TAG = "updatev2";
+    public static final String UPDATE_TAG = NekoConfig.installedFromPlay ? "updateplay" :"updatev2";
 
     private static volatile UpdateHelper Instance;
     private int installedVersion;

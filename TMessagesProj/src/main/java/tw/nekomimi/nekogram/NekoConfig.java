@@ -2,10 +2,14 @@ package tw.nekomimi.nekogram;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Build;
+import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
 
@@ -141,6 +145,7 @@ public class NekoConfig {
     public static ArrayList<TLRPC.Update> pendingChangelog;
 
     public static boolean isChineseUser = false;
+    public static boolean installedFromPlay = false;
 
     private static boolean configLoaded;
 
@@ -195,11 +200,33 @@ public class NekoConfig {
         }
     }
 
+    private static void determineInstalledFromPlay() {
+        Context context = ApplicationLoader.applicationContext;
+        ApplicationInfo applicationInfo;
+        try {
+            applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
+        } catch (Exception e) {
+            installedFromPlay = true;
+            return;
+        }
+        if (applicationInfo == null) {
+            installedFromPlay = true;
+            return;
+        }
+        Bundle meta = applicationInfo.metaData;
+        if (meta == null || !meta.containsKey("tw.nekomimi.nekogram.referer")) {
+            installedFromPlay = true;
+            return;
+        }
+        installedFromPlay = meta.getString("tw.nekomimi.nekogram.referer").equals("nekogram.bundle");
+    }
+
     public static void loadConfig() {
         synchronized (sync) {
             if (configLoaded) {
                 return;
             }
+            determineInstalledFromPlay();
             isChineseUser = ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isChineseUser);
 
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
