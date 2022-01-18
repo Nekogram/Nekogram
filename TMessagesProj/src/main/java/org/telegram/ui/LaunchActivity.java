@@ -164,6 +164,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
+import tw.nekomimi.nekogram.helpers.DonateHelper;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 
@@ -2002,6 +2003,8 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                         showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("Nya", R.string.Nya)));
                                     } else if (url.startsWith("tg:upgrade") || url.startsWith("tg://upgrade") || url.startsWith("tg:update") || url.startsWith("tg://update")) {
                                         checkAppUpdate(true);
+                                    } else if (url.startsWith("tg:donate") || url.startsWith("tg://donate")) {
+                                        DonateHelper.getInstance().showDonationDialog(this);
                                     } else if ((url.startsWith("tg:search") || url.startsWith("tg://search"))) {
                                         url = url.replace("tg:search", "tg://telegram.org").replace("tg://search", "tg://telegram.org");
                                         data = Uri.parse(url);

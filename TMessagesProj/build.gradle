@@ -34,6 +34,7 @@ dependencies {
     implementation files('libs/libgsaverification-client.aar')
 
     implementation "androidx.browser:browser:1.4.0"
+    implementation 'com.android.billingclient:billing:4.0.0'
     implementation 'io.github.vvb2060.ndk:xposeddetector:2.2'
     implementation files('libs/org.deepl.jar')
     implementation files('libs/tcp2ws.jar')
