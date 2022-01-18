@@ -47,7 +47,6 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.accessibility.AccessibilitySettingsActivity;
-import tw.nekomimi.nekogram.helpers.DonateHelper;
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
@@ -149,7 +148,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
             } else if (position == channelRow) {
                 getMessagesController().openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
             } else if (position == donateRow) {
-                DonateHelper.getInstance().showDonationDialog(getParentActivity());
+                presentFragment(new NekoDonateActivity());
             } else if (position == translationRow) {
                 Browser.openUrl(getParentActivity(), "https://neko.crowdin.com/nekogram");
             } else if (position == websiteRow) {
