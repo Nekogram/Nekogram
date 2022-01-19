@@ -2140,7 +2140,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (folderId == 0) {
                 actionBar.setSupportsHolidayImage(true);
 
-                if (Theme.canStartLunarHolidayAnimation()) {
+                if (Theme.canStartLunarHolidayAnimation() && SharedConfig.getDevicePerformanceClass() != SharedConfig.PERFORMANCE_CLASS_LOW) {
                     lunarItem = new RLottieImageView(context);
                     lunarItem.setScaleX(-1f);
                     lunarItem.setScaleType(ImageView.ScaleType.CENTER);
