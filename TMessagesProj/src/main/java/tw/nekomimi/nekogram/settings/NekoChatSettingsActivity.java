@@ -644,7 +644,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                     if (position == chatRow) {
                         headerCell.setText(LocaleController.getString("Chat", R.string.Chat));
                     } else if (position == foldersRow) {
-                        headerCell.setText(LocaleController.getString("Folder", R.string.Folder));
+                        headerCell.setText(LocaleController.getString("Filters", R.string.Filters));
                     } else if (position == stickerSizeHeaderRow) {
                         headerCell.setText(LocaleController.getString("StickerSize", R.string.StickerSize));
                     }
