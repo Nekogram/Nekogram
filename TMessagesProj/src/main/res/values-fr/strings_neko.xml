@@ -21,20 +21,20 @@
     <string name="CreateMention">Créer une mention</string>
     <string name="ForceTabletMode">Forcer le mode tablette</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Barre de statut transparente</string>
+    <string name="TransparentStatusBar">Barre de notification transparente</string>
     <string name="EnableResidentNotification">Afficher une notification de résident</string>
     <string name="DisableResidentNotification">Désactiver la notification de résident</string>
     <string name="NekogramRunning">Nekogram est en cours d\'exécution</string>
-    <string name="EventType">Réglage d\'icônes de la barre latérale</string>
+    <string name="EventType">Icônes de la barre latérale</string>
     <string name="ChristmasHat">Afficher le chapeau de Noël tous les jours</string>
-    <string name="DependsOnDate">Dépend de la date</string>
+    <string name="DependsOnDate">Selon la date</string>
     <string name="Christmas">Noël</string>
-    <string name="Valentine">Journée de la Saint-Valentin</string>
-    <string name="DeleteDownloadedFile">Supprimer les fichiers téléchargés</string>
+    <string name="Valentine">Saint Valentin</string>
+    <string name="DeleteDownloadedFile">Supprimer des fichiers téléchargés</string>
     <string name="TestBackend">Serveur de test</string>
     <string name="TestBackendOn">Ce compte se connectera au serveur de test.</string>
     <string name="TestBackendOff">Ce compte sera déconnecter du serveur de test.</string>
-    <string name="HideProxySponsorChannel">Cacher les sponsors du canal proxy</string>
+    <string name="HideProxySponsorChannel">Masquer le canal du sponsor proxy</string>
     <string name="ViewHistory">Afficher l\'historique</string>
     <string name="Nya">Meow !</string>
     <string name="SaveCacheToExternalFilesDir">Isolation du stockage</string>
@@ -61,12 +61,12 @@
     <string name="UnlimitedPinnedDialogsAbout">Épingler des échanges en illimités en désactivant leur synchronisation.</string>
     <string name="OpenArchiveOnPull">Ouvrir les archives dans le menu déroulant</string>
     <string name="HideKeyboardOnChatScroll">Cacher clavier lors du défilement</string>
-    <string name="ShowTabsOnForward">Afficher les onglets sur l\'avant</string>
+    <string name="ShowTabsOnForward">Afficher les dossiers lors d\'un transfert</string>
     <string name="CheckAllAdministrated">Ajouter administrateur</string>
     <string name="RearVideoMessages">Caméra arrière dans les messages vidéo</string>
-    <string name="HideAllTab">Masquer l\'onglet \"Tous\"</string>
-    <string name="HideAllTabAbout">Appuyez sur \"Back\" sur la page d\'accueil pour l\'ouvrir.</string>
-    <string name="TabTitleType">Afficher sur les onglets</string>
+    <string name="HideAllTab">Masquer le dossier \"Tous\"</string>
+    <string name="HideAllTabAbout">Appuyez sur \"Retour\" de la page d\'accueil pour l\'ouvrir.</string>
+    <string name="TabTitleType">Apparence des dossiers</string>
     <string name="TabTitleTypeTip">Les émoticônes sont synchronisées sur le cloud par Telegram.</string>
     <string name="TabTitleTypeText">Titres</string>
     <string name="TabTitleTypeIcon">Émoticônes</string>
@@ -94,11 +94,11 @@
     <string name="IdTypeAPI">API Telegram</string>
     <string name="IdTypeBOTAPI">Bot API</string>
     <string name="AutoPauseVideo">Pause automatique de la vidéo</string>
-    <string name="AutoPauseVideoAbout">Au verrouillage de l\'écran / bascule de l\'app en arrière-plan.</string>
+    <string name="AutoPauseVideoAbout">Au verrouillage de l\'écran ou si l\'app bascule en arrière-plan.</string>
     <string name="DisableProximityEvents">Désactiver les événements de proximité</string>
     <string name="CustomEmojiTypeface">Police d\'emojis personnalisée</string>
     <string name="MapDriftingFix">Correction de la dérive de carte pour la Chine continentale</string>
-    <string name="IncreaseVoiceMessageQuality">Augmenter la qualité des messages vocaux</string>
+    <string name="IncreaseVoiceMessageQuality">Améliorer la qualité des vocaux</string>
     <string name="DisableInstantCamera">Désactiver la caméra instantanée</string>
     <string name="OpenAllLinksInInstantView">Essayer d\'ouvrir tous les liens dans InstantView</string>
     <string name="DonateThankYou">Merci!</string>
@@ -122,8 +122,8 @@
     <string name="BlurAvatarBackground">Flouter l\'image de profil</string>
     <string name="DarkenAvatarBackground">Assombrir l\'image de profil</string>
     <string name="AccentAsNotificationColor">Couleur d\'accentuation comme couleur de notification</string>
-    <string name="SilenceNonContacts">Rendre les notifications des non-contacts muettes</string>
-    <string name="SilenceNonContactsAbout">Les notifications des personnes qui ne sont pas vos contacts apparaîtront sans son. Vous pouvez ajouter des utilisateurs à des contacts depuis leur profil sans connaître leur numéro de téléphone.</string>
+    <string name="SilenceNonContacts">Non contacts en sourdine</string>
+    <string name="SilenceNonContactsAbout">Les notifications des personnes qui ne sont pas dans vos contacts apparaîtront en sourdine. Vous pouvez ajouter des utilisateurs à vos contacts depuis leur profil, sans connaître leur numéro de téléphone.</string>
     <string name="SelectBetween">Sélectionner entre</string>
     <string name="SwipeToPiP">Glissez vers le haut pour ouvrir PiP</string>
     <string name="StickerSavedHint">Sticker enregistré dans la galerie</string>
@@ -133,7 +133,7 @@
     <string name="WsEnableDoh">Activer le DoH</string>
     <string name="UpdateNekogram">Mettre à jour Nekogram</string>
     <string name="TranslationTarget">Langue cible</string>
-    <string name="TranslationTargetApp">Suivre l\'application</string>
+    <string name="TranslationTargetApp">Comme l\'application</string>
     <string name="Translator">Traducteur</string>
     <string name="ResetLanguage">Réinitialiser la langue</string>
     <string name="UseGoogleTranslate">Utiliser Google</string>
@@ -182,6 +182,8 @@
     <string name="SaveToDownloadCount_few">Enregistrement de %1$d fichiers dans les téléchargements</string>
     <string name="SaveToDownloadCount_many">Enregistrement de %1$d fichiers dans les téléchargements</string>
     <string name="SaveToDownloadCount_other">Enregistrement de %1$d fichiers dans les téléchargements</string>
+    <string name="ThemesChannel">Canal de thèmes</string>
+    <string name="SelectAnIcon">Choisissez une icône</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

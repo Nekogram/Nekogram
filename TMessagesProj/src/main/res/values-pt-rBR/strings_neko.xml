@@ -176,6 +176,16 @@
     <string name="TranslatorTypeNeko">Na mensagem</string>
     <string name="TranslatorTypeTG">Diálogo popup</string>
     <string name="TranslatorTypeExternal">Aplicativo externo</string>
+    <string name="CopyPhoto">Copiar foto</string>
+    <string name="PhotoCopied">Foto copiada para área de transferência</string>
+    <string name="SaveToDownloadCount_zero">Salvando %1$d arquivos para downloads</string>
+    <string name="SaveToDownloadCount_one">Salvar %1$d arquivo para downloads</string>
+    <string name="SaveToDownloadCount_two">Salvando %1$d arquivos para downloads</string>
+    <string name="SaveToDownloadCount_few">Salvando %1$d arquivos para downloads</string>
+    <string name="SaveToDownloadCount_many">Salvando %1$d arquivos para downloads</string>
+    <string name="SaveToDownloadCount_other">Salvando %1$d arquivos para downloads</string>
+    <string name="ThemesChannel">Canal de temas</string>
+    <string name="SelectAnIcon">Escolha um ícone</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccRewindHeading">Configurações de retrocesso</string>

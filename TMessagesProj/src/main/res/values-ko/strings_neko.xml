@@ -80,7 +80,7 @@
     <string name="IgnoreBlockedAbout">그룹에서 차단된 사용자의 메시지를 더 이상 볼 수 없습니다.</string>
     <string name="Donate">기부하기</string>
     <string name="DonateAbout">개발자 지원하기</string>
-    <string name="TranslationAbout">네코그램 언어 번역 도와주기</string>
+    <string name="TranslationAbout">네코그램의 언어 번역을 도와주세요</string>
     <string name="Translation">네코그램 번역</string>
     <string name="GooglePlay">구글플레이</string>
     <string name="ResetStickerSize">스티커 사이즈 초기화</string>
@@ -88,8 +88,8 @@
     <string name="RestartAppToTakeEffect">변경된 설정 적용을 위해 앱을 재시작</string>
     <string name="DisableAppBarShadow">제목 표시줄 그림자 비활성화</string>
     <string name="MediaPreview">대화목록 에서 미디어 미리보기</string>
-    <string name="ProviderYandex">얀덱스 번역</string>
-    <string name="IdType">프로파일 내 채팅ID</string>
+    <string name="ProviderYandex">Yandex 번역</string>
+    <string name="IdType">프로파일 내 채팅 ID</string>
     <string name="IdTypeAbout">텔레그램 API는 그대로의 ID를 사용하지만, 봇 API는 그룹의 시작 부분에 마이너스 (-)를 추가하고 채널 및 수퍼 그룹의 경우 하나의 필드에 맞게 -100을 추가합니다.</string>
     <string name="IdTypeHidden">숨기기</string>
     <string name="IdTypeAPI">텔레그램 API</string>
@@ -173,7 +173,7 @@
     <string name="NoTranslatorAppInstalled">번역을 할 수 있는 프로그램이 없습니다. 번역 프로그램을 설치해 주십시오.</string>
     <string name="DisableVoiceMessagesAutoPlay">음성 메시지 자동 재생 비활성화</string>
     <string name="TranslatorType">종류</string>
-    <string name="TranslatorTypeNeko">메시지 에서</string>
+    <string name="TranslatorTypeNeko">메시지에서</string>
     <string name="TranslatorTypeTG">팝업 대화 상자</string>
     <string name="TranslatorTypeExternal">외부 앱</string>
     <string name="CopyPhoto">사진 복사</string>
@@ -184,6 +184,8 @@
     <string name="SaveToDownloadCount_few">%1$d 파일을 다운로드에 저장</string>
     <string name="SaveToDownloadCount_many">%1$d 파일을 다운로드에 저장</string>
     <string name="SaveToDownloadCount_other">%1$d 파일을 다운로드에 저장</string>
+    <string name="ThemesChannel">테마 채널</string>
+    <string name="SelectAnIcon">아이콘 선택</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">접근성 설정</string>
     <string name="AccRewindHeading">되감기 설정</string>

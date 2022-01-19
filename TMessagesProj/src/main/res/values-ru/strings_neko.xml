@@ -20,7 +20,7 @@
     <string name="AddToSavedMessages">Сохранить сообщение</string>
     <string name="CreateMention">Создать упоминание</string>
     <string name="ForceTabletMode">Принудительный режим планшета</string>
-    <string name="Prpr">Peropero</string>
+    <string name="Prpr">Peropero (помурчать кому-то)</string>
     <string name="TransparentStatusBar">Прозрачная строка уведомлений</string>
     <string name="EnableResidentNotification">Включить постоянное уведомление</string>
     <string name="DisableResidentNotification">Отключить постоянное уведомление</string>
@@ -184,6 +184,8 @@
     <string name="SaveToDownloadCount_few">Сохранение %1$d файлов в загрузки</string>
     <string name="SaveToDownloadCount_many">Сохранение %1$d файлов в загрузки</string>
     <string name="SaveToDownloadCount_other">Сохранение %1$d файлов в загрузки</string>
+    <string name="ThemesChannel">Канал тем</string>
+    <string name="SelectAnIcon">Выберите иконку</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>

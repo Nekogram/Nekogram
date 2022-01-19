@@ -185,6 +185,8 @@
     <string name="SaveToDownloadCount_few">正在保存 %1$d 个文件到下载</string>
     <string name="SaveToDownloadCount_many">正在保存 %1$d 个文件到下载</string>
     <string name="SaveToDownloadCount_other">正在保存 %1$d 个文件到下载</string>
+    <string name="ThemesChannel">主题频道</string>
+    <string name="SelectAnIcon">选择一个图标</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

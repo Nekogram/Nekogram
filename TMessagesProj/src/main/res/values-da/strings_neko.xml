@@ -179,6 +179,9 @@
     <string name="SaveToDownloadCount_zero">Gemmer %1$d filer til downloads</string>
     <string name="SaveToDownloadCount_one">Gemmer %1$d filer til downloads</string>
     <string name="SaveToDownloadCount_two">Gemmer %1$d filer til downloads</string>
+    <string name="SaveToDownloadCount_few">Gemmer %1$d filer til downloads</string>
+    <string name="SaveToDownloadCount_many">Gemmer %1$d filer til downloads</string>
+    <string name="SaveToDownloadCount_other">Gemmer %1$d filer til downloads</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
     <string name="AccRewindHeading">Indstillinger for tilbagespoling</string>
