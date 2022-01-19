@@ -519,7 +519,7 @@ public class ImageLoader {
                         fileOutputStream = new RandomAccessFile(cacheImage.tempFilePath, "rws");
                     }
                 } catch (Throwable e) {
-                    boolean sentLogs =  true;
+                    boolean sentLogs = true;
                     if (e instanceof SocketTimeoutException) {
                         if (ApplicationLoader.isNetworkOnline()) {
                             canRetry = false;
@@ -535,6 +535,8 @@ public class ImageLoader {
                         sentLogs = false;
                     } else if (e instanceof FileNotFoundException) {
                         canRetry = false;
+                        sentLogs = false;
+                    } else if (e instanceof InterruptedException) {
                         sentLogs = false;
                     }
                     FileLog.e(e, sentLogs);
@@ -911,7 +913,7 @@ public class ImageLoader {
                             compressed = true;
                         }
                     } catch (Exception e) {
-                        FileLog.e(e);
+                        FileLog.e(e, false);
                     } finally {
                         if (randomAccessFile != null) {
                             try {
