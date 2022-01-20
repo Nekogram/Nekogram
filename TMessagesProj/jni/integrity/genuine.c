@@ -1045,8 +1045,8 @@ bool checkGenuine(JNIEnv *env) {
     }
 
     int xposed_stat = get_xposed_status(env, android_get_device_api_level());
-    if (xposed_stat != NO_XPOSED) {
-        genuine = xposed_stat == CAN_NOT_ANTI_XPOSED ? CHECK_FATAL : CHECK_ERROR;
+    if (xposed_stat == CAN_NOT_ANTI_XPOSED) {
+        genuine = CHECK_FATAL;
         goto clean;
     }
 
