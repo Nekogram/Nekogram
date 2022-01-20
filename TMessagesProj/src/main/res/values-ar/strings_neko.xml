@@ -42,6 +42,7 @@
     <string name="SensitiveDisableFiltering">تعطيل حظر المحتويات الحساسة</string>
     <string name="SensitiveAbout">عرض المحتويات الحساسة في القنوات العامة على جميع أجهزتك.</string>
     <string name="StickerSize">حجم الملصقات</string>
+    <string name="StickerSizeDialogMessage">يا إلهي لطيف! قطه سوداء!</string>
     <string name="StickerSizeDialogMessageReplyTo">مياو</string>
     <string name="Experiment">تجريبية</string>
     <string name="UnlimitedFavoredStickers">ملصقات مفضلة غير محدودة</string>
@@ -54,6 +55,7 @@
     <string name="TranslateApiUnsupported">مّوفر الترجمة الذي اخترته لا يدعم لغتك.</string>
     <string name="ProviderLingocloud">LingoCloud</string>
     <string name="UndoTranslate">النص الأصلي</string>
+    <string name="DisablePhotoViewerSideAction">تعطيل الانتقال بين الصور عند ضغط الحافة</string>
     <string name="BotToken">توكن</string>
     <string name="UnlimitedPinnedDialogs">تثبيت محادثات لا نهائي</string>
     <string name="UnlimitedPinnedDialogsAbout">تثبيت محادثات غير محدودة بإيقاف مزامنتها.</string>
@@ -152,5 +154,39 @@
     <string name="RestrictionReason">سبب التقييد</string>
     <string name="ProviderTencentTranslator">الأستاذ المترجم</string>
     <string name="MaxRecentStickers">الحد الأقصى للملصقات الأخيرة</string>
+    <string name="ApplyEmojiFont">تطبيق خط للرموز التعبيرية</string>
+    <string name="DisableJumpToNextChannel">تعطيل \"الانتقال إلى القناة الاتية\"</string>
+    <string name="DisableGreetingSticker">تعطيل ملصق الترحيب</string>
+    <string name="BlockSponsoredMessage">حظر رسالة الاعلانات</string>
+    <string name="DeleteAllFromSelfAdmin">مع حقوق المشرف</string>
+    <string name="OfficialSite">الموقع الرسمي</string>
+    <string name="MutualContact">جهة اتصال مشتركة</string>
+    <string name="MutualContactDescription">جهة الاتصال هذه هي جهة اتصال مشتركة.</string>
+    <string name="NoUpdateAvailable">لا تحديثات متاحة.</string>
+    <string name="InviteTextNeko">مرحبا، أنا أستخدم نيكوغرام للمحادثة. انضم إليّ! قم بتنزيله هنا: %1$s</string>
+    <string name="ShareNekogram">مشاركة نيكوغرام...</string>
+    <string name="NekogramVersion">نيكوغرام %1$s\nمبنية على تيليجرام %2$s\nمصمم من قبل %3$s</string>
+    <string name="UpdateInstalling">جار تثبيت التحديث...</string>
+    <string name="UpdateInstallingRelaunch">سيتم إعادة تشغيل نيكوغرام عند اكتمال التحديث.</string>
+    <string name="UpdateFailedToInstall">فشل في تثبيت التحديث: %d</string>
+    <string name="QRLoginMessage">افحص QRCode باستخدام جهاز آخر لتسجيل الدخول.</string>
+    <string name="QRLoginTitle">تسجيل دخول QR</string>
+    <string name="NoTranslatorAppInstalled">ليس لديك تطبيقات يمكنها التعامل مع الترجمة، يرجى تثبيت واحد للاستمرار</string>
+    <string name="DisableVoiceMessagesAutoPlay">تعطيل التشغيل التلقائي للرسائل الصوتية</string>
+    <string name="TranslatorType">النوع</string>
+    <string name="TranslatorTypeNeko">في الرسالة</string>
+    <string name="TranslatorTypeTG">مربع حوار منبثق</string>
+    <string name="TranslatorTypeExternal">تطبيق خارجي</string>
+    <string name="CopyPhoto">نسخ الصورة</string>
+    <string name="PhotoCopied">تم نسخ الصورة إلى الحافظة</string>
+    <string name="SaveToDownloadCount_zero">حفظ %1$d ملفات للتنزيلات</string>
+    <string name="SaveToDownloadCount_one">حفظ ملف واحد للتنزيلات</string>
+    <string name="SaveToDownloadCount_two">حفظ ملفان للتنزيلات</string>
+    <string name="SaveToDownloadCount_few">حفظ %1$d ملفات للتنزيلات</string>
+    <string name="SaveToDownloadCount_many">حفظ %1$d ملفات للتنزيلات</string>
+    <string name="SaveToDownloadCount_other">حفظ الملفات للتنزيلات</string>
+    <string name="ThemesChannel">قناة السمات</string>
+    <string name="SelectAnIcon">اختر أيقونة</string>
     <!-- Accessibility -->
+    <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>
