@@ -952,8 +952,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     private boolean isBlockedUserMessage() {
         return (MessagesController.getInstance(currentAccount).blockePeers.indexOfKey(
-                currentMessageObject.getFromChatId()) >= 0 && NekoConfig.ignoreBlocked) ||
-                (currentMessageObject.isSponsored() && NekoConfig.blockSponsoredMessage);
+                currentMessageObject.getFromChatId()) >= 0 && NekoConfig.ignoreBlocked);
     }
 
     // Public for enter transition

@@ -57,7 +57,7 @@ public class NekoConfig {
 
     private static final Object sync = new Object();
     public static boolean useIPv6 = false;
-    public static boolean showHiddenFeature = false;
+    public static boolean showHiddenFeature = BuildConfig.DEBUG;
 
     public static boolean useSystemEmoji = SharedConfig.useSystemEmoji;
     public static boolean ignoreBlocked = false;
@@ -134,7 +134,6 @@ public class NekoConfig {
     public static boolean residentNotification = false;
 
     public static boolean shouldNOTTrustMe = false;
-    public static boolean blockSponsoredMessage = false;
 
     public static boolean customEmojiFont;
     public static String customEmojiFontPath;
@@ -257,7 +256,7 @@ public class NekoConfig {
             translationProvider = preferences.getInt("translationProvider", isChineseUser ? Translator.PROVIDER_LINGO : Translator.PROVIDER_GOOGLE);
             disablePhotoSideAction = preferences.getBoolean("disablePhotoSideAction", true);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
-            showHiddenFeature = preferences.getBoolean("showHiddenFeature5", false);
+            showHiddenFeature = preferences.getBoolean("showHiddenFeature5", BuildConfig.DEBUG);
             hideKeyboardOnChatScroll = preferences.getBoolean("hideKeyboardOnChatScroll", false);
             avatarAsDrawerBackground = preferences.getBoolean("avatarAsDrawerBackground", false);
             avatarBackgroundBlur = preferences.getBoolean("avatarBackgroundBlur", false);
@@ -295,7 +294,6 @@ public class NekoConfig {
             maxRecentStickers = preferences.getInt("maxRecentStickers", 20);
             disableJumpToNextChannel = preferences.getBoolean("disableJumpToNextChannel", false);
             disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
-            blockSponsoredMessage = preferences.getBoolean("blockSponsoredMessage", false);
             useExternalTranslator = preferences.getBoolean("useExternalTranslator", false);
             disableVoiceMessageAutoPlay = preferences.getBoolean("disableVoiceMessageAutoPlay", false);
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
@@ -812,14 +810,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showCopyPhoto", showCopyPhoto);
-        editor.commit();
-    }
-
-    public static void toggleBlockSponsoredMessage() {
-        blockSponsoredMessage = !blockSponsoredMessage;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("blockSponsoredMessage", blockSponsoredMessage);
         editor.commit();
     }
 

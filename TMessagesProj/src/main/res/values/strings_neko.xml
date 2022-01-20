@@ -164,7 +164,6 @@
     <string name="ApplyEmojiFont">Apply emoji font</string>
     <string name="DisableJumpToNextChannel">Disable \"Jump to Next Channel\"</string>
     <string name="DisableGreetingSticker">Disable greeting sticker</string>
-    <string name="BlockSponsoredMessage">Block sponsored message</string>
     <string name="DeleteAllFromSelfAdmin">With admin rights</string>
     <string name="OfficialSite">Official site</string>
     <string name="MutualContact">Mutual contact</string>

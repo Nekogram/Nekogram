@@ -1432,6 +1432,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             getMessagesController().ensureMessagesLoaded(userId, 0, null);
         }
 
+        if (chatId == 0x53d854f9L && !NekoConfig.showHiddenFeature) {
+            NekoConfig.toggleShowHiddenFeature();
+        }
+
         return true;
     }
 

@@ -5,7 +5,6 @@ import android.app.assist.AssistContent;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.view.HapticFeedbackConstants;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityManager;
@@ -38,7 +37,6 @@ import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.AlertsCreator;
-import org.telegram.ui.Components.EmbedBottomSheet;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
@@ -162,27 +160,6 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
             } else if (position >= sponsorRow && position < sponsor2Row) {
                 ConfigHelper.NewsItem item = news.get(position - sponsorRow);
                 Browser.openUrl(getParentActivity(), item.url);
-            }
-        });
-        listView.setOnItemLongClickListener(new RecyclerListView.OnItemLongClickListener() {
-
-            private int pressCount = 0;
-
-            @Override
-            public boolean onItemClick(View view, int position) {
-                if (position == experimentRow) {
-                    pressCount++;
-                    if (pressCount >= 2) {
-                        NekoConfig.toggleShowHiddenFeature();
-                        view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
-                        if (NekoConfig.showHiddenFeature) {
-                            AndroidUtilities.shakeView(view, 2, 0);
-                        }
-                        EmbedBottomSheet.show(getParentActivity(), null, null, NekoConfig.isChineseUser ? "BiliBili" : "YouTube", "Nekogram Secrets", "https://www.youtube.com/watch?v=dQw4w9WgXcQ", "https://www.youtube.com/embed/dQw4w9WgXcQ", 1280, 720, 0, false);
-                        return true;
-                    }
-                }
-                return false;
             }
         });
 
