@@ -326,7 +326,7 @@ public class Browser {
                             .build();
                     builder.setDefaultColorSchemeParams(params);
                     builder.setShowTitle(true);
-                    builder.setActionButton(BitmapFactory.decodeResource(context.getResources(), R.drawable.abc_ic_menu_share_mtrl_alpha), LocaleController.getString("ShareFile", R.string.ShareFile), PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, share, PendingIntent.FLAG_MUTABLE), true);
+                    builder.setShareState(CustomTabsIntent.SHARE_STATE_ON);
                     CustomTabsIntent intent = builder.build();
                     intent.intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     intent.launchUrl(context, uri);
