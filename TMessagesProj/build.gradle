@@ -45,7 +45,7 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
 
-ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':5, x86:2, x86_64:6, 'universal':0]
+ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':5, x86:2, x86_64:6, 'universal':9]
 
 android {
     compileSdkVersion 32
@@ -157,10 +157,6 @@ android {
     }
 
     dependenciesInfo.includeInApk false
-}
-
-tasks.withType(JavaCompile) {
-    options.compilerArgs << '-Xlint:none'
 }
 
 def patchBundleReleaseManifest = task('patchBundleReleaseManifest').doLast {
