@@ -56,7 +56,8 @@ public class DeepLTranslator extends BaseTranslator {
 
     @Override
     protected Result translate(String query, String tl) throws Exception {
-        return new Result(deeplTranslater.translate(query, "auto", tl.toUpperCase(), getFormalityString()), null);
+        var result = deeplTranslater.translate(query, "auto", tl.toUpperCase(), getFormalityString());
+        return new Result(result[1], result[0]);
     }
 
     private String getFormalityString() {
