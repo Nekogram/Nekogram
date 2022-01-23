@@ -145,6 +145,12 @@ android {
         }
     }
 
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
     splits.abi {
         enable true
         universalApk true
