@@ -276,25 +276,22 @@ public class NekoDonateActivity extends BaseFragment implements PurchasesUpdated
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
-                case 1: {
-                    holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                    break;
-                }
                 case 2: {
                     TextCell textCell = (TextCell) holder.itemView;
                     if (position >= donateRow && position < donate2Row) {
                         if (skuDetails != null) {
                             if (skuDetails.size() > position - donateRow) {
-                                textCell.setText(skuDetails.get(position - donateRow).getPrice(), rowCount + 1 != donate2Row);
+                                textCell.setText(skuDetails.get(position - donateRow).getPrice(), position + 1 != donate2Row);
                             }
                         } else {
-                            textCell.setText(LocaleController.getString("Loading", R.string.Loading), rowCount + 1 != donate2Row);
+                            textCell.setText(LocaleController.getString("Loading", R.string.Loading), position + 1 != donate2Row);
                         }
                     }
                     break;
                 }
                 case 7: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
+                    holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     if (position == donate2Row) {
                         cell.setText(LocaleController.getString("DonateEvilGoogle", R.string.DonateEvilGoogle));
                     }
