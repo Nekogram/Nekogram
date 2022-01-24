@@ -177,6 +177,7 @@ import java.io.File;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.AppLinkVerifyBottomSheet;
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
 
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
@@ -3583,6 +3584,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             FilesMigrationService.checkBottomSheet(this);
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            AppLinkVerifyBottomSheet.checkBottomSheet(this);
+        }
+
         updateMenuButton(false);
         return fragmentView;
     }

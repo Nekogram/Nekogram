@@ -131,6 +131,8 @@ public class NekoConfig {
     public static boolean wsUseMTP = false;
     public static boolean wsUseDoH = true;
 
+    public static boolean verifyLinkTip = false;
+
     public static boolean residentNotification = false;
 
     public static boolean shouldNOTTrustMe = false;
@@ -298,12 +300,21 @@ public class NekoConfig {
             disableVoiceMessageAutoPlay = preferences.getBoolean("disableVoiceMessageAutoPlay", false);
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
+            verifyLinkTip = preferences.getBoolean("verifyLinkTip", false);
             configLoaded = true;
         }
     }
 
     public static boolean isChatCat(TLRPC.Chat chat) {
         return ConfigHelper.getVerify().stream().anyMatch(id -> id == chat.id);
+    }
+
+    public static void setVerifyLinkTip(boolean shown) {
+        verifyLinkTip = shown;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("verifyLinkTip", verifyLinkTip);
+        editor.commit();
     }
 
     public static void setTransType(int type) {
