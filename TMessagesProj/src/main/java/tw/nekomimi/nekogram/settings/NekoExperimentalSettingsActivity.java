@@ -50,6 +50,7 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
+import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 
 @SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
 public class NekoExperimentalSettingsActivity extends BaseFragment {
@@ -66,6 +67,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private int emojiRow;
     private int mapDriftingFixRow;
     private int increaseVoiceMessageQualityRow;
+    private int autoTranslateRow;
     private int saveCacheToExternalFilesDirRow;
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
@@ -260,6 +262,11 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     NekoConfig.setMaxRecentStickers(Integer.parseInt(types.get(i)));
                     listAdapter.notifyItemChanged(maxRecentStickersRow);
                 });
+            } else if (position == autoTranslateRow) {
+                NekoConfig.toggleAutoTranslate();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.autoTranslate);
+                }
             }
         });
         listView.setOnItemLongClickListener((view, position) -> {
@@ -337,6 +344,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         increaseVoiceMessageQualityRow = rowCount++;
         saveCacheToExternalFilesDirRow = BuildVars.NO_SCOPED_STORAGE ? rowCount++ : -1;
         disableFilteringRow = sensitiveCanChange ? rowCount++ : -1;
+        autoTranslateRow = ConfigHelper.getShowAutoTranslate() ? rowCount++ : -1;
         unlimitedFavedStickersRow = rowCount++;
         unlimitedPinnedDialogsRow = rowCount++;
         maxRecentStickersRow = rowCount++;
@@ -449,6 +457,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("MapDriftingFix", R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
                     } else if (position == increaseVoiceMessageQualityRow) {
                         textCell.setTextAndCheck(LocaleController.getString("IncreaseVoiceMessageQuality", R.string.IncreaseVoiceMessageQuality), NekoConfig.increaseVoiceMessageQuality, true);
+                    } else if (position == autoTranslateRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("AutoTranslate", R.string.AutoTranslate), LocaleController.getString("AutoTranslateAbout", R.string.AutoTranslateAbout), NekoConfig.autoTranslate, true, true);
                     } else if (position == shouldNOTTrustMeRow) {
                         textCell.setTextAndCheck("", NekoConfig.shouldNOTTrustMe, false);
                     }

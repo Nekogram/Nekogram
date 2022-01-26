@@ -159,6 +159,7 @@ public class MessageObject {
     public boolean scheduled;
     public boolean preview;
 
+    public boolean translating;
     public boolean translated;
     public Object originalMessage;
 

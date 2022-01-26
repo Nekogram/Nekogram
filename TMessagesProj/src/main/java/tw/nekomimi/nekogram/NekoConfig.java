@@ -71,6 +71,7 @@ public class NekoConfig {
     public static boolean askBeforeCall = true;
     public static boolean disableNumberRounding = false;
     public static boolean disableGreetingSticker = false;
+    public static boolean autoTranslate = false;
     public static float stickerSize = 14.0f;
     public static int translationProvider = Translator.PROVIDER_GOOGLE;
     public static String translationTarget = "app";
@@ -120,7 +121,6 @@ public class NekoConfig {
     public static boolean silenceNonContacts = false;
     public static boolean swipeToPiP = false;
     public static boolean disableJumpToNextChannel = false;
-    public static boolean useExternalTranslator = false;
     public static boolean disableVoiceMessageAutoPlay = false;
 
     public static final String WS_ADDRESS = "ws.neko";
@@ -296,7 +296,7 @@ public class NekoConfig {
             maxRecentStickers = preferences.getInt("maxRecentStickers", 20);
             disableJumpToNextChannel = preferences.getBoolean("disableJumpToNextChannel", false);
             disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
-            useExternalTranslator = preferences.getBoolean("useExternalTranslator", false);
+            autoTranslate = preferences.getBoolean("autoTranslate", false);
             disableVoiceMessageAutoPlay = preferences.getBoolean("disableVoiceMessageAutoPlay", false);
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
@@ -824,11 +824,11 @@ public class NekoConfig {
         editor.commit();
     }
 
-    public static void toggleUseExternalTranslator() {
-        useExternalTranslator = !useExternalTranslator;
+    public static void toggleAutoTranslate() {
+        autoTranslate = !autoTranslate;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("useExternalTranslator", useExternalTranslator);
+        editor.putBoolean("autoTranslate", autoTranslate);
         editor.commit();
     }
 

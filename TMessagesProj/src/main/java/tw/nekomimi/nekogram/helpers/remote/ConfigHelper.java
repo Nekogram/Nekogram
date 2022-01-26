@@ -49,6 +49,23 @@ public class ConfigHelper extends BaseRemoteHelper {
         return localInstance;
     }
 
+    public static boolean getShowAutoTranslate() {
+        if (NekoConfig.showHiddenFeature) {
+            return true;
+        }
+        JSONObject jsonObject = getInstance().getJSON();
+        if (jsonObject == null) {
+            return false;
+        }
+        try {
+            return jsonObject.getBoolean("show_auto_translate");
+        } catch (JSONException e) {
+            FileLog.e(e);
+            getInstance().load();
+            return false;
+        }
+    }
+
     public static ArrayList<Long> getVerify() {
         JSONObject jsonObject = getInstance().getJSON();
         if (jsonObject == null) {

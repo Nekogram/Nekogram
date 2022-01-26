@@ -211,6 +211,10 @@ public class MessageHelper extends BaseController {
         return messageObject;
     }
 
+    public boolean isMessageObjectTranslatable(MessageObject messageObject) {
+        return !messageObject.isAnimatedEmoji() && !TextUtils.isEmpty(messageObject.messageOwner.message) || messageObject.isPoll();
+    }
+
     public MessageObject getMessageForRepeat(MessageObject selectedObject, MessageObject.GroupedMessages selectedObjectGroup) {
         MessageObject messageObject = null;
         if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
