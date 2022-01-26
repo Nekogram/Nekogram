@@ -34,14 +34,14 @@ public class Translator {
     public static final int PROVIDER_TENCENT = 8;
 
     public static void showTranslateDialog(Context context, String query, boolean noforwards) {
-        showTranslateDialog(context, query, noforwards, null, null);
+        showTranslateDialog(context, query, noforwards, null, null, null);
     }
 
-    public static void showTranslateDialog(Context context, String query, boolean noforwards, BaseFragment fragment, TranslateAlert.OnLinkPress onLinkPress) {
+    public static void showTranslateDialog(Context context, String query, boolean noforwards, BaseFragment fragment, TranslateAlert.OnLinkPress onLinkPress, String sourceLanguage) {
         if (NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL) {
             Translator.startExternalTranslator(context, query);
         } else {
-            TranslateAlert.showAlert(context, fragment, null, NekoConfig.translationTarget, query, noforwards, onLinkPress);
+            TranslateAlert.showAlert(context, fragment, sourceLanguage, NekoConfig.translationTarget, query, noforwards, onLinkPress);
         }
     }
 

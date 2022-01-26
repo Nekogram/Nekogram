@@ -42,6 +42,7 @@ import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.RestrictedLanguagesSelectActivity;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -90,6 +91,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int translatorTypeRow;
     private int translationProviderRow;
     private int translationTargetRow;
+    private int doNotTranslateRow;
     private int deepLFormalityRow;
     private int translator2Row;
 
@@ -360,13 +362,15 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     if (oldType != NekoConfig.transType) {
                         if (oldType == NekoConfig.TRANS_TYPE_EXTERNAL) {
                             updateRows(false);
-                            listAdapter.notifyItemRangeInserted(translationProviderRow, NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 3 : 2);
+                            listAdapter.notifyItemRangeInserted(translationProviderRow, NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 4 : 3);
                         } else if (NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL) {
-                            listAdapter.notifyItemRangeRemoved(translationProviderRow, NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 3 : 2);
+                            listAdapter.notifyItemRangeRemoved(translationProviderRow, NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 4 : 3);
                             updateRows(false);
                         }
                     }
                 });
+            } else if (position == doNotTranslateRow) {
+                presentFragment(new RestrictedLanguagesSelectActivity());
             }
         });
 
@@ -422,10 +426,12 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         if (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
             translationProviderRow = rowCount++;
             translationTargetRow = rowCount++;
+            doNotTranslateRow = rowCount++;
             deepLFormalityRow = NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? rowCount++ : -1;
         } else {
             translationProviderRow = -1;
             translationTargetRow = -1;
+            doNotTranslateRow = -1;
             deepLFormalityRow = -1;
         }
         translator2Row = rowCount++;
@@ -610,6 +616,20 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                                 break;
                         }
                         textCell.setTextAndValue(LocaleController.getString("TranslatorType", R.string.TranslatorType), value, NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL);
+                    } else if (position == doNotTranslateRow) {
+                        ArrayList<String> langCodes = getRestrictedLanguages();
+                        String value;
+                        if (langCodes.size() == 1) {
+                            if (NekoConfig.translationTarget.equals("app")) {
+                                value = LocaleController.getInstance().getCurrentLocaleInfo().name;
+                            } else {
+                                Locale l = Locale.forLanguageTag(langCodes.get(0));
+                                value = l.getDisplayName(l);
+                            }
+                        } else {
+                            value = LocaleController.formatPluralString("Languages", langCodes.size());
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate), value, false);
                     }
                     break;
                 }
@@ -694,6 +714,17 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
             }
         }
 
+        private ArrayList<String> getRestrictedLanguages() {
+            LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
+            String currentLang = NekoConfig.translationTarget.equals("app") ? currentLocaleInfo.pluralLangCode : NekoConfig.translationTarget;
+            ArrayList<String> langCodes = new ArrayList<>(RestrictedLanguagesSelectActivity.getRestrictedLanguages());
+            if (!langCodes.contains(currentLang)) {
+                langCodes.add(currentLang);
+            }
+            return langCodes;
+        }
+
+
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int type = holder.getItemViewType();
@@ -747,7 +778,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
             if (position == connection2Row || position == appearance2Row || position == drawer2Row) {
                 return 1;
             } else if (position == eventTypeRow || position == nameOrderRow || position == idTypeRow || position == translationProviderRow ||
-                    position == translationTargetRow || position == deepLFormalityRow || position == translatorTypeRow) {
+                    position == translationTargetRow || position == doNotTranslateRow || position == deepLFormalityRow || position == translatorTypeRow) {
                 return 2;
             } else if (position == ipv6Row || position == newYearRow ||
                     (position > appearanceRow && position <= disableNumberRoundingRow) ||
