@@ -34,6 +34,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:19.0.1'
     implementation 'com.googlecode.mp4parser:isoparser:1.0.6'
     implementation 'com.stripe:stripe-android:2.0.2'
+    implementation 'com.google.mlkit:language-id:16.1.1'
     implementation files('libs/libgsaverification-client.aar')
 
     implementation "androidx.browser:browser:1.4.0"
