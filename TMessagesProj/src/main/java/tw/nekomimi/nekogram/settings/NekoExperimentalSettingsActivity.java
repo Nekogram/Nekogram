@@ -67,6 +67,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private int emojiRow;
     private int mapDriftingFixRow;
     private int increaseVoiceMessageQualityRow;
+    private int codeSyntaxHighlightRow;
     private int autoTranslateRow;
     private int saveCacheToExternalFilesDirRow;
     private int disableFilteringRow;
@@ -267,6 +268,11 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.autoTranslate);
                 }
+            } else if (position == codeSyntaxHighlightRow) {
+                NekoConfig.toggleCodeSyntaxHighlight();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.codeSyntaxHighlight);
+                }
             }
         });
         listView.setOnItemLongClickListener((view, position) -> {
@@ -342,6 +348,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         emojiRow = rowCount++;
         mapDriftingFixRow = rowCount++;
         increaseVoiceMessageQualityRow = rowCount++;
+        codeSyntaxHighlightRow = rowCount++;
         saveCacheToExternalFilesDirRow = BuildVars.NO_SCOPED_STORAGE ? rowCount++ : -1;
         disableFilteringRow = sensitiveCanChange ? rowCount++ : -1;
         autoTranslateRow = ConfigHelper.getShowAutoTranslate() ? rowCount++ : -1;
@@ -459,6 +466,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("IncreaseVoiceMessageQuality", R.string.IncreaseVoiceMessageQuality), NekoConfig.increaseVoiceMessageQuality, true);
                     } else if (position == autoTranslateRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("AutoTranslate", R.string.AutoTranslate), LocaleController.getString("AutoTranslateAbout", R.string.AutoTranslateAbout), NekoConfig.autoTranslate, true, true);
+                    } else if (position == codeSyntaxHighlightRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("CodeSyntaxHighlight", R.string.CodeSyntaxHighlight), NekoConfig.codeSyntaxHighlight, true);
                     } else if (position == shouldNOTTrustMeRow) {
                         textCell.setTextAndCheck("", NekoConfig.shouldNOTTrustMe, false);
                     }

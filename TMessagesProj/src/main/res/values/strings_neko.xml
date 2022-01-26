@@ -197,6 +197,9 @@
     <string name="AppLinkNotVerifiedTitle">App links not verified</string>
     <string name="AutoTranslate">Auto translate</string>
     <string name="AutoTranslateAbout">Automatically translate messages that are in another language.</string>
+    <string name="CodeSyntaxHighlight">Code syntax highlight</string>
+    <string name="CreateMono">Create Monospace</string>
+    <string name="CreateMonoLanguage">Code language</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
