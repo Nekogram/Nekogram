@@ -5480,8 +5480,6 @@ public class MediaDataController extends BaseController {
             if (savedReaction != null && getReactionsMap().get(savedReaction) != null) {
                 doubleTapReaction = savedReaction;
                 return doubleTapReaction;
-            } else if ("disabled".equals(savedReaction)) {
-                return savedReaction;
             }
             return getReactionsList().get(0).reaction;
         }
