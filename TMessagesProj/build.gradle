@@ -66,11 +66,9 @@ android {
         }
     }
 
-    lintOptions {
+    lint {
         checkReleaseBuilds false
-        disable 'MissingTranslation'
-        disable 'ExtraTranslation'
-        disable 'BlockedPrivateApi'
+        disable 'MissingTranslation', 'ExtraTranslation', 'BlockedPrivateApi'
     }
 
     packagingOptions {
@@ -140,7 +138,7 @@ android {
         externalNativeBuild {
             cmake {
                 version '3.10.2'
-                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21', "-DNDK_CCACHE=ccache", "-j=16"
+                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21', "-DNDK_CCACHE=ccache"
             }
         }
     }
