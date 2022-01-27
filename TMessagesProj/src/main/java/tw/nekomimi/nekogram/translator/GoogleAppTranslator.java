@@ -37,6 +37,27 @@ public class GoogleAppTranslator extends BaseTranslator {
         return instance;
     }
 
+    private final String[] devices = new String[]{
+            "Linux; U; Android 10; Pixel 4",
+            "Linux; U; Android 10; Pixel 4 XL",
+            "Linux; U; Android 10; Pixel 4a",
+            "Linux; U; Android 10; Pixel 4a XL",
+            "Linux; U; Android 11; Pixel 4",
+            "Linux; U; Android 11; Pixel 4 XL",
+            "Linux; U; Android 11; Pixel 4a",
+            "Linux; U; Android 11; Pixel 4a XL",
+            "Linux; U; Android 11; Pixel 5",
+            "Linux; U; Android 11; Pixel 5a",
+            "Linux; U; Android 12; Pixel 4",
+            "Linux; U; Android 12; Pixel 4 XL",
+            "Linux; U; Android 12; Pixel 4a",
+            "Linux; U; Android 12; Pixel 4a XL",
+            "Linux; U; Android 12; Pixel 5",
+            "Linux; U; Android 12; Pixel 5a",
+            "Linux; U; Android 12; Pixel 6",
+            "Linux; U; Android 12; Pixel 6 Pro",
+    };
+
     @Override
     protected Result translate(String query, String tl) throws IOException, JSONException {
         String url = "https://translate.googleapis.com/translate_a/single?dj=1" +
@@ -44,8 +65,9 @@ public class GoogleAppTranslator extends BaseTranslator {
                 "&sl=auto" +
                 "&tl=" + tl +
                 "&ie=UTF-8&oe=UTF-8&client=at&dt=t&otf=2";
+        var userAgent = "GoogleTranslate/6.28.0.05.421483610 (" + devices[(int) Math.round(Math.random() * (devices.length - 1))] + ")";
         String response = Http.url(url)
-                .header("User-Agent", "GoogleTranslate/6.27.0.08.415126308 (Linux; U; Android 11; Redmi K20 Pro)")
+                .header("User-Agent", userAgent)
                 .request();
         if (TextUtils.isEmpty(response)) {
             return null;
