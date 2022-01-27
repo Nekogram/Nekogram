@@ -76,6 +76,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int disableGreetingStickerRow;
     private int disableVoiceMessageAutoPlayRow;
     private int autoPauseVideoRow;
+    private int doubleTapActionRow;
     private int messageMenuRow;
     private int chat2Row;
 
@@ -230,6 +231,25 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.disableVoiceMessageAutoPlay);
                 }
+            } else if (position == doubleTapActionRow) {
+                ArrayList<String> arrayList = new ArrayList<>();
+                ArrayList<Integer> types = new ArrayList<>();
+                arrayList.add(LocaleController.getString("Disable", R.string.Disable));
+                types.add(NekoConfig.DOUBLE_TAP_ACTION_NONE);
+                arrayList.add(LocaleController.getString("Reactions", R.string.Reactions));
+                types.add(NekoConfig.DOUBLE_TAP_ACTION_REACTION);
+                arrayList.add(LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
+                types.add(NekoConfig.DOUBLE_TAP_ACTION_TRANSLATE);
+                arrayList.add(LocaleController.getString("Reply", R.string.Reply));
+                types.add(NekoConfig.DOUBLE_TAP_ACTION_REPLY);
+                arrayList.add(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages));
+                types.add(NekoConfig.DOUBLE_TAP_ACTION_SAVE);
+                arrayList.add(LocaleController.getString("Repeat", R.string.Repeat));
+                types.add(NekoConfig.DOUBLE_TAP_ACTION_REPEAT);
+                PopupHelper.show(arrayList, LocaleController.getString("DoubleTapAction", R.string.DoubleTapAction), types.indexOf(NekoConfig.doubleTapAction), context, view, i -> {
+                    NekoConfig.setDoubleTapAction(types.get(i));
+                    listAdapter.notifyItemChanged(doubleTapActionRow);
+                });
             }
         });
 
@@ -263,6 +283,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         disableGreetingStickerRow = rowCount++;
         disableVoiceMessageAutoPlayRow = rowCount++;
         autoPauseVideoRow = rowCount++;
+        doubleTapActionRow = rowCount++;
         messageMenuRow = rowCount++;
         chat2Row = rowCount++;
 
@@ -602,6 +623,29 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                                 value = LocaleController.getString("TabTitleTypeMix", R.string.TabTitleTypeMix);
                         }
                         textCell.setTextAndValue(LocaleController.getString("TabTitleType", R.string.TabTitleType), value, false);
+                    } else if (position == doubleTapActionRow) {
+                        String value;
+                        switch (NekoConfig.doubleTapAction) {
+                            case NekoConfig.DOUBLE_TAP_ACTION_REACTION:
+                                value = LocaleController.getString("Reactions", R.string.Reactions);
+                                break;
+                            case NekoConfig.DOUBLE_TAP_ACTION_TRANSLATE:
+                                value = LocaleController.getString("TranslateMessage", R.string.TranslateMessage);
+                                break;
+                            case NekoConfig.DOUBLE_TAP_ACTION_REPLY:
+                                value = LocaleController.getString("Reply", R.string.Reply);
+                                break;
+                            case NekoConfig.DOUBLE_TAP_ACTION_SAVE:
+                                value = LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages);
+                                break;
+                            case NekoConfig.DOUBLE_TAP_ACTION_REPEAT:
+                                value = LocaleController.getString("Repeat", R.string.Repeat);
+                                break;
+                            case NekoConfig.DOUBLE_TAP_ACTION_NONE:
+                            default:
+                                value = LocaleController.getString("Disable", R.string.Disable);
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("DoubleTapAction", R.string.DoubleTapAction), value, true);
                     }
                     break;
                 }
@@ -713,7 +757,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         public int getItemViewType(int position) {
             if (position == chat2Row || position == stickerSize2Row) {
                 return 1;
-            } else if (position == messageMenuRow || position == tabsTitleTypeRow) {
+            } else if (position == messageMenuRow || position == tabsTitleTypeRow || position == doubleTapActionRow) {
                 return 2;
             } else if (position == showTabsOnForwardRow || position == hideAllTabRow ||
                     (position > chatRow && position < messageMenuRow)) {

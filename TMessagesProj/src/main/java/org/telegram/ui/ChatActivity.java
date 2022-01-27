@@ -1416,51 +1416,111 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override
         public boolean hasDoubleTap(View view, int position) {
-            TLRPC.TL_availableReaction reaction = getMediaDataController().getReactionsMap().get(getMediaDataController().getDoubleTapReaction());
-            if (reaction == null) {
+            if (NekoConfig.doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_NONE || !(view instanceof ChatMessageCell)) {
                 return false;
             }
-            boolean available = dialog_id >= 0;
-            if (!available && chatInfo != null) {
-                for (String s : chatInfo.available_reactions) {
-                    if (s.equals(reaction.reaction)) {
-                        available = true;
-                        break;
+            if (NekoConfig.doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_REACTION) {
+                TLRPC.TL_availableReaction reaction = getMediaDataController().getReactionsMap().get(getMediaDataController().getDoubleTapReaction());
+                if (reaction == null) {
+                    return false;
+                }
+                boolean available = dialog_id >= 0;
+                if (!available && chatInfo != null) {
+                    for (String s : chatInfo.available_reactions) {
+                        if (s.equals(reaction.reaction)) {
+                            available = true;
+                            break;
+                        }
                     }
                 }
+                if (!available || !(view instanceof ChatMessageCell)) {
+                    return false;
+                }
+                ChatMessageCell cell = (ChatMessageCell) view;
+                return !cell.getMessageObject().isSending() && !cell.getMessageObject().isEditing() && cell.getMessageObject().type != 16 && !actionBar.isActionModeShowed() && !isSecretChat() && !isInScheduleMode();
+            } else {
+                var cell = (ChatMessageCell) view;
+                var message = cell.getMessageObject();
+                var messageGroup = getValidGroupedMessage(message);
+                boolean allowChatActions = chatMode != MODE_SCHEDULED && (threadMessageObjects == null || !threadMessageObjects.contains(message)) &&
+                        !message.isSponsored() && (getMessageType(message) != 1 || message.getDialogId() != mergeDialogId) &&
+                        !(message.messageOwner.action instanceof TLRPC.TL_messageActionSecureValuesSent) &&
+                        (currentEncryptedChat != null || message.getId() >= 0) &&
+                        (bottomOverlayChat == null || bottomOverlayChat.getVisibility() != View.VISIBLE) &&
+                        (currentChat == null || ((!ChatObject.isNotInChat(currentChat) || isThreadChat()) && (!ChatObject.isChannel(currentChat) || ChatObject.canPost(currentChat) || currentChat.megagroup) && ChatObject.canSendMessages(currentChat)));
+                switch (NekoConfig.doubleTapAction) {
+                    case NekoConfig.DOUBLE_TAP_ACTION_TRANSLATE:
+                        if (!(NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL && getMessagesController().isChatNoForwards(currentChat))) {
+                            MessageObject messageObject = getMessageHelper().getMessageForTranslate(message, messageGroup);
+                            if (messageObject != null) {
+                                return true;
+                            }
+                        }
+                        break;
+                    case NekoConfig.DOUBLE_TAP_ACTION_REPLY:
+                        return message.getId() > 0 && allowChatActions;
+                    case NekoConfig.DOUBLE_TAP_ACTION_SAVE:
+                        return !message.isSponsored() && chatMode != MODE_SCHEDULED && !message.needDrawBluredPreview() && !message.isLiveLocation() && message.type != 16 && !getMessagesController().isChatNoForwards(currentChat) && !UserObject.isUserSelf(currentUser);
+                    case NekoConfig.DOUBLE_TAP_ACTION_REPEAT:
+                        boolean allowRepeat = allowChatActions &&
+                                (!isThreadChat() && !getMessagesController().isChatNoForwards(currentChat) ||
+                                        getMessageHelper().getMessageForRepeat(message, messageGroup) != null);
+                        return allowRepeat && !message.isSponsored() && chatMode != MODE_SCHEDULED && !message.needDrawBluredPreview() && !message.isLiveLocation() && message.type != 16;
+                }
             }
-            if (!available || !(view instanceof ChatMessageCell)) {
-                return false;
-            }
-            ChatMessageCell cell = (ChatMessageCell) view;
-            return !cell.getMessageObject().isSending() && !cell.getMessageObject().isEditing() && cell.getMessageObject().type != 16 && !actionBar.isActionModeShowed() && !isSecretChat() && !isInScheduleMode();
+            return false;
         }
 
         @Override
         public void onDoubleTap(View view, int position, float x, float y) {
-            if (!(view instanceof ChatMessageCell) || getParentActivity() == null || isSecretChat() || isInScheduleMode()) {
+            if (NekoConfig.doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_NONE || !(view instanceof ChatMessageCell) || getParentActivity() == null) {
                 return;
             }
-            ChatMessageCell cell = (ChatMessageCell) view;
-            MessageObject primaryMessage = cell.getPrimaryMessageObject();
-            ReactionsEffectOverlay.removeCurrent(false);
-            TLRPC.TL_availableReaction reaction = getMediaDataController().getReactionsMap().get(getMediaDataController().getDoubleTapReaction());
-            if (reaction == null) {
-                return;
-            }
-            boolean available = dialog_id >= 0;
-            if (!available && chatInfo != null) {
-                for (String s : chatInfo.available_reactions) {
-                    if (s.equals(reaction.reaction)) {
-                        available = true;
-                        break;
+            if (NekoConfig.doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_REACTION) {
+                if (isSecretChat() || isInScheduleMode()) {
+                    return;
+                }
+                ChatMessageCell cell = (ChatMessageCell) view;
+                MessageObject primaryMessage = cell.getPrimaryMessageObject();
+                ReactionsEffectOverlay.removeCurrent(false);
+                TLRPC.TL_availableReaction reaction = getMediaDataController().getReactionsMap().get(getMediaDataController().getDoubleTapReaction());
+                if (reaction == null) {
+                    return;
+                }
+                boolean available = dialog_id >= 0;
+                if (!available && chatInfo != null) {
+                    for (String s : chatInfo.available_reactions) {
+                        if (s.equals(reaction.reaction)) {
+                            available = true;
+                            break;
+                        }
                     }
                 }
+                if (!available) {
+                    return;
+                }
+                selectReaction(primaryMessage, null, x, y, reaction, true, false);
+            } else {
+                var cell = (ChatMessageCell) view;
+                var message = cell.getMessageObject();
+                selectedObject = message;
+                selectedObjectGroup = getValidGroupedMessage(message);
+                switch (NekoConfig.doubleTapAction) {
+                    case NekoConfig.DOUBLE_TAP_ACTION_TRANSLATE:
+                        var messageObject = getMessageHelper().getMessageForTranslate(selectedObject, selectedObjectGroup);
+                        translateOrResetMessage(messageObject, null);
+                        break;
+                    case NekoConfig.DOUBLE_TAP_ACTION_REPLY:
+                        processSelectedOption(8);
+                        break;
+                    case NekoConfig.DOUBLE_TAP_ACTION_SAVE:
+                        processSelectedOption(93);
+                        break;
+                    case NekoConfig.DOUBLE_TAP_ACTION_REPEAT:
+                        processSelectedOption(94);
+                        break;
+                }
             }
-            if (!available) {
-                return;
-            }
-            selectReaction(primaryMessage, null, x, y, reaction, true, false);
         }
     };
 
@@ -21516,16 +21576,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (selectedObject == null || i >= options.size() || getParentActivity() == null) {
                             return;
                         }
-                        if (messageObject.translated && messageObject.originalMessage != null){
-                            if (messageObject.originalMessage instanceof String) {
-                                messageObject.messageOwner.message = (String) messageObject.originalMessage;
-                            } else if (messageObject.originalMessage instanceof TLRPC.TL_poll) {
-                                ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) messageObject.originalMessage;
-                            }
-                            getMessageHelper().resetMessageContent(dialog_id, messageObject, false);
-                        } else {
-                            translateMessage(messageObject, fromLang[0]);
-                        }
+                        translateOrResetMessage(messageObject, fromLang[0]);
                         scrimView = null;
                         scrimViewReaction = null;
                         contentView.invalidate();
@@ -22134,6 +22185,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         }
         return restricted;
+    }
+
+    private void translateOrResetMessage(MessageObject messageObject, String sourceLanguage) {
+        if (messageObject.translated && messageObject.originalMessage != null){
+            if (messageObject.originalMessage instanceof String) {
+                messageObject.messageOwner.message = (String) messageObject.originalMessage;
+            } else if (messageObject.originalMessage instanceof TLRPC.TL_poll) {
+                ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) messageObject.originalMessage;
+            }
+            getMessageHelper().resetMessageContent(dialog_id, messageObject, false);
+        } else {
+            translateMessage(messageObject, sourceLanguage);
+        }
     }
 
     private void translateMessage(MessageObject messageObject, String sourceLanguage) {

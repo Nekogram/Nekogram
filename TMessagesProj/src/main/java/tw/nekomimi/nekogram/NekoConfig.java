@@ -53,6 +53,13 @@ public class NekoConfig {
     public static final int TRANS_TYPE_TG = 1;
     public static final int TRANS_TYPE_EXTERNAL = 2;
 
+    public static final int DOUBLE_TAP_ACTION_NONE = 0;
+    public static final int DOUBLE_TAP_ACTION_REACTION = 1;
+    public static final int DOUBLE_TAP_ACTION_TRANSLATE = 2;
+    public static final int DOUBLE_TAP_ACTION_REPLY = 3;
+    public static final int DOUBLE_TAP_ACTION_SAVE = 4;
+    public static final int DOUBLE_TAP_ACTION_REPEAT = 5;
+
     private static final String EMOJI_FONT_AOSP = "NotoColorEmoji.ttf";
 
     private static final Object sync = new Object();
@@ -81,6 +88,7 @@ public class NekoConfig {
     public static int idType = ID_TYPE_API;
     public static int maxRecentStickers = 20;
     public static int transType = TRANS_TYPE_NEKO;
+    public static int doubleTapAction = DOUBLE_TAP_ACTION_NONE;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -303,12 +311,21 @@ public class NekoConfig {
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
             verifyLinkTip = preferences.getBoolean("verifyLinkTip", false);
             codeSyntaxHighlight = preferences.getBoolean("codeSyntaxHighlight", false);
+            doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_NONE);
             configLoaded = true;
         }
     }
 
     public static boolean isChatCat(TLRPC.Chat chat) {
         return ConfigHelper.getVerify().stream().anyMatch(id -> id == chat.id);
+    }
+
+    public static void setDoubleTapAction(int action) {
+        doubleTapAction = action;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("doubleTapAction", doubleTapAction);
+        editor.commit();
     }
 
     public static void setVerifyLinkTip(boolean shown) {

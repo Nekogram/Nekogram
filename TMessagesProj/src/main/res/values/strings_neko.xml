@@ -200,6 +200,7 @@
     <string name="CodeSyntaxHighlight">Code syntax highlight</string>
     <string name="CreateMono">Create Monospace</string>
     <string name="CreateMonoLanguage">Code language</string>
+    <string name="DoubleTapAction">Double tap action</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
