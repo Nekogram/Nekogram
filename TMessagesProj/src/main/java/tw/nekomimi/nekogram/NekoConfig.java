@@ -88,7 +88,7 @@ public class NekoConfig {
     public static int idType = ID_TYPE_API;
     public static int maxRecentStickers = 20;
     public static int transType = TRANS_TYPE_NEKO;
-    public static int doubleTapAction = DOUBLE_TAP_ACTION_NONE;
+    public static int doubleTapAction = DOUBLE_TAP_ACTION_REACTION;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -311,7 +311,7 @@ public class NekoConfig {
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
             verifyLinkTip = preferences.getBoolean("verifyLinkTip", false);
             codeSyntaxHighlight = preferences.getBoolean("codeSyntaxHighlight", false);
-            doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_NONE);
+            doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
             configLoaded = true;
         }
     }
