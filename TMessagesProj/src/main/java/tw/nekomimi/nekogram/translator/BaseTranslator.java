@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 
 import androidx.annotation.Nullable;
+import androidx.collection.LruCache;
 
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -24,6 +25,8 @@ import tw.nekomimi.nekogram.NekoConfig;
 
 abstract public class BaseTranslator {
 
+    private final LruCache<Object, Result> cache = new LruCache<>(200);
+
     abstract protected Result translate(String query, String tl) throws Exception;
 
     abstract public List<String> getTargetLanguages();
@@ -33,7 +36,12 @@ abstract public class BaseTranslator {
     }
 
     void startTask(Object query, String toLang, Translator.TranslateCallBack translateCallBack) {
-        new MyAsyncTask().request(query, toLang, translateCallBack).execute();
+        var result = cache.get(query);
+        if (result != null) {
+            translateCallBack.onSuccess(result.translation, result.sourceLanguage);
+        } else {
+            new MyAsyncTask().request(query, toLang, translateCallBack).execute();
+        }
     }
 
     public boolean supportLanguage(String language) {
@@ -124,6 +132,7 @@ abstract public class BaseTranslator {
             } else {
                 Result translationResult = (Result) result;
                 translateCallBack.onSuccess(translationResult.translation, translationResult.sourceLanguage);
+                cache.put(query, translationResult);
             }
         }
 
