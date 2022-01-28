@@ -243,12 +243,12 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     }
                     if (oldProvider != NekoConfig.translationProvider) {
                         if (oldProvider == Translator.PROVIDER_DEEPL) {
-                            listAdapter.notifyItemChanged(translationTargetRow);
+                            listAdapter.notifyItemChanged(doNotTranslateRow);
                             listAdapter.notifyItemRemoved(deepLFormalityRow);
                             updateRows(false);
                         } else if (NekoConfig.translationProvider == Translator.PROVIDER_DEEPL) {
                             updateRows(false);
-                            listAdapter.notifyItemChanged(translationTargetRow);
+                            listAdapter.notifyItemChanged(doNotTranslateRow);
                             listAdapter.notifyItemInserted(deepLFormalityRow);
                         }
                     }
@@ -570,7 +570,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                                 value = locale.getDisplayName();
                             }
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TranslationTarget", R.string.TranslationTarget), value, position + 1 != translator2Row);
+                        textCell.setTextAndValue(LocaleController.getString("TranslationTarget", R.string.TranslationTarget), value, true);
                     } else if (position == deepLFormalityRow) {
                         String value;
                         switch (NekoConfig.deepLFormality) {
@@ -629,7 +629,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         } else {
                             value = LocaleController.formatPluralString("Languages", langCodes.size());
                         }
-                        textCell.setTextAndValue(LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate), value, false);
+                        textCell.setTextAndValue(LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate), value, position + 1 != translator2Row);
                     }
                     break;
                 }
