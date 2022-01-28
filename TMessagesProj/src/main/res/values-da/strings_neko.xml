@@ -154,7 +154,6 @@
     <string name="ApplyEmojiFont">Anvend emoji-skrifttype</string>
     <string name="DisableJumpToNextChannel">Deaktivér \"Hop til næste kanal\"</string>
     <string name="DisableGreetingSticker">Deaktivér klistermærke til hilsen</string>
-    <string name="BlockSponsoredMessage">Bloker sponsoreret besked</string>
     <string name="DeleteAllFromSelfAdmin">Med administratorrettigheder</string>
     <string name="OfficialSite">Officiel hjemmeside</string>
     <string name="MutualContact">Gensidig kontakt</string>

@@ -154,7 +154,6 @@
     <string name="ApplyEmojiFont">Özel emoji yazı tipini uygula</string>
     <string name="DisableJumpToNextChannel">\"Sonraki Kanala Atla\"yı devre dışı bırak</string>
     <string name="DisableGreetingSticker">Selamlama etiketini devre dışı bırak</string>
-    <string name="BlockSponsoredMessage">Sponsorlu mesajı engelle</string>
     <string name="DeleteAllFromSelfAdmin">Yönetici haklarıyla</string>
     <string name="OfficialSite">Resmi site</string>
     <string name="MutualContact">Karşılıklı iletişim</string>

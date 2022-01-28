@@ -155,7 +155,6 @@
     <string name="ApplyEmojiFont">Terapkan fon emoji</string>
     <string name="DisableJumpToNextChannel">Matikan loncat ke Channel berikutnya</string>
     <string name="DisableGreetingSticker">Matikan stiker salam</string>
-    <string name="BlockSponsoredMessage">Blokir pesan disponsori</string>
     <string name="DeleteAllFromSelfAdmin">Dengan hak admin</string>
     <string name="OfficialSite">Hai</string>
     <string name="MutualContact">Ahh</string>
@@ -177,6 +176,16 @@
     <string name="TranslatorTypeExternal">Aplikasi Eksternal</string>
     <string name="CopyPhoto">Salin Poto</string>
     <string name="PhotoCopied">Poto disalin Di Clipboard</string>
+    <string name="SaveToDownloadCount_zero">Menyimpan %1$d file untuk diunduh</string>
+    <string name="SaveToDownloadCount_one">Menyimpan berkas %1$d ke Unduhan</string>
+    <string name="SaveToDownloadCount_two">Menyimpan berkas %1$d ke Unduhan</string>
+    <string name="SaveToDownloadCount_few">Menyimpan berkas %1$d ke Unduhan</string>
+    <string name="SaveToDownloadCount_many">Menyimpan berkas %1$d ke Unduhan</string>
+    <string name="SaveToDownloadCount_other">Menyimpan berkas %1$d ke Unduhan</string>
+    <string name="ThemesChannel">Saluran tema</string>
+    <string name="SelectAnIcon">Pilih ikon</string>
+    <string name="AppLinkNotVerifiedMessage">Untuk Android 12 dan lebih baru, Anda perlu menambahkan tautan secara manual ke tautan terverifikasi untuk membuka tautan t.me di Nekogram.</string>
+    <string name="AppLinkNotVerifiedTitle">Tautan aplikasi tidak ditambahkan</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Setelan Aksesibilitas</string>
 </resources>

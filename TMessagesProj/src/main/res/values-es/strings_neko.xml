@@ -155,7 +155,6 @@
     <string name="ApplyEmojiFont">Aplicar fuente de emoji</string>
     <string name="DisableJumpToNextChannel">Desactivar \"Saltar al siguiente canal\"</string>
     <string name="DisableGreetingSticker">Desactivar sticker de saludo</string>
-    <string name="BlockSponsoredMessage">Bloquear mensaje patrocinado</string>
     <string name="DeleteAllFromSelfAdmin">Con derechos de administrador</string>
     <string name="OfficialSite">Sitio oficial</string>
     <string name="MutualContact">Contacto mutuo</string>
@@ -183,6 +182,16 @@
     <string name="SaveToDownloadCount_few">Guardando %1$d archivos en descargas</string>
     <string name="SaveToDownloadCount_many">Guardando %1$d archivos en descargas</string>
     <string name="SaveToDownloadCount_other">Guardando %1$d archivos en descargas</string>
+    <string name="ThemesChannel">Canal de temas</string>
+    <string name="SelectAnIcon">Elija un icono</string>
+    <string name="AppLinkNotVerifiedMessage">Para Android 12 y posterior, tienes que añadir manualmente un enlace a los enlaces verificados para abrir los enlaces t.me en Nekogram.</string>
+    <string name="AppLinkNotVerifiedTitle">Enlaces de app no verificados</string>
+    <string name="AutoTranslate">Auto-traducir</string>
+    <string name="AutoTranslateAbout">Auto-traducir los mensajes que están en otro idioma.</string>
+    <string name="CodeSyntaxHighlight">Resaltado de sintaxis de código</string>
+    <string name="CreateMono">Crear Monoespaciado</string>
+    <string name="CreateMonoLanguage">Lenguaje de código</string>
+    <string name="DoubleTapAction">Acción de doble toque</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccRewindHeading">Ajustes de rebobinado</string>

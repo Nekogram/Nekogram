@@ -149,7 +149,6 @@
     <string name="ApplyEmojiFont">فونت ایموجی را اعمال کنید</string>
     <string name="DisableJumpToNextChannel">غیر فعال کردن \"پرش به کانال بعدی\"</string>
     <string name="DisableGreetingSticker">غیر فعال کردن استیکر سلام</string>
-    <string name="BlockSponsoredMessage">مصدود کردن پیام های اسپانسر</string>
     <string name="DeleteAllFromSelfAdmin">با دسترسی های مدیریتی</string>
     <string name="OfficialSite">سایت رسمی</string>
     <string name="MutualContact">مخاطب دو طرفه</string>
@@ -177,6 +176,14 @@
     <string name="SaveToDownloadCount_other">در حال ذخیره %1$d فایل در دانلودها</string>
     <string name="ThemesChannel">کانال تم ها</string>
     <string name="SelectAnIcon">یک تصویر انتخاب کنید</string>
+    <string name="AppLinkNotVerifiedMessage">برای اندروید 12 و جدیدتر، برای باز کردن پیوندهای t.me در نکوگرام، باید به صورت دستی پیوند را به پیوندهای تأیید شده اضافه کنید.</string>
+    <string name="AppLinkNotVerifiedTitle">پیوندهای برنامه تأیید نشده است</string>
+    <string name="AutoTranslate">ترجمه خودکار</string>
+    <string name="AutoTranslateAbout">ترجمه خودکار پیام هایی که به زبان دیگری هستند.</string>
+    <string name="CodeSyntaxHighlight">برجسته سازی نحو کد</string>
+    <string name="CreateMono">Monospace را ایجاد کنید</string>
+    <string name="CreateMonoLanguage">زبان کد</string>
+    <string name="DoubleTapAction">عملکرد دو ضربه ای</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
 </resources>

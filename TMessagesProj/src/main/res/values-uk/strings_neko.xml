@@ -153,7 +153,6 @@
     <string name="ApplyEmojiFont">Застосувати шрифт емодзі</string>
     <string name="DisableJumpToNextChannel">Вимкнути функцію переходу до наступного каналу</string>
     <string name="DisableGreetingSticker">Вимкнути вітальну наліпку</string>
-    <string name="BlockSponsoredMessage">Блокувати рекламне повідомлення</string>
     <string name="DeleteAllFromSelfAdmin">З правами адміністратора</string>
     <string name="OfficialSite">Офіційний сайт</string>
     <string name="MutualContact">Спільний контакт</string>
@@ -183,6 +182,13 @@
     <string name="SaveToDownloadCount_other">Збереження %1$d файлів до завантажень</string>
     <string name="ThemesChannel">Канал тем</string>
     <string name="SelectAnIcon">Виберіть іконку</string>
+    <string name="AppLinkNotVerifiedMessage">Щоб відкрити посилання t.me у Nekogram на Android 12 та вище, вам необхідно вручну додати таке посилання до списку перевірених.</string>
+    <string name="AppLinkNotVerifiedTitle">Посилання додатка неперевірені</string>
+    <string name="AutoTranslate">Автоматичний переклад</string>
+    <string name="AutoTranslateAbout">Автоматично перекладати іншомовні повідомлення.</string>
+    <string name="CodeSyntaxHighlight">Підсвічування синтаксису мов програмування</string>
+    <string name="CreateMono">Моноширний шрифт</string>
+    <string name="CreateMonoLanguage">Мова програмування</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccRewindHeading">Налаштування перемотки</string>

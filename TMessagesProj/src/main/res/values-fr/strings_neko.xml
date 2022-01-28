@@ -154,7 +154,6 @@
     <string name="ApplyEmojiFont">Appliquer la police d\'emoji</string>
     <string name="DisableJumpToNextChannel">Désactiver « Passer au canal suivant »</string>
     <string name="DisableGreetingSticker">Désactiver l\'autocollant de salutation</string>
-    <string name="BlockSponsoredMessage">Bloquer les messages sponsorisés</string>
     <string name="DeleteAllFromSelfAdmin">Avec les droits d\'administrateur</string>
     <string name="OfficialSite">Site officiel</string>
     <string name="MutualContact">Contact commun</string>
@@ -184,6 +183,9 @@
     <string name="SaveToDownloadCount_other">Enregistrement de %1$d fichiers dans les téléchargements</string>
     <string name="ThemesChannel">Canal de thèmes</string>
     <string name="SelectAnIcon">Choisissez une icône</string>
+    <string name="AppLinkNotVerifiedTitle">Liens d\'application non vérifiés</string>
+    <string name="AutoTranslate">Traduction automatique</string>
+    <string name="AutoTranslateAbout">Traduire automatiquement les messages qui sont dans une autre langue.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

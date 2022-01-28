@@ -156,7 +156,6 @@
     <string name="ApplyEmojiFont">이모티콘 글꼴 적용</string>
     <string name="DisableJumpToNextChannel">\"다음 채널로 이동\" 비활성화</string>
     <string name="DisableGreetingSticker">인사말 스티커 사용 안함</string>
-    <string name="BlockSponsoredMessage">스폰서 메시지 차단</string>
     <string name="DeleteAllFromSelfAdmin">관리자 권한</string>
     <string name="OfficialSite">공식 사이트</string>
     <string name="MutualContact">공통 연락처</string>
@@ -186,6 +185,14 @@
     <string name="SaveToDownloadCount_other">%1$d 파일을 다운로드에 저장</string>
     <string name="ThemesChannel">테마 채널</string>
     <string name="SelectAnIcon">아이콘 선택</string>
+    <string name="AppLinkNotVerifiedMessage">Android 12 및 최신의 경우 Nekogram에서 t.me 링크를 열기 위해 검증된 링크에 수동으로 링크를 추가해야 합니다.</string>
+    <string name="AppLinkNotVerifiedTitle">앱 링크가 확인되지 않음</string>
+    <string name="AutoTranslate">자동 번역</string>
+    <string name="AutoTranslateAbout">다른 언어로 된 메시지를 자동으로 번역합니다.</string>
+    <string name="CodeSyntaxHighlight">코드 구문 강조 표시</string>
+    <string name="CreateMono">모노스페이스 생성</string>
+    <string name="CreateMonoLanguage">코드 언어</string>
+    <string name="DoubleTapAction">두번 누루기 기능</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">접근성 설정</string>
     <string name="AccRewindHeading">되감기 설정</string>

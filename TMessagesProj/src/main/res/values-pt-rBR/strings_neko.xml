@@ -156,7 +156,6 @@
     <string name="ApplyEmojiFont">Aplicar fonte de emoji customizada</string>
     <string name="DisableJumpToNextChannel">Desativar \"Pular para o Próximo Canal\"</string>
     <string name="DisableGreetingSticker">Desativar sticker de saudação</string>
-    <string name="BlockSponsoredMessage">Bloquear mensagem patrocinada</string>
     <string name="DeleteAllFromSelfAdmin">Com direitos de administrador</string>
     <string name="OfficialSite">Site oficial</string>
     <string name="MutualContact">Contato em comum</string>
@@ -186,6 +185,8 @@
     <string name="SaveToDownloadCount_other">Salvando %1$d arquivos para downloads</string>
     <string name="ThemesChannel">Canal de temas</string>
     <string name="SelectAnIcon">Escolha um ícone</string>
+    <string name="AppLinkNotVerifiedMessage">Para Android 12 e superior, você precisa adicionar manualmente o link para os links verificados para abrir o t.me em Nekogram.</string>
+    <string name="AppLinkNotVerifiedTitle">Links do aplicativo não verificados</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccRewindHeading">Configurações de retrocesso</string>
