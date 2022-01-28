@@ -119,7 +119,7 @@ android {
         }
     }
 
-    defaultConfig.versionCode = 2539
+    defaultConfig.versionCode = 2541
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
@@ -134,7 +134,7 @@ android {
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 32
-        versionName "8.4.4"
+        versionName "8.4.4.1"
 
         externalNativeBuild {
             cmake {
