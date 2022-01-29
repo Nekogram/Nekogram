@@ -21541,7 +21541,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         continue;
                     }
                     final String[] fromLang = { null };
-                    if (LanguageDetector.hasSupport()) {
+                    if (!messageObject.translated && LanguageDetector.hasSupport()) {
                         cell.setVisibility(View.GONE);
                         waitForLangDetection.set(true);
                         LanguageDetector.detectLanguage(
