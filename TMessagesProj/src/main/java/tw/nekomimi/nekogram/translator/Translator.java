@@ -23,6 +23,7 @@ import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
+import tw.nekomimi.nekogram.settings.NekoLanguagesSelectActivity;
 
 public class Translator {
 
@@ -72,6 +73,35 @@ public class Translator {
         builder.show();
     }
 
+    public static String stripLanguageCode(String language) {
+        if (language.contains("-")) {
+            return language.substring(0, language.indexOf("-"));
+        }
+        return language;
+    }
+
+    public static boolean isLanguageRestricted(String lang) {
+        if (lang == null || lang.equals("und")) {
+            return false;
+        }
+        String toLang = stripLanguageCode(Translator.getCurrentTranslator().getCurrentTargetLanguage());
+        lang = stripLanguageCode(lang);
+        if (lang.equals(toLang)) {
+            return true;
+        }
+        boolean restricted = false;
+        for (String language : NekoConfig.restrictedLanguages) {
+            if (language.contains("_")) {
+                language = language.substring(0, language.indexOf("_"));
+            }
+            if (language.equals(lang)) {
+                restricted = true;
+                break;
+            }
+        }
+        return restricted;
+    }
+
     public static Pair<ArrayList<String>, ArrayList<Integer>> getProviders() {
         ArrayList<String> names = new ArrayList<>();
         ArrayList<Integer> types = new ArrayList<>();
@@ -90,29 +120,32 @@ public class Translator {
         return new Pair<>(names, types);
     }
 
-    public static void showTranslationTargetSelector(Context context, View view, Runnable callback) {
-        showTranslationTargetSelector(context, view, callback, null);
+    public static void showTranslationTargetSelector(BaseFragment fragment, View view, Runnable callback) {
+        showTranslationTargetSelector(fragment, view, callback, null);
     }
 
-    public static void showTranslationTargetSelector(Context context, View view, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
-        BaseTranslator translator = Translator.getCurrentTranslator();
-        ArrayList<String> targetLanguages = new ArrayList<>(translator.getTargetLanguages());
-        ArrayList<CharSequence> names = new ArrayList<>();
-        for (String language : targetLanguages) {
-            Locale locale = Locale.forLanguageTag(language);
-            if (!TextUtils.isEmpty(locale.getScript())) {
-                names.add(HtmlCompat.fromHtml(String.format("%s - %s", locale.getDisplayScript(), locale.getDisplayScript(locale)), HtmlCompat.FROM_HTML_MODE_LEGACY));
-            } else {
-                names.add(String.format("%s - %s", locale.getDisplayName(), locale.getDisplayName(locale)));
+    public static void showTranslationTargetSelector(BaseFragment fragment, View view, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
+        if (Translator.getCurrentTranslator().getTargetLanguages().size() <= 30) {
+            ArrayList<String> targetLanguages = new ArrayList<>(Translator.getCurrentTranslator().getTargetLanguages());
+            ArrayList<CharSequence> names = new ArrayList<>();
+            for (String language : targetLanguages) {
+                Locale locale = Locale.forLanguageTag(language);
+                if (!TextUtils.isEmpty(locale.getScript())) {
+                    names.add(HtmlCompat.fromHtml(String.format("%s - %s", locale.getDisplayScript(), locale.getDisplayScript(locale)), HtmlCompat.FROM_HTML_MODE_LEGACY));
+                } else {
+                    names.add(String.format("%s - %s", locale.getDisplayName(), locale.getDisplayName(locale)));
+                }
             }
-        }
-        targetLanguages.add(0, "app");
-        names.add(0, LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp));
+            targetLanguages.add(0, "app");
+            names.add(0, LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp));
 
-        PopupHelper.show(names, LocaleController.getString("TranslationTarget", R.string.TranslationTarget), targetLanguages.indexOf(NekoConfig.translationTarget), context, view, i -> {
-            NekoConfig.setTranslationTarget(targetLanguages.get(i));
-            if (callback != null) callback.run();
-        }, resourcesProvider);
+            PopupHelper.show(names, LocaleController.getString("TranslationTarget", R.string.TranslationTarget), targetLanguages.indexOf(NekoConfig.translationTarget), fragment.getParentActivity(), view, i -> {
+                NekoConfig.setTranslationTarget(targetLanguages.get(i));
+                if (callback != null) callback.run();
+            }, resourcesProvider);
+        } else {
+            fragment.presentFragment(new NekoLanguagesSelectActivity(NekoLanguagesSelectActivity.TYPE_TARGET));
+        }
     }
 
     public static void showTranslatorTypeSelector(Context context, View view, Runnable callback) {

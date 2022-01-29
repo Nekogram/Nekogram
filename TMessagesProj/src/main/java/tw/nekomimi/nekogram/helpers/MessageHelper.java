@@ -149,7 +149,7 @@ public class MessageHelper extends BaseController {
             if (file.length() != 0) {
                 jsonObject.put("files", file);
             }
-            return "#" + UpdateHelper.UPDATE_TAG + jsonObject.toString();
+            return "#" + UpdateHelper.UPDATE_TAG + jsonObject;
         } catch (JSONException e) {
             FileLog.e(e);
             return "";
@@ -202,17 +202,46 @@ public class MessageHelper extends BaseController {
         MessageObject messageObject = null;
         if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
             messageObject = getTargetMessageObjectFromGroup(selectedObjectGroup);
-        } else if (!selectedObject.isAnimatedEmoji() && !TextUtils.isEmpty(selectedObject.messageOwner.message) || selectedObject.isPoll()) {
+        } else if (selectedObject.isPoll()) {
+            messageObject = selectedObject;
+        } else if (!TextUtils.isEmpty(selectedObject.messageOwner.message) && !isLinkOrEmojiOnlyMessage(selectedObject)) {
             messageObject = selectedObject;
         }
-        if (messageObject != null && !TextUtils.isEmpty(selectedObject.messageOwner.message) && isEmoji(selectedObject.messageOwner.message)) {
+        if (messageObject != null && messageObject.translating) {
             return null;
         }
         return messageObject;
     }
 
-    public boolean isMessageObjectTranslatable(MessageObject messageObject) {
-        return !messageObject.isAnimatedEmoji() && !TextUtils.isEmpty(messageObject.messageOwner.message) || messageObject.isPoll();
+    private boolean isLinkOrEmojiOnlyMessage(MessageObject messageObject) {
+        var entities = messageObject.messageOwner.entities;
+        if (entities != null) {
+            for (TLRPC.MessageEntity entity : entities) {
+                if (entity instanceof TLRPC.TL_messageEntityBotCommand ||
+                        entity instanceof TLRPC.TL_messageEntityEmail ||
+                        entity instanceof TLRPC.TL_messageEntityUrl ||
+                        entity instanceof TLRPC.TL_messageEntityMention ||
+                        entity instanceof TLRPC.TL_messageEntityCashtag ||
+                        entity instanceof TLRPC.TL_messageEntityHashtag ||
+                        entity instanceof TLRPC.TL_messageEntityBankCard ||
+                        entity instanceof TLRPC.TL_messageEntityPhone) {
+                    if (entity.offset == 0 && entity.length == messageObject.messageOwner.message.length()) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return isEmoji(messageObject.messageOwner.message);
+    }
+
+    public boolean isMessageObjectAutoTranslatable(MessageObject messageObject) {
+        if (messageObject.translated || messageObject.translating || messageObject.isOutOwner()) {
+            return false;
+        }
+        if (messageObject.isPoll()) {
+            return true;
+        }
+        return !TextUtils.isEmpty(messageObject.messageOwner.message) && !isLinkOrEmojiOnlyMessage(messageObject);
     }
 
     public MessageObject getMessageForRepeat(MessageObject selectedObject, MessageObject.GroupedMessages selectedObjectGroup) {

@@ -20604,7 +20604,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                         if (NekoConfig.showTranslate && !(NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL && getMessagesController().isChatNoForwards(currentChat))) {
                             MessageObject messageObject = getMessageHelper().getMessageForTranslate(selectedObject, selectedObjectGroup);
-                            if (messageObject != null && !messageObject.translating) {
+                            if (messageObject != null) {
                                 items.add(messageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
                                 options.add(29);
                                 icons.add(R.drawable.msg_translate);
@@ -20927,7 +20927,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             if (NekoConfig.showTranslate && !(NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL && getMessagesController().isChatNoForwards(currentChat))) {
                                 MessageObject messageObject = getMessageHelper().getMessageForTranslate(selectedObject, selectedObjectGroup);
-                                if (messageObject != null && !messageObject.translating) {
+                                if (messageObject != null) {
                                     items.add(messageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
                                     options.add(29);
                                     icons.add(R.drawable.msg_translate);
@@ -21548,7 +21548,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 getMessagePlainText(messageObject),
                                 (String lang) -> {
                                     fromLang[0] = lang;
-                                    if (!isLanguageRestricted(lang)) cell.setVisibility(View.VISIBLE);
+                                    if (!Translator.isLanguageRestricted(lang)) cell.setVisibility(View.VISIBLE);
                                     waitForLangDetection.set(false);
                                     if (onLangDetectionDone.get() != null) {
                                         onLangDetectionDone.get().run();
@@ -22158,33 +22158,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             message = messageObject.messageOwner.message;
         }
         return message;
-    }
-
-    private boolean isLanguageRestricted(String lang) {
-        if (lang == null || lang.equals("und")) {
-            return false;
-        }
-        String toLang = Translator.getCurrentTranslator().getCurrentTargetLanguage();
-        if (toLang.contains("-")) {
-            toLang = toLang.substring(0, toLang.indexOf("-"));
-        }
-        if (lang.contains("-")) {
-            lang = lang.substring(0, lang.indexOf("-"));
-        }
-        if (lang.equals(toLang)) {
-            return true;
-        }
-        boolean restricted = false;
-        for (String language : RestrictedLanguagesSelectActivity.getRestrictedLanguages()) {
-            if (language.contains("_")) {
-                language = language.substring(0, language.indexOf("_"));
-            }
-            if (language.equals(lang)) {
-                restricted = true;
-                break;
-            }
-        }
-        return restricted;
     }
 
     private void translateOrResetMessage(MessageObject messageObject, String sourceLanguage) {
@@ -23022,7 +22995,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             Translator.showTranslatorTypeSelector(getParentActivity(), null, null, themeDelegate);
                             break;
                         case 1:
-                            Translator.showTranslationTargetSelector(getParentActivity(), null, null, themeDelegate);
+                            Translator.showTranslationTargetSelector(this, null, null, themeDelegate);
                             break;
                         case 2:
                             Translator.showTranslationProviderSelector(getParentActivity(), null, null, themeDelegate);
@@ -25974,12 +25947,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                 if (ConfigHelper.getShowAutoTranslate() && NekoConfig.autoTranslate && NekoConfig.transType == NekoConfig.TRANS_TYPE_NEKO) {
                     final var messageObject = messageCell.getMessageObject();
-                    if (!messageObject.translated && !messageObject.translating && getMessageHelper().isMessageObjectTranslatable(messageObject)) {
+                    if (getMessageHelper().isMessageObjectAutoTranslatable(messageObject)) {
                         messageObject.translating = true;
                         LanguageDetector.detectLanguage(
                                 getMessagePlainText(messageObject),
                                 (String lang) -> {
-                                    if (!isLanguageRestricted(lang)) {
+                                    if (!Translator.isLanguageRestricted(lang)) {
                                         translateMessage(messageObject, lang);
                                     }
                                 },

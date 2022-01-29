@@ -42,7 +42,6 @@ import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
-import org.telegram.ui.RestrictedLanguagesSelectActivity;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -254,7 +253,12 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     }
                 });
             } else if (position == translationTargetRow) {
-                Translator.showTranslationTargetSelector(context, view, () -> listAdapter.notifyItemChanged(translationTargetRow));
+                Translator.showTranslationTargetSelector(this, view, () -> {
+                    listAdapter.notifyItemChanged(translationTargetRow);
+                    if (getRestrictedLanguages().size() == 1) {
+                        listAdapter.notifyItemChanged(doNotTranslateRow);
+                    }
+                });
             } else if (position == deepLFormalityRow) {
                 ArrayList<String> arrayList = new ArrayList<>();
                 ArrayList<Integer> types = new ArrayList<>();
@@ -370,7 +374,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     }
                 });
             } else if (position == doNotTranslateRow) {
-                presentFragment(new RestrictedLanguagesSelectActivity());
+                presentFragment(new NekoLanguagesSelectActivity(NekoLanguagesSelectActivity.TYPE_RESTRICTED));
             }
         });
 
@@ -448,6 +452,15 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         if (notify && listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
+    }
+
+    private ArrayList<String> getRestrictedLanguages() {
+        String currentLang = Translator.stripLanguageCode(Translator.getCurrentTranslator().getCurrentTargetLanguage());
+        ArrayList<String> langCodes = new ArrayList<>(NekoConfig.restrictedLanguages);
+        if (!langCodes.contains(currentLang)) {
+            langCodes.add(currentLang);
+        }
+        return langCodes;
     }
 
     @Override
@@ -618,13 +631,13 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         textCell.setTextAndValue(LocaleController.getString("TranslatorType", R.string.TranslatorType), value, NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL);
                     } else if (position == doNotTranslateRow) {
                         ArrayList<String> langCodes = getRestrictedLanguages();
-                        String value;
+                        CharSequence value;
                         if (langCodes.size() == 1) {
-                            if (NekoConfig.translationTarget.equals("app")) {
-                                value = LocaleController.getInstance().getCurrentLocaleInfo().name;
+                            Locale locale = Locale.forLanguageTag(langCodes.get(0));
+                            if (!TextUtils.isEmpty(locale.getScript())) {
+                                value = HtmlCompat.fromHtml(locale.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY);
                             } else {
-                                Locale l = Locale.forLanguageTag(langCodes.get(0));
-                                value = l.getDisplayName(l);
+                                value = locale.getDisplayName();
                             }
                         } else {
                             value = LocaleController.formatPluralString("Languages", langCodes.size());
@@ -712,16 +725,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     break;
                 }
             }
-        }
-
-        private ArrayList<String> getRestrictedLanguages() {
-            LocaleController.LocaleInfo currentLocaleInfo = LocaleController.getInstance().getCurrentLocaleInfo();
-            String currentLang = NekoConfig.translationTarget.equals("app") ? currentLocaleInfo.pluralLangCode : NekoConfig.translationTarget;
-            ArrayList<String> langCodes = new ArrayList<>(RestrictedLanguagesSelectActivity.getRestrictedLanguages());
-            if (!langCodes.contains(currentLang)) {
-                langCodes.add(currentLang);
-            }
-            return langCodes;
         }
 
 

@@ -30,6 +30,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -89,6 +90,7 @@ public class NekoConfig {
     public static int maxRecentStickers = 20;
     public static int transType = TRANS_TYPE_NEKO;
     public static int doubleTapAction = DOUBLE_TAP_ACTION_REACTION;
+    public static HashSet<String> restrictedLanguages = new HashSet<>();
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showReport = false;
@@ -312,12 +314,20 @@ public class NekoConfig {
             verifyLinkTip = preferences.getBoolean("verifyLinkTip", false);
             codeSyntaxHighlight = preferences.getBoolean("codeSyntaxHighlight", false);
             doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
+            restrictedLanguages = new HashSet<>(preferences.getStringSet("restrictedLanguages", new HashSet<>()));
             configLoaded = true;
         }
     }
 
     public static boolean isChatCat(TLRPC.Chat chat) {
         return ConfigHelper.getVerify().stream().anyMatch(id -> id == chat.id);
+    }
+
+    public static void saveRestrictedLanguages() {
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putStringSet("restrictedLanguages", restrictedLanguages);
+        editor.commit();
     }
 
     public static void setDoubleTapAction(int action) {
