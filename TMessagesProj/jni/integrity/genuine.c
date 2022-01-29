@@ -973,7 +973,17 @@ bool checkGenuine(JNIEnv *env) {
     fill_add_sigcont(v1);
     LOGI(v1); // 0x14
 
+    if (isInlineHooked(&__system_property_get)) {
+        genuine = CHECK_FATAL;
+        goto done;
+    }
+
     sdk = getSdk();
+
+    if (sdk < 21) {
+        genuine = CHECK_FATAL;
+        goto done;
+    }
 
     uid = getuid();
 
@@ -1044,7 +1054,7 @@ bool checkGenuine(JNIEnv *env) {
         goto clean;
     }
 
-    int xposed_stat = get_xposed_status(env, android_get_device_api_level());
+    int xposed_stat = get_xposed_status(env, 21);
     if (xposed_stat == CAN_NOT_ANTI_XPOSED) {
         genuine = CHECK_FATAL;
         goto clean;
