@@ -624,6 +624,9 @@ public class DownloadController extends BaseController implements NotificationCe
                     index = 1;
                 }
             } else if (peer.chat_id != 0) {
+                if (message.from_id instanceof TLRPC.TL_peerUser && getMessagesController().blockePeers.indexOfKey(message.from_id.user_id) >= 0) {
+                    return 0;
+                }
                 if (message.from_id instanceof TLRPC.TL_peerUser && getContactsController().contactsDict.containsKey(message.from_id.user_id)) {
                     index = 0;
                 } else {
@@ -632,6 +635,9 @@ public class DownloadController extends BaseController implements NotificationCe
             } else {
                 TLRPC.Chat chat = message.peer_id.channel_id != 0 ? getMessagesController().getChat(message.peer_id.channel_id) : null;
                 if (ChatObject.isChannel(chat) && chat.megagroup) {
+                    if (message.from_id instanceof TLRPC.TL_peerUser && getMessagesController().blockePeers.indexOfKey(message.from_id.user_id) >= 0) {
+                        return 0;
+                    }
                     if (message.from_id instanceof TLRPC.TL_peerUser && getContactsController().contactsDict.containsKey(message.from_id.user_id)) {
                         index = 0;
                     } else {

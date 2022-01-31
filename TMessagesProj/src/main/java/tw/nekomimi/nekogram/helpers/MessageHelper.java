@@ -63,6 +63,7 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
 public class MessageHelper extends BaseController {
@@ -71,6 +72,19 @@ public class MessageHelper extends BaseController {
 
     public MessageHelper(int num) {
         super(num);
+    }
+
+    public static ArrayList<TLRPC.MessageEntity> checkBlockedUserEntities(MessageObject messageObject) {
+        if (NekoConfig.ignoreBlocked && MessagesController.getInstance(UserConfig.selectedAccount).blockePeers.indexOfKey(messageObject.getFromChatId()) >= 0) {
+            ArrayList<TLRPC.MessageEntity> entities = new ArrayList<>(messageObject.messageOwner.entities);
+            var spoiler = new TLRPC.TL_messageEntitySpoiler();
+            spoiler.offset = 0;
+            spoiler.length = messageObject.messageOwner.message.length();
+            entities.add(spoiler);
+            return entities;
+        } else {
+            return messageObject.messageOwner.entities;
+        }
     }
 
     public static void addFileToClipboard(File file, Runnable callback) {

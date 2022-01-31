@@ -16,7 +16,7 @@
     <string name="DeleteAllFromSelfAlert">Warning! This will **delete all messages from you** in this chat for **all** participants.</string>
     <string name="BotLogin">Bot Login</string>
     <string name="InvalidAccessToken">Invalid access token</string>
-    <string name="IgnoreBlocked">Ignore blocked users in group</string>
+    <string name="IgnoreBlocked">Hide messages from blocked user</string>
     <string name="Connection">Connection</string>
     <string name="Chat">Chat</string>
     <string name="NameOrder">Name order</string>
@@ -84,7 +84,7 @@
     <string name="Categories">Categories</string>
     <string name="OfficialChannel">Official channel</string>
     <string name="About">About</string>
-    <string name="IgnoreBlockedAbout">You\'ll no longer see messages from blocked users in groups.</string>
+    <string name="IgnoreBlockedAbout">IT IS NOT REALLY HIDE! Messages are still available to view, but text will be converted to Spoiler and media won\'t auto download.</string>
     <string name="Donate">Donate</string>
     <string name="DonateAbout">Support our development.</string>
     <string name="TranslationAbout">Help us to translate Nekogram to your language.</string>

@@ -11245,7 +11245,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 if (replyObjectText != null) {
                     if (replyObjectText instanceof Spannable)
-                        MediaDataController.addTextStyleRuns(messageObjectToReply.messageOwner.entities, messageObjectToReply.caption != null ? messageObjectToReply.caption : messageObjectToReply.messageText, (Spannable) replyObjectText);
+                        MediaDataController.addTextStyleRuns(messageObjectToReply, messageObjectToReply.caption != null ? messageObjectToReply.caption : messageObjectToReply.messageText, (Spannable) replyObjectText);
 
                     replyObjectTextView.setText(replyObjectText);
                 }
@@ -25463,7 +25463,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
                 MessageObject message = messages.get(position - messagesStartRow);
                 View view = holder.itemView;
-                boolean fromUserBlocked = getMessagesController().blockePeers.indexOfKey(message.getFromChatId()) >= 0 && NekoConfig.ignoreBlocked;
 
                 if (view instanceof ChatMessageCell) {
                     final ChatMessageCell messageCell = (ChatMessageCell) view;
@@ -25821,11 +25820,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (chatListItemAnimator != null) {
                             chatListItemAnimator.onGreetingStickerTransition(holder, greetingsViewContainer);
                         }
-                    }
-                    if (fromUserBlocked){
-                        messageCell.setVisibility(View.GONE);
-                    } else {
-                        messageCell.setVisibility(View.VISIBLE);
                     }
                 } else if (view instanceof ChatActionCell) {
                     ChatActionCell actionCell = (ChatActionCell) view;

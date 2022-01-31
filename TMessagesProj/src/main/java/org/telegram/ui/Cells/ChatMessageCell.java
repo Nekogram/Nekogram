@@ -950,11 +950,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     private final Theme.ResourcesProvider resourcesProvider;
     private final boolean canDrawBackgroundInParent;
 
-    private boolean isBlockedUserMessage() {
-        return (MessagesController.getInstance(currentAccount).blockePeers.indexOfKey(
-                currentMessageObject.getFromChatId()) >= 0 && NekoConfig.ignoreBlocked);
-    }
-
     // Public for enter transition
     public List<SpoilerEffect> replySpoilers = new ArrayList<>();
     private Stack<SpoilerEffect> replySpoilersPool = new Stack<>();
@@ -6595,9 +6590,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
             seekBarWaveform.setProgress(0);
         }
-        if (isBlockedUserMessage()) {
-            totalHeight = 0;
-        }
         updateWaveform();
         updateButtonState(false, dataChanged && !messageObject.cancelEditing, true);
 
@@ -10584,7 +10576,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         stringFinalText = Emoji.replaceEmoji(mess, Theme.chat_replyTextPaint.getFontMetricsInt(), AndroidUtilities.dp(14), false);
                         stringFinalText = TextUtils.ellipsize(stringFinalText, Theme.chat_replyTextPaint, maxWidth, TextUtils.TruncateAt.END);
                         if (stringFinalText instanceof Spannable) {
-                            MediaDataController.addTextStyleRuns(messageObject.replyMessageObject.messageOwner.entities, messageObject.replyMessageObject.caption, (Spannable) stringFinalText);
+                            MediaDataController.addTextStyleRuns(messageObject.replyMessageObject, messageObject.replyMessageObject.caption, (Spannable) stringFinalText);
                         }
                     } else if (messageObject.replyMessageObject.messageText != null && messageObject.replyMessageObject.messageText.length() > 0) {
                         String mess = messageObject.replyMessageObject.messageText.toString();
