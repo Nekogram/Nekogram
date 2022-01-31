@@ -192,6 +192,7 @@
     <string name="CodeSyntaxHighlight">Подсветка синтаксиса кода</string>
     <string name="CreateMono">Создать моноширинный</string>
     <string name="CreateMonoLanguage">Язык кода</string>
+    <string name="DoubleTapAction">Действие при двойном нажатии</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>

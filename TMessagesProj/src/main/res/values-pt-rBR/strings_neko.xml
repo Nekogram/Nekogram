@@ -113,7 +113,7 @@
     <string name="CheckUpdate">Verifique atualizações</string>
     <string name="LastUpdateFormatted">Última verificação com sucesso %1$s</string>
     <string name="LastUpdateDateFormatted">Última verificação com sucesso em %1$s</string>
-    <string name="LastUpdateRecently">Última verificação, com sucesso, feita nesse instante.</string>
+    <string name="LastUpdateRecently">Última verificação feita com sucesso, nesse instante.</string>
     <string name="LastUpdateNever">Nunca verificado desde a instalação.</string>
     <string name="CheckingUpdate">Verificando atualizações…</string>
     <string name="ProviderMicrosoftTranslator">Tradutor da Microsoft</string>
@@ -187,6 +187,12 @@
     <string name="SelectAnIcon">Escolha um ícone</string>
     <string name="AppLinkNotVerifiedMessage">Para Android 12 e superior, você precisa adicionar manualmente o link para os links verificados para abrir o t.me em Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Links do aplicativo não verificados</string>
+    <string name="AutoTranslate">Tradução automática</string>
+    <string name="AutoTranslateAbout">Traduzir automaticamente as mensagens que estão em outro idioma.</string>
+    <string name="CodeSyntaxHighlight">Destaque da sintaxe do código</string>
+    <string name="CreateMono">Criar monoespaçado</string>
+    <string name="CreateMonoLanguage">Linguagem do código</string>
+    <string name="DoubleTapAction">Ação de toque duplo</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccRewindHeading">Configurações de retrocesso</string>

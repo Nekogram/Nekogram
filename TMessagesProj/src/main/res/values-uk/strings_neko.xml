@@ -189,6 +189,7 @@
     <string name="CodeSyntaxHighlight">Підсвічування синтаксису мов програмування</string>
     <string name="CreateMono">Моноширний шрифт</string>
     <string name="CreateMonoLanguage">Мова програмування</string>
+    <string name="DoubleTapAction">Дія при подвійному дотику</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccRewindHeading">Налаштування перемотки</string>
