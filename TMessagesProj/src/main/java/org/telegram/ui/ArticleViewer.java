@@ -1267,9 +1267,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             deleteView.setOnClickListener(v -> {
                 if (pressedLinkOwnerLayout != null) {
                     AndroidUtilities.addToClipboard(pressedLinkOwnerLayout.getText());
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                    //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
                         Toast.makeText(parentActivity, LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
-                    }
+                    //}
                 }
                 if (popupWindow != null && popupWindow.isShowing()) {
                     popupWindow.dismiss(true);
@@ -3672,9 +3672,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
             @Override
             public void onTextCopied() {
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
                     BulletinFactory.of(containerView, null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
-                }
+                //}
             }
         });
         containerView.addView(textSelectionHelper.getOverlayView(activity));

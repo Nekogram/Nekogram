@@ -816,9 +816,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     } else {
                         bulletinMessage = LocaleController.getString("LinkCopied", R.string.LinkCopied);
                     }
-                    if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                    //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
                         BulletinFactory.of(containerView, resourcesProvider).createSimpleBulletin(R.raw.voip_invite, bulletinMessage).show();
-                    }
+                    //}
                 }
             });
             BottomSheet bottomSheet = builder.create();

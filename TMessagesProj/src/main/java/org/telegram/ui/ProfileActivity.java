@@ -4077,9 +4077,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         android.content.ClipboardManager clipboard = (android.content.ClipboardManager) ApplicationLoader.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
                         android.content.ClipData clip = android.content.ClipData.newPlainText("label", "+" + user.phone);
                         clipboard.setPrimaryClip(clip);
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                        //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
                             BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("PhoneCopied", R.string.PhoneCopied)).show();
-                        }
+                        //}
                     } catch (Exception e) {
                         FileLog.e(e);
                     }

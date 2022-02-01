@@ -383,7 +383,7 @@ public class AboutLinkCell extends FrameLayout {
                         onLinkClick(pressedLinkFinal);
                     } else if (which == 1) {
                         AndroidUtilities.addToClipboard(url);
-                        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                        //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
                             if (url.startsWith("@")) {
                                 BulletinFactory.of(parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("UsernameCopied", R.string.UsernameCopied)).show();
                             } else if (url.startsWith("#") || url.startsWith("$")) {
@@ -391,7 +391,7 @@ public class AboutLinkCell extends FrameLayout {
                             } else {
                                 BulletinFactory.of(parentFragment).createSimpleBulletin(R.raw.copy, LocaleController.getString("LinkCopied", R.string.LinkCopied)).show();
                             }
-                        }
+                        //}
                     }
                 });
                 builder.show();
