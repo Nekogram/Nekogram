@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.remote.AnalyticsHelper;
 
 public class ActionBarLayout extends FrameLayout {
 
@@ -1333,6 +1334,7 @@ public class ActionBarLayout extends FrameLayout {
             fragment.onTransitionAnimationEnd(true, false);
             fragment.onBecomeFullyVisible();
         }
+        AnalyticsHelper.trackEvent("presentFragment");
         return true;
     }
 

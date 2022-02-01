@@ -10,6 +10,7 @@ package org.telegram.messenger;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.ActivityManager;
 import android.app.AlarmManager;
 import android.app.Application;
 import android.app.PendingIntent;
@@ -39,8 +40,10 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.ForegroundDetector;
 
 import java.io.File;
+import java.util.HashMap;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.remote.AnalyticsHelper;
 
 public class ApplicationLoader extends Application {
 
@@ -63,6 +66,26 @@ public class ApplicationLoader extends Application {
     public static volatile long mainInterfacePausedStageQueueTime;
 
     public static boolean hasPlayServices;
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        AnalyticsHelper.start(this);
+        AnalyticsHelper.trackEvent("App start");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+            var am = getSystemService(ActivityManager.class);
+            var map = new HashMap<String, String>(1);
+            var reasons = am.getHistoricalProcessExitReasons(null, 0, 1);
+            if (reasons.size() == 1) {
+                map.put("description", reasons.get(0).getDescription());
+                map.put("importance", String.valueOf(reasons.get(0).getImportance()));
+                map.put("process", reasons.get(0).getProcessName());
+                map.put("reason", String.valueOf(reasons.get(0).getReason()));
+                map.put("status", String.valueOf(reasons.get(0).getStatus()));
+                AnalyticsHelper.trackEvent("Last exit reasons", map);
+            }
+        }
+    }
 
     public static File getFilesDirFixed() {
         for (int a = 0; a < 10; a++) {
