@@ -181,6 +181,7 @@ public final class FloatingToolbar {
         }
     }
 
+    private static final int TRANSLATE = 16908353; // android.R.id.textAssist;
     private void doShow() {
         List<MenuItem> menuItems = getVisibleAndEnabledMenuItems(mMenu);
         Collections.sort(menuItems, mMenuItemComparator);
@@ -221,7 +222,7 @@ public final class FloatingToolbar {
                 Menu subMenu = menuItem.getSubMenu();
                 if (subMenu != null) {
                     menuItems.addAll(getVisibleAndEnabledMenuItems(subMenu));
-                } else {
+                } else if (menuItem.getItemId() != TRANSLATE) {
                     menuItems.add(menuItem);
                 }
             }
@@ -835,17 +836,17 @@ public final class FloatingToolbar {
             boolean isFirstItem = true;
             while (!remainingMenuItems.isEmpty()) {
                 final MenuItem menuItem = remainingMenuItems.peek();
+                boolean isLastItem = remainingMenuItems.size() == 1;
                 /*if (!isFirstItem && menuItem.requiresOverflow()) {
                     break;
                 }*/
-                final View menuItemButton = createMenuItemButton(mContext, menuItem, mIconTextSpacing);
+                final View menuItemButton = createMenuItemButton(mContext, menuItem, mIconTextSpacing, isFirstItem, isLastItem);
                 if (menuItemButton instanceof LinearLayout) {
                     ((LinearLayout) menuItemButton).setGravity(Gravity.CENTER);
                 }
                 if (isFirstItem) {
                     menuItemButton.setPaddingRelative((int) (1.5 * menuItemButton.getPaddingStart()), menuItemButton.getPaddingTop(), menuItemButton.getPaddingEnd(), menuItemButton.getPaddingBottom());
                 }
-                boolean isLastItem = remainingMenuItems.size() == 1;
                 if (isLastItem) {
                     menuItemButton.setPaddingRelative(menuItemButton.getPaddingStart(), menuItemButton.getPaddingTop(), (int) (1.5 * menuItemButton.getPaddingEnd()), menuItemButton.getPaddingBottom());
                 }
@@ -1178,14 +1179,14 @@ public final class FloatingToolbar {
             }
 
             private View createMenuButton(MenuItem menuItem) {
-                View button = createMenuItemButton(mContext, menuItem, mIconTextSpacing);
+                View button = createMenuItemButton(mContext, menuItem, mIconTextSpacing, false, false);
                 button.setPadding(mSidePadding, 0, mSidePadding, 0);
                 return button;
             }
         }
     }
 
-    private View createMenuItemButton(Context context, MenuItem menuItem, int iconTextSpacing) {
+    private View createMenuItemButton(Context context, MenuItem menuItem, int iconTextSpacing, boolean first, boolean last) {
         LinearLayout menuItemButton = new LinearLayout(context);
         menuItemButton.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         menuItemButton.setOrientation(LinearLayout.HORIZONTAL);

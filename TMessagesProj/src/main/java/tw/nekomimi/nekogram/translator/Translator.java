@@ -42,7 +42,7 @@ public class Translator {
         if (NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL) {
             Translator.startExternalTranslator(context, query);
         } else {
-            TranslateAlert.showAlert(context, fragment, sourceLanguage, NekoConfig.translationTarget, query, noforwards, onLinkPress);
+            TranslateAlert.showAlert(context, fragment, sourceLanguage, NekoConfig.translationTarget, query, noforwards, onLinkPress, null);
         }
     }
 

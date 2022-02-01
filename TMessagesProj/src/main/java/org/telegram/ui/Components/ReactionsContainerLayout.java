@@ -527,7 +527,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         public BackupImageView backupImageView;
         public BackupImageView pressedBackupImageView;
         public TLRPC.TL_availableReaction currentReaction;
-        public float sideScale;
+        public float sideScale = 1f;
         private boolean isEnter;
 
         Runnable playRunnable = new Runnable() {
