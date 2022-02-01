@@ -8,7 +8,6 @@
     <string name="DeleteAllFromSelfAlert">අවවාදයයි! මෙහිදී මෙම කතාබහෙහි **ඔබගේ සියලූම පණිවිඩ** **සියලුම සාමාජිකයන්ගෙන්** මකා දමයි.</string>
     <string name="BotLogin">බොට් මගින්</string>
     <string name="InvalidAccessToken">වැරදි ටෝකනයක්</string>
-    <string name="IgnoreBlocked">අවහිර කළ පුද්ගලයින් කණ්ඩායමේදී නොසලකා හරින්න</string>
     <string name="Connection">සම්බන්ධතාවය</string>
     <string name="Chat">කතාබහ</string>
     <string name="NameOrder">නම් අනුපිළිවෙල</string>
@@ -74,7 +73,6 @@
     <string name="Categories">වර්ග</string>
     <string name="OfficialChannel">නිල චැනලය</string>
     <string name="About">පිළිබඳව</string>
-    <string name="IgnoreBlockedAbout">කණ්ඩායම් වල අවහිර කළ පරිශීලකයින්ගේ පණිවිඩ ඔබ තවදුරටත් දකින්නේ නැත.</string>
     <string name="Donate">පරිත්‍යාග කරන්න</string>
     <string name="DonateAbout">අපගේ සංවර්ධනයට සහාය වන්න.</string>
     <string name="TranslationAbout">ඔබගේ භාෂාවට නෙකොග්‍රෑම් පරිවර්තනය කිරීමට අපට උදව් කරන්න.</string>

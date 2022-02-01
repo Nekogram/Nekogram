@@ -9,7 +9,6 @@
     <string name="DeleteAllFromSelfAlert">تحذير! سيؤدي هذا إلى **حذفَ جميع الرسائل منكَ** في هذه المحادثة لـ **جميع** المشاركين.</string>
     <string name="BotLogin">تسجيل الدخول کبوت</string>
     <string name="InvalidAccessToken">مفتاح التوكن غيرُ صالح</string>
-    <string name="IgnoreBlocked">تجاهُل المستخدمين المحظورين في المجموعة</string>
     <string name="Connection">اتصال</string>
     <string name="Chat">مُحادثة</string>
     <string name="NameOrder">ترتيبُ الاسمِ</string>
@@ -77,7 +76,6 @@
     <string name="Categories">الاصناف</string>
     <string name="OfficialChannel">القناة الرسمية</string>
     <string name="About">حول</string>
-    <string name="IgnoreBlockedAbout">لن ترى بعد الآن رسائل من المستخدمين المحظورين في المجموعات.</string>
     <string name="Donate">تبرع</string>
     <string name="DonateAbout">تبرع للمشروع.</string>
     <string name="TranslationAbout">ساعدنا على ترجمة نيكوجرام إلى لغتك.</string>

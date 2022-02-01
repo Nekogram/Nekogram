@@ -9,7 +9,6 @@
     <string name="DeleteAllFromSelfAlert">Achtung! Dies wird **alle Nachrichten von dir** für **alle** Teilnehmer in diesem Chat **löschen**.</string>
     <string name="BotLogin">Bot-Anmeldung</string>
     <string name="InvalidAccessToken">Ungültiger Zugriffstoken</string>
-    <string name="IgnoreBlocked">Blockierte Benutzer in Gruppen ignorieren</string>
     <string name="Connection">Verbindung</string>
     <string name="Chat">Chat</string>
     <string name="NameOrder">Namensreihenfolge</string>
@@ -77,7 +76,6 @@
     <string name="Categories">Kategorien</string>
     <string name="OfficialChannel">Offizieller Kanal</string>
     <string name="About">Über</string>
-    <string name="IgnoreBlockedAbout">Nachrichten von blockierten Benutzern werden in Gruppen nicht mehr angezeigt.</string>
     <string name="Donate">Spenden</string>
     <string name="DonateAbout">Unterstützen Sie unsere Entwicklung.</string>
     <string name="TranslationAbout">Helfen Sie uns, Nekogram in Ihre Sprache zu übersetzen.</string>

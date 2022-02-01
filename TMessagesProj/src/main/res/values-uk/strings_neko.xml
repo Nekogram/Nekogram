@@ -9,7 +9,7 @@
     <string name="DeleteAllFromSelfAlert">Увага! Це призведе до ***видалення усіх ваших повідомлень*** для користувачів цього чату.</string>
     <string name="BotLogin">Бот логін</string>
     <string name="InvalidAccessToken">Неправильний ключ доступу</string>
-    <string name="IgnoreBlocked">Ігнорувати заблокованих користувачів у групі</string>
+    <string name="IgnoreBlocked">Приховувати повідомлення від заблокованих користувачів</string>
     <string name="Connection">З\'єднання</string>
     <string name="Chat">Чат</string>
     <string name="NameOrder">Порядок йменування</string>
@@ -76,7 +76,7 @@
     <string name="Categories">Категорії</string>
     <string name="OfficialChannel">Офіційний канал</string>
     <string name="About">Про додаток</string>
-    <string name="IgnoreBlockedAbout">Ви більше не будете бачити повідомлення від заблокованих користувачів у групах.</string>
+    <string name="IgnoreBlockedAbout">Насправді вміст не буде повністю приховано! Повідомлення будуть відображатись, але текст буде сховано під спойлер, а медіа не будуть автоматично завантажуватись.</string>
     <string name="Donate">Підтримати</string>
     <string name="DonateAbout">Підтримайте нашу розробку.</string>
     <string name="TranslationAbout">Допоможіть нам перекласти Nekogram на вашу мову.</string>

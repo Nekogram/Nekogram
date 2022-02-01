@@ -9,7 +9,7 @@
     <string name="DeleteAllFromSelfAlert">Внимание! Это **удалит все ваши сообщения** в этом чате для **всех**.</string>
     <string name="BotLogin">Вход по токену</string>
     <string name="InvalidAccessToken">Токен недействителен</string>
-    <string name="IgnoreBlocked">Игнорировать заблокированных пользователей в группе</string>
+    <string name="IgnoreBlocked">Скрывать сообщения от заблокированных пользователей</string>
     <string name="Connection">Соединение</string>
     <string name="Chat">Чат</string>
     <string name="NameOrder">Сортировка имён</string>
@@ -69,15 +69,15 @@
     <string name="TabTitleType">Показывать на вкладках</string>
     <string name="TabTitleTypeTip">Эмодзи синхронизируются в облаке Telegram.</string>
     <string name="TabTitleTypeText">Названия</string>
-    <string name="TabTitleTypeIcon">Емодзи</string>
-    <string name="TabTitleTypeMix">Названня и емодзи</string>
+    <string name="TabTitleTypeIcon">Эмодзи</string>
+    <string name="TabTitleTypeMix">Названия и эмодзи</string>
     <string name="ConfirmAVMessage">Подтверждение аудио/видео сообщений</string>
     <string name="AskBeforeCalling">Подтверждать звонки</string>
     <string name="DisableNumberRounding">Не округлять числа</string>
     <string name="Categories">Настройки</string>
     <string name="OfficialChannel">Официальный канал</string>
     <string name="About">О проекте</string>
-    <string name="IgnoreBlockedAbout">Вы больше не увидите сообщения от заблокированных пользователей в группах.</string>
+    <string name="IgnoreBlockedAbout">НА САМОМ ДЕЛЕ ЭТО НЕ СКРЫТИЕ! Сообщения по-прежнему доступны для просмотра, но текст будет преобразован в спойлер, а медиафайлы не будут загружаться автоматически.</string>
     <string name="Donate">Поддержать Nekogram</string>
     <string name="DonateAbout">Поддержите разработку проекта.</string>
     <string name="TranslationAbout">Помогите перевести Nekogram на ваш язык.</string>
@@ -133,7 +133,7 @@
     <string name="WsEnableTls">Включить TLS</string>
     <string name="WsLocalProxy">Локальный прокси</string>
     <string name="WsEnableDoh">Включить DoH</string>
-    <string name="UpdateNekogram">Обнови меня ~ Nekogram</string>
+    <string name="UpdateNekogram">Обнови меня ~</string>
     <string name="TranslationTarget">Целевой язык</string>
     <string name="TranslationTargetApp">Системный</string>
     <string name="Translator">Переводчик</string>

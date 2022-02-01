@@ -7,7 +7,6 @@
     <string name="DeleteAllFromSelfAlert">Varning! Detta tar **bort alla meddelanden från dig** i den här chatten för **alla** deltagare.</string>
     <string name="BotLogin">Botinloggning</string>
     <string name="InvalidAccessToken">Ogiltig åtkomsttoken</string>
-    <string name="IgnoreBlocked">Ignorera blockerade användare i gruppen</string>
     <string name="Connection">Förbindelse</string>
     <string name="Chat">Chatt</string>
     <string name="NameOrder">Namnordning</string>

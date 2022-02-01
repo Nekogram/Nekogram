@@ -9,7 +9,6 @@
     <string name="DeleteAllFromSelfAlert">Varoitus! Tämä **poistaa kaikki viestit sinulta** tässä keskustelussa **kaikille** osallistujille.</string>
     <string name="BotLogin">Bot Kirjautuminen</string>
     <string name="InvalidAccessToken">Virheellinen käyttötunnus</string>
-    <string name="IgnoreBlocked">Ohita estetyt käyttäjät ryhmässä</string>
     <string name="Connection">Yhteys</string>
     <string name="Chat">Chatti</string>
     <string name="NameOrder">Nimijärjestys</string>

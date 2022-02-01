@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko Indstillinger</string>
+    <string name="NekoSettings">Neko-indstillinger</string>
     <string name="IPv6">Prøv at oprette forbindelse via IPv6</string>
     <string name="MessageMenu">Meddelelse menu</string>
     <string name="HidePhone">Skjul mit telefonnummer</string>
@@ -9,7 +9,7 @@
     <string name="DeleteAllFromSelfAlert">Advarsel! Dette vil ** slette alle beskeder fra dig** i denne chat for **alle** deltagere.</string>
     <string name="BotLogin">Bot Login</string>
     <string name="InvalidAccessToken">Ugyldigt adgangstoken</string>
-    <string name="IgnoreBlocked">Ignorer blokerede brugere i gruppen</string>
+    <string name="IgnoreBlocked">Skjul beskeder fra blokeret bruger</string>
     <string name="Connection">Forbindelse</string>
     <string name="Chat">Chat</string>
     <string name="NameOrder">Navnerækkefølge</string>
@@ -77,7 +77,7 @@
     <string name="Categories">Kategorier</string>
     <string name="OfficialChannel">Officiel kanal</string>
     <string name="About">Om</string>
-    <string name="IgnoreBlockedAbout">Du vil ikke længere se beskeder fra blokerede brugere i grupper.</string>
+    <string name="IgnoreBlockedAbout">Det er IKKE RIGTIG HIDE! Beskeder er stadig tilgængelige til at se, men tekst vil blive konverteret til Spoiler og medier vil ikke automatisk downloade.</string>
     <string name="Donate">Donér</string>
     <string name="DonateAbout">Støt vores udvikling.</string>
     <string name="TranslationAbout">Hjælp os med at oversætte Nekogram til dit sprog.</string>
@@ -181,6 +181,16 @@
     <string name="SaveToDownloadCount_few">Gemmer %1$d filer til downloads</string>
     <string name="SaveToDownloadCount_many">Gemmer %1$d filer til downloads</string>
     <string name="SaveToDownloadCount_other">Gemmer %1$d filer til downloads</string>
+    <string name="ThemesChannel">Tema kanal</string>
+    <string name="SelectAnIcon">Vælg et ikon</string>
+    <string name="AppLinkNotVerifiedMessage">For Android 12 og nyere, skal du manuelt tilføje link til bekræftede links for at åbne t.me links i Nekogram.</string>
+    <string name="AppLinkNotVerifiedTitle">App-links ikke verificeret</string>
+    <string name="AutoTranslate">Automatisk oversættelse</string>
+    <string name="AutoTranslateAbout">Oversæt automatisk meddelelser, der er på et andet sprog.</string>
+    <string name="CodeSyntaxHighlight">Kode syntaks fremhævning</string>
+    <string name="CreateMono">Opret Monospace</string>
+    <string name="CreateMonoLanguage">Kode sprog</string>
+    <string name="DoubleTapAction">Handling ved dobbelttryk</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
     <string name="AccRewindHeading">Indstillinger for tilbagespoling</string>

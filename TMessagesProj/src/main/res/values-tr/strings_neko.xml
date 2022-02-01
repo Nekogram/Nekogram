@@ -9,7 +9,6 @@
     <string name="DeleteAllFromSelfAlert">Uyarı! Bu, **sohbette senin gönderdiğin tüm mesajlar tüm üyeler için silinecek**.</string>
     <string name="BotLogin">Bot Girişi</string>
     <string name="InvalidAccessToken">Erişim anahtarı geçersiz</string>
-    <string name="IgnoreBlocked">Engellenmiş üyeleri grupta yoksay</string>
     <string name="Connection">Bağlantı</string>
     <string name="Chat">Sohbet</string>
     <string name="NameOrder">İsim sırası</string>
@@ -77,7 +76,6 @@
     <string name="Categories">Kategoriler</string>
     <string name="OfficialChannel">Resmi kanal</string>
     <string name="About">Hakkında</string>
-    <string name="IgnoreBlockedAbout">Artık gruplarda engellenen kullanıcılardan gelen mesajları görmeyeceksiniz.</string>
     <string name="Donate">Bağış yap!</string>
     <string name="DonateAbout">Gelişimimizi destekleyin.</string>
     <string name="TranslationAbout">Nekogram\'ı kendi dilinize çevirmemize yardımcı olun.</string>

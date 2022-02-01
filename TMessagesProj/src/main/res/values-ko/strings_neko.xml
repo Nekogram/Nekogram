@@ -9,7 +9,7 @@
     <string name="DeleteAllFromSelfAlert">경고! 모든 참가자에 대해 이 대화에서 사용자가 보낸 모든 메시지를 삭제합니다.</string>
     <string name="BotLogin">봇 로그인</string>
     <string name="InvalidAccessToken">잘못된 액세스 토큰</string>
-    <string name="IgnoreBlocked">그룹에서 차단 된 사용자 무시</string>
+    <string name="IgnoreBlocked">차단된 사용자의 메시지 숨기기</string>
     <string name="Connection">연결</string>
     <string name="Chat">채팅</string>
     <string name="NameOrder">성 / 이름 표시 순서</string>
@@ -77,7 +77,7 @@
     <string name="Categories">카테고리</string>
     <string name="OfficialChannel">공식 채널</string>
     <string name="About">대하여</string>
-    <string name="IgnoreBlockedAbout">그룹에서 차단된 사용자의 메시지를 더 이상 볼 수 없습니다.</string>
+    <string name="IgnoreBlockedAbout">숨겨진게 아닙니다!  메시지는 계속 볼 수 있지만 텍스트는 스포일러로 변환되고 미디어는 자동으로 다운로드되지 않습니다.</string>
     <string name="Donate">기부하기</string>
     <string name="DonateAbout">개발자 지원하기</string>
     <string name="TranslationAbout">네코그램의 언어 번역을 도와주세요</string>

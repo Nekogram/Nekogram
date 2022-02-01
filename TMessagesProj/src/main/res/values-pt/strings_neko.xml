@@ -8,7 +8,6 @@
     <string name="DeleteAllFromSelfAlert">Aviso! Isto irá **excluir todas as mensagens de você** nesse chat para **todos** os participantes.</string>
     <string name="BotLogin">Acesso ao Bot</string>
     <string name="InvalidAccessToken">Token de acesso inválido</string>
-    <string name="IgnoreBlocked">Ignorar usuários bloqueados no grupo</string>
     <string name="Connection">Conexão</string>
     <string name="Chat">Conversa</string>
     <string name="NameOrder">Pedido em nome</string>

@@ -9,7 +9,6 @@
     <string name="DeleteAllFromSelfAlert">警告！ 這將為此對話中的**所有人**刪除**所有您發送的訊息**。</string>
     <string name="BotLogin">機器人登入</string>
     <string name="InvalidAccessToken">Token 無效</string>
-    <string name="IgnoreBlocked">忽略被封鎖的使用者在群組內的發言</string>
     <string name="Connection">連線</string>
     <string name="Chat">聊天</string>
     <string name="NameOrder">姓名順序</string>
@@ -75,7 +74,6 @@
     <string name="Categories">類別</string>
     <string name="OfficialChannel">官方頻道</string>
     <string name="About">關於</string>
-    <string name="IgnoreBlockedAbout">您將不會再看到被遮蔽的使用者在群組中的訊息。</string>
     <string name="Donate">捐贈</string>
     <string name="DonateAbout">支援我們的開發。</string>
     <string name="TranslationAbout">幫助我們將 Nekogram 翻譯成您的語言。</string>

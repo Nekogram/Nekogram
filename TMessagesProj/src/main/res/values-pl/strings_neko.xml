@@ -9,7 +9,6 @@
     <string name="DeleteAllFromSelfAlert">Uwaga! To usunie **wszystkie twoje wiadomości** u wszystkich.</string>
     <string name="BotLogin">Logowanie bota</string>
     <string name="InvalidAccessToken">Nieprawidłowy token dostępu</string>
-    <string name="IgnoreBlocked">Ignoruj zablokowanych użytkowników w grupie</string>
     <string name="Connection">Połączenie</string>
     <string name="Chat">Czat</string>
     <string name="NameOrder">Format imienia i nazwiska</string>
@@ -77,7 +76,6 @@
     <string name="Categories">Kategorie</string>
     <string name="OfficialChannel">Oficjalny kanał</string>
     <string name="About">O aplikacji</string>
-    <string name="IgnoreBlockedAbout">Nie będziesz widzieć wiadomości zablokowanych użytkowników w grupach.</string>
     <string name="Donate">Dotacja</string>
     <string name="DonateAbout">Wesprzyj nasz rozwój.</string>
     <string name="TranslationAbout">Pomóż nam przetłumaczyć Nekogram na Twój język.</string>

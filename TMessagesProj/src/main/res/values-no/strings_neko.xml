@@ -7,7 +7,6 @@
     <string name="DeleteAllFromSelfAlert">Advarsel! Dette vil **slette alle meldinger fra deg** i denne chatten for **alle** deltakere.</string>
     <string name="BotLogin">Bot innlogging</string>
     <string name="InvalidAccessToken">Ugyldig tilgangstoken</string>
-    <string name="IgnoreBlocked">Ignorer blokkerte brukere i gruppen</string>
     <string name="Connection">Forbindelse</string>
     <string name="Chat">Chate</string>
     <string name="NameOrder">Navn på ordre</string>
@@ -73,7 +72,6 @@
     <string name="Categories">Kategorier</string>
     <string name="OfficialChannel">Offisiell kanal</string>
     <string name="About">Om</string>
-    <string name="IgnoreBlockedAbout">Du ser ikke lenger meldinger fra blokkerte brukere i grupper.</string>
     <string name="Donate">Donere</string>
     <string name="DonateAbout">Støtte til utvikling.</string>
     <string name="TranslationAbout">Hjelp oss å oversette Nekogram til ditt språk.</string>

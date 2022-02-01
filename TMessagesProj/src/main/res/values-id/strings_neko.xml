@@ -9,7 +9,6 @@
     <string name="DeleteAllFromSelfAlert">Perhatian! Ini akan **menghapus semua pesan dari Anda** di obrolan ini untuk **semua** orang.</string>
     <string name="BotLogin">Login Bot</string>
     <string name="InvalidAccessToken">Token akses tidak valid</string>
-    <string name="IgnoreBlocked">Abaikan pengguna yang diblokir dalam grup</string>
     <string name="Connection">Sambungan</string>
     <string name="Chat">Obrolan</string>
     <string name="NameOrder">Urutan nama</string>
@@ -77,7 +76,6 @@
     <string name="Categories">Kategori</string>
     <string name="OfficialChannel">Channel resmi</string>
     <string name="About">Tentang</string>
-    <string name="IgnoreBlockedAbout">Anda tidak akan melihat pesan dari pengguna yang diblokir dalam grup.</string>
     <string name="Donate">Donasi</string>
     <string name="DonateAbout">Dukung pengembangan Nekogram.</string>
     <string name="TranslationAbout">Bantu menerjemahkan Nekogram ke bahasa Anda.</string>

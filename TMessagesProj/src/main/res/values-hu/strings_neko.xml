@@ -3,7 +3,6 @@
     <string name="DeleteAllFromSelfAlert">Warning! This will **delete all messages from you** in this chat for **all** participants.</string>
     <string name="BotLogin">Bot Login</string>
     <string name="InvalidAccessToken">Invalid access token</string>
-    <string name="IgnoreBlocked">Ignore blocked users in group</string>
     <string name="Connection">Connection</string>
     <string name="Chat">Chat</string>
     <string name="NameOrder">Name order</string>

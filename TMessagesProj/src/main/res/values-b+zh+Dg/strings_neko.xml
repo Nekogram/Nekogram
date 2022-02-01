@@ -9,7 +9,7 @@
     <string name="DeleteAllFromSelfAlert">警告！这将为此会话中的 **所有人** 删除 **全部你发出的消息**。</string>
     <string name="BotLogin">机器人登录</string>
     <string name="InvalidAccessToken">无效的访问令牌</string>
-    <string name="IgnoreBlocked">忽略渣滓们在群里说的话</string>
+    <string name="IgnoreBlocked">隐藏来自坏东西的消息</string>
     <string name="Connection">连接</string>
     <string name="Chat">聊天</string>
     <string name="NameOrder">姓名顺序</string>
@@ -77,7 +77,7 @@
     <string name="Categories">类别</string>
     <string name="OfficialChannel">官方频道</string>
     <string name="About">关于</string>
-    <string name="IgnoreBlockedAbout">您将不会再看到渣滓们在群里说的话。</string>
+    <string name="IgnoreBlockedAbout">并不是真正的隐藏！仍然可以查看消息，但文本将被转换为黑幕，媒体也不会自动下载。</string>
     <string name="Donate">捐赠</string>
     <string name="DonateAbout">支持我们的开发。</string>
     <string name="TranslationAbout">帮助我们将 Nekogram 翻译成您的语言。</string>

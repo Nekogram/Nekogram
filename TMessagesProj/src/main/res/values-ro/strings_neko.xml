@@ -8,7 +8,6 @@
     <string name="DeleteAllFromSelfAlert">Atenție! Acest lucru va **șterge toate mesajele de la tine** în acest chat pentru **toți** participanții.</string>
     <string name="BotLogin">Logare Bot</string>
     <string name="InvalidAccessToken">Cod de acces invalid</string>
-    <string name="IgnoreBlocked">Ignoră utilizatorii blocați în grup</string>
     <string name="Connection">Conexiune</string>
     <string name="Chat">Conversație</string>
     <string name="NameOrder">Ordine nume</string>
@@ -74,7 +73,6 @@
     <string name="Categories">Categorii</string>
     <string name="OfficialChannel">Canal oficial</string>
     <string name="About">Despre</string>
-    <string name="IgnoreBlockedAbout">Nu veți mai vedea mesajele de la utilizatorii blocați în grupuri.</string>
     <string name="Donate">Donați</string>
     <string name="DonateAbout">Sprijiniți dezvoltarea noastră.</string>
     <string name="TranslationAbout">Ajutați-ne să traducem Nekogram în limba dvs.</string>

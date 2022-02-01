@@ -9,7 +9,6 @@
     <string name="DeleteAllFromSelfAlert">सावधान! इस चैट में, **आपके भेजें सभी संदेशो को न्शट कर दिया जाएगा**, **सभी** प्रतिभागियों के लिए।</string>
     <string name="BotLogin">बॉट लॉगिन</string>
     <string name="InvalidAccessToken">एक्सेस टोकन गलत है</string>
-    <string name="IgnoreBlocked">ग्रुप में ब्लॉक्ड व्यक्ति को अनदेखा करे</string>
     <string name="Connection">कनेक्शन</string>
     <string name="Chat">चैट</string>
     <string name="NameOrder">नाम क्रम</string>

@@ -9,7 +9,6 @@
     <string name="DeleteAllFromSelfAlert">Cảnh báo! Điều này sẽ **xóa tất cả các tin nhắn của bạn** trong cuộc trò chuyện này cho **tất cả** người tham gia.</string>
     <string name="BotLogin">Đăng nhập Bot</string>
     <string name="InvalidAccessToken">Mã token không đúng hoặc không hợp lệ</string>
-    <string name="IgnoreBlocked">Bỏ qua người dùng bị chặn trong nhóm</string>
     <string name="Connection">Kết nối</string>
     <string name="Chat">Trò chuyện</string>
     <string name="NameOrder">Kiểu tên</string>
@@ -76,7 +75,6 @@
     <string name="Categories">Danh mục</string>
     <string name="OfficialChannel">Kênh chính thức</string>
     <string name="About">Thông tin thêm </string>
-    <string name="IgnoreBlockedAbout">Bạn sẽ không còn thấy tin nhắn từ những người dùng bị chặn trong các nhóm.</string>
     <string name="Donate">Ủng hộ</string>
     <string name="DonateAbout">Hỗ trợ sự phát triển của chúng tôi.</string>
     <string name="TranslationAbout">Hãy giúp chúng tôi dịch Nekogram sang ngôn ngữ của bạn.</string>

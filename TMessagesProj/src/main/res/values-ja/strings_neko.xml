@@ -9,7 +9,6 @@
     <string name="DeleteAllFromSelfAlert">警告！これはこのチャットの **すべての人** が **あなたが送った全部のメッセージ** を削除します。</string>
     <string name="BotLogin">ボットログイン</string>
     <string name="InvalidAccessToken">無効なアクセストークン</string>
-    <string name="IgnoreBlocked">ブロックした相手の発言を無視する</string>
     <string name="Connection">接続</string>
     <string name="Chat">チャット</string>
     <string name="NameOrder">名前の順序</string>

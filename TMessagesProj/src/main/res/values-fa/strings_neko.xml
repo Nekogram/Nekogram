@@ -9,7 +9,6 @@
     <string name="DeleteAllFromSelfAlert">هشدار! با این کار **همه پیام های شما** در این چت برای **همه** شرکت کنندگان حذف می شود.</string>
     <string name="BotLogin">ورود از طریق روبات</string>
     <string name="InvalidAccessToken">توکن دسترسی نامعتبر</string>
-    <string name="IgnoreBlocked">نادیده گرفتن کاربران مسدود شده در گروه</string>
     <string name="Connection">اتصال</string>
     <string name="Chat">گفتگو</string>
     <string name="NameOrder">ترتیب نام</string>
@@ -75,7 +74,6 @@
     <string name="Categories">دسته بندی ها</string>
     <string name="OfficialChannel">کانال رسمی</string>
     <string name="About">در باره</string>
-    <string name="IgnoreBlockedAbout">شما دیگر پیام‌های کاربران مسدود شده را در گروه‌ها نخواهید دید.</string>
     <string name="Donate">حمایت مالی</string>
     <string name="DonateAbout">حمایت از تیم توسعه ما.</string>
     <string name="TranslationAbout">به ما در ترجمه نکوگرام به زبان خود کمک کنید.</string>
