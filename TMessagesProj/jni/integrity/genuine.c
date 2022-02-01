@@ -973,10 +973,10 @@ bool checkGenuine(JNIEnv *env) {
     fill_add_sigcont(v1);
     LOGI(v1); // 0x14
 
-    if (isInlineHooked(&__system_property_get)) {
+    /*if (isInlineHooked(&__system_property_get)) {
         genuine = CHECK_FATAL;
         goto done;
-    }
+    }*/
 
     sdk = getSdk();
 
