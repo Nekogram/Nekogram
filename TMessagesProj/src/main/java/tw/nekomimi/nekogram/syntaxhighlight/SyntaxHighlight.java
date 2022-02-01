@@ -24,7 +24,7 @@ public class SyntaxHighlight {
         if (!NekoConfig.codeSyntaxHighlight) {
             return;
         }
-        if (run.urlEntity instanceof TLRPC.TL_messageEntityHashtag) {
+        if (run.urlEntity instanceof TLRPC.TL_messageEntityHashtag && (run.urlEntity.length == 7 || run.urlEntity.length == 9)) {
             try {
                 int color = Color.parseColor(spannable.subSequence(run.start, run.end).toString());
                 var light = AndroidUtilities.computePerceivedBrightness(color) > 0.725f;

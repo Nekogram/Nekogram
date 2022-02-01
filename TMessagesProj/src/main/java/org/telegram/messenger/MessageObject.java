@@ -4220,7 +4220,7 @@ public class MessageObject {
                 spannable.setSpan(new URLSpanBotCommand(url, t, run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (run.urlEntity instanceof TLRPC.TL_messageEntityHashtag || run.urlEntity instanceof TLRPC.TL_messageEntityMention || run.urlEntity instanceof TLRPC.TL_messageEntityCashtag) {
                 spannable.setSpan(new URLSpanNoUnderline(url, run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                if (run.urlEntity instanceof TLRPC.TL_messageEntityHashtag && run.urlEntity.length > 6 && run.urlEntity.length < 10) {
+                if (run.urlEntity instanceof TLRPC.TL_messageEntityHashtag) {
                     SyntaxHighlight.highlight(run, spannable);
                 }
             } else if (run.urlEntity instanceof TLRPC.TL_messageEntityEmail) {
