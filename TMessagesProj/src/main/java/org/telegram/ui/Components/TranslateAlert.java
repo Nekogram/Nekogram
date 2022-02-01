@@ -1059,7 +1059,20 @@ public class TranslateAlert extends Dialog {
         public void run(boolean rateLimit);
     }
     private void fetchTranslation(CharSequence text, long minDuration, OnTranslationSuccess onSuccess, OnTranslationFail onFail) {
+        Translator.translate(text, new Translator.TranslateCallBack() {
+            @Override
+            public void onSuccess(Object translation, String sourceLanguage) {
+                AndroidUtilities.runOnUIThread(() -> {
+                    if (onSuccess != null)
+                        onSuccess.run((String) translation, sourceLanguage);
+                });
+            }
 
+            @Override
+            public void onError(Exception e) {
+                Translator.handleTranslationError(getContext(), e, () -> fetchTranslation(text, minDuration, onSuccess, onFail), null);
+            }
+        });
     }
     private static void translateText(int currentAccount, TLRPC.InputPeer peer, int msg_id, String from_lang, String to_lang) {
         TLRPC.TL_messages_translateText req = new TLRPC.TL_messages_translateText();

@@ -22143,9 +22143,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         return false;
                     }
                     if (processSelectedOptionLongClick(options.get(i))) {
-                        if (scrimPopupWindow != null) {
-                            scrimPopupWindow.dismiss();
-                        }
+                        closeMenu();
                         return true;
                     }
                     return false;
@@ -22192,13 +22190,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             return;
                         }
                         translateOrResetMessage(messageObject, fromLang[0]);
-                        scrimView = null;
-                        scrimViewReaction = null;
-                        contentView.invalidate();
-                        chatListView.invalidate();
-                        if (scrimPopupWindow != null) {
-                            scrimPopupWindow.dismiss();
-                        }
+                        closeMenu();
                     });
                 }
             }
@@ -22773,7 +22765,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     private void translateOrResetMessage(MessageObject messageObject, String sourceLanguage) {
-        if (messageObject.translated && messageObject.originalMessage != null){
+        if (messageObject.translated && messageObject.originalMessage != null) {
             if (messageObject.originalMessage instanceof String) {
                 messageObject.messageOwner.message = (String) messageObject.originalMessage;
             } else if (messageObject.originalMessage instanceof TLRPC.TL_poll) {
