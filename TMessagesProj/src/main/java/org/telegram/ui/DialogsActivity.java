@@ -230,7 +230,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private FilterTabsView filterTabsView;
     private boolean askingForPermissions;
     private RLottieDrawable passcodeDrawable;
-    private RLottieImageView lunarItem;
 
     private SearchViewPager searchViewPager;
 
@@ -706,15 +705,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 LayoutParams layoutParams = (LayoutParams) doneItem.getLayoutParams();
                 layoutParams.topMargin = actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0;
                 layoutParams.height = ActionBar.getCurrentActionBarHeight();
-            }
-            if (lunarItem != null) {
-                LayoutParams layoutParams = (LayoutParams) lunarItem.getLayoutParams();
-                layoutParams.topMargin = actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0;
-                layoutParams.height = ActionBar.getCurrentActionBarHeight();
-                int size = Math.round(layoutParams.height / AndroidUtilities.density);
-                lunarItem.clearAnimationDrawable();
-                lunarItem.setAnimation(R.raw.lunarnewyear, size, size);
-                lunarItem.playAnimation();
             }
 
             measureChildWithMargins(actionBar, widthMeasureSpec, 0, heightMeasureSpec, 0);
@@ -2014,9 +2004,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             @Override
             public void onSearchExpand() {
                 searching = true;
-                if (lunarItem != null) {
-                    lunarItem.setVisibility(View.GONE);
-                }
                 if (switchItem != null) {
                     switchItem.setVisibility(View.GONE);
                 }
@@ -2041,9 +2028,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
             @Override
             public boolean canCollapseSearch() {
-                if (lunarItem != null) {
-                    lunarItem.setVisibility(View.VISIBLE);
-                }
                 if (switchItem != null) {
                     switchItem.setVisibility(View.VISIBLE);
                 }
@@ -2140,14 +2124,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
             if (folderId == 0) {
                 actionBar.setSupportsHolidayImage(true);
-
-                if (Theme.canStartLunarHolidayAnimation() && SharedConfig.getDevicePerformanceClass() != SharedConfig.PERFORMANCE_CLASS_LOW) {
-                    lunarItem = new RLottieImageView(context);
-                    lunarItem.setScaleX(-1f);
-                    lunarItem.setScaleType(ImageView.ScaleType.CENTER);
-                    lunarItem.setAutoRepeat(true);
-                    actionBar.addView(lunarItem, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));
-                }
             }
         }
         if ((initialDialogsType == 3 && NekoConfig.showTabsOnForward) || !onlySelect) {
