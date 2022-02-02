@@ -23,5 +23,5 @@ public class Extra {
 
     public static final String PLAYSTORE_APP_URL = "";
 
-    public static final String APPCENTER_HASH = "";
+    public static final String APPCENTER_SECRET = "";
 }
