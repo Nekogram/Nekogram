@@ -19,7 +19,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -54,7 +53,6 @@ public class WsSettingsActivity extends BaseFragment {
     private int enableTLSRow;
     private int localProxyRow;
     private int enableDoHRow;
-    private int yahagiRow;
     private int settings2Row;
 
     @Override
@@ -119,8 +117,6 @@ public class WsSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(NekoConfig.wsUseDoH);
                 }
                 NekoConfig.wsReloadConfig();
-            } else if (position == yahagiRow) {
-                Browser.openUrl(getParentActivity(), LocaleController.getString("YahagiLink", R.string.YahagiLink));
             }
         });
         return fragmentView;
@@ -142,7 +138,6 @@ public class WsSettingsActivity extends BaseFragment {
         enableTLSRow = rowCount++;
         localProxyRow = rowCount++;
         enableDoHRow = rowCount++;
-        yahagiRow = NekoConfig.isChineseUser ? rowCount++ : -1;
         settings2Row = rowCount++;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -239,14 +234,6 @@ public class WsSettingsActivity extends BaseFragment {
                     }
                     break;
                 }
-                case 6: {
-                    TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
-                    textCell.setMultilineDetail(true);
-                    if (position == yahagiRow) {
-                        textCell.setTextAndValue(LocaleController.getString("YahagiTitle", R.string.YahagiTitle), LocaleController.getString("YahagiSummary", R.string.YahagiSummary), false);
-                    }
-                    break;
-                }
                 case 7: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     Spannable spanned = new SpannableString(Html.fromHtml(LocaleController.getString("WsDescription", R.string.WsDescription).replace("\n", "<br>")));
@@ -318,8 +305,6 @@ public class WsSettingsActivity extends BaseFragment {
                 return 1;
             } else if (position == enableTLSRow || position == enableDoHRow) {
                 return 3;
-            } else if (position == yahagiRow) {
-                return 6;
             }
             return 2;
         }

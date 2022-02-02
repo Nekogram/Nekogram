@@ -19,14 +19,6 @@ public class ConfigHelper extends BaseRemoteHelper {
     private static final ArrayList<Long> DEFAULT_VERIFY_LIST = new ArrayList<>();
 
     static {
-        if (NekoConfig.isChineseUser) {
-            DEFAULT_NEWS_LIST.add(new NewsItem(
-                    0,
-                    LocaleController.getString("YahagiTitle", R.string.YahagiTitle),
-                    LocaleController.getString("YahagiSummary", R.string.YahagiSummary),
-                    LocaleController.getString("YahagiLink", R.string.YahagiLink)
-            ));
-        }
         DEFAULT_VERIFY_LIST.add(1302242053L);
         DEFAULT_VERIFY_LIST.add(1406090861L);
         DEFAULT_VERIFY_LIST.add(1221673407L);

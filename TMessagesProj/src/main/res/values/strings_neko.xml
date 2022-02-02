@@ -4,9 +4,6 @@
     <string name="Nekogram" translatable="false">Nekogram</string>
     <string name="NekogramBeta" translatable="false">Nekogram Beta</string>
     <string name="NekogramEmojiDialogs" translatable="false">&#128566;</string>
-    <string name="YahagiLink" translatable="false">https://alpha.yahagi.vip/auth/register?code=neko</string>
-    <string name="YahagiTitle" translatable="false">矢矧网络科</string>
-    <string name="YahagiSummary" translatable="false">您的网络需求一站式解决方案\n解锁地域限制服务 / 数据收集 / 网络加速</string>
     <string name="NekoSettings">Neko Settings</string>
     <string name="IPv6">Try connecting through IPv6</string>
     <string name="MessageMenu">Message menu</string>
