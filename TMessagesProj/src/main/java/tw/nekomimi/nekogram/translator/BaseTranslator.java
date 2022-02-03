@@ -2,6 +2,7 @@ package tw.nekomimi.nekogram.translator;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.util.Pair;
 
 import androidx.annotation.Nullable;
 import androidx.collection.LruCache;
@@ -25,7 +26,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 
 abstract public class BaseTranslator {
 
-    private final LruCache<Object, Result> cache = new LruCache<>(200);
+    private final LruCache<Pair<Object, String>, Result> cache = new LruCache<>(200);
 
     abstract protected Result translate(String query, String tl) throws Exception;
 
@@ -36,7 +37,7 @@ abstract public class BaseTranslator {
     }
 
     void startTask(Object query, String toLang, Translator.TranslateCallBack translateCallBack) {
-        var result = cache.get(query);
+        var result = cache.get(Pair.create(query, toLang));
         if (result != null) {
             translateCallBack.onSuccess(result.translation, result.sourceLanguage);
         } else {
@@ -132,7 +133,7 @@ abstract public class BaseTranslator {
             } else {
                 Result translationResult = (Result) result;
                 translateCallBack.onSuccess(translationResult.translation, translationResult.sourceLanguage);
-                cache.put(query, translationResult);
+                cache.put(Pair.create(query, tl), translationResult);
             }
         }
 
