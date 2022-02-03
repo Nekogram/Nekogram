@@ -74,6 +74,11 @@
   <init>(com.google.android.exoplayer2.upstream.DataSource$Factory);
 }
 
+-keep class com.microsoft.appcenter.AppCenter {
+    private com.microsoft.appcenter.channel.Channel mChannel;
+    private android.os.Handler mHandler;
+}
+
 -keep class org.telegram.messenger.voip.* { *; }
 -keep class org.telegram.messenger.AnimatedFileDrawableStream { <methods>; }
 -keep class org.telegram.SQLite.SQLiteException { <methods>; }
