@@ -63,7 +63,6 @@ import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
 public class MessageHelper extends BaseController {
@@ -75,7 +74,7 @@ public class MessageHelper extends BaseController {
     }
 
     public static ArrayList<TLRPC.MessageEntity> checkBlockedUserEntities(MessageObject messageObject) {
-        if (messageObject.messageOwner.message != null && NekoConfig.ignoreBlocked && MessagesController.getInstance(UserConfig.selectedAccount).blockePeers.indexOfKey(messageObject.getFromChatId()) >= 0) {
+        if (messageObject.shouldBlockMessage() && messageObject.messageOwner.message != null) {
             ArrayList<TLRPC.MessageEntity> entities = new ArrayList<>(messageObject.messageOwner.entities);
             var spoiler = new TLRPC.TL_messageEntitySpoiler();
             spoiler.offset = 0;
