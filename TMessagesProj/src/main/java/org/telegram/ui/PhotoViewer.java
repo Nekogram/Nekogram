@@ -304,15 +304,15 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private ActionBarMenuItem menuItem;
     private ActionBarMenuItem menuItemSpeed;
     private ActionBarMenuSubItem allMediaItem;
-    private ActionBarMenuSubItem translateItem;
-    private ActionBarMenuItem sendNoQuoteItem;
     private ActionBarMenuSubItem speedItem;
     private ActionBarMenuSubItem[] speedItems = new ActionBarMenuSubItem[5];
     private View speedGap;
     private ActionBarMenuItem sendItem;
+    private ActionBarMenuItem sendNoQuoteItem;
     private ActionBarMenuItem pipItem;
     private ActionBarMenuItem masksItem;
     private ActionBarMenuItem shareItem;
+    private ActionBarMenuSubItem translateItem;
     private LinearLayout itemsLayout;
     private Map<View, Boolean> actionBarItemsVisibility = new HashMap<>(3);
     private LinearLayout bottomButtonsLayout;
@@ -4465,9 +4465,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         masksItem = menu.addItem(gallery_menu_masks, R.drawable.msg_mask);
         masksItem.setContentDescription(LocaleController.getString("Masks", R.string.Masks));
         pipItem = menu.addItem(gallery_menu_pip, R.drawable.ic_goinline);
+        pipItem.setContentDescription(LocaleController.getString("AccDescrPipMode", R.string.AccDescrPipMode));
         sendNoQuoteItem = menu.addItem(gallery_menu_send_noquote, R.drawable.msg_forward_noquote);
         sendNoQuoteItem.setContentDescription(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
-        pipItem.setContentDescription(LocaleController.getString("AccDescrPipMode", R.string.AccDescrPipMode));
         sendItem = menu.addItem(gallery_menu_send, R.drawable.msg_forward);
         sendItem.setContentDescription(LocaleController.getString("Forward", R.string.Forward));
         shareItem = menu.addItem(gallery_menu_share2, R.drawable.share);
@@ -9721,8 +9721,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         isEvent = object != null && object.isEvent;
         sharedMediaType = MediaDataController.MEDIA_PHOTOVIDEO;
         allMediaItem.setText(LocaleController.getString("ShowAllMedia", R.string.ShowAllMedia));
-        setItemVisible(sendNoQuoteItem, false, false);
         setItemVisible(sendItem, false, false);
+        setItemVisible(sendNoQuoteItem, false, false);
         setItemVisible(pipItem, false, true);
         cameraItem.setVisibility(View.GONE);
         cameraItem.setTag(null);
@@ -9897,6 +9897,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     setItemVisible(sendNoQuoteItem, !noforwards, false);
                 } else if (isEmbedVideo && messageObject.eventId == 0) {
                     setItemVisible(sendItem, true, false);
+                    setItemVisible(sendNoQuoteItem, true, false);
                 }
                 setImageIndex(0);
             }
@@ -10391,6 +10392,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 String dateString = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date)));
                 dateString = String.format(Locale.US, "%s, DC%d", dateString, avatar.dc_id);
                 dateTextView.setText(dateString);
+            } else {
+                dateTextView.setText("");
             }
             if (canEditAvatar && !avatarsArr.isEmpty()) {
                 menuItem.showSubItem(gallery_menu_edit_avatar);

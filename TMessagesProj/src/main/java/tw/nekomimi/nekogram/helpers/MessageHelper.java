@@ -75,7 +75,7 @@ public class MessageHelper extends BaseController {
     }
 
     public static ArrayList<TLRPC.MessageEntity> checkBlockedUserEntities(MessageObject messageObject) {
-        if (NekoConfig.ignoreBlocked && MessagesController.getInstance(UserConfig.selectedAccount).blockePeers.indexOfKey(messageObject.getFromChatId()) >= 0) {
+        if (messageObject.messageOwner.message != null && NekoConfig.ignoreBlocked && MessagesController.getInstance(UserConfig.selectedAccount).blockePeers.indexOfKey(messageObject.getFromChatId()) >= 0) {
             ArrayList<TLRPC.MessageEntity> entities = new ArrayList<>(messageObject.messageOwner.entities);
             var spoiler = new TLRPC.TL_messageEntitySpoiler();
             spoiler.offset = 0;
