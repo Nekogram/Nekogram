@@ -125,10 +125,6 @@
     <string name="SelectBetween">Sélectionner entre</string>
     <string name="SwipeToPiP">Glissez vers le haut pour ouvrir PiP</string>
     <string name="StickerSavedHint">Sticker enregistré dans la galerie</string>
-    <string name="WsDescription">Connectez-vous à Telegram via WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">détails techniques</a>]]>.</string>
-    <string name="WsEnableTls">Activer le TLS</string>
-    <string name="WsLocalProxy">Proxy local</string>
-    <string name="WsEnableDoh">Activer le DoH</string>
     <string name="UpdateNekogram">Mettre à jour Nekogram</string>
     <string name="TranslationTarget">Langue cible</string>
     <string name="TranslationTargetApp">Comme l\'application</string>

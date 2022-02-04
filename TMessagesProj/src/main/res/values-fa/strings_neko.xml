@@ -9,6 +9,7 @@
     <string name="DeleteAllFromSelfAlert">هشدار! با این کار **همه پیام های شما** در این چت برای **همه** شرکت کنندگان حذف می شود.</string>
     <string name="BotLogin">ورود از طریق روبات</string>
     <string name="InvalidAccessToken">توکن دسترسی نامعتبر</string>
+    <string name="IgnoreBlocked">مخفی کردن پیام های کاربر مسدود شده</string>
     <string name="Connection">اتصال</string>
     <string name="Chat">گفتگو</string>
     <string name="NameOrder">ترتیب نام</string>
@@ -74,6 +75,7 @@
     <string name="Categories">دسته بندی ها</string>
     <string name="OfficialChannel">کانال رسمی</string>
     <string name="About">در باره</string>
+    <string name="IgnoreBlockedAbout">این واقعاً پنهان نیست! پیام‌ها همچنان برای مشاهده در دسترس هستند، اما نوشتار به اسپویلر تبدیل می‌شود و رسانه دانلود خودکار نمی‌شود.</string>
     <string name="Donate">حمایت مالی</string>
     <string name="DonateAbout">حمایت از تیم توسعه ما.</string>
     <string name="TranslationAbout">به ما در ترجمه نکوگرام به زبان خود کمک کنید.</string>
@@ -120,8 +122,9 @@
     <string name="SelectBetween">انتخاب بین</string>
     <string name="SwipeToPiP">برای باز کردن PiP، ویدیو را به سمت بالا بکشید</string>
     <string name="StickerSavedHint">استیکر در گالری ذخیره شد</string>
+    <string name="RegistrationDate">تاریخ ثبت نام</string>
     <string name="WsDescription">از طریق WebSocket از طریق Cloudflare به تلگرام متصل شوید، <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">جزییات فنی</a>]]>.</string>
-    <string name="WsEnableTls">فعال کردن tls</string>
+    <string name="WsEnableTls">فعال کردن TLS</string>
     <string name="WsLocalProxy">پروکسی محلی</string>
     <string name="WsEnableDoh">فعال کردن DoH</string>
     <string name="UpdateNekogram">بروز رسانی نکوگرام</string>
@@ -182,6 +185,7 @@
     <string name="CreateMono">Monospace را ایجاد کنید</string>
     <string name="CreateMonoLanguage">زبان کد</string>
     <string name="DoubleTapAction">عملکرد دو ضربه ای</string>
+    <string name="BlockedUserIgnored">مسدود شده</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
 </resources>

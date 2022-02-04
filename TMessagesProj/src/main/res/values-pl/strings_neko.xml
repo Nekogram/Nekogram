@@ -126,10 +126,6 @@
     <string name="SwipeToPiP">Przesuń w górę aby włączyć PiP</string>
     <string name="StickerSavedHint">Naklejka zapisana w galerii</string>
     <string name="RegistrationDate">Data rejestracji</string>
-    <string name="WsDescription">Połącz się z Telegram używając WebSocket przez Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">szczegóły techniczne</a>]]>.</string>
-    <string name="WsEnableTls">Włącz TLS</string>
-    <string name="WsLocalProxy">Lokalne proxy</string>
-    <string name="WsEnableDoh">Włącz DoH</string>
     <string name="UpdateNekogram">Zaktualizuj Nekogram</string>
     <string name="TranslationTarget">Docelowy język</string>
     <string name="TranslationTargetApp">Śledź aplikację</string>

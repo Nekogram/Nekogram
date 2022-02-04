@@ -126,10 +126,6 @@
     <string name="SwipeToPiP">Video hochwischen um PiP zu öffnen</string>
     <string name="StickerSavedHint">Sticker in Galerie gespeichert</string>
     <string name="RegistrationDate">Registrierungsdatum</string>
-    <string name="WsDescription">Mit Telegram über WebSocket über Cloudflare verbinden. <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">Technische Details</a>]]></string>
-    <string name="WsEnableTls">TLS aktivieren</string>
-    <string name="WsLocalProxy">Lokaler Proxy</string>
-    <string name="WsEnableDoh">DoH aktivieren</string>
     <string name="UpdateNekogram">Nekogram aktualisieren</string>
     <string name="TranslationTarget">Zielsprache</string>
     <string name="TranslationTargetApp">System folgen</string>

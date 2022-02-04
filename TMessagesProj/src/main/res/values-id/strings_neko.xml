@@ -9,6 +9,7 @@
     <string name="DeleteAllFromSelfAlert">Perhatian! Ini akan **menghapus semua pesan dari Anda** di obrolan ini untuk **semua** orang.</string>
     <string name="BotLogin">Login Bot</string>
     <string name="InvalidAccessToken">Token akses tidak valid</string>
+    <string name="IgnoreBlocked">Sayang</string>
     <string name="Connection">Sambungan</string>
     <string name="Chat">Obrolan</string>
     <string name="NameOrder">Urutan nama</string>
@@ -126,10 +127,6 @@
     <string name="SwipeToPiP">Geser video ke atas untuk membuka PiP</string>
     <string name="StickerSavedHint">Stiker tersimpan ke galeri</string>
     <string name="RegistrationDate">Registration date</string>
-    <string name="WsDescription">Sambungkan ke Telegram menggunakan WebSocket melalui Cloudflare. <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">Info lebih lanjut</a>]]>.</string>
-    <string name="WsEnableTls">Nyalakan TLS</string>
-    <string name="WsLocalProxy">Proksi lokal</string>
-    <string name="WsEnableDoh">Nyalakan DoH</string>
     <string name="UpdateNekogram">Perbarui Nekogram</string>
     <string name="TranslationTarget">Bahasa tujuan</string>
     <string name="TranslationTargetApp">Ikuti aplikasi</string>

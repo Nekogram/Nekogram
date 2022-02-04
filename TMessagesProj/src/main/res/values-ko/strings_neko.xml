@@ -129,11 +129,11 @@
     <string name="SwipeToPiP">비디오를 위로 스 와이프하여 PiP 열기</string>
     <string name="StickerSavedHint">스티커가 갤러리에 저장됨</string>
     <string name="RegistrationDate">가입일</string>
-    <string name="WsDescription">Cloudflare의 WebSocket을 통해 Telegram에 연결, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">기술적 세부 사항</a>]]></string>
+    <string name="WsDescription">Cloudflare 의 웹소켓을 통해 텔레그램 접속<![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\"> 기술정보</a>]]>.</string>
     <string name="WsEnableTls">TLS 활성화</string>
     <string name="WsLocalProxy">로컬 프록시</string>
     <string name="WsEnableDoh">DoH 활성화</string>
-    <string name="UpdateNekogram">Nekogram 업데이트</string>
+    <string name="UpdateNekogram">네코그램 업데이트</string>
     <string name="TranslationTarget">번역 언어</string>
     <string name="TranslationTargetApp">기기 언어 따라가기</string>
     <string name="Translator">번역기</string>
@@ -193,6 +193,7 @@
     <string name="CreateMono">모노스페이스 생성</string>
     <string name="CreateMonoLanguage">코드 언어</string>
     <string name="DoubleTapAction">두번 누루기 기능</string>
+    <string name="BlockedUserIgnored">차단함</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">접근성 설정</string>
     <string name="AccRewindHeading">되감기 설정</string>

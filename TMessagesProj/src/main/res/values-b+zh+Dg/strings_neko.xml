@@ -84,7 +84,6 @@
     <string name="Translation">翻译 Nekogram</string>
     <string name="GooglePlay">Google Play</string>
     <string name="ResetStickerSize">重置贴纸大小</string>
-    <string name="OfficialChannelUsername">Zuragram</string>
     <string name="RestartAppToTakeEffect">重启应用以生效。</string>
     <string name="DisableAppBarShadow">禁用标题栏阴影</string>
     <string name="MediaPreview">对话列表中的媒体预览</string>
@@ -130,7 +129,7 @@
     <string name="SwipeToPiP">向上滑动视频打开画中画</string>
     <string name="StickerSavedHint">贴纸已保存到相册</string>
     <string name="RegistrationDate">注册日期</string>
-    <string name="WsDescription">通过 WebSocket 从 Cloudflare 连接到 Telegram，<![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">技术详细信息</a>]]>。</string>
+    <string name="WsDescription">通过 WebSocket 从 Cloudflare 连接到 Telegram，<![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">技术详情</a>]]>。</string>
     <string name="WsEnableTls">启用 TLS</string>
     <string name="WsLocalProxy">本地代理</string>
     <string name="WsEnableDoh">启用 DoH</string>
@@ -169,7 +168,7 @@
     <string name="UpdateInstallingRelaunch">Nekogram 将在更新完成后重新启动。</string>
     <string name="UpdateFailedToInstall">无法安装更新：%d</string>
     <string name="QRLoginMessage">使用其他设备扫描二维码以登录。</string>
-    <string name="QRLoginTitle">二维码登陆</string>
+    <string name="QRLoginTitle">二维码登录</string>
     <string name="NoTranslatorAppInstalled">您没有安装可以处理翻译意图的应用，请先安装一个再继续</string>
     <string name="DisableVoiceMessagesAutoPlay">禁用语音留言自动播放</string>
     <string name="TranslatorType">类型</string>
@@ -194,6 +193,7 @@
     <string name="CreateMono">创建等宽文字</string>
     <string name="CreateMonoLanguage">代码语言</string>
     <string name="DoubleTapAction">双击操作</string>
+    <string name="BlockedUserIgnored">已屏蔽</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

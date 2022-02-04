@@ -125,10 +125,6 @@
     <string name="SwipeToPiP">Vuốt video lên để mở Ảnh trong Ảnh</string>
     <string name="StickerSavedHint">Nhãn dán đã được lưu vào thư viện ảnh</string>
     <string name="RegistrationDate">Ngày đăng ký</string>
-    <string name="WsDescription">Kết nối với Telegram tới WebSocket thông qua Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">Chi tiết kĩ thuật</a>]]>.</string>
-    <string name="WsEnableTls">Kích hoạt TLS</string>
-    <string name="WsLocalProxy">Proxy cục bộ</string>
-    <string name="WsEnableDoh">Kích hoạt DoH</string>
     <string name="UpdateNekogram">Cập nhật Nekogram</string>
     <string name="TranslationTarget">Tập trung vào ngôn ngữ</string>
     <string name="TranslationTargetApp">Dựa theo ứng dụng</string>

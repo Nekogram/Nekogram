@@ -35,7 +35,7 @@
     <string name="TestBackendOn">Эта учетная запись будет подключаться к тестовому серверу.</string>
     <string name="TestBackendOff">Эта учетная запись будет подключаться к основному серверу.</string>
     <string name="HideProxySponsorChannel">Скрыть спонсора прокси</string>
-    <string name="ViewHistory">Сообщения пользователя</string>
+    <string name="ViewHistory">История сообщений</string>
     <string name="Nya">Мяу!</string>
     <string name="SaveCacheToExternalFilesDir">Изоляция хранилища</string>
     <string name="SaveCacheToExternalFilesDirAbout">Сохранять содержимое папки \"Telegram\" на внешнее хранилище, для экономии памяти устройства.</string>
@@ -193,6 +193,7 @@
     <string name="CreateMono">Создать моноширинный</string>
     <string name="CreateMonoLanguage">Язык кода</string>
     <string name="DoubleTapAction">Действие при двойном нажатии</string>
+    <string name="BlockedUserIgnored">заблокирован</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>

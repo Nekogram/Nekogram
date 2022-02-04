@@ -127,10 +127,6 @@
     <string name="SelectBetween">Vælg mellem</string>
     <string name="SwipeToPiP">Stryg op på video for at åbne PiP</string>
     <string name="StickerSavedHint">Klistermærke gemt i galleri</string>
-    <string name="WsDescription">Opret forbindelse til Telegram via WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">tekniske detaljer</a>]]>.</string>
-    <string name="WsEnableTls">Aktiver TLS</string>
-    <string name="WsLocalProxy">Lokal proxy</string>
-    <string name="WsEnableDoh">Aktiver DoH</string>
     <string name="UpdateNekogram">Opdater Nekogram</string>
     <string name="TranslationTarget">Målsprog</string>
     <string name="TranslationTargetApp">Følg app</string>

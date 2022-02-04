@@ -127,9 +127,9 @@
     <string name="SwipeToPiP">Потягніть догори, щоб відкрити зображення в зображенні</string>
     <string name="StickerSavedHint">Наліпка збережена в галерею</string>
     <string name="RegistrationDate">Дата реєстрації</string>
-    <string name="WsDescription">Підключитися до Telegram за допомогою WebSocket через Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">технічні деталіs</a>]]>.</string>
+    <string name="WsDescription">Підключитися до Telegram через WebSocket за допомогою Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">технічні подробиці</a>]]>.</string>
     <string name="WsEnableTls">Увімкнути TLS</string>
-    <string name="WsLocalProxy">Локальне проксі</string>
+    <string name="WsLocalProxy">Локальний проксі</string>
     <string name="WsEnableDoh">Увімкнути DoH</string>
     <string name="UpdateNekogram">Оновити Nekogram</string>
     <string name="TranslationTarget">Цільова мова</string>
@@ -190,6 +190,7 @@
     <string name="CreateMono">Моноширний шрифт</string>
     <string name="CreateMonoLanguage">Мова програмування</string>
     <string name="DoubleTapAction">Дія при подвійному дотику</string>
+    <string name="BlockedUserIgnored">заблоковано</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccRewindHeading">Налаштування перемотки</string>

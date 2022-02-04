@@ -41,6 +41,7 @@
     <string name="SensitiveDisableFiltering">禁用敏感內容過濾</string>
     <string name="SensitiveAbout">在您所有設備上顯示公共頻道中的敏感媒體內容。</string>
     <string name="StickerSize">貼圖大小</string>
+    <string name="StickerSizeDialogMessage">嘩! 係一隻好得意嘅黑貓!</string>
     <string name="StickerSizeDialogMessageReplyTo">喵</string>
     <string name="Experiment">實驗性</string>
     <string name="UnlimitedFavoredStickers">無限的收藏貼圖</string>
@@ -53,6 +54,7 @@
     <string name="TranslateApiUnsupported">您選擇的翻譯源不支持您的語言.</string>
     <string name="ProviderLingocloud">彩雲小譯</string>
     <string name="UndoTranslate">撤銷翻譯</string>
+    <string name="DisablePhotoViewerSideAction">禁止 “輕按以旋轉圖片”</string>
     <string name="BotToken">令牌</string>
     <string name="UnlimitedPinnedDialogs">無限的置頂對話</string>
     <string name="UnlimitedPinnedDialogsAbout">關閉同步以置頂無限對話。</string>
@@ -74,8 +76,13 @@
     <string name="Categories">Categorii</string>
     <string name="OfficialChannel">Naqi 💘💫</string>
     <string name="About">About</string>
+    <string name="DonateAbout">支持一下我哋嘅開發</string>
+    <string name="Translation">翻譯 Nekogram</string>
+    <string name="GooglePlay">Google Play</string>
+    <string name="ResetStickerSize">重設貼圖大小</string>
     <string name="ProviderYandex">Yandex 翻譯</string>
     <string name="IdTypeHidden">隱藏</string>
+    <string name="AutoPauseVideo">自動暫停影像</string>
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**應用</string>
     <!-- Accessibility -->
 </resources>

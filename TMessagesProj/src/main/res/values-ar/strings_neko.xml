@@ -127,10 +127,6 @@
     <string name="SwipeToPiP">اسحب الفيديو لأعلى لفتحه في وضع \"صورة داخل صورة\"</string>
     <string name="StickerSavedHint">تم حفظ الملصق في معرض الصور</string>
     <string name="RegistrationDate">تاريخ التسجيل</string>
-    <string name="WsDescription">الاتصال بتيليجرام من خلال WebSocket عبر Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">التفاصيل التقنية</a>]]>.</string>
-    <string name="WsEnableTls">تمكين TLS</string>
-    <string name="WsLocalProxy">بروكسي محلي</string>
-    <string name="WsEnableDoh">تمكين DoH</string>
     <string name="UpdateNekogram">تحديث نيكوغرام</string>
     <string name="TranslationTarget">اللغة المراد الترجمة إليها</string>
     <string name="TranslationTargetApp">لغة التطبيق</string>
