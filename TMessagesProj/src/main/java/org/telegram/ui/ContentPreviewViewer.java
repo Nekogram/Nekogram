@@ -645,7 +645,7 @@ public class ContentPreviewViewer {
     public void setParentActivity(Activity activity) {
         currentAccount = UserConfig.selectedAccount;
         centerImage.setCurrentAccount(currentAccount);
-        centerImage.setLayerNum(7);
+        centerImage.setLayerNum(Integer.MAX_VALUE);
         if (parentActivity == activity) {
             return;
         }
@@ -664,7 +664,19 @@ public class ContentPreviewViewer {
             });
         }
 
-        containerView = new FrameLayoutDrawer(activity);
+        containerView = new FrameLayoutDrawer(activity) {
+            @Override
+            protected void onAttachedToWindow() {
+                super.onAttachedToWindow();
+                centerImage.onAttachedToWindow();
+            }
+
+            @Override
+            protected void onDetachedFromWindow() {
+                super.onDetachedFromWindow();
+                centerImage.onDetachedFromWindow();
+            }
+        };
         containerView.setFocusable(false);
         windowView.addView(containerView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         containerView.setOnTouchListener((v, event) -> {
@@ -974,4 +986,5 @@ public class ContentPreviewViewer {
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
         return color != null ? color : Theme.getColor(key);
     }
+
 }
