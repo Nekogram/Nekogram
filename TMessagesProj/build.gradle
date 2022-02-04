@@ -42,7 +42,7 @@ dependencies {
     implementation 'com.getkeepsafe.relinker:relinker:1.4.4'
     implementation 'io.github.vvb2060.ndk:xposeddetector:2.2'
     implementation files('libs/org.deepl.jar')
-    implementation files('libs/tcp2ws.jar')
+    implementation files('libs/org.tcp2ws.jar')
 
     def appCenterSdkVersion = '4.4.2'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
