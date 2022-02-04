@@ -201,10 +201,13 @@ public class EditTextCaption extends EditTextBoldCursor {
                 try {
                     TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
                     run.flags |= TextStyleSpan.FLAG_STYLE_MONO;
-                    run.start = start;
-                    run.end = end;
-                    run.urlEntity = new TLRPC.TL_messageEntityPre();
-                    run.urlEntity.language = editText.getText().toString();
+                    var language = editText.getText().toString();
+                    if (!TextUtils.isEmpty(language)) {
+                        run.start = start;
+                        run.end = end;
+                        run.urlEntity = new TLRPC.TL_messageEntityPre();
+                        run.urlEntity.language = language;
+                    }
                     MediaDataController.addStyleToText(new TextStyleSpan(run), start, end, getText(), allowTextEntitiesIntersection);
                     SyntaxHighlight.highlight(run, editable);
                 } catch (Exception ignore) {
