@@ -285,9 +285,6 @@ public class SessionCell extends FrameLayout {
         } else if (session.app_name.contains("Nekogram")) {
             iconId = R.drawable.notification;
             colorKey = Theme.key_avatar_backgroundBlue;
-        } else if (session.app_name.contains("NekoX")) {
-            iconId = R.drawable.profile_ban;
-            colorKey = Theme.key_avatar_backgroundRed;
         } else if (platform.contains("android")) {
             iconId = deviceModel.contains("tab") ? R.drawable.device_tablet_android : R.drawable.device_phone_android;
             colorKey = Theme.key_avatar_backgroundGreen;

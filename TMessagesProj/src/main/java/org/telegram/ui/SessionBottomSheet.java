@@ -348,9 +348,6 @@ public class SessionBottomSheet extends BottomSheet {
             animation = false;
             iconId = R.drawable.notification;
             colorKey = Theme.key_avatar_backgroundBlue;
-        } else if (session.app_name.contains("NekoX")) {
-            iconId = R.raw.ic_ban;
-            colorKey = Theme.key_avatar_backgroundRed;
         } else if (platform.contains("android")) {
             iconId = R.raw.android_30;
             colorKey = Theme.key_avatar_backgroundGreen;
