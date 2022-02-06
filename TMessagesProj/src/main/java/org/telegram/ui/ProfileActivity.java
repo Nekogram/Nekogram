@@ -7373,7 +7373,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 break;
                             case 0:
                             case 9:
-                                abi = (NekoConfig.installedFromPlay ? "play" : "universal ") + Build.SUPPORTED_ABIS[0];
+                                abi = (NekoConfig.installedFromPlay ? "play " : "universal ") + Build.SUPPORTED_ABIS[0];
                                 break;
                         }
                         cell.setText(LocaleController.formatString("NekogramVersion", R.string.NekogramVersion, String.format(Locale.US, "v%s (%d) %s", pInfo.versionName, code, abi), String.format(Locale.US, "v%s (%d)", BuildVars.BUILD_VERSION_STRING, BuildVars.BUILD_VERSION), "@Duang"));
