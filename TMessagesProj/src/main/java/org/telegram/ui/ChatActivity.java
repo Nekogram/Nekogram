@@ -258,7 +258,6 @@ import org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate;
 import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 import java.io.BufferedWriter;
@@ -26506,7 +26505,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                 }
 
-                if (ConfigHelper.getShowAutoTranslate() && NekoConfig.autoTranslate && NekoConfig.transType == NekoConfig.TRANS_TYPE_NEKO) {
+                if (NekoConfig.autoTranslate && NekoConfig.transType == NekoConfig.TRANS_TYPE_NEKO) {
                     final var messageObject = messageCell.getMessageObject();
                     if (getMessageHelper().isMessageObjectAutoTranslatable(messageObject)) {
                         messageObject.translating = true;
