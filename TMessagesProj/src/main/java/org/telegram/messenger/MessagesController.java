@@ -12996,7 +12996,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
                 updatesOnMainThread.add(baseUpdate);
             } else if (baseUpdate instanceof TLRPC.TL_updateLoginToken) {
-                getNotificationCenter().postNotificationName(NotificationCenter.onUpdateLoginToken);
+                if (updatesOnMainThread == null) {
+                    updatesOnMainThread = new ArrayList<>();
+                }
+                updatesOnMainThread.add(baseUpdate);
             }
         }
         if (messages != null) {
@@ -13653,6 +13656,8 @@ public class MessagesController extends BaseController implements NotificationCe
                     } else if (baseUpdate instanceof TLRPC.TL_updatePendingJoinRequests) {
                         TLRPC.TL_updatePendingJoinRequests update = (TLRPC.TL_updatePendingJoinRequests) baseUpdate;
                         getMemberRequestsController().onPendingRequestsUpdated(update);
+                    } else if (baseUpdate instanceof TLRPC.TL_updateLoginToken) {
+                        getNotificationCenter().postNotificationName(NotificationCenter.onUpdateLoginToken);
                     }
                 }
                 if (editor != null) {
