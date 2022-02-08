@@ -293,7 +293,7 @@ public class MessageHelper extends BaseController {
     }
 
     public void saveStickerToGallery(Activity activity, MessageObject messageObject, Runnable callback) {
-        saveStickerToGallery(activity, getPathToMessage(messageObject), callback);
+        saveStickerToGallery(activity, getPathToMessage(messageObject), messageObject.isVideoSticker(), callback);
     }
 
     public static void saveStickerToGallery(Activity activity, TLRPC.Document document, Runnable callback) {
@@ -302,20 +302,23 @@ public class MessageHelper extends BaseController {
         if (!temp.exists()) {
             return;
         }
-        saveStickerToGallery(activity, path, callback);
+        saveStickerToGallery(activity, path, MessageObject.isVideoSticker(document), callback);
     }
 
-    private static void saveStickerToGallery(Activity activity, String path, Runnable callback) {
+    private static void saveStickerToGallery(Activity activity, String path, boolean video, Runnable callback) {
         Utilities.globalQueue.postRunnable(() -> {
             try {
-                Bitmap image = BitmapFactory.decodeFile(path);
-                if (image != null) {
-                    File file = new File(path.replace(".webp", ".png"));
-                    FileOutputStream stream = new FileOutputStream(file);
-                    image.compress(Bitmap.CompressFormat.PNG, 100, stream);
-                    stream.close();
-                    MediaController.saveFile(file.toString(), activity, 0, null, null);
-                    AndroidUtilities.runOnUIThread(callback);
+                if (video) {
+                    MediaController.saveFile(path, activity, 1, null, null, callback);
+                } else {
+                    Bitmap image = BitmapFactory.decodeFile(path);
+                    if (image != null) {
+                        File file = new File(path.replace(".webp", ".png"));
+                        FileOutputStream stream = new FileOutputStream(file);
+                        image.compress(Bitmap.CompressFormat.PNG, 100, stream);
+                        stream.close();
+                        MediaController.saveFile(file.toString(), activity, 0, null, null, callback);
+                    }
                 }
             } catch (Exception e) {
                 FileLog.e(e);
