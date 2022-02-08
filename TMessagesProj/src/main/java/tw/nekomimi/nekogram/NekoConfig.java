@@ -154,6 +154,8 @@ public class NekoConfig {
     private static Typeface systemEmojiTypeface;
     public static boolean loadSystemEmojiFailed = false;
 
+    public static String lastDeepLKey = null;
+
     public static ArrayList<TLRPC.Update> pendingChangelog;
 
     public static boolean isChineseUser = false;
@@ -315,12 +317,21 @@ public class NekoConfig {
             codeSyntaxHighlight = preferences.getBoolean("codeSyntaxHighlight", false);
             doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
             restrictedLanguages = new HashSet<>(preferences.getStringSet("restrictedLanguages", new HashSet<>()));
+            lastDeepLKey = preferences.getString("lastDeepLKey", "");
             configLoaded = true;
         }
     }
 
     public static boolean isChatCat(TLRPC.Chat chat) {
         return ConfigHelper.getVerify().stream().anyMatch(id -> id == chat.id);
+    }
+
+    public static void setLastDeepLKey(String key) {
+        lastDeepLKey = key;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("lastDeepLKey", lastDeepLKey);
+        editor.commit();
     }
 
     public static void saveRestrictedLanguages() {

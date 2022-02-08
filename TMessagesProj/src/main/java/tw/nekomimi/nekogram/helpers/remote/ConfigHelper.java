@@ -8,7 +8,10 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class ConfigHelper extends BaseRemoteHelper {
@@ -39,6 +42,25 @@ public class ConfigHelper extends BaseRemoteHelper {
             }
         }
         return localInstance;
+    }
+
+    public static List<String> getDeepLKeys() {
+        JSONObject jsonObject = getInstance().getJSON();
+        if (jsonObject == null) {
+            return Arrays.asList(Extra.DEEPL_KEYS);
+        }
+        ArrayList<String> keys = new ArrayList<>();
+        try {
+            JSONArray jsonArray = jsonObject.getJSONArray("deepl_keys");
+            for (int i = 0; i < jsonArray.length(); i++) {
+                keys.add(jsonArray.getString(i));
+            }
+            return keys;
+        } catch (JSONException e) {
+            FileLog.e(e);
+            getInstance().load();
+            return Arrays.asList(Extra.DEEPL_KEYS);
+        }
     }
 
     public static boolean getShowAutoTranslate() {

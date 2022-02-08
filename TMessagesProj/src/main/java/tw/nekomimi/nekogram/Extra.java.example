@@ -23,5 +23,9 @@ public class Extra {
 
     public static final String PLAYSTORE_APP_URL = "";
 
+    // https://appcenter.ms/
     public static final String APPCENTER_SECRET = "";
+
+    // https://www.deepl.com/pro-api
+    public static final String[] DEEPL_KEYS = new String[]{};
 }
