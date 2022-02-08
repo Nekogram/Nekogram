@@ -211,6 +211,22 @@ public class MessageHelper extends BaseController {
                 "[\u231A\u231B\u2328\u23CF\u23E9-\u23F3\u23F8-\u23FA]\uFE0F?)+");
     }
 
+    public String getMessagePlainText(MessageObject messageObject) {
+        String message;
+        if (messageObject.isPoll()) {
+            TLRPC.Poll poll = ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll;
+            StringBuilder pollText = new StringBuilder(poll.question).append("\n");
+            for (TLRPC.TL_pollAnswer answer : poll.answers) {
+                pollText.append("\n\uD83D\uDD18 ");
+                pollText.append(answer.text);
+            }
+            message = pollText.toString();
+        } else {
+            message = messageObject.messageOwner.message;
+        }
+        return message;
+    }
+
     public MessageObject getMessageForTranslate(MessageObject selectedObject, MessageObject.GroupedMessages selectedObjectGroup) {
         MessageObject messageObject = null;
         if (selectedObjectGroup != null && !selectedObjectGroup.isDocuments) {
@@ -226,7 +242,7 @@ public class MessageHelper extends BaseController {
         return messageObject;
     }
 
-    private boolean isLinkOrEmojiOnlyMessage(MessageObject messageObject) {
+    public boolean isLinkOrEmojiOnlyMessage(MessageObject messageObject) {
         var entities = messageObject.messageOwner.entities;
         if (entities != null) {
             for (TLRPC.MessageEntity entity : entities) {

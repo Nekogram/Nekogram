@@ -20,6 +20,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
@@ -61,6 +62,8 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     private TLRPC.User forwardFromUser;
     private String filePath;
     private String fileName;
+    private final boolean noforwards;
+    private Runnable unregisterFlagSecure;
 
     private int rowCount;
 
@@ -81,6 +84,9 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     private int restrictionReasonRow;
     private int forwardsRow;
     private int sponsoredRow;
+    private int shouldBlockMessageRow;
+    private int languageRow;
+    private int linkOrEmojiOnlyRow;
     private int endRow;
 
     public MessageDetailsActivity(MessageObject messageObject) {
@@ -142,7 +148,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                 fileName = messageObject.messageOwner.media.document.file_name;
             }
         }
-
+        noforwards = getMessagesController().isChatNoForwards(toChat) || messageObject.messageOwner.noforwards;
     }
 
     @Override
@@ -153,6 +159,21 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         updateRows();
 
         return true;
+    }
+
+    private boolean checkNoForwards() {
+        if (noforwards) {
+            if (getMessagesController().isChatNoForwards(toChat)) {
+                BulletinFactory.of(this).createErrorBulletin(toChat.broadcast ?
+                        LocaleController.getString("ForwardsRestrictedInfoChannel", R.string.ForwardsRestrictedInfoChannel) :
+                        LocaleController.getString("ForwardsRestrictedInfoGroup", R.string.ForwardsRestrictedInfoGroup)
+                ).show();
+            } else {
+                BulletinFactory.of(this).createErrorBulletin(
+                        LocaleController.getString("ForwardsRestrictedInfoBot", R.string.ForwardsRestrictedInfoBot)).show();
+            }
+        }
+        return noforwards;
     }
 
     @SuppressLint({"NewApi", "RtlHardcoded"})
@@ -186,13 +207,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener((view, position, x, y) -> {
             if (position != endRow) {
-                if (getMessagesController().isChatNoForwards(toChat) && (position == messageRow || position == captionRow)) {
-                    if (toChat.broadcast) {
-                        BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("ForwardsRestrictedInfoChannel", R.string.ForwardsRestrictedInfoChannel)).show();
-                    } else {
-                        BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("ForwardsRestrictedInfoGroup", R.string.ForwardsRestrictedInfoGroup)).show();
-                    }
-                } else {
+                if (!checkNoForwards() || !(position == messageRow || position == captionRow)) {
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
                     AndroidUtilities.addToClipboard(textCell.getValueTextView().getText());
                     BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
@@ -202,13 +217,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         });
         listView.setOnItemLongClickListener((view, position) -> {
             if (position == filePathRow) {
-                if (getMessagesController().isChatNoForwards(toChat)) {
-                    if (toChat.broadcast) {
-                        BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("ForwardsRestrictedInfoChannel", R.string.ForwardsRestrictedInfoChannel)).show();
-                    } else {
-                        BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("ForwardsRestrictedInfoGroup", R.string.ForwardsRestrictedInfoGroup)).show();
-                    }
-                } else {
+                if (!checkNoForwards()) {
                     Intent intent = new Intent(Intent.ACTION_SEND);
                     var uri = FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(filePath));
                     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
@@ -277,6 +286,10 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
             return true;
         });
 
+        if (noforwards) {
+            unregisterFlagSecure = AndroidUtilities.registerFlagSecure(getParentActivity().getWindow());
+        }
+
         return fragmentView;
     }
 
@@ -314,6 +327,9 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         restrictionReasonRow = messageObject.messageOwner.restriction_reason.isEmpty() ? -1 : rowCount++;
         forwardsRow = messageObject.messageOwner.forwards > 0 ? rowCount++ : -1;
         sponsoredRow = messageObject.isSponsored() ? rowCount++ : -1;
+        shouldBlockMessageRow = messageObject.shouldBlockMessage() ? rowCount++ : -1;
+        languageRow = TextUtils.isEmpty(getMessageHelper().getMessagePlainText(messageObject)) ? -1 : rowCount++;
+        linkOrEmojiOnlyRow = !TextUtils.isEmpty(messageObject.messageOwner.message) && getMessageHelper().isLinkOrEmojiOnlyMessage(messageObject) ? rowCount++ : -1;
         endRow = rowCount++;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
@@ -374,6 +390,9 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
+        if (unregisterFlagSecure != null) {
+            unregisterFlagSecure.run();
+        }
     }
 
     private class ListAdapter extends RecyclerListView.SelectionAdapter {
@@ -517,6 +536,16 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                         textCell.setTextAndValue("Forwards", String.format(Locale.US, "%d", messageObject.messageOwner.forwards), divider);
                     } else if (position == sponsoredRow) {
                         textCell.setTextAndValue("Sponsored", "Yes", divider);
+                    } else if (position == shouldBlockMessageRow) {
+                        textCell.setTextAndValue("Blocked", "Yes", divider);
+                    } else if (position == languageRow) {
+                        textCell.setTextAndValue("Language", "", divider);
+                        LanguageDetector.detectLanguage(
+                                getMessageHelper().getMessagePlainText(messageObject),
+                                lang -> textCell.setTextAndValue("Language", lang, divider),
+                                e -> textCell.setTextAndValue("Language", e.getLocalizedMessage(), divider));
+                    } else if (position == linkOrEmojiOnlyRow) {
+                        textCell.setTextAndValue("Link or emoji only", "Yes", divider);
                     }
                     break;
                 }
