@@ -180,14 +180,19 @@ public class NekoConfig {
         NekoConfig.pendingChangelog = updates;
     }
 
-    public static int getSocksPort() {
+    public static int getSocksPort(int port) {
         if (tcp2wsStarted && socksPort != -1) {
             return socksPort;
         }
         try {
-            ServerSocket socket = new ServerSocket(0);
-            socksPort = socket.getLocalPort();
-            socket.close();
+            if (port != -1) {
+                socksPort = port;
+            } else {
+                ServerSocket socket = new ServerSocket(0);
+                socksPort = socket.getLocalPort();
+                socket.close();
+            }
+            socksPort = port;
             if (!tcp2wsStarted) {
                 tcp2wsServer = new tcp2wsServer()
                         .setTgaMode(false)
@@ -200,8 +205,16 @@ public class NekoConfig {
             return socksPort;
         } catch (Exception e) {
             FileLog.e(e);
-            return -1;
+            if (port != -1) {
+                return getSocksPort(-1);
+            } else {
+                return -1;
+            }
         }
+    }
+
+    public static int getSocksPort() {
+        return getSocksPort(6356);
     }
 
     public static void wsReloadConfig() {
