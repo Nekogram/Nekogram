@@ -48,6 +48,7 @@ import java.io.File;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
+import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
 public class BlockingUpdateView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
 
@@ -74,10 +75,8 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         FrameLayout view = new FrameLayout(context);
         addView(view, new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, AndroidUtilities.dp(176) + (Build.VERSION.SDK_INT >= 21 ? AndroidUtilities.statusBarHeight : 0)));
 
-        RLottieImageView imageView = new RLottieImageView(context);
-        imageView.setAnimation(R.raw.qr_code_logo, 108, 108);
-        imageView.playAnimation();
-        imageView.getAnimatedDrawable().setAutoRepeat(1);
+        ImageView imageView = new ImageView(context);
+        imageView.setImageResource(R.mipmap.ic_launcher);
         imageView.setScaleType(ImageView.ScaleType.CENTER);
         imageView.setPadding(0, 0, 0, AndroidUtilities.dp(14));
         view.addView(imageView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER, 0, top, 0, 0));
@@ -113,7 +112,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         textView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         textView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
-        textView.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
+        textView.setGravity(Gravity.LEFT | Gravity.TOP);
         textView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
         container.addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0, 44, 0, 0));
 
@@ -232,7 +231,6 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
     public static boolean openApkInstall(Activity activity, TLRPC.Document document) {
         boolean exists = false;
         try {
-            String fileName = FileLoader.getAttachFileName(document);
             File f = FileLoader.getPathToAttach(document, true);
             if (exists = f.exists()) {
                 ApkInstaller.installUpdate(activity, SharedConfig.pendingAppUpdate.document);
@@ -315,25 +313,15 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         NotificationCenter.getInstance(accountNum).addObserver(this, NotificationCenter.fileLoadFailed);
         NotificationCenter.getInstance(accountNum).addObserver(this, NotificationCenter.fileLoadProgressChanged);
         if (check) {
-            TLRPC.TL_help_getAppUpdate req = new TLRPC.TL_help_getAppUpdate();
-            try {
-                req.source = ApplicationLoader.applicationContext.getPackageManager().getInstallerPackageName(ApplicationLoader.applicationContext.getPackageName());
-            } catch (Exception ignore) {
-
-            }
-            if (req.source == null) {
-                req.source = "";
-            }
-            ConnectionsManager.getInstance(accountNum).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-                if (response instanceof TLRPC.TL_help_appUpdate) {
-                    final TLRPC.TL_help_appUpdate res = (TLRPC.TL_help_appUpdate) response;
-                    if (!res.can_not_skip) {
+            UpdateHelper.getInstance().checkNewVersionAvailable((response, error) -> {
+                if (response != null) {
+                    if (!response.can_not_skip) {
                         setVisibility(GONE);
                         SharedConfig.pendingAppUpdate = null;
                         SharedConfig.saveConfig();
                     }
                 }
-            }));
+            });
         }
     }
 

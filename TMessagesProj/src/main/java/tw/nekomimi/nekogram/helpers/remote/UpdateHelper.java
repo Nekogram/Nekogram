@@ -6,6 +6,7 @@ import android.os.Build;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -21,7 +22,7 @@ import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class UpdateHelper extends BaseRemoteHelper {
-    public static final String UPDATE_TAG = NekoConfig.installedFromPlay ? "updateplay" :"updatev2";
+    public static final String UPDATE_TAG = BuildConfig.DEBUG ? "updatetest" : NekoConfig.installedFromPlay ? "updateplayv2" : "updatev2";
 
     private static volatile UpdateHelper Instance;
     private int installedVersion;
