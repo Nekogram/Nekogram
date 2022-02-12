@@ -25,7 +25,7 @@
     <string name="EnableResidentNotification">Kalıcı bildirim göster</string>
     <string name="DisableResidentNotification">Kalıcı bildirimi devre dışı bırak</string>
     <string name="NekogramRunning">Nekogram çalışıyor</string>
-    <string name="EventType">Kenar çubuğu ikon ayarı</string>
+    <string name="EventType">Kenar çubuğu simgeleri</string>
     <string name="ChristmasHat">Her gün Noel şapkası göster</string>
     <string name="DependsOnDate">Tarihe bağlı</string>
     <string name="Christmas">Noel</string>
@@ -46,7 +46,7 @@
     <string name="StickerSizeDialogMessageReplyTo">Miyav</string>
     <string name="Experiment">Deneysel</string>
     <string name="UnlimitedFavoredStickers">Sınırsız favori çıkartmaları</string>
-    <string name="UnlimitedFavoredStickersAbout">Favorilere sınırsız çıkartmalar ekleyin.  Çıkartmalar diğer cihazlarla senkronize edilemeyebilir.</string>
+    <string name="UnlimitedFavoredStickersAbout">Favorilere sınırsız çıkartma ekleyin. Çıkartmalar diğer cihazlarla senkronize edilemeyebilir.</string>
     <string name="MessageDetails">Detaylar</string>
     <string name="DeleteAccount">Telegram hesabını sil</string>
     <string name="TranslateFailed">Çeviri sunucu hatası</string>
@@ -128,11 +128,11 @@
     <string name="SwipeToPiP">PiP\'yi açmak için videoyu yukarı kaydırın</string>
     <string name="StickerSavedHint">Çıkartma galeriye kaydedildi</string>
     <string name="RegistrationDate">Kayıt tarihi</string>
-    <string name="WsDescription">Cloudflare aracılığıyla WebSocket aracılığıyla Telegram\'a bağlanın, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">teknik ayrıntılar</a>]]>.</string>
+    <string name="WsDescription">Cloudflare tarafından sunulan WebSocket aracılığıyla Telegram\'a bağlanın, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">teknik ayrıntılar</a>]]>.</string>
     <string name="WsEnableTls">TLS\'yi etkinleştir</string>
     <string name="WsLocalProxy">Yerel proxy</string>
     <string name="WsEnableDoh">DoH\'u etkinleştir</string>
-    <string name="UpdateNekogram">Nekogram\'ı Güncelleştir</string>
+    <string name="UpdateNekogram">Nekogram\'ı Güncelle</string>
     <string name="TranslationTarget">Hedef dil</string>
     <string name="TranslationTargetApp">Uygulamayı takip et</string>
     <string name="Translator">Çevirmen</string>
@@ -164,7 +164,7 @@
     <string name="ShareNekogram">Nekogram\'ı paylaş...</string>
     <string name="NekogramVersion">Nekogram %1$s\nTelegram %2$s tabanlı\n%3$s tarafından tasarlandı</string>
     <string name="UpdateInstalling">Güncelleme yükleniyor...</string>
-    <string name="UpdateInstallingRelaunch">Güncelleme tamamlandığında Nekogram yeniden başlayacak.</string>
+    <string name="UpdateInstallingRelaunch">Güncelleme tamamlandığında Nekogram yeniden başlatılacak.</string>
     <string name="UpdateFailedToInstall">Güncelleme yüklenemedi: %d</string>
     <string name="QRLoginMessage">Oturum açmak için QRCode\'u başka bir cihazla tarayın.</string>
     <string name="QRLoginTitle">QR Girişi</string>

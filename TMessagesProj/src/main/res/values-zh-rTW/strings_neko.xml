@@ -55,6 +55,7 @@
     <string name="TranslateApiUnsupported">您選擇的翻譯來源不支援您的語言.</string>
     <string name="ProviderLingocloud">彩雲小譯</string>
     <string name="UndoTranslate">撤銷翻譯</string>
+    <string name="DisablePhotoViewerSideAction">禁用點按切換圖片</string>
     <string name="BotToken">令牌</string>
     <string name="UnlimitedPinnedDialogs">無限的置頂對話</string>
     <string name="UnlimitedPinnedDialogsAbout">關閉同步以置頂無限對話。</string>
@@ -128,6 +129,7 @@
     <string name="SwipeToPiP">向上滑動影片以打開子母畫面</string>
     <string name="StickerSavedHint">貼圖已儲存到圖庫</string>
     <string name="RegistrationDate">註冊日期</string>
+    <string name="WsDescription">使用 WebSocket，從 Cloudflare 連接到 Telegram。檢<![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">視技術細節</a>]]>。</string>
     <string name="WsEnableTls">啟用 TLS</string>
     <string name="WsLocalProxy">本地代理</string>
     <string name="WsEnableDoh">啟動 DoH</string>
@@ -161,7 +163,18 @@
     <string name="ShareNekogram">分享 Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\n基於 Telegram %2$s\n由 %3$s 設計。</string>
     <string name="UpdateInstalling">安裝更新...</string>
+    <string name="QRLoginMessage">掃描 QRCode，登入另一台設備。</string>
+    <string name="QRLoginTitle">使用 QRCode 登入</string>
+    <string name="TranslatorType">類型</string>
+    <string name="TranslatorTypeNeko">消息下</string>
+    <string name="TranslatorTypeTG">對話框</string>
+    <string name="TranslatorTypeExternal">使用外部程序翻譯</string>
     <string name="CopyPhoto">拷貝圖片</string>
     <string name="PhotoCopied">圖片已拷貝！</string>
+    <string name="AutoTranslate">自動翻譯</string>
+    <string name="CodeSyntaxHighlight">使用「等寬字」時，使代碼高亮。</string>
+    <string name="CreateMonoLanguage">代碼語言</string>
+    <string name="DoubleTapAction">雙擊操作</string>
     <!-- Accessibility -->
+    <string name="AccessibilitySettings">可訪問性設置</string>
 </resources>
