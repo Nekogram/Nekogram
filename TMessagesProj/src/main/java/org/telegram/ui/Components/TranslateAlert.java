@@ -868,6 +868,7 @@ public class TranslateAlert extends Dialog {
     }
 
     public String languageName(String locale) {
+        // sorry, no more vodka
         if (locale == null || locale.equals("und") || locale.equals("auto")) {
             return null;
         }
@@ -875,8 +876,7 @@ public class TranslateAlert extends Dialog {
         if (locale.equals("app")) {
             toLang = LocaleController.getInstance().getCurrentLocaleInfo().name;
         } else {
-            Locale l = Locale.forLanguageTag(locale);
-            toLang = l.getDisplayName(l);
+            toLang = Locale.forLanguageTag(locale).getDisplayName();
         }
         return toLang;
     }

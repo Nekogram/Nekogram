@@ -214,7 +214,7 @@ public class AcceptDeclineView extends View {
                         leftAnimator = animator;
                         if (listener != null) {
                             if ((!startDrag && Math.abs(dy) < touchSlop && !screenWasWakeup) || leftOffsetX > maxOffset * 0.8f) {
-                                listener.onDicline();
+                                listener.onDecline();
                             }
                         }
                     } else {
@@ -388,7 +388,7 @@ public class AcceptDeclineView extends View {
     public interface Listener {
         void onAccept();
 
-        void onDicline();
+        void onDecline();
     }
 
     public void setRetryMod(boolean retryMod) {
@@ -489,7 +489,7 @@ public class AcceptDeclineView extends View {
                         if (virtualViewId == ACCEPT_VIEW_ID) {
                             listener.onAccept();
                         } else if (virtualViewId == DECLINE_VIEW_ID) {
-                            listener.onDicline();
+                            listener.onDecline();
                         }
                     }
                 }

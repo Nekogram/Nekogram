@@ -23,6 +23,7 @@ import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
@@ -49,6 +50,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewGroup;
+import android.view.ViewParent;
 import android.view.ViewTreeObserver;
 import android.view.Window;
 import android.view.WindowManager;
@@ -103,6 +105,7 @@ import org.telegram.messenger.camera.CameraController;
 import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.telegram.messenger.voip.VoIPPendingCall;
 import org.telegram.messenger.voip.VoIPService;
+import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
@@ -1567,6 +1570,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         String phone = null;
                         String game = null;
                         String voicechat = null;
+                        String livestream = null;
                         String phoneHash = null;
                         String lang = null;
                         String theme = null;
@@ -1746,6 +1750,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                                 botChat = data.getQueryParameter("startgroup");
                                                 game = data.getQueryParameter("game");
                                                 voicechat = data.getQueryParameter("voicechat");
+                                                livestream = data.getQueryParameter("livestream");
                                                 threadId = Utilities.parseInt(data.getQueryParameter("thread"));
                                                 if (threadId == 0) {
                                                     threadId = null;
@@ -1783,6 +1788,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                             botChat = data.getQueryParameter("startgroup");
                                             game = data.getQueryParameter("game");
                                             voicechat = data.getQueryParameter("voicechat");
+                                            livestream = data.getQueryParameter("livestream");
                                             messageId = Utilities.parseInt(data.getQueryParameter("post"));
                                             if (messageId == 0) {
                                                 messageId = null;
@@ -2091,7 +2097,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 if (message != null && message.startsWith("@")) {
                                     message = " " + message;
                                 }
-                                runLinkRequest(intentAccount[0], username, group, sticker, botUser, botChat, message, hasUrl, messageId, channelId, threadId, commentId, game, auth, lang, unsupportedUrl, code, login, wallPaper, theme, voicechat, internal ? 3 : 0, videoTimestamp);
+                                runLinkRequest(intentAccount[0], username, group, sticker, botUser, botChat, message, hasUrl, messageId, channelId, threadId, commentId, game, auth, lang, unsupportedUrl, code, login, wallPaper, theme, voicechat, livestream, internal ? 3 : 0, videoTimestamp);
                             } else {
                                 try (Cursor cursor = getContentResolver().query(intent.getData(), null, null, null, null)) {
                                     if (cursor != null) {
@@ -2767,6 +2773,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                                 final TLRPC.TL_wallPaper wallPaper,
                                 final String theme,
                                 final String voicechat,
+                                final String livestream,
                                 final int state,
                                 final int videoTimestamp) {
         if (state == 0 && UserConfig.getActivatedAccountsCount() >= 2) {
@@ -2774,7 +2781,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 if (account != intentAccount) {
                     switchToAccount(account, true);
                 }
-                runLinkRequest(account, username, group, sticker, botUser, botChat, message, hasUrl, messageId, channelId, threadId, commentId, game, auth, lang, unsupportedUrl, code, loginToken, wallPaper, theme, voicechat, 3, videoTimestamp);
+                runLinkRequest(account, username, group, sticker, botUser, botChat, message, hasUrl, messageId, channelId, threadId, commentId, game, auth, lang, unsupportedUrl, code, loginToken, wallPaper, theme, voicechat, livestream, 3, videoTimestamp);
             }).show();
             return;
         } else if (code != null) {
@@ -2807,7 +2814,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 if (!LaunchActivity.this.isFinishing()) {
                     boolean hideProgressDialog = true;
                     final TLRPC.TL_contacts_resolvedPeer res = (TLRPC.TL_contacts_resolvedPeer) response;
-                    if (error == null && actionBarLayout != null && (game == null && voicechat == null || game != null && !res.users.isEmpty() || voicechat != null && !res.chats.isEmpty())) {
+                    if (error == null && actionBarLayout != null && (game == null && voicechat == null || game != null && !res.users.isEmpty() || voicechat != null && !res.chats.isEmpty() || livestream != null && !res.chats.isEmpty())) {
                         MessagesController.getInstance(intentAccount).putUsers(res.users, false);
                         MessagesController.getInstance(intentAccount).putChats(res.chats, false);
                         MessagesStorage.getInstance(intentAccount).putUsersAndChats(res.users, res.chats, false, true);
@@ -2919,6 +2926,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             }
                             if (voicechat != null) {
                                 args.putString("voicechat", voicechat);
+                            }
+                            if (livestream != null) {
+                                args.putString("livestream", livestream);
                             }
                             if (videoTimestamp >= 0) {
                                 args.putInt("video_timestamp", videoTimestamp);
@@ -3608,23 +3618,25 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             return;
         }
         if (SharedConfig.isAppUpdateAvailable()) {
+            View prevUpdateLayout = updateLayout;
             createUpdateUI();
             updateSizeTextView.setText(AndroidUtilities.formatFileSize(SharedConfig.pendingAppUpdate.document.size));
             String fileName = FileLoader.getAttachFileName(SharedConfig.pendingAppUpdate.document);
             File path = FileLoader.getPathToAttach(SharedConfig.pendingAppUpdate.document, true);
             boolean showSize;
             if (path.exists()) {
-                updateLayoutIcon.setIcon(MediaActionDrawable.ICON_UPDATE, true, animated);
+                updateLayoutIcon.setIcon(MediaActionDrawable.ICON_UPDATE, true, false);
                 updateTextView.setText(LocaleController.getString("AppUpdateNow", R.string.AppUpdateNow));
                 showSize = false;
             } else {
                 if (FileLoader.getInstance(currentAccount).isLoadingFile(fileName)) {
-                    updateLayoutIcon.setIcon(MediaActionDrawable.ICON_CANCEL, true, animated);
+                    updateLayoutIcon.setIcon(MediaActionDrawable.ICON_CANCEL, true, false);
+                    updateLayoutIcon.setProgress(0, false);
                     Float p = ImageLoader.getInstance().getFileProgress(fileName);
                     updateTextView.setText(LocaleController.formatString("AppUpdateDownloading", R.string.AppUpdateDownloading, (int) ((p != null ? p : 0.0f) * 100)));
                     showSize = false;
                 } else {
-                    updateLayoutIcon.setIcon(MediaActionDrawable.ICON_DOWNLOAD, true, animated);
+                    updateLayoutIcon.setIcon(MediaActionDrawable.ICON_DOWNLOAD, true, false);
                     updateTextView.setText(LocaleController.getString("UpdateNekogram", R.string.UpdateNekogram));
                     showSize = true;
                 }
@@ -3658,9 +3670,18 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
             updateLayout.setVisibility(View.VISIBLE);
             updateLayout.setTag(1);
             if (animated) {
-                updateLayout.animate().translationY(0).setInterpolator(CubicBezierInterpolator.EASE_OUT).setListener(null).setDuration(180).start();
+                updateLayout.animate().translationY(0).setInterpolator(CubicBezierInterpolator.EASE_OUT).setListener(null).setDuration(180).withEndAction(() -> {
+                    if (prevUpdateLayout != null) {
+                        ViewGroup parent = (ViewGroup) prevUpdateLayout.getParent();
+                        parent.removeView(prevUpdateLayout);
+                    }
+                }).start();
             } else {
                 updateLayout.setTranslationY(0);
+                if (prevUpdateLayout != null) {
+                    ViewGroup parent = (ViewGroup) prevUpdateLayout.getParent();
+                    parent.removeView(prevUpdateLayout);
+                }
             }
             sideMenu.setPadding(0, 0, 0, AndroidUtilities.dp(44));
         } else {
@@ -3898,11 +3919,17 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                     final long did = dids.get(i);
 
                     AccountInstance accountInstance = AccountInstance.getInstance(UserConfig.selectedAccount);
+                    boolean photosEditorOpened = false;
                     if (fragment != null) {
                         actionBarLayout.presentFragment(fragment, dialogsFragment != null, dialogsFragment == null, true, false);
                         if (videoPath != null) {
                             fragment.openVideoEditor(videoPath, sendingText);
                             sendingText = null;
+                        } else if (photoPathsArray != null && photoPathsArray.size() > 0) {
+                            photosEditorOpened = fragment.openPhotosEditor(photoPathsArray, message == null || message.length() == 0 ? sendingText : message);
+                            if (photosEditorOpened) {
+                                sendingText = null;
+                            }
                         }
                     } else {
                         if (videoPath != null) {
@@ -3915,7 +3942,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                             SendMessagesHelper.prepareSendingDocuments(accountInstance, arrayList, arrayList, null, captionToSend, null, did, null, null, null, null, true, 0);
                         }
                     }
-                    if (photoPathsArray != null) {
+                    if (photoPathsArray != null && !photosEditorOpened) {
                         if (sendingText != null && sendingText.length() <= 1024 && photoPathsArray.size() == 1) {
                             photoPathsArray.get(0).caption = sendingText;
                             sendingText = null;

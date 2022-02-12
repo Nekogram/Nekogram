@@ -105,6 +105,7 @@ import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
+import android.view.ViewPropertyAnimator;
 import android.view.ViewTreeObserver;
 import android.view.WindowInsets;
 import android.view.WindowManager;
@@ -480,6 +481,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private View flashView;
     private AnimatorSet flashAnimator;
     private TextureView videoTextureView;
+    private boolean firstFrameSet = false;
+    private ImageView firstFrameView;
     private VideoPlayer videoPlayer;
     private boolean manuallyPaused;
     private Runnable videoPlayRunnable;
@@ -858,6 +861,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 if (isCurrentVideo) {
                     if (!videoTimelineView.isDragging()) {
                         float progress = videoPlayer.getCurrentPosition() / (float) videoPlayer.getDuration();
+                        if (shownControlsByEnd && !actionBarWasShownBeforeByEnd) {
+                            progress = 0;
+                        }
                         if (!inPreview && (currentEditMode != 0 || videoTimelineView.getVisibility() == View.VISIBLE)) {
                             if (progress >= videoTimelineView.getRightProgress()) {
                                 videoTimelineView.setProgress(videoTimelineView.getLeftProgress());
@@ -880,6 +886,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                 } else {
                     float progress = videoPlayer.getCurrentPosition() / (float) videoPlayer.getDuration();
+                    if (shownControlsByEnd && !actionBarWasShownBeforeByEnd) {
+                        progress = 0;
+                    }
                     float bufferedProgress;
                     if (currentVideoFinishedLoading) {
                         bufferedProgress = 1.0f;
@@ -935,6 +944,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     updateVideoPlayerTime();
                 }
+                updateFirstFrameView();
             }
             if (isPlaying) {
                 AndroidUtilities.runOnUIThread(updateProgressRunnable, 17);
@@ -4318,6 +4328,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             MediaDataController.getInstance(currentAccount).addRecentGif(document, (int) (System.currentTimeMillis() / 1000));
                             MessagesController.getInstance(currentAccount).saveGif(pageBlocksAdapter.getParentObject(), document);
                         }
+                    } else {
+                        return;
+                    }
+                    if (containerView != null) {
+                        BulletinFactory.of(containerView, resourcesProvider).createDownloadBulletin(BulletinFactory.FileType.GIF, resourcesProvider).show();
                     }
                 } else if (id == gallery_menu_set_as_main) {
                     TLRPC.Photo photo = avatarsArr.get(currentIndex);
@@ -6362,6 +6377,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
             textureImageView.setTranslationY(fromY2);
             videoTextureView.setTranslationY(fromY);
+            if (firstFrameView != null) {
+                firstFrameView.setTranslationY(fromY);
+            }
 
             translationY = 0;
             containerView.invalidate();
@@ -6384,6 +6402,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
                 videoTextureView.setTranslationX(fromX * (1f - xValue) + (toX2) * xValue);
                 videoTextureView.setTranslationY(fromY * (1f - yValue) + (toY2) * yValue);
+
+                if (firstFrameView != null) {
+                    firstFrameView.setTranslationX(videoTextureView.getTranslationX());
+                    firstFrameView.setTranslationY(videoTextureView.getTranslationY());
+                    firstFrameView.setScaleX(videoTextureView.getScaleX());
+                    firstFrameView.setScaleY(videoTextureView.getScaleY());
+                }
             });
 
             AnimatorSet animatorSet = new AnimatorSet();
@@ -6476,6 +6501,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 videoTextureView.setScaleY(scale);
                 videoTextureView.setTranslationX(rect.x - aspectRatioFrameLayout.getX());
                 videoTextureView.setTranslationY(rect.y - aspectRatioFrameLayout.getY());
+                if (firstFrameView != null) {
+                    firstFrameView.setScaleX(scale);
+                    firstFrameView.setScaleY(scale);
+                    firstFrameView.setTranslationX(videoTextureView.getTranslationX());
+                    firstFrameView.setTranslationY(videoTextureView.getTranslationY());
+                }
             } else {
                 pipVideoView.close();
                 pipVideoView = null;
@@ -6845,6 +6876,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         Arrays.fill(videoPlayerTotalTime, 0);
         if (videoPlayer != null) {
             long current = Math.max(0, videoPlayer.getCurrentPosition());
+            if (shownControlsByEnd && !actionBarWasShownBeforeByEnd) {
+                current = 0;
+            }
             long total = Math.max(0, videoPlayer.getDuration());
             if (!inPreview && videoTimelineView.getVisibility() == View.VISIBLE) {
                 total *= (videoTimelineView.getRightProgress() - videoTimelineView.getLeftProgress());
@@ -7223,6 +7257,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             if (videoTextureView != null) {
                 videoPlayer.setTextureView(videoTextureView);
             }
+            firstFrameSet = false;
             videoPlayer.setDelegate(new VideoPlayer.VideoPlayerDelegate() {
                 @Override
                 public void onStateChanged(boolean playWhenReady, int playbackState) {
@@ -7278,6 +7313,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         textureUploaded = true;
                         containerView.invalidate();
                     }
+
+                    if (videoTextureView != null && !firstFrameSet && videoPlayer.getCurrentPosition() <= 60) {
+                        firstFrameView.setImageBitmap(videoTextureView.getBitmap());
+                        firstFrameSet = true;
+                    }
                 }
 
                 @Override
@@ -7323,19 +7363,28 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             pipPosition[1] -= containerView.getTranslationY();
                             textureImageView.setTranslationX(textureImageView.getTranslationX() + getLeftInset());
                             videoTextureView.setTranslationX(videoTextureView.getTranslationX() + getLeftInset() - aspectRatioFrameLayout.getX());
+                            if (firstFrameView != null) {
+                                firstFrameView.setTranslationX(videoTextureView.getTranslationX());
+                            }
 
                             AnimatorSet animatorSet = new AnimatorSet();
-                            animatorSet.playTogether(
-                                    ObjectAnimator.ofFloat(textureImageView, View.SCALE_X, 1.0f),
-                                    ObjectAnimator.ofFloat(textureImageView, View.SCALE_Y, 1.0f),
-                                    ObjectAnimator.ofFloat(textureImageView, View.TRANSLATION_X, pipPosition[0]),
-                                    ObjectAnimator.ofFloat(textureImageView, View.TRANSLATION_Y, pipPosition[1]),
-                                    ObjectAnimator.ofFloat(videoTextureView, View.SCALE_X, 1.0f),
-                                    ObjectAnimator.ofFloat(videoTextureView, View.SCALE_Y, 1.0f),
-                                    ObjectAnimator.ofFloat(videoTextureView, View.TRANSLATION_X, pipPosition[0] - aspectRatioFrameLayout.getX()),
-                                    ObjectAnimator.ofFloat(videoTextureView, View.TRANSLATION_Y, pipPosition[1] - aspectRatioFrameLayout.getY()),
-                                    ObjectAnimator.ofInt(backgroundDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 255)
-                            );
+                            ArrayList<Animator> animators = new ArrayList<>();
+                            animators.add(ObjectAnimator.ofFloat(textureImageView, View.SCALE_X, 1.0f));
+                            animators.add(ObjectAnimator.ofFloat(textureImageView, View.SCALE_Y, 1.0f));
+                            animators.add(ObjectAnimator.ofFloat(textureImageView, View.TRANSLATION_X, pipPosition[0]));
+                            animators.add(ObjectAnimator.ofFloat(textureImageView, View.TRANSLATION_Y, pipPosition[1]));
+                            animators.add(ObjectAnimator.ofFloat(videoTextureView, View.SCALE_X, 1.0f));
+                            animators.add(ObjectAnimator.ofFloat(videoTextureView, View.SCALE_Y, 1.0f));
+                            animators.add(ObjectAnimator.ofFloat(videoTextureView, View.TRANSLATION_X, pipPosition[0] - aspectRatioFrameLayout.getX()));
+                            animators.add(ObjectAnimator.ofFloat(videoTextureView, View.TRANSLATION_Y, pipPosition[1] - aspectRatioFrameLayout.getY()));
+                            animators.add(ObjectAnimator.ofInt(backgroundDrawable, AnimationProperties.COLOR_DRAWABLE_ALPHA, 255));
+                            if (firstFrameView != null) {
+                                animators.add(ObjectAnimator.ofFloat(firstFrameView, View.SCALE_X, 1.0f));
+                                animators.add(ObjectAnimator.ofFloat(firstFrameView, View.SCALE_Y, 1.0f));
+                                animators.add(ObjectAnimator.ofFloat(firstFrameView, View.TRANSLATION_X, pipPosition[0] - aspectRatioFrameLayout.getX()));
+                                animators.add(ObjectAnimator.ofFloat(firstFrameView, View.TRANSLATION_Y, pipPosition[1] - aspectRatioFrameLayout.getY()));
+                            }
+                            animatorSet.playTogether(animators);
                             final DecelerateInterpolator interpolator = new DecelerateInterpolator();
                             animatorSet.setInterpolator(interpolator);
                             animatorSet.setDuration(250);
@@ -7527,12 +7576,15 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 if (videoTextureView instanceof VideoEditTextureView) {
                     videoTextureView.setPivotX(videoTextureView.getMeasuredWidth() / 2);
+                    firstFrameView.setPivotX(videoTextureView.getMeasuredWidth() / 2);
                 } else {
                     videoTextureView.setPivotX(0);
+                    firstFrameView.setPivotX(0);
                 }
                 checkFullscreenButton();
             }
         };
+        aspectRatioFrameLayout.setWillNotDraw(false);
         aspectRatioFrameLayout.setVisibility(View.INVISIBLE);
         containerView.addView(aspectRatioFrameLayout, 0, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.CENTER));
 
@@ -7556,11 +7608,62 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         videoTextureView.setOpaque(false);
         aspectRatioFrameLayout.addView(videoTextureView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.CENTER));
 
+        firstFrameView = new ImageView(parentActivity);
+        firstFrameView.setPivotX(0);
+        firstFrameView.setPivotY(0);
+        firstFrameView.setScaleType(ImageView.ScaleType.FIT_XY);
+        aspectRatioFrameLayout.addView(firstFrameView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.CENTER));
+
         if (sendPhotoType == SELECT_TYPE_AVATAR) {
             flashView = new View(parentActivity);
             flashView.setBackgroundColor(0xffffffff);
             flashView.setAlpha(0.0f);
             aspectRatioFrameLayout.addView(flashView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.CENTER));
+        }
+    }
+
+    private final static float firstFrameFadeDuration = 200;
+    private boolean shownControlsByEnd = false;
+    private boolean actionBarWasShownBeforeByEnd = false;
+    private ViewPropertyAnimator firstFrameViewAnimator = null;
+    private void updateFirstFrameView() {
+        if (videoPlayer != null && firstFrameView != null) {
+            long toDuration = videoPlayer.getDuration() - videoPlayer.getCurrentPosition();
+            float alpha = 1f - Math.max(Math.min(toDuration / firstFrameFadeDuration, 1), 0);
+            if (!videoPlayer.isPlaying()) {
+                if (firstFrameViewAnimator != null) {
+                    firstFrameViewAnimator.cancel();
+                    firstFrameViewAnimator = null;
+                }
+                firstFrameView.clearAnimation();
+                firstFrameView.setAlpha(alpha);
+            } else {
+                if (toDuration <= firstFrameFadeDuration) {
+                    if (firstFrameViewAnimator == null) {
+                        firstFrameView.setAlpha(alpha);
+                        firstFrameViewAnimator = firstFrameView.animate().alpha(1).withEndAction(() -> {
+                            if (firstFrameViewAnimator != null) {
+                                firstFrameViewAnimator.cancel();
+                                firstFrameViewAnimator = null;
+                            }
+                        }).setDuration(Math.max(0, toDuration));
+                        firstFrameViewAnimator.start();
+                    }
+                } else {
+                    firstFrameView.setAlpha(alpha);
+                }
+            }
+            if (!videoPlayer.isLooping()) {
+                if (!shownControlsByEnd && videoPlayer.getCurrentPosition() > videoPlayer.getDuration() - firstFrameFadeDuration) {
+                    actionBarWasShownBeforeByEnd = isActionBarVisible;
+                    shownControlsByEnd = true;
+                    toggleActionBar(true, true);
+                    checkProgress(0, false, false);
+                } else if (videoPlayer.getCurrentPosition() < videoPlayer.getDuration() - firstFrameFadeDuration) {
+                    shownControlsByEnd = false;
+                    actionBarWasShownBeforeByEnd = false;
+                }
+            }
         }
     }
 
@@ -9692,6 +9795,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         containerView.setTag(1);
         playerAutoStarted = false;
         isCurrentVideo = false;
+        shownControlsByEnd = false;
         imagesArr.clear();
         imagesArrLocations.clear();
         imagesArrLocationsSizes.clear();
@@ -10147,6 +10251,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 } else {
                     menuItem.hideSubItem(gallery_menu_translate);
                 }
+                allowShare = !noforwards;
                 if (newMessageObject.isNewGif() && allowShare) {
                     menuItem.showSubItem(gallery_menu_savegif);
                 }
@@ -10647,11 +10752,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             if (switchingToIndex < 0 || switchingToIndex >= size) {
                 return;
             }
+            allowShare = !MessagesController.getInstance(currentAccount).isChatNoForwards(-currentDialogId);
             TLRPC.PageBlock pageBlock = pageBlocksAdapter.get(switchingToIndex);
             caption = pageBlocksAdapter.getCaption(switchingToIndex);
             isVideo = pageBlocksAdapter.isVideo(switchingToIndex);
             if (isVideo) {
-                if (!MessagesController.getInstance(currentAccount).isChatNoForwards(-currentDialogId)) {
+                if (allowShare) {
                     menuItem.showSubItem(gallery_menu_openin);
                 } else {
                     menuItem.hideSubItem(gallery_menu_openin);
@@ -10673,7 +10779,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             bottomLayout.setTag(null);
 
-            allowShare = !MessagesController.getInstance(currentAccount).isChatNoForwards(-currentDialogId);
             shareItem.setVisibility(allowShare ? View.VISIBLE : View.GONE);
 
             if (currentAnimation != null) {
@@ -11417,6 +11522,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 boolean existsFinal = exists;
                 AndroidUtilities.runOnUIThread(() -> {
+                    if (shownControlsByEnd && !actionBarWasShownBeforeByEnd && isPlaying) {
+                        photoProgressViews[a].setBackgroundState(PROGRESS_PLAY, false, false);
+                        return;
+                    }
                     if ((f1Final != null || f2Final != null) && (existsFinal || canStreamFinal)) {
                         if (a != 0 || !isPlaying) {
                             if (isVideoFinal && (!canAutoPlayFinal || a == 0 && playerWasPlaying)) {
@@ -13128,6 +13237,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         selectedPhotosAdapter.notifyDataSetChanged();
         pageBlocksAdapter = null;
         disableShowCheck = false;
+        shownControlsByEnd = false;
         videoCutStart = 0;
         videoCutEnd = 1f;
         if (object != null) {
@@ -14095,6 +14205,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (currentEditMode == 1 || sendPhotoType == SELECT_TYPE_AVATAR) {
                         if (videoTextureView != null) {
                             videoTextureView.setScaleX(cropTransform.isMirrored() ? -1.0f : 1.0f);
+                            if (firstFrameView != null) {
+                                firstFrameView.setScaleX(videoTextureView.getScaleX());
+                            }
                         }
                         float trueScale = 1.0f + (cropTransform.getTrueCropScale() - 1.0f) * (1.0f - cropAnimationValue);
                         cropScale = cropTransform.getScale() / trueScale;
@@ -14113,6 +14226,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     } else {
                         if (videoTextureView != null) {
                             videoTextureView.setScaleX(editState.cropState != null && editState.cropState.mirrored ? -1.0f : 1.0f);
+                            if (firstFrameView != null) {
+                                firstFrameView.setScaleX(videoTextureView.getScaleX());
+                            }
                         }
                         cropScale = editState.cropState != null ? editState.cropState.cropScale : 1.0f;
                         float trueScale = 1.0f + (cropScale - 1.0f) * (1.0f - cropAnimationValue);
@@ -14135,6 +14251,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (videoTextureView != null) {
                         videoTextureView.setScaleX(1.0f);
                         videoTextureView.setScaleY(1.0f);
+                        if (firstFrameView != null) {
+                            firstFrameView.setScaleX(1);
+                            firstFrameView.setScaleY(1);
+                        }
                     }
                 }
             }
@@ -15516,7 +15636,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             return;
         }
         if (NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO) {
-            Translator.showTranslateDialog(parentActivity, currentMessageObject.messageOwner.message, MessagesController.getInstance(UserConfig.selectedAccount).isChatNoForwards(currentMessageObject.getChatId()));
+            Translator.showTranslateDialog(parentActivity, currentMessageObject.messageOwner.message, MessagesController.getInstance(currentAccount).isChatNoForwards(currentMessageObject.getChatId()) || (currentMessageObject.messageOwner != null && currentMessageObject.messageOwner.noforwards));
             return;
         }
         Object original = currentMessageObject.messageOwner.message;

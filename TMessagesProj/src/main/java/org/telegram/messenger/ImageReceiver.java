@@ -418,6 +418,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             currentExt = ext;
             currentParentObject = null;
             currentCacheType = 0;
+            roundPaint.setShader(null);
             staticThumbDrawable = thumb;
             currentAlpha = 1.0f;
             previousAlpha = 1f;
@@ -573,6 +574,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         mediaShader = null;
         legacyShader = null;
         legacyCanvas = null;
+        roundPaint.setShader(null);
         if (legacyBitmap != null) {
             legacyBitmap.recycle();
             legacyBitmap = null;
@@ -725,6 +727,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
             fileDrawable.setAllowDecodeSingleFrame(true);
         }
         thumbShader = null;
+        roundPaint.setShader(null);
         staticThumbDrawable = bitmap;
         updateDrawableRadius(bitmap);
         currentMediaLocation = null;
@@ -869,6 +872,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         if (staticThumbDrawable != null) {
             staticThumbDrawable = null;
             thumbShader = null;
+            roundPaint.setShader(null);
         }
         clearImage();
         if (isPressed == 0) {
@@ -1008,9 +1012,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
                 } else {
                     bitmapW = bitmapDrawable.getIntrinsicWidth();
                     bitmapH = bitmapDrawable.getIntrinsicHeight();
-                }
-                if (parentView != null) {
-                    parentView.invalidate();
                 }
             } else {
                 Bitmap bitmap = bitmapDrawable.getBitmap();
@@ -2412,6 +2413,7 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
         currentThumbKey = null;
         currentThumbDrawable = null;
         thumbShader = null;
+        roundPaint.setShader(null);
         staticThumbDrawable = new BitmapDrawable(null, thumb);
         crossfadeWithThumb = true;
         currentAlpha = 0f;

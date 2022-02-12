@@ -102,6 +102,7 @@ public class MessageObject {
     public long reactionsLastCheckTime;
     public String customName;
     public boolean reactionsChanged;
+    public boolean isReactionPush;
     private int isRoundVideoCached;
     public long eventId;
     public int contentType;
@@ -5076,7 +5077,7 @@ public class MessageObject {
     }
 
     public static boolean canAutoplayAnimatedSticker(TLRPC.Document document) {
-        return isAnimatedStickerDocument(document, true) && SharedConfig.getDevicePerformanceClass() != SharedConfig.PERFORMANCE_CLASS_LOW;
+        return (isAnimatedStickerDocument(document, true) || isVideoStickerDocument(document)) && SharedConfig.getDevicePerformanceClass() != SharedConfig.PERFORMANCE_CLASS_LOW;
     }
 
     public static boolean isMaskDocument(TLRPC.Document document) {
@@ -6337,7 +6338,7 @@ public class MessageObject {
         return !isEditing() && !isSponsored() && isSent() && messageOwner.action == null;
     }
 
-    public boolean selectReaction(String reaction, boolean fromDoubleTap) {
+    public boolean selectReaction(String reaction, boolean big, boolean fromDoubleTap) {
         if (messageOwner.reactions == null) {
             messageOwner.reactions = new TLRPC.TL_messageReactions();
             messageOwner.reactions.can_see_list = isFromGroup() || isFromUser();
@@ -6352,6 +6353,10 @@ public class MessageObject {
             if (messageOwner.reactions.results.get(i).reaction.equals(reaction)) {
                 newReaction = messageOwner.reactions.results.get(i);
             }
+        }
+
+        if (choosenReaction != null && choosenReaction == newReaction && big) {
+            return true;
         }
 
         if (choosenReaction != null && (choosenReaction == newReaction || fromDoubleTap)) {

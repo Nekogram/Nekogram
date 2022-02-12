@@ -1343,7 +1343,6 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                     if (selectedView != null) {
                         int[] coords = offsetToCord(selectionEnd);
                         x2 = coords[0] + textX;
-
                     }
                     outRect.set(
                             Math.min(x1, x2), y1,

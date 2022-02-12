@@ -3695,6 +3695,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             }
                             if (sourceFile.exists()) {
                                 saveFileInternal(isMusic ? 3 : 2, sourceFile, name);
+                                copiedFiles++;
                             }
                         }
                     } else {
@@ -3745,6 +3746,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                             }
                             if (sourceFile.exists()) {
                                 copyFile(sourceFile, destFile, message.getMimeType());
+                                copiedFiles++;
                             }
                         }
                     }
@@ -3841,7 +3843,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     finishedProgress += 100.0f / messageObjects.size();
                     final int progress = (int) (finishedProgress);
                     AndroidUtilities.runOnUIThread(() -> SaveToDownloadReceiver.updateNotification(notificationId, progress));
-                    copiedFiles++;
                     return true;
                 }
             } catch (Exception e) {

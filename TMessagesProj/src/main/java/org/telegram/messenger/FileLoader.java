@@ -1109,6 +1109,9 @@ public class FileLoader extends BaseController {
     }
 
     public static String getDocumentFileName(TLRPC.Document document) {
+        if (document.file_name_fixed != null) {
+            return document.file_name_fixed;
+        }
         String fileName = null;
         if (document != null) {
             if (document.file_name != null) {

@@ -844,12 +844,7 @@ public final class FloatingToolbar {
                 if (menuItemButton instanceof LinearLayout) {
                     ((LinearLayout) menuItemButton).setGravity(Gravity.CENTER);
                 }
-                if (isFirstItem) {
-                    menuItemButton.setPaddingRelative((int) (1.5 * menuItemButton.getPaddingStart()), menuItemButton.getPaddingTop(), menuItemButton.getPaddingEnd(), menuItemButton.getPaddingBottom());
-                }
-                if (isLastItem) {
-                    menuItemButton.setPaddingRelative(menuItemButton.getPaddingStart(), menuItemButton.getPaddingTop(), (int) (1.5 * menuItemButton.getPaddingEnd()), menuItemButton.getPaddingBottom());
-                }
+                menuItemButton.setPaddingRelative((int) ((isFirstItem ? 1.5 : 1) * menuItemButton.getPaddingStart()), menuItemButton.getPaddingTop(), (int) ((isLastItem ? 1.5 : 1) * menuItemButton.getPaddingEnd()), menuItemButton.getPaddingBottom());
                 menuItemButton.measure(MeasureSpec.UNSPECIFIED, MeasureSpec.UNSPECIFIED);
                 final int menuItemButtonWidth = Math.min(menuItemButton.getMeasuredWidth(), toolbarWidth);
                 final boolean canFitWithOverflow = menuItemButtonWidth <= availableWidth - mOverflowButtonSize.getWidth();
@@ -873,6 +868,10 @@ public final class FloatingToolbar {
             }
             mMainPanelSize = measure(mMainPanel);
             return remainingMenuItems;
+        }
+
+        private void updateMainPanelItemsSelectors() {
+
         }
 
         @SuppressWarnings("unchecked")
@@ -1213,6 +1212,7 @@ public final class FloatingToolbar {
             textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
             menuItemButton.setBackgroundDrawable(Theme.getSelectorDrawable(false));
         }
+
         textView.setPaddingRelative(AndroidUtilities.dp(11), 0, 0, 0);
         menuItemButton.addView(textView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, AndroidUtilities.dp(48)));
         if (menuItem != null) {
