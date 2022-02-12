@@ -326,7 +326,7 @@ public class NekoConfig {
             disableVoiceMessageAutoPlay = preferences.getBoolean("disableVoiceMessageAutoPlay", false);
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
-            verifyLinkTip = preferences.getBoolean("verifyLinkTip", false);
+            verifyLinkTip = preferences.getBoolean("verifyLinkTip2", false);
             codeSyntaxHighlight = preferences.getBoolean("codeSyntaxHighlight", false);
             doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
             restrictedLanguages = new HashSet<>(preferences.getStringSet("restrictedLanguages", new HashSet<>()));
@@ -366,7 +366,7 @@ public class NekoConfig {
         verifyLinkTip = shown;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("verifyLinkTip", verifyLinkTip);
+        editor.putBoolean("verifyLinkTip2", verifyLinkTip);
         editor.commit();
     }
 

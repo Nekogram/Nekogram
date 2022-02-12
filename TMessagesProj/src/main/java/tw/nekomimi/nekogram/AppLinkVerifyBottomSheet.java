@@ -85,10 +85,7 @@ public class AppLinkVerifyBottomSheet extends BottomSheet {
         closeView.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector)));
         closeView.setColorFilter(Theme.getColor(Theme.key_sheet_other));
         closeView.setImageResource(R.drawable.ic_layer_close);
-        closeView.setOnClickListener((view) -> {
-            dismiss();
-            NekoConfig.setVerifyLinkTip(true);
-        });
+        closeView.setOnClickListener((view) -> dismiss());
         int closeViewPadding = AndroidUtilities.dp(8);
         closeView.setPadding(closeViewPadding, closeViewPadding, closeViewPadding, closeViewPadding);
         frameLayout.addView(closeView, LayoutHelper.createFrame(36, 36, Gravity.TOP | Gravity.END, 6, 8, 6, 0));
@@ -127,12 +124,25 @@ public class AppLinkVerifyBottomSheet extends BottomSheet {
         buttonTextView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
         buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Theme.getColor(Theme.key_featuredStickers_addButton), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_windowBackgroundWhite), 120)));
 
-        linearLayout.addView(buttonTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, 0, 16, 15, 16, 16));
+        linearLayout.addView(buttonTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, 0, 16, 15, 16, 8));
 
         buttonTextView.setOnClickListener(view -> {
             Intent intent = new Intent(android.provider.Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS,
                     Uri.parse("package:" + context.getPackageName()));
             context.startActivity(intent);
+        });
+
+        TextView textView = new TextView(context);
+        textView.setGravity(Gravity.CENTER);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        textView.setText(LocaleController.getString("DontAskAgain", R.string.DontAskAgain));
+        textView.setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton));
+
+        linearLayout.addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, 0, 16, 0, 16, 0));
+
+        textView.setOnClickListener(view -> {
+            dismiss();
+            NekoConfig.setVerifyLinkTip(true);
         });
 
         ScrollView scrollView = new ScrollView(context);
