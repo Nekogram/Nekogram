@@ -8,8 +8,7 @@ add_library(genuine STATIC
         integrity/inline.c
         integrity/openat.c
         integrity/path.c
-        integrity/plt.c
-        integrity/pm.c)
+        integrity/plt.c)
 target_compile_options(genuine PUBLIC
         -Oz -Wall -Wextra -Wshadow -Werror -fvisibility=hidden)
 target_include_directories(genuine PUBLIC
