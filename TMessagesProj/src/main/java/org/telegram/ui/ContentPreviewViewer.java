@@ -173,7 +173,7 @@ public class ContentPreviewViewer {
                         icons.add(R.drawable.outline_send);
                         actions.add(0);
                     }
-                    if (!delegate.isInScheduleMode()) {
+                    if (delegate.needSend() && !delegate.isInScheduleMode()) {
                         items.add(LocaleController.getString("SendWithoutSound", R.string.SendWithoutSound));
                         icons.add(R.drawable.input_notify_off);
                         actions.add(6);
@@ -286,7 +286,7 @@ public class ContentPreviewViewer {
                     icons.add(R.drawable.outline_send);
                     actions.add(0);
                 }
-                if (!delegate.isInScheduleMode()) {
+                if (delegate.needSend() && !delegate.isInScheduleMode()) {
                     items.add(LocaleController.getString("SendWithoutSound", R.string.SendWithoutSound));
                     icons.add(R.drawable.input_notify_off);
                     actions.add(6);
