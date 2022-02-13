@@ -258,6 +258,7 @@ import org.telegram.ui.Components.voip.VoIPHelper;
 import org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate;
 
 import tw.nekomimi.nekogram.Extra;
+import tw.nekomimi.nekogram.ForwardContext;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.translator.Translator;
@@ -283,7 +284,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @SuppressWarnings("unchecked")
-public class ChatActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, LocationActivity.LocationActivityDelegate, ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate {
+public class ChatActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, LocationActivity.LocationActivityDelegate, ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate, ForwardContext {
 
     protected TLRPC.Chat currentChat;
     protected TLRPC.User currentUser;
@@ -699,7 +700,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         destroyTextureView();
     };
 
-    private boolean noForwardQuote;
     private TLRPC.ChatParticipant selectedParticipant;
 
     private Paint scrimPaint;
@@ -1618,7 +1618,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         int migrated_to = arguments.getInt("migrated_to", 0);
         scrollToTopOnResume = arguments.getBoolean("scrollToTopOnResume", false);
         needRemovePreviousSameChatActivity = arguments.getBoolean("need_remove_previous_same_chat_activity", true);
-        noForwardQuote = arguments.getBoolean("forward_noquote", false);
+        setForwardParams(
+                arguments.getBoolean("forward_noquote", false),
+                arguments.getBoolean("forward_nocaption", false)
+        );
         if (chatId != 0) {
             currentChat = getMessagesController().getChat(chatId);
             if (currentChat == null) {
@@ -2319,7 +2322,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     createDeleteMessagesAlert(null, null);
                 } else if (id == forward || id == forward_noquote) {
-                    noForwardQuote = id == forward_noquote;
+                    setForwardParams(id == forward_noquote);
                     openForward(true, id == forward_noquote);
                 } else if (id == save_to) {
                     ArrayList<MessageObject> messageObjects = new ArrayList<>();
@@ -2968,9 +2971,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             actionModeViews.add(actionMode.addItemWithWidth(edit, R.drawable.msg_edit, AndroidUtilities.dp(54), LocaleController.getString("Edit", R.string.Edit)));
             actionModeViews.add(actionMode.addItemWithWidth(star, R.drawable.msg_fave, AndroidUtilities.dp(54), LocaleController.getString("AddToFavorites", R.string.AddToFavorites)));
             actionModeViews.add(actionMode.addItemWithWidth(copy, R.drawable.msg_copy, AndroidUtilities.dp(54), LocaleController.getString("Copy", R.string.Copy)));
-            if (NekoConfig.showNoQuoteForward) {
-                actionModeViews.add(actionMode.addItemWithWidth(forward_noquote, R.drawable.msg_forward_noquote, AndroidUtilities.dp(54), LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward)));
-            }
+            actionModeViews.add(actionMode.addItemWithWidth(forward_noquote, R.drawable.msg_forward_noquote, AndroidUtilities.dp(54), LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward)));
             actionModeViews.add(actionMode.addItemWithWidth(forward, R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString("Forward", R.string.Forward)));
             actionModeViews.add(actionMode.addItemWithWidth(delete, R.drawable.msg_delete, AndroidUtilities.dp(54), LocaleController.getString("Delete", R.string.Delete)));
         } else {
@@ -8443,7 +8444,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         image.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.MULTIPLY));
         forwardButton.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null);
         forwardButton.setOnClickListener(v -> {
-            noForwardQuote = false;
+            setForwardParams(false);
             openForward(false);
         });
         bottomMessagesActionContainer.addView(forwardButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.RIGHT | Gravity.TOP));
@@ -8859,7 +8860,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 super.selectAnotherChat();
                 dismiss(false);
                 if (forwardingMessages != null) {
-                    noForwardQuote = forwardingMessages.hideForwardSendersName;
+                    setForwardParams(
+                            forwardingMessages.hideForwardSendersName,
+                            forwardingMessages.hideCaption
+                    );
                     int hasPoll = 0;
                     boolean hasInvoice = false;
                     for (int a = 0, N = forwardingMessages.messages.size(); a < N; a++) {
@@ -11692,9 +11696,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (foundWebPage != null) {
                     return;
                 }
-                if (noForwardQuote) {
-                    noForwardQuote = false;
-                    forwardingMessages.hideForwardSendersName = true;
+                if (forwardParams.noQuote || forwardParams.noCaption) {
+                    forwardingMessages.hideForwardSendersName = forwardParams.noQuote;
+                    forwardingMessages.hideCaption = forwardParams.noCaption;
+                    setForwardParams(false, false);
                 }
                 chatActivityEnterView.setForceShowSendButton(true, false);
                 ArrayList<Long> uids = new ArrayList<>();
@@ -22777,8 +22782,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 createDeleteMessagesAlert(selectedObject, selectedObjectGroup);
                 break;
             }
-            case 2: {
-                noForwardQuote = false;
+            case 2:
+            case 95: {
+                setForwardParams(option == 95);
                 forwardingMessage = selectedObject;
                 forwardingMessageGroup = selectedObjectGroup;
                 Bundle args = new Bundle();
@@ -23446,17 +23452,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 processRepeatMessage(false);
                 break;
-            } case 95: {
-                noForwardQuote = true;
-                forwardingMessage = selectedObject;
-                forwardingMessageGroup = selectedObjectGroup;
-                Bundle args = new Bundle();
-                args.putBoolean("onlySelect", true);
-                args.putInt("dialogsType", 3);
-                DialogsActivity fragment = new DialogsActivity(args);
-                fragment.setDelegate(this);
-                presentFragment(fragment);
-                break;
             } case 97: {
                 if (selectedParticipant == null) {
                     break;
@@ -23630,6 +23625,37 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     @Override
+    public ArrayList<MessageObject> getForwardingMessages() {
+        ArrayList<MessageObject> fmessages = new ArrayList<>();
+        if (forwardingMessage == null && selectedMessagesIds[0].size() == 0 && selectedMessagesIds[1].size() == 0) {
+            return fmessages;
+        }
+        if (forwardingMessage != null) {
+            if (forwardingMessageGroup != null) {
+                fmessages.addAll(forwardingMessageGroup.messages);
+            } else {
+                fmessages.add(forwardingMessage);
+            }
+        } else {
+            for (int a = 1; a >= 0; a--) {
+                ArrayList<Integer> ids = new ArrayList<>();
+                for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
+                    ids.add(selectedMessagesIds[a].keyAt(b));
+                }
+                Collections.sort(ids);
+                for (int b = 0; b < ids.size(); b++) {
+                    Integer id = ids.get(b);
+                    MessageObject messageObject = selectedMessagesIds[a].get(id);
+                    if (messageObject != null) {
+                        fmessages.add(messageObject);
+                    }
+                }
+            }
+        }
+        return fmessages;
+    }
+
+    @Override
     public void didSelectDialogs(DialogsActivity fragment, ArrayList<Long> dids, CharSequence message, boolean param) {
         if (forwardingMessage == null && selectedMessagesIds[0].size() == 0 && selectedMessagesIds[1].size() == 0) {
             return;
@@ -23672,9 +23698,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             for (int a = 0; a < dids.size(); a++) {
                 long did = dids.get(a);
                 if (message != null) {
-                    getSendMessagesHelper().sendMessage(message.toString(), did, null, null, null, true, null, null, null, true, 0, null);
+                    getSendMessagesHelper().sendMessage(message.toString(), did, null, null, null, true, null, null, null, forwardParams.notify, forwardParams.scheduleDate, null);
                 }
-                getSendMessagesHelper().sendMessage(fmessages, did, noForwardQuote, false,true, 0);
+                getSendMessagesHelper().sendMessage(fmessages, did, forwardParams.noQuote, forwardParams.noCaption, forwardParams.notify, forwardParams.scheduleDate);
             }
             fragment.finishFragment();
             if (dids.size() == 1) {
@@ -23686,9 +23712,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             long did = dids.get(0);
             if (did != dialog_id || chatMode == MODE_PINNED) {
                 Bundle args = new Bundle();
-                if (noForwardQuote) {
-                    args.putBoolean("forward_noquote", true);
-                }
+                args.putBoolean("forward_noquote", forwardParams.noQuote);
+                args.putBoolean("forward_nocaption", forwardParams.noCaption);
                 args.putBoolean("scrollToTopOnResume", scrollToTopOnResume);
                 if (DialogObject.isEncryptedDialog(did)) {
                     args.putInt("enc_id", DialogObject.getEncryptedChatId(did));

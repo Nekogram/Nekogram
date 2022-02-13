@@ -3985,14 +3985,17 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     final ArrayList<MessageObject> fmessages = new ArrayList<>();
                     fmessages.add(currentMessageObject);
                     final ChatActivity parentChatActivityFinal = parentChatActivity;
+                    fragment.forwardContext = () -> fmessages;
+                    var forwardParams = fragment.forwardContext.getForwardParams();
+                    forwardParams.noQuote = id == gallery_menu_send_noquote;
                     fragment.setDelegate((fragment1, dids, message, param) -> {
                         if (dids.size() > 1 || dids.get(0) == UserConfig.getInstance(currentAccount).getClientUserId() || message != null) {
                             for (int a = 0; a < dids.size(); a++) {
                                 long did = dids.get(a);
                                 if (message != null) {
-                                    SendMessagesHelper.getInstance(currentAccount).sendMessage(message.toString(), did, null, null, null, true, null, null, null, true, 0, null);
+                                    SendMessagesHelper.getInstance(currentAccount).sendMessage(message.toString(), did, null, null, null, true, null, null, null, forwardParams.notify, forwardParams.scheduleDate, null);
                                 }
-                                SendMessagesHelper.getInstance(currentAccount).sendMessage(fmessages, did, id == gallery_menu_send_noquote, false, true, 0);
+                                SendMessagesHelper.getInstance(currentAccount).sendMessage(fmessages, did, forwardParams.noQuote, forwardParams.noCaption, forwardParams.notify, forwardParams.scheduleDate);
                             }
                             fragment1.finishFragment();
                             if (parentChatActivityFinal != null) {
@@ -4005,9 +4008,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         } else {
                             long did = dids.get(0);
                             Bundle args1 = new Bundle();
-                            if (id == gallery_menu_send_noquote) {
-                                args1.putBoolean("forward_noquote", true);
-                            }
+                            args1.putBoolean("forward_noquote", forwardParams.noQuote);
+                            args1.putBoolean("forward_nocaption", forwardParams.noCaption);
                             args1.putBoolean("scrollToTopOnResume", true);
                             if (DialogObject.isEncryptedDialog(did)) {
                                 args1.putInt("enc_id", DialogObject.getEncryptedChatId(did));

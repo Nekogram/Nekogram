@@ -43,8 +43,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import tw.nekomimi.nekogram.helpers.MessageHelper;
-
 public class SearchViewPager extends ViewPagerFixed implements FilteredSearchView.UiCallback {
 
     public FrameLayout searchContainer;
@@ -383,13 +381,14 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             args.putBoolean("onlySelect", true);
             args.putInt("dialogsType", 3);
             DialogsActivity fragment = new DialogsActivity(args);
+            ArrayList<MessageObject> fmessages = new ArrayList<>();
+            for (FilteredSearchView.MessageHashId hashId : selectedFiles.keySet()) {
+                fmessages.add(selectedFiles.get(hashId));
+            }
+            fragment.forwardContext = () -> fmessages;
+            var forwardParams = fragment.forwardContext.getForwardParams();
+            forwardParams.noQuote = id == forwardNoQuoteItemId;
             fragment.setDelegate((fragment1, dids, message, param) -> {
-                ArrayList<MessageObject> fmessages = new ArrayList<>();
-                Iterator<FilteredSearchView.MessageHashId> idIterator = selectedFiles.keySet().iterator();
-                while (idIterator.hasNext()) {
-                    FilteredSearchView.MessageHashId hashId = idIterator.next();
-                    fmessages.add(selectedFiles.get(hashId));
-                }
                 selectedFiles.clear();
 
                 showActionMode(false);
@@ -398,17 +397,16 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                     for (int a = 0; a < dids.size(); a++) {
                         long did = dids.get(a);
                         if (message != null) {
-                            AccountInstance.getInstance(currentAccount).getSendMessagesHelper().sendMessage(message.toString(), did, null, null, null, true, null, null, null, true, 0, null);
+                            AccountInstance.getInstance(currentAccount).getSendMessagesHelper().sendMessage(message.toString(), did, null, null, null, true, null, null, null, forwardParams.notify, forwardParams.scheduleDate, null);
                         }
-                        AccountInstance.getInstance(currentAccount).getSendMessagesHelper().sendMessage(fmessages, did, id == forwardNoQuoteItemId,false, true, 0);
+                        AccountInstance.getInstance(currentAccount).getSendMessagesHelper().sendMessage(fmessages, did, forwardParams.noQuote, forwardParams.noCaption, forwardParams.notify, forwardParams.scheduleDate);
                     }
                     fragment1.finishFragment();
                 } else {
                     long did = dids.get(0);
                     Bundle args1 = new Bundle();
-                    if (id == forwardNoQuoteItemId) {
-                        args1.putBoolean("forward_noquote", true);
-                    }
+                    args1.putBoolean("forward_noquote", forwardParams.noQuote);
+                    args1.putBoolean("forward_nocaption", forwardParams.noCaption);
                     args1.putBoolean("scrollToTopOnResume", true);
                     if (DialogObject.isEncryptedDialog(did)) {
                         args1.putInt("enc_id", DialogObject.getEncryptedChatId(did));

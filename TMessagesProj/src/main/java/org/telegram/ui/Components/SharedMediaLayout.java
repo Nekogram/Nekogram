@@ -3139,19 +3139,24 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             args.putBoolean("onlySelect", true);
             args.putInt("dialogsType", 3);
             DialogsActivity fragment = new DialogsActivity(args);
+            ArrayList<MessageObject> fmessages = new ArrayList<>();
+            for (int a = 1; a >= 0; a--) {
+                ArrayList<Integer> ids = new ArrayList<>();
+                for (int b = 0; b < selectedFiles[a].size(); b++) {
+                    ids.add(selectedFiles[a].keyAt(b));
+                }
+                Collections.sort(ids);
+                for (Integer id1 : ids) {
+                    if (id1 > 0) {
+                        fmessages.add(selectedFiles[a].get(id1));
+                    }
+                }
+            }
+            fragment.forwardContext = () -> fmessages;
+            var forwardParams = fragment.forwardContext.getForwardParams();
+            forwardParams.noQuote = id == forward_noquote;
             fragment.setDelegate((fragment1, dids, message, param) -> {
-                ArrayList<MessageObject> fmessages = new ArrayList<>();
                 for (int a = 1; a >= 0; a--) {
-                    ArrayList<Integer> ids = new ArrayList<>();
-                    for (int b = 0; b < selectedFiles[a].size(); b++) {
-                        ids.add(selectedFiles[a].keyAt(b));
-                    }
-                    Collections.sort(ids);
-                    for (Integer id1 : ids) {
-                        if (id1 > 0) {
-                            fmessages.add(selectedFiles[a].get(id1));
-                        }
-                    }
                     selectedFiles[a].clear();
                 }
                 cantDeleteMessagesCount = 0;
@@ -3162,17 +3167,16 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     for (int a = 0; a < dids.size(); a++) {
                         long did = dids.get(a);
                         if (message != null) {
-                            profileActivity.getSendMessagesHelper().sendMessage(message.toString(), did, null, null, null, true, null, null, null, true, 0, null);
+                            profileActivity.getSendMessagesHelper().sendMessage(message.toString(), did, null, null, null, true, null, null, null, forwardParams.notify, forwardParams.scheduleDate, null);
                         }
-                        profileActivity.getSendMessagesHelper().sendMessage(fmessages, did, id == forward_noquote, false, true, 0);
+                        profileActivity.getSendMessagesHelper().sendMessage(fmessages, did, forwardParams.noQuote, forwardParams.noCaption, forwardParams.notify, forwardParams.scheduleDate);
                     }
                     fragment1.finishFragment();
                 } else {
                     long did = dids.get(0);
                     Bundle args1 = new Bundle();
-                    if (id == forward_noquote) {
-                        args1.putBoolean("forward_noquote", true);
-                    }
+                    args1.putBoolean("forward_noquote", forwardParams.noQuote);
+                    args1.putBoolean("forward_nocaption", forwardParams.noCaption);
                     args1.putBoolean("scrollToTopOnResume", true);
                     if (DialogObject.isEncryptedDialog(did)) {
                         args1.putInt("enc_id", DialogObject.getEncryptedChatId(did));
