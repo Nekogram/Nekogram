@@ -367,26 +367,10 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     if (oldType != newType) {
                         if (oldType == NekoConfig.TRANS_TYPE_EXTERNAL) {
                             updateRows(false);
-                            listAdapter.notifyItemRangeInserted(translationProviderRow,
-                                    (newType == NekoConfig.TRANS_TYPE_NEKO ? 4 : 3) + (NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 1 : 0)
-                            );
+                            listAdapter.notifyItemRangeInserted(translationProviderRow, NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 5 : 4);
                         } else if (newType == NekoConfig.TRANS_TYPE_EXTERNAL) {
-                            listAdapter.notifyItemRangeRemoved(translationProviderRow,
-                                    (oldType == NekoConfig.TRANS_TYPE_NEKO ? 4 : 3) + (NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 1 : 0)
-                            );
+                            listAdapter.notifyItemRangeRemoved(translationProviderRow, NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 5 : 4);
                             updateRows(false);
-                        } else if (oldType == NekoConfig.TRANS_TYPE_NEKO) {
-                            if (newType == NekoConfig.TRANS_TYPE_TG) {
-                                listAdapter.notifyItemChanged(doNotTranslateRow);
-                                listAdapter.notifyItemRemoved(autoTranslateRow);
-                            }
-                            updateRows(false);
-                        } else if (newType == NekoConfig.TRANS_TYPE_NEKO) {
-                            updateRows(false);
-                            if (oldType == NekoConfig.TRANS_TYPE_TG) {
-                                listAdapter.notifyItemChanged(doNotTranslateRow);
-                                listAdapter.notifyItemInserted(autoTranslateRow);
-                            }
                         }
                     }
                 });
@@ -454,13 +438,14 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
             deepLFormalityRow = NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? rowCount++ : -1;
             translationTargetRow = rowCount++;
             doNotTranslateRow = rowCount++;
+            autoTranslateRow = rowCount++;
         } else {
             translationProviderRow = -1;
             deepLFormalityRow = -1;
             translationTargetRow = -1;
             doNotTranslateRow = -1;
+            autoTranslateRow = -1;
         }
-        autoTranslateRow = NekoConfig.transType == NekoConfig.TRANS_TYPE_NEKO ? rowCount++ : -1;
         translator2Row = rowCount++;
 
         generalRow = rowCount++;
@@ -651,7 +636,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                                 value = LocaleController.getString("TranslatorTypeNeko", R.string.TranslatorTypeNeko);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TranslatorType", R.string.TranslatorType), value, NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL);
+                        textCell.setTextAndValue(LocaleController.getString("TranslatorType", R.string.TranslatorType), value, position + 1 != translator2Row);
                     } else if (position == doNotTranslateRow) {
                         ArrayList<String> langCodes = getRestrictedLanguages();
                         CharSequence value;
@@ -665,7 +650,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                         } else {
                             value = LocaleController.formatPluralString("Languages", langCodes.size());
                         }
-                        textCell.setTextAndValue(LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate), value, position + 1 != translator2Row);
+                        textCell.setTextAndValue(LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate), value, true);
                     }
                     break;
                 }

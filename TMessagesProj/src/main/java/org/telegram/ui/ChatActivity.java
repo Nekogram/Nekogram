@@ -22670,15 +22670,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             getMessageHelper().resetMessageContent(dialog_id, messageObject, false);
         } else {
-            translateMessage(messageObject, sourceLanguage);
+            translateMessage(messageObject, sourceLanguage, false);
         }
     }
 
-    private void translateMessage(MessageObject messageObject, String sourceLanguage) {
+    private void translateMessage(MessageObject messageObject, String sourceLanguage, boolean forceInMessage) {
         if (messageObject == null) {
             return;
         }
-        if (NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO) {
+        if (!forceInMessage && NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO) {
             String message = getMessageHelper().getMessagePlainText(messageObject);
             Translator.showTranslateDialog(getParentActivity(), message, getMessagesController().isChatNoForwards(currentChat) || messageObject.messageOwner.noforwards, this, link -> didPressMessageUrl(link, false, selectedObject, null), sourceLanguage);
             return;
@@ -22705,7 +22705,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override
             public void onError(Exception e) {
-                Translator.handleTranslationError(getParentActivity(), e, () -> translateMessage(finalMessageObject, sourceLanguage), themeDelegate);
+                Translator.handleTranslationError(getParentActivity(), e, () -> translateMessage(finalMessageObject, sourceLanguage, forceInMessage), themeDelegate);
                 finalMessageObject.translating = false;
             }
         });
@@ -26433,7 +26433,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                 }
 
-                if (NekoConfig.autoTranslate && NekoConfig.transType == NekoConfig.TRANS_TYPE_NEKO) {
+                if (NekoConfig.autoTranslate && NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
                     final var messageObject = messageCell.getMessageObject();
                     if (getMessageHelper().isMessageObjectAutoTranslatable(messageObject)) {
                         messageObject.translating = true;
@@ -26441,7 +26441,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 getMessageHelper().getMessagePlainText(messageObject),
                                 (String lang) -> {
                                     if (!Translator.isLanguageRestricted(lang)) {
-                                        translateMessage(messageObject, lang);
+                                        translateMessage(messageObject, lang, true);
                                     }
                                 },
                                 (Exception e) -> {
