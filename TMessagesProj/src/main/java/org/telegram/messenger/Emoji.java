@@ -271,7 +271,7 @@ public class Emoji {
                     textPaint.setTypeface(NekoConfig.getCustomEmojiTypeface());
                 } else {
                     textPaint.setTypeface(NekoConfig.getSystemEmojiTypeface());
-                };
+                }
                 canvas.drawText(emoji,  0, emoji.length(), b.left, b.bottom - b.height() * 0.225f, textPaint);
                 return;
             }

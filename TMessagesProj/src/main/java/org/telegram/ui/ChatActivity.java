@@ -1253,8 +1253,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int auto_delete_timer = 26;
     private final static int change_colors = 27;
 
-    private final static int show_pinned = 100;
-    private final static int delete_history = 101;
+    private final static int show_pinned = 28;
+    private final static int delete_history = 29;
 
     private final static int bot_help = 30;
     private final static int bot_settings = 31;
@@ -2874,7 +2874,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 allowShowPinned = currentUser != null;
             }
             if (allowShowPinned) {
-                headerItem.addSubItem(show_pinned, R.drawable.msg_pin, LocaleController.getString("PinnedMessage", R.string.PinnedMessage));
+                headerItem.addSubItem(show_pinned, R.drawable.msg_pin, LocaleController.getString("PinnedMessage", R.string.PinnedMessage), themeDelegate);
             }
             if (currentChat != null && !currentChat.creator && !ChatObject.hasAdminRights(currentChat)) {
                 headerItem.addSubItem(report, R.drawable.msg_report, LocaleController.getString("ReportChat", R.string.ReportChat), themeDelegate);
@@ -2897,7 +2897,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 muteItem = headerItem.addSubItem(mute, R.drawable.msg_mute, null, themeDelegate);
             }
             if (currentChat != null && (ChatObject.isMegagroup(currentChat) || !ChatObject.isChannel(currentChat))) {
-                headerItem.addSubItem(delete_history, R.drawable.msg_delete, LocaleController.getString("DeleteAllFromSelf", R.string.DeleteAllFromSelf));
+                headerItem.addSubItem(delete_history, R.drawable.msg_delete, LocaleController.getString("DeleteAllFromSelf", R.string.DeleteAllFromSelf), themeDelegate);
             }
             if (ChatObject.isChannel(currentChat)) {
                 if (!ChatObject.isNotInChat(currentChat)) {
@@ -8085,9 +8085,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         searchBeginningButton.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_searchPanelIcons), PorterDuff.Mode.MULTIPLY));
         searchBeginningButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 1));
         searchContainer.addView(searchBeginningButton, LayoutHelper.createFrame(48, 48, Gravity.RIGHT | Gravity.TOP, 0, 0, 96, 0));
-        searchBeginningButton.setOnClickListener(view -> {
-            jumpToDate(1375315200);
-        });
+        searchBeginningButton.setOnClickListener(view -> jumpToDate(1375315200));
         searchBeginningButton.setContentDescription(LocaleController.getString("JumpToBeginning", R.string.JumpToBeginning));
 
         searchUpButton = new ImageView(context);
