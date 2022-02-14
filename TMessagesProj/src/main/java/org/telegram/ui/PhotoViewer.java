@@ -3526,24 +3526,19 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             boolean isVideo = false;
 
             if (currentMessageObject != null) {
-                isVideo = currentMessageObject.isVideo();
-                        /*if (currentMessageObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage) {
-                            AndroidUtilities.openUrl(parentActivity, currentMessageObject.messageOwner.media.webpage.url);
-                            return;
-                        }*/
-                if (!TextUtils.isEmpty(currentMessageObject.messageOwner.attachPath)) {
-                    f = new File(currentMessageObject.messageOwner.attachPath);
-                    if (!f.exists()) {
-                        f = null;
-                    }
-                }
-                if (f == null) {
+                if (currentMessageObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage && currentMessageObject.messageOwner.media.webpage != null && currentMessageObject.messageOwner.media.webpage.document == null) {
+                    TLObject fileLocation = getFileLocation(currentIndex, null);
+                    f = FileLoader.getPathToAttach(fileLocation, true);
+                } else {
                     f = FileLoader.getPathToMessage(currentMessageObject.messageOwner);
                 }
+                isVideo = currentMessageObject.isVideo();
             } else if (currentFileLocationVideo != null) {
                 f = FileLoader.getPathToAttach(getFileLocation(currentFileLocationVideo), getFileLocationExt(currentFileLocationVideo), avatarsDialogId != 0 || isEvent);
+                isVideo = false;
             } else if (pageBlocksAdapter != null) {
                 f = pageBlocksAdapter.getFile(currentIndex);
+                isVideo = pageBlocksAdapter.isVideo(currentIndex);
             }
 
             if (f != null && f.exists()) {
@@ -12053,18 +12048,21 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         MessageObject messageObject = null;
 
         if (currentMessageObject != null) {
-            messageObject = currentMessageObject;
-            capReplace = currentMessageObject.canEditMedia() && !currentMessageObject.isDocument();
-            isVideo = currentMessageObject.isVideo();
-            if (!TextUtils.isEmpty(currentMessageObject.messageOwner.attachPath)) {
-                file = new File(currentMessageObject.messageOwner.attachPath);
-                if (!file.exists()) {
-                    file = null;
-                }
-            }
-            if (file == null) {
+            if (currentMessageObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage && currentMessageObject.messageOwner.media.webpage != null && currentMessageObject.messageOwner.media.webpage.document == null) {
+                TLObject fileLocation = getFileLocation(currentIndex, null);
+                file = FileLoader.getPathToAttach(fileLocation, true);
+            } else {
+                messageObject = currentMessageObject;
+                capReplace = currentMessageObject.canEditMedia() && !currentMessageObject.isDocument();
                 file = FileLoader.getPathToMessage(currentMessageObject.messageOwner);
             }
+            isVideo = currentMessageObject.isVideo();
+        } else if (currentFileLocationVideo != null) {
+            file = FileLoader.getPathToAttach(getFileLocation(currentFileLocationVideo), getFileLocationExt(currentFileLocationVideo), avatarsDialogId != 0 || isEvent);
+            isVideo = false;
+        } else if (pageBlocksAdapter != null) {
+            file = pageBlocksAdapter.getFile(currentIndex);
+            isVideo = pageBlocksAdapter.isVideo(currentIndex);
         }
 
         if (file != null && file.exists()) {
