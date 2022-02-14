@@ -43,7 +43,6 @@ import org.telegram.ui.LaunchActivity;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.accessibility.AccessibilitySettingsActivity;
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
@@ -195,7 +194,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
         sourceCodeRow = rowCount++;
         translationRow = rowCount++;
         donateRow = rowCount++;
-        checkUpdateRow = !NekoConfig.installedFromPlay ? rowCount++ : -1;
+        checkUpdateRow = rowCount++;
         about2Row = rowCount++;
 
         if (news.size() != 0) {
