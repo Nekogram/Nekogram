@@ -35,8 +35,10 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -60,6 +62,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -422,7 +425,7 @@ public class MessageHelper extends BaseController {
             if (cell != null && cell.isChecked()) {
                 getMessagesController().deleteUserChannelHistory(chat, getUserConfig().getCurrentUser(), null, 0);
             } else {
-                deleteUserChannelHistoryWithSearch(fragment, -chat.id, mergeDialogId);
+                deleteUserHistoryWithSearch(fragment, -chat.id, mergeDialogId, count -> BulletinFactory.createDeleteMessagesBulletin(fragment, count, resourcesProvider).show());
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -450,51 +453,83 @@ public class MessageHelper extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.replaceMessagesObjects, dialogId, arrayList, false);
     }
 
-    public void deleteUserChannelHistoryWithSearch(BaseFragment fragment, final long dialogId, final long mergeDialogId) {
-        deleteUserChannelHistoryWithSearch(fragment, dialogId, mergeDialogId, 0, -1);
+    public void deleteUserHistoryWithSearch(BaseFragment fragment, final long dialogId, final long mergeDialogId, MessagesStorage.IntCallback callback) {
+        Utilities.globalQueue.postRunnable(() -> {
+            ArrayList<Integer> messageIds = new ArrayList<>();
+            var latch = new CountDownLatch(1);
+            var peer = getMessagesController().getInputPeer(dialogId);
+            var fromId = MessagesController.getInputPeer(getUserConfig().getCurrentUser());
+            doSearchMessages(fragment, latch, messageIds, peer, fromId, Integer.MAX_VALUE, 0);
+            try {
+                latch.await();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            if (!messageIds.isEmpty()) {
+                ArrayList<ArrayList<Integer>> lists = new ArrayList<>();
+                final int N = messageIds.size();
+                for (int i = 0; i < N; i += 100) {
+                    lists.add(new ArrayList<>(messageIds.subList(i, Math.min(N, i + 100))));
+                }
+                AndroidUtilities.runOnUIThread(() -> {
+                    for (ArrayList<Integer> list : lists) {
+                        getMessagesController().deleteMessages(list, null, null, dialogId, true, false);
+                    }
+                    if (callback != null) {
+                        callback.run(messageIds.size());
+                    }
+                });
+            }
+            if (mergeDialogId != 0) {
+                deleteUserHistoryWithSearch(fragment, mergeDialogId, 0, null);
+            }
+        });
     }
 
-    public void deleteUserChannelHistoryWithSearch(BaseFragment fragment, final long dialogId, final long mergeDialogId, final int offsetId, int lastSize) {
-        final TLRPC.TL_messages_search req = new TLRPC.TL_messages_search();
-        req.peer = getMessagesController().getInputPeer(dialogId);
-        if (req.peer == null) {
-            return;
-        }
+    public void doSearchMessages(BaseFragment fragment, CountDownLatch latch, ArrayList<Integer> messageIds, TLRPC.InputPeer peer, TLRPC.InputPeer fromId, int offsetId, long hash) {
+        var req = new TLRPC.TL_messages_search();
+        req.peer = peer;
         req.limit = 100;
         req.q = "";
         req.offset_id = offsetId;
-        req.from_id = MessagesController.getInputPeer(getUserConfig().getCurrentUser());
+        req.from_id = fromId;
         req.flags |= 1;
         req.filter = new TLRPC.TL_inputMessagesFilterEmpty();
-        getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-            if (error == null) {
-                if (response != null) {
-                    TLRPC.messages_Messages res = (TLRPC.messages_Messages) response;
-                    if (res.messages.size() == 0) {
-                        return;
-                    }
-                    ArrayList<Integer> ids = new ArrayList<>();
-                    int newOffsetId = res.messages.get(0).id;
-                    for (TLRPC.Message message : res.messages) {
-                        newOffsetId = Math.min(newOffsetId, message.id);
-                        ids.add(message.id);
-                    }
-                    if (ids.size() == 0) {
-                        return;
-                    }
-                    getMessagesController().deleteMessages(ids, null, null, dialogId, true, false);
-                    if (offsetId == newOffsetId && lastSize == ids.size()) {
-                        return;
-                    }
-                    deleteUserChannelHistoryWithSearch(fragment, dialogId, mergeDialogId, newOffsetId, ids.size());
+        req.hash = hash;
+        getConnectionsManager().sendRequest(req, (response, error) -> {
+            if (response instanceof TLRPC.messages_Messages) {
+                var res = (TLRPC.messages_Messages) response;
+                if (response instanceof TLRPC.TL_messages_messagesNotModified || res.messages.isEmpty()) {
+                    latch.countDown();
+                    return;
                 }
+                var newOffsetId = offsetId;
+                for (TLRPC.Message message : res.messages) {
+                    newOffsetId = Math.min(newOffsetId, message.id);
+                    if (!message.out || message.post) {
+                        continue;
+                    }
+                    messageIds.add(message.id);
+                }
+                doSearchMessages(fragment, latch, messageIds, peer, fromId, newOffsetId, calcMessagesHash(res.messages));
             } else {
-                AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text);
+                if (error != null) {
+                    AndroidUtilities.runOnUIThread(() -> AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text));
+                }
+                latch.countDown();
             }
-        }), ConnectionsManager.RequestFlagFailOnServerErrors);
-        if (offsetId == 0 && mergeDialogId != 0) {
-            deleteUserChannelHistoryWithSearch(fragment, mergeDialogId, 0, 0, -1);
+        }, ConnectionsManager.RequestFlagFailOnServerErrors);
+    }
+
+    private long calcMessagesHash(ArrayList<TLRPC.Message> messages) {
+        if (messages == null || messages.isEmpty()) {
+            return 0;
         }
+        long acc = 0;
+        for (TLRPC.Message message : messages) {
+            acc = MediaDataController.calcHash(acc, message.id);
+        }
+        return acc;
     }
 
     public String getDCLocation(int dc) {
