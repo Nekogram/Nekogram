@@ -9,6 +9,7 @@
     <string name="DeleteAllFromSelfAlert">Achtung! Dies wird **alle Nachrichten von dir** für **alle** Teilnehmer in diesem Chat **löschen**.</string>
     <string name="BotLogin">Bot-Anmeldung</string>
     <string name="InvalidAccessToken">Ungültiger Zugriffstoken</string>
+    <string name="IgnoreBlocked">Nachrichten von blockierten Benutzern ausblenden</string>
     <string name="Connection">Verbindung</string>
     <string name="Chat">Chat</string>
     <string name="NameOrder">Namensreihenfolge</string>
@@ -76,6 +77,7 @@
     <string name="Categories">Kategorien</string>
     <string name="OfficialChannel">Offizieller Kanal</string>
     <string name="About">Über</string>
+    <string name="IgnoreBlockedAbout">ES IST NICHT WIRKLICH VERSTECKT! Nachrichten sind immer noch verfügbar, aber Text wird in Spoiler konvertiert und Medien werden nicht automatisch heruntergeladen.</string>
     <string name="Donate">Spenden</string>
     <string name="DonateAbout">Unterstützen Sie unsere Entwicklung.</string>
     <string name="TranslationAbout">Helfen Sie uns, Nekogram in Ihre Sprache zu übersetzen.</string>
@@ -126,6 +128,10 @@
     <string name="SwipeToPiP">Video hochwischen um PiP zu öffnen</string>
     <string name="StickerSavedHint">Sticker in Galerie gespeichert</string>
     <string name="RegistrationDate">Registrierungsdatum</string>
+    <string name="WsDescription">Mit Telegram über WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">technische Details</a>]]> verbinden.</string>
+    <string name="WsEnableTls">TLS aktivieren</string>
+    <string name="WsLocalProxy">Lokaler Proxy</string>
+    <string name="WsEnableDoh">DoH aktivieren</string>
     <string name="UpdateNekogram">Nekogram aktualisieren</string>
     <string name="TranslationTarget">Zielsprache</string>
     <string name="TranslationTargetApp">System folgen</string>
@@ -170,6 +176,23 @@
     <string name="TranslatorTypeExternal">Externe App</string>
     <string name="CopyPhoto">Foto kopieren</string>
     <string name="PhotoCopied">Foto in Zwischenablage kopiert</string>
+    <string name="SaveToDownloadCount_zero">Speichern %1$d Dateien in Downloads</string>
+    <string name="SaveToDownloadCount_one">%1$d Datei in Downloads speichern</string>
+    <string name="SaveToDownloadCount_two">%1$d Datei in Downloads speichern</string>
+    <string name="SaveToDownloadCount_few">%1$d Datei in Downloads speichern</string>
+    <string name="SaveToDownloadCount_many">%1$d Datei in Downloads speichern</string>
+    <string name="SaveToDownloadCount_other">%1$d Datei in Downloads speichern</string>
+    <string name="ThemesChannel">Themenkanal</string>
+    <string name="SelectAnIcon">Symbol wählen</string>
+    <string name="AppLinkNotVerifiedMessage">Bei Android 12 und neuer müssen Sie manuell einen Link zu verifizierten Links hinzufügen, um t.me-Links in Nekogram zu öffnen.</string>
+    <string name="AppLinkNotVerifiedTitle">App-Links nicht überprüft</string>
+    <string name="AutoTranslate">Automatisch übersetzen</string>
+    <string name="AutoTranslateAbout">Nachrichten in einer anderen Sprache automatisch übersetzen.</string>
+    <string name="CodeSyntaxHighlight">Code-Syntax hervorheben</string>
+    <string name="CreateMono">Monospace erstellen</string>
+    <string name="CreateMonoLanguage">Programmiersprache</string>
+    <string name="DoubleTapAction">Doppeltipp-Aktion</string>
+    <string name="BlockedUserIgnored">gesperrt</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Bedienungshilfen</string>
 </resources>

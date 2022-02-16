@@ -9,6 +9,7 @@
     <string name="DeleteAllFromSelfAlert">Attention ! Cela **supprimera tous les messages de votre part** dans cet échange pour **tous** les participants.</string>
     <string name="BotLogin">Connexion avec bot</string>
     <string name="InvalidAccessToken">Token d\'accès invalide</string>
+    <string name="IgnoreBlocked">Cacher les messages d\'utilisateurs bloqués</string>
     <string name="Connection">Connexion</string>
     <string name="Chat">Échange</string>
     <string name="NameOrder">Ordre des noms</string>
@@ -54,7 +55,7 @@
     <string name="TranslateApiUnsupported">Le fournisseur de traduction que vous avez sélectionné ne prend pas en charge votre langue.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Annuler la traduction</string>
-    <string name="DisablePhotoViewerSideAction">Désactiver \"Défilement de photos en appuyant\"</string>
+    <string name="DisablePhotoViewerSideAction">Désactiver \"Défilement de photos au touché\"</string>
     <string name="BotToken">Jeton d\'authentification</string>
     <string name="UnlimitedPinnedDialogs">Échanges épinglés illimités</string>
     <string name="UnlimitedPinnedDialogsAbout">Épingler des échanges en illimités en désactivant leur synchronisation.</string>
@@ -76,6 +77,7 @@
     <string name="Categories">Catégories</string>
     <string name="OfficialChannel">Canal officiel</string>
     <string name="About">À propos</string>
+    <string name="IgnoreBlockedAbout">ILS NE LE SONT PAS VRAIMENT ! Les messages seront toujours visibles, mais le texte sera converti en spoiler et les médias ne seront plus automatiquement téléchargés.</string>
     <string name="Donate">Faire un don</string>
     <string name="DonateAbout">Soutenez notre développement.</string>
     <string name="TranslationAbout">Aidez-nous à traduire Nekogram dans votre langue.</string>
@@ -125,6 +127,11 @@
     <string name="SelectBetween">Sélectionner entre</string>
     <string name="SwipeToPiP">Glissez vers le haut pour ouvrir PiP</string>
     <string name="StickerSavedHint">Sticker enregistré dans la galerie</string>
+    <string name="RegistrationDate">Date d\'inscription</string>
+    <string name="WsDescription">Connectez-vous à Telegram avec WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">détails techniques</a>]]>.</string>
+    <string name="WsEnableTls">Activer le TLS</string>
+    <string name="WsLocalProxy">Proxy local</string>
+    <string name="WsEnableDoh">Activer le DoH</string>
     <string name="UpdateNekogram">Mettre à jour Nekogram</string>
     <string name="TranslationTarget">Langue cible</string>
     <string name="TranslationTargetApp">Comme l\'application</string>
@@ -146,7 +153,7 @@
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">Nombre maximum d\'autocollants récents</string>
     <string name="ApplyEmojiFont">Appliquer la police d\'emoji</string>
-    <string name="DisableJumpToNextChannel">Désactiver « Passer au canal suivant »</string>
+    <string name="DisableJumpToNextChannel">Désactiver \"Passer au canal suivant\"</string>
     <string name="DisableGreetingSticker">Désactiver l\'autocollant de salutation</string>
     <string name="DeleteAllFromSelfAdmin">Avec les droits d\'administrateur</string>
     <string name="OfficialSite">Site officiel</string>
@@ -177,9 +184,15 @@
     <string name="SaveToDownloadCount_other">Enregistrement de %1$d fichiers dans les téléchargements</string>
     <string name="ThemesChannel">Canal de thèmes</string>
     <string name="SelectAnIcon">Choisissez une icône</string>
+    <string name="AppLinkNotVerifiedMessage">Sur Android 12 et plus, vous devez ajouter manuellement le lien vers les liens vérifiés afin d\'ouvrir les liens t.me dans Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Liens d\'application non vérifiés</string>
     <string name="AutoTranslate">Traduction automatique</string>
     <string name="AutoTranslateAbout">Traduire automatiquement les messages qui sont dans une autre langue.</string>
+    <string name="CodeSyntaxHighlight">Surbrillance syntaxique de code</string>
+    <string name="CreateMono">Créer Monospace</string>
+    <string name="CreateMonoLanguage">Langage du code</string>
+    <string name="DoubleTapAction">Action de double appui</string>
+    <string name="BlockedUserIgnored">bloqué</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

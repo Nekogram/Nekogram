@@ -6,7 +6,7 @@
     <string name="HidePhone">내 번호 숨기기</string>
     <string name="Hide">숨기기</string>
     <string name="DeleteAllFromSelf">본인 메시지 삭제하기</string>
-    <string name="DeleteAllFromSelfAlert">경고! 모든 참가자에 대해 이 대화에서 사용자가 보낸 모든 메시지를 삭제합니다.</string>
+    <string name="DeleteAllFromSelfAlert">정말 이 채팅방에서 \"내가 쓴 모든 대화 내용\"을 삭제하시겠습니까?</string>
     <string name="BotLogin">봇 로그인</string>
     <string name="InvalidAccessToken">잘못된 액세스 토큰</string>
     <string name="IgnoreBlocked">차단된 사용자의 메시지 숨기기</string>
@@ -29,7 +29,7 @@
     <string name="ChristmasHat">크리스마스 모자 매일 보여주기</string>
     <string name="DependsOnDate">날짜에 따라</string>
     <string name="Christmas">크리스마스</string>
-    <string name="Valentine">발렌타인데이</string>
+    <string name="Valentine">발렌타인 데이</string>
     <string name="DeleteDownloadedFile">다운로드 한 파일 삭제</string>
     <string name="TestBackend">백엔드 테스트</string>
     <string name="TestBackendOn">이 계정은 테스트 백엔드에 연결됩니다.</string>

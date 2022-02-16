@@ -9,6 +9,7 @@
     <string name="DeleteAllFromSelfAlert">تحذير! سيؤدي هذا إلى **حذفَ جميع الرسائل منكَ** في هذه المحادثة لـ **جميع** المشاركين.</string>
     <string name="BotLogin">تسجيل الدخول کبوت</string>
     <string name="InvalidAccessToken">مفتاح التوكن غيرُ صالح</string>
+    <string name="IgnoreBlocked">إخفاء الرسائل من المستخدم المحظور</string>
     <string name="Connection">اتصال</string>
     <string name="Chat">مُحادثة</string>
     <string name="NameOrder">ترتيبُ الاسمِ</string>

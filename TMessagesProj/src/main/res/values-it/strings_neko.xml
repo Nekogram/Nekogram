@@ -9,6 +9,7 @@
     <string name="DeleteAllFromSelfAlert">Attenzione! Questo eliminerà **tutti i tuoi messaggi** da questa chat per **tutti i partecipanti.**</string>
     <string name="BotLogin">Login con bot token</string>
     <string name="InvalidAccessToken">Accesso col token non valido</string>
+    <string name="IgnoreBlocked">Nascondi i messaggi degli utenti bloccati</string>
     <string name="Connection">Connessione</string>
     <string name="Chat">Chat</string>
     <string name="NameOrder">Ordinamento dei nomi</string>
@@ -76,6 +77,7 @@
     <string name="Categories">Categorie</string>
     <string name="OfficialChannel">Canale ufficiale</string>
     <string name="About">Informazioni</string>
+    <string name="IgnoreBlockedAbout">NON SONO DAVVERO NASCOSTI! I messaggi sono ancora visibili, ma il testo sarà convertito in spoiler e i media non saranno scaricati automaticamente.</string>
     <string name="Donate">Dona</string>
     <string name="DonateAbout">Supporta lo sviluppo.</string>
     <string name="TranslationAbout">Aiutaci a tradurre Nekogram nella tua lingua.</string>
@@ -126,6 +128,10 @@
     <string name="SwipeToPiP">Scorri verso l\'alto per mostrare il video in PiP</string>
     <string name="StickerSavedHint">Sticker salvato nella galleria</string>
     <string name="RegistrationDate">Data di registrazione</string>
+    <string name="WsDescription">Connettiti a Telegram attraverso WebSocket tramite Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">dettagli tecnici</a>]]>.</string>
+    <string name="WsEnableTls">Attiva TLS</string>
+    <string name="WsLocalProxy">Proxy locale</string>
+    <string name="WsEnableDoh">Attiva DoH</string>
     <string name="UpdateNekogram">Aggiorna Nekogram</string>
     <string name="TranslationTarget">Lingua di destinazione</string>
     <string name="TranslationTargetApp">Segui l\'app</string>
@@ -178,6 +184,15 @@
     <string name="SaveToDownloadCount_other">Salvataggio di %1$d file nei download</string>
     <string name="ThemesChannel">Canale dei temi</string>
     <string name="SelectAnIcon">Scegli un\'icona</string>
+    <string name="AppLinkNotVerifiedMessage">Per Android 12 e versioni successive, è necessario aggiungere manualmente un collegamento ai link verificati per aprire i link t.me in Nekogram.</string>
+    <string name="AppLinkNotVerifiedTitle">Collegamenti all\'app non verificati</string>
+    <string name="AutoTranslate">Traduzione automatica</string>
+    <string name="AutoTranslateAbout">Traduci automaticamente i messaggi che sono in un\'altra lingua.</string>
+    <string name="CodeSyntaxHighlight">Evidenzia la sintassi del codice</string>
+    <string name="CreateMono">Crea Monospazio</string>
+    <string name="CreateMonoLanguage">Linguaggio del codice</string>
+    <string name="DoubleTapAction">Azione al doppio tocco</string>
+    <string name="BlockedUserIgnored">bloccato</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>

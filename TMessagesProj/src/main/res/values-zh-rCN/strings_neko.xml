@@ -193,7 +193,7 @@
     <string name="CreateMono">创建等宽文字</string>
     <string name="CreateMonoLanguage">代码语言</string>
     <string name="DoubleTapAction">双击操作</string>
-    <string name="BlockedUserIgnored">已屏蔽</string>
+    <string name="BlockedUserIgnored">被屏蔽</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>
