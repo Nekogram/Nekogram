@@ -899,7 +899,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     private int lastRepliesCount;
     private float selectedBackgroundProgress;
 
-    private float viewTop;
+    public float viewTop;
     private int backgroundHeight;
 
     private boolean scheduledInvalidate;
