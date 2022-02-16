@@ -14026,24 +14026,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (photoInfo.path != null) {
                 path = photoInfo.path;
             } else if (photoInfo.uri != null) {
-                path = AndroidUtilities.getPath(photoInfo.uri);
-                if (path == null) {
-                    try {
-                        BitmapFactory.Options bmOptions = new BitmapFactory.Options();
-                        InputStream inputStream = ApplicationLoader.applicationContext.getContentResolver().openInputStream(photoInfo.uri);
-                        Bitmap b = BitmapFactory.decodeStream(inputStream, null, bmOptions);
-                        String fileName = Integer.MIN_VALUE + "_" + SharedConfig.getLastLocalId() + ".webp";
-                        File fileDir = FileLoader.getDirectory(FileLoader.MEDIA_DIR_CACHE);
-                        final File cacheFile = new File(fileDir, fileName);
-                        FileOutputStream stream = new FileOutputStream(cacheFile);
-                        b.compress(Bitmap.CompressFormat.WEBP, 100, stream);
-                        SharedConfig.saveConfig();
-                        path = cacheFile.getPath();
-//                    path = Uri.fromFile(cacheFile);
-                    } catch (Exception e) {
-                        continue;
-                    }
-                }
+                path = MediaController.copyFileToCache(photoInfo.uri, "jpg");
             } else {
                 continue;
             }
