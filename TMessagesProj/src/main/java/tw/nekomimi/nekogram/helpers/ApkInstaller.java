@@ -189,6 +189,14 @@ public final class ApkInstaller {
                 case PackageInstaller.STATUS_FAILURE_INCOMPATIBLE:
                 case PackageInstaller.STATUS_FAILURE_INVALID:
                 case PackageInstaller.STATUS_FAILURE_STORAGE:
+                    int id = intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, 0);
+                    if (id > 0) {
+                        var installer = context.getPackageManager().getPackageInstaller();
+                        var info = installer.getSessionInfo(id);
+                        if (info != null) {
+                            installer.abandonSession(info.getSessionId());
+                        }
+                    }
                     if (context instanceof LaunchActivity) {
                         ((LaunchActivity) context).showBulletin(factory -> factory.createErrorBulletin(LocaleController.formatString("UpdateFailedToInstall", R.string.UpdateFailedToInstall, status)));
                     }
