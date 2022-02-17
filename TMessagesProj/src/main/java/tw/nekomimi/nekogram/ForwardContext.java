@@ -9,6 +9,10 @@ public interface ForwardContext {
 
     ArrayList<MessageObject> getForwardingMessages();
 
+    default boolean forceShowScheduleAndSound() {
+        return false;
+    }
+
     default ForwardParams getForwardParams() {
         return forwardParams;
     }

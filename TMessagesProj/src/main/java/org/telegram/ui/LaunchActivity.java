@@ -166,6 +166,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.regex.Pattern;
 
+import tw.nekomimi.nekogram.ForwardContext;
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 import tw.nekomimi.nekogram.settings.NekoDonateActivity;
@@ -2560,6 +2561,17 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 return false;
             }
         };
+        fragment.forwardContext = new ForwardContext() {
+            @Override
+            public ArrayList<MessageObject> getForwardingMessages() {
+                return null;
+            }
+
+            @Override
+            public boolean forceShowScheduleAndSound() {
+                return true;
+            }
+        };
         fragment.setDelegate(this);
         boolean removeLast;
         if (AndroidUtilities.isTablet()) {
@@ -3889,6 +3901,9 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                 } else {
                     args.putLong("chat_id", -did);
                 }
+                if (scheduleDate != 0) {
+                    args.putInt("chatMode", ChatActivity.MODE_SCHEDULED);
+                }
                 if (!MessagesController.getInstance(account).checkCanOpenChat(args, dialogsFragment)) {
                     return;
                 }
@@ -3980,7 +3995,7 @@ public class LaunchActivity extends Activity implements ActionBarLayout.ActionBa
                         SendMessagesHelper.prepareSendingDocuments(accountInstance, documentsPathsArray, documentsOriginalPathsArray, documentsUrisArray, captionToSend, documentsMimeType, did, null, null, null, null, notify, scheduleDate);
                     }
                     if (sendingText != null) {
-                        SendMessagesHelper.prepareSendingText(accountInstance, sendingText, did, true, 0);
+                        SendMessagesHelper.prepareSendingText(accountInstance, sendingText, did, notify, scheduleDate);
                     }
                     if (contactsToSend != null && !contactsToSend.isEmpty()) {
                         for (int a = 0; a < contactsToSend.size(); a++) {
