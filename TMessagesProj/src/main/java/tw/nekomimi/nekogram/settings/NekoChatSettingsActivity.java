@@ -246,6 +246,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                 types.add(NekoConfig.DOUBLE_TAP_ACTION_SAVE);
                 arrayList.add(LocaleController.getString("Repeat", R.string.Repeat));
                 types.add(NekoConfig.DOUBLE_TAP_ACTION_REPEAT);
+                arrayList.add(LocaleController.getString("Edit", R.string.Edit));
+                types.add(NekoConfig.DOUBLE_TAP_ACTION_EDIT);
                 PopupHelper.show(arrayList, LocaleController.getString("DoubleTapAction", R.string.DoubleTapAction), types.indexOf(NekoConfig.doubleTapAction), context, view, i -> {
                     NekoConfig.setDoubleTapAction(types.get(i));
                     listAdapter.notifyItemChanged(doubleTapActionRow);
@@ -640,6 +642,9 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                                 break;
                             case NekoConfig.DOUBLE_TAP_ACTION_REPEAT:
                                 value = LocaleController.getString("Repeat", R.string.Repeat);
+                                break;
+                            case NekoConfig.DOUBLE_TAP_ACTION_EDIT:
+                                value = LocaleController.getString("Edit", R.string.Edit);
                                 break;
                             case NekoConfig.DOUBLE_TAP_ACTION_NONE:
                             default:

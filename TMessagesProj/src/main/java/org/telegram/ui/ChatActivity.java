@@ -1469,6 +1469,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         (currentEncryptedChat != null || message.getId() >= 0) &&
                         (bottomOverlayChat == null || bottomOverlayChat.getVisibility() != View.VISIBLE) &&
                         (currentChat == null || ((!ChatObject.isNotInChat(currentChat) || isThreadChat()) && (!ChatObject.isChannel(currentChat) || ChatObject.canPost(currentChat) || currentChat.megagroup) && ChatObject.canSendMessages(currentChat)));
+                boolean allowEdit = message.canEditMessage(currentChat) && !chatActivityEnterView.hasAudioToSend() && message.getDialogId() != mergeDialogId;
+                if (allowEdit && messageGroup != null) {
+                    int captionsCount = 0;
+                    for (int a = 0, N = messageGroup.messages.size(); a < N; a++) {
+                        MessageObject messageObject = messageGroup.messages.get(a);
+                        if (a == 0 || !TextUtils.isEmpty(messageObject.caption)) {
+                            selectedObjectToEditCaption = messageObject;
+                            if (!TextUtils.isEmpty(messageObject.caption)) {
+                                captionsCount++;
+                            }
+                        }
+                    }
+                    allowEdit = captionsCount < 2;
+                }
                 switch (NekoConfig.doubleTapAction) {
                     case NekoConfig.DOUBLE_TAP_ACTION_TRANSLATE:
                         if (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL || !noforwards) {
@@ -1487,6 +1501,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 (!isThreadChat() && !noforwards ||
                                         getMessageHelper().getMessageForRepeat(message, messageGroup) != null);
                         return allowRepeat && !message.isSponsored() && chatMode != MODE_SCHEDULED && !message.needDrawBluredPreview() && !message.isLiveLocation() && message.type != 16;
+                    case NekoConfig.DOUBLE_TAP_ACTION_EDIT:
+                        return allowEdit;
                 }
             }
             return false;
@@ -1539,6 +1555,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         break;
                     case NekoConfig.DOUBLE_TAP_ACTION_REPEAT:
                         processSelectedOption(94);
+                        break;
+                    case NekoConfig.DOUBLE_TAP_ACTION_EDIT:
+                        processSelectedOption(12);
                         break;
                 }
             }
