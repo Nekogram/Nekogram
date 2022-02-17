@@ -21522,7 +21522,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 }
                             }
                         }
-                        if (message.messageOwner.forwards > 0 && ChatObject.canChangeChatInfo(getCurrentChat())) {
+                        if (message.messageOwner.forwards > 0 && ChatObject.hasAdminRights(getCurrentChat()) && !message.isForwarded()) {
                             items.add(LocaleController.getString("ViewStats", R.string.ViewStats));
                             options.add(28);
                             icons.add(R.drawable.msg_stats);
