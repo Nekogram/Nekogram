@@ -42,6 +42,7 @@ import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.lsposed.hiddenapibypass.HiddenApiBypass;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
@@ -129,6 +130,52 @@ public class EditTextBoldCursor extends EditTextEffects {
 
     boolean drawInMaim;
     ShapeDrawable cursorDrawable;
+
+    private static Method canUndoMethod;
+    private static Method canRedoMethod;
+
+    static {
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+                canUndoMethod = HiddenApiBypass.getDeclaredMethod(TextView.class, "canUndo");
+                canRedoMethod = HiddenApiBypass.getDeclaredMethod(TextView.class, "canRedo");
+            } else {
+                canUndoMethod = TextView.class.getDeclaredMethod("canUndo");
+                canRedoMethod = TextView.class.getDeclaredMethod("canRedo");
+            }
+            canUndoMethod.setAccessible(true);
+            canRedoMethod.setAccessible(true);
+        } catch (Exception e) {
+            e.printStackTrace();
+            FileLog.e(e);
+            canUndoMethod = null;
+            canRedoMethod = null;
+        }
+    }
+
+    public final boolean canUndo() {
+        if (canUndoMethod == null) {
+            return false;
+        }
+        try {
+            return (boolean) canUndoMethod.invoke(this);
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return false;
+    }
+
+    public final boolean canRedo() {
+        if (canRedoMethod == null) {
+            return false;
+        }
+        try {
+            return (boolean) canRedoMethod.invoke(this);
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return false;
+    }
 
     @TargetApi(23)
     private class ActionModeCallback2Wrapper extends ActionMode.Callback2 {
@@ -860,6 +907,7 @@ public class EditTextBoldCursor extends EditTextEffects {
             };
             callback.onCreateActionMode(floatingActionMode, floatingActionMode.getMenu());
             extendActionMode(floatingActionMode, floatingActionMode.getMenu());
+            addUndoRedo(floatingActionMode.getMenu());
             floatingActionMode.invalidate();
             getViewTreeObserver().addOnPreDrawListener(floatingToolbarPreDrawListener);
             invalidate();
@@ -867,6 +915,11 @@ public class EditTextBoldCursor extends EditTextEffects {
         } else {
             return super.startActionMode(callback);
         }
+    }
+
+    private void addUndoRedo(Menu menu) {
+        if (canUndo()) menu.add(R.id.menu_undoredo, android.R.id.undo, 2, LocaleController.getString("EditUndo", R.string.EditUndo));
+        if (canRedo()) menu.add(R.id.menu_undoredo, android.R.id.redo, 3, LocaleController.getString("EditRedo", R.string.EditRedo));
     }
 
     @Override

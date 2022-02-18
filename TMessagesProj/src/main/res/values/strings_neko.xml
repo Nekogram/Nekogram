@@ -201,6 +201,8 @@
     <string name="CreateMonoLanguage">Code language</string>
     <string name="DoubleTapAction">Double tap action</string>
     <string name="BlockedUserIgnored">blocked</string>
+    <string name="EditUndo">Undo</string>
+    <string name="EditRedo">Redo</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
