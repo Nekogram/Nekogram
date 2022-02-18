@@ -66,6 +66,7 @@ public class SaveToDownloadReceiver extends BroadcastReceiver {
                 .setSmallIcon(android.R.drawable.stat_sys_download)
                 .setColor(NekoConfig.getNotificationColor())
                 .setOngoing(true)
+                .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .addAction(R.drawable.ic_close_white, LocaleController.getString("Cancel", R.string.Cancel), pendingIntent);
         callbacks.put(notificationId, callback);
         builders.put(notificationId, builder);
