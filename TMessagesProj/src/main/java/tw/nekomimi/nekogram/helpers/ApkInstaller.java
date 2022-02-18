@@ -11,17 +11,22 @@ import android.content.IntentFilter;
 import android.content.pm.PackageInstaller;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.XiaomiUtilities;
@@ -40,6 +45,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
+
+import tw.nekomimi.nekogram.NekoConfig;
 
 public final class ApkInstaller {
     @SuppressLint("StaticFieldLeak")
@@ -224,8 +231,26 @@ public final class ApkInstaller {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            if (Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) {
-                context.startActivity(new Intent().setFlags(Intent.FLAG_ACTIVITY_NEW_TASK).setClass(context, LaunchActivity.class));
+            if (!Intent.ACTION_MY_PACKAGE_REPLACED.equals(intent.getAction())) return;
+
+            var packageName = context.getPackageName();
+            var installer = context.getPackageManager().getInstallerPackageName(packageName);
+            if (!packageName.equals(installer)) return;
+
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || Settings.canDrawOverlays(context)) {
+                context.startActivity(new Intent(context, LaunchActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            } else {
+                NotificationsController.checkOtherNotificationsChannel();
+                NotificationManagerCompat
+                        .from(context)
+                        .notify(38264,
+                                new NotificationCompat.Builder(context, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL)
+                                        .setSmallIcon(R.drawable.notification)
+                                        .setColor(NekoConfig.getNotificationColor())
+                                        .setShowWhen(false)
+                                        .setContentText(LocaleController.getString("UpdateInstalledNotification", R.string.UpdateInstalledNotification))
+                                        .setCategory(NotificationCompat.CATEGORY_STATUS)
+                                        .build());
             }
         }
     }
