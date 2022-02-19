@@ -181,7 +181,6 @@ public final class FloatingToolbar {
         }
     }
 
-    private static final int TRANSLATE = 16908353; // android.R.id.textAssist;
     private void doShow() {
         List<MenuItem> menuItems = getVisibleAndEnabledMenuItems(mMenu);
         Collections.sort(menuItems, mMenuItemComparator);
@@ -222,7 +221,7 @@ public final class FloatingToolbar {
                 Menu subMenu = menuItem.getSubMenu();
                 if (subMenu != null) {
                     menuItems.addAll(getVisibleAndEnabledMenuItems(subMenu));
-                } else if (menuItem.getItemId() != TRANSLATE) {
+                } else if (menuItem.getGroupId() != android.R.id.textAssist) {
                     menuItems.add(menuItem);
                 }
             }

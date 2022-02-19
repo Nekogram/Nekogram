@@ -8,6 +8,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
@@ -1233,7 +1234,8 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
             public boolean onCreateActionMode(ActionMode mode, Menu menu) {
                 menu.add(Menu.NONE, android.R.id.copy, 0, android.R.string.copy);
                 menu.add(Menu.NONE, android.R.id.selectAll, 1, android.R.string.selectAll);
-                menu.add(Menu.NONE, R.id.menu_translate, 2, LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
+                menu.add(Menu.NONE, android.R.id.shareText, 2, LocaleController.getString("ShareFile", R.string.ShareFile));
+                menu.add(Menu.NONE, android.R.id.textAssist, 3, LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
                 return true;
             }
 
@@ -1270,7 +1272,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                     invalidate();
                     showActions();
                     return true;
-                } else if (itemId == R.id.menu_translate) {
+                } else if (itemId == android.R.id.textAssist) {
                     if (!isSelectionMode()) {
                         return true;
                     }
@@ -1279,6 +1281,27 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                         return true;
                     }
                     Translator.showTranslateDialog(textSelectionOverlay.getContext(), str.toString(), false);
+                    hideActions();
+                    clear(true);
+                    if (TextSelectionHelper.this.callback != null) {
+                        TextSelectionHelper.this.callback.onTextTranslated();
+                    }
+
+                    clear();
+                } else if (itemId == android.R.id.shareText) {
+                    if (!isSelectionMode()) {
+                        return true;
+                    }
+                    CharSequence str = getSelectedText();
+                    if (str == null) {
+                        return true;
+                    }
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, str);
+                    Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+                    chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ApplicationLoader.applicationContext.startActivity(chooserIntent);
                     hideActions();
                     clear(true);
                     if (TextSelectionHelper.this.callback != null) {
