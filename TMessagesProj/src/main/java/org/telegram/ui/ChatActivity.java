@@ -277,6 +277,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Stack;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
@@ -649,7 +650,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private int startFromVideoTimestamp = -1;
     private int startFromVideoMessageId;
     private boolean needSelectFromMessageId;
-    private int returnToMessageId;
+    private final Stack<Integer> returnToMessageIdStack = new Stack<>();
     private int returnToLoadIndex;
     private int createUnreadMessageAfterId;
     private boolean createUnreadMessageAfterIdLoading;
@@ -1593,14 +1594,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     /**
      * Scrolls the chat to the bottom by user intention
      */
-    public void onScrollDown() {
+    public void onScrollDown(boolean clearStack) {
         wasManualScroll = true;
         textSelectionHelper.cancelTextSelectionRunnable();
         if (createUnreadMessageAfterId != 0) {
             scrollToMessageId(createUnreadMessageAfterId, 0, false, returnToLoadIndex, true, 0);
-        } else if (returnToMessageId > 0) {
-            scrollToMessageId(returnToMessageId, 0, true, returnToLoadIndex, true, 0);
+        } else if (!clearStack && !returnToMessageIdStack.empty()) {
+            scrollToMessageId(returnToMessageIdStack.pop(), 0, true, returnToLoadIndex, true, 0);
         } else {
+            if (clearStack) returnToMessageIdStack.clear();
             scrollToLastMessage(false);
             if (!pinnedMessageIds.isEmpty()) {
                 forceScrollToFirst = true;
@@ -6389,7 +6391,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         pagedownButton = new FrameLayout(context);
         pagedownButton.setVisibility(View.INVISIBLE);
         contentView.addView(pagedownButton, LayoutHelper.createFrame(66, 61, Gravity.RIGHT | Gravity.BOTTOM, 0, 0, -3, 5));
-        pagedownButton.setOnClickListener(view -> onScrollDown());
+        pagedownButton.setOnClickListener(view -> onScrollDown(false));
+        pagedownButton.setOnLongClickListener(view -> {
+            onScrollDown(true);
+            return true;
+        });
 
         mentiondownButton = new FrameLayout(context);
         mentiondownButton.setVisibility(View.INVISIBLE);
@@ -12973,7 +12979,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 showFloatingDateView(false);
             }
         }
-        returnToMessageId = fromMessageId;
+        if (fromMessageId > 0) returnToMessageIdStack.push(fromMessageId);
         returnToLoadIndex = loadIndex;
         needSelectFromMessageId = select;
     }
@@ -13038,7 +13044,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
             }
         } else {
-            returnToMessageId = 0;
+            returnToMessageIdStack.clear();
             newUnreadMessageCount = 0;
             if (pagedownButton.getTag() != null) {
                 pagedownButton.setTag(null);
@@ -13106,7 +13112,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
             }
         } else {
-            returnToMessageId = 0;
+            returnToMessageIdStack.clear();
             if (mentiondownButton.getTag() != null) {
                 mentiondownButton.setTag(null);
                 if (mentiondownButtonAnimation != null) {

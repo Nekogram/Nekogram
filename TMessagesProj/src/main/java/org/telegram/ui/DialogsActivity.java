@@ -5019,7 +5019,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (AndroidUtilities.isTablet()) {
                 if (openedDialogId == dialogId && adapter != searchViewPager.dialogsSearchAdapter) {
                     if (mLastChatActivity != null) {
-                        mLastChatActivity.onScrollDown();
+                        mLastChatActivity.onScrollDown(false);
                     }
                     return;
                 }
