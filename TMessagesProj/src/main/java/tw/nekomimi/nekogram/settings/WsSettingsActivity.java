@@ -53,7 +53,6 @@ public class WsSettingsActivity extends BaseFragment {
     private int enableTLSRow;
     private int localProxyRow;
     private int enableDoHRow;
-    private int settings2Row;
 
     @Override
     public boolean onFragmentCreate() {
@@ -133,12 +132,11 @@ public class WsSettingsActivity extends BaseFragment {
     private void updateRows() {
         rowCount = 0;
 
-        descriptionRow = rowCount++;
         settingsRow = rowCount++;
         enableTLSRow = rowCount++;
         localProxyRow = rowCount++;
         enableDoHRow = rowCount++;
-        settings2Row = rowCount++;
+        descriptionRow = rowCount++;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
@@ -201,14 +199,6 @@ public class WsSettingsActivity extends BaseFragment {
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
-                case 1: {
-                    if (position == settings2Row) {
-                        holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                    } else {
-                        holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                    }
-                    break;
-                }
                 case 2: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
@@ -223,7 +213,7 @@ public class WsSettingsActivity extends BaseFragment {
                     if (position == enableTLSRow) {
                         textCell.setTextAndCheck(LocaleController.getString("WsEnableTls", R.string.WsEnableTls), NekoConfig.wsEnableTLS, true);
                     } else if (position == enableDoHRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("WsEnableDoh", R.string.WsEnableDoh), NekoConfig.wsUseDoH, position + 1 != settings2Row);
+                        textCell.setTextAndCheck(LocaleController.getString("WsEnableDoh", R.string.WsEnableDoh), NekoConfig.wsUseDoH, false);
                     }
                     break;
                 }
@@ -236,7 +226,7 @@ public class WsSettingsActivity extends BaseFragment {
                 }
                 case 7: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                    Spannable spanned = new SpannableString(Html.fromHtml(LocaleController.getString("WsDescription", R.string.WsDescription).replace("\n", "<br>")));
+                    Spannable spanned = new SpannableString(Html.fromHtml(LocaleController.formatString("WsDescription2", R.string.WsDescription2, "https://nekogram.app/proxy").replace("\n", "<br>")));
                     URLSpan[] spans = spanned.getSpans(0, spanned.length(), URLSpan.class);
                     for (URLSpan span : spans) {
                         int start = spanned.getSpanStart(span);
@@ -246,6 +236,7 @@ public class WsSettingsActivity extends BaseFragment {
                         spanned.setSpan(span, start, end, 0);
                     }
                     cell.setText(spanned);
+                    cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     break;
                 }
             }
@@ -301,8 +292,6 @@ public class WsSettingsActivity extends BaseFragment {
                 return 7;
             } else if (position == settingsRow) {
                 return 4;
-            } else if (position == settings2Row) {
-                return 1;
             } else if (position == enableTLSRow || position == enableDoHRow) {
                 return 3;
             }
