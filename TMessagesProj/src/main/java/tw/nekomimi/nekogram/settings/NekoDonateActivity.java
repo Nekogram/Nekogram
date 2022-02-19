@@ -74,40 +74,6 @@ public class NekoDonateActivity extends BaseFragment implements PurchasesUpdated
                 .enablePendingPurchases()
                 .build();
 
-        billingClient.startConnection(new BillingClientStateListener() {
-            @Override
-            public void onBillingServiceDisconnected() {
-
-            }
-
-            @Override
-            public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
-                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                    SkuDetailsParams params = SkuDetailsParams.newBuilder()
-                            .setSkusList(SKUS)
-                            .setType(BillingClient.SkuType.INAPP)
-                            .build();
-                    billingClient.querySkuDetailsAsync(params, (queryResult, list) -> {
-                        if (queryResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            if (list != null && list.size() > 0) {
-                                AndroidUtilities.runOnUIThread(() -> {
-                                    if (listAdapter != null) {
-                                        skuDetails = list;
-                                        updateRows();
-                                        listAdapter.notifyItemRangeChanged(donateRow, 7);
-                                    }
-                                });
-                            }
-                        } else {
-                            showErrorAlert(queryResult);
-                        }
-                    });
-                } else {
-                    showErrorAlert(billingResult);
-                }
-            }
-        });
-
         return true;
     }
 
@@ -166,6 +132,39 @@ public class NekoDonateActivity extends BaseFragment implements PurchasesUpdated
                             .setSkuDetails(skuDetails.get(position - donateRow))
                             .build();
                     billingClient.launchBillingFlow(getParentActivity(), flowParams);
+                }
+            }
+        });
+
+        billingClient.startConnection(new BillingClientStateListener() {
+            @Override
+            public void onBillingServiceDisconnected() {
+
+            }
+
+            @Override
+            public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
+                if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                    SkuDetailsParams params = SkuDetailsParams.newBuilder()
+                            .setSkusList(SKUS)
+                            .setType(BillingClient.SkuType.INAPP)
+                            .build();
+                    billingClient.querySkuDetailsAsync(params, (queryResult, list) -> {
+                        if (queryResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
+                            if (list != null && list.size() > 0) {
+                                AndroidUtilities.runOnUIThread(() -> {
+                                    if (listAdapter != null) {
+                                        skuDetails = list;
+                                        listAdapter.notifyItemRangeChanged(donateRow, 7);
+                                    }
+                                });
+                            }
+                        } else {
+                            showErrorAlert(queryResult);
+                        }
+                    });
+                } else {
+                    showErrorAlert(billingResult);
                 }
             }
         });
@@ -348,8 +347,6 @@ public class NekoDonateActivity extends BaseFragment implements PurchasesUpdated
         public int getItemViewType(int position) {
             if (position == donate2Row) {
                 return 7;
-            } else if (position >= donateRow && position < donate2Row) {
-                return 2;
             }
             return 2;
         }
