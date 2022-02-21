@@ -102,6 +102,7 @@ public class VideoEncodingService extends Service implements NotificationCenter.
             builder.setContentTitle(LocaleController.getString("AppName", R.string.AppName));
             builder.setColor(NekoConfig.getNotificationColor());
             builder.setCategory(NotificationCompat.CATEGORY_PROGRESS);
+            builder.setOnlyAlertOnce(true);
             if (isGif) {
                 builder.setTicker(LocaleController.getString("SendingGif", R.string.SendingGif));
                 builder.setContentText(LocaleController.getString("SendingGif", R.string.SendingGif));
