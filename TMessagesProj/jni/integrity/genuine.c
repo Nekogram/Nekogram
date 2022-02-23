@@ -483,7 +483,7 @@ static inline int checkMaps(const char *packageName) {
 #ifdef DEBUG
                 LOGI("check %s", path);
 #endif
-                if (isDataApp(path)) {
+                if (isDataApp(path) || isExternalSdApp(path)) {
                     loaded = true;
                     int sign = checkSignature(path);
                     if (sign) {
