@@ -76,6 +76,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
     private int disableGreetingStickerRow;
     private int disableVoiceMessageAutoPlayRow;
     private int autoPauseVideoRow;
+    private int disableMarkdownByDefaultRow;
     private int doubleTapActionRow;
     private int messageMenuRow;
     private int chat2Row;
@@ -252,6 +253,11 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                     NekoConfig.setDoubleTapAction(types.get(i));
                     listAdapter.notifyItemChanged(doubleTapActionRow);
                 });
+            } else if (position == disableMarkdownByDefaultRow) {
+                NekoConfig.toggleDisableMarkdownByDefault();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.disableMarkdownByDefault);
+                }
             }
         });
 
@@ -285,6 +291,7 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
         disableGreetingStickerRow = rowCount++;
         disableVoiceMessageAutoPlayRow = rowCount++;
         autoPauseVideoRow = rowCount++;
+        disableMarkdownByDefaultRow = rowCount++;
         doubleTapActionRow = rowCount++;
         messageMenuRow = rowCount++;
         chat2Row = rowCount++;
@@ -685,6 +692,8 @@ public class NekoChatSettingsActivity extends BaseFragment implements Notificati
                         textCell.setTextAndCheck(LocaleController.getString("DisableGreetingSticker", R.string.DisableGreetingSticker), NekoConfig.disableGreetingSticker, true);
                     } else if (position == disableVoiceMessageAutoPlayRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisableVoiceMessagesAutoPlay", R.string.DisableVoiceMessagesAutoPlay), NekoConfig.disableVoiceMessageAutoPlay, true);
+                    } else if (position == disableMarkdownByDefaultRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("DisableMarkdownByDefault", R.string.DisableMarkdownByDefault), NekoConfig.disableMarkdownByDefault, true);
                     }
                     break;
                 }

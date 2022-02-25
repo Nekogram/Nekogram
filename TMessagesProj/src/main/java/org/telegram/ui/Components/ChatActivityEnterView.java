@@ -2070,6 +2070,7 @@ public class ChatActivityEnterView extends ChatBlurredFrameLayout implements Not
                 return resourcesProvider;
             }
         };
+        messageEditText.setShowDisableMarkdown(true);
         messageEditText.setDelegate(() -> {
             messageEditText.invalidateEffects();
             if (delegate != null) {

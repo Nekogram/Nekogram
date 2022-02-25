@@ -203,6 +203,9 @@
     <string name="BlockedUserIgnored">blocked</string>
     <string name="EditUndo">Undo</string>
     <string name="EditRedo">Redo</string>
+    <string name="EditEnableMarkdown">Enable Markdown</string>
+    <string name="EditDisableMarkdown">Disable Markdown</string>
+    <string name="DisableMarkdownByDefault">Disable Markdown by default</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

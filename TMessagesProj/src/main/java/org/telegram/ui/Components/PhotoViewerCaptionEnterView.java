@@ -199,6 +199,7 @@ public class PhotoViewerCaptionEnterView extends FrameLayout implements Notifica
                 return super.requestRectangleOnScreen(rectangle);
             }
         };
+        messageEditText.setShowDisableMarkdown(true);
         messageEditText.setOnFocusChangeListener((view, focused) -> {
             if (focused) {
                 try {

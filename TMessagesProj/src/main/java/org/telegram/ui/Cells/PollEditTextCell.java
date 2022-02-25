@@ -105,6 +105,7 @@ public class PollEditTextCell extends FrameLayout {
                     return actionMode;
                 }
             };
+            textView.setShowDisableMarkdown(true);
             ((EditTextCaption) textView).setAllowTextEntitiesIntersection(true);
         } else {
             textView = new EditTextBoldCursor(context) {

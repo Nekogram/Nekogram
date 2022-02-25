@@ -134,6 +134,7 @@ public class NekoConfig {
     public static boolean swipeToPiP = false;
     public static boolean disableJumpToNextChannel = false;
     public static boolean disableVoiceMessageAutoPlay = false;
+    public static boolean disableMarkdownByDefault = false;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
@@ -332,6 +333,7 @@ public class NekoConfig {
             doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
             restrictedLanguages = new HashSet<>(preferences.getStringSet("restrictedLanguages", new HashSet<>()));
             lastDeepLKey = preferences.getString("lastDeepLKey", "");
+            disableMarkdownByDefault = preferences.getBoolean("disableMarkdownByDefault", false);
             configLoaded = true;
         }
     }
@@ -384,6 +386,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("wsUseMTP", wsUseMTP);
+        editor.commit();
+    }
+
+    public static void toggleDisableMarkdownByDefault() {
+        disableMarkdownByDefault = !disableMarkdownByDefault;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("disableMarkdownByDefault", disableMarkdownByDefault);
         editor.commit();
     }
 

@@ -55,6 +55,8 @@ import org.telegram.ui.ActionBar.Theme;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class EditTextBoldCursor extends EditTextEffects {
 
     private static Field mEditor;
@@ -133,6 +135,8 @@ public class EditTextBoldCursor extends EditTextEffects {
 
     private static Method canUndoMethod;
     private static Method canRedoMethod;
+    public static boolean disableMarkdown = NekoConfig.disableMarkdownByDefault;
+    private boolean showDisableMarkdown = false;
 
     static {
         try {
@@ -175,6 +179,10 @@ public class EditTextBoldCursor extends EditTextEffects {
             FileLog.e(e);
         }
         return false;
+    }
+
+    public void setShowDisableMarkdown(boolean show) {
+        showDisableMarkdown = show;
     }
 
     @TargetApi(23)
@@ -920,6 +928,17 @@ public class EditTextBoldCursor extends EditTextEffects {
     private void addUndoRedo(Menu menu) {
         if (canUndo()) menu.add(R.id.menu_undoredo, android.R.id.undo, 2, LocaleController.getString("EditUndo", R.string.EditUndo));
         if (canRedo()) menu.add(R.id.menu_undoredo, android.R.id.redo, 3, LocaleController.getString("EditRedo", R.string.EditRedo));
+        if (showDisableMarkdown) menu.add(R.id.menu_groupbolditalic, R.id.menu_markdown, 20, disableMarkdown ? LocaleController.getString("EditEnableMarkdown", R.string.EditEnableMarkdown) : LocaleController.getString("EditDisableMarkdown", R.string.EditDisableMarkdown));
+    }
+
+    @Override
+    public boolean onTextContextMenuItem(int id) {
+        if (id == R.id.menu_markdown) {
+            disableMarkdown = !disableMarkdown;
+            floatingActionMode.finish();
+            return true;
+        }
+        return super.onTextContextMenuItem(id);
     }
 
     @Override
