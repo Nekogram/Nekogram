@@ -182,6 +182,20 @@ public class EditTextCaption extends EditTextBoldCursor {
                 end = getSelectionEnd();
             }
 
+            var styleSpans = getText().getSpans(start, end, TextStyleSpan.class);
+            if (styleSpans != null && styleSpans.length > 0) {
+                for (var oldSpan : styleSpans) {
+                    var entity = oldSpan.getTextStyleRun().urlEntity;
+                    if (entity instanceof TLRPC.TL_messageEntityPre) {
+                        var language = entity.language;
+                        if (!TextUtils.isEmpty(language)) {
+                            editText.setText(language);
+                            break;
+                        }
+                    }
+                }
+            }
+
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> {
                 Editable editable = getText();
                 CharacterStyle[] spans = editable.getSpans(start, end, CharacterStyle.class);
@@ -283,6 +297,17 @@ public class EditTextCaption extends EditTextBoldCursor {
             end = getSelectionEnd();
         }
 
+        var urlSpans = getText().getSpans(start, end, URLSpanUserMention.class);
+        if (urlSpans != null) {
+            for (var oldSpan : urlSpans) {
+                var url = oldSpan.getURL();
+                if (!TextUtils.isEmpty(url)) {
+                    editText.setText(url);
+                    break;
+                }
+            }
+        }
+
         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> {
             Editable editable = getText();
             CharacterStyle[] spans = editable.getSpans(start, end, CharacterStyle.class);
@@ -359,6 +384,17 @@ public class EditTextCaption extends EditTextBoldCursor {
         } else {
             start = getSelectionStart();
             end = getSelectionEnd();
+        }
+
+        var urlSpans = getText().getSpans(start, end, URLSpanReplacement.class);
+        if (urlSpans != null) {
+            for (var span : urlSpans) {
+                var url = span.getURL();
+                if (!TextUtils.isEmpty(url)) {
+                    editText.setText(url);
+                    break;
+                }
+            }
         }
 
         builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> {
