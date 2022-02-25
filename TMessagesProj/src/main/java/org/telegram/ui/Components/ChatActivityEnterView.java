@@ -149,6 +149,7 @@ import java.util.Locale;
 import java.util.concurrent.atomic.AtomicReference;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.syntaxhighlight.SyntaxHighlight;
 
 public class ChatActivityEnterView extends ChatBlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate {
 
@@ -6452,9 +6453,12 @@ public class ChatActivityEnterView extends ChatBlurredFrameLayout implements Not
                                 stringBuilder.setSpan(new URLSpanUserMention("" + ((TLRPC.TL_messageEntityMentionName) entity).user_id, 3), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             } else if (entity instanceof TLRPC.TL_messageEntityCode || entity instanceof TLRPC.TL_messageEntityPre) {
                                 TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
+                                run.start = entity.offset;
+                                run.end = entity.offset + entity.length;
                                 run.flags |= TextStyleSpan.FLAG_STYLE_MONO;
                                 run.urlEntity = entity;
                                 MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
+                                SyntaxHighlight.highlight(run, stringBuilder);
                             } else if (entity instanceof TLRPC.TL_messageEntityBold) {
                                 TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
                                 run.flags |= TextStyleSpan.FLAG_STYLE_BOLD;
