@@ -1981,19 +1981,9 @@ public class ChatActivityEnterView extends ChatBlurredFrameLayout implements Not
             }
 
             private void editPhoto(Uri uri, String mime) {
-                final File file = AndroidUtilities.generatePicturePath(fragment != null && fragment.isSecretChat(), MimeTypeMap.getSingleton().getExtensionFromMimeType(mime));
+                final File file = new File(MediaController.copyFileToCache(uri, MimeTypeMap.getSingleton().getExtensionFromMimeType(mime)));
                 Utilities.globalQueue.postRunnable(() -> {
                     try {
-                        InputStream in = context.getContentResolver().openInputStream(uri);
-                        FileOutputStream fos = new FileOutputStream(file);
-                        byte[] buffer = new byte[1024];
-                        int lengthRead;
-                        while ((lengthRead = in.read(buffer)) > 0) {
-                            fos.write(buffer, 0, lengthRead);
-                            fos.flush();
-                        }
-                        in.close();
-                        fos.close();
                         MediaController.PhotoEntry photoEntry = new MediaController.PhotoEntry(0, -1, 0, file.getAbsolutePath(), 0, false, 0, 0, 0);
                         ArrayList<Object> entries = new ArrayList<>();
                         entries.add(photoEntry);
