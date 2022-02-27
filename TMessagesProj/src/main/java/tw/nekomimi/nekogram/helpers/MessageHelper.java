@@ -425,7 +425,11 @@ public class MessageHelper extends BaseController {
             if (cell != null && cell.isChecked()) {
                 getMessagesController().deleteUserChannelHistory(chat, getUserConfig().getCurrentUser(), null, 0);
             } else {
-                deleteUserHistoryWithSearch(fragment, -chat.id, mergeDialogId, count -> BulletinFactory.createDeleteMessagesBulletin(fragment, count, resourcesProvider).show());
+                deleteUserHistoryWithSearch(fragment, -chat.id, mergeDialogId, count -> {
+                    if (BulletinFactory.canShowBulletin(fragment)) {
+                        BulletinFactory.createDeleteMessagesBulletin(fragment, count, resourcesProvider).show();
+                    }
+                });
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -568,10 +572,12 @@ public class MessageHelper extends BaseController {
                 getMessagesController().processUpdates((TLRPC.Updates) response, false);
             } else {
                 AndroidUtilities.runOnUIThread(() -> {
-                    if (error.text.equals("MEDIA_EMPTY")) {
-                        BulletinFactory.of(fragment).createErrorBulletin(LocaleController.getString("SendWebFileInvalid", R.string.SendWebFileInvalid), resourcesProvider).show();
-                    } else {
-                        AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("SendWebFile", R.string.SendWebFile), LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text, resourcesProvider);
+                    if (BulletinFactory.canShowBulletin(fragment)) {
+                        if (error.text.equals("MEDIA_EMPTY")) {
+                            BulletinFactory.of(fragment).createErrorBulletin(LocaleController.getString("SendWebFileInvalid", R.string.SendWebFileInvalid), resourcesProvider).show();
+                        } else {
+                            AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("SendWebFile", R.string.SendWebFile), LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text, resourcesProvider);
+                        }
                     }
                 });
             }
