@@ -90,6 +90,7 @@ import androidx.collection.LongSparseArray;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.os.BuildCompat;
+import androidx.core.view.ContentInfoCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.core.view.inputmethod.EditorInfoCompat;
@@ -1678,6 +1679,17 @@ public class ChatActivityEnterView extends ChatBlurredFrameLayout implements Not
         }
     }
 
+    private void send(String mime, Uri uri, boolean notify, int scheduleDate) {
+        if (mime.equalsIgnoreCase("image/gif")) {
+            SendMessagesHelper.prepareSendingDocument(accountInstance, null, null, uri, null, "image/gif", dialog_id, replyingMessageObject, getThreadMessage(), null, null, notify, 0);
+        } else {
+            SendMessagesHelper.prepareSendingPhoto(accountInstance, null, uri, dialog_id, replyingMessageObject, getThreadMessage(), null, null, null, mime, 0, null, notify, 0);
+        }
+        if (delegate != null) {
+            delegate.onMessageSend(null, true, scheduleDate);
+        }
+    }
+
     public ChatActivityEnterView(Activity context, SizeNotifierFrameLayout parent, ChatActivity fragment, final boolean isChat) {
         this(context, parent, fragment, isChat, null);
     }
@@ -1830,65 +1842,6 @@ public class ChatActivityEnterView extends ChatBlurredFrameLayout implements Not
 
         messageEditText = new EditTextCaption(context, resourcesProvider) {
 
-            private void send(InputContentInfoCompat inputContentInfo, boolean notify, int scheduleDate) {
-                ClipDescription description = inputContentInfo.getDescription();
-                if (description.hasMimeType("image/gif")) {
-                    SendMessagesHelper.prepareSendingDocument(accountInstance, null, null, inputContentInfo.getContentUri(), null, "image/gif", dialog_id, replyingMessageObject, getThreadMessage(), inputContentInfo, null, notify, 0);
-                } else {
-                    SendMessagesHelper.prepareSendingPhoto(accountInstance, null, inputContentInfo.getContentUri(), dialog_id, replyingMessageObject, getThreadMessage(), null, null, null, inputContentInfo, 0, null, notify, 0);
-                }
-                if (delegate != null) {
-                    delegate.onMessageSend(null, true, scheduleDate);
-                }
-            }
-
-            @Nullable
-            @Override
-            public ContentInfo onReceiveContent(@NonNull ContentInfo payload) {
-                ClipData clipData = payload.getClip();
-                if (clipData != null) {
-                    if (clipData.getItemCount() == 1 && clipData.getDescription().hasMimeType("image/*")) {
-                        editPhoto(clipData.getItemAt(0).getUri(), clipData.getDescription().getMimeType(0));
-                    }
-                }
-                return super.onReceiveContent(payload);
-            }
-
-            @Override
-            public InputConnection onCreateInputConnection(EditorInfo editorInfo) {
-                final InputConnection ic = super.onCreateInputConnection(editorInfo);
-                if (ic == null) {
-                    return null;
-                }
-                try {
-                    EditorInfoCompat.setContentMimeTypes(editorInfo, new String[]{"image/gif", "image/*", "image/jpg", "image/png", "image/webp"});
-
-                    final InputConnectionCompat.OnCommitContentListener callback = (inputContentInfo, flags, opts) -> {
-                        if (BuildCompat.isAtLeastNMR1() && (flags & InputConnectionCompat.INPUT_CONTENT_GRANT_READ_URI_PERMISSION) != 0) {
-                            try {
-                                inputContentInfo.requestPermission();
-                            } catch (Exception e) {
-                                return false;
-                            }
-                        }
-                        if (inputContentInfo.getDescription().hasMimeType("image/gif") || SendMessagesHelper.shouldSendWebPAsSticker(null, inputContentInfo.getContentUri())) {
-                            if (isInScheduleMode()) {
-                                AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate) -> send(inputContentInfo, notify, scheduleDate), resourcesProvider);
-                            } else {
-                                send(inputContentInfo, true, 0);
-                            }
-                        } else {
-                            editPhoto(inputContentInfo.getContentUri(), inputContentInfo.getDescription().getMimeType(0));
-                        }
-                        return true;
-                    };
-                    return InputConnectionCompat.createWrapper(ic, editorInfo, callback);
-                } catch (Throwable e) {
-                    FileLog.e(e);
-                }
-                return ic;
-            }
-
             @Override
             public boolean onTouchEvent(MotionEvent event) {
                 if (stickersDragging || stickersExpansionAnim != null) {
@@ -1967,93 +1920,7 @@ public class ChatActivityEnterView extends ChatBlurredFrameLayout implements Not
                 if (id == android.R.id.paste) {
                     isPaste = true;
                 }
-
-                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S && id == android.R.id.paste) {
-                    ClipboardManager clipboard = (ClipboardManager) getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                    ClipData clipData = clipboard.getPrimaryClip();
-                    if (clipData != null) {
-                        if (clipData.getItemCount() == 1 && clipData.getDescription().hasMimeType("image/*")) {
-                            editPhoto(clipData.getItemAt(0).getUri(), clipData.getDescription().getMimeType(0));
-                        }
-                    }
-                }
                 return super.onTextContextMenuItem(id);
-            }
-
-            private void editPhoto(Uri uri, String mime) {
-                final File file = new File(MediaController.copyFileToCache(uri, MimeTypeMap.getSingleton().getExtensionFromMimeType(mime)));
-                Utilities.globalQueue.postRunnable(() -> {
-                    try {
-                        MediaController.PhotoEntry photoEntry = new MediaController.PhotoEntry(0, -1, 0, file.getAbsolutePath(), 0, false, 0, 0, 0);
-                        ArrayList<Object> entries = new ArrayList<>();
-                        entries.add(photoEntry);
-                        AndroidUtilities.runOnUIThread(() -> {
-                            openPhotoViewerForEdit(entries, file);
-                        });
-                    } catch (Throwable e) {
-                        e.printStackTrace();
-                    }
-                });
-            }
-
-            private void openPhotoViewerForEdit(ArrayList<Object> entries, File sourceFile) {
-                MediaController.PhotoEntry photoEntry = (MediaController.PhotoEntry) entries.get(0);
-                if (keyboardVisible) {
-                    AndroidUtilities.hideKeyboard(messageEditText);
-                    AndroidUtilities.runOnUIThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            openPhotoViewerForEdit(entries, sourceFile);
-                        }
-                    }, 100);
-                    return;
-                }
-
-                PhotoViewer.getInstance().setParentActivity(parentActivity, resourcesProvider);
-                PhotoViewer.getInstance().openPhotoForSelect(entries, 0, 2, false, new PhotoViewer.EmptyPhotoViewerProvider() {
-                    boolean sending;
-                    @Override
-                    public void sendButtonPressed(int index, VideoEditedInfo videoEditedInfo, boolean notify, int scheduleDate, boolean forceDocument) {
-                        ArrayList<SendMessagesHelper.SendingMediaInfo> photos = new ArrayList<>();
-                        SendMessagesHelper.SendingMediaInfo info = new SendMessagesHelper.SendingMediaInfo();
-                        if (!photoEntry.isVideo && photoEntry.imagePath != null) {
-                            info.path = photoEntry.imagePath;
-                        } else if (photoEntry.path != null) {
-                            info.path = photoEntry.path;
-                        }
-                        info.thumbPath = photoEntry.thumbPath;
-                        info.isVideo = photoEntry.isVideo;
-                        info.caption = photoEntry.caption != null ? photoEntry.caption.toString() : null;
-                        info.entities = photoEntry.entities;
-                        info.masks = photoEntry.stickers;
-                        info.ttl = photoEntry.ttl;
-                        info.videoEditedInfo = videoEditedInfo;
-                        info.canDeleteAfter = true;
-                        photos.add(info);
-                        photoEntry.reset();
-                        sending = true;
-                        SendMessagesHelper.prepareSendingMedia(accountInstance, photos, dialog_id, replyingMessageObject, getThreadMessage(), null, false, false, editingMessageObject, notify, scheduleDate);
-                        if (delegate != null) {
-                            delegate.onMessageSend(null, true, scheduleDate);
-                        }
-                    }
-
-                    @Override
-                    public void willHidePhotoViewer() {
-                        if (!sending) {
-                            try {
-                                sourceFile.delete();
-                            } catch (Throwable ignore) {
-
-                            }
-                        }
-                    }
-
-                    @Override
-                    public boolean canCaptureMorePhotos() {
-                        return false;
-                    }
-                }, parentFragment);
             }
 
             @Override
@@ -2061,6 +1928,37 @@ public class ChatActivityEnterView extends ChatBlurredFrameLayout implements Not
                 return resourcesProvider;
             }
         };
+        if (parentFragment != null) {
+            ViewCompat.setOnReceiveContentListener(messageEditText, new String[]{"image/gif", "image/*", "image/jpg", "image/png", "image/webp"}, (view, payload) -> {
+                var split = payload.partition(
+                        item -> item.getUri() != null);
+                var uriContent = split.first;
+                var remaining = split.second;
+                if (uriContent != null) {
+                    var clip = uriContent.getClip();
+                    ArrayList<SendMessagesHelper.SendingMediaInfo> paths = new ArrayList<>();
+                    for (int i = 0; i < clip.getItemCount(); i++) {
+                        var uri = clip.getItemAt(i).getUri();
+                        var mimeType = clip.getDescription().getMimeType(i);
+                        if (clip.getItemCount() == 1 && (mimeType.equalsIgnoreCase("image/gif") || SendMessagesHelper.shouldSendWebPAsSticker(null, uri))) {
+                            if (isInScheduleMode()) {
+                                AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate) -> send(mimeType, uri, notify, scheduleDate), resourcesProvider);
+                            } else {
+                                send(mimeType, uri, true, 0);
+                            }
+                        } else {
+                            var info = new SendMessagesHelper.SendingMediaInfo();
+                            info.uri = uri;
+                            paths.add(info);
+                        }
+                    }
+                    if (!paths.isEmpty()) {
+                        parentFragment.openPhotosEditor(paths, getFieldText());
+                    }
+                }
+                return remaining;
+            });
+        }
         messageEditText.setShowDisableMarkdown(true);
         messageEditText.setDelegate(() -> {
             messageEditText.invalidateEffects();

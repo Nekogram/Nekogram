@@ -6452,12 +6452,12 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     @UiThread
-    public static void prepareSendingPhoto(AccountInstance accountInstance, String imageFilePath, Uri imageUri, long dialogId, MessageObject replyToMsg, MessageObject replyToTopMsg, CharSequence caption, ArrayList<TLRPC.MessageEntity> entities, ArrayList<TLRPC.InputDocument> stickers, InputContentInfoCompat inputContent, int ttl, MessageObject editingMessageObject, boolean notify, int scheduleDate) {
+    public static void prepareSendingPhoto(AccountInstance accountInstance, String imageFilePath, Uri imageUri, long dialogId, MessageObject replyToMsg, MessageObject replyToTopMsg, CharSequence caption, ArrayList<TLRPC.MessageEntity> entities, ArrayList<TLRPC.InputDocument> stickers, String inputContent, int ttl, MessageObject editingMessageObject, boolean notify, int scheduleDate) {
         prepareSendingPhoto(accountInstance, imageFilePath, null, imageUri, dialogId, replyToMsg, replyToTopMsg, caption, entities, stickers, inputContent, ttl, editingMessageObject, null, notify, scheduleDate, false);
     }
 
     @UiThread
-    public static void prepareSendingPhoto(AccountInstance accountInstance, String imageFilePath, String thumbFilePath, Uri imageUri, long dialogId, MessageObject replyToMsg, MessageObject replyToTopMsg, CharSequence caption, ArrayList<TLRPC.MessageEntity> entities, ArrayList<TLRPC.InputDocument> stickers, InputContentInfoCompat inputContent, int ttl, MessageObject editingMessageObject, VideoEditedInfo videoEditedInfo, boolean notify, int scheduleDate, boolean forceDocument) {
+    public static void prepareSendingPhoto(AccountInstance accountInstance, String imageFilePath, String thumbFilePath, Uri imageUri, long dialogId, MessageObject replyToMsg, MessageObject replyToTopMsg, CharSequence caption, ArrayList<TLRPC.MessageEntity> entities, ArrayList<TLRPC.InputDocument> stickers, String inputContent, int ttl, MessageObject editingMessageObject, VideoEditedInfo videoEditedInfo, boolean notify, int scheduleDate, boolean forceDocument) {
         SendingMediaInfo info = new SendingMediaInfo();
         info.path = imageFilePath;
         info.thumbPath = thumbFilePath;
@@ -6972,7 +6972,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     @UiThread
-    public static void prepareSendingMedia(AccountInstance accountInstance, ArrayList<SendingMediaInfo> media, long dialogId, MessageObject replyToMsg, MessageObject replyToTopMsg, InputContentInfoCompat inputContent, boolean forceDocument, boolean groupMedia, MessageObject editingMessageObject, boolean notify, int scheduleDate) {
+    public static void prepareSendingMedia(AccountInstance accountInstance, ArrayList<SendingMediaInfo> media, long dialogId, MessageObject replyToMsg, MessageObject replyToTopMsg, String inputContent, boolean forceDocument, boolean groupMedia, MessageObject editingMessageObject, boolean notify, int scheduleDate) {
         if (media.isEmpty()) {
             return;
         }
@@ -7451,8 +7451,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
 
                         boolean isDocument = false;
                         if (inputContent != null && info.uri != null) {
-                            ClipDescription description = inputContent.getDescription();
-                            if (description.hasMimeType("image/png")) {
+                            if (inputContent.equalsIgnoreCase("image/png")) {
                                 InputStream inputStream = null;
                                 FileOutputStream stream = null;
                                 try {
@@ -7640,9 +7639,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             if (lastGroupId != 0) {
                 finishGroup(accountInstance, lastGroupId, scheduleDate);
             }
-            if (inputContent != null) {
+            /*if (inputContent != null) {
                 inputContent.releasePermission();
-            }
+            }*/
             if (sendAsDocuments != null && !sendAsDocuments.isEmpty()) {
                 long[] groupId2 = new long[1];
                 int documentsCount = sendAsDocuments.size();

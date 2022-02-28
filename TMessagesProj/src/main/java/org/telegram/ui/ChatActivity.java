@@ -67,6 +67,7 @@ import android.util.Property;
 import android.util.SparseArray;
 import android.util.SparseIntArray;
 import android.util.TypedValue;
+import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
@@ -4090,6 +4091,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 return drawable != null ? drawable : super.getNewDrawable();
             }
         };
+        fragmentView.setOnDragListener((view, dragEvent) -> chatActivityEnterView != null && chatActivityEnterView.getEditField().onDragEvent(dragEvent));
 
         contentView = (SizeNotifierFrameLayout) fragmentView;
         contentView.needBlur = true;
@@ -14037,7 +14039,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
 
                 @Override
-                public boolean canScrollAway() {
+                public boolean canCaptureMorePhotos() {
                     return false;
                 }
             }, this);
@@ -14118,7 +14120,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
 
                 @Override
-                public boolean canScrollAway() {
+                public boolean canCaptureMorePhotos() {
                     return false;
                 }
             }, this);
