@@ -144,7 +144,7 @@ abstract public class BaseTranslator {
 
         private Http(String url) throws IOException {
             httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
-            httpURLConnection.setConnectTimeout(1000);
+            httpURLConnection.setConnectTimeout(3000);
             //httpURLConnection.setReadTimeout(2000);
         }
 
