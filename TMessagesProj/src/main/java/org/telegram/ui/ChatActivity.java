@@ -24643,8 +24643,28 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         boolean noforwards = getMessagesController().isChatNoForwards(currentChat) || (messageObject != null && messageObject.messageOwner != null && messageObject.messageOwner.noforwards);
         if (url instanceof URLSpanMono) {
             if (!noforwards) {
-                ((URLSpanMono) url).copyToClipboard();
-                getUndoView().showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+                if (!longPress) {
+                    ((URLSpanMono) url).copyToClipboard();
+                    getUndoView().showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+                } else {
+                    BottomSheet.Builder builder = new BottomSheet.Builder(getParentActivity(), false, themeDelegate);
+                    var style = ((URLSpanMono) url).getStyle();
+                    if (style != null && style.urlEntity != null && !TextUtils.isEmpty(style.urlEntity.language)) builder.setTitle(style.urlEntity.language);
+                    builder.setItems(new CharSequence[]{LocaleController.getString("ShareFile", R.string.ShareFile), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
+                        if (which == 1) {
+                            ((URLSpanMono) url).copyToClipboard();
+                            getUndoView().showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+                        } else {
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, ((URLSpanMono) url).getTextToCopy());
+                            Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+                            chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            ApplicationLoader.applicationContext.startActivity(chooserIntent);
+                        }
+                    });
+                    showDialog(builder.create());
+                }
             }
         } else if (url instanceof URLSpanUserMention) {
             TLRPC.User user = getMessagesController().getUser(Utilities.parseLong(((URLSpanUserMention) url).getURL()));

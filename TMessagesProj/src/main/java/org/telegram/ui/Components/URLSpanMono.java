@@ -37,8 +37,16 @@ public class URLSpanMono extends MetricAffectingSpan {
         style = run;
     }
 
+    public String getTextToCopy() {
+        return currentMessage.subSequence(currentStart, currentEnd).toString();
+    }
+
     public void copyToClipboard() {
         AndroidUtilities.addToClipboard(currentMessage.subSequence(currentStart, currentEnd).toString());
+    }
+
+    public TextStyleSpan.TextStyleRun getStyle() {
+        return style;
     }
 
     @Override
