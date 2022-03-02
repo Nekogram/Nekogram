@@ -81,7 +81,7 @@ public class NekoConfig {
     public static boolean disableNumberRounding = false;
     public static boolean disableGreetingSticker = false;
     public static boolean autoTranslate = false;
-    public static boolean codeSyntaxHighlight = false;
+    public static boolean codeSyntaxHighlight = true;
     public static float stickerSize = 14.0f;
     public static int translationProvider = Translator.PROVIDER_GOOGLE;
     public static String translationTarget = "app";
@@ -329,7 +329,7 @@ public class NekoConfig {
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
             verifyLinkTip = preferences.getBoolean("verifyLinkTip2", false);
-            codeSyntaxHighlight = preferences.getBoolean("codeSyntaxHighlight", false);
+            codeSyntaxHighlight = preferences.getBoolean("codeSyntaxHighlight2", true);
             doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
             restrictedLanguages = new HashSet<>(preferences.getStringSet("restrictedLanguages", new HashSet<>()));
             lastDeepLKey = preferences.getString("lastDeepLKey", "");
@@ -401,7 +401,7 @@ public class NekoConfig {
         codeSyntaxHighlight = !codeSyntaxHighlight;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("codeSyntaxHighlight", codeSyntaxHighlight);
+        editor.putBoolean("codeSyntaxHighlight2", codeSyntaxHighlight);
         editor.commit();
     }
 
