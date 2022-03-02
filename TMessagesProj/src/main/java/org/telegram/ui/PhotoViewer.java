@@ -10441,6 +10441,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 if (isEmbedVideo || newMessageObject.messageOwner.ttl != 0 && newMessageObject.messageOwner.ttl < 60 * 60 || noforwards) {
                     allowShare = false;
                     menuItem.hideSubItem(gallery_menu_save);
+                    menuItem.hideSubItem(gallery_menu_copy);
                     bottomButtonsLayout.setVisibility(View.GONE);
                     menuItem.hideSubItem(gallery_menu_share);
                 } else {
@@ -10454,11 +10455,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     } else {
                         menuItem.showSubItem(gallery_menu_share);
                     }
-                }
-                if (newMessageObject.isPhoto()) {
-                    menuItem.showSubItem(gallery_menu_copy);
-                } else {
-                    menuItem.hideSubItem(gallery_menu_copy);
+                    if (newMessageObject.isPhoto()) {
+                        menuItem.showSubItem(gallery_menu_copy);
+                    } else {
+                        menuItem.hideSubItem(gallery_menu_copy);
+                    }
                 }
             }
             groupedPhotosListView.fillList();
