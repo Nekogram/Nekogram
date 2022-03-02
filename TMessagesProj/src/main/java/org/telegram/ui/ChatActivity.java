@@ -24760,14 +24760,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     final int finalTimestamp = timestamp;
                     ChatMessageCell finalCell = cell;
                     MessageObject finalMessageObject = messageObject;
-                    builder.setItems(noforwards ? new CharSequence[] {LocaleController.getString("Open", R.string.Open)} : new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
+                    builder.setItems(noforwards ? new CharSequence[] {LocaleController.getString("Open", R.string.Open)} : new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("ShareFile", R.string.ShareFile), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
                         if (which == 0) {
                             if (str.startsWith("video?")) {
                                 didPressMessageUrl(url, false, finalMessageObject, finalCell);
                             } else {
                                 openClickableLink(str);
                             }
-                        } else if (which == 1) {
+                        } else if (which == 1 || which == 2) {
+                            String link = null;
                             if (str.startsWith("video?") && finalMessageObject != null && !finalMessageObject.scheduled) {
                                 MessageObject messageObject1 = finalMessageObject;
                                 boolean isMedia = finalMessageObject.isVideo() || finalMessageObject.isRoundVideo() || finalMessageObject.isVoice() || finalMessageObject.isMusic();
@@ -24776,7 +24777,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 }
                                 long dialogId = messageObject1.getDialogId();
                                 int messageId = messageObject1.getId();
-                                String link = null;
 
                                 if (messageObject1.messageOwner.fwd_from != null) {
                                     if (messageObject1.messageOwner.fwd_from.saved_from_peer != null) {
@@ -24802,16 +24802,25 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 if (link == null) {
                                     return;
                                 }
-                                AndroidUtilities.addToClipboard(link);
                             } else {
-                                AndroidUtilities.addToClipboard(str);
+                                link = str;
                             }
-                            if (str.startsWith("@")) {
-                                undoView.showWithAction(0, UndoView.ACTION_USERNAME_COPIED, null);
-                            } else if (str.startsWith("#") || str.startsWith("$")) {
-                                undoView.showWithAction(0, UndoView.ACTION_HASHTAG_COPIED, null);
+                            if (which == 2) {
+                                AndroidUtilities.addToClipboard(link);
+                                if (str.startsWith("@")) {
+                                    undoView.showWithAction(0, UndoView.ACTION_USERNAME_COPIED, null);
+                                } else if (str.startsWith("#") || str.startsWith("$")) {
+                                    undoView.showWithAction(0, UndoView.ACTION_HASHTAG_COPIED, null);
+                                } else {
+                                    undoView.showWithAction(0, UndoView.ACTION_LINK_COPIED, null);
+                                }
                             } else {
-                                undoView.showWithAction(0, UndoView.ACTION_LINK_COPIED, null);
+                                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                shareIntent.setType("text/plain");
+                                shareIntent.putExtra(Intent.EXTRA_TEXT, link);
+                                Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+                                chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                ApplicationLoader.applicationContext.startActivity(chooserIntent);
                             }
 
                         }
@@ -24826,10 +24835,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (longPress) {
                 BottomSheet.Builder builder = new BottomSheet.Builder(getParentActivity(), false, themeDelegate);
                 builder.setTitle(urlFinal);
-                builder.setItems(noforwards ? new CharSequence[] {LocaleController.getString("Open", R.string.Open)} : new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
+                builder.setItems(noforwards ? new CharSequence[] {LocaleController.getString("Open", R.string.Open)} : new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("ShareFile", R.string.ShareFile), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
                     if (which == 0) {
                         processExternalUrl(1, urlFinal, false);
-                    } else if (which == 1) {
+                    } else if (which == 1 || which == 2) {
                         String url1 = urlFinal;
                         boolean tel = false;
                         boolean mail = false;
@@ -24840,13 +24849,22 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             url1 = url1.substring(4);
                             tel = true;
                         }
-                        AndroidUtilities.addToClipboard(url1);
-                        if (mail) {
-                            undoView.showWithAction(0, UndoView.ACTION_EMAIL_COPIED, null);
-                        } else if (tel) {
-                            undoView.showWithAction(0, UndoView.ACTION_PHONE_COPIED, null);
+                        if (which == 2) {
+                            AndroidUtilities.addToClipboard(url1);
+                            if (mail) {
+                                undoView.showWithAction(0, UndoView.ACTION_EMAIL_COPIED, null);
+                            } else if (tel) {
+                                undoView.showWithAction(0, UndoView.ACTION_PHONE_COPIED, null);
+                            } else {
+                                undoView.showWithAction(0, UndoView.ACTION_LINK_COPIED, null);
+                            }
                         } else {
-                            undoView.showWithAction(0, UndoView.ACTION_LINK_COPIED, null);
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, url1);
+                            Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+                            chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            ApplicationLoader.applicationContext.startActivity(chooserIntent);
                         }
                     }
                 });

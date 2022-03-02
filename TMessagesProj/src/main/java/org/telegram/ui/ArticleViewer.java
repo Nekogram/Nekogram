@@ -1185,7 +1185,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         BottomSheet.Builder builder = new BottomSheet.Builder(parentActivity);
         builder.setTitle(urlFinal);
-        builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
+        builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("ShareFile", R.string.ShareFile), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
             if (parentActivity == null) {
                 return;
             }
@@ -1215,14 +1215,23 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     }
                 }
                 Browser.openUrl(parentActivity, urlFinal);
-            } else if (which == 1) {
+            } else if (which == 1 || which == 2) {
                 String url = urlFinal;
                 if (url.startsWith("mailto:")) {
                     url = url.substring(7);
                 } else if (url.startsWith("tel:")) {
                     url = url.substring(4);
                 }
-                AndroidUtilities.addToClipboard(url);
+                if (which == 2) {
+                    AndroidUtilities.addToClipboard(url);
+                } else {
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, url);
+                    Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+                    chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ApplicationLoader.applicationContext.startActivity(chooserIntent);
+                }
             }
         });
         BottomSheet sheet = builder.create();
