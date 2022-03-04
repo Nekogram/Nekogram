@@ -3949,6 +3949,13 @@ public class MessageObject {
                             }
                         } else {
                             url = new URLSpanNoUnderline(charSequence.subSequence(start, end).toString());
+                            if (charSequence.charAt(start) == '#') {
+                                var run = new TextStyleSpan.TextStyleRun();
+                                run.start = start;
+                                run.end = end;
+                                run.urlEntity = new TLRPC.TL_messageEntityHashtag();
+                                SyntaxHighlight.highlight(run, spannable);
+                            }
                         }
                     }
                 }

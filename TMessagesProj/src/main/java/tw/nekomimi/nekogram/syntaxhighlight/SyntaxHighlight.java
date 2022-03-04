@@ -4,10 +4,7 @@ import android.graphics.Color;
 import android.text.Spannable;
 import android.text.Spanned;
 import android.text.TextUtils;
-import android.text.style.BackgroundColorSpan;
-import android.text.style.ForegroundColorSpan;
 
-import org.telegram.messenger.AndroidUtilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.TextStyleSpan;
@@ -21,18 +18,16 @@ public class SyntaxHighlight {
     private static Prism4jSyntaxHighlight highlight;
 
     public static void highlight(TextStyleSpan.TextStyleRun run, Spannable spannable) {
-        if (!NekoConfig.codeSyntaxHighlight) {
-            return;
-        }
-        if (run.urlEntity instanceof TLRPC.TL_messageEntityHashtag && (run.urlEntity.length == 7 || run.urlEntity.length == 9)) {
-            try {
-                int color = Color.parseColor(spannable.subSequence(run.start, run.end).toString());
-                var light = AndroidUtilities.computePerceivedBrightness(color) > 0.725f;
-                spannable.setSpan(new ForegroundColorSpan(light ? Color.BLACK : Color.WHITE), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                spannable.setSpan(new BackgroundColorSpan(color), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } catch (IllegalArgumentException ignore) {
+        if (run.urlEntity instanceof TLRPC.TL_messageEntityHashtag) {
+            var length = run.end - run.start;
+            if (length == 7 || length == 9) {
+                try {
+                    int color = Color.parseColor(spannable.subSequence(run.start, run.end).toString());
+                    spannable.setSpan(new ColorHighlightSpan(color, run), run.end - 1, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                } catch (IllegalArgumentException ignore) {
+                }
             }
-        } else if (!TextUtils.isEmpty(run.urlEntity.language)) {
+        } else if (NekoConfig.codeSyntaxHighlight && !TextUtils.isEmpty(run.urlEntity.language)) {
             boolean dark = Theme.getActiveTheme().isDark();
             if (highlight == null || lastDark != dark) {
                 lastDark = dark;

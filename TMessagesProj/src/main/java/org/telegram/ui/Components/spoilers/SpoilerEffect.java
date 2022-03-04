@@ -722,7 +722,7 @@ public class SpoilerEffect extends Drawable {
             for (TextStyleSpan ss : sp.getSpans(0, sp.length(), TextStyleSpan.class)) {
                 if (ss.isSpoiler()) {
                     int start = sp.getSpanStart(ss), end = sp.getSpanEnd(ss);
-                    for (Emoji.EmojiSpan e : sp.getSpans(start, end, Emoji.EmojiSpan.class)) {
+                    for (ReplacementSpan e : sp.getSpans(start, end, ReplacementSpan.class)) {
                         sb.setSpan(new ReplacementSpan() {
                             @Override
                             public int getSize(@NonNull Paint paint, CharSequence text, int start, int end, @Nullable Paint.FontMetricsInt fm) {
