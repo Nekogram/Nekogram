@@ -326,6 +326,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         default void didPressBotButton(ChatMessageCell cell, TLRPC.KeyboardButton button) {
         }
 
+        default boolean didLongPressBotButton(ChatMessageCell cell, TLRPC.KeyboardButton button) {
+            return false;
+        }
+
         default void didPressReaction(ChatMessageCell cell, TLRPC.TL_reactionCount reaction, boolean longpress) {
         }
 
@@ -6800,6 +6804,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             return true;
         }
         resetPressedLink(-1);
+        if (pressedBotButton != -1) {
+            BotButton button = botButtons.get(pressedBotButton);
+            if (button.button != null && delegate.didLongPressBotButton(this, button.button)) {
+                return true;
+            }
+        }
         if (buttonPressed != 0 || miniButtonPressed != 0 || videoButtonPressed != 0 || pressedBotButton != -1) {
             buttonPressed = 0;
             miniButtonPressed = 0;
