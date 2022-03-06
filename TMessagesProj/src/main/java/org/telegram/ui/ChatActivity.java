@@ -27712,6 +27712,38 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_chat_inReactionButtonTextSelected));
         themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, selectedBackgroundDelegate, Theme.key_chat_BlurAlpha));
 
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_annotation));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_atrule));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_attr_name));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_attr_value));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_boolean));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_builtin));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_cdata));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_char));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_class_name));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_comment));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_constant));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_deleted));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_delimiter));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_doctype));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_entity));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_function));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_important));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_inserted));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_keyword));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_number));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_operator));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_prolog));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_property));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_punctuation));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_regex));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_selector));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_string));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_symbol));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_tag));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_url));
+        themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, null, Theme.key_codehighlight_variable));
+
         if (chatActivityEnterView != null) {
             themeDescriptions.add(new ThemeDescription(chatActivityEnterView.botCommandsMenuContainer.listView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{BotCommandsMenuView.BotCommandView.class}, new String[]{"description"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
             themeDescriptions.add(new ThemeDescription(chatActivityEnterView.botCommandsMenuContainer.listView, ThemeDescription.FLAG_TEXTCOLOR, new Class[]{BotCommandsMenuView.BotCommandView.class}, new String[]{"command"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText));

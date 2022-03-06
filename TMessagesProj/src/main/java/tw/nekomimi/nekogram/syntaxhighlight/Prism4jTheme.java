@@ -10,9 +10,6 @@ import tw.nekomimi.nekogram.syntaxhighlight.prism4j.Prism4j;
 public interface Prism4jTheme {
 
     @ColorInt
-    int background();
-
-    @ColorInt
     int textColor();
 
     void apply(

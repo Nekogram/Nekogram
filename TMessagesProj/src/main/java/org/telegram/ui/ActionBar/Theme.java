@@ -130,6 +130,7 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.syntaxhighlight.SyntaxHighlight;
 
 public class Theme {
 
@@ -3748,6 +3749,38 @@ public class Theme {
     public static final String key_sheet_scrollUp = "key_sheet_scrollUp";
     public static final String key_sheet_other = "key_sheet_other";
 
+    public static final String key_codehighlight_annotation = "codehighlight_annotation";
+    public static final String key_codehighlight_atrule = "codehighlight_atrule";
+    public static final String key_codehighlight_attr_name = "codehighlight_attr_name";
+    public static final String key_codehighlight_attr_value = "codehighlight_attr_value";
+    public static final String key_codehighlight_boolean = "codehighlight_boolean";
+    public static final String key_codehighlight_builtin = "codehighlight_builtin";
+    public static final String key_codehighlight_cdata = "codehighlight_cdata";
+    public static final String key_codehighlight_char = "codehighlight_char";
+    public static final String key_codehighlight_class_name = "codehighlight_class_name";
+    public static final String key_codehighlight_comment = "codehighlight_comment";
+    public static final String key_codehighlight_constant = "codehighlight_constant";
+    public static final String key_codehighlight_deleted = "codehighlight_deleted";
+    public static final String key_codehighlight_delimiter = "codehighlight_delimiter";
+    public static final String key_codehighlight_doctype = "codehighlight_doctype";
+    public static final String key_codehighlight_entity = "codehighlight_entity";
+    public static final String key_codehighlight_function = "codehighlight_function";
+    public static final String key_codehighlight_important = "codehighlight_important";
+    public static final String key_codehighlight_inserted = "codehighlight_inserted";
+    public static final String key_codehighlight_keyword = "codehighlight_keyword";
+    public static final String key_codehighlight_number = "codehighlight_number";
+    public static final String key_codehighlight_operator = "codehighlight_operator";
+    public static final String key_codehighlight_prolog = "codehighlight_prolog";
+    public static final String key_codehighlight_property = "codehighlight_property";
+    public static final String key_codehighlight_punctuation = "codehighlight_punctuation";
+    public static final String key_codehighlight_regex = "codehighlight_regex";
+    public static final String key_codehighlight_selector = "codehighlight_selector";
+    public static final String key_codehighlight_string = "codehighlight_string";
+    public static final String key_codehighlight_symbol = "codehighlight_symbol";
+    public static final String key_codehighlight_tag = "codehighlight_tag";
+    public static final String key_codehighlight_url = "codehighlight_url";
+    public static final String key_codehighlight_variable = "codehighlight_variable";
+
     public static final String key_wallet_blackBackground = "wallet_blackBackground";
     public static final String key_wallet_graySettingsBackground = "wallet_graySettingsBackground";
     public static final String key_wallet_grayBackground = "wallet_grayBackground";
@@ -4559,6 +4592,38 @@ public class Theme {
         defaultColors.put(key_undo_background, 0xea272f38);
         defaultColors.put(key_undo_cancelColor, 0xff85caff);
         defaultColors.put(key_undo_infoColor, 0xffffffff);
+
+        defaultColors.put(key_codehighlight_annotation, 0x00000000);
+        defaultColors.put(key_codehighlight_atrule, 0xFF0077AA);
+        defaultColors.put(key_codehighlight_attr_name, 0xFF669900);
+        defaultColors.put(key_codehighlight_attr_value, 0xFF0077AA);
+        defaultColors.put(key_codehighlight_boolean, 0xFF990055);
+        defaultColors.put(key_codehighlight_builtin, 0xFF669900);
+        defaultColors.put(key_codehighlight_cdata, 0xFF708090);
+        defaultColors.put(key_codehighlight_char, 0xFF669900);
+        defaultColors.put(key_codehighlight_class_name, 0xFFDD4A68);
+        defaultColors.put(key_codehighlight_comment, 0xFF708090);
+        defaultColors.put(key_codehighlight_constant, 0xFF990055);
+        defaultColors.put(key_codehighlight_deleted, 0xFF990055);
+        defaultColors.put(key_codehighlight_delimiter, 0x00000000);
+        defaultColors.put(key_codehighlight_doctype, 0xFF708090);
+        defaultColors.put(key_codehighlight_entity, 0xFF9A6E3A);
+        defaultColors.put(key_codehighlight_function, 0xFFDD4A68);
+        defaultColors.put(key_codehighlight_important, 0xFFEE9900);
+        defaultColors.put(key_codehighlight_inserted, 0xFF669900);
+        defaultColors.put(key_codehighlight_keyword, 0xFF0077AA);
+        defaultColors.put(key_codehighlight_number, 0xFF990055);
+        defaultColors.put(key_codehighlight_operator, 0xFF9A6E3A);
+        defaultColors.put(key_codehighlight_prolog, 0xFF708090);
+        defaultColors.put(key_codehighlight_property, 0xFF990055);
+        defaultColors.put(key_codehighlight_punctuation, 0xFF999999);
+        defaultColors.put(key_codehighlight_regex, 0xFFEE9900);
+        defaultColors.put(key_codehighlight_selector, 0xFF669900);
+        defaultColors.put(key_codehighlight_string, 0xFF669900);
+        defaultColors.put(key_codehighlight_symbol, 0xFF990055);
+        defaultColors.put(key_codehighlight_tag, 0xFF990055);
+        defaultColors.put(key_codehighlight_url, 0xFF9A6E3A);
+        defaultColors.put(key_codehighlight_variable, 0xFFEE9900);
 
         defaultColors.put(key_wallet_blackBackground, 0xff000000);
         defaultColors.put(key_wallet_graySettingsBackground, 0xfff0f0f0);
@@ -6568,6 +6633,7 @@ public class Theme {
         applyDialogsTheme();
         applyProfileTheme();
         applyChatTheme(false, bg);
+        SyntaxHighlight.updateColors();
         boolean checkNavigationBarColor = !hasPreviousTheme;
         AndroidUtilities.runOnUIThread(() -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme, false, checkNavigationBarColor));
     }

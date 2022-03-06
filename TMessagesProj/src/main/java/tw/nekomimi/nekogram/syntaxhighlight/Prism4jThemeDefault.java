@@ -1,36 +1,21 @@
 package tw.nekomimi.nekogram.syntaxhighlight;
 
+import android.graphics.Typeface;
 import android.text.Spannable;
 import android.text.Spanned;
-import android.text.style.BackgroundColorSpan;
+import android.text.style.StyleSpan;
 
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import org.telegram.ui.Components.TextStyleSpan;
+import org.telegram.ui.ActionBar.Theme;
 
 public class Prism4jThemeDefault extends Prism4jThemeBase {
 
     @NonNull
     public static Prism4jThemeDefault create() {
-        return new Prism4jThemeDefault(0xFFf5f2f0);
-    }
-
-    @NonNull
-    public static Prism4jThemeDefault create(@ColorInt int background) {
-        return new Prism4jThemeDefault(background);
-    }
-
-    private final int background;
-
-    public Prism4jThemeDefault(@ColorInt int background) {
-        this.background = background;
-    }
-
-    @Override
-    public int background() {
-        return background;
+        return new Prism4jThemeDefault();
     }
 
     @Override
@@ -42,14 +27,37 @@ public class Prism4jThemeDefault extends Prism4jThemeBase {
     @Override
     protected ColorHashMap init() {
         return new ColorHashMap()
-                .add(0xFF708090, "comment", "prolog", "doctype", "cdata")
-                .add(0xFF999999, "punctuation")
-                .add(0xFF990055, "property", "tag", "boolean", "number", "constant", "symbol", "deleted")
-                .add(0xFF669900, "selector", "attr-name", "string", "char", "builtin", "inserted")
-                .add(0xFF9a6e3a, "operator", "entity", "url")
-                .add(0xFF0077aa, "atrule", "attr-value", "keyword")
-                .add(0xFFDD4A68, "function", "class-name")
-                .add(0xFFee9900, "regex", "important", "variable");
+                .add(Theme.getColor(Theme.key_codehighlight_annotation), "annotation")
+                .add(Theme.getColor(Theme.key_codehighlight_atrule), "atrule")
+                .add(Theme.getColor(Theme.key_codehighlight_attr_name), "attr-name")
+                .add(Theme.getColor(Theme.key_codehighlight_attr_value), "attr-value")
+                .add(Theme.getColor(Theme.key_codehighlight_boolean), "boolean")
+                .add(Theme.getColor(Theme.key_codehighlight_builtin), "builtin")
+                .add(Theme.getColor(Theme.key_codehighlight_cdata), "cdata")
+                .add(Theme.getColor(Theme.key_codehighlight_char), "char")
+                .add(Theme.getColor(Theme.key_codehighlight_class_name), "class-name")
+                .add(Theme.getColor(Theme.key_codehighlight_comment), "comment")
+                .add(Theme.getColor(Theme.key_codehighlight_constant), "constant")
+                .add(Theme.getColor(Theme.key_codehighlight_deleted), "deleted")
+                .add(Theme.getColor(Theme.key_codehighlight_delimiter), "delimiter")
+                .add(Theme.getColor(Theme.key_codehighlight_doctype), "doctype")
+                .add(Theme.getColor(Theme.key_codehighlight_entity), "entity")
+                .add(Theme.getColor(Theme.key_codehighlight_function), "function")
+                .add(Theme.getColor(Theme.key_codehighlight_important), "important")
+                .add(Theme.getColor(Theme.key_codehighlight_inserted), "inserted")
+                .add(Theme.getColor(Theme.key_codehighlight_keyword), "keyword")
+                .add(Theme.getColor(Theme.key_codehighlight_number), "number")
+                .add(Theme.getColor(Theme.key_codehighlight_operator), "operator")
+                .add(Theme.getColor(Theme.key_codehighlight_prolog), "prolog")
+                .add(Theme.getColor(Theme.key_codehighlight_property), "property")
+                .add(Theme.getColor(Theme.key_codehighlight_punctuation), "punctuation")
+                .add(Theme.getColor(Theme.key_codehighlight_regex), "regex")
+                .add(Theme.getColor(Theme.key_codehighlight_selector), "selector")
+                .add(Theme.getColor(Theme.key_codehighlight_string), "string")
+                .add(Theme.getColor(Theme.key_codehighlight_symbol), "symbol")
+                .add(Theme.getColor(Theme.key_codehighlight_tag), "tag")
+                .add(Theme.getColor(Theme.key_codehighlight_url), "url")
+                .add(Theme.getColor(Theme.key_codehighlight_variable), "variable");
     }
 
     @Override
@@ -62,29 +70,15 @@ public class Prism4jThemeDefault extends Prism4jThemeBase {
             int start,
             int end) {
 
-        if ("css".equals(language) && isOfType("string", type, alias)) {
-            super.applyColor(language, type, alias, 0xFF9a6e3a, spannable, start, end);
-            spannable.setSpan(new BackgroundColorSpan(0x80ffffff), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            return;
-        }
-
-        if (isOfType("namespace", type, alias)) {
-            color = applyAlpha(.7F, color);
-        }
-
         super.applyColor(language, type, alias, color, spannable, start, end);
 
         if (isOfType("important", type, alias)
                 || isOfType("bold", type, alias)) {
-            var run = new TextStyleSpan.TextStyleRun();
-            run.flags |= TextStyleSpan.FLAG_STYLE_BOLD;
-            spannable.setSpan(new TextStyleSpan(run), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
 
         if (isOfType("italic", type, alias)) {
-            var run = new TextStyleSpan.TextStyleRun();
-            run.flags |= TextStyleSpan.FLAG_STYLE_ITALIC;
-            spannable.setSpan(new TextStyleSpan(run), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new StyleSpan(Typeface.ITALIC), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
     }
 }
