@@ -3,10 +3,10 @@ package tw.nekomimi.nekogram.settings;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
+import android.os.CountDownTimer;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
 import android.view.View;
@@ -21,10 +21,12 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -47,6 +49,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import java.io.File;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
@@ -75,8 +78,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
     private int experiment2Row;
 
     private int deleteAccountRow;
-    private int shouldNOTTrustMeRow;
-    private int hidden2Row;
+    private int deleteAccount2Row;
 
     NekoExperimentalSettingsActivity(boolean sensitiveCanChange, boolean sensitiveEnabled) {
         this.sensitiveCanChange = sensitiveCanChange;
@@ -154,6 +156,10 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 builder.setMessage(LocaleController.getString("TosDeclineDeleteAccount", R.string.TosDeclineDeleteAccount));
                 builder.setTitle(LocaleController.getString("DeleteAccount", R.string.DeleteAccount));
                 builder.setPositiveButton(LocaleController.getString("Deactivate", R.string.Deactivate), (dialog, which) -> {
+                    if (BuildConfig.DEBUG) return;
+                    final AlertDialog progressDialog = new AlertDialog(getParentActivity(), 3);
+                    progressDialog.setCanCacnel(false);
+
                     ArrayList<TLRPC.Dialog> dialogs = new ArrayList<>(getMessagesController().getAllDialogs());
                     for (TLRPC.Dialog TLdialog : dialogs) {
                         if (TLdialog instanceof TLRPC.TL_dialogFolder) {
@@ -170,13 +176,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                             getMessagesController().deleteDialog(TLdialog.id, 0, true);
                         }
                     }
-                    AlertDialog.Builder builder12 = new AlertDialog.Builder(getParentActivity());
-                    builder12.setMessage(LocaleController.getString("TosDeclineDeleteAccount", R.string.TosDeclineDeleteAccount));
-                    builder12.setTitle(LocaleController.getString("DeleteAccount", R.string.DeleteAccount));
-                    builder12.setPositiveButton(LocaleController.getString("Deactivate", R.string.Deactivate), (dialogInterface, i) -> {
-                        final AlertDialog progressDialog = new AlertDialog(getParentActivity(), 3);
-                        progressDialog.setCanCacnel(false);
 
+                    Utilities.globalQueue.postRunnable(() -> {
                         TLRPC.TL_account_deleteAccount req = new TLRPC.TL_account_deleteAccount();
                         req.reason = "Meow";
                         getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
@@ -199,33 +200,34 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                                 builder1.show();
                             }
                         }));
-                        progressDialog.show();
-                    });
-                    builder12.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                    AlertDialog dialog12 = builder12.create();
-                    showDialog(dialog12);
-                    TextView button = (TextView) dialog12.getButton(DialogInterface.BUTTON_POSITIVE);
-                    if (button != null) {
-                        button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
-                    }
+                    }, 20000);
+                    progressDialog.show();
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                builder.show();
                 AlertDialog dialog = builder.create();
-                showDialog(dialog);
-                TextView button = (TextView) dialog.getButton(DialogInterface.BUTTON_POSITIVE);
-                if (button != null) {
+                dialog.setOnShowListener(dialog1 -> {
+                    var button = (TextView) dialog.getButton(AlertDialog.BUTTON_POSITIVE);
                     button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
-                }
+                    button.setEnabled(false);
+                    var buttonText = button.getText();
+                    new CountDownTimer(60000, 100) {
+                        @Override
+                        public void onTick(long millisUntilFinished) {
+                            button.setText(String.format(Locale.getDefault(), "%s (%d)", buttonText, millisUntilFinished / 1000 + 1));
+                        }
+
+                        @Override
+                        public void onFinish() {
+                            button.setText(buttonText);
+                            button.setEnabled(true);
+                        }
+                    }.start();
+                });
+                showDialog(dialog);
             } else if (position == unlimitedPinnedDialogsRow) {
                 NekoConfig.toggleUnlimitedPinnedDialogs();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.unlimitedPinnedDialogs);
-                }
-            } else if (position == shouldNOTTrustMeRow) {
-                NekoConfig.toggleShouldNOTTrustMe();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.shouldNOTTrustMe);
                 }
             } else if (position == emojiRow) {
                 if (!TextUtils.isEmpty(NekoConfig.customEmojiFontPath) && (LocaleController.isRTL && x <= AndroidUtilities.dp(76) || !LocaleController.isRTL && x >= view.getMeasuredWidth() - AndroidUtilities.dp(76))) {
@@ -348,15 +350,8 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         unlimitedPinnedDialogsRow = rowCount++;
         maxRecentStickersRow = rowCount++;
         experiment2Row = rowCount++;
-        if (NekoConfig.showHiddenFeature) {
-            deleteAccountRow = rowCount++;
-            shouldNOTTrustMeRow = rowCount++;
-            hidden2Row = rowCount++;
-        } else {
-            deleteAccountRow = -1;
-            shouldNOTTrustMeRow = -1;
-            hidden2Row = -1;
-        }
+        deleteAccountRow = rowCount++;
+        deleteAccount2Row = rowCount++;
         if (listAdapter != null) {
             listAdapter.notifyDataSetChanged();
         }
@@ -420,7 +415,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
                 case 1: {
-                    if (position == experiment2Row && hidden2Row == -1 || position == hidden2Row) {
+                    if (position == deleteAccount2Row) {
                         holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     } else {
                         holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
@@ -431,7 +426,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == deleteAccountRow) {
-                        textCell.setText(LocaleController.getString("DeleteAccount", R.string.DeleteAccount), true);
+                        textCell.setText(LocaleController.getString("DeleteAccount", R.string.DeleteAccount), false);
                         textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
                     } else if (position == emojiRow) {
                         textCell.setText(LocaleController.getString("CustomEmojiTypeface", R.string.CustomEmojiTypeface), true);
@@ -458,8 +453,6 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                         textCell.setTextAndCheck(LocaleController.getString("IncreaseVoiceMessageQuality", R.string.IncreaseVoiceMessageQuality), NekoConfig.increaseVoiceMessageQuality, true);
                     } else if (position == codeSyntaxHighlightRow) {
                         textCell.setTextAndCheck(LocaleController.getString("CodeSyntaxHighlight", R.string.CodeSyntaxHighlight), NekoConfig.codeSyntaxHighlight, true);
-                    } else if (position == shouldNOTTrustMeRow) {
-                        textCell.setTextAndCheck("", NekoConfig.shouldNOTTrustMe, false);
                     }
                     break;
                 }
@@ -526,7 +519,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == experiment2Row || position == hidden2Row) {
+            if (position == experiment2Row || position == deleteAccount2Row) {
                 return 1;
             } else if (position == deleteAccountRow) {
                 return 2;
@@ -536,8 +529,6 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 return 4;
             } else if (position == emojiRow) {
                 return TextUtils.isEmpty(NekoConfig.customEmojiFontPath) ? 2 : 5;
-            } else if (position == shouldNOTTrustMeRow) {
-                return 3;
             }
             return 2;
         }
