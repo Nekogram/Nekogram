@@ -2129,12 +2129,12 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 actionBar.setBackButtonContentDescription(LocaleController.getString("AccDescrOpenMenu", R.string.AccDescrOpenMenu));
             }
             if (folderId != 0) {
-                actionBar.setTitle(getNekoTitle(LocaleController.getString("ArchivedChats", R.string.ArchivedChats)));
+                actionBar.setTitle(LocaleController.getString("ArchivedChats", R.string.ArchivedChats));
             } else {
                 if (BuildVars.DEBUG_VERSION) {
                     actionBar.setTitle("Telegram Beta");
                 } else {
-                    actionBar.setTitle(getNekoTitle(LocaleController.getString("AppName", R.string.AppName)));
+                    actionBar.setTitle(LocaleController.getString("AppName", R.string.AppName));
                 }
             }
             if (folderId == 0) {
@@ -3676,10 +3676,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         updateMenuButton(false);
         return fragmentView;
-    }
-
-    private String getNekoTitle(String title) {
-        return LocaleController.getString("NekogramEmojiDialogs", R.string.NekogramEmojiDialogs) + " " + title;
     }
 
     private void updateAppUpdateViews(boolean animated) {
