@@ -335,7 +335,7 @@ public class NekoDonateActivity extends BaseFragment implements PurchasesUpdated
                     break;
                 case 7:
                     view = new TextInfoPrivacyCell(mContext);
-                    view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                    view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     break;
             }
             //noinspection ConstantConditions
