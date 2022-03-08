@@ -580,7 +580,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 loadingUserCellRow = rowCount++;
             }
         } else if (type == TYPE_ADMIN) {
-            if (ChatObject.isChannel(currentChat) && currentChat.megagroup && !currentChat.gigagroup && (info == null || info.participants_count <= 200) && ChatObject.hasAdminRights(currentChat)) {
+            if (false && ChatObject.isChannel(currentChat) && currentChat.megagroup && !currentChat.gigagroup && (info == null || info.participants_count <= 200) && ChatObject.hasAdminRights(currentChat)) {
                 recentActionsRow = rowCount++;
                 addNewSectionRow = rowCount++;
             }
@@ -2201,7 +2201,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         } else if (type == TYPE_ADMIN) {
             req.filter = new TLRPC.TL_channelParticipantsAdmins();
         } else if (type == TYPE_USERS) {
-            if (info != null && info.participants_count <= 200 && currentChat != null && currentChat.megagroup) {
+            if (false && info != null && info.participants_count <= 200 && currentChat != null && currentChat.megagroup) {
                 req.filter = new TLRPC.TL_channelParticipantsRecent();
             } else {
                 if (selectType == SELECT_TYPE_ADMIN) {
@@ -2389,7 +2389,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         }
                     }
                     try {
-                        if ((type == TYPE_BANNED || type == TYPE_KICKED || type == TYPE_USERS) && currentChat != null && currentChat.megagroup && info instanceof TLRPC.TL_channelFull && info.participants_count <= 200) {
+                        if (false && (type == TYPE_BANNED || type == TYPE_KICKED || type == TYPE_USERS) && currentChat != null && currentChat.megagroup && info instanceof TLRPC.TL_channelFull && info.participants_count <= 200) {
                             sortUsers(objects);
                         } else if (type == TYPE_ADMIN) {
                             sortAdmins(participants);
