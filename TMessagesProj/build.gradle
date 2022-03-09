@@ -6,11 +6,6 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-repositories {
-    mavenCentral()
-    google()
-}
-
 configurations.all {
     exclude group: 'com.google.firebase', module: 'firebase-core'
     exclude group: 'androidx.recyclerview', module: 'recyclerview'
@@ -90,37 +85,38 @@ android {
 
         coreLibraryDesugaringEnabled true
     }
-
-    def keystorePwd = null
-    def alias = null
-    def pwd = null
+    Properties localProperties = new Properties()
     if (project.rootProject.file('local.properties').exists()) {
-        Properties properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
-        keystorePwd = properties.getProperty("RELEASE_STORE_PASSWORD")
-        alias = properties.getProperty("RELEASE_KEY_ALIAS")
-        pwd = properties.getProperty("RELEASE_KEY_PASSWORD")
+        localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
     }
 
     signingConfigs {
-        release {
-            storeFile file("config/release.keystore")
-            storePassword keystorePwd != null ? keystorePwd : System.getenv("KEYSTORE_PASS")
-            keyAlias alias != null ? alias : System.getenv("ALIAS_NAME")
-            keyPassword pwd != null ? pwd : System.getenv("ALIAS_PASS")
+        if (localProperties.getProperty("storeFile") != null) {
+            sign {
+                storeFile file(localProperties.getProperty("storeFile"))
+                storePassword localProperties.getProperty("storePassword")
+                keyAlias localProperties.getProperty("keyAlias")
+                keyPassword localProperties.getProperty("keyPassword")
+            }
         }
     }
 
     buildTypes {
         debug {
-            signingConfig signingConfigs.release
+            if (localProperties.getProperty("storeFile") != null) {
+                signingConfig signingConfigs.sign
+            }
             applicationIdSuffix ".beta"
         }
 
         release {
-            signingConfig signingConfigs.release
             minifyEnabled true
             shrinkResources true
+            if (localProperties.getProperty("storeFile") != null) {
+                signingConfig signingConfigs.sign
+            } else {
+                signingConfig signingConfigs.debug
+            }
             proguardFiles 'proguard-rules.pro'
             ndk.debugSymbolLevel 'FULL'
         }
