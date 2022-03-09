@@ -154,24 +154,6 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
         addView(curtainView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
         renderView = new RenderView(context, new Painting(getPaintingSize()), bitmap);
-        renderView.setOnTouchListener((v, event) -> {
-            if (!renderView.isColorPicker) return false;
-            int x = (int)event.getX();
-            int y = (int)event.getY();
-
-            if (x >= v.getWidth()) return false;
-            if (y >= v.getHeight()) return false;
-            if (x <= 0) return false;
-            if (y <= 0) return false;
-
-            final int finalX = (int)((float)x / (float)v.getWidth() * originalBitmap.getWidth());
-            final int finalY = (int)((float)y / (float)v.getHeight() * originalBitmap.getHeight());
-
-            final int pixel = originalBitmap.getPixel(finalX, finalY);
-            renderView.setColor(pixel);
-            colorPicker.setSwatchPaintColor(pixel);
-            return false;
-        });
         renderView.setDelegate(new RenderView.RenderViewDelegate() {
 
             @Override
@@ -198,6 +180,16 @@ public class PhotoPaintView extends FrameLayout implements EntityView.EntityView
                     selectEntity(null);
                 }
                 return draw;
+            }
+
+            @Override
+            public void onTouch(int x, int y) {
+                final int finalX = (int)((float)x / (float)renderView.getWidth() * originalBitmap.getWidth());
+                final int finalY = (int)((float)y / (float)renderView.getHeight() * originalBitmap.getHeight());
+
+                final int pixel = originalBitmap.getPixel(finalX, finalY);
+                renderView.setColor(pixel);
+                colorPicker.setSwatchPaintColor(pixel);
             }
         });
         renderView.setUndoStore(undoStore);
