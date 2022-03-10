@@ -1,4 +1,13 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '6.1.0.202203080745-r'
+    }
+}
+
 plugins {
     id 'com.android.application' version '7.1.2' apply false
     id 'com.google.gms.google-services' version '4.3.10' apply false

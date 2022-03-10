@@ -1,5 +1,6 @@
 import java.nio.file.Files
 import java.nio.file.Paths
+import org.eclipse.jgit.internal.storage.file.FileRepository
 
 plugins {
     id 'com.android.application'
@@ -48,6 +49,8 @@ dependencies {
 }
 
 ext.abiCodes = ['armeabi-v7a':1, 'arm64-v8a':5, x86:2, x86_64:6, 'universal':9]
+
+def refId = new FileRepository(rootProject.file(".git")).getRefDatabase().exactRef("refs/heads/main").getObjectId().name()
 
 android {
     compileSdkVersion 32
@@ -103,6 +106,7 @@ android {
 
     buildTypes {
         debug {
+            buildConfigField("String","COMMIT_ID","\"${refId}\"")
             if (localProperties.getProperty("storeFile") != null) {
                 signingConfig signingConfigs.sign
             }
@@ -110,6 +114,7 @@ android {
         }
 
         release {
+            buildConfigField("String","COMMIT_ID","\"${refId}\"")
             minifyEnabled true
             shrinkResources true
             if (localProperties.getProperty("storeFile") != null) {

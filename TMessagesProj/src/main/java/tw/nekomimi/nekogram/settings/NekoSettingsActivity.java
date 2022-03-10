@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -151,7 +152,11 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
             } else if (position == websiteRow) {
                 Browser.openUrl(getParentActivity(), "https://nekogram.app");
             } else if (position == sourceCodeRow) {
-                Browser.openUrl(getParentActivity(), "https://gitlab.com/Nekogram/Nekogram");
+                if (LocaleController.isRTL && x <= AndroidUtilities.dp(84) || !LocaleController.isRTL && x >= view.getMeasuredWidth() - AndroidUtilities.dp(84)) {
+                    Browser.openUrl(getParentActivity(), String.format("https://gitlab.com/Nekogram/Nekogram/-/commit/%s", BuildConfig.COMMIT_ID));
+                } else {
+                    Browser.openUrl(getParentActivity(), "https://gitlab.com/Nekogram/Nekogram");
+                }
             } else if (position == checkUpdateRow) {
                 ((LaunchActivity) getParentActivity()).checkAppUpdate(true);
                 checkingUpdate = true;
@@ -311,7 +316,7 @@ public class NekoSettingsActivity extends BaseFragment implements NotificationCe
                     } else if (position == websiteRow) {
                         textCell.setTextAndValue(LocaleController.getString("OfficialSite", R.string.OfficialSite), "nekogram.app", true);
                     } else if (position == sourceCodeRow) {
-                        textCell.setText(LocaleController.getString("ViewSourceCode", R.string.ViewSourceCode), true);
+                        textCell.setTextAndValue(LocaleController.getString("ViewSourceCode", R.string.ViewSourceCode), BuildConfig.COMMIT_ID.substring(0, 7), true);
                     }
                     break;
                 }
