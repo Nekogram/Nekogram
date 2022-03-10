@@ -127,6 +127,11 @@
     <string name="SelectBetween">Vælg mellem</string>
     <string name="SwipeToPiP">Stryg op på video for at åbne PiP</string>
     <string name="StickerSavedHint">Klistermærke gemt i galleri</string>
+    <string name="RegistrationDate">Registreringsdato</string>
+    <string name="WsDescription2">Opret forbindelse til Telegram via WebSocket via Cloudflare, <![CDATA[<a href=\"%s\">tekniske detaljer</a>]]>.</string>
+    <string name="WsEnableTls">Aktiver TLS</string>
+    <string name="WsLocalProxy">Lokal proxy</string>
+    <string name="WsEnableDoh">Aktiver DoH</string>
     <string name="UpdateNekogram">Opdater Nekogram</string>
     <string name="TranslationTarget">Målsprog</string>
     <string name="TranslationTargetApp">Følg app</string>
@@ -155,11 +160,13 @@
     <string name="MutualContact">Gensidig kontakt</string>
     <string name="MutualContactDescription">Denne kontakt er en gensidig kontakt.</string>
     <string name="NoUpdateAvailable">Der er ingen tilgængelig opdatering.</string>
-    <string name="InviteTextNeko">Hej, jeg bruger Nekogram til at chatte med. Tilmeld dig mig! Download det her: %1$s</string>
+    <string name="InviteTextNeko">Hej, jeg bruger Nekogram til at chatte med. Tilmeld dig! Download det her: %1$s</string>
     <string name="ShareNekogram">Del Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBaseret på Telegram %2$s\nDesignet af %3$s</string>
     <string name="UpdateInstalling">Installerer opdatering...</string>
+    <string name="UpdateInstallingNotification">En meddelelse vil blive vist, når opdateringen er færdig.</string>
     <string name="UpdateInstallingRelaunch">Nekogram vil genstarte, når opdateringen er færdig.</string>
+    <string name="UpdateInstalledNotification">Installationen af opdateringer er færdig, tryk for at starte appen.</string>
     <string name="UpdateFailedToInstall">Opdateringen kunne ikke installeres: %d</string>
     <string name="QRLoginMessage">Scan QRCode med en anden enhed for at logge ind.</string>
     <string name="QRLoginTitle">QR Login</string>
@@ -169,7 +176,7 @@
     <string name="TranslatorTypeNeko">I meddelelse</string>
     <string name="TranslatorTypeTG">Popup dialog</string>
     <string name="TranslatorTypeExternal">Ekstern app</string>
-    <string name="CopyPhoto">Kopier foto</string>
+    <string name="CopyPhoto">Kopier Foto</string>
     <string name="PhotoCopied">Foto kopieret til udklipsholder</string>
     <string name="SaveToDownloadCount_zero">Gemmer %1$d filer til downloads</string>
     <string name="SaveToDownloadCount_one">Gemmer %1$d filer til downloads</string>
@@ -187,6 +194,16 @@
     <string name="CreateMono">Opret Monospace</string>
     <string name="CreateMonoLanguage">Kode sprog</string>
     <string name="DoubleTapAction">Handling ved dobbelttryk</string>
+    <string name="BlockedUserIgnored">blokeret</string>
+    <string name="EditUndo">Fortryd</string>
+    <string name="EditRedo">Gendan</string>
+    <string name="EditEnableMarkdown">Aktivér Markering</string>
+    <string name="EditDisableMarkdown">Deaktiver Markering</string>
+    <string name="DisableMarkdownByDefault">Deaktiver markering som standard</string>
+    <string name="CopyTitle">Kopier Titel</string>
+    <string name="CopyCallback">Kopiering af callback-data</string>
+    <string name="CopyInlineQuery">Kopier Inline-forespørgsel</string>
+    <string name="CopyID">Kopier ID</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
     <string name="AccRewindHeading">Indstillinger for tilbagespoling</string>
@@ -198,6 +215,7 @@
     <string name="AccTypeOfRewindVideo">Type tilbagespoling af video</string>
     <string name="AccTypeOfAddingHeading">Vælg, hvilket sted du vil tilføje en beskrivelse af chat typen</string>
     <string name="AccTypeOfAdding">Tilføj oplysninger om chat typen</string>
+    <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
     <string name="AccRewindTypesWithout">Uden tilbagespoling</string>
     <string name="AccRewindTypesPercent">Tilbagespoling i procent</string>
     <string name="AccRewindTypesSecond">Anden tilbagespoling</string>

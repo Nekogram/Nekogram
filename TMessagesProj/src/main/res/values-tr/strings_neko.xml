@@ -128,7 +128,6 @@
     <string name="SwipeToPiP">PiP\'yi açmak için videoyu yukarı kaydırın</string>
     <string name="StickerSavedHint">Çıkartma galeriye kaydedildi</string>
     <string name="RegistrationDate">Kayıt tarihi</string>
-    <string name="WsDescription">Cloudflare tarafından sunulan WebSocket aracılığıyla Telegram\'a bağlanın, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">teknik ayrıntılar</a>]]>.</string>
     <string name="WsEnableTls">TLS\'yi etkinleştir</string>
     <string name="WsLocalProxy">Yerel proxy</string>
     <string name="WsEnableDoh">DoH\'u etkinleştir</string>
@@ -164,7 +163,9 @@
     <string name="ShareNekogram">Nekogram\'ı paylaş...</string>
     <string name="NekogramVersion">Nekogram %1$s\nTelegram %2$s tabanlı\n%3$s tarafından tasarlandı</string>
     <string name="UpdateInstalling">Güncelleme yükleniyor...</string>
-    <string name="UpdateInstallingRelaunch">Güncelleme tamamlandığında Nekogram yeniden başlatılacak.</string>
+    <string name="UpdateInstallingNotification">Güncelleme tamamlandığında bir bildirim gösterilecek.</string>
+    <string name="UpdateInstallingRelaunch">Güncelleme tamamlandığında uygulama kendini yeniden başlatacak.</string>
+    <string name="UpdateInstalledNotification">Güncelleme indirildi, uygulamayı başlatmak için buraya dokunun.</string>
     <string name="UpdateFailedToInstall">Güncelleme yüklenemedi: %d</string>
     <string name="QRLoginMessage">Oturum açmak için QRCode\'u başka bir cihazla tarayın.</string>
     <string name="QRLoginTitle">QR Girişi</string>
@@ -174,7 +175,7 @@
     <string name="TranslatorTypeNeko">Mesajda</string>
     <string name="TranslatorTypeTG">Açılır pencere</string>
     <string name="TranslatorTypeExternal">Harici uygulama</string>
-    <string name="CopyPhoto">Fotoğrafı kopyala</string>
+    <string name="CopyPhoto">Fotoğrafı Kopyala</string>
     <string name="PhotoCopied">Fotoğraf panoya kopyalandı</string>
     <string name="SaveToDownloadCount_zero">%1$d dosya indirilenlere kaydediliyor</string>
     <string name="SaveToDownloadCount_one">%1$d dosya indirilenlere kaydediliyor</string>
@@ -193,6 +194,17 @@
     <string name="CreateMonoLanguage">Kod dili</string>
     <string name="DoubleTapAction">Çift tıklama eylemi</string>
     <string name="BlockedUserIgnored">engellendi</string>
+    <string name="EditUndo">Geri al</string>
+    <string name="EditRedo">Yinele</string>
+    <string name="EditEnableMarkdown">Biçimlendirmeyi Etkinleştir</string>
+    <string name="EditDisableMarkdown">Biçimlendirmeyi Kapat</string>
+    <string name="DisableMarkdownByDefault">Varsayılan olarak biçimlendirmeyi kapat</string>
+    <string name="CopyTitle">Başlığı Kopyala</string>
+    <string name="CopyCallback">Geri Arama Verilerini Kopyala</string>
+    <string name="CopyInlineQuery">Satır İçi Sorguyu Kopyala</string>
+    <string name="CopyID">ID\'yi Kopyala</string>
+    <string name="SendCallback">Geri Arama Verilerini Gönder</string>
+    <string name="CallbackData">Geri Arama Verileri</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Erişilebilirlik ayarları</string>
     <string name="AccRewindHeading">Geri sarma ayarları</string>

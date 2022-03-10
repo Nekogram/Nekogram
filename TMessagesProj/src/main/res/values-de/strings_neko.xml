@@ -53,9 +53,9 @@
     <string name="TranslationProvider">Übersetzungsdienst</string>
     <string name="ProviderGoogleTranslate">Google Übersetzer</string>
     <string name="TranslateApiUnsupported">Der von Ihnen gewählte Übersetzungsdienst unterstützt Ihre Sprache nicht.</string>
-    <string name="ProviderLingocloud">LingoCloud Übersetzer</string>
+    <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Übersetzung zurücksetzen</string>
-    <string name="DisablePhotoViewerSideAction">Deaktiviere \"Fotos wechseln durch abtippen\"</string>
+    <string name="DisablePhotoViewerSideAction">Bilder durchblättern durch Tippen deaktivieren\"</string>
     <string name="BotToken">Token</string>
     <string name="UnlimitedPinnedDialogs">Unbegrenzte angepinnte Dialoge</string>
     <string name="UnlimitedPinnedDialogsAbout">Pinnen Sie unbegrenzte Dialoge an, indem Sie die Synchronisierung ausschalten.</string>
@@ -111,7 +111,7 @@
     <string name="Halloween">Halloween</string>
     <string name="CheckUpdate">Nach Updates suchen</string>
     <string name="LastUpdateFormatted">Zuletzt erfolgreich %1$s überprüft.</string>
-    <string name="LastUpdateDateFormatted">Zuletzt erfolgreich überprüft am %1$s.</string>
+    <string name="LastUpdateDateFormatted">Zuletzt erfolgreich %1$s überprüft.</string>
     <string name="LastUpdateRecently">Zuletzt erfolgreich gerade überprüft.</string>
     <string name="LastUpdateNever">Seit der Installation nie überprüft.</string>
     <string name="CheckingUpdate">Nach Updates suchen…</string>
@@ -128,7 +128,7 @@
     <string name="SwipeToPiP">Video hochwischen um PiP zu öffnen</string>
     <string name="StickerSavedHint">Sticker in Galerie gespeichert</string>
     <string name="RegistrationDate">Registrierungsdatum</string>
-    <string name="WsDescription">Mit Telegram über WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">technische Details</a>]]> verbinden.</string>
+    <string name="WsDescription2">Mit Telegram verbinden über WebSocket via Cloudflare, <![CDATA[<a href=\"%s\">technische Details</a>]]>.</string>
     <string name="WsEnableTls">TLS aktivieren</string>
     <string name="WsLocalProxy">Lokaler Proxy</string>
     <string name="WsEnableDoh">DoH aktivieren</string>
@@ -150,11 +150,11 @@
     <string name="SendWebFileInvalid">Ungültige Datei, sicherstellen, dass die Datei den Anforderungen entspricht.</string>
     <string name="AutoLockInstant">Sofort</string>
     <string name="RestrictionReason">Einschränkungsgrund</string>
-    <string name="ProviderTencentTranslator">Mr. Translator Übersetzer</string>
+    <string name="ProviderTencentTranslator">Übersetzer</string>
     <string name="MaxRecentStickers">Max. aktuelle Sticker</string>
     <string name="ApplyEmojiFont">Emoji-Schriftart anwenden</string>
     <string name="DisableJumpToNextChannel">Deaktiviere \"zum nächsten Kanal springen\"</string>
-    <string name="DisableGreetingSticker">Grußsticker deaktivieren</string>
+    <string name="DisableGreetingSticker">Begrüßungssticker deaktivieren</string>
     <string name="DeleteAllFromSelfAdmin">Mit Admin-Rechten</string>
     <string name="OfficialSite">Offizielle Webseite</string>
     <string name="MutualContact">Gegenseitiger Kontakt</string>
@@ -162,29 +162,31 @@
     <string name="NoUpdateAvailable">Kein Update verfügbar.</string>
     <string name="InviteTextNeko">Hey, ich benutze Nekogram um zu chatten. Mach mit! Lade es hier herunter: %1$s</string>
     <string name="ShareNekogram">Nekogram teilen...</string>
-    <string name="NekogramVersion">Nekogram %1$s\nbasiert auf Telegramm %2$s\n, die von %3$sentworfen wurden</string>
+    <string name="NekogramVersion">Nekogram %1$s\nBasierend auf Telegram %2$s\nEntwickelt von %3$s</string>
     <string name="UpdateInstalling">Update wird installiert...</string>
+    <string name="UpdateInstallingNotification">Wenn die Aktualisierung abgeschlossen ist, wird eine Benachrichtigung angezeigt.</string>
     <string name="UpdateInstallingRelaunch">Nekogram wird neu gestartet, sobald das Update abgeschlossen ist.</string>
+    <string name="UpdateInstalledNotification">Update-Installation beendet, tippen zum Starten der App.</string>
     <string name="UpdateFailedToInstall">Update konnte nicht installiert werden: %d</string>
     <string name="QRLoginMessage">Scanne den QRCode mit einem anderen Gerät, um dich anzumelden.</string>
     <string name="QRLoginTitle">QR-Anmeldung</string>
     <string name="NoTranslatorAppInstalled">Du hast keine Anwendungen, die mit der Übersetzungsabsicht umgehen können, bitte installiere eine, um fortzufahren</string>
-    <string name="DisableVoiceMessagesAutoPlay">Deaktivieren der automatischen Wiedergabe von Sprachnachrichten</string>
-    <string name="TranslatorType">Art</string>
-    <string name="TranslatorTypeNeko">In Nachricht</string>
+    <string name="DisableVoiceMessagesAutoPlay">Automatisches Abspielen von Sprachnachrichten deaktivieren</string>
+    <string name="TranslatorType">Typ</string>
+    <string name="TranslatorTypeNeko">In der Nachricht</string>
     <string name="TranslatorTypeTG">Popup-Dialog</string>
     <string name="TranslatorTypeExternal">Externe App</string>
     <string name="CopyPhoto">Foto kopieren</string>
-    <string name="PhotoCopied">Foto in Zwischenablage kopiert</string>
+    <string name="PhotoCopied">Foto in die Zwischenablage kopiert</string>
     <string name="SaveToDownloadCount_zero">Speichern %1$d Dateien in Downloads</string>
-    <string name="SaveToDownloadCount_one">%1$d Datei in Downloads speichern</string>
-    <string name="SaveToDownloadCount_two">%1$d Datei in Downloads speichern</string>
-    <string name="SaveToDownloadCount_few">%1$d Datei in Downloads speichern</string>
-    <string name="SaveToDownloadCount_many">%1$d Datei in Downloads speichern</string>
-    <string name="SaveToDownloadCount_other">%1$d Datei in Downloads speichern</string>
+    <string name="SaveToDownloadCount_one">Speichere %1$d Datei in Downloads</string>
+    <string name="SaveToDownloadCount_two">Speichere %1$d Dateien in Downloads</string>
+    <string name="SaveToDownloadCount_few">Speichere %1$d Dateien in Downloads</string>
+    <string name="SaveToDownloadCount_many">Speichere %1$d Dateien in Downloads</string>
+    <string name="SaveToDownloadCount_other">Speichere %1$d Dateien in Downloads</string>
     <string name="ThemesChannel">Themenkanal</string>
     <string name="SelectAnIcon">Symbol wählen</string>
-    <string name="AppLinkNotVerifiedMessage">Bei Android 12 und neuer müssen Sie manuell einen Link zu verifizierten Links hinzufügen, um t.me-Links in Nekogram zu öffnen.</string>
+    <string name="AppLinkNotVerifiedMessage">Für Android 12 und neuer, müssen Sie manuell Link zu verifizierten Links hinzufügen, um t.me Links in Nekogramm zu öffnen.</string>
     <string name="AppLinkNotVerifiedTitle">App-Links nicht überprüft</string>
     <string name="AutoTranslate">Automatisch übersetzen</string>
     <string name="AutoTranslateAbout">Nachrichten in einer anderen Sprache automatisch übersetzen.</string>
@@ -193,6 +195,18 @@
     <string name="CreateMonoLanguage">Programmiersprache</string>
     <string name="DoubleTapAction">Doppeltipp-Aktion</string>
     <string name="BlockedUserIgnored">gesperrt</string>
+    <string name="EditUndo">Rückgängig</string>
+    <string name="EditRedo">Wiederholen</string>
+    <string name="EditEnableMarkdown">Markdown aktivieren</string>
+    <string name="EditDisableMarkdown">Markdown deaktivieren</string>
+    <string name="DisableMarkdownByDefault">Markdown standardmäßig deaktivieren</string>
+    <string name="CopyTitle">Titel kopieren</string>
+    <string name="CopyCallback">Rückrufdaten kopieren</string>
+    <string name="CopyInlineQuery">Inline-Abfrage kopieren</string>
+    <string name="CopyID">ID kopieren</string>
+    <string name="SendCallback">Rückrufdaten senden</string>
+    <string name="CallbackData">Rückrufdaten</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Bedienungshilfen</string>
+    <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
 </resources>

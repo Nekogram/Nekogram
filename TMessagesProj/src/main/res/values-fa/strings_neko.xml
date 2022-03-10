@@ -123,7 +123,6 @@
     <string name="SwipeToPiP">برای باز کردن PiP، ویدیو را به سمت بالا بکشید</string>
     <string name="StickerSavedHint">استیکر در گالری ذخیره شد</string>
     <string name="RegistrationDate">تاریخ ثبت نام</string>
-    <string name="WsDescription">از طریق WebSocket از طریق Cloudflare به تلگرام متصل شوید، <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">جزییات فنی</a>]]>.</string>
     <string name="WsEnableTls">فعال کردن TLS</string>
     <string name="WsLocalProxy">پروکسی محلی</string>
     <string name="WsEnableDoh">فعال کردن DoH</string>
@@ -159,7 +158,9 @@
     <string name="ShareNekogram">اشتراکگذاری نکوگرام...</string>
     <string name="NekogramVersion">نکوگرام %1$s\nبر اساس تلگرام %2$s\nطراحی شده %3$s</string>
     <string name="UpdateInstalling">در حال نصب بروز رسانی...</string>
-    <string name="UpdateInstallingRelaunch">نکوگرام پس از بروز رسانی، مجددا راه اندازی خواهد شد.</string>
+    <string name="UpdateInstallingNotification">هنگامی که به روز رسانی کامل شد یک اعلان نشان داده می شود.</string>
+    <string name="UpdateInstallingRelaunch">پس از تکمیل به‌روزرسانی، برنامه دوباره راه‌اندازی می‌شود.</string>
+    <string name="UpdateInstalledNotification">نصب به‌روزرسانی به پایان رسید، برای راه‌اندازی برنامه ضربه بزنید.</string>
     <string name="UpdateFailedToInstall">بروز رسانی نصب نشد: %d</string>
     <string name="QRLoginMessage">برای ورود، QRCode را با دستگاه دیگری اسکن کنید.</string>
     <string name="QRLoginTitle">ورود از طریق qr code</string>
@@ -167,7 +168,6 @@
     <string name="DisableVoiceMessagesAutoPlay">غیرفعال کردن پخش خودکار پیام های صوتی</string>
     <string name="TranslatorTypeTG">پنجره بازشو</string>
     <string name="TranslatorTypeExternal">برنامه خارجی</string>
-    <string name="CopyPhoto">کپی عکس</string>
     <string name="PhotoCopied">عکس در کلیپ بورد کپی شد</string>
     <string name="SaveToDownloadCount_zero">در حال ذخیره %1$d فایل در دانلودها</string>
     <string name="SaveToDownloadCount_one">در حال ذخیره %1$d فایل در دانلودها</string>
@@ -186,6 +186,8 @@
     <string name="CreateMonoLanguage">زبان کد</string>
     <string name="DoubleTapAction">عملکرد دو ضربه ای</string>
     <string name="BlockedUserIgnored">مسدود شده</string>
+    <string name="EditUndo">واگرد</string>
+    <string name="EditRedo">انجام دوباره</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
 </resources>

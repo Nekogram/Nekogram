@@ -102,7 +102,7 @@
     <string name="OpenAllLinksInInstantView">Намагатися відкривати всі посилання в Миттєвому перегляді</string>
     <string name="DonateThankYou">Дякую!</string>
     <string name="DonateEvilGoogle">Google візьме 30 відсотків від твоєї пожертви.</string>
-    <string name="formatterDay24HSec">ГГ:хх:сс</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">г:хв:сс д</string>
     <string name="FormatWithSeconds">Форматувати час з секундами</string>
     <string name="JumpToBeginning">Перейти до початку</string>
@@ -127,7 +127,6 @@
     <string name="SwipeToPiP">Потягніть догори, щоб відкрити зображення в зображенні</string>
     <string name="StickerSavedHint">Наліпка збережена в галерею</string>
     <string name="RegistrationDate">Дата реєстрації</string>
-    <string name="WsDescription">Підключитися до Telegram через WebSocket за допомогою Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">технічні подробиці</a>]]>.</string>
     <string name="WsEnableTls">Увімкнути TLS</string>
     <string name="WsLocalProxy">Локальний проксі</string>
     <string name="WsEnableDoh">Увімкнути DoH</string>
@@ -162,7 +161,9 @@
     <string name="ShareNekogram">Поділитися Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nБазується на Telegram %2$s\nРозроблений %3$s</string>
     <string name="UpdateInstalling">Встановлюємо оновлення...</string>
-    <string name="UpdateInstallingRelaunch">Nekogram буде перезапущено після завершення оновлення.</string>
+    <string name="UpdateInstallingNotification">Після завершення оновлення буде показано сповіщення.</string>
+    <string name="UpdateInstallingRelaunch">Після завершення оновлення додаток буде перезапущено.</string>
+    <string name="UpdateInstalledNotification">Оновлення завершено, натисніть для перезапуску додатка.</string>
     <string name="UpdateFailedToInstall">Помилка під час встановлення оновлення: %d</string>
     <string name="QRLoginMessage">Для входу відскануйте QR-код з іншого пристрою.</string>
     <string name="QRLoginTitle">Вхід через QR</string>
@@ -172,7 +173,6 @@
     <string name="TranslatorTypeNeko">У полі повідомлення</string>
     <string name="TranslatorTypeTG">Спливаючий діалог</string>
     <string name="TranslatorTypeExternal">Зовнішній додаток</string>
-    <string name="CopyPhoto">Копіювати фото</string>
     <string name="PhotoCopied">Фото скопійовано до буфера обміну</string>
     <string name="SaveToDownloadCount_zero">Збереження %1$d файлів до завантажень</string>
     <string name="SaveToDownloadCount_one">Збереження %1$d файлу до завантажень</string>
@@ -191,6 +191,8 @@
     <string name="CreateMonoLanguage">Мова програмування</string>
     <string name="DoubleTapAction">Дія при подвійному дотику</string>
     <string name="BlockedUserIgnored">заблоковано</string>
+    <string name="EditUndo">Відмінити</string>
+    <string name="EditRedo">Повторити</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccRewindHeading">Налаштування перемотки</string>

@@ -129,7 +129,6 @@
     <string name="SwipeToPiP">비디오를 위로 스 와이프하여 PiP 열기</string>
     <string name="StickerSavedHint">스티커가 갤러리에 저장됨</string>
     <string name="RegistrationDate">가입일</string>
-    <string name="WsDescription">Cloudflare 의 웹소켓을 통해 텔레그램 접속<![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\"> 기술정보</a>]]>.</string>
     <string name="WsEnableTls">TLS 활성화</string>
     <string name="WsLocalProxy">로컬 프록시</string>
     <string name="WsEnableDoh">DoH 활성화</string>
@@ -165,7 +164,9 @@
     <string name="ShareNekogram">네코그램 공유하기</string>
     <string name="NekogramVersion">네코그램 %1$s 은 텔레그램 %2$s 기반으로 %3$s 이 제작 하였습니다</string>
     <string name="UpdateInstalling">업데이트 설치 중...</string>
+    <string name="UpdateInstallingNotification">업데이트가 완료되면 알림이 표시됩니다.</string>
     <string name="UpdateInstallingRelaunch">업데이트가 완료되면 네코그램이 다시 시작됩니다.</string>
+    <string name="UpdateInstalledNotification">업데이트 설치가 완료되었습니다. 탭하여 앱을 실행하세요.</string>
     <string name="UpdateFailedToInstall">업데이트를 설치하지 못했습니다: %d</string>
     <string name="QRLoginMessage">다른 장치로 QRCode 를 스캔하여 로그인 하기</string>
     <string name="QRLoginTitle">QR 로그인</string>
@@ -194,6 +195,17 @@
     <string name="CreateMonoLanguage">코드 언어</string>
     <string name="DoubleTapAction">두번 누루기 기능</string>
     <string name="BlockedUserIgnored">차단함</string>
+    <string name="EditUndo">실행 취소</string>
+    <string name="EditRedo">재실행</string>
+    <string name="EditEnableMarkdown">마크다운 활성화</string>
+    <string name="EditDisableMarkdown">마크다운 비활성화</string>
+    <string name="DisableMarkdownByDefault">기본적으로 마크다운 비활성화</string>
+    <string name="CopyTitle">제목 복사</string>
+    <string name="CopyCallback">콜백 데이터 복사</string>
+    <string name="CopyInlineQuery">인라인 쿼리 복사</string>
+    <string name="CopyID">ID 복사</string>
+    <string name="SendCallback">콜백 데이터 보내기</string>
+    <string name="CallbackData">콜백 데이터</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">접근성 설정</string>
     <string name="AccRewindHeading">되감기 설정</string>

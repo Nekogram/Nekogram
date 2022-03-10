@@ -159,7 +159,6 @@
     <string name="ShareNekogram">Bagikan Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBerdasarkan Telegram %2$s\nDibuat oleh %3$s</string>
     <string name="UpdateInstalling">Memasang Pembaruan...</string>
-    <string name="UpdateInstallingRelaunch">Nekogeam Akan Memulai Ulang Ketika Update Selesai.</string>
     <string name="UpdateFailedToInstall">Gagal Menginstal Pembaruan: %d</string>
     <string name="QRLoginMessage">Scan QRCode dengan Perangkat Lain Untuk Login.</string>
     <string name="QRLoginTitle">QR Login</string>
@@ -169,7 +168,6 @@
     <string name="TranslatorTypeNeko">Didalam Pesan</string>
     <string name="TranslatorTypeTG">Pesan PopUp</string>
     <string name="TranslatorTypeExternal">Aplikasi Eksternal</string>
-    <string name="CopyPhoto">Salin Poto</string>
     <string name="PhotoCopied">Poto disalin Di Clipboard</string>
     <string name="SaveToDownloadCount_zero">Menyimpan %1$d file untuk diunduh</string>
     <string name="SaveToDownloadCount_one">Menyimpan berkas %1$d ke Unduhan</string>

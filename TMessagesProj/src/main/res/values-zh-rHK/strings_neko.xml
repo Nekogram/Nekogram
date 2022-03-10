@@ -129,7 +129,6 @@
     <string name="SwipeToPiP">向上滑動視頻以打開畫中畫</string>
     <string name="StickerSavedHint">貼紙已保存到圖庫</string>
     <string name="RegistrationDate">注冊日期</string>
-    <string name="WsDescription">由 Cloudflare 通過 WebSocket 連接到 Telegram，<![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">技術細節</a>]]></string>
     <string name="WsEnableTls">啓用TLS</string>
     <string name="WsLocalProxy">本地代理</string>
     <string name="WsEnableDoh">啓用DoH</string>
@@ -165,7 +164,6 @@
     <string name="ShareNekogram">分享Nekogram...</string>
     <string name="NekogramVersion">Nekogram%1$s\n基於Telegram%2$s\n由%3$s設計 （SISUBENY參與翻譯工作awa）</string>
     <string name="UpdateInstalling">下載更新...</string>
-    <string name="UpdateInstallingRelaunch">Nekogram會重啓當更新完畢。</string>
     <string name="UpdateFailedToInstall">下載更新時發生錯誤：%d</string>
     <string name="QRLoginMessage">用其他設備掃描QRCode登錄。</string>
     <string name="QRLoginTitle">QRCode登入</string>
@@ -175,7 +173,6 @@
     <string name="TranslatorTypeNeko">在訊息裏</string>
     <string name="TranslatorTypeTG">彈出對話框</string>
     <string name="TranslatorTypeExternal">外部應用</string>
-    <string name="CopyPhoto">複製圖片</string>
     <string name="PhotoCopied">複製圖片到剪切板</string>
     <string name="SaveToDownloadCount_zero">正在保存 %1$d 個文件以供下載</string>
     <string name="SaveToDownloadCount_one">正在保存 %1$d 文件以供下載</string>

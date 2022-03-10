@@ -161,7 +161,6 @@
     <string name="ShareNekogram">مشاركة نيكوغرام...</string>
     <string name="NekogramVersion">نيكوغرام %1$s\nمبنية على تيليجرام %2$s\nمصمم من قبل %3$s</string>
     <string name="UpdateInstalling">جار تثبيت التحديث...</string>
-    <string name="UpdateInstallingRelaunch">سيتم إعادة تشغيل نيكوغرام عند اكتمال التحديث.</string>
     <string name="UpdateFailedToInstall">فشل في تثبيت التحديث: %d</string>
     <string name="QRLoginMessage">افحص QRCode باستخدام جهاز آخر لتسجيل الدخول.</string>
     <string name="QRLoginTitle">تسجيل دخول QR</string>
@@ -171,7 +170,6 @@
     <string name="TranslatorTypeNeko">في الرسالة</string>
     <string name="TranslatorTypeTG">مربع حوار منبثق</string>
     <string name="TranslatorTypeExternal">تطبيق خارجي</string>
-    <string name="CopyPhoto">نسخ الصورة</string>
     <string name="PhotoCopied">تم نسخ الصورة إلى الحافظة</string>
     <string name="SaveToDownloadCount_zero">حفظ %1$d ملفات للتنزيلات</string>
     <string name="SaveToDownloadCount_one">حفظ ملف واحد للتنزيلات</string>

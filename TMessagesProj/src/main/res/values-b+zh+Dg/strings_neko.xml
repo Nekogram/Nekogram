@@ -129,7 +129,6 @@
     <string name="SwipeToPiP">向上滑动视频打开画中画</string>
     <string name="StickerSavedHint">贴纸已保存到相册</string>
     <string name="RegistrationDate">注册日期</string>
-    <string name="WsDescription">通过 WebSocket 从 Cloudflare 连接到 Telegram，<![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">技术详情</a>]]>。</string>
     <string name="WsEnableTls">启用 TLS</string>
     <string name="WsLocalProxy">本地代理</string>
     <string name="WsEnableDoh">启用 DoH</string>
@@ -147,7 +146,7 @@
     <string name="AttachWebFile">网络文件</string>
     <string name="WebFileInfo">使用 URL 发送文件</string>
     <string name="SendWebFile">发送网络文件</string>
-    <string name="SendWebFileInfo">Telegram 将下载并发送文件。照片最大 5 MB，其他类型内容最大 20 MB。</string>
+    <string name="SendWebFileInfo">Telegram 将下载并发送文件。图片最大 5 MB，其他类型内容最大 20 MB。</string>
     <string name="SendWebFileInvalid">文件无效，请确保文件符合要求。</string>
     <string name="AutoLockInstant">即时</string>
     <string name="RestrictionReason">限制原因</string>
@@ -165,7 +164,9 @@
     <string name="ShareNekogram">分享 Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\n基于 Telegram %2$s\n由 %3$s 设计</string>
     <string name="UpdateInstalling">正在安装更新...</string>
-    <string name="UpdateInstallingRelaunch">Nekogram 将在更新完成后重新启动。</string>
+    <string name="UpdateInstallingNotification">更新完成后，将显示一个通知。</string>
+    <string name="UpdateInstallingRelaunch">更新完成后，应用将重新启动。</string>
+    <string name="UpdateInstalledNotification">更新安装完成，点击启动应用。</string>
     <string name="UpdateFailedToInstall">无法安装更新：%d</string>
     <string name="QRLoginMessage">使用其他设备扫描二维码以登录。</string>
     <string name="QRLoginTitle">二维码登录</string>
@@ -194,6 +195,17 @@
     <string name="CreateMonoLanguage">代码语言</string>
     <string name="DoubleTapAction">双击操作</string>
     <string name="BlockedUserIgnored">已屏蔽</string>
+    <string name="EditUndo">撤销</string>
+    <string name="EditRedo">重做</string>
+    <string name="EditEnableMarkdown">启用 Markdown</string>
+    <string name="EditDisableMarkdown">禁用 Markdown</string>
+    <string name="DisableMarkdownByDefault">默认禁用 Markdown</string>
+    <string name="CopyTitle">复制标题</string>
+    <string name="CopyCallback">复制回调数据</string>
+    <string name="CopyInlineQuery">复制 Inline 请求</string>
+    <string name="CopyID">复制 ID</string>
+    <string name="SendCallback">发送回调数据</string>
+    <string name="CallbackData">回调数据</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

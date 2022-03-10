@@ -128,7 +128,7 @@
     <string name="SwipeToPiP">Glissez vers le haut pour ouvrir PiP</string>
     <string name="StickerSavedHint">Sticker enregistré dans la galerie</string>
     <string name="RegistrationDate">Date d\'inscription</string>
-    <string name="WsDescription">Connectez-vous à Telegram avec WebSocket via Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">détails techniques</a>]]>.</string>
+    <string name="WsDescription2">Connectez-vous à Telegram avec WebSocket via Cloudflare, <![CDATA[<a href=\"%s\">détails techniques</a>]]>.</string>
     <string name="WsEnableTls">Activer le TLS</string>
     <string name="WsLocalProxy">Proxy local</string>
     <string name="WsEnableDoh">Activer le DoH</string>
@@ -164,7 +164,9 @@
     <string name="ShareNekogram">Partager Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBasé sur Telegram %2$s\nConçu par %3$s</string>
     <string name="UpdateInstalling">Installation de la mise à jour...</string>
-    <string name="UpdateInstallingRelaunch">Nekogram redémarrera quand la mise à jour sera terminée.</string>
+    <string name="UpdateInstallingNotification">Une notification s\'affichera une fois la mise à jour terminée.</string>
+    <string name="UpdateInstallingRelaunch">L\'application se relancera une fois la mise à jour terminée.</string>
+    <string name="UpdateInstalledNotification">L\'installation de la mise à jour est terminée, appuyez dessus pour lancer l\'application.</string>
     <string name="UpdateFailedToInstall">Échec d\'installation de la mise à jour : %d</string>
     <string name="QRLoginMessage">Scannez ce QRCode avec un autre appareil pour vous connecter.</string>
     <string name="QRLoginTitle">Connexion avec QR Code</string>
@@ -193,6 +195,18 @@
     <string name="CreateMonoLanguage">Langage du code</string>
     <string name="DoubleTapAction">Action de double appui</string>
     <string name="BlockedUserIgnored">bloqué</string>
+    <string name="EditUndo">Annuler</string>
+    <string name="EditRedo">Rétablir</string>
+    <string name="EditEnableMarkdown">Activer Markdown</string>
+    <string name="EditDisableMarkdown">Désactiver Markdown</string>
+    <string name="DisableMarkdownByDefault">Désactiver Markdown par défaut</string>
+    <string name="CopyTitle">Copier le titre</string>
+    <string name="CopyCallback">Copier les données de rappel</string>
+    <string name="CopyInlineQuery">Copier la requête inline</string>
+    <string name="CopyID">Copier l\'ID</string>
+    <string name="SendCallback">Envoyer les données de rappel</string>
+    <string name="CallbackData">Données de rappel</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
+    <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
 </resources>

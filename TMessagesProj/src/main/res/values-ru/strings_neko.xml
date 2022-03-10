@@ -129,7 +129,6 @@
     <string name="SwipeToPiP">Смахните видео вверх, чтобы открыть картинку в картинке</string>
     <string name="StickerSavedHint">Стикер запрыгнул к вам в хранилище~</string>
     <string name="RegistrationDate">Дата регистрации</string>
-    <string name="WsDescription">Подключитесь к Telegram через WebSocket посредством Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">технические детали</a>]]>.</string>
     <string name="WsEnableTls">Включить TLS</string>
     <string name="WsLocalProxy">Локальный прокси</string>
     <string name="WsEnableDoh">Включить DoH</string>
@@ -165,7 +164,9 @@
     <string name="ShareNekogram">Поделиться Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nНа основе Telegram %2$s\nДизайн %3$s</string>
     <string name="UpdateInstalling">Установка обновления...</string>
-    <string name="UpdateInstallingRelaunch">Nekogram будет перезапущен после завершения обновления.</string>
+    <string name="UpdateInstallingNotification">После завершения обновления появится уведомление.</string>
+    <string name="UpdateInstallingRelaunch">Когда обновление завершится, приложение будет перезапущено.</string>
+    <string name="UpdateInstalledNotification">Установка обновления завершена, нажмите для запуска приложение.</string>
     <string name="UpdateFailedToInstall">Не удалось установить обновление: %d</string>
     <string name="QRLoginMessage">Отсканируйте QR код с помощью другого устройства для входа в систему.</string>
     <string name="QRLoginTitle">Вход при помощи QR кода</string>
@@ -175,7 +176,6 @@
     <string name="TranslatorTypeNeko">В сообщении</string>
     <string name="TranslatorTypeTG">Всплывающее окно</string>
     <string name="TranslatorTypeExternal">Внешнее приложение</string>
-    <string name="CopyPhoto">Копировать фото</string>
     <string name="PhotoCopied">Фото скопировано в буфер обмена</string>
     <string name="SaveToDownloadCount_zero">Сохранение %1$d файлов в загрузки</string>
     <string name="SaveToDownloadCount_one">Сохранение %1$d файла в загрузки</string>
@@ -194,6 +194,11 @@
     <string name="CreateMonoLanguage">Язык кода</string>
     <string name="DoubleTapAction">Действие при двойном нажатии</string>
     <string name="BlockedUserIgnored">заблокирован</string>
+    <string name="EditUndo">Отменить</string>
+    <string name="EditRedo">Вернуть</string>
+    <string name="EditEnableMarkdown">Включить Markdown</string>
+    <string name="EditDisableMarkdown">Отключить Markdown</string>
+    <string name="DisableMarkdownByDefault">Отключить Markdown по умолчанию</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>
@@ -208,7 +213,6 @@
     <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading">Выберите время в миллисекундах, через которое будет озвучиваться значение ползунка, если Вы выбрали эту настройку</string>
     <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar">Задержка перед озвучиванием значения ползунка</string>
     <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay">Без задержки</string>
-    <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
     <string name="AccRewindTypesWithout">Без перемотки</string>
     <string name="AccRewindTypesPercent">Процентная перемотка</string>
     <string name="AccRewindTypesSecond">Секундная перемотка</string>

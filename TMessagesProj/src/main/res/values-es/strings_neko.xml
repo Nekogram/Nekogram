@@ -77,6 +77,7 @@
     <string name="Categories">Categorías</string>
     <string name="OfficialChannel">Canal oficial</string>
     <string name="About">Acerca de</string>
+    <string name="IgnoreBlockedAbout">¡NO ESTÁ REALMENTE OCULTO! Los mensajes todavía están disponibles para ver, pero el texto se convertirá en Spoiler y los medios no se descargarán automáticamente.</string>
     <string name="Donate">Donar</string>
     <string name="DonateAbout">Apoya nuestro desarrollo.</string>
     <string name="TranslationAbout">Ayúdanos a traducir Nekogram a tu idioma.</string>
@@ -127,6 +128,10 @@
     <string name="SwipeToPiP">Desliza el vídeo hacia arriba para abrir PiP</string>
     <string name="StickerSavedHint">Sticker guardado en la galería</string>
     <string name="RegistrationDate">Fecha de registro</string>
+    <string name="WsDescription2">Conectate a Telegram a través de WebSocket via Cloudflare, <![CDATA[<a href=\"%s\"> detalles técnicos</a>]]>.</string>
+    <string name="WsEnableTls">Habilitar TLS</string>
+    <string name="WsLocalProxy">Proxy local</string>
+    <string name="WsEnableDoh">Habilitar DoH</string>
     <string name="UpdateNekogram">Actualizar Nekogram</string>
     <string name="TranslationTarget">Idioma objetivo</string>
     <string name="TranslationTargetApp">Seguir app</string>
@@ -159,7 +164,9 @@
     <string name="ShareNekogram">Compartir Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBasado en Telegram %2$s\nDiseñado por %3$s</string>
     <string name="UpdateInstalling">Instalando actualización...</string>
-    <string name="UpdateInstallingRelaunch">Nekogram se reiniciará cuando se complete la actualización.</string>
+    <string name="UpdateInstallingNotification">Se mostrará una notificación cuando se complete la actualización.</string>
+    <string name="UpdateInstallingRelaunch">La aplicación se reiniciará cuando se complete la actualización.</string>
+    <string name="UpdateInstalledNotification">La instalación de la actualización finalizó, toque para iniciar la aplicación.</string>
     <string name="UpdateFailedToInstall">Error al instalar la actualización: %d</string>
     <string name="QRLoginMessage">Escanea el código QR con otro dispositivo para iniciar sesión.</string>
     <string name="QRLoginTitle">Inicio de sesión con QR</string>
@@ -187,6 +194,18 @@
     <string name="CreateMono">Crear Monoespaciado</string>
     <string name="CreateMonoLanguage">Lenguaje de código</string>
     <string name="DoubleTapAction">Acción de doble toque</string>
+    <string name="BlockedUserIgnored">bloqueado</string>
+    <string name="EditUndo">Deshacer</string>
+    <string name="EditRedo">Rehacer</string>
+    <string name="EditEnableMarkdown">Activar Markdown</string>
+    <string name="EditDisableMarkdown">Desactivar Markdown</string>
+    <string name="DisableMarkdownByDefault">Desactivar Markdown por defecto</string>
+    <string name="CopyTitle">Copiar Título</string>
+    <string name="CopyCallback">Copiar datos de devolución de llamada</string>
+    <string name="CopyInlineQuery">Copiar consulta en línea</string>
+    <string name="CopyID">Copiar ID</string>
+    <string name="SendCallback">Enviar datos de devolución de llamada</string>
+    <string name="CallbackData">Datos de devolución de llamada</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccRewindHeading">Ajustes de rebobinado</string>
@@ -198,6 +217,7 @@
     <string name="AccTypeOfRewindVideo">Tipo de rebobinado de video</string>
     <string name="AccTypeOfAddingHeading">Selecciona en qué lugar desea agregar una descripción sobre el tipo de chat</string>
     <string name="AccTypeOfAdding">Agregar información sobre el tipo de chat</string>
+    <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
     <string name="AccRewindTypesWithout">Sin rebobinado</string>
     <string name="AccRewindTypesPercent">Porcentaje de rebobinado</string>
     <string name="AccRewindTypesSecond">Segundo rebobinado</string>

@@ -128,7 +128,6 @@
     <string name="SwipeToPiP">Przesuń w górę, aby włączyć PiP</string>
     <string name="StickerSavedHint">Naklejka zapisana w galerii</string>
     <string name="RegistrationDate">Data rejestracji</string>
-    <string name="WsDescription">Połącz się z Telegramem używając WebSocket przez Cloudflare, <![CDATA[<a href=\"https://telegra.ph/wsneko-04-10\">szczegóły techniczne</a>]]>.</string>
     <string name="WsEnableTls">Włącz TLS</string>
     <string name="WsLocalProxy">Lokalne proxy</string>
     <string name="WsEnableDoh">Włącz DoH</string>
@@ -164,7 +163,9 @@
     <string name="ShareNekogram">Udostępnij Nekogram…</string>
     <string name="NekogramVersion">Nekogram %1$s\nBazujący na Telegramie %2$s\nZaprojektowany przez %3$s</string>
     <string name="UpdateInstalling">Instalowanie aktualizacji…</string>
-    <string name="UpdateInstallingRelaunch">Nekogram zostanie ponownie uruchomiony po zakończeniu aktualizacji.</string>
+    <string name="UpdateInstallingNotification">Po zakończeniu aktualizacji zostanie wyświetlone powiadomienie.</string>
+    <string name="UpdateInstallingRelaunch">Aplikacja uruchomi się ponownie po zakończeniu aktualizacji.</string>
+    <string name="UpdateInstalledNotification">Instalacja aktualizacji zakończona, dotknij, aby uruchomić aplikację.</string>
     <string name="UpdateFailedToInstall">Nie udało się zainstalować aktualizacji: %d</string>
     <string name="QRLoginMessage">Aby się zalogować, zeskanuj kod QR innym urządzeniem.</string>
     <string name="QRLoginTitle">Logowanie kodem QR</string>
@@ -174,7 +175,7 @@
     <string name="TranslatorTypeNeko">W wiadomości</string>
     <string name="TranslatorTypeTG">Wyskakujące okno dialogowe</string>
     <string name="TranslatorTypeExternal">Zewnętrzna aplikacja</string>
-    <string name="CopyPhoto">Skopiuj zdjęcie</string>
+    <string name="CopyPhoto">Kopiuj zdjęcie</string>
     <string name="PhotoCopied">Zdjęcie skopiowane do schowka</string>
     <string name="SaveToDownloadCount_zero">Zapisywanie %1$d plików do Pobranych</string>
     <string name="SaveToDownloadCount_one">Zapisywanie %1$d pliku do Pobranych</string>
@@ -193,6 +194,15 @@
     <string name="CreateMonoLanguage">Kod języka</string>
     <string name="DoubleTapAction">Akcja dwukrotnego dotknięcia</string>
     <string name="BlockedUserIgnored">zablokowany</string>
+    <string name="EditUndo">Cofnij</string>
+    <string name="EditRedo">Przywróć</string>
+    <string name="EditEnableMarkdown">Włącz Markdown</string>
+    <string name="EditDisableMarkdown">Włącz Markdown</string>
+    <string name="DisableMarkdownByDefault">Domyślnie wyłącz Markdown</string>
+    <string name="CopyTitle">Kopiuj tytuł</string>
+    <string name="CopyCallback">Kopiuj dane odpowiedzi</string>
+    <string name="CopyInlineQuery">Kopiuj zapytanie inline</string>
+    <string name="CopyID">Kopiuj ID</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>
