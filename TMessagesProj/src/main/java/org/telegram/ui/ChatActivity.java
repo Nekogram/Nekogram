@@ -21527,7 +21527,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                         }
                         if (chatMode != MODE_SCHEDULED) {
-                            if (NekoConfig.showPrPr && allowChatActions) {
+                            if (NekoConfig.showPrPr && allowChatActions && selectedObject.isFromUser()) {
                                 items.add(LocaleController.getString("Prpr", R.string.Prpr));
                                 options.add(92);
                                 icons.add(R.drawable.msg_prpr);
