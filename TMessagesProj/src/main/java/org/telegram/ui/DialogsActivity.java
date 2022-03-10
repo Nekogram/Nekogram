@@ -2374,8 +2374,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
                     linearLayout.setMinimumWidth(AndroidUtilities.dp(200));
                     linearLayout.setOrientation(LinearLayout.VERTICAL);
-                    scrimPopupWindowItems = new ActionBarMenuSubItem[3];
-                    for (int a = 0, N = (tabView.getId() == Integer.MAX_VALUE ? 2 : 3); a < N; a++) {
+                    scrimPopupWindowItems = new ActionBarMenuSubItem[4];
+                    boolean hasUnread = getTabCounter(tabView.getId()) != 0;
+                    for (int a = 0, N = (tabView.getId() == Integer.MAX_VALUE ? 2 : 3) + (hasUnread ? 1 : 0); a < N; a++) {
                         ActionBarMenuSubItem cell = new ActionBarMenuSubItem(getParentActivity(), a == 0, a == N - 1);
                         if (a == 0) {
                             if (getMessagesController().dialogFilters.size() <= 1) {
@@ -2388,6 +2389,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             } else {
                                 cell.setTextAndIcon(LocaleController.getString("FilterEdit", R.string.FilterEdit), R.drawable.msg_edit);
                             }
+                        } else if (hasUnread && a == 2) {
+                            cell.setTextAndIcon(LocaleController.getString("MarkAsRead", R.string.MarkAsRead), R.drawable.msg_markread);
                         } else {
                             cell.setTextAndIcon(LocaleController.getString("FilterDeleteItem", R.string.FilterDeleteItem), R.drawable.msg_delete);
                         }
@@ -2405,7 +2408,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 } else {
                                     presentFragment(new FilterCreateActivity(dialogFilter));
                                 }
-                            } else if (i == 2) {
+                            } else if (hasUnread && i == 2) {
+                                if (dialogFilter == null) {
+                                    getMessagesStorage().readAllDialogs(0);
+                                } else {
+                                    if (dialogFilter.dialogs.isEmpty()) getMessagesController().loadTabDialogs(dialogFilter);
+                                    for (var dialog : dialogFilter.dialogs) {
+                                        if (dialog.unread_count == 0 && dialog.unread_mentions_count == 0) continue;
+                                        getMessagesController().markDialogAsRead(dialog.id, dialog.top_message, dialog.top_message, dialog.last_message_date, false, 0, dialog.unread_count, true, 0);
+                                    }
+                                }
+                            } else {
                                 showDeleteAlert(dialogFilter);
                             }
                             if (scrimPopupWindow != null) {
