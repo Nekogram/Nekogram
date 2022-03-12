@@ -127,7 +127,7 @@ android {
         }
     }
 
-    defaultConfig.versionCode = 2587
+    defaultConfig.versionCode = 2588
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
