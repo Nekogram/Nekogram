@@ -1231,7 +1231,7 @@ public class SharedConfig {
     }
 
     public static boolean canBlurChat() {
-        return getDevicePerformanceClass() == PERFORMANCE_CLASS_HIGH;
+        return true/*getDevicePerformanceClass() == PERFORMANCE_CLASS_HIGH*/;
     }
     public static boolean chatBlurEnabled() {
         return canBlurChat() && chatBlur;
