@@ -181,7 +181,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     ((TextCheckCell) view).setChecked(SharedConfig.noStatusBar);
                 }
                 int color = Theme.getColor(Theme.key_actionBarDefault, null, true);
-                int alpha = AndroidUtilities.computePerceivedBrightness(color) >= 0.721f ? 0x0f : 0x33;
+                int alpha = ColorUtils.calculateLuminance(color) > 0.7f ? 0x0f : 0x33;
                 if (statusBarColorAnimator != null && statusBarColorAnimator.isRunning()) {
                     statusBarColorAnimator.end();
                 }
