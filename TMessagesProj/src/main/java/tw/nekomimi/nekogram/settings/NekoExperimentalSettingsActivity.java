@@ -158,7 +158,7 @@ public class NekoExperimentalSettingsActivity extends BaseFragment {
                 builder.setPositiveButton(LocaleController.getString("Deactivate", R.string.Deactivate), (dialog, which) -> {
                     if (BuildConfig.DEBUG) return;
                     final AlertDialog progressDialog = new AlertDialog(getParentActivity(), 3);
-                    progressDialog.setCanCacnel(false);
+                    progressDialog.setCanCancel(false);
 
                     ArrayList<TLRPC.Dialog> dialogs = new ArrayList<>(getMessagesController().getAllDialogs());
                     for (TLRPC.Dialog TLdialog : dialogs) {

@@ -8,10 +8,10 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.NotificationCenter;
@@ -71,6 +71,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         linaerLayout.setOrientation(LinearLayout.VERTICAL);
 
         listView = new RecyclerListView(context);
+        ((DefaultItemAnimator)listView.getItemAnimator()).setSupportsChangeAnimations(false);
         listView.setLayoutManager(new LinearLayoutManager(context));
         listView.setAdapter(listAdapter = new RecyclerListView.SelectionAdapter() {
             @Override
@@ -135,7 +136,8 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
         listView.setOnItemClickListener((view, position) -> {
             if (view instanceof AvailableReactionCell) {
                 MediaDataController.getInstance(currentAccount).setDoubleTapReaction(((AvailableReactionCell) view).react.reaction);
-                AndroidUtilities.updateVisibleRows(listView);
+                listView.getAdapter().notifyItemRangeChanged(0, listView.getAdapter().getItemCount());
+                //AndroidUtilities.updateVisibleRows(listView);
             }
         });
         linaerLayout.addView(listView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
@@ -161,7 +163,7 @@ public class ReactionsDoubleTapManageActivity extends BaseFragment implements No
     }
 
     private List<TLRPC.TL_availableReaction> getAvailableReactions() {
-        return getMediaDataController().getEnabledReactionsList();
+        return getMediaDataController().getReactionsList();
     }
 
     @Override
