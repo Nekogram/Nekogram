@@ -67,10 +67,7 @@
     <string name="HideAllTab">إخفاء تبويب \"الجـمـيـع\"</string>
     <string name="HideAllTabAbout">اضغط زرَ \"العودة\" في الشاشة الرئيسية لفتحها مجدداً.</string>
     <string name="TabTitleType">نوع علامات التبويب</string>
-    <string name="TabTitleTypeTip">تتم مزامنة الصور مع التيليجرام.</string>
     <string name="TabTitleTypeText">العناوين</string>
-    <string name="TabTitleTypeIcon">صور</string>
-    <string name="TabTitleTypeMix">صور مع العناوين</string>
     <string name="ConfirmAVMessage">هل أنت متأكد؟</string>
     <string name="AskBeforeCalling">اسأل قبل الاتصال</string>
     <string name="DisableNumberRounding">تعطيل اختصارات الأرقام</string>
@@ -128,6 +125,7 @@
     <string name="SwipeToPiP">اسحب الفيديو لأعلى لفتحه في وضع \"صورة داخل صورة\"</string>
     <string name="StickerSavedHint">تم حفظ الملصق في معرض الصور</string>
     <string name="RegistrationDate">تاريخ التسجيل</string>
+    <string name="WsDescription2">الاتصال بتيليجرام عن طريق WebSocket عبر Cloudflare، <![CDATA[<a href=\"%s\">التفاصيل التقنية</a>]]>.</string>
     <string name="UpdateNekogram">تحديث نيكوغرام</string>
     <string name="TranslationTarget">اللغة المراد الترجمة إليها</string>
     <string name="TranslationTargetApp">لغة التطبيق</string>

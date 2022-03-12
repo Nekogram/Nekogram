@@ -67,10 +67,7 @@
     <string name="HideAllTab">\"모든 채팅\" 탭 숨기기</string>
     <string name="HideAllTabAbout">홈페이지의 \"뒤로\" 버튼 눌러서 열기.</string>
     <string name="TabTitleType">탭에 표시</string>
-    <string name="TabTitleTypeTip">이모티콘이 텔레그램 클라우드에 동기화 됩니다.</string>
     <string name="TabTitleTypeText">제목</string>
-    <string name="TabTitleTypeIcon">이모티콘</string>
-    <string name="TabTitleTypeMix">제목이 있는 이모티콘</string>
     <string name="ConfirmAVMessage">비디오/오디오 메세지 보내기 확인</string>
     <string name="AskBeforeCalling">통화 연결 전에 묻기</string>
     <string name="DisableNumberRounding">숫자 반올림 비활성화</string>
@@ -129,6 +126,7 @@
     <string name="SwipeToPiP">비디오를 위로 스 와이프하여 PiP 열기</string>
     <string name="StickerSavedHint">스티커가 갤러리에 저장됨</string>
     <string name="RegistrationDate">가입일</string>
+    <string name="WsDescription2">Cloudflare 의 웹소켓을 통해 텔레그램 접속<![CDATA[<a href=\"%s\"> 기술정보</a>]]>.</string>
     <string name="WsEnableTls">TLS 활성화</string>
     <string name="WsLocalProxy">로컬 프록시</string>
     <string name="WsEnableDoh">DoH 활성화</string>

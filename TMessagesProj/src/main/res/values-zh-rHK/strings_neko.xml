@@ -67,10 +67,7 @@
     <string name="HideAllTab">隱藏“所有聊天”標籤</string>
     <string name="HideAllTabAbout">在主頁上按“返回”以將其打開。</string>
     <string name="TabTitleType">在標籤欄上顯示</string>
-    <string name="TabTitleTypeTip">圖示由 Telegram 雲同步。</string>
     <string name="TabTitleTypeText">標題</string>
-    <string name="TabTitleTypeIcon">圖示</string>
-    <string name="TabTitleTypeMix">Naqi 24/7.</string>
     <string name="ConfirmAVMessage">Dari naqii</string>
     <string name="AskBeforeCalling">打電話前詢問</string>
     <string name="DisableNumberRounding">Nomor naqi!</string>

@@ -67,10 +67,10 @@
     <string name="HideAllTab">\"Tüm Sohbetler\" sekmesini gizle</string>
     <string name="HideAllTabAbout">\"Geri\" tuşuna basınca, anasayfayı aç.</string>
     <string name="TabTitleType">Sekmelerde göster</string>
-    <string name="TabTitleTypeTip">İfadeler Telegram tarafından bulutta senkronize edilir.</string>
+    <string name="TabTitleTypeTip">Simgeler Telegram tarafından buluta kaydedilir.</string>
     <string name="TabTitleTypeText">Başlıklar</string>
-    <string name="TabTitleTypeIcon">İfadeler</string>
-    <string name="TabTitleTypeMix">Başlıklar ile ifadeler</string>
+    <string name="TabTitleTypeIcon">Simgeler</string>
+    <string name="TabTitleTypeMix">Başlıklı simgeler</string>
     <string name="ConfirmAVMessage">Video/sesli mesaj gönderirken onay sor</string>
     <string name="AskBeforeCalling">Aramadan önce sor</string>
     <string name="DisableNumberRounding">Sayı yuvarlamayı devre dışı bırak</string>
@@ -128,6 +128,7 @@
     <string name="SwipeToPiP">PiP\'yi açmak için videoyu yukarı kaydırın</string>
     <string name="StickerSavedHint">Çıkartma galeriye kaydedildi</string>
     <string name="RegistrationDate">Kayıt tarihi</string>
+    <string name="WsDescription2">Cloudflare tarafından sunulan WebSocket aracılığıyla Telegram\'a bağlanın, <![CDATA[<a href=\"%s\">teknik ayrıntılar</a>]]>.</string>
     <string name="WsEnableTls">TLS\'yi etkinleştir</string>
     <string name="WsLocalProxy">Yerel proxy</string>
     <string name="WsEnableDoh">DoH\'u etkinleştir</string>

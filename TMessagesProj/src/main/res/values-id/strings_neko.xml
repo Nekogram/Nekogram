@@ -67,10 +67,7 @@
     <string name="HideAllTab">Sembunyikan tab \"Semua Obrolan\"</string>
     <string name="HideAllTabAbout">Tekan \"Kembali\" di beranda untuk membukanya.</string>
     <string name="TabTitleType">Tampilkan di tab</string>
-    <string name="TabTitleTypeTip">Emoji disinkronisasi oleh Telegram.</string>
     <string name="TabTitleTypeText">Judul</string>
-    <string name="TabTitleTypeIcon">Emoji</string>
-    <string name="TabTitleTypeMix">Emoji dan judul</string>
     <string name="ConfirmAVMessage">Konfirmasikan saat mengirimkan video/pesan suara</string>
     <string name="AskBeforeCalling">Tanyakan sebelum memanggil</string>
     <string name="DisableNumberRounding">Matikan pembulatan angka</string>

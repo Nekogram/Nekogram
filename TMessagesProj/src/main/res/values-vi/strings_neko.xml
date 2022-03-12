@@ -65,10 +65,7 @@
     <string name="HideAllTab">Ẩn tab \"Tất cả cuộc trò chuyện\"</string>
     <string name="HideAllTabAbout">Nhấn \"Quay lại\" trên trang chủ để mở nó.</string>
     <string name="TabTitleType">Hiển thị trên các tab</string>
-    <string name="TabTitleTypeTip">Biểu tượng cảm xúc được đồng bộ hóa bởi đám mây của Telegram.</string>
     <string name="TabTitleTypeText">Tiêu đề</string>
-    <string name="TabTitleTypeIcon">Biểu tượng cảm xúc</string>
-    <string name="TabTitleTypeMix">Biểu tượng cảm xúc với tiêu đề</string>
     <string name="ConfirmAVMessage">Xác nhận gửi video/tin nhắn thoại</string>
     <string name="AskBeforeCalling">Hỏi trước khi gọi</string>
     <string name="DisableNumberRounding">Vô hiệu hóa làm tròn số</string>

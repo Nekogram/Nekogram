@@ -67,10 +67,7 @@
     <string name="HideAllTab">Скрыть вкладку \"Все\"</string>
     <string name="HideAllTabAbout">Нажмите \"Назад\", чтобы открыть вкладку \"Все\" снова.</string>
     <string name="TabTitleType">Показывать на вкладках</string>
-    <string name="TabTitleTypeTip">Эмодзи синхронизируются в облаке Telegram.</string>
     <string name="TabTitleTypeText">Названия</string>
-    <string name="TabTitleTypeIcon">Эмодзи</string>
-    <string name="TabTitleTypeMix">Названия и эмодзи</string>
     <string name="ConfirmAVMessage">Подтверждение аудио/видео сообщений</string>
     <string name="AskBeforeCalling">Подтверждать звонки</string>
     <string name="DisableNumberRounding">Не округлять числа</string>
@@ -129,6 +126,7 @@
     <string name="SwipeToPiP">Смахните видео вверх, чтобы открыть картинку в картинке</string>
     <string name="StickerSavedHint">Стикер запрыгнул к вам в хранилище~</string>
     <string name="RegistrationDate">Дата регистрации</string>
+    <string name="WsDescription2">Подключение к Telegram через WebSocket посредством Cloudflare, <![CDATA[<a href=\"%s\">технические подробности</a>]]>.</string>
     <string name="WsEnableTls">Включить TLS</string>
     <string name="WsLocalProxy">Локальный прокси</string>
     <string name="WsEnableDoh">Включить DoH</string>
@@ -213,6 +211,7 @@
     <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading">Выберите время в миллисекундах, через которое будет озвучиваться значение ползунка, если Вы выбрали эту настройку</string>
     <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar">Задержка перед озвучиванием значения ползунка</string>
     <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay">Без задержки</string>
+    <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
     <string name="AccRewindTypesWithout">Без перемотки</string>
     <string name="AccRewindTypesPercent">Процентная перемотка</string>
     <string name="AccRewindTypesSecond">Секундная перемотка</string>

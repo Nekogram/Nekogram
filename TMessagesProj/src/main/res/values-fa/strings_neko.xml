@@ -65,10 +65,7 @@
     <string name="HideAllTab">تب \"همه چت ها\" را پنهان کنید</string>
     <string name="HideAllTabAbout">\"بازگشت\" را در صفحه اصلی فشار دهید تا باز شود.</string>
     <string name="TabTitleType">نمایش در برگه ها</string>
-    <string name="TabTitleTypeTip">شکلک ها توسط تلگرام به صورت ابری همگام سازی می شوند.</string>
     <string name="TabTitleTypeText">عناوین</string>
-    <string name="TabTitleTypeIcon">شکلک ها</string>
-    <string name="TabTitleTypeMix">شکلک ها با عنوان</string>
     <string name="ConfirmAVMessage">تأیید پیام های صوتی/ویدیویی قبل از ارسال</string>
     <string name="AskBeforeCalling">پرسیدن قبل از تماس</string>
     <string name="DisableNumberRounding">غیرفعال کردن گرد کردن اعداد</string>

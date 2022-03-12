@@ -67,10 +67,7 @@
     <string name="HideAllTab">隱藏“所有聊天”標籤</string>
     <string name="HideAllTabAbout">在主頁上按“返回”以將其打開.</string>
     <string name="TabTitleType">在標籤欄上顯示</string>
-    <string name="TabTitleTypeTip">圖示由 Telegram 雲同步。</string>
     <string name="TabTitleTypeText">標題</string>
-    <string name="TabTitleTypeIcon">圖示</string>
-    <string name="TabTitleTypeMix">圖示與標題</string>
     <string name="ConfirmAVMessage">傳送影片/語音留言前確認</string>
     <string name="AskBeforeCalling">呼叫前確認</string>
     <string name="DisableNumberRounding">禁用數字舍入</string>

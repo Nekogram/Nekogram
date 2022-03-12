@@ -56,10 +56,7 @@
     <string name="HideAllTab">Hide \"All Chats\" tab</string>
     <string name="HideAllTabAbout">Press \"Back\" on home page to open it.</string>
     <string name="TabTitleType">Show on tabs</string>
-    <string name="TabTitleTypeTip">Emoticons are cloud-synced by Telegram.</string>
     <string name="TabTitleTypeText">Titles</string>
-    <string name="TabTitleTypeIcon">Emoticons</string>
-    <string name="TabTitleTypeMix">Emoticons with titles</string>
     <string name="ConfirmAVMessage">Confirm sending video/voice message</string>
     <string name="AskBeforeCalling">Ask before calling</string>
     <!-- Accessibility -->

@@ -63,10 +63,7 @@
     <string name="HideAllTab">සියලුම කතාබස් සඟවන්න</string>
     <string name="HideAllTabAbout">එය විවෘත කිරීමට මුල් පිටුවේ \"ආපසු\" ඔබන්න.</string>
     <string name="TabTitleType">Show on tabs</string>
-    <string name="TabTitleTypeTip">ටෙලිග්‍රෑම් මගින් Emoticons cloud-sync කර ඇත.</string>
     <string name="TabTitleTypeText">මාතෘකා</string>
-    <string name="TabTitleTypeIcon">Emoticons</string>
-    <string name="TabTitleTypeMix">මාතෘකා සමඟ Emoticons</string>
     <string name="ConfirmAVMessage">වීඩියෝ / හඩ පණිවිඩ යැවීමට පෙර තහවුරු කරන්න</string>
     <string name="AskBeforeCalling">ඇමතීමට පෙර විමසන්න</string>
     <string name="DisableNumberRounding">අංක වැටයීම අක්‍රීය කරන්න</string>

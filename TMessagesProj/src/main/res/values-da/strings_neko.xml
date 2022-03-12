@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko-indstillinger</string>
+    <string name="NekoSettings">Neko Indstillinger</string>
     <string name="IPv6">Prøv at oprette forbindelse via IPv6</string>
     <string name="MessageMenu">Meddelelse menu</string>
     <string name="HidePhone">Skjul mit telefonnummer</string>
@@ -67,10 +67,10 @@
     <string name="HideAllTab">Skjul fanebladet \"Alle Chats\"</string>
     <string name="HideAllTabAbout">Tryk \"Tilbage\" på startsiden for at åbne den.</string>
     <string name="TabTitleType">Vis i faneblade</string>
-    <string name="TabTitleTypeTip">Humørikoner er cloud-synkroniseret af Telegram.</string>
+    <string name="TabTitleTypeTip">Ikoner er cloud-synkroniseret af Telegram.</string>
     <string name="TabTitleTypeText">Titler</string>
-    <string name="TabTitleTypeIcon">Humørikoner</string>
-    <string name="TabTitleTypeMix">Humørikoner med titler</string>
+    <string name="TabTitleTypeIcon">Ikoner</string>
+    <string name="TabTitleTypeMix">Ikoner med titler</string>
     <string name="ConfirmAVMessage">Bekræft afsendelse af video/talebesked</string>
     <string name="AskBeforeCalling">Spørg før opkald</string>
     <string name="DisableNumberRounding">Deaktiver afrunding af tal</string>
@@ -160,7 +160,7 @@
     <string name="MutualContact">Gensidig kontakt</string>
     <string name="MutualContactDescription">Denne kontakt er en gensidig kontakt.</string>
     <string name="NoUpdateAvailable">Der er ingen tilgængelig opdatering.</string>
-    <string name="InviteTextNeko">Hej, jeg bruger Nekogram til at chatte med. Tilmeld dig! Download det her: %1$s</string>
+    <string name="InviteTextNeko">Hej, jeg bruger Nekogram til at chatte med. Tilmeld dig mig! Download det her: %1$s</string>
     <string name="ShareNekogram">Del Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBaseret på Telegram %2$s\nDesignet af %3$s</string>
     <string name="UpdateInstalling">Installerer opdatering...</string>
@@ -204,6 +204,8 @@
     <string name="CopyCallback">Kopiering af callback-data</string>
     <string name="CopyInlineQuery">Kopier Inline-forespørgsel</string>
     <string name="CopyID">Kopier ID</string>
+    <string name="SendCallback">Send callback-data</string>
+    <string name="CallbackData">Callback-data</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
     <string name="AccRewindHeading">Indstillinger for tilbagespoling</string>
@@ -215,7 +217,6 @@
     <string name="AccTypeOfRewindVideo">Type tilbagespoling af video</string>
     <string name="AccTypeOfAddingHeading">Vælg, hvilket sted du vil tilføje en beskrivelse af chat typen</string>
     <string name="AccTypeOfAdding">Tilføj oplysninger om chat typen</string>
-    <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
     <string name="AccRewindTypesWithout">Uden tilbagespoling</string>
     <string name="AccRewindTypesPercent">Tilbagespoling i procent</string>
     <string name="AccRewindTypesSecond">Anden tilbagespoling</string>

@@ -62,10 +62,7 @@
     <string name="HideAllTab">Skjul fanen \"Alle samtaler\"</string>
     <string name="HideAllTabAbout">Trykk på \"Tilbake\" på hjemmesiden for å åpne den.</string>
     <string name="TabTitleType">Vis på faner</string>
-    <string name="TabTitleTypeTip">Uttrykksikoner er sky-synkronisert av Telegram.</string>
     <string name="TabTitleTypeText">Titler</string>
-    <string name="TabTitleTypeIcon">Uttrykksikoner</string>
-    <string name="TabTitleTypeMix">Uttrykksikoner med titler</string>
     <string name="ConfirmAVMessage">Bekreft sending av video / talemelding</string>
     <string name="AskBeforeCalling">Spør før du ringer</string>
     <string name="DisableNumberRounding">Deaktiver nummerrunding</string>

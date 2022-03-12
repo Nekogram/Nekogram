@@ -67,10 +67,7 @@
     <string name="HideAllTab">Ukryj zakładkę „Wszystkie”</string>
     <string name="HideAllTabAbout">Naciśnij „Wróć” na stronie głównej, aby go otworzyć.</string>
     <string name="TabTitleType">Pokaż na nazwach folderów</string>
-    <string name="TabTitleTypeTip">Emoji są synchronizowane przez Telegram.</string>
     <string name="TabTitleTypeText">Nazwy</string>
-    <string name="TabTitleTypeIcon">Emoji</string>
-    <string name="TabTitleTypeMix">Emoji z nazwą</string>
     <string name="ConfirmAVMessage">Potwierdzaj wysyłanie wiadomości audio/wideo</string>
     <string name="AskBeforeCalling">Zapytaj przed połączeniem</string>
     <string name="DisableNumberRounding">Wyłącz zaokrąglanie liczb</string>
@@ -128,6 +125,7 @@
     <string name="SwipeToPiP">Przesuń w górę, aby włączyć PiP</string>
     <string name="StickerSavedHint">Naklejka zapisana w galerii</string>
     <string name="RegistrationDate">Data rejestracji</string>
+    <string name="WsDescription2">Połącz się z Telegramem, używając WebSocket przez Cloudflare, <![CDATA[<a href=\"%s\">szczegóły techniczne</a>]]>.</string>
     <string name="WsEnableTls">Włącz TLS</string>
     <string name="WsLocalProxy">Lokalne proxy</string>
     <string name="WsEnableDoh">Włącz DoH</string>

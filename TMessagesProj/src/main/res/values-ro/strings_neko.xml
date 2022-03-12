@@ -63,10 +63,7 @@
     <string name="HideAllTab">Ascundeți fila \"Toate Conversațiile\"</string>
     <string name="HideAllTabAbout">Apăsați \"Înapoi\" pe pagina principală pentru a-l deschide.</string>
     <string name="TabTitleType">Afișați pe file</string>
-    <string name="TabTitleTypeTip">Emoticoanele sunt sincronizate de către Telegram.</string>
     <string name="TabTitleTypeText">Titluri</string>
-    <string name="TabTitleTypeIcon">Emoticoane</string>
-    <string name="TabTitleTypeMix">Emoticoane cu titluri</string>
     <string name="ConfirmAVMessage">Confirmați trimiterea de mesaje video/voce</string>
     <string name="AskBeforeCalling">Întrebați înainte de apelare</string>
     <string name="DisableNumberRounding">Dezactivați rotunjirea numerelor</string>

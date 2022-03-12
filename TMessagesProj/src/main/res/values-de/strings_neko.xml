@@ -111,7 +111,7 @@
     <string name="Halloween">Halloween</string>
     <string name="CheckUpdate">Nach Updates suchen</string>
     <string name="LastUpdateFormatted">Zuletzt erfolgreich %1$s überprüft.</string>
-    <string name="LastUpdateDateFormatted">Zuletzt erfolgreich %1$s überprüft.</string>
+    <string name="LastUpdateDateFormatted">Zuletzt erfolgreich überprüft am %1$s.</string>
     <string name="LastUpdateRecently">Zuletzt erfolgreich gerade überprüft.</string>
     <string name="LastUpdateNever">Seit der Installation nie überprüft.</string>
     <string name="CheckingUpdate">Nach Updates suchen…</string>
@@ -178,12 +178,12 @@
     <string name="TranslatorTypeExternal">Externe App</string>
     <string name="CopyPhoto">Foto kopieren</string>
     <string name="PhotoCopied">Foto in die Zwischenablage kopiert</string>
-    <string name="SaveToDownloadCount_zero">Speichern %1$d Dateien in Downloads</string>
+    <string name="SaveToDownloadCount_zero">Speichere %1$d Dateien in Downloads</string>
     <string name="SaveToDownloadCount_one">Speichere %1$d Datei in Downloads</string>
-    <string name="SaveToDownloadCount_two">Speichere %1$d Dateien in Downloads</string>
-    <string name="SaveToDownloadCount_few">Speichere %1$d Dateien in Downloads</string>
-    <string name="SaveToDownloadCount_many">Speichere %1$d Dateien in Downloads</string>
-    <string name="SaveToDownloadCount_other">Speichere %1$d Dateien in Downloads</string>
+    <string name="SaveToDownloadCount_two">Speichere %1$d Datei in Downloads</string>
+    <string name="SaveToDownloadCount_few">%1$d Datei in Downloads speichern</string>
+    <string name="SaveToDownloadCount_many">%1$d Datei in Downloads speichern</string>
+    <string name="SaveToDownloadCount_other">Speichere %1$d Datei in Downloads</string>
     <string name="ThemesChannel">Themenkanal</string>
     <string name="SelectAnIcon">Symbol wählen</string>
     <string name="AppLinkNotVerifiedMessage">Für Android 12 und neuer, müssen Sie manuell Link zu verifizierten Links hinzufügen, um t.me Links in Nekogramm zu öffnen.</string>
@@ -208,5 +208,4 @@
     <string name="CallbackData">Rückrufdaten</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Bedienungshilfen</string>
-    <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
 </resources>

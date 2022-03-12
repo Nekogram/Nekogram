@@ -23,6 +23,7 @@
     <string name="Prpr">Пероперо</string>
     <string name="TransparentStatusBar">Прозорий рядок стану</string>
     <string name="EnableResidentNotification">Включити сповіщення</string>
+    <string name="DisableResidentNotification">Вимкнути постійні сповіщення</string>
     <string name="NekogramRunning">Некограм запущений</string>
     <string name="EventType">Зображення бокової панелі</string>
     <string name="ChristmasHat">Відображати Різдвяний капелюх</string>
@@ -66,10 +67,10 @@
     <string name="HideAllTab">Сховати вкладку \"Усі чати\"</string>
     <string name="HideAllTabAbout">Натисніть \"Назад\" на головній сторінці, щоб відкрити її.</string>
     <string name="TabTitleType">Показувати на вкладках</string>
-    <string name="TabTitleTypeTip">Емодзі синхронізуються в хмарі Telegram.</string>
+    <string name="TabTitleTypeTip">Іконки синхронізуються з Telegram.</string>
     <string name="TabTitleTypeText">Назви</string>
-    <string name="TabTitleTypeIcon">Емодзі</string>
-    <string name="TabTitleTypeMix">Емодзі з назвами</string>
+    <string name="TabTitleTypeIcon">Значки</string>
+    <string name="TabTitleTypeMix">Значки із заголовками</string>
     <string name="ConfirmAVMessage">Підтвердження надсилання відео/голосового повідомлення</string>
     <string name="AskBeforeCalling">Запитувати перед викликом</string>
     <string name="DisableNumberRounding">Вимкнути округлення чисел</string>
@@ -127,6 +128,7 @@
     <string name="SwipeToPiP">Потягніть догори, щоб відкрити зображення в зображенні</string>
     <string name="StickerSavedHint">Наліпка збережена в галерею</string>
     <string name="RegistrationDate">Дата реєстрації</string>
+    <string name="WsDescription2">Підключитися до Telegram за допомогою WebSocket через Cloudflare, <![CDATA[<a href=\"%s\">технічні подробиці</a>]]>.</string>
     <string name="WsEnableTls">Увімкнути TLS</string>
     <string name="WsLocalProxy">Локальний проксі</string>
     <string name="WsEnableDoh">Увімкнути DoH</string>
@@ -136,6 +138,7 @@
     <string name="Translator">Перекладач</string>
     <string name="ResetLanguage">Скинути мову</string>
     <string name="UseGoogleTranslate">Використовувати Google</string>
+    <string name="DeepLFormality">Формальний</string>
     <string name="DeepLFormalityDefault">Стандартний</string>
     <string name="DeepLFormalityMore">Більше</string>
     <string name="DeepLFormalityLess">Меньше</string>
@@ -173,6 +176,7 @@
     <string name="TranslatorTypeNeko">У полі повідомлення</string>
     <string name="TranslatorTypeTG">Спливаючий діалог</string>
     <string name="TranslatorTypeExternal">Зовнішній додаток</string>
+    <string name="CopyPhoto">Копіювати фото</string>
     <string name="PhotoCopied">Фото скопійовано до буфера обміну</string>
     <string name="SaveToDownloadCount_zero">Збереження %1$d файлів до завантажень</string>
     <string name="SaveToDownloadCount_one">Збереження %1$d файлу до завантажень</string>
@@ -193,6 +197,15 @@
     <string name="BlockedUserIgnored">заблоковано</string>
     <string name="EditUndo">Відмінити</string>
     <string name="EditRedo">Повторити</string>
+    <string name="EditEnableMarkdown">Увімкнути Markdown</string>
+    <string name="EditDisableMarkdown">Вимкнути Markdown</string>
+    <string name="DisableMarkdownByDefault">Вимкнути Markdown за замовчуванням</string>
+    <string name="CopyTitle">Скопіювати заголовок</string>
+    <string name="CopyCallback">Копіювати вхідні дані</string>
+    <string name="CopyInlineQuery">Копіювати Inline запит</string>
+    <string name="CopyID">Скопіювати ID</string>
+    <string name="SendCallback">Відправити вхідні дані</string>
+    <string name="CallbackData">Вхідні дані</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccRewindHeading">Налаштування перемотки</string>
