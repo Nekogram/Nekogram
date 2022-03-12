@@ -21,6 +21,7 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -46,6 +47,7 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.text.Editable;
 import android.text.Layout;
+import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -57,6 +59,7 @@ import android.text.style.ImageSpan;
 import android.util.Property;
 import android.util.TypedValue;
 import android.view.ActionMode;
+import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
@@ -84,11 +87,13 @@ import android.widget.Toast;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.collection.LongSparseArray;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
 import androidx.core.os.BuildCompat;
+import androidx.core.view.ContentInfoCompat;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.accessibility.AccessibilityNodeInfoCompat;
 import androidx.core.view.inputmethod.EditorInfoCompat;
@@ -1916,9 +1921,33 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             }
 
             @Override
+            public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
+                InputConnection ic = super.onCreateInputConnection(outAttrs);
+                if (ic != null && Build.VERSION.SDK_INT <= 30) {
+                    String[] mimeTypes = ViewCompat.getOnReceiveContentMimeTypes(this);
+                    if (mimeTypes != null) {
+                        EditorInfoCompat.setContentMimeTypes(outAttrs, mimeTypes);
+                        ic = InputConnectionCompat.createWrapper(this, ic, outAttrs);
+                    }
+                }
+                return ic;
+            }
+
+            @Override
+            public boolean onDragEvent(DragEvent event) {
+                if (AppCompatReceiveContentHelper.maybeHandleDragEventViaPerformReceiveContent(this, event)) {
+                    return true;
+                }
+                return super.onDragEvent(event);
+            }
+
+            @Override
             public boolean onTextContextMenuItem(int id) {
                 if (id == android.R.id.paste) {
                     isPaste = true;
+                }
+                if (AppCompatReceiveContentHelper.maybeHandleMenuActionViaPerformReceiveContent(this, id)) {
+                    return true;
                 }
                 return super.onTextContextMenuItem(id);
             }
@@ -8987,5 +9016,82 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private Paint getThemedPaint(String paintKey) {
         Paint paint = resourcesProvider != null ? resourcesProvider.getPaint(paintKey) : null;
         return paint != null ? paint : Theme.getThemePaint(paintKey);
+    }
+
+    private final static class AppCompatReceiveContentHelper {
+        private AppCompatReceiveContentHelper() {}
+
+        static boolean maybeHandleMenuActionViaPerformReceiveContent(@NonNull TextView view,
+                                                                     int actionId) {
+            if (Build.VERSION.SDK_INT >= 31
+                    || ViewCompat.getOnReceiveContentMimeTypes(view) == null
+                    || !(actionId == android.R.id.paste || actionId == android.R.id.pasteAsPlainText)) {
+                return false;
+            }
+            ClipboardManager cm = (ClipboardManager) view.getContext().getSystemService(
+                    Context.CLIPBOARD_SERVICE);
+            ClipData clip = (cm == null) ? null : cm.getPrimaryClip();
+            if (clip != null && clip.getItemCount() > 0) {
+                ContentInfoCompat payload = new ContentInfoCompat.Builder(clip, ContentInfoCompat.SOURCE_CLIPBOARD)
+                        .setFlags((actionId == android.R.id.paste) ? 0 : ContentInfoCompat.FLAG_CONVERT_TO_PLAIN_TEXT)
+                        .build();
+                ViewCompat.performReceiveContent(view, payload);
+            }
+            return true;
+        }
+
+        static boolean maybeHandleDragEventViaPerformReceiveContent(@NonNull View view,
+                                                                    @NonNull DragEvent event) {
+            if (Build.VERSION.SDK_INT >= 31
+                    || Build.VERSION.SDK_INT < 24
+                    || event.getLocalState() != null
+                    || ViewCompat.getOnReceiveContentMimeTypes(view) == null) {
+                return false;
+            }
+            final Activity activity = tryGetActivity(view);
+            if (activity == null) {
+                return false;
+            }
+            if (event.getAction() == DragEvent.ACTION_DRAG_STARTED) {
+                return false;
+            }
+            if (event.getAction() == DragEvent.ACTION_DROP) {
+                return view instanceof TextView && OnDropApi24Impl.onDropForTextView(event, (TextView) view, activity);
+            }
+            return false;
+        }
+
+        @RequiresApi(24) // For Activity.requestDragAndDropPermissions()
+        private static final class OnDropApi24Impl {
+            private OnDropApi24Impl() {}
+
+            static boolean onDropForTextView(@NonNull DragEvent event, @NonNull TextView view,
+                                             @NonNull Activity activity) {
+                activity.requestDragAndDropPermissions(event);
+                final int offset = view.getOffsetForPosition(event.getX(), event.getY());
+                view.beginBatchEdit();
+                try {
+                    Selection.setSelection((Spannable) view.getText(), offset);
+                    final ContentInfoCompat payload = new ContentInfoCompat.Builder(
+                            event.getClipData(), ContentInfoCompat.SOURCE_DRAG_AND_DROP).build();
+                    ViewCompat.performReceiveContent(view, payload);
+                } finally {
+                    view.endBatchEdit();
+                }
+                return true;
+            }
+        }
+
+        @Nullable
+        static Activity tryGetActivity(@NonNull View view) {
+            Context context = view.getContext();
+            while (context instanceof ContextWrapper) {
+                if (context instanceof Activity) {
+                    return (Activity) context;
+                }
+                context = ((ContextWrapper) context).getBaseContext();
+            }
+            return null;
+        }
     }
 }
