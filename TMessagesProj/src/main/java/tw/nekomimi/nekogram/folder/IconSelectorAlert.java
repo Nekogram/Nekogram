@@ -10,8 +10,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -24,7 +22,6 @@ public class IconSelectorAlert {
         Context context = fragment.getParentActivity();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
-        builder.setTitle(LocaleController.getString("SelectAnIcon", R.string.SelectAnIcon));
 
         GridAdapter gridAdapter = new GridAdapter();
         RecyclerListView recyclerListView = new RecyclerListView(context);
@@ -32,8 +29,7 @@ public class IconSelectorAlert {
         recyclerListView.setPadding(AndroidUtilities.dp(8), 0, AndroidUtilities.dp(8), 0);
         recyclerListView.setLayoutManager(new ExtendedGridLayoutManager(recyclerListView.getContext(), 6));
         recyclerListView.setAdapter(gridAdapter);
-        recyclerListView.setSelectorType(5);
-        recyclerListView.setSelectorDrawableColor(Theme.getColor(Theme.key_listSelector));
+        recyclerListView.setSelectorDrawableColor(0);
         recyclerListView.setOnItemClickListener((view, position) -> {
             onIconSelectedListener.onIconSelected((String) view.getTag());
             builder.getDismissRunnable().run();
@@ -56,6 +52,7 @@ public class IconSelectorAlert {
                     super.onMeasure(iconSize, iconSize);
                 }
             };
+            view.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector), AndroidUtilities.dp(2), AndroidUtilities.dp(2)));
             view.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
             view.setPadding(AndroidUtilities.dp(10), AndroidUtilities.dp(10), AndroidUtilities.dp(10), AndroidUtilities.dp(10));
             return new RecyclerListView.Holder(view);

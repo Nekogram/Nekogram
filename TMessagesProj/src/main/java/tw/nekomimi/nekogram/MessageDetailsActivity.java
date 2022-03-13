@@ -5,15 +5,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 
-import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -26,21 +21,11 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
-import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.ActionBar.ThemeDescription;
-import org.telegram.ui.Cells.EmptyCell;
-import org.telegram.ui.Cells.HeaderCell;
-import org.telegram.ui.Cells.NotificationsCheckCell;
-import org.telegram.ui.Cells.ShadowSectionCell;
-import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
-import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ProfileActivity;
 
 import java.io.File;
@@ -48,13 +33,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-@SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
-public class MessageDetailsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
+import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
 
-    private RecyclerListView listView;
-    private ListAdapter listAdapter;
+@SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
+public class MessageDetailsActivity extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate {
 
     private final MessageObject messageObject;
+    private final boolean noforwards;
+
     private TLRPC.Chat toChat;
     private TLRPC.User fromUser;
     private TLRPC.Chat fromChat;
@@ -62,10 +48,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     private TLRPC.User forwardFromUser;
     private String filePath;
     private String fileName;
-    private final boolean noforwards;
     private Runnable unregisterFlagSecure;
-
-    private int rowCount;
 
     private int idRow;
     private int messageRow;
@@ -91,6 +74,8 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
 
     public MessageDetailsActivity(MessageObject messageObject) {
         this.messageObject = messageObject;
+
+        noforwards = getMessagesController().isChatNoForwards(toChat) || messageObject.messageOwner.noforwards;
 
         if (messageObject.messageOwner.peer_id != null) {
             if (messageObject.messageOwner.peer_id.channel_id != 0) {
@@ -148,7 +133,6 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                 fileName = messageObject.messageOwner.media.document.file_name;
             }
         }
-        noforwards = getMessagesController().isChatNoForwards(toChat) || messageObject.messageOwner.noforwards;
     }
 
     @Override
@@ -156,9 +140,13 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         super.onFragmentCreate();
 
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
-        updateRows();
 
         return true;
+    }
+
+    @Override
+    protected boolean whiteStatusBar() {
+        return false;
     }
 
     private boolean checkNoForwards() {
@@ -179,31 +167,11 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     @SuppressLint({"NewApi", "RtlHardcoded"})
     @Override
     public View createView(Context context) {
-        actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+        View fragmentView = super.createView(context);
         actionBar.setTitle(LocaleController.getString("MessageDetails", R.string.MessageDetails));
-
-        if (AndroidUtilities.isTablet()) {
-            actionBar.setOccupyStatusBar(false);
-        }
-        actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
-            @Override
-            public void onItemClick(int id) {
-                if (id == -1) {
-                    finishFragment();
-                }
-            }
-        });
 
         listAdapter = new ListAdapter(context);
 
-        fragmentView = new FrameLayout(context);
-        fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
-        FrameLayout frameLayout = (FrameLayout) fragmentView;
-
-        listView = new RecyclerListView(context);
-        listView.setVerticalScrollBarEnabled(false);
-        listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener((view, position, x, y) -> {
             if (position != endRow) {
@@ -294,14 +262,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (listAdapter != null) {
-            listAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private void updateRows() {
+    protected void updateRows() {
         rowCount = 0;
         idRow = messageObject.isSponsored() ? -1 : rowCount++;
         messageRow = TextUtils.isEmpty(messageObject.messageText) ? -1 : rowCount++;
@@ -331,50 +292,6 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         languageRow = TextUtils.isEmpty(getMessageHelper().getMessagePlainText(messageObject)) ? -1 : rowCount++;
         linkOrEmojiOnlyRow = !TextUtils.isEmpty(messageObject.messageOwner.message) && getMessageHelper().isLinkOrEmojiOnlyMessage(messageObject) ? rowCount++ : -1;
         endRow = rowCount++;
-        if (listAdapter != null) {
-            listAdapter.notifyDataSetChanged();
-        }
-    }
-
-    @Override
-    public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ArrayList<ThemeDescription> themeDescriptions = new ArrayList<>();
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{EmptyCell.class, TextSettingsCell.class, TextCheckCell.class, HeaderCell.class, TextDetailSettingsCell.class, NotificationsCheckCell.class}, null, null, null, Theme.key_windowBackgroundWhite));
-        themeDescriptions.add(new ThemeDescription(fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundGray));
-
-        themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_avatar_backgroundActionBarBlue));
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, Theme.key_avatar_backgroundActionBarBlue));
-        themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, Theme.key_avatar_actionBarIconBlue));
-        themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, Theme.key_actionBarDefaultTitle));
-        themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, Theme.key_avatar_actionBarSelectorBlue));
-        themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SUBMENUBACKGROUND, null, null, null, null, Theme.key_actionBarDefaultSubmenuBackground));
-        themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SUBMENUITEM, null, null, null, null, Theme.key_actionBarDefaultSubmenuItem));
-
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_SELECTOR, null, null, null, null, Theme.key_listSelector));
-
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{View.class}, Theme.dividerPaint, null, null, Theme.key_divider));
-
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{ShadowSectionCell.class}, null, null, null, Theme.key_windowBackgroundGrayShadow));
-
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextSettingsCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextSettingsCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteValueText));
-
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"checkBox"}, null, null, null, Theme.key_switchTrack));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"checkBox"}, null, null, null, Theme.key_switchTrackChecked));
-
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextCheckCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextCheckCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextCheckCell.class}, new String[]{"checkBox"}, null, null, null, Theme.key_switchTrack));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextCheckCell.class}, new String[]{"checkBox"}, null, null, null, Theme.key_switchTrackChecked));
-
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlueHeader));
-
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextDetailSettingsCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextDetailSettingsCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
-
-        return themeDescriptions;
     }
 
     @Override
@@ -395,17 +312,10 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         }
     }
 
-    private class ListAdapter extends RecyclerListView.SelectionAdapter {
-
-        private final Context mContext;
+    private class ListAdapter extends BaseListAdapter {
 
         public ListAdapter(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        public int getItemCount() {
-            return rowCount;
+            super(context);
         }
 
         @Override
@@ -415,7 +325,7 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
                     holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     break;
                 }
-                case 2: {
+                case 6: {
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
                     textCell.setMultilineDetail(true);
                     boolean divider = position + 1 != endRow;
@@ -553,35 +463,11 @@ public class MessageDetailsActivity extends BaseFragment implements Notification
         }
 
         @Override
-        public boolean isEnabled(RecyclerView.ViewHolder holder) {
-            int position = holder.getAdapterPosition();
-            return position != endRow;
-        }
-
-        @NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = null;
-            switch (viewType) {
-                case 1:
-                    view = new ShadowSectionCell(mContext);
-                    break;
-                case 2:
-                    view = new TextDetailSettingsCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-            }
-            //noinspection ConstantConditions
-            view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-            return new RecyclerListView.Holder(view);
-        }
-
-        @Override
         public int getItemViewType(int position) {
             if (position == endRow) {
                 return 1;
             } else {
-                return 2;
+                return 6;
             }
         }
     }

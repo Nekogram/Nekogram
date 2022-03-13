@@ -1,24 +1,17 @@
 package tw.nekomimi.nekogram.settings;
 
-import android.animation.ValueAnimator;
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.text.TextUtils;
 import android.transition.TransitionManager;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
-import androidx.core.graphics.ColorUtils;
 import androidx.core.text.HtmlCompat;
 import androidx.core.util.Pair;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
@@ -26,21 +19,13 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarLayout;
-import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.ActionBar.ThemeDescription;
-import org.telegram.ui.Cells.EmptyCell;
 import org.telegram.ui.Cells.HeaderCell;
-import org.telegram.ui.Cells.NotificationsCheckCell;
-import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCheckCell;
-import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.BulletinFactory;
-import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
@@ -51,15 +36,9 @@ import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.translator.Translator;
 
-@SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
-public class NekoGeneralSettingsActivity extends BaseFragment {
+public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
 
-    private RecyclerListView listView;
-    private ListAdapter listAdapter;
-    private ValueAnimator statusBarColorAnimator;
     private DrawerProfilePreviewCell profilePreviewCell;
-
-    private int rowCount;
 
     private int connectionRow;
     private int ipv6Row;
@@ -108,43 +87,13 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     private int general2Row;
 
     @Override
-    public boolean onFragmentCreate() {
-        super.onFragmentCreate();
-
-        updateRows(true);
-
-        return true;
-    }
-
-    @Override
     public View createView(Context context) {
-        actionBar.setBackButtonImage(R.drawable.ic_ab_back);
+        View fragmentView = super.createView(context);
         actionBar.setTitle(LocaleController.getString("General", R.string.General));
-
-        if (AndroidUtilities.isTablet()) {
-            actionBar.setOccupyStatusBar(false);
-        }
-        actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
-            @Override
-            public void onItemClick(int id) {
-                if (id == -1) {
-                    finishFragment();
-                }
-            }
-        });
 
         listAdapter = new ListAdapter(context);
 
-        fragmentView = new FrameLayout(context);
-        fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
-        FrameLayout frameLayout = (FrameLayout) fragmentView;
-
-        listView = new RecyclerListView(context);
-        listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        listView.setVerticalScrollBarEnabled(false);
         listView.setAdapter(listAdapter);
-        ((DefaultItemAnimator) listView.getItemAnimator()).setDelayAnimations(false);
-        frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         listView.setOnItemClickListener((view, position, x, y) -> {
             if (position == ipv6Row) {
                 NekoConfig.toggleIPv6();
@@ -180,15 +129,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(SharedConfig.noStatusBar);
                 }
-                int color = Theme.getColor(Theme.key_actionBarDefault, null, true);
-                int alpha = ColorUtils.calculateLuminance(color) > 0.7f ? 0x0f : 0x33;
-                if (statusBarColorAnimator != null && statusBarColorAnimator.isRunning()) {
-                    statusBarColorAnimator.end();
-                }
-                statusBarColorAnimator = SharedConfig.noStatusBar ? ValueAnimator.ofInt(alpha, 0) : ValueAnimator.ofInt(0, alpha);
-                statusBarColorAnimator.setDuration(300);
-                statusBarColorAnimator.addUpdateListener(animation -> getParentActivity().getWindow().setStatusBarColor(ColorUtils.setAlphaComponent(0, (int) animation.getAnimatedValue())));
-                statusBarColorAnimator.start();
             } else if (position == hideProxySponsorChannelRow) {
                 NekoConfig.toggleHideProxySponsorChannel();
                 if (view instanceof TextCheckCell) {
@@ -245,9 +185,9 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     if (oldProvider != NekoConfig.translationProvider) {
                         if (oldProvider == Translator.PROVIDER_DEEPL) {
                             listAdapter.notifyItemRemoved(deepLFormalityRow);
-                            updateRows(false);
+                            updateRows();
                         } else if (NekoConfig.translationProvider == Translator.PROVIDER_DEEPL) {
-                            updateRows(false);
+                            updateRows();
                             listAdapter.notifyItemInserted(deepLFormalityRow);
                         }
                     }
@@ -286,11 +226,11 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                 TransitionManager.beginDelayedTransition(profilePreviewCell);
                 listAdapter.notifyItemChanged(drawerRow, new Object());
                 if (NekoConfig.avatarAsDrawerBackground) {
-                    updateRows(false);
+                    updateRows();
                     listAdapter.notifyItemRangeInserted(avatarBackgroundBlurRow, 2);
                 } else {
                     listAdapter.notifyItemRangeRemoved(avatarBackgroundBlurRow, 2);
-                    updateRows(false);
+                    updateRows();
                 }
             } else if (position == avatarBackgroundBlurRow) {
                 NekoConfig.toggleAvatarBackgroundBlur();
@@ -366,11 +306,11 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     listAdapter.notifyItemChanged(translatorTypeRow);
                     if (oldType != newType) {
                         if (oldType == NekoConfig.TRANS_TYPE_EXTERNAL) {
-                            updateRows(false);
+                            updateRows();
                             listAdapter.notifyItemRangeInserted(translationProviderRow, NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 5 : 4);
                         } else if (newType == NekoConfig.TRANS_TYPE_EXTERNAL) {
                             listAdapter.notifyItemRangeRemoved(translationProviderRow, NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 5 : 4);
-                            updateRows(false);
+                            updateRows();
                         }
                     }
                 });
@@ -388,14 +328,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (listAdapter != null) {
-            listAdapter.notifyDataSetChanged();
-        }
-    }
-
-    private void updateRows(boolean notify) {
+    protected void updateRows() {
         rowCount = 0;
 
         connectionRow = rowCount++;
@@ -456,10 +389,6 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         nameOrderRow = rowCount++;
         idTypeRow = rowCount++;
         general2Row = rowCount++;
-
-        if (notify && listAdapter != null) {
-            listAdapter.notifyDataSetChanged();
-        }
     }
 
     private ArrayList<String> getRestrictedLanguages() {
@@ -471,58 +400,10 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
         return langCodes;
     }
 
-    @Override
-    public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ArrayList<ThemeDescription> themeDescriptions = new ArrayList<>();
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{EmptyCell.class, TextSettingsCell.class, TextCheckCell.class, HeaderCell.class, TextDetailSettingsCell.class, NotificationsCheckCell.class}, null, null, null, Theme.key_windowBackgroundWhite));
-        themeDescriptions.add(new ThemeDescription(fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundGray));
-
-        themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_avatar_backgroundActionBarBlue));
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_LISTGLOWCOLOR, null, null, null, null, Theme.key_avatar_backgroundActionBarBlue));
-        themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_ITEMSCOLOR, null, null, null, null, Theme.key_avatar_actionBarIconBlue));
-        themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_TITLECOLOR, null, null, null, null, Theme.key_actionBarDefaultTitle));
-        themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SELECTORCOLOR, null, null, null, null, Theme.key_avatar_actionBarSelectorBlue));
-        themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SUBMENUBACKGROUND, null, null, null, null, Theme.key_actionBarDefaultSubmenuBackground));
-        themeDescriptions.add(new ThemeDescription(actionBar, ThemeDescription.FLAG_AB_SUBMENUITEM, null, null, null, null, Theme.key_actionBarDefaultSubmenuItem));
-
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_SELECTOR, null, null, null, null, Theme.key_listSelector));
-
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{View.class}, Theme.dividerPaint, null, null, Theme.key_divider));
-
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{ShadowSectionCell.class}, null, null, null, Theme.key_windowBackgroundGrayShadow));
-
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextSettingsCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextSettingsCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteValueText));
-
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"checkBox"}, null, null, null, Theme.key_switchTrack));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{NotificationsCheckCell.class}, new String[]{"checkBox"}, null, null, null, Theme.key_switchTrackChecked));
-
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextCheckCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextCheckCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextCheckCell.class}, new String[]{"checkBox"}, null, null, null, Theme.key_switchTrack));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextCheckCell.class}, new String[]{"checkBox"}, null, null, null, Theme.key_switchTrackChecked));
-
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlueHeader));
-
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextDetailSettingsCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{TextDetailSettingsCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
-
-        return themeDescriptions;
-    }
-
-    private class ListAdapter extends RecyclerListView.SelectionAdapter {
-
-        private final Context mContext;
+    private class ListAdapter extends BaseListAdapter {
 
         public ListAdapter(Context context) {
-            mContext = context;
-        }
-
-        @Override
-        public int getItemCount() {
-            return rowCount;
+            super(context);
         }
 
         @Override
@@ -729,7 +610,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
                     }
                     break;
                 }
-                case 8: {
+                case 9: {
                     DrawerProfilePreviewCell cell = (DrawerProfilePreviewCell) holder.itemView;
                     cell.setUser(getUserConfig().getCurrentUser(), false);
                     break;
@@ -737,53 +618,17 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
             }
         }
 
-
-        @Override
-        public boolean isEnabled(RecyclerView.ViewHolder holder) {
-            int type = holder.getItemViewType();
-            return type == 2 || type == 3;
-        }
-
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = null;
-            switch (viewType) {
-                case 1:
-                    view = new ShadowSectionCell(mContext);
-                    break;
-                case 2:
-                    view = new TextSettingsCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case 3:
-                    view = new TextCheckCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case 4:
-                    view = new HeaderCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case 5:
-                    view = new NotificationsCheckCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case 6:
-                    view = new TextDetailSettingsCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case 7:
-                    view = new TextInfoPrivacyCell(mContext);
-                    view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                    break;
-                case 8:
-                    view = profilePreviewCell = new DrawerProfilePreviewCell(mContext);
-                    view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                    break;
+            if (viewType == 9) {
+                profilePreviewCell = new DrawerProfilePreviewCell(mContext);
+                profilePreviewCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                profilePreviewCell.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+                return new RecyclerListView.Holder(profilePreviewCell);
+            } else {
+                return super.onCreateViewHolder(parent, viewType);
             }
-            //noinspection ConstantConditions
-            view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-            return new RecyclerListView.Holder(view);
         }
 
         @Override
@@ -805,7 +650,7 @@ public class NekoGeneralSettingsActivity extends BaseFragment {
             } else if (position == general2Row || position == notification2Row || position == translator2Row) {
                 return 7;
             } else if (position == drawerRow) {
-                return 8;
+                return 9;
             }
             return 2;
         }
