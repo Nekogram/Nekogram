@@ -14,7 +14,7 @@ import com.getkeepsafe.relinker.ReLinker;
 
 public class NativeLoader {
 
-    private final static int LIB_VERSION = 41;
+    private final static int LIB_VERSION = 42;
     private final static String LIB_NAME = "neko." + LIB_VERSION;
 
     public static synchronized void initNativeLibs(Context context) {

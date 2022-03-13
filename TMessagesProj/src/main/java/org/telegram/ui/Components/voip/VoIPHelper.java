@@ -125,16 +125,20 @@ public class VoIPHelper {
 				permissions.add(Manifest.permission.BLUETOOTH_CONNECT);
 			}
 			if (permissions.isEmpty()) {
-				initiateCall(user, null, null, videoCall, canVideoCall, false, activity, null, accountInstance);
+				initiateCall(user, null, null, videoCall, canVideoCall, false, null, activity, null, accountInstance);
 			} else {
 				activity.requestPermissions(permissions.toArray(new String[0]), videoCall ? 102 : 101);
 			}
 		} else {
-			initiateCall(user, null, null, videoCall, canVideoCall, false, activity, null, accountInstance);
+			initiateCall(user, null, null, videoCall, canVideoCall, false, null, activity, null, accountInstance);
 		}
 	}
 
 	public static void startCall(TLRPC.Chat chat, TLRPC.InputPeer peer, String hash, boolean createCall, Activity activity, BaseFragment fragment, AccountInstance accountInstance) {
+		startCall(chat, peer, hash, createCall, null, activity, fragment, accountInstance);
+	}
+
+	public static void startCall(TLRPC.Chat chat, TLRPC.InputPeer peer, String hash, boolean createCall, Boolean checkJoiner, Activity activity, BaseFragment fragment, AccountInstance accountInstance) {
 		if (activity == null) {
 			return;
 		}
@@ -167,16 +171,16 @@ public class VoIPHelper {
 				permissions.add(Manifest.permission.BLUETOOTH_CONNECT);
 			}
 			if (permissions.isEmpty()) {
-				initiateCall(null, chat, hash, false, false, createCall, activity, fragment, accountInstance);
+				initiateCall(null, chat, hash, false, false, createCall, checkJoiner, activity, fragment, accountInstance);
 			} else {
 				activity.requestPermissions(permissions.toArray(new String[0]), 103);
 			}
 		} else {
-			initiateCall(null, chat, hash, false, false, createCall, activity, fragment, accountInstance);
+			initiateCall(null, chat, hash, false, false, createCall, checkJoiner, activity, fragment, accountInstance);
 		}
 	}
 
-	private static void initiateCall(TLRPC.User user, TLRPC.Chat chat, String hash, boolean videoCall, boolean canVideoCall, boolean createCall, final Activity activity, BaseFragment fragment, AccountInstance accountInstance) {
+	private static void initiateCall(TLRPC.User user, TLRPC.Chat chat, String hash, boolean videoCall, boolean canVideoCall, boolean createCall, Boolean checkJoiner, final Activity activity, BaseFragment fragment, AccountInstance accountInstance) {
 		if (activity == null || user == null && chat == null) {
 			return;
 		}
@@ -242,7 +246,7 @@ public class VoIPHelper {
 				}
 			}
 		} else if (VoIPService.callIShouldHavePutIntoIntent == null) {
-			doInitiateCall(user, chat, hash, null, false, videoCall, canVideoCall, createCall, activity, fragment, accountInstance, true, true);
+			doInitiateCall(user, chat, hash, null, false, videoCall, canVideoCall, createCall, activity, fragment, accountInstance, checkJoiner != null ? checkJoiner : true, true);
 		}
 	}
 

@@ -719,7 +719,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
                         MarginLayoutParams params = (MarginLayoutParams) titleTextView.getLayoutParams();
-                        params.topMargin = (imageView.getVisibility() == GONE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? AndroidUtilities.statusBarHeight : 0) + AndroidUtilities.dp(8);
+                        params.topMargin = (imageView.getVisibility() == GONE && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ? AndroidUtilities.statusBarHeight : 0) + AndroidUtilities.dp(8) + (currentType == TYPE_ENTER_HINT && AndroidUtilities.isSmallScreen() && !isLandscape() ? AndroidUtilities.dp(32) : 0);
                     }
                 };
                 scrollViewLinearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -841,7 +841,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 });
 
                 outlineTextFirstRow.addView(firstRowLinearLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-                scrollViewLinearLayout.addView(outlineTextFirstRow, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 24, 32, 24, 0));
+                scrollViewLinearLayout.addView(outlineTextFirstRow, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 24, 32, 24, 32));
 
                 outlineTextSecondRow = new OutlineTextContainerView(context);
 
@@ -1279,6 +1279,11 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
             editTextFirstRow.dispatchTextWatchersTextChanged();
             setRandomMonkeyIdleAnimation(true);
         }
+    }
+
+    @Override
+    public boolean hasForceLightStatusBar() {
+        return true;
     }
 
     private boolean isCustomKeyboardVisible() {
