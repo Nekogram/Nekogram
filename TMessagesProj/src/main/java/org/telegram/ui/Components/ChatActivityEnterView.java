@@ -47,7 +47,6 @@ import android.os.SystemClock;
 import android.os.Vibrator;
 import android.text.Editable;
 import android.text.Layout;
-import android.text.Selection;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
@@ -87,7 +86,6 @@ import android.widget.Toast;
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.annotation.RequiresApi;
 import androidx.collection.LongSparseArray;
 import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
@@ -1935,19 +1933,15 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
             @Override
             public boolean onDragEvent(DragEvent event) {
-                if (AppCompatReceiveContentHelper.maybeHandleDragEventViaPerformReceiveContent(this, event)) {
-                    return true;
-                }
+                AppCompatReceiveContentHelper.maybeHandleDragEventViaPerformReceiveContent(this, event);
                 return super.onDragEvent(event);
             }
 
             @Override
             public boolean onTextContextMenuItem(int id) {
+                AppCompatReceiveContentHelper.maybeHandleMenuActionViaPerformReceiveContent(this, id);
                 if (id == android.R.id.paste) {
                     isPaste = true;
-                }
-                if (AppCompatReceiveContentHelper.maybeHandleMenuActionViaPerformReceiveContent(this, id)) {
-                    return true;
                 }
                 return super.onTextContextMenuItem(id);
             }
@@ -9019,66 +9013,45 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     private final static class AppCompatReceiveContentHelper {
-        private AppCompatReceiveContentHelper() {}
-
-        static boolean maybeHandleMenuActionViaPerformReceiveContent(@NonNull TextView view,
+        static void maybeHandleMenuActionViaPerformReceiveContent(@NonNull TextView view,
                                                                      int actionId) {
             if (Build.VERSION.SDK_INT >= 31
                     || ViewCompat.getOnReceiveContentMimeTypes(view) == null
-                    || !(actionId == android.R.id.paste || actionId == android.R.id.pasteAsPlainText)) {
-                return false;
+                    || actionId != android.R.id.paste) {
+                return;
             }
             ClipboardManager cm = (ClipboardManager) view.getContext().getSystemService(
                     Context.CLIPBOARD_SERVICE);
             ClipData clip = (cm == null) ? null : cm.getPrimaryClip();
-            if (clip != null && clip.getItemCount() > 0) {
+            if (clip != null && clip.getItemCount() > 0 && clip.getDescription().hasMimeType("image/*")) {
                 ContentInfoCompat payload = new ContentInfoCompat.Builder(clip, ContentInfoCompat.SOURCE_CLIPBOARD)
-                        .setFlags((actionId == android.R.id.paste) ? 0 : ContentInfoCompat.FLAG_CONVERT_TO_PLAIN_TEXT)
+                        .setFlags(0)
                         .build();
                 ViewCompat.performReceiveContent(view, payload);
             }
-            return true;
         }
 
-        static boolean maybeHandleDragEventViaPerformReceiveContent(@NonNull View view,
+        static void maybeHandleDragEventViaPerformReceiveContent(@NonNull TextView view,
                                                                     @NonNull DragEvent event) {
             if (Build.VERSION.SDK_INT >= 31
                     || Build.VERSION.SDK_INT < 24
+                    || event.getAction() == DragEvent.ACTION_DRAG_STARTED
                     || event.getLocalState() != null
                     || ViewCompat.getOnReceiveContentMimeTypes(view) == null) {
-                return false;
+                return;
             }
             final Activity activity = tryGetActivity(view);
             if (activity == null) {
-                return false;
-            }
-            if (event.getAction() == DragEvent.ACTION_DRAG_STARTED) {
-                return false;
+                return;
             }
             if (event.getAction() == DragEvent.ACTION_DROP) {
-                return view instanceof TextView && OnDropApi24Impl.onDropForTextView(event, (TextView) view, activity);
-            }
-            return false;
-        }
-
-        @RequiresApi(24) // For Activity.requestDragAndDropPermissions()
-        private static final class OnDropApi24Impl {
-            private OnDropApi24Impl() {}
-
-            static boolean onDropForTextView(@NonNull DragEvent event, @NonNull TextView view,
-                                             @NonNull Activity activity) {
                 activity.requestDragAndDropPermissions(event);
-                final int offset = view.getOffsetForPosition(event.getX(), event.getY());
-                view.beginBatchEdit();
-                try {
-                    Selection.setSelection((Spannable) view.getText(), offset);
+                ClipData clip = event.getClipData();
+                if (clip != null && clip.getItemCount() > 0 && clip.getDescription().hasMimeType("image/*")) {
                     final ContentInfoCompat payload = new ContentInfoCompat.Builder(
-                            event.getClipData(), ContentInfoCompat.SOURCE_DRAG_AND_DROP).build();
+                            clip, ContentInfoCompat.SOURCE_DRAG_AND_DROP).build();
                     ViewCompat.performReceiveContent(view, payload);
-                } finally {
-                    view.endBatchEdit();
                 }
-                return true;
             }
         }
 
