@@ -2055,7 +2055,7 @@ public class LoginActivity extends BaseFragment {
             });
             optionsButton.setOnClickListener(view -> optionsButton.toggleSubMenu());
             optionsButton.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
-            addView(optionsButton, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 36, Gravity.LEFT | Gravity.TOP, 16, 0, 16 + (LocaleController.isRTL && AndroidUtilities.isSmallScreen() ? 56 : 0), 0));
+            addView(optionsButton, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 36, Gravity.LEFT | Gravity.TOP, 13, 0, 13 + (LocaleController.isRTL && AndroidUtilities.isSmallScreen() ? 56 : 0), 0));
 
             if (bottomMargin > 0 && !AndroidUtilities.isSmallScreen()) {
                 Space bottomSpacer = new Space(context);
