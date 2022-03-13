@@ -67,7 +67,10 @@
     <string name="HideAllTab">Скрыть вкладку \"Все\"</string>
     <string name="HideAllTabAbout">Нажмите \"Назад\", чтобы открыть вкладку \"Все\" снова.</string>
     <string name="TabTitleType">Показывать на вкладках</string>
+    <string name="TabTitleTypeTip">Иконки синхронизируются с Telegram.</string>
     <string name="TabTitleTypeText">Названия</string>
+    <string name="TabTitleTypeIcon">Значки</string>
+    <string name="TabTitleTypeMix">Значки с заголовками</string>
     <string name="ConfirmAVMessage">Подтверждение аудио/видео сообщений</string>
     <string name="AskBeforeCalling">Подтверждать звонки</string>
     <string name="DisableNumberRounding">Не округлять числа</string>
@@ -174,6 +177,7 @@
     <string name="TranslatorTypeNeko">В сообщении</string>
     <string name="TranslatorTypeTG">Всплывающее окно</string>
     <string name="TranslatorTypeExternal">Внешнее приложение</string>
+    <string name="CopyPhoto">Копировать изображение</string>
     <string name="PhotoCopied">Фото скопировано в буфер обмена</string>
     <string name="SaveToDownloadCount_zero">Сохранение %1$d файлов в загрузки</string>
     <string name="SaveToDownloadCount_one">Сохранение %1$d файла в загрузки</string>
@@ -197,6 +201,8 @@
     <string name="EditEnableMarkdown">Включить Markdown</string>
     <string name="EditDisableMarkdown">Отключить Markdown</string>
     <string name="DisableMarkdownByDefault">Отключить Markdown по умолчанию</string>
+    <string name="CopyTitle">Копировать заголовок</string>
+    <string name="CopyID">Копировать ID</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>
