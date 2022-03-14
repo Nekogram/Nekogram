@@ -42,6 +42,11 @@ public class DownloadProgressIcon extends View implements NotificationCenter.Not
         downloadDrawable = new RLottieDrawable(R.raw.download_progress, "download_progress", AndroidUtilities.dp(28), AndroidUtilities.dp(28), true, null);
         downloadCompleteDrawable = new RLottieDrawable(R.raw.download_finish, "download_finish", AndroidUtilities.dp(28), AndroidUtilities.dp(28), true, null);
 
+        downloadDrawable.setLayerColor("Shape Layer 3.**", Theme.getColor(Theme.key_actionBarDefaultIcon));
+        downloadDrawable.setLayerColor("Arrow 4.**", Theme.getColor(Theme.key_actionBarDefaultIcon));
+        downloadCompleteDrawable.setLayerColor("Shape Layer 8.**", Theme.getColor(Theme.key_actionBarDefaultIcon));
+        downloadCompleteDrawable.setLayerColor("Arrow 8.**", Theme.getColor(Theme.key_actionBarDefaultIcon));
+
         downloadImageReceiver.setImageBitmap(downloadDrawable);
         downloadCompleteImageReceiver.setImageBitmap(downloadCompleteDrawable);
 
