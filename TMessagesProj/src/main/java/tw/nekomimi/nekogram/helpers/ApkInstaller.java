@@ -18,6 +18,7 @@ import android.view.Gravity;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.app.NotificationChannelCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
@@ -26,7 +27,6 @@ import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.XiaomiUtilities;
@@ -237,20 +237,28 @@ public final class ApkInstaller {
             var installer = context.getPackageManager().getInstallerPackageName(packageName);
             if (!packageName.equals(installer)) return;
 
+            var startIntent = new Intent(context, LaunchActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || Settings.canDrawOverlays(context)) {
-                context.startActivity(new Intent(context, LaunchActivity.class).setFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+                context.startActivity(startIntent);
             } else {
-                NotificationsController.checkOtherNotificationsChannel();
-                NotificationManagerCompat
-                        .from(context)
-                        .notify(38264,
-                                new NotificationCompat.Builder(context, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL)
-                                        .setSmallIcon(R.drawable.notification)
-                                        .setColor(NekoConfig.getNotificationColor())
-                                        .setShowWhen(false)
-                                        .setContentText(LocaleController.getString("UpdateInstalledNotification", R.string.UpdateInstalledNotification))
-                                        .setCategory(NotificationCompat.CATEGORY_STATUS)
-                                        .build());
+                var channel = new NotificationChannelCompat.Builder("updated", NotificationManagerCompat.IMPORTANCE_HIGH)
+                        .setName(LocaleController.getString("UpdateApp", R.string.UpdateApp))
+                        .setLightsEnabled(false)
+                        .setVibrationEnabled(false)
+                        .setSound(null, null)
+                        .build();
+                var notificationManager = NotificationManagerCompat.from(context);
+                notificationManager.createNotificationChannel(channel);
+                var pendingIntent = PendingIntent.getActivity(context, 0, startIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                notificationManager.notify(8732833,
+                        new NotificationCompat.Builder(context, "updated")
+                                .setSmallIcon(R.drawable.notification)
+                                .setColor(NekoConfig.getNotificationColor())
+                                .setShowWhen(false)
+                                .setContentText(LocaleController.getString("UpdateInstalledNotification", R.string.UpdateInstalledNotification))
+                                .setCategory(NotificationCompat.CATEGORY_STATUS)
+                                .setContentIntent(pendingIntent)
+                                .build());
             }
         }
     }
