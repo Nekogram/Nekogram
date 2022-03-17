@@ -84,6 +84,7 @@
 -keep class org.telegram.SQLite.SQLiteException { <methods>; }
 -keep class org.telegram.tgnet.ConnectionsManager { <methods>; }
 -keep class org.telegram.tgnet.NativeByteBuffer { <methods>; }
+-keepnames class org.telegram.tgnet.TLRPC$TL_* {}
 -keepclassmembernames class org.telegram.ui.* { <fields>; }
 -keepclassmembernames class org.telegram.ui.Cells.* { <fields>; }
 -keepclassmembernames class org.telegram.ui.Components.* { <fields>; }
