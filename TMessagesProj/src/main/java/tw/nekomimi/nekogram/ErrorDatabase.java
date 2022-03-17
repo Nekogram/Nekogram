@@ -1,5 +1,9 @@
 package tw.nekomimi.nekogram;
 
+import android.widget.Toast;
+
+import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.tgnet.TLObject;
 
 import java.util.Arrays;
@@ -347,5 +351,12 @@ public class ErrorDatabase {
 
     public static boolean isUserOnlyMethod(TLObject method) {
         return userOnly.contains(getMethodName(method));
+    }
+
+    public static void showErrorToast(TLObject method, String text) {
+        if (text.equals("FILE_REFERENCE_EXPIRED")) {
+            return;
+        }
+        AndroidUtilities.runOnUIThread(() -> Toast.makeText(ApplicationLoader.applicationContext, getMethodName(method) + ": " + text, Toast.LENGTH_SHORT).show());
     }
 }

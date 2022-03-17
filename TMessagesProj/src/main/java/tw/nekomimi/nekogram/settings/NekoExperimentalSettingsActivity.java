@@ -54,6 +54,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
     private int unlimitedPinnedDialogsRow;
+    private int showRPCErrorRow;
     private int maxRecentStickersRow;
     private int experiment2Row;
 
@@ -218,6 +219,11 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.codeSyntaxHighlight);
                 }
+            } else if (position == showRPCErrorRow) {
+                NekoConfig.toggleShowRPCError();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.showRPCError);
+                }
             }
         });
         listView.setOnItemLongClickListener((view, position) -> {
@@ -292,6 +298,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         disableFilteringRow = sensitiveCanChange ? rowCount++ : -1;
         unlimitedFavedStickersRow = rowCount++;
         unlimitedPinnedDialogsRow = rowCount++;
+        showRPCErrorRow = rowCount++;
         maxRecentStickersRow = rowCount++;
         experiment2Row = rowCount++;
         deleteAccountRow = rowCount++;
@@ -346,6 +353,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndCheck(LocaleController.getString("IncreaseVoiceMessageQuality", R.string.IncreaseVoiceMessageQuality), NekoConfig.increaseVoiceMessageQuality, true);
                     } else if (position == codeSyntaxHighlightRow) {
                         textCell.setTextAndCheck(LocaleController.getString("CodeSyntaxHighlight", R.string.CodeSyntaxHighlight), NekoConfig.codeSyntaxHighlight, true);
+                    } else if (position == showRPCErrorRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("ShowRPCError", R.string.ShowRPCError), LocaleController.formatString("ShowRPCErrorException", R.string.ShowRPCErrorException, "FILE_REFERENCE_EXPIRED"), NekoConfig.showRPCError, true, true);
                     }
                     break;
                 }
@@ -372,7 +381,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 return 1;
             } else if (position == deleteAccountRow) {
                 return 2;
-            } else if (position > emojiRow && position <= unlimitedPinnedDialogsRow) {
+            } else if (position > emojiRow && position <= showRPCErrorRow) {
                 return 3;
             } else if (position == experimentRow) {
                 return 4;

@@ -313,6 +313,9 @@ public class ConnectionsManager extends BaseController {
                             if (BuildVars.LOGS_ENABLED) {
                                 FileLog.e(object + " got error " + error.code + " " + error.text);
                             }
+                            if (NekoConfig.showRPCError) {
+                                ErrorDatabase.showErrorToast(object, errorText);
+                            }
                         }
                         if (resp != null) {
                             resp.networkType = networkType;

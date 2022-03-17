@@ -211,6 +211,8 @@
     <string name="CopyID">Copy ID</string>
     <string name="SendCallback">Send Callback Data</string>
     <string name="CallbackData">Callback Data</string>
+    <string name="ShowRPCError">Toast all RPC errors</string>
+    <string name="ShowRPCErrorException">Exceptions: %s</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
