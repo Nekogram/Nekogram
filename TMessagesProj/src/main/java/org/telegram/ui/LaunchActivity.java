@@ -4805,12 +4805,10 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             if (path.equals(loadingThemeFileName) || path.equals(loadingThemeWallpaperName)) {
                 onThemeLoadFinish();
             }
-            int canceled = (int) args[1];
-            if (canceled != 1 && SharedConfig.isAppUpdateAvailable()) {
+            if (SharedConfig.isAppUpdateAvailable()) {
                 String name = FileLoader.getAttachFileName(SharedConfig.pendingAppUpdate.document);
                 if (name.equals(path)) {
                     updateAppUpdateViews(true);
-                    checkAppUpdate(true);
                 }
             }
         } else if (id == NotificationCenter.screenStateChanged) {
