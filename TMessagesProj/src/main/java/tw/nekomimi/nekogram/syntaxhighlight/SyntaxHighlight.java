@@ -34,6 +34,15 @@ public class SyntaxHighlight {
         }
     }
 
+    public static void highlight(String language, int start, int end, Spannable spannable) {
+        if (NekoConfig.codeSyntaxHighlight && !TextUtils.isEmpty(language)) {
+            if (highlight == null) {
+                highlight = Prism4jSyntaxHighlight.create(new Prism4j(new Prism4jGrammarLocator()), theme);
+            }
+            highlight.highlight(language, spannable, start, end);
+        }
+    }
+
     public static void updateColors() {
         theme.updateColors();
     }

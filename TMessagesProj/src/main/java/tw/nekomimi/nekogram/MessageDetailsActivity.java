@@ -33,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.helpers.EntitiesHelper;
 import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
 
 @SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
@@ -177,7 +178,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             if (position != endRow) {
                 if (!checkNoForwards() || !(position == messageRow || position == captionRow)) {
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
-                    AndroidUtilities.addToClipboard(textCell.getValueTextView().getText());
+                    AndroidUtilities.addToClipboard(EntitiesHelper.commonizeSpans(textCell.getValueTextView().getText()));
                     BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
                 }
             }

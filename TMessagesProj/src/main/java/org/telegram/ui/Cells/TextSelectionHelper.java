@@ -59,6 +59,7 @@ import org.telegram.ui.RestrictedLanguagesSelectActivity;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.helpers.EntitiesHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.SelectableView> {
@@ -1409,7 +1410,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
     protected CharSequence getSelectedText() {
         CharSequence text = getText(selectedView, false);
         if (text != null) {
-            return text.subSequence(selectionStart, selectionEnd);
+            return EntitiesHelper.commonizeSpans(text.subSequence(selectionStart, selectionEnd));
         }
         return null;
     }

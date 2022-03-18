@@ -261,6 +261,7 @@ import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.ForwardContext;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.EntitiesHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 import java.io.BufferedWriter;
@@ -2315,7 +2316,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
                     clearSelectionMode();
                 } else if (id == copy) {
-                    String str = "";
+                    SpannableStringBuilder str = new SpannableStringBuilder();
                     long previousUid = 0;
                     for (int a = 1; a >= 0; a--) {
                         ArrayList<Integer> ids = new ArrayList<>();
@@ -2331,9 +2332,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             Integer messageId = ids.get(b);
                             MessageObject messageObject = selectedMessagesCanCopyIds[a].get(messageId);
                             if (str.length() != 0) {
-                                str += "\n\n";
+                                str.append("\n\n");
                             }
-                            str += getMessageContent(messageObject, previousUid, ids.size() != 1 && (currentUser == null || !currentUser.self));
+                            str.append(getMessageContent(messageObject, previousUid, ids.size() != 1 && (currentUser == null || !currentUser.self)));
                             previousUid = messageObject.getFromChatId();
                         }
                     }
@@ -7081,7 +7082,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     } else {
                         String name = UserObject.getFirstName(user, false);
                         Spannable spannable = new SpannableString(name + " ");
-                        spannable.setSpan(new URLSpanUserMention("" + user.id, 3), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        spannable.setSpan(EntitiesHelper.isEnabled() ? new URLSpan("tg://user?id=" + user.id) : new URLSpanUserMention("" + user.id, 3), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         chatActivityEnterView.replaceWithText(start, len, spannable, false);
                     }
                 }
@@ -7180,7 +7181,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (!(searchingForUser && searchContainer.getVisibility() == View.VISIBLE) && user != null) {
                     String name = UserObject.getFirstName(user, false);
                     Spannable spannable = new SpannableString(name + " ");
-                    spannable.setSpan(new URLSpanUserMention("" + user.id, 3), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannable.setSpan(EntitiesHelper.isEnabled() ? new URLSpan("tg://user?id=" + user.id) : new URLSpanUserMention("" + user.id, 3), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     chatActivityEnterView.replaceWithText(start, len, spannable, false);
                     return true;
                 }
@@ -11481,13 +11482,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     urls.add(charSequence.subSequence(m.start(), m.end()));
                 }
                 if (charSequence instanceof Spannable) {
-                    URLSpanReplacement[] spans = ((Spannable) charSequence).getSpans(0, charSequence.length(), URLSpanReplacement.class);
+                    URLSpan[] spans = ((Spannable) charSequence).getSpans(0, charSequence.length(), URLSpan.class);
                     if (spans != null && spans.length > 0) {
                         if (urls == null) {
                             urls = new ArrayList<>();
                         }
-                        for (int a = 0; a < spans.length; a++) {
-                            urls.add(spans[a].getURL());
+                        for (var span : spans) {
+                            var url = span.getURL();
+                            if (url.startsWith("http")) {
+                                urls.add(span.getURL());
+                            }
                         }
                     }
                 }
@@ -20764,46 +20768,50 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (!draftMessage.entities.isEmpty()) {
                     SpannableStringBuilder stringBuilder = SpannableStringBuilder.valueOf(draftMessage.message);
                     MediaDataController.sortEntities(draftMessage.entities);
-                    for (int a = 0; a < draftMessage.entities.size(); a++) {
-                        TLRPC.MessageEntity entity = draftMessage.entities.get(a);
-                        if (entity instanceof TLRPC.TL_inputMessageEntityMentionName || entity instanceof TLRPC.TL_messageEntityMentionName) {
-                            long user_id;
-                            if (entity instanceof TLRPC.TL_inputMessageEntityMentionName) {
-                                user_id = ((TLRPC.TL_inputMessageEntityMentionName) entity).user_id.user_id;
-                            } else {
-                                user_id = ((TLRPC.TL_messageEntityMentionName) entity).user_id;
+                    if (EntitiesHelper.isEnabled()) {
+                        EntitiesHelper.applyEntities(draftMessage.entities, stringBuilder);
+                    } else {
+                        for (int a = 0; a < draftMessage.entities.size(); a++) {
+                            TLRPC.MessageEntity entity = draftMessage.entities.get(a);
+                            if (entity instanceof TLRPC.TL_inputMessageEntityMentionName || entity instanceof TLRPC.TL_messageEntityMentionName) {
+                                long user_id;
+                                if (entity instanceof TLRPC.TL_inputMessageEntityMentionName) {
+                                    user_id = ((TLRPC.TL_inputMessageEntityMentionName) entity).user_id.user_id;
+                                } else {
+                                    user_id = ((TLRPC.TL_messageEntityMentionName) entity).user_id;
+                                }
+                                if (entity.offset + entity.length < stringBuilder.length() && stringBuilder.charAt(entity.offset + entity.length) == ' ') {
+                                    entity.length++;
+                                }
+                                stringBuilder.setSpan(new URLSpanUserMention("" + user_id, 3), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            } else if (entity instanceof TLRPC.TL_messageEntityCode || entity instanceof TLRPC.TL_messageEntityPre) {
+                                TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
+                                run.flags |= TextStyleSpan.FLAG_STYLE_MONO;
+                                run.urlEntity = entity;
+                                MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
+                            } else if (entity instanceof TLRPC.TL_messageEntityBold) {
+                                TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
+                                run.flags |= TextStyleSpan.FLAG_STYLE_BOLD;
+                                MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
+                            } else if (entity instanceof TLRPC.TL_messageEntityItalic) {
+                                TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
+                                run.flags |= TextStyleSpan.FLAG_STYLE_ITALIC;
+                                MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
+                            } else if (entity instanceof TLRPC.TL_messageEntityStrike) {
+                                TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
+                                run.flags |= TextStyleSpan.FLAG_STYLE_STRIKE;
+                                MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
+                            } else if (entity instanceof TLRPC.TL_messageEntityUnderline) {
+                                TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
+                                run.flags |= TextStyleSpan.FLAG_STYLE_UNDERLINE;
+                                MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
+                            } else if (entity instanceof TLRPC.TL_messageEntityTextUrl) {
+                                stringBuilder.setSpan(new URLSpanReplacement(entity.url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            } else if (entity instanceof TLRPC.TL_messageEntitySpoiler) {
+                                TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
+                                run.flags |= TextStyleSpan.FLAG_STYLE_SPOILER;
+                                MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
                             }
-                            if (entity.offset + entity.length < stringBuilder.length() && stringBuilder.charAt(entity.offset + entity.length) == ' ') {
-                                entity.length++;
-                            }
-                            stringBuilder.setSpan(new URLSpanUserMention("" + user_id, 3), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        } else if (entity instanceof TLRPC.TL_messageEntityCode || entity instanceof TLRPC.TL_messageEntityPre) {
-                            TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                            run.flags |= TextStyleSpan.FLAG_STYLE_MONO;
-                            run.urlEntity = entity;
-                            MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
-                        } else if (entity instanceof TLRPC.TL_messageEntityBold) {
-                            TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                            run.flags |= TextStyleSpan.FLAG_STYLE_BOLD;
-                            MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
-                        } else if (entity instanceof TLRPC.TL_messageEntityItalic) {
-                            TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                            run.flags |= TextStyleSpan.FLAG_STYLE_ITALIC;
-                            MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
-                        } else if (entity instanceof TLRPC.TL_messageEntityStrike) {
-                            TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                            run.flags |= TextStyleSpan.FLAG_STYLE_STRIKE;
-                            MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
-                        } else if (entity instanceof TLRPC.TL_messageEntityUnderline) {
-                            TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                            run.flags |= TextStyleSpan.FLAG_STYLE_UNDERLINE;
-                            MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
-                        } else if (entity instanceof TLRPC.TL_messageEntityTextUrl) {
-                            stringBuilder.setSpan(new URLSpanReplacement(entity.url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        } else if (entity instanceof TLRPC.TL_messageEntitySpoiler) {
-                            TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                            run.flags |= TextStyleSpan.FLAG_STYLE_SPOILER;
-                            MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
                         }
                     }
                     message = stringBuilder;
@@ -22741,33 +22749,37 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
-    private String getMessageContent(MessageObject messageObject, long previousUid, boolean name) {
-        String str = "";
+    private Spanned getMessageContent(MessageObject messageObject, long previousUid, boolean name) {
+        SpannableStringBuilder str = new SpannableStringBuilder();
         if (name) {
             long fromId = messageObject.getFromChatId();
             if (previousUid != fromId) {
                 if (fromId > 0) {
                     TLRPC.User user = getMessagesController().getUser(fromId);
                     if (user != null) {
-                        str = ContactsController.formatName(user.first_name, user.last_name) + ":\n";
+                        str.append(ContactsController.formatName(user.first_name, user.last_name) + ":\n");
                     }
                 } else if (fromId < 0) {
                     TLRPC.Chat chat = getMessagesController().getChat(-fromId);
                     if (chat != null) {
-                        str = chat.title + ":\n";
+                        str.append(chat.title + ":\n");
                     }
                 }
             }
         }
+        int start = str.length();
         String restrictionReason = MessagesController.getRestrictionReason(messageObject.messageOwner.restriction_reason);
         if (!TextUtils.isEmpty(restrictionReason)) {
-            str += restrictionReason;
+            str.append(restrictionReason);
         } else if ((messageObject.type == 0 || messageObject.isAnimatedEmoji()) && messageObject.messageOwner.message != null) {
-            str += messageObject.messageOwner.message;
-        } else if (messageObject.messageOwner.media != null && messageObject.messageOwner.message != null) {
-            str += messageObject.messageOwner.message;
+            str.append(messageObject.messageOwner.message);
+        } else if (messageObject.caption != null) {
+            str.append(messageObject.caption);
         } else {
-            str += messageObject.messageText;
+            str.append(messageObject.messageText);
+        }
+        if (EntitiesHelper.isEnabled()) {
+            EntitiesHelper.applyEntities(messageObject.messageOwner.entities, str, start);
         }
         return str;
     }
@@ -22936,12 +22948,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (selectedObject.isDice()) {
                     AndroidUtilities.addToClipboard(selectedObject.getDiceEmoji());
                 } else {
-                    CharSequence caption = getMessageCaption(selectedObject, selectedObjectGroup);
+                    /*CharSequence caption = getMessageCaption(selectedObject, selectedObjectGroup);
                     if (caption != null) {
                         AndroidUtilities.addToClipboard(caption);
-                    } else {
+                    } else {*/
                         AndroidUtilities.addToClipboard(getMessageContent(selectedObject, 0, false));
-                    }
+                    //}
                 }
                 undoView.showWithAction(0, UndoView.ACTION_MESSAGE_COPIED, null);
                 break;
@@ -23512,7 +23524,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             null, null, null, true, 0, null);
                 } else {
                     SpannableString spannableString = new SpannableString("/prpr@" + user.first_name);
-                    spannableString.setSpan(new URLSpanUserMention(Long.toString(user.id), 1), 6, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannableString.setSpan(EntitiesHelper.isEnabled() ? new URLSpan("tg://user?id=" + user.id) : new URLSpanUserMention(Long.toString(user.id), 1), 6, spannableString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     CharSequence[] cs = new CharSequence[]{spannableString};
                     boolean supportsSendingNewEntities = true;
                     long peer = getDialogId();
@@ -25470,7 +25482,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             } else {
                                 String name = UserObject.getFirstName(user, false);
                                 Spannable spannable = new SpannableString(name + " ");
-                                spannable.setSpan(new URLSpanUserMention("" + user.id, 3), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                spannable.setSpan(EntitiesHelper.isEnabled() ? new URLSpan("tg://user?id=" + user.id) : new URLSpanUserMention("" + user.id, 3), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                                 sb.append(spannable);
                             }
                             chatActivityEnterView.setFieldText(sb);

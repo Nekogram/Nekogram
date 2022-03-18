@@ -54,6 +54,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
     private int unlimitedPinnedDialogsRow;
+    private int keepFormattingRow;
     private int showRPCErrorRow;
     private int maxRecentStickersRow;
     private int experiment2Row;
@@ -224,6 +225,11 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.showRPCError);
                 }
+            } else if (position == keepFormattingRow) {
+                NekoConfig.toggleKeepFormatting();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.keepFormatting);
+                }
             }
         });
         listView.setOnItemLongClickListener((view, position) -> {
@@ -298,6 +304,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         disableFilteringRow = sensitiveCanChange ? rowCount++ : -1;
         unlimitedFavedStickersRow = rowCount++;
         unlimitedPinnedDialogsRow = rowCount++;
+        keepFormattingRow = rowCount++;
         showRPCErrorRow = rowCount++;
         maxRecentStickersRow = rowCount++;
         experiment2Row = rowCount++;
@@ -355,6 +362,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndCheck(LocaleController.getString("CodeSyntaxHighlight", R.string.CodeSyntaxHighlight), NekoConfig.codeSyntaxHighlight, true);
                     } else if (position == showRPCErrorRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("ShowRPCError", R.string.ShowRPCError), LocaleController.formatString("ShowRPCErrorException", R.string.ShowRPCErrorException, "FILE_REFERENCE_EXPIRED"), NekoConfig.showRPCError, true, true);
+                    } else if (position == keepFormattingRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("KeepFormatting", R.string.KeepFormatting), LocaleController.getString("KeepFormattingAbout", R.string.KeepFormattingAbout), NekoConfig.keepFormatting, true, true);
                     }
                     break;
                 }

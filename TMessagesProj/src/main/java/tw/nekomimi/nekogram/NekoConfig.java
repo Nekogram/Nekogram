@@ -83,6 +83,7 @@ public class NekoConfig {
     public static boolean autoTranslate = false;
     public static boolean codeSyntaxHighlight = true;
     public static boolean showRPCError = false;
+    public static boolean keepFormatting = true;
     public static float stickerSize = 14.0f;
     public static int translationProvider = Translator.PROVIDER_GOOGLE;
     public static String translationTarget = "app";
@@ -336,6 +337,7 @@ public class NekoConfig {
             lastDeepLKey = preferences.getString("lastDeepLKey", "");
             disableMarkdownByDefault = preferences.getBoolean("disableMarkdownByDefault", false);
             showRPCError = preferences.getBoolean("showRPCError", false);
+            keepFormatting = preferences.getBoolean("keepFormatting", true);
             configLoaded = true;
         }
     }
@@ -396,6 +398,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("disableMarkdownByDefault", disableMarkdownByDefault);
+        editor.commit();
+    }
+
+    public static void toggleKeepFormatting() {
+        keepFormatting = !keepFormatting;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("keepFormatting", keepFormatting);
         editor.commit();
     }
 

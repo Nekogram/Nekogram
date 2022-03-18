@@ -210,6 +210,8 @@
     <string name="CopyID">Copy ID</string>
     <string name="ShowRPCError">Toast all RPC errors</string>
     <string name="ShowRPCErrorException">Exceptions: %s</string>
+    <string name="KeepFormatting">Keep text formatting</string>
+    <string name="KeepFormattingAbout">When copy-pasting text in chat.</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
