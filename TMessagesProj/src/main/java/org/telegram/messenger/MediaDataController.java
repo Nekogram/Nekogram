@@ -4940,6 +4940,9 @@ public class MediaDataController extends BaseController {
         while (m.find()) {
             String gr = m.group(1);
             cs = cs.subSequence(0, m.start() - offset) + gr + cs.subSequence(m.end() - offset, cs.length());
+            if (checkInclusion(m.start(), entities, false) || checkInclusion(m.start(), entities, true) || checkIntersection(m.start(), m.end(), entities)) {
+                continue;
+            }
 
             TLRPC.MessageEntity entity = entityProvider.provide(null);
             entity.offset = m.start() - offset;
