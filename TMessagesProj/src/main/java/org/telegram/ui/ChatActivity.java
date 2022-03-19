@@ -25581,35 +25581,45 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             return false;
                         }
                         BottomSheet.Builder builder = new BottomSheet.Builder(getParentActivity(), false, themeDelegate);
-                        builder.setTitle(button.text);
-                        builder.setItems(new CharSequence[]{
-                                LocaleController.getString("CopyTitle", R.string.CopyTitle),
-                                button.data != null ? LocaleController.getString("CopyCallback", R.string.CopyCallback) : null,
-                                button.url != null ? LocaleController.getString("CopyLink", R.string.CopyLink) : null,
-                                button.query != null ? LocaleController.getString("CopyInlineQuery", R.string.CopyInlineQuery) : null,
-                                button.user_id != 0 ? LocaleController.getString("CopyID", R.string.CopyID) : null,
-                                NekoConfig.showHiddenFeature && button.data != null ? LocaleController.getString("SendCallback", R.string.SendCallback) : null}, (dialog, which) -> {
-                            if (which == 0) {
-                                AndroidUtilities.addToClipboard(button.text);
-                            } else if (which == 1) {
-                                AndroidUtilities.addToClipboard(getMessageHelper().getTextOrBase64(button.data));
-                            } else if (which == 2) {
-                                AndroidUtilities.addToClipboard(button.url);
-                            } else if (which == 3) {
-                                AndroidUtilities.addToClipboard(button.query);
-                            } else if (which == 4) {
-                                AndroidUtilities.addToClipboard(String.valueOf(button.user_id));
-                            } else if (which == 5) {
-                                getMessageHelper().showSendCallbackDialog(ChatActivity.this, themeDelegate, button.data, cell.getMessageObject());
-                            }
-                            if (which != 5) {
-                                if (which == 2) {
+                        if (!TextUtils.isEmpty(button.url)) {
+                            builder.setTitle(button.url);
+                            builder.setItems(new CharSequence[]{
+                                    LocaleController.getString("Open", R.string.Open),
+                                    LocaleController.getString("ShareFile", R.string.ShareFile),
+                                    LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
+                                if (which == 0) {
+                                    processExternalUrl(1, button.url, false);
+                                } else if (which == 2) {
+                                    AndroidUtilities.addToClipboard(button.url);
                                     undoView.showWithAction(0, UndoView.ACTION_LINK_COPIED, null);
                                 } else {
-                                    undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+                                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                                    shareIntent.setType("text/plain");
+                                    shareIntent.putExtra(Intent.EXTRA_TEXT, button.url);
+                                    Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+                                    chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    ApplicationLoader.applicationContext.startActivity(chooserIntent);
                                 }
-                            }
-                        });
+                            });
+                        } else {
+                            builder.setTitle(button.text);
+                            builder.setItems(new CharSequence[]{
+                                    LocaleController.getString("Copy", R.string.Copy),
+                                    button.data != null ? LocaleController.getString("CopyCallback", R.string.CopyCallback) : null,
+                                    button.query != null ? LocaleController.getString("CopyInlineQuery", R.string.CopyInlineQuery) : null,
+                                    button.user_id != 0 ? LocaleController.getString("CopyID", R.string.CopyID) : null}, (dialog, which) -> {
+                                if (which == 0) {
+                                    AndroidUtilities.addToClipboard(button.text);
+                                } else if (which == 1) {
+                                    AndroidUtilities.addToClipboard(getMessageHelper().getTextOrBase64(button.data));
+                                } else if (which == 2) {
+                                    AndroidUtilities.addToClipboard(button.query);
+                                } else if (which == 3) {
+                                    AndroidUtilities.addToClipboard(String.valueOf(button.user_id));
+                                }
+                                undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+                            });
+                        }
                         showDialog(builder.create());
                         return true;
                     }

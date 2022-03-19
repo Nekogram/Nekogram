@@ -14,7 +14,6 @@ import android.util.Base64;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
@@ -654,57 +653,4 @@ public class MessageHelper extends BaseController {
         fragment.showDialog(alertDialog);
         editText.setSelection(0, editText.getText().length());
     }
-
-    @SuppressLint("SetTextI18n")
-    public void showSendCallbackDialog(ChatActivity fragment, Theme.ResourcesProvider resourcesProvider, byte[] originalData, MessageObject messageObject) {
-        Context context = fragment.getParentActivity();
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
-        builder.setTitle(LocaleController.getString("SendCallback", R.string.SendCallback));
-
-        final EditTextBoldCursor editText = new EditTextBoldCursor(context) {
-            @Override
-            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64), MeasureSpec.EXACTLY));
-            }
-        };
-        editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-        try {
-            editText.setText(utf8Decoder.decode(ByteBuffer.wrap(originalData)).toString());
-        } catch (CharacterCodingException ignore) {
-        }
-        editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
-        editText.setHintText(LocaleController.getString("CallbackData", R.string.CallbackData));
-        editText.setHeaderHintColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider));
-        editText.setSingleLine(true);
-        editText.setFocusable(true);
-        editText.setTransformHintToHeader(true);
-        editText.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteRedText3, resourcesProvider));
-        editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        editText.setBackgroundDrawable(null);
-        editText.requestFocus();
-        editText.setPadding(0, 0, 0, 0);
-        builder.setView(editText);
-
-        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> {
-            var button = new TLRPC.TL_keyboardButtonCallback();
-            button.data = editText.getText().toString().getBytes(StandardCharsets.UTF_8);
-            getSendMessagesHelper().sendCallback(true, messageObject, button, fragment);
-        });
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.show().setOnShowListener(dialog -> {
-            editText.requestFocus();
-            AndroidUtilities.showKeyboard(editText);
-        });
-        ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) editText.getLayoutParams();
-        if (layoutParams != null) {
-            if (layoutParams instanceof FrameLayout.LayoutParams) {
-                ((FrameLayout.LayoutParams) layoutParams).gravity = Gravity.CENTER_HORIZONTAL;
-            }
-            layoutParams.rightMargin = layoutParams.leftMargin = AndroidUtilities.dp(24);
-            layoutParams.height = AndroidUtilities.dp(36);
-            editText.setLayoutParams(layoutParams);
-        }
-        editText.setSelection(0, editText.getText().length());
-    }
-
 }
