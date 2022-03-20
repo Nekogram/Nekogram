@@ -89,11 +89,6 @@
 -keepclassmembernames class org.telegram.ui.Cells.* { <fields>; }
 -keepclassmembernames class org.telegram.ui.Components.* { <fields>; }
 
--keepclassmembernames class tw.nekomimi.nekogram.settings.NekoGeneralSettingsActivity {
-    private org.telegram.ui.Components.RecyclerListView listView;
-    private int translatorTypeRow;
-}
-
 -keepclassmembernames class androidx.core.widget.NestedScrollView {
     private android.widget.OverScroller mScroller;
     private void abortAnimatedScroll();

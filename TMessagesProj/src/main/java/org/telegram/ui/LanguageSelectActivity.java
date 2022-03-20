@@ -428,7 +428,6 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             cell.setBackground(Theme.createSelectorWithBackgroundDrawable(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(Theme.key_listSelector)));
             cell.setOnClickListener(e -> {
                 presentFragment(new NekoGeneralSettingsActivity());
-                AndroidUtilities.scrollToFragmentRow(parentLayout, "translatorTypeRow");
             });
             addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
