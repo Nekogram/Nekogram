@@ -200,12 +200,9 @@
     <string name="EditEnableMarkdown">Markdown aktivieren</string>
     <string name="EditDisableMarkdown">Markdown deaktivieren</string>
     <string name="DisableMarkdownByDefault">Markdown standardmäßig deaktivieren</string>
-    <string name="CopyTitle">Titel kopieren</string>
     <string name="CopyCallback">Rückrufdaten kopieren</string>
     <string name="CopyInlineQuery">Inline-Abfrage kopieren</string>
     <string name="CopyID">ID kopieren</string>
-    <string name="SendCallback">Rückrufdaten senden</string>
-    <string name="CallbackData">Rückrufdaten</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Bedienungshilfen</string>
 </resources>

@@ -201,12 +201,13 @@
     <string name="EditEnableMarkdown">Habilitar Markdown</string>
     <string name="EditDisableMarkdown">Desabilitar Markdown</string>
     <string name="DisableMarkdownByDefault">Desabilitar Markdown por padrão</string>
-    <string name="CopyTitle">Copiar Título</string>
     <string name="CopyCallback">Copiar dados de Callback</string>
     <string name="CopyInlineQuery">Copiar query inline</string>
     <string name="CopyID">Copiar ID</string>
-    <string name="SendCallback">Enviar dados de Callback</string>
-    <string name="CallbackData">Dados de Callback</string>
+    <string name="ShowRPCError">Mostrar todos os erros RPC (Toast)</string>
+    <string name="ShowRPCErrorException">Exceções: %s</string>
+    <string name="KeepFormatting">Manter formatação de texto</string>
+    <string name="KeepFormattingAbout">Quando copiar e colar texto no chat.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccRewindHeading">Configurações de retrocesso</string>

@@ -100,7 +100,7 @@
     <string name="MapDriftingFix">Correction de la dérive de carte pour la Chine continentale</string>
     <string name="IncreaseVoiceMessageQuality">Améliorer la qualité des vocaux</string>
     <string name="DisableInstantCamera">Désactiver la caméra instantanée</string>
-    <string name="OpenAllLinksInInstantView">Essayer d\'ouvrir tous les liens dans InstantView</string>
+    <string name="OpenAllLinksInInstantView">Essayer d\'ouvrir les liens dans InstantView</string>
     <string name="DonateThankYou">Merci!</string>
     <string name="DonateEvilGoogle">Google prendra 30 % de votre don.</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
@@ -200,12 +200,13 @@
     <string name="EditEnableMarkdown">Activer Markdown</string>
     <string name="EditDisableMarkdown">Désactiver Markdown</string>
     <string name="DisableMarkdownByDefault">Désactiver Markdown par défaut</string>
-    <string name="CopyTitle">Copier le titre</string>
     <string name="CopyCallback">Copier les données de rappel</string>
     <string name="CopyInlineQuery">Copier la requête inline</string>
     <string name="CopyID">Copier l\'ID</string>
-    <string name="SendCallback">Envoyer les données de rappel</string>
-    <string name="CallbackData">Données de rappel</string>
+    <string name="ShowRPCError">Intégrer toutes les erreurs RPC</string>
+    <string name="ShowRPCErrorException">Exceptions : %s</string>
+    <string name="KeepFormatting">Garder la mise en forme du texte</string>
+    <string name="KeepFormattingAbout">Lorsque vous copiez/collez un texte dans un échange.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

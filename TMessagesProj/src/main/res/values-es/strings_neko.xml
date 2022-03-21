@@ -200,12 +200,11 @@
     <string name="EditEnableMarkdown">Activar Markdown</string>
     <string name="EditDisableMarkdown">Desactivar Markdown</string>
     <string name="DisableMarkdownByDefault">Desactivar Markdown por defecto</string>
-    <string name="CopyTitle">Copiar Título</string>
     <string name="CopyCallback">Copiar datos de devolución de llamada</string>
     <string name="CopyInlineQuery">Copiar consulta en línea</string>
     <string name="CopyID">Copiar ID</string>
-    <string name="SendCallback">Enviar datos de devolución de llamada</string>
-    <string name="CallbackData">Datos de devolución de llamada</string>
+    <string name="ShowRPCErrorException">Excepciones: %s</string>
+    <string name="KeepFormatting">Mantener el formato del texto</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccRewindHeading">Ajustes de rebobinado</string>

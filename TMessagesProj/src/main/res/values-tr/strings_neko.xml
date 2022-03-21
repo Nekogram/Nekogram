@@ -200,12 +200,13 @@
     <string name="EditEnableMarkdown">Biçimlendirmeyi Etkinleştir</string>
     <string name="EditDisableMarkdown">Biçimlendirmeyi Kapat</string>
     <string name="DisableMarkdownByDefault">Varsayılan olarak biçimlendirmeyi kapat</string>
-    <string name="CopyTitle">Başlığı Kopyala</string>
     <string name="CopyCallback">Geri Arama Verilerini Kopyala</string>
     <string name="CopyInlineQuery">Satır İçi Sorguyu Kopyala</string>
     <string name="CopyID">ID\'yi Kopyala</string>
-    <string name="SendCallback">Geri Arama Verilerini Gönder</string>
-    <string name="CallbackData">Geri Arama Verileri</string>
+    <string name="ShowRPCError">Tüm RPC hatalarını kaldır</string>
+    <string name="ShowRPCErrorException">İstisnalar: %s</string>
+    <string name="KeepFormatting">Metin biçimlendirmesini koru</string>
+    <string name="KeepFormattingAbout">Sohbette metin kopyala-yapıştırırken.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Erişilebilirlik ayarları</string>
     <string name="AccRewindHeading">Geri sarma ayarları</string>

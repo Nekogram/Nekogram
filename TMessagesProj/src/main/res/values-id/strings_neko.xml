@@ -67,13 +67,17 @@
     <string name="HideAllTab">Sembunyikan tab \"Semua Obrolan\"</string>
     <string name="HideAllTabAbout">Tekan \"Kembali\" di beranda untuk membukanya.</string>
     <string name="TabTitleType">Tampilkan di tab</string>
+    <string name="TabTitleTypeTip">Ikon disinkronkan secara cloud oleh Telegram.</string>
     <string name="TabTitleTypeText">Judul</string>
+    <string name="TabTitleTypeIcon">Ikon</string>
+    <string name="TabTitleTypeMix">Ikon dengan judul</string>
     <string name="ConfirmAVMessage">Konfirmasikan saat mengirimkan video/pesan suara</string>
     <string name="AskBeforeCalling">Tanyakan sebelum memanggil</string>
     <string name="DisableNumberRounding">Matikan pembulatan angka</string>
     <string name="Categories">Kategori</string>
     <string name="OfficialChannel">Channel resmi</string>
     <string name="About">Tentang</string>
+    <string name="IgnoreBlockedAbout">ITU TIDAK BENAR-BENAR TERSEMBUNYI! Pesan masih tersedia untuk dilihat, tetapi teks akan dikonversi ke Spoiler dan media tidak akan mengunduh secara otomatis.</string>
     <string name="Donate">Donasi</string>
     <string name="DonateAbout">Dukung pengembangan Nekogram.</string>
     <string name="TranslationAbout">Bantu menerjemahkan Nekogram ke bahasa Anda.</string>
@@ -124,6 +128,10 @@
     <string name="SwipeToPiP">Geser video ke atas untuk membuka PiP</string>
     <string name="StickerSavedHint">Stiker tersimpan ke galeri</string>
     <string name="RegistrationDate">Registration date</string>
+    <string name="WsDescription2">Sambungkan ke Telegram menggunakan WebSocket melalui Cloudflare. <![CDATA[<a href=\"%s\">Info lebih teknis</a>]]>.</string>
+    <string name="WsEnableTls">Aktifkan TLS</string>
+    <string name="WsLocalProxy">Proksi lokal</string>
+    <string name="WsEnableDoh">Aktifkan doH</string>
     <string name="UpdateNekogram">Perbarui Nekogram</string>
     <string name="TranslationTarget">Bahasa tujuan</string>
     <string name="TranslationTargetApp">Ikuti aplikasi</string>
@@ -156,6 +164,9 @@
     <string name="ShareNekogram">Bagikan Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBerdasarkan Telegram %2$s\nDibuat oleh %3$s</string>
     <string name="UpdateInstalling">Memasang Pembaruan...</string>
+    <string name="UpdateInstallingNotification">Pemberitahuan akan ditampilkan saat pembaruan selesai.</string>
+    <string name="UpdateInstallingRelaunch">Aplikasi akan memulai ulang saat pembaruan selesai.</string>
+    <string name="UpdateInstalledNotification">Instalasi pembaruan selesai, ketuk untuk membuka aplikasi.</string>
     <string name="UpdateFailedToInstall">Gagal Menginstal Pembaruan: %d</string>
     <string name="QRLoginMessage">Scan QRCode dengan Perangkat Lain Untuk Login.</string>
     <string name="QRLoginTitle">QR Login</string>
@@ -165,6 +176,7 @@
     <string name="TranslatorTypeNeko">Didalam Pesan</string>
     <string name="TranslatorTypeTG">Pesan PopUp</string>
     <string name="TranslatorTypeExternal">Aplikasi Eksternal</string>
+    <string name="CopyPhoto">Salin Foto</string>
     <string name="PhotoCopied">Poto disalin Di Clipboard</string>
     <string name="SaveToDownloadCount_zero">Menyimpan %1$d file untuk diunduh</string>
     <string name="SaveToDownloadCount_one">Menyimpan berkas %1$d ke Unduhan</string>
@@ -176,6 +188,19 @@
     <string name="SelectAnIcon">Pilih ikon</string>
     <string name="AppLinkNotVerifiedMessage">Untuk Android 12 dan lebih baru, Anda perlu menambahkan tautan secara manual ke tautan terverifikasi untuk membuka tautan t.me di Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Tautan aplikasi tidak ditambahkan</string>
+    <string name="AutoTranslate">Terjemahkan otomatis</string>
+    <string name="AutoTranslateAbout">Secara otomatis terjemahkan pesan yang ada dalam bahasa lain.</string>
+    <string name="CodeSyntaxHighlight">Sorotan sintaks kode</string>
+    <string name="CreateMono">Buat Monospace</string>
+    <string name="CreateMonoLanguage">Bahasa kode</string>
+    <string name="DoubleTapAction">Aksi ketuk ganda</string>
+    <string name="BlockedUserIgnored">diblokir</string>
+    <string name="EditUndo">Batal</string>
+    <string name="EditRedo">Ulang</string>
+    <string name="CopyID">Salin ID</string>
+    <string name="ShowRPCErrorException">Pengecualian: %s</string>
+    <string name="KeepFormatting">Pertahankan pemformatan teks</string>
+    <string name="KeepFormattingAbout">Saat salin-tempel teks dalam obrolan.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Setelan Aksesibilitas</string>
 </resources>

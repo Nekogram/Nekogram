@@ -201,8 +201,13 @@
     <string name="EditEnableMarkdown">Включить Markdown</string>
     <string name="EditDisableMarkdown">Отключить Markdown</string>
     <string name="DisableMarkdownByDefault">Отключить Markdown по умолчанию</string>
-    <string name="CopyTitle">Копировать заголовок</string>
+    <string name="CopyCallback">Скопировать Callback Data</string>
+    <string name="CopyInlineQuery">Копировать Inline запрос</string>
     <string name="CopyID">Копировать ID</string>
+    <string name="ShowRPCError">Всплывающие уведомления обо всех ошибках RPC</string>
+    <string name="ShowRPCErrorException">Исключения: %s</string>
+    <string name="KeepFormatting">Сохранять форматирование текста</string>
+    <string name="KeepFormattingAbout">При копировании текста в чат.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>

@@ -197,7 +197,6 @@
     <string name="EditEnableMarkdown">Włącz Markdown</string>
     <string name="EditDisableMarkdown">Włącz Markdown</string>
     <string name="DisableMarkdownByDefault">Domyślnie wyłącz Markdown</string>
-    <string name="CopyTitle">Kopiuj tytuł</string>
     <string name="CopyCallback">Kopiuj dane odpowiedzi</string>
     <string name="CopyInlineQuery">Kopiuj zapytanie inline</string>
     <string name="CopyID">Kopiuj ID</string>

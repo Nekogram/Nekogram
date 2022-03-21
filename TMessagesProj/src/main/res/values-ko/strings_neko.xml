@@ -198,12 +198,9 @@
     <string name="EditEnableMarkdown">마크다운 활성화</string>
     <string name="EditDisableMarkdown">마크다운 비활성화</string>
     <string name="DisableMarkdownByDefault">기본적으로 마크다운 비활성화</string>
-    <string name="CopyTitle">제목 복사</string>
     <string name="CopyCallback">콜백 데이터 복사</string>
     <string name="CopyInlineQuery">인라인 쿼리 복사</string>
     <string name="CopyID">ID 복사</string>
-    <string name="SendCallback">콜백 데이터 보내기</string>
-    <string name="CallbackData">콜백 데이터</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">접근성 설정</string>
     <string name="AccRewindHeading">되감기 설정</string>

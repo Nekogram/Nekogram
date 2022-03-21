@@ -200,12 +200,9 @@
     <string name="EditEnableMarkdown">Увімкнути Markdown</string>
     <string name="EditDisableMarkdown">Вимкнути Markdown</string>
     <string name="DisableMarkdownByDefault">Вимкнути Markdown за замовчуванням</string>
-    <string name="CopyTitle">Скопіювати заголовок</string>
     <string name="CopyCallback">Копіювати вхідні дані</string>
     <string name="CopyInlineQuery">Копіювати Inline запит</string>
     <string name="CopyID">Скопіювати ID</string>
-    <string name="SendCallback">Відправити вхідні дані</string>
-    <string name="CallbackData">Вхідні дані</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccRewindHeading">Налаштування перемотки</string>

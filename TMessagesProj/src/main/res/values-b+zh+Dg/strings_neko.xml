@@ -201,12 +201,13 @@
     <string name="EditEnableMarkdown">启用 Markdown</string>
     <string name="EditDisableMarkdown">禁用 Markdown</string>
     <string name="DisableMarkdownByDefault">默认禁用 Markdown</string>
-    <string name="CopyTitle">复制标题</string>
     <string name="CopyCallback">复制回调数据</string>
     <string name="CopyInlineQuery">复制 Inline 请求</string>
     <string name="CopyID">复制 ID</string>
-    <string name="SendCallback">发送回调数据</string>
-    <string name="CallbackData">回调数据</string>
+    <string name="ShowRPCError">显示所有 RPC 错误</string>
+    <string name="ShowRPCErrorException">例外：%s</string>
+    <string name="KeepFormatting">保持文本格式</string>
+    <string name="KeepFormattingAbout">在聊天中复制粘贴文本时。</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

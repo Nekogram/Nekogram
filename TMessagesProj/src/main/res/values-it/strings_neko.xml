@@ -197,12 +197,9 @@
     <string name="EditEnableMarkdown">Attiva markdown</string>
     <string name="EditDisableMarkdown">Disattiva markdown</string>
     <string name="DisableMarkdownByDefault">Disattiva markdown di default</string>
-    <string name="CopyTitle">Copia titolo</string>
     <string name="CopyCallback">Copia dati callback</string>
     <string name="CopyInlineQuery">Copia query inline</string>
     <string name="CopyID">Copia ID</string>
-    <string name="SendCallback">Invia dati callback</string>
-    <string name="CallbackData">Dati callback</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>
