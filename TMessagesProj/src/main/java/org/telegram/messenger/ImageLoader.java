@@ -84,7 +84,7 @@ import tw.nekomimi.nekogram.NekoConfig;
  * isc - ignore cache for small images
  * b - need blur image
  * g - autoplay
- * firstframe - return firstframe for Lottie anjimation
+ * lastframe - return firstframe for Lottie animation
  */
 public class ImageLoader {
 
@@ -845,7 +845,7 @@ public class ImageLoader {
                 int h = Math.min(512, AndroidUtilities.dp(170.6f));
                 boolean precache = false;
                 boolean limitFps = false;
-                boolean firstFrameBitmap = false;
+                boolean lastFrameBitmap = false;
                 int autoRepeat = 1;
                 int[] colors = null;
                 String diceEmoji = null;
@@ -868,8 +868,8 @@ public class ImageLoader {
                             precache = !cacheImage.filter.contains("nolimit") && SharedConfig.getDevicePerformanceClass() != SharedConfig.PERFORMANCE_CLASS_HIGH;
                         }
 
-                        if (cacheImage.filter.contains("firstframe")) {
-                            firstFrameBitmap = true;
+                        if (cacheImage.filter.contains("lastframe")) {
+                            lastFrameBitmap = true;
                         }
                     }
 
@@ -933,14 +933,17 @@ public class ImageLoader {
                             }
                         }
                     }
+                    if (lastFrameBitmap) {
+                        precache = false;
+                    }
                     if (compressed) {
                         lottieDrawable = new RLottieDrawable(cacheImage.finalFilePath, decompressGzip(cacheImage.finalFilePath), w, h, precache, limitFps, null, fitzModifier);
                     } else {
                         lottieDrawable = new RLottieDrawable(cacheImage.finalFilePath, w, h, precache, limitFps, null, fitzModifier);
                     }
                 }
-                if (firstFrameBitmap) {
-                    loadFirstFrame(lottieDrawable, h, w);
+                if (lastFrameBitmap) {
+                    loadLastFrame(lottieDrawable, h, w);
                 } else {
                     lottieDrawable.setAutoRepeat(autoRepeat);
                     onPostExecute(lottieDrawable);
@@ -1457,7 +1460,7 @@ public class ImageLoader {
             }
         }
 
-        private void loadFirstFrame(RLottieDrawable lottieDrawable, int w, int h) {
+        private void loadLastFrame(RLottieDrawable lottieDrawable, int w, int h) {
             Bitmap bitmap = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
             Canvas canvas = new Canvas(bitmap);
             canvas.scale(2f, 2f, w / 2f, h / 2f);
@@ -1474,7 +1477,7 @@ public class ImageLoader {
                     onPostExecute(bitmapDrawable);
                     lottieDrawable.recycle();
                 });
-                lottieDrawable.setCurrentFrame(lottieDrawable.getFramesCount() - 1, false, true);
+                lottieDrawable.setCurrentFrame(lottieDrawable.getFramesCount() - 1, true, true);
             });
         }
 

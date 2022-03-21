@@ -100,9 +100,10 @@ public class FingerprintController {
     }
 
     public static void checkKeyReady(boolean notifyCheckFingerprint) {
-        if (!isKeyReady() && AndroidUtilities.isKeyguardSecure()) {
+        /*if (!isKeyReady() && AndroidUtilities.isKeyguardSecure() && FingerprintManagerCompat.from(ApplicationLoader.applicationContext).isHardwareDetected()
+                && FingerprintManagerCompat.from(ApplicationLoader.applicationContext).hasEnrolledFingerprints()) {
             Utilities.globalQueue.postRunnable(() -> generateNewKey(notifyCheckFingerprint));
-        }
+        }*/
     }
 
     public static boolean isKeyReady() {
