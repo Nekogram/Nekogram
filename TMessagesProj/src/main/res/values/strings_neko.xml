@@ -130,7 +130,6 @@
     <string name="SilenceNonContacts">Silence Non-Contacts</string>
     <string name="SilenceNonContactsAbout">Notifications from people that are not your contacts will appear without sound. You can add users to contacts from their profile without knowing their phone number.</string>
     <string name="SelectBetween">Select between</string>
-    <string name="SwipeToPiP">Swipe up video to open PiP</string>
     <string name="StickerSavedHint">Sticker saved to gallery</string>
     <string name="RegistrationDate">Registration date</string>
     <string name="WsDescription2">Connect to Telegram through WebSocket via Cloudflare, <![CDATA[<a href=\"%s\">technical details</a>]]>.</string>

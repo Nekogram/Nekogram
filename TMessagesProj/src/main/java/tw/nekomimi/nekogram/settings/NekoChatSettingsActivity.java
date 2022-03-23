@@ -56,12 +56,11 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
     private int confirmAVRow;
     private int tryToOpenAllLinksInIVRow;
     private int disableProximityEventsRow;
-    private int swipeToPiPRow;
     private int disableJumpToNextRow;
     private int disableGreetingStickerRow;
     private int disableVoiceMessageAutoPlayRow;
-    private int autoPauseVideoRow;
     private int disableMarkdownByDefaultRow;
+    private int autoPauseVideoRow;
     private int doubleTapActionRow;
     private int messageMenuRow;
     private int chat2Row;
@@ -169,11 +168,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.tryToOpenAllLinksInIV);
                 }
-            } else if (position == swipeToPiPRow) {
-                NekoConfig.toggleSwipeToPiP();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.swipeToPiP);
-                }
             } else if (position == autoPauseVideoRow) {
                 NekoConfig.toggleAutoPauseVideo();
                 if (view instanceof TextCheckCell) {
@@ -241,12 +235,11 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         confirmAVRow = rowCount++;
         tryToOpenAllLinksInIVRow = rowCount++;
         disableProximityEventsRow = rowCount++;
-        swipeToPiPRow = rowCount++;
         disableJumpToNextRow = rowCount++;
         disableGreetingStickerRow = rowCount++;
         disableVoiceMessageAutoPlayRow = rowCount++;
-        autoPauseVideoRow = rowCount++;
         disableMarkdownByDefaultRow = rowCount++;
+        autoPauseVideoRow = rowCount++;
         doubleTapActionRow = rowCount++;
         messageMenuRow = rowCount++;
         chat2Row = rowCount++;
@@ -585,8 +578,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         textCell.setTextAndCheck(LocaleController.getString("DisableProximityEvents", R.string.DisableProximityEvents), NekoConfig.disableProximityEvents, true);
                     } else if (position == tryToOpenAllLinksInIVRow) {
                         textCell.setTextAndCheck(LocaleController.getString("OpenAllLinksInInstantView", R.string.OpenAllLinksInInstantView), NekoConfig.tryToOpenAllLinksInIV, true);
-                    } else if (position == swipeToPiPRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("SwipeToPiP", R.string.SwipeToPiP), NekoConfig.swipeToPiP, true);
                     } else if (position == autoPauseVideoRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("AutoPauseVideo", R.string.AutoPauseVideo), LocaleController.getString("AutoPauseVideoAbout", R.string.AutoPauseVideoAbout), NekoConfig.autoPauseVideo, true, true);
                     } else if (position == disableJumpToNextRow) {

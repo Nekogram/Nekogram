@@ -133,7 +133,6 @@ public class NekoConfig {
     public static boolean formatTimeWithSeconds = false;
     public static boolean accentAsNotificationColor = false;
     public static boolean silenceNonContacts = false;
-    public static boolean swipeToPiP = false;
     public static boolean disableJumpToNextChannel = false;
     public static boolean disableVoiceMessageAutoPlay = false;
     public static boolean disableMarkdownByDefault = false;
@@ -317,7 +316,6 @@ public class NekoConfig {
             formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
             accentAsNotificationColor = preferences.getBoolean("accentAsNotificationColor", false);
             silenceNonContacts = preferences.getBoolean("silenceNonContacts", false);
-            swipeToPiP = preferences.getBoolean("swipeToPiP", false);
             showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", true);
             wsEnableTLS = preferences.getBoolean("wsEnableTLS", true);
             wsUseMTP = preferences.getBoolean("wsUseMTP", false);
@@ -881,14 +879,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("silenceNonContacts", silenceNonContacts);
-        editor.commit();
-    }
-
-    public static void toggleSwipeToPiP() {
-        swipeToPiP = !swipeToPiP;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("swipeToPiP", swipeToPiP);
         editor.commit();
     }
 
