@@ -41,6 +41,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
 
     private int categoriesRow;
     private int generalRow;
+    private int appearanceRow;
     private int chatRow;
     private int experimentRow;
     private int accessibilityRow;
@@ -94,6 +95,8 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
                 presentFragment(new NekoChatSettingsActivity());
             } else if (position == generalRow) {
                 presentFragment(new NekoGeneralSettingsActivity());
+            } else if (position == appearanceRow) {
+                presentFragment(new NekoAppearanceSettings());
             } else if (position == experimentRow) {
                 presentFragment(new NekoExperimentalSettingsActivity(sensitiveCanChange, sensitiveEnabled));
             } else if (position == accessibilityRow) {
@@ -140,6 +143,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
         rowCount = 0;
         categoriesRow = rowCount++;
         generalRow = rowCount++;
+        appearanceRow = rowCount++;
         chatRow = rowCount++;
         experimentRow = rowCount++;
         AccessibilityManager am = (AccessibilityManager) ApplicationLoader.applicationContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
@@ -243,7 +247,9 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
                     if (position == chatRow) {
                         textCell.setTextAndIcon(LocaleController.getString("Chat", R.string.Chat), R.drawable.menu_chats, true);
                     } else if (position == generalRow) {
-                        textCell.setTextAndIcon(LocaleController.getString("General", R.string.General), R.drawable.msg_theme, true);
+                        textCell.setTextAndIcon(LocaleController.getString("General", R.string.General), R.drawable.msg_media, true);
+                    } else if (position == appearanceRow) {
+                        textCell.setTextAndIcon(LocaleController.getString("Appearance", R.string.Appearance), R.drawable.msg_theme, true);
                     } else if (position == experimentRow) {
                         textCell.setTextAndIcon(LocaleController.getString("Experiment", R.string.Experiment), R.drawable.msg_fave, accessibilityRow != -1);
                     } else if (position == accessibilityRow) {

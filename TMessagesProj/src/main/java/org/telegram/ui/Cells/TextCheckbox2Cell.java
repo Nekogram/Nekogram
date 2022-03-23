@@ -292,9 +292,8 @@ public class TextCheckbox2Cell extends FrameLayout {
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
-        info.setClassName("android.widget.checkbox");
+        info.setClassName("android.widget.CheckBox");
         info.setCheckable(true);
         info.setChecked(checkbox.isChecked());
-        info.setContentDescription(checkbox.isChecked() ? LocaleController.getString("NotificationsOn", R.string.NotificationsOn) : LocaleController.getString("NotificationsOff", R.string.NotificationsOff));
     }
 }

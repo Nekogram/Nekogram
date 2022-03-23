@@ -81,7 +81,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
     }
 
     @Override
-    protected boolean whiteStatusBar() {
+    protected boolean hasWhiteActionBar() {
         return false;
     }
 

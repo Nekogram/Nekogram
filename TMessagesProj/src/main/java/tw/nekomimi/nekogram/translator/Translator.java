@@ -121,10 +121,10 @@ public class Translator {
     }
 
     public static void showTranslationTargetSelector(BaseFragment fragment, View view, Runnable callback) {
-        showTranslationTargetSelector(fragment, view, callback, null);
+        showTranslationTargetSelector(fragment, view, callback, true, null);
     }
 
-    public static void showTranslationTargetSelector(BaseFragment fragment, View view, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
+    public static void showTranslationTargetSelector(BaseFragment fragment, View view, Runnable callback, boolean whiteActionBar, Theme.ResourcesProvider resourcesProvider) {
         if (Translator.getCurrentTranslator().getTargetLanguages().size() <= 30) {
             ArrayList<String> targetLanguages = new ArrayList<>(Translator.getCurrentTranslator().getTargetLanguages());
             ArrayList<CharSequence> names = new ArrayList<>();
@@ -144,7 +144,7 @@ public class Translator {
                 if (callback != null) callback.run();
             }, resourcesProvider);
         } else {
-            fragment.presentFragment(new NekoLanguagesSelectActivity(NekoLanguagesSelectActivity.TYPE_TARGET));
+            fragment.presentFragment(new NekoLanguagesSelectActivity(NekoLanguagesSelectActivity.TYPE_TARGET, whiteActionBar));
         }
     }
 

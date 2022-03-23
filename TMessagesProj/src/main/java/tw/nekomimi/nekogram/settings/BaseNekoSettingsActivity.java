@@ -24,8 +24,10 @@ import org.telegram.ui.Cells.NotificationsCheckCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.TextCheckCell;
+import org.telegram.ui.Cells.TextCheckbox2Cell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
+import org.telegram.ui.Cells.TextRadioCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.BlurredRecyclerView;
 import org.telegram.ui.Components.LayoutHelper;
@@ -84,7 +86,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     @Override
     protected ActionBar createActionBar(Context context) {
         ActionBar actionBar;
-        if (!whiteStatusBar()) {
+        if (!hasWhiteActionBar()) {
             actionBar = super.createActionBar(context);
         } else {
             actionBar = new ActionBar(context);
@@ -105,7 +107,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
         public BlurContentView(Context context) {
             super(context);
-            needBlur = whiteStatusBar();
+            needBlur = hasWhiteActionBar();
             blurBehindViews.add(this);
         }
 
@@ -132,13 +134,13 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         }
     }
 
-    protected boolean whiteStatusBar() {
+    protected boolean hasWhiteActionBar() {
         return true;
     }
 
     @Override
     public boolean hasForceLightStatusBar() {
-        return whiteStatusBar();
+        return hasWhiteActionBar();
     }
 
     protected abstract void updateRows();
@@ -159,7 +161,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int type = holder.getItemViewType();
-            return type == 2 || type == 3 || type == 5 || type == 6 || type == 8;
+            return type == 2 || type == 3 || type == 5 || type == 6 || type == 8 | type == 9 || type == 10;
         }
 
         @NonNull
@@ -196,6 +198,14 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
                     break;
                 case 8:
                     view = new TextCell(mContext);
+                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case 9:
+                    view = new TextCheckbox2Cell(mContext);
+                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case 10:
+                    view = new TextRadioCell(mContext);
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
             }

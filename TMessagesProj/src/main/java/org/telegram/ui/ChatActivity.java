@@ -23642,7 +23642,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             Translator.showTranslatorTypeSelector(getParentActivity(), null, null, themeDelegate);
                             break;
                         case 1:
-                            Translator.showTranslationTargetSelector(this, null, null, themeDelegate);
+                            Translator.showTranslationTargetSelector(this, null, null, false, themeDelegate);
                             break;
                         case 2:
                             Translator.showTranslationProviderSelector(getParentActivity(), null, null, themeDelegate);

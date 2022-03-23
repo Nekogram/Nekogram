@@ -146,10 +146,11 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     }
 
     @Override
-    protected boolean whiteStatusBar() {
+    protected boolean hasWhiteActionBar() {
         return false;
     }
 
+    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
     private boolean checkNoForwards() {
         if (noforwards) {
             if (getMessagesController().isChatNoForwards(toChat)) {

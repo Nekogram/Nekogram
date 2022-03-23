@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
@@ -21,10 +20,11 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCheckbox2Cell;
+import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextRadioCell;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.EmptyTextProgressView;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -54,6 +54,7 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
             "yo", "zh", "zu");
 
     private final int currentType;
+    private final boolean whiteActionBar;
 
     private ListAdapter searchListViewAdapter;
     private EmptyTextProgressView emptyView;
@@ -61,8 +62,9 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
     private ArrayList<LocaleInfo> searchResult;
     private ArrayList<LocaleInfo> sortedLanguages;
 
-    public NekoLanguagesSelectActivity(int type) {
+    public NekoLanguagesSelectActivity(int type, boolean whiteActionBar) {
         this.currentType = type;
+        this.whiteActionBar = whiteActionBar;
     }
 
     @Override
@@ -106,9 +108,11 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
         });
         item.setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
 
-        actionBar.setSearchTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText), true);
-        actionBar.setSearchTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), false);
-        actionBar.setSearchCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        if (whiteActionBar) {
+            actionBar.setSearchTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText), true);
+            actionBar.setSearchTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), false);
+            actionBar.setSearchCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        }
 
         listAdapter = new ListAdapter(context, false);
         searchListViewAdapter = new ListAdapter(context, true);
@@ -121,8 +125,12 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
 
         listView.setEmptyView(emptyView);
         listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener((view, position) -> {
+        listView.setOnItemClickListener((view, position, x, y) -> {
             if (view instanceof ShadowSectionCell || view instanceof HeaderCell) {
+                return;
+            }
+            if (view instanceof TextInfoPrivacyCell) {
+                BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("Nya", R.string.Nya)).show();
                 return;
             }
             boolean search = listView.getAdapter() == searchListViewAdapter;
@@ -165,6 +173,11 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
         });
 
         return fragmentView;
+    }
+
+    @Override
+    protected boolean hasWhiteActionBar() {
+        return whiteActionBar;
     }
 
     private String getCurrentTargetLanguage() {
@@ -250,12 +263,6 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
         }
 
         @Override
-        public boolean isEnabled(RecyclerView.ViewHolder holder) {
-            int type = holder.getItemViewType();
-            return type == 3 || type == 4;
-        }
-
-        @Override
         public int getItemCount() {
             if (search) {
                 if (searchResult == null || searchResult.size() == 0) {
@@ -267,33 +274,9 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
             }
         }
 
-        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = null;
-            switch (viewType) {
-                case 1: {
-                    view = new ShadowSectionCell(mContext);
-                    break;
-                }
-                case 2:
-                    HeaderCell header = new HeaderCell(mContext);
-                    header.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    header.setText(LocaleController.getString("ChooseLanguages", R.string.ChooseLanguages));
-                    view = header;
-                    break;
-                case 3:
-                    view = new TextRadioCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case 4:
-                    view = new TextCheckbox2Cell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-            }
-            //noinspection ConstantConditions
-            view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-            return new RecyclerListView.Holder(view);
+        public boolean isEnabled(RecyclerView.ViewHolder holder) {
+            return holder.getItemViewType() == 7 || super.isEnabled(holder);
         }
 
         @Override
@@ -303,7 +286,35 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
                     holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     break;
                 }
-                case 3: {
+                case 4: {
+                    HeaderCell headerCell = (HeaderCell) holder.itemView;
+                    headerCell.setText(LocaleController.getString("ChooseLanguages", R.string.ChooseLanguages));
+                    break;
+                }
+                case 7: {
+                    TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
+                    cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                    cell.getTextView().setMovementMethod(null);
+                    cell.setText("miaŭ");
+                    break;
+                }
+                case 9: {
+                    if (!search) position--;
+                    TextCheckbox2Cell cell = (TextCheckbox2Cell) holder.itemView;
+                    LocaleInfo localeInfo;
+                    boolean last;
+                    if (search) {
+                        localeInfo = searchResult.get(position);
+                        last = position == searchResult.size() - 1;
+                    } else {
+                        localeInfo = sortedLanguages.get(position);
+                        last = position == sortedLanguages.size() - 1;
+                    }
+                    boolean checked = NekoConfig.restrictedLanguages.contains(localeInfo.langCode) || localeInfo.langCode.equals(getCurrentTargetLanguage());
+                    cell.setTextAndValueAndCheck(localeInfo.name, localeInfo.nameLocalized, checked, false, !last);
+                    break;
+                }
+                case 10: {
                     if (!search) position--;
                     TextRadioCell cell = (TextRadioCell) holder.itemView;
                     LocaleInfo localeInfo;
@@ -322,31 +333,21 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 4: {
-                    if (!search) position--;
-                    TextCheckbox2Cell cell = (TextCheckbox2Cell) holder.itemView;
-                    LocaleInfo localeInfo;
-                    boolean last;
-                    if (search) {
-                        localeInfo = searchResult.get(position);
-                        last = position == searchResult.size() - 1;
-                    } else {
-                        localeInfo = sortedLanguages.get(position);
-                        last = position == sortedLanguages.size() - 1;
-                    }
-                    boolean checked = NekoConfig.restrictedLanguages.contains(localeInfo.langCode) || localeInfo.langCode.equals(getCurrentTargetLanguage());
-                    cell.setTextAndValueAndCheck(localeInfo.name, localeInfo.nameLocalized, checked, false, !last);
-                    break;
-                }
             }
         }
 
         @Override
         public int getItemViewType(int i) {
-            if (!search) i--;
-            if (i == -1) return 2;
-            if (i == (search ? searchResult : sortedLanguages).size()) return 1;
-            return currentType == TYPE_TARGET ? 3 : 4;
+            if (!search) {
+                i--;
+            }
+            if (i == -1) {
+                return 4;
+            }
+            if (i == (search ? searchResult : sortedLanguages).size()) {
+                return currentType == TYPE_RESTRICTED && !search ? 7 : 1;
+            }
+            return currentType == TYPE_TARGET ? 10 : 9;
         }
     }
 
