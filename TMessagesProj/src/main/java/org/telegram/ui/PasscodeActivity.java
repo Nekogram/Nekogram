@@ -310,7 +310,7 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
                         builder.setTitle(LocaleController.getString("AutoLock", R.string.AutoLock));
                         final NumberPicker numberPicker = new NumberPicker(getParentActivity());
                         numberPicker.setMinValue(0);
-                        numberPicker.setMaxValue(4);
+                        numberPicker.setMaxValue(5);
                         if (SharedConfig.autoLockIn == 0) {
                             numberPicker.setValue(0);
                         } else if (SharedConfig.autoLockIn == 60) {
