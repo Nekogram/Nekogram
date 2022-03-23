@@ -172,7 +172,7 @@ public class EntitiesHelper {
         REGULAR,
     }
 
-    public static void addStyleToText(Style style, EditTextCaption editTextCaption, EditTextCaption.EditTextCaptionDelegate delegate, int start, int end) {
+    public static void addStyleToText(Style style, EditTextCaption editTextCaption, EditTextCaption.EditTextCaptionDelegate delegate, int start, int end, boolean allowTextEntitiesIntersection) {
         var editable = editTextCaption.getText();
         var resourcesProvider = editTextCaption.resourcesProvider;
         var context = editTextCaption.getContext();
@@ -258,27 +258,11 @@ public class EntitiesHelper {
                         return;
                     }
                 }
-                if (style == Style.MENTION || style == Style.URL) {
-                    var spans = editable.getSpans(start, end, URLSpan.class);
-                    if (spans != null && spans.length > 0) {
-                        for (var oldSpan : spans) {
-                            int spanStart = editable.getSpanStart(oldSpan);
-                            int spanEnd = editable.getSpanEnd(oldSpan);
-                            editable.removeSpan(oldSpan);
-                            if (spanStart < start) {
-                                editable.setSpan(oldSpan, spanStart, start, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            }
-                            if (spanEnd > end) {
-                                editable.setSpan(oldSpan, end, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                            }
-                        }
-                    }
-                }
+                clearSpan(editable, start, end, allowTextEntitiesIntersection && style != Style.MONO);
                 try {
                     if (style == Style.MENTION) {
                         editable.setSpan(new URLSpan("tg://user?id=" + string), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     } else if (style == Style.MONO) {
-                        clearSpan(editable, start, end);
                         editable.setSpan(new TypefaceSpan("monospace"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         if (!TextUtils.isEmpty(string)) {
                             editable.setSpan(new LocaleSpan(Locale.forLanguageTag(string + "-NG")), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -309,33 +293,45 @@ public class EntitiesHelper {
                 editText.setLayoutParams(layoutParams);
             }
             editText.setSelection(0, editText.getText().length());
-            return;
-        } else if (style == Style.BOLD) {
-            editable.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (style == Style.ITALIC) {
-            editable.setSpan(new StyleSpan(Typeface.ITALIC), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (style == Style.STRIKE) {
-            editable.setSpan(new StrikethroughSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (style == Style.UNDERLINE) {
-            editable.setSpan(new UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (style == Style.SPOILER) {
-            editable.setSpan(new BackgroundColorSpan(Theme.getColor(Theme.key_chats_archivePullDownBackground)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (style == Style.MONO) {
-            clearSpan(editable, start, end);
-            editable.setSpan(new TypefaceSpan("monospace"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        } else if (style == Style.REGULAR) {
-            clearSpan(editable, start, end);
-        }
-        if (delegate != null) {
-            delegate.onSpansChanged();
+        } else {
+            if (!allowTextEntitiesIntersection) {
+                clearSpan(editable, start, end, false);
+            }
+            if (style == Style.BOLD) {
+                editable.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (style == Style.ITALIC) {
+                editable.setSpan(new StyleSpan(Typeface.ITALIC), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (style == Style.STRIKE) {
+                editable.setSpan(new StrikethroughSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (style == Style.UNDERLINE) {
+                editable.setSpan(new UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (style == Style.SPOILER) {
+                editable.setSpan(new BackgroundColorSpan(Theme.getColor(Theme.key_chats_archivePullDownBackground)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (style == Style.MONO) {
+                clearSpan(editable, start, end, false);
+                editable.setSpan(new TypefaceSpan("monospace"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (style == Style.REGULAR) {
+                clearSpan(editable, start, end, false);
+            }
+            if (delegate != null) {
+                delegate.onSpansChanged();
+            }
         }
     }
 
-    private static void clearSpan(Editable editable, int start, int end) {
-        var spans = editable.getSpans(start, end, CharacterStyle.class);
+    private static void clearSpan(Editable editable, int start, int end, boolean url) {
+        var spans = url ? editable.getSpans(start, end, URLSpan.class) : editable.getSpans(start, end, CharacterStyle.class);
         if (spans != null && spans.length > 0) {
             for (var span : spans) {
+                int spanStart = editable.getSpanStart(span);
+                int spanEnd = editable.getSpanEnd(span);
                 editable.removeSpan(span);
+                if (spanStart < start) {
+                    editable.setSpan(span, spanStart, start, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                if (spanEnd > end) {
+                    editable.setSpan(span, end, spanEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
             }
         }
     }

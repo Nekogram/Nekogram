@@ -498,7 +498,7 @@ public class EditTextCaption extends EditTextBoldCursor {
             start = getSelectionStart();
             end = getSelectionEnd();
         }
-        EntitiesHelper.addStyleToText(style, this, delegate, start, end);
+        EntitiesHelper.addStyleToText(style, this, delegate, start, end, allowTextEntitiesIntersection);
     }
 
     private void applyTextStyleToSelection(TextStyleSpan span) {
