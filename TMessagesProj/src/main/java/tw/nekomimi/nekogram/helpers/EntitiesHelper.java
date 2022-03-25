@@ -1,5 +1,7 @@
 package tw.nekomimi.nekogram.helpers;
 
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.InputType;
@@ -247,16 +249,29 @@ public class EntitiesHelper {
                 }
             }
 
+            var clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+            var hasPaste = clipboardManager.hasPrimaryClip();
+            if (hasPaste) {
+                builder.setNeutralButton(LocaleController.getString(android.R.string.paste), null);
+            }
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
             AlertDialog dialog = builder.show();
-            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
-                var string = editText.getText().toString();
-                if (style == Style.URL) {
-                    if (!LinkifyPort.WEB_URL.matcher(string).matches()) {
+            if (hasPaste) {
+                dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(view -> {
+                    var string = getClipboardText(context, clipboardManager);
+                    if (!isValidInput(style, string)) {
                         AndroidUtilities.shakeView(editText, 2, 0);
                         return;
                     }
+                    editText.setText(string);
+                });
+            }
+            dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+                var string = editText.getText().toString();
+                if (!isValidInput(style, string)) {
+                    AndroidUtilities.shakeView(editText, 2, 0);
+                    return;
                 }
                 clearSpan(editable, start, end, allowTextEntitiesIntersection && style != Style.MONO);
                 try {
@@ -316,6 +331,31 @@ public class EntitiesHelper {
             if (delegate != null) {
                 delegate.onSpansChanged();
             }
+        }
+    }
+
+    private static String getClipboardText(Context context, ClipboardManager clipboardManager) {
+        var clip = clipboardManager.getPrimaryClip();
+        String clipText;
+        if (clip != null && clip.getItemCount() > 0) {
+            try {
+                clipText = clip.getItemAt(0).coerceToText(context).toString();
+            } catch (Exception e) {
+                clipText = null;
+            }
+        } else {
+            clipText = null;
+        }
+        return clipText;
+    }
+
+    private static boolean isValidInput(Style style, String string) {
+        if (style == Style.MENTION) {
+            return Utilities.parseLong(string) != 0L;
+        } else if (style == Style.URL) {
+            return LinkifyPort.WEB_URL.matcher(string).matches();
+        } else {
+            return true;
         }
     }
 
