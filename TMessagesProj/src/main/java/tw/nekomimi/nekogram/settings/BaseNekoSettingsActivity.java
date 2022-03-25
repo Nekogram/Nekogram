@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -30,6 +31,7 @@ import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextRadioCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.BlurredRecyclerView;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
@@ -101,6 +103,10 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             actionBar.setOccupyStatusBar(false);
         }
         return actionBar;
+    }
+
+    protected void showRestartBulletin() {
+        BulletinFactory.of(this).createErrorBulletin(LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect)).show();
     }
 
     private class BlurContentView extends SizeNotifierFrameLayout {

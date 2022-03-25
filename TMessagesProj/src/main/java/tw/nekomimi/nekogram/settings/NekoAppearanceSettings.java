@@ -19,7 +19,6 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
-import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
@@ -78,7 +77,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.forceTablet);
                 }
-                BulletinFactory.of(this).createSimpleBulletin(R.raw.chats_infotip, LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect)).show();
+                showRestartBulletin();
             } else if (position == transparentStatusBarRow) {
                 SharedConfig.toggleNoStatusBar();
                 if (view instanceof TextCheckCell) {
@@ -105,7 +104,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.newYear);
                 }
-                BulletinFactory.of(this).createSimpleBulletin(R.raw.chats_infotip, LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect)).show();
+                showRestartBulletin();
             } else if (position == avatarAsDrawerBackgroundRow) {
                 NekoConfig.toggleAvatarAsDrawerBackground();
                 if (view instanceof TextCheckCell) {

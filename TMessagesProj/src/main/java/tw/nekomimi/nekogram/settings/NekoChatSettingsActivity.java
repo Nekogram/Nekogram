@@ -27,7 +27,6 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextCheckbox2Cell;
 import org.telegram.ui.Cells.TextSettingsCell;
-import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
@@ -48,19 +47,25 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
     private int chatRow;
     private int ignoreBlockedRow;
-    private int disablePhotoSideActionRow;
     private int hideKeyboardOnChatScrollRow;
-    private int rearVideoMessagesRow;
-    private int confirmAVRow;
     private int tryToOpenAllLinksInIVRow;
-    private int disableProximityEventsRow;
     private int disableJumpToNextRow;
     private int disableGreetingStickerRow;
-    private int disableVoiceMessageAutoPlayRow;
     private int disableMarkdownByDefaultRow;
-    private int autoPauseVideoRow;
     private int doubleTapActionRow;
+    private int maxRecentStickersRow;
     private int chat2Row;
+
+    private int mediaRow;
+    private int hqVoiceMessageRow;
+    private int voiceEnhancementsRow;
+    private int disablePhotoSideActionRow;
+    private int rearVideoMessagesRow;
+    private int confirmAVRow;
+    private int disableProximityEventsRow;
+    private int disableVoiceMessageAutoPlayRow;
+    private int autoPauseVideoRow;
+    private int media2Row;
 
     private int messageMenuRow;
     private int messageMenu2Row;
@@ -129,7 +134,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(NekoConfig.disableProximityEvents);
                 }
-                BulletinFactory.of(this).createSimpleBulletin(R.raw.chats_infotip, LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect)).show();
+                showRestartBulletin();
             } else if (position == tryToOpenAllLinksInIVRow) {
                 NekoConfig.toggleTryToOpenAllLinksInIV();
                 if (view instanceof TextCheckCell) {
@@ -221,6 +226,29 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     NekoConfig.toggleShowCopyPhoto();
                     cell.setChecked(NekoConfig.showCopyPhoto);
                 }
+            } else if (position == hqVoiceMessageRow) {
+                NekoConfig.toggleIncreaseVoiceMessageQuality();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.increaseVoiceMessageQuality);
+                }
+                showRestartBulletin();
+            } else if (position == voiceEnhancementsRow) {
+                NekoConfig.toggleVoiceEnhancements();
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked(NekoConfig.voiceEnhancements);
+                }
+            } else if (position == maxRecentStickersRow) {
+                int[] counts = {20, 30, 40, 50, 80, 100, 120, 150, 180, 200};
+                ArrayList<String> types = new ArrayList<>();
+                for (int count : counts) {
+                    if (count <= getMessagesController().maxRecentStickersCount) {
+                        types.add(String.valueOf(count));
+                    }
+                }
+                PopupHelper.show(types, LocaleController.getString("MaxRecentStickers", R.string.MaxRecentStickers), types.indexOf(String.valueOf(NekoConfig.maxRecentStickers)), context, view, i -> {
+                    NekoConfig.setMaxRecentStickers(Integer.parseInt(types.get(i)));
+                    listAdapter.notifyItemChanged(maxRecentStickersRow);
+                });
             }
         });
 
@@ -236,19 +264,25 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
         chatRow = rowCount++;
         ignoreBlockedRow = rowCount++;
-        disablePhotoSideActionRow = rowCount++;
         hideKeyboardOnChatScrollRow = rowCount++;
-        rearVideoMessagesRow = rowCount++;
-        confirmAVRow = rowCount++;
         tryToOpenAllLinksInIVRow = rowCount++;
-        disableProximityEventsRow = rowCount++;
         disableJumpToNextRow = rowCount++;
         disableGreetingStickerRow = rowCount++;
-        disableVoiceMessageAutoPlayRow = rowCount++;
         disableMarkdownByDefaultRow = rowCount++;
-        autoPauseVideoRow = rowCount++;
         doubleTapActionRow = rowCount++;
+        maxRecentStickersRow = rowCount++;
         chat2Row = rowCount++;
+
+        mediaRow = rowCount++;
+        hqVoiceMessageRow = rowCount++;
+        voiceEnhancementsRow = rowCount++;
+        disablePhotoSideActionRow = rowCount++;
+        rearVideoMessagesRow = rowCount++;
+        confirmAVRow = rowCount++;
+        disableProximityEventsRow = rowCount++;
+        disableVoiceMessageAutoPlayRow = rowCount++;
+        autoPauseVideoRow = rowCount++;
+        media2Row = rowCount++;
 
         messageMenuRow = rowCount++;
         rowCount += 12;
@@ -405,7 +439,9 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                             default:
                                 value = LocaleController.getString("Disable", R.string.Disable);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("DoubleTapAction", R.string.DoubleTapAction), value, false);
+                        textCell.setTextAndValue(LocaleController.getString("DoubleTapAction", R.string.DoubleTapAction), value, true);
+                    } else if (position == maxRecentStickersRow) {
+                        textCell.setTextAndValue(LocaleController.getString("MaxRecentStickers", R.string.MaxRecentStickers), String.valueOf(NekoConfig.maxRecentStickers), false);
                     }
                     break;
                 }
@@ -427,7 +463,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     } else if (position == tryToOpenAllLinksInIVRow) {
                         textCell.setTextAndCheck(LocaleController.getString("OpenAllLinksInInstantView", R.string.OpenAllLinksInInstantView), NekoConfig.tryToOpenAllLinksInIV, true);
                     } else if (position == autoPauseVideoRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("AutoPauseVideo", R.string.AutoPauseVideo), LocaleController.getString("AutoPauseVideoAbout", R.string.AutoPauseVideoAbout), NekoConfig.autoPauseVideo, true, true);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("AutoPauseVideo", R.string.AutoPauseVideo), LocaleController.getString("AutoPauseVideoAbout", R.string.AutoPauseVideoAbout), NekoConfig.autoPauseVideo, true, false);
                     } else if (position == disableJumpToNextRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisableJumpToNextChannel", R.string.DisableJumpToNextChannel), NekoConfig.disableJumpToNextChannel, true);
                     } else if (position == disableGreetingStickerRow) {
@@ -436,6 +472,10 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         textCell.setTextAndCheck(LocaleController.getString("DisableVoiceMessagesAutoPlay", R.string.DisableVoiceMessagesAutoPlay), NekoConfig.disableVoiceMessageAutoPlay, true);
                     } else if (position == disableMarkdownByDefaultRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisableMarkdownByDefault", R.string.DisableMarkdownByDefault), NekoConfig.disableMarkdownByDefault, true);
+                    } else if (position == hqVoiceMessageRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("IncreaseVoiceMessageQuality", R.string.IncreaseVoiceMessageQuality), NekoConfig.increaseVoiceMessageQuality, true);
+                    } else if (position == voiceEnhancementsRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("VoiceEnhancements", R.string.VoiceEnhancements), LocaleController.getString("VoiceEnhancementsAbout", R.string.VoiceEnhancementsAbout), NekoConfig.voiceEnhancements, true, true);
                     }
                     break;
                 }
@@ -447,6 +487,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         headerCell.setText(LocaleController.getString("StickerSize", R.string.StickerSize));
                     } else if (position == messageMenuRow) {
                         headerCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu));
+                    } else if (position == mediaRow) {
+                        headerCell.setText(LocaleController.getString("SharedMediaTab2", R.string.SharedMediaTab2));
                     }
                     break;
                 }
@@ -498,13 +540,15 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
         @Override
         public int getItemViewType(int position) {
-            if (position == chat2Row || position == stickerSize2Row || position == messageMenu2Row) {
+            if (position == chat2Row || position == stickerSize2Row || position == messageMenu2Row || position == media2Row) {
                 return 1;
-            } else if (position == doubleTapActionRow) {
+            } else if (position == doubleTapActionRow || position == maxRecentStickersRow) {
                 return 2;
-            } else if (position > chatRow && position < doubleTapActionRow) {
+            } else if ((position > chatRow && position < doubleTapActionRow) ||
+                    (position > mediaRow && position < media2Row)
+            ) {
                 return 3;
-            } else if (position == chatRow || position == stickerSizeHeaderRow || position == messageMenuRow) {
+            } else if (position == chatRow || position == stickerSizeHeaderRow || position == messageMenuRow || position == mediaRow) {
                 return 4;
             } else if (position > messageMenuRow && position < messageMenu2Row) {
                 return 9;

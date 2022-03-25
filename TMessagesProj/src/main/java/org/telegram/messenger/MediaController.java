@@ -57,9 +57,6 @@ import android.view.View;
 import android.view.WindowManager;
 import android.webkit.MimeTypeMap;
 import android.widget.FrameLayout;
-import android.media.audiofx.AcousticEchoCanceler;
-import android.media.audiofx.AutomaticGainControl;
-import android.media.audiofx.NoiseSuppressor;
 
 import com.google.android.exoplayer2.C;
 import com.google.android.exoplayer2.ExoPlayer;
@@ -104,12 +101,9 @@ import java.util.concurrent.CountDownLatch;
 
 import tw.nekomimi.nekogram.SaveToDownloadReceiver;
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.VoiceEnhancementsHelper;
 
 public class MediaController implements AudioManager.OnAudioFocusChangeListener, NotificationCenter.NotificationCenterDelegate, SensorEventListener {
-
-    private AutomaticGainControl automaticGainControl = null;
-    private NoiseSuppressor noiseSuppressor = null;
-    private AcousticEchoCanceler acousticEchoCanceler = null;
 
     private native int startRecord(String path, int sampleRate);
 
@@ -578,7 +572,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private ArrayList<ByteBuffer> recordBuffers = new ArrayList<>();
     private ByteBuffer fileBuffer;
     public int recordBufferSize = 1280;
-    public int sampleRate = NekoConfig.increaseVoiceMessageQuality ? 48000 : 16000;
+    public int sampleRate = 16000;
     private int sendAfterDone;
     private boolean sendAfterDoneNotify;
     private int sendAfterDoneScheduleDate;
@@ -3474,7 +3468,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             recordingAudioFile = new File(FileLoader.getDirectory(FileLoader.MEDIA_DIR_CACHE), FileLoader.getAttachFileName(recordingAudio));
 
             try {
-                if (startRecord(recordingAudioFile.getAbsolutePath(), NekoConfig.increaseVoiceMessageQuality ? 48000 : 16000) == 0) {
+                if (startRecord(recordingAudioFile.getAbsolutePath(), sampleRate) == 0) {
                     AndroidUtilities.runOnUIThread(() -> {
                         recordStartRunnable = null;
                         NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.recordStartError, guid);
@@ -3492,8 +3486,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 recordReplyingTopMsg = replyToTopMsg;
                 fileBuffer.rewind();
 
-                initVoiceEnhancements(audioRecorder);
-
+                VoiceEnhancementsHelper.initVoiceEnhancements(audioRecorder.getAudioSessionId());
                 audioRecorder.startRecording();
             } catch (Exception e) {
                 FileLog.e(e);
@@ -3502,7 +3495,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 recordingAudioFile.delete();
                 recordingAudioFile = null;
                 try {
-                    releaseVoiceEnhancements();
+                    VoiceEnhancementsHelper.releaseVoiceEnhancements();
                     audioRecorder.release();
                     audioRecorder = null;
                 } catch (Exception e2) {
@@ -3596,7 +3589,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
         try {
             if (audioRecorder != null) {
-                releaseVoiceEnhancements();
+                VoiceEnhancementsHelper.releaseVoiceEnhancements();
                 audioRecorder.release();
                 audioRecorder = null;
             }
@@ -3642,40 +3635,6 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             }
             AndroidUtilities.runOnUIThread(() -> NotificationCenter.getInstance(recordingCurrentAccount).postNotificationName(NotificationCenter.recordStopped, recordingGuid, send == 2 ? 1 : 0));
         });
-    }
-
-    private void initVoiceEnhancements(AudioRecord audioRecord) {
-        if (!NekoConfig.increaseVoiceMessageQuality) return;
-
-        if (AutomaticGainControl.isAvailable()) {
-            automaticGainControl = AutomaticGainControl.create(audioRecord.getAudioSessionId());
-            automaticGainControl.setEnabled(true);
-        }
-        if (NoiseSuppressor.isAvailable()) {
-            noiseSuppressor = NoiseSuppressor.create(audioRecord.getAudioSessionId());
-            noiseSuppressor.setEnabled(true);
-        }
-        if (AcousticEchoCanceler.isAvailable()) {
-            acousticEchoCanceler = AcousticEchoCanceler.create(audioRecord.getAudioSessionId());
-            acousticEchoCanceler.setEnabled(true);
-        }
-    }
-
-    private void releaseVoiceEnhancements() {
-        if (!NekoConfig.increaseVoiceMessageQuality) return;
-
-        if (automaticGainControl != null) {
-            automaticGainControl.release();
-            automaticGainControl = null;
-        }
-        if (noiseSuppressor != null) {
-            noiseSuppressor.release();
-            noiseSuppressor= null;
-        }
-        if (acousticEchoCanceler != null) {
-            acousticEchoCanceler.release();
-            acousticEchoCanceler = null;
-        }
     }
 
     private static class MediaLoader implements NotificationCenter.NotificationCenterDelegate {
