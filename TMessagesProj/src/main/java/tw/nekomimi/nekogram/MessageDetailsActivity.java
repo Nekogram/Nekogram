@@ -166,101 +166,108 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         return noforwards;
     }
 
-    @SuppressLint({"NewApi", "RtlHardcoded"})
     @Override
     public View createView(Context context) {
         View fragmentView = super.createView(context);
-        actionBar.setTitle(LocaleController.getString("MessageDetails", R.string.MessageDetails));
-
-        listAdapter = new ListAdapter(context);
-
-        listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener((view, position, x, y) -> {
-            if (position != endRow) {
-                if (!checkNoForwards() || !(position == messageRow || position == captionRow)) {
-                    TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
-                    AndroidUtilities.addToClipboard(EntitiesHelper.commonizeSpans(textCell.getValueTextView().getText()));
-                    BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
-                }
-            }
-
-        });
-        listView.setOnItemLongClickListener((view, position) -> {
-            if (position == filePathRow) {
-                if (!checkNoForwards()) {
-                    Intent intent = new Intent(Intent.ACTION_SEND);
-                    var uri = FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(filePath));
-                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                    intent.putExtra(Intent.EXTRA_STREAM, uri);
-                    intent.setDataAndType(uri, messageObject.getMimeType());
-                    startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
-                }
-            } else if (position == channelRow || position == groupRow) {
-                if (toChat != null) {
-                    Bundle args = new Bundle();
-                    args.putLong("chat_id", toChat.id);
-                    ProfileActivity fragment = new ProfileActivity(args);
-                    presentFragment(fragment);
-                }
-            } else if (position == fromRow) {
-                if (fromUser != null) {
-                    Bundle args = new Bundle();
-                    args.putLong("user_id", fromUser.id);
-                    ProfileActivity fragment = new ProfileActivity(args);
-                    presentFragment(fragment);
-                } else if (fromChat != null) {
-                    Bundle args = new Bundle();
-                    args.putLong("chat_id", fromChat.id);
-                    ProfileActivity fragment = new ProfileActivity(args);
-                    presentFragment(fragment);
-                }
-            } else if (position == forwardRow) {
-                if (forwardFromUser != null) {
-                    Bundle args = new Bundle();
-                    args.putLong("user_id", forwardFromUser.id);
-                    ProfileActivity fragment = new ProfileActivity(args);
-                    presentFragment(fragment);
-                } else if (forwardFromChat != null) {
-                    Bundle args = new Bundle();
-                    args.putLong("chat_id", forwardFromChat.id);
-                    ProfileActivity fragment = new ProfileActivity(args);
-                    presentFragment(fragment);
-                }
-            } else if (position == restrictionReasonRow) {
-                ArrayList<TLRPC.TL_restrictionReason> reasons = messageObject.messageOwner.restriction_reason;
-                LinearLayout ll = new LinearLayout(context);
-                ll.setOrientation(LinearLayout.VERTICAL);
-
-                AlertDialog dialog = new AlertDialog.Builder(context)
-                        .setView(ll)
-                        .create();
-
-                for (TLRPC.TL_restrictionReason reason : reasons) {
-                    TextDetailSettingsCell cell = new TextDetailSettingsCell(context);
-                    cell.setBackground(Theme.getSelectorDrawable(false));
-                    cell.setMultilineDetail(true);
-                    cell.setOnClickListener(v1 -> {
-                        dialog.dismiss();
-                        AndroidUtilities.addToClipboard(cell.getValueTextView().getText());
-                        BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
-                    });
-                    cell.setTextAndValue(reason.reason + "-" + reason.platform, reason.text, false);
-
-                    ll.addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-                }
-
-                showDialog(dialog);
-            } else {
-                return false;
-            }
-            return true;
-        });
 
         if (noforwards) {
             unregisterFlagSecure = AndroidUtilities.registerFlagSecure(getParentActivity().getWindow());
         }
 
         return fragmentView;
+    }
+
+    @Override
+    protected void onItemClick(View view, int position, float x, float y) {
+        if (position != endRow) {
+            if (!checkNoForwards() || !(position == messageRow || position == captionRow)) {
+                TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
+                AndroidUtilities.addToClipboard(EntitiesHelper.commonizeSpans(textCell.getValueTextView().getText()));
+                BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+            }
+        }
+    }
+
+    @Override
+    protected boolean onItemLongClick(View view, int position, float x, float y) {
+        if (position == filePathRow) {
+            if (!checkNoForwards()) {
+                Intent intent = new Intent(Intent.ACTION_SEND);
+                var uri = FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(filePath));
+                intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                intent.putExtra(Intent.EXTRA_STREAM, uri);
+                intent.setDataAndType(uri, messageObject.getMimeType());
+                startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
+            }
+        } else if (position == channelRow || position == groupRow) {
+            if (toChat != null) {
+                Bundle args = new Bundle();
+                args.putLong("chat_id", toChat.id);
+                ProfileActivity fragment = new ProfileActivity(args);
+                presentFragment(fragment);
+            }
+        } else if (position == fromRow) {
+            if (fromUser != null) {
+                Bundle args = new Bundle();
+                args.putLong("user_id", fromUser.id);
+                ProfileActivity fragment = new ProfileActivity(args);
+                presentFragment(fragment);
+            } else if (fromChat != null) {
+                Bundle args = new Bundle();
+                args.putLong("chat_id", fromChat.id);
+                ProfileActivity fragment = new ProfileActivity(args);
+                presentFragment(fragment);
+            }
+        } else if (position == forwardRow) {
+            if (forwardFromUser != null) {
+                Bundle args = new Bundle();
+                args.putLong("user_id", forwardFromUser.id);
+                ProfileActivity fragment = new ProfileActivity(args);
+                presentFragment(fragment);
+            } else if (forwardFromChat != null) {
+                Bundle args = new Bundle();
+                args.putLong("chat_id", forwardFromChat.id);
+                ProfileActivity fragment = new ProfileActivity(args);
+                presentFragment(fragment);
+            }
+        } else if (position == restrictionReasonRow) {
+            ArrayList<TLRPC.TL_restrictionReason> reasons = messageObject.messageOwner.restriction_reason;
+            LinearLayout ll = new LinearLayout(getParentActivity());
+            ll.setOrientation(LinearLayout.VERTICAL);
+
+            AlertDialog dialog = new AlertDialog.Builder(getParentActivity())
+                    .setView(ll)
+                    .create();
+
+            for (TLRPC.TL_restrictionReason reason : reasons) {
+                TextDetailSettingsCell cell = new TextDetailSettingsCell(getParentActivity());
+                cell.setBackground(Theme.getSelectorDrawable(false));
+                cell.setMultilineDetail(true);
+                cell.setOnClickListener(v1 -> {
+                    dialog.dismiss();
+                    AndroidUtilities.addToClipboard(cell.getValueTextView().getText());
+                    BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                });
+                cell.setTextAndValue(reason.reason + "-" + reason.platform, reason.text, false);
+
+                ll.addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+            }
+
+            showDialog(dialog);
+        } else {
+            return false;
+        }
+        return true;
+    }
+
+    @Override
+    protected BaseListAdapter createAdapter(Context context) {
+        return new ListAdapter(context);
+    }
+
+    @Override
+    protected String getActionBarTitle() {
+        return LocaleController.getString("MessageDetails", R.string.MessageDetails);
     }
 
     @Override

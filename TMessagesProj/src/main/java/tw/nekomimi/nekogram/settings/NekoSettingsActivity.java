@@ -1,6 +1,5 @@
 package tw.nekomimi.nekogram.settings;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
@@ -81,55 +80,54 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
         return true;
     }
 
-    @SuppressLint("NewApi")
     @Override
-    public View createView(Context context) {
-        View fragmentView = super.createView(context);
-        actionBar.setTitle(LocaleController.getString("NekoSettings", R.string.NekoSettings));
-
-        listAdapter = new ListAdapter(context);
-
-        listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener((view, position, x, y) -> {
-            if (position == chatRow) {
-                presentFragment(new NekoChatSettingsActivity());
-            } else if (position == generalRow) {
-                presentFragment(new NekoGeneralSettingsActivity());
-            } else if (position == appearanceRow) {
-                presentFragment(new NekoAppearanceSettings());
-            } else if (position == experimentRow) {
-                presentFragment(new NekoExperimentalSettingsActivity(sensitiveCanChange, sensitiveEnabled));
-            } else if (position == accessibilityRow) {
-                presentFragment(new AccessibilitySettingsActivity());
-            } else if (position == channelRow) {
-                getMessagesController().openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
-            } else if (position == donateRow) {
-                if (NekoConfig.installedFromPlay) {
-                    presentFragment(new NekoDonateActivity());
-                } else {
-                    Browser.openUrl(getParentActivity(), "https://www.buymeacoffee.com/nekogram");
-                }
-            } else if (position == translationRow) {
-                Browser.openUrl(getParentActivity(), "https://neko.crowdin.com/nekogram");
-            } else if (position == websiteRow) {
-                Browser.openUrl(getParentActivity(), "https://nekogram.app");
-            } else if (position == sourceCodeRow) {
-                if (LocaleController.isRTL && x <= AndroidUtilities.dp(84) || !LocaleController.isRTL && x >= view.getMeasuredWidth() - AndroidUtilities.dp(84)) {
-                    Browser.openUrl(getParentActivity(), String.format("https://gitlab.com/Nekogram/Nekogram/-/commit/%s", BuildConfig.COMMIT_ID));
-                } else {
-                    Browser.openUrl(getParentActivity(), "https://gitlab.com/Nekogram/Nekogram");
-                }
-            } else if (position == checkUpdateRow) {
-                ((LaunchActivity) getParentActivity()).checkAppUpdate(true);
-                checkingUpdate = true;
-                listAdapter.notifyItemChanged(checkUpdateRow);
-            } else if (position >= sponsorRow && position < sponsor2Row) {
-                ConfigHelper.NewsItem item = news.get(position - sponsorRow);
-                Browser.openUrl(getParentActivity(), item.url);
+    protected void onItemClick(View view, int position, float x, float y) {
+        if (position == chatRow) {
+            presentFragment(new NekoChatSettingsActivity());
+        } else if (position == generalRow) {
+            presentFragment(new NekoGeneralSettingsActivity());
+        } else if (position == appearanceRow) {
+            presentFragment(new NekoAppearanceSettings());
+        } else if (position == experimentRow) {
+            presentFragment(new NekoExperimentalSettingsActivity(sensitiveCanChange, sensitiveEnabled));
+        } else if (position == accessibilityRow) {
+            presentFragment(new AccessibilitySettingsActivity());
+        } else if (position == channelRow) {
+            getMessagesController().openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
+        } else if (position == donateRow) {
+            if (NekoConfig.installedFromPlay) {
+                presentFragment(new NekoDonateActivity());
+            } else {
+                Browser.openUrl(getParentActivity(), "https://www.buymeacoffee.com/nekogram");
             }
-        });
+        } else if (position == translationRow) {
+            Browser.openUrl(getParentActivity(), "https://neko.crowdin.com/nekogram");
+        } else if (position == websiteRow) {
+            Browser.openUrl(getParentActivity(), "https://nekogram.app");
+        } else if (position == sourceCodeRow) {
+            if (LocaleController.isRTL && x <= AndroidUtilities.dp(84) || !LocaleController.isRTL && x >= view.getMeasuredWidth() - AndroidUtilities.dp(84)) {
+                Browser.openUrl(getParentActivity(), String.format("https://gitlab.com/Nekogram/Nekogram/-/commit/%s", BuildConfig.COMMIT_ID));
+            } else {
+                Browser.openUrl(getParentActivity(), "https://gitlab.com/Nekogram/Nekogram");
+            }
+        } else if (position == checkUpdateRow) {
+            ((LaunchActivity) getParentActivity()).checkAppUpdate(true);
+            checkingUpdate = true;
+            listAdapter.notifyItemChanged(checkUpdateRow);
+        } else if (position >= sponsorRow && position < sponsor2Row) {
+            ConfigHelper.NewsItem item = news.get(position - sponsorRow);
+            Browser.openUrl(getParentActivity(), item.url);
+        }
+    }
 
-        return fragmentView;
+    @Override
+    protected BaseListAdapter createAdapter(Context context) {
+        return new ListAdapter(context);
+    }
+
+    @Override
+    protected String getActionBarTitle() {
+        return LocaleController.getString("NekoSettings", R.string.NekoSettings);
     }
 
     @Override

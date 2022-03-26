@@ -34,7 +34,6 @@ import java.util.Locale;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.translator.Translator;
 
-@SuppressLint("NotifyDataSetChanged")
 public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
 
     public static final int TYPE_RESTRICTED = 0;
@@ -76,7 +75,6 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
     @Override
     public View createView(Context context) {
         FrameLayout fragmentView = (FrameLayout) super.createView(context);
-        actionBar.setTitle(currentType == TYPE_RESTRICTED ? LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate) : LocaleController.getString("TranslationTarget", R.string.TranslationTarget));
 
         ActionBarMenu menu = actionBar.createMenu();
         ActionBarMenuItem item = menu.addItem(0, R.drawable.ic_ab_search).setIsSearchField(true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() {
@@ -114,7 +112,6 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
             actionBar.setSearchCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         }
 
-        listAdapter = new ListAdapter(context, false);
         searchListViewAdapter = new ListAdapter(context, true);
 
         emptyView = new EmptyTextProgressView(context);
@@ -124,44 +121,6 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
         fragmentView.addView(emptyView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
         listView.setEmptyView(emptyView);
-        listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener((view, position, x, y) -> {
-            if (view instanceof ShadowSectionCell || view instanceof HeaderCell) {
-                return;
-            }
-            if (view instanceof TextInfoPrivacyCell) {
-                BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("Nya", R.string.Nya)).show();
-                return;
-            }
-            boolean search = listView.getAdapter() == searchListViewAdapter;
-            if (!search) position--;
-            LocaleInfo localeInfo;
-            if (search) {
-                localeInfo = searchResult.get(position);
-            } else {
-                localeInfo = sortedLanguages.get(position);
-            }
-            if (localeInfo != null) {
-                if (currentType == TYPE_RESTRICTED) {
-                    TextCheckbox2Cell cell = (TextCheckbox2Cell) view;
-                    if (localeInfo.langCode.equals(getCurrentTargetLanguage())) {
-                        AndroidUtilities.shakeView(((TextCheckbox2Cell) view).checkbox, 2, 0);
-                        return;
-                    }
-                    boolean remove = NekoConfig.restrictedLanguages.contains(localeInfo.langCode);
-                    if (remove) {
-                        NekoConfig.restrictedLanguages.removeIf(s -> s != null && s.equals(localeInfo.langCode));
-                    } else {
-                        NekoConfig.restrictedLanguages.add(localeInfo.langCode);
-                    }
-                    NekoConfig.saveRestrictedLanguages();
-                    cell.setChecked(!remove);
-                } else {
-                    NekoConfig.setTranslationTarget(localeInfo.langCode);
-                    finishFragment();
-                }
-            }
-        });
 
         listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -173,6 +132,55 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
         });
 
         return fragmentView;
+    }
+
+    @Override
+    protected void onItemClick(View view, int position, float x, float y) {
+        if (view instanceof ShadowSectionCell || view instanceof HeaderCell) {
+            return;
+        }
+        if (view instanceof TextInfoPrivacyCell) {
+            BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("Nya", R.string.Nya)).show();
+            return;
+        }
+        boolean search = listView.getAdapter() == searchListViewAdapter;
+        if (!search) position--;
+        LocaleInfo localeInfo;
+        if (search) {
+            localeInfo = searchResult.get(position);
+        } else {
+            localeInfo = sortedLanguages.get(position);
+        }
+        if (localeInfo != null) {
+            if (currentType == TYPE_RESTRICTED) {
+                TextCheckbox2Cell cell = (TextCheckbox2Cell) view;
+                if (localeInfo.langCode.equals(getCurrentTargetLanguage())) {
+                    AndroidUtilities.shakeView(((TextCheckbox2Cell) view).checkbox, 2, 0);
+                    return;
+                }
+                boolean remove = NekoConfig.restrictedLanguages.contains(localeInfo.langCode);
+                if (remove) {
+                    NekoConfig.restrictedLanguages.removeIf(s -> s != null && s.equals(localeInfo.langCode));
+                } else {
+                    NekoConfig.restrictedLanguages.add(localeInfo.langCode);
+                }
+                NekoConfig.saveRestrictedLanguages();
+                cell.setChecked(!remove);
+            } else {
+                NekoConfig.setTranslationTarget(localeInfo.langCode);
+                finishFragment();
+            }
+        }
+    }
+
+    @Override
+    protected BaseListAdapter createAdapter(Context context) {
+        return new ListAdapter(context, false);
+    }
+
+    @Override
+    protected String getActionBarTitle() {
+        return currentType == TYPE_RESTRICTED ? LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate) : LocaleController.getString("TranslationTarget", R.string.TranslationTarget);
     }
 
     @Override
@@ -246,6 +254,7 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
         updateSearchResults(resultArray);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     private void updateSearchResults(final ArrayList<LocaleInfo> arrCounties) {
         AndroidUtilities.runOnUIThread(() -> {
             searchResult = arrCounties;

@@ -57,6 +57,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
     @Override
     public View createView(Context context) {
+        actionBar.setTitle(getActionBarTitle());
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
             public void onItemClick(int id) {
@@ -85,6 +86,12 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         //noinspection ConstantConditions
         ((DefaultItemAnimator) listView.getItemAnimator()).setDelayAnimations(false);
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+
+        listAdapter = createAdapter(context);
+
+        listView.setAdapter(listAdapter);
+        listView.setOnItemClickListener(this::onItemClick);
+        listView.setOnItemLongClickListener(this::onItemLongClick);
         return fragmentView;
     }
 
@@ -107,6 +114,16 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         }
         return actionBar;
     }
+
+    protected abstract void onItemClick(View view, int position, float x, float y);
+
+    protected boolean onItemLongClick(View view, int position, float x, float y) {
+        return false;
+    }
+
+    protected abstract BaseListAdapter createAdapter(Context context);
+
+    protected abstract String getActionBarTitle();
 
     protected void showRestartBulletin() {
         BulletinFactory.of(this).createErrorBulletin(LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect)).show();

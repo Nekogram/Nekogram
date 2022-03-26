@@ -56,137 +56,137 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
     private int folders2Row;
 
     @Override
-    public View createView(Context context) {
-        View fragmentView = super.createView(context);
-        actionBar.setTitle(LocaleController.getString("Appearance", R.string.Appearance));
-
-        listAdapter = new ListAdapter(context);
-
-        listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener((view, position, x, y) -> {
-            if (position == hidePhoneRow) {
-                NekoConfig.toggleHidePhone();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.hidePhone);
-                }
-                parentLayout.rebuildAllFragmentViews(false, false);
-                getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-                listAdapter.notifyItemChanged(drawerRow, new Object());
-            } else if (position == forceTabletRow) {
-                NekoConfig.toggleForceTablet();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.forceTablet);
-                }
-                showRestartBulletin();
-            } else if (position == transparentStatusBarRow) {
-                SharedConfig.toggleNoStatusBar();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(SharedConfig.noStatusBar);
-                }
-            } else if (position == useSystemEmojiRow) {
-                NekoConfig.toggleUseSystemEmoji();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.useSystemEmoji);
-                }
-            } else if (position == eventTypeRow) {
-                ArrayList<String> arrayList = new ArrayList<>();
-                arrayList.add(LocaleController.getString("DependsOnDate", R.string.DependsOnDate));
-                arrayList.add(LocaleController.getString("Christmas", R.string.Christmas));
-                arrayList.add(LocaleController.getString("Valentine", R.string.Valentine));
-                arrayList.add(LocaleController.getString("Halloween", R.string.Halloween));
-                PopupHelper.show(arrayList, LocaleController.getString("EventType", R.string.EventType), NekoConfig.eventType, context, view, i -> {
-                    NekoConfig.setEventType(i);
-                    listAdapter.notifyItemChanged(eventTypeRow);
-                    getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-                });
-            } else if (position == newYearRow) {
-                NekoConfig.toggleNewYear();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.newYear);
-                }
-                showRestartBulletin();
-            } else if (position == avatarAsDrawerBackgroundRow) {
-                NekoConfig.toggleAvatarAsDrawerBackground();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.avatarAsDrawerBackground);
-                }
-                getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-                TransitionManager.beginDelayedTransition(profilePreviewCell);
-                listAdapter.notifyItemChanged(drawerRow, new Object());
-                if (NekoConfig.avatarAsDrawerBackground) {
-                    updateRows();
-                    listAdapter.notifyItemRangeInserted(avatarBackgroundBlurRow, 2);
-                } else {
-                    listAdapter.notifyItemRangeRemoved(avatarBackgroundBlurRow, 2);
-                    updateRows();
-                }
-            } else if (position == avatarBackgroundBlurRow) {
-                NekoConfig.toggleAvatarBackgroundBlur();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.avatarBackgroundBlur);
-                }
-                getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-                listAdapter.notifyItemChanged(drawerRow, new Object());
-            } else if (position == avatarBackgroundDarkenRow) {
-                NekoConfig.toggleAvatarBackgroundDarken();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.avatarBackgroundDarken);
-                }
-                getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-                listAdapter.notifyItemChanged(drawerRow, new Object());
-            } else if (position == disableNumberRoundingRow) {
-                NekoConfig.toggleDisableNumberRounding();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.disableNumberRounding);
-                }
-            } else if (position == appBarShadowRow) {
-                NekoConfig.toggleDisableAppBarShadow();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.disableAppBarShadow);
-                }
-                ActionBarLayout.headerShadowDrawable = NekoConfig.disableAppBarShadow ? null : parentLayout.getResources().getDrawable(R.drawable.header_shadow).mutate();
-                parentLayout.rebuildAllFragmentViews(false, false);
-            } else if (position == mediaPreviewRow) {
-                NekoConfig.toggleMediaPreview();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.mediaPreview);
-                }
-            } else if (position == formatTimeWithSecondsRow) {
-                NekoConfig.toggleFormatTimeWithSeconds();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.formatTimeWithSeconds);
-                }
-                LocaleController.getInstance().recreateFormatters();
-                parentLayout.rebuildAllFragmentViews(false, false);
-            } else if (position == showTabsOnForwardRow) {
-                NekoConfig.toggleShowTabsOnForward();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.showTabsOnForward);
-                }
-            } else if (position == hideAllTabRow) {
-                NekoConfig.toggleHideAllTab();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.hideAllTab);
-                }
-                getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
-            } else if (position == tabsTitleTypeRow) {
-                ArrayList<String> arrayList = new ArrayList<>();
-                ArrayList<Integer> types = new ArrayList<>();
-                arrayList.add(LocaleController.getString("TabTitleTypeText", R.string.TabTitleTypeText));
-                types.add(NekoConfig.TITLE_TYPE_TEXT);
-                arrayList.add(LocaleController.getString("TabTitleTypeIcon", R.string.TabTitleTypeIcon));
-                types.add(NekoConfig.TITLE_TYPE_ICON);
-                arrayList.add(LocaleController.getString("TabTitleTypeMix", R.string.TabTitleTypeMix));
-                types.add(NekoConfig.TITLE_TYPE_MIX);
-                PopupHelper.show(arrayList, LocaleController.getString("TabTitleType", R.string.TabTitleType), types.indexOf(NekoConfig.tabsTitleType), context, view, i -> {
-                    NekoConfig.setTabsTitleType(types.get(i));
-                    listAdapter.notifyItemChanged(tabsTitleTypeRow);
-                    getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
-                });
+    protected void onItemClick(View view, int position, float x, float y) {
+        if (position == hidePhoneRow) {
+            NekoConfig.toggleHidePhone();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.hidePhone);
             }
-        });
+            parentLayout.rebuildAllFragmentViews(false, false);
+            getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
+            listAdapter.notifyItemChanged(drawerRow, new Object());
+        } else if (position == forceTabletRow) {
+            NekoConfig.toggleForceTablet();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.forceTablet);
+            }
+            showRestartBulletin();
+        } else if (position == transparentStatusBarRow) {
+            SharedConfig.toggleNoStatusBar();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(SharedConfig.noStatusBar);
+            }
+        } else if (position == useSystemEmojiRow) {
+            NekoConfig.toggleUseSystemEmoji();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.useSystemEmoji);
+            }
+        } else if (position == eventTypeRow) {
+            ArrayList<String> arrayList = new ArrayList<>();
+            arrayList.add(LocaleController.getString("DependsOnDate", R.string.DependsOnDate));
+            arrayList.add(LocaleController.getString("Christmas", R.string.Christmas));
+            arrayList.add(LocaleController.getString("Valentine", R.string.Valentine));
+            arrayList.add(LocaleController.getString("Halloween", R.string.Halloween));
+            PopupHelper.show(arrayList, LocaleController.getString("EventType", R.string.EventType), NekoConfig.eventType, getParentActivity(), view, i -> {
+                NekoConfig.setEventType(i);
+                listAdapter.notifyItemChanged(eventTypeRow);
+                getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
+            });
+        } else if (position == newYearRow) {
+            NekoConfig.toggleNewYear();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.newYear);
+            }
+            showRestartBulletin();
+        } else if (position == avatarAsDrawerBackgroundRow) {
+            NekoConfig.toggleAvatarAsDrawerBackground();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.avatarAsDrawerBackground);
+            }
+            getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
+            TransitionManager.beginDelayedTransition(profilePreviewCell);
+            listAdapter.notifyItemChanged(drawerRow, new Object());
+            if (NekoConfig.avatarAsDrawerBackground) {
+                updateRows();
+                listAdapter.notifyItemRangeInserted(avatarBackgroundBlurRow, 2);
+            } else {
+                listAdapter.notifyItemRangeRemoved(avatarBackgroundBlurRow, 2);
+                updateRows();
+            }
+        } else if (position == avatarBackgroundBlurRow) {
+            NekoConfig.toggleAvatarBackgroundBlur();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.avatarBackgroundBlur);
+            }
+            getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
+            listAdapter.notifyItemChanged(drawerRow, new Object());
+        } else if (position == avatarBackgroundDarkenRow) {
+            NekoConfig.toggleAvatarBackgroundDarken();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.avatarBackgroundDarken);
+            }
+            getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
+            listAdapter.notifyItemChanged(drawerRow, new Object());
+        } else if (position == disableNumberRoundingRow) {
+            NekoConfig.toggleDisableNumberRounding();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.disableNumberRounding);
+            }
+        } else if (position == appBarShadowRow) {
+            NekoConfig.toggleDisableAppBarShadow();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.disableAppBarShadow);
+            }
+            ActionBarLayout.headerShadowDrawable = NekoConfig.disableAppBarShadow ? null : parentLayout.getResources().getDrawable(R.drawable.header_shadow).mutate();
+            parentLayout.rebuildAllFragmentViews(false, false);
+        } else if (position == mediaPreviewRow) {
+            NekoConfig.toggleMediaPreview();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.mediaPreview);
+            }
+        } else if (position == formatTimeWithSecondsRow) {
+            NekoConfig.toggleFormatTimeWithSeconds();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.formatTimeWithSeconds);
+            }
+            LocaleController.getInstance().recreateFormatters();
+            parentLayout.rebuildAllFragmentViews(false, false);
+        } else if (position == showTabsOnForwardRow) {
+            NekoConfig.toggleShowTabsOnForward();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.showTabsOnForward);
+            }
+        } else if (position == hideAllTabRow) {
+            NekoConfig.toggleHideAllTab();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.hideAllTab);
+            }
+            getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
+        } else if (position == tabsTitleTypeRow) {
+            ArrayList<String> arrayList = new ArrayList<>();
+            ArrayList<Integer> types = new ArrayList<>();
+            arrayList.add(LocaleController.getString("TabTitleTypeText", R.string.TabTitleTypeText));
+            types.add(NekoConfig.TITLE_TYPE_TEXT);
+            arrayList.add(LocaleController.getString("TabTitleTypeIcon", R.string.TabTitleTypeIcon));
+            types.add(NekoConfig.TITLE_TYPE_ICON);
+            arrayList.add(LocaleController.getString("TabTitleTypeMix", R.string.TabTitleTypeMix));
+            types.add(NekoConfig.TITLE_TYPE_MIX);
+            PopupHelper.show(arrayList, LocaleController.getString("TabTitleType", R.string.TabTitleType), types.indexOf(NekoConfig.tabsTitleType), getParentActivity(), view, i -> {
+                NekoConfig.setTabsTitleType(types.get(i));
+                listAdapter.notifyItemChanged(tabsTitleTypeRow);
+                getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
+            });
+        }
+    }
 
-        return fragmentView;
+    @Override
+    protected BaseListAdapter createAdapter(Context context) {
+        return new ListAdapter(context);
+    }
+
+    @Override
+    protected String getActionBarTitle() {
+        return LocaleController.getString("Appearance", R.string.Appearance);
     }
 
     @Override

@@ -30,38 +30,39 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
     private int enableDoHRow;
 
     @Override
-    public View createView(Context context) {
-        View fragmentView = super.createView(context);
-        actionBar.setTitle(NekoConfig.WS_ADDRESS);
-
-        listAdapter = new ListAdapter(context);
-
-        listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener((view, position, x, y) -> {
-            if (position == enableTLSRow) {
-                NekoConfig.toggleWsEnableTLS();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.wsEnableTLS);
-                }
-                NekoConfig.wsReloadConfig();
-            } else if (position == localProxyRow) {
-                ArrayList<String> arrayList = new ArrayList<>();
-                arrayList.add(LocaleController.getString("UseProxySocks5", R.string.UseProxySocks5));
-                arrayList.add(LocaleController.getString("UseProxyTelegram", R.string.UseProxyTelegram));
-                PopupHelper.show(arrayList, LocaleController.getString("WsLocalProxy", R.string.WsLocalProxy), NekoConfig.wsUseMTP ? 1 : 0, context, view, i -> {
-                    NekoConfig.setWsUseMTP(i == 1);
-                    listAdapter.notifyItemChanged(localProxyRow);
-                    NekoConfig.wsReloadConfig();
-                });
-            } else if (position == enableDoHRow) {
-                NekoConfig.toggleWsEnableDoH();
-                if (view instanceof TextCheckCell) {
-                    ((TextCheckCell) view).setChecked(NekoConfig.wsUseDoH);
-                }
-                NekoConfig.wsReloadConfig();
+    protected void onItemClick(View view, int position, float x, float y) {
+        if (position == enableTLSRow) {
+            NekoConfig.toggleWsEnableTLS();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.wsEnableTLS);
             }
-        });
-        return fragmentView;
+            NekoConfig.wsReloadConfig();
+        } else if (position == localProxyRow) {
+            ArrayList<String> arrayList = new ArrayList<>();
+            arrayList.add(LocaleController.getString("UseProxySocks5", R.string.UseProxySocks5));
+            arrayList.add(LocaleController.getString("UseProxyTelegram", R.string.UseProxyTelegram));
+            PopupHelper.show(arrayList, LocaleController.getString("WsLocalProxy", R.string.WsLocalProxy), NekoConfig.wsUseMTP ? 1 : 0, getParentActivity(), view, i -> {
+                NekoConfig.setWsUseMTP(i == 1);
+                listAdapter.notifyItemChanged(localProxyRow);
+                NekoConfig.wsReloadConfig();
+            });
+        } else if (position == enableDoHRow) {
+            NekoConfig.toggleWsEnableDoH();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.wsUseDoH);
+            }
+            NekoConfig.wsReloadConfig();
+        }
+    }
+
+    @Override
+    protected BaseListAdapter createAdapter(Context context) {
+        return new ListAdapter(context);
+    }
+
+    @Override
+    protected String getActionBarTitle() {
+        return NekoConfig.WS_ADDRESS;
     }
 
     @Override

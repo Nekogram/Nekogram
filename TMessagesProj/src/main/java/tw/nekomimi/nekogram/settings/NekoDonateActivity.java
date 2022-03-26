@@ -72,21 +72,6 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
     @Override
     public View createView(Context context) {
         View fragmentView = super.createView(context);
-        actionBar.setTitle(LocaleController.getString("Donate", R.string.Donate));
-
-        listAdapter = new ListAdapter(context);
-
-        listView.setAdapter(listAdapter);
-        listView.setOnItemClickListener((view, position, x, y) -> {
-            if (position >= donateRow && position < donate2Row) {
-                if (skuDetails != null && skuDetails.size() > position - donateRow) {
-                    BillingFlowParams flowParams = BillingFlowParams.newBuilder()
-                            .setSkuDetails(skuDetails.get(position - donateRow))
-                            .build();
-                    billingClient.launchBillingFlow(getParentActivity(), flowParams);
-                }
-            }
-        });
 
         billingClient.startConnection(new BillingClientStateListener() {
             @Override
@@ -122,6 +107,28 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
         });
 
         return fragmentView;
+    }
+
+    @Override
+    protected void onItemClick(View view, int position, float x, float y) {
+        if (position >= donateRow && position < donate2Row) {
+            if (skuDetails != null && skuDetails.size() > position - donateRow) {
+                BillingFlowParams flowParams = BillingFlowParams.newBuilder()
+                        .setSkuDetails(skuDetails.get(position - donateRow))
+                        .build();
+                billingClient.launchBillingFlow(getParentActivity(), flowParams);
+            }
+        }
+    }
+
+    @Override
+    protected BaseListAdapter createAdapter(Context context) {
+        return new ListAdapter(context);
+    }
+
+    @Override
+    protected String getActionBarTitle() {
+        return LocaleController.getString("Donate", R.string.Donate);
     }
 
     @Override
