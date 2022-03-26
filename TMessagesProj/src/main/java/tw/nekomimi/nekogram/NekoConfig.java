@@ -269,7 +269,7 @@ public class NekoConfig {
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
             hideProxySponsorChannel = preferences.getBoolean("hideProxySponsorChannel2", false);
-            saveCacheToExternalFilesDir = !BuildVars.NO_SCOPED_STORAGE || preferences.getBoolean("saveCacheToExternalFilesDir", true);
+            saveCacheToExternalFilesDir = !BuildVars.NO_SCOPED_STORAGE || preferences.getBoolean("saveCacheToExternalFilesDirToBeRemoved", true);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
             showPrPr = preferences.getBoolean("showPrPr", isChineseUser);
@@ -331,13 +331,13 @@ public class NekoConfig {
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
             verifyLinkTip = preferences.getBoolean("verifyLinkTip2", false);
-            codeSyntaxHighlight = preferences.getBoolean("codeSyntaxHighlight2", true);
+            codeSyntaxHighlight = preferences.getBoolean("codeSyntaxHighlightToBeRemoved", true);
             doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
             restrictedLanguages = new HashSet<>(preferences.getStringSet("restrictedLanguages", new HashSet<>()));
             lastDeepLKey = preferences.getString("lastDeepLKey", "");
             disableMarkdownByDefault = preferences.getBoolean("disableMarkdownByDefault", false);
             showRPCError = preferences.getBoolean("showRPCError", false);
-            keepFormatting = preferences.getBoolean("keepFormatting", true);
+            keepFormatting = preferences.getBoolean("keepFormattingToBeRemoved", true);
             configLoaded = true;
         }
     }
@@ -405,7 +405,7 @@ public class NekoConfig {
         keepFormatting = !keepFormatting;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("keepFormatting", keepFormatting);
+        editor.putBoolean("keepFormattingToBeRemoved", keepFormatting);
         editor.commit();
     }
 
@@ -421,7 +421,7 @@ public class NekoConfig {
         codeSyntaxHighlight = !codeSyntaxHighlight;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("codeSyntaxHighlight2", codeSyntaxHighlight);
+        editor.putBoolean("codeSyntaxHighlightToBeRemoved", codeSyntaxHighlight);
         editor.commit();
     }
 
@@ -576,7 +576,7 @@ public class NekoConfig {
         saveCacheToExternalFilesDir = !saveCacheToExternalFilesDir;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("saveCacheToExternalFilesDir", saveCacheToExternalFilesDir);
+        editor.putBoolean("saveCacheToExternalFilesDirToBeRemoved", saveCacheToExternalFilesDir);
         editor.commit();
     }
 

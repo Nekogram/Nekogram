@@ -6,6 +6,8 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.net.Uri;
 import android.os.Build;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -35,6 +37,7 @@ import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
+import org.telegram.ui.Components.URLSpanNoUnderline;
 
 public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
@@ -142,6 +145,19 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
     protected boolean hasWhiteActionBar() {
         return true;
+    }
+
+    protected CharSequence getSpannedString(String key, int id, String url) {
+        var text = LocaleController.getString(key, id);
+        var builder = new SpannableStringBuilder(text);
+        int index1 = text.indexOf("**");
+        int index2 = text.lastIndexOf("**");
+        if (index1 >= 0 && index2 >= 0 && index1 != index2) {
+            builder.replace(index2, index2 + 2, "");
+            builder.replace(index1, index1 + 2, "");
+            builder.setSpan(new URLSpanNoUnderline(url), index1, index2 - 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        return builder;
     }
 
     @Override

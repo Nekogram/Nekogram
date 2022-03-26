@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.CountDownTimer;
 import android.provider.OpenableColumns;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
@@ -73,6 +74,20 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener((view, position, x, y) -> {
+            if (position == saveCacheToExternalFilesDirRow || position == codeSyntaxHighlightRow || position == keepFormattingRow) {
+                var builder = new AlertDialog.Builder(context);
+                var message = new TextView(context);
+                message.setText(getSpannedString("SoonRemovedOption", R.string.SoonRemovedOption, "https://t.me/" + LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername)));
+                message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+                message.setLinkTextColor(Theme.getColor(Theme.key_dialogTextLink));
+                message.setHighlightColor(Theme.getColor(Theme.key_dialogLinkSelection));
+                message.setPadding(AndroidUtilities.dp(23), 0, AndroidUtilities.dp(23), 0);
+                message.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
+                message.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+                builder.setView(message);
+                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                showDialog(builder.create());
+            }
             if (position == saveCacheToExternalFilesDirRow) {
                 NekoConfig.toggleSaveCacheToExternalFilesDir();
                 if (view instanceof TextCheckCell) {

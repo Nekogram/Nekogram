@@ -134,7 +134,7 @@
     <string name="SelectBetween">Select between</string>
     <string name="StickerSavedHint">Sticker saved to gallery</string>
     <string name="RegistrationDate">Registration date</string>
-    <string name="WsDescription2">Connect to Telegram through WebSocket via Cloudflare, <![CDATA[<a href=\"%s\">technical details</a>]]>.</string>
+    <string name="WsDescription">Connect to Telegram through WebSocket via Cloudflare. **Learn more**</string>
     <string name="WsEnableTls">Enable TLS</string>
     <string name="WsLocalProxy">Local proxy</string>
     <string name="WsEnableDoh">Enable DoH</string>
@@ -213,6 +213,7 @@
     <string name="ShowRPCErrorException">Exceptions: %s</string>
     <string name="KeepFormatting">Keep text formatting</string>
     <string name="KeepFormattingAbout">When copy-pasting text in chat.</string>
+    <string name="SoonRemovedOption">This experimental option will be removed and enabled by default soon, if you are having issues with this option, please **report to us**.</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

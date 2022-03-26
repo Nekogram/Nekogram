@@ -4,10 +4,6 @@ import android.app.assist.AssistContent;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Build;
-import android.text.Html;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.URLSpan;
 import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +15,6 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
-import org.telegram.ui.Components.URLSpanNoUnderline;
 
 import java.util.ArrayList;
 
@@ -121,16 +116,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                 }
                 case 7: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                    Spannable spanned = new SpannableString(Html.fromHtml(LocaleController.formatString("WsDescription2", R.string.WsDescription2, "https://nekogram.app/proxy").replace("\n", "<br>")));
-                    URLSpan[] spans = spanned.getSpans(0, spanned.length(), URLSpan.class);
-                    for (URLSpan span : spans) {
-                        int start = spanned.getSpanStart(span);
-                        int end = spanned.getSpanEnd(span);
-                        spanned.removeSpan(span);
-                        span = new URLSpanNoUnderline(span.getURL());
-                        spanned.setSpan(span, start, end, 0);
-                    }
-                    cell.setText(spanned);
+                    cell.setText(getSpannedString("WsDescription", R.string.WsDescription, "https://nekogram.app/proxy"));
                     cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     break;
                 }
