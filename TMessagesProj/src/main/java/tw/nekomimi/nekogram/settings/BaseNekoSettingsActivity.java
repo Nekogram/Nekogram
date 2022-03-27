@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -180,6 +181,13 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     @Override
     public boolean hasForceLightStatusBar() {
         return hasWhiteActionBar();
+    }
+
+    @Override
+    public boolean isLightStatusBar() {
+        if (!hasWhiteActionBar()) return super.isLightStatusBar();
+        int color = Theme.getColor(Theme.key_windowBackgroundWhite, null, true);
+        return ColorUtils.calculateLuminance(color) > 0.7f;
     }
 
     protected abstract void updateRows();

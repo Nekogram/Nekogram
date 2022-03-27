@@ -774,7 +774,7 @@ public abstract class BaseFragment {
     }
 
     public boolean isLightStatusBar() {
-        if (hasForceLightStatusBar() && !Theme.getCurrentTheme().isDark()) {
+        if (hasForceLightStatusBar() && !Theme.getActiveTheme().isDark()) {
             return true;
         }
         Theme.ResourcesProvider resourcesProvider = getResourceProvider();

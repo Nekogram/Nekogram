@@ -947,7 +947,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             if (checkStatusBar) {
                 boolean enable;
                 if (currentFragment != null) {
-                    enable = currentFragment.isLightStatusBar() || currentFragment.hasForceLightStatusBar() && !Theme.getCurrentTheme().isDark();
+                    enable = currentFragment.isLightStatusBar();
                 } else {
                     int color = Theme.getColor(Theme.key_actionBarDefault, null, true);
                     enable = ColorUtils.calculateLuminance(color) > 0.7f;
