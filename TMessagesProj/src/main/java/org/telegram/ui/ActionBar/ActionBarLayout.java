@@ -1360,7 +1360,7 @@ public class ActionBarLayout extends FrameLayout {
             fragment.onTransitionAnimationEnd(true, false);
             fragment.onBecomeFullyVisible();
         }
-        AnalyticsHelper.trackEvent("presentFragment");
+        AnalyticsHelper.trackEvent("Present fragment");
         return true;
     }
 

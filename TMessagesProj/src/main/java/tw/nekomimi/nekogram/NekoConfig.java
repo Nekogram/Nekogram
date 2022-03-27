@@ -348,12 +348,7 @@ public class NekoConfig {
             var map = new HashMap<String, String>();
             map.put("installedFromPlay", String.valueOf(installedFromPlay));
             map.put("isChineseUser", String.valueOf(isChineseUser));
-            var all = preferences.getAll();
-            for (var key : all.keySet()) {
-                var value = all.get(key);
-                map.put(key, value != null ? value.toString() : "null");
-            }
-            AnalyticsHelper.trackEvent("loadConfig", map);
+            AnalyticsHelper.trackEvent("Load config", map);
             configLoaded = true;
         }
     }
