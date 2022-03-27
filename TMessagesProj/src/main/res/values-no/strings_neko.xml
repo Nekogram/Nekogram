@@ -89,7 +89,6 @@
     <string name="DisableProximityEvents">Deaktiver nærhetshendelser</string>
     <string name="CustomEmojiTypeface">Egendefinert emoji-skrift</string>
     <string name="MapDriftingFix">Kartdrivende løsning for Kina</string>
-    <string name="IncreaseVoiceMessageQuality">Øk talemeldingskvaliteten</string>
     <string name="DisableInstantCamera">Deaktiver øyeblikkelig kamera</string>
     <string name="OpenAllLinksInInstantView">Prøv å åpne alle koblinger i InstantView</string>
     <string name="DonateThankYou">Tusen takk!</string>
@@ -116,7 +115,6 @@
     <string name="SilenceNonContacts">Stillhet ikke-kontakter</string>
     <string name="SilenceNonContactsAbout">Varsler fra personer som ikke er dine i kontakter, vises uten lyd. Du kan legge til brukere i kontakter fra andre profiler uten å vite telefonnummeret deres.</string>
     <string name="SelectBetween">Velg mellom</string>
-    <string name="SwipeToPiP">Sveip opp video for å åpne PiP</string>
     <string name="StickerSavedHint">Klistremerke lagret i galleriet</string>
     <string name="RegistrationDate">Registreringsdato</string>
     <!-- Accessibility -->

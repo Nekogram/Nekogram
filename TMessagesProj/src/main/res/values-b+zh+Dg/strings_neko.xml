@@ -99,7 +99,9 @@
     <string name="CustomEmojiTypeface">自定义 Emoji 字体</string>
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**应用</string>
     <string name="MapDriftingFix">地图定位漂移修复</string>
-    <string name="IncreaseVoiceMessageQuality">提升语音消息质量</string>
+    <string name="IncreaseVoiceMessageQuality">高清语音留言</string>
+    <string name="VoiceEnhancements">语音增强</string>
+    <string name="VoiceEnhancementsAbout">噪声抑制和语音归一化</string>
     <string name="DisableInstantCamera">禁用即时相机</string>
     <string name="OpenAllLinksInInstantView">尝试将所有链接在即时预览中打开</string>
     <string name="DonateThankYou">谢谢！</string>
@@ -126,10 +128,9 @@
     <string name="SilenceNonContacts">静音非联系人</string>
     <string name="SilenceNonContactsAbout">来自非您的联系人的通知将无声地出现。您可以将用户从他们的个人资料添加到联系人中，而无需知道他们的电话号码。</string>
     <string name="SelectBetween">选择之间的</string>
-    <string name="SwipeToPiP">向上滑动视频打开画中画</string>
     <string name="StickerSavedHint">贴纸已保存到相册</string>
     <string name="RegistrationDate">注册日期</string>
-    <string name="WsDescription2">通过 WebSocket 从 Cloudflare 连接到 Telegram，<![CDATA[<a href=\"%s\">技术详情</a>]]>。</string>
+    <string name="WsDescription">通过 WebSocket 从 Cloudflare 连接到 Telegram。**了解更多 **</string>
     <string name="WsEnableTls">启用 TLS</string>
     <string name="WsLocalProxy">本地代理</string>
     <string name="WsEnableDoh">启用 DoH</string>
@@ -208,6 +209,7 @@
     <string name="ShowRPCErrorException">例外：%s</string>
     <string name="KeepFormatting">保持文本格式</string>
     <string name="KeepFormattingAbout">在聊天中复制粘贴文本时。</string>
+    <string name="SoonRemovedOption">这个实验性选项将很快被删除并默认启用，如果你对这个选项有问题，请**向我们报告**。</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

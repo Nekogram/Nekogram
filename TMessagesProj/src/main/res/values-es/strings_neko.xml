@@ -98,7 +98,9 @@
     <string name="DisableProximityEvents">Deshabilitar eventos de proximidad</string>
     <string name="CustomEmojiTypeface">Fuente de emoji personalizada</string>
     <string name="MapDriftingFix">Mapear la fijación de la deriva para la China de la República Popular</string>
-    <string name="IncreaseVoiceMessageQuality">Aumentar la calidad de los mensajes de voz</string>
+    <string name="IncreaseVoiceMessageQuality">Mensajes de voz de alta calidad</string>
+    <string name="VoiceEnhancements">Mejoras de voz</string>
+    <string name="VoiceEnhancementsAbout">Supresión de ruido y normalización de voz</string>
     <string name="DisableInstantCamera">Deshabilitar cámara instantánea</string>
     <string name="OpenAllLinksInInstantView">Intentar abrir todos los links en InstantView</string>
     <string name="DonateThankYou">Gracias!</string>
@@ -125,10 +127,8 @@
     <string name="SilenceNonContacts">Silenciar a los no-contactos</string>
     <string name="SilenceNonContactsAbout">Las notificaciones de personas que no son tus contactos aparecerán sin sonido. Puedes agregar usuarios a contactos desde su perfil sin conocer su número de teléfono.</string>
     <string name="SelectBetween">Seleccionar entre</string>
-    <string name="SwipeToPiP">Desliza el vídeo hacia arriba para abrir PiP</string>
     <string name="StickerSavedHint">Sticker guardado en la galería</string>
     <string name="RegistrationDate">Fecha de registro</string>
-    <string name="WsDescription2">Conectate a Telegram a través de WebSocket via Cloudflare, <![CDATA[<a href=\"%s\"> detalles técnicos</a>]]>.</string>
     <string name="WsEnableTls">Habilitar TLS</string>
     <string name="WsLocalProxy">Proxy local</string>
     <string name="WsEnableDoh">Habilitar DoH</string>
@@ -203,8 +203,10 @@
     <string name="CopyCallback">Copiar datos de devolución de llamada</string>
     <string name="CopyInlineQuery">Copiar consulta en línea</string>
     <string name="CopyID">Copiar ID</string>
+    <string name="ShowRPCError">Mostrar todos los errores RPC</string>
     <string name="ShowRPCErrorException">Excepciones: %s</string>
     <string name="KeepFormatting">Mantener el formato del texto</string>
+    <string name="KeepFormattingAbout">Al copiar y pegar texto en el chat.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccRewindHeading">Ajustes de rebobinado</string>

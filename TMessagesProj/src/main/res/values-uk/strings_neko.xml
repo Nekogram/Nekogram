@@ -98,7 +98,6 @@
     <string name="DisableProximityEvents">Вимкнути датчик наближення</string>
     <string name="CustomEmojiTypeface">Користувацький шрифт емодзі</string>
     <string name="MapDriftingFix">Виправлення мап для Китаю</string>
-    <string name="IncreaseVoiceMessageQuality">Збільшення якості голосових повідомлень</string>
     <string name="DisableInstantCamera">Вимкнути миттєву камеру</string>
     <string name="OpenAllLinksInInstantView">Намагатися відкривати всі посилання в Миттєвому перегляді</string>
     <string name="DonateThankYou">Дякую!</string>
@@ -125,10 +124,8 @@
     <string name="SilenceNonContacts">Вимкнути звук сповіщень від неконтактів</string>
     <string name="SilenceNonContactsAbout">Повідомлення від людей, що не є вашими контактами, будуть відображатися без звуку. Ви можете додати користувача до контактів із його профілю, не знаючи його номера телефону.</string>
     <string name="SelectBetween">Виберіть між</string>
-    <string name="SwipeToPiP">Потягніть догори, щоб відкрити зображення в зображенні</string>
     <string name="StickerSavedHint">Наліпка збережена в галерею</string>
     <string name="RegistrationDate">Дата реєстрації</string>
-    <string name="WsDescription2">Підключитися до Telegram за допомогою WebSocket через Cloudflare, <![CDATA[<a href=\"%s\">технічні подробиці</a>]]>.</string>
     <string name="WsEnableTls">Увімкнути TLS</string>
     <string name="WsLocalProxy">Локальний проксі</string>
     <string name="WsEnableDoh">Увімкнути DoH</string>

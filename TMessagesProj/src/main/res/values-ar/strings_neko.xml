@@ -95,7 +95,6 @@
     <string name="DisableProximityEvents">إيقاف مستشعرات الجسم</string>
     <string name="CustomEmojiTypeface">خطٌ مخصص للرموز التعبيرية</string>
     <string name="MapDriftingFix">تصليح الخرائط للصين</string>
-    <string name="IncreaseVoiceMessageQuality">تحسين جودة الرسائل الصوتية</string>
     <string name="DisableInstantCamera">إيقاف الكاميرا الفورية</string>
     <string name="OpenAllLinksInInstantView">محاولة فتح جميع الروابط في العرض السريع</string>
     <string name="DonateThankYou">شكرا لك!</string>
@@ -122,10 +121,8 @@
     <string name="SilenceNonContacts">إصمات المحادثات الغير مسجلة كجهات اتصال</string>
     <string name="SilenceNonContactsAbout">الإشعارات من الناس الذين ليسوا جهات الاتصال الخاصة بك ستظهر بدون صوت. يمكنك إضافة مستخدمين إلى جهات الاتصال عن طريق ملفهم الشخصي دون الحاجة إلى معرفة رقم هاتفهم.</string>
     <string name="SelectBetween">اختر بين</string>
-    <string name="SwipeToPiP">اسحب الفيديو لأعلى لفتحه في وضع \"صورة داخل صورة\"</string>
     <string name="StickerSavedHint">تم حفظ الملصق في معرض الصور</string>
     <string name="RegistrationDate">تاريخ التسجيل</string>
-    <string name="WsDescription2">الاتصال بتيليجرام عن طريق WebSocket عبر Cloudflare، <![CDATA[<a href=\"%s\">التفاصيل التقنية</a>]]>.</string>
     <string name="UpdateNekogram">تحديث نيكوغرام</string>
     <string name="TranslationTarget">اللغة المراد الترجمة إليها</string>
     <string name="TranslationTargetApp">لغة التطبيق</string>

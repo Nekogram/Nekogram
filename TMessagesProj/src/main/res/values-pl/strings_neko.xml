@@ -95,7 +95,6 @@
     <string name="DisableProximityEvents">Wyłącz usługi oparte na lokalizacji</string>
     <string name="CustomEmojiTypeface">Własna czcionka emoji</string>
     <string name="MapDriftingFix">Poprawka na dryfowanie map dla Chin kontynentalnych</string>
-    <string name="IncreaseVoiceMessageQuality">Zwiększ jakość wiadomości głosowych</string>
     <string name="DisableInstantCamera">Wyłącz natychmiastową kamerę</string>
     <string name="OpenAllLinksInInstantView">Otwieraj wszystkie linki w Widoku błyskawicznym</string>
     <string name="DonateThankYou">Dziękuję!</string>
@@ -122,10 +121,8 @@
     <string name="SilenceNonContacts">Wycisz osoby, które nie są twoimi kontaktami</string>
     <string name="SilenceNonContactsAbout">Powiadomienia od osób, które nie są twoimi kontaktami, pojawią się bez dźwięku. Możesz dodawać użytkowników do kontaktów z ich profilu, nie znając ich numeru telefonu.</string>
     <string name="SelectBetween">Wybierz pomiędzy</string>
-    <string name="SwipeToPiP">Przesuń w górę, aby włączyć PiP</string>
     <string name="StickerSavedHint">Naklejka zapisana w galerii</string>
     <string name="RegistrationDate">Data rejestracji</string>
-    <string name="WsDescription2">Połącz się z Telegramem, używając WebSocket przez Cloudflare, <![CDATA[<a href=\"%s\">szczegóły techniczne</a>]]>.</string>
     <string name="WsEnableTls">Włącz TLS</string>
     <string name="WsLocalProxy">Lokalne proxy</string>
     <string name="WsEnableDoh">Włącz DoH</string>

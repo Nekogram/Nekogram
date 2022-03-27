@@ -99,7 +99,9 @@
     <string name="DisableProximityEvents">Отключить датчик приближения</string>
     <string name="CustomEmojiTypeface">Шрифт пользовательских эмодзи</string>
     <string name="MapDriftingFix">Исправление карт для Китая</string>
-    <string name="IncreaseVoiceMessageQuality">Улучшенное качество голосовых сообщений</string>
+    <string name="IncreaseVoiceMessageQuality">Высокое качество голосовых сообщений</string>
+    <string name="VoiceEnhancements">Улучшение голоса</string>
+    <string name="VoiceEnhancementsAbout">Шумоподавление и улучшение голоса</string>
     <string name="DisableInstantCamera">Отключить встроенную камеру</string>
     <string name="OpenAllLinksInInstantView">Все ссылки в Instant View</string>
     <string name="DonateThankYou">Спасибо!</string>
@@ -126,10 +128,9 @@
     <string name="SilenceNonContacts">Беззвучные уведомление от контактов которых нет в записной книжке</string>
     <string name="SilenceNonContactsAbout">Уведомления от людей не из ваших контактов будут приходить без звука. Вы можете добавить пользователей в контакты не зная их номера.</string>
     <string name="SelectBetween">Выбрать между</string>
-    <string name="SwipeToPiP">Смахните видео вверх, чтобы открыть картинку в картинке</string>
     <string name="StickerSavedHint">Стикер запрыгнул к вам в хранилище~</string>
     <string name="RegistrationDate">Дата регистрации</string>
-    <string name="WsDescription2">Подключение к Telegram через WebSocket посредством Cloudflare, <![CDATA[<a href=\"%s\">технические подробности</a>]]>.</string>
+    <string name="WsDescription">Подключение к Telegram через WebSocket Cloudflare. **Learn more**</string>
     <string name="WsEnableTls">Включить TLS</string>
     <string name="WsLocalProxy">Локальный прокси</string>
     <string name="WsEnableDoh">Включить DoH</string>
@@ -208,6 +209,7 @@
     <string name="ShowRPCErrorException">Исключения: %s</string>
     <string name="KeepFormatting">Сохранять форматирование текста</string>
     <string name="KeepFormattingAbout">При копировании текста в чат.</string>
+    <string name="SoonRemovedOption">Эта экспериментальная опция скоро будет удалена и включена по умолчанию, если у вас есть проблемы с этой опцией**сообщите нам**\".\".</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>

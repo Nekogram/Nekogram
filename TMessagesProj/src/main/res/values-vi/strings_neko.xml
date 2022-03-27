@@ -92,7 +92,6 @@
     <string name="DisableProximityEvents">Vô hiệu hóa các sự kiện lân cận</string>
     <string name="CustomEmojiTypeface">Phông chữ biểu tượng cảm xúc tùy chỉnh</string>
     <string name="MapDriftingFix">Sửa lỗi bản đồ trôi dạt cho Trung Quốc đại lục</string>
-    <string name="IncreaseVoiceMessageQuality">Tăng chất lượng tin nhắn thoại</string>
     <string name="DisableInstantCamera">Vô hiệu máy ảnh tức thì</string>
     <string name="OpenAllLinksInInstantView">Cố gắng mở tất cả các liên kết trong xem tức thì</string>
     <string name="DonateThankYou">Cảm ơn! ♥️</string>
@@ -119,7 +118,6 @@
     <string name="SilenceNonContacts">Tắt thông báo không có trong danh bạ</string>
     <string name="SilenceNonContactsAbout">Thông báo từ những người không có trong danh bạ của bạn sẽ xuất hiện không có âm thanh. Bạn có thể thêm họ vào danh bạ từ hồ sơ của họ mà không cần biết số điện thoại của họ.</string>
     <string name="SelectBetween">Chọn giữa</string>
-    <string name="SwipeToPiP">Vuốt video lên để mở Ảnh trong Ảnh</string>
     <string name="StickerSavedHint">Nhãn dán đã được lưu vào thư viện ảnh</string>
     <string name="RegistrationDate">Ngày đăng ký</string>
     <string name="UpdateNekogram">Cập nhật Nekogram</string>

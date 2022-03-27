@@ -98,7 +98,9 @@
     <string name="DisableProximityEvents">Yakınlık olaylarını devre dışı bırak</string>
     <string name="CustomEmojiTypeface">Özel emoji yazı tipi</string>
     <string name="MapDriftingFix">Çin Anakarası için harita sürüklenme düzeltmesi</string>
-    <string name="IncreaseVoiceMessageQuality">Sesli mesajların kalitesini artırın</string>
+    <string name="IncreaseVoiceMessageQuality">Yüksek kaliteli sesli mesajlar</string>
+    <string name="VoiceEnhancements">Ses geliştirmeleri</string>
+    <string name="VoiceEnhancementsAbout">Gürültü Engelleme ve Ses Normalleştirme</string>
     <string name="DisableInstantCamera">Anında kamerayı devre dışı bırak</string>
     <string name="OpenAllLinksInInstantView">Anlık Görünümde tüm bağlantıları açmayı deneyin</string>
     <string name="DonateThankYou">Teşekkürler!</string>
@@ -125,10 +127,9 @@
     <string name="SilenceNonContacts">Kişilerde Olmayanları Sessize Al</string>
     <string name="SilenceNonContactsAbout">Kişileriniz olmayan kişilerden gelen bildirimler sessiz olarak görünecektir. Kullanıcıları, telefon numaralarını bilmeden profillerinden kişilere ekleyebilirsiniz.</string>
     <string name="SelectBetween">Arasında seçim yapın</string>
-    <string name="SwipeToPiP">PiP\'yi açmak için videoyu yukarı kaydırın</string>
     <string name="StickerSavedHint">Çıkartma galeriye kaydedildi</string>
     <string name="RegistrationDate">Kayıt tarihi</string>
-    <string name="WsDescription2">Cloudflare tarafından sunulan WebSocket aracılığıyla Telegram\'a bağlanın, <![CDATA[<a href=\"%s\">teknik ayrıntılar</a>]]>.</string>
+    <string name="WsDescription">Cloudflare tarafından sunulan WebSocket aracılığıyla Telegram\'a bağlanın. **Daha fazla**</string>
     <string name="WsEnableTls">TLS\'yi etkinleştir</string>
     <string name="WsLocalProxy">Yerel proxy</string>
     <string name="WsEnableDoh">DoH\'u etkinleştir</string>
@@ -207,6 +208,7 @@
     <string name="ShowRPCErrorException">İstisnalar: %s</string>
     <string name="KeepFormatting">Metin biçimlendirmesini koru</string>
     <string name="KeepFormattingAbout">Sohbette metin kopyala-yapıştırırken.</string>
+    <string name="SoonRemovedOption">Bu deneysel seçenek yakında kaldırılacak ve varsayılan olarak etkinleştirilecektir, bu seçenekle ilgili sorun yaşıyorsanız, lütfen **bize bildirin**.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Erişilebilirlik ayarları</string>
     <string name="AccRewindHeading">Geri sarma ayarları</string>

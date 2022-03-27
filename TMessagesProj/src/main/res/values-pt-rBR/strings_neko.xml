@@ -99,7 +99,9 @@
     <string name="DisableProximityEvents">Desativar eventos de proximidade</string>
     <string name="CustomEmojiTypeface">Fonte personalizada de emoji</string>
     <string name="MapDriftingFix">Correção de desvio de mapa para a China continental</string>
-    <string name="IncreaseVoiceMessageQuality">Aumentar a qualidade das mensagens de voz</string>
+    <string name="IncreaseVoiceMessageQuality">Mensagens de voz em alta qualidade</string>
+    <string name="VoiceEnhancements">Melhorias de voz</string>
+    <string name="VoiceEnhancementsAbout">Supressão de ruído e normalização de voz</string>
     <string name="DisableInstantCamera">Desabilitar câmera instantânea</string>
     <string name="OpenAllLinksInInstantView">Tentar abrir todos os links no InstantView</string>
     <string name="DonateThankYou">Obrigado!</string>
@@ -126,10 +128,8 @@
     <string name="SilenceNonContacts">Silenciar Não Contatos</string>
     <string name="SilenceNonContactsAbout">Notificações de pessoas que não são seus contatos aparecerão sem som. Você pode adicionar usuários aos contatos a partir do perfil deles sem saber o número do telefone.</string>
     <string name="SelectBetween">Selecione entre</string>
-    <string name="SwipeToPiP">Deslize o vídeo para cima para abrir o PiP</string>
     <string name="StickerSavedHint">Salvar sticker na galeria </string>
     <string name="RegistrationDate">Data de registro</string>
-    <string name="WsDescription2">Conecte-se ao Telegram através do WebSocket via Cloudflare, <![CDATA[<a href=\"%s\">detalhes técnicos</a>]]>.</string>
     <string name="WsEnableTls">Habilitar TLS</string>
     <string name="WsLocalProxy">Proxy local</string>
     <string name="WsEnableDoh">Habilitar DNS-over-HTTPS</string>

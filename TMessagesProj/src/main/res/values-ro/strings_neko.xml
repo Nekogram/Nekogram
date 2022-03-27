@@ -90,7 +90,6 @@
     <string name="DisableProximityEvents">Dezactivare evenimente de proximitate</string>
     <string name="CustomEmojiTypeface">Font emoji customizat</string>
     <string name="MapDriftingFix">Remedierea în derivă a hărții pentru Mainland China</string>
-    <string name="IncreaseVoiceMessageQuality">Îmbunătățește calitatea mesajelor vocale</string>
     <string name="DisableInstantCamera">Dezactivează camera instantanee</string>
     <string name="OpenAllLinksInInstantView">Încercați să deschideți toate link-urile în InstantView</string>
     <string name="DonateThankYou">Îți mulțumesc!</string>
@@ -117,7 +116,6 @@
     <string name="SilenceNonContacts">Redu la tăcere non-contactele</string>
     <string name="SilenceNonContactsAbout">Notificările de la persoane care nu sunt persoanele de contact vor apărea fără sunet. Puteți adăuga utilizatori la contacte din profilul lor fără a cunoaște numărul lor de telefon.</string>
     <string name="SelectBetween">Selectați între</string>
-    <string name="SwipeToPiP">Glisați în sus pentru a deschide PiP</string>
     <string name="StickerSavedHint">Sticker salvat în galerie</string>
     <string name="RegistrationDate">Dată înregistrare</string>
     <string name="UpdateNekogram">Actualizați Nekogram</string>

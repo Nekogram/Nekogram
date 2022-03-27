@@ -93,7 +93,6 @@
     <string name="DisableProximityEvents">غیرفعال کردن رویدادهای مجاورت</string>
     <string name="CustomEmojiTypeface">فونت ایموجی سفارشی</string>
     <string name="MapDriftingFix">اصلاح نقشه رانش برای سرزمین اصلی چین</string>
-    <string name="IncreaseVoiceMessageQuality">افزایش کیفیت پیام های صوتی</string>
     <string name="DisableInstantCamera">غیرفعال کردن دوربین فوری</string>
     <string name="OpenAllLinksInInstantView">تلاش برای باز کردن همه لینک ها با InstantView</string>
     <string name="DonateThankYou">متشکریم!</string>
@@ -117,7 +116,6 @@
     <string name="SilenceNonContacts">ساکت کردن افراد غیر مخاطب</string>
     <string name="SilenceNonContactsAbout">اعلان‌های افرادی که مخاطب شما نیستند بدون صدا ظاهر می‌شوند. می توانید بدون دانستن شماره تلفن کاربران، از نمایه آنها به مخاطبین اضافه کنید.</string>
     <string name="SelectBetween">انتخاب بین</string>
-    <string name="SwipeToPiP">برای باز کردن PiP، ویدیو را به سمت بالا بکشید</string>
     <string name="StickerSavedHint">استیکر در گالری ذخیره شد</string>
     <string name="RegistrationDate">تاریخ ثبت نام</string>
     <string name="WsEnableTls">فعال کردن TLS</string>

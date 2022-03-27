@@ -98,7 +98,9 @@
     <string name="DisableProximityEvents">Matikan sensor jarak</string>
     <string name="CustomEmojiTypeface">Fon emoji kustom</string>
     <string name="MapDriftingFix">Benarkan peta untuk Tiongkok Daratan</string>
-    <string name="IncreaseVoiceMessageQuality">Tingkatkan kualitas pesan suara</string>
+    <string name="IncreaseVoiceMessageQuality">Pesan suara HQ</string>
+    <string name="VoiceEnhancements">Peningkatan suara</string>
+    <string name="VoiceEnhancementsAbout">Penekanan Kebisingan dan Normalisasi Suara</string>
     <string name="DisableInstantCamera">Matikan kamera langsung</string>
     <string name="OpenAllLinksInInstantView">Coba buka semua tautan di tampilan instan</string>
     <string name="DonateThankYou">Terima kasih!</string>
@@ -125,10 +127,9 @@
     <string name="SilenceNonContacts">Bisukan orang yang bukan kontak</string>
     <string name="SilenceNonContactsAbout">Pemberitahuan dari orang yang belum disimpan sebagai kontak akan muncul tanpa suara. Anda dapat menambahkan kontak tanpa mengetahui nomor telepon.</string>
     <string name="SelectBetween">Pilih antara</string>
-    <string name="SwipeToPiP">Geser video ke atas untuk membuka PiP</string>
     <string name="StickerSavedHint">Stiker tersimpan ke galeri</string>
     <string name="RegistrationDate">Registration date</string>
-    <string name="WsDescription2">Sambungkan ke Telegram menggunakan WebSocket melalui Cloudflare. <![CDATA[<a href=\"%s\">Info lebih teknis</a>]]>.</string>
+    <string name="WsDescription">Terhubung ke Telegram melalui WebSocket melalui Cloudflare. **Pelajari lebih lanjut**</string>
     <string name="WsEnableTls">Aktifkan TLS</string>
     <string name="WsLocalProxy">Proksi lokal</string>
     <string name="WsEnableDoh">Aktifkan doH</string>
@@ -197,10 +198,15 @@
     <string name="BlockedUserIgnored">diblokir</string>
     <string name="EditUndo">Batal</string>
     <string name="EditRedo">Ulang</string>
+    <string name="EditEnableMarkdown">Enable Markdown</string>
+    <string name="CopyCallback">Salin Data Panggilan Balik</string>
+    <string name="CopyInlineQuery">Salin Pertanyaan Dalam Baris</string>
     <string name="CopyID">Salin ID</string>
+    <string name="ShowRPCError">Toast semua kesalahan RPC</string>
     <string name="ShowRPCErrorException">Pengecualian: %s</string>
     <string name="KeepFormatting">Pertahankan pemformatan teks</string>
     <string name="KeepFormattingAbout">Saat salin-tempel teks dalam obrolan.</string>
+    <string name="SoonRemovedOption">Opsi eksperimental ini akan segera dihapus dan diaktifkan secara default, jika Anda mengalami masalah dengan opsi ini, silakan **laporkan kepada kami**.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Setelan Aksesibilitas</string>
 </resources>

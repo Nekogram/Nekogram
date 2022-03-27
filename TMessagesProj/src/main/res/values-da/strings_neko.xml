@@ -98,7 +98,6 @@
     <string name="DisableProximityEvents">Deaktiver nærhedshændelser</string>
     <string name="CustomEmojiTypeface">Brugerdefineret emoji-skrifttype</string>
     <string name="MapDriftingFix">Kort drivende fix for fastlandet Kina</string>
-    <string name="IncreaseVoiceMessageQuality">Øg kvaliteten af talebeskeder</string>
     <string name="DisableInstantCamera">Deaktivér øjeblikkeligt kamera</string>
     <string name="OpenAllLinksInInstantView">Prøv at åbne alle links i Øjeblikkelig visning</string>
     <string name="DonateThankYou">Mange tak!</string>
@@ -125,10 +124,8 @@
     <string name="SilenceNonContacts">Gør Ikke-Kontakter Tavse</string>
     <string name="SilenceNonContactsAbout">Meddelelser fra personer, der ikke er dine kontakter, vises uden lyd. Du kan føje brugere til kontakter fra deres profil uden at kende deres telefonnummer.</string>
     <string name="SelectBetween">Vælg mellem</string>
-    <string name="SwipeToPiP">Stryg op på video for at åbne PiP</string>
     <string name="StickerSavedHint">Klistermærke gemt i galleri</string>
     <string name="RegistrationDate">Registreringsdato</string>
-    <string name="WsDescription2">Opret forbindelse til Telegram via WebSocket via Cloudflare, <![CDATA[<a href=\"%s\">tekniske detaljer</a>]]>.</string>
     <string name="WsEnableTls">Aktiver TLS</string>
     <string name="WsLocalProxy">Lokal proxy</string>
     <string name="WsEnableDoh">Aktiver DoH</string>

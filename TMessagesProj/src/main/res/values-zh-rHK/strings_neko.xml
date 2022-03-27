@@ -96,7 +96,6 @@
     <string name="CustomEmojiTypeface">自定義表情符號字體</string>
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**應用</string>
     <string name="MapDriftingFix">世界大地測量系統 ==> 火星大地測量系統</string>
-    <string name="IncreaseVoiceMessageQuality">增加語音訊息質量</string>
     <string name="DisableInstantCamera">禁用即使相機</string>
     <string name="OpenAllLinksInInstantView">嘗試在即時視圖裏打開鏈接</string>
     <string name="DonateThankYou">謝謝你！</string>
@@ -123,7 +122,6 @@
     <string name="SilenceNonContacts">靜音非聯係人</string>
     <string name="SilenceNonContactsAbout">來自非您聯繫人的通知將無聲顯示。 您可以將用戶添加到他們的個人資料中的聯繫人，而無需知道他們的電話號碼。</string>
     <string name="SelectBetween">選擇中間</string>
-    <string name="SwipeToPiP">向上滑動視頻以打開畫中畫</string>
     <string name="StickerSavedHint">貼紙已保存到圖庫</string>
     <string name="RegistrationDate">注冊日期</string>
     <string name="WsEnableTls">啓用TLS</string>

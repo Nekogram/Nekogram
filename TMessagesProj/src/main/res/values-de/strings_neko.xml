@@ -98,7 +98,9 @@
     <string name="DisableProximityEvents">Näherungssensor deaktivieren</string>
     <string name="CustomEmojiTypeface">Benutzerdefinierte Emoji-Schriftart</string>
     <string name="MapDriftingFix">Kartendrifting-Fix für China</string>
-    <string name="IncreaseVoiceMessageQuality">Qualität der Sprachnachrichten erhöhen</string>
+    <string name="IncreaseVoiceMessageQuality">HQ Sprachnachrichten</string>
+    <string name="VoiceEnhancements">Stimmenverbesserungen</string>
+    <string name="VoiceEnhancementsAbout">Rauschunterdrückung und Stimmnormalisierung</string>
     <string name="DisableInstantCamera">Sofortkamera deaktivieren</string>
     <string name="OpenAllLinksInInstantView">Versuche alle Links in InstantView zu öffnen</string>
     <string name="DonateThankYou">Vielen Dank!</string>
@@ -125,10 +127,8 @@
     <string name="SilenceNonContacts">Nicht-Kontakte stummschalten</string>
     <string name="SilenceNonContactsAbout">Benachrichtigungen von Personen, die nicht Ihre Kontakte sind, werden ohne Ton angezeigt. Sie können Benutzer zu Kontakten aus ihrem Profil hinzufügen, ohne ihre Telefonnummer zu kennen.</string>
     <string name="SelectBetween">Wählen Sie zwischen</string>
-    <string name="SwipeToPiP">Video hochwischen um PiP zu öffnen</string>
     <string name="StickerSavedHint">Sticker in Galerie gespeichert</string>
     <string name="RegistrationDate">Registrierungsdatum</string>
-    <string name="WsDescription2">Mit Telegram verbinden über WebSocket via Cloudflare, <![CDATA[<a href=\"%s\">technische Details</a>]]>.</string>
     <string name="WsEnableTls">TLS aktivieren</string>
     <string name="WsLocalProxy">Lokaler Proxy</string>
     <string name="WsEnableDoh">DoH aktivieren</string>
@@ -203,6 +203,9 @@
     <string name="CopyCallback">Rückrufdaten kopieren</string>
     <string name="CopyInlineQuery">Inline-Abfrage kopieren</string>
     <string name="CopyID">ID kopieren</string>
+    <string name="ShowRPCErrorException">Ausnahmen: %s</string>
+    <string name="KeepFormatting">Textformatierung beibehalten</string>
+    <string name="KeepFormattingAbout">Beim Kopieren/Einfügen von Text im Chat.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Bedienungshilfen</string>
 </resources>
