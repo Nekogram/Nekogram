@@ -30,10 +30,12 @@ import java.io.File;
 import java.io.FileReader;
 import java.net.ServerSocket;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import tw.nekomimi.nekogram.helpers.remote.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import tw.nekomimi.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.translator.Translator;
@@ -158,13 +160,16 @@ public class NekoConfig {
     private static Typeface systemEmojiTypeface;
     public static boolean loadSystemEmojiFailed = false;
 
-    public static String lastDeepLKey = null;
-
     public static ArrayList<TLRPC.Update> pendingChangelog;
 
     public static boolean isChineseUser = false;
     public static boolean installedFromPlay = false;
 
+    private static final SharedPreferences.OnSharedPreferenceChangeListener listener = (preferences, key) -> {
+        var map = new HashMap<String, String>(1);
+        map.put("key", key);
+        AnalyticsHelper.trackEvent("Neko config changed", map);
+    };
     private static boolean configLoaded;
 
     static {
@@ -205,6 +210,7 @@ public class NekoConfig {
                         .setIfDoH(wsUseDoH);
                 tcp2wsServer.start(socksPort);
                 tcp2wsStarted = true;
+                AnalyticsHelper.trackEvent("tcp2wsStarted");
             }
             return socksPort;
         } catch (Exception e) {
@@ -334,24 +340,26 @@ public class NekoConfig {
             codeSyntaxHighlight = preferences.getBoolean("codeSyntaxHighlightToBeRemoved", true);
             doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
             restrictedLanguages = new HashSet<>(preferences.getStringSet("restrictedLanguages", new HashSet<>()));
-            lastDeepLKey = preferences.getString("lastDeepLKey", "");
             disableMarkdownByDefault = preferences.getBoolean("disableMarkdownByDefault", false);
             showRPCError = preferences.getBoolean("showRPCError", false);
             keepFormatting = preferences.getBoolean("keepFormattingToBeRemoved", true);
+            preferences.registerOnSharedPreferenceChangeListener(listener);
+
+            var map = new HashMap<String, String>();
+            map.put("installedFromPlay", String.valueOf(installedFromPlay));
+            map.put("isChineseUser", String.valueOf(isChineseUser));
+            var all = preferences.getAll();
+            for (var key : all.keySet()) {
+                var value = all.get(key);
+                map.put(key, value != null ? value.toString() : "null");
+            }
+            AnalyticsHelper.trackEvent("loadConfig", map);
             configLoaded = true;
         }
     }
 
     public static boolean isChatCat(TLRPC.Chat chat) {
         return ConfigHelper.getVerify().stream().anyMatch(id -> id == chat.id);
-    }
-
-    public static void setLastDeepLKey(String key) {
-        lastDeepLKey = key;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putString("lastDeepLKey", lastDeepLKey);
-        editor.commit();
     }
 
     public static void saveRestrictedLanguages() {

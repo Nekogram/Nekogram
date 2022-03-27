@@ -81,9 +81,9 @@ public class ApplicationLoader extends Application {
         AnalyticsHelper.trackEvent("App start");
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             var am = getSystemService(ActivityManager.class);
-            var map = new HashMap<String, String>(1);
             var reasons = am.getHistoricalProcessExitReasons(null, 0, 1);
             if (reasons.size() == 1) {
+                var map = new HashMap<String, String>(5);
                 map.put("description", reasons.get(0).getDescription());
                 map.put("importance", String.valueOf(reasons.get(0).getImportance()));
                 map.put("process", reasons.get(0).getProcessName());
