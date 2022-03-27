@@ -1752,7 +1752,7 @@ public class MediaDataController extends BaseController {
                 }
                 processLoadedStickers(type, newStickerArray, true, date, hash);
             });
-        } else if (!getUserConfig().getCurrentUser().bot) {
+        } else if (getUserConfig().getCurrentUser() == null || !getUserConfig().getCurrentUser().bot) {
             if (type == TYPE_FEATURED) {
                 TLRPC.TL_messages_allStickers response = new TLRPC.TL_messages_allStickers();
                 response.hash = loadFeaturedHash;

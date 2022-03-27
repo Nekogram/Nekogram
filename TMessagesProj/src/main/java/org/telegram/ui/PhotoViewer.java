@@ -10336,10 +10336,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         date = (long) newMessageObject.messageOwner.date * 1000;
                     }
                     String dateString = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date)));
-                    if (newMessageObject.messageOwner.media.document != null) {
-                        dateString = String.format(Locale.US, "%s, DC%d", dateString, newMessageObject.messageOwner.media.document.dc_id);
-                    } else if (newMessageObject.messageOwner.media.photo != null) {
-                        dateString = String.format(Locale.US, "%s, DC%d", dateString, newMessageObject.messageOwner.media.photo.dc_id);
+                    if (newMessageObject.messageOwner.media != null) {
+                        if (newMessageObject.messageOwner.media.document != null) {
+                            dateString = String.format(Locale.US, "%s, DC%d", dateString, newMessageObject.messageOwner.media.document.dc_id);
+                        } else if (newMessageObject.messageOwner.media.photo != null) {
+                            dateString = String.format(Locale.US, "%s, DC%d", dateString, newMessageObject.messageOwner.media.photo.dc_id);
+                        }
                     }
                     if (newFileName != null && isVideo) {
                         dateTextView.setText(String.format("%s (%s)", dateString, AndroidUtilities.formatFileSize(newMessageObject.getDocument().size)), animated);

@@ -2937,7 +2937,9 @@ public class LoginActivity extends BaseFragment {
         }
 
         private void handleError(String errorText) {
-            qrDialog.dismiss();
+            if (qrDialog != null) {
+                qrDialog.dismiss();
+            }
             if (errorText.contains("SESSION_PASSWORD_NEEDED")) {
                 TLRPC.TL_account_getPassword req = new TLRPC.TL_account_getPassword();
                 getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
@@ -2953,7 +2955,7 @@ public class LoginActivity extends BaseFragment {
                         SerializedData data = new SerializedData(password.getObjectSize());
                         password.serializeToStream(data);
                         bundle.putString("password", Utilities.bytesToHex(data.toByteArray()));
-                        setPage(6, true, bundle, false);
+                        setPage(VIEW_PASSWORD, true, bundle, false);
                     } else {
                         needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
                     }

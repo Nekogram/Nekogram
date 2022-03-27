@@ -3979,8 +3979,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
 
             }
         } else {
-            boolean notify = dialogsFragment == null || dialogsFragment.forwardContext.getForwardParams().notify;
-            int scheduleDate = dialogsFragment == null ? 0 : dialogsFragment.forwardContext.getForwardParams().scheduleDate;
+            boolean notify = dialogsFragment == null || dialogsFragment.forwardContext == null || dialogsFragment.forwardContext.getForwardParams().notify;
+            int scheduleDate = dialogsFragment == null || dialogsFragment.forwardContext == null ? 0 : dialogsFragment.forwardContext.getForwardParams().scheduleDate;
             final ChatActivity fragment;
             if (dids.size() <= 1) {
                 final long did = dids.get(0);
