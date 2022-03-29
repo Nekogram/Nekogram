@@ -214,7 +214,10 @@ public class NekoConfig {
                         .setIfDoH(wsUseDoH);
                 tcp2wsServer.start(socksPort);
                 tcp2wsStarted = true;
-                AnalyticsHelper.trackEvent("tcp2wsStarted");
+                var map = new HashMap<String, String>();
+                map.put("installedFromPlay", String.valueOf(installedFromPlay));
+                map.put("isChineseUser", String.valueOf(isChineseUser));
+                AnalyticsHelper.trackEvent("tcp2ws started", map);
             }
             return socksPort;
         } catch (Exception e) {
