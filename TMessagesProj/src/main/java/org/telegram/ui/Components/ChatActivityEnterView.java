@@ -1680,14 +1680,14 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
     }
 
-    private void send(String mime, Uri uri, boolean notify, int scheduleDate) {
+    private void sendPhoto(String mime, Uri uri, boolean notify, int scheduleDate) {
         if (mime.equalsIgnoreCase("image/gif")) {
-            SendMessagesHelper.prepareSendingDocument(accountInstance, null, null, uri, null, "image/gif", dialog_id, replyingMessageObject, getThreadMessage(), null, null, notify, 0);
+            SendMessagesHelper.prepareSendingDocument(accountInstance, null, null, uri, null, "image/gif", dialog_id, replyingMessageObject, getThreadMessage(), null, null, notify, scheduleDate);
         } else {
-            SendMessagesHelper.prepareSendingPhoto(accountInstance, null, uri, dialog_id, replyingMessageObject, getThreadMessage(), null, null, null, mime, 0, null, notify, 0);
+            SendMessagesHelper.prepareSendingPhoto(accountInstance, null, uri, dialog_id, replyingMessageObject, getThreadMessage(), null, null, null, mime, 0, null, notify, scheduleDate);
         }
         if (delegate != null) {
-            delegate.onMessageSend(null, true, scheduleDate);
+            delegate.onMessageSend(null, notify, scheduleDate);
         }
     }
 
@@ -1945,9 +1945,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                                 clip.getItemCount() == 1 &&
                                 (mimeType.equalsIgnoreCase("image/gif") || SendMessagesHelper.shouldSendWebPAsSticker(null, uri))) {
                             if (isInScheduleMode()) {
-                                AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate) -> send(mimeType, uri, notify, scheduleDate), resourcesProvider);
+                                AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate) -> sendPhoto(mimeType, uri, notify, scheduleDate), resourcesProvider);
                             } else {
-                                send(mimeType, uri, true, 0);
+                                sendPhoto(mimeType, uri, true, 0);
                             }
                         } else {
                             var info = new SendMessagesHelper.SendingMediaInfo();
