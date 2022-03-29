@@ -18,7 +18,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class EditTextEffects extends EditText {
+import tw.nekomimi.nekogram.appcompat.AppCompatEditText;
+
+public class EditTextEffects extends AppCompatEditText {
     private final static int SPOILER_TIMEOUT = 10000;
 
     private List<SpoilerEffect> spoilers = new ArrayList<>();

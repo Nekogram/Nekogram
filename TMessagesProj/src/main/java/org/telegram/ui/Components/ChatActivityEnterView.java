@@ -21,7 +21,6 @@ import android.content.ClipData;
 import android.content.ClipDescription;
 import android.content.ClipboardManager;
 import android.content.Context;
-import android.content.ContextWrapper;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -58,7 +57,6 @@ import android.text.style.ImageSpan;
 import android.util.Property;
 import android.util.TypedValue;
 import android.view.ActionMode;
-import android.view.DragEvent;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
 import android.view.KeyEvent;
@@ -154,7 +152,6 @@ import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.EntitiesHelper;
-import tw.nekomimi.nekogram.syntaxhighlight.SyntaxHighlight;
 
 public class ChatActivityEnterView extends BlurredFrameLayout implements NotificationCenter.NotificationCenterDelegate, SizeNotifierFrameLayout.SizeNotifierFrameLayoutDelegate, StickersAlert.StickersAlertDelegate {
 
@@ -1920,28 +1917,8 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             }
 
             @Override
-            public InputConnection onCreateInputConnection(EditorInfo outAttrs) {
-                InputConnection ic = super.onCreateInputConnection(outAttrs);
-                if (ic != null && Build.VERSION.SDK_INT <= 30) {
-                    String[] mimeTypes = ViewCompat.getOnReceiveContentMimeTypes(this);
-                    if (mimeTypes != null) {
-                        EditorInfoCompat.setContentMimeTypes(outAttrs, mimeTypes);
-                        ic = InputConnectionCompat.createWrapper(this, ic, outAttrs);
-                    }
-                }
-                return ic;
-            }
-
-            @Override
-            public boolean onDragEvent(DragEvent event) {
-                AppCompatReceiveContentHelper.maybeHandleDragEventViaPerformReceiveContent(this, event);
-                return super.onDragEvent(event);
-            }
-
-            @Override
             public boolean onTextContextMenuItem(int id) {
-                AppCompatReceiveContentHelper.maybeHandleMenuActionViaPerformReceiveContent(this, id);
-                if (id == android.R.id.paste) {
+                if (id == android.R.id.paste || id == android.R.id.pasteAsPlainText) {
                     isPaste = true;
                 }
                 return super.onTextContextMenuItem(id);
@@ -1964,7 +1941,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     for (int i = 0; i < clip.getItemCount(); i++) {
                         var uri = clip.getItemAt(i).getUri();
                         var mimeType = clip.getDescription().getMimeType(i);
-                        if (clip.getItemCount() == 1 && (mimeType.equalsIgnoreCase("image/gif") || SendMessagesHelper.shouldSendWebPAsSticker(null, uri))) {
+                        if (payload.getSource() == ContentInfoCompat.SOURCE_INPUT_METHOD &&
+                                clip.getItemCount() == 1 &&
+                                (mimeType.equalsIgnoreCase("image/gif") || SendMessagesHelper.shouldSendWebPAsSticker(null, uri))) {
                             if (isInScheduleMode()) {
                                 AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate) -> send(mimeType, uri, notify, scheduleDate), resourcesProvider);
                             } else {
@@ -8973,61 +8952,5 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     private Paint getThemedPaint(String paintKey) {
         Paint paint = resourcesProvider != null ? resourcesProvider.getPaint(paintKey) : null;
         return paint != null ? paint : Theme.getThemePaint(paintKey);
-    }
-
-    private final static class AppCompatReceiveContentHelper {
-        static void maybeHandleMenuActionViaPerformReceiveContent(@NonNull TextView view,
-                                                                     int actionId) {
-            if (Build.VERSION.SDK_INT >= 31
-                    || ViewCompat.getOnReceiveContentMimeTypes(view) == null
-                    || actionId != android.R.id.paste) {
-                return;
-            }
-            ClipboardManager cm = (ClipboardManager) view.getContext().getSystemService(
-                    Context.CLIPBOARD_SERVICE);
-            ClipData clip = (cm == null) ? null : cm.getPrimaryClip();
-            if (clip != null && clip.getItemCount() > 0 && clip.getDescription().hasMimeType("image/*")) {
-                ContentInfoCompat payload = new ContentInfoCompat.Builder(clip, ContentInfoCompat.SOURCE_CLIPBOARD)
-                        .setFlags(0)
-                        .build();
-                ViewCompat.performReceiveContent(view, payload);
-            }
-        }
-
-        static void maybeHandleDragEventViaPerformReceiveContent(@NonNull TextView view,
-                                                                    @NonNull DragEvent event) {
-            if (Build.VERSION.SDK_INT >= 31
-                    || Build.VERSION.SDK_INT < 24
-                    || event.getAction() == DragEvent.ACTION_DRAG_STARTED
-                    || event.getLocalState() != null
-                    || ViewCompat.getOnReceiveContentMimeTypes(view) == null) {
-                return;
-            }
-            final Activity activity = tryGetActivity(view);
-            if (activity == null) {
-                return;
-            }
-            if (event.getAction() == DragEvent.ACTION_DROP) {
-                activity.requestDragAndDropPermissions(event);
-                ClipData clip = event.getClipData();
-                if (clip != null && clip.getItemCount() > 0 && clip.getDescription().hasMimeType("image/*")) {
-                    final ContentInfoCompat payload = new ContentInfoCompat.Builder(
-                            clip, ContentInfoCompat.SOURCE_DRAG_AND_DROP).build();
-                    ViewCompat.performReceiveContent(view, payload);
-                }
-            }
-        }
-
-        @Nullable
-        static Activity tryGetActivity(@NonNull View view) {
-            Context context = view.getContext();
-            while (context instanceof ContextWrapper) {
-                if (context instanceof Activity) {
-                    return (Activity) context;
-                }
-                context = ((ContextWrapper) context).getBaseContext();
-            }
-            return null;
-        }
     }
 }
