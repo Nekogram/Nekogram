@@ -22,7 +22,6 @@
     <string name="Repeat">Repeat</string>
     <string name="AddToSavedMessages">Save message</string>
     <string name="CreateMention">Create Mention</string>
-    <string name="ForceTabletMode">Force tablet mode</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Transparent status bar</string>
     <string name="EnableResidentNotification">Show a resident notification</string>
@@ -214,6 +213,8 @@
     <string name="KeepFormatting">Keep text formatting</string>
     <string name="KeepFormattingAbout">When copy-pasting text in chat.</string>
     <string name="SoonRemovedOption">This experimental option will be removed and enabled by default soon, if you are having issues with this option, please **report to us**.</string>
+    <string name="TabletMode">Tablet mode</string>
+    <string name="TabletModeAuto">Auto</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

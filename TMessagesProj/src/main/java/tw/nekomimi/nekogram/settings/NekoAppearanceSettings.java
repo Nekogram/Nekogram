@@ -40,12 +40,12 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
     private int appearanceRow;
     private int useSystemEmojiRow;
     private int transparentStatusBarRow;
-    private int forceTabletRow;
     private int mediaPreviewRow;
     private int appBarShadowRow;
     private int formatTimeWithSecondsRow;
     private int disableNumberRoundingRow;
     private int newYearRow;
+    private int tabletModeRow;
     private int eventTypeRow;
     private int appearance2Row;
 
@@ -65,12 +65,20 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
             parentLayout.rebuildAllFragmentViews(false, false);
             getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
             listAdapter.notifyItemChanged(drawerRow, new Object());
-        } else if (position == forceTabletRow) {
-            NekoConfig.toggleForceTablet();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.forceTablet);
-            }
-            showRestartBulletin();
+        } else if (position == tabletModeRow) {
+            ArrayList<String> arrayList = new ArrayList<>();
+            ArrayList<Integer> types = new ArrayList<>();
+            arrayList.add(LocaleController.getString("TabletModeAuto", R.string.TabletModeAuto));
+            types.add(NekoConfig.TABLET_AUTO);
+            arrayList.add(LocaleController.getString("Enable", R.string.Enable));
+            types.add(NekoConfig.TABLET_ENABLE);
+            arrayList.add(LocaleController.getString("Disable", R.string.Disable));
+            types.add(NekoConfig.TABLET_DISABLE);
+            PopupHelper.show(arrayList, LocaleController.getString("TabletMode", R.string.TabletMode), types.indexOf(NekoConfig.tabletMode), getParentActivity(), view, i -> {
+                NekoConfig.setTabletMode(types.get(i));
+                listAdapter.notifyItemChanged(tabletModeRow);
+                showRestartBulletin();
+            });
         } else if (position == transparentStatusBarRow) {
             SharedConfig.toggleNoStatusBar();
             if (view instanceof TextCheckCell) {
@@ -208,13 +216,13 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
         appearanceRow = rowCount++;
         useSystemEmojiRow = rowCount++;
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
-        forceTabletRow = rowCount++;
         mediaPreviewRow = rowCount++;
         appBarShadowRow = rowCount++;
         formatTimeWithSecondsRow = rowCount++;
         disableNumberRoundingRow = rowCount++;
         newYearRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
         eventTypeRow = rowCount++;
+        tabletModeRow = rowCount++;
         appearance2Row = rowCount++;
 
         foldersRow = rowCount++;
@@ -252,7 +260,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                             default:
                                 value = LocaleController.getString("DependsOnDate", R.string.DependsOnDate);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("EventType", R.string.EventType), value, false);
+                        textCell.setTextAndValue(LocaleController.getString("EventType", R.string.EventType), value, true);
                     } else if (position == tabsTitleTypeRow) {
                         String value;
                         switch (NekoConfig.tabsTitleType) {
@@ -267,6 +275,20 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                                 value = LocaleController.getString("TabTitleTypeMix", R.string.TabTitleTypeMix);
                         }
                         textCell.setTextAndValue(LocaleController.getString("TabTitleType", R.string.TabTitleType), value, false);
+                    } else if (position == tabletModeRow) {
+                        String value;
+                        switch (NekoConfig.tabletMode) {
+                            case NekoConfig.TABLET_AUTO:
+                                value = LocaleController.getString("TabletModeAuto", R.string.TabletModeAuto);
+                                break;
+                            case NekoConfig.TABLET_ENABLE:
+                                value = LocaleController.getString("Enable", R.string.Enable);
+                                break;
+                            case NekoConfig.TABLET_DISABLE:
+                            default:
+                                value = LocaleController.getString("Disable", R.string.Disable);
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("TabletMode", R.string.TabletMode), value, false);
                     }
                     break;
                 }
@@ -279,8 +301,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                         textCell.setTextAndCheck(LocaleController.getString("TransparentStatusBar", R.string.TransparentStatusBar), SharedConfig.noStatusBar, true);
                     } else if (position == useSystemEmojiRow) {
                         textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), NekoConfig.useSystemEmoji, true);
-                    } else if (position == forceTabletRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("ForceTabletMode", R.string.ForceTabletMode), NekoConfig.forceTablet, true);
                     } else if (position == newYearRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ChristmasHat", R.string.ChristmasHat), NekoConfig.newYear, true);
                     } else if (position == avatarAsDrawerBackgroundRow) {
@@ -346,7 +366,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
         public int getItemViewType(int position) {
             if (position == appearance2Row || position == drawer2Row) {
                 return 1;
-            } else if (position == eventTypeRow || position == tabsTitleTypeRow) {
+            } else if (position == eventTypeRow || position == tabsTitleTypeRow || position == tabletModeRow) {
                 return 2;
             } else if (position == newYearRow || position == showTabsOnForwardRow || position == hideAllTabRow ||
                     (position > appearanceRow && position <= disableNumberRoundingRow) ||

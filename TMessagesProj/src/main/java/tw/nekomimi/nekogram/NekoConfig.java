@@ -64,6 +64,10 @@ public class NekoConfig {
     public static final int DOUBLE_TAP_ACTION_REPEAT = 5;
     public static final int DOUBLE_TAP_ACTION_EDIT = 6;
 
+    public static final int TABLET_AUTO = 0;
+    public static final int TABLET_ENABLE = 1;
+    public static final int TABLET_DISABLE = 2;
+
     private static final String EMOJI_FONT_AOSP = "NotoColorEmoji.ttf";
 
     private static final Object sync = new Object();
@@ -112,7 +116,7 @@ public class NekoConfig {
 
     public static boolean hidePhone = true;
     public static boolean transparentStatusBar = false;
-    public static boolean forceTablet = false;
+    public static int tabletMode = TABLET_AUTO;
     public static boolean openArchiveOnPull = false;
     public static boolean avatarAsDrawerBackground = false;
     public static boolean avatarBackgroundBlur = true;
@@ -270,7 +274,7 @@ public class NekoConfig {
             useIPv6 = preferences.getBoolean("useIPv6", false);
             hidePhone = preferences.getBoolean("hidePhone", true);
             ignoreBlocked = preferences.getBoolean("ignoreBlocked2", false);
-            forceTablet = preferences.getBoolean("forceTablet", false);
+            tabletMode = preferences.getInt("tabletMode", TABLET_AUTO);
             nameOrder = preferences.getInt("nameOrder", 1);
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
@@ -541,11 +545,11 @@ public class NekoConfig {
         editor.commit();
     }
 
-    public static void toggleForceTablet() {
-        forceTablet = !forceTablet;
+    public static void setTabletMode(int mode) {
+        tabletMode = mode;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("forceTablet", forceTablet);
+        editor.putInt("tabletMode", tabletMode);
         editor.commit();
     }
 

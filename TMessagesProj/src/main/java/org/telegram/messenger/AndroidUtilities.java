@@ -1908,8 +1908,8 @@ public class AndroidUtilities {
     }
 
     public static boolean isTablet() {
-        if (NekoConfig.forceTablet) {
-            return true;
+        if (NekoConfig.tabletMode != NekoConfig.TABLET_AUTO) {
+            return NekoConfig.tabletMode == NekoConfig.TABLET_ENABLE;
         }
         if (isTablet == null) {
             isTablet = ApplicationLoader.applicationContext != null && ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isTablet);
