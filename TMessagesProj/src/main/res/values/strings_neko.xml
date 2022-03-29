@@ -39,8 +39,6 @@
     <string name="HideProxySponsorChannel">Hide proxy sponsor channel</string>
     <string name="ViewHistory">View history</string>
     <string name="Nya">Meow!</string>
-    <string name="SaveCacheToExternalFilesDir">Storage isolation</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Save \"Telegram\" folder to app-specific directory to keep shared storage tidy.</string>
     <string name="SensitiveDisableFiltering">Disable sensitive content filtering</string>
     <string name="SensitiveAbout">Display sensitive media in public channels on all your devices.</string>
     <string name="StickerSize">Sticker size</string>
@@ -195,9 +193,8 @@
     <string name="AppLinkNotVerifiedTitle">App links not verified</string>
     <string name="AutoTranslate">Auto translate</string>
     <string name="AutoTranslateAbout">Automatically translate messages that are in another language.</string>
-    <string name="CodeSyntaxHighlight">Code syntax highlight</string>
     <string name="CreateMono">Create Monospace</string>
-    <string name="CreateMonoLanguage">Code language</string>
+    <string name="CreateMonoLanguage">Code language (optional)</string>
     <string name="DoubleTapAction">Double tap action</string>
     <string name="BlockedUserIgnored">blocked</string>
     <string name="EditUndo">Undo</string>
@@ -210,8 +207,6 @@
     <string name="CopyID">Copy ID</string>
     <string name="ShowRPCError">Toast all RPC errors</string>
     <string name="ShowRPCErrorException">Exceptions: %s</string>
-    <string name="KeepFormatting">Keep text formatting</string>
-    <string name="KeepFormattingAbout">When copy-pasting text in chat.</string>
     <string name="SoonRemovedOption">This experimental option will be removed and enabled by default soon, if you are having issues with this option, please **report to us**.</string>
     <string name="TabletMode">Tablet mode</string>
     <string name="TabletModeAuto">Auto</string>

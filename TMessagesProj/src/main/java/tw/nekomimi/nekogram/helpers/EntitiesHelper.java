@@ -178,7 +178,7 @@ public class EntitiesHelper {
         var editable = editTextCaption.getText();
         var resourcesProvider = editTextCaption.resourcesProvider;
         var context = editTextCaption.getContext();
-        if (style == Style.MENTION || style == Style.URL || (style == Style.MONO && NekoConfig.codeSyntaxHighlight)) {
+        if (style == Style.MENTION || style == Style.URL || style == Style.MONO) {
             String title;
             String hint;
             String text;
@@ -322,9 +322,6 @@ public class EntitiesHelper {
                 editable.setSpan(new UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (style == Style.SPOILER) {
                 editable.setSpan(new BackgroundColorSpan(Theme.getColor(Theme.key_chats_archivePullDownBackground)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            } else if (style == Style.MONO) {
-                clearSpan(editable, start, end, false);
-                editable.setSpan(new TypefaceSpan("monospace"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (style == Style.REGULAR) {
                 clearSpan(editable, start, end, false);
             }
@@ -377,7 +374,7 @@ public class EntitiesHelper {
     }
 
     public static CharSequence commonizeSpans(CharSequence text) {
-        if (!EntitiesHelper.isEnabled() || !(text instanceof Spanned)) {
+        if (!(text instanceof Spanned)) {
             return text;
         }
         var spannable = new SpannableStringBuilder(text);

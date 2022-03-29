@@ -6135,57 +6135,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 }
                 if (entities != null) {
                     try {
-                        if (EntitiesHelper.isEnabled()) {
-                            EntitiesHelper.applyEntities(entities, stringBuilder);
-                        } else {
-                            for (int a = 0; a < entities.size(); a++) {
-                                TLRPC.MessageEntity entity = entities.get(a);
-                                if (entity.offset + entity.length > stringBuilder.length()) {
-                                    continue;
-                                }
-                                if (entity instanceof TLRPC.TL_inputMessageEntityMentionName) {
-                                    if (entity.offset + entity.length < stringBuilder.length() && stringBuilder.charAt(entity.offset + entity.length) == ' ') {
-                                        entity.length++;
-                                    }
-                                    stringBuilder.setSpan(new URLSpanUserMention("" + ((TLRPC.TL_inputMessageEntityMentionName) entity).user_id.user_id, 3), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                } else if (entity instanceof TLRPC.TL_messageEntityMentionName) {
-                                    if (entity.offset + entity.length < stringBuilder.length() && stringBuilder.charAt(entity.offset + entity.length) == ' ') {
-                                        entity.length++;
-                                    }
-                                    stringBuilder.setSpan(new URLSpanUserMention("" + ((TLRPC.TL_messageEntityMentionName) entity).user_id, 3), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                } else if (entity instanceof TLRPC.TL_messageEntityCode || entity instanceof TLRPC.TL_messageEntityPre) {
-                                    TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                                    run.start = entity.offset;
-                                    run.end = entity.offset + entity.length;
-                                    run.flags |= TextStyleSpan.FLAG_STYLE_MONO;
-                                    run.urlEntity = entity;
-                                    MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
-                                    SyntaxHighlight.highlight(run, stringBuilder);
-                                } else if (entity instanceof TLRPC.TL_messageEntityBold) {
-                                    TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                                    run.flags |= TextStyleSpan.FLAG_STYLE_BOLD;
-                                    MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
-                                } else if (entity instanceof TLRPC.TL_messageEntityItalic) {
-                                    TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                                    run.flags |= TextStyleSpan.FLAG_STYLE_ITALIC;
-                                    MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
-                                } else if (entity instanceof TLRPC.TL_messageEntityStrike) {
-                                    TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                                    run.flags |= TextStyleSpan.FLAG_STYLE_STRIKE;
-                                    MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
-                                } else if (entity instanceof TLRPC.TL_messageEntityUnderline) {
-                                    TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                                    run.flags |= TextStyleSpan.FLAG_STYLE_UNDERLINE;
-                                    MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
-                                } else if (entity instanceof TLRPC.TL_messageEntityTextUrl) {
-                                    stringBuilder.setSpan(new URLSpanReplacement(entity.url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                                } else if (entity instanceof TLRPC.TL_messageEntitySpoiler) {
-                                    TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                                    run.flags |= TextStyleSpan.FLAG_STYLE_SPOILER;
-                                    MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
-                                }
-                            }
-                        }
+                        EntitiesHelper.applyEntities(entities, stringBuilder);
                     } catch (Exception e) {
                         FileLog.e(e);
                     }

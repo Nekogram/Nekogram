@@ -17,7 +17,6 @@ import org.tcp2ws.tcp2wsServer;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildConfig;
-import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationsService;
 import org.telegram.messenger.R;
@@ -77,7 +76,6 @@ public class NekoConfig {
     public static boolean useSystemEmoji = SharedConfig.useSystemEmoji;
     public static boolean ignoreBlocked = false;
     public static boolean hideProxySponsorChannel = false;
-    public static boolean saveCacheToExternalFilesDir = true;
     public static boolean disablePhotoSideAction = true;
     public static boolean hideKeyboardOnChatScroll = false;
     public static boolean rearVideoMessages = false;
@@ -87,7 +85,6 @@ public class NekoConfig {
     public static boolean disableNumberRounding = false;
     public static boolean disableGreetingSticker = false;
     public static boolean autoTranslate = false;
-    public static boolean codeSyntaxHighlight = true;
     public static boolean showRPCError = false;
     public static boolean keepFormatting = true;
     public static float stickerSize = 14.0f;
@@ -282,7 +279,6 @@ public class NekoConfig {
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
             hideProxySponsorChannel = preferences.getBoolean("hideProxySponsorChannel2", false);
-            saveCacheToExternalFilesDir = !BuildVars.NO_SCOPED_STORAGE || preferences.getBoolean("saveCacheToExternalFilesDirToBeRemoved", true);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
             showPrPr = preferences.getBoolean("showPrPr", isChineseUser);
@@ -344,12 +340,10 @@ public class NekoConfig {
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
             verifyLinkTip = preferences.getBoolean("verifyLinkTip2", false);
-            codeSyntaxHighlight = preferences.getBoolean("codeSyntaxHighlightToBeRemoved", true);
             doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
             restrictedLanguages = new HashSet<>(preferences.getStringSet("restrictedLanguages", new HashSet<>()));
             disableMarkdownByDefault = preferences.getBoolean("disableMarkdownByDefault", false);
             showRPCError = preferences.getBoolean("showRPCError", false);
-            keepFormatting = preferences.getBoolean("keepFormattingToBeRemoved", true);
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             var map = new HashMap<String, String>();
@@ -411,27 +405,11 @@ public class NekoConfig {
         editor.commit();
     }
 
-    public static void toggleKeepFormatting() {
-        keepFormatting = !keepFormatting;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("keepFormattingToBeRemoved", keepFormatting);
-        editor.commit();
-    }
-
     public static void toggleShowRPCError() {
         showRPCError = !showRPCError;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showRPCError", showRPCError);
-        editor.commit();
-    }
-
-    public static void toggleCodeSyntaxHighlight() {
-        codeSyntaxHighlight = !codeSyntaxHighlight;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("codeSyntaxHighlightToBeRemoved", codeSyntaxHighlight);
         editor.commit();
     }
 
@@ -579,14 +557,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("hideProxySponsorChannel2", hideProxySponsorChannel);
-        editor.commit();
-    }
-
-    public static void toggleSaveCacheToExternalFilesDir() {
-        saveCacheToExternalFilesDir = !saveCacheToExternalFilesDir;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("saveCacheToExternalFilesDirToBeRemoved", saveCacheToExternalFilesDir);
         editor.commit();
     }
 
@@ -1048,10 +1018,9 @@ public class NekoConfig {
     }
 
     public static File getTelegramPath() {
-        File externalStorageDirectory = Environment.getExternalStorageDirectory();
         File path = null;
         if (!TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
-            if (!externalStorageDirectory.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
+            if (!Environment.getExternalStorageDirectory().getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
                 File[] dirs = ApplicationLoader.applicationContext.getExternalFilesDirs(null);
                 for (File dir : dirs) {
                     if (dir.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
@@ -1062,9 +1031,7 @@ public class NekoConfig {
             }
         }
         if (path == null) {
-            path = NekoConfig.saveCacheToExternalFilesDir
-                    ? ApplicationLoader.applicationContext.getExternalFilesDir(null)
-                    : externalStorageDirectory;
+            path = ApplicationLoader.applicationContext.getExternalFilesDir(null);
         }
         File telegramPath = new File(path, "Telegram");
         //noinspection ResultOfMethodCallIgnored

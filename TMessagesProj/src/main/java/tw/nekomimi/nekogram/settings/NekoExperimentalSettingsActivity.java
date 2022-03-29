@@ -18,7 +18,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildConfig;
-import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -48,12 +47,9 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int experimentRow;
     private int emojiRow;
     private int mapDriftingFixRow;
-    private int codeSyntaxHighlightRow;
-    private int saveCacheToExternalFilesDirRow;
     private int disableFilteringRow;
     private int unlimitedFavedStickersRow;
     private int unlimitedPinnedDialogsRow;
-    private int keepFormattingRow;
     private int showRPCErrorRow;
     private int experiment2Row;
 
@@ -67,7 +63,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
-        if (position == saveCacheToExternalFilesDirRow || position == codeSyntaxHighlightRow || position == keepFormattingRow) {
+        if (false) {
             var builder = new AlertDialog.Builder(getParentActivity());
             var message = new TextView(getParentActivity());
             message.setText(getSpannedString("SoonRemovedOption", R.string.SoonRemovedOption, "https://t.me/" + LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername)));
@@ -81,13 +77,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             showDialog(builder.create());
         }
-        if (position == saveCacheToExternalFilesDirRow) {
-            NekoConfig.toggleSaveCacheToExternalFilesDir();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.saveCacheToExternalFilesDir);
-            }
-            showRestartBulletin();
-        } else if (position == disableFilteringRow) {
+        if (position == disableFilteringRow) {
             sensitiveEnabled = !sensitiveEnabled;
             TLRPC.TL_account_setContentSettings req = new TLRPC.TL_account_setContentSettings();
             req.sensitive_enabled = sensitiveEnabled;
@@ -202,20 +192,10 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.mapDriftingFix);
             }
-        } else if (position == codeSyntaxHighlightRow) {
-            NekoConfig.toggleCodeSyntaxHighlight();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.codeSyntaxHighlight);
-            }
         } else if (position == showRPCErrorRow) {
             NekoConfig.toggleShowRPCError();
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.showRPCError);
-            }
-        } else if (position == keepFormattingRow) {
-            NekoConfig.toggleKeepFormatting();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.keepFormatting);
             }
         }
     }
@@ -294,12 +274,9 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         experimentRow = rowCount++;
         emojiRow = rowCount++;
         mapDriftingFixRow = rowCount++;
-        codeSyntaxHighlightRow = rowCount++;
-        saveCacheToExternalFilesDirRow = BuildVars.NO_SCOPED_STORAGE ? rowCount++ : -1;
         disableFilteringRow = sensitiveCanChange ? rowCount++ : -1;
         unlimitedFavedStickersRow = rowCount++;
         unlimitedPinnedDialogsRow = rowCount++;
-        keepFormattingRow = rowCount++;
         showRPCErrorRow = rowCount++;
         experiment2Row = rowCount++;
         deleteAccountRow = rowCount++;
@@ -337,9 +314,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 case 3: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
-                    if (position == saveCacheToExternalFilesDirRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("SaveCacheToExternalFilesDir", R.string.SaveCacheToExternalFilesDir), LocaleController.getString("SaveCacheToExternalFilesDirAbout", R.string.SaveCacheToExternalFilesDirAbout), NekoConfig.saveCacheToExternalFilesDir, true, true);
-                    } else if (position == disableFilteringRow) {
+                    if (position == disableFilteringRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("SensitiveDisableFiltering", R.string.SensitiveDisableFiltering), LocaleController.getString("SensitiveAbout", R.string.SensitiveAbout), sensitiveEnabled, true, true);
                         textCell.setEnabled(sensitiveCanChange, null);
                     } else if (position == unlimitedFavedStickersRow) {
@@ -348,12 +323,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, true);
                     } else if (position == mapDriftingFixRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MapDriftingFix", R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
-                    } else if (position == codeSyntaxHighlightRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("CodeSyntaxHighlight", R.string.CodeSyntaxHighlight), NekoConfig.codeSyntaxHighlight, true);
                     } else if (position == showRPCErrorRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("ShowRPCError", R.string.ShowRPCError), LocaleController.formatString("ShowRPCErrorException", R.string.ShowRPCErrorException, "FILE_REFERENCE_EXPIRED"), NekoConfig.showRPCError, true, false);
-                    } else if (position == keepFormattingRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("KeepFormatting", R.string.KeepFormatting), LocaleController.getString("KeepFormattingAbout", R.string.KeepFormattingAbout), NekoConfig.keepFormatting, true, true);
                     }
                     break;
                 }

@@ -26,7 +26,7 @@ public class SyntaxHighlight {
                 } catch (IllegalArgumentException ignore) {
                 }
             }
-        } else if (NekoConfig.codeSyntaxHighlight && !TextUtils.isEmpty(run.urlEntity.language)) {
+        } else if (!TextUtils.isEmpty(run.urlEntity.language)) {
             if (highlight == null) {
                 highlight = Prism4jSyntaxHighlight.create(new Prism4j(new Prism4jGrammarLocator()), theme);
             }
@@ -35,7 +35,7 @@ public class SyntaxHighlight {
     }
 
     public static void highlight(String language, int start, int end, Spannable spannable) {
-        if (NekoConfig.codeSyntaxHighlight && !TextUtils.isEmpty(language)) {
+        if (!TextUtils.isEmpty(language)) {
             if (highlight == null) {
                 highlight = Prism4jSyntaxHighlight.create(new Prism4j(new Prism4jGrammarLocator()), theme);
             }

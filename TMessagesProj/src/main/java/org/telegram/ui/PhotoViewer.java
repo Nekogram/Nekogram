@@ -252,7 +252,6 @@ import java.util.Map;
 
 import tw.nekomimi.nekogram.accessibility.AccConfig;
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.EntitiesHelper;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
@@ -6102,7 +6101,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 } else {
                     String name = UserObject.getFirstName(user);
                     Spannable spannable = new SpannableString(name + " ");
-                    spannable.setSpan(EntitiesHelper.isEnabled() ? new URLSpan("tg://user?id=" + user.id) : new URLSpanUserMentionPhotoViewer("" + user.id, true), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannable.setSpan(new URLSpan("tg://user?id=" + user.id), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     captionEditText.replaceWithText(start, len, spannable, false);
                 }
             } else if (object instanceof String) {
@@ -6130,7 +6129,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 TLRPC.User user = (TLRPC.User) object;
                 String name = UserObject.getFirstName(user);
                 Spannable spannable = new SpannableString(name + " ");
-                spannable.setSpan(EntitiesHelper.isEnabled() ? new URLSpan("tg://user?id=" + user.id) : new URLSpanUserMentionPhotoViewer("" + user.id, true), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannable.setSpan(new URLSpan("tg://user?id=" + user.id), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 captionEditText.replaceWithText(start, len, spannable, false);
                 return true;
             }
