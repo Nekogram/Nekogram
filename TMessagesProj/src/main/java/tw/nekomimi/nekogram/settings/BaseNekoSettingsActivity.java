@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.assist.AssistContent;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Build;
 import android.text.SpannableStringBuilder;
@@ -58,16 +60,6 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
     @Override
     public View createView(Context context) {
-        actionBar.setTitle(getActionBarTitle());
-        actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
-            @Override
-            public void onItemClick(int id) {
-                if (id == -1) {
-                    finishFragment();
-                }
-            }
-        });
-
         fragmentView = new BlurContentView(context);
         fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         SizeNotifierFrameLayout frameLayout = (SizeNotifierFrameLayout) fragmentView;
@@ -109,6 +101,15 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             actionBar.setTitleColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             actionBar.setCastShadows(false);
         }
+        actionBar.setTitle(getActionBarTitle());
+        actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
+            @Override
+            public void onItemClick(int id) {
+                if (id == -1) {
+                    finishFragment();
+                }
+            }
+        });
         actionBar.setBackButtonImage(R.drawable.ic_ab_back);
         if (AndroidUtilities.isTablet()) {
             actionBar.setOccupyStatusBar(false);
@@ -144,10 +145,23 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
                 View child = listView.getChildAt(j);
                 if (child.getY() < listView.blurTopPadding + AndroidUtilities.dp(100)) {
                     int restore = blurCanvas.save();
-                    blurCanvas.translate(getX() + child.getX(), +getY() + listView.getY() + child.getY());
+                    blurCanvas.translate(getX() + child.getX(), getY() + listView.getY() + child.getY());
                     child.draw(blurCanvas);
                     blurCanvas.restoreToCount(restore);
                 }
+            }
+        }
+
+        public Paint blurScrimPaint = new Paint();
+        Rect rectTmp = new Rect();
+
+        @Override
+        protected void dispatchDraw(Canvas canvas) {
+            super.dispatchDraw(canvas);
+            if (hasWhiteActionBar() && listView.canScrollVertically(-1)) {
+                rectTmp.set(0, 0, getMeasuredWidth(), 1);
+                blurScrimPaint.setColor(Theme.getColor(Theme.key_divider));
+                drawBlurRect(canvas, getY(), rectTmp, blurScrimPaint, true);
             }
         }
     }
