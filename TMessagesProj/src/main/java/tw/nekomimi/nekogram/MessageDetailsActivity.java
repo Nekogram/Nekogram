@@ -76,8 +76,6 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     public MessageDetailsActivity(MessageObject messageObject) {
         this.messageObject = messageObject;
 
-        noforwards = getMessagesController().isChatNoForwards(toChat) || messageObject.messageOwner.noforwards;
-
         if (messageObject.messageOwner.peer_id != null) {
             if (messageObject.messageOwner.peer_id.channel_id != 0) {
                 toChat = getMessagesController().getChat(messageObject.messageOwner.peer_id.channel_id);
@@ -134,6 +132,8 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 fileName = messageObject.messageOwner.media.document.file_name;
             }
         }
+
+        noforwards = getMessagesController().isChatNoForwards(toChat) || messageObject.messageOwner.noforwards;
     }
 
     @Override
@@ -150,20 +150,16 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         return false;
     }
 
-    @SuppressWarnings("BooleanMethodIsAlwaysInverted")
-    private boolean checkNoForwards() {
-        if (noforwards) {
-            if (getMessagesController().isChatNoForwards(toChat)) {
-                BulletinFactory.of(this).createErrorBulletin(toChat.broadcast ?
-                        LocaleController.getString("ForwardsRestrictedInfoChannel", R.string.ForwardsRestrictedInfoChannel) :
-                        LocaleController.getString("ForwardsRestrictedInfoGroup", R.string.ForwardsRestrictedInfoGroup)
-                ).show();
-            } else {
-                BulletinFactory.of(this).createErrorBulletin(
-                        LocaleController.getString("ForwardsRestrictedInfoBot", R.string.ForwardsRestrictedInfoBot)).show();
-            }
+    private void showNoForwards() {
+        if (getMessagesController().isChatNoForwards(toChat)) {
+            BulletinFactory.of(this).createErrorBulletin(toChat.broadcast ?
+                    LocaleController.getString("ForwardsRestrictedInfoChannel", R.string.ForwardsRestrictedInfoChannel) :
+                    LocaleController.getString("ForwardsRestrictedInfoGroup", R.string.ForwardsRestrictedInfoGroup)
+            ).show();
+        } else {
+            BulletinFactory.of(this).createErrorBulletin(
+                    LocaleController.getString("ForwardsRestrictedInfoBot", R.string.ForwardsRestrictedInfoBot)).show();
         }
-        return noforwards;
     }
 
     @Override
@@ -180,10 +176,12 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
         if (position != endRow) {
-            if (!checkNoForwards() || !(position == messageRow || position == captionRow)) {
+            if (!noforwards || !(position == messageRow || position == captionRow || position == filePathRow)) {
                 TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
                 AndroidUtilities.addToClipboard(EntitiesHelper.commonizeSpans(textCell.getValueTextView().getText()));
                 BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+            } else {
+                showNoForwards();
             }
         }
     }
@@ -191,13 +189,15 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     @Override
     protected boolean onItemLongClick(View view, int position, float x, float y) {
         if (position == filePathRow) {
-            if (!checkNoForwards()) {
+            if (!noforwards) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 var uri = FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(filePath));
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.putExtra(Intent.EXTRA_STREAM, uri);
                 intent.setDataAndType(uri, messageObject.getMimeType());
                 startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
+            } else {
+                showNoForwards();
             }
         } else if (position == channelRow || position == groupRow) {
             if (toChat != null) {
