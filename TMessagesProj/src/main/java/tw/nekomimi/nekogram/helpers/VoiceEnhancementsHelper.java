@@ -44,4 +44,8 @@ public class VoiceEnhancementsHelper {
             acousticEchoCanceler = null;
         }
     }
+
+    public static boolean isAvailable() {
+        return AutomaticGainControl.isAvailable() || NoiseSuppressor.isAvailable() || AcousticEchoCanceler.isAvailable();
+    }
 }

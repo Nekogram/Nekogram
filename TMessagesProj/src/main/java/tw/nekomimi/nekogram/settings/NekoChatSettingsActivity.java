@@ -35,6 +35,7 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
+import tw.nekomimi.nekogram.helpers.VoiceEnhancementsHelper;
 
 public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate {
 
@@ -282,7 +283,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
         mediaRow = rowCount++;
         hqVoiceMessageRow = rowCount++;
-        voiceEnhancementsRow = rowCount++;
+        voiceEnhancementsRow = VoiceEnhancementsHelper.isAvailable() ? rowCount++ : -1;
         disablePhotoSideActionRow = rowCount++;
         rearVideoMessagesRow = rowCount++;
         confirmAVRow = rowCount++;
