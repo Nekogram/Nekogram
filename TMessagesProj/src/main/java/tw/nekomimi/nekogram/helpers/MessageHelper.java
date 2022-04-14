@@ -39,7 +39,6 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -54,6 +53,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
+import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.EditTextBoldCursor;
@@ -437,13 +437,9 @@ public class MessageHelper extends BaseController {
 
         builder.setPositiveButton(LocaleController.getString("DeleteAll", R.string.DeleteAll), (dialogInterface, i) -> {
             if (cell != null && cell.isChecked()) {
-                getMessagesController().deleteUserChannelHistory(chat, getUserConfig().getCurrentUser(), null, 0);
+                showDeleteHistoryBulletin(fragment, 0, false, () -> getMessagesController().deleteUserChannelHistory(chat, getUserConfig().getCurrentUser(), null, 0), resourcesProvider);
             } else {
-                deleteUserHistoryWithSearch(fragment, -chat.id, mergeDialogId, count -> {
-                    if (BulletinFactory.canShowBulletin(fragment)) {
-                        BulletinFactory.createDeleteMessagesBulletin(fragment, count, resourcesProvider).show();
-                    }
-                });
+                deleteUserHistoryWithSearch(fragment, -chat.id, mergeDialogId, (count, deleteAction) -> showDeleteHistoryBulletin(fragment, count, true, deleteAction, resourcesProvider));
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -453,6 +449,30 @@ public class MessageHelper extends BaseController {
         if (button != null) {
             button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
         }
+    }
+
+    public static void showDeleteHistoryBulletin(BaseFragment fragment, int count, boolean search, Runnable delayedAction, Theme.ResourcesProvider resourcesProvider) {
+        if (fragment.getParentActivity() == null) {
+            if (delayedAction != null) {
+                delayedAction.run();
+            }
+            return;
+        }
+        Bulletin.ButtonLayout buttonLayout;
+        if (search) {
+            final Bulletin.TwoLineLottieLayout layout = new Bulletin.TwoLineLottieLayout(fragment.getParentActivity(), resourcesProvider);
+            layout.setAnimation(R.raw.ic_delete, "Envelope", "Cover", "Bucket");
+            layout.titleTextView.setText(LocaleController.getString("DeleteAllFromSelfDone", R.string.DeleteAllFromSelfDone));
+            layout.subtitleTextView.setText(LocaleController.formatPluralString("MessagesDeletedHint", count));
+            buttonLayout = layout;
+        } else {
+            final Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), resourcesProvider);
+            layout.setAnimation(R.raw.ic_delete, "Envelope", "Cover", "Bucket");
+            layout.textView.setText(LocaleController.getString("DeleteAllFromSelfDone", R.string.DeleteAllFromSelfDone));
+            buttonLayout = layout;
+        }
+        buttonLayout.setButton(new Bulletin.UndoButton(fragment.getParentActivity(), true, resourcesProvider).setDelayedAction(delayedAction));
+        Bulletin.make(fragment, buttonLayout, 5000).show();
     }
 
     public void resetMessageContent(long dialogId, MessageObject messageObject, boolean translated) {
@@ -471,7 +491,7 @@ public class MessageHelper extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.replaceMessagesObjects, dialogId, arrayList, false);
     }
 
-    public void deleteUserHistoryWithSearch(BaseFragment fragment, final long dialogId, final long mergeDialogId, MessagesStorage.IntCallback callback) {
+    public void deleteUserHistoryWithSearch(BaseFragment fragment, final long dialogId, final long mergeDialogId, SearchMessagesResultCallback callback) {
         Utilities.globalQueue.postRunnable(() -> {
             ArrayList<Integer> messageIds = new ArrayList<>();
             var latch = new CountDownLatch(1);
@@ -489,19 +509,24 @@ public class MessageHelper extends BaseController {
                 for (int i = 0; i < N; i += 100) {
                     lists.add(new ArrayList<>(messageIds.subList(i, Math.min(N, i + 100))));
                 }
-                AndroidUtilities.runOnUIThread(() -> {
-                    for (ArrayList<Integer> list : lists) {
-                        getMessagesController().deleteMessages(list, null, null, dialogId, true, false);
+                var deleteAction = new Runnable() {
+                    @Override
+                    public void run() {
+                        for (ArrayList<Integer> list : lists) {
+                            getMessagesController().deleteMessages(list, null, null, dialogId, true, false);
+                        }
                     }
-                    if (callback != null) {
-                        callback.run(messageIds.size());
-                    }
-                });
+                };
+                AndroidUtilities.runOnUIThread(callback != null ? () -> callback.run(messageIds.size(), deleteAction) : deleteAction);
             }
             if (mergeDialogId != 0) {
                 deleteUserHistoryWithSearch(fragment, mergeDialogId, 0, null);
             }
         });
+    }
+
+    private interface SearchMessagesResultCallback {
+        void run(int count, Runnable deleteAction);
     }
 
     public void doSearchMessages(BaseFragment fragment, CountDownLatch latch, ArrayList<Integer> messageIds, TLRPC.InputPeer peer, TLRPC.InputPeer fromId, int offsetId, long hash) {
