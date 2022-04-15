@@ -75,7 +75,6 @@ public class NekoConfig {
 
     public static boolean useSystemEmoji = SharedConfig.useSystemEmoji;
     public static boolean ignoreBlocked = false;
-    public static boolean hideProxySponsorChannel = false;
     public static boolean disablePhotoSideAction = true;
     public static boolean hideKeyboardOnChatScroll = false;
     public static boolean rearVideoMessages = false;
@@ -278,7 +277,6 @@ public class NekoConfig {
             nameOrder = preferences.getInt("nameOrder", 1);
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
-            hideProxySponsorChannel = preferences.getBoolean("hideProxySponsorChannel2", false);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showReport = preferences.getBoolean("showReport", false);
             showPrPr = preferences.getBoolean("showPrPr", isChineseUser);
@@ -550,14 +548,6 @@ public class NekoConfig {
         editor.commit();
         ApplicationLoader.applicationContext.stopService(new Intent(ApplicationLoader.applicationContext, NotificationsService.class));
         ApplicationLoader.startPushService();
-    }
-
-    public static void toggleHideProxySponsorChannel() {
-        hideProxySponsorChannel = !hideProxySponsorChannel;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("hideProxySponsorChannel2", hideProxySponsorChannel);
-        editor.commit();
     }
 
     public static void setEventType(int type) {
