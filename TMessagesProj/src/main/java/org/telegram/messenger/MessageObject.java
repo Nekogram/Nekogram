@@ -4971,7 +4971,17 @@ public class MessageObject {
     }
 
     public boolean shouldBlockMessage() {
-        return NekoConfig.ignoreBlocked && MessagesController.getInstance(UserConfig.selectedAccount).blockePeers.indexOfKey(getFromChatId()) >= 0;
+        if (!NekoConfig.ignoreBlocked) {
+            return false;
+        }
+        var messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
+        if (messagesController.blockePeers.indexOfKey(getFromChatId()) >= 0) {
+            return true;
+        }
+        if (messageOwner.fwd_from == null || messageOwner.fwd_from.from_id == null) {
+            return false;
+        }
+        return messagesController.blockePeers.indexOfKey(MessageObject.getPeerId(messageOwner.fwd_from.from_id)) >= 0;
     }
 
     public boolean isSending() {
