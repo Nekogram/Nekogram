@@ -25819,7 +25819,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (photoWidth > 512 || photoHeight > 512) {
                                 openPhotoViewerForMessage(cell, message);
                             }
-                            return;
                         } else if (message.isVideo() || message.type == 1 || message.type == 0 && !message.isWebpageDocument() || message.isGif()) {
                             openPhotoViewerForMessage(cell, message);
                         } else if (message.type == 3) {

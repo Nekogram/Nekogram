@@ -9614,7 +9614,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 return ImageLocation.getForWebFile(WebFile.createWithWebDocument(((TLRPC.TL_messageMediaInvoice) message.messageOwner.media).photo));
             } else if (message.getDocument() != null) {
                 TLRPC.Document document = message.getDocument();
-                if (sharedMediaType == MediaDataController.MEDIA_GIF) {
+                if (sharedMediaType == MediaDataController.MEDIA_GIF || MessageObject.isStickerDocument(document)) {
                     return ImageLocation.getForDocument(document);
                 } else if (MessageObject.isDocumentHasThumb(message.getDocument())) {
                     TLRPC.PhotoSize thumb = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 90);
