@@ -23,6 +23,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBar;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
@@ -42,12 +43,18 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 
+import java.util.HashMap;
+import java.util.Locale;
+
 public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
     protected BlurredRecyclerView listView;
     protected BaseListAdapter listAdapter;
+    protected LinearLayoutManager layoutManager;
 
     protected int rowCount;
+    protected HashMap<String, Integer> rowMap = new HashMap<>(20);
+    protected HashMap<Integer, String> rowMapReverse = new HashMap<>(20);
 
     @Override
     public boolean onFragmentCreate() {
@@ -74,7 +81,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             }
         });
         listView.additionalClipBottom = AndroidUtilities.dp(200);
-        listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
+        listView.setLayoutManager(layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
         listView.setVerticalScrollBarEnabled(false);
         //noinspection ConstantConditions
         ((DefaultItemAnimator) listView.getItemAnimator()).setDelayAnimations(false);
@@ -84,7 +91,25 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
         listView.setAdapter(listAdapter);
         listView.setOnItemClickListener(this::onItemClick);
-        listView.setOnItemLongClickListener(this::onItemLongClick);
+        listView.setOnItemLongClickListener((view, position, x, y) -> {
+            if (onItemLongClick(view, position, x, y)) {
+                return true;
+            }
+            var holder = listView.findViewHolderForAdapterPosition(position);
+            var key = getKey();
+            if (key != null && holder != null && listAdapter.isEnabled(holder) && rowMapReverse.containsKey(position)) {
+                showDialog(new AlertDialog.Builder(context)
+                        .setItems(
+                                new CharSequence[]{LocaleController.getString("CopyLink", R.string.CopyLink)},
+                                (dialogInterface, i) -> {
+                                    AndroidUtilities.addToClipboard(String.format(Locale.getDefault(), "https://%s/nekosettings/%s?r=%s", getMessagesController().linkPrefix, getKey(), rowMapReverse.get(position)));
+                                    BulletinFactory.of(BaseNekoSettingsActivity.this).createCopyLinkBulletin().show();
+                                })
+                        .create());
+                return true;
+            }
+            return false;
+        });
         return fragmentView;
     }
 
@@ -115,6 +140,10 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             actionBar.setOccupyStatusBar(false);
         }
         return actionBar;
+    }
+
+    protected String getKey() {
+        return null;
     }
 
     protected abstract void onItemClick(View view, int position, float x, float y);
@@ -204,7 +233,56 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         return ColorUtils.calculateLuminance(color) > 0.7f;
     }
 
-    protected abstract void updateRows();
+    protected int addRow() {
+        return rowCount++;
+    }
+
+    // TODO: refactor the whole settings
+    protected int addRow(String... keys) {
+        var row = rowCount++;
+        for (var key : keys) {
+            rowMap.put(key, row);
+            var shortKey = getShortKey(key, false);
+            if (rowMap.containsKey(shortKey)) {
+                shortKey = getShortKey(key, true);
+                rowMap.put(shortKey, row);
+            } else {
+                rowMap.put(shortKey, row);
+            }
+        }
+        rowMapReverse.put(row, keys[0]);
+        return row;
+    }
+
+    private String getShortKey(String key, boolean c) {
+        var sb = new StringBuilder();
+        sb.append(key.charAt(0));
+        for (int i = 0; i < key.length(); i++) {
+            if (Character.isUpperCase(key.charAt(i))) {
+                sb.append(key.charAt(i));
+            }
+        }
+        if (c) sb.append(key.charAt(key.length() - 1));
+        return sb.toString();
+    }
+
+    public void scrollToRow(String key, Runnable unknown) {
+        if (rowMap.containsKey(key)) {
+            listView.highlightRow(() -> {
+                //noinspection ConstantConditions
+                int position = rowMap.get(key);
+                layoutManager.scrollToPositionWithOffset(position, AndroidUtilities.dp(60));
+                return position;
+            });
+        } else {
+            unknown.run();
+        }
+    }
+
+    protected void updateRows() {
+        rowCount = 0;
+        rowMap.clear();
+    }
 
     protected abstract class BaseListAdapter extends RecyclerListView.SelectionAdapter {
 

@@ -9,7 +9,6 @@ import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
@@ -194,20 +193,20 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
 
     @Override
     protected void updateRows() {
-        rowCount = 0;
+        super.updateRows();
 
-        connectionRow = rowCount++;
-        ipv6Row = rowCount++;
-        connection2Row = rowCount++;
+        connectionRow = addRow("connection");
+        ipv6Row = addRow("ipv6");
+        connection2Row = addRow();
 
-        translatorRow = rowCount++;
-        translatorTypeRow = rowCount++;
+        translatorRow = addRow("translator");
+        translatorTypeRow = addRow("translatorType");
         if (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
-            translationProviderRow = rowCount++;
-            deepLFormalityRow = NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? rowCount++ : -1;
-            translationTargetRow = rowCount++;
-            doNotTranslateRow = rowCount++;
-            autoTranslateRow = rowCount++;
+            translationProviderRow = addRow("translationProvider");
+            deepLFormalityRow = NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? addRow("deepLFormality") : -1;
+            translationTargetRow = addRow("translationTarget");
+            doNotTranslateRow = addRow("doNotTranslate");
+            autoTranslateRow = addRow("autoTranslate");
         } else {
             translationProviderRow = -1;
             deepLFormalityRow = -1;
@@ -215,20 +214,25 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             doNotTranslateRow = -1;
             autoTranslateRow = -1;
         }
-        translator2Row = rowCount++;
+        translator2Row = addRow();
 
-        notificationRow = rowCount++;
-        accentAsNotificationColorRow = rowCount++;
-        silenceNonContactsRow = rowCount++;
-        notification2Row = rowCount++;
+        notificationRow = addRow("notification");
+        accentAsNotificationColorRow = addRow("accentAsNotificationColor");
+        silenceNonContactsRow = addRow("silenceNonContacts");
+        notification2Row = addRow();
 
-        generalRow = rowCount++;
-        disabledInstantCameraRow = rowCount++;
-        askBeforeCallRow = rowCount++;
-        openArchiveOnPullRow = rowCount++;
-        nameOrderRow = rowCount++;
-        idTypeRow = rowCount++;
-        general2Row = rowCount++;
+        generalRow = addRow("general");
+        disabledInstantCameraRow = addRow("disabledInstantCamera");
+        askBeforeCallRow = addRow("askBeforeCall");
+        openArchiveOnPullRow = addRow("openArchiveOnPull");
+        nameOrderRow = addRow("nameOrder");
+        idTypeRow = addRow("idType");
+        general2Row = addRow();
+    }
+
+    @Override
+    protected String getKey() {
+        return "g";
     }
 
     private ArrayList<String> getRestrictedLanguages() {

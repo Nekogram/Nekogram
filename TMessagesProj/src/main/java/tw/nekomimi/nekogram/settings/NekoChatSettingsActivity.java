@@ -265,36 +265,42 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
     @Override
     protected void updateRows() {
-        rowCount = 0;
-        stickerSizeHeaderRow = rowCount++;
-        stickerSizeRow = rowCount++;
-        stickerSize2Row = rowCount++;
+        super.updateRows();
 
-        chatRow = rowCount++;
-        ignoreBlockedRow = rowCount++;
-        hideKeyboardOnChatScrollRow = rowCount++;
-        tryToOpenAllLinksInIVRow = rowCount++;
-        disableJumpToNextRow = rowCount++;
-        disableGreetingStickerRow = rowCount++;
-        disableMarkdownByDefaultRow = rowCount++;
-        doubleTapActionRow = rowCount++;
-        maxRecentStickersRow = rowCount++;
-        chat2Row = rowCount++;
+        stickerSizeHeaderRow = addRow("stickerSizeHeader");
+        stickerSizeRow = addRow("stickerSize");
+        stickerSize2Row = addRow();
 
-        mediaRow = rowCount++;
-        hqVoiceMessageRow = rowCount++;
-        voiceEnhancementsRow = VoiceEnhancementsHelper.isAvailable() ? rowCount++ : -1;
-        disablePhotoSideActionRow = rowCount++;
-        rearVideoMessagesRow = rowCount++;
-        confirmAVRow = rowCount++;
-        disableProximityEventsRow = rowCount++;
-        disableVoiceMessageAutoPlayRow = rowCount++;
-        autoPauseVideoRow = rowCount++;
-        media2Row = rowCount++;
+        chatRow = addRow("chat");
+        ignoreBlockedRow = addRow("ignoreBlocked");
+        hideKeyboardOnChatScrollRow = addRow("hideKeyboardOnChatScroll");
+        tryToOpenAllLinksInIVRow = addRow("tryToOpenAllLinksInIV");
+        disableJumpToNextRow = addRow("disableJumpToNext");
+        disableGreetingStickerRow = addRow("disableGreetingSticker");
+        disableMarkdownByDefaultRow = addRow("disableMarkdownByDefault");
+        doubleTapActionRow = addRow("doubleTapAction");
+        maxRecentStickersRow = addRow("maxRecentStickers");
+        chat2Row = addRow();
 
-        messageMenuRow = rowCount++;
+        mediaRow = addRow("media");
+        hqVoiceMessageRow = addRow("hqVoiceMessage");
+        voiceEnhancementsRow = VoiceEnhancementsHelper.isAvailable() ? addRow("voiceEnhancements") : -1;
+        disablePhotoSideActionRow = addRow("disablePhotoSideAction");
+        rearVideoMessagesRow = addRow("rearVideoMessages");
+        confirmAVRow = addRow("confirmAV");
+        disableProximityEventsRow = addRow("disableProximityEvents");
+        disableVoiceMessageAutoPlayRow = addRow("disableVoiceMessageAutoPlay");
+        autoPauseVideoRow = addRow("autoPauseVideo");
+        media2Row = addRow();
+
+        messageMenuRow = addRow("messageMenu");
         rowCount += 12;
-        messageMenu2Row = rowCount++;
+        messageMenu2Row = addRow();
+    }
+
+    @Override
+    protected String getKey() {
+        return "c";
     }
 
     @Override

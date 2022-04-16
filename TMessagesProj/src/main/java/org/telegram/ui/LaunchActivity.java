@@ -169,6 +169,7 @@ import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.ForwardContext;
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
+import tw.nekomimi.nekogram.helpers.SettingsHelper;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 import tw.nekomimi.nekogram.settings.NekoDonateActivity;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
@@ -1740,6 +1741,17 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                                 }
                                             } else if (path.startsWith("addstickers/")) {
                                                 sticker = path.replace("addstickers/", "");
+                                            } else if (path.startsWith("nekosettings/")) {
+                                                SettingsHelper.processDeepLink(data, fragment -> {
+                                                    AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
+                                                    if (AndroidUtilities.isTablet()) {
+                                                        actionBarLayout.showLastFragment();
+                                                        rightActionBarLayout.showLastFragment();
+                                                        drawerLayoutContainer.setAllowOpenDrawer(false, false);
+                                                    } else {
+                                                        drawerLayoutContainer.setAllowOpenDrawer(true, false);
+                                                    }
+                                                }, () -> showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("UnknownNekoSettingsOption", R.string.UnknownNekoSettingsOption))), true);
                                             } else if (path.startsWith("msg/") || path.startsWith("share/")) {
                                                 message = data.getQueryParameter("url");
                                                 if (message == null) {
@@ -2061,6 +2073,17 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                         checkAppUpdate(true);
                                     } else if (url.startsWith("tg:donate") || url.startsWith("tg://donate")) {
                                         open_settings = 101;
+                                    } else if (url.startsWith("tg:neko") || url.startsWith("tg://neko")) {
+                                        SettingsHelper.processDeepLink(url, fragment -> {
+                                            AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
+                                            if (AndroidUtilities.isTablet()) {
+                                                actionBarLayout.showLastFragment();
+                                                rightActionBarLayout.showLastFragment();
+                                                drawerLayoutContainer.setAllowOpenDrawer(false, false);
+                                            } else {
+                                                drawerLayoutContainer.setAllowOpenDrawer(true, false);
+                                            }
+                                        }, () -> showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("UnknownNekoSettingsOption", R.string.UnknownNekoSettingsOption))));
                                     } else if ((url.startsWith("tg:search") || url.startsWith("tg://search"))) {
                                         url = url.replace("tg:search", "tg://telegram.org").replace("tg://search", "tg://telegram.org");
                                         data = Uri.parse(url);

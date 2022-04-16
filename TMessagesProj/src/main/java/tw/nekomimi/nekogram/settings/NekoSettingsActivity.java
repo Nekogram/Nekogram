@@ -137,34 +137,40 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
     }
 
     @Override
+    protected String getKey() {
+        return "";
+    }
+
+    @Override
     protected void updateRows() {
-        rowCount = 0;
-        categoriesRow = rowCount++;
-        generalRow = rowCount++;
-        appearanceRow = rowCount++;
-        chatRow = rowCount++;
-        experimentRow = rowCount++;
+        super.updateRows();
+
+        categoriesRow = addRow("categories");
+        generalRow = addRow("general");
+        appearanceRow = addRow("appearance");
+        chatRow = addRow("chat");
+        experimentRow = addRow("experiment");
         AccessibilityManager am = (AccessibilityManager) ApplicationLoader.applicationContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
         if (am != null && am.isTouchExplorationEnabled()) {
-            accessibilityRow = rowCount++;
+            accessibilityRow = addRow("accessibility");
         } else {
             accessibilityRow = -1;
         }
-        categories2Row = rowCount++;
+        categories2Row = addRow();
 
-        aboutRow = rowCount++;
-        channelRow = rowCount++;
-        websiteRow = rowCount++;
-        sourceCodeRow = rowCount++;
-        translationRow = rowCount++;
-        donateRow = rowCount++;
-        checkUpdateRow = rowCount++;
-        about2Row = rowCount++;
+        aboutRow = addRow("about");
+        channelRow = addRow("channel");
+        websiteRow = addRow("website");
+        sourceCodeRow = addRow("sourceCode");
+        translationRow = addRow("translation");
+        donateRow = addRow("donate");
+        checkUpdateRow = addRow("checkUpdate");
+        about2Row = addRow();
 
         if (news.size() != 0) {
-            sponsorRow = rowCount++;
+            sponsorRow = addRow();
             rowCount += news.size() - 1;
-            sponsor2Row = rowCount++;
+            sponsor2Row = addRow();
         } else {
             sponsorRow = -1;
             sponsor2Row = -1;

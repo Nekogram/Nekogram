@@ -198,38 +198,43 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
     }
 
     @Override
-    protected void updateRows() {
-        rowCount = 0;
+    protected String getKey() {
+        return "a";
+    }
 
-        drawerRow = rowCount++;
-        avatarAsDrawerBackgroundRow = rowCount++;
+    @Override
+    protected void updateRows() {
+        super.updateRows();
+
+        drawerRow = addRow("drawer");
+        avatarAsDrawerBackgroundRow = addRow("avatarAsDrawerBackground");
         if (NekoConfig.avatarAsDrawerBackground) {
-            avatarBackgroundBlurRow = rowCount++;
-            avatarBackgroundDarkenRow = rowCount++;
+            avatarBackgroundBlurRow = addRow("avatarBackgroundBlur");
+            avatarBackgroundDarkenRow = addRow("avatarBackgroundDarken");
         } else {
             avatarBackgroundBlurRow = -1;
             avatarBackgroundDarkenRow = -1;
         }
-        hidePhoneRow = rowCount++;
-        drawer2Row = rowCount++;
+        hidePhoneRow = addRow("hidePhone");
+        drawer2Row = addRow();
 
-        appearanceRow = rowCount++;
-        useSystemEmojiRow = rowCount++;
-        transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? rowCount++ : -1;
-        mediaPreviewRow = rowCount++;
-        appBarShadowRow = rowCount++;
-        formatTimeWithSecondsRow = rowCount++;
-        disableNumberRoundingRow = rowCount++;
-        newYearRow = NekoConfig.showHiddenFeature ? rowCount++ : -1;
-        eventTypeRow = rowCount++;
-        tabletModeRow = rowCount++;
-        appearance2Row = rowCount++;
+        appearanceRow = addRow("appearance");
+        useSystemEmojiRow = addRow("useSystemEmoji");
+        transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? addRow("transparentStatusBar") : -1;
+        mediaPreviewRow = addRow("mediaPreview");
+        appBarShadowRow = addRow("appBarShadow");
+        formatTimeWithSecondsRow = addRow("formatTimeWithSeconds");
+        disableNumberRoundingRow = addRow("disableNumberRounding");
+        newYearRow = NekoConfig.showHiddenFeature ? addRow("newYear") : -1;
+        eventTypeRow = addRow("eventType");
+        tabletModeRow = addRow("tabletMode");
+        appearance2Row = addRow();
 
-        foldersRow = rowCount++;
-        showTabsOnForwardRow = rowCount++;
-        hideAllTabRow = rowCount++;
-        tabsTitleTypeRow = rowCount++;
-        folders2Row = rowCount++;
+        foldersRow = addRow("folders");
+        showTabsOnForwardRow = addRow("showTabsOnForward");
+        hideAllTabRow = addRow("hideAllTab");
+        tabsTitleTypeRow = addRow("tabsTitleType");
+        folders2Row = addRow();
     }
 
     private class ListAdapter extends BaseListAdapter {

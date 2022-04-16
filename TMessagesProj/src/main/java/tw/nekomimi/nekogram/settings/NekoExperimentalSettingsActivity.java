@@ -56,7 +56,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int deleteAccountRow;
     private int deleteAccount2Row;
 
-    NekoExperimentalSettingsActivity(boolean sensitiveCanChange, boolean sensitiveEnabled) {
+    public NekoExperimentalSettingsActivity(boolean sensitiveCanChange, boolean sensitiveEnabled) {
         this.sensitiveCanChange = sensitiveCanChange;
         this.sensitiveEnabled = sensitiveEnabled;
     }
@@ -201,6 +201,11 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     }
 
     @Override
+    protected String getKey() {
+        return "e";
+    }
+
+    @Override
     protected boolean onItemLongClick(View view, int position, float x, float y) {
         if (position == emojiRow) {
             try {
@@ -269,18 +274,18 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
     @Override
     protected void updateRows() {
-        rowCount = 0;
+        super.updateRows();
 
-        experimentRow = rowCount++;
-        emojiRow = rowCount++;
-        mapDriftingFixRow = rowCount++;
-        disableFilteringRow = sensitiveCanChange ? rowCount++ : -1;
-        unlimitedFavedStickersRow = rowCount++;
-        unlimitedPinnedDialogsRow = rowCount++;
-        showRPCErrorRow = rowCount++;
-        experiment2Row = rowCount++;
-        deleteAccountRow = rowCount++;
-        deleteAccount2Row = rowCount++;
+        experimentRow = addRow("experiment");
+        emojiRow = addRow("emoji");
+        mapDriftingFixRow = addRow("mapDriftingFix");
+        disableFilteringRow = sensitiveCanChange ? addRow("disableFiltering") : -1;
+        unlimitedFavedStickersRow = addRow("unlimitedFavedStickers");
+        unlimitedPinnedDialogsRow = addRow("unlimitedPinnedDialogs");
+        showRPCErrorRow = addRow("showRPCError");
+        experiment2Row = addRow();
+        deleteAccountRow = addRow("deleteAccount");
+        deleteAccount2Row = addRow();
     }
 
     private class ListAdapter extends BaseListAdapter {
