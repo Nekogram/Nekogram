@@ -4006,10 +4006,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             items.add(LocaleController.getString("Copy", R.string.Copy));
             actions.add(1);
-            if (position == numberRow) {
-                items.add(LocaleController.getString("Hide", R.string.Hide));
-                actions.add(4);
-            }
+            items.add(LocaleController.getString("Hide", R.string.Hide));
+            actions.add(4);
             builder.setItems(items.toArray(new CharSequence[0]), (dialogInterface, i) -> {
                 i = actions.get(i);
                 if (i == 0) {
