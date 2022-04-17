@@ -32,7 +32,7 @@ public class Translator {
     public static final int PROVIDER_YANDEX = 4;
     public static final int PROVIDER_DEEPL = 5;
     public static final int PROVIDER_MICROSOFT = 7;
-    public static final int PROVIDER_TENCENT = 8;
+    //public static final int PROVIDER_TENCENT = 8;
 
     public static void showTranslateDialog(Context context, String query, boolean noforwards) {
         showTranslateDialog(context, query, noforwards, null, null, null);
@@ -115,8 +115,8 @@ public class Translator {
         types.add(Translator.PROVIDER_DEEPL);
         names.add(LocaleController.getString("ProviderMicrosoftTranslator", R.string.ProviderMicrosoftTranslator));
         types.add(Translator.PROVIDER_MICROSOFT);
-        names.add(LocaleController.getString("ProviderTencentTranslator", R.string.ProviderTencentTranslator));
-        types.add(Translator.PROVIDER_TENCENT);
+        //names.add(LocaleController.getString("ProviderTencentTranslator", R.string.ProviderTencentTranslator));
+        //types.add(Translator.PROVIDER_TENCENT);
         return new Pair<>(names, types);
     }
 
@@ -223,8 +223,8 @@ public class Translator {
                 return DeepLTranslator.getInstance();
             case PROVIDER_MICROSOFT:
                 return MicrosoftTranslator.getInstance();
-            case PROVIDER_TENCENT:
-                return TencentTranslator.getInstance();
+            //case PROVIDER_TENCENT:
+            //    return TencentTranslator.getInstance();
             case PROVIDER_GOOGLE:
             default:
                 return GoogleAppTranslator.getInstance();
