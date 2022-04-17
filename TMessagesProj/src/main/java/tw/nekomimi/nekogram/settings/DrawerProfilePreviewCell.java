@@ -9,7 +9,7 @@ import org.telegram.ui.Cells.DrawerProfileCell;
 
 public class DrawerProfilePreviewCell extends DrawerProfileCell {
     public DrawerProfilePreviewCell(Context context) {
-        super(context);
+        super(context, null);
         setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
     }
 

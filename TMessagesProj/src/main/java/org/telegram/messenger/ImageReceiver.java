@@ -1556,11 +1556,12 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     public Bitmap getBitmap() {
-        AnimatedFileDrawable animation = getAnimation();
         RLottieDrawable lottieDrawable = getLottieAnimation();
         if (lottieDrawable != null && lottieDrawable.hasBitmap()) {
             return lottieDrawable.getAnimatedBitmap();
-        } else if (animation != null && animation.hasBitmap()) {
+        }
+        AnimatedFileDrawable animation = getAnimation();
+        if (animation != null && animation.hasBitmap()) {
             return animation.getAnimatedBitmap();
         } else if (currentMediaDrawable instanceof BitmapDrawable && !(currentMediaDrawable instanceof AnimatedFileDrawable) && !(currentMediaDrawable instanceof RLottieDrawable)) {
             return ((BitmapDrawable) currentMediaDrawable).getBitmap();
@@ -2047,7 +2048,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     public AnimatedFileDrawable getAnimation() {
-        AnimatedFileDrawable animatedFileDrawable;
         if (currentMediaDrawable instanceof AnimatedFileDrawable) {
             return (AnimatedFileDrawable) currentMediaDrawable;
         } else if (currentImageDrawable instanceof AnimatedFileDrawable) {
@@ -2061,7 +2061,6 @@ public class ImageReceiver implements NotificationCenter.NotificationCenterDeleg
     }
 
     public RLottieDrawable getLottieAnimation() {
-        RLottieDrawable animatedFileDrawable;
         if (currentMediaDrawable instanceof RLottieDrawable) {
             return (RLottieDrawable) currentMediaDrawable;
         } else if (currentImageDrawable instanceof RLottieDrawable) {

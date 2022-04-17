@@ -1,7 +1,6 @@
 package org.telegram.ui.Components;
 
 import android.content.Context;
-import android.os.Build;
 import android.widget.FrameLayout;
 
 import androidx.annotation.CheckResult;
@@ -130,6 +129,14 @@ public final class BulletinFactory {
         return create(layout, Bulletin.DURATION_SHORT);
     }
 
+    public Bulletin createSimpleBulletin(int iconRawId, CharSequence text, CharSequence subtext) {
+        final Bulletin.TwoLineLottieLayout layout = new Bulletin.TwoLineLottieLayout(getContext(), resourcesProvider);
+        layout.setAnimation(iconRawId, 36, 36);
+        layout.titleTextView.setText(text);
+        layout.subtitleTextView.setText(subtext);
+        return create(layout, Bulletin.DURATION_SHORT);
+    }
+
     @CheckResult
     public Bulletin createDownloadBulletin(FileType fileType) {
         return createDownloadBulletin(fileType, resourcesProvider);
@@ -186,6 +193,14 @@ public final class BulletinFactory {
         return create(layout, Bulletin.DURATION_SHORT);
     }
 
+    public Bulletin createErrorBulletinSubtitle(CharSequence errorMessage, CharSequence errorDescription, Theme.ResourcesProvider resourcesProvider) {
+        Bulletin.TwoLineLottieLayout layout = new Bulletin.TwoLineLottieLayout(getContext(), resourcesProvider);
+        layout.setAnimation(R.raw.chats_infotip);
+        layout.titleTextView.setText(errorMessage);
+        layout.subtitleTextView.setText(errorDescription);
+        return create(layout, Bulletin.DURATION_SHORT);
+    }
+
     @CheckResult
     public Bulletin createCopyLinkBulletin() {
         return createCopyLinkBulletin(false, resourcesProvider);
@@ -198,6 +213,9 @@ public final class BulletinFactory {
 
     @CheckResult
     public Bulletin createCopyBulletin(String message, int backgroundColor, int textColor) {
+        if (!AndroidUtilities.shouldShowClipboardToast()) {
+            return new Bulletin.EmptyBulletin();
+        }
         Bulletin.LottieLayout layout;
         if (backgroundColor != 0 && textColor != 0) {
             layout = new Bulletin.LottieLayout(getContext(), resourcesProvider, backgroundColor, textColor);
@@ -211,6 +229,9 @@ public final class BulletinFactory {
 
     @CheckResult
     public Bulletin createCopyLinkBulletin(boolean isPrivate, Theme.ResourcesProvider resourcesProvider) {
+        if (!AndroidUtilities.shouldShowClipboardToast()) {
+            return new Bulletin.EmptyBulletin();
+        }
         if (isPrivate) {
             final Bulletin.TwoLineLottieLayout layout = new Bulletin.TwoLineLottieLayout(getContext(), resourcesProvider);
             layout.setAnimation(R.raw.voip_invite, 36, 36, "Wibe", "Circle");
@@ -241,17 +262,23 @@ public final class BulletinFactory {
 
     @CheckResult
     public static Bulletin createMuteBulletin(BaseFragment fragment, int setting) {
-        return createMuteBulletin(fragment, setting, null);
+        return createMuteBulletin(fragment, setting, 0, null);
     }
 
     @CheckResult
-    public static Bulletin createMuteBulletin(BaseFragment fragment, int setting, Theme.ResourcesProvider resourcesProvider) {
+    public static Bulletin createMuteBulletin(BaseFragment fragment, int setting, int timeInSeconds, Theme.ResourcesProvider resourcesProvider) {
         final Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), resourcesProvider);
 
         final String text;
         final boolean mute;
+        boolean muteFor = false;
 
         switch (setting) {
+            case NotificationsController.SETTING_MUTE_CUSTOM:
+                text = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatTTLString(timeInSeconds));
+                mute = true;
+                muteFor = true;
+                break;
             case NotificationsController.SETTING_MUTE_HOUR:
                 text = LocaleController.formatString("NotificationsMutedForHint", R.string.NotificationsMutedForHint, LocaleController.formatPluralString("Hours", 1));
                 mute = true;
@@ -276,7 +303,9 @@ public final class BulletinFactory {
                 throw new IllegalArgumentException();
         }
 
-        if (mute) {
+        if (muteFor) {
+            layout.setAnimation(R.raw.mute_for);
+        } else if (mute) {
             layout.setAnimation(R.raw.ic_mute, "Body Main", "Body Top", "Line", "Curve Big", "Curve Small");
         } else {
             layout.setAnimation(R.raw.ic_unmute, "BODY", "Wibe Big", "Wibe Big 3", "Wibe Small");
@@ -288,7 +317,7 @@ public final class BulletinFactory {
 
     @CheckResult
     public static Bulletin createMuteBulletin(BaseFragment fragment, boolean muted, Theme.ResourcesProvider resourcesProvider) {
-        return createMuteBulletin(fragment, muted ? NotificationsController.SETTING_MUTE_FOREVER : NotificationsController.SETTING_MUTE_UNMUTE, resourcesProvider);
+        return createMuteBulletin(fragment, muted ? NotificationsController.SETTING_MUTE_FOREVER : NotificationsController.SETTING_MUTE_UNMUTE, 0, resourcesProvider);
     }
 
     @CheckResult
@@ -339,6 +368,14 @@ public final class BulletinFactory {
         final Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), null);
         layout.setAnimation(R.raw.ic_admin, "Shield");
         layout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserSetAsAdminHint", R.string.UserSetAsAdminHint, userFirstName)));
+        return Bulletin.make(fragment, layout, Bulletin.DURATION_SHORT);
+    }
+
+    @CheckResult
+    public static Bulletin createAddedAsAdminBulletin(BaseFragment fragment, String userFirstName) {
+        final Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), null);
+        layout.setAnimation(R.raw.ic_admin, "Shield");
+        layout.textView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("UserAddedAsAdminHint", R.string.UserAddedAsAdminHint, userFirstName)));
         return Bulletin.make(fragment, layout, Bulletin.DURATION_SHORT);
     }
 
@@ -400,6 +437,36 @@ public final class BulletinFactory {
             layout.setButton(new Bulletin.UndoButton(fragment.getParentActivity(), true, resourcesProvider).setUndoAction(undoAction).setDelayedAction(delayedAction));
         }
         return Bulletin.make(fragment, layout, pinned ? Bulletin.DURATION_SHORT : 5000);
+    }
+
+    @CheckResult
+    public static Bulletin createSoundEnabledBulletin(BaseFragment fragment, int setting, Theme.ResourcesProvider resourcesProvider) {
+        final Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), resourcesProvider);
+
+        final String text;
+        final boolean soundOn;
+
+        switch (setting) {
+            case NotificationsController.SETTING_SOUND_ON:
+                text = LocaleController.getString("SoundOnHint", R.string.SoundOnHint);
+                soundOn = true;
+                break;
+            case NotificationsController.SETTING_SOUND_OFF:
+                text = LocaleController.getString("SoundOffHint", R.string.SoundOffHint);
+                soundOn = false;
+                break;
+            default:
+                throw new IllegalArgumentException();
+        }
+
+        if (soundOn) {
+            layout.setAnimation(R.raw.sound_on);
+        } else {
+            layout.setAnimation(R.raw.sound_off);
+        }
+
+        layout.textView.setText(text);
+        return Bulletin.make(fragment, layout, Bulletin.DURATION_SHORT);
     }
     //endregion
 }

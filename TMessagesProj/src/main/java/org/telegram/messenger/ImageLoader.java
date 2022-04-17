@@ -1907,12 +1907,16 @@ public class ImageLoader {
                 }
 
                 @Override
-                public void fileDidLoaded(final String location, final File finalFile, final int type) {
+                public void fileDidLoaded(final String location, final File finalFile, Object parentObject, final int type) {
                     fileProgresses.remove(location);
                     AndroidUtilities.runOnUIThread(() -> {
-                        if (SharedConfig.saveToGallery && telegramPath != null && finalFile != null && (location.endsWith(".mp4") || location.endsWith(".jpg"))) {
-                            if (finalFile.toString().startsWith(telegramPath.toString())) {
-                                AndroidUtilities.addMediaToGallery(finalFile.toString());
+                        if (SharedConfig.saveToGallery && finalFile != null && (location.endsWith(".mp4") || location.endsWith(".jpg"))) {
+                            if (parentObject instanceof MessageObject) {
+                                MessageObject messageObject = (MessageObject) parentObject;
+                                // test add only for peer dialogs
+                                if (messageObject.getDialogId() >= 0) {
+                                    AndroidUtilities.addMediaToGallery(finalFile.toString());
+                                }
                             }
                         }
                         NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.fileLoaded, location, finalFile);
@@ -2042,6 +2046,19 @@ public class ImageLoader {
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
                 telegramPath = NekoConfig.getTelegramPath();
 
+                File publicMediaDir = null;
+                if (Build.VERSION.SDK_INT >= 30) {
+                    try {
+                        if (ApplicationLoader.applicationContext.getExternalMediaDirs().length > 0) {
+                            publicMediaDir = ApplicationLoader.applicationContext.getExternalMediaDirs()[0];
+                            publicMediaDir = new File(publicMediaDir, "Nekogram");
+                            publicMediaDir.mkdirs();
+                        }
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                }
+
                 if (telegramPath.isDirectory()) {
                     try {
                         File imagePath = new File(telegramPath, "Telegram Images");
@@ -2091,6 +2108,33 @@ public class ImageLoader {
                             mediaDirs.put(FileLoader.MEDIA_DIR_DOCUMENT, documentPath);
                             if (BuildVars.LOGS_ENABLED) {
                                 FileLog.d("documents path = " + documentPath);
+                            }
+                        }
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                }
+                if (publicMediaDir != null && publicMediaDir.isDirectory()) {
+                    try {
+                        File imagePath = new File(publicMediaDir, "Telegram Images");
+                        imagePath.mkdir();
+                        if (imagePath.isDirectory() && canMoveFiles(cachePath, imagePath, FileLoader.MEDIA_DIR_IMAGE)) {
+                            mediaDirs.put(FileLoader.MEDIA_DIR_IMAGE_PUBLIC, imagePath);
+                            if (BuildVars.LOGS_ENABLED) {
+                                FileLog.d("image path = " + imagePath);
+                            }
+                        }
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+
+                    try {
+                        File videoPath = new File(publicMediaDir, "Telegram Video");
+                        videoPath.mkdir();
+                        if (videoPath.isDirectory() && canMoveFiles(cachePath, videoPath, FileLoader.MEDIA_DIR_VIDEO)) {
+                            mediaDirs.put(FileLoader.MEDIA_DIR_VIDEO_PUBLIC, videoPath);
+                            if (BuildVars.LOGS_ENABLED) {
+                                FileLog.d("video path = " + videoPath);
                             }
                         }
                     } catch (Exception e) {
@@ -3806,6 +3850,10 @@ public class ImageLoader {
             }
         }
         return null;
+    }
+
+    public DispatchQueue getCacheOutQueue() {
+        return cacheOutQueue;
     }
 
     public static class MessageThumb {

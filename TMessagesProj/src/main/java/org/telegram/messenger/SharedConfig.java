@@ -811,7 +811,10 @@ public class SharedConfig {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("save_gallery", saveToGallery);
         editor.commit();
-        checkSaveToGalleryFiles();
+        ImageLoader.getInstance().checkMediaPaths();
+        ImageLoader.getInstance().getCacheOutQueue().postRunnable(() -> {
+            checkSaveToGalleryFiles();
+        });
     }
 
     public static void toggleAutoplayGifs() {

@@ -266,6 +266,7 @@ public class DialogCell extends BaseCell {
     private int pinLeft;
 
     private boolean drawCount;
+    private boolean drawCount2 = true;
     private int countTop;
     private int countLeft;
     private int countWidth;
@@ -527,6 +528,7 @@ public class DialogCell extends BaseCell {
         bottomClip = getMeasuredHeight();
     }
 
+    int lastSize;
     @Override
     protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
         if (currentDialogId == 0 && customDialog == null) {
@@ -537,7 +539,9 @@ public class DialogCell extends BaseCell {
             int y = AndroidUtilities.dp(useForceThreeLines || SharedConfig.useThreeLinesLayout ? 48 : 42);
             checkBox.layout(x, y, x + checkBox.getMeasuredWidth(), y + checkBox.getMeasuredHeight());
         }
-        if (changed) {
+        int size = getMeasuredHeight() + getMeasuredWidth() << 16;
+        if (size != lastSize) {
+            lastSize = size;
             try {
                 buildLayout();
             } catch (Exception e) {
@@ -1014,7 +1018,39 @@ public class DialogCell extends BaseCell {
                         } else {
                             fromChat = MessagesController.getInstance(currentAccount).getChat(-fromId);
                         }
-                        if (dialogsType == 3 && UserObject.isUserSelf(user)) {
+                        drawCount2 = true;
+                        if (dialogsType == 2) {
+                            if (chat != null) {
+                                if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                                    if (chat.participants_count != 0) {
+                                        messageString = LocaleController.formatPluralStringComma("Subscribers", chat.participants_count);
+                                    } else {
+                                        if (TextUtils.isEmpty(chat.username)) {
+                                            messageString = LocaleController.getString("ChannelPrivate", R.string.ChannelPrivate).toLowerCase();
+                                        } else {
+                                            messageString = LocaleController.getString("ChannelPublic", R.string.ChannelPublic).toLowerCase();
+                                        }
+                                    }
+                                } else {
+                                    if (chat.participants_count != 0) {
+                                        messageString = LocaleController.formatPluralStringComma("Members", chat.participants_count);
+                                    } else {
+                                        if (chat.has_geo) {
+                                            messageString = LocaleController.getString("MegaLocation", R.string.MegaLocation);
+                                        } else if (TextUtils.isEmpty(chat.username)) {
+                                            messageString = LocaleController.getString("MegaPrivate", R.string.MegaPrivate).toLowerCase();
+                                        } else {
+                                            messageString = LocaleController.getString("MegaPublic", R.string.MegaPublic).toLowerCase();
+                                        }
+                                    }
+                                }
+                            } else {
+                                messageString = "";
+                            }
+                            drawCount2 = false;
+                            showChecks = false;
+                            drawTime = false;
+                        } else if (dialogsType == 3 && UserObject.isUserSelf(user)) {
                             messageString = LocaleController.getString("SavedMessagesInfo", R.string.SavedMessagesInfo);
                             showChecks = false;
                             drawTime = false;
@@ -2094,6 +2130,9 @@ public class DialogCell extends BaseCell {
             } else {
                 drawPin = false;
             }
+            if (dialogsType == 2) {
+                drawPin = false;
+            }
 
             if (mask != 0) {
                 boolean continueUpdate = false;
@@ -2274,7 +2313,7 @@ public class DialogCell extends BaseCell {
                     countAnimator.setDuration(430);
                     countAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
                 }
-                if (drawCount && countLayout != null) {
+                if (drawCount && drawCount2 && countLayout != null) {
                     String oldStr = String.valueOf(oldUnreadCount);
                     String newStr = String.valueOf(unreadCount);
 
@@ -2771,7 +2810,7 @@ public class DialogCell extends BaseCell {
             lastStatusDrawableParams = (this.drawClock ? 1 : 0) +  (this.drawCheck1 ? 2 : 0) + (this.drawCheck2 ? 4 : 0);
         }
 
-        if ((dialogMuted || dialogMutedProgress > 0) && !drawVerified && drawScam == 0) {
+        if (dialogsType != 2 && (dialogMuted || dialogMutedProgress > 0) && !drawVerified && drawScam == 0) {
             if (dialogMuted && dialogMutedProgress != 1f) {
                 dialogMutedProgress += 16 / 150f;
                 if (dialogMutedProgress > 1f) {
@@ -2820,8 +2859,8 @@ public class DialogCell extends BaseCell {
             canvas.drawRoundRect(rect, 11.5f * AndroidUtilities.density, 11.5f * AndroidUtilities.density, Theme.dialogs_errorPaint);
             setDrawableBounds(Theme.dialogs_errorDrawable, errorLeft + AndroidUtilities.dp(5.5f), errorTop + AndroidUtilities.dp(5));
             Theme.dialogs_errorDrawable.draw(canvas);
-        } else if (drawCount || drawMention || countChangeProgress != 1f || drawReactionMention || reactionsMentionsChangeProgress != 1f) {
-            if (drawCount || countChangeProgress != 1f) {
+        } else if ((drawCount || drawMention) && drawCount2 || countChangeProgress != 1f || drawReactionMention || reactionsMentionsChangeProgress != 1f) {
+            if (drawCount && drawCount2 || countChangeProgress != 1f) {
                 final float progressFinal = (unreadCount == 0 && !markUnread) ? 1f - countChangeProgress : countChangeProgress;
                 if (countOldLayout == null || unreadCount == 0) {
                     StaticLayout drawLayout = unreadCount == 0 ? countOldLayout : countLayout;

@@ -140,6 +140,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
     private ArrayList<AlertDialogCell> itemViews = new ArrayList<>();
     private float aspectRatio;
     private boolean dimEnabled = true;
+    private float dimAlpha = 0.32f;
     private final Theme.ResourcesProvider resourcesProvider;
     private boolean topAnimationAutoRepeat = true;
 
@@ -871,7 +872,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
             params.width = WindowManager.LayoutParams.MATCH_PARENT;
         } else {
             if (dimEnabled) {
-                params.dimAmount = 0.32f;
+                params.dimAmount = dimAlpha;
                 params.flags |= WindowManager.LayoutParams.FLAG_DIM_BEHIND;
             } else {
                 params.dimAmount = 0f;
@@ -1376,6 +1377,11 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
 
         public Builder setDimEnabled(boolean dimEnabled) {
             alertDialog.dimEnabled = dimEnabled;
+            return this;
+        }
+
+        public Builder setDimAlpha(float dimAlpha) {
+            alertDialog.dimAlpha = dimAlpha;
             return this;
         }
 

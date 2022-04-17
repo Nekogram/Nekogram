@@ -268,11 +268,11 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                 if (chatActivity.isInScheduleMode()) {
                     AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), chatActivity.getDialogId(), (notify, scheduleDate) -> {
                         delegate.didSelectLocation(location.venue, locationType, notify, scheduleDate);
-                        parentAlert.dismiss();
+                        parentAlert.dismiss(true);
                     }, resourcesProvider);
                 } else {
                     delegate.didSelectLocation(location.venue, locationType, true, 0);
-                    parentAlert.dismiss();
+                    parentAlert.dismiss(true);
                 }
             });
 
@@ -762,11 +762,11 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                         if (chatActivity.isInScheduleMode()) {
                             AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), chatActivity.getDialogId(), (notify, scheduleDate) -> {
                                 delegate.didSelectLocation(location, locationType, notify, scheduleDate);
-                                parentAlert.dismiss();
+                                parentAlert.dismiss(true);
                             }, resourcesProvider);
                         } else {
                             delegate.didSelectLocation(location, locationType, true, 0);
-                            parentAlert.dismiss();
+                            parentAlert.dismiss(true);
                         }
                     }
                 } else if (locationDenied) {
@@ -775,7 +775,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
             } else if (position == 2 && locationType == LOCATION_TYPE_SEND_WITH_LIVE) {
                 if (getLocationController().isSharingLocation(dialogId)) {
                     getLocationController().removeSharingLocation(dialogId);
-                    parentAlert.dismiss();
+                    parentAlert.dismiss(true);
                 } else {
                     if (myLocation == null && locationDenied) {
                         AlertsCreator.createLocationRequiredDialog(getParentActivity(), true).show();
@@ -789,11 +789,11 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                     if (chatActivity.isInScheduleMode()) {
                         AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), chatActivity.getDialogId(), (notify, scheduleDate) -> {
                             delegate.didSelectLocation((TLRPC.TL_messageMediaVenue) object, locationType, notify, scheduleDate);
-                            parentAlert.dismiss();
+                            parentAlert.dismiss(true);
                         }, resourcesProvider);
                     } else {
                         delegate.didSelectLocation((TLRPC.TL_messageMediaVenue) object, locationType, true, 0);
-                        parentAlert.dismiss();
+                        parentAlert.dismiss(true);
                     }
                 } else if (object instanceof LiveLocation) {
                     LiveLocation liveLocation = (LiveLocation) object;
@@ -936,11 +936,11 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
                 if (chatActivity.isInScheduleMode()) {
                     AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), chatActivity.getDialogId(), (notify, scheduleDate) -> {
                         delegate.didSelectLocation(object, locationType, notify, scheduleDate);
-                        parentAlert.dismiss();
+                        parentAlert.dismiss(true);
                     }, resourcesProvider);
                 } else {
                     delegate.didSelectLocation(object, locationType, true, 0);
-                    parentAlert.dismiss();
+                    parentAlert.dismiss(true);
                 }
             }
         });
@@ -1174,7 +1174,7 @@ public class ChatAttachAlertLocationLayout extends ChatAttachAlert.AttachAlertLa
             location.geo._long = AndroidUtilities.fixLocationCoord(myLocation.getLongitude());
             location.period = param;
             delegate.didSelectLocation(location, locationType, true, 0);
-            parentAlert.dismiss();
+            parentAlert.dismiss(true);
         }, resourcesProvider).show();
     }
 

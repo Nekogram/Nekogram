@@ -22,7 +22,8 @@
         <item name="android:forceDarkAllowed">false</item>
         <item name="android:windowSplashScreenIconBackgroundColor">@color/ic_launcher_background</item>
         <item name="android:windowSplashScreenAnimatedIcon">@drawable/ic_launcher_animated</item>
-        <item name="android:windowSplashScreenAnimationDuration">5000</item>
+        <item name="android:windowSplashScreenAnimationDuration">500</item>
+        <item name="android:windowSplashScreenBackground">?android:windowBackground</item>
     </style>
 
     <style name="ActionBar.Transparent.TMessages.Start" parent="android:style/Widget.Material.Light.ActionBar">
