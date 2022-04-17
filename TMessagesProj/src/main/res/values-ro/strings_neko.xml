@@ -17,7 +17,6 @@
     <string name="Repeat">Repetă</string>
     <string name="AddToSavedMessages">Salvează mesaj</string>
     <string name="CreateMention">Creează mențiune</string>
-    <string name="ForceTabletMode">Forțează modul tabletă</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Bară de stare transparentă</string>
     <string name="EnableResidentNotification">Afișează o notificare rezidentă</string>
@@ -35,8 +34,6 @@
     <string name="HideProxySponsorChannel">Ascunde canalul de sponsorizare proxy</string>
     <string name="ViewHistory">Vizualizare istoric</string>
     <string name="Nya">Meow!</string>
-    <string name="SaveCacheToExternalFilesDir">Izolare stocare</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Salvează folderul \"Telegram\" în directorul specific aplicației pentru a păstra stocarea partajată.</string>
     <string name="SensitiveDisableFiltering">Dezactivează filtrarea conținutului sensibil</string>
     <string name="SensitiveAbout">Afișează fișierele media sensibile în canalele publice pe toate dispozitivele tale.</string>
     <string name="StickerSize">Dimensiune sticker</string>

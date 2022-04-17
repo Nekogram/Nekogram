@@ -19,7 +19,6 @@
     <string name="Repeat">Répéter</string>
     <string name="AddToSavedMessages">Sauvegarder le message</string>
     <string name="CreateMention">Créer une mention</string>
-    <string name="ForceTabletMode">Forcer le mode tablette</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Barre de notification transparente</string>
     <string name="EnableResidentNotification">Afficher une notification de résident</string>
@@ -37,8 +36,6 @@
     <string name="HideProxySponsorChannel">Masquer le canal du sponsor proxy</string>
     <string name="ViewHistory">Afficher l\'historique</string>
     <string name="Nya">Meow !</string>
-    <string name="SaveCacheToExternalFilesDir">Isolation du stockage</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Enregistrez le dossier \"Telegram\" dans un dossier spécifique à l\'application pour garder le stockage partagé.</string>
     <string name="SensitiveDisableFiltering">Désactiver le filtrage des contenus sensibles</string>
     <string name="SensitiveAbout">Afficher les médias sensibles dans les chaînes publiques sur tous vos appareils.</string>
     <string name="StickerSize">Taille des autocollants</string>
@@ -129,6 +126,7 @@
     <string name="SelectBetween">Sélectionner entre</string>
     <string name="StickerSavedHint">Sticker enregistré dans la galerie</string>
     <string name="RegistrationDate">Date d\'inscription</string>
+    <string name="WsDescription">Connectez-vous à Telegram avec WebSocket via Cloudflare. ** En savoir plus**</string>
     <string name="WsEnableTls">Activer le TLS</string>
     <string name="WsLocalProxy">Proxy local</string>
     <string name="WsEnableDoh">Activer le DoH</string>
@@ -190,9 +188,8 @@
     <string name="AppLinkNotVerifiedTitle">Liens d\'application non vérifiés</string>
     <string name="AutoTranslate">Traduction automatique</string>
     <string name="AutoTranslateAbout">Traduire automatiquement les messages qui sont dans une autre langue.</string>
-    <string name="CodeSyntaxHighlight">Surbrillance syntaxique de code</string>
     <string name="CreateMono">Créer Monospace</string>
-    <string name="CreateMonoLanguage">Langage du code</string>
+    <string name="CreateMonoLanguage">Langage de code (optionnel)</string>
     <string name="DoubleTapAction">Action de double appui</string>
     <string name="BlockedUserIgnored">bloqué</string>
     <string name="EditUndo">Annuler</string>
@@ -205,8 +202,9 @@
     <string name="CopyID">Copier l\'ID</string>
     <string name="ShowRPCError">Intégrer toutes les erreurs RPC</string>
     <string name="ShowRPCErrorException">Exceptions : %s</string>
-    <string name="KeepFormatting">Garder la mise en forme du texte</string>
-    <string name="KeepFormattingAbout">Lorsque vous copiez/collez un texte dans un échange.</string>
+    <string name="SoonRemovedOption">Cette option expérimentale sera bientôt supprimée et activée par défaut. Si vous rencontrez des problèmes avec cette option, veuillez **nous le signaler**.</string>
+    <string name="TabletMode">Mode tablette</string>
+    <string name="TabletModeAuto">Auto</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

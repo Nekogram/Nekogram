@@ -18,7 +18,6 @@
     <string name="Repeat">繰り返す</string>
     <string name="AddToSavedMessages">保存用メッセージに追加</string>
     <string name="CreateMention">アットユーザー</string>
-    <string name="ForceTabletMode">タブレットモードを強制する</string>
     <string name="Prpr">ペロペロ</string>
     <string name="TransparentStatusBar">完全に透明なステータスバーを使う</string>
     <string name="EnableResidentNotification">常駐通知を表示する</string>

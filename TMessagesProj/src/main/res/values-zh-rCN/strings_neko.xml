@@ -19,7 +19,6 @@
     <string name="Repeat">复读</string>
     <string name="AddToSavedMessages">保存消息</string>
     <string name="CreateMention">创建\@</string>
-    <string name="ForceTabletMode">强制启用平板模式</string>
     <string name="Prpr">ペロペロ</string>
     <string name="TransparentStatusBar">使用完全透明的状态栏</string>
     <string name="EnableResidentNotification">请让猫咪住在通知栏里吧</string>
@@ -37,8 +36,6 @@
     <string name="HideProxySponsorChannel">隐藏代理赞助商频道</string>
     <string name="ViewHistory">显示历史消息</string>
     <string name="Nya">喵！</string>
-    <string name="SaveCacheToExternalFilesDir">存储空间隔离</string>
-    <string name="SaveCacheToExternalFilesDirAbout">保存 \"Telegram\" 文件夹到应用特定的目录，以保持共享存储空间整洁。</string>
     <string name="SensitiveDisableFiltering">禁用敏感内容过滤</string>
     <string name="SensitiveAbout">在您所有设备上显示公共频道中的敏感媒体内容。</string>
     <string name="StickerSize">贴纸大小</string>
@@ -192,11 +189,10 @@
     <string name="AppLinkNotVerifiedTitle">应用链接未验证</string>
     <string name="AutoTranslate">自动翻译</string>
     <string name="AutoTranslateAbout">自动翻译其他语言的消息。</string>
-    <string name="CodeSyntaxHighlight">代码语法高亮</string>
     <string name="CreateMono">创建等宽文字</string>
-    <string name="CreateMonoLanguage">代码语言</string>
+    <string name="CreateMonoLanguage">代码语言（可选）</string>
     <string name="DoubleTapAction">双击操作</string>
-    <string name="BlockedUserIgnored">被屏蔽</string>
+    <string name="BlockedUserIgnored">已屏蔽</string>
     <string name="EditUndo">撤销</string>
     <string name="EditRedo">重做</string>
     <string name="EditEnableMarkdown">启用 Markdown</string>
@@ -207,9 +203,11 @@
     <string name="CopyID">复制 ID</string>
     <string name="ShowRPCError">显示所有 RPC 错误</string>
     <string name="ShowRPCErrorException">例外：%s</string>
-    <string name="KeepFormatting">保持文本格式</string>
-    <string name="KeepFormattingAbout">在聊天中复制粘贴文本时。</string>
     <string name="SoonRemovedOption">这个实验性选项将很快被删除并默认启用，如果你对这个选项有问题，请**向我们报告**。</string>
+    <string name="TabletMode">平板模式</string>
+    <string name="TabletModeAuto">自动</string>
+    <string name="DeleteAllFromSelfDone">您的所有消息都已删除</string>
+    <string name="UnknownNekoSettingsOption">没有这样的喵设置选项。</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

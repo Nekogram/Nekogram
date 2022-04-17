@@ -17,7 +17,6 @@
     <string name="Repeat">නැවත</string>
     <string name="AddToSavedMessages">පණිවිඩය සුරකින්න</string>
     <string name="CreateMention">සඳහන් කිරීමක් කරන්න</string>
-    <string name="ForceTabletMode">ටැබ් සදහා වන මාදිලිය</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">විනිවිද පෙනෙන තත්ව තීරුව</string>
     <string name="EnableResidentNotification">Show a resident notification</string>
@@ -35,8 +34,6 @@
     <string name="HideProxySponsorChannel">ප්‍රොක්සි සදහා අනුග්‍රාහක නාලිකාව සඟවන්න</string>
     <string name="ViewHistory">පසුගිය මැසේජ පෙන්වන්න</string>
     <string name="Nya">ඤාව්!</string>
-    <string name="SaveCacheToExternalFilesDir">ගබඩා ස්ථානය</string>
-    <string name="SaveCacheToExternalFilesDirAbout">දත්ත ගබඩාව පිළිවෙලට තබා ගැනීම සදහා ටෙලිග්‍රෑම් ෆෝල්ඩරය විශේෂ ස්ථානයක ගබඩා කරන්න.</string>
     <string name="SensitiveDisableFiltering">සංවේදී අන්තර්ගත ඉවත් කිරීම අක්‍රීය කරන්න</string>
     <string name="SensitiveAbout">ඔබේ උපාංගයේ පොදු නාලිකාවල ඇති සංවේදී දර්ශන පෙන්වීම.</string>
     <string name="StickerSize">ස්ටිකර් වල විශාලත්වය</string>

@@ -19,7 +19,6 @@
     <string name="Repeat">複讀</string>
     <string name="AddToSavedMessages">拿去自嗨</string>
     <string name="CreateMention">提及使用者</string>
-    <string name="ForceTabletMode">強制平板模式</string>
     <string name="Prpr">ペロペロ</string>
     <string name="TransparentStatusBar">使用完全透明的狀態列</string>
     <string name="EnableResidentNotification">請讓貓咪住在通知列裡吧</string>
@@ -37,8 +36,6 @@
     <string name="HideProxySponsorChannel">隱藏 Proxy 贊助商頻道</string>
     <string name="ViewHistory">顯示歷史訊息</string>
     <string name="Nya">喵！</string>
-    <string name="SaveCacheToExternalFilesDir">儲存空間隔離</string>
-    <string name="SaveCacheToExternalFilesDirAbout">保存 \"Telegram\" 資料夾到應用特定的目錄，以保持共享儲存空間整潔。</string>
     <string name="SensitiveDisableFiltering">停用敏感內容過濾</string>
     <string name="SensitiveAbout">在您所有裝置上顯示公共頻道中的敏感媒體內容。</string>
     <string name="StickerSize">貼圖大小</string>
@@ -165,8 +162,6 @@
     <string name="TranslatorTypeExternal">使用外部程序翻譯</string>
     <string name="PhotoCopied">圖片已拷貝！</string>
     <string name="AutoTranslate">自動翻譯</string>
-    <string name="CodeSyntaxHighlight">使用「等寬字」時，使代碼高亮。</string>
-    <string name="CreateMonoLanguage">代碼語言</string>
     <string name="DoubleTapAction">雙擊操作</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">可訪問性設置</string>

@@ -19,7 +19,6 @@
     <string name="Repeat">Ripeti</string>
     <string name="AddToSavedMessages">Salva messaggio</string>
     <string name="CreateMention">Crea menzione</string>
-    <string name="ForceTabletMode">Forza modalità tablet</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Barra di stato trasparente</string>
     <string name="EnableResidentNotification">Mostra notifica persistente</string>
@@ -37,8 +36,6 @@
     <string name="HideProxySponsorChannel">Nascondi canale sponsor proxy</string>
     <string name="ViewHistory">Visualizza la cronologia</string>
     <string name="Nya">Miao!</string>
-    <string name="SaveCacheToExternalFilesDir">Isolamento dell\'archiviazione</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Salva la cartella \"Telegram\" nella directory specifica dell\'app per mantenere la memoria condivisa in ordine.</string>
     <string name="SensitiveDisableFiltering">Disattiva il filtro dei contenuti sensibili</string>
     <string name="SensitiveAbout">Mostra i media sensibili nei canali pubblici su tutti i tuoi dispositivi.</string>
     <string name="StickerSize">Dimensione dell\'adesivo</string>
@@ -184,9 +181,7 @@
     <string name="AppLinkNotVerifiedTitle">Collegamenti all\'app non verificati</string>
     <string name="AutoTranslate">Traduzione automatica</string>
     <string name="AutoTranslateAbout">Traduci automaticamente i messaggi che sono in un\'altra lingua.</string>
-    <string name="CodeSyntaxHighlight">Evidenzia la sintassi del codice</string>
     <string name="CreateMono">Crea Monospazio</string>
-    <string name="CreateMonoLanguage">Linguaggio del codice</string>
     <string name="DoubleTapAction">Azione al doppio tocco</string>
     <string name="BlockedUserIgnored">bloccato</string>
     <string name="EditUndo">Annulla</string>

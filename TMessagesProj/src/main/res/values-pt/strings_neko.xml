@@ -17,7 +17,6 @@
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Salvar mensagem</string>
     <string name="CreateMention">Criar menção</string>
-    <string name="ForceTabletMode">Forçar o modo tablet</string>
     <string name="Prpr">Perópero</string>
     <string name="TransparentStatusBar">Barra de status transparente</string>
     <string name="EnableResidentNotification">Mostrar uma notificação residencial</string>
@@ -35,8 +34,6 @@
     <string name="HideProxySponsorChannel">Ocultar canal patrocinador de proxy</string>
     <string name="ViewHistory">Visualizar Histórico</string>
     <string name="Nya">Miau!</string>
-    <string name="SaveCacheToExternalFilesDir">Isolamento de armazenamento</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Salve a pasta \"Telegram\" no diretório específico do aplicativo para manter a organização do armazenamento compartilhado.</string>
     <string name="SensitiveDisableFiltering">Desabilitar filtragem confidencial de conteúdo</string>
     <string name="SensitiveAbout">Exibir mídia sensível em canais públicos em todos os seus dispositivos.</string>
     <string name="StickerSize">Tamanho do adesivo</string>

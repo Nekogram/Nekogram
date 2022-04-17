@@ -19,7 +19,6 @@
     <string name="Repeat">Powtórz</string>
     <string name="AddToSavedMessages">Zapisz wiadomość</string>
     <string name="CreateMention">Utwórz wzmiankę</string>
-    <string name="ForceTabletMode">Wymuś tryb tabletu</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Przezroczysty pasek stanu</string>
     <string name="EnableResidentNotification">Pokaż powiadomienie o lokalizacji</string>
@@ -37,8 +36,6 @@
     <string name="HideProxySponsorChannel">Ukryj kanał sponsora proxy</string>
     <string name="ViewHistory">Zobacz historię</string>
     <string name="Nya">Miau!</string>
-    <string name="SaveCacheToExternalFilesDir">Izolacja pamięci</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Zapisz katalog „Telegram” do katalogu, który jest specyficzny dla aplikacji, aby utrzymać porządek w lokalizacji współdzielonej.</string>
     <string name="SensitiveDisableFiltering">Wyłącz filtrowanie wrażliwych treści</string>
     <string name="SensitiveAbout">Wyświetl wrażliwe multimedia w publicznych kanałach na wszystkich urządzeniach.</string>
     <string name="StickerSize">Rozmiar naklejek</string>
@@ -67,7 +64,10 @@
     <string name="HideAllTab">Ukryj zakładkę „Wszystkie”</string>
     <string name="HideAllTabAbout">Naciśnij „Wróć” na stronie głównej, aby go otworzyć.</string>
     <string name="TabTitleType">Pokaż na nazwach folderów</string>
+    <string name="TabTitleTypeTip">Ikony są synchronizowane przez Telegrama.</string>
     <string name="TabTitleTypeText">Nazwy</string>
+    <string name="TabTitleTypeIcon">Ikony</string>
+    <string name="TabTitleTypeMix">Ikony z tytułami</string>
     <string name="ConfirmAVMessage">Potwierdzaj wysyłanie wiadomości audio/wideo</string>
     <string name="AskBeforeCalling">Zapytaj przed połączeniem</string>
     <string name="DisableNumberRounding">Wyłącz zaokrąglanie liczb</string>
@@ -95,6 +95,9 @@
     <string name="DisableProximityEvents">Wyłącz usługi oparte na lokalizacji</string>
     <string name="CustomEmojiTypeface">Własna czcionka emoji</string>
     <string name="MapDriftingFix">Poprawka na dryfowanie map dla Chin kontynentalnych</string>
+    <string name="IncreaseVoiceMessageQuality">Wiadomości głosowe HQ</string>
+    <string name="VoiceEnhancements">Wzmocnienie głosu</string>
+    <string name="VoiceEnhancementsAbout">Tłumienie hałasu i normalizacja głosu</string>
     <string name="DisableInstantCamera">Wyłącz natychmiastową kamerę</string>
     <string name="OpenAllLinksInInstantView">Otwieraj wszystkie linki w Widoku błyskawicznym</string>
     <string name="DonateThankYou">Dziękuję!</string>
@@ -123,6 +126,7 @@
     <string name="SelectBetween">Wybierz pomiędzy</string>
     <string name="StickerSavedHint">Naklejka zapisana w galerii</string>
     <string name="RegistrationDate">Data rejestracji</string>
+    <string name="WsDescription">Połącz się z Telegramem przez WebSocket za pośrednictwem Cloudflare. **Dowiedz się więcej**</string>
     <string name="WsEnableTls">Włącz TLS</string>
     <string name="WsLocalProxy">Lokalne proxy</string>
     <string name="WsEnableDoh">Włącz DoH</string>
@@ -184,9 +188,8 @@
     <string name="AppLinkNotVerifiedTitle">Linki aplikacji nie zostały zweryfikowane</string>
     <string name="AutoTranslate">Automatyczne tłumaczenie</string>
     <string name="AutoTranslateAbout">Automatycznie tłumacz wiadomości w innym języku.</string>
-    <string name="CodeSyntaxHighlight">Podświetlenie składni kodu</string>
     <string name="CreateMono">Utwórz stałą szerokość</string>
-    <string name="CreateMonoLanguage">Kod języka</string>
+    <string name="CreateMonoLanguage">Kod języka (opcjonalnie)</string>
     <string name="DoubleTapAction">Akcja dwukrotnego dotknięcia</string>
     <string name="BlockedUserIgnored">zablokowany</string>
     <string name="EditUndo">Cofnij</string>
@@ -197,6 +200,13 @@
     <string name="CopyCallback">Kopiuj dane odpowiedzi</string>
     <string name="CopyInlineQuery">Kopiuj zapytanie inline</string>
     <string name="CopyID">Kopiuj ID</string>
+    <string name="ShowRPCError">Wyskakująca wiadomość dla wszystkich błędów RPC</string>
+    <string name="ShowRPCErrorException">Wyjątki: %s</string>
+    <string name="SoonRemovedOption">Ta eksperymentalna opcja zostanie wkrótce usunięta i włączona domyślnie. Jeśli masz problemy z tą opcją, **zgłoś się do nas**.</string>
+    <string name="TabletMode">Tryb tabletu</string>
+    <string name="TabletModeAuto">Automatyczny</string>
+    <string name="DeleteAllFromSelfDone">Wszystkie twoje wiadomości zostały usunięte</string>
+    <string name="UnknownNekoSettingsOption">Nie ma takiej opcji w ustawieniach Neko.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>

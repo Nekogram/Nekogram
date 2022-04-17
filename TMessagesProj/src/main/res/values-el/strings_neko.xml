@@ -18,7 +18,6 @@
     <string name="Repeat">Επανάληψη</string>
     <string name="AddToSavedMessages">Αποθήκευση μηνύματος</string>
     <string name="CreateMention">Δημιουργία Αναφοράς</string>
-    <string name="ForceTabletMode">Εξαναγκασμός λειτουργίας tablet</string>
     <string name="TransparentStatusBar">Διάφανη γραμμή κατάστασης</string>
     <string name="NekogramRunning">Το Nekogram εκτελείται</string>
     <string name="ChristmasHat">Εμφάνιση χριστουγεννιάτικου καπέλου καθημερινά</string>
@@ -29,8 +28,6 @@
     <string name="HideProxySponsorChannel">Απόκρυψη καναλιού χορηγού διακομιστή μεσολάβησης</string>
     <string name="ViewHistory">Προβολή ιστορικού</string>
     <string name="Nya">Μιαου!</string>
-    <string name="SaveCacheToExternalFilesDir">Απομόνωση αποθήκευσης</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Αποθηκεύστε το φάκελο \"Telegram\" στον κατάλογο που αφορά την εφαρμογή για να διατηρήσετε τον κοινόχρηστο αποθηκευτικό χώρο τακτοποιημένο.</string>
     <string name="SensitiveDisableFiltering">Απενεργοποίηση φιλτραρίσματος ευαίσθητου περιεχομένου</string>
     <string name="SensitiveAbout">Εμφάνιση ευαίσθητων πολυμέσων σε δημόσια κανάλια σε όλες τις συσκευές σας.</string>
     <string name="StickerSize">Μέγεθος αυτοκόλλητου</string>

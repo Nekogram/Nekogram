@@ -16,7 +16,6 @@
     <string name="Repeat">Gjenta</string>
     <string name="AddToSavedMessages">Lagre melding</string>
     <string name="CreateMention">Opprett Omtale</string>
-    <string name="ForceTabletMode">Tving nettbrettmodus</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Gjennomsiktig statuslinje</string>
     <string name="EnableResidentNotification">Vis en stedlig varsling</string>
@@ -34,8 +33,6 @@
     <string name="HideProxySponsorChannel">Skjul proxy-sponsorkanal</string>
     <string name="ViewHistory">Vis historikk</string>
     <string name="Nya">Mjau!</string>
-    <string name="SaveCacheToExternalFilesDir">Lagringsisolasjon</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Lagre \"Telegram\" -mappen i app-spesifikk katalog for å holde delt lagring ryddig.</string>
     <string name="SensitiveDisableFiltering">Deaktiver filtrering av sensitivt innhold</string>
     <string name="SensitiveAbout">Vis sensitiv media i offentlige kanaler på alle enhetene dine.</string>
     <string name="StickerSize">Klistremerke størrelse</string>

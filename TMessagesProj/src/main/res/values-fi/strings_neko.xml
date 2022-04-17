@@ -18,7 +18,6 @@
     <string name="Repeat">Toistaa</string>
     <string name="AddToSavedMessages">Tallenna viesti</string>
     <string name="CreateMention">Luo Maininta</string>
-    <string name="ForceTabletMode">Pakota tablet-tila</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Läpinäkyvä tilapalkki</string>
     <string name="EnableResidentNotification">Näytä asukasilmoitus</string>

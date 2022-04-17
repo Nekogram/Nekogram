@@ -19,8 +19,7 @@
     <string name="Repeat">Повторить</string>
     <string name="AddToSavedMessages">Сохранить сообщение</string>
     <string name="CreateMention">Создать упоминание</string>
-    <string name="ForceTabletMode">Принудительный режим планшета</string>
-    <string name="Prpr">Peropero (помурчать кому-то)</string>
+    <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Прозрачная строка уведомлений</string>
     <string name="EnableResidentNotification">Включить постоянное уведомление</string>
     <string name="DisableResidentNotification">Отключить постоянное уведомление</string>
@@ -37,8 +36,6 @@
     <string name="HideProxySponsorChannel">Скрыть спонсора прокси</string>
     <string name="ViewHistory">История сообщений</string>
     <string name="Nya">Мяу!</string>
-    <string name="SaveCacheToExternalFilesDir">Изоляция хранилища</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Сохранять содержимое папки \"Telegram\" на внешнее хранилище, для экономии памяти устройства.</string>
     <string name="SensitiveDisableFiltering">Показывать деликатный контент</string>
     <string name="SensitiveAbout">Отображать деликатный контент в публичных каналах на всех ваших устройствах.</string>
     <string name="StickerSize">Размер стикеров</string>
@@ -192,9 +189,8 @@
     <string name="AppLinkNotVerifiedTitle">Ссылки приложения не подтверждены</string>
     <string name="AutoTranslate">Автоперевод</string>
     <string name="AutoTranslateAbout">Автоматический перевод сообщений на другом языке.</string>
-    <string name="CodeSyntaxHighlight">Подсветка синтаксиса кода</string>
     <string name="CreateMono">Создать моноширинный</string>
-    <string name="CreateMonoLanguage">Язык кода</string>
+    <string name="CreateMonoLanguage">Язык программирования (необязательно)</string>
     <string name="DoubleTapAction">Действие при двойном нажатии</string>
     <string name="BlockedUserIgnored">заблокирован</string>
     <string name="EditUndo">Отменить</string>
@@ -207,9 +203,11 @@
     <string name="CopyID">Копировать ID</string>
     <string name="ShowRPCError">Всплывающие уведомления обо всех ошибках RPC</string>
     <string name="ShowRPCErrorException">Исключения: %s</string>
-    <string name="KeepFormatting">Сохранять форматирование текста</string>
-    <string name="KeepFormattingAbout">При копировании текста в чат.</string>
     <string name="SoonRemovedOption">Эта экспериментальная опция скоро будет удалена и включена по умолчанию, если у вас есть проблемы с этой опцией**сообщите нам**\".\".</string>
+    <string name="TabletMode">Режим планшета</string>
+    <string name="TabletModeAuto">Автоматически</string>
+    <string name="DeleteAllFromSelfDone">Все ваши сообщения удалены</string>
+    <string name="UnknownNekoSettingsOption">Такого параметра Neko нет.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>

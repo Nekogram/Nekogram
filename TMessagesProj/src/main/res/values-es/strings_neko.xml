@@ -19,7 +19,6 @@
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Guardar mensaje</string>
     <string name="CreateMention">Crear mención</string>
-    <string name="ForceTabletMode">Forzar modo tablet</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Barra de estado transparente</string>
     <string name="EnableResidentNotification">Mostrar una notificación permanente</string>
@@ -37,8 +36,6 @@
     <string name="HideProxySponsorChannel">Ocultar sponsor del proxy</string>
     <string name="ViewHistory">Ver historial</string>
     <string name="Nya">¡Miau!</string>
-    <string name="SaveCacheToExternalFilesDir">Aislamiento del almacenamiento</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Guarda la carpeta \"Telegram\" en un directorio específico de la aplicación para mantener el almacenamiento compartido ordenado.</string>
     <string name="SensitiveDisableFiltering">Desactivar filtrado de contenido sensible</string>
     <string name="SensitiveAbout">Mostrar multimedia sensible en canales públicos en todos tus dispositivos.</string>
     <string name="StickerSize">Tamaño de stickers</string>
@@ -129,6 +126,7 @@
     <string name="SelectBetween">Seleccionar entre</string>
     <string name="StickerSavedHint">Sticker guardado en la galería</string>
     <string name="RegistrationDate">Fecha de registro</string>
+    <string name="WsDescription">Conectarse a Telegram mediante WebSocket a través de Cloudflare. **Aprende más**</string>
     <string name="WsEnableTls">Habilitar TLS</string>
     <string name="WsLocalProxy">Proxy local</string>
     <string name="WsEnableDoh">Habilitar DoH</string>
@@ -190,9 +188,8 @@
     <string name="AppLinkNotVerifiedTitle">Enlaces de app no verificados</string>
     <string name="AutoTranslate">Auto-traducir</string>
     <string name="AutoTranslateAbout">Auto-traducir los mensajes que están en otro idioma.</string>
-    <string name="CodeSyntaxHighlight">Resaltado de sintaxis de código</string>
     <string name="CreateMono">Crear Monoespaciado</string>
-    <string name="CreateMonoLanguage">Lenguaje de código</string>
+    <string name="CreateMonoLanguage">Lenguaje de código (opcional)</string>
     <string name="DoubleTapAction">Acción de doble toque</string>
     <string name="BlockedUserIgnored">bloqueado</string>
     <string name="EditUndo">Deshacer</string>
@@ -205,8 +202,10 @@
     <string name="CopyID">Copiar ID</string>
     <string name="ShowRPCError">Mostrar todos los errores RPC</string>
     <string name="ShowRPCErrorException">Excepciones: %s</string>
-    <string name="KeepFormatting">Mantener el formato del texto</string>
-    <string name="KeepFormattingAbout">Al copiar y pegar texto en el chat.</string>
+    <string name="SoonRemovedOption">Esta opción experimental será eliminada y activada por defecto en breve, si tiene problemas con esta opción, por favor **informe a nosotros**.</string>
+    <string name="TabletMode">Modo tablet</string>
+    <string name="TabletModeAuto">Auto</string>
+    <string name="DeleteAllFromSelfDone">Todos tus mensajes han sido borrados</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccRewindHeading">Ajustes de rebobinado</string>

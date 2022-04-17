@@ -19,7 +19,6 @@
     <string name="Repeat">반복</string>
     <string name="AddToSavedMessages">메세지 저장</string>
     <string name="CreateMention">멘션 만들기</string>
-    <string name="ForceTabletMode">태블릿 모드 강제 설정</string>
     <string name="Prpr">페로페로</string>
     <string name="TransparentStatusBar">투명 상태 표시줄</string>
     <string name="EnableResidentNotification">참가자 알림 표시</string>
@@ -37,8 +36,6 @@
     <string name="HideProxySponsorChannel">프록시 스폰서 채널 숨기기</string>
     <string name="ViewHistory">이전 기록 보기</string>
     <string name="Nya">야옹!</string>
-    <string name="SaveCacheToExternalFilesDir">저장공간 분리</string>
-    <string name="SaveCacheToExternalFilesDirAbout">공유 스토리지를 깔끔하게 유지하려면 \"Telegram\" 폴더를 앱별 디렉토리에 저장합니다.</string>
     <string name="SensitiveDisableFiltering">민감한 콘텐츠 필터링 비활성화</string>
     <string name="SensitiveAbout">모든 장치에서 민감한 채널을 공개 채널로 표시합니다.</string>
     <string name="StickerSize">스티커 크기</string>
@@ -185,9 +182,7 @@
     <string name="AppLinkNotVerifiedTitle">앱 링크가 확인되지 않음</string>
     <string name="AutoTranslate">자동 번역</string>
     <string name="AutoTranslateAbout">다른 언어로 된 메시지를 자동으로 번역합니다.</string>
-    <string name="CodeSyntaxHighlight">코드 구문 강조 표시</string>
     <string name="CreateMono">모노스페이스 생성</string>
-    <string name="CreateMonoLanguage">코드 언어</string>
     <string name="DoubleTapAction">두번 누루기 기능</string>
     <string name="BlockedUserIgnored">차단함</string>
     <string name="EditUndo">실행 취소</string>

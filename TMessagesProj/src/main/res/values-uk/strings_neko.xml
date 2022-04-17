@@ -19,7 +19,6 @@
     <string name="Repeat">Повторити</string>
     <string name="AddToSavedMessages">Зберегти повідомлення</string>
     <string name="CreateMention">Створити згадку</string>
-    <string name="ForceTabletMode">Примусовий режим планшета</string>
     <string name="Prpr">Пероперо</string>
     <string name="TransparentStatusBar">Прозорий рядок стану</string>
     <string name="EnableResidentNotification">Включити сповіщення</string>
@@ -37,8 +36,6 @@
     <string name="HideProxySponsorChannel">Приховати канал спонсора проксі-сервера</string>
     <string name="ViewHistory">Подивитися історію</string>
     <string name="Nya">Мяу!</string>
-    <string name="SaveCacheToExternalFilesDir">Ізоляція сховища</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Зберігати теку \"Telegram\" у конкретному каталозі, щоб зберегти спільне сховище у чистоті.</string>
     <string name="SensitiveDisableFiltering">Вимкнути фільтрацію чутливого вмісту</string>
     <string name="SensitiveAbout">Показувати чутливий контент у відкритих каналах на всіх пристроях.</string>
     <string name="StickerSize">Розмір наліпки</string>
@@ -98,6 +95,9 @@
     <string name="DisableProximityEvents">Вимкнути датчик наближення</string>
     <string name="CustomEmojiTypeface">Користувацький шрифт емодзі</string>
     <string name="MapDriftingFix">Виправлення мап для Китаю</string>
+    <string name="IncreaseVoiceMessageQuality">Голосові повідомлення у HQ</string>
+    <string name="VoiceEnhancements">Покращення голосу</string>
+    <string name="VoiceEnhancementsAbout">Нормалізація шуму та його голосу</string>
     <string name="DisableInstantCamera">Вимкнути миттєву камеру</string>
     <string name="OpenAllLinksInInstantView">Намагатися відкривати всі посилання в Миттєвому перегляді</string>
     <string name="DonateThankYou">Дякую!</string>
@@ -126,6 +126,7 @@
     <string name="SelectBetween">Виберіть між</string>
     <string name="StickerSavedHint">Наліпка збережена в галерею</string>
     <string name="RegistrationDate">Дата реєстрації</string>
+    <string name="WsDescription">Підключіться до Telegram через WebSocket через Cloudflare. **Дізнатися більше**</string>
     <string name="WsEnableTls">Увімкнути TLS</string>
     <string name="WsLocalProxy">Локальний проксі</string>
     <string name="WsEnableDoh">Увімкнути DoH</string>
@@ -187,9 +188,8 @@
     <string name="AppLinkNotVerifiedTitle">Посилання додатка неперевірені</string>
     <string name="AutoTranslate">Автоматичний переклад</string>
     <string name="AutoTranslateAbout">Автоматично перекладати іншомовні повідомлення.</string>
-    <string name="CodeSyntaxHighlight">Підсвічування синтаксису мов програмування</string>
     <string name="CreateMono">Моноширний шрифт</string>
-    <string name="CreateMonoLanguage">Мова програмування</string>
+    <string name="CreateMonoLanguage">Мова коду (необов’язково)</string>
     <string name="DoubleTapAction">Дія при подвійному дотику</string>
     <string name="BlockedUserIgnored">заблоковано</string>
     <string name="EditUndo">Відмінити</string>
@@ -200,6 +200,12 @@
     <string name="CopyCallback">Копіювати вхідні дані</string>
     <string name="CopyInlineQuery">Копіювати Inline запит</string>
     <string name="CopyID">Скопіювати ID</string>
+    <string name="ShowRPCError">Показать все ошибки RPC</string>
+    <string name="ShowRPCErrorException">Исключения: %s</string>
+    <string name="SoonRemovedOption">Эта экспериментальная опция скоро будет удалена и включена по умолчанию. Если у вас возникли проблемы с этой опцией, пожалуйста, **сообщите нам**.</string>
+    <string name="TabletMode">Режим планшету</string>
+    <string name="TabletModeAuto">Авто</string>
+    <string name="DeleteAllFromSelfDone">Видалити свої повідомлення</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccRewindHeading">Налаштування перемотки</string>

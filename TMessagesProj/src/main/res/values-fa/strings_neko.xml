@@ -19,7 +19,7 @@
     <string name="Repeat">تکرار</string>
     <string name="AddToSavedMessages">ذخیره پیام</string>
     <string name="CreateMention">ایجاد منشن</string>
-    <string name="ForceTabletMode">حالت تبلت</string>
+    <string name="Prpr">پروپرو</string>
     <string name="TransparentStatusBar">نوار وضعیت شفاف</string>
     <string name="EnableResidentNotification">نمایش یک اعلان ساکن</string>
     <string name="DisableResidentNotification">اعلان ساکن را غیرفعال کنید</string>
@@ -36,8 +36,6 @@
     <string name="HideProxySponsorChannel">مخفی کردن کانال حامی پراکسی</string>
     <string name="ViewHistory">مشاهده تاریخچه</string>
     <string name="Nya">میو!</string>
-    <string name="SaveCacheToExternalFilesDir">جداسازی ذخیره سازی</string>
-    <string name="SaveCacheToExternalFilesDirAbout">پوشه \"Telegram\" را در پوشه مخصوص برنامه ذخیره کنید تا فضای ذخیره سازی مشترک را مرتب نگه دارید.</string>
     <string name="SensitiveDisableFiltering">غیرفعال کردن فیلتر محتوای حساس</string>
     <string name="SensitiveAbout">رسانه های حساس را در کانال های عمومی در همه دستگاه های خود نمایش دهید.</string>
     <string name="StickerSize">اندازه استیکر</string>
@@ -61,11 +59,15 @@
     <string name="OpenArchiveOnPull">باز کردن بایگانی در حالت کشیدن</string>
     <string name="HideKeyboardOnChatScroll">پنهان کردن صفحه کلید در اسکرول چت</string>
     <string name="ShowTabsOnForward">نمایش برگه ها در جلو</string>
+    <string name="CheckAllAdministrated">اضافه کردن administrated</string>
     <string name="RearVideoMessages">استفاده از دوربین اصلی در پیام های ویدیویی</string>
     <string name="HideAllTab">تب \"همه چت ها\" را پنهان کنید</string>
     <string name="HideAllTabAbout">\"بازگشت\" را در صفحه اصلی فشار دهید تا باز شود.</string>
     <string name="TabTitleType">نمایش در برگه ها</string>
+    <string name="TabTitleTypeTip">آیکون ها توسط تلگرام ابر همگام سازی می شوند.</string>
     <string name="TabTitleTypeText">عناوین</string>
+    <string name="TabTitleTypeIcon">آیکون ها</string>
+    <string name="TabTitleTypeMix">آیکون ها با عناوین</string>
     <string name="ConfirmAVMessage">تأیید پیام های صوتی/ویدیویی قبل از ارسال</string>
     <string name="AskBeforeCalling">پرسیدن قبل از تماس</string>
     <string name="DisableNumberRounding">غیرفعال کردن گرد کردن اعداد</string>
@@ -93,12 +95,16 @@
     <string name="DisableProximityEvents">غیرفعال کردن رویدادهای مجاورت</string>
     <string name="CustomEmojiTypeface">فونت ایموجی سفارشی</string>
     <string name="MapDriftingFix">اصلاح نقشه رانش برای سرزمین اصلی چین</string>
+    <string name="IncreaseVoiceMessageQuality">پیام های صوتی با کیفیت بالا</string>
+    <string name="VoiceEnhancements">تقویت صدا</string>
+    <string name="VoiceEnhancementsAbout">حذف نویز و عادی سازی صدا</string>
     <string name="DisableInstantCamera">غیرفعال کردن دوربین فوری</string>
     <string name="OpenAllLinksInInstantView">تلاش برای باز کردن همه لینک ها با InstantView</string>
     <string name="DonateThankYou">متشکریم!</string>
     <string name="DonateEvilGoogle">گوگل 30 درصد از کمک مالی شما را خواهد گرفت.</string>
     <string name="FormatWithSeconds">فرمت زمان با ثانیه</string>
     <string name="JumpToBeginning">رفتن به ابتدا</string>
+    <string name="ProviderDeepLTranslate">ترجمه DeepL</string>
     <string name="Halloween">هالووین</string>
     <string name="CheckUpdate">بررسی برای بروز رسانی</string>
     <string name="LastUpdateFormatted">آخرین بررسی در %1$s.</string>
@@ -118,6 +124,7 @@
     <string name="SelectBetween">انتخاب بین</string>
     <string name="StickerSavedHint">استیکر در گالری ذخیره شد</string>
     <string name="RegistrationDate">تاریخ ثبت نام</string>
+    <string name="WsDescription">اتصال به تلگرام از طریق WebSocket از طریق Cloudflare. در این مورد بیشتر بیاید</string>
     <string name="WsEnableTls">فعال کردن TLS</string>
     <string name="WsLocalProxy">پروکسی محلی</string>
     <string name="WsEnableDoh">فعال کردن DoH</string>
@@ -161,8 +168,11 @@
     <string name="QRLoginTitle">ورود از طریق qr code</string>
     <string name="NoTranslatorAppInstalled">شما برنامه مترجمی نصب نکرده اید، لطفا برای ادامه یکی را نصب کنید</string>
     <string name="DisableVoiceMessagesAutoPlay">غیرفعال کردن پخش خودکار پیام های صوتی</string>
+    <string name="TranslatorType">نوع</string>
+    <string name="TranslatorTypeNeko">در پیام</string>
     <string name="TranslatorTypeTG">پنجره بازشو</string>
     <string name="TranslatorTypeExternal">برنامه خارجی</string>
+    <string name="CopyPhoto">کپی عکس</string>
     <string name="PhotoCopied">عکس در کلیپ بورد کپی شد</string>
     <string name="SaveToDownloadCount_zero">در حال ذخیره %1$d فایل در دانلودها</string>
     <string name="SaveToDownloadCount_one">در حال ذخیره %1$d فایل در دانلودها</string>
@@ -176,13 +186,23 @@
     <string name="AppLinkNotVerifiedTitle">پیوندهای برنامه تأیید نشده است</string>
     <string name="AutoTranslate">ترجمه خودکار</string>
     <string name="AutoTranslateAbout">ترجمه خودکار پیام هایی که به زبان دیگری هستند.</string>
-    <string name="CodeSyntaxHighlight">برجسته سازی نحو کد</string>
     <string name="CreateMono">Monospace را ایجاد کنید</string>
-    <string name="CreateMonoLanguage">زبان کد</string>
+    <string name="CreateMonoLanguage">زبان کد (اختیاری)</string>
     <string name="DoubleTapAction">عملکرد دو ضربه ای</string>
     <string name="BlockedUserIgnored">مسدود شده</string>
     <string name="EditUndo">واگرد</string>
     <string name="EditRedo">انجام دوباره</string>
+    <string name="EditEnableMarkdown">فعال کردن علامت گذاری</string>
+    <string name="EditDisableMarkdown">غیر فعال کردن علامت گذاری</string>
+    <string name="DisableMarkdownByDefault">علامت گذاری را به صورت پیش فرض غیرفعال کنید</string>
+    <string name="CopyCallback">کپی کردن داده های تماس</string>
+    <string name="CopyInlineQuery">کپی پرس و جو در خط</string>
+    <string name="CopyID">کپی شناسه</string>
+    <string name="ShowRPCError">توست تمام خطاهای RPC</string>
+    <string name="ShowRPCErrorException">استثنائات: %s</string>
+    <string name="SoonRemovedOption">این گزینه آزمایشی به زودی به صورت پیش فرض حذف و فعال خواهد شد، در صورتی که با این گزینه مشکلی داشته باشید، لطفا به ما گزارش دهید.</string>
+    <string name="TabletMode">حالت قرص</string>
+    <string name="TabletModeAuto">خودکار</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
 </resources>

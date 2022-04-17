@@ -8,18 +8,17 @@
     <string name="DeleteAllFromSelf">Slet egne beskeder</string>
     <string name="DeleteAllFromSelfAlert">Advarsel! Dette vil ** slette alle beskeder fra dig** i denne chat for **alle** deltagere.</string>
     <string name="BotLogin">Bot Login</string>
-    <string name="InvalidAccessToken">Ugyldigt adgangstoken</string>
+    <string name="InvalidAccessToken">Ugyldig adgangstoken</string>
     <string name="IgnoreBlocked">Skjul beskeder fra blokeret bruger</string>
     <string name="Connection">Forbindelse</string>
     <string name="Chat">Chat</string>
     <string name="NameOrder">Navnerækkefølge</string>
-    <string name="FirstLast">Første Sidste</string>
-    <string name="LastFirst">Sidste Første</string>
+    <string name="FirstLast">Første Sidst</string>
+    <string name="LastFirst">Sidste Først</string>
     <string name="NoQuoteForward">Ingen citat fremadrettet</string>
     <string name="Repeat">Gentag</string>
     <string name="AddToSavedMessages">Gem besked</string>
     <string name="CreateMention">Opret Omtale</string>
-    <string name="ForceTabletMode">Tving tablettilstand</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Gennemsigtig statuslinje</string>
     <string name="EnableResidentNotification">Vis en resident underretning</string>
@@ -37,8 +36,6 @@
     <string name="HideProxySponsorChannel">Skjul proxy sponsor kanal</string>
     <string name="ViewHistory">Se historik</string>
     <string name="Nya">Meow!</string>
-    <string name="SaveCacheToExternalFilesDir">Lagerisolation</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Gem mappen \"Telegram\" i en appspecifik mappe for at holde det delte lager ryddeligt.</string>
     <string name="SensitiveDisableFiltering">Deaktivér filtrering af følsomt indhold</string>
     <string name="SensitiveAbout">Vis følsomme medier i offentlige kanaler på alle dine enheder.</string>
     <string name="StickerSize">Klistermærke størrelse</string>
@@ -98,6 +95,9 @@
     <string name="DisableProximityEvents">Deaktiver nærhedshændelser</string>
     <string name="CustomEmojiTypeface">Brugerdefineret emoji-skrifttype</string>
     <string name="MapDriftingFix">Kort drivende fix for fastlandet Kina</string>
+    <string name="IncreaseVoiceMessageQuality">HQ talebeskeder</string>
+    <string name="VoiceEnhancements">Stemmeforbedringer</string>
+    <string name="VoiceEnhancementsAbout">Støjundertrykkelse og stemmenormalisering</string>
     <string name="DisableInstantCamera">Deaktivér øjeblikkeligt kamera</string>
     <string name="OpenAllLinksInInstantView">Prøv at åbne alle links i Øjeblikkelig visning</string>
     <string name="DonateThankYou">Mange tak!</string>
@@ -126,6 +126,7 @@
     <string name="SelectBetween">Vælg mellem</string>
     <string name="StickerSavedHint">Klistermærke gemt i galleri</string>
     <string name="RegistrationDate">Registreringsdato</string>
+    <string name="WsDescription">Opret forbindelse til Telegram via WebSocket via Cloudflare. **Lær mere**</string>
     <string name="WsEnableTls">Aktiver TLS</string>
     <string name="WsLocalProxy">Lokal proxy</string>
     <string name="WsEnableDoh">Aktiver DoH</string>
@@ -187,9 +188,8 @@
     <string name="AppLinkNotVerifiedTitle">App-links ikke verificeret</string>
     <string name="AutoTranslate">Automatisk oversættelse</string>
     <string name="AutoTranslateAbout">Oversæt automatisk meddelelser, der er på et andet sprog.</string>
-    <string name="CodeSyntaxHighlight">Kode syntaks fremhævning</string>
     <string name="CreateMono">Opret Monospace</string>
-    <string name="CreateMonoLanguage">Kode sprog</string>
+    <string name="CreateMonoLanguage">Kode sprog (valgfrit)</string>
     <string name="DoubleTapAction">Handling ved dobbelttryk</string>
     <string name="BlockedUserIgnored">blokeret</string>
     <string name="EditUndo">Fortryd</string>
@@ -202,8 +202,11 @@
     <string name="CopyID">Kopier ID</string>
     <string name="ShowRPCError">Toast alle RPC fejl</string>
     <string name="ShowRPCErrorException">Undtagelser: %s</string>
-    <string name="KeepFormatting">Behold tekstformatering</string>
-    <string name="KeepFormattingAbout">Når du kopierer og indsætter i chatten.</string>
+    <string name="SoonRemovedOption">Denne eksperimentelle indstilling vil snart blive fjernet og aktiveret som standard, hvis du har problemer med denne indstilling, bedes du **rapportere til os**.</string>
+    <string name="TabletMode">Tablet-tilstand</string>
+    <string name="TabletModeAuto">Auto</string>
+    <string name="DeleteAllFromSelfDone">Alle dine beskeder er slettet</string>
+    <string name="UnknownNekoSettingsOption">Der er ikke en sådan indstillingsmulighed for Neko.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
     <string name="AccRewindHeading">Indstillinger for tilbagespoling</string>

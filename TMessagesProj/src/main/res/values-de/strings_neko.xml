@@ -19,7 +19,6 @@
     <string name="Repeat">Wiederholen</string>
     <string name="AddToSavedMessages">Nachricht speichern</string>
     <string name="CreateMention">Erwähnung erstellen</string>
-    <string name="ForceTabletMode">Tablet-Modus erzwingen</string>
     <string name="Prpr">ペロペロ</string>
     <string name="TransparentStatusBar">Transparente Statusleiste</string>
     <string name="EnableResidentNotification">Permanente Benachrichtigung anzeigen</string>
@@ -37,8 +36,6 @@
     <string name="HideProxySponsorChannel">Proxy-Sponsor-Kanal ausblenden</string>
     <string name="ViewHistory">Verlauf anzeigen</string>
     <string name="Nya">Miau!</string>
-    <string name="SaveCacheToExternalFilesDir">Speicherisolierung</string>
-    <string name="SaveCacheToExternalFilesDirAbout">\"Telegram\"-Ordner in App-spezifischem Verzeichnis speichern, um den geteilten internen Speicher in Ordnung zu halten.</string>
     <string name="SensitiveDisableFiltering">Filter für sensiblen Inhalt deaktivieren</string>
     <string name="SensitiveAbout">Sensible Medien in öffentlichen Kanälen auf all Ihren Geräten anzeigen.</string>
     <string name="StickerSize">Stickergröße</string>
@@ -129,6 +126,7 @@
     <string name="SelectBetween">Wählen Sie zwischen</string>
     <string name="StickerSavedHint">Sticker in Galerie gespeichert</string>
     <string name="RegistrationDate">Registrierungsdatum</string>
+    <string name="WsDescription">Mit Telegram über WebSocket via Cloudflare verbinden. **Mehr erfahren**</string>
     <string name="WsEnableTls">TLS aktivieren</string>
     <string name="WsLocalProxy">Lokaler Proxy</string>
     <string name="WsEnableDoh">DoH aktivieren</string>
@@ -190,9 +188,8 @@
     <string name="AppLinkNotVerifiedTitle">App-Links nicht überprüft</string>
     <string name="AutoTranslate">Automatisch übersetzen</string>
     <string name="AutoTranslateAbout">Nachrichten in einer anderen Sprache automatisch übersetzen.</string>
-    <string name="CodeSyntaxHighlight">Code-Syntax hervorheben</string>
     <string name="CreateMono">Monospace erstellen</string>
-    <string name="CreateMonoLanguage">Programmiersprache</string>
+    <string name="CreateMonoLanguage">Programmiersprache (optional)</string>
     <string name="DoubleTapAction">Doppeltipp-Aktion</string>
     <string name="BlockedUserIgnored">gesperrt</string>
     <string name="EditUndo">Rückgängig</string>
@@ -203,9 +200,11 @@
     <string name="CopyCallback">Rückrufdaten kopieren</string>
     <string name="CopyInlineQuery">Inline-Abfrage kopieren</string>
     <string name="CopyID">ID kopieren</string>
+    <string name="ShowRPCError">Toast auf alle RPC-Fehler</string>
     <string name="ShowRPCErrorException">Ausnahmen: %s</string>
-    <string name="KeepFormatting">Textformatierung beibehalten</string>
-    <string name="KeepFormattingAbout">Beim Kopieren/Einfügen von Text im Chat.</string>
+    <string name="SoonRemovedOption">Diese experimentelle Option wird in Kürze entfernt und standardmäßig aktiviert, wenn Sie Probleme mit dieser Option haben, bitte **an uns melden**.</string>
+    <string name="TabletMode">Tablet Modus</string>
+    <string name="TabletModeAuto">Auto</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Bedienungshilfen</string>
 </resources>

@@ -19,7 +19,6 @@
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Salvar mensagem</string>
     <string name="CreateMention">Criar Menção</string>
-    <string name="ForceTabletMode">Forçar o modo tablet</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Barra de status transparente</string>
     <string name="EnableResidentNotification">Mostrar notificação de residente</string>
@@ -37,8 +36,6 @@
     <string name="HideProxySponsorChannel">Ocultar canal do patrocinador do proxy</string>
     <string name="ViewHistory">Ver histórico</string>
     <string name="Nya">Miau!</string>
-    <string name="SaveCacheToExternalFilesDir">Separar armazenamento</string>
-    <string name="SaveCacheToExternalFilesDirAbout">Salve a pasta \"Telegram\" no diretório específico do aplicativo para manter a organização do armazenamento compartilhado.</string>
     <string name="SensitiveDisableFiltering">Desabilitar filtro de conteúdo sensível</string>
     <string name="SensitiveAbout">Exiba mídia sensível em canais públicos em todos os seus dispositivos.</string>
     <string name="StickerSize">Tamanho dos stickers</string>
@@ -130,6 +127,7 @@
     <string name="SelectBetween">Selecione entre</string>
     <string name="StickerSavedHint">Salvar sticker na galeria </string>
     <string name="RegistrationDate">Data de registro</string>
+    <string name="WsDescription">Conecte-se ao Telegram através de WebSocket via Cloudflare. **Saiba mais**</string>
     <string name="WsEnableTls">Habilitar TLS</string>
     <string name="WsLocalProxy">Proxy local</string>
     <string name="WsEnableDoh">Habilitar DNS-over-HTTPS</string>
@@ -191,9 +189,7 @@
     <string name="AppLinkNotVerifiedTitle">Links do aplicativo não verificados</string>
     <string name="AutoTranslate">Tradução automática</string>
     <string name="AutoTranslateAbout">Traduzir automaticamente as mensagens que estão em outro idioma.</string>
-    <string name="CodeSyntaxHighlight">Destaque da sintaxe do código</string>
     <string name="CreateMono">Criar monoespaçado</string>
-    <string name="CreateMonoLanguage">Linguagem do código</string>
     <string name="DoubleTapAction">Ação de toque duplo</string>
     <string name="BlockedUserIgnored">bloqueado</string>
     <string name="EditUndo">Desfazer</string>
@@ -206,8 +202,11 @@
     <string name="CopyID">Copiar ID</string>
     <string name="ShowRPCError">Mostrar todos os erros RPC (Toast)</string>
     <string name="ShowRPCErrorException">Exceções: %s</string>
-    <string name="KeepFormatting">Manter formatação de texto</string>
-    <string name="KeepFormattingAbout">Quando copiar e colar texto no chat.</string>
+    <string name="SoonRemovedOption">Esta opção experimental vai ser removida e ativa por padrão em breve, se você está tendo problemas com a mesma, por favor **reporte para nós**.</string>
+    <string name="TabletMode">Modo Tablet</string>
+    <string name="TabletModeAuto">Automático</string>
+    <string name="DeleteAllFromSelfDone">Todas as suas mensagens serão apagadas</string>
+    <string name="UnknownNekoSettingsOption">Essa opção não existe nas configurações Neko.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccRewindHeading">Configurações de retrocesso</string>
