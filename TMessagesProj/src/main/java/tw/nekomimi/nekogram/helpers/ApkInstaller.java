@@ -118,7 +118,9 @@ public final class ApkInstaller {
         TextView textView2 = new TextView(context);
         textView2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
         textView2.setTextColor(Theme.getColor(Theme.key_dialogTextGray));
-        textView2.setText(LocaleController.getString("UpdateInstallingRelaunch", R.string.UpdateInstallingRelaunch));
+        textView2.setText(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || Settings.canDrawOverlays(context) ?
+                LocaleController.getString("UpdateInstallingRelaunch", R.string.UpdateInstallingRelaunch) :
+                LocaleController.getString("UpdateInstallingNotification", R.string.UpdateInstallingNotification));
         linearLayout.addView(textView2, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 4, 17, 24));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
