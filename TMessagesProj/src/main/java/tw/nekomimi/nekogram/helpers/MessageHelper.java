@@ -71,8 +71,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
-
 public class MessageHelper extends BaseController {
 
     private static final MessageHelper[] Instance = new MessageHelper[UserConfig.MAX_ACCOUNT_COUNT];
@@ -136,54 +134,62 @@ public class MessageHelper extends BaseController {
         return null;
     }
 
-    public String generateUpdateInfo(SparseArray<MessageObject>[] selectedMessagesIds) {
-        ArrayList<MessageObject> messageObjects = new ArrayList<>();
-        for (int a = 1; a >= 0; a--) {
-            for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
-                messageObjects.add(selectedMessagesIds[a].valueAt(b));
-            }
-        }
-        try {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("can_not_skip", false);
-            Pattern regex = Pattern.compile("Nekogram-(.*)-([0-9]+)-(.*)\\.apk");
-            JSONObject file = new JSONObject();
-            JSONObject message = new JSONObject();
-            for (MessageObject messageObject : messageObjects) {
-                if (messageObject.isAnyKindOfSticker()) {
-                    jsonObject.put("sticker", messageObject.getId());
-                } else if (messageObject.getDocument() != null) {
-                    Matcher m = regex.matcher(messageObject.getDocumentName());
-                    if (m.find()) {
-                        if (!jsonObject.has("version")) {
-                            jsonObject.put("version", m.group(1));
-                            jsonObject.put("version_code", m.group(2));
+    public void generateUpdateInfo(BaseFragment fragment, SparseArray<MessageObject>[] selectedMessagesIds, Runnable callback) {
+        fragment.showDialog(new AlertDialog.Builder(fragment.getParentActivity())
+                .setItems(new CharSequence[]{"direct", "play"}, (dialog, which) -> {
+                    var tag = which == 0 ? "updatev2" : "updateplayv2";
+                    ArrayList<MessageObject> messageObjects = new ArrayList<>();
+                    for (int a = 1; a >= 0; a--) {
+                        for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
+                            messageObjects.add(selectedMessagesIds[a].valueAt(b));
                         }
-                        String abi = m.group(3);
-                        if (abi != null) file.put(abi, messageObject.getId());
                     }
-                } else {
-                    if (containsHanScript(messageObject.messageOwner.message)) {
-                        message.put("Zuragram", messageObject.getId());
-                    } else {
-                        message.put("nekoupdates", messageObject.getId());
+                    try {
+                        JSONObject jsonObject = new JSONObject();
+                        jsonObject.put("can_not_skip", false);
+                        Pattern regex = Pattern.compile("Nekogram-(.*)-([0-9]+)-(.*)\\.apk");
+                        JSONObject file = new JSONObject();
+                        JSONObject message = new JSONObject();
+                        for (MessageObject messageObject : messageObjects) {
+                            if (messageObject.isAnyKindOfSticker()) {
+                                jsonObject.put("sticker", messageObject.getId());
+                            } else if (messageObject.getDocument() != null) {
+                                Matcher m = regex.matcher(messageObject.getDocumentName());
+                                if (m.find()) {
+                                    if (!jsonObject.has("version")) {
+                                        jsonObject.put("version", m.group(1));
+                                        jsonObject.put("version_code", m.group(2));
+                                    }
+                                    if (which == 0) {
+                                        String abi = m.group(3);
+                                        if (abi != null) file.put(abi, messageObject.getId());
+                                    } else if (!jsonObject.has("url")) {
+                                        jsonObject.put("url", "https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram");
+                                    }
+                                }
+                            } else {
+                                if (containsHanScript(messageObject.messageOwner.message)) {
+                                    message.put("Zuragram", messageObject.getId());
+                                } else {
+                                    message.put("nekoupdates", messageObject.getId());
+                                }
+                            }
+                        }
+                        if (message.length() != 0) {
+                            jsonObject.put("messages", message);
+                            if (message.has("nekoupdates") && !message.has("Zuragram")) {
+                                message.put("Zuragram", message.getInt("nekoupdates"));
+                            }
+                        }
+                        if (file.length() != 0) {
+                            jsonObject.put("files", file);
+                        }
+                        AndroidUtilities.addToClipboard("#" + tag + jsonObject);
+                        callback.run();
+                    } catch (JSONException e) {
+                        FileLog.e(e);
                     }
-                }
-            }
-            if (message.length() != 0) {
-                jsonObject.put("messages", message);
-                if (message.has("nekoupdates") && !message.has("Zuragram")) {
-                    message.put("Zuragram", message.getInt("nekoupdates"));
-                }
-            }
-            if (file.length() != 0) {
-                jsonObject.put("files", file);
-            }
-            return "#" + UpdateHelper.UPDATE_TAG + jsonObject;
-        } catch (JSONException e) {
-            FileLog.e(e);
-            return "";
-        }
+                }).create());
     }
 
     public static boolean containsHanScript(String s) {
