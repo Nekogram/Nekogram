@@ -169,6 +169,7 @@ import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.ForwardContext;
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
+import tw.nekomimi.nekogram.helpers.MonetHelper;
 import tw.nekomimi.nekogram.helpers.SettingsHelper;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 import tw.nekomimi.nekogram.settings.NekoDonateActivity;
@@ -895,6 +896,10 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 AlertsCreator.createBackgroundActivityDialog(this).show();
                 SharedConfig.BackgroundActivityPrefs.setLastCheckedBackgroundActivity(System.currentTimeMillis());
             }
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            MonetHelper.registerReceiver(this);
         }
     }
 
@@ -4508,6 +4513,9 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
 
     @Override
     protected void onDestroy() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            MonetHelper.unregisterReceiver(this);
+        }
         if (PhotoViewer.getPipInstance() != null) {
             PhotoViewer.getPipInstance().destroyPhotoViewer();
         }
