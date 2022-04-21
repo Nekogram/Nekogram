@@ -22,11 +22,10 @@ public class SimpleMenuItem extends TextView {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
-
         if (isSelected) {
             canvas.drawRect(0, 0, getMeasuredWidth(), getMeasuredHeight(), Theme.dialogs_tabletSeletedPaint);
         }
+        super.onDraw(canvas);
     }
 
     public void setTextAndCheck(CharSequence text, boolean selected, boolean multiline, int padding) {
