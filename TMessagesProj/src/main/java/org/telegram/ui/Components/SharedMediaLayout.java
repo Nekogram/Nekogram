@@ -6605,6 +6605,18 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         return newColumnsCount;
     }
 
+    @Override
+    protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+        if (child == fragmentContextView) {
+            canvas.save();
+            canvas.clipRect(0, mediaPages[0].getTop(), child.getMeasuredWidth(),mediaPages[0].getTop() + child.getMeasuredHeight() + AndroidUtilities.dp(12));
+            boolean b = super.drawChild(canvas, child, drawingTime);
+            canvas.restore();
+            return b;
+        }
+        return super.drawChild(canvas, child, drawingTime);
+    }
+
     private class ScrollSlidingTextTabStripInner extends ScrollSlidingTextTabStrip {
 
         protected Paint backgroundPaint;

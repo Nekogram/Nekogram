@@ -3442,7 +3442,7 @@ public class NotificationsController extends BaseController {
                 MessageObject messageObject = pushMessages.get(0);
                 boolean[] text = new boolean[1];
                 String message = lastMessage = getStringForMessage(messageObject, false, text, null);
-                silent = messageObject.messageOwner.silent ? 1 : 0;
+                silent = isSilentMessage(messageObject) ? 1 : 0;
                 if (message == null) {
                     return;
                 }
@@ -3473,7 +3473,7 @@ public class NotificationsController extends BaseController {
                     }
                     if (silent == 2) {
                         lastMessage = message;
-                        silent = messageObject.messageOwner.silent ? 1 : 0;
+                        silent = isSilentMessage(messageObject) ? 1 : 0;
                     }
                     if (pushDialogs.size() == 1) {
                         if (replace) {
@@ -3865,6 +3865,10 @@ public class NotificationsController extends BaseController {
         } catch (Exception e) {
             FileLog.e(e);
         }
+    }
+
+    private boolean isSilentMessage(MessageObject messageObject) {
+        return messageObject.messageOwner.silent || messageObject.isReactionPush;
     }
 
     @SuppressLint("NewApi")
