@@ -487,7 +487,8 @@
 
         <activity
             android:name="tw.nekomimi.nekogram.DebugActivity"
-            android:exported="true">
+            android:exported="true"
+            android:theme="@style/Theme.TMessages.Transparent">
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT" />
