@@ -29,11 +29,11 @@
     <string name="DependsOnDate">Phụ thuộc vào ngày</string>
     <string name="Christmas">Giáng sinh</string>
     <string name="Valentine">Ngày lễ tình nhân</string>
-    <string name="DeleteDownloadedFile">Xóa tập tin đã tải xuống</string>
-    <string name="TestBackend">Kiểm tra cuối</string>
+    <string name="DeleteDownloadedFile">Xóa tệp đã tải xuống</string>
+    <string name="TestBackend">Kiểm tra Phụ trợ</string>
     <string name="TestBackendOn">Tài khoản này sẽ kết nối với phụ trợ thử nghiệm.</string>
     <string name="TestBackendOff">Tài khoản này sẽ kết nối với phụ trợ sản xuất.</string>
-    <string name="HideProxySponsorChannel">Ẩn kênh nhà tài trợ proxy</string>
+    <string name="HideProxySponsorChannel">Ẩn kênh tài trợ proxy</string>
     <string name="ViewHistory">Xem lịch sử</string>
     <string name="Nya">Meow!</string>
     <string name="SensitiveDisableFiltering">Vô hiệu hóa lọc nội dung nhạy cảm</string>
@@ -205,6 +205,8 @@
     <string name="SoonRemovedOption">Tùy chọn thử nghiệm này sẽ sớm được loại bỏ và được bật theo mặc định, nếu bạn gặp sự cố với tùy chọn này, vui lòng **báo cáo cho chúng tôi**.</string>
     <string name="TabletMode">Chế độ máy tính bảng</string>
     <string name="TabletModeAuto">Tự động</string>
+    <string name="DeleteAllFromSelfDone">Đã xoá toàn bộ tin nhắn</string>
+    <string name="UnknownNekoSettingsOption">Không có tùy chọn Cài đặt Neko như vậy.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>

@@ -206,6 +206,7 @@
     <string name="TabletMode">Modo tablet</string>
     <string name="TabletModeAuto">Auto</string>
     <string name="DeleteAllFromSelfDone">Todos tus mensajes han sido borrados</string>
+    <string name="UnknownNekoSettingsOption">No existe esa opción en los Ajustes de Neko.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccRewindHeading">Ajustes de rebobinado</string>

@@ -64,7 +64,10 @@
     <string name="HideAllTab">Nascondi la cartella \"Tutte le chat\"</string>
     <string name="HideAllTabAbout">Premi \"Indietro\" nella home page per aprirla.</string>
     <string name="TabTitleType">Mostra sulle cartelle</string>
+    <string name="TabTitleTypeTip">Le icone sono sincronizzate sul cloud da Telegram.</string>
     <string name="TabTitleTypeText">Titoli</string>
+    <string name="TabTitleTypeIcon">Icone</string>
+    <string name="TabTitleTypeMix">Icone con titoli</string>
     <string name="ConfirmAVMessage">Conferma l\'invio di video/audio messaggi</string>
     <string name="AskBeforeCalling">Chiedi prima di chiamare</string>
     <string name="DisableNumberRounding">Disattiva arrotondamento numeri</string>
@@ -92,6 +95,9 @@
     <string name="DisableProximityEvents">Disattiva gli eventi di prossimità</string>
     <string name="CustomEmojiTypeface">Font emoji personalizzato</string>
     <string name="MapDriftingFix">Mappa linea di deriva per la Cina continentale</string>
+    <string name="IncreaseVoiceMessageQuality">Messaggi vocali in alta qualità</string>
+    <string name="VoiceEnhancements">Miglioramenti vocali</string>
+    <string name="VoiceEnhancementsAbout">Soppressione del rumore e Normalizzazione della voce</string>
     <string name="DisableInstantCamera">Disattiva la fotocamera istantanea</string>
     <string name="OpenAllLinksInInstantView">Prova ad aprire tutti i link in InstantView</string>
     <string name="DonateThankYou">Grazie!</string>
@@ -120,6 +126,7 @@
     <string name="SelectBetween">Seleziona tra</string>
     <string name="StickerSavedHint">Sticker salvato nella galleria</string>
     <string name="RegistrationDate">Data di registrazione</string>
+    <string name="WsDescription">Connettiti a Telegram tramite WebSocket via Cloudflare. **Maggiori Informazioni**</string>
     <string name="WsEnableTls">Attiva TLS</string>
     <string name="WsLocalProxy">Proxy locale</string>
     <string name="WsEnableDoh">Attiva DoH</string>
@@ -182,6 +189,7 @@
     <string name="AutoTranslate">Traduzione automatica</string>
     <string name="AutoTranslateAbout">Traduci automaticamente i messaggi che sono in un\'altra lingua.</string>
     <string name="CreateMono">Crea Monospazio</string>
+    <string name="CreateMonoLanguage">Lingua del codice (opzionale)</string>
     <string name="DoubleTapAction">Azione al doppio tocco</string>
     <string name="BlockedUserIgnored">bloccato</string>
     <string name="EditUndo">Annulla</string>
@@ -192,6 +200,13 @@
     <string name="CopyCallback">Copia dati callback</string>
     <string name="CopyInlineQuery">Copia query inline</string>
     <string name="CopyID">Copia ID</string>
+    <string name="ShowRPCError">Mostra tutti gli errori RPC con notifica toast</string>
+    <string name="ShowRPCErrorException">Eccezioni: %s</string>
+    <string name="SoonRemovedOption">Questa opzione sperimentale sarà presto rimossa e abilitata di default, se hai problemi con questa opzione, per favore **segnalacelo**.</string>
+    <string name="TabletMode">Modalità tablet</string>
+    <string name="TabletModeAuto">Auto</string>
+    <string name="DeleteAllFromSelfDone">Tutti i tuoi messaggi sono stati cancellati</string>
+    <string name="UnknownNekoSettingsOption">Non esiste questa opzione nelle impostazioni Neko.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>

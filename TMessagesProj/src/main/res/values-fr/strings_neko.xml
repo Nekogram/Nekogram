@@ -20,7 +20,7 @@
     <string name="AddToSavedMessages">Sauvegarder le message</string>
     <string name="CreateMention">Créer une mention</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Barre de notification transparente</string>
+    <string name="TransparentStatusBar">Barre d\'état transparente</string>
     <string name="EnableResidentNotification">Afficher une notification de résident</string>
     <string name="DisableResidentNotification">Désactiver la notification de résident</string>
     <string name="NekogramRunning">Nekogram est en cours d\'exécution</string>
@@ -205,6 +205,8 @@
     <string name="SoonRemovedOption">Cette option expérimentale sera bientôt supprimée et activée par défaut. Si vous rencontrez des problèmes avec cette option, veuillez **nous le signaler**.</string>
     <string name="TabletMode">Mode tablette</string>
     <string name="TabletModeAuto">Auto</string>
+    <string name="DeleteAllFromSelfDone">Tous vos messages sont supprimés</string>
+    <string name="UnknownNekoSettingsOption">Il n\'y a pas d\'option Paramètres Neko de ce type.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>
