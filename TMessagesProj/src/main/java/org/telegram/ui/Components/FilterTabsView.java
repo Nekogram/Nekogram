@@ -372,12 +372,12 @@ public class FilterTabsView extends FrameLayout {
                     currentEmoticon = currentTab.emoticon;
                     android.graphics.Rect bounds = new android.graphics.Rect(0, 0, emoticonWidth, emoticonWidth);
                     activeIcon = getResources().getDrawable(FolderIconHelper.getTabIcon(currentTab.emoticon, true)).mutate();
-                    activeIcon.setTint(Theme.getColor(activeTextColorKey));
-                    activeIcon.setBounds(bounds);
                     icon = getResources().getDrawable(FolderIconHelper.getTabIcon(currentTab.emoticon, false)).mutate();
-                    icon.setTint(Theme.getColor(unactiveTextColorKey));
+                    activeIcon.setBounds(bounds);
                     icon.setBounds(bounds);
                 }
+                icon.setTint(textPaint.getColor());
+                activeIcon.setTint(textPaint.getColor());
                 iconX = (int) ((getMeasuredWidth() - tabWidth) / 2f);
                 if (animateIconX) {
                     iconX = (int) (iconX * changeProgress + animateFromIconX * (1f - changeProgress));
@@ -678,11 +678,11 @@ public class FilterTabsView extends FrameLayout {
                     boolean active = selectedTabId == currentTab.id;
                     android.graphics.Rect bounds = new android.graphics.Rect(0, 0, emoticonWidth, emoticonWidth);
                     iconAnimateOutDrawable = getResources().getDrawable(FolderIconHelper.getTabIcon(lastEmoticon, active)).mutate();
-                    iconAnimateOutDrawable.setTint(Theme.getColor(active ? activeTextColorKey : unactiveTextColorKey));
-                    iconAnimateOutDrawable.setBounds(bounds);
                     iconAnimateInDrawable = getResources().getDrawable(FolderIconHelper.getTabIcon(currentTab.emoticon, active)).mutate();
-                    iconAnimateInDrawable.setTint(Theme.getColor(active ? activeTextColorKey : unactiveTextColorKey));
+                    iconAnimateOutDrawable.setBounds(bounds);
                     iconAnimateInDrawable.setBounds(bounds);
+                    iconAnimateOutDrawable.setTint(textPaint.getColor());
+                    iconAnimateInDrawable.setTint(textPaint.getColor());
                     animateIconChange = true;
                     changed = true;
                 }
