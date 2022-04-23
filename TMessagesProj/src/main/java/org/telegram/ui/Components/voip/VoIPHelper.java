@@ -104,7 +104,7 @@ public class VoIPHelper {
 			return;
 		}
 
-		if (NekoConfig.askBeforeCall && !confirmed) {
+		if (NekoConfig.askBeforeCall && !confirmed && activity instanceof LaunchActivity) {
 			final BaseFragment lastFragment = ((LaunchActivity) activity).getActionBarLayout().getLastFragment();
 			if (lastFragment != null) {
 				AlertsCreator.createCallDialogAlert(lastFragment, lastFragment.getMessagesController().getUser(user.id), videoCall);
