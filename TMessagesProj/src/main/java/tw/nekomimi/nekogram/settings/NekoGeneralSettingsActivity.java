@@ -47,7 +47,6 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
     private int notification2Row;
     private int generalRow;
     private int disabledInstantCameraRow;
-    private int hideProxySponsorChannelRow;
     private int askBeforeCallRow;
     private int openArchiveOnPullRow;
     private int nameOrderRow;
@@ -84,7 +83,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 parentLayout.rebuildAllFragmentViews(false, false);
             });
         } else if (position == translationProviderRow) {
-            final int oldProvider = NekoConfig.translationProvider;
+            final String oldProvider = NekoConfig.translationProvider;
             Translator.showTranslationProviderSelector(getParentActivity(), view, param -> {
                 if (param) {
                     listAdapter.notifyItemChanged(translationProviderRow);
@@ -92,11 +91,11 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                     listAdapter.notifyItemChanged(translationProviderRow);
                     listAdapter.notifyItemChanged(translationTargetRow);
                 }
-                if (oldProvider != NekoConfig.translationProvider) {
-                    if (oldProvider == Translator.PROVIDER_DEEPL) {
+                if (!oldProvider.equals(NekoConfig.translationProvider)) {
+                    if (oldProvider.equals(Translator.PROVIDER_DEEPL)) {
                         listAdapter.notifyItemRemoved(deepLFormalityRow);
                         updateRows();
-                    } else if (NekoConfig.translationProvider == Translator.PROVIDER_DEEPL) {
+                    } else if (NekoConfig.translationProvider.equals(Translator.PROVIDER_DEEPL)) {
                         updateRows();
                         listAdapter.notifyItemInserted(deepLFormalityRow);
                     }
@@ -164,9 +163,9 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 if (oldType != newType) {
                     if (oldType == NekoConfig.TRANS_TYPE_EXTERNAL) {
                         updateRows();
-                        listAdapter.notifyItemRangeInserted(translationProviderRow, NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 5 : 4);
+                        listAdapter.notifyItemRangeInserted(translationProviderRow, NekoConfig.translationProvider.equals(Translator.PROVIDER_DEEPL) ? 5 : 4);
                     } else if (newType == NekoConfig.TRANS_TYPE_EXTERNAL) {
-                        listAdapter.notifyItemRangeRemoved(translationProviderRow, NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? 5 : 4);
+                        listAdapter.notifyItemRangeRemoved(translationProviderRow, NekoConfig.translationProvider.equals(Translator.PROVIDER_DEEPL) ? 5 : 4);
                         updateRows();
                     }
                 }
@@ -203,7 +202,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         translatorTypeRow = addRow("translatorType");
         if (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
             translationProviderRow = addRow("translationProvider");
-            deepLFormalityRow = NekoConfig.translationProvider == Translator.PROVIDER_DEEPL ? addRow("deepLFormality") : -1;
+            deepLFormalityRow = NekoConfig.translationProvider.equals(Translator.PROVIDER_DEEPL) ? addRow("deepLFormality") : -1;
             translationTargetRow = addRow("translationTarget");
             doNotTranslateRow = addRow("doNotTranslate");
             autoTranslateRow = addRow("autoTranslate");
@@ -269,9 +268,9 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         }
                         textCell.setTextAndValue(LocaleController.getString("NameOrder", R.string.NameOrder), value, true);
                     } else if (position == translationProviderRow) {
-                        Pair<ArrayList<String>, ArrayList<Integer>> providers = Translator.getProviders();
+                        Pair<ArrayList<String>, ArrayList<String>> providers = Translator.getProviders();
                         ArrayList<String> names = providers.first;
-                        ArrayList<Integer> types = providers.second;
+                        ArrayList<String> types = providers.second;
                         if (names == null || types == null) {
                             return;
                         }

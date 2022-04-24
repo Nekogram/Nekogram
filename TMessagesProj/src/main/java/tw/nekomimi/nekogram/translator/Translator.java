@@ -27,12 +27,11 @@ import tw.nekomimi.nekogram.settings.NekoLanguagesSelectActivity;
 
 public class Translator {
 
-    public static final int PROVIDER_GOOGLE = 1;
-    public static final int PROVIDER_LINGO = 3;
-    public static final int PROVIDER_YANDEX = 4;
-    public static final int PROVIDER_DEEPL = 5;
-    public static final int PROVIDER_MICROSOFT = 7;
-    //public static final int PROVIDER_TENCENT = 8;
+    public static final String PROVIDER_GOOGLE = "google";
+    public static final String PROVIDER_LINGO = "lingo";
+    public static final String PROVIDER_YANDEX = "yandex";
+    public static final String PROVIDER_DEEPL = "deepl";
+    public static final String PROVIDER_MICROSOFT = "microsoft";
 
     public static void showTranslateDialog(Context context, String query, boolean noforwards) {
         showTranslateDialog(context, query, noforwards, null, null, null);
@@ -102,9 +101,9 @@ public class Translator {
         return restricted;
     }
 
-    public static Pair<ArrayList<String>, ArrayList<Integer>> getProviders() {
+    public static Pair<ArrayList<String>, ArrayList<String>> getProviders() {
         ArrayList<String> names = new ArrayList<>();
-        ArrayList<Integer> types = new ArrayList<>();
+        ArrayList<String> types = new ArrayList<>();
         names.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
         types.add(Translator.PROVIDER_GOOGLE);
         names.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
@@ -115,8 +114,6 @@ public class Translator {
         types.add(Translator.PROVIDER_DEEPL);
         names.add(LocaleController.getString("ProviderMicrosoftTranslator", R.string.ProviderMicrosoftTranslator));
         types.add(Translator.PROVIDER_MICROSOFT);
-        //names.add(LocaleController.getString("ProviderTencentTranslator", R.string.ProviderTencentTranslator));
-        //types.add(Translator.PROVIDER_TENCENT);
         return new Pair<>(names, types);
     }
 
@@ -172,9 +169,9 @@ public class Translator {
     }
 
     public static void showTranslationProviderSelector(Context context, View view, MessagesStorage.BooleanCallback callback, Theme.ResourcesProvider resourcesProvider) {
-        Pair<ArrayList<String>, ArrayList<Integer>> providers = getProviders();
+        Pair<ArrayList<String>, ArrayList<String>> providers = getProviders();
         ArrayList<String> names = providers.first;
-        ArrayList<Integer> types = providers.second;
+        ArrayList<String> types = providers.second;
         if (names == null || types == null) {
             return;
         }
@@ -213,7 +210,7 @@ public class Translator {
         return getTranslator(NekoConfig.translationProvider);
     }
 
-    public static BaseTranslator getTranslator(int type) {
+    public static BaseTranslator getTranslator(String type) {
         switch (type) {
             case PROVIDER_YANDEX:
                 return YandexTranslator.getInstance();
@@ -223,8 +220,6 @@ public class Translator {
                 return DeepLTranslator.getInstance();
             case PROVIDER_MICROSOFT:
                 return MicrosoftTranslator.getInstance();
-            //case PROVIDER_TENCENT:
-            //    return TencentTranslator.getInstance();
             case PROVIDER_GOOGLE:
             default:
                 return GoogleAppTranslator.getInstance();

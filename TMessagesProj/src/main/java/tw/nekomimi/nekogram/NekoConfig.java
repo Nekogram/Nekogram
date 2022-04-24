@@ -87,7 +87,7 @@ public class NekoConfig {
     public static boolean showRPCError = false;
     public static boolean keepFormatting = true;
     public static float stickerSize = 14.0f;
-    public static int translationProvider = Translator.PROVIDER_GOOGLE;
+    public static String translationProvider = Translator.PROVIDER_GOOGLE;
     public static String translationTarget = "app";
     public static int deepLFormality = DeepLTranslator.FORMALITY_DEFAULT;
     public static int tabsTitleType = TITLE_TYPE_MIX;
@@ -292,7 +292,7 @@ public class NekoConfig {
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
             unlimitedFavedStickers = preferences.getBoolean("unlimitedFavedStickers", false);
             unlimitedPinnedDialogs = preferences.getBoolean("unlimitedPinnedDialogs", false);
-            translationProvider = preferences.getInt("translationProvider", isChineseUser ? Translator.PROVIDER_LINGO : Translator.PROVIDER_GOOGLE);
+            translationProvider = preferences.getString("translationProvider2", isChineseUser ? Translator.PROVIDER_LINGO : Translator.PROVIDER_GOOGLE);
             disablePhotoSideAction = preferences.getBoolean("disablePhotoSideAction", true);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
             showHiddenFeature = preferences.getBoolean("showHiddenFeature5", BuildConfig.DEBUG);
@@ -598,11 +598,11 @@ public class NekoConfig {
         editor.commit();
     }
 
-    public static void setTranslationProvider(int provider) {
+    public static void setTranslationProvider(String provider) {
         translationProvider = provider;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("translationProvider", translationProvider);
+        editor.putString("translationProvider2", translationProvider);
         editor.commit();
     }
 
