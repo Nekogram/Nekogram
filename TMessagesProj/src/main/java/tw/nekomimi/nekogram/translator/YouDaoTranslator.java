@@ -1,0 +1,87 @@
+package tw.nekomimi.nekogram.translator;
+
+import android.text.TextUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+import org.telegram.messenger.FileLog;
+
+import java.io.IOException;
+import java.net.URLEncoder;
+import java.util.Arrays;
+import java.util.List;
+
+import tw.nekomimi.nekogram.Extra;
+
+public class YouDaoTranslator extends BaseTranslator {
+
+    private static YouDaoTranslator instance;
+    private final List<String> targetLanguages = Arrays.asList(
+            "en", "ja", "ko", "fr", "de", "ru", "es",
+            "pt", "it", "vi", "id", "ar", "nl", "th",
+            "zh-CN", "zh-TW", "zh");
+
+    static YouDaoTranslator getInstance() {
+        if (instance == null) {
+            synchronized (YouDaoTranslator.class) {
+                if (instance == null) {
+                    instance = new YouDaoTranslator();
+                }
+            }
+        }
+        return instance;
+    }
+
+    @Override
+    public String convertLanguageCode(String language, String country) {
+        String languageLowerCase = language.toLowerCase();
+        String code;
+        if (!TextUtils.isEmpty(country)) {
+            String countryUpperCase = country.toUpperCase();
+            if (targetLanguages.contains(languageLowerCase + "-" + countryUpperCase)) {
+                code = languageLowerCase + "-" + countryUpperCase;
+            } else if (languageLowerCase.equals("zh")) {
+                if (countryUpperCase.equals("DG")) {
+                    code = "zh-CN";
+                } else if (countryUpperCase.equals("HK")) {
+                    code = "zh-TW";
+                } else {
+                    code = languageLowerCase;
+                }
+            } else {
+                code = languageLowerCase;
+            }
+        } else {
+            code = languageLowerCase;
+        }
+        return code;
+    }
+
+    private static Result getResult(String string) throws JSONException {
+        JSONObject json = new JSONObject(string);
+        String sourceLang = null;
+        try {
+            sourceLang = json.getString("lang");
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return new Result(json.getJSONObject("fanyi").getString("trans"), sourceLang);
+    }
+
+    @Override
+    protected Result translate(String query, String tl) throws IOException, JSONException {
+        var time = System.currentTimeMillis() + Math.round(Math.random() * 10);
+        var sign = Extra.signYouDao(query, time);
+        var toLang = tl.replace("-", "_");
+        return getResult(Http.url("https://fanyi.youdao.com/appapi/tran?&product=fanyiguan&appVersion=4.0.9&vendor=tencent&network=wifi")
+                .header("Content-Type", "application/x-www-form-urlencoded")
+                .header("User-Agent", "okhttp/4.9.1")
+                .data("q=" + URLEncoder.encode(query, "UTF-8") + "&salt=" + time + "&sign=" + sign + "&needad=false&category=Android&type=AUTO2" + toLang + "&needdict=true&version=4.0.9&needfanyi=true&needsentences=false&scene=realtime")
+                .request());
+    }
+
+    @Override
+    public List<String> getTargetLanguages() {
+        return targetLanguages;
+    }
+}
