@@ -1,7 +1,6 @@
 package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
-import android.util.Base64;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -9,19 +8,8 @@ import org.json.JSONObject;
 import org.telegram.messenger.FileLog;
 
 import java.io.IOException;
-import java.net.URLEncoder;
-import java.nio.charset.Charset;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
-import java.util.TimeZone;
-import java.util.UUID;
-
-import javax.crypto.Mac;
-import javax.crypto.spec.SecretKeySpec;
 
 import tw.nekomimi.nekogram.Extra;
 
@@ -78,14 +66,7 @@ public class MicrosoftTranslator extends BaseTranslator {
         return code;
     }
 
-    @Override
-    protected Result translate(String query, String tl) throws IOException, JSONException {
-        if (tl.equals("zh-CN")) {
-            tl = "zh-Hans";
-        } else if (tl.equals("zh-TW")) {
-            tl = "zh-hant";
-        }
-        String response = Cognitive.translate(query, tl);
+    private static Result getResult(String response) throws JSONException, IOException {
         if (TextUtils.isEmpty(response)) {
             return null;
         }
@@ -108,39 +89,21 @@ public class MicrosoftTranslator extends BaseTranslator {
         return new Result(array.getJSONObject(0).getString("text"), sourceLang);
     }
 
-    private static class Cognitive {
-        private static String sign(String url) {
-            String uuid = UUID.randomUUID().toString().replaceAll("-", "");
-            try {
-                String encode = URLEncoder.encode(url, "UTF-8");
-                String time = formatTime();
-                byte[] bytes = String.format("%s%s%s%s", "MSTranslatorAndroidApp", encode, time, uuid).toLowerCase().getBytes(Charset.defaultCharset());
-                SecretKeySpec secretKeySpec = new SecretKeySpec(Base64.decode(Extra.MICROSOFT_SECRET_KEY, Base64.NO_WRAP | Base64.NO_PADDING), "HmacSHA256");
-                Mac instance = Mac.getInstance("HmacSHA256");
-                instance.init(secretKeySpec);
-                return String.format("%s::%s::%s::%s", "MSTranslatorAndroidApp", Base64.encodeToString(instance.doFinal(bytes), 2), time, uuid);
-            } catch (Exception e) {
-                e.printStackTrace();
-                return "";
-            }
+    @Override
+    protected Result translate(String query, String tl) throws IOException, JSONException {
+        if (tl.equals("zh-CN")) {
+            tl = "zh-Hans";
+        } else if (tl.equals("zh-TW")) {
+            tl = "zh-hant";
         }
-
-        private static String formatTime() {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss", Locale.US);
-            simpleDateFormat.setTimeZone(TimeZone.getTimeZone("GMT"));
-            return simpleDateFormat.format(new Date(Calendar.getInstance(TimeZone.getTimeZone("GMT")).getTimeInMillis())).toLowerCase() + "GMT";
-        }
-
-        public static String translate(String query, String tl) throws JSONException, IOException {
-            JSONObject jsonObject = new JSONObject();
-            jsonObject.put("Text", query);
-            String url = "api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=&to=" + tl;
-            return Http.url("https://" + url)
-                    .header("Content-Type", "application/json; charset=UTF-8")
-                    .header("X-Mt-Signature", sign(url))
-                    .header("User-Agent", "okhttp/4.5.0")
-                    .data(new JSONArray().put(new JSONObject().put("Text", query)).toString())
-                    .request();
-        }
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("Text", query);
+        String url = "api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=&to=" + tl;
+        return getResult(Http.url("https://" + url)
+                .header("Content-Type", "application/json; charset=UTF-8")
+                .header("X-Mt-Signature", Extra.signMicrosoft(url))
+                .header("User-Agent", "okhttp/4.5.0")
+                .data(new JSONArray().put(new JSONObject().put("Text", query)).toString())
+                .request());
     }
 }
