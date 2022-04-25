@@ -25,4 +25,23 @@ public class Extra {
 
     // https://appcenter.ms/
     public static final String APPCENTER_SECRET = "";
+
+    public static final int SOGOU_APP_ID = 0;
+    public static final String SOGOU_APP_KEY = "";
+
+    public static String signSogou(String query, long time) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    public static String signYouDao(String query, long time) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    public static String signBaidu(String query, String toLang, long time) {
+        throw new RuntimeException("Not implemented");
+    }
+
+    public static String signMicrosoft(String url) {
+        throw new RuntimeException("Not implemented");
+    }
 }
