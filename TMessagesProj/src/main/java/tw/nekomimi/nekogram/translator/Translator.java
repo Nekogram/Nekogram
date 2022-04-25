@@ -28,12 +28,13 @@ import tw.nekomimi.nekogram.settings.NekoLanguagesSelectActivity;
 public class Translator {
 
     public static final String PROVIDER_GOOGLE = "google";
-    public static final String PROVIDER_LINGO = "lingo";
     public static final String PROVIDER_YANDEX = "yandex";
-    public static final String PROVIDER_DEEPL = "deepl";
     public static final String PROVIDER_MICROSOFT = "microsoft";
+    public static final String PROVIDER_DEEPL = "deepl";
+    public static final String PROVIDER_LINGO = "lingo";
     public static final String PROVIDER_YOUDAO = "youdao";
     public static final String PROVIDER_BAIDU = "baidu";
+    public static final String PROVIDER_SOGOU = "sogou";
 
     public static void showTranslateDialog(Context context, String query, boolean noforwards) {
         showTranslateDialog(context, query, noforwards, null, null, null);
@@ -108,18 +109,20 @@ public class Translator {
         ArrayList<String> types = new ArrayList<>();
         names.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
         types.add(Translator.PROVIDER_GOOGLE);
-        names.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
-        types.add(Translator.PROVIDER_LINGO);
         names.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
         types.add(Translator.PROVIDER_YANDEX);
-        names.add(LocaleController.getString("ProviderDeepLTranslate", R.string.ProviderDeepLTranslate));
-        types.add(Translator.PROVIDER_DEEPL);
         names.add(LocaleController.getString("ProviderMicrosoftTranslator", R.string.ProviderMicrosoftTranslator));
         types.add(Translator.PROVIDER_MICROSOFT);
+        names.add(LocaleController.getString("ProviderDeepLTranslate", R.string.ProviderDeepLTranslate));
+        types.add(Translator.PROVIDER_DEEPL);
+        names.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
+        types.add(Translator.PROVIDER_LINGO);
         names.add(LocaleController.getString("ProviderYouDaoTranslate", R.string.ProviderYouDaoTranslate));
         types.add(Translator.PROVIDER_YOUDAO);
         names.add(LocaleController.getString("ProviderBaiduTranslate", R.string.ProviderBaiduTranslate));
         types.add(Translator.PROVIDER_BAIDU);
+        names.add(LocaleController.getString("ProviderSogouTranslate", R.string.ProviderSogouTranslate));
+        types.add(Translator.PROVIDER_SOGOU);
         return new Pair<>(names, types);
     }
 
@@ -230,6 +233,8 @@ public class Translator {
                 return YouDaoTranslator.getInstance();
             case PROVIDER_BAIDU:
                 return BaiduTranslator.getInstance();
+            case PROVIDER_SOGOU:
+                return SogouTranslator.getInstance();
             case PROVIDER_GOOGLE:
             default:
                 return GoogleAppTranslator.getInstance();
