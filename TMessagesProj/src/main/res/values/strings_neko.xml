@@ -213,6 +213,7 @@
     <string name="DeleteAllFromSelfDone">All your messages are deleted</string>
     <string name="UnknownNekoSettingsOption">There is no such Neko Settings option.</string>
     <string name="ProviderYouDaoTranslate">YouDao Translator</string>
+    <string name="ProviderBaiduTranslate">Baidu Translate</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
