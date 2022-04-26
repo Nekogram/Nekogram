@@ -264,6 +264,7 @@ import tw.nekomimi.nekogram.ForwardContext;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.EntitiesHelper;
+import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
 import tw.nekomimi.nekogram.translator.Translator;
 
 import java.io.BufferedWriter;
@@ -22548,32 +22549,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         final String[] fromLang = { null };
                         if (!messageObject.translated && LanguageDetector.hasSupport()) {
                             cell.setVisibility(View.GONE);
-                            waitForLangDetection.set(true);
-                            LanguageDetector.detectLanguage(
-                                    getMessageHelper().getMessagePlainText(messageObject),
+                            LanguageDetectorTimeout.detectLanguage(
+                                    cell, getMessageHelper().getMessagePlainText(messageObject),
                                     (String lang) -> {
                                         fromLang[0] = lang;
                                         if (!Translator.isLanguageRestricted(lang)) cell.setVisibility(View.VISIBLE);
-                                        waitForLangDetection.set(false);
-                                        if (onLangDetectionDone.get() != null) {
-                                            onLangDetectionDone.get().run();
-                                            onLangDetectionDone.set(null);
-                                        }
-                                    },
-                                    (Exception e) -> {
-                                        FileLog.e("mlkit: failed to detect language in message");
-                                        waitForLangDetection.set(false);
-                                        if (onLangDetectionDone.get() != null) {
-                                            onLangDetectionDone.get().run();
-                                            onLangDetectionDone.set(null);
-                                        }
-                                    }
+                                    }, null, waitForLangDetection, onLangDetectionDone
                             );
-                            cell.postDelayed(() -> {
-                                if (onLangDetectionDone.get() != null) {
-                                    onLangDetectionDone.getAndSet(null).run();
-                                }
-                            }, 250);
                         }
                         cell.setOnClickListener(view -> {
                             if (selectedObject == null || i >= options.size() || getParentActivity() == null) {
