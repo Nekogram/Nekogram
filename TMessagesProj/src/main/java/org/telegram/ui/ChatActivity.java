@@ -93,6 +93,7 @@ import androidx.collection.LongSparseArray;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.graphics.ColorUtils;
+import androidx.core.util.Pair;
 import androidx.exifinterface.media.ExifInterface;
 import androidx.recyclerview.widget.ChatListItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -23155,12 +23156,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return;
         }
         messageObject.translating = true;
+        getMessageHelper().resetMessageContent(dialog_id, messageObject, false);
         Object original = messageObject.isPoll() ? ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll : messageObject.messageOwner.message;
         messageObject.originalMessage = original;
         final MessageObject finalMessageObject = messageObject;
         Translator.translate(original, sourceLanguage, new Translator.TranslateCallBack() {
             @Override
-            public void onSuccess(Object translation, String sourceLanguage) {
+            public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
                 if (translation instanceof String) {
                     finalMessageObject.messageOwner.message = original +
                             "\n" +
@@ -23170,8 +23172,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 } else if (translation instanceof TLRPC.TL_poll) {
                     ((TLRPC.TL_messageMediaPoll) finalMessageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
                 }
-                getMessageHelper().resetMessageContent(dialog_id, finalMessageObject, true);
+                finalMessageObject.translatedLanguage = Pair.create(sourceLanguage, targetLanguage);
                 finalMessageObject.translating = false;
+                getMessageHelper().resetMessageContent(dialog_id, finalMessageObject, true);
             }
 
             @Override

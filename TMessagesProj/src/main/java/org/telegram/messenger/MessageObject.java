@@ -27,6 +27,7 @@ import android.text.util.Linkify;
 import android.util.Base64;
 
 import androidx.collection.LongSparseArray;
+import androidx.core.util.Pair;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.browser.Browser;
@@ -164,6 +165,7 @@ public class MessageObject {
 
     public boolean translating;
     public boolean translated;
+    public Pair<String, String> translatedLanguage;
     public Object originalMessage;
 
     public ArrayList<TLRPC.TL_pollAnswer> checkedVotes;

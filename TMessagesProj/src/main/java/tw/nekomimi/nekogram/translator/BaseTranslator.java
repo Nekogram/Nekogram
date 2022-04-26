@@ -37,14 +37,14 @@ abstract public class BaseTranslator {
         return language;
     }
 
-    public String convertLanguageCode(String code) {
+    public String convertLanguageCode(String code, boolean reverse) {
         return code;
     }
 
     void startTask(Object query, String fromLang, String toLang, Translator.TranslateCallBack translateCallBack) {
         var result = cache.get(Pair.create(query, toLang));
         if (result != null) {
-            translateCallBack.onSuccess(result.translation, result.sourceLanguage);
+            translateCallBack.onSuccess(result.translation, result.sourceLanguage == null ? fromLang : convertLanguageCode(result.sourceLanguage, true), toLang);
         } else {
             new MyAsyncTask().request(query, fromLang, toLang, translateCallBack).execute();
         }
@@ -88,8 +88,8 @@ abstract public class BaseTranslator {
 
         public MyAsyncTask request(Object query, String fl, String tl, Translator.TranslateCallBack translateCallBack) {
             this.query = query;
-            this.fl = convertLanguageCode(TextUtils.isEmpty(fl) || "und".equals(fl) ? "auto" : fl);
-            this.tl = convertLanguageCode(tl);
+            this.fl = fl;
+            this.tl = tl;
             this.translateCallBack = translateCallBack;
             return this;
         }
@@ -97,18 +97,20 @@ abstract public class BaseTranslator {
         @Override
         protected Object doInBackground(Void... params) {
             try {
+                var from = convertLanguageCode(TextUtils.isEmpty(fl) || "und".equals(fl) ? "auto" : fl, false);
+                var to = convertLanguageCode(tl, false);
                 if (query instanceof String) {
-                    return translate((String) query, fl, tl);
+                    return translate((String) query, from, to);
                 } else if (query instanceof TLRPC.Poll) {
                     TLRPC.TL_poll poll = new TLRPC.TL_poll();
                     TLRPC.TL_poll original = (TLRPC.TL_poll) query;
                     poll.question = original.question +
                             "\n" +
                             "--------" +
-                            "\n" + translate(original.question, fl, tl).translation;
+                            "\n" + translate(original.question, from, to).translation;
                     for (int i = 0; i < original.answers.size(); i++) {
                         TLRPC.TL_pollAnswer answer = new TLRPC.TL_pollAnswer();
-                        answer.text = original.answers.get(i).text + " | " + translate(original.answers.get(i).text, fl, tl).translation;
+                        answer.text = original.answers.get(i).text + " | " + translate(original.answers.get(i).text, from, to).translation;
                         answer.option = original.answers.get(i).option;
                         poll.answers.add(answer);
                     }
@@ -139,7 +141,7 @@ abstract public class BaseTranslator {
                 translateCallBack.onError((Exception) result);
             } else {
                 Result translationResult = (Result) result;
-                translateCallBack.onSuccess(translationResult.translation, translationResult.sourceLanguage);
+                translateCallBack.onSuccess(translationResult.translation, translationResult.sourceLanguage == null ? fl : convertLanguageCode(translationResult.sourceLanguage, true), tl);
                 cache.put(Pair.create(query, tl), translationResult);
             }
         }

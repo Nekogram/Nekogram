@@ -1059,7 +1059,7 @@ public class TranslateAlert extends Dialog {
     private void fetchTranslation(CharSequence text, long minDuration, OnTranslationSuccess onSuccess, OnTranslationFail onFail) {
         Translator.translate(text, fromLanguage, new Translator.TranslateCallBack() {
             @Override
-            public void onSuccess(Object translation, String sourceLanguage) {
+            public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
                 AndroidUtilities.runOnUIThread(() -> {
                     if (onSuccess != null)
                         onSuccess.run((String) translation, sourceLanguage);

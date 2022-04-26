@@ -90,13 +90,21 @@ public class MicrosoftTranslator extends BaseTranslator {
     }
 
     @Override
-    public String convertLanguageCode(String code) {
-        if (code.equals("zh-CN")) {
-            return "zh-Hans";
-        } else if (code.equals("zh-TW")) {
-            return "zh-hant";
+    public String convertLanguageCode(String code, boolean reverse) {
+        if (reverse) {
+            if (code.equals("zh-Hans")) {
+                return "zh-CN";
+            } else if (code.equals("zh-Hant")) {
+                return "zh-TW";
+            }
+        } else {
+            if (code.equals("zh-CN")) {
+                return "zh-Hans";
+            } else if (code.equals("zh-TW")) {
+                return "zh-Hant";
+            }
         }
-        return super.convertLanguageCode(code);
+        return code;
     }
 
     @Override

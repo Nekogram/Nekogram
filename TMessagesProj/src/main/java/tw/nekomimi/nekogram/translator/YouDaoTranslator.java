@@ -69,8 +69,8 @@ public class YouDaoTranslator extends BaseTranslator {
     }
 
     @Override
-    public String convertLanguageCode(String code) {
-        return code.replace("-", "_").toUpperCase();
+    public String convertLanguageCode(String code, boolean reverse) {
+        return reverse ? code.replace("_", "-") : code.replace("-", "_").toUpperCase();
     }
 
     @Override

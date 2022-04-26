@@ -147,6 +147,7 @@ import org.telegram.ui.SecretMediaViewer;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.accessibility.AccConfig;
+import tw.nekomimi.nekogram.helpers.MessageHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10303,6 +10304,8 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             timeString = "";
         } else if (currentMessageObject.shouldBlockMessage()) {
             timeString = LocaleController.getString("BlockedUserIgnored", R.string.BlockedUserIgnored) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
+        } else if (currentMessageObject.translating || currentMessageObject.translated) {
+            timeString = MessageHelper.createTranslateString(currentMessageObject) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
         } else if (edited) {
             timeString = LocaleController.getString("EditedMessage", R.string.EditedMessage) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
         } else {

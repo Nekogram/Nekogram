@@ -272,7 +272,7 @@ public class Translator {
     }
 
     public interface TranslateCallBack {
-        void onSuccess(Object translation, String sourceLanguage);
+        void onSuccess(Object translation, String sourceLanguage, String targetLanguage);
 
         void onError(Exception e);
     }

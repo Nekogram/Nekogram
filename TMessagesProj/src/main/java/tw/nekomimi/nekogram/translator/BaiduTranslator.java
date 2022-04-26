@@ -80,8 +80,12 @@ public class BaiduTranslator extends BaseTranslator {
     }
 
     @Override
-    public String convertLanguageCode(String code) {
-        return baiduLanguages.get(targetLanguages.indexOf(code));
+    public String convertLanguageCode(String code, boolean reverse) {
+        var index = reverse ? baiduLanguages.indexOf(code) : targetLanguages.indexOf(code);
+        if (index < 0) {
+            return code;
+        }
+        return reverse ? targetLanguages.get(index) : baiduLanguages.get(index);
     }
 
     @Override

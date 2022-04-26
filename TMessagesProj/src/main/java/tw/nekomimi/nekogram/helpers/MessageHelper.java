@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.FileProvider;
+import androidx.core.text.HtmlCompat;
 
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -67,6 +68,7 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -78,6 +80,21 @@ public class MessageHelper extends BaseController {
 
     public MessageHelper(int num) {
         super(num);
+    }
+
+    public static CharSequence createTranslateString(MessageObject messageObject) {
+        if (messageObject.translating) {
+            return LocaleController.getString("Translating", R.string.Translating);
+        }
+        var translatedLanguage = messageObject.translatedLanguage;
+        if (translatedLanguage == null || translatedLanguage.first == null || translatedLanguage.second == null) {
+            return LocaleController.getString("Translated", R.string.Translated);
+        }
+        Locale from = Locale.forLanguageTag(translatedLanguage.first);
+        Locale to = Locale.forLanguageTag(translatedLanguage.second);
+        return (!TextUtils.isEmpty(from.getScript()) ? HtmlCompat.fromHtml(from.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY) : from.getDisplayName()) +
+                " ➡ " +
+                (!TextUtils.isEmpty(to.getScript()) ? HtmlCompat.fromHtml(to.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY) : to.getDisplayName());
     }
 
     public static ArrayList<TLRPC.MessageEntity> checkBlockedUserEntities(MessageObject messageObject) {
@@ -486,6 +503,8 @@ public class MessageHelper extends BaseController {
 
         MessageObject obj = new MessageObject(currentAccount, message, true, true);
         obj.originalMessage = messageObject.originalMessage;
+        obj.translating = messageObject.translating;
+        obj.translatedLanguage = messageObject.translatedLanguage;
         obj.translated = translated;
         if (messageObject.isSponsored()) {
             obj.sponsoredId = messageObject.sponsoredId;

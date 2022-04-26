@@ -16021,7 +16021,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         progressDialog.showDelayed(400);
         Translator.translate(original, translateFromLanguage, new Translator.TranslateCallBack() {
             @Override
-            public void onSuccess(Object translation, String sourceLanguage) {
+            public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
                 try {
                     progressDialog.dismiss();
                 } catch (Throwable ignore) {
