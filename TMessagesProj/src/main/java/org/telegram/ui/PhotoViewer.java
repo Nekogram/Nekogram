@@ -144,6 +144,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
@@ -321,6 +322,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private ActionBarMenuItem masksItem;
     private ActionBarMenuItem shareItem;
     private ActionBarMenuSubItem translateItem;
+    private String translateFromLanguage = null;
     private LinearLayout itemsLayout;
     ChooseSpeedLayout chooseSpeedLayout;
     private Map<View, Boolean> actionBarItemsVisibility = new HashMap<>(3);
@@ -656,7 +658,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     private void onLinkClick(ClickableSpan link, TextView widget) {
-        if (widget != null && link instanceof URLSpan) {
+        if (link instanceof URLSpan) {
             String url = ((URLSpan) link).getURL();
             if (url.startsWith("video")) {
                 if (videoPlayer != null && currentMessageObject != null) {
@@ -10376,11 +10378,26 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 nameTextView.setText("");
                 dateTextView.setText("");
             } else {
-                if (newMessageObject.caption != null) {
-                    menuItem.showSubItem(gallery_menu_translate);
-                    translateItem.setText(newMessageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
-                } else {
-                    menuItem.hideSubItem(gallery_menu_translate);
+                menuItem.hideSubItem(gallery_menu_translate);
+                if (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL || !noforwards) {
+                    var messageHelper = MessageHelper.getInstance(currentAccount);
+                    var messageObject = messageHelper.getMessageForTranslate(newMessageObject, null);
+                    if (messageObject != null) {
+                        if (!messageObject.translated && LanguageDetector.hasSupport()) {
+                            LanguageDetector.detectLanguage(
+                                    messageHelper.getMessagePlainText(messageObject),
+                                    (String lang) -> {
+                                        translateFromLanguage = lang;
+                                        if (!Translator.isLanguageRestricted(lang)) {
+                                            menuItem.showSubItem(gallery_menu_translate);
+                                        }
+                                    }, e -> FileLog.e("mlkit: failed to detect language")
+                            );
+                        } else {
+                            menuItem.showSubItem(gallery_menu_translate);
+                        }
+                        translateItem.setText(newMessageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
+                    }
                 }
                 allowShare = !noforwards;
                 if (newMessageObject.isNewGif() && allowShare) {
@@ -15989,7 +16006,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             return;
         }
         if (NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO) {
-            Translator.showTranslateDialog(parentActivity, currentMessageObject.messageOwner.message, MessagesController.getInstance(currentAccount).isChatNoForwards(currentMessageObject.getChatId()) || (currentMessageObject.messageOwner != null && currentMessageObject.messageOwner.noforwards));
+            Translator.showTranslateDialog(parentActivity, currentMessageObject.messageOwner.message, MessagesController.getInstance(currentAccount).isChatNoForwards(currentMessageObject.getChatId()) || (currentMessageObject.messageOwner != null && currentMessageObject.messageOwner.noforwards), null, urlSpan -> onLinkClick(urlSpan, captionTextViewSwitcher.getCurrentView()), translateFromLanguage);
             return;
         }
         Object original = currentMessageObject.messageOwner.message;
