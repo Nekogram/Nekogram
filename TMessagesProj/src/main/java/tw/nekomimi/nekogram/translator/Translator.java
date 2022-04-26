@@ -35,6 +35,7 @@ public class Translator {
     public static final String PROVIDER_YOUDAO = "youdao";
     public static final String PROVIDER_BAIDU = "baidu";
     public static final String PROVIDER_SOGOU = "sogou";
+    public static final String PROVIDER_TENCENT = "tencent";
 
     public static void showTranslateDialog(Context context, String query, boolean noforwards) {
         showTranslateDialog(context, query, noforwards, null, null, null);
@@ -123,6 +124,8 @@ public class Translator {
         types.add(Translator.PROVIDER_BAIDU);
         names.add(LocaleController.getString("ProviderSogouTranslate", R.string.ProviderSogouTranslate));
         types.add(Translator.PROVIDER_SOGOU);
+        names.add(LocaleController.getString("ProviderTencentTranslator", R.string.ProviderTencentTranslator));
+        types.add(Translator.PROVIDER_TENCENT);
         return new Pair<>(names, types);
     }
 
@@ -235,6 +238,8 @@ public class Translator {
                 return BaiduTranslator.getInstance();
             case PROVIDER_SOGOU:
                 return SogouTranslator.getInstance();
+            case PROVIDER_TENCENT:
+                return TencentTranslator.getInstance();
             case PROVIDER_GOOGLE:
             default:
                 return GoogleAppTranslator.getInstance();
