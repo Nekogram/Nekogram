@@ -69,14 +69,18 @@ public class YouDaoTranslator extends BaseTranslator {
     }
 
     @Override
-    protected Result translate(String query, String tl) throws IOException, JSONException {
+    public String convertLanguageCode(String code) {
+        return code.replace("-", "_").toUpperCase();
+    }
+
+    @Override
+    protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
         var time = System.currentTimeMillis() + Math.round(Math.random() * 10);
         var sign = Extra.signYouDao(query, time);
-        var toLang = tl.replace("-", "_");
         return getResult(Http.url("https://fanyi.youdao.com/appapi/tran?&product=fanyiguan&appVersion=4.0.9&vendor=tencent&network=wifi")
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("User-Agent", "okhttp/4.9.1")
-                .data("q=" + URLEncoder.encode(query, "UTF-8") + "&salt=" + time + "&sign=" + sign + "&needad=false&category=Android&type=AUTO2" + toLang + "&needdict=true&version=4.0.9&needfanyi=true&needsentences=false&scene=realtime")
+                .data("q=" + URLEncoder.encode(query, "UTF-8") + "&salt=" + time + "&sign=" + sign + "&needad=false&category=Android&type=AUTO2" + tl + "&needdict=true&version=4.0.9&needfanyi=true&needsentences=false&scene=realtime")
                 .request());
     }
 

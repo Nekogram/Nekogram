@@ -59,7 +59,7 @@ public class GoogleAppTranslator extends BaseTranslator {
     };
 
     @Override
-    protected Result translate(String query, String tl) throws IOException, JSONException {
+    protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
         String url = "https://translate.googleapis.com/translate_a/single?dj=1" +
                 "&q=" + URLEncoder.encode(query, "UTF-8") +
                 "&sl=auto" +

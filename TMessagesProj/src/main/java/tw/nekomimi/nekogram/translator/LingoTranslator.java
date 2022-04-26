@@ -33,7 +33,7 @@ public class LingoTranslator extends BaseTranslator {
     }
 
     @Override
-    protected Result translate(String query, String tl) throws IOException, JSONException {
+    protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("source", query);
         jsonObject.put("trans_type", "auto2" + tl);

@@ -253,7 +253,7 @@ public class TranslateAlert extends Dialog {
         this.onLinkPress = onLinkPress;
         this.noforwards = noforwards;
         this.fragment = fragment;
-        this.fromLanguage = fromLanguage != null && fromLanguage.equals("und") ? "auto" : fromLanguage;
+        this.fromLanguage = /*fromLanguage != null && fromLanguage.equals("und") ? "auto" : */fromLanguage;
         this.toLanguage = toLanguage;
         this.text = text;
         this.textBlocks = cutInBlocks(text, 1024);
@@ -1057,7 +1057,7 @@ public class TranslateAlert extends Dialog {
         public void run(boolean rateLimit);
     }
     private void fetchTranslation(CharSequence text, long minDuration, OnTranslationSuccess onSuccess, OnTranslationFail onFail) {
-        Translator.translate(text, new Translator.TranslateCallBack() {
+        Translator.translate(text, fromLanguage, new Translator.TranslateCallBack() {
             @Override
             public void onSuccess(Object translation, String sourceLanguage) {
                 AndroidUtilities.runOnUIThread(() -> {

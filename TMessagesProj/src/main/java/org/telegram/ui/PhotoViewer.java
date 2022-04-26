@@ -10387,7 +10387,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             LanguageDetector.detectLanguage(
                                     messageHelper.getMessagePlainText(messageObject),
                                     (String lang) -> {
-                                        translateFromLanguage = lang;
+                                        translateFromLanguage = Translator.stripLanguageCode(lang);
                                         if (!Translator.isLanguageRestricted(lang)) {
                                             menuItem.showSubItem(gallery_menu_translate);
                                         }
@@ -16019,7 +16019,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
         progressDialog = new AlertDialog(parentActivity, 3, resourcesProvider);
         progressDialog.showDelayed(400);
-        Translator.translate(original, new Translator.TranslateCallBack() {
+        Translator.translate(original, translateFromLanguage, new Translator.TranslateCallBack() {
             @Override
             public void onSuccess(Object translation, String sourceLanguage) {
                 try {

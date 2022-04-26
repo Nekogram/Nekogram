@@ -2,6 +2,7 @@ package tw.nekomimi.nekogram.translator;
 
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
+import android.text.TextUtils;
 import android.util.Pair;
 
 import androidx.annotation.Nullable;
@@ -28,7 +29,7 @@ abstract public class BaseTranslator {
 
     private final LruCache<Pair<Object, String>, Result> cache = new LruCache<>(200);
 
-    abstract protected Result translate(String query, String tl) throws Exception;
+    abstract protected Result translate(String query, String fl, String tl) throws Exception;
 
     abstract public List<String> getTargetLanguages();
 
@@ -36,12 +37,16 @@ abstract public class BaseTranslator {
         return language;
     }
 
-    void startTask(Object query, String toLang, Translator.TranslateCallBack translateCallBack) {
+    public String convertLanguageCode(String code) {
+        return code;
+    }
+
+    void startTask(Object query, String fromLang, String toLang, Translator.TranslateCallBack translateCallBack) {
         var result = cache.get(Pair.create(query, toLang));
         if (result != null) {
             translateCallBack.onSuccess(result.translation, result.sourceLanguage);
         } else {
-            new MyAsyncTask().request(query, toLang, translateCallBack).execute();
+            new MyAsyncTask().request(query, fromLang, toLang, translateCallBack).execute();
         }
     }
 
@@ -78,11 +83,13 @@ abstract public class BaseTranslator {
     private class MyAsyncTask extends AsyncTask<Void, Integer, Object> {
         Translator.TranslateCallBack translateCallBack;
         Object query;
+        String fl;
         String tl;
 
-        public MyAsyncTask request(Object query, String tl, Translator.TranslateCallBack translateCallBack) {
+        public MyAsyncTask request(Object query, String fl, String tl, Translator.TranslateCallBack translateCallBack) {
             this.query = query;
-            this.tl = tl;
+            this.fl = convertLanguageCode(TextUtils.isEmpty(fl) || "und".equals(fl) ? "auto" : fl);
+            this.tl = convertLanguageCode(tl);
             this.translateCallBack = translateCallBack;
             return this;
         }
@@ -91,17 +98,17 @@ abstract public class BaseTranslator {
         protected Object doInBackground(Void... params) {
             try {
                 if (query instanceof String) {
-                    return translate((String) query, tl);
+                    return translate((String) query, fl, tl);
                 } else if (query instanceof TLRPC.Poll) {
                     TLRPC.TL_poll poll = new TLRPC.TL_poll();
                     TLRPC.TL_poll original = (TLRPC.TL_poll) query;
                     poll.question = original.question +
                             "\n" +
                             "--------" +
-                            "\n" + translate(original.question, tl).translation;
+                            "\n" + translate(original.question, fl, tl).translation;
                     for (int i = 0; i < original.answers.size(); i++) {
                         TLRPC.TL_pollAnswer answer = new TLRPC.TL_pollAnswer();
-                        answer.text = original.answers.get(i).text + " | " + translate(original.answers.get(i).text, tl).translation;
+                        answer.text = original.answers.get(i).text + " | " + translate(original.answers.get(i).text, fl, tl).translation;
                         answer.option = original.answers.get(i).option;
                         poll.answers.add(answer);
                     }

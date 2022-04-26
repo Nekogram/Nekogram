@@ -90,12 +90,17 @@ public class MicrosoftTranslator extends BaseTranslator {
     }
 
     @Override
-    protected Result translate(String query, String tl) throws IOException, JSONException {
-        if (tl.equals("zh-CN")) {
-            tl = "zh-Hans";
-        } else if (tl.equals("zh-TW")) {
-            tl = "zh-hant";
+    public String convertLanguageCode(String code) {
+        if (code.equals("zh-CN")) {
+            return "zh-Hans";
+        } else if (code.equals("zh-TW")) {
+            return "zh-hant";
         }
+        return super.convertLanguageCode(code);
+    }
+
+    @Override
+    protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("Text", query);
         String url = "api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=&to=" + tl;

@@ -75,7 +75,7 @@ public class SogouTranslator extends BaseTranslator {
     }
 
     @Override
-    protected Result translate(String query, String tl) throws IOException, JSONException, GeneralSecurityException {
+    protected Result translate(String query, String fl, String tl) throws IOException, JSONException, GeneralSecurityException {
         long currentTimeMillis = System.currentTimeMillis();
         var jsonObject = new JSONObject();
         jsonObject.put("query", query);

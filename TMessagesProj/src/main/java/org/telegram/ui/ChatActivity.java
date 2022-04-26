@@ -22552,7 +22552,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             LanguageDetectorTimeout.detectLanguage(
                                     cell, getMessageHelper().getMessagePlainText(messageObject),
                                     (String lang) -> {
-                                        fromLang[0] = lang;
+                                        fromLang[0] = Translator.stripLanguageCode(lang);
                                         if (!Translator.isLanguageRestricted(lang)) cell.setVisibility(View.VISIBLE);
                                     }, null, waitForLangDetection, onLangDetectionDone
                             );
@@ -23158,7 +23158,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         Object original = messageObject.isPoll() ? ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll : messageObject.messageOwner.message;
         messageObject.originalMessage = original;
         final MessageObject finalMessageObject = messageObject;
-        Translator.translate(original, new Translator.TranslateCallBack() {
+        Translator.translate(original, sourceLanguage, new Translator.TranslateCallBack() {
             @Override
             public void onSuccess(Object translation, String sourceLanguage) {
                 if (translation instanceof String) {
@@ -27057,7 +27057,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 getMessageHelper().getMessagePlainText(messageObject),
                                 (String lang) -> {
                                     if (!Translator.isLanguageRestricted(lang)) {
-                                        translateMessage(messageObject, lang, true);
+                                        translateMessage(messageObject, Translator.stripLanguageCode(lang), true);
                                     }
                                 },
                                 (Exception e) -> {

@@ -80,14 +80,18 @@ public class BaiduTranslator extends BaseTranslator {
     }
 
     @Override
-    protected Result translate(String query, String tl) throws IOException, JSONException {
+    public String convertLanguageCode(String code) {
+        return baiduLanguages.get(targetLanguages.indexOf(code));
+    }
+
+    @Override
+    protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
         var time = System.currentTimeMillis();
-        var toLang = baiduLanguages.get(targetLanguages.indexOf(tl));
-        var sign = Extra.signBaidu(query, toLang, time);
+        var sign = Extra.signBaidu(query, tl, time);
         return getResult(Http.url("https://fanyi-app.baidu.com/transapp/agent.php?product=transapp&type=json&version=153&plat=android&req=v2trans")
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("User-Agent", "BDTApp; Android 12; BaiduTranslate/10.2.1")
-                .data("sign=" + sign + "&sofireId=&zhType=0&use_cache_response=1&from=auto&timestamp=" + time + "&query=" + URLEncoder.encode(query, "UTF-8") + "&needfixl=1&lfixver=1&is_show_ad=1&appRecommendSwitch=1&to=" + toLang + "&page=translate")
+                .data("sign=" + sign + "&sofireId=&zhType=0&use_cache_response=1&from=auto&timestamp=" + time + "&query=" + URLEncoder.encode(query, "UTF-8") + "&needfixl=1&lfixver=1&is_show_ad=1&appRecommendSwitch=1&to=" + tl + "&page=translate")
                 .request());
     }
 

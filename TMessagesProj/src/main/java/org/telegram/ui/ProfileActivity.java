@@ -4219,7 +4219,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 LanguageDetectorTimeout.detectLanguage(
                         view, about,
                         (String lang) -> {
-                            fromLang[0] = lang;
+                            fromLang[0] = Translator.stripLanguageCode(lang);
                             if (!Translator.isLanguageRestricted(lang)) {
                                 items[1] = LocaleController.getString("TranslateMessage", R.string.TranslateMessage);
                             }
