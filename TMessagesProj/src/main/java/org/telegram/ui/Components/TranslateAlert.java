@@ -651,7 +651,7 @@ public class TranslateAlert extends Dialog {
                                 pressedLink = null;
                                 allTextsView.setTextIsSelectable(!noforwards);
                             } else if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                                pressedLink = new LinkSpanDrawable(linkSpans[0], fragment.getResourceProvider(), tx, ty, false);
+                                pressedLink = new LinkSpanDrawable(linkSpans[0], fragment != null ? fragment.getResourceProvider() : null, tx, ty, false);
                                 if (links != null) {
                                     links.addLink(pressedLink);
                                 }
