@@ -1257,7 +1257,26 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                         menu.getItem(1).setVisible(true);
                     }
                 }
+                if (LanguageDetector.hasSupport() && getSelectedText() != null) {
+                    LanguageDetector.detectLanguage(getSelectedText().toString(), lng -> {
+                        translateFromLanguage = lng;
+                        updateTranslateButton(menu);
+                    }, err -> {
+                        FileLog.e("mlkit: failed to detect language in selection");
+                        FileLog.e(err);
+                        translateFromLanguage = null;
+                        updateTranslateButton(menu);
+                    });
+                } else {
+                    translateFromLanguage = null;
+                    updateTranslateButton(menu);
+                }
                 return true;
+            }
+
+            private String translateFromLanguage = null;
+            private void updateTranslateButton(Menu menu) {
+                menu.getItem(3).setVisible(!LanguageDetector.hasSupport() || translateFromLanguage != null && !Translator.isLanguageRestricted(translateFromLanguage));
             }
 
             @Override
@@ -1288,7 +1307,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                     if (str == null) {
                         return true;
                     }
-                    Translator.showTranslateDialog(textSelectionOverlay.getContext(), str.toString(), false);
+                    Translator.showTranslateDialog(textSelectionOverlay.getContext(), str.toString(), false, null, null, translateFromLanguage);
                     hideActions();
                     clear(true);
                     if (TextSelectionHelper.this.callback != null) {
