@@ -443,7 +443,7 @@ public class AboutLinkCell extends FrameLayout {
         }
     }
 
-    private void onLinkClick(ClickableSpan pressedLink) {
+    public void onLinkClick(ClickableSpan pressedLink) {
         if (pressedLink instanceof URLSpanNoUnderline) {
             String url = ((URLSpanNoUnderline) pressedLink).getURL();
             if (url.startsWith("@") || url.startsWith("#") || url.startsWith("/")) {

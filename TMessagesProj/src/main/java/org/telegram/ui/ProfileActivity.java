@@ -46,6 +46,7 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.text.style.URLSpan;
 import android.util.Property;
 import android.util.SparseIntArray;
 import android.util.TypedValue;
@@ -100,6 +101,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
@@ -171,6 +173,7 @@ import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.StickerEmptyView;
 import org.telegram.ui.Components.TimerDrawable;
+import org.telegram.ui.Components.TranslateAlert;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.voip.VoIPHelper;
 
@@ -189,10 +192,13 @@ import java.util.LinkedHashSet;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 import tw.nekomimi.nekogram.translator.Translator;
 
@@ -4193,22 +4199,51 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (view instanceof AboutLinkCell && ((AboutLinkCell) view).onClick()) {
                 return false;
             }
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-            builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("TranslateMessage", R.string.TranslateMessage)}, (dialogInterface, i) -> {
-                try {
-                    String about;
-                    if (position == locationRow) {
-                        about = chatInfo != null && chatInfo.location instanceof TLRPC.TL_channelLocation ? ((TLRPC.TL_channelLocation) chatInfo.location).address : null;
-                    } else if (position == channelInfoRow) {
-                        about = chatInfo != null ? chatInfo.about : null;
-                    } else {
-                        about = userInfo != null ? userInfo.about : null;
+            String about;
+            if (position == locationRow) {
+                about = chatInfo != null && chatInfo.location instanceof TLRPC.TL_channelLocation ? ((TLRPC.TL_channelLocation) chatInfo.location).address : null;
+            } else if (position == channelInfoRow) {
+                about = chatInfo != null ? chatInfo.about : null;
+            } else {
+                about = userInfo != null ? userInfo.about : null;
+            }
+            if (TextUtils.isEmpty(about)) {
+                return !(view instanceof AboutLinkCell);
+            }
+            final AtomicBoolean waitForLangDetection = new AtomicBoolean(false);
+            final AtomicReference<Runnable> onLangDetectionDone = new AtomicReference<>(null);
+            final CharSequence[] items = new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("TranslateMessage", R.string.TranslateMessage)};
+            final String[] fromLang = {null};
+            if (LanguageDetector.hasSupport()) {
+                items[1] = null;
+                LanguageDetectorTimeout.detectLanguage(
+                        view, about,
+                        (String lang) -> {
+                            fromLang[0] = lang;
+                            if (!Translator.isLanguageRestricted(lang)) {
+                                items[1] = LocaleController.getString("TranslateMessage", R.string.TranslateMessage);
+                            }
+                        },
+                        null, waitForLangDetection, onLangDetectionDone
+                );
+                view.postDelayed(() -> {
+                    if (onLangDetectionDone.get() != null) {
+                        onLangDetectionDone.getAndSet(null).run();
                     }
+                }, 250);
+            }
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+            builder.setItems(items, (dialogInterface, i) -> {
+                try {
                     if (TextUtils.isEmpty(about)) {
                         return;
                     }
                     if (i == 1) {
-                        Translator.showTranslateDialog(getParentActivity(), about, false);
+                        Translator.showTranslateDialog(getParentActivity(), about, false, this, urlSpan -> {
+                            if (view instanceof AboutLinkCell) {
+                                ((AboutLinkCell) view).onLinkClick(urlSpan);
+                            }
+                        }, fromLang[0]);
                         return;
                     }
                     AndroidUtilities.addToClipboard(about);
@@ -4221,7 +4256,11 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     FileLog.e(e);
                 }
             });
-            showDialog(builder.create());
+            if (waitForLangDetection.get()) {
+                onLangDetectionDone.set(() -> showDialog(builder.create()));
+            } else {
+                showDialog(builder.create());
+            }
             return !(view instanceof AboutLinkCell);
         }
         return false;
