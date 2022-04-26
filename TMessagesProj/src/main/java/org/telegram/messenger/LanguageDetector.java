@@ -1,6 +1,8 @@
 package org.telegram.messenger;
 
 public class LanguageDetector {
+    private static Boolean hasSupport = null;
+
     public interface StringCallback {
         void run(String str);
     }
@@ -9,7 +11,32 @@ public class LanguageDetector {
     }
 
     public static boolean hasSupport() {
-        return true;
+        return hasSupport(false);
+    }
+
+    public static boolean hasSupport(boolean initializeFirst) {
+        if (hasSupport == null) {
+            try {
+                if (initializeFirst) {
+                    com.google.mlkit.common.sdkinternal.MlKitContext.initializeIfNeeded(ApplicationLoader.applicationContext);
+                }
+                com.google.mlkit.nl.languageid.LanguageIdentification.getClient()
+                        .identifyLanguage("apple")
+                        .addOnSuccessListener(str -> {
+                        })
+                        .addOnFailureListener(e -> {
+                        });
+                hasSupport = true;
+            } catch (Throwable t) {
+                FileLog.e(t);
+                if (initializeFirst) {
+                    hasSupport = false;
+                } else {
+                    return hasSupport(true);
+                }
+            }
+        }
+        return hasSupport;
     }
 
     public static void detectLanguage(String text, StringCallback onSuccess, ExceptionCallback onFail) {
@@ -19,7 +46,7 @@ public class LanguageDetector {
     public static void detectLanguage(String text, StringCallback onSuccess, ExceptionCallback onFail, boolean initializeFirst) {
         try {
             if (initializeFirst) {
-                com.google.mlkit.common.sdkinternal.MlKitContext.zza(ApplicationLoader.applicationContext);
+                com.google.mlkit.common.sdkinternal.MlKitContext.initializeIfNeeded(ApplicationLoader.applicationContext);
             }
             com.google.mlkit.nl.languageid.LanguageIdentification.getClient()
                 .identifyLanguage(text)

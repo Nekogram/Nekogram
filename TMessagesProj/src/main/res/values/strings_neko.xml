@@ -217,6 +217,8 @@
     <string name="ProviderSogouTranslate">Sogou Translate</string>
     <string name="Translating">translating</string>
     <string name="Translated">translated</string>
+    <string name="BrokenMLKit">Option unavailable</string>
+    <string name="BrokenMLKitDetail">Google MLKit language identifier is somehow broken on this device.</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

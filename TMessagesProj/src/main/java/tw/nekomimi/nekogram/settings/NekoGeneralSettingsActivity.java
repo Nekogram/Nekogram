@@ -8,6 +8,7 @@ import androidx.core.text.HtmlCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -17,6 +18,7 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
+import org.telegram.ui.Components.BulletinFactory;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -27,6 +29,8 @@ import tw.nekomimi.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.translator.Translator;
 
 public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
+
+    private final boolean supportLanguageDetector;
 
     private int connectionRow;
     private int ipv6Row;
@@ -52,6 +56,10 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
     private int nameOrderRow;
     private int idTypeRow;
     private int general2Row;
+
+    public NekoGeneralSettingsActivity() {
+        supportLanguageDetector = LanguageDetector.hasSupport();
+    }
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
@@ -171,8 +179,16 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 }
             });
         } else if (position == doNotTranslateRow) {
+            if (!supportLanguageDetector) {
+                BulletinFactory.of(this).createErrorBulletinSubtitle(LocaleController.getString("BrokenMLKit", R.string.BrokenMLKit), LocaleController.getString("BrokenMLKitDetail", R.string.BrokenMLKitDetail), null).show();
+                return;
+            }
             presentFragment(new NekoLanguagesSelectActivity(NekoLanguagesSelectActivity.TYPE_RESTRICTED, true));
         } else if (position == autoTranslateRow) {
+            if (!supportLanguageDetector) {
+                BulletinFactory.of(this).createErrorBulletinSubtitle(LocaleController.getString("BrokenMLKit", R.string.BrokenMLKit), LocaleController.getString("BrokenMLKitDetail", R.string.BrokenMLKitDetail), null).show();
+                return;
+            }
             NekoConfig.toggleAutoTranslate();
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.autoTranslate);
@@ -254,6 +270,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             switch (holder.getItemViewType()) {
                 case 2: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
+                    textCell.setCanDisable(true);
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == nameOrderRow) {
                         String value;
@@ -373,6 +390,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                     } else if (position == silenceNonContactsRow) {
                         textCell.setTextAndCheck(LocaleController.getString("SilenceNonContacts", R.string.SilenceNonContacts), NekoConfig.silenceNonContacts, false);
                     } else if (position == autoTranslateRow) {
+                        textCell.setEnabled(supportLanguageDetector, null);
                         textCell.setTextAndValueAndCheck(LocaleController.getString("AutoTranslate", R.string.AutoTranslate), LocaleController.getString("AutoTranslateAbout", R.string.AutoTranslateAbout), NekoConfig.autoTranslate, true, false);
                     }
                     break;
@@ -410,6 +428,15 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                     break;
                 }
             }
+        }
+
+        @Override
+        public boolean isEnabled(RecyclerView.ViewHolder holder) {
+            int position = holder.getAdapterPosition();
+            if (position == autoTranslateRow || position == doNotTranslateRow) {
+                return supportLanguageDetector;
+            }
+            return super.isEnabled(holder);
         }
 
         @Override
