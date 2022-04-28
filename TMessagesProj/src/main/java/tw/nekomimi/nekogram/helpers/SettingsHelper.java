@@ -13,6 +13,7 @@ import tw.nekomimi.nekogram.settings.NekoChatSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoDonateActivity;
 import tw.nekomimi.nekogram.settings.NekoExperimentalSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoGeneralSettingsActivity;
+import tw.nekomimi.nekogram.settings.NekoPasscodeSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 import tw.nekomimi.nekogram.settings.WsSettingsActivity;
 
@@ -45,6 +46,8 @@ public class SettingsHelper {
         BaseNekoSettingsActivity fragment;
         if (segments.isEmpty() || me && segments.size() == 1) {
             fragment = new NekoSettingsActivity();
+        } else if (PasscodeHelper.getSettingsKey().equals(segments.get(me ? 1 : 0))) {
+            fragment = new NekoPasscodeSettingsActivity();
         } else {
             switch (segments.get(me ? 1 : 0)) {
                 case "appearance":

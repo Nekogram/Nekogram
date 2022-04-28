@@ -190,6 +190,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.AppLinkVerifyBottomSheet;
 import tw.nekomimi.nekogram.SendOptionsMenuLayout;
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
+import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -2614,6 +2615,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             imageView.setImage(ImageLocation.getForUserOrChat(user, ImageLocation.TYPE_SMALL), "50_50", ImageLocation.getForUserOrChat(user, ImageLocation.TYPE_STRIPPED), "50_50", avatarDrawable, user);
 
             for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+                if (PasscodeHelper.isAccountHidden(a)) continue;
                 TLRPC.User u = AccountInstance.getInstance(a).getUserConfig().getCurrentUser();
                 if (u != null) {
                     AccountSelectCell cell = new AccountSelectCell(context, false);

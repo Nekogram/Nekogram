@@ -27,6 +27,7 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.accessibility.AccessibilitySettingsActivity;
+import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
@@ -42,6 +43,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
     private int generalRow;
     private int appearanceRow;
     private int chatRow;
+    private int passcodeRow;
     private int experimentRow;
     private int accessibilityRow;
     private int categories2Row;
@@ -88,6 +90,8 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
             presentFragment(new NekoGeneralSettingsActivity());
         } else if (position == appearanceRow) {
             presentFragment(new NekoAppearanceSettings());
+        } else if (position == passcodeRow) {
+            presentFragment(new NekoPasscodeSettingsActivity());
         } else if (position == experimentRow) {
             presentFragment(new NekoExperimentalSettingsActivity(sensitiveCanChange, sensitiveEnabled));
         } else if (position == accessibilityRow) {
@@ -149,6 +153,11 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
         generalRow = addRow("general");
         appearanceRow = addRow("appearance");
         chatRow = addRow("chat");
+        if (!PasscodeHelper.isSettingsHidden()) {
+            passcodeRow = addRow("passcode");
+        } else {
+            passcodeRow = -1;
+        }
         experimentRow = addRow("experiment");
         AccessibilityManager am = (AccessibilityManager) ApplicationLoader.applicationContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
         if (am != null && am.isTouchExplorationEnabled()) {
@@ -249,11 +258,13 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
                 case 8: {
                     TextCell textCell = (TextCell) holder.itemView;
                     if (position == chatRow) {
-                        textCell.setTextAndIcon(LocaleController.getString("Chat", R.string.Chat), R.drawable.menu_chats, true);
+                        textCell.setTextAndIcon(LocaleController.getString("Chat", R.string.Chat), R.drawable.msg_discussion, true);
                     } else if (position == generalRow) {
                         textCell.setTextAndIcon(LocaleController.getString("General", R.string.General), R.drawable.msg_media, true);
                     } else if (position == appearanceRow) {
                         textCell.setTextAndIcon(LocaleController.getString("Appearance", R.string.Appearance), R.drawable.msg_theme, true);
+                    } else if (position == passcodeRow) {
+                        textCell.setTextAndIcon(LocaleController.getString("PasscodeNeko", R.string.PasscodeNeko), R.drawable.msg_permissions, true);
                     } else if (position == experimentRow) {
                         textCell.setTextAndIcon(LocaleController.getString("Experiment", R.string.Experiment), R.drawable.msg_fave, accessibilityRow != -1);
                     } else if (position == accessibilityRow) {

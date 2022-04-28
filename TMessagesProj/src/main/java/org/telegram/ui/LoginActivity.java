@@ -156,6 +156,7 @@ import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicReference;
 
 import tw.nekomimi.nekogram.EditTextAutoFill;
+import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 
 @SuppressLint("HardwareIds")
 public class LoginActivity extends BaseFragment {
@@ -1471,6 +1472,7 @@ public class LoginActivity extends BaseFragment {
     }
 
     private void onAuthSuccess(TLRPC.TL_auth_authorization res, boolean afterSignup) {
+        PasscodeHelper.removePasscodeForAccount(currentAccount);
         MessagesController.getInstance(currentAccount).cleanup();
         ConnectionsManager.getInstance(currentAccount).setUserId(res.user.id);
         UserConfig.getInstance(currentAccount).clearConfig();
@@ -2018,19 +2020,7 @@ public class LoginActivity extends BaseFragment {
                             int reqId = ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
                                 if (error == null) {
                                     TLRPC.TL_auth_authorization res = (TLRPC.TL_auth_authorization) response;
-                                    ConnectionsManager.getInstance(currentAccount).setUserId(res.user.id);
-                                    UserConfig.getInstance(currentAccount).clearConfig();
-                                    MessagesController.getInstance(currentAccount).cleanup();
-                                    UserConfig.getInstance(currentAccount).syncContacts = false;
-                                    UserConfig.getInstance(currentAccount).setCurrentUser(res.user);
-                                    UserConfig.getInstance(currentAccount).saveConfig(true);
-                                    MessagesStorage.getInstance(currentAccount).cleanup(true);
-                                    ArrayList<TLRPC.User> users = new ArrayList<>();
-                                    users.add(res.user);
-                                    MessagesStorage.getInstance(currentAccount).putUsersAndChats(users, null, true, true);
-                                    MessagesController.getInstance(currentAccount).putUser(res.user, false);
-                                    ConnectionsManager.getInstance(currentAccount).updateDcSettings();
-                                    needFinishActivity(false, res.setup_password_required, res.otherwise_relogin_days);
+                                    onAuthSuccess(res);
                                 } else {
                                     if (error.text != null) {
                                         if (error.text.contains("ACCESS_TOKEN_INVALID")) {

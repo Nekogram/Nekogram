@@ -300,7 +300,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int type = holder.getItemViewType();
-            return type == 2 || type == 3 || type == 5 || type == 6 || type == 8 | type == 9 || type == 10;
+            return type == 2 || type == 3 || type == 5 || type == 6 || type == 8 | type == 9 || type == 10 || type == 11;
         }
 
         @NonNull
@@ -345,6 +345,10 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
                     break;
                 case 10:
                     view = new TextRadioCell(mContext);
+                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case 11:
+                    view = new AccountCell(mContext);
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
             }

@@ -219,6 +219,23 @@
     <string name="Translated">translated</string>
     <string name="BrokenMLKit">Option unavailable</string>
     <string name="BrokenMLKitDetail">Google MLKit language identifier is somehow broken on this device.</string>
+    <string name="PasscodeNeeded">You have to enable passcode lock first</string>
+    <string name="PasscodeNeko">Passcode</string>
+    <string name="PasscodeShowInSettings">Show in Neko Settings</string>
+    <string name="PasscodeShowInSettingsAbout">After hiding, you can **ONLY** open this page by link:</string>
+    <string name="PasscodeSet">Set passcode</string>
+    <string name="PasscodeEdit">Change passcode</string>
+    <string name="PasscodeRemove">Remove passcode</string>
+    <string name="PasscodeHideAccount">Hide account</string>
+    <string name="PasscodeAllowPanic">Logout with panic code</string>
+    <string name="PasscodeAbout">Set different passcodes for each account, and switch between them by entering the corresponding passcode.</string>
+    <string name="PasscodePanicCode">Panic code</string>
+    <string name="PasscodePanicCodeSet">Set panic code</string>
+    <string name="PasscodePanicCodeEdit">Change panic code</string>
+    <string name="PasscodePanicCodeRemove">Turn off panic code</string>
+    <string name="PasscodePanicCodeRemoveConfirmMessage">Are you sure you want to turn off panic code?</string>
+    <string name="PasscodeRemoveConfirmMessage">Are you sure you want to remove passcode for this account?</string>
+    <string name="PasscodePanicCodeAbout">Use the panic code to log out accounts if something goes wrong.</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
