@@ -4723,7 +4723,7 @@ public class AlertsCreator {
         int currentAccount = fragment.getCurrentAccount();
 
         AlertDialog.Builder builder = new AlertDialog.Builder(activity, resourcesProvider);
-        builder.setDimAlpha(hideDim != null ? .5f : .6f);
+        builder.setDimAlpha(hideDim != null ? .22f : .32f);
         int count;
         if (selectedGroup != null) {
             count = selectedGroup.messages.size();

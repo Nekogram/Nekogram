@@ -23523,7 +23523,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), themeDelegate);
                 builder.setTitle(LocaleController.getString("PinMessageAlertTitle", R.string.PinMessageAlertTitle));
                 preserveDim = true;
-                builder.setDimAlpha(.5f);
+                builder.setDimAlpha(.22f);
                 builder.setOnPreDismissListener(di -> dimBehindView(false));
 
                 final boolean[] checks;
