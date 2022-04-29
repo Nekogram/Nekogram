@@ -2650,7 +2650,7 @@ public class ImageLoader {
                                     img.imageType = FileLoader.IMAGE_TYPE_LOTTIE;
                                 } else if ("application/x-tgwallpattern".equals(imageLocation.document.mime_type)) {
                                     img.imageType = FileLoader.IMAGE_TYPE_SVG;
-                                } else if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                                } else {
                                     String name = FileLoader.getDocumentFileName(imageLocation.document);
                                     if (name.endsWith(".svg")) {
                                         img.imageType = FileLoader.IMAGE_TYPE_SVG;
@@ -2682,7 +2682,7 @@ public class ImageLoader {
                                 img.imageType = FileLoader.IMAGE_TYPE_LOTTIE;
                             } else if ("application/x-tgwallpattern".equals(document.mime_type)) {
                                 img.imageType = FileLoader.IMAGE_TYPE_SVG;
-                            } else if (BuildVars.DEBUG_PRIVATE_VERSION) {
+                            } else {
                                 String name = FileLoader.getDocumentFileName(imageLocation.document);
                                 if (name.endsWith(".svg")) {
                                     img.imageType = FileLoader.IMAGE_TYPE_SVG;
