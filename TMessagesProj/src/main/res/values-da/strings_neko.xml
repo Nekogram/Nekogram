@@ -207,6 +207,25 @@
     <string name="TabletModeAuto">Auto</string>
     <string name="DeleteAllFromSelfDone">Alle dine beskeder er slettet</string>
     <string name="UnknownNekoSettingsOption">Der er ikke en sådan indstillingsmulighed for Neko.</string>
+    <string name="ProviderYouDaoTranslate">YouDao oversætter</string>
+    <string name="ProviderBaiduTranslate">Baidu Oversætter</string>
+    <string name="ProviderSogouTranslate">Sogou Oversætter</string>
+    <string name="Translating">oversæt</string>
+    <string name="Translated">oversat</string>
+    <string name="BrokenMLKit">Mulighed ikke tilgængelig</string>
+    <string name="PasscodeNeeded">Du er nødt til at aktivere adgangskode lås først</string>
+    <string name="PasscodeNeko">Adgangskode</string>
+    <string name="PasscodeShowInSettings">Vis i Neko-indstillinger</string>
+    <string name="PasscodeShowInSettingsAbout">Når du har skjult siden, kan du **KUN** åbne denne side via et link:</string>
+    <string name="PasscodeEdit">Skift adgangskode</string>
+    <string name="PasscodeRemove">Fjern adgangskode</string>
+    <string name="PasscodeHideAccount">Skjul konto</string>
+    <string name="PasscodeAbout">Indstil forskellige adgangskoder for hver konto, og skift mellem dem ved at indtaste den tilsvarende adgangskode.</string>
+    <string name="PasscodePanicCode">Panik kode</string>
+    <string name="PasscodePanicCodeSet">Sæt panik kode</string>
+    <string name="PasscodePanicCodeRemove">Slå panikkoden fra</string>
+    <string name="PasscodePanicCodeRemoveConfirmMessage">Er du sikker på, at du vil slå panikkode fra?</string>
+    <string name="PasscodeRemoveConfirmMessage">Er du sikker på, at du vil fjerne adgangskoden til denne konto?</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
     <string name="AccRewindHeading">Indstillinger for tilbagespoling</string>

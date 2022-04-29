@@ -208,6 +208,30 @@
     <string name="TabletModeAuto">自动</string>
     <string name="DeleteAllFromSelfDone">您的所有消息都已删除</string>
     <string name="UnknownNekoSettingsOption">没有这样的喵设置选项。</string>
+    <string name="ProviderYouDaoTranslate">有道翻译</string>
+    <string name="ProviderBaiduTranslate">百度翻译</string>
+    <string name="ProviderSogouTranslate">搜狗翻译</string>
+    <string name="Translating">翻译中</string>
+    <string name="Translated">已翻译</string>
+    <string name="BrokenMLKit">选项不可用</string>
+    <string name="BrokenMLKitDetail">Google MLKit 语言识别器在这个设备上不知何故坏了。</string>
+    <string name="PasscodeNeeded">您必须先启用锁定码</string>
+    <string name="PasscodeNeko">锁定码</string>
+    <string name="PasscodeShowInSettings">在喵设置中显示</string>
+    <string name="PasscodeShowInSettingsAbout">隐藏后，您**只能**通过链接打开此页面：</string>
+    <string name="PasscodeSet">设置锁定码</string>
+    <string name="PasscodeEdit">更改锁定码</string>
+    <string name="PasscodeRemove">移除锁定码</string>
+    <string name="PasscodeHideAccount">隐藏账户</string>
+    <string name="PasscodeAllowPanic">使用紧急代码退出登录</string>
+    <string name="PasscodeAbout">为每个账户设置不同的锁定码，并通过输入相应的锁定码在它们之间切换。</string>
+    <string name="PasscodePanicCode">紧急代码</string>
+    <string name="PasscodePanicCodeSet">设置紧急代码</string>
+    <string name="PasscodePanicCodeEdit">更改紧急代码</string>
+    <string name="PasscodePanicCodeRemove">关闭紧急代码</string>
+    <string name="PasscodePanicCodeRemoveConfirmMessage">您确定要关闭紧急代码吗？</string>
+    <string name="PasscodeRemoveConfirmMessage">您确定要移除这个账户的锁定码吗？</string>
+    <string name="PasscodePanicCodeAbout">如果出现问题，使用紧急代码退出登录账户。</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

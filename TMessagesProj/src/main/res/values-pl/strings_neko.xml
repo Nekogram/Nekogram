@@ -207,6 +207,9 @@
     <string name="TabletModeAuto">Automatyczny</string>
     <string name="DeleteAllFromSelfDone">Wszystkie twoje wiadomości zostały usunięte</string>
     <string name="UnknownNekoSettingsOption">Nie ma takiej opcji w ustawieniach Neko.</string>
+    <string name="ProviderYouDaoTranslate">Tłumacz YouDao</string>
+    <string name="ProviderBaiduTranslate">Tłumacz Baidu</string>
+    <string name="ProviderSogouTranslate">Tłumacz Sogou</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>

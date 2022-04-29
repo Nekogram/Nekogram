@@ -34,7 +34,7 @@
     <string name="TestBackendOn">Цей обліковий запис буде підключено до тестового сервера.</string>
     <string name="TestBackendOff">Цей обліковий запис буде підключений до тестового сервера.</string>
     <string name="HideProxySponsorChannel">Приховати канал спонсора проксі-сервера</string>
-    <string name="ViewHistory">Подивитися історію</string>
+    <string name="ViewHistory">Переглянути історію</string>
     <string name="Nya">Мяу!</string>
     <string name="SensitiveDisableFiltering">Вимкнути фільтрацію чутливого вмісту</string>
     <string name="SensitiveAbout">Показувати чутливий контент у відкритих каналах на всіх пристроях.</string>
@@ -206,6 +206,14 @@
     <string name="TabletMode">Режим планшету</string>
     <string name="TabletModeAuto">Авто</string>
     <string name="DeleteAllFromSelfDone">Видалити свої повідомлення</string>
+    <string name="UnknownNekoSettingsOption">Немає такої опції Налаштування Neko.</string>
+    <string name="ProviderYouDaoTranslate">YouDao Перекладач</string>
+    <string name="ProviderBaiduTranslate">Baidu Перекласти</string>
+    <string name="ProviderSogouTranslate">Sogou Перекласти</string>
+    <string name="Translating">переклад</string>
+    <string name="Translated">перекладено</string>
+    <string name="BrokenMLKit">Опція недоступна</string>
+    <string name="BrokenMLKitDetail">Ідентифікатор мови Google MLKit якимось чином зламаний на цьому пристрої.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccRewindHeading">Налаштування перемотки</string>

@@ -208,6 +208,13 @@
     <string name="TabletModeAuto">Automático</string>
     <string name="DeleteAllFromSelfDone">Todas as suas mensagens serão apagadas</string>
     <string name="UnknownNekoSettingsOption">Essa opção não existe nas configurações Neko.</string>
+    <string name="ProviderYouDaoTranslate">YouDao Tradutor</string>
+    <string name="ProviderBaiduTranslate">Baidu Tradutor</string>
+    <string name="ProviderSogouTranslate">Sougou Tradutor</string>
+    <string name="Translating">traduzindo</string>
+    <string name="Translated">traduzido</string>
+    <string name="BrokenMLKit">Opção indisponível</string>
+    <string name="BrokenMLKitDetail">O identificador de linguagem Google MLKit está, de alguma forma, quebrado neste dispositivo.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccRewindHeading">Configurações de retrocesso</string>
