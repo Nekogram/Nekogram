@@ -3340,6 +3340,7 @@ public class DialogCell extends BaseCell {
     public boolean hasOverlappingRendering() {
         return false;
     }
+
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);

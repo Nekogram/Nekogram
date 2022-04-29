@@ -53,7 +53,7 @@ public class EntitiesHelper {
     public static void applyEntities(ArrayList<TLRPC.MessageEntity> entities, SpannableStringBuilder stringBuilder, int start) {
         for (var entity : entities) {
             entity.offset += start;
-            if (entity.offset > stringBuilder.length()) {
+            if (entity.offset > stringBuilder.length() || entity.offset + entity.length > stringBuilder.length()) {
                 continue;
             }
             if (entity instanceof TLRPC.TL_inputMessageEntityMentionName) {

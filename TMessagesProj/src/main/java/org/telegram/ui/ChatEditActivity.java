@@ -1141,7 +1141,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
     }
 
     private int getChannelAdminCount() {
-        if (info == null) {
+        if (info == null || info.participants == null || info.participants.participants == null) {
             return 1;
         }
         int count = 0;

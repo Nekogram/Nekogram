@@ -15359,15 +15359,17 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     }
                     rect.set(commentButtonRect);
                 } else if (virtualViewId == USER) {
-                    String adminLabel = delegate.getAdminRank(currentUser.id, true);
-                    String contentDescription = UserObject.getUserName(currentUser);
-                    if (adminLabel != null) {
-                        if (adminLabel.length() == 0) {
-                            adminLabel = LocaleController.getString("ChatAdmin", R.string.ChatAdmin);
+                    if (currentUser != null || currentChat != null) {
+                        String adminLabel = delegate.getAdminRank(currentUser == null ? currentChat.id : currentUser.id, true);
+                        String contentDescription = currentUser == null ? currentChat.title : UserObject.getUserName(currentUser);
+                        if (adminLabel != null) {
+                            if (adminLabel.length() == 0) {
+                                adminLabel = LocaleController.getString("ChatAdmin", R.string.ChatAdmin);
+                            }
+                            contentDescription = contentDescription + " " + adminLabel;
                         }
-                        contentDescription = contentDescription + " " + adminLabel;
+                        info.setContentDescription(contentDescription);
                     }
-                    info.setContentDescription(contentDescription);
                     avatarImage.getDrawRegion().round(rect);
                     info.setLongClickable(true);
                     info.addAction(AccessibilityNodeInfo.AccessibilityAction.ACTION_LONG_CLICK);
