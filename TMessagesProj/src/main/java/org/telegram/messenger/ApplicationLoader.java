@@ -45,6 +45,7 @@ import org.telegram.ui.Components.ForegroundDetector;
 
 import java.io.File;
 import java.util.HashMap;
+import java.util.concurrent.CountDownLatch;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.remote.AnalyticsHelper;
@@ -55,6 +56,7 @@ public class ApplicationLoader extends Application {
     public static volatile Context applicationContext;
     public static volatile NetworkInfo currentNetworkInfo;
     public static volatile Handler applicationHandler;
+    public static final CountDownLatch countDownLatch = new CountDownLatch(1);
 
     private static ConnectivityManager connectivityManager;
     private static volatile boolean applicationInited = false;
@@ -238,6 +240,7 @@ public class ApplicationLoader extends Application {
         applicationHandler = new Handler(applicationContext.getMainLooper());
 
         AndroidUtilities.runOnUIThread(ApplicationLoader::startPushService);
+        countDownLatch.countDown();
     }
 
     public static void startPushService() {
