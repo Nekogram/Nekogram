@@ -267,6 +267,7 @@ import tw.nekomimi.nekogram.DialogConfig;
 import tw.nekomimi.nekogram.helpers.EntitiesHelper;
 import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
 import tw.nekomimi.nekogram.translator.Translator;
+import tw.nekomimi.nekogram.translator.popupwrapper.TranslatorSettingsPopupWrapper;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -22126,7 +22127,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             boolean showMessageSeen = !isReactionsViewAvailable && !isInScheduleMode() && currentChat != null && message.isOutOwner() && message.isSent() && !message.isEditing() && !message.isSending() && !message.isSendError() && !message.isContentUnread() && !message.isUnread() && (ConnectionsManager.getInstance(currentAccount).getCurrentTime() - message.messageOwner.date < getMessagesController().chatReadMarkExpirePeriod)  && (ChatObject.isMegagroup(currentChat) || !ChatObject.isChannel(currentChat)) && chatInfo != null && chatInfo.participants_count <= getMessagesController().chatReadMarkSizeThreshold && !(message.messageOwner.action instanceof TLRPC.TL_messageActionChatJoinedByRequest) && (v instanceof ChatMessageCell);
 
             int flags = 0;
-            if (isReactionsViewAvailable || showMessageSeen) {
+            if (isReactionsViewAvailable || showMessageSeen || options.contains(29)) {
                 flags |= ActionBarPopupWindow.ActionBarPopupWindowLayout.FLAG_USE_SWIPEBACK;
             }
 
@@ -22562,6 +22563,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             translateOrResetMessage(messageObject, fromLang[0]);
                             closeMenu();
+                        });
+                        var translatorSettingsPopupWrapper = new TranslatorSettingsPopupWrapper(this, popupLayout.getSwipeBack(), dialog_id, getResourceProvider());
+                        int swipeBackIndex = popupLayout.addViewToSwipeBack(translatorSettingsPopupWrapper.windowLayout);
+                        cell.setOnLongClickListener(view -> {
+                            popupLayout.getSwipeBack().openForeground(swipeBackIndex);
+                            return true;
                         });
                     }
                 }
@@ -23961,29 +23968,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     private boolean processSelectedOptionLongClick(int option) {
         switch (option) {
-            case 29: {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
-                builder.setTitle(LocaleController.getString("Translator", R.string.Translator));
-                builder.setItems(new CharSequence[]{
-                        LocaleController.getString("TranslatorType", R.string.TranslatorType),
-                        LocaleController.getString("TranslationTarget", R.string.TranslationTarget),
-                        LocaleController.getString("TranslationProvider", R.string.TranslationProvider),
-                }, (dialog, which) -> {
-                    switch (which) {
-                        case 0:
-                            Translator.showTranslatorTypeSelector(getParentActivity(), null, null, themeDelegate);
-                            break;
-                        case 1:
-                            Translator.showTranslationTargetSelector(this, null, null, false, themeDelegate);
-                            break;
-                        case 2:
-                            Translator.showTranslationProviderSelector(getParentActivity(), null, null, themeDelegate);
-                            break;
-                    }
-                });
-                showDialog(builder.create());
-                return true;
-            }
             case 94: {
                 return processRepeatMessage(true);
             }

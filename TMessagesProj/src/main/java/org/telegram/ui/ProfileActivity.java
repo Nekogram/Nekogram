@@ -198,7 +198,7 @@ import java.util.zip.ZipOutputStream;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
-import tw.nekomimi.nekogram.translator.AutoTranslatePopupWrapper;
+import tw.nekomimi.nekogram.translator.popupwrapper.AutoTranslatePopupWrapper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 public class ProfileActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, SharedMediaLayout.SharedMediaPreloaderDelegate, ImageUpdater.ImageUpdaterDelegate, SharedMediaLayout.Delegate {

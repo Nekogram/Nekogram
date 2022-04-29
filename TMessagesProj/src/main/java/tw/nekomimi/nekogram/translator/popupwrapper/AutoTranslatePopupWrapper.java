@@ -1,4 +1,4 @@
-package tw.nekomimi.nekogram.translator;
+package tw.nekomimi.nekogram.translator.popupwrapper;
 
 import android.content.Context;
 import android.util.TypedValue;
