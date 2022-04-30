@@ -327,6 +327,10 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable {
         isWebmSticker = MessageObject.isWebM(document) || MessageObject.isVideoSticker(document);
         if (isWebmSticker) {
             useSharedQueue = true;
+            if (MessageObject.getStickerSetId(document) == 683462835916767409L) {
+                path = null;
+                return;
+            }
         }
         getPaint().setFlags(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
         if (streamSize != 0 && (document != null || location != null)) {
