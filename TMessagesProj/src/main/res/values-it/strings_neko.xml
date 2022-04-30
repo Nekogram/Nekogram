@@ -207,6 +207,30 @@
     <string name="TabletModeAuto">Auto</string>
     <string name="DeleteAllFromSelfDone">Tutti i tuoi messaggi sono stati cancellati</string>
     <string name="UnknownNekoSettingsOption">Non esiste questa opzione nelle impostazioni Neko.</string>
+    <string name="ProviderYouDaoTranslate">Traduttore YouDao</string>
+    <string name="ProviderBaiduTranslate">Traduttore Baidu</string>
+    <string name="ProviderSogouTranslate">Traduttore Sogou</string>
+    <string name="Translating">traducendo</string>
+    <string name="Translated">tradotto</string>
+    <string name="BrokenMLKit">Opzione non disponibile</string>
+    <string name="BrokenMLKitDetail">L\'identificatore di lingua Google MLKit è in qualche modo non funzionante su questo dispositivo.</string>
+    <string name="PasscodeNeeded">Devi prima abilitare il codice di blocco dell\'accesso</string>
+    <string name="PasscodeNeko">Codice d\'accesso</string>
+    <string name="PasscodeShowInSettings">Mostra in Impostazioni Neko</string>
+    <string name="PasscodeShowInSettingsAbout">Dopo aver nascosto, puoi **SOLO** aprire questa pagina tramite il link:</string>
+    <string name="PasscodeSet">Imposta il codice di accesso</string>
+    <string name="PasscodeEdit">Cambia codice di accesso</string>
+    <string name="PasscodeRemove">Rimuovi codice di accesso</string>
+    <string name="PasscodeHideAccount">Nascondi account</string>
+    <string name="PasscodeAllowPanic">Logout con codice d\'emergenza</string>
+    <string name="PasscodeAbout">Imposta diversi codici di accesso per ogni account e passa da uno all\'altro inserendo il codice corrispondente.</string>
+    <string name="PasscodePanicCode">Codice d\'emergenza</string>
+    <string name="PasscodePanicCodeSet">Imposta il codice d\'emergenza</string>
+    <string name="PasscodePanicCodeEdit">Cambia il codice d\'emergenza</string>
+    <string name="PasscodePanicCodeRemove">Disattiva il codice d\'emergenza</string>
+    <string name="PasscodePanicCodeRemoveConfirmMessage">Sei sicuro di voler disattivare il codice d\'emergenza?</string>
+    <string name="PasscodeRemoveConfirmMessage">Sei sicuro di voler rimuovere il codice d\'accesso per questo account?</string>
+    <string name="PasscodePanicCodeAbout">Usa il codice di emergenza per disconnettere gli account se qualcosa va storto.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>

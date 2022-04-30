@@ -108,12 +108,12 @@
     <string name="JumpToBeginning">Başlangıca atla</string>
     <string name="ProviderDeepLTranslate">DeepL Çeviri</string>
     <string name="Halloween">Cadılar bayramı</string>
-    <string name="CheckUpdate">Güncelleştirmeleri denetle</string>
-    <string name="LastUpdateFormatted">En son başarılı kontrol %1$s.</string>
-    <string name="LastUpdateDateFormatted">En son %1$s tarihinde başarıyla denetlendi.</string>
-    <string name="LastUpdateRecently">Az önce başarıyla kontrol edildi.</string>
-    <string name="LastUpdateNever">Kurulumdan bu yana hiç kontrol edilmedi.</string>
-    <string name="CheckingUpdate">Güncelleştirmeler denetleniyor…</string>
+    <string name="CheckUpdate">Güncellemeleri denetle</string>
+    <string name="LastUpdateFormatted">Son başarılı denetleme %1$s.</string>
+    <string name="LastUpdateDateFormatted">Son başarılı denetleme %1$s.</string>
+    <string name="LastUpdateRecently">Az önce başarıyla denetlendi.</string>
+    <string name="LastUpdateNever">Kurulumdan bu yana hiç denetlenmedi.</string>
+    <string name="CheckingUpdate">Güncellemeler denetleniyor…</string>
     <string name="ProviderMicrosoftTranslator">Microsoft Çevirmen</string>
     <string name="TranslationProviderShort">Sağlayıcı</string>
     <string name="ViewSourceCode">Kaynak kodunu görüntüle</string>
@@ -214,7 +214,7 @@
     <string name="Translated">çevrildi</string>
     <string name="BrokenMLKit">Seçenek kullanılamıyor</string>
     <string name="BrokenMLKitDetail">Google MLKit dil tanımlayıcısı bu cihazda bir sebepten dolayı bozuk.</string>
-    <string name="PasscodeNeeded">Önce parola kilidini etkinleştirmelisiniz</string>
+    <string name="PasscodeNeeded">Önce uygulama kilidini etkinleştirmelisiniz</string>
     <string name="PasscodeNeko">Parola</string>
     <string name="PasscodeShowInSettings">Neko Ayarlarında Göster</string>
     <string name="PasscodeShowInSettingsAbout">Gizledikten sonra, bu sayfayı **YALNIZCA** bağlantıyla açabilirsiniz:</string>
