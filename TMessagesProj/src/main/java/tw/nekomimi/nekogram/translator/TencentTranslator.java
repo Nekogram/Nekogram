@@ -2,11 +2,8 @@ package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import org.translator.MrTranslatorWeb;
 
-import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,6 +11,7 @@ public class TencentTranslator extends BaseTranslator {
 
     private static TencentTranslator instance;
     private final List<String> targetLanguages = Arrays.asList("zh", "zh-TW", "en", "ja", "ko", "fr", "es", "it", "de", "tr", "ru", "pt", "vi", "id", "th", "ms", "ar", "hi");
+    private final MrTranslatorWeb mrTranslatorWeb = new MrTranslatorWeb();
 
     static TencentTranslator getInstance() {
         if (instance == null) {
@@ -55,17 +53,8 @@ public class TencentTranslator extends BaseTranslator {
     }
 
     @Override
-    protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
-        String response = Http.url(
-                "https://app.translator.qq.com/api/translate?sourceText=" + URLEncoder.encode(query, "UTF-8") + "&source=" + fl + "&target=" + tl)
-                .request();
-        if (TextUtils.isEmpty(response)) {
-            return null;
-        }
-        var jsonObject = new JSONObject(response);
-        if (!jsonObject.has("targetText") && jsonObject.has("errMsg")) {
-            throw new IOException(jsonObject.getString("errMsg"));
-        }
-        return new Result(jsonObject.getString("targetText"), null);
+    protected Result translate(String query, String fl, String tl) throws Exception {
+        var result = mrTranslatorWeb.translate(query, "auto", tl);
+        return new Result(result[1], result[0]);
     }
 }

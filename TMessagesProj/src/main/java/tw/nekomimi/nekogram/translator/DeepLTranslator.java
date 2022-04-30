@@ -2,7 +2,7 @@ package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
 
-import org.deepl.DeepLTranslaterAndroid;
+import org.translator.DeepLTranslatorAndroid;
 
 import java.util.Arrays;
 import java.util.List;
@@ -21,7 +21,7 @@ public class DeepLTranslator extends BaseTranslator {
             "es", "et", "fi", "fr", "hu", "it", "ja", "lt", "lv", "nl",
             "pl", "pt-BR", "pt-PT", "pt", "ro", "ru", "sk", "sl", "sv",
             "zh");
-    private final DeepLTranslaterAndroid deeplTranslater = new DeepLTranslaterAndroid();
+    private final DeepLTranslatorAndroid deeplTranslater = new DeepLTranslatorAndroid();
 
     static DeepLTranslator getInstance() {
         if (instance == null) {
