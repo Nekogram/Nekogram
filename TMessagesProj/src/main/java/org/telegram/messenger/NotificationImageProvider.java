@@ -95,12 +95,10 @@ public class NotificationImageProvider extends ContentProvider implements Notifi
 			String finalPath = uri.getQueryParameter("final_path");
 			String fallbackPath = uri.getQueryParameter("fallback");
 			File finalFile = new File(finalPath);
-			if (ApplicationLoader.applicationContext == null) {
-				try {
-					ApplicationLoader.countDownLatch.await();
-				} catch (InterruptedException e) {
-					e.printStackTrace();
-				}
+			try {
+				ApplicationLoader.countDownLatch.await();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
 			}
 			ApplicationLoader.postInitApplication();
 			if (AndroidUtilities.isInternalUri(Uri.fromFile(finalFile))) {
