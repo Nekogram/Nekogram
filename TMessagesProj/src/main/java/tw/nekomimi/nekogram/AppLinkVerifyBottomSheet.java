@@ -7,6 +7,7 @@ import android.content.pm.verify.domain.DomainVerificationManager;
 import android.content.pm.verify.domain.DomainVerificationUserState;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.Settings;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.FrameLayout;
@@ -127,9 +128,15 @@ public class AppLinkVerifyBottomSheet extends BottomSheet {
         linearLayout.addView(buttonTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, 0, 16, 15, 16, 8));
 
         buttonTextView.setOnClickListener(view -> {
-            Intent intent = new Intent(android.provider.Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS,
-                    Uri.parse("package:" + context.getPackageName()));
-            context.startActivity(intent);
+            try {
+                Intent intent = new Intent(android.provider.Settings.ACTION_APP_OPEN_BY_DEFAULT_SETTINGS,
+                        Uri.parse("package:" + context.getPackageName()));
+                context.startActivity(intent);
+            } catch (Throwable t) {
+                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                        Uri.parse("package:" + context.getPackageName()));
+                context.startActivity(intent);
+            }
         });
 
         TextView textView = new TextView(context);
