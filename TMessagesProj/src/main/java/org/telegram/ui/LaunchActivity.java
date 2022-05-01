@@ -1285,6 +1285,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         boolean pushOpened = false;
         long push_user_id = 0;
         long push_chat_id = 0;
+        long profile_user_id = 0;
         int push_enc_id = 0;
         int push_msg_id = 0;
         int open_settings = 0;
@@ -1745,7 +1746,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                                     } else {
                                                         drawerLayoutContainer.setAllowOpenDrawer(true, false);
                                                     }
-                                                }, () -> showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("UnknownNekoSettingsOption", R.string.UnknownNekoSettingsOption))), true);
+                                                }, () -> showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("UnknownNekoSettingsOption", R.string.UnknownNekoSettingsOption))));
                                             } else if (path.startsWith("msg/") || path.startsWith("share/")) {
                                                 message = data.getQueryParameter("url");
                                                 if (message == null) {
@@ -1828,8 +1829,11 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                     if (url.startsWith("tg:resolve") || url.startsWith("tg://resolve")) {
                                         url = url.replace("tg:resolve", "tg://telegram.org").replace("tg://resolve", "tg://telegram.org");
                                         data = Uri.parse(url);
+                                        var number = data.getQueryParameter("phone");
                                         username = data.getQueryParameter("domain");
-                                        if ("telegrampassport".equals(username)) {
+                                        if (number != null) {
+                                            username = number;
+                                        } else if ("telegrampassport".equals(username)) {
                                             username = null;
                                             auth = new HashMap<>();
                                             String scope = data.getQueryParameter("scope");
@@ -2007,6 +2011,16 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                         if (intCode != 0) {
                                             code = "" + intCode;
                                         }
+                                    } else if (url.startsWith("tg:user") || url.startsWith("tg://user")) {
+                                        url = url.replace("tg:user", "tg://telegram.org").replace("tg://user", "tg://telegram.org");
+                                        data = Uri.parse(url);
+                                        String userID = data.getQueryParameter("id");
+                                        if (userID != null) {
+                                            try {
+                                                profile_user_id = Long.parseLong(userID);
+                                            } catch (NumberFormatException ignore) {
+                                            }
+                                        }
                                     } else if (url.startsWith("tg:openmessage") || url.startsWith("tg://openmessage")) {
                                         url = url.replace("tg:openmessage", "tg://telegram.org").replace("tg://openmessage", "tg://telegram.org");
                                         data = Uri.parse(url);
@@ -2074,7 +2088,9 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                     } else if (url.startsWith("tg:donate") || url.startsWith("tg://donate")) {
                                         open_settings = 101;
                                     } else if (url.startsWith("tg:neko") || url.startsWith("tg://neko")) {
-                                        SettingsHelper.processDeepLink(url, fragment -> {
+                                        url = url.replace("tg:neko", "tg://t.me/nekosettings").replace("tg://neko", "tg://t.me/nekosettings");
+                                        data = Uri.parse(url);
+                                        SettingsHelper.processDeepLink(data, fragment -> {
                                             AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
                                             if (AndroidUtilities.isTablet()) {
                                                 actionBarLayout.showLastFragment();
@@ -2325,6 +2341,18 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 if (actionBarLayout.presentFragment(fragment, false, true, true, false)) {
                     pushOpened = true;
                     drawerLayoutContainer.closeDrawer();
+                }
+            } else if (profile_user_id != 0) {
+                Bundle args = new Bundle();
+                args.putLong("user_id", profile_user_id);
+                ProfileActivity fragment = new ProfileActivity(args);
+                AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
+                if (AndroidUtilities.isTablet()) {
+                    actionBarLayout.showLastFragment();
+                    rightActionBarLayout.showLastFragment();
+                    drawerLayoutContainer.setAllowOpenDrawer(false, false);
+                } else {
+                    drawerLayoutContainer.setAllowOpenDrawer(true, false);
                 }
             } else if (showDialogsList) {
                 if (!AndroidUtilities.isTablet()) {

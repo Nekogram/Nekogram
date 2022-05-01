@@ -4,7 +4,6 @@ import android.net.Uri;
 import android.text.TextUtils;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.FileLog;
 import org.telegram.ui.ActionBar.BaseFragment;
 
 import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
@@ -18,38 +17,24 @@ import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 import tw.nekomimi.nekogram.settings.WsSettingsActivity;
 
 public class SettingsHelper {
-    public static void processDeepLink(String link, Callback callback, Runnable unknown) {
-        Uri uri = null;
-        try {
-            uri = Uri.parse(link);
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        processDeepLink(uri, callback, unknown, false);
-    }
 
-    public static void processDeepLink(Uri uri, Callback callback, Runnable unknown, boolean me) {
+    public static void processDeepLink(Uri uri, Callback callback, Runnable unknown) {
         if (uri == null) {
             unknown.run();
             return;
         }
         var segments = uri.getPathSegments();
-        if (me) {
-            if (segments.isEmpty() || segments.size() > 2 || !"nekosettings".equals(segments.get(0))) {
-                unknown.run();
-                return;
-            }
-        } else if (segments.size() > 1 || !"neko".equals(uri.getHost())) {
+        if (segments.isEmpty() || segments.size() > 2 || !"nekosettings".equals(segments.get(0))) {
             unknown.run();
             return;
         }
         BaseNekoSettingsActivity fragment;
-        if (segments.isEmpty() || me && segments.size() == 1) {
+        if (segments.size() == 1) {
             fragment = new NekoSettingsActivity();
-        } else if (PasscodeHelper.getSettingsKey().equals(segments.get(me ? 1 : 0))) {
+        } else if (PasscodeHelper.getSettingsKey().equals(segments.get(1))) {
             fragment = new NekoPasscodeSettingsActivity();
         } else {
-            switch (segments.get(me ? 1 : 0)) {
+            switch (segments.get(1)) {
                 case "appearance":
                 case "a":
                     fragment = new NekoAppearanceSettings();
