@@ -2,6 +2,8 @@ package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
 
+import androidx.core.text.HtmlCompat;
+
 import org.translator.MrTranslatorWeb;
 
 import java.util.Arrays;
@@ -55,6 +57,6 @@ public class TencentTranslator extends BaseTranslator {
     @Override
     protected Result translate(String query, String fl, String tl) throws Exception {
         var result = mrTranslatorWeb.translate(query, "auto", tl);
-        return new Result(result[1], result[0]);
+        return new Result(HtmlCompat.fromHtml(result[1], HtmlCompat.FROM_HTML_MODE_LEGACY).toString(), result[0]);
     }
 }
