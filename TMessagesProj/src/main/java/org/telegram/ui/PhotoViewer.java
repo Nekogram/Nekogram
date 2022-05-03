@@ -222,7 +222,6 @@ import org.telegram.ui.Components.StickersAlert;
 import org.telegram.ui.Components.TextViewSwitcher;
 import org.telegram.ui.Components.Tooltip;
 import org.telegram.ui.Components.URLSpanReplacement;
-import org.telegram.ui.Components.URLSpanUserMentionPhotoViewer;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.VideoEditTextureView;
 import org.telegram.ui.Components.VideoForwardDrawable;
@@ -4483,9 +4482,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         masksItem.setContentDescription(LocaleController.getString("Masks", R.string.Masks));
         pipItem = menu.addItem(gallery_menu_pip, R.drawable.ic_goinline);
         pipItem.setContentDescription(LocaleController.getString("AccDescrPipMode", R.string.AccDescrPipMode));
-        sendNoQuoteItem = menu.addItem(gallery_menu_send_noquote, R.drawable.msg_forward_noquote);
+        sendNoQuoteItem = menu.addItem(gallery_menu_send_noquote, R.drawable.msg_forward);
         sendNoQuoteItem.setContentDescription(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
-        sendItem = menu.addItem(gallery_menu_send, R.drawable.msg_forward);
+        sendItem = menu.addItem(gallery_menu_send, NekoConfig.showNoQuoteForward ? R.drawable.msg_forward_quote : R.drawable.msg_forward);
         sendItem.setContentDescription(LocaleController.getString("Forward", R.string.Forward));
         shareItem = menu.addItem(gallery_menu_share2, R.drawable.share);
         shareItem.setContentDescription(LocaleController.getString("ShareFile", R.string.ShareFile));
@@ -9954,6 +9953,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         sharedMediaType = MediaDataController.MEDIA_PHOTOVIDEO;
         allMediaItem.setText(LocaleController.getString("ShowAllMedia", R.string.ShowAllMedia));
         setItemVisible(sendItem, false, false);
+        sendItem.setIcon(NekoConfig.showNoQuoteForward ? R.drawable.msg_forward_quote : R.drawable.msg_forward);
         setItemVisible(sendNoQuoteItem, false, false);
         setItemVisible(pipItem, false, true);
         cameraItem.setVisibility(View.GONE);
@@ -10117,7 +10117,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     needSearchImageInArr = false;
                     if (messageObject.canForwardMessage() && !noforwards) {
                         setItemVisible(sendItem, true, false);
-                        setItemVisible(sendNoQuoteItem, true, false);
+                        setItemVisible(sendNoQuoteItem, NekoConfig.showNoQuoteForward, false);
                     }
                 } else if (!messageObject.scheduled && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaInvoice) && !(messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaWebPage) && (messageObject.messageOwner.action == null || messageObject.messageOwner.action instanceof TLRPC.TL_messageActionEmpty)) {
                     needSearchImageInArr = true;
@@ -10127,10 +10127,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         menuItem.showSubItem(gallery_menu_showall);
                     }
                     setItemVisible(sendItem, !noforwards, false);
-                    setItemVisible(sendNoQuoteItem, !noforwards, false);
+                    setItemVisible(sendNoQuoteItem, NekoConfig.showNoQuoteForward && !noforwards, false);
                 } else if (isEmbedVideo && messageObject.eventId == 0) {
                     setItemVisible(sendItem, true, false);
-                    setItemVisible(sendNoQuoteItem, true, false);
+                    setItemVisible(sendNoQuoteItem, NekoConfig.showNoQuoteForward, false);
                 }
                 setImageIndex(0);
             }
@@ -10182,7 +10182,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 menuItem.showSubItem(gallery_menu_showinchat);
                 if (openingObject.canForwardMessage() && !noforwards) {
                     setItemVisible(sendItem, true, false);
-                    setItemVisible(sendNoQuoteItem, true, false);
+                    setItemVisible(sendNoQuoteItem, NekoConfig.showNoQuoteForward, false);
                 }
                 if (openingObject.canPreviewDocument()) {
                     sharedMediaType = MediaDataController.MEDIA_FILE;

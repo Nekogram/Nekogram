@@ -114,6 +114,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 @SuppressWarnings("unchecked")
 public class SharedMediaLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1499,16 +1501,18 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             actionModeViews.add(gotoItem);
             gotoItem.setOnClickListener(v -> onActionBarItemClick(v, gotochat));
 
-            forwardNoQuoteItem = new ActionBarMenuItem(context, null, Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2), false);
-            forwardNoQuoteItem.setIcon(R.drawable.msg_forward_noquote);
-            forwardNoQuoteItem.setContentDescription(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
-            forwardNoQuoteItem.setDuplicateParentStateEnabled(false);
-            actionModeLayout.addView(forwardNoQuoteItem, new LinearLayout.LayoutParams(AndroidUtilities.dp(54), ViewGroup.LayoutParams.MATCH_PARENT));
-            actionModeViews.add(forwardNoQuoteItem);
-            forwardNoQuoteItem.setOnClickListener(v -> onActionBarItemClick(v, forward_noquote));
+            if (NekoConfig.showNoQuoteForward) {
+                forwardNoQuoteItem = new ActionBarMenuItem(context, null, Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2), false);
+                forwardNoQuoteItem.setIcon(R.drawable.msg_forward);
+                forwardNoQuoteItem.setContentDescription(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
+                forwardNoQuoteItem.setDuplicateParentStateEnabled(false);
+                actionModeLayout.addView(forwardNoQuoteItem, new LinearLayout.LayoutParams(AndroidUtilities.dp(54), ViewGroup.LayoutParams.MATCH_PARENT));
+                actionModeViews.add(forwardNoQuoteItem);
+                forwardNoQuoteItem.setOnClickListener(v -> onActionBarItemClick(v, forward_noquote));
+            }
 
             forwardItem = new ActionBarMenuItem(context, null, Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2), false);
-            forwardItem.setIcon(R.drawable.msg_forward);
+            forwardItem.setIcon(NekoConfig.showNoQuoteForward ? R.drawable.msg_forward_quote : R.drawable.msg_forward);
             forwardItem.setContentDescription(LocaleController.getString("Forward", R.string.Forward));
             forwardItem.setDuplicateParentStateEnabled(false);
             actionModeLayout.addView(forwardItem, new LinearLayout.LayoutParams(AndroidUtilities.dp(54), ViewGroup.LayoutParams.MATCH_PARENT));
@@ -2283,13 +2287,13 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
         boolean noforwards = profileActivity.getMessagesController().isChatNoForwards(-dialog_id) || hasNoforwardsMessage();
         forwardItem.setAlpha(noforwards ? 0.5f : 1f);
-        forwardNoQuoteItem.setAlpha(noforwards ? 0.5f : 1f);
+        if (forwardNoQuoteItem != null) forwardNoQuoteItem.setAlpha(noforwards ? 0.5f : 1f);
         if (noforwards && forwardItem.getBackground() != null) {
             forwardItem.setBackground(null);
-            forwardNoQuoteItem.setBackground(null);
+            if (forwardNoQuoteItem != null) forwardNoQuoteItem.setBackground(null);
         } else if (!noforwards && forwardItem.getBackground() == null) {
             forwardItem.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 5));
-            forwardNoQuoteItem.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 5));
+            if (forwardNoQuoteItem != null) forwardNoQuoteItem.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 5));
         }
     }
     private boolean hasNoforwardsMessage() {

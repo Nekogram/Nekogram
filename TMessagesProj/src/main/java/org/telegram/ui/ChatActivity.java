@@ -3110,8 +3110,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             actionModeViews.add(actionMode.addItemWithWidth(edit, R.drawable.msg_edit, AndroidUtilities.dp(54), LocaleController.getString("Edit", R.string.Edit)));
             actionModeViews.add(actionMode.addItemWithWidth(star, R.drawable.msg_fave, AndroidUtilities.dp(54), LocaleController.getString("AddToFavorites", R.string.AddToFavorites)));
             actionModeViews.add(actionMode.addItemWithWidth(copy, R.drawable.msg_copy, AndroidUtilities.dp(54), LocaleController.getString("Copy", R.string.Copy)));
-            actionModeViews.add(actionMode.addItemWithWidth(forward_noquote, R.drawable.msg_forward_noquote, AndroidUtilities.dp(54), LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward)));
-            actionModeViews.add(actionMode.addItemWithWidth(forward, R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString("Forward", R.string.Forward)));
+            if (NekoConfig.showNoQuoteForward) actionModeViews.add(actionMode.addItemWithWidth(forward_noquote, R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward)));
+            actionModeViews.add(actionMode.addItemWithWidth(forward, NekoConfig.showNoQuoteForward ? R.drawable.msg_forward_quote : R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString("Forward", R.string.Forward)));
             actionModeViews.add(actionMode.addItemWithWidth(delete, R.drawable.msg_delete, AndroidUtilities.dp(54), LocaleController.getString("Delete", R.string.Delete)));
         } else {
             actionModeViews.add(actionMode.addItemWithWidth(edit, R.drawable.msg_edit, AndroidUtilities.dp(54), LocaleController.getString("Edit", R.string.Edit)));
@@ -8631,7 +8631,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         forwardButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 3));
         forwardButton.setTextColor(getThemedColor(Theme.key_actionBarActionModeDefaultIcon));
         forwardButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        image = context.getResources().getDrawable(R.drawable.input_forward).mutate();
+        image = context.getResources().getDrawable(NekoConfig.showNoQuoteForward ? R.drawable.input_forward_quote : R.drawable.input_forward).mutate();
         image.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.MULTIPLY));
         forwardButton.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null);
         forwardButton.setOnClickListener(v -> {
@@ -21876,11 +21876,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (!selectedObject.isSponsored() && chatMode != MODE_SCHEDULED && !selectedObject.needDrawBluredPreview() && !selectedObject.isLiveLocation() && selectedObject.type != 16 && !noforwards) {
                             items.add(LocaleController.getString("Forward", R.string.Forward));
                             options.add(2);
-                            icons.add(R.drawable.msg_forward);
+                            icons.add(NekoConfig.showNoQuoteForward ? R.drawable.msg_forward_quote : R.drawable.msg_forward);
                             if (NekoConfig.showNoQuoteForward) {
                                 items.add(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
                                 options.add(95);
-                                icons.add(R.drawable.msg_forward_noquote);
+                                icons.add(R.drawable.msg_forward);
                             }
                             if (NekoConfig.showAddToSavedMessages && !UserObject.isUserSelf(currentUser)) {
                                 items.add(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages));
