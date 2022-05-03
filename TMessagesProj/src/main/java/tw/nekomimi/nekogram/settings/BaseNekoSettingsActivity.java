@@ -242,28 +242,9 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         var row = rowCount++;
         for (var key : keys) {
             rowMap.put(key, row);
-            var shortKey = getShortKey(key, false);
-            if (rowMap.containsKey(shortKey)) {
-                shortKey = getShortKey(key, true);
-                rowMap.put(shortKey, row);
-            } else {
-                rowMap.put(shortKey, row);
-            }
         }
         rowMapReverse.put(row, keys[0]);
         return row;
-    }
-
-    private String getShortKey(String key, boolean c) {
-        var sb = new StringBuilder();
-        sb.append(key.charAt(0));
-        for (int i = 0; i < key.length(); i++) {
-            if (Character.isUpperCase(key.charAt(i))) {
-                sb.append(key.charAt(i));
-            }
-        }
-        if (c) sb.append(key.charAt(key.length() - 1));
-        return sb.toString();
     }
 
     public void scrollToRow(String key, Runnable unknown) {

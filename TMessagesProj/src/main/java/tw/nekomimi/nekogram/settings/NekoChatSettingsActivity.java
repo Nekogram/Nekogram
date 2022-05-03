@@ -294,7 +294,18 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         media2Row = addRow();
 
         messageMenuRow = addRow("messageMenu");
-        rowCount += 12;
+        addRow("showDeleteDownloadedFile");
+        addRow("showNoQuoteForward");
+        addRow("showAddToSavedMessages");
+        addRow("showRepeat");
+        addRow("showPrPr");
+        addRow("showViewHistory");
+        addRow("showTranslate");
+        addRow("showReport");
+        addRow("showAdminActions");
+        addRow("showChangePermissions");
+        addRow("showMessageDetails");
+        addRow("showCopyPhoto");
         messageMenu2Row = addRow();
     }
 
