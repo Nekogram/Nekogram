@@ -3,6 +3,7 @@ package tw.nekomimi.nekogram.helpers.remote;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -67,10 +68,22 @@ public class ConfigHelper extends BaseRemoteHelper {
         }
         ArrayList<NewsItem> newsItems = new ArrayList<>();
         try {
-            JSONArray jsonArray = jsonObject.getJSONArray("news");
+            JSONArray jsonArray = jsonObject.getJSONArray("newsv2");
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
-                if (object.getBoolean("chineseOnly") && !NekoConfig.isChineseUser) {
+                if (object.has("chineseOnly") && object.getBoolean("chineseOnly") && !NekoConfig.isChineseUser) {
+                    continue;
+                }
+                if (object.has("direct") && object.getBoolean("direct") && !NekoConfig.isDirectApp()) {
+                    continue;
+                }
+                if (object.has("source") && !object.getString("source").equals(BuildConfig.BUILD_TYPE)) {
+                    continue;
+                }
+                if (object.has("maxVersion") && object.getLong("maxVersion") > BuildConfig.VERSION_CODE) {
+                    continue;
+                }
+                if (object.has("minVersion") && object.getLong("minVersion") < BuildConfig.VERSION_CODE) {
                     continue;
                 }
                 if (!object.getString("language").equals("ALL") && !object.getString("language").equals(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername))) {
