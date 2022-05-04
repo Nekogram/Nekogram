@@ -25,7 +25,6 @@ import org.telegram.ui.LaunchActivity;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.accessibility.AccessibilitySettingsActivity;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
@@ -99,11 +98,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
         } else if (position == channelRow) {
             getMessagesController().openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
         } else if (position == donateRow) {
-            if (NekoConfig.installedFromPlay) {
-                presentFragment(new NekoDonateActivity());
-            } else {
-                Browser.openUrl(getParentActivity(), "https://www.buymeacoffee.com/nekogram");
-            }
+            presentFragment(new NekoDonateActivity());
         } else if (position == translationRow) {
             Browser.openUrl(getParentActivity(), "https://neko.crowdin.com/nekogram");
         } else if (position == websiteRow) {

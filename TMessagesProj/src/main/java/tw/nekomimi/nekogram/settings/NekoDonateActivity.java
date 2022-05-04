@@ -22,6 +22,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
@@ -30,6 +31,8 @@ import org.telegram.ui.Components.BulletinFactory;
 
 import java.util.Arrays;
 import java.util.List;
+
+import tw.nekomimi.nekogram.NekoConfig;
 
 public class NekoDonateActivity extends BaseNekoSettingsActivity implements PurchasesUpdatedListener {
     private static final List<String> SKUS = Arrays.asList("donate001", "donate002", "donate005", "donate010", "donate020", "donate050", "donate100");
@@ -42,6 +45,11 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
 
     @Override
     public boolean onFragmentCreate() {
+        if (!NekoConfig.isDirectApp()) {
+            Browser.openUrl(ApplicationLoader.applicationContext, "https://www.buymeacoffee.com/nekogram");
+            return false;
+        }
+
         super.onFragmentCreate();
 
         billingClient = BillingClient.newBuilder(ApplicationLoader.applicationContext)
