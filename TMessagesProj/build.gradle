@@ -1,6 +1,7 @@
-import java.nio.file.Files
-import java.nio.file.Paths
 import org.eclipse.jgit.internal.storage.file.FileRepository
+import org.gradle.internal.os.OperatingSystem
+
+import java.nio.file.Paths
 
 plugins {
     id 'com.android.application'
@@ -48,7 +49,7 @@ dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.5'
 }
 
-ext.abiCodes = ['universal':0, 'armeabi-v7a':1, 'arm64-v8a':5, x86:2, x86_64:6]
+ext.abiCodes = ['universal': 0, 'armeabi-v7a': 1, 'arm64-v8a': 5, x86: 2, x86_64: 6]
 
 def refId = new FileRepository(rootProject.file(".git")).getRefDatabase().exactRef("HEAD").getObjectId().name()
 
@@ -56,8 +57,6 @@ android {
     compileSdkVersion 32
     buildToolsVersion '32.0.0'
     ndkVersion "21.4.7075529"
-
-    defaultConfig.applicationId = "tw.nekomimi.nekogram"
 
     sourceSets.main.jniLibs.srcDirs = ['./jni/']
 
@@ -88,6 +87,7 @@ android {
 
         coreLibraryDesugaringEnabled true
     }
+
     Properties localProperties = new Properties()
     if (project.rootProject.file('local.properties').exists()) {
         localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
@@ -106,7 +106,7 @@ android {
 
     buildTypes {
         debug {
-            buildConfigField("String","COMMIT_ID","\"${refId}\"")
+            buildConfigField("String", "COMMIT_ID", "\"${refId}\"")
             if (localProperties.getProperty("storeFile") != null) {
                 signingConfig signingConfigs.sign
             }
@@ -114,7 +114,7 @@ android {
         }
 
         release {
-            buildConfigField("String","COMMIT_ID","\"${refId}\"")
+            buildConfigField("String", "COMMIT_ID", "\"${refId}\"")
             minifyEnabled true
             shrinkResources true
             if (localProperties.getProperty("storeFile") != null) {
@@ -125,9 +125,11 @@ android {
             proguardFiles 'proguard-rules.pro'
             ndk.debugSymbolLevel 'FULL'
         }
-    }
 
-    defaultConfig.versionCode = 2638
+        play {
+            initWith release
+        }
+    }
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
@@ -140,14 +142,24 @@ android {
     }
 
     defaultConfig {
+        applicationId "tw.nekomimi.nekogram"
         minSdkVersion 21
         targetSdkVersion 32
         versionName "8.7.4.1"
+        versionCode 2638
 
         externalNativeBuild {
             cmake {
                 version '3.10.2'
-                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21', "-DNDK_CCACHE=ccache"
+                arguments '-DANDROID_STL=c++_static', '-DANDROID_PLATFORM=android-21'
+                System.getenv("PATH").split(File.pathSeparator).any { path ->
+                    var file = Paths.get("${path}${File.separator}ccache${if (OperatingSystem.current().windows) ".exe" else ""}").toFile()
+                    if (file.exists()) {
+                        println("Using ccache ${file.getAbsolutePath()}")
+                        arguments += "-DANDROID_CCACHE=${file.getAbsolutePath()}"
+                        return true
+                    }
+                }
             }
         }
     }
@@ -166,16 +178,7 @@ android {
     dependenciesInfo.includeInApk false
 }
 
-def patchBundleReleaseManifest = task('patchBundleReleaseManifest').doLast {
-    def manifest = Paths.get(project.buildDir.path, 'intermediates',
-            'bundle_manifest', 'release', 'AndroidManifest.xml')
-    def newManifest = manifest.getText()
-    newManifest = newManifest.replace("<uses-permission android:name=\"android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION\" />", "")
-    newManifest = newManifest.replace("<uses-permission android:name=\"android.permission.READ_CALL_LOG\" />", "")
-    newManifest = newManifest.replace("nekogram.apks", "nekogram.bundle")
-    Files.write(manifest, newManifest.getBytes())
-}
-
-afterEvaluate {
-    tasks.getByName("processApplicationManifestReleaseForBundle").finalizedBy patchBundleReleaseManifest
+task("buildRelease") {
+    dependsOn("assembleRelease")
+    dependsOn("bundlePlay")
 }

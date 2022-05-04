@@ -8,7 +8,6 @@ import android.text.TextUtils;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.TextStyleSpan;
 
-import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.syntaxhighlight.prism4j.Prism4j;
 
 public class SyntaxHighlight {

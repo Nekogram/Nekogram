@@ -2,14 +2,10 @@ package tw.nekomimi.nekogram;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.os.Build;
-import android.os.Bundle;
 import android.os.Environment;
 import android.text.TextUtils;
 
@@ -163,7 +159,6 @@ public class NekoConfig {
     public static ArrayList<TLRPC.Update> pendingChangelog;
 
     public static boolean isChineseUser = false;
-    public static boolean installedFromPlay = false;
 
     private static final SharedPreferences.OnSharedPreferenceChangeListener listener = (preferences, key) -> {
         var map = new HashMap<String, String>(1);
@@ -211,7 +206,7 @@ public class NekoConfig {
                 tcp2wsServer.start(socksPort);
                 tcp2wsStarted = true;
                 var map = new HashMap<String, String>();
-                map.put("installedFromPlay", String.valueOf(installedFromPlay));
+                map.put("buildType", BuildConfig.BUILD_TYPE);
                 map.put("isChineseUser", String.valueOf(isChineseUser));
                 AnalyticsHelper.trackEvent("tcp2ws started", map);
             }
@@ -240,25 +235,8 @@ public class NekoConfig {
         }
     }
 
-    private static void determineInstalledFromPlay() {
-        Context context = ApplicationLoader.applicationContext;
-        ApplicationInfo applicationInfo;
-        try {
-            applicationInfo = context.getPackageManager().getApplicationInfo(context.getPackageName(), PackageManager.GET_META_DATA);
-        } catch (Exception e) {
-            installedFromPlay = true;
-            return;
-        }
-        if (applicationInfo == null) {
-            installedFromPlay = true;
-            return;
-        }
-        Bundle meta = applicationInfo.metaData;
-        if (meta == null || !meta.containsKey("tw.nekomimi.nekogram.referer")) {
-            installedFromPlay = true;
-            return;
-        }
-        installedFromPlay = meta.getString("tw.nekomimi.nekogram.referer").equals("nekogram.bundle");
+    public static boolean isDirectApp() {
+        return "release".equals(BuildConfig.BUILD_TYPE) || "debug".equals(BuildConfig.BUILD_TYPE);
     }
 
     public static void loadConfig() {
@@ -266,7 +244,6 @@ public class NekoConfig {
             if (configLoaded) {
                 return;
             }
-            determineInstalledFromPlay();
             isChineseUser = ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isChineseUser);
 
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
@@ -345,7 +322,7 @@ public class NekoConfig {
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             var map = new HashMap<String, String>();
-            map.put("installedFromPlay", String.valueOf(installedFromPlay));
+            map.put("buildType", BuildConfig.BUILD_TYPE);
             map.put("isChineseUser", String.valueOf(isChineseUser));
             AnalyticsHelper.trackEvent("Load config", map);
             configLoaded = true;

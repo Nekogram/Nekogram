@@ -22,7 +22,7 @@ import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class UpdateHelper extends BaseRemoteHelper {
-    public static final String UPDATE_TAG = BuildConfig.DEBUG ? "updatetest" : NekoConfig.installedFromPlay ? "updateplayv2" : "updatev2";
+    public static final String UPDATE_TAG = BuildConfig.DEBUG ? "updatetest" : NekoConfig.isDirectApp() ? "updatev2" : ("update" + BuildConfig.BUILD_TYPE + "v2");
 
     private static volatile UpdateHelper Instance;
     private int installedVersion;

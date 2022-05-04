@@ -44,7 +44,7 @@ public class BuildVars {
 
     private static Boolean standaloneApp;
     public static boolean isStandaloneApp() {
-        return !NekoConfig.installedFromPlay;
+        return NekoConfig.isDirectApp();
         /*if (standaloneApp == null) {
             standaloneApp = ApplicationLoader.applicationContext != null && "org.telegram.messenger.web".equals(ApplicationLoader.applicationContext.getPackageName());
         }
