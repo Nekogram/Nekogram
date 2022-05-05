@@ -325,7 +325,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                     } else if (position == showTabsOnForwardRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ShowTabsOnForward", R.string.ShowTabsOnForward), NekoConfig.showTabsOnForward, true);
                     } else if (position == hideAllTabRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("HideAllTab", R.string.HideAllTab), LocaleController.getString("HideAllTabAbout", R.string.HideAllTabAbout), NekoConfig.hideAllTab, true, true);
+                        textCell.setTextAndCheck(LocaleController.getString("HideAllTab", R.string.HideAllTab), NekoConfig.hideAllTab, true);
                     }
                     break;
                 }

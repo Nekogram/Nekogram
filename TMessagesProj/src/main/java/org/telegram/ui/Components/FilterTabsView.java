@@ -1080,7 +1080,7 @@ public class FilterTabsView extends FrameLayout {
     }
 
     public void selectFirstTab() {
-        scrollToTab(Integer.MAX_VALUE, 0);
+        scrollToTab(getFirstTabId(), 0);
     }
 
     public void setAnimationIdicatorProgress(float value) {
