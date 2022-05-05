@@ -1045,7 +1045,7 @@ public class FilterCreateActivity extends BaseFragment {
                 }
                 case 2: {
                     PollEditTextCell cell = (PollEditTextCell) holder.itemView;
-                    cell.setIcon(FolderIconHelper.getTabIcon(newFilterEmoticon, false), newFilterEmoticon);
+                    cell.setIcon(FolderIconHelper.getTabIcon(newFilterEmoticon), newFilterEmoticon);
                     break;
                 }
             }

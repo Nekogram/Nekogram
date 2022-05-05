@@ -134,7 +134,6 @@ public class FilterTabsView extends FrameLayout {
         private int textOffsetX;
         private String currentEmoticon;
         private Drawable icon;
-        private Drawable activeIcon;
 
         public boolean animateChange;
         public float changeProgress;
@@ -367,22 +366,19 @@ public class FilterTabsView extends FrameLayout {
 
             int iconX = 0;
             if (NekoConfig.tabsTitleType != NekoConfig.TITLE_TYPE_TEXT) {
-                int emoticonWidth = FolderIconHelper.getIconWidth();
+                int emoticonSize = FolderIconHelper.getIconWidth();
                 if (!TextUtils.equals(currentTab.emoticon, currentEmoticon)) {
                     currentEmoticon = currentTab.emoticon;
-                    android.graphics.Rect bounds = new android.graphics.Rect(0, 0, emoticonWidth, emoticonWidth);
-                    activeIcon = getResources().getDrawable(FolderIconHelper.getTabIcon(currentTab.emoticon, true)).mutate();
-                    icon = getResources().getDrawable(FolderIconHelper.getTabIcon(currentTab.emoticon, false)).mutate();
-                    activeIcon.setBounds(bounds);
+                    android.graphics.Rect bounds = new android.graphics.Rect(0, 0, emoticonSize, emoticonSize);
+                    icon = getResources().getDrawable(FolderIconHelper.getTabIcon(currentTab.emoticon)).mutate();
                     icon.setBounds(bounds);
                 }
                 icon.setTint(textPaint.getColor());
-                activeIcon.setTint(textPaint.getColor());
                 iconX = (int) ((getMeasuredWidth() - tabWidth) / 2f);
                 if (animateIconX) {
                     iconX = (int) (iconX * changeProgress + animateFromIconX * (1f - changeProgress));
                 }
-                int iconY = (int) ((getMeasuredHeight() - emoticonWidth) / 2f);
+                int iconY = (int) ((getMeasuredHeight() - emoticonSize) / 2f);
                 if (animateIconChange) {
                     if (iconAnimateOutDrawable != null) {
                         canvas.save();
@@ -403,31 +399,8 @@ public class FilterTabsView extends FrameLayout {
                         iconAnimateInDrawable.setAlpha(alpha);
                     }
                 } else {
-                    int alphaAnimation = 0;
-                    if (animateToKey == null) {
-                        if ((animatingIndicator || manualScrollingToId != -1) && (currentTab.id == id1 || currentTab.id == id2)) {
-                            alphaAnimation = (int) (255 * animatingIndicatorProgress);
-                            if (currentTab.id == id2) {
-                                alphaAnimation = 255 - alphaAnimation;
-                            }
-                        } else if (currentTab.id == id1) {
-                            alphaAnimation = 255;
-                        }
-                    } else {
-                        if ((animatingIndicator || manualScrollingToPosition != -1) && (currentTab.id == id1 || currentTab.id == id2)) {
-                            alphaAnimation = (int) (255 * animationValue);
-                            if (currentTab.id == id2) {
-                                alphaAnimation = 255 - alphaAnimation;
-                            }
-                        } else if (currentTab.id == id1) {
-                            alphaAnimation = 255;
-                        }
-                    }
                     canvas.save();
                     canvas.translate(iconX, iconY);
-                    activeIcon.setAlpha(alphaAnimation);
-                    activeIcon.draw(canvas);
-                    icon.setAlpha(255 - alphaAnimation);
                     icon.draw(canvas);
                     canvas.restore();
                 }
@@ -675,10 +648,9 @@ public class FilterTabsView extends FrameLayout {
 
                 if (lastEmoticon != null && !currentTab.emoticon.equals(lastEmoticon)) {
                     int emoticonWidth = FolderIconHelper.getIconWidth();
-                    boolean active = selectedTabId == currentTab.id;
                     android.graphics.Rect bounds = new android.graphics.Rect(0, 0, emoticonWidth, emoticonWidth);
-                    iconAnimateOutDrawable = getResources().getDrawable(FolderIconHelper.getTabIcon(lastEmoticon, active)).mutate();
-                    iconAnimateInDrawable = getResources().getDrawable(FolderIconHelper.getTabIcon(currentTab.emoticon, active)).mutate();
+                    iconAnimateOutDrawable = getResources().getDrawable(FolderIconHelper.getTabIcon(lastEmoticon)).mutate();
+                    iconAnimateInDrawable = getResources().getDrawable(FolderIconHelper.getTabIcon(currentTab.emoticon)).mutate();
                     iconAnimateOutDrawable.setBounds(bounds);
                     iconAnimateInDrawable.setBounds(bounds);
                     iconAnimateOutDrawable.setTint(textPaint.getColor());
