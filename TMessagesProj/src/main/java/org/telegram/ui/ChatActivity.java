@@ -23167,32 +23167,27 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             Translator.showTranslateDialog(getParentActivity(), message, getMessagesController().isChatNoForwards(currentChat) || messageObject.messageOwner.noforwards, this, link -> didPressMessageUrl(link, false, selectedObject, null), sourceLanguage);
             return;
         }
-        messageObject.translating = true;
-        getMessageHelper().resetMessageContent(dialog_id, messageObject, false);
+        getMessageHelper().resetMessageContent(dialog_id, messageObject, false, true);
         Object original = messageObject.isPoll() ? ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll : messageObject.messageOwner.message;
-        messageObject.originalMessage = original;
-        final MessageObject finalMessageObject = messageObject;
         Translator.translate(original, sourceLanguage, new Translator.TranslateCallBack() {
             @Override
             public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
                 if (translation instanceof String) {
-                    finalMessageObject.messageOwner.message = original +
+                    messageObject.messageOwner.message = original +
                             "\n" +
                             "--------" +
                             "\n" +
                             translation;
                 } else if (translation instanceof TLRPC.TL_poll) {
-                    ((TLRPC.TL_messageMediaPoll) finalMessageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
+                    ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
                 }
-                finalMessageObject.translatedLanguage = Pair.create(sourceLanguage, targetLanguage);
-                finalMessageObject.translating = false;
-                getMessageHelper().resetMessageContent(dialog_id, finalMessageObject, true);
+                getMessageHelper().resetMessageContent(dialog_id, messageObject, true, original, false, Pair.create(sourceLanguage, targetLanguage));
             }
 
             @Override
             public void onError(Exception e) {
-                Translator.handleTranslationError(getParentActivity(), e, () -> translateMessage(finalMessageObject, sourceLanguage, forceInMessage), themeDelegate);
-                finalMessageObject.translating = false;
+                Translator.handleTranslationError(getParentActivity(), e, () -> translateMessage(messageObject, sourceLanguage, forceInMessage), themeDelegate);
+                getMessageHelper().resetMessageContent(dialog_id, messageObject, false, false);
             }
         });
     }

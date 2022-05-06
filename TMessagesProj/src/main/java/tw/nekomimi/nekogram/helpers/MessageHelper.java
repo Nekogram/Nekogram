@@ -8,7 +8,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.SparseArray;
@@ -19,8 +21,10 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.text.HtmlCompat;
+import androidx.core.util.Pair;
 
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.QRCodeWriter;
@@ -57,6 +61,7 @@ import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ChatAttachAlert;
+import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
 
@@ -77,6 +82,8 @@ public class MessageHelper extends BaseController {
 
     private static final MessageHelper[] Instance = new MessageHelper[UserConfig.MAX_ACCOUNT_COUNT];
     private static final CharsetDecoder utf8Decoder = StandardCharsets.UTF_8.newDecoder();
+    private static SpannableStringBuilder arrowSpan;
+    public static Drawable arrowDrawable;
 
     public MessageHelper(int num) {
         super(num);
@@ -84,17 +91,31 @@ public class MessageHelper extends BaseController {
 
     public static CharSequence createTranslateString(MessageObject messageObject) {
         if (messageObject.translating) {
-            return LocaleController.getString("Translating", R.string.Translating);
+            return LocaleController.getString("Translating", R.string.Translating) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
         }
         var translatedLanguage = messageObject.translatedLanguage;
         if (translatedLanguage == null || translatedLanguage.first == null || translatedLanguage.second == null) {
-            return LocaleController.getString("Translated", R.string.Translated);
+            return LocaleController.getString("Translated", R.string.Translated) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
+        }
+        if (arrowDrawable == null) {
+            arrowDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.search_arrow).mutate();
+        }
+        if (arrowSpan == null) {
+            arrowSpan = new SpannableStringBuilder("\u200B");
+            arrowSpan.setSpan(new ColoredImageSpan(arrowDrawable), 0, 1, 0);
         }
         Locale from = Locale.forLanguageTag(translatedLanguage.first);
         Locale to = Locale.forLanguageTag(translatedLanguage.second);
-        return (!TextUtils.isEmpty(from.getScript()) ? HtmlCompat.fromHtml(from.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY) : from.getDisplayName()) +
-                " ➡ " +
-                (!TextUtils.isEmpty(to.getScript()) ? HtmlCompat.fromHtml(to.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY) : to.getDisplayName());
+        var spannableStringBuilder = new SpannableStringBuilder();
+        spannableStringBuilder
+                .append(!TextUtils.isEmpty(from.getScript()) ? HtmlCompat.fromHtml(from.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY) : from.getDisplayName())
+                .append(' ')
+                .append(arrowSpan)
+                .append(' ')
+                .append(!TextUtils.isEmpty(to.getScript()) ? HtmlCompat.fromHtml(to.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY) : to.getDisplayName())
+                .append(' ')
+                .append(LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000));
+        return spannableStringBuilder;
     }
 
     public static ArrayList<TLRPC.MessageEntity> checkBlockedUserEntities(MessageObject messageObject) {
@@ -499,12 +520,20 @@ public class MessageHelper extends BaseController {
     }
 
     public void resetMessageContent(long dialogId, MessageObject messageObject, boolean translated) {
+        resetMessageContent(dialogId, messageObject, translated, null, false, null);
+    }
+
+    public void resetMessageContent(long dialogId, MessageObject messageObject, boolean translated, boolean translating) {
+        resetMessageContent(dialogId, messageObject, translated, null, translating, null);
+    }
+
+    public void resetMessageContent(long dialogId, MessageObject messageObject, boolean translated, Object original, boolean translating, Pair<String, String> translatedLanguage) {
         TLRPC.Message message = messageObject.messageOwner;
 
         MessageObject obj = new MessageObject(currentAccount, message, true, true);
-        obj.originalMessage = messageObject.originalMessage;
-        obj.translating = messageObject.translating;
-        obj.translatedLanguage = messageObject.translatedLanguage;
+        obj.originalMessage = original;
+        obj.translating = translating;
+        obj.translatedLanguage = translatedLanguage;
         obj.translated = translated;
         if (messageObject.isSponsored()) {
             obj.sponsoredId = messageObject.sponsoredId;
