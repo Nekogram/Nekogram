@@ -135,6 +135,7 @@ public class NekoConfig {
     public static boolean disableJumpToNextChannel = false;
     public static boolean disableVoiceMessageAutoPlay = false;
     public static boolean disableMarkdownByDefault = false;
+    public static boolean hideTimeOnSticker = false;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
@@ -319,6 +320,7 @@ public class NekoConfig {
             restrictedLanguages = new HashSet<>(preferences.getStringSet("restrictedLanguages", new HashSet<>()));
             disableMarkdownByDefault = preferences.getBoolean("disableMarkdownByDefault", false);
             showRPCError = preferences.getBoolean("showRPCError", false);
+            hideTimeOnSticker = preferences.getBoolean("hideTimeOnSticker", false);
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             var map = new HashMap<String, String>();
@@ -377,6 +379,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("disableMarkdownByDefault", disableMarkdownByDefault);
+        editor.commit();
+    }
+
+    public static void toggleHideTimeOnSticker() {
+        hideTimeOnSticker = !hideTimeOnSticker;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("hideTimeOnSticker", hideTimeOnSticker);
         editor.commit();
     }
 

@@ -44,6 +44,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
     private int stickerSizeHeaderRow;
     private int stickerSizeRow;
+    private int hideTimeOnStickerRow;
     private int stickerSize2Row;
 
     private int chatRow;
@@ -250,6 +251,12 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                 NekoConfig.setMaxRecentStickers(Integer.parseInt(types.get(i)));
                 listAdapter.notifyItemChanged(maxRecentStickersRow);
             });
+        } else if (position == hideTimeOnStickerRow) {
+            NekoConfig.toggleHideTimeOnSticker();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.hideTimeOnSticker);
+            }
+            stickerSizeCell.invalidate();
         }
     }
 
@@ -269,6 +276,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
         stickerSizeHeaderRow = addRow("stickerSizeHeader");
         stickerSizeRow = addRow("stickerSize");
+        hideTimeOnStickerRow = addRow("hideTimeOnSticker");
         stickerSize2Row = addRow();
 
         chatRow = addRow("chat");
@@ -501,6 +509,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         textCell.setTextAndCheck(LocaleController.getString("IncreaseVoiceMessageQuality", R.string.IncreaseVoiceMessageQuality), NekoConfig.increaseVoiceMessageQuality, true);
                     } else if (position == voiceEnhancementsRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("VoiceEnhancements", R.string.VoiceEnhancements), LocaleController.getString("VoiceEnhancementsAbout", R.string.VoiceEnhancementsAbout), NekoConfig.voiceEnhancements, true, true);
+                    } else if (position == hideTimeOnStickerRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("HideTimeOnSticker", R.string.HideTimeOnSticker), NekoConfig.hideTimeOnSticker, false);
                     }
                     break;
                 }
@@ -570,7 +580,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             } else if (position == doubleTapActionRow || position == maxRecentStickersRow) {
                 return 2;
             } else if ((position > chatRow && position < doubleTapActionRow) ||
-                    (position > mediaRow && position < media2Row)
+                    (position > mediaRow && position < media2Row) ||
+                    position == hideTimeOnStickerRow
             ) {
                 return 3;
             } else if (position == chatRow || position == stickerSizeHeaderRow || position == messageMenuRow || position == mediaRow) {
