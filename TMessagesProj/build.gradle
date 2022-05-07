@@ -145,8 +145,8 @@ android {
         applicationId "tw.nekomimi.nekogram"
         minSdkVersion 21
         targetSdkVersion 32
-        versionName "8.7.4.1"
-        versionCode 2638
+        versionName "8.7.4.2"
+        versionCode 2640
 
         externalNativeBuild {
             cmake {
