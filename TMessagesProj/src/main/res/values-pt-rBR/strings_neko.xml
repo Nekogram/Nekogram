@@ -232,6 +232,7 @@
     <string name="PasscodePanicCodeRemoveConfirmMessage">Tem a certeza de que quer desligar o código de pânico?</string>
     <string name="PasscodeRemoveConfirmMessage">Tem a certeza que quer remover a senha para esta conta?</string>
     <string name="PasscodePanicCodeAbout">Use o código de pânico para registrar contas se algo der errado.</string>
+    <string name="HideTimeOnSticker">Ocultar o horário nos stickers</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccRewindHeading">Configurações de retrocesso</string>

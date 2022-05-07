@@ -232,6 +232,7 @@
     <string name="PasscodePanicCodeRemoveConfirmMessage">您确定要关闭紧急代码吗？</string>
     <string name="PasscodeRemoveConfirmMessage">您确定要移除这个账户的锁定码吗？</string>
     <string name="PasscodePanicCodeAbout">如果出现问题，使用紧急代码退出登录账户。</string>
+    <string name="HideTimeOnSticker">隐藏贴纸上的时间</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

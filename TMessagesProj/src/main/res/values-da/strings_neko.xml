@@ -226,6 +226,7 @@
     <string name="PasscodePanicCodeRemove">Slå panikkoden fra</string>
     <string name="PasscodePanicCodeRemoveConfirmMessage">Er du sikker på, at du vil slå panikkode fra?</string>
     <string name="PasscodeRemoveConfirmMessage">Er du sikker på, at du vil fjerne adgangskoden til denne konto?</string>
+    <string name="HideTimeOnSticker">Skjul tid på klistermærker</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
     <string name="AccRewindHeading">Indstillinger for tilbagespoling</string>

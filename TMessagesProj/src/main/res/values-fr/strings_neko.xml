@@ -2,7 +2,7 @@
 <resources>
     <string name="NekoSettings">Paramètres Neko</string>
     <string name="IPv6">Essayez de se connecter en IPv6</string>
-    <string name="MessageMenu">Menu de message</string>
+    <string name="MessageMenu">Menu des messages</string>
     <string name="HidePhone">Masquer mon numéro de téléphone</string>
     <string name="Hide">Masquer</string>
     <string name="DeleteAllFromSelf">Supprimer ses propres messages</string>
@@ -48,7 +48,7 @@
     <string name="DeleteAccount">Effacer le compte Telegram</string>
     <string name="TranslateFailed">Erreur de traduction du serveur</string>
     <string name="TranslationProvider">Fournisseur de traduction</string>
-    <string name="ProviderGoogleTranslate">Google Traduction</string>
+    <string name="ProviderGoogleTranslate">Google</string>
     <string name="TranslateApiUnsupported">Le fournisseur de traduction que vous avez sélectionné ne prend pas en charge votre langue.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Annuler la traduction</string>
@@ -84,7 +84,7 @@
     <string name="RestartAppToTakeEffect">Redémarrez l\'application pour prendre en les changements en compte.</string>
     <string name="DisableAppBarShadow">Désactiver l\'ombre de la barre de titre</string>
     <string name="MediaPreview">Aperçu des médias dans la liste des échanges</string>
-    <string name="ProviderYandex">Traduction Yandex</string>
+    <string name="ProviderYandex">Yandex</string>
     <string name="IdType">ChatID sur le profil</string>
     <string name="IdTypeAbout">L\'API Telegram utilise les IDs tels quels, mais l\'API Bot ajoute moins au début pour les groupes, et -100 pour les canaux et les supergroupes pour l\'adapter dans un seul champ.</string>
     <string name="IdTypeHidden">Masquer</string>
@@ -106,7 +106,7 @@
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Formater le temps avec les secondes</string>
     <string name="JumpToBeginning">Aller au début</string>
-    <string name="ProviderDeepLTranslate">Traduction DeepL</string>
+    <string name="ProviderDeepLTranslate">DeepL</string>
     <string name="Halloween">Halloween</string>
     <string name="CheckUpdate">Vérifier les mises à jour</string>
     <string name="LastUpdateFormatted">Dernière vérification réussie %1$s.</string>
@@ -114,7 +114,7 @@
     <string name="LastUpdateRecently">Dernière vérification réussie à l\'instant.</string>
     <string name="LastUpdateNever">Jamais vérifié depuis l\'installation.</string>
     <string name="CheckingUpdate">Vérification des mise à jour…</string>
-    <string name="ProviderMicrosoftTranslator">Traducteur Microsoft</string>
+    <string name="ProviderMicrosoftTranslator">Microsoft</string>
     <string name="TranslationProviderShort">Fournisseur</string>
     <string name="ViewSourceCode">Voir le code source</string>
     <string name="AvatarAsBackground">Image de profil en tant qu\'arrière-plan</string>
@@ -207,6 +207,30 @@
     <string name="TabletModeAuto">Auto</string>
     <string name="DeleteAllFromSelfDone">Tous vos messages sont supprimés</string>
     <string name="UnknownNekoSettingsOption">Il n\'y a pas d\'option Paramètres Neko de ce type.</string>
+    <string name="ProviderYouDaoTranslate">YouDao</string>
+    <string name="ProviderBaiduTranslate">Baidu</string>
+    <string name="ProviderSogouTranslate">Sogou</string>
+    <string name="Translating">traduction en cours</string>
+    <string name="Translated">traduit</string>
+    <string name="BrokenMLKit">Option indisponible</string>
+    <string name="BrokenMLKitDetail">L\'identifiant de langue Google MLKit est en quelque sorte cassé sur cet appareil.</string>
+    <string name="PasscodeNeeded">Vous devez d\'abord activer le verrouillage par code d\'accès</string>
+    <string name="PasscodeNeko">Code d\'accès</string>
+    <string name="PasscodeShowInSettings">Afficher dans les paramètres de Neko</string>
+    <string name="PasscodeShowInSettingsAbout">Une fois masqué, vous pourrez **SEULEMENT** ouvrir cette page avec le lien :</string>
+    <string name="PasscodeSet">Définir le code d\'accès</string>
+    <string name="PasscodeEdit">Modifier le code d\'accès</string>
+    <string name="PasscodeRemove">Supprimer le code d\'accès</string>
+    <string name="PasscodeHideAccount">Cacher le compte</string>
+    <string name="PasscodeAllowPanic">Déconnexion avec le code d\'urgence</string>
+    <string name="PasscodeAbout">Définissez des codes d\'accès différents pour chaque compte et passez de l\'un à l\'autre en saisissant son code d\'accès correspondant.</string>
+    <string name="PasscodePanicCode">Code d\'urgence</string>
+    <string name="PasscodePanicCodeSet">Définir le code d\'urgence</string>
+    <string name="PasscodePanicCodeEdit">Modifier le code d\'urgence</string>
+    <string name="PasscodePanicCodeRemove">Désactiver le code d\'urgence</string>
+    <string name="PasscodePanicCodeRemoveConfirmMessage">Êtes-vous sûr de vouloir désactiver le code d\'urgence ?</string>
+    <string name="PasscodeRemoveConfirmMessage">Êtes-vous sûr de vouloir supprimer le code d\'accès pour ce compte ?</string>
+    <string name="PasscodePanicCodeAbout">Utilisez le code d\'urgence pour déconnecter vos comptes si quelque chose ne va pas.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

@@ -231,6 +231,7 @@
     <string name="PasscodePanicCodeRemoveConfirmMessage">¿Estás seguro de que quieres desactivar el código de emergencia?</string>
     <string name="PasscodeRemoveConfirmMessage">¿Estás seguro de que quieres eliminar el código de acceso de esta cuenta?</string>
     <string name="PasscodePanicCodeAbout">Utilice el código de emergencia para salir de las cuentas si algo va mal.</string>
+    <string name="HideTimeOnSticker">Ocultar tiempo en los stickers</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccRewindHeading">Ajustes de rebobinado</string>
