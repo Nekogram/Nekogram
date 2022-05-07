@@ -511,9 +511,12 @@ public class UserCell extends FrameLayout {
         }
 
         if (mutualView != null) {
-            mutualView.setVisibility(currentUser != null && currentUser.mutual_contact ? VISIBLE : GONE);
             if (currentUser != null && currentUser.mutual_contact) {
+                mutualView.setVisibility(VISIBLE);
                 nameTextView.setContentDescription(nameTextView.getText() + " (" + LocaleController.getString("MutualContact", R.string.MutualContact) + ")");
+            } else {
+                mutualView.setVisibility(GONE);
+                nameTextView.setContentDescription(nameTextView.getText());
             }
         }
     }
