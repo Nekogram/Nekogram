@@ -391,7 +391,19 @@ public class EntitiesHelper {
             } else if (span instanceof URLSpanUserMention) {
                 spannable.setSpan(new URLSpan("tg://user?id=" + Long.parseLong(((URLSpanUserMention) span).getURL())), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (span instanceof URLSpanReplacement) {
-                spannable.setSpan(new URLSpan(((URLSpanReplacement) span).getURL()), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                var url = ((URLSpanReplacement) span).getURL();
+                if (url.startsWith("/") ||
+                        url.startsWith("video") ||
+                        url.startsWith("audio") ||
+                        url.startsWith("card:") ||
+                        url.startsWith("mailto:") ||
+                        url.startsWith("tel:") ||
+                        url.startsWith("@") ||
+                        url.startsWith("#") ||
+                        url.startsWith("$")) {
+                    continue;
+                }
+                spannable.setSpan(new URLSpan(url), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (span instanceof TextStyleSpan) {
                 var styleFlags = ((TextStyleSpan) span).getStyleFlags();
                 if ((styleFlags & TextStyleSpan.FLAG_STYLE_BOLD) > 0) {
