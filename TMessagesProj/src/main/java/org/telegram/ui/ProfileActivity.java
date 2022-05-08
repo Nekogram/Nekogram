@@ -6059,6 +6059,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
                 settingsSectionRow = rowCount++;
 
+                nekoRow = rowCount++;
+                nekoSectionRow = rowCount++;
+
                 Set<String> suggestions = getMessagesController().pendingSuggestions;
                 if (suggestions.contains("VALIDATE_PHONE_NUMBER")) {
                     phoneSuggestionRow = rowCount++;
@@ -6068,9 +6071,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     passwordSuggestionRow = rowCount++;
                     passwordSuggestionSectionRow = rowCount++;
                 }
-
-                nekoRow = rowCount++;
-                nekoSectionRow = rowCount++;
 
                 settingsSectionRow2 = rowCount++;
                 notificationRow = rowCount++;
