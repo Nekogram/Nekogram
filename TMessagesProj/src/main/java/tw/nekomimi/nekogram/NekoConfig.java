@@ -136,6 +136,7 @@ public class NekoConfig {
     public static boolean disableVoiceMessageAutoPlay = false;
     public static boolean disableMarkdownByDefault = false;
     public static boolean hideTimeOnSticker = false;
+    public static boolean showOriginal = true;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
@@ -323,6 +324,7 @@ public class NekoConfig {
             disableMarkdownByDefault = preferences.getBoolean("disableMarkdownByDefault", false);
             showRPCError = preferences.getBoolean("showRPCError", false);
             hideTimeOnSticker = preferences.getBoolean("hideTimeOnSticker", false);
+            showOriginal = preferences.getBoolean("showOriginal", true);
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             for (int a = 1; a <= 5; a++) {
@@ -377,6 +379,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("wsUseMTP", wsUseMTP);
+        editor.commit();
+    }
+
+    public static void toggleShowOriginal() {
+        showOriginal = !showOriginal;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showOriginal", showOriginal);
         editor.commit();
     }
 

@@ -104,13 +104,22 @@ abstract public class BaseTranslator {
                 } else if (query instanceof TLRPC.Poll) {
                     TLRPC.TL_poll poll = new TLRPC.TL_poll();
                     TLRPC.TL_poll original = (TLRPC.TL_poll) query;
-                    poll.question = original.question +
-                            "\n" +
-                            "--------" +
-                            "\n" + translate(original.question, from, to).translation;
+                    var question = translate(original.question, from, to);
+                    if (NekoConfig.showOriginal) {
+                        poll.question = original.question +
+                                "\n" +
+                                "--------" +
+                                "\n" + question.translation;
+                    } else {
+                        poll.question = (String) question.translation;
+                    }
                     for (int i = 0; i < original.answers.size(); i++) {
                         TLRPC.TL_pollAnswer answer = new TLRPC.TL_pollAnswer();
-                        answer.text = original.answers.get(i).text + " | " + translate(original.answers.get(i).text, from, to).translation;
+                        if (NekoConfig.showOriginal) {
+                            answer.text = original.answers.get(i).text + " | " + translate(original.answers.get(i).text, from, to).translation;
+                        } else {
+                            answer.text = (String) translate(original.answers.get(i).text, from, to).translation;
+                        }
                         answer.option = original.answers.get(i).option;
                         poll.answers.add(answer);
                     }
@@ -122,7 +131,7 @@ abstract public class BaseTranslator {
                     poll.multiple_choice = original.multiple_choice;
                     poll.public_voters = original.public_voters;
                     poll.quiz = original.quiz;
-                    return new Result(poll, null);
+                    return new Result(poll, question.sourceLanguage);
                 } else {
                     throw new UnsupportedOperationException("Unsupported translation query");
                 }

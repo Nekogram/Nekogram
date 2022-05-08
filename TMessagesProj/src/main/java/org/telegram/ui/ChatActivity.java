@@ -23173,11 +23173,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             @Override
             public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
                 if (translation instanceof String) {
-                    messageObject.messageOwner.message = original +
-                            "\n" +
-                            "--------" +
-                            "\n" +
-                            translation;
+                    messageObject.messageOwner.message = NekoConfig.showOriginal ?
+                            messageObject.messageOwner.message +
+                                    "\n" +
+                                    "--------" +
+                                    "\n" + translation :
+                            (String) translation;
                 } else if (translation instanceof TLRPC.TL_poll) {
                     ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
                 }
