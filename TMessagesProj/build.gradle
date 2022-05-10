@@ -57,6 +57,7 @@ android {
     compileSdkVersion 32
     buildToolsVersion '32.0.0'
     ndkVersion "21.4.7075529"
+    namespace 'org.telegram.messenger'
 
     sourceSets.main.jniLibs.srcDirs = ['./jni/']
 
