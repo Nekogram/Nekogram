@@ -21,7 +21,7 @@ public class DebugActivity extends Activity {
         contentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
         contentView.setOrientation(LinearLayout.VERTICAL);
 
-        var enableDebugItem = new TextCheckCell(this);
+        var enableDebugItem = new TextCheckCell(this, 23, true);
         enableDebugItem.setBackground(Theme.getSelectorDrawable(true));
         enableDebugItem.setTextAndCheck("Debugging features", NekoConfig.showHiddenFeature, true);
         enableDebugItem.setOnClickListener(view -> {
@@ -30,7 +30,7 @@ public class DebugActivity extends Activity {
         });
         contentView.addView(enableDebugItem, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
-        var trustItem = new TextCheckCell(this);
+        var trustItem = new TextCheckCell(this, 23, true);
         trustItem.setBackground(Theme.getSelectorDrawable(true));
         trustItem.setTextAndCheck("Trust", !NekoConfig.shouldNOTTrustMe, false);
         trustItem.setOnClickListener(view -> {

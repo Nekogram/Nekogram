@@ -280,8 +280,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         emojiRow = addRow("emoji");
         mapDriftingFixRow = addRow("mapDriftingFix");
         disableFilteringRow = sensitiveCanChange ? addRow("disableFiltering") : -1;
-        unlimitedFavedStickersRow = addRow("unlimitedFavedStickers");
-        unlimitedPinnedDialogsRow = addRow("unlimitedPinnedDialogs");
+        unlimitedFavedStickersRow = NekoConfig.showHiddenFeature ? addRow("unlimitedFavedStickers") : -1;
+        unlimitedPinnedDialogsRow = NekoConfig.showHiddenFeature ? addRow("unlimitedPinnedDialogs") : -1;
         showRPCErrorRow = addRow("showRPCError");
         experiment2Row = addRow();
         deleteAccountRow = addRow("deleteAccount");
