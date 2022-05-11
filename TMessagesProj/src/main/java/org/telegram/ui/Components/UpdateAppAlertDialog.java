@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
@@ -19,6 +20,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.core.graphics.ColorUtils;
 import androidx.core.widget.NestedScrollView;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -228,7 +230,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
         scrollView.setWillNotDraw(false);
         scrollView.setClipToPadding(false);
         scrollView.setVerticalScrollBarEnabled(false);
-        container.addView(scrollView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 130));
+        container.addView(scrollView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 127));
 
         linearLayout = new LinearLayout(context);
         linearLayout.setOrientation(LinearLayout.VERTICAL);
@@ -282,16 +284,22 @@ public class UpdateAppAlertDialog extends BottomSheet {
         linearLayout.addView(changelogTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 23, 15, 23, 0));
 
         FrameLayout.LayoutParams frameLayoutParams = new FrameLayout.LayoutParams(LayoutHelper.MATCH_PARENT, AndroidUtilities.getShadowHeight(), Gravity.BOTTOM | Gravity.LEFT);
-        frameLayoutParams.bottomMargin = AndroidUtilities.dp(130);
+        frameLayoutParams.bottomMargin = AndroidUtilities.dp(127);
         shadow = new View(context);
         shadow.setBackgroundColor(Theme.getColor(Theme.key_dialogShadowLine));
         shadow.setAlpha(0.0f);
         shadow.setTag(1);
         container.addView(shadow, frameLayoutParams);
 
-        BottomSheetCell doneButton = new BottomSheetCell(context, false);
-        doneButton.setText(LocaleController.formatString("AppUpdateDownloadNow", R.string.AppUpdateDownloadNow), false);
-        doneButton.background.setOnClickListener(v -> {
+        TextView doneButton = new TextView(context);
+        doneButton.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
+        doneButton.setGravity(Gravity.CENTER);
+        doneButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        doneButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        doneButton.setText(LocaleController.formatString("AppUpdateDownloadNow", R.string.AppUpdateDownloadNow));
+        doneButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
+        doneButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Theme.getColor(Theme.key_featuredStickers_addButton), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_windowBackgroundWhite), 120)));
+        doneButton.setOnClickListener(v -> {
             if (update.document instanceof TLRPC.TL_document) {
                 FileLoader.getInstance(accountNum).loadFile(appUpdate.document, "update", 1, 1);
             } else {
@@ -299,12 +307,16 @@ public class UpdateAppAlertDialog extends BottomSheet {
             }
             dismiss();
         });
-        container.addView(doneButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 50, Gravity.LEFT | Gravity.BOTTOM, 0, 0, 0, 50));
+        container.addView(doneButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.BOTTOM, 16, 15, 16, 48 + 8 + 8));
 
-        BottomSheetCell scheduleButton = new BottomSheetCell(context, true);
-        scheduleButton.setText(LocaleController.getString("AppUpdateRemindMeLater", R.string.AppUpdateRemindMeLater), false);
-        scheduleButton.background.setOnClickListener(v -> dismiss());
-        container.addView(scheduleButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 50, Gravity.LEFT | Gravity.BOTTOM, 0, 0, 0, 0));
+        TextView scheduleButton = new TextView(context);
+        scheduleButton.setGravity(Gravity.CENTER);
+        scheduleButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        scheduleButton.setText(LocaleController.getString("AppUpdateRemindMeLater", R.string.AppUpdateRemindMeLater));
+        scheduleButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton));
+        scheduleButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Color.TRANSPARENT, ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_featuredStickers_addButton), 120)));
+        scheduleButton.setOnClickListener(v -> dismiss());
+        container.addView(scheduleButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.BOTTOM, 16, 0, 16, 8));
     }
 
     private void runShadowAnimation(final int num, final boolean show) {
@@ -346,7 +358,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
         child.getLocationInWindow(location);
         int top = location[1] - AndroidUtilities.dp(24);
         int newOffset = Math.max(top, 0);
-        if (location[1] + linearLayout.getMeasuredHeight() <= container.getMeasuredHeight() - AndroidUtilities.dp(113) + containerView.getTranslationY()) {
+        if (location[1] + linearLayout.getMeasuredHeight() <= container.getMeasuredHeight() - AndroidUtilities.dp(110) + containerView.getTranslationY()) {
             runShadowAnimation(0, false);
         } else {
             runShadowAnimation(0, true);

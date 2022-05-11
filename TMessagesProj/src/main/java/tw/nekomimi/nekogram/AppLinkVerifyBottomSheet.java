@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.verify.domain.DomainVerificationManager;
 import android.content.pm.verify.domain.DomainVerificationUserState;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -144,6 +145,7 @@ public class AppLinkVerifyBottomSheet extends BottomSheet {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         textView.setText(LocaleController.getString("DontAskAgain", R.string.DontAskAgain));
         textView.setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton));
+        textView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Color.TRANSPARENT, ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_featuredStickers_addButton), 120)));
 
         linearLayout.addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, 0, 16, 0, 16, 0));
 
