@@ -25,6 +25,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.BulletinFactory;
@@ -32,10 +33,11 @@ import org.telegram.ui.Components.BulletinFactory;
 import java.util.Arrays;
 import java.util.List;
 
-import tw.nekomimi.nekogram.NekoConfig;
-
 public class NekoDonateActivity extends BaseNekoSettingsActivity implements PurchasesUpdatedListener {
     private static final List<String> SKUS = Arrays.asList("donate001", "donate002", "donate005", "donate010", "donate020", "donate050", "donate100");
+
+    private int buyMeACoffeeRow;
+    private int buyMeACoffee2Row;
 
     private int donateRow;
     private int donate2Row;
@@ -45,11 +47,6 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
 
     @Override
     public boolean onFragmentCreate() {
-        if (!NekoConfig.isDirectApp()) {
-            Browser.openUrl(ApplicationLoader.applicationContext, "https://www.buymeacoffee.com/nekogram");
-            return false;
-        }
-
         super.onFragmentCreate();
 
         billingClient = BillingClient.newBuilder(ApplicationLoader.applicationContext)
@@ -100,7 +97,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                                 AndroidUtilities.runOnUIThread(() -> {
                                     if (listAdapter != null) {
                                         skuDetails = list;
-                                        listAdapter.notifyItemRangeChanged(donateRow, 7);
+                                        listAdapter.notifyItemRangeChanged(donateRow + 1, 7);
                                     }
                                 });
                             }
@@ -119,13 +116,15 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
-        if (position >= donateRow && position < donate2Row) {
-            if (skuDetails != null && skuDetails.size() > position - donateRow) {
+        if (position > donateRow && position < donate2Row) {
+            if (skuDetails != null && skuDetails.size() > position - donateRow - 1) {
                 BillingFlowParams flowParams = BillingFlowParams.newBuilder()
-                        .setSkuDetails(skuDetails.get(position - donateRow))
+                        .setSkuDetails(skuDetails.get(position - donateRow - 1))
                         .build();
                 billingClient.launchBillingFlow(getParentActivity(), flowParams);
             }
+        } else if (position == buyMeACoffeeRow) {
+            Browser.openUrl(ApplicationLoader.applicationContext, "https://www.buymeacoffee.com/nekogram");
         }
     }
 
@@ -150,9 +149,11 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
     protected void updateRows() {
         rowCount = 0;
 
-        donateRow = rowCount++;
-        rowCount += 6;
+        buyMeACoffeeRow = rowCount++;
+        buyMeACoffee2Row = rowCount++;
 
+        donateRow = rowCount++;
+        rowCount += 7;
         donate2Row = rowCount++;
     }
 
@@ -189,10 +190,10 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
             switch (holder.getItemViewType()) {
                 case 2: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
-                    if (position >= donateRow && position < donate2Row) {
+                    if (position > donateRow && position < donate2Row) {
                         if (skuDetails != null) {
-                            if (skuDetails.size() > position - donateRow) {
-                                textCell.setText(skuDetails.get(position - donateRow).getPrice(), position + 1 != donate2Row);
+                            if (skuDetails.size() > position - donateRow - 1) {
+                                textCell.setText(skuDetails.get(position - donateRow - 1).getPrice(), position + 1 != donate2Row);
                             }
                         } else {
                             textCell.setText(LocaleController.getString("Loading", R.string.Loading), position + 1 != donate2Row);
@@ -200,9 +201,16 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                     }
                     break;
                 }
+                case 4: {
+                    HeaderCell headerCell = (HeaderCell) holder.itemView;
+                    if (position == donateRow) {
+                        headerCell.setText(LocaleController.getString("GooglePlay", R.string.GooglePlay));
+                    }
+                    break;
+                }
                 case 7: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                    holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                    cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     if (position == donate2Row) {
                         cell.setText(LocaleController.getString("DonateEvilGoogle", R.string.DonateEvilGoogle));
                     }
@@ -214,13 +222,23 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int type = holder.getItemViewType();
-            return skuDetails != null && type == 2;
+            if (type == 2) {
+                return skuDetails != null;
+            } else {
+                return super.isEnabled(holder);
+            }
         }
 
         @Override
         public int getItemViewType(int position) {
-            if (position == donate2Row) {
+            if (position == buyMeACoffee2Row) {
+                return 1;
+            } else if (position == donateRow) {
+                return 4;
+            } else if (position == donate2Row) {
                 return 7;
+            } else if (position == buyMeACoffeeRow) {
+                return 12;
             }
             return 2;
         }
