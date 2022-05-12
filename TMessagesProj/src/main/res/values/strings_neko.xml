@@ -237,6 +237,8 @@
     <string name="PasscodeRemoveConfirmMessage">Are you sure you want to remove passcode for this account?</string>
     <string name="PasscodePanicCodeAbout">Use the panic code to log out accounts if something goes wrong.</string>
     <string name="HideTimeOnSticker">Hide time on stickers</string>
+    <string name="DatacenterStatusAbout">Check the status of Telegram\'s **datacenters**.</string>
+    <string name="DatacenterStatus">Datacenter status</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

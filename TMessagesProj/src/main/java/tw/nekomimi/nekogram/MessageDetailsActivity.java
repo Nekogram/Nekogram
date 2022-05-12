@@ -34,6 +34,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.helpers.EntitiesHelper;
+import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
 
 @SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
@@ -175,7 +176,15 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
-        if (position != endRow) {
+        if (position == dcRow) {
+            int dc = 0;
+            if (messageObject.messageOwner.media.photo != null && messageObject.messageOwner.media.photo.dc_id > 0) {
+                dc = messageObject.messageOwner.media.photo.dc_id;
+            } else if (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0) {
+                dc = messageObject.messageOwner.media.document.dc_id;
+            }
+            presentFragment(new DatacenterActivity(dc));
+        } else if (position != endRow) {
             if (!noforwards || !(position == messageRow || position == captionRow || position == filePathRow)) {
                 TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
                 AndroidUtilities.addToClipboard(EntitiesHelper.commonizeSpans(textCell.getValueTextView().getText()));
@@ -438,7 +447,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         } else if (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0) {
                             dc = messageObject.messageOwner.media.document.dc_id;
                         }
-                        textCell.setTextAndValue("DC", String.format(Locale.US, "%d, %s", dc, getMessageHelper().getDCLocation(dc)), divider);
+                        textCell.setTextAndValue("DC", String.format(Locale.US, "DC%d %s, %s", dc, MessageHelper.getDCName(dc), MessageHelper.getDCLocation(dc)), divider);
                     } else if (position == restrictionReasonRow) {
                         ArrayList<TLRPC.TL_restrictionReason> reasons = messageObject.messageOwner.restriction_reason;
                         StringBuilder value = new StringBuilder();

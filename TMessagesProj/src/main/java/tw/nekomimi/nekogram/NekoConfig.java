@@ -145,6 +145,8 @@ public class NekoConfig {
     public static boolean wsUseMTP = false;
     public static boolean wsUseDoH = true;
 
+    public static final ArrayList<DatacenterInfo> datacenterInfos = new ArrayList<>(5);
+
     public static boolean verifyLinkTip = false;
 
     public static boolean residentNotification = false;
@@ -322,6 +324,10 @@ public class NekoConfig {
             showRPCError = preferences.getBoolean("showRPCError", false);
             hideTimeOnSticker = preferences.getBoolean("hideTimeOnSticker", false);
             preferences.registerOnSharedPreferenceChangeListener(listener);
+
+            for (int a = 1; a <= 5; a++) {
+                datacenterInfos.add(new DatacenterInfo(a));
+            }
 
             var map = new HashMap<String, String>();
             map.put("buildType", BuildConfig.BUILD_TYPE);
@@ -1014,5 +1020,20 @@ public class NekoConfig {
         //noinspection ResultOfMethodCallIgnored
         telegramPath.mkdirs();
         return telegramPath;
+    }
+
+    public static class DatacenterInfo {
+
+        public int id;
+
+        public long pingId;
+        public long ping;
+        public boolean checking;
+        public boolean available;
+        public long availableCheckTime;
+
+        public DatacenterInfo(int i) {
+            id = i;
+        }
     }
 }

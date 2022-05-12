@@ -195,6 +195,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
+import tw.nekomimi.nekogram.DatacenterActivity;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
@@ -211,7 +212,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private SimpleTextView[] nameTextView = new SimpleTextView[2];
     private SimpleTextView[] onlineTextView = new SimpleTextView[2];
     private SimpleTextView idTextView;
-    private HintView idHintView;
     private AudioPlayerAlert.ClippingTextViewSwitcher mediaCounterTextView;
     private RLottieImageView writeButton;
     private AnimatorSet writeButtonAnimation;
@@ -6406,9 +6406,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(photoBig), false);
 
             id = userId;
-            if (user.photo != null && user.photo.dc_id != 0) {
-                idTextView.setText("ID: " + id + ", DC: " + user.photo.dc_id);
-                idTextView.setOnClickListener(v -> showIdHint(user.photo.dc_id));
+            int dc = user.photo != null && user.photo.dc_id != 0 ? user.photo.dc_id : UserObject.isUserSelf(user) ? getConnectionsManager().getCurrentDatacenterId() : 0;
+            if (dc != 0) {
+                idTextView.setText("ID: " + id + ", DC: " + dc);
+                idTextView.setOnClickListener(v -> presentFragment(new DatacenterActivity(dc)));
             } else {
                 idTextView.setText("ID: " + id);
             }
@@ -9103,21 +9104,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 outContent.setWebUri(Uri.parse(String.format("https://" + getMessagesController().linkPrefix + "/%s", username)));
             }
         }
-    }
-
-    private void showIdHint(int dc) {
-        if (getParentActivity() == null || avatarContainer2 == null || idHintView != null && idHintView.getVisibility() == View.VISIBLE) {
-            return;
-        }
-
-        if (idHintView == null) {
-            idHintView = new HintView(getParentActivity(), 100 + dc);
-            idHintView.setVisibility(View.GONE);
-            avatarContainer2.addView(idHintView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 10, 0, 10, 0));
-        }
-
-        idHintView.setText(getMessageHelper().getDCLocation(dc));
-        idHintView.showForView(idTextView, true);
     }
 
     public boolean isLightStatusBar() {

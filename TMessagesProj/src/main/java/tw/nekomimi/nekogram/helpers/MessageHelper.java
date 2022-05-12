@@ -629,7 +629,7 @@ public class MessageHelper extends BaseController {
         return acc;
     }
 
-    public String getDCLocation(int dc) {
+    public static String getDCLocation(int dc) {
         switch (dc) {
             case 1:
             case 3:
@@ -639,6 +639,23 @@ public class MessageHelper extends BaseController {
                 return "Amsterdam";
             case 5:
                 return "Singapore";
+            default:
+                return "Unknown";
+        }
+    }
+
+    public static String getDCName(int dc) {
+        switch (dc) {
+            case 1:
+                return "Pluto";
+            case 2:
+                return "Venus";
+            case 3:
+                return "Aurora";
+            case 4:
+                return "Vesta";
+            case 5:
+                return "Flora";
             default:
                 return "Unknown";
         }

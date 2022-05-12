@@ -360,9 +360,6 @@ public class HintView extends FrameLayout {
             } else {
                 centerX = position[0];
             }
-        } else if (currentType > 100) {
-            SimpleTextView textView = (SimpleTextView) view;
-            centerX = position[0] + textView.getTextWidth() - (int) (textView.getPaint().measureText(String.valueOf(currentType - 100)) / 2);
         } else if (currentType == TYPE_SEARCH_AS_LIST) {
             centerX = position[0];
         } else {
