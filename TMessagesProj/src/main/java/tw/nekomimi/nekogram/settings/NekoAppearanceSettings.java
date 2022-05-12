@@ -1,5 +1,6 @@
 package tw.nekomimi.nekogram.settings;
 
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Build;
 import android.transition.TransitionManager;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.LocaleController;
@@ -29,6 +31,7 @@ import tw.nekomimi.nekogram.helpers.PopupHelper;
 public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
 
     private DrawerProfilePreviewCell profilePreviewCell;
+    private ValueAnimator statusBarColorAnimator;
 
     private int drawerRow;
     private int avatarAsDrawerBackgroundRow;
@@ -84,6 +87,14 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(SharedConfig.noStatusBar);
             }
+            int alpha = isLightStatusBar() ? 0x0f : 0x33;
+            if (statusBarColorAnimator != null && statusBarColorAnimator.isRunning()) {
+                statusBarColorAnimator.end();
+            }
+            statusBarColorAnimator = SharedConfig.noStatusBar ? ValueAnimator.ofInt(alpha, 0) : ValueAnimator.ofInt(0, alpha);
+            statusBarColorAnimator.setDuration(300);
+            statusBarColorAnimator.addUpdateListener(animation -> getParentActivity().getWindow().setStatusBarColor(ColorUtils.setAlphaComponent(0, (int) animation.getAnimatedValue())));
+            statusBarColorAnimator.start();
         } else if (position == useSystemEmojiRow) {
             NekoConfig.toggleUseSystemEmoji();
             if (view instanceof TextCheckCell) {

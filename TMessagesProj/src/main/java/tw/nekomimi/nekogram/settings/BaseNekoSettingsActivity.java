@@ -222,11 +222,6 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     }
 
     @Override
-    public boolean hasForceLightStatusBar() {
-        return hasWhiteActionBar();
-    }
-
-    @Override
     public boolean isLightStatusBar() {
         if (!hasWhiteActionBar()) return super.isLightStatusBar();
         int color = Theme.getColor(Theme.key_windowBackgroundWhite, null, true);
