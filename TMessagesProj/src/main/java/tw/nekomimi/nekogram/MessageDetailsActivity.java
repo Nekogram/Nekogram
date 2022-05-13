@@ -46,10 +46,11 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     private TLRPC.Chat toChat;
     private TLRPC.User fromUser;
     private TLRPC.Chat fromChat;
-    private TLRPC.Chat forwardFromChat;
-    private TLRPC.User forwardFromUser;
+    private TLRPC.Peer forwardFromPeer;
     private String filePath;
     private String fileName;
+    private int dc;
+    private long stickerSetOwner;
     private Runnable unregisterFlagSecure;
 
     private int idRow;
@@ -65,6 +66,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     private int fileNameRow;
     private int filePathRow;
     private int fileSizeRow;
+    private int stickerSetRow;
     private int dcRow;
     private int restrictionReasonRow;
     private int forwardsRow;
@@ -78,26 +80,23 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         this.messageObject = messageObject;
 
         if (messageObject.messageOwner.peer_id != null) {
-            if (messageObject.messageOwner.peer_id.channel_id != 0) {
-                toChat = getMessagesController().getChat(messageObject.messageOwner.peer_id.channel_id);
-            } else if (messageObject.messageOwner.peer_id.chat_id != 0) {
-                toChat = getMessagesController().getChat(messageObject.messageOwner.peer_id.chat_id);
-            }
-        }
-        if (messageObject.messageOwner.fwd_from != null && messageObject.messageOwner.fwd_from.from_id != null) {
-            if (messageObject.messageOwner.fwd_from.from_id.channel_id != 0) {
-                forwardFromChat = getMessagesController().getChat(messageObject.messageOwner.fwd_from.from_id.channel_id);
-            } else if (messageObject.messageOwner.fwd_from.from_id.chat_id != 0) {
-                forwardFromChat = getMessagesController().getChat(messageObject.messageOwner.fwd_from.from_id.chat_id);
-            } else if (messageObject.messageOwner.fwd_from.from_id.user_id != 0) {
-                forwardFromUser = getMessagesController().getUser(messageObject.messageOwner.fwd_from.from_id.user_id);
+            var peer = messageObject.messageOwner.peer_id;
+            if (peer.channel_id != 0 || peer.chat_id != 0) {
+                toChat = getMessagesController().getChat(peer.channel_id != 0 ? peer.channel_id : peer.chat_id);
             }
         }
 
-        if (messageObject.messageOwner.from_id.user_id != 0) {
-            fromUser = getMessagesController().getUser(messageObject.messageOwner.from_id.user_id);
-        } else if (messageObject.messageOwner.from_id.channel_id != 0) {
-            fromChat = getMessagesController().getChat(messageObject.messageOwner.from_id.channel_id);
+        if (messageObject.messageOwner.fwd_from != null && messageObject.messageOwner.fwd_from.from_id != null) {
+            forwardFromPeer = messageObject.messageOwner.fwd_from.from_id;
+        }
+
+        if (messageObject.messageOwner.from_id != null) {
+            var peer = messageObject.messageOwner.from_id;
+            if (peer.channel_id != 0 || peer.chat_id != 0) {
+                fromChat = getMessagesController().getChat(peer.channel_id != 0 ? peer.channel_id : peer.chat_id);
+            } else if (peer.user_id != 0) {
+                fromUser = getMessagesController().getUser(peer.user_id);
+            }
         }
 
         filePath = messageObject.messageOwner.attachPath;
@@ -123,14 +122,25 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         }
 
         if (messageObject.messageOwner.media != null && messageObject.messageOwner.media.document != null) {
-            if (TextUtils.isEmpty(messageObject.messageOwner.media.document.file_name)) {
-                for (int a = 0; a < messageObject.messageOwner.media.document.attributes.size(); a++) {
-                    if (messageObject.messageOwner.media.document.attributes.get(a) instanceof TLRPC.TL_documentAttributeFilename) {
-                        fileName = messageObject.messageOwner.media.document.attributes.get(a).file_name;
-                    }
+            for (var attribute : messageObject.messageOwner.media.document.attributes) {
+                if (attribute instanceof TLRPC.TL_documentAttributeFilename) {
+                    fileName = attribute.file_name;
                 }
-            } else {
-                fileName = messageObject.messageOwner.media.document.file_name;
+                if (NekoConfig.showHiddenFeature && attribute instanceof TLRPC.TL_documentAttributeSticker) {
+                    stickerSetOwner = Extra.getOwnerFromStickerSetId(attribute.stickerset.id);
+                }
+            }
+        }
+
+        if (messageObject.messageOwner.media != null) {
+            if (messageObject.messageOwner.media.photo != null && messageObject.messageOwner.media.photo.dc_id > 0) {
+                dc = messageObject.messageOwner.media.photo.dc_id;
+            } else if (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0) {
+                dc = messageObject.messageOwner.media.document.dc_id;
+            } else if (messageObject.messageOwner.media.webpage != null && messageObject.messageOwner.media.webpage.photo != null && messageObject.messageOwner.media.webpage.photo.dc_id > 0) {
+                dc = messageObject.messageOwner.media.webpage.photo.dc_id;
+            } else if (messageObject.messageOwner.media.webpage != null && messageObject.messageOwner.media.webpage.document != null && messageObject.messageOwner.media.webpage.document.dc_id > 0) {
+                dc = messageObject.messageOwner.media.webpage.document.dc_id;
             }
         }
 
@@ -216,26 +226,22 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 presentFragment(fragment);
             }
         } else if (position == fromRow) {
-            if (fromUser != null) {
-                Bundle args = new Bundle();
-                args.putLong("user_id", fromUser.id);
-                ProfileActivity fragment = new ProfileActivity(args);
-                presentFragment(fragment);
-            } else if (fromChat != null) {
-                Bundle args = new Bundle();
+            Bundle args = new Bundle();
+            if (fromChat != null) {
                 args.putLong("chat_id", fromChat.id);
-                ProfileActivity fragment = new ProfileActivity(args);
-                presentFragment(fragment);
+            } else if (fromUser != null) {
+                args.putLong("user_id", fromUser.id);
             }
+            ProfileActivity fragment = new ProfileActivity(args);
+            presentFragment(fragment);
         } else if (position == forwardRow) {
-            if (forwardFromUser != null) {
+            if (forwardFromPeer != null) {
                 Bundle args = new Bundle();
-                args.putLong("user_id", forwardFromUser.id);
-                ProfileActivity fragment = new ProfileActivity(args);
-                presentFragment(fragment);
-            } else if (forwardFromChat != null) {
-                Bundle args = new Bundle();
-                args.putLong("chat_id", forwardFromChat.id);
+                if (forwardFromPeer.channel_id != 0 || forwardFromPeer.chat_id != 0) {
+                    args.putLong("chat_id", forwardFromPeer.channel_id != 0 ? forwardFromPeer.channel_id : forwardFromPeer.chat_id);
+                } else if (forwardFromPeer.user_id != 0) {
+                    args.putLong("user_id", forwardFromPeer.user_id);
+                }
                 ProfileActivity fragment = new ProfileActivity(args);
                 presentFragment(fragment);
             }
@@ -263,6 +269,15 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             }
 
             showDialog(dialog);
+        } else if (position == stickerSetRow) {
+            if (stickerSetOwner != 0) {
+                Bundle args = new Bundle();
+                args.putLong("user_id", stickerSetOwner);
+                ProfileActivity fragment = new ProfileActivity(args);
+                presentFragment(fragment);
+            } else {
+                return false;
+            }
         } else {
             return false;
         }
@@ -295,14 +310,8 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         fileNameRow = TextUtils.isEmpty(fileName) ? -1 : rowCount++;
         filePathRow = TextUtils.isEmpty(filePath) ? -1 : rowCount++;
         fileSizeRow = messageObject.getSize() != 0 ? rowCount++ : -1;
-        if (messageObject.messageOwner.media != null && (
-                (messageObject.messageOwner.media.photo != null && messageObject.messageOwner.media.photo.dc_id > 0) ||
-                        (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0)
-        )) {
-            dcRow = rowCount++;
-        } else {
-            dcRow = -1;
-        }
+        stickerSetRow = stickerSetOwner == 0 ? -1 : rowCount++;
+        dcRow = dc != 0 ? rowCount++ : -1;
         restrictionReasonRow = messageObject.messageOwner.restriction_reason.isEmpty() ? -1 : rowCount++;
         forwardsRow = messageObject.messageOwner.forwards > 0 ? rowCount++ : -1;
         sponsoredRow = messageObject.isSponsored() ? rowCount++ : -1;
@@ -398,9 +407,9 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         textCell.setTextAndValue("Edited", LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(date))), divider);
                     } else if (position == forwardRow) {
                         StringBuilder builder = new StringBuilder();
-                        if (messageObject.messageOwner.fwd_from.from_id != null) {
-                            if (messageObject.messageOwner.fwd_from.from_id.channel_id != 0) {
-                                TLRPC.Chat chat = getMessagesController().getChat(messageObject.messageOwner.fwd_from.from_id.channel_id);
+                        if (forwardFromPeer != null) {
+                            if (forwardFromPeer.channel_id != 0 || forwardFromPeer.chat_id != 0) {
+                                TLRPC.Chat chat = getMessagesController().getChat(forwardFromPeer.channel_id != 0 ? forwardFromPeer.channel_id : forwardFromPeer.chat_id);
                                 builder.append(chat.title);
                                 builder.append("\n");
                                 if (!TextUtils.isEmpty(chat.username)) {
@@ -409,8 +418,8 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                                     builder.append("\n");
                                 }
                                 builder.append(chat.id);
-                            } else if (messageObject.messageOwner.fwd_from.from_id.user_id != 0) {
-                                TLRPC.User user = getMessagesController().getUser(messageObject.messageOwner.fwd_from.from_id.user_id);
+                            } else if (forwardFromPeer.user_id != 0) {
+                                TLRPC.User user = getMessagesController().getUser(forwardFromPeer.user_id);
                                 builder.append(ContactsController.formatName(user.first_name, user.last_name));
                                 builder.append("\n");
                                 if (!TextUtils.isEmpty(user.username)) {
@@ -419,16 +428,6 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                                     builder.append("\n");
                                 }
                                 builder.append(user.id);
-                            } else if (messageObject.messageOwner.fwd_from.from_id.chat_id != 0) {
-                                TLRPC.Chat chat = getMessagesController().getChat(messageObject.messageOwner.fwd_from.from_id.chat_id);
-                                builder.append(chat.title);
-                                builder.append("\n");
-                                if (!TextUtils.isEmpty(chat.username)) {
-                                    builder.append("@");
-                                    builder.append(chat.username);
-                                    builder.append("\n");
-                                }
-                                builder.append(chat.id);
                             }
                         } else if (!TextUtils.isEmpty(messageObject.messageOwner.fwd_from.from_name)) {
                             builder.append(messageObject.messageOwner.fwd_from.from_name);
@@ -441,12 +440,6 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     } else if (position == fileSizeRow) {
                         textCell.setTextAndValue("File size", AndroidUtilities.formatFileSize(messageObject.getSize()), divider);
                     } else if (position == dcRow) {
-                        int dc = 0;
-                        if (messageObject.messageOwner.media.photo != null && messageObject.messageOwner.media.photo.dc_id > 0) {
-                            dc = messageObject.messageOwner.media.photo.dc_id;
-                        } else if (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0) {
-                            dc = messageObject.messageOwner.media.document.dc_id;
-                        }
                         textCell.setTextAndValue("DC", String.format(Locale.US, "DC%d %s, %s", dc, MessageHelper.getDCName(dc), MessageHelper.getDCLocation(dc)), divider);
                     } else if (position == restrictionReasonRow) {
                         ArrayList<TLRPC.TL_restrictionReason> reasons = messageObject.messageOwner.restriction_reason;
@@ -474,6 +467,20 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                                 e -> textCell.setTextAndValue("Language", e.getLocalizedMessage(), divider));
                     } else if (position == linkOrEmojiOnlyRow) {
                         textCell.setTextAndValue("Link or emoji only", "Yes", divider);
+                    } else if (position == stickerSetRow) {
+                        StringBuilder value = new StringBuilder();
+                        TLRPC.User user = getMessagesController().getUser(stickerSetOwner);
+                        if (user != null) {
+                            value.append(ContactsController.formatName(user.first_name, user.last_name));
+                            value.append("\n");
+                            if (!TextUtils.isEmpty(user.username)) {
+                                value.append("@");
+                                value.append(user.username);
+                                value.append("\n");
+                            }
+                        }
+                        value.append(stickerSetOwner);
+                        textCell.setTextAndValue("Sticker Pack creator", value.toString(), divider);
                     }
                     break;
                 }

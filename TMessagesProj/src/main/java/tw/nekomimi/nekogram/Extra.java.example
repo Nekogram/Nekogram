@@ -44,4 +44,8 @@ public class Extra {
     public static String signMicrosoft(String url) {
         throw new RuntimeException("Not implemented");
     }
+
+    public static long getOwnerFromStickerSetId(long id) {
+        throw new RuntimeException("Apparently not possible");
+    }
 }
