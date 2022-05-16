@@ -169,6 +169,7 @@ import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.ForwardContext;
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
+import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.MonetHelper;
 import tw.nekomimi.nekogram.helpers.SettingsHelper;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
@@ -2346,14 +2347,16 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 Bundle args = new Bundle();
                 args.putLong("user_id", profile_user_id);
                 ProfileActivity fragment = new ProfileActivity(args);
-                AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
-                if (AndroidUtilities.isTablet()) {
-                    actionBarLayout.showLastFragment();
-                    rightActionBarLayout.showLastFragment();
-                    drawerLayoutContainer.setAllowOpenDrawer(false, false);
-                } else {
-                    drawerLayoutContainer.setAllowOpenDrawer(true, false);
-                }
+                MessageHelper.getInstance(currentAccount).openById(profile_user_id, actionBarLayout.fragmentsStack.get(0), () -> {
+                    AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
+                    if (AndroidUtilities.isTablet()) {
+                        actionBarLayout.showLastFragment();
+                        rightActionBarLayout.showLastFragment();
+                        drawerLayoutContainer.setAllowOpenDrawer(false, false);
+                    } else {
+                        drawerLayoutContainer.setAllowOpenDrawer(true, false);
+                    }
+                });
             } else if (showDialogsList) {
                 if (!AndroidUtilities.isTablet()) {
                     actionBarLayout.removeAllFragments();

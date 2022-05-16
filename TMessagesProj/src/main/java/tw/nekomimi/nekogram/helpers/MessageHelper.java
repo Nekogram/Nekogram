@@ -44,11 +44,13 @@ import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
+import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -78,6 +80,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import tw.nekomimi.nekogram.Extra;
+
 public class MessageHelper extends BaseController {
 
     private static final MessageHelper[] Instance = new MessageHelper[UserConfig.MAX_ACCOUNT_COUNT];
@@ -87,6 +91,151 @@ public class MessageHelper extends BaseController {
 
     public MessageHelper(int num) {
         super(num);
+    }
+
+    public interface UserCallback {
+        void onResult(TLRPC.User user);
+    }
+
+    public void openById(Long userId, BaseFragment fragment, Runnable runnable) {
+        if (userId == 0 || fragment == null) {
+            return;
+        }
+        TLRPC.User user = getMessagesController().getUser(userId);
+        if (user != null) {
+            runnable.run();
+        } else {
+            if (fragment.getParentActivity() == null) {
+                return;
+            }
+            AlertDialog[] progressDialog = new AlertDialog[]{new AlertDialog(fragment.getParentActivity(), 3)};
+
+            searchUser(userId, user1 -> {
+                try {
+                    progressDialog[0].dismiss();
+                } catch (Exception ignored) {
+
+                }
+                progressDialog[0] = null;
+                fragment.setVisibleDialog(null);
+                if (user1 != null && user1.access_hash != 0) {
+                    runnable.run();
+                }
+            });
+            AndroidUtilities.runOnUIThread(() -> {
+                if (progressDialog[0] == null) {
+                    return;
+                }
+                fragment.showDialog(progressDialog[0]);
+            }, 500);
+        }
+    }
+
+    public void searchUser(long userId, UserCallback callback) {
+        var user = getMessagesController().getUser(userId);
+        if (user != null) {
+            callback.onResult(user);
+            return;
+        }
+        searchUser(userId, true, true, callback);
+    }
+
+    private void resolveUser(String userName, long userId, UserCallback callback) {
+        TLRPC.TL_contacts_resolveUsername req = new TLRPC.TL_contacts_resolveUsername();
+        req.username = userName;
+        getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+            if (response != null) {
+                TLRPC.TL_contacts_resolvedPeer res = (TLRPC.TL_contacts_resolvedPeer) response;
+                getMessagesController().putUsers(res.users, false);
+                getMessagesController().putChats(res.chats, false);
+                getMessagesStorage().putUsersAndChats(res.users, res.chats, true, true);
+                callback.onResult(res.peer.user_id == userId ? getMessagesController().getUser(userId) : null);
+            } else {
+                callback.onResult(null);
+            }
+        }));
+    }
+
+    protected void searchUser(long userId, boolean searchUser, boolean cache, UserCallback callback) {
+        var bot = getMessagesController().getUser(Extra.USER_INFO_BOT_ID);
+        if (bot == null) {
+            if (searchUser) {
+                resolveUser(Extra.USER_INFO_BOT, Extra.USER_INFO_BOT_ID, user -> searchUser(userId, false, false, callback));
+            } else {
+                callback.onResult(null);
+            }
+            return;
+        }
+
+        var key = "user_search_" + userId;
+        RequestDelegate requestDelegate = (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+            if (cache && (!(response instanceof TLRPC.messages_BotResults) || ((TLRPC.messages_BotResults) response).results.isEmpty())) {
+                searchUser(userId, searchUser, false, callback);
+                return;
+            }
+
+            if (response instanceof TLRPC.messages_BotResults) {
+                TLRPC.messages_BotResults res = (TLRPC.messages_BotResults) response;
+                if (!cache && res.cache_time != 0) {
+                    getMessagesStorage().saveBotCache(key, res);
+                }
+                if (res.results.isEmpty()) {
+                    callback.onResult(null);
+                    return;
+                }
+                var result = res.results.get(0);
+                if (result.send_message == null || TextUtils.isEmpty(result.send_message.message)) {
+                    callback.onResult(null);
+                    return;
+                }
+                var lines = result.send_message.message.split("\n");
+                if (lines.length < 3) {
+                    callback.onResult(null);
+                    return;
+                }
+                var fakeUser = new TLRPC.TL_user();
+                for (var line : lines) {
+                    if (line.startsWith("\uD83D\uDC64")) {
+                        fakeUser.id = Utilities.parseLong(line.replace("\uD83D\uDC64", ""));
+                    } else if (line.startsWith("\uD83D\uDC66\uD83C\uDFFB")) {
+                        fakeUser.first_name = line.replace("\uD83D\uDC66\uD83C\uDFFB", "").trim();
+                    } else if (line.startsWith("\uD83D\uDC6A")) {
+                        fakeUser.last_name = line.replace("\uD83D\uDC6A", "").trim();
+                    } else if (line.startsWith("\uD83C\uDF10")) {
+                        fakeUser.username = line.replace("\uD83C\uDF10", "").replace("@", "").trim();
+                    }
+                }
+                if (fakeUser.id == 0) {
+                    callback.onResult(null);
+                    return;
+                }
+                if (fakeUser.username != null) {
+                    resolveUser(fakeUser.username, fakeUser.id, user -> {
+                        if (user != null) {
+                            callback.onResult(user);
+                        } else {
+                            fakeUser.username = null;
+                            callback.onResult(fakeUser);
+                        }
+                    });
+                } else {
+                    callback.onResult(fakeUser);
+                }
+            } else {
+                callback.onResult(null);
+            }
+        });
+
+        if (cache) {
+            getMessagesStorage().getBotCache(key, requestDelegate);
+        } else {
+            TLRPC.TL_messages_getInlineBotResults req = new TLRPC.TL_messages_getInlineBotResults();
+            req.query = String.valueOf(userId);
+            req.bot = getMessagesController().getInputUser(bot);
+            req.offset = "";
+            req.peer = new TLRPC.TL_inputPeerEmpty();
+            getConnectionsManager().sendRequest(req, requestDelegate, ConnectionsManager.RequestFlagFailOnServerErrors);
+        }
     }
 
     public static CharSequence createTranslateString(MessageObject messageObject) {

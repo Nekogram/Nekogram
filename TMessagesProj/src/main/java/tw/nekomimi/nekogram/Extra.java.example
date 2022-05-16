@@ -29,6 +29,9 @@ public class Extra {
     public static final int SOGOU_APP_ID = 0;
     public static final String SOGOU_APP_KEY = "";
 
+    public static final String USER_INFO_BOT = "";
+    public static final long USER_INFO_BOT_ID = 0;
+
     public static String signSogou(String query, long time) {
         throw new RuntimeException("Not implemented");
     }

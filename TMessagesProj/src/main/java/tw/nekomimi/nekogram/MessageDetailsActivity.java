@@ -20,6 +20,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
@@ -364,35 +365,14 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         textCell.setTextAndValue("Caption", messageObject.caption, divider);
                     } else if (position == channelRow || position == groupRow) {
                         StringBuilder builder = new StringBuilder();
-                        builder.append(toChat.title);
-                        builder.append("\n");
-                        if (!TextUtils.isEmpty(toChat.username)) {
-                            builder.append("@");
-                            builder.append(toChat.username);
-                            builder.append("\n");
-                        }
-                        builder.append(toChat.id);
+                        appendUserOrChat(toChat, builder);
                         textCell.setTextAndValue(position == channelRow ? "Channel" : "Group", builder.toString(), divider);
                     } else if (position == fromRow) {
                         StringBuilder builder = new StringBuilder();
                         if (fromUser != null) {
-                            builder.append(ContactsController.formatName(fromUser.first_name, fromUser.last_name));
-                            builder.append("\n");
-                            if (!TextUtils.isEmpty(fromUser.username)) {
-                                builder.append("@");
-                                builder.append(fromUser.username);
-                                builder.append("\n");
-                            }
-                            builder.append(fromUser.id);
+                            appendUserOrChat(fromUser, builder);
                         } else if (fromChat != null) {
-                            builder.append(fromChat.title);
-                            builder.append("\n");
-                            if (!TextUtils.isEmpty(fromChat.username)) {
-                                builder.append("@");
-                                builder.append(fromChat.username);
-                                builder.append("\n");
-                            }
-                            builder.append(fromChat.id);
+                            appendUserOrChat(fromChat, builder);
                         } else if (!TextUtils.isEmpty(messageObject.messageOwner.post_author)) {
                             builder.append(messageObject.messageOwner.post_author);
                         }
@@ -410,24 +390,10 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         if (forwardFromPeer != null) {
                             if (forwardFromPeer.channel_id != 0 || forwardFromPeer.chat_id != 0) {
                                 TLRPC.Chat chat = getMessagesController().getChat(forwardFromPeer.channel_id != 0 ? forwardFromPeer.channel_id : forwardFromPeer.chat_id);
-                                builder.append(chat.title);
-                                builder.append("\n");
-                                if (!TextUtils.isEmpty(chat.username)) {
-                                    builder.append("@");
-                                    builder.append(chat.username);
-                                    builder.append("\n");
-                                }
-                                builder.append(chat.id);
+                                appendUserOrChat(chat, builder);
                             } else if (forwardFromPeer.user_id != 0) {
                                 TLRPC.User user = getMessagesController().getUser(forwardFromPeer.user_id);
-                                builder.append(ContactsController.formatName(user.first_name, user.last_name));
-                                builder.append("\n");
-                                if (!TextUtils.isEmpty(user.username)) {
-                                    builder.append("@");
-                                    builder.append(user.username);
-                                    builder.append("\n");
-                                }
-                                builder.append(user.id);
+                                appendUserOrChat(user, builder);
                             }
                         } else if (!TextUtils.isEmpty(messageObject.messageOwner.fwd_from.from_name)) {
                             builder.append(messageObject.messageOwner.fwd_from.from_name);
@@ -460,7 +426,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     } else if (position == shouldBlockMessageRow) {
                         textCell.setTextAndValue("Blocked", "Yes", divider);
                     } else if (position == languageRow) {
-                        textCell.setTextAndValue("Language", "", divider);
+                        textCell.setTextAndValue("Language", "Loading...", divider);
                         LanguageDetector.detectLanguage(
                                 getMessageHelper().getMessagePlainText(messageObject),
                                 lang -> textCell.setTextAndValue("Language", lang, divider),
@@ -468,19 +434,25 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     } else if (position == linkOrEmojiOnlyRow) {
                         textCell.setTextAndValue("Link or emoji only", "Yes", divider);
                     } else if (position == stickerSetRow) {
-                        StringBuilder value = new StringBuilder();
+                        StringBuilder builder = new StringBuilder();
                         TLRPC.User user = getMessagesController().getUser(stickerSetOwner);
                         if (user != null) {
-                            value.append(ContactsController.formatName(user.first_name, user.last_name));
-                            value.append("\n");
-                            if (!TextUtils.isEmpty(user.username)) {
-                                value.append("@");
-                                value.append(user.username);
-                                value.append("\n");
-                            }
+                            appendUserOrChat(user, builder);
+                        } else {
+                            getMessageHelper().searchUser(stickerSetOwner, user1 -> {
+                                StringBuilder builder1 = new StringBuilder();
+                                if (user1 != null) {
+                                    appendUserOrChat(user1, builder1);
+                                } else {
+                                    builder1.append(stickerSetOwner);
+                                }
+                                textCell.setTextAndValue("Sticker Pack creator", builder1.toString(), divider);
+                            });
+                            builder.append("Loading...");
+                            builder.append("\n");
+                            builder.append(stickerSetOwner);
                         }
-                        value.append(stickerSetOwner);
-                        textCell.setTextAndValue("Sticker Pack creator", value.toString(), divider);
+                        textCell.setTextAndValue("Sticker Pack creator", builder.toString(), divider);
                     }
                     break;
                 }
@@ -493,6 +465,30 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 return 1;
             } else {
                 return 6;
+            }
+        }
+
+        private void appendUserOrChat(TLObject object, StringBuilder builder) {
+            if (object instanceof TLRPC.User) {
+                TLRPC.User user = (TLRPC.User) object;
+                builder.append(ContactsController.formatName(user.first_name, user.last_name));
+                builder.append("\n");
+                if (!TextUtils.isEmpty(user.username)) {
+                    builder.append("@");
+                    builder.append(user.username);
+                    builder.append("\n");
+                }
+                builder.append(user.id);
+            } else if (object instanceof TLRPC.Chat) {
+                TLRPC.Chat chat = (TLRPC.Chat) object;
+                builder.append(chat.title);
+                builder.append("\n");
+                if (!TextUtils.isEmpty(chat.username)) {
+                    builder.append("@");
+                    builder.append(chat.username);
+                    builder.append("\n");
+                }
+                builder.append(chat.id);
             }
         }
     }
