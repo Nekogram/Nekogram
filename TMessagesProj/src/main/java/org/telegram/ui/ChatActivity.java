@@ -23158,11 +23158,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
-    private void translateMessage(MessageObject messageObject, String sourceLanguage, boolean forceInMessage) {
+    private void translateMessage(MessageObject messageObject, String sourceLanguage, boolean autoTranslate) {
         if (messageObject == null) {
             return;
         }
-        if (!forceInMessage && NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO) {
+        if (!autoTranslate && NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO) {
             String message = getMessageHelper().getMessagePlainText(messageObject);
             Translator.showTranslateDialog(getParentActivity(), message, getMessagesController().isChatNoForwards(currentChat) || messageObject.messageOwner.noforwards, this, link -> didPressMessageUrl(link, false, selectedObject, null), sourceLanguage);
             return;
@@ -23172,6 +23172,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         Translator.translate(original, sourceLanguage, new Translator.TranslateCallBack() {
             @Override
             public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
+                if (autoTranslate && sourceLanguage != null && (sourceLanguage.equals(targetLanguage) || Translator.isLanguageRestricted(sourceLanguage))) {
+                    getMessageHelper().resetMessageContent(dialog_id, messageObject, false, false);
+                    return;
+                }
                 if (translation instanceof String) {
                     messageObject.messageOwner.message = NekoConfig.showOriginal ?
                             messageObject.messageOwner.message +
@@ -23187,7 +23191,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override
             public void onError(Exception e) {
-                Translator.handleTranslationError(getParentActivity(), e, () -> translateMessage(messageObject, sourceLanguage, forceInMessage), themeDelegate);
+                Translator.handleTranslationError(getParentActivity(), e, () -> translateMessage(messageObject, sourceLanguage, autoTranslate), themeDelegate);
                 getMessageHelper().resetMessageContent(dialog_id, messageObject, false, false);
             }
         });
