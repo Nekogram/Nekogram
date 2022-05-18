@@ -51,6 +51,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 import androidx.core.widget.NestedScrollView;
 
 import org.json.JSONArray;
@@ -90,6 +91,7 @@ public class TranslateAlert extends Dialog {
     private ImageView subtitleArrowView;
     private TextView subtitleToView;
     private ImageView backButton;
+    private ImageView copyButton;
     private FrameLayout header;
     private FrameLayout headerShadowView;
     private boolean scrollViewScrollable = false;
@@ -104,6 +106,7 @@ public class TranslateAlert extends Dialog {
     private FrameLayout.LayoutParams titleLayout;
     private FrameLayout.LayoutParams subtitleLayout;
     private FrameLayout.LayoutParams backLayout;
+    private FrameLayout.LayoutParams copyLayout;
     private FrameLayout.LayoutParams headerLayout;
     private FrameLayout.LayoutParams scrollViewLayout;
 
@@ -136,6 +139,15 @@ public class TranslateAlert extends Dialog {
             subtitleLayout.bottomMargin
         );
         subtitleView.setLayoutParams(subtitleLayout);
+
+        copyLayout.setMargins(
+                copyLayout.leftMargin,
+                dp(lerp(15, 0, t)),
+                copyLayout.rightMargin,
+                copyLayout.bottomMargin
+        );
+        copyButton.setLayoutParams(copyLayout);
+        copyButton.setColorFilter(ColorUtils.blendARGB(Theme.getColor(Theme.key_player_actionBarSubtitle), Theme.getColor(Theme.key_dialogTextBlack), t), PorterDuff.Mode.MULTIPLY);
 
         backButton.setAlpha(t);
         backButton.setScaleX(.75f + .25f * t);
@@ -417,6 +429,18 @@ public class TranslateAlert extends Dialog {
             22 - LoadingTextView2.paddingHorizontal / AndroidUtilities.density,
             0
         ));
+
+        copyButton = new ImageView(context);
+        copyButton.setImageResource(R.drawable.msg_copy);
+        copyButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_player_actionBarSubtitle), PorterDuff.Mode.MULTIPLY));
+        copyButton.setScaleType(ImageView.ScaleType.FIT_CENTER);
+        copyButton.setPadding(AndroidUtilities.dp(16), 0, AndroidUtilities.dp(16), 0);
+        copyButton.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector)));
+        header.addView(copyButton, copyLayout = LayoutHelper.createFrame(56, 56, !LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT, 0, 15, 0, 0));
+        copyButton.setOnClickListener(v -> {
+            AndroidUtilities.addToClipboard(allTextsView.getText());
+            BulletinFactory.of(bulletinContainer, null).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
+        });
 
         backButton = new ImageView(context);
         backButton.setImageResource(R.drawable.ic_ab_back);
