@@ -203,6 +203,24 @@
     <string name="SoonRemovedOption">این گزینه آزمایشی به زودی به صورت پیش فرض حذف و فعال خواهد شد، در صورتی که با این گزینه مشکلی داشته باشید، لطفا به ما گزارش دهید.</string>
     <string name="TabletMode">حالت قرص</string>
     <string name="TabletModeAuto">خودکار</string>
+    <string name="DeleteAllFromSelfDone">حذف تمامی پیام های شما</string>
+    <string name="UnknownNekoSettingsOption">این گزینه در تنظیمات نکو وجود ندارد</string>
+    <string name="ProviderYouDaoTranslate">مترجم YouDao</string>
+    <string name="ProviderBaiduTranslate">مترجم Baidu</string>
+    <string name="ProviderSogouTranslate">مترجم Sogou</string>
+    <string name="Translating">درحال ترجمه</string>
+    <string name="BrokenMLKit">گزینه وجود ندارد</string>
+    <string name="BrokenMLKitDetail">زبان MLKit گوگل روی این دستگاه خرابه</string>
+    <string name="PasscodeNeeded">ابتدا رمز عبور را فعال کنید</string>
+    <string name="PasscodeNeko">رمز عبور</string>
+    <string name="PasscodeShowInSettings">نمایش در تنظیمات نکو</string>
+    <string name="PasscodeShowInSettingsAbout">بعد از مخفی. تنها **می‌توانید** صفحه را از طریق لینک باز کنید:</string>
+    <string name="PasscodeSet">تنظیم رمز عبور</string>
+    <string name="PasscodeEdit">تغییر رمز عبور </string>
+    <string name="PasscodeRemove">حذف رمز عبور</string>
+    <string name="PasscodeHideAccount">پنهان کردن حساب</string>
+    <string name="HideTimeOnSticker">مخفی کردن زمان استیکر</string>
+    <string name="TranslatorShowOriginal">با متن اصلی</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
 </resources>

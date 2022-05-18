@@ -231,6 +231,10 @@
     <string name="PasscodePanicCodeRemoveConfirmMessage">Êtes-vous sûr de vouloir désactiver le code d\'urgence ?</string>
     <string name="PasscodeRemoveConfirmMessage">Êtes-vous sûr de vouloir supprimer le code d\'accès pour ce compte ?</string>
     <string name="PasscodePanicCodeAbout">Utilisez le code d\'urgence pour déconnecter vos comptes si quelque chose ne va pas.</string>
+    <string name="HideTimeOnSticker">Cacher l\'heure sur les autocollants</string>
+    <string name="TranslatorShowOriginal">Avec le texte original</string>
+    <string name="DatacenterStatusAbout">Vérifiez l\'état des **datacenters** de Telegram.</string>
+    <string name="DatacenterStatus">Etat du datacenter</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

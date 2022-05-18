@@ -227,6 +227,9 @@
     <string name="PasscodePanicCodeRemoveConfirmMessage">Er du sikker på, at du vil slå panikkode fra?</string>
     <string name="PasscodeRemoveConfirmMessage">Er du sikker på, at du vil fjerne adgangskoden til denne konto?</string>
     <string name="HideTimeOnSticker">Skjul tid på klistermærker</string>
+    <string name="TranslatorShowOriginal">Med originaltekst</string>
+    <string name="DatacenterStatusAbout">Kontroller status for Telegrams **datacentre**.</string>
+    <string name="DatacenterStatus">Datacenter status</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
     <string name="AccRewindHeading">Indstillinger for tilbagespoling</string>

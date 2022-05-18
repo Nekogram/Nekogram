@@ -205,6 +205,8 @@
     <string name="SoonRemovedOption">Opsi eksperimental ini akan segera dihapus dan diaktifkan secara default, jika Anda mengalami masalah dengan opsi ini, silakan **laporkan kepada kami**.</string>
     <string name="TabletMode">Mode tablet</string>
     <string name="TabletModeAuto">Otomatis</string>
+    <string name="DeleteAllFromSelfDone">All your messages are deleted</string>
+    <string name="UnknownNekoSettingsOption">There is no such Neko Settings option.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Setelan Aksesibilitas</string>
 </resources>

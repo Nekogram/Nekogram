@@ -187,7 +187,7 @@
     <string name="AppLinkNotVerifiedMessage">Android 12 ve üstü sürümlerde, t.me bağlantılarını Nekogram\'da açmak için doğrulanmış bağlantılara elle bağlantı eklemelisiniz.</string>
     <string name="AppLinkNotVerifiedTitle">Uygulama bağlantıları doğrulanmamış</string>
     <string name="AutoTranslate">Otomatik çeviri</string>
-    <string name="AutoTranslateAbout">Başka bir dilde olan mesajları otomatik olarak çevir.</string>
+    <string name="AutoTranslateAbout">Başka bir dilde olan mesajları otomatik olarak çevirin.</string>
     <string name="CreateMono">Eş Aralık Oluştur</string>
     <string name="CreateMonoLanguage">Kod dili (isteğe bağlı)</string>
     <string name="DoubleTapAction">Çift tıklama eylemi</string>
@@ -231,6 +231,10 @@
     <string name="PasscodePanicCodeRemoveConfirmMessage">Acil kodu kapatmak istediğinizden emin misiniz?</string>
     <string name="PasscodeRemoveConfirmMessage">Bu hesabın parolasını kaldırmak istediğinizden emin misiniz?</string>
     <string name="PasscodePanicCodeAbout">Bir şeyler ters giderse hesaplardan çıkış yapmak için acil kodu kullanın.</string>
+    <string name="HideTimeOnSticker">Çıkartmalarda zamanı gizle</string>
+    <string name="TranslatorShowOriginal">Orijinal metin ile</string>
+    <string name="DatacenterStatusAbout">Telegram\'ın **veri merkezlerinin** durumunu kontrol edin.</string>
+    <string name="DatacenterStatus">Veri merkezi durumu</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Erişilebilirlik ayarları</string>
     <string name="AccRewindHeading">Geri sarma ayarları</string>

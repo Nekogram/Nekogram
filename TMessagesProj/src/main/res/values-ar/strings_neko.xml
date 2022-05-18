@@ -207,32 +207,34 @@
     <string name="SoonRemovedOption">ستتم إزالة هذا الخيار التجريبي وتمكينه افتراضيًا قريبًا ، إذا كنت تواجه مشكلات مع هذا الخيار ، فيرجى ** إبلاغنا **.</string>
     <string name="TabletMode">وضع الكمبيوتر اللوحي</string>
     <string name="TabletModeAuto">وضع الكمبيوتر اللوحي تلقائي</string>
-    <string name="DeleteAllFromSelfDone">حذف كل ما تم القيام به ذاتيًا</string>
-    <string name="UnknownNekoSettingsOption">لا يوجد مثل هذا الخيار في الإعدادات Neko</string>
-    <string name="ProviderYouDaoTranslate">YouDao مترجم 🇨🇳</string>
-    <string name="ProviderBaiduTranslate">Baidu مترجم 🇨🇳</string>
-    <string name="ProviderSogouTranslate">Sogou مترجم 🇨🇳</string>
-    <string name="Translating">جار الترجمة…</string>
-    <string name="Translated">مترجم</string>
-    <string name="BrokenMLKit">الخيار غير متاح</string>
-    <string name="BrokenMLKitDetail">معرف لغة Google MLKit معطل بطريقة ما على هذا الجهاز.</string>
-    <string name="PasscodeNeeded">يجب عليك تفعيل قفل رمز المرور أولاً</string>
-    <string name="PasscodeNeko">رمز المرور</string>
-    <string name="PasscodeShowInSettings">إظهار رمز المرور في الإعدادات Neko</string>
-    <string name="PasscodeShowInSettingsAbout">بعد الاختفاء، يمكنك **فقط** فتح هذه الصفحة عن طريق الرابط:</string>
-    <string name="PasscodeSet">تعيين كلمة المرور</string>
-    <string name="PasscodeEdit">تغيير كلمة المرور</string>
-    <string name="PasscodeRemove">إزالة كلمة المرور</string>
+    <string name="DeleteAllFromSelfDone">كل رسائلك حُذفت</string>
+    <string name="UnknownNekoSettingsOption">لا يوجد خِيار لإعدادات نكو من هذا القبيل.</string>
+    <string name="ProviderYouDaoTranslate">مترجم يودوا 🇨🇳</string>
+    <string name="ProviderBaiduTranslate">تَرْجَمَة بادو</string>
+    <string name="ProviderSogouTranslate">مترجم سجوي 🇨🇳</string>
+    <string name="Translating">جار التَّرْجَمَة</string>
+    <string name="Translated">تمت التَّرْجَمَة</string>
+    <string name="BrokenMLKit">الخِيار غير متاح</string>
+    <string name="BrokenMLKitDetail">معرف لغة Google ميل كيت معطل بطريقة ما على هذا الجهاز.</string>
+    <string name="PasscodeNeeded">يجب عليك تفعيل قُفْل رمز المرور أولاً</string>
+    <string name="PasscodeNeko">رمز الدخول</string>
+    <string name="PasscodeShowInSettings">إظهار رمز المرور في الإعدادات ناكو</string>
+    <string name="PasscodeShowInSettingsAbout">بعد التخفي، يمكنك **فقط** فتح هذه الصفحة عن طريق الرابط:</string>
+    <string name="PasscodeSet">تعيين رمز المرور</string>
+    <string name="PasscodeEdit">تغيير رمز المرور</string>
+    <string name="PasscodeRemove">إزالة رمز المرور</string>
     <string name="PasscodeHideAccount">إخفاء الحساب</string>
-    <string name="PasscodeAllowPanic">تسجيل الخروج مع رمز الخوف</string>
-    <string name="PasscodeAbout">قم بتعيين رموز مرور مختلفة لكل حساب ، وقم بالتبديل بينها عن طريق إدخال رمز المرور المقابل.</string>
-    <string name="PasscodePanicCode">رمز الخوف</string>
-    <string name="PasscodePanicCodeSet">تعيين رمز الخوف</string>
-    <string name="PasscodePanicCodeEdit">تغيير رمز الخوف</string>
-    <string name="PasscodePanicCodeRemove">إزالة رمز الخوف رمز المرور</string>
-    <string name="PasscodePanicCodeRemoveConfirmMessage">هل أنت متأكد أنك تريد إزالة رمز الخوف؟</string>
-    <string name="PasscodeRemoveConfirmMessage">هل أنت متأكد أنك تريد إزالة كلمة المرور لهذا الحساب؟</string>
-    <string name="PasscodePanicCodeAbout">استخدم رمز الخوف لتسجيل الخروج من الحسابات إذا حدث خطأ ما.</string>
+    <string name="PasscodeAllowPanic">تسجيل الخروج مع رمز الطوارئ</string>
+    <string name="PasscodeAbout">ِتعيين رموز مرور مختلفة لكل حساب ، و تغيير بينهم عن طريق إدخال رمز المرور المقابل.</string>
+    <string name="PasscodePanicCode">رمز الطوارئ</string>
+    <string name="PasscodePanicCodeSet">تعيين رمز الطوارئ</string>
+    <string name="PasscodePanicCodeEdit">تغيير رمز الطوارئ</string>
+    <string name="PasscodePanicCodeRemove">إزالة رمز الطوارئ</string>
+    <string name="PasscodePanicCodeRemoveConfirmMessage">هل أنت متيقِّن أنك تريد إزالة رمز الطوارئ؟</string>
+    <string name="PasscodeRemoveConfirmMessage">هل أنت متيقِّن أنك تريد إزالة كلمة المرور لهذا الحساب؟</string>
+    <string name="PasscodePanicCodeAbout">استخدم رمز الطوارئ لتسجيل الخروج من الحسابات إذا حدث خطأ ما.</string>
+    <string name="HideTimeOnSticker">إخفاء الوقت على الملصقات</string>
+    <string name="TranslatorShowOriginal">مع النص الأصلي</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

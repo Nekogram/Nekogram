@@ -233,6 +233,9 @@
     <string name="PasscodeRemoveConfirmMessage">Вы уверены, что хотите удалить пароль для этой учетной записи?</string>
     <string name="PasscodePanicCodeAbout">Используйте тревожный код для выхода из всех учетных записей, если что-то пойдет не так.</string>
     <string name="HideTimeOnSticker">Скрывать время отправки на стикерах</string>
+    <string name="TranslatorShowOriginal">С исходным текстом</string>
+    <string name="DatacenterStatusAbout">Проверка состояния **дата-центров** Telegram.</string>
+    <string name="DatacenterStatus">Состояние дата-центра</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>
