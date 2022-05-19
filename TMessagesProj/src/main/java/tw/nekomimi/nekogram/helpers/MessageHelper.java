@@ -195,6 +195,7 @@ public class MessageHelper extends BaseController {
                 }
                 var fakeUser = new TLRPC.TL_user();
                 for (var line : lines) {
+                    line = line.replaceAll("\\p{C}", "").trim();
                     if (line.startsWith("\uD83D\uDC64")) {
                         fakeUser.id = Utilities.parseLong(line.replace("\uD83D\uDC64", ""));
                     } else if (line.startsWith("\uD83D\uDC66\uD83C\uDFFB")) {
