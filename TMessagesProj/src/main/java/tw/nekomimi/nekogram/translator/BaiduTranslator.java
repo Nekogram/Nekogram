@@ -6,11 +6,13 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.Utilities;
 
 import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import tw.nekomimi.nekogram.Extra;
 
@@ -27,6 +29,7 @@ public class BaiduTranslator extends BaseTranslator {
             "ru", "pt", "de", "it", "el", "nl", "pl", "bul",
             "est", "dan", "fin", "cs", "rom", "slo", "swe", "hu",
             "cht", "vie");
+    private final String cuid = UUID.randomUUID().toString().toUpperCase().replace("-", "") + "|" + randomString();
 
     static BaiduTranslator getInstance() {
         if (instance == null) {
@@ -92,15 +95,28 @@ public class BaiduTranslator extends BaseTranslator {
     protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
         var time = System.currentTimeMillis();
         var sign = Extra.signBaidu(query, tl, time);
-        return getResult(Http.url("https://fanyi-app.baidu.com/transapp/agent.php?product=transapp&type=json&version=153&plat=android&req=v2trans")
+        var response = Http.url("https://fanyi-app.baidu.com/transapp/agent.php?product=transapp&type=json&version=153&plat=android&req=v2trans&cuid=" + cuid)
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("User-Agent", "BDTApp; Android 12; BaiduTranslate/10.2.1")
                 .data("sign=" + sign + "&sofireId=&zhType=0&use_cache_response=1&from=auto&timestamp=" + time + "&query=" + URLEncoder.encode(query, "UTF-8") + "&needfixl=1&lfixver=1&is_show_ad=1&appRecommendSwitch=1&to=" + tl + "&page=translate")
-                .request());
+                .request();
+        if (TextUtils.isEmpty(response)) {
+            return null;
+        }
+        return getResult(response);
     }
 
     @Override
     public List<String> getTargetLanguages() {
         return targetLanguages;
+    }
+
+    public String randomString() {
+        char[] symbols = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".toCharArray();
+        final char[] buf = new char[9];
+        for (int idx = 0; idx < buf.length; ++idx) {
+            buf[idx] = symbols[Utilities.random.nextInt(symbols.length)];
+        }
+        return new String(buf);
     }
 }
