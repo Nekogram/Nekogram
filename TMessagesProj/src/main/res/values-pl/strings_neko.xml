@@ -210,6 +210,7 @@
     <string name="ProviderYouDaoTranslate">Tłumacz YouDao</string>
     <string name="ProviderBaiduTranslate">Tłumacz Baidu</string>
     <string name="ProviderSogouTranslate">Tłumacz Sogou</string>
+    <string name="Translating">tłumaczenie</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>
