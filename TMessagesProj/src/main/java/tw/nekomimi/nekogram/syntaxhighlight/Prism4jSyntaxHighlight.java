@@ -4,7 +4,8 @@ import android.text.Spannable;
 
 import androidx.annotation.NonNull;
 
-import tw.nekomimi.nekogram.syntaxhighlight.prism4j.Prism4j;
+import io.noties.prism4j.Grammar;
+import io.noties.prism4j.Prism4j;
 
 public class Prism4jSyntaxHighlight {
 
@@ -26,7 +27,7 @@ public class Prism4jSyntaxHighlight {
     }
 
     public void highlight(@NonNull String info, @NonNull Spannable spannable, int start, int end) {
-        final Prism4j.Grammar grammar = prism4j.grammar(info);
+        final Grammar grammar = prism4j.grammar(info);
         if (grammar != null) {
             final Prism4jSyntaxVisitor visitor = new Prism4jSyntaxVisitor(info, theme, spannable, start);
             visitor.visit(prism4j.tokenize(spannable.subSequence(start, end).toString(), grammar));

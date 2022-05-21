@@ -4,10 +4,11 @@ import android.text.Spannable;
 
 import androidx.annotation.NonNull;
 
-import tw.nekomimi.nekogram.syntaxhighlight.prism4j.AbsVisitor;
-import tw.nekomimi.nekogram.syntaxhighlight.prism4j.Prism4j;
+import io.noties.prism4j.Syntax;
+import io.noties.prism4j.Text;
+import io.noties.prism4j.Visitor;
 
-class Prism4jSyntaxVisitor extends AbsVisitor {
+class Prism4jSyntaxVisitor extends Visitor {
 
     private final String language;
     private final Prism4jTheme theme;
@@ -28,12 +29,12 @@ class Prism4jSyntaxVisitor extends AbsVisitor {
     }
 
     @Override
-    protected void visitText(@NonNull Prism4j.Text text) {
+    protected void visitText(@NonNull Text text) {
         currentPos += text.textLength();
     }
 
     @Override
-    protected void visitSyntax(@NonNull Prism4j.Syntax syntax) {
+    protected void visitSyntax(@NonNull Syntax syntax) {
         final int start = currentPos;
         visit(syntax.children());
         final int end = currentPos;

@@ -5,7 +5,7 @@ import android.text.Spannable;
 import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
-import tw.nekomimi.nekogram.syntaxhighlight.prism4j.Prism4j;
+import io.noties.prism4j.Syntax;
 
 public interface Prism4jTheme {
 
@@ -14,7 +14,7 @@ public interface Prism4jTheme {
 
     void apply(
             @NonNull String language,
-            @NonNull Prism4j.Syntax syntax,
+            @NonNull Syntax syntax,
             @NonNull Spannable spannable,
             int start,
             int end

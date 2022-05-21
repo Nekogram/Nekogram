@@ -8,7 +8,8 @@ import android.text.TextUtils;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.TextStyleSpan;
 
-import tw.nekomimi.nekogram.syntaxhighlight.prism4j.Prism4j;
+import io.noties.prism4j.DefaultGrammarLocator;
+import io.noties.prism4j.Prism4j;
 
 public class SyntaxHighlight {
 
@@ -27,7 +28,7 @@ public class SyntaxHighlight {
             }
         } else if (!TextUtils.isEmpty(run.urlEntity.language)) {
             if (highlight == null) {
-                highlight = Prism4jSyntaxHighlight.create(new Prism4j(new Prism4jGrammarLocator()), theme);
+                highlight = Prism4jSyntaxHighlight.create(new Prism4j(new DefaultGrammarLocator()), theme);
             }
             highlight.highlight(run.urlEntity.language, spannable, run.start, run.end);
         }
@@ -36,7 +37,7 @@ public class SyntaxHighlight {
     public static void highlight(String language, int start, int end, Spannable spannable) {
         if (!TextUtils.isEmpty(language)) {
             if (highlight == null) {
-                highlight = Prism4jSyntaxHighlight.create(new Prism4j(new Prism4jGrammarLocator()), theme);
+                highlight = Prism4jSyntaxHighlight.create(new Prism4j(new DefaultGrammarLocator()), theme);
             }
             highlight.highlight(language, spannable, start, end);
         }

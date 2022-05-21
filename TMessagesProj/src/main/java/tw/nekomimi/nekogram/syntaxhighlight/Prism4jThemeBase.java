@@ -12,7 +12,7 @@ import androidx.annotation.Nullable;
 
 import java.util.HashMap;
 
-import tw.nekomimi.nekogram.syntaxhighlight.prism4j.Prism4j;
+import io.noties.prism4j.Syntax;
 
 public abstract class Prism4jThemeBase implements Prism4jTheme {
 
@@ -60,7 +60,7 @@ public abstract class Prism4jThemeBase implements Prism4jTheme {
     @Override
     public void apply(
             @NonNull String language,
-            @NonNull Prism4j.Syntax syntax,
+            @NonNull Syntax syntax,
             @NonNull Spannable spannable,
             int start,
             int end) {
