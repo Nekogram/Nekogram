@@ -46,6 +46,19 @@ import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.syntaxhighlight.SyntaxHighlight;
 
 public class EntitiesHelper {
+
+    private static Locale languageToLocale(String language) {
+        return Locale.forLanguageTag("ng-SH-x-lvariant-lang-" + language);
+    }
+
+    private static String localeToLanguage(Locale locale) {
+        var variant = locale.getVariant();
+        if (TextUtils.isEmpty(variant) || !variant.startsWith("lang_") || variant.length() < 6) {
+            return null;
+        }
+        return variant.substring(5);
+    }
+
     public static void applyEntities(ArrayList<TLRPC.MessageEntity> entities, SpannableStringBuilder stringBuilder) {
         applyEntities(entities, stringBuilder, 0);
     }
@@ -62,7 +75,7 @@ public class EntitiesHelper {
                 stringBuilder.setSpan(new URLSpan("tg://user?id=" + ((TLRPC.TL_messageEntityMentionName) entity).user_id), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (entity instanceof TLRPC.TL_messageEntityCode || entity instanceof TLRPC.TL_messageEntityPre) {
                 if (!TextUtils.isEmpty(entity.language)) {
-                    stringBuilder.setSpan(new LocaleSpan(Locale.forLanguageTag(entity.language + "-NG")), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    stringBuilder.setSpan(new LocaleSpan(languageToLocale(entity.language)), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     SyntaxHighlight.highlight(entity.language, entity.offset, entity.offset + entity.length, stringBuilder);
                 }
                 stringBuilder.setSpan(new TypefaceSpan("monospace"), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -132,12 +145,10 @@ public class EntitiesHelper {
                 var typefaceSpan = (TypefaceSpan) span;
                 if ("monospace".equals(typefaceSpan.getFamily())) {
                     var localeSpans = spannable.getSpans(spanStart, spanEnd, LocaleSpan.class);
-                    if (localeSpans != null && localeSpans.length > 0 && localeSpans[0].getLocale() != null && "ng".equalsIgnoreCase(localeSpans[0].getLocale().getCountry())) {
+                    if (localeSpans != null && localeSpans.length > 0 && localeSpans[0].getLocale() != null) {
                         TLRPC.TL_messageEntityPre entity = new TLRPC.TL_messageEntityPre();
-                        entity.offset = spanStart;
-                        entity.length = spanEnd - entity.offset;
-                        entity.language = localeSpans[0].getLocale().getLanguage();
-                        entities.add(entity);
+                        entity.language = localeToLanguage(localeSpans[0].getLocale());
+                        entities.add(setEntityStartEnd(entity, spanStart, spanEnd));
                     } else {
                         entities.add(setEntityStartEnd(new TLRPC.TL_messageEntityCode(), spanStart, spanEnd));
                     }
@@ -176,6 +187,9 @@ public class EntitiesHelper {
 
     public static void addStyleToText(Style style, EditTextCaption editTextCaption, EditTextCaption.EditTextCaptionDelegate delegate, int start, int end, boolean allowTextEntitiesIntersection) {
         var editable = editTextCaption.getText();
+        if (editable == null) {
+            return;
+        }
         var resourcesProvider = editTextCaption.resourcesProvider;
         var context = editTextCaption.getContext();
         if (style == Style.MENTION || style == Style.URL || style == Style.MONO) {
@@ -239,8 +253,7 @@ public class EntitiesHelper {
                             }
                         }
                     } else if (oldSpan instanceof LocaleSpan && style == Style.MONO) {
-                        var locale = ((LocaleSpan) oldSpan).getLocale();
-                        var language = locale != null && "ng".equalsIgnoreCase(locale.getCountry()) ? locale.getLanguage() : null;
+                        var language = localeToLanguage(((LocaleSpan) oldSpan).getLocale());
                         if (!TextUtils.isEmpty(language)) {
                             editText.setText(language);
                             break;
@@ -280,7 +293,7 @@ public class EntitiesHelper {
                     } else if (style == Style.MONO) {
                         editable.setSpan(new TypefaceSpan("monospace"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         if (!TextUtils.isEmpty(string)) {
-                            editable.setSpan(new LocaleSpan(Locale.forLanguageTag(string + "-NG")), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            editable.setSpan(new LocaleSpan(languageToLocale(string)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                             SyntaxHighlight.highlight(string, start, end, editable);
                         }
                     } else /*if (style == Style.URL) */ {
@@ -385,7 +398,7 @@ public class EntitiesHelper {
             if (span instanceof URLSpanMono) {
                 var style = ((URLSpanMono) span).getStyle();
                 if (style != null && style.urlEntity != null && !TextUtils.isEmpty(style.urlEntity.language)) {
-                    spannable.setSpan(new LocaleSpan(Locale.forLanguageTag(style.urlEntity.language + "-NG")), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannable.setSpan(new LocaleSpan(languageToLocale(style.urlEntity.language)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
                 spannable.setSpan(new TypefaceSpan("monospace"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (span instanceof URLSpanUserMention) {
