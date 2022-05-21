@@ -5,6 +5,8 @@ buildscript {
     }
     dependencies {
         classpath group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '6.1.0.202203080745-r'
+        //noinspection GradleDependency
+        classpath group: 'com.android.tools', name: 'r8', version: '3.1.66'
     }
 }
 
