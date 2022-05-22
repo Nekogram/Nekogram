@@ -186,6 +186,7 @@ public class LinkifyPort {
             + WORD_BOUNDARY
             + ")";
     public static Pattern WEB_URL = null;
+    public static final String WEB_URL_REGEX = "(" + WEB_URL_WITH_PROTOCOL + "|" + WEB_URL_WITHOUT_PROTOCOL + ")";
 
     static {
         try {

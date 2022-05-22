@@ -201,7 +201,6 @@
     <string name="EditRedo">Redo</string>
     <string name="EditEnableMarkdown">Enable Markdown</string>
     <string name="EditDisableMarkdown">Disable Markdown</string>
-    <string name="DisableMarkdownByDefault">Disable Markdown by default</string>
     <string name="CopyCallback">Copy Callback Data</string>
     <string name="CopyInlineQuery">Copy Inline Query</string>
     <string name="CopyID">Copy ID</string>
@@ -240,6 +239,12 @@
     <string name="TranslatorShowOriginal">With original text</string>
     <string name="DatacenterStatusAbout">Check the status of Telegram\'s **datacenters**.</string>
     <string name="DatacenterStatus">Datacenter status</string>
+    <string name="Markdown">Markdown</string>
+    <string name="MarkdownEnableByDefault">Enable by default</string>
+    <string name="MarkdownParser">Parser</string>
+    <string name="MarkdownParseLinks">Parse links</string>
+    <string name="MarkdownAbout">Edit text in messages using markdown: ^1**bold**^1, ^2__italic__^2, ^3~~strikethrough~~^3, ^4`monospace`^4, ^5||spoiler||^5, ^6text^7url^8.</string>
+    <string name="MarkdownAbout2">Edit text in messages using markdown: ^1**bold**^1, ^2__italic__^2, ^3~~strikethrough~~^3, ^4`monospace`^4, ^5||spoiler||^5.</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

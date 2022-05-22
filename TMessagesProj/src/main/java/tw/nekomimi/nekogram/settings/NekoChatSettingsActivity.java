@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextPaint;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextCheckbox2Cell;
+import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
@@ -34,6 +36,7 @@ import org.telegram.ui.Components.SeekBarView;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.EntitiesHelper;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.helpers.VoiceEnhancementsHelper;
 
@@ -53,10 +56,15 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
     private int tryToOpenAllLinksInIVRow;
     private int disableJumpToNextRow;
     private int disableGreetingStickerRow;
-    private int disableMarkdownByDefaultRow;
     private int doubleTapActionRow;
     private int maxRecentStickersRow;
     private int chat2Row;
+
+    private int markdownRow;
+    private int markdownEnableRow;
+    private int markdownParserRow;
+    private int markdownParseLinksRow;
+    private int markdown2Row;
 
     private int mediaRow;
     private int hqVoiceMessageRow;
@@ -183,10 +191,10 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                 NekoConfig.setDoubleTapAction(types.get(i));
                 listAdapter.notifyItemChanged(doubleTapActionRow);
             });
-        } else if (position == disableMarkdownByDefaultRow) {
+        } else if (position == markdownEnableRow) {
             NekoConfig.toggleDisableMarkdownByDefault();
             if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.disableMarkdownByDefault);
+                ((TextCheckCell) view).setChecked(!NekoConfig.disableMarkdownByDefault);
             }
         } else if (position > messageMenuRow && position < messageMenu2Row) {
             TextCheckbox2Cell cell = ((TextCheckbox2Cell) view);
@@ -257,6 +265,31 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                 ((TextCheckCell) view).setChecked(NekoConfig.hideTimeOnSticker);
             }
             stickerSizeCell.invalidate();
+        } else if (position == markdownParserRow) {
+            ArrayList<String> arrayList = new ArrayList<>();
+            arrayList.add("Nekogram");
+            arrayList.add("Telegram");
+            boolean oldParser = NekoConfig.newMarkdownParser;
+            PopupHelper.show(arrayList, LocaleController.getString("DoubleTapAction", R.string.DoubleTapAction), NekoConfig.newMarkdownParser ? 0 : 1, getParentActivity(), view, i -> {
+                NekoConfig.setNewMarkdownParser(i == 0);
+                listAdapter.notifyItemChanged(markdownParserRow);
+                if (oldParser != NekoConfig.newMarkdownParser) {
+                    if (oldParser) {
+                        listAdapter.notifyItemRemoved(markdownParseLinksRow);
+                        updateRows();
+                    } else {
+                        updateRows();
+                        listAdapter.notifyItemInserted(markdownParseLinksRow);
+                    }
+                    listAdapter.notifyItemChanged(markdown2Row);
+                }
+            });
+        } else if (position == markdownParseLinksRow) {
+            NekoConfig.toggleMarkdownParseLinks();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.markdownParseLinks);
+            }
+            listAdapter.notifyItemChanged(markdown2Row);
         }
     }
 
@@ -285,10 +318,15 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         tryToOpenAllLinksInIVRow = addRow("tryToOpenAllLinksInIV");
         disableJumpToNextRow = addRow("disableJumpToNext");
         disableGreetingStickerRow = addRow("disableGreetingSticker");
-        disableMarkdownByDefaultRow = addRow("disableMarkdownByDefault");
         doubleTapActionRow = addRow("doubleTapAction");
         maxRecentStickersRow = addRow("maxRecentStickers");
         chat2Row = addRow();
+
+        markdownRow = addRow("markdown");
+        markdownEnableRow = addRow("markdownEnableRow");
+        markdownParserRow = addRow("markdownParserRow");
+        markdownParseLinksRow = NekoConfig.newMarkdownParser ? addRow("markdownParseLinksRow") : -1;
+        markdown2Row = addRow();
 
         mediaRow = addRow("media");
         hqVoiceMessageRow = addRow("hqVoiceMessage");
@@ -445,8 +483,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == stickerSizeRow) {
                         textCell.setTextAndValue(LocaleController.getString("StickerSize", R.string.StickerSize), String.valueOf(Math.round(NekoConfig.stickerSize)), true);
-                    } else if (position == messageMenuRow) {
-                        textCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu), false);
                     } else if (position == doubleTapActionRow) {
                         String value;
                         switch (NekoConfig.doubleTapAction) {
@@ -475,6 +511,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         textCell.setTextAndValue(LocaleController.getString("DoubleTapAction", R.string.DoubleTapAction), value, true);
                     } else if (position == maxRecentStickersRow) {
                         textCell.setTextAndValue(LocaleController.getString("MaxRecentStickers", R.string.MaxRecentStickers), String.valueOf(NekoConfig.maxRecentStickers), false);
+                    } else if (position == markdownParserRow) {
+                        textCell.setTextAndValue(LocaleController.getString("MarkdownParser", R.string.MarkdownParser), NekoConfig.newMarkdownParser ? "Nekogram" : "Telegram", position + 1 != markdown2Row);
                     }
                     break;
                 }
@@ -503,14 +541,16 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         textCell.setTextAndCheck(LocaleController.getString("DisableGreetingSticker", R.string.DisableGreetingSticker), NekoConfig.disableGreetingSticker, true);
                     } else if (position == disableVoiceMessageAutoPlayRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DisableVoiceMessagesAutoPlay", R.string.DisableVoiceMessagesAutoPlay), NekoConfig.disableVoiceMessageAutoPlay, true);
-                    } else if (position == disableMarkdownByDefaultRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("DisableMarkdownByDefault", R.string.DisableMarkdownByDefault), NekoConfig.disableMarkdownByDefault, true);
                     } else if (position == hqVoiceMessageRow) {
                         textCell.setTextAndCheck(LocaleController.getString("IncreaseVoiceMessageQuality", R.string.IncreaseVoiceMessageQuality), NekoConfig.increaseVoiceMessageQuality, true);
                     } else if (position == voiceEnhancementsRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("VoiceEnhancements", R.string.VoiceEnhancements), LocaleController.getString("VoiceEnhancementsAbout", R.string.VoiceEnhancementsAbout), NekoConfig.voiceEnhancements, true, true);
                     } else if (position == hideTimeOnStickerRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HideTimeOnSticker", R.string.HideTimeOnSticker), NekoConfig.hideTimeOnSticker, false);
+                    } else if (position == markdownEnableRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("MarkdownEnableByDefault", R.string.MarkdownEnableByDefault), !NekoConfig.disableMarkdownByDefault, true);
+                    } else if (position == markdownParseLinksRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("MarkdownParseLinks", R.string.MarkdownParseLinks), NekoConfig.markdownParseLinks, false);
                     }
                     break;
                 }
@@ -524,6 +564,17 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         headerCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu));
                     } else if (position == mediaRow) {
                         headerCell.setText(LocaleController.getString("SharedMediaTab2", R.string.SharedMediaTab2));
+                    } else if (position == markdownRow) {
+                        headerCell.setText(LocaleController.getString("Markdown", R.string.Markdown));
+                    }
+                    break;
+                }
+                case 7: {
+                    TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
+                    if (position == markdown2Row) {
+                        cell.getTextView().setMovementMethod(null);
+                        cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                        cell.setText(TextUtils.expandTemplate(EntitiesHelper.parseMarkdown(NekoConfig.newMarkdownParser && NekoConfig.markdownParseLinks ? LocaleController.getString("MarkdownAbout", R.string.MarkdownAbout) : LocaleController.getString("MarkdownAbout2", R.string.MarkdownAbout2)), "**", "__", "~~", "`", "||", "[", "](", ")"));
                     }
                     break;
                 }
@@ -577,15 +628,18 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         public int getItemViewType(int position) {
             if (position == chat2Row || position == stickerSize2Row || position == messageMenu2Row || position == media2Row) {
                 return 1;
-            } else if (position == doubleTapActionRow || position == maxRecentStickersRow) {
+            } else if (position == doubleTapActionRow || position == maxRecentStickersRow || position == markdownParserRow) {
                 return 2;
             } else if ((position > chatRow && position < doubleTapActionRow) ||
                     (position > mediaRow && position < media2Row) ||
+                    (position > markdownRow && position < markdown2Row) ||
                     position == hideTimeOnStickerRow
             ) {
                 return 3;
-            } else if (position == chatRow || position == stickerSizeHeaderRow || position == messageMenuRow || position == mediaRow) {
+            } else if (position == chatRow || position == stickerSizeHeaderRow || position == messageMenuRow || position == mediaRow || position == markdownRow) {
                 return 4;
+            } else if (position == markdown2Row) {
+                return 7;
             } else if (position > messageMenuRow && position < messageMenu2Row) {
                 return 9;
             } else if (position == stickerSizeRow) {

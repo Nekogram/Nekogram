@@ -137,6 +137,8 @@ public class NekoConfig {
     public static boolean disableMarkdownByDefault = false;
     public static boolean hideTimeOnSticker = false;
     public static boolean showOriginal = true;
+    public static boolean newMarkdownParser = true;
+    public static boolean markdownParseLinks = true;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
@@ -325,6 +327,8 @@ public class NekoConfig {
             showRPCError = preferences.getBoolean("showRPCError", false);
             hideTimeOnSticker = preferences.getBoolean("hideTimeOnSticker", false);
             showOriginal = preferences.getBoolean("showOriginal", true);
+            newMarkdownParser = preferences.getBoolean("newMarkdownParser", true);
+            markdownParseLinks = preferences.getBoolean("markdownParseLinks", true);
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             for (int a = 1; a <= 5; a++) {
@@ -341,6 +345,14 @@ public class NekoConfig {
 
     public static boolean isChatCat(TLRPC.Chat chat) {
         return ConfigHelper.getVerify().stream().anyMatch(id -> id == chat.id);
+    }
+
+    public static void setNewMarkdownParser(boolean newParser) {
+        newMarkdownParser = newParser;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("newMarkdownParser", newMarkdownParser);
+        editor.commit();
     }
 
     public static void saveRestrictedLanguages() {
@@ -387,6 +399,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showOriginal", showOriginal);
+        editor.commit();
+    }
+
+    public static void toggleMarkdownParseLinks() {
+        markdownParseLinks = !markdownParseLinks;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("markdownParseLinks", markdownParseLinks);
         editor.commit();
     }
 

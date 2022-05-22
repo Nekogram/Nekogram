@@ -4979,7 +4979,7 @@ public class MediaDataController extends BaseController {
         boolean isPre = false;
         final String mono = "`";
         final String pre = "```";
-        while (!EditTextBoldCursor.disableMarkdown && (index = TextUtils.indexOf(message[0], !isPre ? mono : pre, lastIndex)) != -1) {
+        while (!(NekoConfig.newMarkdownParser || EditTextBoldCursor.disableMarkdown) && (index = TextUtils.indexOf(message[0], !isPre ? mono : pre, lastIndex)) != -1) {
             if (start == -1) {
                 isPre = message[0].length() - index > 2 && message[0].charAt(index + 1) == '`' && message[0].charAt(index + 2) == '`';
                 start = index;
@@ -5045,6 +5045,8 @@ public class MediaDataController extends BaseController {
             entities.add(entity);
         }
 
+        if (!EditTextBoldCursor.disableMarkdown && NekoConfig.newMarkdownParser) EntitiesHelper.parseMarkdown(message, allowStrike);
+
         if (message[0] instanceof Spanned) {
             Spanned spannable = (Spanned) message[0];
             if (entities == null) {
@@ -5055,7 +5057,7 @@ public class MediaDataController extends BaseController {
 
         CharSequence cs = message[0];
         if (entities == null) entities = new ArrayList<>();
-        if (EditTextBoldCursor.disableMarkdown) return entities;
+        if (NekoConfig.newMarkdownParser || EditTextBoldCursor.disableMarkdown) return entities;
         cs = parsePattern(cs, BOLD_PATTERN, entities, obj -> new TLRPC.TL_messageEntityBold());
         cs = parsePattern(cs, ITALIC_PATTERN, entities, obj -> new TLRPC.TL_messageEntityItalic());
         cs = parsePattern(cs, SPOILER_PATTERN, entities, obj -> new TLRPC.TL_messageEntitySpoiler());
@@ -5073,9 +5075,6 @@ public class MediaDataController extends BaseController {
         while (m.find()) {
             String gr = m.group(1);
             cs = cs.subSequence(0, m.start() - offset) + gr + cs.subSequence(m.end() - offset, cs.length());
-            if (checkInclusion(m.start(), entities, false) || checkInclusion(m.start(), entities, true) || checkIntersection(m.start(), m.end(), entities)) {
-                continue;
-            }
 
             TLRPC.MessageEntity entity = entityProvider.provide(null);
             entity.offset = m.start() - offset;
