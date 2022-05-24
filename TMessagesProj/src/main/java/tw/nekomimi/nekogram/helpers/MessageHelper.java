@@ -8,9 +8,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.SpannableStringBuilder;
+import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.SparseArray;
@@ -21,7 +21,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.text.HtmlCompat;
 import androidx.core.util.Pair;
@@ -86,8 +85,7 @@ public class MessageHelper extends BaseController {
 
     private static final MessageHelper[] Instance = new MessageHelper[UserConfig.MAX_ACCOUNT_COUNT];
     private static final CharsetDecoder utf8Decoder = StandardCharsets.UTF_8.newDecoder();
-    private static SpannableStringBuilder arrowSpan;
-    public static Drawable arrowDrawable;
+    private static final SpannableStringBuilder[] spannedStrings = new SpannableStringBuilder[3];
 
     public MessageHelper(int num) {
         super(num);
@@ -239,6 +237,32 @@ public class MessageHelper extends BaseController {
         }
     }
 
+    public static CharSequence createBlockedString(MessageObject messageObject) {
+        if (spannedStrings[2] == null) {
+            spannedStrings[2] = new SpannableStringBuilder("\u200B");
+            spannedStrings[2].setSpan(new ColoredImageSpan(Theme.chat_blockDrawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        var spannableStringBuilder = new SpannableStringBuilder();
+        spannableStringBuilder
+                .append(spannedStrings[2])
+                .append(' ')
+                .append(LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000));
+        return spannableStringBuilder;
+    }
+
+    public static CharSequence createEditedString(MessageObject messageObject) {
+        if (spannedStrings[1] == null) {
+            spannedStrings[1] = new SpannableStringBuilder("\u200B");
+            spannedStrings[1].setSpan(new ColoredImageSpan(Theme.chat_editDrawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        var spannableStringBuilder = new SpannableStringBuilder();
+        spannableStringBuilder
+                .append(spannedStrings[1])
+                .append(' ')
+                .append(LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000));
+        return spannableStringBuilder;
+    }
+
     public static CharSequence createTranslateString(MessageObject messageObject) {
         if (messageObject.translating) {
             return LocaleController.getString("Translating", R.string.Translating) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
@@ -247,12 +271,9 @@ public class MessageHelper extends BaseController {
         if (translatedLanguage == null || translatedLanguage.first == null || translatedLanguage.second == null) {
             return LocaleController.getString("Translated", R.string.Translated) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
         }
-        if (arrowDrawable == null) {
-            arrowDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.search_arrow).mutate();
-        }
-        if (arrowSpan == null) {
-            arrowSpan = new SpannableStringBuilder("\u200B");
-            arrowSpan.setSpan(new ColoredImageSpan(arrowDrawable), 0, 1, 0);
+        if (spannedStrings[0] == null) {
+            spannedStrings[0] = new SpannableStringBuilder("\u200B");
+            spannedStrings[0].setSpan(new ColoredImageSpan(Theme.chat_arrowDrawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         Locale from = Locale.forLanguageTag(translatedLanguage.first);
         Locale to = Locale.forLanguageTag(translatedLanguage.second);
@@ -260,7 +281,7 @@ public class MessageHelper extends BaseController {
         spannableStringBuilder
                 .append(!TextUtils.isEmpty(from.getScript()) ? HtmlCompat.fromHtml(from.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY) : from.getDisplayName())
                 .append(' ')
-                .append(arrowSpan)
+                .append(spannedStrings[0])
                 .append(' ')
                 .append(!TextUtils.isEmpty(to.getScript()) ? HtmlCompat.fromHtml(to.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY) : to.getDisplayName())
                 .append(' ')

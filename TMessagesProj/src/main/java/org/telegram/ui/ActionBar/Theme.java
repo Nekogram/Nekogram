@@ -2982,6 +2982,9 @@ public class Theme {
     public static Drawable[] chat_pollCrossDrawable = new Drawable[2];
     public static Drawable[] chat_pollHintDrawable = new Drawable[2];
     public static Drawable[] chat_psaHelpDrawable = new Drawable[2];
+    public static Drawable chat_arrowDrawable;
+    public static Drawable chat_editDrawable;
+    public static Drawable chat_blockDrawable;
 
     public static Drawable chat_msgCallUpGreenDrawable;
     public static Drawable chat_msgCallDownRedDrawable;
@@ -8713,6 +8716,9 @@ public class Theme {
                 chat_pollHintDrawable[a] = resources.getDrawable(R.drawable.smiles_panel_objects).mutate();
                 chat_psaHelpDrawable[a] = resources.getDrawable(R.drawable.msg_psa).mutate();
             }
+            chat_arrowDrawable = resources.getDrawable(R.drawable.search_arrow).mutate();
+            chat_editDrawable = resources.getDrawable(R.drawable.edit_pencil).mutate();
+            chat_blockDrawable = resources.getDrawable(R.drawable.block_msg).mutate();
 
             calllog_msgCallUpRedDrawable = resources.getDrawable(R.drawable.ic_call_made_green_18dp).mutate();
             calllog_msgCallUpGreenDrawable = resources.getDrawable(R.drawable.ic_call_made_green_18dp).mutate();

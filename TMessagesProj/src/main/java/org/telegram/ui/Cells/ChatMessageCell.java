@@ -10298,16 +10298,20 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
             }
         }
+        int drawableWidth = 0;
         if (currentMessageObject.isSponsored()) {
             timeString = LocaleController.getString("SponsoredMessage", R.string.SponsoredMessage);
         } else if (currentMessageObject.scheduled && currentMessageObject.messageOwner.date == 0x7FFFFFFE) {
             timeString = "";
         } else if (currentMessageObject.shouldBlockMessage()) {
-            timeString = LocaleController.getString("BlockedUserIgnored", R.string.BlockedUserIgnored) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
+            timeString = MessageHelper.createBlockedString(currentMessageObject);
+            drawableWidth = Theme.chat_blockDrawable.getIntrinsicWidth();
         } else if (currentMessageObject.translating || currentMessageObject.translated) {
             timeString = MessageHelper.createTranslateString(currentMessageObject);
+            drawableWidth = timeString instanceof SpannableStringBuilder ? Theme.chat_arrowDrawable.getIntrinsicWidth() : 0;
         } else if (edited) {
-            timeString = LocaleController.getString("EditedMessage", R.string.EditedMessage) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
+            timeString = MessageHelper.createEditedString(currentMessageObject);
+            drawableWidth = Theme.chat_editDrawable.getIntrinsicWidth();
         } else {
             timeString = LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
         }
@@ -10319,10 +10323,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 currentTimeString.insert(0, ", ");
             }
         }
-        timeTextWidth = timeWidth = (int) Math.ceil(Theme.chat_timePaint.measureText(currentTimeString.toString()));
-        if (timeString instanceof SpannableStringBuilder) {
-            timeTextWidth = timeWidth += MessageHelper.arrowDrawable.getIntrinsicWidth();
-        }
+        timeTextWidth = timeWidth = (int) Math.ceil(Theme.chat_timePaint.measureText(currentTimeString.toString())) + drawableWidth;
         if (currentMessageObject.scheduled && currentMessageObject.messageOwner.date == 0x7FFFFFFE) {
             timeWidth -= AndroidUtilities.dp(8);
         }
