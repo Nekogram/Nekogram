@@ -22,7 +22,7 @@ dependencies {
 
     compileOnly 'org.checkerframework:checker-qual:3.21.0'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.5'
-    implementation 'com.google.firebase:firebase-messaging:23.0.4'
+    implementation 'com.google.firebase:firebase-messaging:23.0.5'
     implementation 'com.google.firebase:firebase-appindexing:20.0.0'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.android.gms:play-services-auth-api-phone:18.0.1'
@@ -147,7 +147,7 @@ android {
         minSdkVersion 21
         targetSdkVersion 32
         versionName "8.7.4.4"
-        versionCode 2643
+        versionCode 2644
 
         externalNativeBuild {
             cmake {
