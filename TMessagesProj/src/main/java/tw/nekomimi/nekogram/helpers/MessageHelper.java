@@ -2,8 +2,6 @@ package tw.nekomimi.nekogram.helpers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.content.ClipData;
-import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
@@ -21,7 +19,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.core.content.FileProvider;
 import androidx.core.text.HtmlCompat;
 import androidx.core.util.Pair;
 
@@ -32,18 +29,16 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BaseController;
-import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.LinkifyPort;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -302,19 +297,6 @@ public class MessageHelper extends BaseController {
         }
     }
 
-    public static void addFileToClipboard(File file, Runnable callback) {
-        try {
-            var context = ApplicationLoader.applicationContext;
-            var clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            var uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
-            var clip = ClipData.newUri(context.getContentResolver(), "label", uri);
-            clipboard.setPrimaryClip(clip);
-            callback.run();
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-    }
-
     public String getTextOrBase64(byte[] data) {
         try {
             return utf8Decoder.decode(ByteBuffer.wrap(data)).toString();
@@ -326,7 +308,7 @@ public class MessageHelper extends BaseController {
     public void addMessageToClipboard(MessageObject selectedObject, Runnable callback) {
         var path = getPathToMessage(selectedObject);
         if (!TextUtils.isEmpty(path)) {
-            addFileToClipboard(new File(path), callback);
+            ClipboardHelper.addFileToClipboard(new File(path), callback);
         }
     }
 
@@ -884,7 +866,7 @@ public class MessageHelper extends BaseController {
             }
         };
         editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-        editText.setText("http://");
+        editText.setText("https://");
         editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
         editText.setHintText(LocaleController.getString("URL", R.string.URL));
         editText.setHeaderHintColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider));
@@ -909,15 +891,37 @@ public class MessageHelper extends BaseController {
         });
 
         builder.setView(ll);
-        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> sendWebFile(fragment, (int) fragment.getDialogId(), editText.getText().toString(), !cell.isChecked(), resourcesProvider));
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setOnShowListener(dialog -> {
+        var hasPaste = ClipboardHelper.hasPrimaryClip();
+        if (hasPaste) {
+            builder.setNeutralButton(LocaleController.getString(android.R.string.paste), null);
+        }
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        AlertDialog dialog = (AlertDialog) fragment.showDialog(builder.create());
+        if (hasPaste) {
+            dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(view -> {
+                var string = ClipboardHelper.getClipboardText();
+                if (!LinkifyPort.WEB_URL.matcher(string).matches()) {
+                    AndroidUtilities.shakeView(view, 2, 0);
+                    return;
+                }
+                editText.setText(string);
+            });
+        }
+        dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(view -> {
+            var string = editText.getText().toString();
+            if (!LinkifyPort.WEB_URL.matcher(string).matches()) {
+                AndroidUtilities.shakeView(editText, 2, 0);
+                return;
+            }
+            sendWebFile(fragment, (int) fragment.getDialogId(), editText.getText().toString(), !cell.isChecked(), resourcesProvider);
+            dialog.dismiss();
+        });
+        dialog.setOnShowListener(d -> {
             editText.requestFocus();
             AndroidUtilities.showKeyboard(editText);
         });
-        fragment.showDialog(alertDialog);
         editText.setSelection(0, editText.getText().length());
     }
 }

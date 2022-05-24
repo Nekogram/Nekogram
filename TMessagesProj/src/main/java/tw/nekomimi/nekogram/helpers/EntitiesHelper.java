@@ -1,7 +1,5 @@
 package tw.nekomimi.nekogram.helpers;
 
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.graphics.Typeface;
 import android.text.Editable;
 import android.text.InputType;
@@ -306,16 +304,16 @@ public class EntitiesHelper {
                 editText.setInputType(InputType.TYPE_CLASS_NUMBER);
             }
             editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-            editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
             editText.setText(text);
+            editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
             editText.setHintText(hint);
             editText.setHeaderHintColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider));
             editText.setSingleLine(true);
             editText.setFocusable(true);
             editText.setTransformHintToHeader(true);
-            editText.setBackground(null);
             editText.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteRedText3, resourcesProvider));
             editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
+            editText.setBackground(null);
             editText.requestFocus();
             editText.setPadding(0, 0, 0, 0);
             builder.setView(editText);
@@ -346,8 +344,7 @@ public class EntitiesHelper {
                 }
             }
 
-            var clipboardManager = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            var hasPaste = clipboardManager.hasPrimaryClip();
+            var hasPaste = ClipboardHelper.hasPrimaryClip();
             if (hasPaste) {
                 builder.setNeutralButton(LocaleController.getString(android.R.string.paste), null);
             }
@@ -356,9 +353,9 @@ public class EntitiesHelper {
             AlertDialog dialog = builder.show();
             if (hasPaste) {
                 dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setOnClickListener(view -> {
-                    var string = getClipboardText(context, clipboardManager);
+                    var string = ClipboardHelper.getClipboardText();
                     if (!isValidInput(style, string)) {
-                        AndroidUtilities.shakeView(editText, 2, 0);
+                        AndroidUtilities.shakeView(view, 2, 0);
                         return;
                     }
                     editText.setText(string);
@@ -426,21 +423,6 @@ public class EntitiesHelper {
                 delegate.onSpansChanged();
             }
         }
-    }
-
-    private static String getClipboardText(Context context, ClipboardManager clipboardManager) {
-        var clip = clipboardManager.getPrimaryClip();
-        String clipText;
-        if (clip != null && clip.getItemCount() > 0) {
-            try {
-                clipText = clip.getItemAt(0).coerceToText(context).toString();
-            } catch (Exception e) {
-                clipText = null;
-            }
-        } else {
-            clipText = null;
-        }
-        return clipText;
     }
 
     private static boolean isValidInput(Style style, String string) {
