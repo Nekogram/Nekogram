@@ -4890,11 +4890,11 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         try {
             retriever.setDataSource(path);
             bitrate = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
+            retriever.release();
         } catch (Exception e) {
             FileLog.e(e);
         }
 
-        retriever.release();
         return bitrate;
     }
 
