@@ -202,8 +202,8 @@ public class NekoConfig {
                 socksPort = socket.getLocalPort();
                 socket.close();
             }
-            socksPort = port;
             if (!tcp2wsStarted) {
+                // TODO: new domains
                 tcp2wsServer = new tcp2wsServer()
                         .setTgaMode(false)
                         .setTls(wsEnableTLS)
