@@ -2,6 +2,7 @@ package tw.nekomimi.nekogram.settings;
 
 import android.content.Context;
 import android.text.TextUtils;
+import android.view.HapticFeedbackConstants;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -29,10 +30,12 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.BulletinFactory;
+import org.telegram.ui.LaunchActivity;
 
 import java.util.Arrays;
 import java.util.List;
 
+@SuppressWarnings("deprecation")
 public class NekoDonateActivity extends BaseNekoSettingsActivity implements PurchasesUpdatedListener {
     private static final List<String> SKUS = Arrays.asList("donate001", "donate002", "donate005", "donate010", "donate020", "donate050", "donate100");
 
@@ -149,8 +152,8 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
     protected void updateRows() {
         rowCount = 0;
 
-        buyMeACoffeeRow = rowCount++;
-        buyMeACoffee2Row = rowCount++;
+        buyMeACoffeeRow = -1;
+        buyMeACoffee2Row = -1;
 
         donateRow = rowCount++;
         rowCount += 7;
@@ -167,7 +170,16 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                             .build();
                     billingClient.consumeAsync(params, (billingResult1, s) -> {
                         if (billingResult1.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            AndroidUtilities.runOnUIThread(() -> BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("DonateThankYou", R.string.DonateThankYou)).show());
+                            AndroidUtilities.runOnUIThread(() -> {
+                                BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("DonateThankYou", R.string.DonateThankYou)).show();
+                                try {
+                                    fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                                } catch (Exception ignored) {
+                                }
+                                if (getParentActivity() instanceof LaunchActivity) {
+                                    ((LaunchActivity) getParentActivity()).getFireworksOverlay().start();
+                                }
+                            });
                         } else {
                             showErrorAlert(billingResult1);
                         }
