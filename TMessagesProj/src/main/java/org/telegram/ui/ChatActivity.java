@@ -23149,6 +23149,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (messageObject.translated && messageObject.originalMessage != null) {
             if (messageObject.originalMessage instanceof String) {
                 messageObject.messageOwner.message = (String) messageObject.originalMessage;
+            } else if (messageObject.originalMessage instanceof Pair) {
+                var pair = (Pair<String, ArrayList<TLRPC.MessageEntity>>) messageObject.originalMessage;
+                messageObject.messageOwner.message = pair.first;
+                messageObject.messageOwner.entities = pair.second;
             } else if (messageObject.originalMessage instanceof TLRPC.TL_poll) {
                 ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) messageObject.originalMessage;
             }
@@ -23168,8 +23172,21 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return;
         }
         getMessageHelper().resetMessageContent(dialog_id, messageObject, false, true);
-        Object original = messageObject.isPoll() ? ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll : messageObject.messageOwner.message;
-        Translator.translate(original, sourceLanguage, new Translator.TranslateCallBack() {
+        Object original;
+        if (messageObject.isPoll()) {
+            original = ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll;
+        } else if (!NekoConfig.showOriginal) {
+            original = Pair.create(messageObject.messageOwner.message, messageObject.messageOwner.entities);
+        } else {
+            original = messageObject.messageOwner.message;
+        }
+        Object message;
+        if (messageObject.isPoll()) {
+            message = original;
+        } else {
+            message = messageObject.messageOwner.message;
+        }
+        Translator.translate(message, sourceLanguage, new Translator.TranslateCallBack() {
             @Override
             public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
                 if (autoTranslate && sourceLanguage != null && (sourceLanguage.equals(targetLanguage) || Translator.isLanguageRestricted(sourceLanguage))) {
@@ -23177,12 +23194,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     return;
                 }
                 if (translation instanceof String) {
-                    messageObject.messageOwner.message = NekoConfig.showOriginal ?
-                            messageObject.messageOwner.message +
-                                    "\n" +
-                                    "--------" +
-                                    "\n" + translation :
-                            (String) translation;
+                    if (original instanceof Pair) {
+                        messageObject.messageOwner.message = (String) translation;
+                        messageObject.messageOwner.entities = new ArrayList<>();
+                    } else {
+                        messageObject.messageOwner.message = messageObject.messageOwner.message +
+                                "\n" +
+                                "--------" +
+                                "\n" + translation;
+                    }
                 } else if (translation instanceof TLRPC.TL_poll) {
                     ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
                 }
