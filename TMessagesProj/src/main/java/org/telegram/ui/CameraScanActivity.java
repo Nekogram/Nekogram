@@ -70,6 +70,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.browser.Browser;
 import org.telegram.messenger.camera.CameraController;
 import org.telegram.messenger.camera.CameraSession;
 import org.telegram.messenger.camera.CameraView;
@@ -1089,13 +1090,11 @@ public class CameraScanActivity extends BaseFragment {
                 onNoQrFound();
                 return null;
             }
-            if (needGalleryButton) {
-                if (!text.startsWith("ton://transfer/")) {
-                    //onNoWalletFound(bitmap != null);
+            if (currentType == TYPE_QR) {
+                if (!Browser.isInternalUrl(text, null)) {
+                    onNoQrFound();
                     return null;
                 }
-                Uri uri = Uri.parse(text);
-                String path = uri.getPath().replace("/", "");
             } else {
                 if (!text.startsWith("tg://login?token=")) {
                     onNoQrFound();

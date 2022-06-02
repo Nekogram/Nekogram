@@ -22,10 +22,6 @@ import android.widget.TextView;
 import androidx.core.text.HtmlCompat;
 import androidx.core.util.Pair;
 
-import com.google.zxing.EncodeHintType;
-import com.google.zxing.qrcode.QRCodeWriter;
-import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
@@ -68,7 +64,6 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
@@ -310,19 +305,6 @@ public class MessageHelper extends BaseController {
         if (!TextUtils.isEmpty(path)) {
             ClipboardHelper.addFileToClipboard(new File(path), callback);
         }
-    }
-
-    public Bitmap createQR(String key) {
-        try {
-            HashMap<EncodeHintType, Object> hints = new HashMap<>();
-            hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
-            hints.put(EncodeHintType.MARGIN, 0);
-            QRCodeWriter writer = new QRCodeWriter();
-            return writer.encode(key, 768, 768, hints, null);
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        return null;
     }
 
     public void generateUpdateInfo(BaseFragment fragment, SparseArray<MessageObject>[] selectedMessagesIds, Runnable callback) {

@@ -157,6 +157,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import tw.nekomimi.nekogram.EditTextAutoFill;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
+import tw.nekomimi.nekogram.helpers.QrHelper;
 
 @SuppressLint("HardwareIds")
 public class LoginActivity extends BaseFragment {
@@ -2878,7 +2879,7 @@ public class LoginActivity extends BaseFragment {
                             showDialog(qrDialog);
                         }
                         String link = "tg://login?token=" + Base64.encodeToString(res.token, Base64.URL_SAFE | Base64.NO_WRAP | Base64.NO_PADDING);
-                        imageView.setImageBitmap(getMessageHelper().createQR(link));
+                        imageView.setImageBitmap(QrHelper.createQR(link));
                         long expires = res.expires - getConnectionsManager().getCurrentTime();
                         if (expires < 0) {
                             expires = 20;

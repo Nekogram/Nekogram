@@ -191,6 +191,7 @@ import tw.nekomimi.nekogram.AppLinkVerifyBottomSheet;
 import tw.nekomimi.nekogram.SendOptionsMenuLayout;
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
+import tw.nekomimi.nekogram.helpers.QrHelper;
 
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -232,6 +233,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private FiltersView filtersView;
     private ActionBarMenuItem passcodeItem;
     private ActionBarMenuItem downloadsItem;
+    private ActionBarMenuItem qrItem;
     private boolean passcodeItemVisible;
     private boolean downloadsItemVisible;
     private ActionBarMenuItem proxyItem;
@@ -2088,6 +2090,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             downloadsItem.addView(new DownloadProgressIcon(currentAccount, context));
             downloadsItem.setContentDescription(LocaleController.getString("AccDescrPasscodeLock", R.string.AccDescrPasscodeLock));
             downloadsItem.setVisibility(View.GONE);
+            passcodeItem.setContentDescription(LocaleController.getString("AccDescrPasscodeLock", R.string.AccDescrPasscodeLock));
+
+            qrItem = menu.addItem(4, R.drawable.msg_qrcode);
+            qrItem.setContentDescription(LocaleController.getString("AuthAnotherClientScan", R.string.AuthAnotherClientScan));
+            qrItem.setVisibility(View.GONE);
 
             updatePasscodeButton();
             updateProxyButton(false, false);
@@ -2104,6 +2111,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (downloadsItem != null && downloadsItemVisible) {
                     downloadsItem.setVisibility(View.GONE);
+                }
+                if (qrItem != null) {
+                    qrItem.setVisibility(View.VISIBLE);
                 }
                 if (viewPages[0] != null) {
                     if (searchString != null) {
@@ -2134,6 +2144,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (downloadsItem != null && downloadsItemVisible) {
                     downloadsItem.setVisibility(View.VISIBLE);
+                }
+                if (qrItem != null) {
+                    qrItem.setVisibility(View.GONE);
                 }
                 if (searchString != null) {
                     finishFragment();
@@ -4097,6 +4110,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } else if (id == 3) {
                         showSearch(true, true, true);
                         actionBar.openSearchField(true);
+                    } else if (id == 4) {
+                        QrHelper.openCameraScanActivity(DialogsActivity.this);
                     } else if (id >= 10 && id < 10 + UserConfig.MAX_ACCOUNT_COUNT) {
                         if (getParentActivity() == null) {
                             return;
@@ -4738,6 +4753,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             animators.add(ObjectAnimator.ofFloat(searchViewPager, View.SCALE_Y, show ? 1.0f : 1.05f));
             if (passcodeItem != null) {
                 animators.add(ObjectAnimator.ofFloat(passcodeItem.getIconView(), View.ALPHA, show ? 0 : 1f));
+            }
+            if (qrItem != null) {
+                animators.add(ObjectAnimator.ofFloat(qrItem.getIconView(), View.ALPHA, !show ? 0 : 1f));
             }
 
             if (downloadsItem != null) {
