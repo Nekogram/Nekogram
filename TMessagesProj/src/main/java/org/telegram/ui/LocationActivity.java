@@ -128,6 +128,7 @@ import java.util.List;
 import java.util.Locale;
 
 import androidx.collection.LongSparseArray;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -2587,6 +2588,12 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         if (adapter != null) {
             adapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public boolean isLightStatusBar() {
+        int color = Theme.getColor(Theme.key_dialogBackground, null, true);
+        return ColorUtils.calculateLuminance(color) > 0.7f;
     }
 
     @Override

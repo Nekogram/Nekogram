@@ -71,6 +71,7 @@ import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -898,6 +899,12 @@ public class PhotoAlbumPickerActivity extends BaseFragment implements Notificati
         public int getItemViewType(int i) {
             return 0;
         }
+    }
+
+    @Override
+    public boolean isLightStatusBar() {
+        int color = Theme.getColor(Theme.key_dialogBackground, null, true);
+        return ColorUtils.calculateLuminance(color) > 0.7f;
     }
 
     @Override

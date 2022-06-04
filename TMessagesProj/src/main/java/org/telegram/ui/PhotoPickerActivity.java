@@ -96,6 +96,7 @@ import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -1930,6 +1931,12 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
             }
             return 1;
         }
+    }
+
+    @Override
+    public boolean isLightStatusBar() {
+        int color = Theme.getColor(dialogBackgroundKey, null, true);
+        return ColorUtils.calculateLuminance(color) > 0.7f;
     }
 
     @Override
