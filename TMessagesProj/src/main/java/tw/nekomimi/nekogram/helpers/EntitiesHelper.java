@@ -9,6 +9,7 @@ import android.text.Spanned;
 import android.text.TextUtils;
 import android.text.style.BackgroundColorSpan;
 import android.text.style.CharacterStyle;
+import android.text.style.ForegroundColorSpan;
 import android.text.style.LocaleSpan;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
@@ -31,8 +32,11 @@ import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ArticleViewer;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.EditTextCaption;
+import org.telegram.ui.Components.TextPaintSpan;
+import org.telegram.ui.Components.TextPaintUrlSpan;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.URLSpanMono;
 import org.telegram.ui.Components.URLSpanReplacement;
@@ -492,6 +496,34 @@ public class EntitiesHelper {
                 }
                 if (((styleFlags & TextStyleSpan.FLAG_STYLE_SPOILER) > 0)) {
                     spannable.setSpan(new BackgroundColorSpan(Theme.getColor(Theme.key_chats_archivePullDownBackground)), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+            } else if (span instanceof ForegroundColorSpan || span instanceof StyleSpan) { // syntax highlight
+                spannable.setSpan(span, start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            } else if (span instanceof TextPaintSpan || span instanceof TextPaintUrlSpan) { // instant view
+                int flags;
+                if (span instanceof TextPaintUrlSpan) {
+                    flags = ((TextPaintUrlSpan) span).getFlags();
+                    var url = ((TextPaintUrlSpan) span).getUrl();
+                    if (!url.startsWith("mailto:") && !url.startsWith("tel:") && !spanned.subSequence(start, end).toString().equals(url)) {
+                        spannable.setSpan(new URLSpan(url), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    }
+                } else {
+                    flags = ((TextPaintSpan) span).getFlags();
+                }
+                if ((flags & ArticleViewer.TEXT_FLAG_MEDIUM) > 0) {
+                    spannable.setSpan(new StyleSpan(Typeface.BOLD), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                if ((flags & ArticleViewer.TEXT_FLAG_ITALIC) > 0) {
+                    spannable.setSpan(new StyleSpan(Typeface.ITALIC), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                if ((flags & ArticleViewer.TEXT_FLAG_UNDERLINE) > 0) {
+                    spannable.setSpan(new UnderlineSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                if ((flags & ArticleViewer.TEXT_FLAG_STRIKE) > 0) {
+                    spannable.setSpan(new StrikethroughSpan(), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                }
+                if ((flags & ArticleViewer.TEXT_FLAG_MONO) > 0) {
+                    spannable.setSpan(new TypefaceSpan("monospace"), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }
         }

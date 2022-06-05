@@ -13,10 +13,12 @@ import android.text.style.MetricAffectingSpan;
 
 public class TextPaintSpan extends MetricAffectingSpan {
 
+    private final int flags;
     private TextPaint textPaint;
 
-    public TextPaintSpan(TextPaint paint) {
+    public TextPaintSpan(TextPaint paint, int flags) {
         textPaint = paint;
+        this.flags = flags;
     }
 
     @Override
@@ -37,5 +39,9 @@ public class TextPaintSpan extends MetricAffectingSpan {
         p.setTextSize(textPaint.getTextSize());
         p.baselineShift = textPaint.baselineShift;
         p.bgColor = textPaint.bgColor;
+    }
+
+    public int getFlags() {
+        return flags;
     }
 }

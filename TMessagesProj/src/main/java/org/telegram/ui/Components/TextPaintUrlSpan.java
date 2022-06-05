@@ -13,14 +13,16 @@ import android.text.style.MetricAffectingSpan;
 
 public class TextPaintUrlSpan extends MetricAffectingSpan {
 
+    private final int flags;
     private TextPaint textPaint;
     private int textSize;
     private int color;
     private String currentUrl;
 
-    public TextPaintUrlSpan(TextPaint paint, String url) {
+    public TextPaintUrlSpan(TextPaint paint, String url, int flags) {
         textPaint = paint;
         currentUrl = url;
+        this.flags = flags;
     }
 
     public String getUrl() {
@@ -53,5 +55,9 @@ public class TextPaintUrlSpan extends MetricAffectingSpan {
             p.baselineShift = textPaint.baselineShift;
             p.bgColor = textPaint.bgColor;
         }
+    }
+
+    public int getFlags() {
+        return flags;
     }
 }

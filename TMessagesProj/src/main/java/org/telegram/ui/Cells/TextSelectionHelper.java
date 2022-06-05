@@ -1303,7 +1303,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                     if (!isSelectionMode()) {
                         return true;
                     }
-                    CharSequence str = getSelectedText();
+                    CharSequence str = EntitiesHelper.commonizeSpans(getSelectedText());
                     if (str == null) {
                         return true;
                     }
@@ -1319,7 +1319,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                     if (!isSelectionMode()) {
                         return true;
                     }
-                    CharSequence str = getSelectedText();
+                    CharSequence str = EntitiesHelper.commonizeSpans(getSelectedText());
                     if (str == null) {
                         return true;
                     }
@@ -1409,7 +1409,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
         if (!isSelectionMode()) {
             return;
         }
-        CharSequence str = getSelectedText();
+        CharSequence str = EntitiesHelper.commonizeSpans(getSelectedText());
         if (str == null) {
             return;
         }
@@ -1436,7 +1436,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
     protected CharSequence getSelectedText() {
         CharSequence text = getText(selectedView, false);
         if (text != null) {
-            return EntitiesHelper.commonizeSpans(text.subSequence(selectionStart, selectionEnd));
+            return text.subSequence(selectionStart, selectionEnd);
         }
         return null;
     }
