@@ -456,11 +456,12 @@ public class EntitiesHelper {
         if (!(text instanceof Spanned)) {
             return text;
         }
-        var spannable = new SpannableStringBuilder(text);
-        var spans = spannable.getSpans(0, spannable.length(), CharacterStyle.class);
+        var spanned = (Spanned) text;
+        var spannable = new SpannableStringBuilder(text.toString());
+        var spans = spanned.getSpans(0, spanned.length(), CharacterStyle.class);
         for (var span : spans) {
-            int start = spannable.getSpanStart(span);
-            int end = spannable.getSpanEnd(span);
+            int start = spanned.getSpanStart(span);
+            int end = spanned.getSpanEnd(span);
             if (span instanceof URLSpanMono) {
                 var style = ((URLSpanMono) span).getStyle();
                 if (style != null && style.urlEntity instanceof TLRPC.TL_messageEntityPre) {
@@ -471,15 +472,7 @@ public class EntitiesHelper {
                 spannable.setSpan(new URLSpan("tg://user?id=" + Long.parseLong(((URLSpanUserMention) span).getURL())), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (span instanceof URLSpanReplacement) {
                 var url = ((URLSpanReplacement) span).getURL();
-                if (url.startsWith("/") ||
-                        url.startsWith("video") ||
-                        url.startsWith("audio") ||
-                        url.startsWith("card:") ||
-                        url.startsWith("mailto:") ||
-                        url.startsWith("tel:") ||
-                        url.startsWith("@") ||
-                        url.startsWith("#") ||
-                        url.startsWith("$")) {
+                if (url.startsWith("mailto:")) {
                     continue;
                 }
                 spannable.setSpan(new URLSpan(url), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
