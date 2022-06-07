@@ -222,7 +222,6 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     outRect.right = AndroidUtilities.dp(8);
             }
         });
-        recyclerListView.setContentDescription(LocaleController.getString("Reactions", R.string.Reactions));
         addView(recyclerListView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         invalidateShaders();
 
@@ -588,7 +587,6 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             SvgHelper.SvgDrawable svgThumb = DocumentObject.getSvgThumb(currentReaction.activate_animation, Theme.key_windowBackgroundGray, 1.0f);
             backupImageView.getImageReceiver().setImage(ImageLocation.getForDocument(currentReaction.appear_animation), "60_60_nolimit", null, null, svgThumb, 0, "tgs", react, 0);
             pressedBackupImageView.getImageReceiver().setImage(ImageLocation.getForDocument(currentReaction.select_animation), "60_60_nolimit", null, null, svgThumb, 0, "tgs", react, 0);
-            setContentDescription(currentReaction.reaction);
         }
 
         @Override

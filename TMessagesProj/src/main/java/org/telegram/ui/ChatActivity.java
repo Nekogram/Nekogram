@@ -26410,9 +26410,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
 
                     @Override
-                    public String getAdminRank(long uid, boolean accessibility) {
+                    public String getAdminRank(long uid) {
                         if (ChatObject.isChannel(currentChat) && currentChat.megagroup) {
-                            return getMessagesController().getAdminRank(currentChat.id, uid, accessibility);
+                            return getMessagesController().getAdminRank(currentChat.id, uid);
                         }
                         return null;
                     }

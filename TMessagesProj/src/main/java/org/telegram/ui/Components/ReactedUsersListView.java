@@ -306,7 +306,6 @@ public class ReactedUsersListView extends FrameLayout {
             } else {
                 reactView.setImageDrawable(null);
             }
-            setContentDescription(UserObject.getUserName(u) + (reaction.reaction != null ? " " + reaction.reaction : ""));
         }
 
         @Override

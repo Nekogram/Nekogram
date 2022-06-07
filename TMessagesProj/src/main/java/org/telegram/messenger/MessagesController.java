@@ -3404,10 +3404,6 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public String getAdminRank(long chatId, long uid) {
-        return getAdminRank(chatId, uid, false);
-    }
-
-    public String getAdminRank(long chatId, long uid, boolean accessibility) {
         LongSparseArray<TLRPC.ChannelParticipant> array = channelAdmins.get(chatId);
         if (array == null) {
             return null;
@@ -3416,7 +3412,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (participant == null) {
             return null;
         }
-        return participant.rank != null ? participant.rank : accessibility && participant instanceof TLRPC.TL_channelParticipantCreator ? LocaleController.getString("ChannelCreator",R.string.ChannelCreator) : "";
+        return participant.rank != null ? participant.rank : "";
     }
 
     public boolean isChannelAdminsLoaded(long chatId) {

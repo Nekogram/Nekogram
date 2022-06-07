@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
@@ -121,14 +120,5 @@ public class AvailableReactionCell extends FrameLayout {
         }
 
         canvas.drawLine(getPaddingLeft() + l, getHeight() - w, getWidth() - getPaddingRight() - r, getHeight() - w, Theme.dividerPaint);
-    }
-
-    @Override
-    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
-        super.onInitializeAccessibilityNodeInfo(info);
-        info.setText(react.reaction);
-        info.setClassName("android.widget.CheckBox");
-        info.setCheckable(true);
-        info.setChecked(checkBox != null ? checkBox.isChecked() : switchView.isChecked());
     }
 }

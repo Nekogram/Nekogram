@@ -158,10 +158,6 @@ public class ReactionsLayoutInBubble {
         isEmpty = reactionButtons.isEmpty();
     }
 
-    public ArrayList<ReactionButton> getReactionButtons() {
-        return reactionButtons;
-    }
-
     public void measure(int availableWidth, int gravity) {
         height = 0;
         width = 0;
@@ -402,7 +398,7 @@ public class ReactionsLayoutInBubble {
 
     public class ReactionButton {
 
-        public final TLRPC.TL_reactionCount reactionCount;
+        private final TLRPC.TL_reactionCount reactionCount;
         public int animationType;
         public int animateFromX;
         public int animateFromY;
@@ -415,8 +411,8 @@ public class ReactionsLayoutInBubble {
         public boolean wasDrawn;
         public String key;
 
-        public String countText;
-        public String reaction;
+        String countText;
+        String reaction;
 
         int count;
         public int x;
