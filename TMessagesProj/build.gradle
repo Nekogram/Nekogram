@@ -146,7 +146,7 @@ android {
     defaultConfig {
         applicationId "tw.nekomimi.nekogram"
         minSdkVersion 21
-        targetSdkVersion 32
+        targetSdkVersion 33
         versionName "8.7.4.4"
         versionCode 2644
 
