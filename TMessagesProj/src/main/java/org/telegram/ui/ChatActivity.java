@@ -266,6 +266,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.DialogConfig;
 import tw.nekomimi.nekogram.helpers.EntitiesHelper;
 import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
+import tw.nekomimi.nekogram.helpers.PermissionHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.popupwrapper.TranslatorSettingsPopupWrapper;
 
@@ -11323,12 +11324,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 FileLog.e(e);
             }
         } else if (which == attach_gallery) {
-            if (Build.VERSION.SDK_INT >= 23 && getParentActivity().checkSelfPermission(Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                try {
-                    getParentActivity().requestPermissions(new String[]{Manifest.permission.READ_EXTERNAL_STORAGE}, BasePermissionsActivity.REQUEST_CODE_EXTERNAL_STORAGE);
-                } catch (Throwable ignore) {
-
-                }
+            if (!PermissionHelper.isImagesAndVideoPermissionGranted()) {
+                PermissionHelper.requestImagesAndVideoPermission(getParentActivity());
                 return;
             }
             boolean allowGifs;
