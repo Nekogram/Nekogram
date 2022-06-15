@@ -8,7 +8,6 @@ import org.json.JSONObject;
 import org.telegram.messenger.FileLog;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 
@@ -61,7 +60,7 @@ public class GoogleAppTranslator extends BaseTranslator {
     @Override
     protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
         String url = "https://translate.googleapis.com/translate_a/single?dj=1" +
-                "&q=" + URLEncoder.encode(query, "UTF-8") +
+                "&q=" + URLEncode(query) +
                 "&sl=auto" +
                 "&tl=" + tl +
                 "&ie=UTF-8&oe=UTF-8&client=at&dt=t&otf=2";

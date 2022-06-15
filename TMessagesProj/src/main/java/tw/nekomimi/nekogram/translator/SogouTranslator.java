@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import org.telegram.messenger.FileLog;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
@@ -88,7 +87,7 @@ public class SogouTranslator extends BaseTranslator {
                 .header("S-AppKey", Extra.SOGOU_APP_KEY)
                 .header("S-CurTime", String.valueOf(currentTimeMillis))
                 .header("S-Sign", Extra.signSogou(param, currentTimeMillis))
-                .data("S-Param=" + URLEncoder.encode(param, "UTF-8"))
+                .data("S-Param=" + URLEncode(param))
                 .request());
     }
 

@@ -16,8 +16,10 @@ import org.telegram.tgnet.TLRPC;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
@@ -48,6 +50,11 @@ abstract public class BaseTranslator {
         } else {
             new MyAsyncTask().request(query, fromLang, toLang, translateCallBack).execute();
         }
+    }
+
+    protected String URLEncode(String s) throws UnsupportedEncodingException {
+        //noinspection CharsetObjectCanBeUsed
+        return URLEncoder.encode(s, "UTF-8");
     }
 
     public boolean supportLanguage(String language) {

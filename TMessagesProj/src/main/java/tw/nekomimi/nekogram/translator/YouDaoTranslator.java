@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import org.telegram.messenger.FileLog;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 
@@ -80,7 +79,7 @@ public class YouDaoTranslator extends BaseTranslator {
         return getResult(Http.url("https://fanyi.youdao.com/appapi/tran?&product=fanyiguan&appVersion=4.0.9&vendor=tencent&network=wifi")
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("User-Agent", "okhttp/4.9.1")
-                .data("q=" + URLEncoder.encode(query, "UTF-8") + "&salt=" + time + "&sign=" + sign + "&needad=false&category=Android&type=AUTO2" + tl + "&needdict=true&version=4.0.9&needfanyi=true&needsentences=false&scene=realtime")
+                .data("q=" + URLEncode(query) + "&salt=" + time + "&sign=" + sign + "&needad=false&category=Android&type=AUTO2" + tl + "&needdict=true&version=4.0.9&needfanyi=true&needsentences=false&scene=realtime")
                 .request());
     }
 

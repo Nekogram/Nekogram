@@ -6,7 +6,6 @@ import org.json.JSONObject;
 import org.telegram.messenger.FileLog;
 
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
@@ -61,7 +60,7 @@ public class YandexTranslator extends BaseTranslator {
         return getResult(Http.url("https://translate.yandex.net/api/v1/tr.json/translate?id=" + uuid + "-0-0&srv=android")
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("User-Agent", "ru.yandex.translate/21.15.4.21402814 (Xiaomi Redmi K20 Pro; Android 11)")
-                .data("lang=" + tl + "&text=" + URLEncoder.encode(query, "UTF-8"))
+                .data("lang=" + tl + "&text=" + URLEncode(query))
                 .request());
     }
 
