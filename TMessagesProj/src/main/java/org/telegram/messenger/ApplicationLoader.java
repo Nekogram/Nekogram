@@ -42,6 +42,7 @@ import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.ForegroundDetector;
+import org.telegram.ui.LauncherIconController;
 
 import java.io.File;
 import java.util.HashMap;
@@ -198,6 +199,7 @@ public class ApplicationLoader extends Application {
             DownloadController.getInstance(a);
         }
         ChatThemeController.init();
+        BillingController.getInstance().startConnection();
     }
 
     public ApplicationLoader() {
@@ -241,6 +243,8 @@ public class ApplicationLoader extends Application {
 
         AndroidUtilities.runOnUIThread(ApplicationLoader::startPushService);
         countDownLatch.countDown();
+
+        LauncherIconController.tryFixLauncherIconIfNeeded();
     }
 
     public static void startPushService() {

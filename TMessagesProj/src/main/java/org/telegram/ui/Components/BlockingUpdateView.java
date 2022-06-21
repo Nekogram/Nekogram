@@ -13,8 +13,6 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.Build;
-import android.provider.Settings;
-import androidx.core.content.FileProvider;
 import android.text.SpannableStringBuilder;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -25,7 +23,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.android.exoplayer2.util.Log;
+import androidx.core.content.FileProvider;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -37,10 +35,10 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 
@@ -130,7 +128,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
                 }
                 cellFlickerDrawable.setParentWidth(getMeasuredWidth());
                 AndroidUtilities.rectTmp.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                cellFlickerDrawable.draw(canvas, AndroidUtilities.rectTmp, AndroidUtilities.dp(4));
+                cellFlickerDrawable.draw(canvas, AndroidUtilities.rectTmp, AndroidUtilities.dp(4), null);
                 invalidate();
             }
 
@@ -145,7 +143,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
             }
         };
         acceptButton.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
-        acceptButton.setBackgroundDrawable(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4), Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
+        acceptButton.setBackgroundDrawable(Theme.AdaptiveRipple.filledRect(Theme.key_featuredStickers_addButton, 4));
         acceptButton.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
         addView(acceptButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 46, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0, 0, 45));
         acceptButton.setOnClickListener(view1 -> {
@@ -231,7 +229,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
     public static boolean openApkInstall(Activity activity, TLRPC.Document document) {
         boolean exists = false;
         try {
-            File f = FileLoader.getPathToAttach(document, true);
+            File f = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(document, true);
             if (exists = f.exists()) {
                 ApkInstaller.installUpdate(activity, SharedConfig.pendingAppUpdate.document);
             }

@@ -108,14 +108,14 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             }
         }
         if (TextUtils.isEmpty(filePath)) {
-            filePath = FileLoader.getPathToMessage(messageObject.messageOwner).toString();
+            filePath = getFileLoader().getPathToMessage(messageObject.messageOwner).toString();
             File temp = new File(filePath);
             if (!temp.exists()) {
                 filePath = null;
             }
         }
         if (TextUtils.isEmpty(filePath)) {
-            filePath = FileLoader.getPathToAttach(messageObject.getDocument(), true).toString();
+            filePath = getFileLoader().getPathToAttach(messageObject.getDocument(), true).toString();
             File temp = new File(filePath);
             if (!temp.isFile()) {
                 filePath = null;

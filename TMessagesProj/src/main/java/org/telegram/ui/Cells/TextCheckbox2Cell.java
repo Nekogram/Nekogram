@@ -295,5 +295,12 @@ public class TextCheckbox2Cell extends FrameLayout {
         info.setClassName("android.widget.CheckBox");
         info.setCheckable(true);
         info.setChecked(checkbox.isChecked());
+        StringBuilder sb = new StringBuilder();
+        sb.append(textView.getText());
+        if (valueTextView != null) {
+            sb.append("\n");
+            sb.append(valueTextView.getText());
+        }
+        info.setText(sb);
     }
 }

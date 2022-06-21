@@ -21,6 +21,9 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
@@ -34,9 +37,6 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.DialogsActivity;
 
 import java.util.ArrayList;
-
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import tw.nekomimi.nekogram.folder.FolderIconHelper;
 
@@ -311,7 +311,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
         ArrayList<MessagesController.DialogFilter> filters = fragment.getMessagesController().dialogFilters;
         for (int a = 0, N = filters.size(); a < N; a++) {
             MessagesController.DialogFilter filter = filters.get(a);
-            if (!getDialogsCount(fragment, filter, selectedDialogs, true, true).isEmpty()) {
+            if (!getDialogsCount(fragment, filter, selectedDialogs, true, true).isEmpty() && !filter.isDefault()) {
                 result.add(filter);
             }
         }

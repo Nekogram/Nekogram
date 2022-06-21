@@ -32,10 +32,10 @@ dependencies {
     implementation 'com.googlecode.mp4parser:isoparser:1.0.6'
     implementation 'com.stripe:stripe-android:2.0.2'
     implementation 'com.google.mlkit:language-id:17.0.3'
+    implementation 'com.android.billingclient:billing:5.0.0'
     implementation files('libs/libgsaverification-client.aar')
 
     implementation "androidx.browser:browser:1.4.0"
-    implementation 'com.android.billingclient:billing:5.0.0'
     implementation 'com.getkeepsafe.relinker:relinker:1.4.4'
     implementation 'io.github.vvb2060.ndk:xposeddetector:2.2'
     implementation 'org.codeberg.qwerty287:prism4j:003cb5e380'
@@ -133,6 +133,8 @@ android {
         }
     }
 
+    defaultConfig.versionCode = 2702
+
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
             def abi = output.getFilter('ABI')
@@ -147,7 +149,7 @@ android {
         applicationId "tw.nekomimi.nekogram"
         minSdkVersion 21
         targetSdkVersion 33
-        versionName "8.7.4.4"
+        versionName "8.8.2"
         versionCode 2644
 
         externalNativeBuild {

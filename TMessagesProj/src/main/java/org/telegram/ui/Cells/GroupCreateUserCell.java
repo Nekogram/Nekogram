@@ -21,7 +21,6 @@ import android.widget.FrameLayout;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
-import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
@@ -104,7 +103,7 @@ public class GroupCreateUserCell extends FrameLayout {
             checkBox.setColor(null, Theme.key_windowBackgroundWhite, Theme.key_checkboxCheck);
             checkBox.setDrawUnchecked(false);
             checkBox.setDrawBackgroundAsArc(3);
-            addView(checkBox, LayoutHelper.createFrame(24, 24, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 0 : 40, 33, LocaleController.isRTL ? 39 : 0, 0));
+            addView(checkBox, LayoutHelper.createFrame(24, 24, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 0 : 40 + padding, 33, LocaleController.isRTL ? 39 + padding : 0, 0));
         } else if (checkBoxType == 2) {
             paint = new Paint(Paint.ANTI_ALIAS_FLAG);
             paint.setStyle(Paint.Style.STROKE);
@@ -255,11 +254,11 @@ public class GroupCreateUserCell extends FrameLayout {
             }
             avatarImageView.getLayoutParams().width = avatarImageView.getLayoutParams().height = AndroidUtilities.dp(46);
             if (checkBox != null) {
-                ((LayoutParams) checkBox.getLayoutParams()).topMargin = AndroidUtilities.dp(33);
+                ((LayoutParams) checkBox.getLayoutParams()).topMargin = AndroidUtilities.dp(33) + padding;
                 if (LocaleController.isRTL) {
-                    ((LayoutParams) checkBox.getLayoutParams()).rightMargin = AndroidUtilities.dp(39);
+                    ((LayoutParams) checkBox.getLayoutParams()).rightMargin = AndroidUtilities.dp(39) + padding;
                 } else {
-                    ((LayoutParams) checkBox.getLayoutParams()).leftMargin = AndroidUtilities.dp(40);
+                    ((LayoutParams) checkBox.getLayoutParams()).leftMargin = AndroidUtilities.dp(40) + padding;
                 }
             }
 
@@ -431,14 +430,9 @@ public class GroupCreateUserCell extends FrameLayout {
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
-        if (checkBox != null) {
+        if (isChecked()) {
             info.setCheckable(true);
-            info.setChecked(checkBox.isChecked());
-            info.setClassName("android.widget.CheckBox");
-        } else if (checkBoxType == 2) {
-            info.setCheckable(true);
-            info.setChecked(isChecked);
-            info.setClassName("android.widget.CheckBox");
+            info.setChecked(true);
         }
     }
 }

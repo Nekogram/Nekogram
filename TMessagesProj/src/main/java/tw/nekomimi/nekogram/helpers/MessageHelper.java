@@ -488,14 +488,14 @@ public class MessageHelper extends BaseController {
             }
         }
         if (TextUtils.isEmpty(path)) {
-            path = FileLoader.getPathToMessage(messageObject.messageOwner).toString();
+            path = getFileLoader().getPathToMessage(messageObject.messageOwner).toString();
             File temp = new File(path);
             if (!temp.exists()) {
                 path = null;
             }
         }
         if (TextUtils.isEmpty(path)) {
-            path = FileLoader.getPathToAttach(messageObject.getDocument(), true).toString();
+            path = getFileLoader().getPathToAttach(messageObject.getDocument(), true).toString();
             File temp = new File(path);
             if (!temp.exists()) {
                 return null;
@@ -509,7 +509,7 @@ public class MessageHelper extends BaseController {
     }
 
     public static void saveStickerToGallery(Activity activity, TLRPC.Document document, Runnable callback) {
-        String path = FileLoader.getPathToAttach(document, true).toString();
+        String path = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(document, true).toString();
         File temp = new File(path);
         if (!temp.exists()) {
             return;

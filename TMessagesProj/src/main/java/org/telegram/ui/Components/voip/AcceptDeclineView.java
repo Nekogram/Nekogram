@@ -50,8 +50,7 @@ public class AcceptDeclineView extends View {
     private AcceptDeclineAccessibilityNodeProvider accessibilityNodeProvider;
 
     private int buttonWidth;
-    private int currentFocusedVirtualViewId = -2;
-    private boolean touch = false;
+
     float smallRadius;
     float bigRadius;
     boolean expandSmallRadius = true;
@@ -421,18 +420,11 @@ public class AcceptDeclineView extends View {
     }
 
     @Override
-    public boolean dispatchHoverEvent(MotionEvent event) {
-        if(accessibilityNodeProvider!=null) return accessibilityNodeProvider.dispatchHoverEvent(event); else return super.dispatchHoverEvent(event);
-    }
-
-    @Override
-    public boolean performAccessibilityAction(int action, Bundle arguments) {
-        if (action == AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS) {
-            currentFocusedVirtualViewId = NO_ID;
-        } else if (action == AccessibilityNodeInfo.ACTION_CLEAR_ACCESSIBILITY_FOCUS) {
-            if (!touch) currentFocusedVirtualViewId = -2; else touch = false;
+    public boolean onHoverEvent(MotionEvent event) {
+        if (accessibilityNodeProvider != null && accessibilityNodeProvider.onHoverEvent(event)) {
+            return true;
         }
-        return super.performAccessibilityAction(action, arguments);
+        return super.onHoverEvent(event);
     }
 
     @Override
@@ -502,13 +494,16 @@ public class AcceptDeclineView extends View {
         this.screenWasWakeup = screenWasWakeup;
     }
 
-    private abstract class AcceptDeclineAccessibilityNodeProvider extends AccessibilityNodeProvider {
+    public static abstract class AcceptDeclineAccessibilityNodeProvider extends AccessibilityNodeProvider {
 
         private final View hostView;
         private final int virtualViewsCount;
         private final Rect rect = new Rect();
         private final AccessibilityManager accessibilityManager;
-        private AcceptDeclineAccessibilityNodeProvider(View hostView, int virtualViewsCount) {
+
+        private int currentFocusedVirtualViewId = View.NO_ID;
+
+        protected AcceptDeclineAccessibilityNodeProvider(View hostView, int virtualViewsCount) {
             this.hostView = hostView;
             this.virtualViewsCount = virtualViewsCount;
             this.accessibilityManager = ContextCompat.getSystemService(hostView.getContext(), AccessibilityManager.class);
@@ -546,20 +541,20 @@ public class AcceptDeclineView extends View {
 
         @Override
         public boolean performAction(int virtualViewId, int action, Bundle arguments) {
-            if (virtualViewId == HOST_VIEW_ID || action==AccessibilityNodeInfo.ACTION_CLEAR_ACCESSIBILITY_FOCUS) {
+            if (virtualViewId == HOST_VIEW_ID) {
                 return hostView.performAccessibilityAction(action, arguments);
             } else {
                 if (action == AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS) {
-                    currentFocusedVirtualViewId = virtualViewId;
                     sendAccessibilityEventForVirtualView(virtualViewId, AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
                 } else if (action == AccessibilityNodeInfo.ACTION_CLICK) {
                     onVirtualViewClick(virtualViewId);
+                    return true;
                 }
             }
-            return true;// For action accessibilityFocus should be return true too,because in other case screenreader will consider,what it's the last node on the screen,and we will hear sound fron it,which announce about it.
+            return false;
         }
 
-        public boolean dispatchHoverEvent(MotionEvent event) {
+        public boolean onHoverEvent(MotionEvent event) {
             final int x = (int) event.getX();
             final int y = (int) event.getY();
             if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER || event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
@@ -568,39 +563,30 @@ public class AcceptDeclineView extends View {
                     if (rect.contains(x, y)) {
                         if (i != currentFocusedVirtualViewId) {
                             currentFocusedVirtualViewId = i;
-                            touch = true;
                             sendAccessibilityEventForVirtualView(i, AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
                         }
                         return true;
                     }
                 }
-                if (currentFocusedVirtualViewId != -1) {
-                    currentFocusedVirtualViewId = -1;
-                    touch = true;
-                    sendAccessibilityEventForVirtualView(-1, AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
+            } else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
+                if (currentFocusedVirtualViewId != View.NO_ID) {
+                    currentFocusedVirtualViewId = View.NO_ID;
                     return true;
                 }
-            } else if (event.getAction() == MotionEvent.ACTION_HOVER_EXIT) {
-                currentFocusedVirtualViewId = -2;
             }
             return false;
         }
 
-        private void sendAccessibilityEventForVirtualView(int viewId, int eventType, CharSequence text) {
-            AccessibilityManager am = (AccessibilityManager) getContext().getSystemService(Context.ACCESSIBILITY_SERVICE);
-            if (am.isTouchExplorationEnabled()) {
-                AccessibilityEvent event = AccessibilityEvent.obtain(eventType);
-                event.setPackageName(getContext().getPackageName());
-                event.setSource(AcceptDeclineView.this, viewId);
-                if (text != null) event.getText().add(text);
-                if (getParent() != null) {
-                    getParent().requestSendAccessibilityEvent(AcceptDeclineView.this, event);
+        private void sendAccessibilityEventForVirtualView(int virtualViewId, int eventType) {
+            if (accessibilityManager.isTouchExplorationEnabled()) {
+                final ViewParent parent = hostView.getParent();
+                if (parent != null) {
+                    final AccessibilityEvent event = AccessibilityEvent.obtain(eventType);
+                    event.setPackageName(hostView.getContext().getPackageName());
+                    event.setSource(hostView, virtualViewId);
+                    parent.requestSendAccessibilityEvent(hostView, event);
                 }
             }
-        }
-
-        private void sendAccessibilityEventForVirtualView(int viewId, int eventType) {
-            sendAccessibilityEventForVirtualView(viewId, eventType, null);
         }
 
         protected abstract CharSequence getVirtualViewText(int virtualViewId);

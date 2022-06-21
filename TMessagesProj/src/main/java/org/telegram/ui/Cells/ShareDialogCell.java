@@ -96,15 +96,6 @@ public class ShareDialogCell extends FrameLayout {
     }
 
     @Override
-    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
-        super.onInitializeAccessibilityNodeInfo(info);
-        if (checkBox != null) {
-            info.setSelected(checkBox.isChecked());
-            info.setClickable(true);
-        }
-    }
-
-    @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(currentType == TYPE_CREATE ? 95 : 103), MeasureSpec.EXACTLY));
     }
@@ -214,5 +205,13 @@ public class ShareDialogCell extends FrameLayout {
     private int getThemedColor(String key) {
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
         return color != null ? color : Theme.getColor(key);
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        if (checkBox.isChecked()) {
+            info.setSelected(true);
+        }
     }
 }

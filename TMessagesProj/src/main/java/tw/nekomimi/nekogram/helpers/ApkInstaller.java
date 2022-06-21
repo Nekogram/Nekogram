@@ -28,6 +28,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.XiaomiUtilities;
 import org.telegram.tgnet.TLRPC;
@@ -89,7 +90,7 @@ public final class ApkInstaller {
             AndroidUtilities.openForView(document, context);
             return;
         }
-        var apk = FileLoader.getPathToAttach(document, true);
+        var apk = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(document, true);
         if (apk == null) {
             return;
         }

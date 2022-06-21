@@ -58,12 +58,14 @@ import org.json.JSONArray;
 import org.json.JSONTokener;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.DispatchQueue;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.messenger.browser.Browser;
+import org.telegram.messenger.XiaomiUtilities;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -82,6 +84,9 @@ import java.util.Locale;
 import tw.nekomimi.nekogram.translator.Translator;
 
 public class TranslateAlert extends Dialog {
+
+    public static volatile DispatchQueue translateQueue = new DispatchQueue("translateQueue", false);
+
     private FrameLayout bulletinContainer;
     private FrameLayout contentView;
     private FrameLayout container;
@@ -94,7 +99,6 @@ public class TranslateAlert extends Dialog {
     private ImageView copyButton;
     private FrameLayout header;
     private FrameLayout headerShadowView;
-    private boolean scrollViewScrollable = false;
     private NestedScrollView scrollView;
     private TextBlocksLayout textsView;
     private TextView buttonTextView;
@@ -105,7 +109,6 @@ public class TranslateAlert extends Dialog {
 
     private FrameLayout.LayoutParams titleLayout;
     private FrameLayout.LayoutParams subtitleLayout;
-    private FrameLayout.LayoutParams backLayout;
     private FrameLayout.LayoutParams copyLayout;
     private FrameLayout.LayoutParams headerLayout;
     private FrameLayout.LayoutParams scrollViewLayout;
@@ -114,8 +117,6 @@ public class TranslateAlert extends Dialog {
     private ArrayList<CharSequence> textBlocks;
 
     private float containerOpenAnimationT = 0f;
-    private float openAnimationT = 0f;
-    private float epsilon = 0.001f;
     private void openAnimation(float t) {
         t = Math.min(Math.max(t, 0f), 1f);
         if (containerOpenAnimationT == t) {
@@ -241,17 +242,16 @@ public class TranslateAlert extends Dialog {
     }
 
     public interface OnLinkPress {
-        public void run(URLSpan urlSpan);
+        public boolean run(URLSpan urlSpan);
     }
 
     private boolean allowScroll = true;
-    private ValueAnimator scrollerToBottom = null;
     private String fromLanguage, toLanguage;
     private CharSequence text;
     private BaseFragment fragment;
     private boolean noforwards;
-    private OnLinkPress onLinkPress = null;
-    private Runnable onDismiss = null;
+    private OnLinkPress onLinkPress;
+    private Runnable onDismiss;
     public TranslateAlert(BaseFragment fragment, Context context, String fromLanguage, String toLanguage, CharSequence text, boolean noforwards, OnLinkPress onLinkPress, Runnable onDismiss) {
         this(fragment, context, -1, null, -1, fromLanguage, toLanguage, text, noforwards, onLinkPress, onDismiss);
     }
@@ -451,7 +451,7 @@ public class TranslateAlert extends Dialog {
         backButton.setClickable(false);
         backButton.setAlpha(0f);
         backButton.setOnClickListener(e -> dismiss());
-        header.addView(backButton, backLayout = LayoutHelper.createFrame(56, 56, Gravity.LEFT | Gravity.CENTER_HORIZONTAL));
+        header.addView(backButton, LayoutHelper.createFrame(56, 56, Gravity.LEFT | Gravity.CENTER_HORIZONTAL));
 
         headerShadowView = new FrameLayout(context);
         headerShadowView.setBackgroundColor(Theme.getColor(Theme.key_dialogShadowLine));
@@ -522,7 +522,7 @@ public class TranslateAlert extends Dialog {
         allTextsView.setHighlightColor(Theme.getColor(Theme.key_chat_inTextSelectionHighlight));
         int handleColor = Theme.getColor(Theme.key_chat_TextSelectionCursor);
         try {
-            if (Build.VERSION.SDK_INT >= 29) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && !XiaomiUtilities.isMIUI()) {
                 Drawable left = allTextsView.getTextSelectHandleLeft();
                 left.setColorFilter(handleColor, PorterDuff.Mode.SRC_IN);
                 allTextsView.setTextSelectHandleLeft(left);
@@ -532,6 +532,7 @@ public class TranslateAlert extends Dialog {
                 allTextsView.setTextSelectHandleRight(right);
             }
         } catch (Exception e) {}
+        allTextsView.setFocusable(true);
         allTextsView.setMovementMethod(new LinkMovementMethod());
 
         textsView = new TextBlocksLayout(context, dp(16), Theme.getColor(Theme.key_dialogTextBlack), allTextsView);
@@ -569,7 +570,8 @@ public class TranslateAlert extends Dialog {
         buttonTextView.setText(LocaleController.getString("CloseTranslation", R.string.CloseTranslation));
 
         buttonView = new FrameLayout(context);
-        buttonView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(4), Theme.getColor(Theme.key_featuredStickers_addButton), Theme.getColor(Theme.key_featuredStickers_addButtonPressed)));
+//        buttonView.setBackground(Theme.AdaptiveRipple.filledRect(Theme.key_featuredStickers_addButton, 4));
+        buttonView.setBackground(Theme.AdaptiveRipple.filledRect(Theme.getColor(Theme.key_featuredStickers_addButton), 4));
         buttonView.addView(buttonTextView);
         buttonView.setOnClickListener(e -> dismiss());
 
@@ -802,6 +804,10 @@ public class TranslateAlert extends Dialog {
         params.height = ViewGroup.LayoutParams.MATCH_PARENT;
         window.setAttributes(params);
 
+        int navigationbarColor = Theme.getColor(Theme.key_windowBackgroundWhite);
+        AndroidUtilities.setNavigationBarColor(window, navigationbarColor);
+        AndroidUtilities.setLightNavigationBar(window, AndroidUtilities.computePerceivedBrightness(navigationbarColor) > .721);
+
         container.forceLayout();
     }
 
@@ -946,10 +952,8 @@ public class TranslateAlert extends Dialog {
             return false;
         }
 
-        CharSequence blockText = textBlocks.get(blockIndex);
-
         fetchTranslation(
-            blockText,
+            textBlocks.get(blockIndex),
             Math.min((blockIndex + 1) * 1000, 3500),
             (String translatedText, String sourceLanguage) -> {
                 loaded = true;
@@ -970,9 +974,10 @@ public class TranslateAlert extends Dialog {
                                 @Override
                                 public void onClick(@NonNull View view) {
                                     if (onLinkPress != null) {
-                                        onLinkPress.run(urlSpan);
-                                        fastHide = true;
-                                        dismiss();
+                                        if (onLinkPress.run(urlSpan)) {
+                                            fastHide = true;
+                                            dismiss();
+                                        }
                                     } else if (fragment != null) {
                                         AlertsCreator.showOpenUrlAlert(fragment, urlSpan.getURL(), false, false);
                                     } else {
@@ -1035,7 +1040,12 @@ public class TranslateAlert extends Dialog {
                     e.printStackTrace();
                 }
 
-                allTexts = new SpannableStringBuilder(allTexts == null ? "" : allTexts).append(blockIndex == 0 ? "" : "\n").append(spannable);
+                SpannableStringBuilder allTextsBuilder = new SpannableStringBuilder(allTexts == null ? "" : allTexts);
+                if (blockIndex != 0) {
+                    allTextsBuilder.append("\n");
+                }
+                allTextsBuilder.append(spannable);
+                allTexts = allTextsBuilder;
                 textsView.setWholeText(allTexts);
 
                 LoadingTextView2 block = textsView.getBlockAt(blockIndex);
@@ -1046,6 +1056,12 @@ public class TranslateAlert extends Dialog {
                 if (sourceLanguage != null) {
                     fromLanguage = sourceLanguage;
                     updateSourceLanguage();
+                }
+
+                if (blockIndex == 0 && AndroidUtilities.isAccessibilityScreenReaderEnabled()) {
+                    if (allTextsView != null) {
+                        allTextsView.requestFocus();
+                    }
                 }
 
                 blockIndex++;
@@ -1111,9 +1127,7 @@ public class TranslateAlert extends Dialog {
         req.to_lang = to_lang;
 
         try {
-            ConnectionsManager.getInstance(currentAccount).sendRequest(req, (error, res) -> {
-                // TODO
-            });
+            ConnectionsManager.getInstance(currentAccount).sendRequest(req, (error, res) -> {});
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -1170,6 +1184,7 @@ public class TranslateAlert extends Dialog {
 
         public LoadingTextView2 addBlock(CharSequence fromText) {
             LoadingTextView2 textView = new LoadingTextView2(getContext(), fromText, getBlocksCount() > 0, fontSize, textColor);
+            textView.setFocusable(false);
             addView(textView);
             if (wholeTextView != null) {
                 wholeTextView.bringToFront();
@@ -1244,7 +1259,7 @@ public class TranslateAlert extends Dialog {
 
         @Override
         protected void onLayout(boolean changed, int l, int t, int r, int b) {
-            int y = 0, height = 0;
+            int y = 0;
             final int count = getBlocksCount();
             for (int i = 0; i < count; ++i) {
                 LoadingTextView2 block = getBlockAt(i);
@@ -1255,7 +1270,6 @@ public class TranslateAlert extends Dialog {
                 if (i > 0 && i < count - 1) {
                     y += gap;
                 }
-                height += blockHeight;
             }
 
             wholeTextView.measure(
@@ -1270,7 +1284,6 @@ public class TranslateAlert extends Dialog {
             );
         }
     }
-
 
     public static class InlineLoadingTextView extends ViewGroup {
 
@@ -1306,6 +1319,8 @@ public class TranslateAlert extends Dialog {
             fromTextView.setMaxLines(1);
             fromTextView.setSingleLine(true);
             fromTextView.setEllipsize(null);
+            fromTextView.setFocusable(false);
+            fromTextView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             addView(fromTextView);
 
             toTextView = new TextView(context) {
@@ -1320,6 +1335,7 @@ public class TranslateAlert extends Dialog {
             toTextView.setMaxLines(1);
             toTextView.setSingleLine(true);
             toTextView.setEllipsize(null);
+            toTextView.setFocusable(true);
             addView(toTextView);
 
             int c1 = Theme.getColor(Theme.key_dialogBackground),
@@ -1521,6 +1537,7 @@ public class TranslateAlert extends Dialog {
             setPadding(paddingHorizontal, paddingVertical, paddingHorizontal, paddingVertical);
             setClipChildren(false);
             setWillNotDraw(false);
+            setFocusable(false);
 
             fromTextView = new TextView(context) {
                 @Override
@@ -1535,6 +1552,8 @@ public class TranslateAlert extends Dialog {
             fromTextView.setMaxLines(0);
             fromTextView.setSingleLine(false);
             fromTextView.setEllipsize(null);
+            fromTextView.setFocusable(false);
+            fromTextView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             addView(fromTextView);
 
             toTextView = new TextView(context) {
@@ -1549,6 +1568,8 @@ public class TranslateAlert extends Dialog {
             toTextView.setMaxLines(0);
             toTextView.setSingleLine(false);
             toTextView.setEllipsize(null);
+            toTextView.setFocusable(false);
+            toTextView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             addView(toTextView);
 
             int c1 = Theme.getColor(Theme.key_dialogBackground),
@@ -1666,23 +1687,6 @@ public class TranslateAlert extends Dialog {
         }
 
         private RectF fetchedPathRect = new RectF();
-        private Path fetchPath = new Path() {
-            private boolean got = false;
-
-            @Override
-            public void reset() {
-                super.reset();
-                got = false;
-            }
-
-            @Override
-            public void addRect(float left, float top, float right, float bottom, @NonNull Direction dir) {
-                if (!got) {
-                    fetchedPathRect.set(left - paddingHorizontal, top - paddingVertical, right + paddingHorizontal, bottom + paddingVertical);
-                    got = true;
-                }
-            }
-        };
         private void updateLoadingPath() {
             if (fromTextView != null && fromTextView.getMeasuredWidth() > 0) {
                 loadingPath.reset();
@@ -1692,9 +1696,9 @@ public class TranslateAlert extends Dialog {
                     final int lineCount = loadingLayout.getLineCount();
                     for (int i = 0; i < lineCount; ++i) {
                         float s = loadingLayout.getLineLeft(i),
-                                e = loadingLayout.getLineRight(i),
-                                l = Math.min(s, e),
-                                r = Math.max(s, e);
+                              e = loadingLayout.getLineRight(i),
+                              l = Math.min(s, e),
+                              r = Math.max(s, e);
                         int start = loadingLayout.getLineStart(i),
                               end = loadingLayout.getLineEnd(i);
                         boolean hasNonEmptyChar = false;

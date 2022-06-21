@@ -49,6 +49,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.os.PowerManager;
 import android.os.SystemClock;
+import android.os.Vibrator;
 import android.provider.CallLog;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
@@ -76,6 +77,7 @@ import android.view.MotionEvent;
 import android.view.Surface;
 import android.view.TextureView;
 import android.view.View;
+import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowInsets;
@@ -90,12 +92,14 @@ import android.view.inputmethod.InputMethodSubtype;
 import android.webkit.MimeTypeMap;
 import android.widget.EdgeEffect;
 import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.dynamicanimation.animation.DynamicAnimation;
 import androidx.dynamicanimation.animation.SpringAnimation;
@@ -163,6 +167,7 @@ import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.Locale;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -171,7 +176,10 @@ import tw.nekomimi.nekogram.NekoConfig;
 public class AndroidUtilities {
     public final static int LIGHT_STATUS_BAR_OVERLAY = 0x0f000000, DARK_STATUS_BAR_OVERLAY = 0x33000000;
 
+    public final static String TYPEFACE_ROBOTO_MEDIUM = "fonts/rmedium.ttf";
+
     private static final Hashtable<String, Typeface> typefaceCache = new Hashtable<>();
+    public static float touchSlop;
     private static int prevOrientation = -10;
     private static boolean waitingForSms = false;
     private static boolean waitingForCall = false;
@@ -199,6 +207,7 @@ public class AndroidUtilities {
     public static OvershootInterpolator overshootInterpolator = new OvershootInterpolator();
 
     private static AccessibilityManager accessibilityManager;
+    private static Vibrator vibrator;
 
     private static Boolean isTablet = null, isSmallScreen = null;
     private static int adjustOwnerClassGuid = 0;
@@ -437,6 +446,23 @@ public class AndroidUtilities {
         return spannableStringBuilder;
     }
 
+    public static void recycleBitmaps(ArrayList<Bitmap> bitmapToRecycle) {
+        if (bitmapToRecycle != null && !bitmapToRecycle.isEmpty()) {
+            AndroidUtilities.runOnUIThread(() -> NotificationCenter.getInstance(UserConfig.selectedAccount).doOnIdle(() -> {
+                for (int i = 0; i < bitmapToRecycle.size(); i++) {
+                    Bitmap bitmap = bitmapToRecycle.get(i);
+                    if (bitmap != null && !bitmap.isRecycled()) {
+                        try {
+                            bitmap.recycle();
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                    }
+                }
+            }), 36);
+        }
+    }
+
     private static class LinkSpec {
         String url;
         int start;
@@ -512,7 +538,7 @@ public class AndroidUtilities {
             Linkify.addLinks(text, Linkify.PHONE_NUMBERS);
         }
         if ((mask & Linkify.WEB_URLS) != 0) {
-            gatherLinks(links, text, LinkifyPort.WEB_URL, new String[]{"http://", "https://", "ton://", "tg://"}, sUrlMatchFilter, internalOnly);
+            gatherLinks(links, text, LinkifyPort.WEB_URL, new String[]{"http://", "https://", "tg://"}, sUrlMatchFilter, internalOnly);
         }
         pruneOverlaps(links);
         if (links.size() == 0) {
@@ -844,10 +870,17 @@ public class AndroidUtilities {
     }
 
     public static void requestAdjustResize(Activity activity, int classGuid) {
-        if (activity == null || isTablet()) {
+        if (activity == null) {
             return;
         }
-        activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        requestAdjustResize(activity.getWindow(), classGuid);
+    }
+
+    public static void requestAdjustResize(Window window, int classGuid) {
+        if (window == null || isTablet()) {
+            return;
+        }
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         adjustOwnerClassGuid = classGuid;
     }
 
@@ -1844,6 +1877,8 @@ public class AndroidUtilities {
                 }
                 FileLog.e("density = " + density + " display size = " + displaySize.x + " " + displaySize.y + " " + displayMetrics.xdpi + "x" + displayMetrics.ydpi + ", screen layout: " + configuration.screenLayout + ", statusbar height: " + statusBarHeight + ", navbar height: " + navigationBarHeight);
             }
+            ViewConfiguration vc = ViewConfiguration.get(context);
+            touchSlop = vc.getScaledTouchSlop();
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -2623,8 +2658,13 @@ public class AndroidUtilities {
 
     public static File generatePicturePath(boolean secretChat, String ext) {
         try {
-            File storageDir = ApplicationLoader.applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
-            return new File(storageDir, generateFileName(0, ext));
+            File publicDir = FileLoader.getDirectory(FileLoader.MEDIA_DIR_IMAGE_PUBLIC);
+            if (secretChat || publicDir == null) {
+                File storageDir = ApplicationLoader.applicationContext.getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+                return new File(storageDir, generateFileName(0, ext));
+            } else {
+                return new File(publicDir, generateFileName(0, ext));
+            }
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -2750,11 +2790,11 @@ public class AndroidUtilities {
                 return String.format("%.1f MB", value);
             }
         } else {
-            float value = size / 1024.0f / 1024.0f / 1024.0f;
+            float value = (int) (size / 1024L / 1024L) / 1000.0f;
             if (removeZero && (value - (int) value) * 10 == 0) {
                 return String.format("%d GB", (int) value);
             } else {
-                return String.format("%.1f GB", value);
+                return String.format("%.2f GB", value);
             }
         }
     }
@@ -2999,7 +3039,7 @@ public class AndroidUtilities {
             f = new File(message.messageOwner.attachPath);
         }
         if (f == null || f != null && !f.exists()) {
-            f = FileLoader.getPathToMessage(message.messageOwner);
+            f = FileLoader.getInstance(UserConfig.selectedAccount).getPathToMessage(message.messageOwner);
         }
         if (f != null && f.exists()) {
             if (parentFragment != null && f.getName().toLowerCase().endsWith("attheme")) {
@@ -3119,7 +3159,7 @@ public class AndroidUtilities {
             f = new File(message.messageOwner.attachPath);
         }
         if (f == null || !f.exists()) {
-            f = FileLoader.getPathToMessage(message.messageOwner);
+            f = FileLoader.getInstance(message.currentAccount).getPathToMessage(message.messageOwner);
         }
         String mimeType = message.type == 9 || message.type == 0 ? message.getMimeType() : null;
         return openForView(f, message.getFileName(), mimeType, activity, resourcesProvider);
@@ -3127,7 +3167,7 @@ public class AndroidUtilities {
 
     public static boolean openForView(TLRPC.Document document, boolean forceCache, Activity activity) {
         String fileName = FileLoader.getAttachFileName(document);
-        File f = FileLoader.getPathToAttach(document, true);
+        File f = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(document, true);
         return openForView(f, fileName, document.mime_type, activity, null);
     }
 
@@ -3208,7 +3248,7 @@ public class AndroidUtilities {
             return false;
         }
         String fileName = FileLoader.getAttachFileName(media);
-        File f = FileLoader.getPathToAttach(media, true);
+        File f = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(media, true);
         if (f != null && f.exists()) {
             String realMimeType = null;
             Intent intent = new Intent(Intent.ACTION_VIEW);
@@ -3312,6 +3352,13 @@ public class AndroidUtilities {
         if (translate) {
             matrix.preTranslate(tx, ty);
         }
+    }
+
+    public static Vibrator getVibrator() {
+        if (vibrator == null) {
+            vibrator = (Vibrator) ApplicationLoader.applicationContext.getSystemService(Context.VIBRATOR_SERVICE);
+        }
+        return vibrator;
     }
 
     public static boolean isAccessibilityTouchExplorationEnabled() {
@@ -3838,6 +3885,10 @@ public class AndroidUtilities {
         }
     }
 
+    public static float computeDampingRatio(float tension /* stiffness */, float friction /* damping */, float mass) {
+        return friction / (2f * (float) Math.sqrt(mass * tension));
+    }
+
     private static WeakReference<BaseFragment> flagSecureFragment;
 
     public static boolean hasFlagSecureFragment() {
@@ -4186,11 +4237,34 @@ public class AndroidUtilities {
         }
     }
 
+    public static void updateImageViewImageAnimated(ImageView imageView, int newIcon) {
+        updateImageViewImageAnimated(imageView, ContextCompat.getDrawable(imageView.getContext(), newIcon));
+    }
+
+    public static void updateImageViewImageAnimated(ImageView imageView, Drawable newIcon) {
+        ValueAnimator animator = ValueAnimator.ofFloat(0, 1).setDuration(150);
+        AtomicBoolean changed = new AtomicBoolean();
+        animator.addUpdateListener(animation -> {
+            float val = (float) animation.getAnimatedValue();
+            float scale = 0.5f + Math.abs(val - 0.5f);
+            imageView.setScaleX(scale);
+            imageView.setScaleY(scale);
+            if (val >= 0.5f && !changed.get()) {
+                changed.set(true);
+                imageView.setImageDrawable(newIcon);
+            }
+        });
+        animator.start();
+    }
+
     public static void updateViewVisibilityAnimated(View view, boolean show) {
         updateViewVisibilityAnimated(view, show, 1f, true);
     }
 
     public static void updateViewVisibilityAnimated(View view, boolean show, float scaleFactor, boolean animated) {
+        if (view == null) {
+            return;
+        }
         if (view.getParent() == null) {
             animated = false;
         }
@@ -4305,5 +4379,15 @@ public class AndroidUtilities {
         } catch (NumberFormatException e) {
             return false;
         }
+    }
+
+    public static boolean isAccessibilityScreenReaderEnabled() {
+        return false;
+//        try {
+//            AccessibilityManager am = (AccessibilityManager) ApplicationLoader.applicationContext.getSystemService(Context.ACCESSIBILITY_SERVICE);
+//            return (am != null && am.isEnabled() && !am.isTouchExplorationEnabled());
+//        } catch (Exception ignroe) {
+//            return false;
+//        }
     }
 }

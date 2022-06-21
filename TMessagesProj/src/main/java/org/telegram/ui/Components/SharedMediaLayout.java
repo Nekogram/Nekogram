@@ -162,6 +162,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     FlickerLoadingView globalGradientView;
     private final int viewType;
 
+    private UndoView undoView;
+
     public boolean checkPinchToZoom(MotionEvent ev) {
         if (mediaPages[0].selectedType != 0 || getParent() == null) {
             return false;
@@ -1140,10 +1142,12 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
     final Delegate delegate;
     private HintView fwdRestrictedHint;
+    private Theme.ResourcesProvider resourcesProvider;
 
-    public SharedMediaLayout(Context context, long did, SharedMediaPreloader preloader, int commonGroupsCount, ArrayList<Integer> sortedUsers, TLRPC.ChatFull chatInfo, boolean membersFirst, BaseFragment parent, Delegate delegate, int viewType) {
+    public SharedMediaLayout(Context context, long did, SharedMediaPreloader preloader, int commonGroupsCount, ArrayList<Integer> sortedUsers, TLRPC.ChatFull chatInfo, boolean membersFirst, BaseFragment parent, Delegate delegate, int viewType, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.viewType = viewType;
+        this.resourcesProvider = resourcesProvider;
 
         globalGradientView = new FlickerLoadingView(context);
         globalGradientView.setIsSingleCell(true);
@@ -1217,7 +1221,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         searchWas = false;
 
         pinnedHeaderShadowDrawable = context.getResources().getDrawable(R.drawable.photos_header_shadow);
-        pinnedHeaderShadowDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundGrayShadow), PorterDuff.Mode.MULTIPLY));
+        pinnedHeaderShadowDrawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_windowBackgroundGrayShadow), PorterDuff.Mode.MULTIPLY));
 
         if (scrollSlidingTextTabStrip != null) {
             initialTab = scrollSlidingTextTabStrip.getCurrentTabId();
@@ -1234,6 +1238,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         menu.addOnLayoutChangeListener(new OnLayoutChangeListener() {
             @Override
             public void onLayoutChange(View view, int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7) {
+                if (searchItem == null) {
+                    return;
+                }
                 View parent = (View) searchItem.getParent();
                 searchItem.setTranslationX(parent.getMeasuredWidth() - searchItem.getRight());
             }
@@ -1305,11 +1312,12 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         searchItem.setVisibility(View.INVISIBLE);
 
         photoVideoOptionsItem = new ImageView(context);
+        photoVideoOptionsItem.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
         photoVideoOptionsItem.setTranslationY(AndroidUtilities.dp(10));
         photoVideoOptionsItem.setVisibility(View.INVISIBLE);
 
         Drawable calendarDrawable = ContextCompat.getDrawable(context, R.drawable.ic_ab_other).mutate();
-        calendarDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2), PorterDuff.Mode.MULTIPLY));
+        calendarDrawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_windowBackgroundWhiteGrayText2), PorterDuff.Mode.MULTIPLY));
         photoVideoOptionsItem.setImageDrawable(calendarDrawable);
         photoVideoOptionsItem.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         actionBar.addView(photoVideoOptionsItem, LayoutHelper.createFrame(48, 56, Gravity.RIGHT | Gravity.BOTTOM));
@@ -1460,9 +1468,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         });
 
         EditTextBoldCursor editText = searchItem.getSearchField();
-        editText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-        editText.setHintTextColor(Theme.getColor(Theme.key_player_time));
-        editText.setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        editText.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
+        editText.setHintTextColor(getThemedColor(Theme.key_player_time));
+        editText.setCursorColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
         searchItemState = 0;
 
         SizeNotifierFrameLayout sizeNotifierFrameLayout = null;
@@ -1470,7 +1478,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             sizeNotifierFrameLayout = (SizeNotifierFrameLayout) profileActivity.getFragmentView();
         }
         actionModeLayout = new BlurredLinearLayout(context, sizeNotifierFrameLayout);
-        actionModeLayout.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+        actionModeLayout.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
         actionModeLayout.setAlpha(0.0f);
         actionModeLayout.setClickable(true);
         actionModeLayout.setVisibility(INVISIBLE);
@@ -1478,8 +1486,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         closeButton = new ImageView(context);
         closeButton.setScaleType(ImageView.ScaleType.CENTER);
         closeButton.setImageDrawable(backDrawable = new BackDrawable(true));
-        backDrawable.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2));
-        closeButton.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 1));
+        backDrawable.setColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText2));
+        closeButton.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 1));
         closeButton.setContentDescription(LocaleController.getString("Close", R.string.Close));
         actionModeLayout.addView(closeButton, new LinearLayout.LayoutParams(AndroidUtilities.dp(54), ViewGroup.LayoutParams.MATCH_PARENT));
         actionModeViews.add(closeButton);
@@ -1488,11 +1496,11 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         selectedMessagesCountTextView = new NumberTextView(context);
         selectedMessagesCountTextView.setTextSize(18);
         selectedMessagesCountTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        selectedMessagesCountTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2));
+        selectedMessagesCountTextView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText2));
         actionModeLayout.addView(selectedMessagesCountTextView, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1.0f, 18, 0, 0, 0));
         actionModeViews.add(selectedMessagesCountTextView);
 
-        gotoItem = new ActionBarMenuItem(context, null, Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2), false);
+        gotoItem = new ActionBarMenuItem(context, null, getThemedColor(Theme.key_actionBarActionModeDefaultSelector), getThemedColor(Theme.key_windowBackgroundWhiteGrayText2), false);
         gotoItem.setIcon(R.drawable.msg_message);
         gotoItem.setContentDescription(LocaleController.getString("AccDescrGoToMessage", R.string.AccDescrGoToMessage));
         gotoItem.setDuplicateParentStateEnabled(false);
@@ -1501,7 +1509,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         gotoItem.setOnClickListener(v -> onActionBarItemClick(v, gotochat));
         if (!DialogObject.isEncryptedDialog(dialog_id)) {
             if (NekoConfig.showNoQuoteForward) {
-                forwardNoQuoteItem = new ActionBarMenuItem(context, null, Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2), false);
+                forwardNoQuoteItem = new ActionBarMenuItem(context, null, getThemedColor(Theme.key_actionBarActionModeDefaultSelector), getThemedColor(Theme.key_windowBackgroundWhiteGrayText2), false);
                 forwardNoQuoteItem.setIcon(R.drawable.msg_forward);
                 forwardNoQuoteItem.setContentDescription(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
                 forwardNoQuoteItem.setDuplicateParentStateEnabled(false);
@@ -1510,7 +1518,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 forwardNoQuoteItem.setOnClickListener(v -> onActionBarItemClick(v, forward_noquote));
             }
 
-            forwardItem = new ActionBarMenuItem(context, null, Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2), false);
+            forwardItem = new ActionBarMenuItem(context, null, getThemedColor(Theme.key_actionBarActionModeDefaultSelector), getThemedColor(Theme.key_windowBackgroundWhiteGrayText2), false);
             forwardItem.setIcon(NekoConfig.showNoQuoteForward ? R.drawable.msg_forward_quote : R.drawable.msg_forward);
             forwardItem.setContentDescription(LocaleController.getString("Forward", R.string.Forward));
             forwardItem.setDuplicateParentStateEnabled(false);
@@ -1520,7 +1528,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
             updateForwardItem();
         }
-        deleteItem = new ActionBarMenuItem(context, null, Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2), false);
+        deleteItem = new ActionBarMenuItem(context, null, getThemedColor(Theme.key_actionBarActionModeDefaultSelector), getThemedColor(Theme.key_windowBackgroundWhiteGrayText2), false);
         deleteItem.setIcon(R.drawable.msg_delete);
         deleteItem.setContentDescription(LocaleController.getString("Delete", R.string.Delete));
         deleteItem.setDuplicateParentStateEnabled(false);
@@ -2201,7 +2209,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
                 @Override
                 protected void onDraw(Canvas canvas) {
-                    backgroundPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    backgroundPaint.setColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     canvas.drawRect(0, 0, getMeasuredWidth(), getMeasuredHeight(), backgroundPaint);
                     super.onDraw(canvas);
                 }
@@ -2234,7 +2242,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         floatingDateView.setTranslationY(-AndroidUtilities.dp(48));
         addView(floatingDateView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 48 + 4, 0, 0));
 
-        addView(fragmentContextView = new FragmentContextView(context, parent, this, false, null), LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38, Gravity.TOP | Gravity.LEFT, 0, 48, 0, 0));
+        addView(fragmentContextView = new FragmentContextView(context, parent, this, false, resourcesProvider), LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38, Gravity.TOP | Gravity.LEFT, 0, 48, 0, 0));
         fragmentContextView.setDelegate((start, show) -> {
             if (!start) {
                 requestLayout();
@@ -2245,7 +2253,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         addView(actionModeLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.TOP));
 
         shadowLine = new View(context);
-        shadowLine.setBackgroundColor(Theme.getColor(Theme.key_divider));
+        shadowLine.setBackgroundColor(getThemedColor(Theme.key_divider));
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1);
         layoutParams.topMargin = AndroidUtilities.dp(48) - 1;
         addView(shadowLine, layoutParams);
@@ -2291,8 +2299,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             forwardItem.setBackground(null);
             if (forwardNoQuoteItem != null) forwardNoQuoteItem.setBackground(null);
         } else if (!noforwards && forwardItem.getBackground() == null) {
-            forwardItem.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 5));
-            if (forwardNoQuoteItem != null) forwardNoQuoteItem.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 5));
+            forwardItem.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 5));
+            if (forwardNoQuoteItem != null) forwardNoQuoteItem.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 5));
         }
     }
     private boolean hasNoforwardsMessage() {
@@ -2658,12 +2666,12 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     private ScrollSlidingTextTabStripInner createScrollingTextTabStrip(Context context) {
-        ScrollSlidingTextTabStripInner scrollSlidingTextTabStrip = new ScrollSlidingTextTabStripInner(context);
+        ScrollSlidingTextTabStripInner scrollSlidingTextTabStrip = new ScrollSlidingTextTabStripInner(context, resourcesProvider);
         if (initialTab != -1) {
             scrollSlidingTextTabStrip.setInitialTabId(initialTab);
             initialTab = -1;
         }
-        scrollSlidingTextTabStrip.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+        scrollSlidingTextTabStrip.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
         scrollSlidingTextTabStrip.setColors(Theme.key_profile_tabSelectedLine, Theme.key_profile_tabSelectedText, Theme.key_profile_tabText, Theme.key_profile_tabSelector);
         scrollSlidingTextTabStrip.setDelegate(new ScrollSlidingTextTabStrip.ScrollSlidingTabStripDelegate() {
             @Override
@@ -3175,7 +3183,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 showActionMode(false);
                 actionBar.closeSearchField();
                 cantDeleteMessagesCount = 0;
-            }, null, null);
+            }, null, resourcesProvider);
         } else if (id == forward || id == forward_noquote) {
             if (info != null) {
                 TLRPC.Chat chat = profileActivity.getMessagesController().getChat(info.id);
@@ -3233,6 +3241,17 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         profileActivity.getSendMessagesHelper().sendMessage(fmessages, did, forwardParams.noQuote, forwardParams.noCaption, forwardParams.notify, forwardParams.scheduleDate);
                     }
                     fragment1.finishFragment();
+                    UndoView undoView = null;
+                    if (profileActivity instanceof ProfileActivity) {
+                        undoView = ((ProfileActivity) profileActivity).getUndoView();
+                    }
+                    if (undoView != null) {
+                        if (dids.size() == 1) {
+                            undoView.showWithAction(dids.get(0), UndoView.ACTION_FWD_MESSAGES, fmessages.size());
+                        } else {
+                            undoView.showWithAction(0, UndoView.ACTION_FWD_MESSAGES, fmessages.size(), dids.size(), null, null);
+                        }
+                    }
                 } else {
                     long did = dids.get(0);
                     Bundle args1 = new Bundle();
@@ -4876,7 +4895,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         public View getSectionHeaderView(int section, View view) {
             if (view == null) {
                 view = new GraySectionCell(mContext);
-                view.setBackgroundColor(Theme.getColor(Theme.key_graySection) & 0xf2ffffff);
+                view.setBackgroundColor(getThemedColor(Theme.key_graySection) & 0xf2ffffff);
             }
             if (section == 0) {
                 view.setAlpha(0.0f);
@@ -4895,19 +4914,19 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             View view;
             switch (viewType) {
                 case 0:
-                    view = new GraySectionCell(mContext);
+                    view = new GraySectionCell(mContext, resourcesProvider);
                     break;
                 case 1:
-                    view = new SharedLinkCell(mContext);
+                    view = new SharedLinkCell(mContext, SharedLinkCell.VIEW_TYPE_DEFAULT, resourcesProvider);
                     ((SharedLinkCell) view).setDelegate(sharedLinkCellDelegate);
                     break;
                 case 3:
-                    View emptyStubView = createEmptyStubView(mContext, 3, dialog_id);
+                    View emptyStubView = createEmptyStubView(mContext, 3, dialog_id, resourcesProvider);
                     emptyStubView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     return new RecyclerListView.Holder(emptyStubView);
                 case 2:
                 default:
-                    FlickerLoadingView flickerLoadingView = new FlickerLoadingView(mContext);
+                    FlickerLoadingView flickerLoadingView = new FlickerLoadingView(mContext, resourcesProvider);
                     flickerLoadingView.setIsSingleCell(true);
                     flickerLoadingView.showDate(false);
                     flickerLoadingView.setViewType(FlickerLoadingView.LINKS_TYPE);
@@ -5021,12 +5040,12 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             View view;
             switch (viewType) {
                 case 1:
-                    SharedDocumentCell cell = new SharedDocumentCell(mContext);
+                    SharedDocumentCell cell = new SharedDocumentCell(mContext, SharedDocumentCell.VIEW_TYPE_DEFAULT, resourcesProvider);
                     cell.setGlobalGradientView(globalGradientView);
                     view = cell;
                     break;
                 case 2:
-                    FlickerLoadingView flickerLoadingView = new FlickerLoadingView(mContext);
+                    FlickerLoadingView flickerLoadingView = new FlickerLoadingView(mContext, resourcesProvider);
                     view = flickerLoadingView;
                     if (currentType == 2) {
                         flickerLoadingView.setViewType(FlickerLoadingView.AUDIO_TYPE);
@@ -5038,7 +5057,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     flickerLoadingView.setGlobalGradientView(globalGradientView);
                     break;
                 case 4:
-                    View emptyStubView = createEmptyStubView(mContext, currentType, dialog_id);
+                    View emptyStubView = createEmptyStubView(mContext, currentType, dialog_id, resourcesProvider);
                     emptyStubView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     return new RecyclerListView.Holder(emptyStubView);
                 case 3:
@@ -5051,7 +5070,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                             p.removeView(view);
                         }
                     } else {
-                        view = new SharedAudioCell(mContext) {
+                        view = new SharedAudioCell(mContext, SharedAudioCell.VIEW_TYPE_DEFAULT, resourcesProvider) {
                             @Override
                             public boolean needPlayMessage(MessageObject messageObject) {
                                 if (messageObject.isVoice() || messageObject.isRoundVideo()) {
@@ -5183,45 +5202,39 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    public static View createEmptyStubView(Context context, int currentType, long dialog_id) {
-        EmptyStubView emptyStubView = new EmptyStubView(context);
+    public static View createEmptyStubView(Context context, int currentType, long dialog_id, Theme.ResourcesProvider resourcesProvider) {
+        EmptyStubView emptyStubView = new EmptyStubView(context, resourcesProvider);
         if (currentType == 0) {
-            emptyStubView.emptyImageView.setImageResource(R.drawable.tip1);
             if (DialogObject.isEncryptedDialog(dialog_id)) {
                 emptyStubView.emptyTextView.setText(LocaleController.getString("NoMediaSecret", R.string.NoMediaSecret));
             } else {
                 emptyStubView.emptyTextView.setText(LocaleController.getString("NoMedia", R.string.NoMedia));
             }
         } else if (currentType == 1) {
-            emptyStubView.emptyImageView.setImageResource(R.drawable.tip2);
             if (DialogObject.isEncryptedDialog(dialog_id)) {
                 emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedFilesSecret", R.string.NoSharedFilesSecret));
             } else {
                 emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedFiles", R.string.NoSharedFiles));
             }
         } else if (currentType == 2) {
-            emptyStubView.emptyImageView.setImageResource(R.drawable.tip5);
             if (DialogObject.isEncryptedDialog(dialog_id)) {
                 emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedVoiceSecret", R.string.NoSharedVoiceSecret));
             } else {
                 emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedVoice", R.string.NoSharedVoice));
             }
         } else if (currentType == 3) {
-            emptyStubView.emptyImageView.setImageResource(R.drawable.tip3);
             if (DialogObject.isEncryptedDialog(dialog_id)) {
                 emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedLinksSecret", R.string.NoSharedLinksSecret));
             } else {
                 emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedLinks", R.string.NoSharedLinks));
             }
         } else if (currentType == 4) {
-            emptyStubView.emptyImageView.setImageResource(R.drawable.tip4);
             if (DialogObject.isEncryptedDialog(dialog_id)) {
                 emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedAudioSecret", R.string.NoSharedAudioSecret));
             } else {
                 emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedAudio", R.string.NoSharedAudio));
             }
         } else if (currentType == 5) {
-            emptyStubView.emptyImageView.setImageResource(R.drawable.tip1);
             if (DialogObject.isEncryptedDialog(dialog_id)) {
                 emptyStubView.emptyTextView.setText(LocaleController.getString("NoSharedGifSecret", R.string.NoSharedGifSecret));
             } else {
@@ -5244,7 +5257,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         boolean ignoreRequestLayout;
 
-        public EmptyStubView(Context context) {
+        public EmptyStubView(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
             emptyTextView = new TextView(context);
             emptyImageView = new ImageView(context);
@@ -5254,7 +5267,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
             addView(emptyImageView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
 
-            emptyTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2));
+            emptyTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider));
             emptyTextView.setGravity(Gravity.CENTER);
             emptyTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
             emptyTextView.setPadding(AndroidUtilities.dp(40), 0, AndroidUtilities.dp(40), AndroidUtilities.dp(128));
@@ -5352,7 +5365,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             switch (viewType) {
                 case 0:
                     if (sharedResources == null) {
-                        sharedResources = new SharedPhotoVideoCell2.SharedResources(parent.getContext());
+                        sharedResources = new SharedPhotoVideoCell2.SharedResources(parent.getContext(), resourcesProvider);
                     }
                     view = new SharedPhotoVideoCell2(mContext, sharedResources, profileActivity.getCurrentAccount());
                     SharedPhotoVideoCell2 cell = (SharedPhotoVideoCell2) view;
@@ -5360,7 +5373,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     break;
                 default:
                 case 2:
-                    View emptyStubView = createEmptyStubView(mContext, 0, dialog_id);
+                    View emptyStubView = createEmptyStubView(mContext, 0, dialog_id, resourcesProvider);
                     emptyStubView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     return new RecyclerListView.Holder(emptyStubView);
             }
@@ -5631,6 +5644,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                             for (int a = 0; a < mediaPages.length; a++) {
                                 if (mediaPages[a].selectedType == currentType) {
                                     if (searchesInProgress == 0 && count == 0) {
+                                        mediaPages[a].emptyView.title.setText(LocaleController.formatString(R.string.NoResultFoundFor, "NoResultFoundFor", query));
                                         mediaPages[a].emptyView.showProgress(false, true);
                                     } else if (oldItemCounts == 0) {
                                         animateItemsEnter(mediaPages[a].listView, 0, null);
@@ -5769,6 +5783,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 for (int a = 0; a < mediaPages.length; a++) {
                     if (mediaPages[a].selectedType == currentType) {
                         if (searchesInProgress == 0 && count == 0) {
+                            mediaPages[a].emptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
                             mediaPages[a].emptyView.showProgress(false, true);
                         } else if (oldItemCount == 0) {
                             animateItemsEnter(mediaPages[a].listView, 0, null);
@@ -5819,9 +5834,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view;
             if (currentType == 1) {
-                view = new SharedDocumentCell(mContext);
+                view = new SharedDocumentCell(mContext, SharedDocumentCell.VIEW_TYPE_DEFAULT, resourcesProvider);
             } else if (currentType == 4) {
-                view = new SharedAudioCell(mContext) {
+                view = new SharedAudioCell(mContext, SharedAudioCell.VIEW_TYPE_DEFAULT, resourcesProvider) {
                     @Override
                     public boolean needPlayMessage(MessageObject messageObject) {
                         if (messageObject.isVoice() || messageObject.isRoundVideo()) {
@@ -5838,7 +5853,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     }
                 };
             } else {
-                view = new SharedLinkCell(mContext);
+                view = new SharedLinkCell(mContext, SharedLinkCell.VIEW_TYPE_DEFAULT, resourcesProvider);
                 ((SharedLinkCell) view).setDelegate(sharedLinkCellDelegate);
             }
             view.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -5923,11 +5938,11 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             if (viewType == 1) {
-                View emptyStubView = createEmptyStubView(mContext, 5, dialog_id);
+                View emptyStubView = createEmptyStubView(mContext, 5, dialog_id, resourcesProvider);
                 emptyStubView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 return new RecyclerListView.Holder(emptyStubView);
             }
-            ContextLinkCell cell = new ContextLinkCell(mContext, true);
+            ContextLinkCell cell = new ContextLinkCell(mContext, true, resourcesProvider);
             cell.setCanPreviewGif(true);
             return new RecyclerListView.Holder(cell);
         }
@@ -6049,15 +6064,15 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             View view;
             switch (viewType) {
                 case 0:
-                    view = new ProfileSearchCell(mContext);
+                    view = new ProfileSearchCell(mContext, resourcesProvider);
                     break;
                 case 2:
-                    View emptyStubView = createEmptyStubView(mContext, 6, dialog_id);
+                    View emptyStubView = createEmptyStubView(mContext, 6, dialog_id, resourcesProvider);
                     emptyStubView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                     return new RecyclerListView.Holder(emptyStubView);
                 case 1:
                 default:
-                    FlickerLoadingView flickerLoadingView = new FlickerLoadingView(mContext);
+                    FlickerLoadingView flickerLoadingView = new FlickerLoadingView(mContext, resourcesProvider);
                     flickerLoadingView.setIsSingleCell(true);
                     flickerLoadingView.showDate(false);
                     flickerLoadingView.setViewType(FlickerLoadingView.DIALOG_TYPE);
@@ -6117,11 +6132,11 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             if (viewType == 1) {
-                View emptyStubView = createEmptyStubView(mContext, 7, dialog_id);
+                View emptyStubView = createEmptyStubView(mContext, 7, dialog_id, resourcesProvider);
                 emptyStubView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
                 return new RecyclerListView.Holder(emptyStubView);
             }
-            View view = new UserCell(mContext, 9, 0, true);
+            View view = new UserCell(mContext, 9, 0, true, false, false, resourcesProvider);
             view.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             return new RecyclerListView.Holder(view);
         }
@@ -6380,8 +6395,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            ManageChatUserCell view = new ManageChatUserCell(mContext, 9, 5, true);
-            view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+            ManageChatUserCell view = new ManageChatUserCell(mContext, 9, 5, true, resourcesProvider);
+            view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
             view.setDelegate((cell, click) -> {
                 TLObject object = getItem((Integer) cell.getTag());
                 if (object instanceof TLRPC.ChannelParticipant) {
@@ -6417,7 +6432,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 name = new SpannableStringBuilder(u);
                 int idx = AndroidUtilities.indexOfIgnoreCase(u, nameSearch);
                 if (idx != -1) {
-                    name.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_windowBackgroundWhiteBlueText4)), idx, idx + nameSearch.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    name.setSpan(new ForegroundColorSpan(getThemedColor(Theme.key_windowBackgroundWhiteBlueText4)), idx, idx + nameSearch.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }
 
@@ -6626,8 +6641,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         public int backgroundColor = Color.TRANSPARENT;
 
 
-        public ScrollSlidingTextTabStripInner(Context context) {
-            super(context);
+        public ScrollSlidingTextTabStripInner(Context context, Theme.ResourcesProvider resourcesProvider) {
+            super(context, resourcesProvider);
         }
 
         protected void drawBackground(Canvas canvas) {
@@ -6646,6 +6661,11 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             backgroundColor = color;
             invalidate();
         }
+    }
+
+    private int getThemedColor(String key) {
+        Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
+        return color != null ? color : Theme.getColor(key);
     }
 
     public interface Delegate {
