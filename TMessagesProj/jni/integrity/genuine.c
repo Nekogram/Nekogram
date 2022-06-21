@@ -507,8 +507,8 @@ static inline int checkMaps(const char *packageName) {
             }
         } else if (isDataApp(path)) {
             if (type == TYPE_DEX) {
-                LOGE(path);
-                check = CHECK_DEX;
+                //LOGE(path);
+                //check = CHECK_DEX;
             } else if (type == TYPE_APK) {
 #ifdef ANTI_OVERLAY
                 LOGE(path);
