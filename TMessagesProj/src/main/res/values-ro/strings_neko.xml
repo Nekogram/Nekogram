@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="NekoSettings">Настройки Neko</string>
     <string name="IPv6">Încercați conectarea prin IPv6</string>
     <string name="MessageMenu">Meniu mesaj</string>
     <string name="HidePhone">Ascunde numărul de telefon</string>
@@ -8,6 +9,7 @@
     <string name="DeleteAllFromSelfAlert">Atenție! Acest lucru va **șterge toate mesajele de la tine** în acest chat pentru **toți** participanții.</string>
     <string name="BotLogin">Logare Bot</string>
     <string name="InvalidAccessToken">Cod de acces invalid</string>
+    <string name="IgnoreBlocked">Скрывать сообщения блок. польз</string>
     <string name="Connection">Conexiune</string>
     <string name="Chat">Conversație</string>
     <string name="NameOrder">Ordine nume</string>
@@ -37,6 +39,7 @@
     <string name="SensitiveDisableFiltering">Dezactivează filtrarea conținutului sensibil</string>
     <string name="SensitiveAbout">Afișează fișierele media sensibile în canalele publice pe toate dispozitivele tale.</string>
     <string name="StickerSize">Dimensiune sticker</string>
+    <string name="StickerSizeDialogMessage">Ох как круто! чёрный кот!</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
     <string name="Experiment">Experimental</string>
     <string name="UnlimitedFavoredStickers">Stickere favorite nelimitate</string>
@@ -61,6 +64,7 @@
     <string name="HideAllTabAbout">Apăsați \"Înapoi\" pe pagina principală pentru a-l deschide.</string>
     <string name="TabTitleType">Afișați pe file</string>
     <string name="TabTitleTypeText">Titluri</string>
+    <string name="TabTitleTypeIcon">Иконки</string>
     <string name="ConfirmAVMessage">Confirmați trimiterea de mesaje video/voce</string>
     <string name="AskBeforeCalling">Întrebați înainte de apelare</string>
     <string name="DisableNumberRounding">Dezactivați rotunjirea numerelor</string>
@@ -126,5 +130,18 @@
     <string name="DeepLFormalityMore">Mai multe</string>
     <string name="DeepLFormalityLess">Mai puține</string>
     <string name="InvalidCustomEmojiTypeface">Fișier font invalid.</string>
+    <string name="SendWebFileInfo">Телеграм скачает и отправит файл. 5 МБ макс. для фото и 20МБ макс. для остального типа контента.</string>
+    <string name="ProviderTencentTranslator">М-р. Переводчик</string>
+    <string name="NoUpdateAvailable">Обновлений нет.</string>
+    <string name="InviteTextNeko">Эй, Я использую Nekogram. присоединяйся! Скачай его здесь: %1$s</string>
+    <string name="ShareNekogram">Поделиться Nekogram...</string>
+    <string name="UpdateInstalling">Скачивание обновления...</string>
+    <string name="UpdateInstallingNotification">Уведомление появится когда обновление сохранитьться.</string>
+    <string name="UpdateInstallingRelaunch">Приложение перезапуститься когда апгрейд хз че сделает.</string>
+    <string name="UpdateInstalledNotification">Апгрейд установлен, тыкни что-бы открыть приложение.</string>
+    <string name="UpdateFailedToInstall">Фэйл установки апгрейда: %d</string>
+    <string name="QRLoginMessage">Отсканируй QR-Код с другого девайса для логина.</string>
+    <string name="QRLoginTitle">Логин через QR-Код</string>
+    <string name="CopyPhoto">Копировать Фото</string>
     <!-- Accessibility -->
 </resources>

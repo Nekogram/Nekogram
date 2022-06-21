@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="NekoSettings">Неко Подешавања</string>
+    <string name="IPv6">Покушајте да се повежете путем ИПв6</string>
+    <string name="MessageMenu">Мени порука</string>
+    <string name="HidePhone">Сакриј мој број телефона</string>
+    <string name="Hide">Сакриј</string>
+    <string name="DeleteAllFromSelf">Избришите прилагођене поруке</string>
+    <string name="DeleteAllFromSelfAlert">Upozorenje! Ово ће **избрисати све поруке од вас** у овом ћаскању за **све ** чланове.</string>
+    <string name="BotLogin">Бот логин</string>
+    <string name="InvalidAccessToken">Неважећи токен</string>
+    <string name="IgnoreBlocked">Сакриј поруке од блокираног корисника</string>
+    <string name="Connection">Веза</string>
+    <string name="Chat">Брбљање</string>
+    <string name="NameOrder">Редослед именовања</string>
+    <string name="FirstLast">Први Последњи</string>
+    <string name="LastFirst">Последњи Први</string>
+    <string name="NoQuoteForward">Без наводника напред</string>
+    <string name="Repeat">Поновите</string>
+    <string name="AddToSavedMessages">Сачувај поруку</string>
+    <string name="CreateMention">Направите Помињање</string>
+    <string name="Prpr">Пероперо</string>
     <!-- Accessibility -->
 </resources>

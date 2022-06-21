@@ -64,7 +64,10 @@
     <string name="HideAllTab">隱藏“所有聊天”標籤</string>
     <string name="HideAllTabAbout">在主頁上按“返回”以將其打開.</string>
     <string name="TabTitleType">在標籤欄上顯示</string>
+    <string name="TabTitleTypeTip">圖示由 Telegram 雲同步。</string>
     <string name="TabTitleTypeText">標題</string>
+    <string name="TabTitleTypeIcon">圖示</string>
+    <string name="TabTitleTypeMix">圖示與標題</string>
     <string name="ConfirmAVMessage">傳送影片/語音留言前確認</string>
     <string name="AskBeforeCalling">呼叫前確認</string>
     <string name="DisableNumberRounding">禁用數字舍入</string>
@@ -93,6 +96,9 @@
     <string name="CustomEmojiTypeface">自定義表情符號字體</string>
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**應用</string>
     <string name="MapDriftingFix">中國大陸地圖漂移修復</string>
+    <string name="IncreaseVoiceMessageQuality">高音質語音訊息</string>
+    <string name="VoiceEnhancements">語音增強功能</string>
+    <string name="VoiceEnhancementsAbout">雜訊抑制和語音歸一化</string>
     <string name="DisableInstantCamera">禁用即時相機</string>
     <string name="OpenAllLinksInInstantView">嘗試在 InstantView 中打開所有鏈接</string>
     <string name="DonateThankYou">謝謝！</string>
@@ -121,6 +127,7 @@
     <string name="SelectBetween">選擇</string>
     <string name="StickerSavedHint">貼圖已儲存到圖庫</string>
     <string name="RegistrationDate">註冊日期</string>
+    <string name="WsDescription">使用 WebSocket 以 Cloudflare 連接到 Telegram。 **瞭解更多**</string>
     <string name="WsEnableTls">啟用 TLS</string>
     <string name="WsLocalProxy">本地代理</string>
     <string name="WsEnableDoh">啟動 DoH</string>

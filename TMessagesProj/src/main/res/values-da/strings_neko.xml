@@ -196,7 +196,6 @@
     <string name="EditRedo">Gendan</string>
     <string name="EditEnableMarkdown">Aktivér Markering</string>
     <string name="EditDisableMarkdown">Deaktiver Markering</string>
-    <string name="DisableMarkdownByDefault">Deaktiver markering som standard</string>
     <string name="CopyCallback">Kopiering af callback-data</string>
     <string name="CopyInlineQuery">Kopier Inline-forespørgsel</string>
     <string name="CopyID">Kopier ID</string>
@@ -213,13 +212,16 @@
     <string name="Translating">oversæt</string>
     <string name="Translated">oversat</string>
     <string name="BrokenMLKit">Mulighed ikke tilgængelig</string>
+    <string name="BrokenMLKitDetail">Google MLKit language identifier er på en eller anden måde brudt på denne enhed.</string>
     <string name="PasscodeNeeded">Du er nødt til at aktivere adgangskode lås først</string>
     <string name="PasscodeNeko">Adgangskode</string>
     <string name="PasscodeShowInSettings">Vis i Neko-indstillinger</string>
     <string name="PasscodeShowInSettingsAbout">Når du har skjult siden, kan du **KUN** åbne denne side via et link:</string>
+    <string name="PasscodeSet">Indstil adgangskode</string>
     <string name="PasscodeEdit">Skift adgangskode</string>
     <string name="PasscodeRemove">Fjern adgangskode</string>
     <string name="PasscodeHideAccount">Skjul konto</string>
+    <string name="PasscodeAllowPanic">Log ud med panikkode</string>
     <string name="PasscodeAbout">Indstil forskellige adgangskoder for hver konto, og skift mellem dem ved at indtaste den tilsvarende adgangskode.</string>
     <string name="PasscodePanicCode">Panik kode</string>
     <string name="PasscodePanicCodeSet">Sæt panik kode</string>

@@ -198,7 +198,6 @@
     <string name="EditRedo">إعادة</string>
     <string name="EditEnableMarkdown">تمكين وضع علامة</string>
     <string name="EditDisableMarkdown">تعطيل وضع علامة</string>
-    <string name="DisableMarkdownByDefault">تعطيل وضع علامة بشكل افتراضي</string>
     <string name="CopyCallback">نسخ بيانات رد الاتصال</string>
     <string name="CopyInlineQuery">نسخ الاستعلام المضمن</string>
     <string name="CopyID">ينسخ ID</string>
@@ -235,6 +234,22 @@
     <string name="PasscodePanicCodeAbout">استخدم رمز الطوارئ لتسجيل الخروج من الحسابات إذا حدث خطأ ما.</string>
     <string name="HideTimeOnSticker">إخفاء الوقت على الملصقات</string>
     <string name="TranslatorShowOriginal">مع النص الأصلي</string>
+    <string name="DatacenterStatusAbout">تحقق من حالة مراكز البيانات **في تيليجرام**.</string>
+    <string name="DatacenterStatus">حالة مركز البيانات</string>
+    <string name="Markdown">مارك داون</string>
+    <string name="MarkdownEnableByDefault">تفعيل بشكل افتراضي</string>
+    <string name="MarkdownParser">محلل</string>
+    <string name="MarkdownParseLinks">تحليل الروابط</string>
+    <string name="MarkdownAbout">تعديل النص في الرسائل باستخدام الـ الترميز: ^1**بالنبط الثقيل**^1، ^2__مائل__^2و ^3و~~يتوسطه خط~~^3و ^4`أحادية الفضاء`^4و ^5||المفسد||^5و ^6نص^7رابط^8.</string>
+    <string name="MarkdownAbout2">تعديل النص في الرسائل باستخدام الـ الترميز: ^1**بالنبط الثقيل**^1، ^2__مائل__^2و ^3و~~يتوسطه خط~~^3و ^4`أحادية الفضاء`^4و ^5||المفسد||^5و نص رابط.</string>
+    <string name="AppIconOldSchool">القديمة</string>
+    <string name="AppIconMerio">ميريو</string>
+    <string name="AppIconRainbow">قوس قزح</string>
+    <string name="AppIconMusheen">مشهين</string>
+    <string name="AppIconSpace">فضاء</string>
+    <string name="AppIconCloud">سحب</string>
+    <string name="AppIconNeon">نيون</string>
+    <string name="AppIconMaterial">تصميم المواد</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

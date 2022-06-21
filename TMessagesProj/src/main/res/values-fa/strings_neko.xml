@@ -194,7 +194,6 @@
     <string name="EditRedo">انجام دوباره</string>
     <string name="EditEnableMarkdown">فعال کردن علامت گذاری</string>
     <string name="EditDisableMarkdown">غیر فعال کردن علامت گذاری</string>
-    <string name="DisableMarkdownByDefault">علامت گذاری را به صورت پیش فرض غیرفعال کنید</string>
     <string name="CopyCallback">کپی کردن داده های تماس</string>
     <string name="CopyInlineQuery">کپی پرس و جو در خط</string>
     <string name="CopyID">کپی شناسه</string>

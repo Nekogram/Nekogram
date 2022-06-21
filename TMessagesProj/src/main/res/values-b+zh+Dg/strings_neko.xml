@@ -197,7 +197,6 @@
     <string name="EditRedo">重做</string>
     <string name="EditEnableMarkdown">启用 Markdown</string>
     <string name="EditDisableMarkdown">禁用 Markdown</string>
-    <string name="DisableMarkdownByDefault">默认禁用 Markdown</string>
     <string name="CopyCallback">复制回调数据</string>
     <string name="CopyInlineQuery">复制 Inline 请求</string>
     <string name="CopyID">复制 ID</string>
@@ -236,6 +235,20 @@
     <string name="TranslatorShowOriginal">显示原文</string>
     <string name="DatacenterStatusAbout">检查 Telegram 的**数据中心**的状态。</string>
     <string name="DatacenterStatus">数据中心状态</string>
+    <string name="Markdown">Markdown</string>
+    <string name="MarkdownEnableByDefault">默认启用</string>
+    <string name="MarkdownParser">解析器</string>
+    <string name="MarkdownParseLinks">解析链接</string>
+    <string name="MarkdownAbout">使用 Markdown 来编辑消息中的文本：^1**粗体**^1, ^2__斜体__^2, ^3~~删除线~~^3, ^4`等宽`^4, ^5||黑幕||^5, ^6文本^7网址^8。</string>
+    <string name="MarkdownAbout2">使用 Markdown 来编辑消息中的文本：^1**粗体**^1, ^2__斜体__^2, ^3~~删除线~~^3, ^4`等宽`^4, ^5||黑幕||^5。</string>
+    <string name="AppIconOldSchool">老派</string>
+    <string name="AppIconMerio">猫里奥</string>
+    <string name="AppIconRainbow">彩虹</string>
+    <string name="AppIconMusheen">棉吉猫</string>
+    <string name="AppIconSpace">太空</string>
+    <string name="AppIconCloud">云</string>
+    <string name="AppIconNeon">霓虹</string>
+    <string name="AppIconMaterial">质感</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

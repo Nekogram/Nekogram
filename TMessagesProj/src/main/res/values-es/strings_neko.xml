@@ -196,7 +196,6 @@
     <string name="EditRedo">Rehacer</string>
     <string name="EditEnableMarkdown">Activar Markdown</string>
     <string name="EditDisableMarkdown">Desactivar Markdown</string>
-    <string name="DisableMarkdownByDefault">Desactivar Markdown por defecto</string>
     <string name="CopyCallback">Copiar datos de devolución de llamada</string>
     <string name="CopyInlineQuery">Copiar consulta en línea</string>
     <string name="CopyID">Copiar ID</string>
@@ -235,6 +234,12 @@
     <string name="TranslatorShowOriginal">Con texto original</string>
     <string name="DatacenterStatusAbout">Comprueba el estado de los **datacenters** de Telegram.</string>
     <string name="DatacenterStatus">Estado del centro de datos</string>
+    <string name="Markdown">Markdown</string>
+    <string name="MarkdownEnableByDefault">Activar por defecto</string>
+    <string name="MarkdownParser">Análisis</string>
+    <string name="MarkdownParseLinks">Analizar enlaces</string>
+    <string name="MarkdownAbout">Editar el texto en los mensajes usando markdown: ^1**negrita**^1, ^2__cursiva__^2, ^3~~tachado~~^3, ^4`monoespaciado`^4, ^5||spoiler||^5, ^6texto^7enlace^8.</string>
+    <string name="MarkdownAbout2">Editar el texto en los mensajes usando markdown: ^1**negrita**^1, ^2__cursiva__^2, ^3~~tachado~~^3, ^4`monoespaciado`^4, ^5||spoiler||^5.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccRewindHeading">Ajustes de rebobinado</string>

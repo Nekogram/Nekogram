@@ -196,7 +196,6 @@
     <string name="EditRedo">Rétablir</string>
     <string name="EditEnableMarkdown">Activer Markdown</string>
     <string name="EditDisableMarkdown">Désactiver Markdown</string>
-    <string name="DisableMarkdownByDefault">Désactiver Markdown par défaut</string>
     <string name="CopyCallback">Copier les données de rappel</string>
     <string name="CopyInlineQuery">Copier la requête inline</string>
     <string name="CopyID">Copier l\'ID</string>
@@ -235,6 +234,10 @@
     <string name="TranslatorShowOriginal">Avec le texte original</string>
     <string name="DatacenterStatusAbout">Vérifiez l\'état des **datacenters** de Telegram.</string>
     <string name="DatacenterStatus">Etat du datacenter</string>
+    <string name="Markdown">Markdown</string>
+    <string name="MarkdownEnableByDefault">Activé par défaut</string>
+    <string name="MarkdownParser">Analyseur</string>
+    <string name="MarkdownParseLinks">Analyser les liens</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

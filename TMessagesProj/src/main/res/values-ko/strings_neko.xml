@@ -189,7 +189,6 @@
     <string name="EditRedo">재실행</string>
     <string name="EditEnableMarkdown">마크다운 활성화</string>
     <string name="EditDisableMarkdown">마크다운 비활성화</string>
-    <string name="DisableMarkdownByDefault">기본적으로 마크다운 비활성화</string>
     <string name="CopyCallback">콜백 데이터 복사</string>
     <string name="CopyInlineQuery">인라인 쿼리 복사</string>
     <string name="CopyID">ID 복사</string>

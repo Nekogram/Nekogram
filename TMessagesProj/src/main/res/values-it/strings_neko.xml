@@ -196,7 +196,6 @@
     <string name="EditRedo">Ripeti</string>
     <string name="EditEnableMarkdown">Attiva markdown</string>
     <string name="EditDisableMarkdown">Disattiva markdown</string>
-    <string name="DisableMarkdownByDefault">Disattiva markdown di default</string>
     <string name="CopyCallback">Copia dati callback</string>
     <string name="CopyInlineQuery">Copia query inline</string>
     <string name="CopyID">Copia ID</string>
@@ -235,6 +234,8 @@
     <string name="TranslatorShowOriginal">Con il testo originale</string>
     <string name="DatacenterStatusAbout">Controlla lo stato dei **datacenter** di Telegram.</string>
     <string name="DatacenterStatus">Stato dei datacenter</string>
+    <string name="Markdown">Markdown</string>
+    <string name="MarkdownEnableByDefault">Abilita di default</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>

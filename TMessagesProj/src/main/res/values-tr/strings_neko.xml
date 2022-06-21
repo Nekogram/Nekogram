@@ -60,7 +60,7 @@
     <string name="HideKeyboardOnChatScroll">Sohbeti kaydırırken klavyeyi gizle</string>
     <string name="ShowTabsOnForward">İletirken klasörleri göster</string>
     <string name="CheckAllAdministrated">Yönetilen grup ve kanalları ekle</string>
-    <string name="RearVideoMessages">Görüntülü mesajlarda arka kamera kullan</string>
+    <string name="RearVideoMessages">Video mesajlarda arka kamera</string>
     <string name="HideAllTab">\"Tüm Sohbetler\" sekmesini gizle</string>
     <string name="HideAllTabAbout">\"Geri\" tuşuna basınca, anasayfayı aç.</string>
     <string name="TabTitleType">Sekmelerde göster</string>
@@ -68,7 +68,7 @@
     <string name="TabTitleTypeText">Başlıklar</string>
     <string name="TabTitleTypeIcon">Simgeler</string>
     <string name="TabTitleTypeMix">Başlıklı simgeler</string>
-    <string name="ConfirmAVMessage">Video/sesli mesaj gönderirken onay sor</string>
+    <string name="ConfirmAVMessage">Video/sesli mesaj göndermeyi onayla</string>
     <string name="AskBeforeCalling">Aramadan önce sor</string>
     <string name="DisableNumberRounding">Sayı yuvarlamayı devre dışı bırak</string>
     <string name="Categories">Kategoriler</string>
@@ -99,7 +99,7 @@
     <string name="VoiceEnhancements">Ses geliştirmeleri</string>
     <string name="VoiceEnhancementsAbout">Gürültü Engelleme ve Ses Normalleştirme</string>
     <string name="DisableInstantCamera">Anında kamerayı devre dışı bırak</string>
-    <string name="OpenAllLinksInInstantView">Anlık Görünümde tüm bağlantıları açmayı deneyin</string>
+    <string name="OpenAllLinksInInstantView">Anlık Görünümde tüm bağlantıları açmayı dene</string>
     <string name="DonateThankYou">Teşekkürler!</string>
     <string name="DonateEvilGoogle">Google, bağışınızın yüzde 30\'unu alacaktır.</string>
     <string name="formatterDay24HSec">SS:dd:ss</string>
@@ -136,9 +136,9 @@
     <string name="Translator">Çeviri</string>
     <string name="ResetLanguage">Dili sıfırla</string>
     <string name="UseGoogleTranslate">Google\'ı kullan</string>
-    <string name="DeepLFormality">Formalite</string>
+    <string name="DeepLFormality">Çeviri dilindeki resmîyet</string>
     <string name="DeepLFormalityDefault">Varsayılan</string>
-    <string name="DeepLFormalityMore">Daha fazla</string>
+    <string name="DeepLFormalityMore">Daha resmî</string>
     <string name="DeepLFormalityLess">Daha az</string>
     <string name="InvalidCustomEmojiTypeface">Geçersiz yazı tipi dosyası.</string>
     <string name="AttachWebFile">Web dosyası</string>
@@ -190,13 +190,12 @@
     <string name="AutoTranslateAbout">Başka bir dilde olan mesajları otomatik olarak çevirin.</string>
     <string name="CreateMono">Eş Aralık Oluştur</string>
     <string name="CreateMonoLanguage">Kod dili (isteğe bağlı)</string>
-    <string name="DoubleTapAction">Çift tıklama eylemi</string>
+    <string name="DoubleTapAction">Çift dokunma eylemi</string>
     <string name="BlockedUserIgnored">engellendi</string>
     <string name="EditUndo">Geri al</string>
     <string name="EditRedo">Yinele</string>
     <string name="EditEnableMarkdown">Biçimlendirmeyi Etkinleştir</string>
     <string name="EditDisableMarkdown">Biçimlendirmeyi Kapat</string>
-    <string name="DisableMarkdownByDefault">Varsayılan olarak biçimlendirmeyi kapat</string>
     <string name="CopyCallback">Geri Arama Verilerini Kopyala</string>
     <string name="CopyInlineQuery">Satır İçi Sorguyu Kopyala</string>
     <string name="CopyID">ID\'yi Kopyala</string>
@@ -235,6 +234,17 @@
     <string name="TranslatorShowOriginal">Orijinal metin ile</string>
     <string name="DatacenterStatusAbout">Telegram\'ın **veri merkezlerinin** durumunu kontrol edin.</string>
     <string name="DatacenterStatus">Veri merkezi durumu</string>
+    <string name="Markdown">Biçimlendirme</string>
+    <string name="MarkdownEnableByDefault">Varsayılan olarak etkinleştir</string>
+    <string name="MarkdownParser">Ayrıştırıcı</string>
+    <string name="MarkdownParseLinks">Bağlantıları ayrıştır</string>
+    <string name="MarkdownAbout">Markdown kullanarak mesajlardaki metni düzenleyin: ^1**kalın**^1, ^2__italik__^2, ^3~~üstü çizili~~^3, ^4`kod`^4, ^5||spoiler||^5, ^6metin^7bağlantı^8.</string>
+    <string name="MarkdownAbout2">Markdown kullanarak mesajlardaki metni düzenleyin: ^1**kalın**^1, ^2__italik__^2, ^3~~üstü çizili~~^3, ^4`kod`^4, ^5||spoiler||^5.</string>
+    <string name="AppIconOldSchool">Geleneksel</string>
+    <string name="AppIconRainbow">Gökkuşağı</string>
+    <string name="AppIconMusheen">Musheen</string>
+    <string name="AppIconSpace">Uzay</string>
+    <string name="AppIconCloud">Bulut</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Erişilebilirlik ayarları</string>
     <string name="AccRewindHeading">Geri sarma ayarları</string>

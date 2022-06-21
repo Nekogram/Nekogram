@@ -197,7 +197,6 @@
     <string name="EditRedo">Refazer</string>
     <string name="EditEnableMarkdown">Habilitar Markdown</string>
     <string name="EditDisableMarkdown">Desabilitar Markdown</string>
-    <string name="DisableMarkdownByDefault">Desabilitar Markdown por padrão</string>
     <string name="CopyCallback">Copiar dados de Callback</string>
     <string name="CopyInlineQuery">Copiar query inline</string>
     <string name="CopyID">Copiar ID</string>
@@ -236,6 +235,20 @@
     <string name="TranslatorShowOriginal">Com texto original</string>
     <string name="DatacenterStatusAbout">Verifique o status dos **datacenters** do Telegram.</string>
     <string name="DatacenterStatus">Status do datacenter</string>
+    <string name="Markdown">Markdown</string>
+    <string name="MarkdownEnableByDefault">Habilitar por padrão</string>
+    <string name="MarkdownParser">Parser</string>
+    <string name="MarkdownParseLinks">Parse links</string>
+    <string name="MarkdownAbout">Edite texto em mensagens usando o markdown: ^1**negrito**^1, ^2__itálico__^2, ^3~~tachado~~^3, ^4`monoespaçada`^4, ^5||spoiler||^5, ^6texto^7url^8.</string>
+    <string name="MarkdownAbout2">Edite texto em mensagens usando markdown: ^1**negrito**^1, ^2__itálico__^2, ^3~~tachado~~^3, ^4`monoespaçado`^4, ^5||spoiler||^5.</string>
+    <string name="AppIconOldSchool">Old School</string>
+    <string name="AppIconMerio">Merio</string>
+    <string name="AppIconRainbow">Arco-íris</string>
+    <string name="AppIconMusheen">Musheen</string>
+    <string name="AppIconSpace">Espaço</string>
+    <string name="AppIconCloud">Nuvem</string>
+    <string name="AppIconNeon">Neon</string>
+    <string name="AppIconMaterial">Material</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccRewindHeading">Configurações de retrocesso</string>

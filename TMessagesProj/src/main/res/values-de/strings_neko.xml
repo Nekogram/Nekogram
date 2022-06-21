@@ -196,7 +196,6 @@
     <string name="EditRedo">Wiederholen</string>
     <string name="EditEnableMarkdown">Markdown aktivieren</string>
     <string name="EditDisableMarkdown">Markdown deaktivieren</string>
-    <string name="DisableMarkdownByDefault">Markdown standardmäßig deaktivieren</string>
     <string name="CopyCallback">Rückrufdaten kopieren</string>
     <string name="CopyInlineQuery">Inline-Abfrage kopieren</string>
     <string name="CopyID">ID kopieren</string>
@@ -205,6 +204,10 @@
     <string name="SoonRemovedOption">Diese experimentelle Option wird in Kürze entfernt und standardmäßig aktiviert, wenn Sie Probleme mit dieser Option haben, bitte **an uns melden**.</string>
     <string name="TabletMode">Tablet Modus</string>
     <string name="TabletModeAuto">Auto</string>
+    <string name="DeleteAllFromSelfDone">Alle deine Nachrichten sind gelöscht</string>
+    <string name="UnknownNekoSettingsOption">Es gibt keine solche Neko-Einstellungen.</string>
+    <string name="ProviderYouDaoTranslate">YouDao Translate</string>
+    <string name="ProviderBaiduTranslate">Baidu Übersetzen</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Bedienungshilfen</string>
 </resources>

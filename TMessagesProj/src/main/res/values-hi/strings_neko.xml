@@ -22,6 +22,7 @@
     <string name="Prpr">पेरोपेरो</string>
     <string name="TransparentStatusBar">पारदर्शी स्टेटस बार</string>
     <string name="EnableResidentNotification">कोई निवासी सूचना दिखाएँ</string>
+    <string name="DisableResidentNotification">Hindi</string>
     <string name="NekogramRunning">नेकोग्राम चल रहा है</string>
     <string name="EventType">साइडबार आइकन सेट</string>
     <string name="ChristmasHat">हर रोज क्रिसमस टोपी दिखाएं</string>

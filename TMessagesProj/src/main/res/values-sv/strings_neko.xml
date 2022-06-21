@@ -195,7 +195,6 @@
     <string name="EditRedo">Gör om</string>
     <string name="EditEnableMarkdown">Aktivera markdown-kod</string>
     <string name="EditDisableMarkdown">Inaktivera markdown-kod</string>
-    <string name="DisableMarkdownByDefault">Inaktivera Markdown som standard</string>
     <string name="CopyID">Kopiera ID</string>
     <string name="ShowRPCErrorException">Undantag: %s</string>
     <string name="SoonRemovedOption">Det här experimentella alternativet kommer snart att tas bort och aktiveras som standard, om du har problem med det här alternativet, vänligen **rapportera till oss**.</string>
