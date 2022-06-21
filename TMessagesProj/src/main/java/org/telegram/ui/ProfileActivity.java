@@ -7712,10 +7712,22 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         String abi = "";
                         switch (pInfo.versionCode % 10) {
                             case 1:
-                            case 2:
-                                abi = "store bundled " + Build.CPU_ABI + " " + Build.CPU_ABI2;
+                            case 3:
+                                abi = "arm-v7a";
                                 break;
-                            default:
+                            case 2:
+                            case 4:
+                                abi = "x86";
+                                break;
+                            case 5:
+                            case 7:
+                                abi = "arm64-v8a";
+                                break;
+                            case 6:
+                            case 8:
+                                abi = "x86_64";
+                                break;
+                            case 0:
                             case 9:
                                 abi = (!NekoConfig.isDirectApp() ? BuildConfig.BUILD_TYPE : "universal") + " " + Build.SUPPORTED_ABIS[0];
                                 break;
