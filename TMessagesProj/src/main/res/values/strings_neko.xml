@@ -245,6 +245,14 @@
     <string name="MarkdownParseLinks">Parse links</string>
     <string name="MarkdownAbout">Edit text in messages using markdown: ^1**bold**^1, ^2__italic__^2, ^3~~strikethrough~~^3, ^4`monospace`^4, ^5||spoiler||^5, ^6text^7url^8.</string>
     <string name="MarkdownAbout2">Edit text in messages using markdown: ^1**bold**^1, ^2__italic__^2, ^3~~strikethrough~~^3, ^4`monospace`^4, ^5||spoiler||^5.</string>
+    <string name="AppIconOldSchool">Old School</string>
+    <string name="AppIconMerio">Merio</string>
+    <string name="AppIconRainbow">Rainbow</string>
+    <string name="AppIconMusheen">Musheen</string>
+    <string name="AppIconSpace">Space</string>
+    <string name="AppIconCloud">Cloud</string>
+    <string name="AppIconNeon">Neon</string>
+    <string name="AppIconMaterial">Material</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
