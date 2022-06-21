@@ -8320,7 +8320,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
         });
         bottomOverlayChatText.setOnLongClickListener(v -> {
             boolean showEnter = false;
-            if (currentChat != null && currentChat.megagroup && chatInfo != null && chatInfo.linked_chat_id != 0) {
+            if (currentChat != null && currentChat.megagroup && !currentChat.join_to_send && chatInfo != null && chatInfo.linked_chat_id != 0) {
                 TLRPC.Chat linked = getMessagesController().getChat(chatInfo.linked_chat_id);
                 showEnter = !ChatObject.isKickedFromChat(linked);
             }
