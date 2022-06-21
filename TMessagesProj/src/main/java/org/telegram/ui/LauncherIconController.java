@@ -35,12 +35,12 @@ public class LauncherIconController {
 
     public enum LauncherIcon {
         // TODO: icons
-        DEFAULT("DefaultIcon", 0, 0, R.string.AppIconDefault),
-        VINTAGE("VintageIcon", R.drawable.icon_6_background_sa, 0, R.string.AppIconVintage),
-        AQUA("AquaIcon", R.drawable.icon_4_background_sa, 0, R.string.AppIconAqua),
-        PREMIUM("PremiumIcon", R.drawable.icon_3_background_sa, 0, R.string.AppIconPremium, true),
-        TURBO("TurboIcon", R.drawable.icon_5_background_sa, 0, R.string.AppIconTurbo, true),
-        NOX("NoxIcon", R.drawable.icon_2_background_sa, 0, R.string.AppIconNox, true);
+        DEFAULT("DefaultIcon", R.color.ic_launcher_background, R.drawable.ic_launcher_foreground, R.string.AppIconDefault),
+        VINTAGE("VintageIcon", R.drawable.icon_6_background_sa, R.drawable.ic_launcher_foreground, R.string.AppIconVintage),
+        AQUA("AquaIcon", R.drawable.icon_4_background_sa, R.drawable.ic_launcher_foreground, R.string.AppIconAqua),
+        PREMIUM("PremiumIcon", R.drawable.icon_3_background_sa, R.drawable.ic_launcher_foreground, R.string.AppIconPremium, true),
+        TURBO("TurboIcon", R.drawable.icon_5_background_sa, R.drawable.ic_launcher_foreground, R.string.AppIconTurbo, true),
+        NOX("NoxIcon", R.drawable.icon_2_background_sa, R.drawable.ic_launcher_foreground, R.string.AppIconNox, true);
 
         public final String key;
         public final int background;

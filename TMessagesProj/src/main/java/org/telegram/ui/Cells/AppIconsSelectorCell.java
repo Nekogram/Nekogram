@@ -330,6 +330,7 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
             canvas.restore();
 
             if (foreground != null) {
+                canvas.clipPath(path);
                 foreground.setBounds(-outerPadding, -outerPadding, getWidth() + outerPadding, getHeight() + outerPadding);
                 foreground.draw(canvas);
             }
