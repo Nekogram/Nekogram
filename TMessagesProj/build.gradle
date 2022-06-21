@@ -150,7 +150,6 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         versionName "8.8.2"
-        versionCode 2644
 
         externalNativeBuild {
             cmake {
