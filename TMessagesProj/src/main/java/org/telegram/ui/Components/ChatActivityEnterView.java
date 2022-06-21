@@ -2035,7 +2035,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         messageEditText.setPadding(0, AndroidUtilities.dp(11), 0, AndroidUtilities.dp(12));
         messageEditText.setBackgroundDrawable(null);
         messageEditText.setTextColor(getThemedColor(Theme.key_chat_messagePanelText));
-        messageEditText.setLinkTextColor(getThemedColor(Theme.key_chat_messageLinkOut));
+        messageEditText.setLinkTextColor(getThemedColor(Theme.key_chat_messageLinkIn));
         messageEditText.setHighlightColor(getThemedColor(Theme.key_chat_inTextSelectionHighlight));
         messageEditText.setHintColor(getThemedColor(Theme.key_chat_messagePanelHint));
         messageEditText.setHintTextColor(getThemedColor(Theme.key_chat_messagePanelHint));
