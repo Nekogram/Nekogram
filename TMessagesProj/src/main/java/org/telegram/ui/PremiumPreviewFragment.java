@@ -564,9 +564,9 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                 LaunchActivity launchActivity = (LaunchActivity) activity;
                 if (!TextUtils.isEmpty(fragment.getMessagesController().premiumBotUsername)) {
                     launchActivity.setNavigateToPremiumBot(true);
-                    launchActivity.onNewIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/" + fragment.getMessagesController().premiumBotUsername + "?start=" + source)));
+                    launchActivity.onNewIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/" + fragment.getMessagesController().premiumBotUsername + "?start=" + source)).putExtra("internal", true));
                 } else if (!TextUtils.isEmpty(fragment.getMessagesController().premiumInvoiceSlug)) {
-                    launchActivity.onNewIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/$" + fragment.getMessagesController().premiumInvoiceSlug)));
+                    launchActivity.onNewIntent(new Intent(Intent.ACTION_VIEW, Uri.parse("https://t.me/$" + fragment.getMessagesController().premiumInvoiceSlug)).putExtra("internal", true));
                 }
             }
             return;
