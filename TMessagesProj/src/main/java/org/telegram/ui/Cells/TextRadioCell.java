@@ -60,15 +60,23 @@ public class TextRadioCell extends FrameLayout {
         this(context, 21);
     }
 
+    public TextRadioCell(Context context, Theme.ResourcesProvider resourcesProvider) {
+        this(context, 21, false, resourcesProvider);
+    }
+
     public TextRadioCell(Context context, int padding) {
         this(context, padding, false);
     }
 
     public TextRadioCell(Context context, int padding, boolean dialog) {
+        this(context, padding, dialog, null);
+    }
+
+    public TextRadioCell(Context context, int padding, boolean dialog, Theme.ResourcesProvider resourcesProvider) {
         super(context);
 
         textView = new TextView(context);
-        textView.setTextColor(Theme.getColor(dialog ? Theme.key_dialogTextBlack : Theme.key_windowBackgroundWhiteBlackText));
+        textView.setTextColor(Theme.getColor(dialog ? Theme.key_dialogTextBlack : Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setLines(1);
         textView.setMaxLines(1);
@@ -78,7 +86,7 @@ public class TextRadioCell extends FrameLayout {
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? padding : 64, 0, LocaleController.isRTL ? 64 : padding, 0));
 
         valueTextView = new TextView(context);
-        valueTextView.setTextColor(Theme.getColor(dialog ? Theme.key_dialogIcon : Theme.key_windowBackgroundWhiteGrayText2));
+        valueTextView.setTextColor(Theme.getColor(dialog ? Theme.key_dialogIcon : Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider));
         valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         valueTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
         valueTextView.setLines(1);
@@ -91,7 +99,7 @@ public class TextRadioCell extends FrameLayout {
         radioButton = new RadioButton(context);
         radioButton.setSize(AndroidUtilities.dp(20));
 //        radioButton.setColors(Theme.key_switchTrack, Theme.key_switchTrackChecked, Theme.key_windowBackgroundWhite, Theme.key_windowBackgroundWhite);
-        radioButton.setColor(Theme.getColor(Theme.key_radioBackground), Theme.getColor(Theme.key_radioBackgroundChecked));
+        radioButton.setColor(Theme.getColor(Theme.key_radioBackground, resourcesProvider), Theme.getColor(Theme.key_radioBackgroundChecked, resourcesProvider));
         addView(radioButton, LayoutHelper.createFrame(20, 20, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL, 22, 0, 22, 0));
 
         setClipChildren(false);

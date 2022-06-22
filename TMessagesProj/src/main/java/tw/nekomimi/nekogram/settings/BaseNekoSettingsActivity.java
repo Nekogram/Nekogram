@@ -23,6 +23,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBar;
+import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -51,6 +52,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     protected BlurredRecyclerView listView;
     protected BaseListAdapter listAdapter;
     protected LinearLayoutManager layoutManager;
+    protected Theme.ResourcesProvider resourcesProvider;
 
     protected int rowCount;
     protected HashMap<String, Integer> rowMap = new HashMap<>(20);
@@ -68,7 +70,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     @Override
     public View createView(Context context) {
         fragmentView = new BlurContentView(context);
-        fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
+        fragmentView.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundGray));
         SizeNotifierFrameLayout frameLayout = (SizeNotifierFrameLayout) fragmentView;
 
         actionBar.setDrawBlurBackground(frameLayout);
@@ -114,16 +116,24 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     }
 
     @Override
+    protected void setParentLayout(ActionBarLayout layout) {
+        if (layout != null && !isLightStatusBar()) {
+            resourcesProvider = layout.getLastFragment().getResourceProvider();
+        }
+        super.setParentLayout(layout);
+    }
+
+    @Override
     protected ActionBar createActionBar(Context context) {
         ActionBar actionBar;
         if (!hasWhiteActionBar()) {
             actionBar = super.createActionBar(context);
         } else {
             actionBar = new ActionBar(context);
-            actionBar.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-            actionBar.setItemsColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), false);
-            actionBar.setItemsBackgroundColor(Theme.getColor(Theme.key_actionBarWhiteSelector), false);
-            actionBar.setTitleColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            actionBar.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+            actionBar.setItemsColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText), false);
+            actionBar.setItemsBackgroundColor(getThemedColor(Theme.key_actionBarWhiteSelector), false);
+            actionBar.setTitleColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
             actionBar.setCastShadows(false);
         }
         actionBar.setTitle(getActionBarTitle());
@@ -189,7 +199,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             super.dispatchDraw(canvas);
             if (hasWhiteActionBar() && listView.canScrollVertically(-1)) {
                 rectTmp.set(0, 0, getMeasuredWidth(), 1);
-                blurScrimPaint.setColor(Theme.getColor(Theme.key_divider));
+                blurScrimPaint.setColor(getThemedColor(Theme.key_divider));
                 drawBlurRect(canvas, getY(), rectTmp, blurScrimPaint, true);
             }
         }
@@ -224,7 +234,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     @Override
     public boolean isLightStatusBar() {
         if (!hasWhiteActionBar()) return super.isLightStatusBar();
-        int color = Theme.getColor(Theme.key_windowBackgroundWhite, null, true);
+        int color = getThemedColor(Theme.key_windowBackgroundWhite);
         return ColorUtils.calculateLuminance(color) > 0.7f;
     }
 
@@ -285,57 +295,62 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             View view = null;
             switch (viewType) {
                 case 1:
-                    view = new ShadowSectionCell(mContext);
+                    view = new ShadowSectionCell(mContext, resourcesProvider);
                     break;
                 case 2:
-                    view = new TextSettingsCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    view = new TextSettingsCell(mContext, resourcesProvider);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 3:
-                    view = new TextCheckCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    view = new TextCheckCell(mContext, resourcesProvider);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 4:
-                    view = new HeaderCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    view = new HeaderCell(mContext, resourcesProvider);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 5:
-                    view = new NotificationsCheckCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    view = new NotificationsCheckCell(mContext, resourcesProvider);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 6:
-                    view = new TextDetailSettingsCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    view = new TextDetailSettingsCell(mContext, resourcesProvider);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 7:
-                    view = new TextInfoPrivacyCell(mContext);
-                    view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                    view = new TextInfoPrivacyCell(mContext, resourcesProvider);
+                    view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                     break;
                 case 8:
-                    view = new TextCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    view = new TextCell(mContext, resourcesProvider);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 9:
                     view = new TextCheckbox2Cell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 10:
-                    view = new TextRadioCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    view = new TextRadioCell(mContext, resourcesProvider);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 11:
                     view = new AccountCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case 12:
                     view = new BuyMeACoffeeCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
             }
             //noinspection ConstantConditions
             view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
             return new RecyclerListView.Holder(view);
         }
+    }
+
+    @Override
+    public Theme.ResourcesProvider getResourceProvider() {
+        return resourcesProvider;
     }
 
     @Override

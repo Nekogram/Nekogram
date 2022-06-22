@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.ContactsController;
-import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
@@ -251,12 +250,12 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             LinearLayout ll = new LinearLayout(getParentActivity());
             ll.setOrientation(LinearLayout.VERTICAL);
 
-            AlertDialog dialog = new AlertDialog.Builder(getParentActivity())
+            AlertDialog dialog = new AlertDialog.Builder(getParentActivity(), resourcesProvider)
                     .setView(ll)
                     .create();
 
             for (TLRPC.TL_restrictionReason reason : reasons) {
-                TextDetailSettingsCell cell = new TextDetailSettingsCell(getParentActivity());
+                TextDetailSettingsCell cell = new TextDetailSettingsCell(getParentActivity(), resourcesProvider);
                 cell.setBackground(Theme.getSelectorDrawable(false));
                 cell.setMultilineDetail(true);
                 cell.setOnClickListener(v1 -> {
@@ -350,7 +349,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
                 case 1: {
-                    holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                    holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                     break;
                 }
                 case 6: {

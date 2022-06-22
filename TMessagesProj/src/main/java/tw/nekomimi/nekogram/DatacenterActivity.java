@@ -28,6 +28,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.Locale;
@@ -46,6 +47,7 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
     private int datacenters2Row;
 
     public DatacenterActivity(int dcToHighlight) {
+        super();
         this.dcToHighlight = dcToHighlight;
     }
 
@@ -161,9 +163,9 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
             switch (holder.getItemViewType()) {
                 case 1: {
                     if (position == datacenters2Row) {
-                        holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                        holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                     } else {
-                        holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
+                        holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                     }
                     break;
                 }
@@ -185,12 +187,12 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             if (viewType == Integer.MAX_VALUE - 1) {
                 var headerCell = new DatacenterHeaderCell(mContext);
-                headerCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                headerCell.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                 headerCell.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
                 return new RecyclerListView.Holder(headerCell);
             } else if (viewType == Integer.MAX_VALUE) {
                 var dcCell = new DatacenterCell(mContext);
-                dcCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                dcCell.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                 dcCell.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
                 return new RecyclerListView.Holder(dcCell);
             } else {
@@ -240,13 +242,13 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
             });
             imageView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
 
-            textView = new TextView(context);
+            textView = new LinkSpanDrawable.LinksTextView(context, resourcesProvider);
             addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 36, 152, 36, 0));
             textView.setGravity(Gravity.CENTER_HORIZONTAL);
-            textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-            textView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
-            textView.setHighlightColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkSelection));
+            textView.setLinkTextColor(getThemedColor(Theme.key_windowBackgroundWhiteLinkText));
+            textView.setHighlightColor(getThemedColor(Theme.key_windowBackgroundWhiteLinkSelection));
             textView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
             textView.setText(getSpannedString("DatacenterStatusAbout", R.string.DatacenterStatusAbout, "https://core.telegram.org/api/datacenter"));
 
@@ -311,7 +313,7 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
         }
     }
 
-    public static class DatacenterCell extends FrameLayout {
+    public class DatacenterCell extends FrameLayout {
 
         private final TextView textView;
         private final TextView valueTextView;
@@ -323,7 +325,7 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
             super(context);
 
             textView = new TextView(context);
-            textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             textView.setLines(1);
             textView.setMaxLines(1);
@@ -378,7 +380,7 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
                 colorKey = Theme.key_windowBackgroundWhiteRedText4;
             }
             valueTextView.setTag(colorKey);
-            valueTextView.setTextColor(Theme.getColor(colorKey));
+            valueTextView.setTextColor(getThemedColor(colorKey));
         }
 
         @Override
