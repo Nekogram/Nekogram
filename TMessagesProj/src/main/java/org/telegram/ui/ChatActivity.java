@@ -25084,7 +25084,8 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                     } else {
                         openClickableLink(url, str, false, cell, messageObject);
                     }
-                } else if (which == 2) {
+                } else if (which == 1 || which == 2) {
+                    String link = null;
                     if (str.startsWith("video?") && messageObject != null && !messageObject.scheduled) {
                         MessageObject messageObject1 = messageObject;
                         boolean isMedia = messageObject.isVideo() || messageObject.isRoundVideo() || messageObject.isVoice() || messageObject.isMusic();
@@ -25093,7 +25094,6 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                         }
                         long dialogId = messageObject1.getDialogId();
                         int messageId = messageObject1.getId();
-                        String link = null;
 
                         if (messageObject1.messageOwner.fwd_from != null) {
                             if (messageObject1.messageOwner.fwd_from.saved_from_peer != null) {
@@ -25119,25 +25119,26 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                         if (link == null) {
                             return;
                         }
+                    } else {
+                        link = str;
+                    }
+                    if (which == 2) {
                         AndroidUtilities.addToClipboard(link);
+                        if (str.startsWith("@")) {
+                            undoView.showWithAction(0, UndoView.ACTION_USERNAME_COPIED, null);
+                        } else if (str.startsWith("#") || str.startsWith("$")) {
+                            undoView.showWithAction(0, UndoView.ACTION_HASHTAG_COPIED, null);
+                        } else {
+                            undoView.showWithAction(0, UndoView.ACTION_LINK_COPIED, null);
+                        }
                     } else {
-                        AndroidUtilities.addToClipboard(str);
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, link);
+                        Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+                        chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ApplicationLoader.applicationContext.startActivity(chooserIntent);
                     }
-                    if (str.startsWith("@")) {
-                        undoView.showWithAction(0, UndoView.ACTION_USERNAME_COPIED, null);
-                    } else if (str.startsWith("#") || str.startsWith("$")) {
-                        undoView.showWithAction(0, UndoView.ACTION_HASHTAG_COPIED, null);
-                    } else {
-                        undoView.showWithAction(0, UndoView.ACTION_LINK_COPIED, null);
-                    }
-
-                } else {
-                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                    shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, ((URLSpanMono) url).getTextToCopy());
-                    Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
-                    chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    ApplicationLoader.applicationContext.startActivity(chooserIntent);
                 }
             });
             builder.setOnPreDismissListener(di -> {
@@ -26001,62 +26002,41 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                     }
 
                     @Override
-                    public void didLongPressBotButton(ChatMessageCell cell, TLRPC.KeyboardButton button) {
+                    public boolean didLongPressBotButton(ChatMessageCell cell, TLRPC.KeyboardButton button) {
                         if (getParentActivity() == null || bottomOverlayChat.getVisibility() == View.VISIBLE &&
                             !(button instanceof TLRPC.TL_keyboardButtonSwitchInline) && !(button instanceof TLRPC.TL_keyboardButtonCallback) &&
                             !(button instanceof TLRPC.TL_keyboardButtonGame) && !(button instanceof TLRPC.TL_keyboardButtonUrl) &&
                             !(button instanceof TLRPC.TL_keyboardButtonBuy) && !(button instanceof TLRPC.TL_keyboardButtonUrlAuth) &&
                             !(button instanceof TLRPC.TL_keyboardButtonUserProfile)) {
-                            return;
+                            return false;
                         }
-                        if (button instanceof TLRPC.TL_keyboardButtonUrl) {
+                        if (!TextUtils.isEmpty(button.url)) {
                             openClickableLink(null, button.url, true, cell, cell.getMessageObject());
-                            try {
-                                cell.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-                            } catch (Exception ignore) {}
                         } else {
                             BottomSheet.Builder builder = new BottomSheet.Builder(getParentActivity(), false, themeDelegate);
-                            if (!TextUtils.isEmpty(button.url)) {
-                                builder.setTitle(button.url);
-                                builder.setItems(new CharSequence[]{
-                                        LocaleController.getString("Open", R.string.Open),
-                                        LocaleController.getString("ShareFile", R.string.ShareFile),
-                                        LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
-                                    if (which == 0) {
-                                        processExternalUrl(1, button.url, false);
-                                    } else if (which == 2) {
-                                        AndroidUtilities.addToClipboard(button.url);
-                                        undoView.showWithAction(0, UndoView.ACTION_LINK_COPIED, null);
-                                    } else {
-                                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                                        shareIntent.setType("text/plain");
-                                        shareIntent.putExtra(Intent.EXTRA_TEXT, button.url);
-                                        Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
-                                        chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                        ApplicationLoader.applicationContext.startActivity(chooserIntent);
-                                    }
-                                });
-                            } else {
-                                builder.setTitle(button.text);
-                                builder.setItems(new CharSequence[]{
-                                        LocaleController.getString("Copy", R.string.Copy),
-                                        button.data != null ? LocaleController.getString("CopyCallback", R.string.CopyCallback) : null,
-                                        button.query != null ? LocaleController.getString("CopyInlineQuery", R.string.CopyInlineQuery) : null,
-                                        button.user_id != 0 ? LocaleController.getString("CopyID", R.string.CopyID) : null}, (dialog, which) -> {
-                                    if (which == 0) {
-                                        AndroidUtilities.addToClipboard(button.text);
-                                    } else if (which == 1) {
-                                        AndroidUtilities.addToClipboard(getMessageHelper().getTextOrBase64(button.data));
-                                    } else if (which == 2) {
-                                        AndroidUtilities.addToClipboard(button.query);
-                                    } else if (which == 3) {
-                                        AndroidUtilities.addToClipboard(String.valueOf(button.user_id));
-                                    }
-                                    undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
-                                });
-                            }
+                            builder.setTitle(button.text);
+                            builder.setItems(new CharSequence[]{
+                                    LocaleController.getString("Copy", R.string.Copy),
+                                    button.data != null ? LocaleController.getString("CopyCallback", R.string.CopyCallback) : null,
+                                    button.query != null ? LocaleController.getString("CopyInlineQuery", R.string.CopyInlineQuery) : null,
+                                    button.user_id != 0 ? LocaleController.getString("CopyID", R.string.CopyID) : null}, (dialog, which) -> {
+                                if (which == 0) {
+                                    AndroidUtilities.addToClipboard(button.text);
+                                } else if (which == 1) {
+                                    AndroidUtilities.addToClipboard(getMessageHelper().getTextOrBase64(button.data));
+                                } else if (which == 2) {
+                                    AndroidUtilities.addToClipboard(button.query);
+                                } else if (which == 3) {
+                                    AndroidUtilities.addToClipboard(String.valueOf(button.user_id));
+                                }
+                                undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+                            });
                             showDialog(builder.create());
                         }
+                        try {
+                            cell.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
+                        } catch (Exception ignore) {}
+                        return true;
                     }
 
                     @Override
