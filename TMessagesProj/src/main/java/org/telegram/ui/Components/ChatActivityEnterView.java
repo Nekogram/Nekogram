@@ -2471,7 +2471,6 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
 
         senderSelectView = new SenderSelectView(getContext());
-        senderSelectView.setContentDescription(LocaleController.getString("SendMessageAsTitle", R.string.SendMessageAsTitle));
         senderSelectView.setOnClickListener(v -> {
             if (getTranslationY() != 0) {
                 onEmojiSearchClosed = () -> senderSelectView.callOnClick();

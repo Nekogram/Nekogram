@@ -863,6 +863,16 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
     private final static int OPTION_TRANSLATE = 29;
     private final static int OPTION_TRANSCRIBE = 30;
     private final static int OPTION_HIDE_SPONSORED_MESSAGE = 31;
+    private final static int OPTION_COPY_PHOTO = 86;
+    private final static int OPTION_SAVE_TO_GALLERY_STICKER = 87;
+    private final static int OPTION_DETAILS = 89;
+    private final static int OPTION_VIEW_HISTORY = 90;
+    private final static int OPTION_PRPR = 91;
+    private final static int OPTION_CLEAR_FILE = 92;
+    private final static int OPTION_SAVE_MESSAGE = 93;
+    private final static int OPTION_REPEAT = 94;
+    private final static int OPTION_ADMIN_RIGHTS = 97;
+    private final static int OPTION_PERMISSIONS = 98;
     private final static int OPTION_SEND_NOW = 100;
     private final static int OPTION_EDIT_SCHEDULE_TIME = 102;
 
@@ -1605,16 +1615,16 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                         translateOrResetMessage(messageObject, null);
                         break;
                     case NekoConfig.DOUBLE_TAP_ACTION_REPLY:
-                        processSelectedOption(8);
+                        processSelectedOption(OPTION_REPLY);
                         break;
                     case NekoConfig.DOUBLE_TAP_ACTION_SAVE:
-                        processSelectedOption(93);
+                        processSelectedOption(OPTION_SAVE_MESSAGE);
                         break;
                     case NekoConfig.DOUBLE_TAP_ACTION_REPEAT:
-                        processSelectedOption(94);
+                        processSelectedOption(OPTION_REPEAT);
                         break;
                     case NekoConfig.DOUBLE_TAP_ACTION_EDIT:
-                        processSelectedOption(12);
+                        processSelectedOption(OPTION_EDIT);
                         break;
                 }
             }
@@ -21630,7 +21640,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                         } else if (type == 4) {
                             if (NekoConfig.showDeleteDownloadedFile && !selectedObject.needDrawBluredPreview() && selectedObject.getDocument() != null) {
                                 items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
-                                options.add(91);
+                                options.add(OPTION_CLEAR_FILE);
                                 icons.add(R.drawable.msg_clear);
                             }
                             if (!noforwards) {
@@ -21669,7 +21679,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                                         icons.add(R.drawable.msg_gallery);
                                         if (NekoConfig.showCopyPhoto) {
                                             items.add(LocaleController.getString("CopyPhoto", R.string.CopyPhoto));
-                                            options.add(86);
+                                            options.add(OPTION_COPY_PHOTO);
                                             icons.add(R.drawable.msg_copy);
                                         }
                                     }
@@ -21714,7 +21724,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                         } else if (type == 6) {
                             if (NekoConfig.showDeleteDownloadedFile) {
                                 items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
-                                options.add(91);
+                                options.add(OPTION_CLEAR_FILE);
                                 icons.add(R.drawable.msg_clear);
                             }
                             if (!noforwards) {
@@ -21736,7 +21746,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                             } else {
                                 if (!selectedObject.isAnimatedSticker()) {
                                     items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
-                                    options.add(87);
+                                    options.add(OPTION_SAVE_TO_GALLERY_STICKER);
                                     icons.add(R.drawable.msg_gallery);
                                 }
                                 items.add(LocaleController.getString("AddToStickers", R.string.AddToStickers));
@@ -21779,7 +21789,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                         } else if (type == 9) {
                             if (!selectedObject.isAnimatedSticker()) {
                                 items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
-                                options.add(87);
+                                options.add(OPTION_SAVE_TO_GALLERY_STICKER);
                                 icons.add(R.drawable.msg_gallery);
                             }
                             TLRPC.Document document = selectedObject.getDocument();
@@ -21806,7 +21816,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                             }
                             if (NekoConfig.showAddToSavedMessages && !UserObject.isUserSelf(currentUser)) {
                                 items.add(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages));
-                                options.add(93);
+                                options.add(OPTION_SAVE_MESSAGE);
                                 icons.add(R.drawable.msg_saved);
                             }
                         }
@@ -21817,7 +21827,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                                                 getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup) != null);
                                 if (allowRepeat) {
                                     items.add(LocaleController.getString("Repeat", R.string.Repeat));
-                                    options.add(94);
+                                    options.add(OPTION_REPEAT);
                                     icons.add(R.drawable.msg_repeat);
                                 }
                             }
@@ -21825,14 +21835,14 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                         if (chatMode != MODE_SCHEDULED) {
                             if (NekoConfig.showPrPr && allowChatActions && selectedObject.isFromUser()) {
                                 items.add(LocaleController.getString("Prpr", R.string.Prpr));
-                                options.add(92);
+                                options.add(OPTION_PRPR);
                                 icons.add(R.drawable.msg_prpr);
                             }
                             if (NekoConfig.showViewHistory) {
                                 boolean allowViewHistory = currentChat != null && !isThreadChat() && chatMode != MODE_PINNED && !currentChat.broadcast;
                                 if (allowViewHistory) {
                                     items.add(LocaleController.getString("ViewUserHistory", R.string.ViewHistory));
-                                    options.add(90);
+                                    options.add(OPTION_VIEW_HISTORY);
                                     icons.add(R.drawable.msg_recent);
                                 }
                             }
@@ -22004,13 +22014,13 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                             if (canEditAdmin && NekoConfig.showAdminActions) {
                                 items.add(editingAdmin ? LocaleController.getString("EditAdminRights", R.string.EditAdminRights) : LocaleController.getString("SetAsAdmin", R.string.SetAsAdmin));
                                 icons.add(R.drawable.msg_admins);
-                                options.add(97);
+                                options.add(OPTION_ADMIN_RIGHTS);
                                 selectedParticipant = participant;
                             }
                             if (canRestrict && NekoConfig.showChangePermissions) {
                                 items.add(LocaleController.getString("ChangePermissions", R.string.ChangePermissions));
                                 icons.add(R.drawable.msg_permissions);
-                                options.add(98);
+                                options.add(OPTION_PERMISSIONS);
                                 selectedParticipant = participant;
                             }
                         }
@@ -22019,7 +22029,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
 
                 if (NekoConfig.showMessageDetails) {
                     items.add(LocaleController.getString("MessageDetails", R.string.MessageDetails));
-                    options.add(89);
+                    options.add(OPTION_DETAILS);
                     icons.add(R.drawable.msg_info);
                 }
             }
@@ -23837,14 +23847,14 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
                 break;
-            } case 86: {
+            } case OPTION_COPY_PHOTO: {
                 getMessageHelper().addMessageToClipboard(selectedObject, () -> {
                     if (BulletinFactory.canShowBulletin(ChatActivity.this)) {
                         BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("PhotoCopied", R.string.PhotoCopied)).show();
                     }
                 });
                 break;
-            } case 87: {
+            } case OPTION_SAVE_TO_GALLERY_STICKER: {
                 if (Build.VERSION.SDK_INT >= 23 && (Build.VERSION.SDK_INT <= 28 || BuildVars.NO_SCOPED_STORAGE) && getParentActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     getParentActivity().requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
                     selectedObject = null;
@@ -23858,10 +23868,10 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                     }
                 });
                 break;
-            } case 89: {
+            } case OPTION_DETAILS: {
                 presentFragment(new MessageDetailsActivity(selectedObject));
                 break;
-            } case 90: {
+            } case OPTION_VIEW_HISTORY: {
                 TLRPC.Peer peer = selectedObject.messageOwner.from_id;
                 openSearchWithText("");
                 if (peer.user_id != 0) {
@@ -23876,7 +23886,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                 }
                 showMessagesSearchListView(true);
                 break;
-            } case 92: {
+            } case OPTION_PRPR: {
                 if (checkSlowMode(chatActivityEnterView.getSendButton())) {
                     return;
                 }
@@ -23893,7 +23903,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                             entities, null, null, true, 0, null);
                 }
                 break;
-            } case 91: {
+            } case OPTION_CLEAR_FILE: {
                 if (Build.VERSION.SDK_INT >= 23 && (Build.VERSION.SDK_INT <= 28 || BuildVars.NO_SCOPED_STORAGE) && getParentActivity().checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
                     getParentActivity().requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 4);
                     selectedObject = null;
@@ -23935,7 +23945,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                     messageCell.updateButtonState(false, true, false);
                 }
                 break;
-            } case 93: {
+            } case OPTION_SAVE_MESSAGE: {
                 ArrayList<MessageObject> messages =  new ArrayList<>();
                 if (selectedObjectGroup != null) {
                     messages.addAll(selectedObjectGroup.messages);
@@ -23945,19 +23955,19 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                 forwardMessages(messages, false, false, true, 0, getUserConfig().getClientUserId());
                 undoView.showWithAction(getUserConfig().getClientUserId(), UndoView.ACTION_FWD_MESSAGES, messages.size());
                 break;
-            } case 94: {
+            } case OPTION_REPEAT: {
                 if (checkSlowMode(chatActivityEnterView.getSendButton())) {
                     return;
                 }
                 processRepeatMessage(false);
                 break;
-            } case 97: {
+            } case OPTION_ADMIN_RIGHTS: {
                 if (selectedParticipant == null) {
                     break;
                 }
                 doAdminActions(0);
                 break;
-            } case 98: {
+            } case OPTION_PERMISSIONS: {
                 if (selectedParticipant == null) {
                     break;
                 }
@@ -24035,7 +24045,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
 
     private boolean processSelectedOptionLongClick(int option) {
         switch (option) {
-            case 94: {
+            case OPTION_REPEAT: {
                 return processRepeatMessage(true);
             }
         }

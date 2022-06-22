@@ -1900,7 +1900,6 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                     if (url.startsWith("tg:resolve") || url.startsWith("tg://resolve")) {
                                         url = url.replace("tg:resolve", "tg://telegram.org").replace("tg://resolve", "tg://telegram.org");
                                         data = Uri.parse(url);
-                                        var number = data.getQueryParameter("phone");
                                         username = data.getQueryParameter("domain");
                                         if (username == null) {
                                             username = data.getQueryParameter("phone");

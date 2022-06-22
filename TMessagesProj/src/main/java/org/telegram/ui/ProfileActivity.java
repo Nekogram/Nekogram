@@ -3392,7 +3392,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (a == 1) {
                 nameTextView[a].setScrollNonFitText(true);
                 nameTextView[a].setOnLongClickListener(v -> {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
                     builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, (dialogInterface, i) -> {
                         if (i == 0) {
                             AndroidUtilities.addToClipboard(((SimpleTextView) v).getText());
@@ -4149,12 +4149,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             LinearLayout ll = new LinearLayout(context);
             ll.setOrientation(LinearLayout.VERTICAL);
 
-            AlertDialog dialog = new AlertDialog.Builder(context)
+            AlertDialog dialog = new AlertDialog.Builder(context, resourcesProvider)
                     .setView(ll)
                     .create();
 
             for (TLRPC.TL_restrictionReason reason : reasons) {
-                TextDetailSettingsCell cell = new TextDetailSettingsCell(context);
+                TextDetailSettingsCell cell = new TextDetailSettingsCell(context, resourcesProvider);
                 cell.setBackground(Theme.getSelectorDrawable(false));
                 cell.setMultilineDetail(true);
                 cell.setOnClickListener(v1 -> {
@@ -4264,7 +4264,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 }, 250);
             }
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
             builder.setItems(items, (dialogInterface, i) -> {
                 try {
                     if (TextUtils.isEmpty(finalText)) {
@@ -6732,7 +6732,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (id != 0) {
             long finalId = id;
             idTextView.setOnLongClickListener(v -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
                 builder.setItems(new CharSequence[]{LocaleController.getString("CopyID", R.string.CopyID)}, (dialogInterface, i) -> {
                     if (i == 0) {
                         AndroidUtilities.addToClipboard(String.valueOf(finalId));
