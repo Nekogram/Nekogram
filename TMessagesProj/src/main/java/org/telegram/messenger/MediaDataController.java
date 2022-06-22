@@ -1532,7 +1532,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void loadFeaturedStickers(boolean cache, boolean force) {
-        if (loadingFeaturedStickers || (getUserConfig().getCurrentUser() == null || !getUserConfig().getCurrentUser().bot)) {
+        if (loadingFeaturedStickers || (getUserConfig().getCurrentUser() != null && getUserConfig().getCurrentUser().bot)) {
             return;
         }
         loadingFeaturedStickers = true;
