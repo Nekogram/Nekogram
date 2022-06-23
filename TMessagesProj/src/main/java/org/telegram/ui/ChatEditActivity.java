@@ -861,7 +861,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
 
         if ((ChatObject.isChannel(currentChat) || currentChat.gigagroup) && ChatObject.hasAdminRights(currentChat)) {
             logCell = new TextCell(context);
-            logCell.setTextAndIcon(LocaleController.getString("EventLog", R.string.EventLog), R.drawable.msg_log, stickersCell != null && stickersCell.getVisibility() == View.VISIBLE);
+            logCell.setTextAndIcon(LocaleController.getString("EventLog", R.string.EventLog), R.drawable.msg_log, false);
             logCell.setBackground(Theme.getSelectorDrawable(false));
             logCell.setOnClickListener(v -> presentFragment(new ChannelAdminLogActivity(currentChat)));
         }
@@ -885,6 +885,12 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         if (isChannel || currentChat.gigagroup) {
             infoContainer.addView(blockCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         }
+        if (logCell != null) {
+            infoContainer.addView(logCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        }
+
+        infoSectionCell = new ShadowSectionCell(context);
+        linearLayout1.addView(infoSectionCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         if (!isChannel && info != null && info.can_set_stickers) {
             stickersContainer = new FrameLayout(context);
             stickersContainer.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
@@ -900,17 +906,6 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 groupStickersActivity.setInfo(info);
                 presentFragment(groupStickersActivity);
             });
-        }
-        if (logCell != null) {
-            infoContainer.addView(logCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        }
-
-        if (stickersCell == null) {
-            infoSectionCell = new ShadowSectionCell(context);
-            linearLayout1.addView(infoSectionCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
-        }
-
-        if (!isChannel && info != null && info.can_set_stickers) {
             stickersInfoCell = new TextInfoPrivacyCell(context);
             stickersInfoCell.setText(LocaleController.getString(R.string.GroupStickersInfo));
             linearLayout1.addView(stickersInfoCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
@@ -943,6 +938,8 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
             deleteInfoCell = new ShadowSectionCell(context);
             deleteInfoCell.setBackground(Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
             linearLayout1.addView(deleteInfoCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        } else if (stickersInfoCell == null) {
+            infoSectionCell.setBackground(Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
         }
 
         if (stickersInfoCell != null) {
