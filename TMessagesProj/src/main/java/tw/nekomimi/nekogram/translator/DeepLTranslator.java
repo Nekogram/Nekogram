@@ -17,10 +17,10 @@ public class DeepLTranslator extends BaseTranslator {
 
     private static DeepLTranslator instance;
     private final List<String> targetLanguages = Arrays.asList(
-            "bg", "cs", "pl", "da", "de", "el", "en-GB", "en-US", "en",
-            "es", "et", "fi", "fr", "hu", "it", "ja", "lt", "lv", "nl",
+            "bg", "cs", "da", "de", "el", "en-GB", "en-US", "en", "es",
+            "et", "fi", "fr", "hu", "id", "it", "ja", "lt", "lv", "nl",
             "pl", "pt-BR", "pt-PT", "pt", "ro", "ru", "sk", "sl", "sv",
-            "zh");
+            "tr", "zh");
     private final DeepLTranslatorAndroid deeplTranslater = new DeepLTranslatorAndroid();
 
     static DeepLTranslator getInstance() {
