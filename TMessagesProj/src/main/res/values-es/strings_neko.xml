@@ -240,6 +240,14 @@
     <string name="MarkdownParseLinks">Analizar enlaces</string>
     <string name="MarkdownAbout">Editar el texto en los mensajes usando markdown: ^1**negrita**^1, ^2__cursiva__^2, ^3~~tachado~~^3, ^4`monoespaciado`^4, ^5||spoiler||^5, ^6texto^7enlace^8.</string>
     <string name="MarkdownAbout2">Editar el texto en los mensajes usando markdown: ^1**negrita**^1, ^2__cursiva__^2, ^3~~tachado~~^3, ^4`monoespaciado`^4, ^5||spoiler||^5.</string>
+    <string name="AppIconOldSchool">Vieja escuela</string>
+    <string name="AppIconMerio">Merio</string>
+    <string name="AppIconRainbow">Arcoiris</string>
+    <string name="AppIconMusheen">Musheen</string>
+    <string name="AppIconSpace">Espacio</string>
+    <string name="AppIconCloud">Nube</string>
+    <string name="AppIconNeon">Neón</string>
+    <string name="AppIconMaterial">Material</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccRewindHeading">Ajustes de rebobinado</string>

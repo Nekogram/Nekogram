@@ -29,7 +29,7 @@
     <string name="DependsOnDate">Зависит от даты</string>
     <string name="Christmas">Рождество</string>
     <string name="Valentine">День Св. Валентина</string>
-    <string name="DeleteDownloadedFile">Удалить из кеша</string>
+    <string name="DeleteDownloadedFile">Удалить загруженный файл</string>
     <string name="TestBackend">Использовать тестовый сервер</string>
     <string name="TestBackendOn">Эта учетная запись будет подключаться к тестовому серверу.</string>
     <string name="TestBackendOff">Эта учетная запись будет подключаться к основному серверу.</string>
@@ -47,7 +47,7 @@
     <string name="MessageDetails">Подробности</string>
     <string name="DeleteAccount">Удалить Telegram аккаунт</string>
     <string name="TranslateFailed">Ошибка сервера переводчика</string>
-    <string name="TranslationProvider">Поставщик переводов</string>
+    <string name="TranslationProvider">Переводчик</string>
     <string name="ProviderGoogleTranslate">Google Переводчик</string>
     <string name="TranslateApiUnsupported">Выбранный переводчик не поддерживает ваш язык.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
@@ -235,12 +235,20 @@
     <string name="TranslatorShowOriginal">С исходным текстом</string>
     <string name="DatacenterStatusAbout">Проверка состояния **дата-центров** Telegram.</string>
     <string name="DatacenterStatus">Состояние дата-центра</string>
-    <string name="Markdown">Марк даун</string>
-    <string name="MarkdownEnableByDefault">Включить по дефолту</string>
-    <string name="MarkdownParser">Разборщик</string>
-    <string name="MarkdownParseLinks">Разбор ссылки</string>
+    <string name="Markdown">Markdown</string>
+    <string name="MarkdownEnableByDefault">Включить по умолчанию</string>
+    <string name="MarkdownParser">Синтаксический анализатор</string>
+    <string name="MarkdownParseLinks">Синтаксический анализатор ссылок</string>
     <string name="MarkdownAbout">Изменяйте текст сообщений, используя markdown: ^1**жирный**^1, ^2__курсив__^2, ^3~~зачёркнутый~~^3, ^4`моноширинный`^4, ^5||скрытый||^5, ^6текст^7url^8.</string>
     <string name="MarkdownAbout2">Изменяйте текст сообщений, используя markdown: ^1**жирный**^1, ^2__курсив__^2, ^3~~зачёркнутый~~^3, ^4`моноширинный`^4, ^5||скрытый||^5.</string>
+    <string name="AppIconOldSchool">Старая Школа</string>
+    <string name="AppIconMerio">Мерио</string>
+    <string name="AppIconRainbow">Радуга</string>
+    <string name="AppIconMusheen">Мушин</string>
+    <string name="AppIconSpace">Космос</string>
+    <string name="AppIconCloud">Облачная</string>
+    <string name="AppIconNeon">Неон</string>
+    <string name="AppIconMaterial">Материал</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>
