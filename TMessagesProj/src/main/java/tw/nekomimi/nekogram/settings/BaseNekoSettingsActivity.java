@@ -117,7 +117,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
     @Override
     protected void setParentLayout(ActionBarLayout layout) {
-        if (layout != null && !isLightStatusBar()) {
+        if (layout != null && !hasWhiteActionBar()) {
             resourcesProvider = layout.getLastFragment().getResourceProvider();
         }
         super.setParentLayout(layout);
