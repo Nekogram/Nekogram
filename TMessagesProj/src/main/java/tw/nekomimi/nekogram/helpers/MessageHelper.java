@@ -57,6 +57,7 @@ import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ColoredImageSpan;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.TranscribeButton;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -404,6 +405,8 @@ public class MessageHelper extends BaseController {
                 pollText.append(answer.text);
             }
             message = pollText.toString();
+        } else if (messageObject.isVoiceTranscriptionOpen()) {
+            message = messageObject.messageOwner.voiceTranscription;
         } else {
             message = messageObject.messageOwner.message;
         }
@@ -416,7 +419,9 @@ public class MessageHelper extends BaseController {
             messageObject = getTargetMessageObjectFromGroup(selectedObjectGroup);
         } else if (selectedObject.isPoll()) {
             messageObject = selectedObject;
-        } else if (!TextUtils.isEmpty(selectedObject.messageOwner.message) && !isLinkOrEmojiOnlyMessage(selectedObject)) {
+        } else if (selectedObject.isVoiceTranscriptionOpen() && !TextUtils.isEmpty(selectedObject.messageOwner.voiceTranscription) && !TranscribeButton.isTranscribing(selectedObject)) {
+            messageObject = selectedObject;
+        } else if (!selectedObject.isVoiceTranscriptionOpen() && !TextUtils.isEmpty(selectedObject.messageOwner.message) && !isLinkOrEmojiOnlyMessage(selectedObject)) {
             messageObject = selectedObject;
         }
         if (messageObject != null && messageObject.translating) {

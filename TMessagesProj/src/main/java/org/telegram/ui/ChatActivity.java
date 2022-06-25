@@ -21531,7 +21531,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                         if (NekoConfig.showTranslate && (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL || !noforwards)) {
                             MessageObject messageObject = getMessageHelper().getMessageForTranslate(selectedObject, selectedObjectGroup);
                             if (messageObject != null) {
-                                items.add(messageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
+                                items.add(messageObject.translated && !messageObject.isVoiceTranscriptionOpen() ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
                                 options.add(OPTION_TRANSLATE);
                                 icons.add(R.drawable.msg_translate);
                             }
@@ -21854,7 +21854,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                             if (NekoConfig.showTranslate && (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL || !noforwards)) {
                                 MessageObject messageObject = getMessageHelper().getMessageForTranslate(selectedObject, selectedObjectGroup);
                                 if (messageObject != null) {
-                                    items.add(messageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
+                                    items.add(messageObject.translated && !messageObject.isVoiceTranscriptionOpen() ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
                                     options.add(OPTION_TRANSLATE);
                                     icons.add(R.drawable.msg_translate);
                                 }
@@ -23194,7 +23194,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
     }
 
     private void translateOrResetMessage(MessageObject messageObject, String sourceLanguage) {
-        if (messageObject.translated && messageObject.originalMessage != null) {
+        if (!messageObject.isVoiceTranscriptionOpen() && messageObject.translated && messageObject.originalMessage != null) {
             if (messageObject.originalMessage instanceof String) {
                 messageObject.messageOwner.message = (String) messageObject.originalMessage;
             } else if (messageObject.originalMessage instanceof Pair) {
@@ -23214,7 +23214,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
         if (messageObject == null) {
             return;
         }
-        if (!autoTranslate && NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO) {
+        if (!autoTranslate && (NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO || messageObject.isVoiceTranscriptionOpen())) {
             String message = getMessageHelper().getMessagePlainText(messageObject);
             Translator.showTranslateDialog(getParentActivity(), message, getMessagesController().isChatNoForwards(currentChat) || messageObject.messageOwner.noforwards, this, link -> {
                 didPressMessageUrl(link, false, selectedObject, null);
