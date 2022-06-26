@@ -22565,16 +22565,29 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                         if (messageObject == null) {
                             continue;
                         }
+                        var translatorSettingsPopupWrapper = new TranslatorSettingsPopupWrapper(this, popupLayout.getSwipeBack(), dialog_id, getResourceProvider());
+                        int swipeBackIndex = popupLayout.addViewToSwipeBack(translatorSettingsPopupWrapper.windowLayout);
+                        cell.setOnLongClickListener(view -> {
+                            popupLayout.getSwipeBack().openForeground(swipeBackIndex);
+                            return true;
+                        });
                         final String[] fromLang = { null };
+                        cell.setVisibility(View.GONE);
+                        translatorSettingsPopupWrapper.windowLayout.setVisibility(View.GONE);
                         if (!messageObject.translated && LanguageDetector.hasSupport()) {
-                            cell.setVisibility(View.GONE);
                             LanguageDetectorTimeout.detectLanguage(
                                     cell, getMessageHelper().getMessagePlainText(messageObject),
                                     (String lang) -> {
                                         fromLang[0] = Translator.stripLanguageCode(lang);
-                                        if (!Translator.isLanguageRestricted(lang)) cell.setVisibility(View.VISIBLE);
+                                        if (!Translator.isLanguageRestricted(lang)) {
+                                            cell.setVisibility(View.VISIBLE);
+                                            translatorSettingsPopupWrapper.windowLayout.setVisibility(View.VISIBLE);
+                                        }
                                     }, null, waitForLangDetection, onLangDetectionDone
                             );
+                        } else {
+                            cell.setVisibility(View.VISIBLE);
+                            translatorSettingsPopupWrapper.windowLayout.setVisibility(View.VISIBLE);
                         }
                         cell.setOnClickListener(view -> {
                             if (selectedObject == null || i >= options.size() || getParentActivity() == null) {
@@ -22582,12 +22595,6 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
                             }
                             translateOrResetMessage(messageObject, fromLang[0]);
                             closeMenu();
-                        });
-                        var translatorSettingsPopupWrapper = new TranslatorSettingsPopupWrapper(this, popupLayout.getSwipeBack(), dialog_id, getResourceProvider());
-                        int swipeBackIndex = popupLayout.addViewToSwipeBack(translatorSettingsPopupWrapper.windowLayout);
-                        cell.setOnLongClickListener(view -> {
-                            popupLayout.getSwipeBack().openForeground(swipeBackIndex);
-                            return true;
                         });
                     }
                 }
