@@ -22,7 +22,7 @@ dependencies {
 
     compileOnly 'org.checkerframework:checker-qual:3.21.0'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.5'
-    implementation 'com.google.firebase:firebase-messaging:23.0.5'
+    implementation 'com.google.firebase:firebase-messaging:23.0.6'
     implementation 'com.google.firebase:firebase-appindexing:20.0.0'
     implementation 'com.google.android.gms:play-services-maps:18.0.2'
     implementation 'com.google.android.gms:play-services-auth-api-phone:18.0.1'
@@ -43,7 +43,7 @@ dependencies {
     implementation files('libs/org.tcp2ws.jar')
     implementation files('libs/org.translator.jar')
 
-    def appCenterSdkVersion = '4.4.3'
+    def appCenterSdkVersion = '4.4.4'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 
