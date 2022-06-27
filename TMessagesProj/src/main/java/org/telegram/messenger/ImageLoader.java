@@ -1213,10 +1213,10 @@ public class ImageLoader {
 
                             BitmapFactory.Options bmOptions = new BitmapFactory.Options();
                             bmOptions.inJustDecodeBounds = true;
-                            Utilities.loadWebpImage(null, buffer, buffer.limit(), bmOptions, true);
+                            //Utilities.loadWebpImage(null, buffer, buffer.limit(), bmOptions, true);
                             image = Bitmaps.createBitmap(bmOptions.outWidth, bmOptions.outHeight, Bitmap.Config.ARGB_8888);
 
-                            Utilities.loadWebpImage(image, buffer, buffer.limit(), null, !opts.inPurgeable);
+                            //Utilities.loadWebpImage(image, buffer, buffer.limit(), null, !opts.inPurgeable);
                             file.close();
                         } else {
                             if (opts.inPurgeable || secureDocumentKey != null) {
@@ -1336,10 +1336,10 @@ public class ImageLoader {
 
                                 BitmapFactory.Options bmOptions = new BitmapFactory.Options();
                                 bmOptions.inJustDecodeBounds = true;
-                                Utilities.loadWebpImage(null, buffer, buffer.limit(), bmOptions, true);
+                                //Utilities.loadWebpImage(null, buffer, buffer.limit(), bmOptions, true);
                                 image = Bitmaps.createBitmap(bmOptions.outWidth, bmOptions.outHeight, Bitmap.Config.ARGB_8888);
 
-                                Utilities.loadWebpImage(image, buffer, buffer.limit(), null, !opts.inPurgeable);
+                                //Utilities.loadWebpImage(image, buffer, buffer.limit(), null, !opts.inPurgeable);
                                 file.close();
                             } else {
                                 if (opts.inPurgeable || secureDocumentKey != null) {

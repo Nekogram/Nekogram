@@ -12,8 +12,6 @@
 #include <tgnet/FileLog.h>
 #include <vector>
 #include <algorithm>
-#include "libwebp/webp/decode.h"
-#include "libwebp/webp/encode.h"
 #include "mozjpeg/turbojpeg.h"
 #include "c_utils.h"
 
@@ -651,7 +649,7 @@ JNIEXPORT void Java_org_telegram_messenger_Utilities_unpinBitmap(JNIEnv *env, jc
     AndroidBitmap_unlockPixels(env, bitmap);
 }
 
-JNIEXPORT jboolean Java_org_telegram_messenger_Utilities_loadWebpImage(JNIEnv *env, jclass clazz, jobject outputBitmap, jobject buffer, jint len, jobject options, jboolean unpin) {
+/*JNIEXPORT jboolean Java_org_telegram_messenger_Utilities_loadWebpImage(JNIEnv *env, jclass clazz, jobject outputBitmap, jobject buffer, jint len, jobject options, jboolean unpin) {
     if (!buffer) {
         env->ThrowNew(jclass_NullPointerException, "Input buffer can not be null");
         return 0;
@@ -701,7 +699,7 @@ JNIEXPORT jboolean Java_org_telegram_messenger_Utilities_loadWebpImage(JNIEnv *e
     }
 
     return 1;
-}
+}*/
 
 #define SQUARE(i) ((i)*(i))
 
