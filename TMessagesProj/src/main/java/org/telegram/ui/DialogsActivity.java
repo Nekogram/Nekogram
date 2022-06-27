@@ -6107,7 +6107,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             int maxPinnedCount;
             if (containsFilter) {
                 maxPinnedCount = 100 - filter.alwaysShow.size();
-            } else if (NekoConfig.unlimitedPinnedDialogs || folderId != 0 || filter != null) {
+            } else if (folderId != 0 || filter != null) {
                 maxPinnedCount = getMessagesController().maxFolderPinnedDialogsCount;
             } else {
                 maxPinnedCount = getUserConfig().isPremium() ? getMessagesController().dialogFiltersPinnedLimitPremium : getMessagesController().dialogFiltersPinnedLimitDefault;

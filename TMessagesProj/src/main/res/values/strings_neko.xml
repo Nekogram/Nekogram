@@ -36,7 +36,6 @@
     <string name="TestBackend">Test Backend</string>
     <string name="TestBackendOn">This account will connect to the test backend.</string>
     <string name="TestBackendOff">This account will connect to the production backend.</string>
-    <string name="HideProxySponsorChannel">Hide proxy sponsor channel</string>
     <string name="ViewHistory">View history</string>
     <string name="Nya">Meow!</string>
     <string name="SensitiveDisableFiltering">Disable sensitive content filtering</string>
@@ -45,8 +44,6 @@
     <string name="StickerSizeDialogMessage">Oh so cute! A black cat!</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
     <string name="Experiment">Experimental</string>
-    <string name="UnlimitedFavoredStickers">Unlimited favored stickers</string>
-    <string name="UnlimitedFavoredStickersAbout">Add unlimited stickers to favorites. Stickers may not be synchronized to other devices.</string>
     <string name="MessageDetails">Details</string>
     <string name="DeleteAccount">Delete Telegram account</string>
     <string name="TranslateFailed">Translate server error</string>
@@ -57,15 +54,11 @@
     <string name="UndoTranslate">Undo translate</string>
     <string name="DisablePhotoViewerSideAction">Disable \"Flip Photos by tapping\"</string>
     <string name="BotToken">Token</string>
-    <string name="UnlimitedPinnedDialogs">Unlimited pinned dialogs</string>
-    <string name="UnlimitedPinnedDialogsAbout">Pin unlimited dialogs by turn their sync off.</string>
     <string name="OpenArchiveOnPull">Open Archive on pulldown</string>
     <string name="HideKeyboardOnChatScroll">Hide keyboard on chat scroll</string>
     <string name="ShowTabsOnForward">Show tabs on forward</string>
     <string name="CheckAllAdministrated">Add administrated</string>
     <string name="RearVideoMessages">Rear camera in Video Messages</string>
-    <string name="HideAllTab">Hide \"All Chats\" tab</string>
-    <string name="HideAllTabAbout">Press \"Back\" on home page to open it.</string>
     <string name="TabTitleType">Show on tabs</string>
     <string name="TabTitleTypeTip">Icons are cloud-synced by Telegram.</string>
     <string name="TabTitleTypeText">Titles</string>
@@ -100,7 +93,6 @@
     <string name="CustomEmojiTypeface">Custom emoji font</string>
     <string name="Page1Message2">Nekogram is an **unofficial** messaging app\nthat uses Telegram\'s API.</string>
     <string name="MapDriftingFix">Map drifting fix for Mainland China</string>
-    <string name="IncreaseVoiceMessageQuality">HQ voice messages</string>
     <string name="VoiceEnhancements">Voice enhancements</string>
     <string name="VoiceEnhancementsAbout">Noise Suppression and Voice Normalization</string>
     <string name="DisableInstantCamera">Disable instant camera</string>
@@ -188,7 +180,6 @@
     <string name="SaveToDownloadCount_many">Saving %1$d files to downloads</string>
     <string name="SaveToDownloadCount_other">Saving %1$d files to downloads</string>
     <string name="ThemesChannel">Themes channel</string>
-    <string name="SelectAnIcon">Choose an icon</string>
     <string name="AppLinkNotVerifiedMessage">For Android 12 and newer, you need to manually add link to verified links in order to open t.me links in Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">App links not verified</string>
     <string name="AutoTranslate">Auto translate</string>
@@ -258,13 +249,9 @@
     <string name="AccessibilitySettings">Accessibility settings</string>
     <string name="AccRewindHeading">Settings of rewind</string>
     <string name="AccSeekbarHeading">Seekbar settings</string>
-    <string name="AccDifferentHeading">Different</string>
     <string name="AccTypeOfRewindHeading">Select type of rewind of media content</string>
-    <string name="AccTypeOfRewind">Type of rewind</string>
     <string name="AccTypeOfRewindVideoHeading">Select type of rewind of video</string>
     <string name="AccTypeOfRewindVideo">Type of rewind of video</string>
-    <string name="AccTypeOfAddingHeading">Select in what place to add description about type of chat</string>
-    <string name="AccTypeOfAdding">Add information about type of chat</string>
     <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading">Select time in ms, after which changing of seekbar value will be announced, if you selected this option</string>
     <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar">Delay before announcing of changing of seekbar value</string>
     <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay">Without delay</string>
@@ -273,12 +260,6 @@
     <string name="AccRewindTypesPercent">Percent rewind</string>
     <string name="AccRewindTypesSecond">Second rewind</string>
     <string name="AccRewindTypesSelect">Select auto</string>
-    <string name="AccTypeOfAnnouncingTypeOfChatStart">At the start</string>
-    <string name="AccTypeOfAnnouncingTypeOfChatMiddle">At the middle</string>
-    <string name="AccTypeOfAnnouncingTypeOfChatEnd">At the end</string>
-    <string name="AccTypeOfAnnouncingTypeOfChatNo">Not where</string>
-    <string name="AccShowLinksForNodes">Add nodes for links</string>
-    <string name="AccHideLinks">Hide links for screenreaders</string>
     <string name="AccNumberOfItems">Show number of items</string>
     <string name="AccIndexOfItem">Show current position</string>
     <string name="AccShowValueChanges">Announce changes of value during manual changes</string>

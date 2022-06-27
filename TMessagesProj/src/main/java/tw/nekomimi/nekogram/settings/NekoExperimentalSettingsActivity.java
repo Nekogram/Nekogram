@@ -48,8 +48,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int emojiRow;
     private int mapDriftingFixRow;
     private int disableFilteringRow;
-    private int unlimitedFavedStickersRow;
-    private int unlimitedPinnedDialogsRow;
     private int showRPCErrorRow;
     private int experiment2Row;
 
@@ -93,11 +91,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     AndroidUtilities.runOnUIThread(() -> AlertsCreator.processError(currentAccount, error, this, req));
                 }
             }));
-        } else if (position == unlimitedFavedStickersRow) {
-            NekoConfig.toggleUnlimitedFavedStickers();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.unlimitedFavedStickers);
-            }
         } else if (position == deleteAccountRow) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
             builder.setMessage(LocaleController.getString("TosDeclineDeleteAccount", R.string.TosDeclineDeleteAccount));
@@ -171,11 +164,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 }.start();
             });
             showDialog(dialog);
-        } else if (position == unlimitedPinnedDialogsRow) {
-            NekoConfig.toggleUnlimitedPinnedDialogs();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.unlimitedPinnedDialogs);
-            }
         } else if (position == emojiRow) {
             if (!TextUtils.isEmpty(NekoConfig.customEmojiFontPath) && (LocaleController.isRTL && x <= AndroidUtilities.dp(76) || !LocaleController.isRTL && x >= view.getMeasuredWidth() - AndroidUtilities.dp(76))) {
                 NotificationsCheckCell checkCell = (NotificationsCheckCell) view;
@@ -280,8 +268,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         emojiRow = addRow("emoji");
         mapDriftingFixRow = addRow("mapDriftingFix");
         disableFilteringRow = sensitiveCanChange ? addRow("disableFiltering") : -1;
-        unlimitedFavedStickersRow = NekoConfig.showHiddenFeature ? addRow("unlimitedFavedStickers") : -1;
-        unlimitedPinnedDialogsRow = NekoConfig.showHiddenFeature ? addRow("unlimitedPinnedDialogs") : -1;
         showRPCErrorRow = addRow("showRPCError");
         experiment2Row = addRow();
         deleteAccountRow = addRow("deleteAccount");
@@ -322,10 +308,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     if (position == disableFilteringRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("SensitiveDisableFiltering", R.string.SensitiveDisableFiltering), LocaleController.getString("SensitiveAbout", R.string.SensitiveAbout), sensitiveEnabled, true, true);
                         textCell.setEnabled(sensitiveCanChange, null);
-                    } else if (position == unlimitedFavedStickersRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedFavoredStickers", R.string.UnlimitedFavoredStickers), LocaleController.getString("UnlimitedFavoredStickersAbout", R.string.UnlimitedFavoredStickersAbout), NekoConfig.unlimitedFavedStickers, true, true);
-                    } else if (position == unlimitedPinnedDialogsRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("UnlimitedPinnedDialogs", R.string.UnlimitedPinnedDialogs), LocaleController.getString("UnlimitedPinnedDialogsAbout", R.string.UnlimitedPinnedDialogsAbout), NekoConfig.unlimitedPinnedDialogs, true, true);
                     } else if (position == mapDriftingFixRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MapDriftingFix", R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
                     } else if (position == showRPCErrorRow) {

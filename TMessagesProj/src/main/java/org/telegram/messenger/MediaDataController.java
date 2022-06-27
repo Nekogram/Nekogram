@@ -740,7 +740,7 @@ public class MediaDataController extends BaseController {
                     AndroidUtilities.runOnUIThread(() -> getMediaDataController().loadRecents(MediaDataController.TYPE_FAVE, false, false, true));
                 }
             });
-            maxCount = NekoConfig.unlimitedFavedStickers ? Integer.MAX_VALUE : getMessagesController().maxFaveStickersCount;
+            maxCount = getMessagesController().maxFaveStickersCount;
         } else {
             if (type == TYPE_IMAGE && remove) {
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_STICKER, document, StickerSetBulletinLayout.TYPE_REMOVED_FROM_RECENT);
@@ -1201,9 +1201,6 @@ public class MediaDataController extends BaseController {
     }
 
     public void loadRecents(int type, boolean gif, boolean cache, boolean force) {
-        if (NekoConfig.unlimitedFavedStickers && type == TYPE_FAVE && !cache) {
-            return;
-        }
         if (gif) {
             if (loadingRecentGifs) {
                 return;
@@ -1373,7 +1370,7 @@ public class MediaDataController extends BaseController {
                         if (type == TYPE_GREETINGS) {
                             maxCount = 200;
                         } else if (type == TYPE_FAVE) {
-                            maxCount = NekoConfig.unlimitedFavedStickers ? Integer.MAX_VALUE : getMessagesController().maxFaveStickersCount;
+                            maxCount = getMessagesController().maxFaveStickersCount;
                         } else {
                             maxCount = getMessagesController().maxRecentStickersCount;
                         }
