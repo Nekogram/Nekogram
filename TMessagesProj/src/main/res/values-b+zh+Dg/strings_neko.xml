@@ -33,7 +33,6 @@
     <string name="TestBackend">异世界</string>
     <string name="TestBackendOn">此账户将连接至测试后端服务器。</string>
     <string name="TestBackendOff">此账户将连接至生产后端服务器。</string>
-    <string name="HideProxySponsorChannel">隐藏代理赞助商频道</string>
     <string name="ViewHistory">显示历史消息</string>
     <string name="Nya">喵！</string>
     <string name="SensitiveDisableFiltering">禁用敏感内容过滤</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">呜好可爱！黑色猫猫！</string>
     <string name="StickerSizeDialogMessageReplyTo">喵</string>
     <string name="Experiment">实验性</string>
-    <string name="UnlimitedFavoredStickers">无限的收藏贴纸</string>
-    <string name="UnlimitedFavoredStickersAbout">向收藏夹添加无限贴纸，贴纸可能将不能同步到其它设备。</string>
     <string name="MessageDetails">详情</string>
     <string name="DeleteAccount">删除 Telegram 帐户</string>
     <string name="TranslateFailed">翻译服务器错误</string>
@@ -54,15 +51,11 @@
     <string name="UndoTranslate">撤销翻译</string>
     <string name="DisablePhotoViewerSideAction">禁用“点按切换图片”</string>
     <string name="BotToken">令牌</string>
-    <string name="UnlimitedPinnedDialogs">无限的置顶对话</string>
-    <string name="UnlimitedPinnedDialogsAbout">关闭同步以置顶无限对话。</string>
     <string name="OpenArchiveOnPull">下拉打开里世界</string>
     <string name="HideKeyboardOnChatScroll">当滚动浏览对话时隐藏键盘</string>
     <string name="ShowTabsOnForward">在转发页面显示对话分组</string>
     <string name="CheckAllAdministrated">添加管理的群组与频道</string>
     <string name="RearVideoMessages">视频留言默认使用后置摄像头</string>
-    <string name="HideAllTab">隐藏“全部对话”</string>
-    <string name="HideAllTabAbout">在主页按返回键打开全部对话。</string>
     <string name="TabTitleType">在标签栏上显示</string>
     <string name="TabTitleTypeTip">图标由 Telegram 云同步。</string>
     <string name="TabTitleTypeText">标题</string>
@@ -96,7 +89,6 @@
     <string name="CustomEmojiTypeface">自定义 Emoji 字体</string>
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**应用</string>
     <string name="MapDriftingFix">地图定位漂移修复</string>
-    <string name="IncreaseVoiceMessageQuality">高清语音留言</string>
     <string name="VoiceEnhancements">语音增强</string>
     <string name="VoiceEnhancementsAbout">噪声抑制和语音归一化</string>
     <string name="DisableInstantCamera">禁用即时相机</string>
@@ -184,7 +176,6 @@
     <string name="SaveToDownloadCount_many">正在保存 %1$d 个文件到下载</string>
     <string name="SaveToDownloadCount_other">正在保存 %1$d 个文件到下载</string>
     <string name="ThemesChannel">主题频道</string>
-    <string name="SelectAnIcon">选择一个图标</string>
     <string name="AppLinkNotVerifiedMessage">对于 Android 12 及更新的版本，您需要手动添加链接到已验证链接才能在 Nekogram 中打开 t.me 链接。</string>
     <string name="AppLinkNotVerifiedTitle">应用链接未验证</string>
     <string name="AutoTranslate">自动翻译</string>

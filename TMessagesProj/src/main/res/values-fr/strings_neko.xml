@@ -33,7 +33,6 @@
     <string name="TestBackend">Serveur de test</string>
     <string name="TestBackendOn">Ce compte se connectera au serveur de test.</string>
     <string name="TestBackendOff">Ce compte sera déconnecter du serveur de test.</string>
-    <string name="HideProxySponsorChannel">Masquer le canal du sponsor proxy</string>
     <string name="ViewHistory">Afficher l\'historique</string>
     <string name="Nya">Meow !</string>
     <string name="SensitiveDisableFiltering">Désactiver le filtrage des contenus sensibles</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">Oh trop mignon ! Un chat noir !</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
     <string name="Experiment">Expérimental</string>
-    <string name="UnlimitedFavoredStickers">Autocollants préférés illimités</string>
-    <string name="UnlimitedFavoredStickersAbout">Ajoutez des autocollants illimités aux favoris. Les autocollants ne peuvent pas être synchronisés sur d\'autres appareils.</string>
     <string name="MessageDetails">Détail</string>
     <string name="DeleteAccount">Effacer le compte Telegram</string>
     <string name="TranslateFailed">Erreur de traduction du serveur</string>
@@ -54,15 +51,11 @@
     <string name="UndoTranslate">Annuler la traduction</string>
     <string name="DisablePhotoViewerSideAction">Désactiver \"Défilement de photos au touché\"</string>
     <string name="BotToken">Jeton d\'authentification</string>
-    <string name="UnlimitedPinnedDialogs">Échanges épinglés illimités</string>
-    <string name="UnlimitedPinnedDialogsAbout">Épingler des échanges en illimités en désactivant leur synchronisation.</string>
     <string name="OpenArchiveOnPull">Ouvrir les archives dans le menu déroulant</string>
     <string name="HideKeyboardOnChatScroll">Cacher clavier lors du défilement</string>
     <string name="ShowTabsOnForward">Afficher les dossiers lors d\'un transfert</string>
     <string name="CheckAllAdministrated">Ajouter administrateur</string>
     <string name="RearVideoMessages">Caméra arrière dans les messages vidéo</string>
-    <string name="HideAllTab">Masquer le dossier \"Tous\"</string>
-    <string name="HideAllTabAbout">Appuyez sur \"Retour\" de la page d\'accueil pour l\'ouvrir.</string>
     <string name="TabTitleType">Apparence des dossiers</string>
     <string name="TabTitleTypeTip">Les icônes sont synchronisées sur le cloud Telegram.</string>
     <string name="TabTitleTypeText">Titres</string>
@@ -95,7 +88,6 @@
     <string name="DisableProximityEvents">Désactiver les événements de proximité</string>
     <string name="CustomEmojiTypeface">Police d\'emojis personnalisée</string>
     <string name="MapDriftingFix">Correction de la dérive de carte pour la Chine continentale</string>
-    <string name="IncreaseVoiceMessageQuality">Messages vocaux HQ</string>
     <string name="VoiceEnhancements">Améliorations vocales</string>
     <string name="VoiceEnhancementsAbout">Suppression du bruit et normalisation vocale</string>
     <string name="DisableInstantCamera">Désactiver la caméra instantanée</string>
@@ -183,7 +175,6 @@
     <string name="SaveToDownloadCount_many">Enregistrement de %1$d fichiers dans les téléchargements</string>
     <string name="SaveToDownloadCount_other">Enregistrement de %1$d fichiers dans les téléchargements</string>
     <string name="ThemesChannel">Canal de thèmes</string>
-    <string name="SelectAnIcon">Choisissez une icône</string>
     <string name="AppLinkNotVerifiedMessage">Sur Android 12 et plus, vous devez ajouter manuellement le lien vers les liens vérifiés afin d\'ouvrir les liens t.me dans Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Liens d\'application non vérifiés</string>
     <string name="AutoTranslate">Traduction automatique</string>

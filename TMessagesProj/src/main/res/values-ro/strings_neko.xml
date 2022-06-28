@@ -33,7 +33,6 @@
     <string name="TestBackend">Testare backend</string>
     <string name="TestBackendOn">Acest cont se va conecta la sistemul backend de testare.</string>
     <string name="TestBackendOff">Acest cont se va conecta la sistemul backend de producție.</string>
-    <string name="HideProxySponsorChannel">Ascunde canalul de sponsorizare proxy</string>
     <string name="ViewHistory">Vizualizare istoric</string>
     <string name="Nya">Meow!</string>
     <string name="SensitiveDisableFiltering">Dezactivează filtrarea conținutului sensibil</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">Ох как круто! чёрный кот!</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
     <string name="Experiment">Experimental</string>
-    <string name="UnlimitedFavoredStickers">Stickere favorite nelimitate</string>
-    <string name="UnlimitedFavoredStickersAbout">Adăugați stickere nelimitate la favorite. Este posibil ca stickerele să nu fie sincronizate cu alte dispozitive.</string>
     <string name="MessageDetails">Detalii</string>
     <string name="DeleteAccount">Ștergeți contul Telegram</string>
     <string name="TranslateFailed">Eroare server de traducere</string>
@@ -53,15 +50,11 @@
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Anulați traducere</string>
     <string name="BotToken">Cod</string>
-    <string name="UnlimitedPinnedDialogs">Dialoguri fixate nelimitate</string>
-    <string name="UnlimitedPinnedDialogsAbout">Fixați dialoguri nelimitate dezactivând sincronizarea lor.</string>
     <string name="OpenArchiveOnPull">Deschideți arhiva la tragere</string>
     <string name="HideKeyboardOnChatScroll">Ascundeți tastatura pe derularea conversațiilor</string>
     <string name="ShowTabsOnForward">Afișați filele pe înainte</string>
     <string name="CheckAllAdministrated">Adăugați administrator</string>
     <string name="RearVideoMessages">Camera din spate în mesajele video</string>
-    <string name="HideAllTab">Ascundeți fila \"Toate Conversațiile\"</string>
-    <string name="HideAllTabAbout">Apăsați \"Înapoi\" pe pagina principală pentru a-l deschide.</string>
     <string name="TabTitleType">Afișați pe file</string>
     <string name="TabTitleTypeText">Titluri</string>
     <string name="TabTitleTypeIcon">Иконки</string>

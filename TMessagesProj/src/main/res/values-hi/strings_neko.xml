@@ -33,7 +33,6 @@
     <string name="TestBackend">टेस्ट बैकएंड</string>
     <string name="TestBackendOn">यह अकाउंट टेस्ट बैकएंड से कनेक्ट करेगा।</string>
     <string name="TestBackendOff">यह खाता प्रोडक्शन बैकएंड से कनेक्ट करेगा।</string>
-    <string name="HideProxySponsorChannel">प्रॉक्सी प्रायोजक चैनल छिपाएं</string>
     <string name="ViewHistory">इतिहास दिखाओ</string>
     <string name="Nya">म्याऊँ!</string>
     <string name="SensitiveDisableFiltering">डिसेबल सेंसिटिव कॉन्टेंट फिल्टरिंग</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">ओह, बहुत प्यारा! एक काली बिल्ली!</string>
     <string name="StickerSizeDialogMessageReplyTo">म्याऊँ</string>
     <string name="Experiment">प्रायोगि</string>
-    <string name="UnlimitedFavoredStickers">असीमित फेवरेट स्टिकर</string>
-    <string name="UnlimitedFavoredStickersAbout">असीमित स्टीकरो को फेवरेट मे जोड़े | स्टीकर दूसरे डिवाइसिस मे सिंक नहीं होंगे |</string>
     <string name="MessageDetails">विवरण</string>
     <string name="DeleteAccount">टेलीग्राम अकाउंट को नष्ट करे</string>
     <string name="TranslateFailed">आनुवाद सर्वर में कोई त्रुती</string>
@@ -53,16 +50,12 @@
     <string name="ProviderLingocloud">लिंगक्लाऊड</string>
     <string name="UndoTranslate">अनुवाद अन किया करे</string>
     <string name="BotToken">टोकन</string>
-    <string name="UnlimitedPinnedDialogs">असीमित पिन किए गए डायलॉग</string>
-    <string name="UnlimitedPinnedDialogsAbout">असीमित डायलॉग्स को पिन करे उनको सिंक ना करके।</string>
     <string name="OpenArchiveOnPull">पुलडाउन करने पर आर्काइव खोले</string>
     <string name="HideKeyboardOnChatScroll">चैट स्क्रॉल करने पर कीबोर्ड को छुपाएं</string>
     <string name="ShowTabsOnForward">फ़ौरवार्ड करने पर टैब दिखाएं</string>
     <string name="CheckAllAdministrated">व्यवस्थापक जोड़ें</string>
     <string name="RearVideoMessages">वीडियो संदेशों में पीछेला कैमरा</string>
-    <string name="HideAllTab">\"सभी संदेशों\" टैब को छिपाए</string>
     <string name="TabTitleType">टैब्स पर दिखाए</string>
     <string name="ThemesChannel">थीम चैनल</string>
-    <string name="SelectAnIcon">आइकन चुनिये</string>
     <!-- Accessibility -->
 </resources>

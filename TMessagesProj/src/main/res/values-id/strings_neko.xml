@@ -33,7 +33,6 @@
     <string name="TestBackend">Uji Backend</string>
     <string name="TestBackendOn">Akun ini akan terhubung ke pengujian backend.</string>
     <string name="TestBackendOff">Akun ini akan terhubung ke production backend.</string>
-    <string name="HideProxySponsorChannel">Sembunyikan channel proxy sponsor</string>
     <string name="ViewHistory">Lihat riwayat</string>
     <string name="Nya">Meong!</string>
     <string name="SensitiveDisableFiltering">Nonaktifkan filter konten sensitif</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">Oh lucu sekali! Seekor kucing hitam!</string>
     <string name="StickerSizeDialogMessageReplyTo">Meong</string>
     <string name="Experiment">Eksperimental</string>
-    <string name="UnlimitedFavoredStickers">Stiker favorit tanpa batas</string>
-    <string name="UnlimitedFavoredStickersAbout">Tambahkan stiker ke favorit tanpa batas. Stiker mungkin tidak disinkronkan ke perangkat lain.</string>
     <string name="MessageDetails">Detail</string>
     <string name="DeleteAccount">Hapus Akun Telegram</string>
     <string name="TranslateFailed">Gagal terhubung ke layanan terjemahan</string>
@@ -54,15 +51,11 @@
     <string name="UndoTranslate">Batal terjemahkan</string>
     <string name="DisablePhotoViewerSideAction">Nonaktifkan \"Ketuk untuk membalik foto\"</string>
     <string name="BotToken">Token</string>
-    <string name="UnlimitedPinnedDialogs">Obrolan disematkan tanpa batas</string>
-    <string name="UnlimitedPinnedDialogsAbout">Sematkan obrolan tanpa batas dengan mematikan sinkronisasi.</string>
     <string name="OpenArchiveOnPull">Buka Arsip ketika menarik ke bawah</string>
     <string name="HideKeyboardOnChatScroll">Sembunyikan keyboard saat menggulirkan pesan</string>
     <string name="ShowTabsOnForward">Tampilkan tab saat meneruskan</string>
     <string name="CheckAllAdministrated">Tambahkan admin</string>
     <string name="RearVideoMessages">Gunakan kamera belakang dalam Pesan Video</string>
-    <string name="HideAllTab">Sembunyikan folder \"Semua Obrolan\"</string>
-    <string name="HideAllTabAbout">Tekan \"Kembali\" pada beranda untuk membukanya.</string>
     <string name="TabTitleType">Tampilkan di tab</string>
     <string name="TabTitleTypeTip">Ikon disinkronkan ke-awan oleh Telegram.</string>
     <string name="TabTitleTypeText">Judul</string>
@@ -95,7 +88,6 @@
     <string name="DisableProximityEvents">Matikan sensor jarak</string>
     <string name="CustomEmojiTypeface">Fon emoji kustom</string>
     <string name="MapDriftingFix">Benarkan peta untuk Tiongkok Daratan</string>
-    <string name="IncreaseVoiceMessageQuality">Pesan suara HQ</string>
     <string name="VoiceEnhancements">Peningkatan suara</string>
     <string name="VoiceEnhancementsAbout">Penekanan Kebisingan dan Normalisasi Suara</string>
     <string name="DisableInstantCamera">Matikan kamera langsung</string>
@@ -183,7 +175,6 @@
     <string name="SaveToDownloadCount_many">Menyimpan berkas %1$d ke Unduhan</string>
     <string name="SaveToDownloadCount_other">Menyimpan berkas %1$d ke Unduhan</string>
     <string name="ThemesChannel">Saluran tema</string>
-    <string name="SelectAnIcon">Pilih ikon</string>
     <string name="AppLinkNotVerifiedMessage">Untuk Android 12 dan lebih baru, Anda perlu menambahkan tautan secara manual ke tautan terverifikasi untuk membuka tautan t.me di Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Tautan aplikasi tidak ditambahkan</string>
     <string name="AutoTranslate">Terjemahkan otomatis</string>

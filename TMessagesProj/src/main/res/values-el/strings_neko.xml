@@ -25,7 +25,6 @@
     <string name="Christmas">Χριστούγεννα</string>
     <string name="Valentine">Ημέρα του Αγίου Βαλεντίνου</string>
     <string name="DeleteDownloadedFile">Διαγραφή κατεβασμένου αρχείου</string>
-    <string name="HideProxySponsorChannel">Απόκρυψη καναλιού χορηγού διακομιστή μεσολάβησης</string>
     <string name="ViewHistory">Προβολή ιστορικού</string>
     <string name="Nya">Μιαου!</string>
     <string name="SensitiveDisableFiltering">Απενεργοποίηση φιλτραρίσματος ευαίσθητου περιεχομένου</string>
@@ -34,8 +33,6 @@
     <string name="StickerSizeDialogMessage">Ω, τόσο χαριτωμένο! Μια μαύρη γάτα!</string>
     <string name="StickerSizeDialogMessageReplyTo">Μιαου</string>
     <string name="Experiment">Πειραματικό</string>
-    <string name="UnlimitedFavoredStickers">Απεριόριστα αγαπημένα αυτοκόλλητα</string>
-    <string name="UnlimitedFavoredStickersAbout">Προσθέστε απεριόριστα αυτοκόλλητα στα αγαπημένα. Τα αυτοκόλλητα μπορεί να μην συγχρονίζονται σε άλλες συσκευές.</string>
     <string name="MessageDetails">Λεπτομέρειες</string>
     <string name="DeleteAccount">Διαγραφή λογαριασμού Telegram</string>
     <string name="TranslateFailed">Translate server error</string>
@@ -45,13 +42,9 @@
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Undo translate</string>
     <string name="DisablePhotoViewerSideAction">Disable \"Flip Photos by tapping\"</string>
-    <string name="UnlimitedPinnedDialogs">Απεριόριστες καρφιτσωμένες συζητήσεις</string>
-    <string name="UnlimitedPinnedDialogsAbout">Καρφίτσωμα απεριόριστων διαλόγων απενεργοποιώντας τον συγχρονισμό.</string>
     <string name="OpenArchiveOnPull">Άνοιγμα αρχείου κατά το τράβηγμα</string>
     <string name="HideKeyboardOnChatScroll">Απόκρυψη πληκτρολογίου στην κύλιση συνομιλίας</string>
     <string name="RearVideoMessages">Rear camera in Video Messages</string>
-    <string name="HideAllTab">Hide \"All Chats\" tab</string>
-    <string name="HideAllTabAbout">Press \"Back\" on home page to open it.</string>
     <string name="TabTitleType">Show on tabs</string>
     <string name="TabTitleTypeText">Titles</string>
     <string name="ConfirmAVMessage">Confirm sending video/voice message</string>

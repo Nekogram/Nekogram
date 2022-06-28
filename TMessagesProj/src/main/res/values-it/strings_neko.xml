@@ -33,7 +33,6 @@
     <string name="TestBackend">Test Backend</string>
     <string name="TestBackendOn">Questo account si connetterà al server di test.</string>
     <string name="TestBackendOff">Questo account si connetterà al server principale.</string>
-    <string name="HideProxySponsorChannel">Nascondi canale sponsor proxy</string>
     <string name="ViewHistory">Visualizza la cronologia</string>
     <string name="Nya">Miao!</string>
     <string name="SensitiveDisableFiltering">Disattiva il filtro dei contenuti sensibili</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">Oh che carino! Un gatto nero!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miao</string>
     <string name="Experiment">Sperimentale</string>
-    <string name="UnlimitedFavoredStickers">Adesivi preferiti illimitati</string>
-    <string name="UnlimitedFavoredStickersAbout">Aggiungi adesivi illimitati ai preferiti. Gli adesivi potrebbero non essere sincronizzati con altri dispositivi.</string>
     <string name="MessageDetails">Dettagli</string>
     <string name="DeleteAccount">Elimina l\'account Telegram</string>
     <string name="TranslateFailed">Errore del server di traduzione</string>
@@ -54,15 +51,11 @@
     <string name="UndoTranslate">Annulla traduzione</string>
     <string name="DisablePhotoViewerSideAction">Disattiva \"Sfoglia le foto toccando\"</string>
     <string name="BotToken">Token</string>
-    <string name="UnlimitedPinnedDialogs">Chat fissate illimitate</string>
-    <string name="UnlimitedPinnedDialogsAbout">Fissa chat illimitate disattivando la loro sincronizzazione.</string>
     <string name="OpenArchiveOnPull">Apri l\'archivio tirando giù</string>
     <string name="HideKeyboardOnChatScroll">Nascondi la tastiera durante lo scorrimento della chat</string>
     <string name="ShowTabsOnForward">Mostra le cartelle durante l\'inoltro</string>
     <string name="CheckAllAdministrated">Aggiungi chat amministrate</string>
     <string name="RearVideoMessages">Fotocamera posteriore nei videomessaggi</string>
-    <string name="HideAllTab">Nascondi la cartella \"Tutte le chat\"</string>
-    <string name="HideAllTabAbout">Premi \"Indietro\" nella home page per aprirla.</string>
     <string name="TabTitleType">Mostra sulle cartelle</string>
     <string name="TabTitleTypeTip">Le icone sono sincronizzate sul cloud da Telegram.</string>
     <string name="TabTitleTypeText">Titoli</string>
@@ -95,7 +88,6 @@
     <string name="DisableProximityEvents">Disattiva gli eventi di prossimità</string>
     <string name="CustomEmojiTypeface">Font emoji personalizzato</string>
     <string name="MapDriftingFix">Mappa linea di deriva per la Cina continentale</string>
-    <string name="IncreaseVoiceMessageQuality">Messaggi vocali in alta qualità</string>
     <string name="VoiceEnhancements">Miglioramenti vocali</string>
     <string name="VoiceEnhancementsAbout">Soppressione del rumore e Normalizzazione della voce</string>
     <string name="DisableInstantCamera">Disattiva la fotocamera istantanea</string>
@@ -183,7 +175,6 @@
     <string name="SaveToDownloadCount_many">Salvataggio di %1$d file nei download</string>
     <string name="SaveToDownloadCount_other">Salvataggio di %1$d file nei download</string>
     <string name="ThemesChannel">Canale dei temi</string>
-    <string name="SelectAnIcon">Scegli un\'icona</string>
     <string name="AppLinkNotVerifiedMessage">Per Android 12 e versioni successive, è necessario aggiungere manualmente un collegamento ai link verificati per aprire i link t.me in Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Collegamenti all\'app non verificati</string>
     <string name="AutoTranslate">Traduzione automatica</string>
@@ -236,6 +227,15 @@
     <string name="DatacenterStatus">Stato dei datacenter</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Abilita di default</string>
+    <string name="MarkdownParser">Analizza</string>
+    <string name="MarkdownParseLinks">Analizza link</string>
+    <string name="MarkdownAbout">Modificare il testo nei messaggi usando questo Markdown: ^1**grassetto**^1, ^2__corsivo__^2, ^3~~barrato~~^3, ^4`mono space`^4, ^5||spoiler||^5, ^6text^7url^8.</string>
+    <string name="AppIconOldSchool">Vecchia scuola</string>
+    <string name="AppIconRainbow">Arcobaleno</string>
+    <string name="AppIconSpace">Spazio</string>
+    <string name="AppIconCloud">Nuvola</string>
+    <string name="AppIconNeon">Neon</string>
+    <string name="AppIconMaterial">Materiale</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>

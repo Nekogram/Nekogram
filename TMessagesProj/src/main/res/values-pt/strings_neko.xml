@@ -33,7 +33,6 @@
     <string name="TestBackend">Testar Backend</string>
     <string name="TestBackendOn">Esta conta conectará ao backend de teste.</string>
     <string name="TestBackendOff">Esta conta conectará ao backend de teste.</string>
-    <string name="HideProxySponsorChannel">Ocultar canal patrocinador de proxy</string>
     <string name="ViewHistory">Visualizar Histórico</string>
     <string name="Nya">Miau!</string>
     <string name="SensitiveDisableFiltering">Desabilitar filtragem confidencial de conteúdo</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">Ah que fofo! Um gato preto!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="Experiment">Experimental</string>
-    <string name="UnlimitedFavoredStickers">Adesivos favoritos ilimitados</string>
-    <string name="UnlimitedFavoredStickersAbout">Adicione stickers ilimitados aos favoritos. Stickers podem não ser sincronizados com outros dispositivos.</string>
     <string name="MessageDetails">detalhes</string>
     <string name="DeleteAccount">Excluir conta do Telegram</string>
     <string name="TranslateFailed">Erro do servidor de tradução</string>
@@ -54,14 +51,11 @@
     <string name="UndoTranslate">Desfazer tradução</string>
     <string name="DisablePhotoViewerSideAction">Desativar \"Inverter fotos por toque\"</string>
     <string name="BotToken">Token</string>
-    <string name="UnlimitedPinnedDialogsAbout">Fixa os diálogos ilimitados desativando a sincronização.</string>
     <string name="OpenArchiveOnPull">Abrir arquivo ao descer</string>
     <string name="HideKeyboardOnChatScroll">Ocultar o teclado no chat de rolagem</string>
     <string name="ShowTabsOnForward">Exibir guias na frente</string>
     <string name="CheckAllAdministrated">Adicionar administrador</string>
     <string name="RearVideoMessages">Câmera traseira em Mensagem Vídeo</string>
-    <string name="HideAllTab">Ocultar guia \"Todos Chats\"</string>
-    <string name="HideAllTabAbout">Pressione \"Voltar\" na página inicial para abrir.</string>
     <string name="TabTitleType">Mostrar nas abas</string>
     <string name="IdTypeHidden">Ocultar</string>
     <string name="AutoPauseVideo">Pausar vídeo automaticamente</string>

@@ -32,7 +32,6 @@
     <string name="TestBackend">異世界</string>
     <string name="TestBackendOn">このアカウントは、テストバックエンドに接続します。</string>
     <string name="TestBackendOff">このアカウントは、本番バックエンドに接続します。</string>
-    <string name="HideProxySponsorChannel">Proxy sponsor channelを非表示</string>
     <string name="ViewHistory">履歴を見る</string>
     <string name="Nya">にゃ!</string>
     <string name="SensitiveDisableFiltering">Sensitiveな内容のfilteringを無効にする</string>
@@ -40,8 +39,6 @@
     <string name="StickerSize">ステッカーのサイズ</string>
     <string name="StickerSizeDialogMessageReplyTo">にゃ</string>
     <string name="Experiment">実験的</string>
-    <string name="UnlimitedFavoredStickers">無制限のお気に入りのステッカー</string>
-    <string name="UnlimitedFavoredStickersAbout">お気に入りに無制限のステッカーを追加します。ステッカーは他の端末と同期されない場合があります。</string>
     <string name="MessageDetails">詳細</string>
     <string name="DeleteAccount">Telegramアカウントの削除</string>
     <string name="TranslateFailed">翻訳サーバエラー</string>
@@ -51,13 +48,9 @@
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">翻訳を取り消す</string>
     <string name="BotToken">トークン</string>
-    <string name="UnlimitedPinnedDialogs">無制限のチャット固定</string>
-    <string name="UnlimitedPinnedDialogsAbout">チャットを無制限に固定することができます。固定は同期されなくなります。</string>
     <string name="OpenArchiveOnPull">保管したチャットをプルダウンで開く</string>
     <string name="HideKeyboardOnChatScroll">チャットスクロールでキーボードを非表示にする</string>
     <string name="RearVideoMessages">ビデオメッセージでリアカメラを使用する</string>
-    <string name="HideAllTab">「すべてのチャット」タブを非表示にする</string>
-    <string name="HideAllTabAbout">ホームページで「戻る」を押して開く</string>
     <string name="TabTitleType">タブに表示する</string>
     <string name="TabTitleTypeText">タイトル</string>
     <string name="ConfirmAVMessage">ビデオ/ボイスメッセージを送信するときに確認する</string>

@@ -33,7 +33,6 @@
     <string name="TestBackend">Test zaplecza</string>
     <string name="TestBackendOn">To konto połączy się z backendem testowym.</string>
     <string name="TestBackendOff">To konto połączy się z backendem produkcyjnym.</string>
-    <string name="HideProxySponsorChannel">Ukryj kanał sponsora proxy</string>
     <string name="ViewHistory">Zobacz historię</string>
     <string name="Nya">Miau!</string>
     <string name="SensitiveDisableFiltering">Wyłącz filtrowanie wrażliwych treści</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">Och, tak słodko! Czarny kot!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="Experiment">Eksperymentalne</string>
-    <string name="UnlimitedFavoredStickers">Nieograniczona ilość ulubionych naklejek</string>
-    <string name="UnlimitedFavoredStickersAbout">Dodaj nieograniczoną ilość naklejek do ulubionych. Naklejki mogą się nie synchronizować z innymi urządzeniami.</string>
     <string name="MessageDetails">Szczegóły</string>
     <string name="DeleteAccount">Usuń konto Telegram</string>
     <string name="TranslateFailed">Błąd serwera tłumaczącego</string>
@@ -54,15 +51,11 @@
     <string name="UndoTranslate">Cofnij tłumaczenie</string>
     <string name="DisablePhotoViewerSideAction">Wyłącz „Obracanie zdjęć poprzez dotknięcie”</string>
     <string name="BotToken">Token</string>
-    <string name="UnlimitedPinnedDialogs">Nieograniczona ilość przypiętych czatów</string>
-    <string name="UnlimitedPinnedDialogsAbout">Przypinanie nieograniczonej ilości czatów wyłączy ich synchronizację.</string>
     <string name="OpenArchiveOnPull">Otwórz archiwum gestem pociągnięcia w dół</string>
     <string name="HideKeyboardOnChatScroll">Ukryj klawiaturę podczas przewijania czatu</string>
     <string name="ShowTabsOnForward">Pokaż foldery przy przekazywaniu</string>
     <string name="CheckAllAdministrated">Dodaj administrowane</string>
     <string name="RearVideoMessages">Tylna kamera w wiadomościach wideo</string>
-    <string name="HideAllTab">Ukryj zakładkę „Wszystkie”</string>
-    <string name="HideAllTabAbout">Naciśnij „Wróć” na stronie głównej, aby go otworzyć.</string>
     <string name="TabTitleType">Pokaż na nazwach folderów</string>
     <string name="TabTitleTypeTip">Ikony są synchronizowane przez Telegrama.</string>
     <string name="TabTitleTypeText">Nazwy</string>
@@ -95,7 +88,6 @@
     <string name="DisableProximityEvents">Wyłącz usługi oparte na lokalizacji</string>
     <string name="CustomEmojiTypeface">Własna czcionka emoji</string>
     <string name="MapDriftingFix">Poprawka na dryfowanie map dla Chin kontynentalnych</string>
-    <string name="IncreaseVoiceMessageQuality">Wiadomości głosowe HQ</string>
     <string name="VoiceEnhancements">Wzmocnienie głosu</string>
     <string name="VoiceEnhancementsAbout">Tłumienie hałasu i normalizacja głosu</string>
     <string name="DisableInstantCamera">Wyłącz natychmiastową kamerę</string>
@@ -183,7 +175,6 @@
     <string name="SaveToDownloadCount_many">Zapisywanie %1$d plików do Pobranych</string>
     <string name="SaveToDownloadCount_other">Zapisywanie %1$d pliku do Pobranych</string>
     <string name="ThemesChannel">Kanał motywów</string>
-    <string name="SelectAnIcon">Wybierz ikonę</string>
     <string name="AppLinkNotVerifiedMessage">W przypadku Androida 12 i nowszych musisz ręcznie dodać link do zweryfikowanych linków, aby otworzyć linki t.me w Nekogramie.</string>
     <string name="AppLinkNotVerifiedTitle">Linki aplikacji nie zostały zweryfikowane</string>
     <string name="AutoTranslate">Automatyczne tłumaczenie</string>

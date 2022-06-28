@@ -33,7 +33,6 @@
     <string name="TestBackend">Підтримка тексту</string>
     <string name="TestBackendOn">Цей обліковий запис буде підключено до тестового сервера.</string>
     <string name="TestBackendOff">Цей обліковий запис буде підключено до робочого сервера.</string>
-    <string name="HideProxySponsorChannel">Сховати спонсорський канал проксі</string>
     <string name="ViewHistory">Подивитись історію</string>
     <string name="Nya">Мяу!</string>
     <string name="SensitiveDisableFiltering">Вимкнути фільтрацію шокуючого контенту</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">Ох, дуже мило! Чорна кішка!</string>
     <string name="StickerSizeDialogMessageReplyTo">Мяв</string>
     <string name="Experiment">Експеремент</string>
-    <string name="UnlimitedFavoredStickers">Необмежені улюблені наліпки</string>
-    <string name="UnlimitedFavoredStickersAbout">Додати необмежену кількість наклейок у вибране. Наклейки можуть не синхронізуватися з іншими пристроями.</string>
     <string name="MessageDetails">Деталі</string>
     <string name="DeleteAccount">Видалити телеграм акаунт</string>
     <string name="TranslateFailed">Помилка сервера перекладу</string>
@@ -54,15 +51,11 @@
     <string name="UndoTranslate">Скасувати переклад</string>
     <string name="DisablePhotoViewerSideAction">Вимкнути «Поворот фото натиснувши»</string>
     <string name="BotToken">Токен</string>
-    <string name="UnlimitedPinnedDialogs">Необмежені закріплені діалоги</string>
-    <string name="UnlimitedPinnedDialogsAbout">Закріпіть необмежену кількість діалогових вікон, вимкнувши їх синхронізацію.</string>
     <string name="OpenArchiveOnPull">Відкрийте архів у спадному меню</string>
     <string name="HideKeyboardOnChatScroll">Сховати клавіатуру при скроллінгу чата</string>
     <string name="ShowTabsOnForward">Показати вкладки пересланих</string>
     <string name="CheckAllAdministrated">Додати адміністратора</string>
     <string name="RearVideoMessages">Фронтальна камера у відеоповідомленнях</string>
-    <string name="HideAllTab">Приховати вкладку «Усі чати»</string>
-    <string name="HideAllTabAbout">Натисніть «Назад» на головну сторінку щоб відкрити її.</string>
     <string name="TabTitleType">Покажати вкладки</string>
     <string name="TabTitleTypeTip">Іконки синхронізуються в Телеграм хмарі.</string>
     <string name="TabTitleTypeText">Назви</string>
@@ -95,7 +88,6 @@
     <string name="DisableProximityEvents">Вимкнути безконтактні події</string>
     <string name="CustomEmojiTypeface">Користуватися шрифтом емодзі</string>
     <string name="MapDriftingFix">Виправлення дрейфу карти у Материковому Китаї</string>
-    <string name="IncreaseVoiceMessageQuality">HQ голосові повідомлення</string>
     <string name="VoiceEnhancements">Покращення голосу</string>
     <string name="VoiceEnhancementsAbout">Усунення шуму та нормалізація голосу</string>
     <string name="DisableInstantCamera">Вимкнути миттєву камеру</string>

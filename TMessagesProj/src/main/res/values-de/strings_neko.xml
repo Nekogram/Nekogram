@@ -33,7 +33,6 @@
     <string name="TestBackend">Test-Backend</string>
     <string name="TestBackendOn">Dieses Konto wird mit dem Test-Backend verbunden.</string>
     <string name="TestBackendOff">Dieses Konto wird mit dem Release-Backend verbunden.</string>
-    <string name="HideProxySponsorChannel">Proxy-Sponsor-Kanal ausblenden</string>
     <string name="ViewHistory">Verlauf anzeigen</string>
     <string name="Nya">Miau!</string>
     <string name="SensitiveDisableFiltering">Filter für sensiblen Inhalt deaktivieren</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">Oh wie süß, eine schwarze Katze!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="Experiment">Experimentell</string>
-    <string name="UnlimitedFavoredStickers">Unbegrenzte favorisierte Sticker</string>
-    <string name="UnlimitedFavoredStickersAbout">Fügen Sie unbegrenzt viele Sticker zu den Favoriten hinzu. Sticker werden möglicherweise nicht mit anderen Geräten synchronisiert.</string>
     <string name="MessageDetails">Details</string>
     <string name="DeleteAccount">Telegram-Konto löschen</string>
     <string name="TranslateFailed">Übersetzer-Serverfehler</string>
@@ -54,15 +51,11 @@
     <string name="UndoTranslate">Übersetzung zurücksetzen</string>
     <string name="DisablePhotoViewerSideAction">Bilder durchblättern durch Tippen deaktivieren\"</string>
     <string name="BotToken">Token</string>
-    <string name="UnlimitedPinnedDialogs">Unbegrenzte angepinnte Dialoge</string>
-    <string name="UnlimitedPinnedDialogsAbout">Pinnen Sie unbegrenzte Dialoge an, indem Sie die Synchronisierung ausschalten.</string>
     <string name="OpenArchiveOnPull">Archiv durch Herunterziehen öffnen</string>
     <string name="HideKeyboardOnChatScroll">Tastatur beim Scrollen im Chat ausblenden</string>
     <string name="ShowTabsOnForward">Tabs bei Weiterleitung anzeigen</string>
     <string name="CheckAllAdministrated">Administrierte Gruppen/Kanäle hinzufügen</string>
     <string name="RearVideoMessages">Rückkamera in Videonachrichten</string>
-    <string name="HideAllTab">\"Alle Chats\"-Tab ausblenden</string>
-    <string name="HideAllTabAbout">\"Zurück\" auf der Startseite tippen, um sie zu öffnen.</string>
     <string name="TabTitleType">Auf Tabs anzeigen</string>
     <string name="TabTitleTypeTip">Symbole werden mit Telegram-Cloud synchronisiert.</string>
     <string name="TabTitleTypeText">Titel</string>
@@ -95,7 +88,6 @@
     <string name="DisableProximityEvents">Näherungssensor deaktivieren</string>
     <string name="CustomEmojiTypeface">Benutzerdefinierte Emoji-Schriftart</string>
     <string name="MapDriftingFix">Kartendrifting-Fix für China</string>
-    <string name="IncreaseVoiceMessageQuality">HQ Sprachnachrichten</string>
     <string name="VoiceEnhancements">Stimmenverbesserungen</string>
     <string name="VoiceEnhancementsAbout">Rauschunterdrückung und Stimmnormalisierung</string>
     <string name="DisableInstantCamera">Sofortkamera deaktivieren</string>
@@ -183,7 +175,6 @@
     <string name="SaveToDownloadCount_many">%1$d Datei in Downloads speichern</string>
     <string name="SaveToDownloadCount_other">Speichere %1$d Datei in Downloads</string>
     <string name="ThemesChannel">Themenkanal</string>
-    <string name="SelectAnIcon">Symbol wählen</string>
     <string name="AppLinkNotVerifiedMessage">Für Android 12 und neuer, müssen Sie manuell Link zu verifizierten Links hinzufügen, um t.me Links in Nekogramm zu öffnen.</string>
     <string name="AppLinkNotVerifiedTitle">App-Links nicht überprüft</string>
     <string name="AutoTranslate">Automatisch übersetzen</string>

@@ -33,7 +33,6 @@
     <string name="TestBackend">اختبار الخادم التجريبي</string>
     <string name="TestBackendOn">سيتصل هذا الحساب بالخادم التجريبي.</string>
     <string name="TestBackendOff">سيتصل هذا الحساب بالخوادم العادية.</string>
-    <string name="HideProxySponsorChannel">إخفاء إعلانات البروكسي</string>
     <string name="ViewHistory">عرض الرسائل</string>
     <string name="Nya">مياو3:!</string>
     <string name="SensitiveDisableFiltering">تعطيل حظر المحتويات الحساسة</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">يا إلهي لطيف! قطة سوداء!</string>
     <string name="StickerSizeDialogMessageReplyTo">الـرد على</string>
     <string name="Experiment">تجريبية</string>
-    <string name="UnlimitedFavoredStickers">ملصقات مفضلة غير محدودة</string>
-    <string name="UnlimitedFavoredStickersAbout">إضافة ملصقات غير محدودة إلى المفضلة. الملصقات قد لا تتم مزامنتها مع الأجهزة الأخرى.</string>
     <string name="MessageDetails">التفاصيل</string>
     <string name="DeleteAccount">حذف حسابك في تيليجرام</string>
     <string name="TranslateFailed">خطأ في خادم الترجمة</string>
@@ -54,15 +51,11 @@
     <string name="UndoTranslate">النص الأصلي</string>
     <string name="DisablePhotoViewerSideAction">تعطيل الانتقال بين الصور عند الضغط على حواف الشاشة</string>
     <string name="BotToken">رمز بوت</string>
-    <string name="UnlimitedPinnedDialogs">تثبيت محادثات لا نهائي</string>
-    <string name="UnlimitedPinnedDialogsAbout">تثبيت محادثات غير محدودة بإيقاف مزامنتها.</string>
     <string name="OpenArchiveOnPull">فتح الأرشيف عند السحب للأسفل</string>
     <string name="HideKeyboardOnChatScroll">إخفاء لوحة المفاتيح عند التمرير في المحادثة</string>
     <string name="ShowTabsOnForward">إظهار التبويبات عند إعادة التوجيه</string>
     <string name="CheckAllAdministrated">إضافة ادارة</string>
     <string name="RearVideoMessages">افتح الكاميرا الخلفية افتراضيا في رسائل الفيديو</string>
-    <string name="HideAllTab">إخفاء تبويب \"الجـمـيـع\"</string>
-    <string name="HideAllTabAbout">اضغط زرَ \"العودة\" في الشاشة الرئيسية لفتحها مجدداً.</string>
     <string name="TabTitleType">نوع علامات التبويب</string>
     <string name="TabTitleTypeTip">تتم مزامنة الرموز عبر السحابة بواسطة Telegram</string>
     <string name="TabTitleTypeText">العناوين</string>
@@ -96,7 +89,6 @@
     <string name="DisableProximityEvents">إيقاف مستشعرات الجسم</string>
     <string name="CustomEmojiTypeface">خطٌ مخصص للرموز التعبيرية</string>
     <string name="MapDriftingFix">تصليح الخرائط للصين</string>
-    <string name="IncreaseVoiceMessageQuality">رسائل صوتية عالية الجودة</string>
     <string name="VoiceEnhancements">تحسينات صوتية</string>
     <string name="VoiceEnhancementsAbout">قمع الضوضاء وتطبيع الصوت</string>
     <string name="DisableInstantCamera">إيقاف الكاميرا الفورية</string>
@@ -185,7 +177,6 @@
     <string name="SaveToDownloadCount_many">حفظ %1$d ملفات للتنزيلات</string>
     <string name="SaveToDownloadCount_other">حفظ الملفات للتنزيلات</string>
     <string name="ThemesChannel">قناة السمات</string>
-    <string name="SelectAnIcon">اختر أيقونة</string>
     <string name="AppLinkNotVerifiedMessage">لنظام Android 12 والإصدارات الأحدث ، تحتاج إلى إضافة رابط يدويًا إلى الروابط التي تم التحقق منها لفتح روابط t.me في Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">لم يتم التحقق من روابط التطبيق</string>
     <string name="AutoTranslate">ترجمة تلقائية</string>

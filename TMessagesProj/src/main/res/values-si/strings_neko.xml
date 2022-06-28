@@ -31,7 +31,6 @@
     <string name="TestBackend">පරීක්ෂණ පසුබිම</string>
     <string name="TestBackendOn">මෙම ගිණුම පරීක්ෂණ පසුබිම සදහා සම්බන්ධ වේවි.</string>
     <string name="TestBackendOff">මෙම ගිණුම පරීක්ෂණ පසුබිම සදහා සම්බන්ධ වේවි.</string>
-    <string name="HideProxySponsorChannel">ප්‍රොක්සි සදහා අනුග්‍රාහක නාලිකාව සඟවන්න</string>
     <string name="ViewHistory">පසුගිය මැසේජ පෙන්වන්න</string>
     <string name="Nya">ඤාව්!</string>
     <string name="SensitiveDisableFiltering">සංවේදී අන්තර්ගත ඉවත් කිරීම අක්‍රීය කරන්න</string>
@@ -39,8 +38,6 @@
     <string name="StickerSize">ස්ටිකර් වල විශාලත්වය</string>
     <string name="StickerSizeDialogMessageReplyTo">ඤාව්</string>
     <string name="Experiment">පර්යේෂණාත්මක</string>
-    <string name="UnlimitedFavoredStickers">අසීමිත කැමති ස්ටිකර්</string>
-    <string name="UnlimitedFavoredStickersAbout">ඔබගේ කැමැත්තට අනුව අසීමිත ස්ටිකර එකතු කරන්න. මේවා අනෙක් උපාංග සමග sync නොවේ.</string>
     <string name="MessageDetails">විස්තර</string>
     <string name="DeleteAccount">ටෙලිග්‍රෑම් ගිණුම මකා දමන්න</string>
     <string name="TranslateFailed">පරිවර්තන සේවාදායකාගේ දෝෂයක්</string>
@@ -50,15 +47,11 @@
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">පරිවර්තනය ආපසු හරවන්න</string>
     <string name="BotToken">ටෝකනය</string>
-    <string name="UnlimitedPinnedDialogs">සීමාවක් රහිත දෙබස් පින් කිරීම</string>
-    <string name="UnlimitedPinnedDialogsAbout">මෙමගින් එම පින් කරන ලද දෙබස් උපාංග අතර sync වීම වළකයි.</string>
     <string name="OpenArchiveOnPull">සංරක්ෂිතය විවෘත කිරීමට පහළට අදින්න</string>
     <string name="HideKeyboardOnChatScroll">කතාබස නරඹන විටදී යතුරු පුවරුව සඟවන්න</string>
     <string name="ShowTabsOnForward">Show tabs on forward</string>
     <string name="CheckAllAdministrated">පරිපාලනයට යොදවන්න</string>
     <string name="RearVideoMessages">විඩීයෝ මැසේජ සදහා පසුපස කැමරාව භාවිතා කරන්න</string>
-    <string name="HideAllTab">සියලුම කතාබස් සඟවන්න</string>
-    <string name="HideAllTabAbout">එය විවෘත කිරීමට මුල් පිටුවේ \"ආපසු\" ඔබන්න.</string>
     <string name="TabTitleType">Show on tabs</string>
     <string name="TabTitleTypeText">මාතෘකා</string>
     <string name="ConfirmAVMessage">වීඩියෝ / හඩ පණිවිඩ යැවීමට පෙර තහවුරු කරන්න</string>

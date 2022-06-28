@@ -33,7 +33,6 @@
     <string name="TestBackend">異世界</string>
     <string name="TestBackendOn">此賬户將連接至測試後端服務器。</string>
     <string name="TestBackendOff">此賬户將連接至生產後端服務器。</string>
-    <string name="HideProxySponsorChannel">隱藏代理贊助商頻道</string>
     <string name="ViewHistory">顯示歷史消息</string>
     <string name="Nya">喵！</string>
     <string name="SensitiveDisableFiltering">禁用敏感內容過濾</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">嘩! 係一隻好得意嘅黑貓!</string>
     <string name="StickerSizeDialogMessageReplyTo">喵</string>
     <string name="Experiment">實驗性</string>
-    <string name="UnlimitedFavoredStickers">無限的收藏貼圖</string>
-    <string name="UnlimitedFavoredStickersAbout">向收藏夾添加無限貼圖，貼圖可能將不能同步到其它裝置。</string>
     <string name="MessageDetails">資訊</string>
     <string name="DeleteAccount">刪除 Telegram 帳戶</string>
     <string name="TranslateFailed">翻譯服務器錯誤</string>
@@ -54,15 +51,11 @@
     <string name="UndoTranslate">撤銷翻譯</string>
     <string name="DisablePhotoViewerSideAction">禁止 “輕按以旋轉圖片”</string>
     <string name="BotToken">令牌</string>
-    <string name="UnlimitedPinnedDialogs">無限的置頂對話</string>
-    <string name="UnlimitedPinnedDialogsAbout">關閉同步以置頂無限對話。</string>
     <string name="OpenArchiveOnPull">下拉開啟已封存對話</string>
     <string name="HideKeyboardOnChatScroll">當滾動瀏覽對話時隱藏鍵盤</string>
     <string name="ShowTabsOnForward">在轉傳的頁面中顯示標籤</string>
     <string name="CheckAllAdministrated">新增管理員</string>
     <string name="RearVideoMessages">視頻消息中使用後置攝像頭</string>
-    <string name="HideAllTab">隱藏“所有聊天”標籤</string>
-    <string name="HideAllTabAbout">在主頁上按“返回”以將其打開。</string>
     <string name="TabTitleType">在標籤欄上顯示</string>
     <string name="TabTitleTypeText">標題</string>
     <string name="ConfirmAVMessage">Dari naqii</string>
@@ -173,7 +166,6 @@
     <string name="SaveToDownloadCount_many">正在保存 %1$d 文件以供下載</string>
     <string name="SaveToDownloadCount_other">正在保存 %1$d 文件以供下載</string>
     <string name="ThemesChannel">主題頻道</string>
-    <string name="SelectAnIcon">選擇一個圖標</string>
     <string name="AppLinkNotVerifiedMessage">對於 Android 12 及更高版本，您需要手動添加鏈接到經過驗證的鏈接才能在 Nekogram 中打開 t.me 鏈接。</string>
     <string name="AppLinkNotVerifiedTitle">鏈接沒有經過驗證</string>
     <string name="AutoTranslate">自動翻譯</string>

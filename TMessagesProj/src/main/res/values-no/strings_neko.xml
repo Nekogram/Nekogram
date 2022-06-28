@@ -30,7 +30,6 @@
     <string name="TestBackend">Test Backend</string>
     <string name="TestBackendOn">Denne kontoen kobles til test-backend.</string>
     <string name="TestBackendOff">Denne kontoen kobles til test-backend.</string>
-    <string name="HideProxySponsorChannel">Skjul proxy-sponsorkanal</string>
     <string name="ViewHistory">Vis historikk</string>
     <string name="Nya">Mjau!</string>
     <string name="SensitiveDisableFiltering">Deaktiver filtrering av sensitivt innhold</string>
@@ -38,8 +37,6 @@
     <string name="StickerSize">Klistremerke størrelse</string>
     <string name="StickerSizeDialogMessageReplyTo">Mjau</string>
     <string name="Experiment">Eksperimentell</string>
-    <string name="UnlimitedFavoredStickers">Ubegrenset favoritt klistremerker</string>
-    <string name="UnlimitedFavoredStickersAbout">Legg til ubegrenset klistremerker til favoritter. Klistremerker kan ikke synkroniseres med andre enheter.</string>
     <string name="MessageDetails">Detaljer</string>
     <string name="DeleteAccount">Slett Telegram-konto</string>
     <string name="TranslateFailed">Oversett serverfeil</string>
@@ -49,15 +46,11 @@
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Angre oversettelsen</string>
     <string name="BotToken">Token</string>
-    <string name="UnlimitedPinnedDialogs">Ubegrenset festede dialoger</string>
-    <string name="UnlimitedPinnedDialogsAbout">Fest ubegrensede dialoger ved å slå av synkroniseringen.</string>
     <string name="OpenArchiveOnPull">Åpne arkivet på nedtrappingen</string>
     <string name="HideKeyboardOnChatScroll">Skjul tastaturet ditt på chatterullingen</string>
     <string name="ShowTabsOnForward">Vis faner fremover</string>
     <string name="CheckAllAdministrated">Legg til administrert</string>
     <string name="RearVideoMessages">Bakre kamera i videomeldinger</string>
-    <string name="HideAllTab">Skjul fanen \"Alle samtaler\"</string>
-    <string name="HideAllTabAbout">Trykk på \"Tilbake\" på hjemmesiden for å åpne den.</string>
     <string name="TabTitleType">Vis på faner</string>
     <string name="TabTitleTypeText">Titler</string>
     <string name="ConfirmAVMessage">Bekreft sending av video / talemelding</string>

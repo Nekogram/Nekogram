@@ -33,7 +33,6 @@
     <string name="TestBackend">Testa backend</string>
     <string name="TestBackendOn">Detta konto kommer ansluta till testbackend.</string>
     <string name="TestBackendOff">Detta konto kommer att ansluta till produktionsbackend.</string>
-    <string name="HideProxySponsorChannel">Dölj proxysponsorkanal</string>
     <string name="ViewHistory">Visa historik</string>
     <string name="Nya">Mjau!</string>
     <string name="SensitiveDisableFiltering">Avaktivera filtrering av känsligt innehåll</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">Åh så söt! En svart katt!</string>
     <string name="StickerSizeDialogMessageReplyTo">Mjau</string>
     <string name="Experiment">Experimentellt</string>
-    <string name="UnlimitedFavoredStickers">Obegränsat antal favoriserade klistermärken</string>
-    <string name="UnlimitedFavoredStickersAbout">Lägg till obegränsade klistermärken till favoriter. Klistermärken kanske inte synkroniseras till andra enheter.</string>
     <string name="MessageDetails">Detaljer</string>
     <string name="DeleteAccount">Ta bort Telegram-konto</string>
     <string name="TranslateFailed">Fel på översättningsservern</string>
@@ -54,15 +51,11 @@
     <string name="UndoTranslate">Ångra översättning</string>
     <string name="DisablePhotoViewerSideAction">Inaktivera \"Vänd foton genom att trycka\"</string>
     <string name="BotToken">Token</string>
-    <string name="UnlimitedPinnedDialogs">Obegränsat antal fästa dialogrutor</string>
-    <string name="UnlimitedPinnedDialogsAbout">Fäst obegränsat antal dialogrutor genom att stänga av synkroniseringen av dem.</string>
     <string name="OpenArchiveOnPull">Öppna arkiv vid neddragning</string>
     <string name="HideKeyboardOnChatScroll">Dölj tangentbord vid chatt scrollning</string>
     <string name="ShowTabsOnForward">Visa flikar vid vidarebefordring</string>
     <string name="CheckAllAdministrated">Lägg till administrerade</string>
     <string name="RearVideoMessages">Bakre kameran i videomeddelanden</string>
-    <string name="HideAllTab">Dölj fliken \"Alla chattar\"</string>
-    <string name="HideAllTabAbout">Tryck på \"Tillbaka\" på startsidan för att öppna den.</string>
     <string name="TabTitleType">Visa på flikar</string>
     <string name="TabTitleTypeTip">Ikoner är molnsynkroniserade av Telegram.</string>
     <string name="TabTitleTypeText">Titlar</string>
@@ -95,7 +88,6 @@
     <string name="DisableProximityEvents">Inaktivera närhetshändelser</string>
     <string name="CustomEmojiTypeface">Anpassat emoji-typsnitt</string>
     <string name="MapDriftingFix">Fix för kartförjutning för Kinas fastland</string>
-    <string name="IncreaseVoiceMessageQuality">Högkvalitativa röstmeddelanden</string>
     <string name="VoiceEnhancements">Förbättring av röst</string>
     <string name="VoiceEnhancementsAbout">Ljuddämpning och normalisering av röst</string>
     <string name="DisableInstantCamera">Inaktivera snabbkameran</string>
@@ -182,7 +174,6 @@
     <string name="SaveToDownloadCount_many">Sparar %1$d filer till nedladdningar</string>
     <string name="SaveToDownloadCount_other">Spara %1$d filer till nedladdningar</string>
     <string name="ThemesChannel">Temakanal</string>
-    <string name="SelectAnIcon">Välj en ikon</string>
     <string name="AppLinkNotVerifiedMessage">För Android 12 och senare måste du manuellt lägga till länken till verifierade länkar för att öppna t.me-länkar i Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">App-länkar inte verifierade</string>
     <string name="AutoTranslate">Automatisk översättning</string>

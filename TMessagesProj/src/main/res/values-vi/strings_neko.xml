@@ -33,7 +33,6 @@
     <string name="TestBackend">Kiểm tra Phụ trợ</string>
     <string name="TestBackendOn">Tài khoản này sẽ kết nối với phụ trợ thử nghiệm.</string>
     <string name="TestBackendOff">Tài khoản này sẽ kết nối với phụ trợ sản xuất.</string>
-    <string name="HideProxySponsorChannel">Ẩn kênh tài trợ proxy</string>
     <string name="ViewHistory">Xem lịch sử</string>
     <string name="Nya">Meow!</string>
     <string name="SensitiveDisableFiltering">Vô hiệu hóa lọc nội dung nhạy cảm</string>
@@ -42,8 +41,6 @@
     <string name="StickerSizeDialogMessage">Ồ dễ thương quá! Một con mèo đen!</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
     <string name="Experiment">Thử nghiệm</string>
-    <string name="UnlimitedFavoredStickers">Nhãn dán yêu thích không giới hạn</string>
-    <string name="UnlimitedFavoredStickersAbout">Thêm nhãn dán không giới hạn vào mục yêu thích. Nhãn dán có thể không được đồng bộ hóa với các thiết bị khác.</string>
     <string name="MessageDetails">Chi tiết</string>
     <string name="DeleteAccount">Xóa tài khoản Telegram</string>
     <string name="TranslateFailed">Máy chủ dịch lỗi</string>
@@ -54,15 +51,11 @@
     <string name="UndoTranslate">Hoàn tác dịch</string>
     <string name="DisablePhotoViewerSideAction">Vô hiệu \"lật ảnh bằng cách nhấn\"</string>
     <string name="BotToken">Token</string>
-    <string name="UnlimitedPinnedDialogs">Ghim hộp thoại không giới hạn</string>
-    <string name="UnlimitedPinnedDialogsAbout">Ghim các hộp thoại không giới hạn bằng cách tắt đồng bộ hóa của chúng.</string>
     <string name="OpenArchiveOnPull">Kéo xuống để mở Lưu trữ </string>
     <string name="HideKeyboardOnChatScroll">Ẩn bàn phím khi cuộn trò chuyện</string>
     <string name="ShowTabsOnForward">Hiển thị các tab về phía trước</string>
     <string name="CheckAllAdministrated">Thêm quản trị viên</string>
     <string name="RearVideoMessages">Camera phía sau trong Tin nhắn Video</string>
-    <string name="HideAllTab">Ẩn tab \"Tất cả cuộc trò chuyện\"</string>
-    <string name="HideAllTabAbout">Nhấn \"Quay lại\" trên trang chủ để mở nó.</string>
     <string name="TabTitleType">Hiển thị trên các tab</string>
     <string name="TabTitleTypeTip">Các biểu tượng được đồng bộ đám mây bởi Telegram.</string>
     <string name="TabTitleTypeText">Tiêu đề</string>
@@ -95,7 +88,6 @@
     <string name="DisableProximityEvents">Vô hiệu hóa các sự kiện lân cận</string>
     <string name="CustomEmojiTypeface">Phông chữ biểu tượng cảm xúc tùy chỉnh</string>
     <string name="MapDriftingFix">Sửa lỗi bản đồ trôi dạt cho Trung Quốc đại lục</string>
-    <string name="IncreaseVoiceMessageQuality">Tin nhắn thoại HQ</string>
     <string name="VoiceEnhancements">Cải tiến giọng nói</string>
     <string name="VoiceEnhancementsAbout">Khử tiếng ồn và bình thường hóa giọng nói</string>
     <string name="DisableInstantCamera">Vô hiệu máy ảnh tức thì</string>
@@ -183,7 +175,6 @@
     <string name="SaveToDownloadCount_many">Đang lưu %1$d tệp để tải xuống</string>
     <string name="SaveToDownloadCount_other">Đang lưu %1$d tệp để tải xuống</string>
     <string name="ThemesChannel">Chủ đề kênh</string>
-    <string name="SelectAnIcon">Chọn biểu tượng</string>
     <string name="AppLinkNotVerifiedMessage">Đối với Android 12 trở lên, bạn cần thêm liên kết vào các liên kết đã xác minh theo cách thủ công để mở liên kết t.me trong Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Liên kết ứng dụng chưa được xác minh</string>
     <string name="AutoTranslate">Tự động dịch</string>
@@ -240,6 +231,14 @@
     <string name="MarkdownParseLinks">Phân tích cú pháp liên kết</string>
     <string name="MarkdownAbout">Chỉnh sửa văn bản trong tin nhắn bằng cách sử dụng markdown: ^1**in đậm**^1, ^2__in nghiêng__^2, ^3~~gạch ngang~~^3, ^4`monospace`^4, ^5||spoiler||^5, ^6text^7url^8.</string>
     <string name="MarkdownAbout2">Chỉnh sửa văn bản trong tin nhắn bằng cách sử dụng markdown: ^1**in đậm**^1, ^2__in nghiêng__^2, ^3~~gạch ngang~~^3, ^4`monospace`^4, ^5||spoiler||^5.</string>
+    <string name="AppIconOldSchool">Trường cũ</string>
+    <string name="AppIconMerio">Merio</string>
+    <string name="AppIconRainbow">Cầu vòng</string>
+    <string name="AppIconMusheen">Musheen</string>
+    <string name="AppIconSpace">Vũ trụ</string>
+    <string name="AppIconCloud">Mây</string>
+    <string name="AppIconNeon">Phản quang</string>
+    <string name="AppIconMaterial">Vật liệu</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>
