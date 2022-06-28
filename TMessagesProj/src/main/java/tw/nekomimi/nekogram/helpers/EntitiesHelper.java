@@ -59,7 +59,7 @@ public class EntitiesHelper {
             Pattern.compile("[_]{2}([^_\\n]+)[_]{2}"), // italic
             Pattern.compile("[~]{2}([^~\\n]+)[~]{2}"), // strike
             Pattern.compile("[|]{2}([^|\\n]+)[|]{2}"), // spoiler
-            Pattern.compile("\\[([^]]+?)]\\(([^\\n]+)\\)")}; // link
+            Pattern.compile("\\[([^]]+?)]\\(" + LinkifyPort.WEB_URL_REGEX + "\\)")}; // link
 
     public static CharSequence parseMarkdown(CharSequence text) {
         var message = new CharSequence[]{text};
