@@ -201,6 +201,22 @@
     <string name="ProviderBaiduTranslate">Tłumacz Baidu</string>
     <string name="ProviderSogouTranslate">Tłumacz Sogou</string>
     <string name="Translating">tłumaczenie</string>
+    <string name="PasscodeNeeded">Najpierw należy włączyć blokadę kodem dostępu</string>
+    <string name="PasscodeNeko">Kod dostępu</string>
+    <string name="PasscodeShowInSettings">Pokaż w ustawieniach Neko</string>
+    <string name="PasscodeSet">Ustaw kod dostępu</string>
+    <string name="PasscodeEdit">Zmień kod dostępu</string>
+    <string name="PasscodeRemove">Usuń kod dostępu</string>
+    <string name="PasscodeHideAccount">Ukryj konto</string>
+    <string name="DatacenterStatusAbout">Sprawdź status **centrów danych** Telegrama.</string>
+    <string name="DatacenterStatus">Status centrum danych</string>
+    <string name="Markdown">Markdown</string>
+    <string name="MarkdownEnableByDefault">Domyślnie włączone</string>
+    <string name="AppIconRainbow">Tęcza</string>
+    <string name="AppIconSpace">Przestrzeń</string>
+    <string name="AppIconCloud">Chmura</string>
+    <string name="AppIconNeon">Neon</string>
+    <string name="AppIconMaterial">Materiał</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>
