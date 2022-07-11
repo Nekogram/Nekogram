@@ -500,7 +500,7 @@ public class EntitiesHelper {
                 if (span instanceof TextPaintUrlSpan) {
                     flags = ((TextPaintUrlSpan) span).getFlags();
                     var url = ((TextPaintUrlSpan) span).getUrl();
-                    if (!url.startsWith("mailto:") && !url.startsWith("tel:") && !spanned.subSequence(start, end).toString().equals(url)) {
+                    if (url != null && !url.startsWith("mailto:") && !url.startsWith("tel:") && !spanned.subSequence(start, end).toString().equals(url)) {
                         spannable.setSpan(new URLSpan(url), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     }
                 } else {
