@@ -32,16 +32,20 @@ public class NotificationImageProvider extends ContentProvider implements Notifi
 
 	@Override
 	public boolean onCreate() {
-		for (int i = 0; i < UserConfig.getActivatedAccountsCount(); i++) {
-			NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.fileLoaded);
+		for (int i = 0; i < UserConfig.MAX_ACCOUNT_COUNT; i++) {
+			if (UserConfig.getInstance(i).isClientActivated()) {
+				NotificationCenter.getInstance(i).addObserver(this, NotificationCenter.fileLoaded);
+			}
 		}
 		return true;
 	}
 
 	@Override
 	public void shutdown() {
-		for (int i = 0; i < UserConfig.getActivatedAccountsCount(); i++) {
-			NotificationCenter.getInstance(i).removeObserver(this, NotificationCenter.fileLoaded);
+		for (int i = 0; i < UserConfig.MAX_ACCOUNT_COUNT; i++) {
+			if (UserConfig.getInstance(i).isClientActivated()) {
+				NotificationCenter.getInstance(i).removeObserver(this, NotificationCenter.fileLoaded);
+			}
 		}
 	}
 
