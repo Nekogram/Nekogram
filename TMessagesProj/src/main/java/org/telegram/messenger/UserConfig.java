@@ -18,6 +18,8 @@ import org.telegram.tgnet.TLRPC;
 
 import java.util.Arrays;
 
+import tw.nekomimi.nekogram.helpers.PasscodeHelper;
+
 public class UserConfig extends BaseController {
 
     public static int selectedAccount;
@@ -83,6 +85,16 @@ public class UserConfig extends BaseController {
         int count = 0;
         for (int a = 0; a < MAX_ACCOUNT_COUNT; a++) {
             if (AccountInstance.getInstance(a).getUserConfig().isClientActivated()) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    public static int getVisibleAccountsCount() {
+        int count = 0;
+        for (int a = 0; a < MAX_ACCOUNT_COUNT; a++) {
+            if (AccountInstance.getInstance(a).getUserConfig().isClientActivated() && !PasscodeHelper.isAccountHidden(a)) {
                 count++;
             }
         }

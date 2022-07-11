@@ -3023,7 +3023,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                 final String setAsAttachBot,
                                 final String attachMenuBotToOpen,
                                 final String attachMenuBotChoose) {
-        if (state == 0 && UserConfig.getActivatedAccountsCount() >= 2) {
+        if (state == 0 && UserConfig.getVisibleAccountsCount() >= 2) {
             AlertsCreator.createAccountSelectDialog(this, account -> {
                 if (account != intentAccount) {
                     switchToAccount(account, true);

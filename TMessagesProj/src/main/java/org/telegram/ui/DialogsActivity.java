@@ -2655,7 +2655,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             });
         }
 
-        if (allowSwitchAccount && UserConfig.getActivatedAccountsCount() > 1) {
+        if (allowSwitchAccount && UserConfig.getVisibleAccountsCount() > 1) {
             switchItem = menu.addItemWithWidth(1, 0, AndroidUtilities.dp(56));
             AvatarDrawable avatarDrawable = new AvatarDrawable();
             avatarDrawable.setTextSize(AndroidUtilities.dp(12));
