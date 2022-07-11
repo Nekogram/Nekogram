@@ -133,7 +133,7 @@ android {
         }
     }
 
-    defaultConfig.versionCode = 2722
+    defaultConfig.versionCode = 2723
 
     applicationVariants.all { variant ->
         variant.outputs.all { output ->
@@ -149,7 +149,7 @@ android {
         applicationId "tw.nekomimi.nekogram"
         minSdkVersion 21
         targetSdkVersion 33
-        versionName "8.8.5"
+        versionName "8.8.5.1"
 
         externalNativeBuild {
             cmake {
