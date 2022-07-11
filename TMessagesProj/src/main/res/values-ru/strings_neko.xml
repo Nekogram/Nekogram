@@ -33,7 +33,7 @@
     <string name="TestBackend">Использовать тестовый сервер</string>
     <string name="TestBackendOn">Эта учетная запись будет подключаться к тестовому серверу.</string>
     <string name="TestBackendOff">Эта учетная запись будет подключаться к основному серверу.</string>
-    <string name="ViewHistory">История сообщений</string>
+    <string name="ViewHistory">Сообщения пользователя</string>
     <string name="Nya">Мяу!</string>
     <string name="SensitiveDisableFiltering">Показывать деликатный контент</string>
     <string name="SensitiveAbout">Отображать деликатный контент в публичных каналах на всех ваших устройствах.</string>
