@@ -12,6 +12,7 @@ import androidx.annotation.RequiresApi;
 import com.google.android.exoplayer2.util.Log;
 
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 
 import java.util.HashMap;
@@ -88,12 +89,20 @@ public class MonetHelper {
         ids.put("n2_800", android.R.color.system_neutral2_800);
         ids.put("n2_900", android.R.color.system_neutral2_900);
         ids.put("n2_1000", android.R.color.system_neutral2_1000);
+        ids.put("monetRedDark", R.color.monetRedDark);
+        ids.put("monetRedLight", R.color.monetRedLight);
+        ids.put("monetRedCall", R.color.monetRedCall);
+        ids.put("monetGreenCall", R.color.monetGreenCall);
     }
 
     public static int getColor(String color) {
+        return getColor(color, false);
+    }
+
+    public static int getColor(String color, boolean amoled) {
         try {
             //noinspection ConstantConditions
-            int id = ids.getOrDefault(color, 0);
+            int id = ids.getOrDefault(amoled && "n1_900".equals(color) ? "n1_1000" : color, 0);
             return ApplicationLoader.applicationContext.getColor(id);
         } catch (Exception e) {
             Log.e("Theme", "Error loading color " + color);
