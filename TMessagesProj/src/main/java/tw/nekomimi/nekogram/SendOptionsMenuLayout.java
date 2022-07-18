@@ -3,12 +3,15 @@ package tw.nekomimi.nekogram;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
+
+import androidx.core.graphics.ColorUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -36,7 +39,7 @@ public class SendOptionsMenuLayout extends LinearLayout {
         var forwardParams = forwardContext.getForwardParams();
         if (forwardContext.getForwardingMessages() != null) {
             Paint paint = new Paint();
-            paint.setColor(Theme.getColor(Theme.key_divider));
+            paint.setColor(darkTheme ? ColorUtils.blendARGB(Theme.getColor(Theme.key_voipgroup_actionBar), Color.BLACK, 0.3f) : Theme.getColor(Theme.key_divider));
             View dividerView = new View(getContext()) {
 
                 @Override
