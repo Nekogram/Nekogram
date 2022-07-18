@@ -379,11 +379,9 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     } else if (position == botRow) {
                         textCell.setTextAndValue("Bot", "Yes", divider);
                     } else if (position == dateRow) {
-                        long date = (long) messageObject.messageOwner.date * 1000;
-                        textCell.setTextAndValue(messageObject.scheduled ? "Scheduled date" : "Date", messageObject.messageOwner.date == 0x7ffffffe ? "When online" : LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(date))), divider);
+                        textCell.setTextAndValue(messageObject.scheduled ? "Scheduled date" : "Date", formatTime(messageObject.messageOwner.date), divider);
                     } else if (position == editedRow) {
-                        long date = (long) messageObject.messageOwner.edit_date * 1000;
-                        textCell.setTextAndValue("Edited", LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(date))), divider);
+                        textCell.setTextAndValue("Edited", formatTime(messageObject.messageOwner.edit_date), divider);
                     } else if (position == forwardRow) {
                         StringBuilder builder = new StringBuilder();
                         if (forwardFromPeer != null) {
@@ -464,6 +462,14 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 return 1;
             } else {
                 return 6;
+            }
+        }
+
+        private String formatTime(int timestamp) {
+            if (timestamp == 0x7ffffffe) {
+                return "When online";
+            } else {
+                return timestamp + "\n" + LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(timestamp * 1000L)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(timestamp * 1000L)));
             }
         }
 
