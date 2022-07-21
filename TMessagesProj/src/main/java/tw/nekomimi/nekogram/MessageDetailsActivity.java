@@ -33,7 +33,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Locale;
 
-import tw.nekomimi.nekogram.helpers.EntitiesHelper;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
 
@@ -197,7 +196,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         } else if (position != endRow) {
             if (!noforwards || !(position == messageRow || position == captionRow || position == filePathRow)) {
                 TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
-                AndroidUtilities.addToClipboard(EntitiesHelper.commonizeSpans(textCell.getValueTextView().getText()));
+                AndroidUtilities.addToClipboard(textCell.getValueTextView().getText());
                 BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
             } else {
                 showNoForwards();

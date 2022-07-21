@@ -227,6 +227,7 @@ import org.telegram.ui.Components.StickersAlert;
 import org.telegram.ui.Components.TextViewSwitcher;
 import org.telegram.ui.Components.Tooltip;
 import org.telegram.ui.Components.URLSpanReplacement;
+import org.telegram.ui.Components.URLSpanUserMentionPhotoViewer;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.VideoEditTextureView;
 import org.telegram.ui.Components.VideoForwardDrawable;
@@ -254,7 +255,6 @@ import java.util.Map;
 
 import tw.nekomimi.nekogram.accessibility.AccConfig;
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.ClipboardHelper;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
@@ -4567,7 +4567,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
 
                     if (f != null && f.exists()) {
-                        ClipboardHelper.addFileToClipboard(f, () -> BulletinFactory.of(containerView, resourcesProvider).createCopyBulletin(LocaleController.getString("PhotoCopied", R.string.PhotoCopied), resourcesProvider).show());
+                        MessageHelper.addFileToClipboard(f, () -> BulletinFactory.of(containerView, null).createCopyBulletin(LocaleController.getString("PhotoCopied", R.string.PhotoCopied), resourcesProvider).show());
                     } else {
                         showDownloadAlert();
                     }
@@ -6206,7 +6206,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 } else {
                     String name = UserObject.getFirstName(user);
                     Spannable spannable = new SpannableString(name + " ");
-                    spannable.setSpan(new URLSpan("tg://user?id=" + user.id), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    spannable.setSpan(new URLSpanUserMentionPhotoViewer("" + user.id, true), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     captionEditText.replaceWithText(start, len, spannable, false);
                 }
             } else if (object instanceof String) {
@@ -6234,7 +6234,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 TLRPC.User user = (TLRPC.User) object;
                 String name = UserObject.getFirstName(user);
                 Spannable spannable = new SpannableString(name + " ");
-                spannable.setSpan(new URLSpan("tg://user?id=" + user.id), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannable.setSpan(new URLSpanUserMentionPhotoViewer("" + user.id, true), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 captionEditText.replaceWithText(start, len, spannable, false);
                 return true;
             }

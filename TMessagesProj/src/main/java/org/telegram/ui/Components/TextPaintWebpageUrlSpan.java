@@ -12,7 +12,7 @@ import android.text.TextPaint;
 
 public class TextPaintWebpageUrlSpan extends TextPaintUrlSpan {
 
-    public TextPaintWebpageUrlSpan(TextPaint paint, String url, int flags) {
-        super(paint, url, flags);
+    public TextPaintWebpageUrlSpan(TextPaint paint, String url) {
+        super(paint, url);
     }
 }

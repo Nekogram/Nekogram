@@ -1842,12 +1842,12 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     }
 
     private static final int TEXT_FLAG_REGULAR = 0;
-    public static final int TEXT_FLAG_MEDIUM = 1;
-    public static final int TEXT_FLAG_ITALIC = 2;
-    public static final int TEXT_FLAG_MONO = 4;
+    private static final int TEXT_FLAG_MEDIUM = 1;
+    private static final int TEXT_FLAG_ITALIC = 2;
+    private static final int TEXT_FLAG_MONO = 4;
     private static final int TEXT_FLAG_URL = 8;
-    public static final int TEXT_FLAG_UNDERLINE = 16;
-    public static final int TEXT_FLAG_STRIKE = 32;
+    private static final int TEXT_FLAG_UNDERLINE = 16;
+    private static final int TEXT_FLAG_STRIKE = 32;
     private static final int TEXT_FLAG_MARKED = 64;
     private static final int TEXT_FLAG_SUB = 128;
     private static final int TEXT_FLAG_SUP = 256;
@@ -1987,7 +1987,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(getText(page, parentView, parentRichText, ((TLRPC.TL_textEmail) richText).text, parentBlock, maxWidth));
             MetricAffectingSpan[] innerSpans = spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), MetricAffectingSpan.class);
             if (spannableStringBuilder.length() != 0) {
-                spannableStringBuilder.setSpan(new TextPaintUrlSpan(innerSpans == null || innerSpans.length == 0 ? getTextPaint(parentRichText, richText, parentBlock) : null, "mailto:" + getUrl(richText), getTextFlags(richText)), 0, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableStringBuilder.setSpan(new TextPaintUrlSpan(innerSpans == null || innerSpans.length == 0 ? getTextPaint(parentRichText, richText, parentBlock) : null, "mailto:" + getUrl(richText)), 0, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             return spannableStringBuilder;
         } else if (richText instanceof TLRPC.TL_textUrl) {
@@ -1997,9 +1997,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             TextPaint paint = innerSpans == null || innerSpans.length == 0 ? getTextPaint(parentRichText, richText, parentBlock) : null;
             MetricAffectingSpan span;
             if (textUrl.webpage_id != 0) {
-                span = new TextPaintWebpageUrlSpan(paint, getUrl(richText), getTextFlags(richText));
+                span = new TextPaintWebpageUrlSpan(paint, getUrl(richText));
             } else {
-                span = new TextPaintUrlSpan(paint, getUrl(richText), getTextFlags(richText));
+                span = new TextPaintUrlSpan(paint, getUrl(richText));
             }
             if (spannableStringBuilder.length() != 0) {
                 spannableStringBuilder.setSpan(span, 0, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -2038,16 +2038,16 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                         }
                         MetricAffectingSpan span;
                         if ((flags & TEXT_FLAG_WEBPAGE_URL) != 0) {
-                            span = new TextPaintWebpageUrlSpan(getTextPaint(parentRichText, lastRichText, parentBlock), url, getTextFlags(lastRichText));
+                            span = new TextPaintWebpageUrlSpan(getTextPaint(parentRichText, lastRichText, parentBlock), url);
                         } else {
-                            span = new TextPaintUrlSpan(getTextPaint(parentRichText, lastRichText, parentBlock), url, getTextFlags(lastRichText));
+                            span = new TextPaintUrlSpan(getTextPaint(parentRichText, lastRichText, parentBlock), url);
                         }
                         if (startLength != spannableStringBuilder.length()) {
                             spannableStringBuilder.setSpan(span, startLength, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         }
                     } else {
                         if (startLength != spannableStringBuilder.length()) {
-                            spannableStringBuilder.setSpan(new TextPaintSpan(getTextPaint(parentRichText, lastRichText, parentBlock), getTextFlags(lastRichText)), startLength, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                            spannableStringBuilder.setSpan(new TextPaintSpan(getTextPaint(parentRichText, lastRichText, parentBlock)), startLength, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         }
                     }
                 }
@@ -2072,7 +2072,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder(getText(page, parentView, parentRichText, ((TLRPC.TL_textPhone) richText).text, parentBlock, maxWidth));
             MetricAffectingSpan[] innerSpans = spannableStringBuilder.getSpans(0, spannableStringBuilder.length(), MetricAffectingSpan.class);
             if (spannableStringBuilder.length() != 0) {
-                spannableStringBuilder.setSpan(new TextPaintUrlSpan(innerSpans == null || innerSpans.length == 0 ? getTextPaint(parentRichText, richText, parentBlock) : null, "tel:" + getUrl(richText), getTextFlags(richText)), 0, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                spannableStringBuilder.setSpan(new TextPaintUrlSpan(innerSpans == null || innerSpans.length == 0 ? getTextPaint(parentRichText, richText, parentBlock) : null, "tel:" + getUrl(richText)), 0, spannableStringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             return spannableStringBuilder;
         } else if (richText instanceof TLRPC.TL_textImage) {

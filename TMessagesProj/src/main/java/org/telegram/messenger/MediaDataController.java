@@ -5215,10 +5215,58 @@ public class MediaDataController extends BaseController {
 
         if (message[0] instanceof Spanned) {
             Spanned spannable = (Spanned) message[0];
-            if (entities == null) {
-                entities = new ArrayList<>();
+            TextStyleSpan[] spans = spannable.getSpans(0, message[0].length(), TextStyleSpan.class);
+            if (spans != null && spans.length > 0) {
+                for (int a = 0; a < spans.length; a++) {
+                    TextStyleSpan span = spans[a];
+                    int spanStart = spannable.getSpanStart(span);
+                    int spanEnd = spannable.getSpanEnd(span);
+                    if (checkInclusion(spanStart, entities, false) || checkInclusion(spanEnd, entities, true) || checkIntersection(spanStart, spanEnd, entities)) {
+                        continue;
+                    }
+                    if (entities == null) {
+                        entities = new ArrayList<>();
+                    }
+                    addStyle(span.getTextStyleRun(), spanStart, spanEnd, entities);
+                }
             }
-            EntitiesHelper.getEntities(spannable, entities);
+
+            URLSpanUserMention[] spansMentions = spannable.getSpans(0, message[0].length(), URLSpanUserMention.class);
+            if (spansMentions != null && spansMentions.length > 0) {
+                if (entities == null) {
+                    entities = new ArrayList<>();
+                }
+                for (int b = 0; b < spansMentions.length; b++) {
+                    TLRPC.TL_inputMessageEntityMentionName entity = new TLRPC.TL_inputMessageEntityMentionName();
+                    entity.user_id = getMessagesController().getInputUser(Utilities.parseLong(spansMentions[b].getURL()));
+                    if (entity.user_id != null) {
+                        entity.offset = spannable.getSpanStart(spansMentions[b]);
+                        entity.length = Math.min(spannable.getSpanEnd(spansMentions[b]), message[0].length()) - entity.offset;
+                        if (message[0].charAt(entity.offset + entity.length - 1) == ' ') {
+                            entity.length--;
+                        }
+                        entities.add(entity);
+                    }
+                }
+            }
+
+            URLSpanReplacement[] spansUrlReplacement = spannable.getSpans(0, message[0].length(), URLSpanReplacement.class);
+            if (spansUrlReplacement != null && spansUrlReplacement.length > 0) {
+                if (entities == null) {
+                    entities = new ArrayList<>();
+                }
+                for (int b = 0; b < spansUrlReplacement.length; b++) {
+                    TLRPC.TL_messageEntityTextUrl entity = new TLRPC.TL_messageEntityTextUrl();
+                    entity.offset = spannable.getSpanStart(spansUrlReplacement[b]);
+                    entity.length = Math.min(spannable.getSpanEnd(spansUrlReplacement[b]), message[0].length()) - entity.offset;
+                    entity.url = spansUrlReplacement[b].getURL();
+                    entities.add(entity);
+                    TextStyleSpan.TextStyleRun style = spansUrlReplacement[b].getTextStyleRun();
+                    if (style != null) {
+                        addStyle(style, entity.offset, entity.offset + entity.length, entities);
+                    }
+                }
+            }
         }
 
         CharSequence cs = message[0];
