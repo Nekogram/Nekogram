@@ -156,6 +156,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicReference;
 
+import tw.nekomimi.nekogram.BackButtonMenuRecent;
 import tw.nekomimi.nekogram.EditTextAutoFill;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 import tw.nekomimi.nekogram.helpers.QrHelper;
@@ -1497,6 +1498,7 @@ public class LoginActivity extends BaseFragment {
     }
 
     private void onAuthSuccess(TLRPC.TL_auth_authorization res, boolean afterSignup) {
+        BackButtonMenuRecent.clearRecentDialogs(currentAccount);
         PasscodeHelper.removePasscodeForAccount(currentAccount);
         MessagesController.getInstance(currentAccount).cleanup();
         ConnectionsManager.getInstance(currentAccount).setUserId(res.user.id);

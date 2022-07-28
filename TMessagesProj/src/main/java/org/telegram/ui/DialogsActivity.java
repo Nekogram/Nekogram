@@ -185,6 +185,7 @@ import org.telegram.ui.Components.ViewPagerFixed;
 import java.io.File;
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.BackButtonMenuRecent;
 import tw.nekomimi.nekogram.ForwardContext;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.AppLinkVerifyBottomSheet;
@@ -3914,6 +3915,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         } else {
             showSearch(false, false, false);
+        }
+
+        if (!onlySelect && folderId == 0) {
+            View backButton = actionBar.getBackButton();
+            backButton.setOnLongClickListener(e -> {
+                if (searching || filterTabsView != null && filterTabsView.isEditing() || actionBar.isActionModeShowed()) return false;
+                BackButtonMenuRecent.show(currentAccount, this, backButton);
+                return true;
+            });
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {

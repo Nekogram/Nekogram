@@ -244,6 +244,9 @@
     <string name="AppIconCloud">Cloud</string>
     <string name="AppIconNeon">Neon</string>
     <string name="AppIconMaterial">Material</string>
+    <string name="RecentChats">Recent chats</string>
+    <string name="ClearRecentChats">Clear recent chats</string>
+    <string name="ClearRecentChatAlert">Do you want to clear your recent chats?</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

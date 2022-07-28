@@ -264,6 +264,7 @@ import org.telegram.ui.Components.ViewHelper;
 import org.telegram.ui.Components.voip.VoIPHelper;
 import org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate;
 
+import tw.nekomimi.nekogram.BackButtonMenuRecent;
 import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.ForwardContext;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
@@ -8665,6 +8666,7 @@ ChatActivity extends BaseFragment implements NotificationCenter.NotificationCent
             reactionsMentionCount = dialog.unread_reactions_count;
             updateReactionsMentionButton(false);
         }
+        BackButtonMenuRecent.addToRecentDialogs(currentAccount, currentUser != null ? currentUser.id : -currentChat.id);
         return fragmentView;
     }
 
