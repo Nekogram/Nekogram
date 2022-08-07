@@ -62,6 +62,10 @@ public class NekoConfig {
     public static final int TABLET_ENABLE = 1;
     public static final int TABLET_DISABLE = 2;
 
+    public static final int BOOST_NONE = 0;
+    public static final int BOOST_AVERAGE = 1;
+    public static final int BOOST_EXTREME = 2;
+
     private static final String EMOJI_FONT_AOSP = "NotoColorEmoji.ttf";
 
     private static final Object sync = new Object();
@@ -88,6 +92,7 @@ public class NekoConfig {
     public static int maxRecentStickers = 20;
     public static int transType = TRANS_TYPE_NEKO;
     public static int doubleTapAction = DOUBLE_TAP_ACTION_REACTION;
+    public static int downloadSpeedBoost = BOOST_AVERAGE;
     public static HashSet<String> restrictedLanguages = new HashSet<>();
 
     public static boolean showAddToSavedMessages = true;
@@ -133,6 +138,7 @@ public class NekoConfig {
     public static boolean showOriginal = true;
     public static boolean newMarkdownParser = true;
     public static boolean markdownParseLinks = true;
+    public static boolean uploadSpeedBoost = false;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
@@ -319,6 +325,8 @@ public class NekoConfig {
             showOriginal = preferences.getBoolean("showOriginal", true);
             newMarkdownParser = preferences.getBoolean("newMarkdownParser", true);
             markdownParseLinks = preferences.getBoolean("markdownParseLinks", true);
+            downloadSpeedBoost = preferences.getInt("downloadSpeedBoost2", BOOST_AVERAGE);
+            uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             for (int a = 1; a <= 5; a++) {
@@ -381,6 +389,22 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("wsUseMTP", wsUseMTP);
+        editor.apply();
+    }
+
+    public static void setDownloadSpeedBoost(int boost) {
+        downloadSpeedBoost = boost;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("downloadSpeedBoost2", boost);
+        editor.apply();
+    }
+
+    public static void toggleUploadSpeedBoost() {
+        uploadSpeedBoost = !uploadSpeedBoost;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("uploadSpeedBoost", uploadSpeedBoost);
         editor.apply();
     }
 

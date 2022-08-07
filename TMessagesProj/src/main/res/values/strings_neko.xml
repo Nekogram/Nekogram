@@ -247,6 +247,11 @@
     <string name="RecentChats">Recent chats</string>
     <string name="ClearRecentChats">Clear recent chats</string>
     <string name="ClearRecentChatAlert">Do you want to clear your recent chats?</string>
+    <string name="DownloadSpeedBoost">Download speed boost</string>
+    <string name="DownloadSpeedBoostNone">Off</string>
+    <string name="DownloadSpeedBoostAverage">On</string>
+    <string name="DownloadSpeedBoostExtreme">Extreme</string>
+    <string name="UploadloadSpeedBoost">Upload speed boost</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

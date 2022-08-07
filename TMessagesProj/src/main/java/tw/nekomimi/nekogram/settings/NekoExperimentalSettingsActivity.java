@@ -20,6 +20,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
@@ -38,6 +39,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.PopupHelper;
 
 public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
@@ -46,6 +48,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
     private int experimentRow;
     private int emojiRow;
+    private int downloadSpeedBoostRow;
+    private int uploadSpeedBoostRow;
     private int mapDriftingFixRow;
     private int disableFilteringRow;
     private int showRPCErrorRow;
@@ -185,6 +189,24 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.showRPCError);
             }
+        } else if (position == uploadSpeedBoostRow) {
+            NekoConfig.toggleUploadSpeedBoost();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.uploadSpeedBoost);
+            }
+        } else if (position == downloadSpeedBoostRow) {
+            ArrayList<String> arrayList = new ArrayList<>();
+            ArrayList<Integer> types = new ArrayList<>();
+            arrayList.add(LocaleController.getString("DownloadSpeedBoostNone", R.string.DownloadSpeedBoostNone));
+            types.add(NekoConfig.BOOST_NONE);
+            arrayList.add(LocaleController.getString("DownloadSpeedBoostAverage", R.string.DownloadSpeedBoostAverage));
+            types.add(NekoConfig.BOOST_AVERAGE);
+            arrayList.add(LocaleController.getString("DownloadSpeedBoostExtreme", R.string.DownloadSpeedBoostExtreme));
+            types.add(NekoConfig.BOOST_EXTREME);
+            PopupHelper.show(arrayList, LocaleController.getString("DownloadSpeedBoost", R.string.DownloadSpeedBoost), types.indexOf(NekoConfig.downloadSpeedBoost), getParentActivity(), view, i -> {
+                NekoConfig.setDownloadSpeedBoost(types.get(i));
+                listAdapter.notifyItemChanged(downloadSpeedBoostRow);
+            });
         }
     }
 
@@ -266,6 +288,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
         experimentRow = addRow("experiment");
         emojiRow = addRow("emoji");
+        downloadSpeedBoostRow = MessagesController.getInstance(currentAccount).getfileExperimentalParams ? -1 : addRow("downloadSpeedBoost");
+        uploadSpeedBoostRow = addRow("uploadSpeedBoost");
         mapDriftingFixRow = addRow("mapDriftingFix");
         disableFilteringRow = sensitiveCanChange ? addRow("disableFiltering") : -1;
         showRPCErrorRow = addRow("showRPCError");
@@ -299,6 +323,21 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
                     } else if (position == emojiRow) {
                         textCell.setText(LocaleController.getString("CustomEmojiTypeface", R.string.CustomEmojiTypeface), true);
+                    } else if (position == downloadSpeedBoostRow) {
+                        String value;
+                        switch (NekoConfig.downloadSpeedBoost) {
+                            case NekoConfig.BOOST_NONE:
+                                value = LocaleController.getString("DownloadSpeedBoostNone", R.string.DownloadSpeedBoostNone);
+                                break;
+                            case NekoConfig.BOOST_EXTREME:
+                                value = LocaleController.getString("DownloadSpeedBoostExtreme", R.string.DownloadSpeedBoostExtreme);
+                                break;
+                            default:
+                            case NekoConfig.BOOST_AVERAGE:
+                                value = LocaleController.getString("DownloadSpeedBoostAverage", R.string.DownloadSpeedBoostAverage);
+                                break;
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("DownloadSpeedBoost", R.string.DownloadSpeedBoost), value, true);
                     }
                     break;
                 }
@@ -312,6 +351,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndCheck(LocaleController.getString("MapDriftingFix", R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
                     } else if (position == showRPCErrorRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("ShowRPCError", R.string.ShowRPCError), LocaleController.formatString("ShowRPCErrorException", R.string.ShowRPCErrorException, "FILE_REFERENCE_EXPIRED"), NekoConfig.showRPCError, true, false);
+                    } else if (position == uploadSpeedBoostRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("UploadloadSpeedBoost", R.string.UploadloadSpeedBoost), NekoConfig.uploadSpeedBoost, true);
                     }
                     break;
                 }
@@ -336,9 +377,9 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         public int getItemViewType(int position) {
             if (position == experiment2Row || position == deleteAccount2Row) {
                 return 1;
-            } else if (position == deleteAccountRow) {
+            } else if (position == deleteAccountRow || position == downloadSpeedBoostRow) {
                 return 2;
-            } else if (position > emojiRow && position <= showRPCErrorRow) {
+            } else if (position > downloadSpeedBoostRow && position <= showRPCErrorRow) {
                 return 3;
             } else if (position == experimentRow) {
                 return 4;

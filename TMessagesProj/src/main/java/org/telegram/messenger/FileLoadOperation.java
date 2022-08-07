@@ -26,6 +26,8 @@ import java.util.concurrent.CountDownLatch;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class FileLoadOperation {
 
     protected static class RequestInfo {
@@ -189,10 +191,14 @@ public class FileLoadOperation {
     }
 
     private void updateParams() {
-        if (MessagesController.getInstance(currentAccount).getfileExperimentalParams) {
+        if (NekoConfig.downloadSpeedBoost == NekoConfig.BOOST_AVERAGE || MessagesController.getInstance(currentAccount).getfileExperimentalParams) {
             downloadChunkSizeBig = 1024 * 512;
             maxDownloadRequests = 8;
             maxDownloadRequestsBig = 8;
+        } else if (NekoConfig.downloadSpeedBoost == NekoConfig.BOOST_EXTREME) {
+            downloadChunkSizeBig = 1024 * 1024;
+            maxDownloadRequests = 12;
+            maxDownloadRequestsBig = 12;
         } else {
             downloadChunkSizeBig = 1024 * 128;
             maxDownloadRequests = 4;
