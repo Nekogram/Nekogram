@@ -1,6 +1,7 @@
 package org.telegram.messenger.utils;
 
 import android.text.Spanned;
+import android.text.TextUtils;
 
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.TextStyleSpan;
@@ -53,6 +54,11 @@ public class CustomHtml {
                                 out.append("<a href=\"").append(span.getTextStyleRun().urlEntity.url).append("\">");
                             }
                         }
+                        if ((flags & TextStyleSpan.FLAG_STYLE_MONO) > 0) {
+                            if (span.getTextStyleRun() != null && span.getTextStyleRun().urlEntity != null && !TextUtils.isEmpty(span.getTextStyleRun().urlEntity.language)) {
+                                out.append("<pre data-language=\"").append(span.getTextStyleRun().urlEntity.language).append("\">");
+                            }
+                        }
                     } else if (spanObject instanceof URLSpanMono) {
                         out.append("<pre>");
                     }
@@ -67,6 +73,9 @@ public class CustomHtml {
                     if (spanObject != null) {
                         TextStyleSpan span = (TextStyleSpan) spanObject;
                         int flags = span.getStyleFlags();
+                        if ((flags & TextStyleSpan.FLAG_STYLE_MONO) > 0) {
+                            out.append("</pre>");
+                        }
                         if ((flags & TextStyleSpan.FLAG_STYLE_URL) > 0 && span.getTextStyleRun() != null && span.getTextStyleRun().urlEntity != null) {
                             out.append("</a>");
                         }
@@ -131,7 +140,12 @@ public class CustomHtml {
                 for (int j = 0; j < spans.length; ++j) {
                     URLSpanMono span = spans[j];
                     if (span != null) {
-                        out.append("<pre>");
+                        var language = span.getLanguage();
+                        if (language != null) {
+                            out.append("<pre data-language=\"" + language +"\">");
+                        } else {
+                            out.append("<pre>");
+                        }
                     }
                 }
             }
