@@ -32,7 +32,6 @@ import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Shader;
-import android.graphics.drawable.Drawable;
 import android.location.LocationManager;
 import android.media.AudioManager;
 import android.net.Uri;
@@ -40,12 +39,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.os.StatFs;
+import android.os.StrictMode;
 import android.os.SystemClock;
 import android.provider.ContactsContract;
 import android.provider.Settings;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.Gravity;
@@ -101,6 +100,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.PushListenerController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.SharedConfig;
@@ -115,9 +115,6 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBarLayout;
-import org.telegram.ui.ActionBar.ActionBarMenuItem;
-import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
-import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.DrawerLayoutContainer;
@@ -138,6 +135,7 @@ import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.EmbedBottomSheet;
+import org.telegram.ui.Components.EmojiPacksAlert;
 import org.telegram.ui.Components.FireworksOverlay;
 import org.telegram.ui.Components.GroupCallPip;
 import org.telegram.ui.Components.JoinGroupAlert;
@@ -266,6 +264,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
     private boolean isNavigationBarColorFrozen = false;
 
     private boolean navigateToPremiumBot;
+    private Runnable navigateToPremiumGiftCallback;
 
     private Runnable lockRunnable;
 
@@ -276,6 +275,11 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        if (BuildVars.DEBUG_VERSION) {
+            StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder(StrictMode.getVmPolicy())
+                    .detectLeakedClosableObjects()
+                    .build());
+        }
         ApplicationLoader.postInitApplication();
         AndroidUtilities.checkDisplaySize(this, getResources().getConfiguration());
         currentAccount = UserConfig.selectedAccount;
@@ -1665,6 +1669,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                         String login = null;
                         String group = null;
                         String sticker = null;
+                        String emoji = null;
                         HashMap<String, String> auth = null;
                         String unsupportedUrl = null;
                         String botUser = null;
@@ -1807,6 +1812,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                                 }
                                             } else if (path.startsWith("addstickers/")) {
                                                 sticker = path.replace("addstickers/", "");
+                                            } else if (path.startsWith("addemoji/")) {
+                                                emoji = path.replace("addemoji/", "");
                                             } else if (path.startsWith("nekosettings/")) {
                                                 SettingsHelper.processDeepLink(data, fragment -> {
                                                     AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
@@ -1899,7 +1906,15 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                 }
                                 case "tg": {
                                     String url = data.toString();
-                                    if (url.startsWith("tg:resolve") || url.startsWith("tg://resolve")) {
+                                    if (url.startsWith("tg:premium_offer") || url.startsWith("tg://premium_offer")) {
+                                        String finalUrl = url;
+                                        AndroidUtilities.runOnUIThread(() -> {
+                                        if (!actionBarLayout.fragmentsStack.isEmpty()) {
+                                            BaseFragment fragment = actionBarLayout.fragmentsStack.get(0);
+                                            Uri uri = Uri.parse(finalUrl);
+                                            fragment.presentFragment(new PremiumPreviewFragment(uri.getQueryParameter("ref")));
+                                        }});
+                                    } else if (url.startsWith("tg:resolve") || url.startsWith("tg://resolve")) {
                                         url = url.replace("tg:resolve", "tg://telegram.org").replace("tg://resolve", "tg://telegram.org");
                                         data = Uri.parse(url);
                                         username = data.getQueryParameter("domain");
@@ -1947,7 +1962,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                             }
                                         }
                                     }
-                                    if (url.startsWith("tg:invoice") || url.startsWith("tg://invoice")) {
+                                    else if (url.startsWith("tg:invoice") || url.startsWith("tg://invoice")) {
                                         url = url.replace("tg:invoice", "tg://invoice");
                                         data = Uri.parse(url);
                                         inputInvoiceSlug = data.getQueryParameter("slug");
@@ -2060,6 +2075,10 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                         url = url.replace("tg:addstickers", "tg://telegram.org").replace("tg://addstickers", "tg://telegram.org");
                                         data = Uri.parse(url);
                                         sticker = data.getQueryParameter("set");
+                                    } else if (url.startsWith("tg:addemoji") || url.startsWith("tg://addemoji")) {
+                                        url = url.replace("tg:addemoji", "tg://telegram.org").replace("tg://addemoji", "tg://telegram.org");
+                                        data = Uri.parse(url);
+                                        emoji = data.getQueryParameter("set");
                                     } else if (url.startsWith("tg:msg") || url.startsWith("tg://msg") || url.startsWith("tg://share") || url.startsWith("tg:share")) {
                                         url = url.replace("tg:msg", "tg://telegram.org").replace("tg://msg", "tg://telegram.org").replace("tg://share", "tg://telegram.org").replace("tg:share", "tg://telegram.org");
                                         data = Uri.parse(url);
@@ -2269,7 +2288,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                 req.hash = phoneHash;
                                 req.settings = new TLRPC.TL_codeSettings();
                                 req.settings.allow_flashcall = false;
-                                req.settings.allow_app_hash = ApplicationLoader.hasPlayServices;
+                                req.settings.allow_app_hash = PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices();
                                 SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
                                 if (req.settings.allow_app_hash) {
                                     preferences.edit().putString("sms_hash", BuildVars.SMS_HASH).apply();
@@ -2289,11 +2308,11 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                         AlertsCreator.processError(currentAccount, error, getActionBarLayout().getLastFragment(), req);
                                     }
                                 }), ConnectionsManager.RequestFlagFailOnServerErrors);
-                            } else if (username != null || group != null || sticker != null || message != null || game != null || voicechat != null || auth != null || unsupportedUrl != null || lang != null || code != null || wallPaper != null || inputInvoiceSlug != null || channelId != null || theme != null || login != null) {
+                            } else if (username != null || group != null || sticker != null || emoji != null || message != null || game != null || voicechat != null || auth != null || unsupportedUrl != null || lang != null || code != null || wallPaper != null || inputInvoiceSlug != null || channelId != null || theme != null || login != null) {
                                 if (message != null && message.startsWith("@")) {
                                     message = " " + message;
                                 }
-                                runLinkRequest(intentAccount[0], username, group, sticker, botUser, botChat, botChannel, botChatAdminParams, message, hasUrl, messageId, channelId, threadId, commentId, game, auth, lang, unsupportedUrl, code, login, wallPaper, inputInvoiceSlug, theme, voicechat, livestream, internal ? 3 : 0, videoTimestamp, setAsAttachBot, attachMenuBotToOpen, attachMenuBotChoose);
+                                runLinkRequest(intentAccount[0], username, group, sticker, emoji, botUser, botChat, botChannel, botChatAdminParams, message, hasUrl, messageId, channelId, threadId, commentId, game, auth, lang, unsupportedUrl, code, login, wallPaper, inputInvoiceSlug, theme, voicechat, livestream, internal ? 3 : 0, videoTimestamp, setAsAttachBot, attachMenuBotToOpen, attachMenuBotChoose);
                             } else {
                                 try (Cursor cursor = getContentResolver().query(intent.getData(), null, null, null, null)) {
                                     if (cursor != null) {
@@ -2328,9 +2347,10 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 } else if (intent.getAction().equals("new_dialog")) {
                     open_new_dialog = 1;
                 } else if (intent.getAction().startsWith("com.tmessages.openchat")) {
-
-                    long chatId = intent.getLongExtra("chatId", intent.getIntExtra("chatId", 0));
-                    long userId = intent.getLongExtra("userId", intent.getIntExtra("userId", 0));
+//                    Integer chatIdInt = intent.getIntExtra("chatId", 0);
+                    long chatId = intent.getLongExtra("chatId", 0);
+//                    Integer userIdInt = intent.getIntExtra("userId", 0);
+                    long userId = intent.getLongExtra("userId", 0);
                     int encId = intent.getIntExtra("encId", 0);
                     int widgetId = intent.getIntExtra("appWidgetId", 0);
                     if (widgetId != 0) {
@@ -2997,6 +3017,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                 final String username,
                                 final String group,
                                 final String sticker,
+                                final String emoji,
                                 final String botUser,
                                 final String botChat,
                                 final String botChannel,
@@ -3028,7 +3049,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 if (account != intentAccount) {
                     switchToAccount(account, true);
                 }
-                runLinkRequest(account, username, group, sticker, botUser, botChat, botChannel, botChatAdminParams, message, hasUrl, messageId, channelId, threadId, commentId, game, auth, lang, unsupportedUrl, code, loginToken, wallPaper, inputInvoiceSlug, theme, voicechat, livestream, 3, videoTimestamp, setAsAttachBot, attachMenuBotToOpen, attachMenuBotChoose);
+                runLinkRequest(account, username, group, sticker, emoji, botUser, botChat, botChannel, botChatAdminParams, message, hasUrl, messageId, channelId, threadId, commentId, game, auth, lang, unsupportedUrl, code, loginToken, wallPaper, inputInvoiceSlug, theme, voicechat, livestream, 3, videoTimestamp, setAsAttachBot, attachMenuBotToOpen, attachMenuBotChoose);
             }).show();
             return;
         } else if (code != null) {
@@ -3063,12 +3084,26 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 if (error != null) {
                     BulletinFactory.of(mainFragmentsStack.get(mainFragmentsStack.size() - 1)).createErrorBulletin(LocaleController.getString(R.string.PaymentInvoiceLinkInvalid)).show();
                 } else if (!LaunchActivity.this.isFinishing()) {
+                    PaymentFormActivity paymentFormActivity = null;
                     if (response instanceof TLRPC.TL_payments_paymentForm) {
                         TLRPC.TL_payments_paymentForm form = (TLRPC.TL_payments_paymentForm) response;
                         MessagesController.getInstance(intentAccount).putUsers(form.users, false);
-                        presentFragment(new PaymentFormActivity(form, inputInvoiceSlug, getActionBarLayout().getLastFragment()));
+                        paymentFormActivity = new PaymentFormActivity(form, inputInvoiceSlug, getActionBarLayout().getLastFragment());
                     } else if (response instanceof TLRPC.TL_payments_paymentReceipt) {
-                        presentFragment(new PaymentFormActivity((TLRPC.TL_payments_paymentReceipt) response));
+                        paymentFormActivity = new PaymentFormActivity((TLRPC.TL_payments_paymentReceipt) response);
+                    }
+
+                    if (paymentFormActivity != null) {
+                        if (navigateToPremiumGiftCallback != null) {
+                            Runnable callback = navigateToPremiumGiftCallback;
+                            navigateToPremiumGiftCallback = null;
+                            paymentFormActivity.setPaymentFormCallback(status -> {
+                                if (status == PaymentFormActivity.InvoiceStatus.PAID) {
+                                    callback.run();
+                                }
+                            });
+                        }
+                        presentFragment(paymentFormActivity);
                     }
                 }
 
@@ -3160,7 +3195,12 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                                                 if (dialogsActivity != null) {
                                                     presentFragment(dialogsActivity);
                                                 } else if (lastFragment instanceof ChatActivity) {
-                                                    ((ChatActivity) lastFragment).openAttachBotLayout(user.id, setAsAttachBot);
+                                                    ChatActivity chatActivity = (ChatActivity) lastFragment;
+                                                    if (!MediaDataController.canShowAttachMenuBot(attachMenuBot, chatActivity.getCurrentUser() != null ? chatActivity.getCurrentUser() : chatActivity.getCurrentChat())) {
+                                                        BulletinFactory.of(lastFragment).createErrorBulletin(LocaleController.getString(R.string.BotAlreadyAddedToAttachMenu)).show();
+                                                        return;
+                                                    }
+                                                    chatActivity.openAttachBotLayout(user.id, setAsAttachBot);
                                                 } else {
                                                     BulletinFactory.of(lastFragment).createErrorBulletin(LocaleController.getString(R.string.BotAlreadyAddedToAttachMenu)).show();
                                                 }
@@ -3670,7 +3710,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         } else if (sticker != null) {
             if (!mainFragmentsStack.isEmpty()) {
                 TLRPC.TL_inputStickerSetShortName stickerset = new TLRPC.TL_inputStickerSetShortName();
-                stickerset.short_name = sticker;
+                stickerset.short_name = sticker != null ? sticker : emoji;
                 BaseFragment fragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
                 StickersAlert alert;
                 if (fragment instanceof ChatActivity) {
@@ -3679,6 +3719,25 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                     alert.setCalcMandatoryInsets(chatActivity.isKeyboardVisible());
                 } else {
                     alert = new StickersAlert(LaunchActivity.this, fragment, stickerset, null, null);
+                }
+                alert.probablyEmojis = emoji != null;
+                fragment.showDialog(alert);
+            }
+            return;
+        } else if (emoji != null) {
+            if (!mainFragmentsStack.isEmpty()) {
+                TLRPC.TL_inputStickerSetShortName stickerset = new TLRPC.TL_inputStickerSetShortName();
+                stickerset.short_name = sticker != null ? sticker : emoji;
+                ArrayList<TLRPC.InputStickerSet> sets = new ArrayList<>(1);
+                sets.add(stickerset);
+                BaseFragment fragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
+                EmojiPacksAlert alert;
+                if (fragment instanceof ChatActivity) {
+                    ChatActivity chatActivity = (ChatActivity) fragment;
+                    alert = new EmojiPacksAlert(fragment, LaunchActivity.this, chatActivity.getResourceProvider(), sets);
+                    alert.setCalcMandatoryInsets(chatActivity.isKeyboardVisible());
+                } else {
+                    alert = new EmojiPacksAlert(fragment, LaunchActivity.this, null, sets);
                 }
                 fragment.showDialog(alert);
             }
@@ -4349,6 +4408,10 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         navigateToPremiumBot = val;
     }
 
+    public void setNavigateToPremiumGiftCallback(Runnable val) {
+        navigateToPremiumGiftCallback = val;
+    }
+
     @Override
     public void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
@@ -4982,7 +5045,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                     return;
                 }
                 BaseFragment lastFragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
-                if (!AndroidUtilities.isGoogleMapsInstalled(lastFragment)) {
+                if (!AndroidUtilities.isMapsInstalled(lastFragment)) {
                     return;
                 }
                 LocationActivity fragment = new LocationActivity(0);
@@ -5178,7 +5241,8 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             Theme.ThemeInfo theme = (Theme.ThemeInfo) args[0];
             boolean nightTheme = (Boolean) args[1];
             int accentId = (Integer) args[3];
-            actionBarLayout.animateThemedValues(theme, accentId, nightTheme, instant);
+            Runnable calcInBackgroundEnd = args.length > 7 ? (Runnable) args[7] : null;
+            actionBarLayout.animateThemedValues(theme, accentId, nightTheme, instant, calcInBackgroundEnd);
             if (AndroidUtilities.isTablet()) {
                 layersActionBarLayout.animateThemedValues(theme, accentId, nightTheme, instant);
                 rightActionBarLayout.animateThemedValues(theme, accentId, nightTheme, instant);

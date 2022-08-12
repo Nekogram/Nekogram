@@ -29,6 +29,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.text.style.CharacterStyle;
 import android.text.style.URLSpan;
@@ -57,7 +58,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BuildConfig;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
@@ -1249,30 +1250,28 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
         return true;
     }
 
-    private String getMessageContent(MessageObject messageObject, int previousUid, boolean name) {
-        String str = "";
+    private CharSequence getMessageContent(MessageObject messageObject, int previousUid, boolean name) {
+        SpannableStringBuilder str = new SpannableStringBuilder();
         if (name) {
             long fromId = messageObject.getFromChatId();
             if (previousUid != fromId) {
                 if (fromId > 0) {
                     TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(fromId);
                     if (user != null) {
-                        str = ContactsController.formatName(user.first_name, user.last_name) + ":\n";
+                        str.append(ContactsController.formatName(user.first_name, user.last_name)).append(":\n");
                     }
                 } else if (fromId < 0) {
                     TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(-fromId);
                     if (chat != null) {
-                        str = chat.title + ":\n";
+                        str.append(chat.title).append(":\n");
                     }
                 }
             }
         }
-        if (messageObject.type == 0 && messageObject.messageOwner.message != null) {
-            str += messageObject.messageOwner.message;
-        } else if (messageObject.messageOwner.media != null && messageObject.messageOwner.message != null) {
-            str += messageObject.messageOwner.message;
+        if (TextUtils.isEmpty(messageObject.messageText)) {
+            str.append(messageObject.messageOwner.message);
         } else {
-            str += messageObject.messageText;
+            str.append(messageObject.messageText);
         }
         return str;
     }
@@ -1471,7 +1470,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     path = getFileLoader().getPathToMessage(selectedObject.messageOwner).toString();
                 }
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                var uri = FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(path));
+                var uri = FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", new File(path));
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.putExtra(Intent.EXTRA_STREAM, uri);
                 intent.setDataAndType(uri, selectedObject.getDocument().mime_type);
@@ -2038,6 +2037,12 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 }
                 ChatMessageCell chatMessageCell = (ChatMessageCell) view;
                 chatMessageCell.setDelegate(new ChatMessageCell.ChatMessageCellDelegate() {
+
+                    @Override
+                    public boolean canDrawOutboundsContent() {
+                        return true;
+                    }
+
                     @Override
                     public void didPressSideButton(ChatMessageCell cell) {
                         if (getParentActivity() == null) {
@@ -2252,7 +2257,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                                 Intent intent = new Intent(Intent.ACTION_VIEW);
                                 //if (Build.VERSION.SDK_INT >= 24) {
                                     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
-                                    intent.setDataAndType(FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", f), "video/mp4");
+                                    intent.setDataAndType(FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", f), "video/mp4");
                                 //} else {
                                 //    intent.setDataAndType(Uri.fromFile(f), "video/mp4");
                                 //}
@@ -2261,7 +2266,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                                 alertUserOpenError(message);
                             }
                         } else if (message.type == 4) {
-                            if (!AndroidUtilities.isGoogleMapsInstalled(ChannelAdminLogActivity.this)) {
+                            if (!AndroidUtilities.isMapsInstalled(ChannelAdminLogActivity.this)) {
                                 return;
                             }
                             LocationActivity fragment = new LocationActivity(0);

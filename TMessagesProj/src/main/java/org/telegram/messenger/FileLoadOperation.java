@@ -66,6 +66,7 @@ public class FileLoadOperation {
     private final static int stateDownloading = 1;
     private final static int stateFailed = 2;
     private final static int stateFinished = 3;
+    private final static int stateCanceled = 4;
 
     private int downloadChunkSize = 1024 * 32;
     private int downloadChunkSizeBig = 1024 * 128;
@@ -594,7 +595,7 @@ public class FileLoadOperation {
         return progress + getDownloadedLengthFromOffsetInternal(ranges, (int) (totalBytesCount * progress), totalBytesCount) / (float) totalBytesCount;
     }
 
-    protected long[] getDownloadedLengthFromOffset(final int offset, final long length) {
+    protected long[] getDownloadedLengthFromOffset(final long offset, final long length) {
         final CountDownLatch countDownLatch = new CountDownLatch(1);
         final long[] result = new long[2];
         Utilities.stageQueue.postRunnable(() -> {
@@ -1451,8 +1452,8 @@ public class FileLoadOperation {
 
     protected boolean processRequestResult(RequestInfo requestInfo, TLRPC.TL_error error) {
         if (state != stateDownloading) {
-            if (BuildVars.DEBUG_VERSION) {
-                FileLog.e(new Exception("trying to write to finished file " + cacheFileFinal + " offset " + requestInfo.offset));
+            if (BuildVars.DEBUG_VERSION && state == stateFinished) {
+                FileLog.e(new Exception("trying to write to finished file " + fileName + " offset " + requestInfo.offset + " " + totalBytesCount));
             }
             return false;
         }
@@ -1574,7 +1575,7 @@ public class FileLoadOperation {
                     if (notLoadedBytesRanges != null) {
                         fileOutputStream.seek(requestInfo.offset);
                         if (BuildVars.DEBUG_VERSION) {
-                            FileLog.d("save file part " + cacheFileFinal + " offset " + requestInfo.offset);
+                            FileLog.d("save file part " + fileName + " offset=" + requestInfo.offset + " chunk_size=" + currentDownloadChunkSize + " isCdn=" + isCdn);
                         }
                     }
                     FileChannel channel = fileOutputStream.getChannel();
@@ -1667,7 +1668,7 @@ public class FileLoadOperation {
 
                 if (finishedDownloading) {
                     onFinishLoadingFile(true);
-                } else {
+                } else if (state != stateCanceled){
                     startDownloadRequest();
                 }
             } catch (Exception e) {
@@ -1721,7 +1722,7 @@ public class FileLoadOperation {
 
     protected void onFail(boolean thread, final int reason) {
         cleanup();
-        state = stateFailed;
+        state = reason == 1 ? stateCanceled : stateFailed;
         if (delegate != null) {
             if (thread) {
                 Utilities.stageQueue.postRunnable(() -> delegate.didFailedLoadingFile(FileLoadOperation.this, reason));

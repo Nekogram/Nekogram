@@ -17,7 +17,6 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Outline;
 import android.graphics.Paint;
@@ -28,6 +27,7 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -102,6 +102,7 @@ import org.telegram.ui.MessageStatisticActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.ForwardContext;
@@ -133,6 +134,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     protected LongSparseArray<TLRPC.Dialog> selectedDialogs = new LongSparseArray<>();
     private SwitchView switchView;
     private int containerViewTop = -1;
+    private boolean fullyShown = false;
 
     private ChatActivity parentFragment;
     private Activity parentActivity;
@@ -476,6 +478,13 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         sendingText[1] = text2;
         useSmoothKeyboard = true;
 
+        super.setDelegate(new BottomSheetDelegate() {
+            @Override
+            public void onOpenAnimationEnd() {
+                fullyShown = true;
+            }
+        });
+
         if (sendingMessageObjects != null) {
             for (int a = 0, N = sendingMessageObjects.size(); a < N; a++) {
                 MessageObject messageObject = sendingMessageObjects.get(a);
@@ -604,7 +613,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
                 @Override
                 protected boolean heightAnimationEnabled() {
-                    if (isDismissed()) {
+                    if (isDismissed() || !fullyShown) {
                         return false;
                     }
                     return !commentTextView.isPopupVisible();
@@ -1202,7 +1211,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         containerView.addView(frameLayout2, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.BOTTOM));
         frameLayout2.setOnTouchListener((v, event) -> true);
 
-        commentTextView = new EditTextEmoji(context, sizeNotifierFrameLayout, null, EditTextEmoji.STYLE_DIALOG, resourcesProvider) {
+        commentTextView = new EditTextEmoji(context, sizeNotifierFrameLayout, null, EditTextEmoji.STYLE_DIALOG, true, resourcesProvider) {
 
             private boolean shouldAnimateEditTextWithBounds;
             private int messageEditTextPredrawHeigth;
@@ -1511,15 +1520,33 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             }
         }
 
+        CharSequence[] text = new CharSequence[] { commentTextView.getText() };
+        ArrayList<TLRPC.MessageEntity> entities = MediaDataController.getInstance(currentAccount).getEntities(text, true);
         if (sendingMessageObjects != null) {
+            List<Long> removeKeys = new ArrayList<>();
             for (int a = 0; a < selectedDialogs.size(); a++) {
                 long key = selectedDialogs.keyAt(a);
                 if (frameLayout2.getTag() != null && commentTextView.length() > 0) {
-                    SendMessagesHelper.getInstance(currentAccount).sendMessage(commentTextView.getText().toString(), key, null, null, null, true, null, null, null, withSound, scheduleDate, null);
+                    SendMessagesHelper.getInstance(currentAccount).sendMessage(text[0] == null ? null : text[0].toString(), key, null, null, null, true, entities, null, null, withSound, scheduleDate, null);
                 }
-                SendMessagesHelper.getInstance(currentAccount).sendMessage(sendingMessageObjects, key, forwardContext.getForwardParams().noQuote, forwardContext.getForwardParams().noCaption, withSound, scheduleDate);
+                int result = SendMessagesHelper.getInstance(currentAccount).sendMessage(sendingMessageObjects, key, forwardContext.getForwardParams().noQuote, forwardContext.getForwardParams().noCaption, withSound, 0);
+                if (result != 0) {
+                    removeKeys.add(key);
+                }
+                if (selectedDialogs.size() == 1) {
+                    AlertsCreator.showSendMediaAlert(result, parentFragment, null);
+
+                    if (result != 0) {
+                        break;
+                    }
+                }
             }
-            onSend(selectedDialogs, sendingMessageObjects.size());
+            for (long key : removeKeys) {
+                selectedDialogs.remove(key);
+            }
+            if (!selectedDialogs.isEmpty()) {
+                onSend(selectedDialogs, sendingMessageObjects.size());
+            }
         } else {
             int num;
             if (switchView != null) {
@@ -1531,7 +1558,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 for (int a = 0; a < selectedDialogs.size(); a++) {
                     long key = selectedDialogs.keyAt(a);
                     if (frameLayout2.getTag() != null && commentTextView.length() > 0) {
-                        SendMessagesHelper.getInstance(currentAccount).sendMessage(commentTextView.getText().toString(), key, null, null, null, true, null, null, null, withSound, scheduleDate, null);
+                        SendMessagesHelper.getInstance(currentAccount).sendMessage(text[0] == null ? null : text[0].toString(), key, null, null, null, true, entities, null, null, withSound, scheduleDate, null);
                     }
                     SendMessagesHelper.getInstance(currentAccount).sendMessage(sendingText[num], key, null, null, null, true, null, null, null, withSound, scheduleDate, null);
                 }
@@ -1784,6 +1811,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         if (commentTextView != null) {
             AndroidUtilities.hideKeyboard(commentTextView.getEditText());
         }
+        fullyShown = false;
         super.dismiss();
         NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.dialogsNeedReload);
     }

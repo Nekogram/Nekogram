@@ -19,8 +19,8 @@ import java.util.HashMap;
 
 public class SaveToDownloadReceiver extends BroadcastReceiver {
     public static final String NOTIFICATION_TAG = "MediaController";
-    public static final String ACTION_CANCEL_DOWNLOAD = BuildConfig.APPLICATION_ID + ".CANCEL_SAVE_TO_DOWNLOAD";
-    public static final String EXTRA_ID = BuildConfig.APPLICATION_ID + ".NOTIFICATION_ID";
+    public static final String ACTION_CANCEL_DOWNLOAD = ApplicationLoader.getApplicationId() + ".CANCEL_SAVE_TO_DOWNLOAD";
+    public static final String EXTRA_ID = ApplicationLoader.getApplicationId() + ".NOTIFICATION_ID";
     private static final HashMap<Integer, Runnable> callbacks = new HashMap<>();
     private static final HashMap<Integer, NotificationCompat.Builder> builders = new HashMap<>();
     private static int notificationIdStart = 0;

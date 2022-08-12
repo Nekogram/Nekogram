@@ -101,6 +101,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
+import androidx.core.math.MathUtils;
 import androidx.dynamicanimation.animation.DynamicAnimation;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
@@ -115,6 +116,7 @@ import com.google.android.gms.tasks.Task;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.browser.Browser;
+import org.telegram.messenger.utils.CustomHtml;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
@@ -439,7 +441,9 @@ public class AndroidUtilities {
 
                 @Override
                 public void onClick(@NonNull View view) {
-                    runnable.run();
+                    if (runnable != null) {
+                        runnable.run();
+                    }
                 }
             }, index, index + len, 0);
         }
@@ -448,7 +452,7 @@ public class AndroidUtilities {
 
     public static void recycleBitmaps(ArrayList<Bitmap> bitmapToRecycle) {
         if (bitmapToRecycle != null && !bitmapToRecycle.isEmpty()) {
-            AndroidUtilities.runOnUIThread(() -> NotificationCenter.getInstance(UserConfig.selectedAccount).doOnIdle(() -> {
+            AndroidUtilities.runOnUIThread(() -> Utilities.globalQueue.postRunnable(() -> {
                 for (int i = 0; i < bitmapToRecycle.size(); i++) {
                     Bitmap bitmap = bitmapToRecycle.get(i);
                     if (bitmap != null && !bitmap.isRecycled()) {
@@ -923,20 +927,21 @@ public class AndroidUtilities {
         }
     }
 
-    public static boolean isGoogleMapsInstalled(final BaseFragment fragment) {
+    public static boolean isMapsInstalled(BaseFragment fragment) {
         return true;
-        /*try {
-            ApplicationLoader.applicationContext.getPackageManager().getApplicationInfo("com.google.android.apps.maps", 0);
+        /*String pkg = ApplicationLoader.getMapsProvider().getMapsAppPackageName();
+        try {
+            ApplicationLoader.applicationContext.getPackageManager().getApplicationInfo(pkg, 0);
             return true;
         } catch (PackageManager.NameNotFoundException e) {
             if (fragment.getParentActivity() == null) {
                 return false;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(fragment.getParentActivity());
-            builder.setMessage(LocaleController.getString("InstallGoogleMaps", R.string.InstallGoogleMaps));
+            builder.setMessage(LocaleController.getString(ApplicationLoader.getMapsProvider().getInstallMapsString()));
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> {
                 try {
-                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.apps.maps"));
+                    Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=" + pkg));
                     fragment.getParentActivity().startActivityForResult(intent, 500);
                 } catch (Exception e1) {
                     FileLog.e(e1);
@@ -2511,14 +2516,23 @@ public class AndroidUtilities {
         return (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || !OneUIUtilities.hasBuiltInClipboardToasts()) && Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU;
     }
 
-    public static void addToClipboard(CharSequence str) {
+    public static boolean addToClipboard(CharSequence str) {
         try {
             android.content.ClipboardManager clipboard = (android.content.ClipboardManager) ApplicationLoader.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
-            android.content.ClipData clip = android.content.ClipData.newPlainText("label", str);
-            clipboard.setPrimaryClip(clip);
+
+            if (str instanceof Spanned) {
+                android.content.ClipData clip = android.content.ClipData.newHtmlText("label", str, CustomHtml.toHtml((Spanned) str));
+                clipboard.setPrimaryClip(clip);
+                return true;
+            } else {
+                android.content.ClipData clip = android.content.ClipData.newPlainText("label", str);
+                clipboard.setPrimaryClip(clip);
+                return true;
+            }
         } catch (Exception e) {
             FileLog.e(e);
         }
+        return false;
     }
 
     public static void addMediaToGallery(String fromPath) {
@@ -3071,7 +3085,7 @@ public class AndroidUtilities {
                         }
                     }
                     //if (Build.VERSION.SDK_INT >= 24) {
-                        intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", f), realMimeType != null ? realMimeType : "text/plain");
+                        intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", f), realMimeType != null ? realMimeType : "text/plain");
                     //} else {
                     //    intent.setDataAndType(Uri.fromFile(f), realMimeType != null ? realMimeType : "text/plain");
                     //}
@@ -3080,7 +3094,7 @@ public class AndroidUtilities {
                             activity.startActivityForResult(intent, 500);
                         } catch (Exception e) {
                             //if (Build.VERSION.SDK_INT >= 24) {
-                                intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", f), "text/plain");
+                                intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", f), "text/plain");
                             //} else {
                             //    intent.setDataAndType(Uri.fromFile(f), "text/plain");
                             //}
@@ -3130,7 +3144,7 @@ public class AndroidUtilities {
                 return true;
             }*/
             //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", f), realMimeType != null ? realMimeType : "text/plain");
+                intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", f), realMimeType != null ? realMimeType : "text/plain");
             //} else {
             //    intent.setDataAndType(Uri.fromFile(f), realMimeType != null ? realMimeType : "text/plain");
             //}
@@ -3139,7 +3153,7 @@ public class AndroidUtilities {
                     activity.startActivityForResult(intent, 500);
                 } catch (Exception e) {
                     //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                        intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", f), "text/plain");
+                        intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", f), "text/plain");
                     //} else {
                     //    intent.setDataAndType(Uri.fromFile(f), "text/plain");
                     //}
@@ -3268,16 +3282,16 @@ public class AndroidUtilities {
                 }
             }
             //if (Build.VERSION.SDK_INT >= 24) {
-                intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", f), realMimeType != null ? realMimeType : "text/plain");
+                intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", f), realMimeType != null ? realMimeType : "text/plain");
             //} else {
-            //    intent.setDataAndType(Uri.fromFile(f), realMimeType != null ? realMimeType : "text/plain");
+                intent.setDataAndType(Uri.fromFile(f), realMimeType != null ? realMimeType : "text/plain");
             //}
             if (realMimeType != null) {
                 try {
                     activity.startActivityForResult(intent, 500);
                 } catch (Exception e) {
                     if (Build.VERSION.SDK_INT >= 24) {
-                        intent.setDataAndType(FileProvider.getUriForFile(activity, BuildConfig.APPLICATION_ID + ".provider", f), "text/plain");
+                        intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", f), "text/plain");
                     } else {
                         intent.setDataAndType(Uri.fromFile(f), "text/plain");
                     }
@@ -3854,15 +3868,6 @@ public class AndroidUtilities {
         return lerp(ab[0], ab[1], f);
     }
 
-    public static int lerpColor(int a, int b, float f) {
-        return Color.argb(
-            lerp(Color.alpha(a), Color.alpha(b), f),
-            lerp(Color.red(a), Color.red(b), f),
-            lerp(Color.green(a), Color.green(b), f),
-            lerp(Color.blue(a), Color.blue(b), f)
-        );
-    }
-
     public static void lerp(RectF a, RectF b, float f, RectF to) {
         if (to != null) {
             to.set(
@@ -3883,6 +3888,12 @@ public class AndroidUtilities {
                 AndroidUtilities.lerp(a.bottom, b.bottom, f)
             );
         }
+    }
+
+    public static float cascade(float fullAnimationT, int position, int count, float waveLength) {
+        final float waveDuration = 1f / count * waveLength;
+        final float waveOffset = position / (float) count * (1f - waveDuration);
+        return MathUtils.clamp((fullAnimationT - waveOffset) / waveDuration, 0, 1);
     }
 
     public static float computeDampingRatio(float tension /* stiffness */, float friction /* damping */, float mass) {
@@ -4365,7 +4376,7 @@ public class AndroidUtilities {
         try (FileOutputStream out = new FileOutputStream(file)) {
             bitmap.compress(format, 100, out);
             out.close();
-            return FileProvider.getUriForFile(ApplicationLoader.applicationContext, BuildConfig.APPLICATION_ID + ".provider", file);
+            return FileProvider.getUriForFile(ApplicationLoader.applicationContext, ApplicationLoader.getApplicationId() + ".provider", file);
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -4389,5 +4400,24 @@ public class AndroidUtilities {
 //        } catch (Exception ignroe) {
 //            return false;
 //        }
+    }
+
+    public static CharSequence trim(CharSequence text, int[] newStart) {
+        if (text == null) {
+            return null;
+        }
+        int len = text.length();
+        int st = 0;
+
+        while (st < len && text.charAt(st) <= ' ') {
+            st++;
+        }
+        while (st < len && text.charAt(len - 1) <= ' ') {
+            len--;
+        }
+        if (newStart != null) {
+            newStart[0] = st;
+        }
+        return (st > 0 || len < text.length()) ? text.subSequence(st, len) : text;
     }
 }

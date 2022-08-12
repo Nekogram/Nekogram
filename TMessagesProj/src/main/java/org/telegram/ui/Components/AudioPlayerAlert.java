@@ -57,7 +57,6 @@ import com.google.android.exoplayer2.C;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
@@ -1446,7 +1445,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
 
                 if (f.exists()) {
                     Intent intent = new Intent(Intent.ACTION_SEND);
-                    var uri = FileProvider.getUriForFile(parentActivity, BuildConfig.APPLICATION_ID + ".provider", f);
+                    var uri = FileProvider.getUriForFile(parentActivity, ApplicationLoader.getApplicationId() + ".provider", f);
                     intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                     intent.putExtra(Intent.EXTRA_STREAM, uri);
                     intent.setDataAndType(uri, messageObject.getMimeType());

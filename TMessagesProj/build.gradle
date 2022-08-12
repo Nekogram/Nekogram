@@ -1,10 +1,9 @@
 import org.eclipse.jgit.internal.storage.file.FileRepository
 import org.gradle.internal.os.OperatingSystem
-
 import java.nio.file.Paths
 
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'com.google.gms.google-services'
 }
 
@@ -33,7 +32,6 @@ dependencies {
     implementation 'com.stripe:stripe-android:2.0.2'
     implementation 'com.google.mlkit:language-id:17.0.4'
     implementation 'com.android.billingclient:billing:5.0.0'
-    implementation files('libs/libgsaverification-client.aar')
 
     implementation "androidx.browser:browser:1.4.0"
     implementation 'com.getkeepsafe.relinker:relinker:1.4.5'
@@ -49,8 +47,6 @@ dependencies {
 
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.6'
 }
-
-ext.abiCodes = ['universal': 0, 'armeabi-v7a': 1, 'arm64-v8a': 5, x86: 2, x86_64: 6]
 
 def refId = new FileRepository(rootProject.file(".git")).getRefDatabase().exactRef("HEAD").getObjectId().name()
 
@@ -77,12 +73,6 @@ android {
         disable 'MissingTranslation', 'ExtraTranslation', 'BlockedPrivateApi'
     }
 
-    packagingOptions {
-        resources {
-            excludes += '**'
-        }
-    }
-
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_11
         targetCompatibility JavaVersion.VERSION_11
@@ -90,66 +80,22 @@ android {
         coreLibraryDesugaringEnabled true
     }
 
-    Properties localProperties = new Properties()
-    if (project.rootProject.file('local.properties').exists()) {
-        localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
-    }
-
-    signingConfigs {
-        if (localProperties.getProperty("storeFile") != null) {
-            sign {
-                storeFile file(localProperties.getProperty("storeFile"))
-                storePassword localProperties.getProperty("storePassword")
-                keyAlias localProperties.getProperty("keyAlias")
-                keyPassword localProperties.getProperty("keyPassword")
-            }
-        }
-    }
-
     buildTypes {
         debug {
             buildConfigField("String", "COMMIT_ID", "\"${refId}\"")
-            if (localProperties.getProperty("storeFile") != null) {
-                signingConfig signingConfigs.sign
-            }
-            applicationIdSuffix ".beta"
+            buildConfigField("long", "VERSION_CODE", "${APP_VERSION_CODE}")
+            buildConfigField("String","VERSION_NAME","\"${APP_VERSION_NAME}\"")
         }
-
         release {
             buildConfigField("String", "COMMIT_ID", "\"${refId}\"")
-            minifyEnabled true
-            shrinkResources true
-            if (localProperties.getProperty("storeFile") != null) {
-                signingConfig signingConfigs.sign
-            } else {
-                signingConfig signingConfigs.debug
-            }
-            proguardFiles 'proguard-rules.pro'
-            ndk.debugSymbolLevel 'FULL'
-        }
-
-        play {
-            initWith release
-        }
-    }
-
-    defaultConfig.versionCode = 2723
-
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
-            def abi = output.getFilter('ABI')
-            if (abi == null) abi = 'universal'
-            outputFileName = "Nekogram-${defaultConfig.versionName}-${defaultConfig.versionCode}-${abi}.apk"
-            def abiVersionCode = project.ext.abiCodes.get(abi)
-            output.versionCodeOverride = defaultConfig.versionCode * 10 + abiVersionCode
+            buildConfigField("long", "VERSION_CODE", "${APP_VERSION_CODE}")
+            buildConfigField("String","VERSION_NAME","\"${APP_VERSION_NAME}\"")
         }
     }
 
     defaultConfig {
-        applicationId "tw.nekomimi.nekogram"
         minSdkVersion 21
         targetSdkVersion 33
-        versionName "8.8.5.1"
 
         externalNativeBuild {
             cmake {
@@ -166,22 +112,4 @@ android {
             }
         }
     }
-
-    bundle {
-        language {
-            enableSplit = false
-        }
-    }
-
-    splits.abi {
-        enable true
-        universalApk true
-    }
-
-    dependenciesInfo.includeInApk false
-}
-
-task("buildRelease") {
-    dependsOn("assembleRelease")
-    dependsOn("bundlePlay")
 }

@@ -12,6 +12,7 @@ import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.LanguageDetector;
@@ -209,7 +210,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         if (position == filePathRow) {
             if (!noforwards) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
-                var uri = FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", new File(filePath));
+                var uri = FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", new File(filePath));
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.putExtra(Intent.EXTRA_STREAM, uri);
                 intent.setDataAndType(uri, messageObject.getMimeType());

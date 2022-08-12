@@ -49,7 +49,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BuildConfig;
+import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -1729,7 +1729,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                             return;
                         }
                         Intent intent = new Intent(Intent.ACTION_SEND);
-                        var uri = FileProvider.getUriForFile(getParentActivity(), BuildConfig.APPLICATION_ID + ".provider", finalFile);
+                        var uri = FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", finalFile);
                         intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                         intent.putExtra(Intent.EXTRA_STREAM, uri);
                         intent.setDataAndType(uri, "text/xml");

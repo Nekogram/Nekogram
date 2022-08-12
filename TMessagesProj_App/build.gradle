@@ -1,0 +1,125 @@
+plugins {
+    id 'com.android.application'
+    id 'com.google.gms.google-services'
+}
+
+configurations {
+    compile.exclude module: 'support-v4'
+}
+
+configurations.all {
+    exclude group: 'com.google.firebase', module: 'firebase-core'
+    exclude group: 'androidx.recyclerview', module: 'recyclerview'
+}
+
+dependencies {
+    implementation project(':TMessagesProj')
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.6'
+    implementation files('../TMessagesProj/libs/libgsaverification-client.aar')
+}
+
+ext.abiCodes = ['universal': 0, 'armeabi-v7a': 1, 'arm64-v8a': 5, x86: 2, x86_64: 6]
+
+android {
+    compileSdkVersion 33
+    buildToolsVersion '33.0.0'
+
+    defaultConfig.applicationId = APP_PACKAGE
+
+    lint {
+        checkReleaseBuilds false
+        disable 'MissingTranslation', 'ExtraTranslation', 'BlockedPrivateApi'
+    }
+
+    packagingOptions {
+        resources {
+            excludes += '**'
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+
+        coreLibraryDesugaringEnabled true
+    }
+
+    Properties localProperties = new Properties()
+    if (project.rootProject.file('local.properties').exists()) {
+        localProperties.load(project.rootProject.file('local.properties').newDataInputStream())
+    }
+
+    signingConfigs {
+        if (localProperties.getProperty("storeFile") != null) {
+            sign {
+                storeFile file(localProperties.getProperty("storeFile"))
+                storePassword localProperties.getProperty("storePassword")
+                keyAlias localProperties.getProperty("keyAlias")
+                keyPassword localProperties.getProperty("keyPassword")
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            if (localProperties.getProperty("storeFile") != null) {
+                signingConfig signingConfigs.sign
+            }
+            applicationIdSuffix ".beta"
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            if (localProperties.getProperty("storeFile") != null) {
+                signingConfig signingConfigs.sign
+            } else {
+                signingConfig signingConfigs.debug
+            }
+            proguardFiles '../TMessagesProj/proguard-rules.pro'
+            ndk.debugSymbolLevel 'FULL'
+        }
+
+        play {
+            initWith release
+        }
+    }
+
+    defaultConfig.versionCode = Integer.parseInt(APP_VERSION_CODE)
+
+    applicationVariants.all { variant ->
+        variant.outputs.all { output ->
+            def abi = output.getFilter('ABI')
+            if (abi == null) abi = 'universal'
+            outputFileName = "Nekogram-${defaultConfig.versionName}-${defaultConfig.versionCode}-${abi}.apk"
+            def abiVersionCode = project.ext.abiCodes.get(abi)
+            output.versionCodeOverride = defaultConfig.versionCode * 10 + abiVersionCode
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdkVersion 33
+        versionName APP_VERSION_NAME
+        ndkVersion "21.4.7075529"
+
+        multiDexEnabled true
+    }
+
+    buildFeatures {
+        buildConfig = true
+    }
+
+    bundle {
+        language {
+            enableSplit = false
+        }
+    }
+
+    splits.abi {
+        enable true
+        universalApk true
+    }
+
+    dependenciesInfo.includeInApk false
+}

@@ -303,7 +303,7 @@ public class MessageHelper extends BaseController {
         try {
             var context = ApplicationLoader.applicationContext;
             var clipboard = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
-            var uri = FileProvider.getUriForFile(context, BuildConfig.APPLICATION_ID + ".provider", file);
+            var uri = FileProvider.getUriForFile(context, ApplicationLoader.getApplicationId() + ".provider", file);
             var clip = ClipData.newUri(context.getContentResolver(), "label", uri);
             clipboard.setPrimaryClip(clip);
             callback.run();

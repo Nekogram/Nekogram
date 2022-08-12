@@ -74,6 +74,11 @@
   <init>(com.google.android.exoplayer2.upstream.DataSource$Factory);
 }
 
+# Huawei Services
+-keep class com.huawei.hianalytics.**{ *; }
+-keep class com.huawei.updatesdk.**{ *; }
+-keep class com.huawei.hms.**{ *; }
+
 -keep class com.microsoft.appcenter.AppCenter {
     private com.microsoft.appcenter.channel.Channel mChannel;
     private android.os.Handler mHandler;

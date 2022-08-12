@@ -23,6 +23,7 @@ import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
@@ -155,7 +156,7 @@ public final class ApkInstaller {
     }
 
     private static InstallReceiver register(Context context, Runnable onSuccess) {
-        var receiver = new InstallReceiver(context, BuildConfig.APPLICATION_ID, onSuccess);
+        var receiver = new InstallReceiver(context, ApplicationLoader.getApplicationId(), onSuccess);
         var filter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
         filter.addDataScheme("package");
         context.registerReceiver(receiver, filter);
