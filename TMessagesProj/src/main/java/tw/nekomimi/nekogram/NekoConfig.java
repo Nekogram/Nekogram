@@ -92,7 +92,7 @@ public class NekoConfig {
     public static int maxRecentStickers = 20;
     public static int transType = TRANS_TYPE_NEKO;
     public static int doubleTapAction = DOUBLE_TAP_ACTION_REACTION;
-    public static int downloadSpeedBoost = BOOST_AVERAGE;
+    public static int downloadSpeedBoost = BOOST_NONE;
     public static HashSet<String> restrictedLanguages = new HashSet<>();
 
     public static boolean showAddToSavedMessages = true;
@@ -325,7 +325,7 @@ public class NekoConfig {
             showOriginal = preferences.getBoolean("showOriginal", true);
             newMarkdownParser = preferences.getBoolean("newMarkdownParser", true);
             markdownParseLinks = preferences.getBoolean("markdownParseLinks", true);
-            downloadSpeedBoost = preferences.getInt("downloadSpeedBoost2", BOOST_AVERAGE);
+            downloadSpeedBoost = preferences.getInt("downloadSpeedBoost2", BOOST_NONE);
             uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
