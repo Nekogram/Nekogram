@@ -3,10 +3,6 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-configurations {
-    compile.exclude module: 'support-v4'
-}
-
 configurations.all {
     exclude group: 'com.google.firebase', module: 'firebase-core'
     exclude group: 'androidx.recyclerview', module: 'recyclerview'
@@ -101,7 +97,6 @@ android {
         minSdkVersion 21
         targetSdkVersion 33
         versionName APP_VERSION_NAME
-        ndkVersion "21.4.7075529"
 
         multiDexEnabled true
     }

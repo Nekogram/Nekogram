@@ -86,10 +86,15 @@ android {
             buildConfigField("long", "VERSION_CODE", "${APP_VERSION_CODE}")
             buildConfigField("String","VERSION_NAME","\"${APP_VERSION_NAME}\"")
         }
+
         release {
             buildConfigField("String", "COMMIT_ID", "\"${refId}\"")
             buildConfigField("long", "VERSION_CODE", "${APP_VERSION_CODE}")
             buildConfigField("String","VERSION_NAME","\"${APP_VERSION_NAME}\"")
+        }
+
+        play {
+            initWith release
         }
     }
 
