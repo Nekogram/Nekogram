@@ -239,6 +239,14 @@
     <string name="AppIconCloud">Bulut</string>
     <string name="AppIconNeon">Neon</string>
     <string name="AppIconMaterial">Materyal</string>
+    <string name="RecentChats">Son sohbetler</string>
+    <string name="ClearRecentChats">Son sohbetleri temizle</string>
+    <string name="ClearRecentChatAlert">Son sohbetlerinizi temizlemek istediğinizden emin misiniz?</string>
+    <string name="DownloadSpeedBoost">İndirme hızını arttır</string>
+    <string name="DownloadSpeedBoostNone">Kapalı</string>
+    <string name="DownloadSpeedBoostAverage">Açık</string>
+    <string name="DownloadSpeedBoostExtreme">Aşırı Hızlı</string>
+    <string name="UploadloadSpeedBoost">Yükleme hızını arttır</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Erişilebilirlik ayarları</string>
     <string name="AccRewindHeading">Geri sarma ayarları</string>

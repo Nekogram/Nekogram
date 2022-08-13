@@ -1,4 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="NekoSettings">Neko Instellingen</string>
+    <string name="IPv6">Probeer verbinding te maken via IPv6</string>
+    <string name="MessageMenu">Bericht menu</string>
+    <string name="HidePhone">Mijn telefoonnummer verbergen</string>
+    <string name="Hide">Verbergen</string>
+    <string name="DeleteAllFromSelf">Uw eigen berichten verwijderen</string>
+    <string name="DeleteAllFromSelfAlert">Waarschuwing! Dit zal **alle berichten van jou** in deze chat verwijderen voor **alle** deelnemers.</string>
+    <string name="BotLogin">Inloggen met bot</string>
+    <string name="InvalidAccessToken">Ongeldige toegangstoken</string>
+    <string name="IgnoreBlocked">Verberg berichten van geblokkeerde gebruiker</string>
+    <string name="Connection">Verbinding</string>
+    <string name="Chat">Chat</string>
+    <string name="NameOrder">Naam volgorde</string>
+    <string name="FirstLast">Voornaam laatst</string>
+    <string name="LastFirst">Laatste eerst</string>
+    <string name="Categories">Categorieën</string>
+    <string name="About">Over</string>
     <!-- Accessibility -->
 </resources>

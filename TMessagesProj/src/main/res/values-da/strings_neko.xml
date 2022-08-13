@@ -216,9 +216,11 @@
     <string name="PasscodeAbout">Indstil forskellige adgangskoder for hver konto, og skift mellem dem ved at indtaste den tilsvarende adgangskode.</string>
     <string name="PasscodePanicCode">Panik kode</string>
     <string name="PasscodePanicCodeSet">Sæt panik kode</string>
+    <string name="PasscodePanicCodeEdit">Ændre panikkode</string>
     <string name="PasscodePanicCodeRemove">Slå panikkoden fra</string>
     <string name="PasscodePanicCodeRemoveConfirmMessage">Er du sikker på, at du vil slå panikkode fra?</string>
     <string name="PasscodeRemoveConfirmMessage">Er du sikker på, at du vil fjerne adgangskoden til denne konto?</string>
+    <string name="PasscodePanicCodeAbout">Brug panikkoden til at logge alle konti ud, hvis noget går galt.</string>
     <string name="HideTimeOnSticker">Skjul tid på klistermærker</string>
     <string name="TranslatorShowOriginal">Med originaltekst</string>
     <string name="DatacenterStatusAbout">Kontroller status for Telegrams **datacentre**.</string>

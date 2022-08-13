@@ -5,7 +5,7 @@
     <string name="MessageMenu">Menu messaggio</string>
     <string name="HidePhone">Nascondi il mio numero</string>
     <string name="Hide">Nascondi</string>
-    <string name="DeleteAllFromSelf">Elimina tutti i miei messaggi</string>
+    <string name="DeleteAllFromSelf">Elimina i miei messaggi</string>
     <string name="DeleteAllFromSelfAlert">Attenzione! Questo eliminerà **tutti i tuoi messaggi** da questa chat per **tutti i partecipanti.**</string>
     <string name="BotLogin">Login con bot token</string>
     <string name="InvalidAccessToken">Accesso col token non valido</string>
@@ -230,12 +230,23 @@
     <string name="MarkdownParser">Analizza</string>
     <string name="MarkdownParseLinks">Analizza link</string>
     <string name="MarkdownAbout">Modificare il testo nei messaggi usando questo Markdown: ^1**grassetto**^1, ^2__corsivo__^2, ^3~~barrato~~^3, ^4`mono space`^4, ^5||spoiler||^5, ^6text^7url^8.</string>
+    <string name="MarkdownAbout2">Modifica il testo nel messaggio usando markdown: ^1**grassetto**^1, ^2__corsivo__^2, ^3~~barrato~~^3, ^4`mono spaziato`^4, ^5||spoiler||^5.</string>
     <string name="AppIconOldSchool">Vecchia scuola</string>
+    <string name="AppIconMerio">Merio</string>
     <string name="AppIconRainbow">Arcobaleno</string>
+    <string name="AppIconMusheen">Pusheen</string>
     <string name="AppIconSpace">Spazio</string>
     <string name="AppIconCloud">Nuvola</string>
     <string name="AppIconNeon">Neon</string>
     <string name="AppIconMaterial">Materiale</string>
+    <string name="RecentChats">Chat recenti</string>
+    <string name="ClearRecentChats">Cancella le chat recenti</string>
+    <string name="ClearRecentChatAlert">Vuoi cancellare le tue chat recenti?</string>
+    <string name="DownloadSpeedBoost">Download aumento velocità</string>
+    <string name="DownloadSpeedBoostNone">disattivato</string>
+    <string name="DownloadSpeedBoostAverage">attivo</string>
+    <string name="DownloadSpeedBoostExtreme">Estremo</string>
+    <string name="UploadloadSpeedBoost">caricamento veloce</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>

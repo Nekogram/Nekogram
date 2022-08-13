@@ -240,6 +240,14 @@
     <string name="AppIconCloud">云</string>
     <string name="AppIconNeon">霓虹</string>
     <string name="AppIconMaterial">质感</string>
+    <string name="RecentChats">最近对话</string>
+    <string name="ClearRecentChats">清除最近对话</string>
+    <string name="ClearRecentChatAlert">您确定要清除您的最近对话吗？</string>
+    <string name="DownloadSpeedBoost">下载速度提升</string>
+    <string name="DownloadSpeedBoostNone">关闭</string>
+    <string name="DownloadSpeedBoostAverage">开启</string>
+    <string name="DownloadSpeedBoostExtreme">极高</string>
+    <string name="UploadloadSpeedBoost">上传速度提升</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

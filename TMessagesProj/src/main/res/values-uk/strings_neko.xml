@@ -239,6 +239,14 @@
     <string name="AppIconCloud">Хмари</string>
     <string name="AppIconNeon">Неона</string>
     <string name="AppIconMaterial">Матеріал</string>
+    <string name="RecentChats">Останні чати</string>
+    <string name="ClearRecentChats">Очистити недавні чати</string>
+    <string name="ClearRecentChatAlert">Ви хочете очистити свої останні чати?</string>
+    <string name="DownloadSpeedBoost">Збільшення швидкості завантаження</string>
+    <string name="DownloadSpeedBoostNone">Вимкнено</string>
+    <string name="DownloadSpeedBoostAverage">Увімкнено</string>
+    <string name="DownloadSpeedBoostExtreme">Екстра</string>
+    <string name="UploadloadSpeedBoost">Збільшення швидкості вивантаження</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccRewindHeading">Налаштування перемотки</string>

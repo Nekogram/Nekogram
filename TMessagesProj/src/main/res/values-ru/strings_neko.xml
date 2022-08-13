@@ -105,7 +105,7 @@
     <string name="LastUpdateFormatted">Последняя проверка была %1$s.</string>
     <string name="LastUpdateDateFormatted">Последняя успешная проверка была %1$s.</string>
     <string name="LastUpdateRecently">Последняя успешная проверка была сейчас.</string>
-    <string name="LastUpdateNever">Обновления не проверялись после установки.</string>
+    <string name="LastUpdateNever">Обновления ни разу не проверялись.</string>
     <string name="CheckingUpdate">Проверка обновлений…</string>
     <string name="ProviderMicrosoftTranslator">Перевод Microsoft</string>
     <string name="TranslationProviderShort">Поставщик</string>
@@ -240,6 +240,14 @@
     <string name="AppIconCloud">Облачная</string>
     <string name="AppIconNeon">Неон</string>
     <string name="AppIconMaterial">Material</string>
+    <string name="RecentChats">Недавно просмотренные</string>
+    <string name="ClearRecentChats">Очистить недавно просмотренные</string>
+    <string name="ClearRecentChatAlert">Вы хотите очистить список недавно просмотренных?</string>
+    <string name="DownloadSpeedBoost">Увеличение скорости загрузки</string>
+    <string name="DownloadSpeedBoostNone">Выкл.</string>
+    <string name="DownloadSpeedBoostAverage">Вкл.</string>
+    <string name="DownloadSpeedBoostExtreme">Экстра</string>
+    <string name="UploadloadSpeedBoost">Увеличение скорости отдачи</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>

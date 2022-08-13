@@ -240,6 +240,14 @@
     <string name="AppIconCloud">Nuvem</string>
     <string name="AppIconNeon">Neon</string>
     <string name="AppIconMaterial">Material</string>
+    <string name="RecentChats">Conversas recentes</string>
+    <string name="ClearRecentChats">Limpar conversas recentes</string>
+    <string name="ClearRecentChatAlert">Quer limpar as suas conversas recentes?</string>
+    <string name="DownloadSpeedBoost">Aumentar velocidade de download</string>
+    <string name="DownloadSpeedBoostNone">Desligado</string>
+    <string name="DownloadSpeedBoostAverage">Ligado</string>
+    <string name="DownloadSpeedBoostExtreme">Extremo</string>
+    <string name="UploadloadSpeedBoost">Aumentar velocidade de upload</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccRewindHeading">Configurações de retrocesso</string>

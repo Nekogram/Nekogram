@@ -233,14 +233,22 @@
     <string name="MarkdownParseLinks">تحليل الروابط</string>
     <string name="MarkdownAbout">تعديل النص في الرسائل باستخدام الـ الترميز: ^1**بالنبط الثقيل**^1، ^2__مائل__^2و ^3و~~يتوسطه خط~~^3و ^4`أحادية الفضاء`^4و ^5||المفسد||^5و ^6نص^7رابط^8.</string>
     <string name="MarkdownAbout2">تعديل النص في الرسائل باستخدام الـ الترميز: ^1**بالنبط الثقيل**^1، ^2__مائل__^2و ^3و~~يتوسطه خط~~^3و ^4`أحادية الفضاء`^4و ^5||المفسد||^5و نص رابط.</string>
-    <string name="AppIconOldSchool">القديمة</string>
+    <string name="AppIconOldSchool">قديمة المدرسة</string>
     <string name="AppIconMerio">ميريو</string>
     <string name="AppIconRainbow">قوس قزح</string>
     <string name="AppIconMusheen">مشهين</string>
     <string name="AppIconSpace">فضاء</string>
-    <string name="AppIconCloud">سحب</string>
+    <string name="AppIconCloud">السحابة</string>
     <string name="AppIconNeon">نيون</string>
     <string name="AppIconMaterial">تصميم المواد</string>
+    <string name="RecentChats">المحادثات الحديثة</string>
+    <string name="ClearRecentChats">مسح المحادثات الحديثة</string>
+    <string name="ClearRecentChatAlert">هل تريد مسح المحادثات الحديثة؟</string>
+    <string name="DownloadSpeedBoost">زيادة سرعة التحميل</string>
+    <string name="DownloadSpeedBoostNone">إيقاف</string>
+    <string name="DownloadSpeedBoostAverage">تشغيل</string>
+    <string name="DownloadSpeedBoostExtreme">غير محدود</string>
+    <string name="UploadloadSpeedBoost">زيادة سرعة الرفع</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

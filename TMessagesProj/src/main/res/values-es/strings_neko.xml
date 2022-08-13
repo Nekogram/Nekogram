@@ -239,6 +239,9 @@
     <string name="AppIconCloud">Nube</string>
     <string name="AppIconNeon">Neón</string>
     <string name="AppIconMaterial">Material</string>
+    <string name="RecentChats">Chats recientes</string>
+    <string name="ClearRecentChats">Borrar chats recientes</string>
+    <string name="ClearRecentChatAlert">¿Quieres borrar tus chats recientes?</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccRewindHeading">Ajustes de rebobinado</string>

@@ -49,6 +49,7 @@
     <string name="TranslateApiUnsupported">अनुवादकर्ता आपकी भाषा मे अननुवाद नहीं कर सकता |</string>
     <string name="ProviderLingocloud">लिंगक्लाऊड</string>
     <string name="UndoTranslate">अनुवाद अन किया करे</string>
+    <string name="DisablePhotoViewerSideAction">Tap karke photo ko ghumaye</string>
     <string name="BotToken">टोकन</string>
     <string name="OpenArchiveOnPull">पुलडाउन करने पर आर्काइव खोले</string>
     <string name="HideKeyboardOnChatScroll">चैट स्क्रॉल करने पर कीबोर्ड को छुपाएं</string>
@@ -56,6 +57,31 @@
     <string name="CheckAllAdministrated">व्यवस्थापक जोड़ें</string>
     <string name="RearVideoMessages">वीडियो संदेशों में पीछेला कैमरा</string>
     <string name="TabTitleType">टैब्स पर दिखाए</string>
+    <string name="TabTitleTypeTip">टेलीग्राम के द्वारा आईकॉन्स क्लाउड-सिंक्ड रहते हैं</string>
+    <string name="TabTitleTypeText">टाइटल्स</string>
+    <string name="TabTitleTypeIcon">आइकन्स</string>
+    <string name="TabTitleTypeMix">टाइटल्स के साथ आइकन्स</string>
+    <string name="ConfirmAVMessage">वीडियो/वॉइस मैसेज भेजना कन्फर्म करें</string>
+    <string name="AskBeforeCalling">कॉल करने से पहले पूछें</string>
+    <string name="DisableNumberRounding">नंबर राउंडिंग बंद करें</string>
+    <string name="Categories">कैटेगरीज</string>
+    <string name="OfficialChannel">असली चैनल</string>
+    <string name="About">अपने बारे में</string>
+    <string name="Donate">दान करें</string>
+    <string name="DonateAbout">हमारा डेवलपमेंट सपोर्ट करें</string>
+    <string name="TranslationAbout">हमें Nekogram को अपनी भाषा में ट्रांसलेट करने में मदद करें</string>
+    <string name="Translation">Nekogram को ट्रांसलेट करें</string>
+    <string name="GooglePlay">गूगल प्ले</string>
+    <string name="ResetStickerSize">स्टिकर साइज रीसेट करें</string>
+    <string name="RestartAppToTakeEffect">ऐप को रिस्टार्ट करें बदलाव के लिए</string>
+    <string name="DisableAppBarShadow">टाइटल बार शैडो बंद करें</string>
+    <string name="MediaPreview">मीडिया प्रीव्यू इन डायलॉग लिस्ट</string>
+    <string name="ProviderYandex">येंडेक्स ट्रांसलेट</string>
+    <string name="IdType">चैट आईडी इन प्रोफाइल</string>
+    <string name="IdTypeHidden">छुपाएं</string>
+    <string name="IdTypeAPI">टेलीग्राम एपीआई</string>
+    <string name="IdTypeBOTAPI">बॉट एपीआई</string>
+    <string name="AutoPauseVideo">वीडियो ऑटो पॉज</string>
     <string name="ThemesChannel">थीम चैनल</string>
     <!-- Accessibility -->
 </resources>

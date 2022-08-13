@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">تنظیمات نکوگرام</string>
-    <string name="IPv6">سعی کنید از طریق IPv6 متصل شوید</string>
+    <string name="IPv6">تلاش برای برقراری اتصال از طریق IPv6</string>
     <string name="MessageMenu">منوی پیام</string>
-    <string name="HidePhone">شماره تلفن من را مخفی کن</string>
-    <string name="Hide">مخفی کردن</string>
+    <string name="HidePhone">شماره تلفن من را پنهان کن</string>
+    <string name="Hide">پنهان‌سازی</string>
     <string name="DeleteAllFromSelf">حذف پیام های خود</string>
     <string name="DeleteAllFromSelfAlert">هشدار! با این کار **همه پیام های شما** در این چت برای **همه** شرکت کنندگان حذف می شود.</string>
     <string name="BotLogin">ورود از طریق روبات</string>
     <string name="InvalidAccessToken">توکن دسترسی نامعتبر</string>
-    <string name="IgnoreBlocked">مخفی کردن پیام های کاربر مسدود شده</string>
+    <string name="IgnoreBlocked">پنهان‌سازی پیام‌های کاربر مسدود شده</string>
     <string name="Connection">اتصال</string>
     <string name="Chat">گفتگو</string>
     <string name="NameOrder">ترتیب نام</string>
@@ -94,6 +94,8 @@
     <string name="OpenAllLinksInInstantView">تلاش برای باز کردن همه لینک ها با InstantView</string>
     <string name="DonateThankYou">متشکریم!</string>
     <string name="DonateEvilGoogle">گوگل 30 درصد از کمک مالی شما را خواهد گرفت.</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">فرمت زمان با ثانیه</string>
     <string name="JumpToBeginning">رفتن به ابتدا</string>
     <string name="ProviderDeepLTranslate">ترجمه DeepL</string>
@@ -199,6 +201,7 @@
     <string name="ProviderBaiduTranslate">مترجم Baidu</string>
     <string name="ProviderSogouTranslate">مترجم Sogou</string>
     <string name="Translating">درحال ترجمه</string>
+    <string name="Translated">ترجمه شده</string>
     <string name="BrokenMLKit">گزینه وجود ندارد</string>
     <string name="BrokenMLKitDetail">زبان MLKit گوگل روی این دستگاه خرابه</string>
     <string name="PasscodeNeeded">ابتدا رمز عبور را فعال کنید</string>
@@ -209,8 +212,41 @@
     <string name="PasscodeEdit">تغییر رمز عبور </string>
     <string name="PasscodeRemove">حذف رمز عبور</string>
     <string name="PasscodeHideAccount">پنهان کردن حساب</string>
+    <string name="PasscodeAllowPanic">خروج توسط پنیک کد</string>
+    <string name="PasscodeAbout">برای هر حساب رمزهای عبور متفاوتی تنظیم کنید و با وارد کردن رمز عبور مربوطه، بین آن‌ها جابه‌جا شوید.</string>
+    <string name="PasscodePanicCode">پنیک کد</string>
+    <string name="PasscodePanicCodeSet">تنظیم پنیک کد</string>
+    <string name="PasscodePanicCodeEdit">تغییر پنیک کد</string>
+    <string name="PasscodePanicCodeRemove">خاموش کردن پنیک کد</string>
+    <string name="PasscodePanicCodeRemoveConfirmMessage">آیا مطمئن هستید که می‌خواهید پنیک کد را خاموش کنید؟</string>
+    <string name="PasscodeRemoveConfirmMessage">آیا مطمئن هستید که می خواهید کد عبور این حساب را حذف کنید؟</string>
+    <string name="PasscodePanicCodeAbout">اگر مشکلی پیش آمد از کد پانیک برای خروج از حساب‌ها استفاده کنید.</string>
     <string name="HideTimeOnSticker">مخفی کردن زمان استیکر</string>
     <string name="TranslatorShowOriginal">با متن اصلی</string>
+    <string name="DatacenterStatusAbout">وضعیت **دیتاسنتر**های تلگرام را بررسی کنید.</string>
+    <string name="DatacenterStatus">وضعیت دیتاسنترها</string>
+    <string name="Markdown">مارک‌داون</string>
+    <string name="MarkdownEnableByDefault">فعال به‌صورت پیش‌فرض</string>
+    <string name="MarkdownParser">تجزیه‌کننده (پارسر)</string>
+    <string name="MarkdownParseLinks">تجزیه‌سازی پیوندها</string>
+    <string name="MarkdownAbout">Edit text in messages using markdown: ^1**bold**^1, ^2__italic__^2, ^3~~strikethrough~~^3, ^4`monospace`^4, ^5||spoiler||^5, ^6text^7url^8.</string>
+    <string name="MarkdownAbout2">Edit text in messages using markdown: ^1**bold**^1, ^2__italic__^2, ^3~~strikethrough~~^3, ^4`monospace`^4, ^5||spoiler||^5.</string>
+    <string name="AppIconOldSchool">قدیمی</string>
+    <string name="AppIconMerio">مریو</string>
+    <string name="AppIconRainbow">رنگین‌کمان</string>
+    <string name="AppIconMusheen">مشین</string>
+    <string name="AppIconSpace">فضا</string>
+    <string name="AppIconCloud">ابر</string>
+    <string name="AppIconNeon">نئونی</string>
+    <string name="AppIconMaterial">متریال</string>
+    <string name="RecentChats">چت های اخیر</string>
+    <string name="ClearRecentChats">پاک کردن چت های اخیر</string>
+    <string name="ClearRecentChatAlert">ایا میخواهید چت های اخیر خود را پاک کنید؟</string>
+    <string name="DownloadSpeedBoost">افزایش سرعت دانلود</string>
+    <string name="DownloadSpeedBoostNone">خاموش</string>
+    <string name="DownloadSpeedBoostAverage">روشن</string>
+    <string name="DownloadSpeedBoostExtreme">فوق‌العاده</string>
+    <string name="UploadloadSpeedBoost">افزایش سرعت آپلود</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
 </resources>
