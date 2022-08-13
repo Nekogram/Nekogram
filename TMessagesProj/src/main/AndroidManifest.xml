@@ -79,6 +79,10 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.READ_CALL_LOG" />
 
+    <queries>
+        <package android:name="com.google.android.apps.maps"/>
+    </queries>
+
     <application
         android:name="org.telegram.messenger.ApplicationLoader"
         android:allowBackup="false"

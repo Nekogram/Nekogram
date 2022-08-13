@@ -5454,7 +5454,8 @@ public class MessageObject {
         if (document != null) {
             for (int a = 0; a < document.attributes.size(); a++) {
                 TLRPC.DocumentAttribute attribute = document.attributes.get(a);
-                if (attribute instanceof TLRPC.TL_documentAttributeSticker) {
+                if (attribute instanceof TLRPC.TL_documentAttributeSticker ||
+                    attribute instanceof TLRPC.TL_documentAttributeCustomEmoji) {
                     return "video/webm".equals(document.mime_type);
                 }
             }

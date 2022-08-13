@@ -18,6 +18,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
+import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
@@ -961,6 +962,9 @@ public class ImageLoader {
                         if (cacheImage.filter != null && cacheImage.filter.contains("compress")) {
                             cacheOptions.compressQuality = BitmapsCache.COMPRESS_QUALITY_DEFAULT;
                         }
+                        if (cacheImage.filter != null && cacheImage.filter.contains("flbk")) {
+                            cacheOptions.fallback = true;
+                        }
                     }
                     if (compressed) {
                         lottieDrawable = new RLottieDrawable(cacheImage.finalFilePath, decompressGzip(cacheImage.finalFilePath), w, h, cacheOptions, limitFps, null, fitzModifier);
@@ -1540,7 +1544,9 @@ public class ImageLoader {
                         if (!lastFrame) {
                             canvas.scale(currentBitmap.getWidth() / w, currentBitmap.getHeight() / h, w / 2f, h / 2f);
                         }
-                        canvas.drawBitmap(currentBitmap, 0, 0, null);
+                        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+                        paint.setFilterBitmap(true);
+                        canvas.drawBitmap(currentBitmap, 0, 0, paint);
                         bitmapDrawable = new BitmapDrawable(bitmap);
                     }
                     onPostExecute(bitmapDrawable);
@@ -2743,7 +2749,7 @@ public class ImageLoader {
                             img.secureDocument = imageLocation.secureDocument;
                             onlyCache = img.secureDocument.secureFile.dc_id == Integer.MIN_VALUE;
                             cacheFile = new File(FileLoader.getDirectory(FileLoader.MEDIA_DIR_CACHE), url);
-                        } else if (!(hasAutoplayFilter(filter) || isAnimatedAvatar(filter)) && (cacheType != 0 || size <= 0 || imageLocation.path != null || isEncrypted)) {
+                        } else if (!(AUTOPLAY_FILTER.equals(filter) || isAnimatedAvatar(filter)) && (cacheType != 0 || size <= 0 || imageLocation.path != null || isEncrypted)) {
                             cacheFile = new File(FileLoader.getDirectory(FileLoader.MEDIA_DIR_CACHE), url);
                             if (cacheFile.exists()) {
                                 cacheFileExists = true;
@@ -2818,7 +2824,9 @@ public class ImageLoader {
                         if (hasAutoplayFilter(filter) || isAnimatedAvatar(filter)) {
                             img.imageType = FileLoader.IMAGE_TYPE_ANIMATION;
                             img.size = fileSize;
-                            onlyCache = true;
+                            if (AUTOPLAY_FILTER.equals(filter) || isAnimatedAvatar(filter)) {
+                                onlyCache = true;
+                            }
                         }
                     }
 
