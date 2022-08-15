@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
@@ -25,6 +24,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.ProfileActivity;
@@ -51,6 +51,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     private String fileName;
     private int dc;
     private long stickerSetOwner;
+    private final ArrayList<Long> emojiSetOwners = new ArrayList<>();
     private Runnable unregisterFlagSecure;
 
     private int idRow;
@@ -67,6 +68,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     private int filePathRow;
     private int fileSizeRow;
     private int stickerSetRow;
+    private int emojiSetRow;
     private int dcRow;
     private int restrictionReasonRow;
     private int forwardsRow;
@@ -128,6 +130,22 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 }
                 if (NekoConfig.showHiddenFeature && attribute instanceof TLRPC.TL_documentAttributeSticker) {
                     stickerSetOwner = Extra.getOwnerFromStickerSetId(attribute.stickerset.id);
+                }
+            }
+        }
+
+        if (messageObject.messageOwner.entities != null) {
+            for (var entity : messageObject.messageOwner.entities) {
+                if (entity instanceof TLRPC.TL_messageEntityCustomEmoji) {
+                    TLRPC.Document document = AnimatedEmojiDrawable.findDocument(currentAccount, ((TLRPC.TL_messageEntityCustomEmoji) entity).document_id);
+                    TLRPC.InputStickerSet stickerSet = MessageObject.getInputStickerSet(document);
+                    if (stickerSet == null) {
+                        continue;
+                    }
+                    long owner = Extra.getOwnerFromStickerSetId(stickerSet.id);
+                    if (!emojiSetOwners.contains(owner)) {
+                        emojiSetOwners.add(owner);
+                    }
                 }
             }
         }
@@ -194,20 +212,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 dc = messageObject.messageOwner.media.document.dc_id;
             }
             presentFragment(new DatacenterActivity(dc));
-        } else if (position != endRow) {
-            if (!noforwards || !(position == messageRow || position == captionRow || position == filePathRow)) {
-                TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
-                AndroidUtilities.addToClipboard(textCell.getValueTextView().getText());
-                BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
-            } else {
-                showNoForwards();
-            }
-        }
-    }
-
-    @Override
-    protected boolean onItemLongClick(View view, int position, float x, float y) {
-        if (position == filePathRow) {
+        } else if (position == filePathRow) {
             if (!noforwards) {
                 Intent intent = new Intent(Intent.ACTION_SEND);
                 var uri = FileProvider.getUriForFile(getParentActivity(), ApplicationLoader.getApplicationId() + ".provider", new File(filePath));
@@ -275,11 +280,63 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 args.putLong("user_id", stickerSetOwner);
                 ProfileActivity fragment = new ProfileActivity(args);
                 presentFragment(fragment);
-            } else {
-                return false;
             }
-        } else {
-            return false;
+        } else if (position == emojiSetRow) {
+            LinearLayout ll = new LinearLayout(getParentActivity());
+            ll.setOrientation(LinearLayout.VERTICAL);
+
+            AlertDialog dialog = new AlertDialog.Builder(getParentActivity(), resourcesProvider)
+                    .setView(ll)
+                    .create();
+
+            for (Long emojiSetOwner : emojiSetOwners) {
+                TextDetailSettingsCell cell = new TextDetailSettingsCell(getParentActivity(), true, resourcesProvider);
+                cell.setBackground(Theme.getSelectorDrawable(false));
+                cell.setMultilineDetail(true);
+                cell.setOnClickListener(v1 -> {
+                    dialog.dismiss();
+                    Bundle args = new Bundle();
+                    args.putLong("user_id", emojiSetOwner);
+                    ProfileActivity fragment = new ProfileActivity(args);
+                    presentFragment(fragment);
+                });
+                ll.addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+
+                StringBuilder builder = new StringBuilder();
+                TLRPC.User user = getMessagesController().getUser(emojiSetOwner);
+                if (user != null) {
+                    appendUserOrChat(user, builder);
+                } else {
+                    getMessageHelper().searchUser(emojiSetOwner, user1 -> {
+                        StringBuilder builder1 = new StringBuilder();
+                        if (user1 != null) {
+                            appendUserOrChat(user1, builder1);
+                        } else {
+                            builder1.append(emojiSetOwner);
+                        }
+                        cell.setTextAndValue("", builder1.toString(), false);
+                    });
+                    builder.append("Loading...");
+                    builder.append("\n");
+                    builder.append(emojiSetOwner);
+                }
+                cell.setTextAndValue("", builder.toString(), false);
+            }
+
+            showDialog(dialog);
+        }
+    }
+
+    @Override
+    protected boolean onItemLongClick(View view, int position, float x, float y) {
+        if (position != endRow) {
+            if (!noforwards || !(position == messageRow || position == captionRow || position == filePathRow)) {
+                TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
+                AndroidUtilities.addToClipboard(textCell.getValueTextView().getText());
+                BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+            } else {
+                showNoForwards();
+            }
         }
         return true;
     }
@@ -311,6 +368,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         filePathRow = TextUtils.isEmpty(filePath) ? -1 : rowCount++;
         fileSizeRow = messageObject.getSize() != 0 ? rowCount++ : -1;
         stickerSetRow = stickerSetOwner == 0 ? -1 : rowCount++;
+        emojiSetRow = emojiSetOwners.size() == 0 ? -1 : rowCount++;
         dcRow = dc != 0 ? rowCount++ : -1;
         restrictionReasonRow = messageObject.messageOwner.restriction_reason.isEmpty() ? -1 : rowCount++;
         forwardsRow = messageObject.messageOwner.forwards > 0 ? rowCount++ : -1;
@@ -450,6 +508,8 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                             builder.append(stickerSetOwner);
                         }
                         textCell.setTextAndValue("Sticker Pack creator", builder.toString(), divider);
+                    } else if (position == emojiSetRow) {
+                        textCell.setTextAndValue("Emoji Pack creators", TextUtils.join(", ", emojiSetOwners), divider);
                     }
                     break;
                 }
@@ -472,29 +532,29 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 return timestamp + "\n" + LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(timestamp * 1000L)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(timestamp * 1000L)));
             }
         }
+    }
 
-        private void appendUserOrChat(TLObject object, StringBuilder builder) {
-            if (object instanceof TLRPC.User) {
-                TLRPC.User user = (TLRPC.User) object;
-                builder.append(ContactsController.formatName(user.first_name, user.last_name));
+    private void appendUserOrChat(TLObject object, StringBuilder builder) {
+        if (object instanceof TLRPC.User) {
+            TLRPC.User user = (TLRPC.User) object;
+            builder.append(ContactsController.formatName(user.first_name, user.last_name));
+            builder.append("\n");
+            if (!TextUtils.isEmpty(user.username)) {
+                builder.append("@");
+                builder.append(user.username);
                 builder.append("\n");
-                if (!TextUtils.isEmpty(user.username)) {
-                    builder.append("@");
-                    builder.append(user.username);
-                    builder.append("\n");
-                }
-                builder.append(user.id);
-            } else if (object instanceof TLRPC.Chat) {
-                TLRPC.Chat chat = (TLRPC.Chat) object;
-                builder.append(chat.title);
-                builder.append("\n");
-                if (!TextUtils.isEmpty(chat.username)) {
-                    builder.append("@");
-                    builder.append(chat.username);
-                    builder.append("\n");
-                }
-                builder.append(chat.id);
             }
+            builder.append(user.id);
+        } else if (object instanceof TLRPC.Chat) {
+            TLRPC.Chat chat = (TLRPC.Chat) object;
+            builder.append(chat.title);
+            builder.append("\n");
+            if (!TextUtils.isEmpty(chat.username)) {
+                builder.append("@");
+                builder.append(chat.username);
+                builder.append("\n");
+            }
+            builder.append(chat.id);
         }
     }
 }

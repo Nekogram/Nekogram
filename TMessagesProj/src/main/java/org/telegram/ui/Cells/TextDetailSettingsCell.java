@@ -38,6 +38,10 @@ public class TextDetailSettingsCell extends FrameLayout {
     }
 
     public TextDetailSettingsCell(Context context, Theme.ResourcesProvider resourcesProvider) {
+        this(context, false, null);
+    }
+
+    public TextDetailSettingsCell(Context context, boolean valueOnly, Theme.ResourcesProvider resourcesProvider) {
         super(context);
 
         textView = new TextView(context);
@@ -58,7 +62,7 @@ public class TextDetailSettingsCell extends FrameLayout {
         valueTextView.setMaxLines(1);
         valueTextView.setSingleLine(true);
         valueTextView.setPadding(0, 0, 0, 0);
-        addView(valueTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 21, 35, 21, 0));
+        addView(valueTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 21, valueOnly ? 10 : 35, 21, 0));
 
         imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.CENTER);
