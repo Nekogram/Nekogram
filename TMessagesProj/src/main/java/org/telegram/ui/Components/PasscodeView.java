@@ -52,6 +52,7 @@ import androidx.annotation.IdRes;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.FingerprintController;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -816,6 +817,10 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         passwordEditText.clearFocus();
         AndroidUtilities.hideKeyboard(passwordEditText);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && FingerprintController.isKeyReady() && FingerprintController.checkDeviceFingerprintsChanged()) {
+            FingerprintController.deleteInvalidKey();
+        }
+
         SharedConfig.appLocked = false;
         SharedConfig.saveConfig();
         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetPasscode);
@@ -971,7 +976,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         Activity parentActivity = (Activity) getContext();
         if (Build.VERSION.SDK_INT >= 23 && parentActivity != null && SharedConfig.useFingerprint) {
             try {
-                if (BiometricPromptHelper.hasBiometricEnrolled()) {
+                if (BiometricPromptHelper.hasBiometricEnrolled() && FingerprintController.isKeyReady() && !FingerprintController.checkDeviceFingerprintsChanged()) {
                     fingerprintView.setVisibility(VISIBLE);
                 } else {
                     fingerprintView.setVisibility(GONE);

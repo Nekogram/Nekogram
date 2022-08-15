@@ -22,6 +22,7 @@ import androidx.annotation.RequiresApi;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.FingerprintController;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.AlertDialog;
@@ -55,6 +56,9 @@ public class BiometricPromptHelper {
 
     public void prompt(Runnable successCallback) {
         if (parentActivity == null || !hasBiometricEnrolled()) {
+            return;
+        }
+        if (!FingerprintController.isKeyReady() || FingerprintController.checkDeviceFingerprintsChanged()) {
             return;
         }
         Activity activity = parentActivity;
