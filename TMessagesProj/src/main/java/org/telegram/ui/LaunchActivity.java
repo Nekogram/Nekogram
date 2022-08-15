@@ -177,6 +177,7 @@ import java.util.Set;
 import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.ForwardContext;
+import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.MonetHelper;
@@ -4335,7 +4336,11 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 } else {
                     if (force) {
                         if (error == null) {
-                            showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("NoUpdateAvailable", R.string.NoUpdateAvailable)));
+                            if (NekoConfig.isDirectApp()) {
+                                showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("NoUpdateAvailable", R.string.NoUpdateAvailable)));
+                            } else {
+                                showBulletin(factory -> factory.createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString("NoUpdateAvailablePlay", R.string.NoUpdateAvailablePlay), LocaleController.getString("NoUpdateAvailablePlayDelay", R.string.NoUpdateAvailablePlayDelay)));
+                            }
                         } else {
                             AlertsCreator.createSimpleAlert(this, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error).show();
                         }
