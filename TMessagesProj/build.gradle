@@ -4,7 +4,6 @@ import java.nio.file.Paths
 
 plugins {
     id 'com.android.library'
-    id 'com.google.gms.google-services'
 }
 
 configurations.all {
@@ -51,9 +50,6 @@ dependencies {
 def refId = new FileRepository(rootProject.file(".git")).getRefDatabase().exactRef("HEAD").getObjectId().name()
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion '33.0.0'
-    ndkVersion "21.4.7075529"
     namespace 'org.telegram.messenger'
 
     sourceSets.main.jniLibs.srcDirs = ['./jni/']
@@ -68,18 +64,6 @@ android {
         }
     }
 
-    lint {
-        checkReleaseBuilds false
-        disable 'MissingTranslation', 'ExtraTranslation', 'BlockedPrivateApi'
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-
-        coreLibraryDesugaringEnabled true
-    }
-
     buildTypes {
         debug {
             buildConfigField("String", "COMMIT_ID", "\"${refId}\"")
@@ -92,16 +76,9 @@ android {
             buildConfigField("long", "VERSION_CODE", "${APP_VERSION_CODE}")
             buildConfigField("String","VERSION_NAME","\"${APP_VERSION_NAME}\"")
         }
-
-        play {
-            initWith release
-        }
     }
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 33
-
         externalNativeBuild {
             cmake {
                 version '3.10.2'

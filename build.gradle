@@ -15,6 +15,42 @@ plugins {
     id 'com.google.gms.google-services' version '4.3.10' apply false
 }
 
+subprojects {
+    afterEvaluate {
+        if (plugins.hasPlugin("com.android.library") ||
+                plugins.hasPlugin("com.android.application")) {
+            android {
+                compileSdkVersion 33
+                buildToolsVersion "33.0.0"
+                ndkVersion "21.4.7075529"
+
+                lint {
+                    checkReleaseBuilds false
+                    disable 'MissingTranslation', 'ExtraTranslation', 'BlockedPrivateApi'
+                }
+
+                compileOptions {
+                    sourceCompatibility JavaVersion.VERSION_11
+                    targetCompatibility JavaVersion.VERSION_11
+
+                    coreLibraryDesugaringEnabled true
+                }
+
+                defaultConfig {
+                    minSdkVersion 21
+                    targetSdkVersion 33
+                }
+
+                buildTypes {
+                    play {
+                        initWith release
+                    }
+                }
+            }
+        }
+    }
+}
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

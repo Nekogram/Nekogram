@@ -3,11 +3,6 @@ plugins {
     id 'com.google.gms.google-services'
 }
 
-configurations.all {
-    exclude group: 'com.google.firebase', module: 'firebase-core'
-    exclude group: 'androidx.recyclerview', module: 'recyclerview'
-}
-
 dependencies {
     implementation project(':TMessagesProj')
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.1.6'
@@ -17,27 +12,12 @@ dependencies {
 ext.abiCodes = ['universal': 0, 'armeabi-v7a': 1, 'arm64-v8a': 5, x86: 2, x86_64: 6]
 
 android {
-    compileSdkVersion 33
-    buildToolsVersion '33.0.0'
-
     defaultConfig.applicationId = APP_PACKAGE
-
-    lint {
-        checkReleaseBuilds false
-        disable 'MissingTranslation', 'ExtraTranslation', 'BlockedPrivateApi'
-    }
 
     packagingOptions {
         resources {
             excludes += '**'
         }
-    }
-
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_11
-        targetCompatibility JavaVersion.VERSION_11
-
-        coreLibraryDesugaringEnabled true
     }
 
     Properties localProperties = new Properties()
@@ -75,10 +55,6 @@ android {
             proguardFiles '../TMessagesProj/proguard-rules.pro'
             ndk.debugSymbolLevel 'FULL'
         }
-
-        play {
-            initWith release
-        }
     }
 
     defaultConfig.versionCode = Integer.parseInt(APP_VERSION_CODE)
@@ -94,15 +70,9 @@ android {
     }
 
     defaultConfig {
-        minSdkVersion 21
-        targetSdkVersion 33
         versionName APP_VERSION_NAME
 
         multiDexEnabled true
-    }
-
-    buildFeatures {
-        buildConfig = true
     }
 
     bundle {
