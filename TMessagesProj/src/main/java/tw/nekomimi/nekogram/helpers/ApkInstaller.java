@@ -88,7 +88,7 @@ public final class ApkInstaller {
             return;
         }
         if (XiaomiUtilities.isMIUI()) {
-            AndroidUtilities.openForView(document, context);
+            AndroidUtilities.openForView(document, false, context);
             return;
         }
         var apk = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(document, true);

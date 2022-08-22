@@ -3284,17 +3284,17 @@ public class AndroidUtilities {
             //if (Build.VERSION.SDK_INT >= 24) {
                 intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", f), realMimeType != null ? realMimeType : "text/plain");
             //} else {
-                intent.setDataAndType(Uri.fromFile(f), realMimeType != null ? realMimeType : "text/plain");
+            //    intent.setDataAndType(Uri.fromFile(f), realMimeType != null ? realMimeType : "text/plain");
             //}
             if (realMimeType != null) {
                 try {
                     activity.startActivityForResult(intent, 500);
                 } catch (Exception e) {
-                    if (Build.VERSION.SDK_INT >= 24) {
+                    //if (Build.VERSION.SDK_INT >= 24) {
                         intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", f), "text/plain");
-                    } else {
+                    //} else {
                         intent.setDataAndType(Uri.fromFile(f), "text/plain");
-                    }
+                    //}
                     activity.startActivityForResult(intent, 500);
                 }
             } else {
