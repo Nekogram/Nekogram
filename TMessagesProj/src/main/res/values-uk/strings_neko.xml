@@ -3,7 +3,7 @@
     <string name="NekoSettings">Налаштування Neko</string>
     <string name="IPv6">Спробувати з\'єднуватись через IPv6</string>
     <string name="MessageMenu">Меню повідомлення</string>
-    <string name="HidePhone">Заховати мій номер телефону</string>
+    <string name="HidePhone">Приховати мій номер телефону</string>
     <string name="Hide">Сховати</string>
     <string name="DeleteAllFromSelf">Видалити свої повідомлення</string>
     <string name="DeleteAllFromSelfAlert">Увага! Це призведе до **видалення усіх ваших повідомлень** для **всіх** користувачів цього чату.</string>
@@ -247,6 +247,8 @@
     <string name="DownloadSpeedBoostAverage">Увімкнено</string>
     <string name="DownloadSpeedBoostExtreme">Екстра</string>
     <string name="UploadloadSpeedBoost">Збільшення швидкості вивантаження</string>
+    <string name="NoUpdateAvailablePlay">Будь ласка, перевірте наявність оновлень у Play Store.</string>
+    <string name="NoUpdateAvailablePlayDelay">Зазвичай оновлення у Play Маркет з\'являються пізніше за прямий APK через рецензію Google.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccRewindHeading">Налаштування перемотки</string>

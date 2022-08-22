@@ -249,6 +249,8 @@
     <string name="DownloadSpeedBoostAverage">تشغيل</string>
     <string name="DownloadSpeedBoostExtreme">غير محدود</string>
     <string name="UploadloadSpeedBoost">زيادة سرعة الرفع</string>
+    <string name="NoUpdateAvailablePlay">يرجى التحقق من التحديث في متجر Play.</string>
+    <string name="NoUpdateAvailablePlayDelay">عادةً ما يأتي التحديث في متجر Play أبطأ من ملفات APK المباشرة بسبب مراجعة Google.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

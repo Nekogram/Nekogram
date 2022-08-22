@@ -242,6 +242,13 @@
     <string name="RecentChats">Chats recientes</string>
     <string name="ClearRecentChats">Borrar chats recientes</string>
     <string name="ClearRecentChatAlert">¿Quieres borrar tus chats recientes?</string>
+    <string name="DownloadSpeedBoost">Potenciar velocidad de descarga</string>
+    <string name="DownloadSpeedBoostNone">Apagado</string>
+    <string name="DownloadSpeedBoostAverage">Encendido</string>
+    <string name="DownloadSpeedBoostExtreme">Extremo</string>
+    <string name="UploadloadSpeedBoost">Potenciar velocidad de subida</string>
+    <string name="NoUpdateAvailablePlay">Por favor, revisa si hay actualizaciones en Play Store.</string>
+    <string name="NoUpdateAvailablePlayDelay">Actualizar desde Play Store usualmente es más lento que mediante APK debido a la revisión de Google.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccRewindHeading">Ajustes de rebobinado</string>

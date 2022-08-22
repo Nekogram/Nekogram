@@ -247,6 +247,8 @@
     <string name="DownloadSpeedBoostAverage">attivo</string>
     <string name="DownloadSpeedBoostExtreme">Estremo</string>
     <string name="UploadloadSpeedBoost">caricamento veloce</string>
+    <string name="NoUpdateAvailablePlay">Verificare la presenza di aggiornamenti nel Play Store.</string>
+    <string name="NoUpdateAvailablePlayDelay">L\'aggiornamento nel Play Store di solito è più lento rispetto agli APK diretti a causa della revisione di Google.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>

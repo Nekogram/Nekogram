@@ -247,6 +247,8 @@
     <string name="DownloadSpeedBoostAverage">روشن</string>
     <string name="DownloadSpeedBoostExtreme">فوق‌العاده</string>
     <string name="UploadloadSpeedBoost">افزایش سرعت آپلود</string>
+    <string name="NoUpdateAvailablePlay">لطفاً به‌روزرسانی را در فروشگاه Play بررسی کنید.</string>
+    <string name="NoUpdateAvailablePlayDelay">به‌روزرسانی در فروشگاه Play معمولاً به دلیل بررسی Google، دیرتر از فایل های APK مستقیم انجام می‌شود.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
 </resources>

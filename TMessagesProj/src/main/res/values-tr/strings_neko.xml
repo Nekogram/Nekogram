@@ -247,6 +247,8 @@
     <string name="DownloadSpeedBoostAverage">Açık</string>
     <string name="DownloadSpeedBoostExtreme">Aşırı Hızlı</string>
     <string name="UploadloadSpeedBoost">Yükleme hızını arttır</string>
+    <string name="NoUpdateAvailablePlay">Lütfen Play Store\'da güncellemeyi kontrol edin.</string>
+    <string name="NoUpdateAvailablePlayDelay">Play Store\'daki güncelleme, Google\'ın incelemesi nedeniyle doğrudan indirilebilen APK sürümlerinden genellikle daha yavaş gelir.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Erişilebilirlik ayarları</string>
     <string name="AccRewindHeading">Geri sarma ayarları</string>

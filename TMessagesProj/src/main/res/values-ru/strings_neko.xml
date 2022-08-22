@@ -248,6 +248,8 @@
     <string name="DownloadSpeedBoostAverage">Вкл.</string>
     <string name="DownloadSpeedBoostExtreme">Экстра</string>
     <string name="UploadloadSpeedBoost">Увеличение скорости отдачи</string>
+    <string name="NoUpdateAvailablePlay">Пожалуйста, проверьте наличие обновлений в Play Store.</string>
+    <string name="NoUpdateAvailablePlayDelay">Обновление в Play Store обычно происходит медленнее, чем прямые APK из-за проверки Google.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccRewindHeading">Настройки перемотки</string>

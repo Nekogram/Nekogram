@@ -248,6 +248,8 @@
     <string name="DownloadSpeedBoostAverage">Ligado</string>
     <string name="DownloadSpeedBoostExtreme">Extremo</string>
     <string name="UploadloadSpeedBoost">Aumentar velocidade de upload</string>
+    <string name="NoUpdateAvailablePlay">Por favor, verifique se há atualizações na Play Store.</string>
+    <string name="NoUpdateAvailablePlayDelay">A atualização na Play Store geralmente chega mais lenta do que os APKs diretos devido à revisão do Google.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccRewindHeading">Configurações de retrocesso</string>
