@@ -261,7 +261,7 @@ public class Emoji {
 
         @Override
         public void draw(Canvas canvas) {
-            if (!NekoConfig.useSystemEmoji && !isLoaded()) {
+            if (!(NekoConfig.useSystemEmoji || NekoConfig.customEmojiFont) && !isLoaded()) {
                 loadEmoji(info.page, info.page2);
                 placeholderPaint.setColor(placeholderColor);
                 Rect bounds = getBounds();
