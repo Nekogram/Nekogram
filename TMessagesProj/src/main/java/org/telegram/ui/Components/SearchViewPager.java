@@ -24,6 +24,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -80,11 +81,13 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
     public final static int gotoItemId = 200;
     public final static int forwardItemId = 201;
     public final static int forwardNoQuoteItemId = 202;
-    public final static int deleteItemId = 203;
+    public final static int saveItemId = 203;
+    public final static int deleteItemId = 204;
 
     private ActionBarMenuItem gotoItem;
     private ActionBarMenuItem forwardItem;
     private ActionBarMenuItem forwardNoQuoteItem;
+    private ActionBarMenuItem saveItem;
     private ActionBarMenuItem deleteItem;
 
     int currentAccount = UserConfig.selectedAccount;
@@ -366,6 +369,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             gotoItem = actionMode.addItemWithWidth(gotoItemId, R.drawable.msg_message, AndroidUtilities.dp(54), LocaleController.getString("AccDescrGoToMessage", R.string.AccDescrGoToMessage));
             forwardNoQuoteItem = actionMode.addItemWithWidth(forwardNoQuoteItemId, R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
             forwardItem = actionMode.addItemWithWidth(forwardItemId, NekoConfig.showNoQuoteForward ? R.drawable.msg_forward_quote : R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString("Forward", R.string.Forward));
+            saveItem = actionMode.addItemWithWidth(saveItemId, R.drawable.msg_download, AndroidUtilities.dp(54), LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
             deleteItem = actionMode.addItemWithWidth(deleteItemId, R.drawable.msg_delete, AndroidUtilities.dp(54), LocaleController.getString("Delete", R.string.Delete));
         }
         if (parent.getActionBar().getBackButton().getDrawable() instanceof MenuDrawable) {
@@ -444,15 +448,23 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             }
             MessageObject messageObject = selectedFiles.values().iterator().next();
             goToMessage(messageObject);
+        } else if (id == saveItemId) {
+            ArrayList<MessageObject> messageObjects = new ArrayList<>(selectedFiles.values());
+            hideActionMode();
+            MediaController.saveFilesFromMessages(getContext(), AccountInstance.getInstance(currentAccount), messageObjects, (count) -> {
+                if (count > 0) {
+                    if (getContext() == null) {
+                        return;
+                    }
+                    BulletinFactory.of(fragmentView, null).createDownloadBulletin(BulletinFactory.FileType.UNKNOWNS, count, null).show();
+                }
+            });
         } else if (id == forwardItemId || id == forwardNoQuoteItemId) {
             Bundle args = new Bundle();
             args.putBoolean("onlySelect", true);
             args.putInt("dialogsType", 3);
             DialogsActivity fragment = new DialogsActivity(args);
-            ArrayList<MessageObject> fmessages = new ArrayList<>();
-            for (FilteredSearchView.MessageHashId hashId : selectedFiles.keySet()) {
-                fmessages.add(selectedFiles.get(hashId));
-            }
+            ArrayList<MessageObject> fmessages = new ArrayList<>(selectedFiles.values());
             fragment.forwardContext = () -> fmessages;
             var forwardParams = fragment.forwardContext.getForwardParams();
             forwardParams.noQuote = id == forwardNoQuoteItemId;
@@ -548,15 +560,24 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             if (gotoItem != null) {
                 gotoItem.setVisibility(selectedFiles.size() == 1 ? View.VISIBLE : View.GONE);
             }
-            if (deleteItem != null) {
-                boolean canShowDelete = true;
-                Set<FilteredSearchView.MessageHashId> keySet = selectedFiles.keySet();
-                for (FilteredSearchView.MessageHashId key : keySet) {
-                    if (!selectedFiles.get(key).isDownloadingFile) {
-                        canShowDelete = false;
-                        break;
-                    }
+            boolean canShowDelete = true;
+            boolean canShowSave = true;
+            Set<FilteredSearchView.MessageHashId> keySet = selectedFiles.keySet();
+            for (FilteredSearchView.MessageHashId key : keySet) {
+                var messageObject = selectedFiles.get(key);
+                if (!messageObject.isDownloadingFile) {
+                    canShowDelete = false;
+                    canShowSave = false;
+                    break;
                 }
+                if (messageObject.getDocument() == null) {
+                    canShowSave = false;
+                }
+            }
+            if (saveItem != null) {
+                saveItem.setVisibility(canShowSave ? View.VISIBLE : View.GONE);
+            }
+            if (deleteItem != null) {
                 deleteItem.setVisibility(canShowDelete ? View.VISIBLE : View.GONE);
             }
         }
