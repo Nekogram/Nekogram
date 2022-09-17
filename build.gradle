@@ -4,7 +4,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '6.2.0.202206071550-r'
+        classpath group: 'org.eclipse.jgit', name: 'org.eclipse.jgit', version: '6.3.0.202209071007-r'
         //noinspection GradleDependency
         classpath group: 'com.android.tools', name: 'r8', version: '3.1.66'
     }
