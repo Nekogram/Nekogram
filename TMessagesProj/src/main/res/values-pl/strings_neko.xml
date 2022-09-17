@@ -202,6 +202,7 @@
     <string name="ProviderSogouTranslate">Tłumacz Sogou</string>
     <string name="Translating">tłumaczenie</string>
     <string name="BrokenMLKit">Opcja niedostępna</string>
+    <string name="BrokenMLKitDetail">Identyfikator języka Google MLKit na tym urządzeniu jest w jakiś sposób uszkodzony.</string>
     <string name="PasscodeNeeded">Najpierw należy włączyć blokadę kodem dostępu</string>
     <string name="PasscodeNeko">Kod dostępu</string>
     <string name="PasscodeShowInSettings">Pokaż w ustawieniach Neko</string>
@@ -210,16 +211,27 @@
     <string name="PasscodeEdit">Zmień kod dostępu</string>
     <string name="PasscodeRemove">Usuń kod dostępu</string>
     <string name="PasscodeHideAccount">Ukryj konto</string>
+    <string name="PasscodeAbout">Ustaw różne hasła dla każdego konta i przełączaj się między nimi, wprowadzając odpowiedni kod dostępu.</string>
+    <string name="PasscodeRemoveConfirmMessage">Czy na pewno chcesz usunąć kod dostępu dla tego konta?</string>
     <string name="HideTimeOnSticker">Ukryj czas na naklejkach</string>
     <string name="DatacenterStatusAbout">Sprawdź status **centrów danych** Telegrama.</string>
     <string name="DatacenterStatus">Status centrum danych</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Domyślnie włączone</string>
+    <string name="MarkdownAbout">Edytuj tekst w wiadomościach używając markdown: ^1**pogrubienie**^1, ^2__kursywa__^2, ^3~~przekreślenie~~^3, ^4`stała szerokość`^4, ^5||spoiler||^5, ^6tekst^7url^8.</string>
+    <string name="MarkdownAbout2">Edytuj tekst w wiadomościach używając markdown: ^1**pogrubienie**^1, ^2__kursywa__^2, ^3~~przekreślenie~~^3, ^4`stała szerokość`^4, ^5||spoiler||^5.</string>
     <string name="AppIconRainbow">Tęcza</string>
     <string name="AppIconSpace">Przestrzeń</string>
     <string name="AppIconCloud">Chmura</string>
     <string name="AppIconNeon">Neon</string>
     <string name="AppIconMaterial">Materiał</string>
+    <string name="DownloadSpeedBoost">Zwiększenie szybkości wysyłania</string>
+    <string name="DownloadSpeedBoostNone">Wyłączone</string>
+    <string name="DownloadSpeedBoostAverage">Włączone</string>
+    <string name="DownloadSpeedBoostExtreme">Ekstremalne</string>
+    <string name="UploadloadSpeedBoost">Zwiększenie szybkości wysyłania</string>
+    <string name="NoUpdateAvailablePlay">Sprawdź aktualizację w sklepie Play.</string>
+    <string name="NoUpdateAvailablePlayDelay">Aktualizacja w sklepie Play jest zwykle wolniejsza niż bezpośrednie APK ze względu na recenzję Google.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>

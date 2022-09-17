@@ -6,7 +6,7 @@
     <string name="HidePhone">Telefon numaramı gizle</string>
     <string name="Hide">Gizle</string>
     <string name="DeleteAllFromSelf">Kendi mesajlarını sil</string>
-    <string name="DeleteAllFromSelfAlert">Uyarı! Bu, **sohbette senin gönderdiğin tüm mesajlar tüm üyeler için silinecek**.</string>
+    <string name="DeleteAllFromSelfAlert">Uyarı! Bu, **tüm** katılımcılar için bu sohbetteki **sizden gelen tüm mesajları siler**.</string>
     <string name="BotLogin">Bot Girişi</string>
     <string name="InvalidAccessToken">Erişim anahtarı geçersiz</string>
     <string name="IgnoreBlocked">Engellenen kullanıcıdan gelen mesajları gizle</string>

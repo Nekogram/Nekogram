@@ -240,6 +240,16 @@
     <string name="AppIconCloud">클라우드</string>
     <string name="AppIconNeon">네온</string>
     <string name="AppIconMaterial">재료</string>
+    <string name="RecentChats">최근 대화</string>
+    <string name="ClearRecentChats">최근 대화 삭제</string>
+    <string name="ClearRecentChatAlert">최근 대화를 삭제 하시겠습니까?</string>
+    <string name="DownloadSpeedBoost">다운로드 속도 향상</string>
+    <string name="DownloadSpeedBoostNone">끄기</string>
+    <string name="DownloadSpeedBoostAverage">켜기</string>
+    <string name="DownloadSpeedBoostExtreme">최고</string>
+    <string name="UploadloadSpeedBoost">업로드 속도 향상</string>
+    <string name="NoUpdateAvailablePlay">플레이 스토어 에서 업데이트를 확인하세요.</string>
+    <string name="NoUpdateAvailablePlayDelay">플레이 스토어의 업데이트는 Google의 검토로 인해 일반적으로 APK 직접 다운로드 보다 느립니다.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">접근성 설정</string>
     <string name="AccRewindHeading">되감기 설정</string>

@@ -239,6 +239,14 @@
     <string name="AppIconCloud">Mây</string>
     <string name="AppIconNeon">Phản quang</string>
     <string name="AppIconMaterial">Vật liệu</string>
+    <string name="RecentChats">Các cuộc trò chuyện gần đây</string>
+    <string name="ClearRecentChats">Xóa các cuộc trò chuyện gần đây</string>
+    <string name="ClearRecentChatAlert">Bạn có muốn xóa các cuộc trò chuyện gần đây không?</string>
+    <string name="DownloadSpeedBoost">Tăng tốc tải xuống</string>
+    <string name="DownloadSpeedBoostNone">Tắt</string>
+    <string name="DownloadSpeedBoostAverage">Bật</string>
+    <string name="DownloadSpeedBoostExtreme">Tăng tốc tải lên</string>
+    <string name="UploadloadSpeedBoost">Tăng tốc tải lên</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>

@@ -247,6 +247,8 @@
     <string name="DownloadSpeedBoostAverage">Nyala</string>
     <string name="DownloadSpeedBoostExtreme">Ekstrim</string>
     <string name="UploadloadSpeedBoost">Peningkatan kecepatan upload</string>
+    <string name="NoUpdateAvailablePlay">Silakan periksa pembaruan di Play Store.</string>
+    <string name="NoUpdateAvailablePlayDelay">Pembaruan di Play Store biasanya tersedia lebih lambat daripada pengunduhan APK langsung karena tinjauan Google.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Setelan Aksesibilitas</string>
 </resources>
