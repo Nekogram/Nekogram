@@ -123,8 +123,8 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             }
         }
 
-        if (messageObject.messageOwner.media != null && messageObject.messageOwner.media.document != null) {
-            for (var attribute : messageObject.messageOwner.media.document.attributes) {
+        if (MessageObject.getMedia(messageObject.messageOwner) != null && MessageObject.getMedia(messageObject.messageOwner).document != null) {
+            for (var attribute : MessageObject.getMedia(messageObject.messageOwner).document.attributes) {
                 if (attribute instanceof TLRPC.TL_documentAttributeFilename) {
                     fileName = attribute.file_name;
                 }
@@ -150,15 +150,15 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             }
         }
 
-        if (messageObject.messageOwner.media != null) {
-            if (messageObject.messageOwner.media.photo != null && messageObject.messageOwner.media.photo.dc_id > 0) {
-                dc = messageObject.messageOwner.media.photo.dc_id;
-            } else if (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0) {
-                dc = messageObject.messageOwner.media.document.dc_id;
-            } else if (messageObject.messageOwner.media.webpage != null && messageObject.messageOwner.media.webpage.photo != null && messageObject.messageOwner.media.webpage.photo.dc_id > 0) {
-                dc = messageObject.messageOwner.media.webpage.photo.dc_id;
-            } else if (messageObject.messageOwner.media.webpage != null && messageObject.messageOwner.media.webpage.document != null && messageObject.messageOwner.media.webpage.document.dc_id > 0) {
-                dc = messageObject.messageOwner.media.webpage.document.dc_id;
+        if (MessageObject.getMedia(messageObject.messageOwner) != null) {
+            if (MessageObject.getMedia(messageObject.messageOwner).photo != null && MessageObject.getMedia(messageObject.messageOwner).photo.dc_id > 0) {
+                dc = MessageObject.getMedia(messageObject.messageOwner).photo.dc_id;
+            } else if (MessageObject.getMedia(messageObject.messageOwner).document != null && MessageObject.getMedia(messageObject.messageOwner).document.dc_id > 0) {
+                dc = MessageObject.getMedia(messageObject.messageOwner).document.dc_id;
+            } else if (MessageObject.getMedia(messageObject.messageOwner).webpage != null && MessageObject.getMedia(messageObject.messageOwner).webpage.photo != null && MessageObject.getMedia(messageObject.messageOwner).webpage.photo.dc_id > 0) {
+                dc = MessageObject.getMedia(messageObject.messageOwner).webpage.photo.dc_id;
+            } else if (MessageObject.getMedia(messageObject.messageOwner).webpage != null && MessageObject.getMedia(messageObject.messageOwner).webpage.document != null && MessageObject.getMedia(messageObject.messageOwner).webpage.document.dc_id > 0) {
+                dc = MessageObject.getMedia(messageObject.messageOwner).webpage.document.dc_id;
             }
         }
 
@@ -206,10 +206,10 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     protected void onItemClick(View view, int position, float x, float y) {
         if (position == dcRow) {
             int dc = 0;
-            if (messageObject.messageOwner.media.photo != null && messageObject.messageOwner.media.photo.dc_id > 0) {
-                dc = messageObject.messageOwner.media.photo.dc_id;
-            } else if (messageObject.messageOwner.media.document != null && messageObject.messageOwner.media.document.dc_id > 0) {
-                dc = messageObject.messageOwner.media.document.dc_id;
+            if (MessageObject.getMedia(messageObject.messageOwner).photo != null && MessageObject.getMedia(messageObject.messageOwner).photo.dc_id > 0) {
+                dc = MessageObject.getMedia(messageObject.messageOwner).photo.dc_id;
+            } else if (MessageObject.getMedia(messageObject.messageOwner).document != null && MessageObject.getMedia(messageObject.messageOwner).document.dc_id > 0) {
+                dc = MessageObject.getMedia(messageObject.messageOwner).document.dc_id;
             }
             presentFragment(new DatacenterActivity(dc));
         } else if (position == filePathRow) {

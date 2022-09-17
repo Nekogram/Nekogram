@@ -272,7 +272,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         });
         recyclerListView.setLayoutManager(linearLayoutManager);
         recyclerListView.setOverScrollMode(View.OVER_SCROLL_NEVER);
-        recyclerListView.setAdapter(listAdapter = new RecyclerListView.SelectionAdapter() {
+        recyclerListView.setAdapter(listAdapter = new RecyclerView.Adapter() {
 
             int rowCount;
             int reactionsStartRow;
@@ -367,11 +367,6 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     customReactionsEmojiRow = rowCount++;
                 }
                 super.notifyDataSetChanged();
-            }
-
-            @Override
-            public boolean isEnabled(RecyclerView.ViewHolder holder) {
-                return true;
             }
         });
         recyclerListView.addOnScrollListener(new LeftRightShadowsListener());
