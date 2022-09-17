@@ -1001,6 +1001,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 boolean animations = preferences.getBoolean("view_animations", true);
                 SharedPreferences.Editor editor = preferences.edit();
                 editor.putBoolean("view_animations", !animations);
+                SharedConfig.setAnimationsEnabled(!animations);
                 editor.commit();
                 if (view instanceof TextCheckCell) {
                     ((TextCheckCell) view).setChecked(!animations);

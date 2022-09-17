@@ -301,7 +301,7 @@ public class UpdateAppAlertDialog extends BottomSheet {
         doneButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Theme.getColor(Theme.key_featuredStickers_addButton), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_windowBackgroundWhite), 120)));
         doneButton.setOnClickListener(v -> {
             if (update.document instanceof TLRPC.TL_document) {
-                FileLoader.getInstance(accountNum).loadFile(appUpdate.document, "update", 1, 1);
+                FileLoader.getInstance(accountNum).loadFile(appUpdate.document, "update", FileLoader.PRIORITY_NORMAL, 1);
             } else {
                 Browser.openUrl(context, appUpdate.url);
             }

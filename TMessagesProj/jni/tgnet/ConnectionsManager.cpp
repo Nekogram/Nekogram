@@ -32,6 +32,7 @@
 #include "ByteArray.h"
 #include "Config.h"
 #include "ProxyCheckInfo.h"
+#include "Handshake.h"
 
 #ifdef ANDROID
 #include <jni.h>
@@ -1904,6 +1905,9 @@ void ConnectionsManager::switchBackend(bool restart) {
     scheduleTask([&, restart] {
         currentDatacenterId = 1;
         testBackend = !testBackend;
+        if (!restart) {
+            Handshake::cleanupServerKeys();
+        }
         datacenters.clear();
         initDatacenters();
         saveConfig();

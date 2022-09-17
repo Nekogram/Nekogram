@@ -27,7 +27,6 @@ import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
-import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -1527,7 +1526,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             for (int a = 0; a < selectedDialogs.size(); a++) {
                 long key = selectedDialogs.keyAt(a);
                 if (frameLayout2.getTag() != null && commentTextView.length() > 0) {
-                    SendMessagesHelper.getInstance(currentAccount).sendMessage(text[0] == null ? null : text[0].toString(), key, null, null, null, true, entities, null, null, withSound, scheduleDate, null);
+                    SendMessagesHelper.getInstance(currentAccount).sendMessage(text[0] == null ? null : text[0].toString(), key, null, null, null, true, entities, null, null, withSound, scheduleDate, null, false);
                 }
                 int result = SendMessagesHelper.getInstance(currentAccount).sendMessage(sendingMessageObjects, key, forwardContext.getForwardParams().noQuote, forwardContext.getForwardParams().noCaption, withSound, 0);
                 if (result != 0) {
@@ -1558,9 +1557,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 for (int a = 0; a < selectedDialogs.size(); a++) {
                     long key = selectedDialogs.keyAt(a);
                     if (frameLayout2.getTag() != null && commentTextView.length() > 0) {
-                        SendMessagesHelper.getInstance(currentAccount).sendMessage(text[0] == null ? null : text[0].toString(), key, null, null, null, true, entities, null, null, withSound, scheduleDate, null);
+                        SendMessagesHelper.getInstance(currentAccount).sendMessage(text[0] == null ? null : text[0].toString(), key, null, null, null, true, entities, null, null, withSound, scheduleDate, null, false);
                     }
-                    SendMessagesHelper.getInstance(currentAccount).sendMessage(sendingText[num], key, null, null, null, true, null, null, null, withSound, scheduleDate, null);
+                    SendMessagesHelper.getInstance(currentAccount).sendMessage(sendingText[num], key, null, null, null, true, null, null, null, withSound, scheduleDate, null, false);
                 }
             }
             onSend(selectedDialogs, 1);

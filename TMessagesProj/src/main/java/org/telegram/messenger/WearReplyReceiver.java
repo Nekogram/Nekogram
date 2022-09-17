@@ -15,9 +15,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 
-import org.telegram.tgnet.TLRPC;
-
 import androidx.core.app.RemoteInput;
+
+import org.telegram.tgnet.TLRPC;
 
 import java.util.ArrayList;
 import java.util.Map;
@@ -75,7 +75,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
 
     private void sendMessage(AccountInstance accountInstance, CharSequence text, ArrayList<Uri> images, long dialog_id, int max_id) {
         if (images.isEmpty()) {
-            accountInstance.getSendMessagesHelper().sendMessage(text.toString(), dialog_id, null, null, null, true, null, null, null, true, 0, null);
+            accountInstance.getSendMessagesHelper().sendMessage(text.toString(), dialog_id, null, null, null, true, null, null, null, true, 0, null, false);
         } else {
             ArrayList<SendMessagesHelper.SendingMediaInfo> infos = new ArrayList<>();
             for (int i = 0; i < images.size(); i++) {
@@ -86,7 +86,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
                 }
                 infos.add(info);
             }
-            SendMessagesHelper.prepareSendingMedia(accountInstance, infos, dialog_id, null, null, null, false, images.size() > 1, null, true, 0);
+            SendMessagesHelper.prepareSendingMedia(accountInstance, infos, dialog_id, null, null, null, false, images.size() > 1, null, true, 0, false);
         }
         accountInstance.getMessagesController().markDialogAsRead(dialog_id, max_id, max_id, 0, false, 0, 0, true, 0);
     }

@@ -47,6 +47,7 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 import java.util.TimeZone;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.Executor;
@@ -323,7 +324,12 @@ public class ConnectionsManager extends BaseController {
                         if (response != 0) {
                             NativeByteBuffer buff = NativeByteBuffer.wrap(response);
                             buff.reused = true;
-                            resp = object.deserializeResponse(buff, buff.readInt32(true), true);
+//                            try {
+                                resp = object.deserializeResponse(buff, buff.readInt32(true), true);
+//                            } catch (Exception e2) {
+//                                FileLog.fatal(e2);
+//                                return;
+//                            }
                         } else if (errorText != null) {
                             error = new TLRPC.TL_error();
                             error.code = errorCode;
@@ -334,6 +340,14 @@ public class ConnectionsManager extends BaseController {
                             if (NekoConfig.showRPCError) {
                                 ErrorDatabase.showErrorToast(object, errorText);
                             }
+                        }
+                        if (BuildVars.DEBUG_PRIVATE_VERSION && !getUserConfig().isClientActivated() && error != null && error.code == 400 && Objects.equals(error.text, "CONNECTION_NOT_INITED")) {
+                            if (BuildVars.LOGS_ENABLED) {
+                                FileLog.d("Cleanup keys for " + currentAccount + " because of CONNECTION_NOT_INITED");
+                            }
+                            cleanup(true);
+                            sendRequest(object, onComplete, onCompleteTimestamp, onQuickAck, onWriteToSocket, flags, datacenterId, connetionType, immediate);
+                            return;
                         }
                         if (resp != null) {
                             resp.networkType = networkType;

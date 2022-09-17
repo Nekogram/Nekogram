@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.text.TextUtils;
 
 import androidx.browser.customtabs.CustomTabColorSchemeParams;
 import androidx.browser.customtabs.CustomTabsIntent;
@@ -37,6 +38,7 @@ import org.telegram.ui.LaunchActivity;
 
 import java.net.URLEncoder;
 import java.util.List;
+import java.util.regex.Matcher;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
@@ -238,6 +240,15 @@ public class Browser {
     public static boolean isInternalUri(Uri uri, boolean all, boolean[] forceBrowser) {
         String host = uri.getHost();
         host = host != null ? host.toLowerCase() : "";
+
+        Matcher prefixMatcher = LaunchActivity.PREFIX_T_ME_PATTERN.matcher(host);
+        if (prefixMatcher.find()) {
+            uri = Uri.parse("https://t.me/" + prefixMatcher.group(1) + (TextUtils.isEmpty(uri.getPath()) ? "" : "/" + uri.getPath()) + (TextUtils.isEmpty(uri.getQuery()) ? "" : "?" + uri.getQuery()));
+
+            host = uri.getHost();
+            host = host != null ? host.toLowerCase() : "";
+        }
+
         if ("ton".equals(uri.getScheme())) {
             try {
                 Intent viewIntent = new Intent(Intent.ACTION_VIEW, uri);

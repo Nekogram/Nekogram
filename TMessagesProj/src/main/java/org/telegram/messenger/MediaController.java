@@ -15,6 +15,8 @@ import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DownloadManager;
+import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothProfile;
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -2366,7 +2368,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         final File cacheFile = file != null ? file : FileLoader.getInstance(currentAccount).getPathToMessage(nextAudio.messageOwner);
         boolean exist = cacheFile.exists();
         if (cacheFile != file && !cacheFile.exists()) {
-            FileLoader.getInstance(currentAccount).loadFile(nextAudio.getDocument(), nextAudio, 0, 0);
+            FileLoader.getInstance(currentAccount).loadFile(nextAudio.getDocument(), nextAudio, FileLoader.PRIORITY_LOW, 0);
         }
     }
 
@@ -2405,7 +2407,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         final File cacheFile = file != null ? file : FileLoader.getInstance(currentAccount).getPathToMessage(nextAudio.messageOwner);
         boolean exist = cacheFile.exists();
         if (cacheFile != file && !cacheFile.exists() && nextAudio.isMusic()) {
-            FileLoader.getInstance(currentAccount).loadFile(nextAudio.getDocument(), nextAudio, 0, 0);
+            FileLoader.getInstance(currentAccount).loadFile(nextAudio.getDocument(), nextAudio, FileLoader.PRIORITY_LOW, 0);
         }
     }
 
@@ -2835,7 +2837,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     }
                 });
             } else {
-                AndroidUtilities.runOnUIThread(() -> accountInstance.getFileLoader().loadFile(document, null, 1, 1));
+                AndroidUtilities.runOnUIThread(() -> accountInstance.getFileLoader().loadFile(document, null, FileLoader.PRIORITY_NORMAL, 1));
             }
         });
     }
@@ -2855,6 +2857,25 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 volumeBarLastTimeShown = now;
             }
         } catch (Exception ignore) {}
+    }
+
+    private void setBluetoothScoOn(boolean scoOn) {
+        AudioManager am = (AudioManager) ApplicationLoader.applicationContext.getSystemService(Context.AUDIO_SERVICE);
+        if (am.isBluetoothScoAvailableOffCall() && SharedConfig.recordViaSco || !scoOn) {
+            BluetoothAdapter btAdapter = BluetoothAdapter.getDefaultAdapter();
+            try {
+                if (btAdapter != null && btAdapter.getProfileConnectionState(BluetoothProfile.HEADSET) == BluetoothProfile.STATE_CONNECTED || !scoOn) {
+                    if (scoOn && !am.isBluetoothScoOn()) {
+                        am.startBluetoothSco();
+                    } else if (!scoOn && am.isBluetoothScoOn()) {
+                        am.stopBluetoothSco();
+                    }
+                }
+            } catch (SecurityException ignored) {
+            } catch (Throwable e) {
+                FileLog.e(e);
+            }
+        }
     }
 
     public boolean playMessage(final MessageObject messageObject) {
@@ -2899,7 +2920,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         final File cacheFile = file != null ? file : FileLoader.getInstance(messageObject.currentAccount).getPathToMessage(messageObject.messageOwner);
         boolean canStream = SharedConfig.streamMedia && (messageObject.isMusic() || messageObject.isRoundVideo() || messageObject.isVideo() && messageObject.canStreamVideo()) && !DialogObject.isEncryptedDialog(messageObject.getDialogId());
         if (cacheFile != file && !(exists = cacheFile.exists()) && !canStream) {
-            FileLoader.getInstance(messageObject.currentAccount).loadFile(messageObject.getDocument(), messageObject, 0, 0);
+            FileLoader.getInstance(messageObject.currentAccount).loadFile(messageObject.getDocument(), messageObject, FileLoader.PRIORITY_LOW, 0);
             downloadingCurrentMessage = true;
             isPaused = false;
             lastProgress = 0;
@@ -3499,6 +3520,8 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 return;
             }
 
+            setBluetoothScoOn(true);
+
             sendAfterDone = 0;
             recordingAudio = new TLRPC.TL_document();
             recordingGuid = guid;
@@ -3546,6 +3569,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 } catch (Exception e2) {
                     FileLog.e(e2);
                 }
+                setBluetoothScoOn(false);
 
                 AndroidUtilities.runOnUIThread(() -> {
                     recordStartRunnable = null;
@@ -3616,7 +3640,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     audioToSend.attributes.add(attributeAudio);
                     if (duration > 700) {
                         if (send == 1) {
-                            SendMessagesHelper.getInstance(recordingCurrentAccount).sendMessage(audioToSend, null, recordingAudioFileToSend.getAbsolutePath(), recordDialogId, recordReplyingMsg, recordReplyingTopMsg, null, null, null, null, notify, scheduleDate, 0, null, null);
+                            SendMessagesHelper.getInstance(recordingCurrentAccount).sendMessage(audioToSend, null, recordingAudioFileToSend.getAbsolutePath(), recordDialogId, recordReplyingMsg, recordReplyingTopMsg, null, null, null, null, notify, scheduleDate, 0, null, null, false);
                         }
                         NotificationCenter.getInstance(recordingCurrentAccount).postNotificationName(NotificationCenter.audioDidSent, recordingGuid, send == 2 ? audioToSend : null, send == 2 ? recordingAudioFileToSend.getAbsolutePath() : null);
                     } else {
@@ -3664,6 +3688,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 sendAfterDoneNotify = notify;
                 sendAfterDoneScheduleDate = scheduleDate;
                 audioRecorder.stop();
+                setBluetoothScoOn(false);
             } catch (Exception e) {
                 FileLog.e(e);
                 if (recordingAudioFile != null) {
@@ -3834,7 +3859,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 }
                 String fileName = FileLoader.getAttachFileName(document);
                 loadingMessageObjects.put(fileName, messageObject);
-                currentAccount.getFileLoader().loadFile(document, messageObject, 1, 0);
+                currentAccount.getFileLoader().loadFile(document, messageObject, FileLoader.PRIORITY_LOW, 0);
             });
         }
 

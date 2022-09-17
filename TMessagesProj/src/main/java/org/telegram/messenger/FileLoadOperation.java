@@ -30,6 +30,18 @@ import tw.nekomimi.nekogram.NekoConfig;
 
 public class FileLoadOperation {
 
+    FileLoadOperationStream stream;
+    boolean streamPriority;
+    long streamOffset;
+
+    public static volatile DispatchQueue filesQueue = new DispatchQueue("writeFileQueue");
+
+    public void setStream(FileLoadOperationStream stream, boolean streamPriority, long streamOffset) {
+        this.stream = stream;
+        this.streamOffset = streamOffset;
+        this.streamPriority = streamPriority;
+    }
+
     protected static class RequestInfo {
         private int requestToken;
         private long offset;
@@ -84,7 +96,6 @@ public class FileLoadOperation {
 
     private String fileName;
     private String storeFileName;
-    private int currentQueueType;
 
     private HashMap<Long, PreloadRange> preloadedBytesRanges;
     private HashMap<Long, Integer> requestedPreloadedBytesRanges;
@@ -182,6 +193,7 @@ public class FileLoadOperation {
     private int currentType;
     public FilePathDatabase.PathData pathSaveData;
     private long startTime;
+    private FileLoaderPriorityQueue priorityQueue;
 
     public interface FileLoadOperationDelegate {
         void didFinishLoadingFile(FileLoadOperation operation, File finalFile);
@@ -402,17 +414,17 @@ public class FileLoadOperation {
         return priority;
     }
 
-    public void setPaths(int instance, String name, int queueType, File store, File temp, String finalName) {
-        storePath = store;
-        tempPath = temp;
-        currentAccount = instance;
-        fileName = name;
-        storeFileName = finalName;
-        currentQueueType = queueType;
+    public void setPaths(int instance, String name, FileLoaderPriorityQueue priorityQueue, File store, File temp, String finalName) {
+        this.storePath = store;
+        this.tempPath = temp;
+        this.currentAccount = instance;
+        this.fileName = name;
+        this.storeFileName = finalName;
+        this.priorityQueue = priorityQueue;
     }
 
-    public int getQueueType() {
-        return currentQueueType;
+    public FileLoaderPriorityQueue getQueue() {
+        return priorityQueue;
     }
 
     public boolean wasStarted() {
@@ -464,6 +476,8 @@ public class FileLoadOperation {
         }
     }
 
+    long totalTime;
+
     private void addPart(ArrayList<Range> ranges, long start, long end, boolean save) {
         if (ranges == null || end < start) {
             return;
@@ -499,18 +513,28 @@ public class FileLoadOperation {
         }
         if (save) {
             if (modified) {
-                try {
-                    filePartsStream.seek(0);
-                    count = ranges.size();
-                    filePartsStream.writeInt(count);
-                    for (int a = 0; a < count; a++) {
-                        range = ranges.get(a);
-                        filePartsStream.writeLong(range.start);
-                        filePartsStream.writeLong(range.end);
+                ArrayList<FileLoadOperation.Range> rangesFinal = new ArrayList<>(ranges);
+                filesQueue.postRunnable(() -> {
+                    long time = System.currentTimeMillis();
+                    try {
+                        synchronized (FileLoadOperation.this) {
+                            if (filePartsStream == null) {
+                                return;
+                            }
+                            filePartsStream.seek(0);
+                            int countFinal = rangesFinal.size();
+                            filePartsStream.writeInt(countFinal);
+                            for (int a = 0; a < countFinal; a++) {
+                                Range rangeFinal = rangesFinal.get(a);
+                                filePartsStream.writeLong(rangeFinal.start);
+                                filePartsStream.writeLong(rangeFinal.end);
+                            }
+                        }
+                    } catch (Exception e) {
+                        FileLog.e(e);
                     }
-                } catch (Exception e) {
-                    FileLog.e(e);
-                }
+                    totalTime += System.currentTimeMillis() - time;
+                });
                 notifyStreamListeners();
             } else {
                 if (BuildVars.LOGS_ENABLED) {
@@ -641,7 +665,7 @@ public class FileLoadOperation {
     }
 
     public boolean start() {
-        return start(null, 0, false);
+        return start(stream, streamOffset, streamPriority);
     }
 
     public boolean start(final FileLoadOperationStream stream, final long streamOffset, final boolean steamPriority) {
@@ -1186,13 +1210,15 @@ public class FileLoadOperation {
         }
         try {
             if (filePartsStream != null) {
-                try {
-                    filePartsStream.getChannel().close();
-                } catch (Exception e) {
-                    FileLog.e(e);
+                synchronized (FileLoadOperation.this) {
+                    try {
+                        filePartsStream.getChannel().close();
+                    } catch (Exception e) {
+                        FileLog.e(e);
+                    }
+                    filePartsStream.close();
+                    filePartsStream = null;
                 }
-                filePartsStream.close();
-                filePartsStream = null;
             }
         } catch (Exception e) {
             FileLog.e(e);
