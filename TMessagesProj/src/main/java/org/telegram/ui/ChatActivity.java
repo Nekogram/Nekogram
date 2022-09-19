@@ -21989,6 +21989,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 icons.add(R.drawable.msg_shareout);
                             }
                         } else if (type == 6) {
+                            if (NekoConfig.showDeleteDownloadedFile) {
+                                items.add(LocaleController.getString("DeleteDownloadedFile", R.string.DeleteDownloadedFile));
+                                options.add(OPTION_CLEAR_FILE);
+                                icons.add(R.drawable.msg_clear);
+                            }
                             if (!noforwards && !selectedObject.hasRevealedExtendedMedia()) {
                                 items.add(LocaleController.getString("SaveToGallery", R.string.SaveToGallery));
                                 options.add(OPTION_SAVE_TO_GALLERY2);
