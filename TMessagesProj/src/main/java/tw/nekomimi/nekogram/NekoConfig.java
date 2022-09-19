@@ -1,6 +1,5 @@
 package tw.nekomimi.nekogram;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -27,8 +26,6 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.helpers.remote.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
@@ -948,32 +945,51 @@ public class NekoConfig {
         return true;
     }
 
-    public static Typeface getSystemEmojiTypeface() {
-        if (!loadSystemEmojiFailed && systemEmojiTypeface == null) {
-            try {
-                Pattern p = Pattern.compile(">(.*emoji.*)</font>", Pattern.CASE_INSENSITIVE);
-                BufferedReader br = new BufferedReader(new FileReader("/system/etc/fonts.xml"));
-                String line;
-                while ((line = br.readLine()) != null) {
-                    Matcher m = p.matcher(line);
-                    if (m.find()) {
-                        systemEmojiTypeface = Typeface.createFromFile("/system/fonts/" + m.group(1));
-                        FileLog.d("emoji font file fonts.xml = " + m.group(1));
-                        break;
+    public static File getSystemEmojiFontPath() {
+        try (var br = new BufferedReader(new FileReader("/system/etc/fonts.xml"))) {
+            String line;
+            var ignored = false;
+            while ((line = br.readLine()) != null) {
+                var trimmed = line.trim();
+                if (trimmed.startsWith("<family") && trimmed.contains("ignore=\"true\"")) {
+                    ignored = true;
+                } else if (trimmed.startsWith("</family>")) {
+                    ignored = false;
+                } else if (trimmed.startsWith("<font") && !ignored) {
+                    var start = trimmed.indexOf(">");
+                    var end = trimmed.indexOf("<", 1);
+                    if (start > 0 && end > 0) {
+                        var font = trimmed.substring(start + 1, end);
+                        if (font.toLowerCase().contains("emoji")) {
+                            File file = new File("/system/fonts/" + font);
+                            if (file.exists()) {
+                                FileLog.d("emoji font file fonts.xml = " + font);
+                                return file;
+                            }
+                        }
                     }
                 }
-                br.close();
-            } catch (Exception e) {
-                FileLog.e(e);
+            }
+            br.close();
+
+            var fileAOSP = new File("/system/fonts/" + EMOJI_FONT_AOSP);
+            if (fileAOSP.exists()) {
+                return fileAOSP;
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return null;
+    }
+
+    public static Typeface getSystemEmojiTypeface() {
+        if (!loadSystemEmojiFailed && systemEmojiTypeface == null) {
+            var font = getSystemEmojiFontPath();
+            if (font != null) {
+                systemEmojiTypeface = Typeface.createFromFile(font);
             }
             if (systemEmojiTypeface == null) {
-                try {
-                    systemEmojiTypeface = Typeface.createFromFile("/system/fonts/" + EMOJI_FONT_AOSP);
-                    FileLog.d("emoji font file = " + EMOJI_FONT_AOSP);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                    loadSystemEmojiFailed = true;
-                }
+                loadSystemEmojiFailed = true;
             }
         }
         return systemEmojiTypeface;
