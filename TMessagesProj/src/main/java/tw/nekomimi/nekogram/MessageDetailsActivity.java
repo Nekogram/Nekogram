@@ -3,11 +3,18 @@ package tw.nekomimi.nekogram;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,8 +32,10 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ProfileActivity;
 
 import java.io.File;
@@ -331,8 +340,15 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     protected boolean onItemLongClick(View view, int position, float x, float y) {
         if (position != endRow) {
             if (!noforwards || !(position == messageRow || position == captionRow || position == filePathRow)) {
-                TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
-                AndroidUtilities.addToClipboard(textCell.getValueTextView().getText());
+                CharSequence text;
+                if (view instanceof TextDetailSettingsCell) {
+                    TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
+                    text = textCell.getValueTextView().getText();
+                } else {
+                    TextDetailSimpleCell textCell = (TextDetailSimpleCell) view;
+                    text = textCell.getValueTextView().getText();
+                }
+                AndroidUtilities.addToClipboard(text);
                 BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
             } else {
                 showNoForwards();
@@ -416,10 +432,6 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     boolean divider = position + 1 != endRow;
                     if (position == idRow) {
                         textCell.setTextAndValue("ID", String.valueOf(messageObject.messageOwner.id), divider);
-                    } else if (position == messageRow) {
-                        textCell.setTextAndValue("Message", messageObject.messageText, divider);
-                    } else if (position == captionRow) {
-                        textCell.setTextAndValue("Caption", messageObject.caption, divider);
                     } else if (position == channelRow || position == groupRow) {
                         StringBuilder builder = new StringBuilder();
                         appendUserOrChat(toChat, builder);
@@ -513,6 +525,34 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     }
                     break;
                 }
+                case Integer.MAX_VALUE: {
+                    TextDetailSimpleCell textCell = (TextDetailSimpleCell) holder.itemView;
+                    boolean divider = position + 1 != endRow;
+                    if (position == messageRow) {
+                        textCell.setTextAndValue("Message", AnimatedEmojiSpan.cloneSpans(messageObject.messageText), messageObject.getEmojiOnlyCount(), divider);
+                    } else if (position == captionRow) {
+                        textCell.setTextAndValue("Caption", AnimatedEmojiSpan.cloneSpans(messageObject.caption), messageObject.getEmojiOnlyCount(), divider);
+                    }
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public boolean isEnabled(RecyclerView.ViewHolder holder) {
+            return super.isEnabled(holder) || holder.getItemViewType() == Integer.MAX_VALUE;
+        }
+
+        @NonNull
+        @Override
+        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            if (viewType == Integer.MAX_VALUE) {
+                var view = new TextDetailSimpleCell(mContext, resourcesProvider);
+                view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
+                return new RecyclerListView.Holder(view);
+            } else {
+                return super.onCreateViewHolder(parent, viewType);
             }
         }
 
@@ -520,6 +560,8 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         public int getItemViewType(int position) {
             if (position == endRow) {
                 return 1;
+            } else if (position == messageRow || position == captionRow) {
+                return Integer.MAX_VALUE;
             } else {
                 return 6;
             }
@@ -555,6 +597,67 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 builder.append("\n");
             }
             builder.append(chat.id);
+        }
+    }
+
+    @SuppressLint("ViewConstructor")
+    public static class TextDetailSimpleCell extends FrameLayout {
+
+        private final TextView textView;
+        private final TextViewEffects valueTextView;
+        private boolean needDivider;
+
+        public TextDetailSimpleCell(Context context, Theme.ResourcesProvider resourcesProvider) {
+            super(context);
+            setClipChildren(false);
+
+            textView = new TextView(context);
+            textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
+            textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
+            textView.setLines(1);
+            textView.setMaxLines(1);
+            textView.setSingleLine(true);
+            textView.setEllipsize(TextUtils.TruncateAt.END);
+            textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
+            addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 21, 10, 21, 0));
+
+            valueTextView = new TextViewEffects(context);
+            valueTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider));
+            valueTextView.setTextSize(13);
+            valueTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
+            valueTextView.setSingleLine(false);
+            valueTextView.setPadding(0, 0, 0, AndroidUtilities.dp(12));
+            valueTextView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText, resourcesProvider));
+            addView(valueTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 21, 35, 21, 0));
+        }
+
+        @Override
+        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+            super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+        }
+
+        public TextViewEffects getValueTextView() {
+            return valueTextView;
+        }
+
+        public void setTextAndValue(String text, CharSequence value, int emojiOnlyCount, boolean divider) {
+            textView.setText(text);
+            valueTextView.setText(value, emojiOnlyCount);
+            needDivider = divider;
+            setWillNotDraw(!divider);
+        }
+
+        @Override
+        public void invalidate() {
+            super.invalidate();
+            textView.invalidate();
+        }
+
+        @Override
+        protected void onDraw(Canvas canvas) {
+            if (needDivider && Theme.dividerPaint != null) {
+                canvas.drawLine(LocaleController.isRTL ? 0 : AndroidUtilities.dp(20), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(20) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
+            }
         }
     }
 }
