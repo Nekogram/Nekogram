@@ -103,6 +103,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
                 showDialog(new AlertDialog.Builder(context)
                         .setItems(
                                 new CharSequence[]{LocaleController.getString("CopyLink", R.string.CopyLink)},
+                                new int[] {R.drawable.msg_copy},
                                 (dialogInterface, i) -> {
                                     AndroidUtilities.addToClipboard(String.format(Locale.getDefault(), "https://%s/nekosettings/%s?r=%s", getMessagesController().linkPrefix, getKey(), rowMapReverse.get(position)));
                                     BulletinFactory.of(BaseNekoSettingsActivity.this).createCopyLinkBulletin().show();

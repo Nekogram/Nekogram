@@ -3530,7 +3530,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 nameTextView[a].setScrollNonFitText(true);
                 nameTextView[a].setOnLongClickListener(v -> {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-                    builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, (dialogInterface, i) -> {
+                    builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, new int[]{R.drawable.msg_copy}, (dialogInterface, i) -> {
                         if (i == 0) {
                             AndroidUtilities.addToClipboard(((SimpleTextView) v).getText());
                             BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
@@ -7126,7 +7126,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             long finalId = id;
             idTextView.setOnLongClickListener(v -> {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-                builder.setItems(new CharSequence[]{LocaleController.getString("CopyID", R.string.CopyID)}, (dialogInterface, i) -> {
+                builder.setItems(new CharSequence[]{LocaleController.getString("CopyID", R.string.CopyID)}, new int[]{R.drawable.msg_copy}, (dialogInterface, i) -> {
                     if (i == 0) {
                         AndroidUtilities.addToClipboard(String.valueOf(finalId));
                         BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();

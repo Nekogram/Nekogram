@@ -218,15 +218,18 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     @Override
     protected boolean onItemLongClick(View view, int position, float x, float y) {
         if (position == emojiRow) {
-            try {
-                if (NekoConfig.customEmojiFont) NekoConfig.toggleCustomEmojiFont();
-                //noinspection ResultOfMethodCallIgnored
-                new File(NekoConfig.customEmojiFontPath).delete();
-                NekoConfig.setCustomEmojiFontPath(null);
-            } catch (Exception e) {
-                //
+            if (!TextUtils.isEmpty(NekoConfig.customEmojiFontPath)) {
+                try {
+                    if (NekoConfig.customEmojiFont) NekoConfig.toggleCustomEmojiFont();
+                    //noinspection ResultOfMethodCallIgnored
+                    new File(NekoConfig.customEmojiFontPath).delete();
+                    NekoConfig.setCustomEmojiFontPath(null);
+                } catch (Exception e) {
+                    //
+                }
+                listAdapter.notifyItemChanged(emojiRow);
+                return true;
             }
-            listAdapter.notifyItemChanged(emojiRow);
         }
         return false;
     }
