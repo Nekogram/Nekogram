@@ -564,9 +564,9 @@ public class PhonebookShareAlert extends BottomSheet {
                                 layout.textView.setText(LocaleController.getString("TextCopied", R.string.TextCopied));
                                 layout.imageView.setImageResource(R.drawable.msg_info);
                             }
-                            //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                            if (AndroidUtilities.shouldShowClipboardToast()) {
                                 Bulletin.make((FrameLayout) containerView, layout, Bulletin.DURATION_SHORT).show();
-                            //}
+                            }
                         }
                     }
                     return true;

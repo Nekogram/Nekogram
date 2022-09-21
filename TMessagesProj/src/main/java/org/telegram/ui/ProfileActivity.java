@@ -49,7 +49,6 @@ import android.text.Spanned;
 import android.text.TextPaint;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.util.Property;
 import android.util.SparseIntArray;
 import android.util.TypedValue;
@@ -205,6 +204,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.CountDownLatch;
@@ -222,6 +222,11 @@ import tw.nekomimi.nekogram.translator.popupwrapper.AutoTranslatePopupWrapper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 public class ProfileActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, SharedMediaLayout.SharedMediaPreloaderDelegate, ImageUpdater.ImageUpdaterDelegate, SharedMediaLayout.Delegate {
+    private final static int PHONE_OPTION_CALL = 0,
+        PHONE_OPTION_COPY = 1,
+        PHONE_OPTION_TELEGRAM_CALL = 2,
+        PHONE_OPTION_TELEGRAM_VIDEO_CALL = 3,
+        PHONE_OPTION_HIDE = 4;
 
     private RecyclerListView listView;
     private RecyclerListView searchListView;
@@ -3539,7 +3544,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             nameTextView[a].setFocusable(a == 0);
             nameTextView[a].setEllipsizeByGradient(true);
             nameTextView[a].setRightDrawableOutside(a == 0);
-            avatarContainer2.addView(nameTextView[a], LayoutHelper.createFrame(a == 0 ? initialTitleWidth : LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118, -6, (a == 0 ? rightMargin - (hasTitleExpanded ? 16 : 0) : 0), 0));
+            avatarContainer2.addView(nameTextView[a], LayoutHelper.createFrame(a == 0 ? initialTitleWidth : LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118, -6, (a == 0 ? rightMargin - (hasTitleExpanded ? 10 : 0) : 0), 0));
         }
         for (int a = 0; a < onlineTextView.length; a++) {
             onlineTextView[a] = new SimpleTextView(context);
@@ -4423,49 +4428,65 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
             ArrayList<CharSequence> items = new ArrayList<>();
-            final ArrayList<Integer> actions = new ArrayList<>();
+            ArrayList<Integer> actions = new ArrayList<>();
+            List<Integer> icons = new ArrayList<>();
             if (position == phoneRow) {
                 if (userInfo != null && userInfo.phone_calls_available) {
+                    icons.add(R.drawable.msg_calls);
                     items.add(LocaleController.getString("CallViaTelegram", R.string.CallViaTelegram));
-                    actions.add(2);
+                    actions.add(PHONE_OPTION_TELEGRAM_CALL);
                     if (Build.VERSION.SDK_INT >= 18 && userInfo.video_calls_available) {
+                        icons.add(R.drawable.msg_videocall);
                         items.add(LocaleController.getString("VideoCallViaTelegram", R.string.VideoCallViaTelegram));
-                        actions.add(3);
+                        actions.add(PHONE_OPTION_TELEGRAM_VIDEO_CALL);
                     }
                 }
+                icons.add(R.drawable.msg_calls_regular);
                 items.add(LocaleController.getString("Call", R.string.Call));
-                actions.add(0);
+                actions.add(PHONE_OPTION_CALL);
             }
+            icons.add(R.drawable.msg_copy);
             items.add(LocaleController.getString("Copy", R.string.Copy));
-            actions.add(1);
+            actions.add(PHONE_OPTION_COPY);
+            icons.add(R.drawable.msg_block2);
             items.add(LocaleController.getString("Hide", R.string.Hide));
-            actions.add(4);
-            builder.setItems(items.toArray(new CharSequence[0]), (dialogInterface, i) -> {
+            actions.add(PHONE_OPTION_HIDE);
+            int[] iconsArr = new int[icons.size()];
+            for (int i = 0; i < iconsArr.length; i++) {
+                iconsArr[i] = icons.get(i);
+            }
+            builder.setItems(items.toArray(new CharSequence[0]), iconsArr, (dialogInterface, i) -> {
                 i = actions.get(i);
-                if (i == 0) {
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:+" + user.phone));
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        getParentActivity().startActivityForResult(intent, 500);
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                } else if (i == 1) {
-                    try {
-                        android.content.ClipboardManager clipboard = (android.content.ClipboardManager) ApplicationLoader.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                        android.content.ClipData clip = android.content.ClipData.newPlainText("label", "+" + user.phone);
-                        clipboard.setPrimaryClip(clip);
-                        //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
-                            BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("PhoneCopied", R.string.PhoneCopied)).show();
-                        //}
-                    } catch (Exception e) {
-                        FileLog.e(e);
-                    }
-                } else if (i == 2 || i == 3) {
-                    VoIPHelper.startCall(user, i == 3, userInfo != null && userInfo.video_calls_available, getParentActivity(), userInfo, getAccountInstance());
-                } else if (i == 4) {
-                    hidePhone = true;
-                    updateListAnimated(false);
+                switch (i) {
+                    case PHONE_OPTION_CALL:
+                        try {
+                            Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:+" + user.phone));
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            getParentActivity().startActivityForResult(intent, 500);
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                        break;
+                    case PHONE_OPTION_COPY:
+                        try {
+                            android.content.ClipboardManager clipboard = (android.content.ClipboardManager) ApplicationLoader.applicationContext.getSystemService(Context.CLIPBOARD_SERVICE);
+                            android.content.ClipData clip = android.content.ClipData.newPlainText("label", "+" + user.phone);
+                            clipboard.setPrimaryClip(clip);
+                            if (AndroidUtilities.shouldShowClipboardToast()) {
+                                BulletinFactory.of(this).createCopyBulletin(LocaleController.getString("PhoneCopied", R.string.PhoneCopied)).show();
+                            }
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                        break;
+                    case PHONE_OPTION_TELEGRAM_CALL:
+                    case PHONE_OPTION_TELEGRAM_VIDEO_CALL:
+                        VoIPHelper.startCall(user, i == PHONE_OPTION_TELEGRAM_VIDEO_CALL, userInfo != null && userInfo.video_calls_available, getParentActivity(), userInfo, getAccountInstance());
+                        break;
+                    case PHONE_OPTION_HIDE:
+                        hidePhone = true;
+                        updateListAnimated(false);
+                        break;
                 }
             });
             showDialog(builder.create());
@@ -4492,15 +4513,18 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             final AtomicBoolean waitForLangDetection = new AtomicBoolean(false);
             final AtomicReference<Runnable> onLangDetectionDone = new AtomicReference<>(null);
             final CharSequence[] items = new CharSequence[]{LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("TranslateMessage", R.string.TranslateMessage)};
+            final int[] icons =  new int[] {R.drawable.msg_copy, R.drawable.msg_translate};
             final String[] fromLang = {null};
             if (LanguageDetector.hasSupport()) {
                 items[1] = null;
+                icons[1] = 0;
                 LanguageDetectorTimeout.detectLanguage(
                         view, finalText,
                         (String lang) -> {
                             fromLang[0] = Translator.stripLanguageCode(lang);
                             if (!Translator.isLanguageRestricted(lang)) {
                                 items[1] = LocaleController.getString("TranslateMessage", R.string.TranslateMessage);
+                                icons[1] = R.drawable.msg_translate;
                             }
                         },
                         null, waitForLangDetection, onLangDetectionDone
@@ -4512,7 +4536,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }, 250);
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-            builder.setItems(items, (dialogInterface, i) -> {
+            builder.setItems(items, icons, (dialogInterface, i) -> {
                 try {
                     if (TextUtils.isEmpty(finalText)) {
                         return;
@@ -6803,10 +6827,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     } else if (user.verified) {
                         rightIcon = getVerifiedCrossfadeDrawable();
                         nameTextViewRightDrawableContentDescription = LocaleController.getString("AccDescrVerified", R.string.AccDescrVerified);
-                    } else if (getMessagesController().isPremiumUser(user)) {
-                        rightIconIsStatus = user.emoji_status instanceof TLRPC.TL_emojiStatus || user.emoji_status instanceof TLRPC.TL_emojiStatusUntil && ((TLRPC.TL_emojiStatusUntil) user.emoji_status).until > (int) (System.currentTimeMillis() / 1000);
-                        rightIconIsPremium = !rightIconIsStatus;
+                    } else if (user.emoji_status instanceof TLRPC.TL_emojiStatus || user.emoji_status instanceof TLRPC.TL_emojiStatusUntil && ((TLRPC.TL_emojiStatusUntil) user.emoji_status).until > (int) (System.currentTimeMillis() / 1000)) {
+                        rightIconIsStatus = true;
+                        rightIconIsPremium = false;
                         rightIcon = getEmojiStatusDrawable(user.emoji_status, false, false, a);
+                        nameTextViewRightDrawableContentDescription = LocaleController.getString("AccDescrPremium", R.string.AccDescrPremium);
+                    } else if (getMessagesController().isPremiumUser(user)) {
+                        rightIconIsStatus = false;
+                        rightIconIsPremium = true;
+                        rightIcon = getEmojiStatusDrawable(null, false, false, a);
                         nameTextViewRightDrawableContentDescription = LocaleController.getString("AccDescrPremium", R.string.AccDescrPremium);
                     } else if (getMessagesController().isDialogMuted(dialogId != 0 ? dialogId : userId)) {
                         rightIcon = getThemedDrawable(Theme.key_drawable_muteIconDrawable);
@@ -6820,10 +6849,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         rightIcon = getScamDrawable(user.scam ? 0 : 1);
                     } else if (user.verified) {
                         rightIcon = getVerifiedCrossfadeDrawable();
-                    } else if (getMessagesController().isPremiumUser(user)) {
-                        rightIconIsStatus = user.emoji_status instanceof TLRPC.TL_emojiStatus || user.emoji_status instanceof TLRPC.TL_emojiStatusUntil && ((TLRPC.TL_emojiStatusUntil) user.emoji_status).until > (int) (System.currentTimeMillis() / 1000);
-                        rightIconIsPremium = !rightIconIsStatus;
+                    } else if (user.emoji_status instanceof TLRPC.TL_emojiStatus || user.emoji_status instanceof TLRPC.TL_emojiStatusUntil && ((TLRPC.TL_emojiStatusUntil) user.emoji_status).until > (int) (System.currentTimeMillis() / 1000)) {
+                        rightIconIsStatus = true;
+                        rightIconIsPremium = false;
                         rightIcon = getEmojiStatusDrawable(user.emoji_status, true, true, a);
+                    } else if (getMessagesController().isPremiumUser(user)) {
+                        rightIconIsStatus = false;
+                        rightIconIsPremium = true;
+                        rightIcon = getEmojiStatusDrawable(null, true, true, a);
                     }
                 }
                 nameTextView[a].setLeftDrawable(leftIcon);
@@ -6892,7 +6925,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     });
                 }
             }
-
+            if (previousTransitionFragment != null) {
+                previousTransitionFragment.checkAndUpdateAvatar();
+            }
             avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(photoBig), false);
 
             id = userId;

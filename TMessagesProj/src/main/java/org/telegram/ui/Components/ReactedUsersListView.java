@@ -149,7 +149,7 @@ public class ReactedUsersListView extends FrameLayout {
 
             @Override
             public int getItemCount() {
-                return userReactions.size() + (!customReactionsEmoji.isEmpty() ? 1 : 0);
+                return userReactions.size() + (!customReactionsEmoji.isEmpty() && !MessagesController.getInstance(currentAccount).premiumLocked ? 1 : 0);
             }
 
             @Override
@@ -187,14 +187,14 @@ public class ReactedUsersListView extends FrameLayout {
         loadingView = new FlickerLoadingView(context, resourcesProvider) {
             @Override
             public int getAdditionalHeight() {
-                return !customReactionsEmoji.isEmpty() ? messageContainsEmojiButton.getMeasuredHeight() + AndroidUtilities.dp(8) : 0;
+                return !customReactionsEmoji.isEmpty() && messageContainsEmojiButton != null ? messageContainsEmojiButton.getMeasuredHeight() + AndroidUtilities.dp(8) : 0;
             }
         };
 
         loadingView.setIsSingleCell(true);
         loadingView.setItemsCount(predictiveCount);
         addView(loadingView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        if (!addPadding && filter != null && filter instanceof TLRPC.TL_reactionCustomEmoji) {
+        if (!addPadding && filter != null && filter instanceof TLRPC.TL_reactionCustomEmoji && !MessagesController.getInstance(currentAccount).premiumLocked) {
             customReactionsEmoji.clear();
             customReactionsEmoji.add(ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(filter));
             updateCustomReactionsButton();
@@ -329,6 +329,7 @@ public class ReactedUsersListView extends FrameLayout {
     }
 
     private void updateCustomReactionsButton() {
+        customEmojiStickerSets.clear();
         ArrayList<TLRPC.InputStickerSet> sets = new ArrayList<>();
         HashSet<Long> setIds = new HashSet<>();
         for (int i = 0; i < customReactionsEmoji.size(); i++) {
@@ -338,7 +339,9 @@ public class ReactedUsersListView extends FrameLayout {
                 setIds.add(stickerSet.id);
             }
         }
-        customEmojiStickerSets.clear();
+        if (MessagesController.getInstance(currentAccount).premiumLocked) {
+            return;
+        }
         customEmojiStickerSets.addAll(sets);
         messageContainsEmojiButton = new MessageContainsEmojiButton(currentAccount, getContext(), resourcesProvider, sets, MessageContainsEmojiButton.REACTIONS_TYPE);
         messageContainsEmojiButton.checkWidth = false;

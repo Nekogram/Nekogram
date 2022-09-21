@@ -54,22 +54,11 @@ public class AnalyticsHelper {
     }
 
     public static void start(Application application) {
-        if (BuildConfig.DEBUG) return;
-        if ("play".equals(BuildConfig.BUILD_TYPE)) {
-            AppCenter.start(application, Extra.APPCENTER_SECRET, Analytics.class);
-        } else {
-            AppCenter.start(application, Extra.APPCENTER_SECRET, Analytics.class, Crashes.class);
-        }
-        patchDevice();
     }
 
     public static void trackEvent(String event) {
-        if (BuildConfig.DEBUG) return;
-        Analytics.trackEvent(event);
     }
 
     public static void trackEvent(String event, HashMap<String, String> map) {
-        if (BuildConfig.DEBUG) return;
-        Analytics.trackEvent(event, map);
     }
 }

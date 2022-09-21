@@ -2159,9 +2159,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                         MessageObject messageObject = cell.getMessageObject();
                         if (url instanceof URLSpanMono) {
                             ((URLSpanMono) url).copyToClipboard();
-                            //if (Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+                            if (AndroidUtilities.shouldShowClipboardToast()) {
                                 Toast.makeText(getParentActivity(), LocaleController.getString("TextCopied", R.string.TextCopied), Toast.LENGTH_SHORT).show();
-                            //}
+                            }
                         } else if (url instanceof URLSpanUserMention) {
                             long peerId = Utilities.parseLong(((URLSpanUserMention) url).getURL());
                             if (peerId > 0) {

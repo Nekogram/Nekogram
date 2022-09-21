@@ -17,3 +17,4 @@ rootProject.name = "Nekogram"
 include ':TMessagesProj'
 include ':TMessagesProj_App'
 //include ':TMessagesProj_AppHuawei'
+//include ':TMessagesProj_AppHockeyApp'

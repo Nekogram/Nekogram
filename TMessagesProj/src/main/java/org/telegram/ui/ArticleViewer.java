@@ -518,7 +518,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
             sizeBar = new SeekBarView(context);
             sizeBar.setReportChanges(true);
-//            sizeBar.setSeparatorsCount(endFontSize - startFontSize);
+            sizeBar.setSeparatorsCount(endFontSize - startFontSize + 1);
             sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate() {
                 @Override
                 public void onSeekBarDrag(boolean stop, float progress) {

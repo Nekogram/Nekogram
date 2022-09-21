@@ -840,7 +840,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
             FileLog.e(e);
         }
         MediaController.getInstance().setBaseActivity(this, true);
-        AndroidUtilities.startAppCenter(this);
+        ApplicationLoader.startAppCenter(this);
         updateAppUpdateViews(false);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -1036,7 +1036,7 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
     }
 
     public void showSelectStatusDialog() {
-        if (selectAnimatedEmojiDialog != null) {
+        if (selectAnimatedEmojiDialog != null || SharedConfig.appLocked) {
             return;
         }
         BaseFragment fragment = actionBarLayout.getLastFragment();
@@ -1455,6 +1455,10 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
         if (passcodeView == null) {
             passcodeView = new PasscodeView(this);
             drawerLayoutContainer.addView(passcodeView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+        }
+        if (selectAnimatedEmojiDialog != null) {
+            selectAnimatedEmojiDialog.dismiss();
+            selectAnimatedEmojiDialog = null;
         }
         SharedConfig.appLocked = true;
         if (SecretMediaViewer.hasInstance() && SecretMediaViewer.getInstance().isVisible()) {
@@ -5265,6 +5269,11 @@ public class LaunchActivity extends BasePermissionsActivity implements ActionBar
                 showTosActivity(account, (TLRPC.TL_help_termsOfService) args[1]);
                 return;
             }
+            BaseFragment fragment = null;
+            if (!mainFragmentsStack.isEmpty()) {
+                fragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
+            }
+
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
             if (reason != 2 && reason != 3) {
