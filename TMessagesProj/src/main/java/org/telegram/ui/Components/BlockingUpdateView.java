@@ -44,6 +44,7 @@ import org.telegram.ui.Components.voip.CellFlickerDrawable;
 import java.io.File;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.TextViewEffects;
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
@@ -104,11 +105,10 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         titleTextView.setText(LocaleController.getString("UpdateNekogram", R.string.UpdateNekogram));
         container.addView(titleTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP));
 
-        textView = new TextView(context);
+        textView = new TextViewEffects(context);
         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         textView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-        textView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
         textView.setGravity(Gravity.LEFT | Gravity.TOP);
         textView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
         container.addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0, 44, 0, 0));
@@ -300,6 +300,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         }
         SpannableStringBuilder builder = new SpannableStringBuilder(update.text);
         MessageObject.addEntitiesToText(builder, update.entities, false, false, false, false);
+        MessageObject.replaceAnimatedEmoji(builder, update.entities, textView.getPaint().getFontMetricsInt());
         textView.setText(builder);
         if (update.document instanceof TLRPC.TL_document) {
             acceptTextView.setText(LocaleController.getString("Update", R.string.Update) + String.format(Locale.US, " (%1$s)", AndroidUtilities.formatFileSize(update.document.size)));
@@ -310,7 +311,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         NotificationCenter.getInstance(accountNum).addObserver(this, NotificationCenter.fileLoadFailed);
         NotificationCenter.getInstance(accountNum).addObserver(this, NotificationCenter.fileLoadProgressChanged);
         if (check) {
-            UpdateHelper.getInstance().checkNewVersionAvailable((response, error) -> {
+            UpdateHelper.getInstance().checkNewVersionAvailable((response, error) -> AndroidUtilities.runOnUIThread(() -> {
                 if (response != null) {
                     if (!response.can_not_skip) {
                         setVisibility(GONE);
@@ -318,7 +319,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
                         SharedConfig.saveConfig();
                     }
                 }
-            });
+            }));
         }
     }
 

@@ -37,6 +37,8 @@ import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
 
+import tw.nekomimi.nekogram.TextViewEffects;
+
 public class UpdateAppAlertDialog extends BottomSheet {
 
     private TLRPC.TL_help_appUpdate appUpdate;
@@ -268,16 +270,16 @@ public class UpdateAppAlertDialog extends BottomSheet {
         messageTextView.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.TOP);
         linearLayout.addView(messageTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL, 23, 0, 23, 5));
 
-        TextView changelogTextView = new SpoilersTextView(getContext());
+        TextView changelogTextView = new TextViewEffects(getContext());
         changelogTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         changelogTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        changelogTextView.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
         changelogTextView.setLinkTextColor(Theme.getColor(Theme.key_dialogTextLink));
         if (TextUtils.isEmpty(appUpdate.text)) {
             changelogTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("AppUpdateChangelogEmpty", R.string.AppUpdateChangelogEmpty)));
         } else {
             SpannableStringBuilder builder = new SpannableStringBuilder(appUpdate.text);
             MessageObject.addEntitiesToText(builder, update.entities, false, false, false, false);
+            MessageObject.replaceAnimatedEmoji(builder, update.entities, changelogTextView.getPaint().getFontMetricsInt());
             changelogTextView.setText(builder);
         }
         changelogTextView.setGravity(Gravity.LEFT | Gravity.TOP);
