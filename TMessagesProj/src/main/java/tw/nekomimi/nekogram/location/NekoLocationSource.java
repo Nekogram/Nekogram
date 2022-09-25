@@ -15,6 +15,7 @@ import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
 import com.google.android.gms.maps.LocationSource;
 
 import org.telegram.messenger.BuildVars;
@@ -36,6 +37,9 @@ public class NekoLocationSource implements LocationSource {
             super.onLocationResult(locationResult);
             if (onLocationChangedListener != null) {
                 Location location = locationResult.getLastLocation();
+                if (location == null) {
+                    return;
+                }
                 transform(location);
                 onLocationChangedListener.onLocationChanged(location);
             }
@@ -76,7 +80,7 @@ public class NekoLocationSource implements LocationSource {
             }
         }
         LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        locationRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY);
         locationRequest.setInterval(0);
         locationRequest.setFastestInterval(0);
         LocationServices.getFusedLocationProviderClient(context).requestLocationUpdates(locationRequest, callback, Looper.getMainLooper());

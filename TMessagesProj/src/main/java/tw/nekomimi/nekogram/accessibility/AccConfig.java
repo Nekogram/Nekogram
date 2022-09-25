@@ -9,14 +9,8 @@ public class AccConfig {
 
     private static final Object sync = new Object();
 
-    public static int TYPE_NO_REWIND = 0;
-    public static int TYPE_PERCENT_REWIND = 1;
-    public static int TYPE_SECOND_REWIND = 2;
-    public static int TYPE_AUTO_REWIND = 3;
-    public static int TYPE_OF_REWIND_VIDEO = TYPE_AUTO_REWIND;
     public static int TIME_DEFAULT = 200;
     public static int DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE = TIME_DEFAULT;
-    public static String TYPE_OF_REWIND_VIDEO_KEY = "rewind_video";
     public static String DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE_KEY = "delay_between_changing_of_seekbar_value";
     public static String SHOW_NUMBERS_OF_ITEMS_KEY = "show_numbers_of_items";
     public static String SHOW_INDEX_OF_ITEM_KEY = "show_index_of_item";
@@ -38,20 +32,12 @@ public class AccConfig {
             }
 
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("accconfig", Activity.MODE_PRIVATE);
-            TYPE_OF_REWIND_VIDEO = preferences.getInt(TYPE_OF_REWIND_VIDEO_KEY, TYPE_PERCENT_REWIND);
             DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE = preferences.getInt(DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE_KEY, TIME_DEFAULT);
             SHOW_NUMBERS_OF_ITEMS = preferences.getBoolean(SHOW_NUMBERS_OF_ITEMS_KEY, true);
             SHOW_INDEX_OF_ITEM = preferences.getBoolean(SHOW_INDEX_OF_ITEM_KEY, true);
             SHOW_SEEKBAR_VALUE_CHANGES = preferences.getBoolean(SHOW_SEEKBAR_VALUE_CHANGES_KEY, true);
             configLoaded = true;
         }
-    }
-
-    public static void setTypeOfRewindVideo(int value) {
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("accconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt(TYPE_OF_REWIND_VIDEO_KEY, value).apply();
-        TYPE_OF_REWIND_VIDEO = value;
     }
 
     public static void setDelayBetweenAnnouncingOfChangingOfSeekbarValue(int value) {
