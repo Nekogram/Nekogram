@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 
 public class ContactsController extends BaseController {
 
@@ -319,7 +320,7 @@ public class ContactsController extends BaseController {
                 boolean found = false;
                 for (int b = 0; b < UserConfig.MAX_ACCOUNT_COUNT; b++) {
                     TLRPC.User user = UserConfig.getInstance(b).getCurrentUser();
-                    if (user != null) {
+                    if (user != null && !PasscodeHelper.isAccountHidden(b)) {
                         if (acc.name.equals("" + user.id)) {
                             if (b == currentAccount) {
                                 systemAccount = acc;
@@ -343,7 +344,7 @@ public class ContactsController extends BaseController {
         }
         if (getUserConfig().isClientActivated()) {
             readContacts();
-            if (systemAccount == null) {
+            if (systemAccount == null && !PasscodeHelper.isAccountHidden(currentAccount) ) {
                 try {
                     systemAccount = new Account("" + getUserConfig().getClientUserId(), "tw.nekomimi.nekogram");
                     am.addAccountExplicitly(systemAccount, "", null);
