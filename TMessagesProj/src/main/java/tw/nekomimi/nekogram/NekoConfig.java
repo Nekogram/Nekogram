@@ -93,6 +93,7 @@ public class NekoConfig {
     public static HashSet<String> restrictedLanguages = new HashSet<>();
 
     public static boolean showAddToSavedMessages = true;
+    public static boolean showSetReminder = false;
     public static boolean showReport = false;
     public static boolean showPrPr = false;
     public static boolean showViewHistory = false;
@@ -258,6 +259,7 @@ public class NekoConfig {
             transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
+            showSetReminder = preferences.getBoolean("showSetReminder", false);
             showReport = preferences.getBoolean("showReport", false);
             showPrPr = preferences.getBoolean("showPrPr", isChineseUser);
             showViewHistory = preferences.getBoolean("showViewHistory", false);
@@ -466,6 +468,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showAddToSavedMessages", showAddToSavedMessages);
+        editor.apply();
+    }
+
+    public static void toggleShowSetReminder() {
+        showSetReminder = !showSetReminder;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showSetReminder", showSetReminder);
         editor.apply();
     }
 

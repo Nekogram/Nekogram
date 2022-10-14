@@ -870,6 +870,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int OPTION_TRANSLATE = 29;
     private final static int OPTION_TRANSCRIBE = 30;
     private final static int OPTION_HIDE_SPONSORED_MESSAGE = 31;
+    private final static int OPTION_SET_REMINDER = 85;
     private final static int OPTION_COPY_PHOTO = 86;
     private final static int OPTION_SAVE_TO_GALLERY_STICKER = 87;
     private final static int OPTION_DETAILS = 89;
@@ -22083,6 +22084,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 options.add(95);
                                 icons.add(R.drawable.msg_forward);
                             }
+                            if (NekoConfig.showSetReminder) {
+                                items.add(LocaleController.getString("SetReminder", R.string.SetReminder));
+                                options.add(OPTION_SET_REMINDER);
+                                icons.add(R.drawable.msg_calendar2);
+                            }
                             if (NekoConfig.showAddToSavedMessages && !UserObject.isUserSelf(currentUser)) {
                                 items.add(LocaleController.getString("AddToSavedMessages", R.string.AddToSavedMessages));
                                 options.add(OPTION_SAVE_MESSAGE);
@@ -24346,6 +24352,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     checkAutoDownloadMessage(selectedObject);
                     messageCell.updateButtonState(false, true, false);
                 }
+                break;
+            } case OPTION_SET_REMINDER: {
+                ArrayList<MessageObject> messages =  new ArrayList<>();
+                if (selectedObjectGroup != null) {
+                    messages.addAll(selectedObjectGroup.messages);
+                } else {
+                    messages.add(selectedObject);
+                }
+                AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), getUserConfig().getClientUserId(), (notify, scheduleDate) -> {
+                    forwardMessages(messages, false, false, notify, scheduleDate, getUserConfig().getClientUserId());
+                    undoView.showWithAction(getUserConfig().getClientUserId(), UndoView.ACTION_FWD_MESSAGES, messages.size());
+                }, themeDelegate);
                 break;
             } case OPTION_SAVE_MESSAGE: {
                 ArrayList<MessageObject> messages =  new ArrayList<>();
