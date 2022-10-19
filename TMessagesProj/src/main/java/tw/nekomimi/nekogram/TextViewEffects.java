@@ -13,6 +13,7 @@ import android.text.Spanned;
 import android.view.MotionEvent;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.LinkSpanDrawable;
@@ -38,7 +39,11 @@ public class TextViewEffects extends LinkSpanDrawable.LinksTextView {
     private int lastTextLength;
 
     public TextViewEffects(Context context) {
-        super(context);
+        this(context, null);
+    }
+
+    public TextViewEffects(Context context, Theme.ResourcesProvider resourcesProvider) {
+        super(context, resourcesProvider);
 
         clickDetector = new SpoilersClickDetector(this, spoilers, (eff, x, y) -> {
             if (isSpoilersRevealed) return;

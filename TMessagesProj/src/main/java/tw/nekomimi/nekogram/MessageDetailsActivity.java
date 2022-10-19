@@ -621,7 +621,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             textView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
             addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, 21, 10, 21, 0));
 
-            valueTextView = new TextViewEffects(context);
+            valueTextView = new TextViewEffects(context, resourcesProvider);
             valueTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider));
             valueTextView.setTextSize(13);
             valueTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
