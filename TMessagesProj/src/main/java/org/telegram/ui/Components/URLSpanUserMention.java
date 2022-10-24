@@ -36,14 +36,10 @@ public class URLSpanUserMention extends URLSpanNoUnderline {
     @Override
     public void updateDrawState(TextPaint p) {
         super.updateDrawState(p);
-        if (currentType == 3) {
-            p.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
-        } else if (currentType == 2) {
+        if (currentType == 2) {
             p.setColor(0xffffffff);
-        } else if (currentType == 1) {
-            p.setColor(Theme.getColor(Theme.key_chat_messageLinkOut));
         } else {
-            p.setColor(Theme.getColor(Theme.key_chat_messageLinkIn));
+            p.setColor(p.linkColor);
         }
         if (style != null) {
             style.applyStyle(p);
