@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import tw.nekomimi.nekogram.Extra;
 
 public abstract class BaseRemoteHelper {
-    protected static final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+    protected static final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoremoteconfig", Activity.MODE_PRIVATE);
 
     protected MessagesController getMessagesController() {
         return MessagesController.getInstance(UserConfig.selectedAccount);
