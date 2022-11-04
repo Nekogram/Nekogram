@@ -134,9 +134,15 @@ public class AppLinkVerifyBottomSheet extends BottomSheet {
                         Uri.parse("package:" + context.getPackageName()));
                 context.startActivity(intent);
             } catch (Throwable t) {
-                Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                        Uri.parse("package:" + context.getPackageName()));
-                context.startActivity(intent);
+                try {
+                    Intent intent = new Intent("android.intent.action.MAIN", Uri.parse("package:" + context.getPackageName()));
+                    intent.setClassName("com.android.settings", "com.android.settings.applications.InstalledAppOpenByDefaultActivity");
+                    context.startActivity(intent);
+                } catch (Throwable t2) {
+                    Intent intent = new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                            Uri.parse("package:" + context.getPackageName()));
+                    context.startActivity(intent);
+                }
             }
         });
 
