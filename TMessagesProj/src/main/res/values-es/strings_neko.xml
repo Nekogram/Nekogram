@@ -251,15 +251,7 @@
     <string name="NoUpdateAvailablePlayDelay">Actualizar desde Play Store usualmente es más lento que mediante APK debido a la revisión de Google.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
-    <string name="AccRewindHeading">Ajustes de rebobinado</string>
     <string name="AccSeekbarHeading">Configuración de la barra de búsqueda</string>
-    <string name="AccTypeOfRewindHeading">Selecciona el tipo de rebobinado del contenido multimedia</string>
-    <string name="AccTypeOfRewindVideoHeading">Selecciona el tipo de rebobinado de vídeo</string>
-    <string name="AccTypeOfRewindVideo">Tipo de rebobinado de video</string>
-    <string name="AccRewindTypesWithout">Sin rebobinado</string>
-    <string name="AccRewindTypesPercent">Porcentaje de rebobinado</string>
-    <string name="AccRewindTypesSecond">Segundo rebobinado</string>
-    <string name="AccRewindTypesSelect">Seleccionar automáticamente</string>
     <string name="AccNumberOfItems">Mostrar número de elementos</string>
     <string name="AccIndexOfItem">Mostrar posición actual</string>
     <string name="AccShowValueChanges">Anunciar cambios de valor durante los cambios manuales</string>

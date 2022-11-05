@@ -251,14 +251,7 @@
     <string name="NoUpdateAvailablePlayDelay">Зазвичай оновлення у Play Маркет з\'являються пізніше за прямий APK через рецензію Google.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
-    <string name="AccRewindHeading">Налаштування перемотки</string>
     <string name="AccSeekbarHeading">Налаштування панелі повзунка</string>
-    <string name="AccTypeOfRewindHeading">Оберіть тип перемотування мультимедійного вмісту</string>
-    <string name="AccTypeOfRewindVideoHeading">Оберіть тип перемотування відео</string>
-    <string name="AccTypeOfRewindVideo">Тип перемотування відео</string>
-    <string name="AccRewindTypesWithout">Без перемотування</string>
-    <string name="AccRewindTypesPercent">Відсоток перемотування</string>
-    <string name="AccRewindTypesSelect">Обрати автоматично</string>
     <string name="AccNumberOfItems">Показати кількість елементів</string>
     <string name="AccIndexOfItem">Показати поточну позицію</string>
     <string name="AccShowValueChanges">Промовляти зміну значення у разі його зміни вручну</string>

@@ -252,19 +252,11 @@
     <string name="NoUpdateAvailablePlayDelay">Обновление в Play Store обычно происходит медленнее, чем прямые APK из-за проверки Google.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
-    <string name="AccRewindHeading">Настройки перемотки</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>
-    <string name="AccTypeOfRewindHeading">Выберите тип перемотки медиа контента</string>
-    <string name="AccTypeOfRewindVideoHeading">Выберите тип перемотки видео</string>
-    <string name="AccTypeOfRewindVideo">Тип перемотки видео</string>
     <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading">Выберите время в миллисекундах, через которое будет озвучиваться значение ползунка, если Вы выбрали эту настройку</string>
     <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar">Задержка перед озвучиванием значения ползунка</string>
     <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay">Без задержки</string>
     <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
-    <string name="AccRewindTypesWithout">Без перемотки</string>
-    <string name="AccRewindTypesPercent">Процентная перемотка</string>
-    <string name="AccRewindTypesSecond">Секундная перемотка</string>
-    <string name="AccRewindTypesSelect">Выбирать автоматически</string>
     <string name="AccNumberOfItems">Показывать количество элементов</string>
     <string name="AccIndexOfItem">Показывать текущую позицию</string>
     <string name="AccShowValueChanges">Озвучивать изменений значения во время его ручного изменения</string>

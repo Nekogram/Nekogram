@@ -93,6 +93,12 @@
     <string name="DisableInstantCamera">Вимкнути миттєву камеру</string>
     <string name="OpenAllLinksInInstantView">Спробуйте відкрити усі посилання в InstantView</string>
     <string name="DonateThankYou">Дякую!</string>
+    <string name="DonateEvilGoogle">Google si vezme 30 procent z vašeho daru.</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
+    <string name="FormatWithSeconds">Zobrazit čas s sekundami</string>
+    <string name="JumpToBeginning">Přejít nahoru</string>
+    <string name="ProviderDeepLTranslate">DeepL Translate</string>
     <string name="Halloween">Хелловін</string>
     <string name="CheckUpdate">Перевірити оновлення</string>
     <string name="LastUpdateFormatted">Остання успішно перевірена%1$s.</string>
@@ -136,5 +142,12 @@
     <string name="RestrictionReason">Причина обмежень</string>
     <string name="ProviderTencentTranslator">Містер перекладач</string>
     <string name="MaxRecentStickers">Максимум недавніх наліпок</string>
+    <string name="ApplyEmojiFont">Použít emoji font</string>
+    <string name="DisableJumpToNextChannel">Vypnutí \"Přejít na další kanál\"</string>
+    <string name="DisableGreetingSticker">Vypnout uvítací nálepku</string>
+    <string name="OfficialSite">Oficiální web stránky</string>
+    <string name="MutualContact">Vzájemný kontakt</string>
+    <string name="MutualContactDescription">Tento kontakt je vzájemný.</string>
+    <string name="NoUpdateAvailable">Update nebylo nalezeno.</string>
     <!-- Accessibility -->
 </resources>

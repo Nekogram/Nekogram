@@ -252,15 +252,7 @@
     <string name="NoUpdateAvailablePlayDelay">A atualização na Play Store geralmente chega mais lenta do que os APKs diretos devido à revisão do Google.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
-    <string name="AccRewindHeading">Configurações de retrocesso</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>
-    <string name="AccTypeOfRewindHeading">Selecione o tipo de retrocesso do conteúdo de mídia</string>
-    <string name="AccTypeOfRewindVideoHeading">Selecione o tipo de retrocesso do vídeo</string>
-    <string name="AccTypeOfRewindVideo">Tipo de retrocesso do vídeo</string>
-    <string name="AccRewindTypesWithout">Sem retroceder</string>
-    <string name="AccRewindTypesPercent">Porcentagem de retrocesso</string>
-    <string name="AccRewindTypesSecond">Segundo retrocesso</string>
-    <string name="AccRewindTypesSelect">Selecionar automaticamente</string>
     <string name="AccNumberOfItems">Mostrar número de itens</string>
     <string name="AccIndexOfItem">Mostrar posição atual</string>
     <string name="AccShowValueChanges">Anunciar mudanças de valor durante alterações manuais</string>

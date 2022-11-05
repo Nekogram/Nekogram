@@ -229,6 +229,8 @@
     <string name="MarkdownEnableByDefault">Activé par défaut</string>
     <string name="MarkdownParser">Analyseur</string>
     <string name="MarkdownParseLinks">Analyser les liens</string>
+    <string name="MarkdownAbout">Modifier le texte dans les messages en utilisant le format Markdown : ^1**gras**^1, ^2__italique__^2, ^3~~barré~~^3, ^4`monospace`^4, ^5||spoiler||^5, ^6texte^7url^8.</string>
+    <string name="NoUpdateAvailablePlayDelay">En raison de la révision de Google, la mise à jour dans le Play Store est généralement plus lente que les APK directs.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

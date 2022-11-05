@@ -252,15 +252,7 @@
     <string name="NoUpdateAvailablePlayDelay">플레이 스토어의 업데이트는 Google의 검토로 인해 일반적으로 APK 직접 다운로드 보다 느립니다.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">접근성 설정</string>
-    <string name="AccRewindHeading">되감기 설정</string>
     <string name="AccSeekbarHeading">검색바 설정</string>
-    <string name="AccTypeOfRewindHeading">미디어 콘텐츠의 되감기 유형 선택</string>
-    <string name="AccTypeOfRewindVideoHeading">비디오의 되감기 유형 선택</string>
-    <string name="AccTypeOfRewindVideo">비디오의 되감기 유형</string>
-    <string name="AccRewindTypesWithout">되감기 없이</string>
-    <string name="AccRewindTypesPercent">되감기 퍼센트</string>
-    <string name="AccRewindTypesSecond">두 번째 되감기</string>
-    <string name="AccRewindTypesSelect">자동 선택</string>
     <string name="AccNumberOfItems">항목 수 표시</string>
     <string name="AccIndexOfItem">현재 위치 표시</string>
     <string name="AccShowValueChanges">수동 변경 중 값 변경 발표</string>

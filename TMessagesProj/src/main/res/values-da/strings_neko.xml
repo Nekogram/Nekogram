@@ -227,15 +227,7 @@
     <string name="DatacenterStatus">Datacenter status</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
-    <string name="AccRewindHeading">Indstillinger for tilbagespoling</string>
     <string name="AccSeekbarHeading">Indstillinger for søgepanel</string>
-    <string name="AccTypeOfRewindHeading">Vælg type tilbagespoling af medieindhold</string>
-    <string name="AccTypeOfRewindVideoHeading">Vælg type tilbagespoling af video</string>
-    <string name="AccTypeOfRewindVideo">Type tilbagespoling af video</string>
-    <string name="AccRewindTypesWithout">Uden tilbagespoling</string>
-    <string name="AccRewindTypesPercent">Tilbagespoling i procent</string>
-    <string name="AccRewindTypesSecond">Anden tilbagespoling</string>
-    <string name="AccRewindTypesSelect">Vælg automatisk</string>
     <string name="AccNumberOfItems">Vis antal elementer</string>
     <string name="AccIndexOfItem">Vis aktuel position</string>
     <string name="AccShowValueChanges">Annoncere værdiændringer under manuelle ændringer</string>

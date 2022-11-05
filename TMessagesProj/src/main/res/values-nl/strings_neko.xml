@@ -15,6 +15,10 @@
     <string name="NameOrder">Naam volgorde</string>
     <string name="FirstLast">Voornaam laatst</string>
     <string name="LastFirst">Laatste eerst</string>
+    <string name="NoQuoteForward">Vooruit</string>
+    <string name="Repeat">Herhaal</string>
+    <string name="AddToSavedMessages">Bewaar bericht</string>
+    <string name="TransparentStatusBar">Doorzichtige statusbalk</string>
     <string name="Categories">Categorieën</string>
     <string name="About">Over</string>
     <!-- Accessibility -->
