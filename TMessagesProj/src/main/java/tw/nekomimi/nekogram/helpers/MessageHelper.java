@@ -648,18 +648,18 @@ public class MessageHelper extends BaseController {
         Bulletin.ButtonLayout buttonLayout;
         if (search) {
             final Bulletin.TwoLineLottieLayout layout = new Bulletin.TwoLineLottieLayout(fragment.getParentActivity(), resourcesProvider);
-            layout.setAnimation(R.raw.ic_delete, "Envelope", "Cover", "Bucket");
             layout.titleTextView.setText(LocaleController.getString("DeleteAllFromSelfDone", R.string.DeleteAllFromSelfDone));
             layout.subtitleTextView.setText(LocaleController.formatPluralString("MessagesDeletedHint", count));
+            layout.setTimer();
             buttonLayout = layout;
         } else {
             final Bulletin.LottieLayout layout = new Bulletin.LottieLayout(fragment.getParentActivity(), resourcesProvider);
-            layout.setAnimation(R.raw.ic_delete, "Envelope", "Cover", "Bucket");
             layout.textView.setText(LocaleController.getString("DeleteAllFromSelfDone", R.string.DeleteAllFromSelfDone));
+            layout.setTimer();
             buttonLayout = layout;
         }
         buttonLayout.setButton(new Bulletin.UndoButton(fragment.getParentActivity(), true, resourcesProvider).setDelayedAction(delayedAction));
-        Bulletin.make(fragment, buttonLayout, 5000).show();
+        Bulletin.make(fragment, buttonLayout, Bulletin.DURATION_PROLONG).show();
     }
 
     public void resetMessageContent(long dialogId, MessageObject messageObject, boolean translated) {
