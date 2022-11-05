@@ -12,6 +12,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.ui.LaunchActivity;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -531,7 +532,11 @@ public class FileLoadOperation {
                             }
                         }
                     } catch (Exception e) {
-                        FileLog.e(e);
+                        if (AndroidUtilities.isENOSPC(e)) {
+                            LaunchActivity.checkFreeDiscSpaceStatic(1);
+                        } else {
+                            FileLog.e(e);
+                        }
                     }
                     totalTime += System.currentTimeMillis() - time;
                 });
@@ -859,7 +864,11 @@ public class FileLoadOperation {
                     }
                     file.close();
                 } catch (Exception e) {
-                    FileLog.e(e);
+                    if (AndroidUtilities.isENOSPC(e)) {
+                        LaunchActivity.checkFreeDiscSpaceStatic(1);
+                    } else {
+                        FileLog.e(e);
+                    }
                 }
             }
 
@@ -919,7 +928,7 @@ public class FileLoadOperation {
                     }
                     preloadStream.seek(preloadStreamFileOffset);
                 } catch (Exception e) {
-                    FileLog.e(e);
+                    FileLog.e(e, false);
                 }
                 if (!isPreloadVideoOperation && preloadedBytesRanges == null) {
                     cacheFilePreload = null;
@@ -1012,8 +1021,12 @@ public class FileLoadOperation {
                         }
                     }
                 } catch (Exception e) {
-                    FileLog.e(e);
                     requestedBytesCount = downloadedBytes = 0;
+                    if (AndroidUtilities.isENOSPC(e)) {
+                        LaunchActivity.checkFreeDiscSpaceStatic(1);
+                    } else {
+                        FileLog.e(e);
+                    }
                 }
             }
             if (!isPreloadVideoOperation && downloadedBytes != 0 && totalBytesCount > 0) {
@@ -1026,7 +1039,13 @@ public class FileLoadOperation {
                     fileOutputStream.seek(downloadedBytes);
                 }
             } catch (Exception e) {
-                FileLog.e(e, false);
+                if (AndroidUtilities.isENOSPC(e)) {
+                    LaunchActivity.checkFreeDiscSpaceStatic(1);
+                    onFail(true, -1);
+                    return false;
+                } else {
+                    FileLog.e(e, false);
+                }
             }
             if (fileOutputStream == null) {
                 onFail(true, 0);
@@ -1052,7 +1071,13 @@ public class FileLoadOperation {
                     delegate.saveFilePath(pathSaveData, null);
                 }
             } catch (Exception e) {
-                onFail(true, 0);
+                if (AndroidUtilities.isENOSPC(e)) {
+                    LaunchActivity.checkFreeDiscSpaceStatic(1);
+                    onFail(true, -1);
+                } else {
+                    FileLog.e(e, false);
+                    onFail(true, 0);
+                }
             }
         }
         return true;
@@ -1479,7 +1504,7 @@ public class FileLoadOperation {
     protected boolean processRequestResult(RequestInfo requestInfo, TLRPC.TL_error error) {
         if (state != stateDownloading) {
             if (BuildVars.DEBUG_VERSION && state == stateFinished) {
-                FileLog.e(new Exception("trying to write to finished file " + fileName + " offset " + requestInfo.offset + " " + totalBytesCount));
+                FileLog.e(new FileLog.IgnoreSentException("trying to write to finished file " + fileName + " offset " + requestInfo.offset + " " + totalBytesCount));
             }
             return false;
         }
@@ -1698,8 +1723,12 @@ public class FileLoadOperation {
                     startDownloadRequest();
                 }
             } catch (Exception e) {
-                onFail(false, 0);
-                FileLog.e(e);
+                if (AndroidUtilities.isENOSPC(e)) {
+                    onFail(false, -1);
+                } else {
+                    FileLog.e(e);
+                    onFail(false, 0);
+                }
             }
         } else {
             if (error.text.contains("FILE_MIGRATE_")) {

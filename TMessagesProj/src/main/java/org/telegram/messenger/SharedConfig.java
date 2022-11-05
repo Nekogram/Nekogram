@@ -99,6 +99,7 @@ public class SharedConfig {
     public static boolean stickersReorderingHintUsed;
     public static boolean disableVoiceAudioEffects;
     public static boolean forceDisableTabletMode;
+    public static boolean useLNavigation;
     private static int lastLocalId = -210000;
 
     public static String storageCacheDir;
@@ -169,6 +170,8 @@ public class SharedConfig {
     public static int mediaColumnsCount = 3;
     public static int fastScrollHintCount = 3;
     public static boolean dontAskManageStorage;
+
+    public static boolean isFloatingDebugActive;
 
     static {
         loadConfig();
@@ -245,7 +248,6 @@ public class SharedConfig {
                 editor.putBoolean("forwardingOptionsHintShown", forwardingOptionsHintShown);
                 editor.putInt("lockRecordAudioVideoHint", lockRecordAudioVideoHint);
                 editor.putString("storageCacheDir", !TextUtils.isEmpty(storageCacheDir) ? storageCacheDir : "");
-                editor.putBoolean("hasEmailLogin", hasEmailLogin);
 
                 if (pendingAppUpdate != null) {
                     try {
@@ -263,6 +265,12 @@ public class SharedConfig {
                 }
                 editor.putLong("appUpdateCheckTime", lastUpdateCheckTime);
 
+                editor.apply();
+
+                editor = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Context.MODE_PRIVATE).edit();
+                editor.putBoolean("hasEmailLogin", hasEmailLogin);
+                editor.putBoolean("useLNavigation", useLNavigation);
+                editor.putBoolean("floatingDebugActive", isFloatingDebugActive);
                 editor.apply();
             } catch (Exception e) {
                 FileLog.e(e);
@@ -429,6 +437,8 @@ public class SharedConfig {
             fastScrollHintCount = preferences.getInt("fastScrollHintCount", 3);
             dontAskManageStorage = preferences.getBoolean("dontAskManageStorage", false);
             hasEmailLogin = preferences.getBoolean("hasEmailLogin", false);
+            useLNavigation = preferences.getBoolean("useLNavigation", BuildVars.DEBUG_VERSION);
+            isFloatingDebugActive = preferences.getBoolean("floatingDebugActive", false);
 
             preferences = ApplicationLoader.applicationContext.getSharedPreferences("Notifications", Activity.MODE_PRIVATE);
             showNotificationsForAllAccounts = preferences.getBoolean("AllAccounts", true);
@@ -447,7 +457,7 @@ public class SharedConfig {
 
     public static void updateTabletConfig() {
         if (fontSizeIsDefault) {
-            SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("userconfing", Context.MODE_PRIVATE);
+            SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
             fontSize = preferences.getInt("fons_size", AndroidUtilities.isTablet() ? 18 : 16);
             ivFontSize = preferences.getInt("iv_font_size", fontSize);
         }

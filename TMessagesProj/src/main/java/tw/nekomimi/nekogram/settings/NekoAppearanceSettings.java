@@ -155,7 +155,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.disableAppBarShadow);
             }
-            ActionBarLayout.headerShadowDrawable = NekoConfig.disableAppBarShadow ? null : parentLayout.getResources().getDrawable(R.drawable.header_shadow).mutate();
+            ActionBarLayout.headerShadowDrawable = NekoConfig.disableAppBarShadow ? null : parentLayout.getParentActivity().getDrawable(R.drawable.header_shadow).mutate();
             parentLayout.rebuildAllFragmentViews(false, false);
         } else if (position == mediaPreviewRow) {
             NekoConfig.toggleMediaPreview();

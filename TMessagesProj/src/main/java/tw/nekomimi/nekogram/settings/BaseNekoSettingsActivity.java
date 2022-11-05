@@ -26,6 +26,7 @@ import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.NotificationsCheckCell;
@@ -117,7 +118,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     }
 
     @Override
-    protected void setParentLayout(ActionBarLayout layout) {
+    public void setParentLayout(INavigationLayout layout) {
         if (layout != null && layout.getLastFragment() != null && !hasWhiteActionBar()) {
             resourcesProvider = layout.getLastFragment().getResourceProvider();
         }

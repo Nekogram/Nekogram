@@ -40,6 +40,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
         }
         long dialogId = intent.getLongExtra("dialog_id", 0);
         int maxId = intent.getIntExtra("max_id", 0);
+        int topicId = intent.getIntExtra("topic_id", 0);
         int currentAccount = intent.getIntExtra("currentAccount", 0);
         if (dialogId == 0 || maxId == 0 || !UserConfig.isValidAccount(currentAccount)) {
             return;
@@ -52,7 +53,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
                     TLRPC.User user1 = accountInstance.getMessagesStorage().getUserSync(dialogId);
                     AndroidUtilities.runOnUIThread(() -> {
                         accountInstance.getMessagesController().putUser(user1, true);
-                        sendMessage(accountInstance, text, images, dialogId, maxId);
+                        sendMessage(accountInstance, text, images, dialogId, topicId, maxId);
                     });
                 });
                 return;
@@ -64,16 +65,27 @@ public class WearReplyReceiver extends BroadcastReceiver {
                     TLRPC.Chat chat1 = accountInstance.getMessagesStorage().getChatSync(-dialogId);
                     AndroidUtilities.runOnUIThread(() -> {
                         accountInstance.getMessagesController().putChat(chat1, true);
-                        sendMessage(accountInstance, text, images, dialogId, maxId);
+                        sendMessage(accountInstance, text, images, dialogId, topicId, maxId);
                     });
                 });
                 return;
             }
         }
-        sendMessage(accountInstance, text, images, dialogId, maxId);
+        sendMessage(accountInstance, text, images, dialogId, topicId, maxId);
     }
 
-    private void sendMessage(AccountInstance accountInstance, CharSequence text, ArrayList<Uri> images, long dialog_id, int max_id) {
+    private void sendMessage(AccountInstance accountInstance, CharSequence text, ArrayList<Uri> images, long dialog_id, int topicId, int max_id) {
+        MessageObject replyToMsgId = null;
+        if (topicId != 0) {
+            TLRPC.TL_message topicStartMessage = new TLRPC.TL_message();
+            topicStartMessage.message = "";
+            topicStartMessage.id = topicId;
+            topicStartMessage.peer_id = accountInstance.getMessagesController().getPeer(dialog_id);
+            topicStartMessage.action = new TLRPC.TL_messageActionTopicCreate();
+            topicStartMessage.action.title = "";
+            replyToMsgId = new MessageObject(accountInstance.getCurrentAccount(), topicStartMessage, false, false);
+        }
+
         if (images.isEmpty()) {
             accountInstance.getSendMessagesHelper().sendMessage(text.toString(), dialog_id, null, null, null, true, null, null, null, true, 0, null, false);
         } else {
@@ -86,8 +98,11 @@ public class WearReplyReceiver extends BroadcastReceiver {
                 }
                 infos.add(info);
             }
-            SendMessagesHelper.prepareSendingMedia(accountInstance, infos, dialog_id, null, null, null, false, images.size() > 1, null, true, 0, false);
+            SendMessagesHelper.prepareSendingMedia(accountInstance, infos, dialog_id, replyToMsgId, null, null, false, images.size() > 1, null, true, 0, false);
         }
-        accountInstance.getMessagesController().markDialogAsRead(dialog_id, max_id, max_id, 0, false, 0, 0, true, 0);
+        //TODO handle topics
+        if (topicId == 0) {
+            accountInstance.getMessagesController().markDialogAsRead(dialog_id, max_id, max_id, 0, false, topicId, 0, true, 0);
+        }
     }
 }

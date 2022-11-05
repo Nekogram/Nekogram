@@ -1123,7 +1123,7 @@ public class FilterUsersActivity extends BaseFragment implements NotificationCen
                             if (object instanceof TLRPC.User) {
                                 objectUserName = ((TLRPC.User) object).username;
                             } else {
-                                objectUserName = ((TLRPC.Chat) object).username;
+                                objectUserName = ChatObject.getPublicUsername((TLRPC.Chat) object);
                             }
                             if (position < localCount) {
                                 name = searchResultNames.get(position);

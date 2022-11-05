@@ -155,7 +155,7 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
             if (currentType == TYPE_RESTRICTED) {
                 TextCheckbox2Cell cell = (TextCheckbox2Cell) view;
                 if (localeInfo.langCode.equals(getCurrentTargetLanguage())) {
-                    AndroidUtilities.shakeView(((TextCheckbox2Cell) view).checkbox, 2, 0);
+                    AndroidUtilities.shakeView(((TextCheckbox2Cell) view).checkbox);
                     return;
                 }
                 boolean remove = NekoConfig.restrictedLanguages.contains(localeInfo.langCode);

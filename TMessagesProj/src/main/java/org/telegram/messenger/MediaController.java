@@ -52,6 +52,7 @@ import android.provider.OpenableColumns;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.HapticFeedbackConstants;
 import android.view.TextureView;
@@ -525,6 +526,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     public static ArrayList<AlbumEntry> allPhotoAlbums = new ArrayList<>();
     private static Runnable broadcastPhotosRunnable;
 
+    public boolean isSilent = false;
     private boolean isPaused = false;
     private VideoPlayer audioPlayer = null;
     private VideoPlayer emojiSoundPlayer = null;
@@ -1049,7 +1051,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private void setPlayerVolume() {
         try {
             float volume;
-            if (audioFocus != AUDIO_NO_FOCUS_CAN_DUCK) {
+            if (isSilent) {
+                volume = 0;
+            } else if (audioFocus != AUDIO_NO_FOCUS_CAN_DUCK) {
                 volume = VOLUME_NORMAL;
             } else {
                 volume = VOLUME_DUCK;
@@ -2131,12 +2135,13 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             }
             return;
         }
+        //TODO topics
         if (!playlistEndReached[0]) {
             loadingPlaylist = true;
-            AccountInstance.getInstance(playingMessageObject.currentAccount).getMediaDataController().loadMedia(playingMessageObject.getDialogId(), 50, playlistMaxId[0], 0, MediaDataController.MEDIA_MUSIC, 1, playlistClassGuid, 0);
+            AccountInstance.getInstance(playingMessageObject.currentAccount).getMediaDataController().loadMedia(playingMessageObject.getDialogId(), 50, playlistMaxId[0], 0, MediaDataController.MEDIA_MUSIC, 0, 1, playlistClassGuid, 0);
         } else if (playlistMergeDialogId != 0 && !playlistEndReached[1]) {
             loadingPlaylist = true;
-            AccountInstance.getInstance(playingMessageObject.currentAccount).getMediaDataController().loadMedia(playlistMergeDialogId, 50, playlistMaxId[0], 0, MediaDataController.MEDIA_MUSIC, 1, playlistClassGuid, 0);
+            AccountInstance.getInstance(playingMessageObject.currentAccount).getMediaDataController().loadMedia(playlistMergeDialogId, 50, playlistMaxId[0], 0, MediaDataController.MEDIA_MUSIC, 0, 1, playlistClassGuid, 0);
         }
     }
 
@@ -2448,6 +2453,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
+    public boolean isPiPShown() {
+        return pipRoundVideoView != null;
+    }
+
     public void setCurrentVideoVisible(boolean visible) {
         if (currentAspectRatioFrameLayout == null) {
             return;
@@ -2484,6 +2493,10 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     public void setTextureView(TextureView textureView, AspectRatioFrameLayout aspectRatioFrameLayout, FrameLayout container, boolean set) {
+        setTextureView(textureView, aspectRatioFrameLayout, container, set, false);
+    }
+
+    public void setTextureView(TextureView textureView, AspectRatioFrameLayout aspectRatioFrameLayout, FrameLayout container, boolean set, boolean forcePip) {
         if (textureView == null) {
             return;
         }
@@ -2499,6 +2512,16 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
         isDrawingWasReady = aspectRatioFrameLayout != null && aspectRatioFrameLayout.isDrawingReady();
         currentTextureView = textureView;
+        if (forcePip && pipRoundVideoView == null) {
+            try {
+                pipRoundVideoView = new PipRoundVideoView();
+                AndroidUtilities.runOnUIThread(() -> {
+                    pipRoundVideoView.show(baseActivity, () -> cleanupPlayer(true, true));
+                }, 350);
+            } catch (Exception e) {
+                pipRoundVideoView = null;
+            }
+        }
         if (pipRoundVideoView != null) {
             videoPlayer.setTextureView(pipRoundVideoView.getTextureView());
         } else {
@@ -2844,6 +2867,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
     private static long volumeBarLastTimeShown;
     public void checkVolumeBarUI() {
+        if (isSilent) {
+            return;
+        }
         try {
             final long now = System.currentTimeMillis();
             if (Math.abs(now - volumeBarLastTimeShown) < 5000) {
@@ -2879,9 +2905,14 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
 
     public boolean playMessage(final MessageObject messageObject) {
+        return playMessage(messageObject, false);
+    }
+
+    public boolean playMessage(final MessageObject messageObject, boolean silent) {
         if (messageObject == null) {
             return false;
         }
+        isSilent = silent;
         checkVolumeBarUI();
         if ((audioPlayer != null || videoPlayer != null) && isSamePlayingMessage(messageObject)) {
             if (isPaused) {
@@ -2963,6 +2994,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             int[] playCount = isVideo && messageObject.getDuration() <= 30 ? new int[]{1} : null;
             clearPlaylist();
             videoPlayer = new VideoPlayer();
+            videoPlayer.setLooping(silent);
             int tag = ++playerNum;
             videoPlayer.setDelegate(new VideoPlayer.VideoPlayerDelegate() {
                 @Override
@@ -3336,6 +3368,18 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
 
         return true;
     }
+    
+    public void updateSilent(boolean value) {
+        isSilent = value;
+        if (videoPlayer != null) {
+            videoPlayer.setLooping(value);
+        }
+        setPlayerVolume();
+        checkVolumeBarUI();
+        if (playingMessageObject != null) {
+            NotificationCenter.getInstance(playingMessageObject.currentAccount).postNotificationName(NotificationCenter.messagePlayingPlayStateChanged, playingMessageObject != null ? playingMessageObject.getId() : 0);
+        }
+    }
 
     public AudioInfo getAudioInfo() {
         return audioInfo;
@@ -3418,7 +3462,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                 audioVolumeAnimator.removeAllListeners();
                 audioVolumeAnimator.cancel();
             }
-            if (!messageObject.isVoice()) {
+            if (!messageObject.isVoice() && !messageObject.isRoundVideo()) {
                 audioVolumeAnimator = ValueAnimator.ofFloat(audioVolume, 1f);
                 audioVolumeAnimator.addUpdateListener(audioVolumeUpdateListener);
                 audioVolumeAnimator.setDuration(300);
@@ -3611,7 +3655,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     }
                     TLRPC.TL_messages_messages messagesRes = new TLRPC.TL_messages_messages();
                     messagesRes.messages.add(messageObject1.messageOwner);
-                    MessagesStorage.getInstance(messageObject1.currentAccount).putMessages(messagesRes, messageObject1.getDialogId(), -1, 0, false, messageObject.scheduled);
+                    MessagesStorage.getInstance(messageObject1.currentAccount).putMessages(messagesRes, messageObject1.getDialogId(), -1, 0, false, messageObject.scheduled, 0);
                     ArrayList<MessageObject> arrayList = new ArrayList<>();
                     arrayList.add(messageObject1);
                     NotificationCenter.getInstance(messageObject1.currentAccount).postNotificationName(NotificationCenter.replaceMessagesObjects, messageObject1.getDialogId(), arrayList);

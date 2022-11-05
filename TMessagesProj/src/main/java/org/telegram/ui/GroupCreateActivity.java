@@ -773,7 +773,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                 }
             }
         });
-        listView.setAnimateEmptyView(true, 0);
+        listView.setAnimateEmptyView(true, RecyclerListView.EMPTY_VIEW_ANIMATION_TYPE_ALPHA);
 
         floatingButton = new ImageView(context);
         floatingButton.setScaleType(ImageView.ScaleType.CENTER);
@@ -1272,7 +1272,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                         inviteViaLink = ChatObject.canUserDoAdminAction(chat, ChatObject.ACTION_INVITE) ? 1 : 0;
                     } else if (channelId != 0) {
                         TLRPC.Chat chat = getMessagesController().getChat(channelId);
-                        inviteViaLink = ChatObject.canUserDoAdminAction(chat, ChatObject.ACTION_INVITE) && TextUtils.isEmpty(chat.username) ? 2 : 0;
+                        inviteViaLink = ChatObject.canUserDoAdminAction(chat, ChatObject.ACTION_INVITE) && !ChatObject.isPublic(chat) ? 2 : 0;
                     } else {
                         inviteViaLink = 0;
                     }
@@ -1356,7 +1356,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                             if (object instanceof TLRPC.User) {
                                 objectUserName = ((TLRPC.User) object).username;
                             } else {
-                                objectUserName = ((TLRPC.Chat) object).username;
+                                objectUserName = ChatObject.getPublicUsername((TLRPC.Chat) object);
                             }
                             if (position < localCount) {
                                 name = searchResultNames.get(position);
@@ -1517,7 +1517,7 @@ public class GroupCreateActivity extends BaseFragment implements NotificationCen
                             } else {
                                 TLRPC.Chat chat = (TLRPC.Chat) object;
                                 name = chat.title;
-                                username = chat.username;
+                                username = ChatObject.getPublicUsername(chat);
                             }
                             String tName = LocaleController.getInstance().getTranslitString(name);
                             if (name.equals(tName)) {
