@@ -10253,13 +10253,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (user == null) {
                     return;
                 }
-                username = user.username;
+                username = UserObject.getPublicUsername(user);
             } else if (chatId != 0) {
                 TLRPC.Chat chat = getMessagesController().getChat(chatId);
                 if (chat == null) {
                     return;
                 }
-                username = chat.username;
+                username = ChatObject.getPublicUsername(chat);
             }
             if (username != null) {
                 outContent.setWebUri(Uri.parse(String.format("https://" + getMessagesController().linkPrefix + "/%s", username)));

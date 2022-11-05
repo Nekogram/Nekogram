@@ -30756,9 +30756,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             String username = null;
             if (currentUser != null) {
-                username = currentUser.username;
+                username = UserObject.getPublicUsername(currentUser);
             } else if (currentChat != null) {
-                username = currentChat.username;
+                username = ChatObject.getPublicUsername(currentChat);
             }
             if (username != null) {
                 outContent.setWebUri(Uri.parse(String.format("https://" + getMessagesController().linkPrefix + "/%s", username)));
