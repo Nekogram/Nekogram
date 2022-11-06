@@ -22,14 +22,16 @@ public class AutoTranslatePopupWrapper {
 
     public ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout;
     private final long dialogId;
+    private final int topicId;
     private final ActionBarMenuSubItem defaultItem;
     private final ActionBarMenuSubItem enableItem;
     private final ActionBarMenuSubItem disableItem;
 
-    public AutoTranslatePopupWrapper(Context context, PopupSwipeBackLayout swipeBackLayout, long dialogId, Theme.ResourcesProvider resourcesProvider) {
+    public AutoTranslatePopupWrapper(Context context, PopupSwipeBackLayout swipeBackLayout, long dialogId, int topicId, Theme.ResourcesProvider resourcesProvider) {
         windowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, 0, resourcesProvider);
         windowLayout.setFitItems(true);
         this.dialogId = dialogId;
+        this.topicId = topicId;
 
         if (swipeBackLayout != null) {
             var backItem = ActionBarMenuItem.addItem(windowLayout, R.drawable.msg_arrow_back, LocaleController.getString("Back", R.string.Back), false, resourcesProvider);
@@ -41,21 +43,21 @@ public class AutoTranslatePopupWrapper {
         defaultItem = ActionBarMenuItem.addItem(windowLayout, 0, LocaleController.getString("Default", R.string.Default), true, resourcesProvider);
 
         defaultItem.setOnClickListener(view -> {
-            DialogConfig.removeAutoTranslateConfig(dialogId);
+            DialogConfig.removeAutoTranslateConfig(dialogId, topicId);
             updateItems();
         });
 
         enableItem = ActionBarMenuItem.addItem(windowLayout, 0, LocaleController.getString("Enable", R.string.Enable), true, resourcesProvider);
-        enableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId) && DialogConfig.isAutoTranslateEnable(dialogId));
+        enableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId, topicId) && DialogConfig.isAutoTranslateEnable(dialogId, topicId));
         enableItem.setOnClickListener(view -> {
-            DialogConfig.setAutoTranslateEnable(dialogId, true);
+            DialogConfig.setAutoTranslateEnable(dialogId, topicId, true);
             updateItems();
         });
 
         disableItem = ActionBarMenuItem.addItem(windowLayout, 0, LocaleController.getString("Disable", R.string.Disable), true, resourcesProvider);
-        disableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId) && !DialogConfig.isAutoTranslateEnable(dialogId));
+        disableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId, topicId) && !DialogConfig.isAutoTranslateEnable(dialogId, topicId));
         disableItem.setOnClickListener(view -> {
-            DialogConfig.setAutoTranslateEnable(dialogId, false);
+            DialogConfig.setAutoTranslateEnable(dialogId, topicId, false);
             updateItems();
         });
         updateItems();
@@ -75,8 +77,8 @@ public class AutoTranslatePopupWrapper {
     }
 
     public void updateItems() {
-        defaultItem.setChecked(!DialogConfig.hasAutoTranslateConfig(dialogId));
-        enableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId) && DialogConfig.isAutoTranslateEnable(dialogId));
-        disableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId) && !DialogConfig.isAutoTranslateEnable(dialogId));
+        defaultItem.setChecked(!DialogConfig.hasAutoTranslateConfig(dialogId, topicId));
+        enableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId, topicId) && DialogConfig.isAutoTranslateEnable(dialogId, topicId));
+        disableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId, topicId) && !DialogConfig.isAutoTranslateEnable(dialogId, topicId));
     }
 }

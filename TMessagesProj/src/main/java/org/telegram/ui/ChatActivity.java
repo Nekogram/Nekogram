@@ -23637,7 +23637,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (messageObject == null) {
                             continue;
                         }
-                        var translatorSettingsPopupWrapper = new TranslatorSettingsPopupWrapper(this, popupLayout.getSwipeBack(), dialog_id, getResourceProvider());
+                        var translatorSettingsPopupWrapper = new TranslatorSettingsPopupWrapper(this, popupLayout.getSwipeBack(), dialog_id, getTopicId(), getResourceProvider());
                         int swipeBackIndex = popupLayout.addViewToSwipeBack(translatorSettingsPopupWrapper.windowLayout);
                         cell.setOnLongClickListener(view -> {
                             popupLayout.getSwipeBack().openForeground(swipeBackIndex);
@@ -28515,7 +28515,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                 }
 
-                if (DialogConfig.isAutoTranslateEnable(dialog_id) && NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
+                if (DialogConfig.isAutoTranslateEnable(dialog_id, getTopicId()) && NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
                     final var messageObject = messageCell.getMessageObject();
                     if (getMessageHelper().isMessageObjectAutoTranslatable(messageObject)) {
                         messageObject.translating = true;

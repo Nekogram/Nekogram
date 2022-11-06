@@ -18,7 +18,7 @@ public class TranslatorSettingsPopupWrapper {
 
     public ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout;
 
-    public TranslatorSettingsPopupWrapper(BaseFragment fragment, PopupSwipeBackLayout swipeBackLayout, long dialogId, Theme.ResourcesProvider resourcesProvider) {
+    public TranslatorSettingsPopupWrapper(BaseFragment fragment, PopupSwipeBackLayout swipeBackLayout, long dialogId, int topicId, Theme.ResourcesProvider resourcesProvider) {
         var context = fragment.getParentActivity();
         windowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, 0, resourcesProvider, ActionBarPopupWindow.ActionBarPopupWindowLayout.FLAG_USE_SWIPEBACK);
         windowLayout.setFitItems(true);
@@ -65,7 +65,7 @@ public class TranslatorSettingsPopupWrapper {
             gap.setTag(R.id.fit_width_tag, 1);
             windowLayout.addView(gap, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 8));
 
-            var autoTranslatePopupWrapper = new AutoTranslatePopupWrapper(context, windowLayout.getSwipeBack(), dialogId, resourcesProvider);
+            var autoTranslatePopupWrapper = new AutoTranslatePopupWrapper(context, windowLayout.getSwipeBack(), dialogId, topicId, resourcesProvider);
             int autoTranslateSwipeBackIndex = windowLayout.addViewToSwipeBack(autoTranslatePopupWrapper.windowLayout);
             var autoTranslateItem = ActionBarMenuItem.addItem(windowLayout, R.drawable.msg_translate, LocaleController.getString("AutoTranslate", R.string.AutoTranslate), true, resourcesProvider);
             autoTranslateItem.setRightIcon(R.drawable.msg_arrowright);
