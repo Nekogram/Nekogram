@@ -41,6 +41,7 @@ import org.telegram.ui.PremiumPreviewFragment;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URLEncoder;
 
 public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, NotificationCenter.NotificationCenterDelegate {
 
@@ -55,17 +56,21 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
     ImageReceiver imageReceiver = new ImageReceiver(this);
 
     private void checkVideo() {
-        if (file != null && file.exists()) {
-            MediaMetadataRetriever retriever = new MediaMetadataRetriever();
-            retriever.setDataSource(ApplicationLoader.applicationContext, Uri.fromFile(file));
-            int width = Integer.valueOf(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
-            int height = Integer.valueOf(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
-            try {
-                retriever.release();
-            } catch (IOException e) {
-                e.printStackTrace();
+        if (file != null && file.exists() || SharedConfig.streamMedia) {
+            if (file != null && file.exists()) {
+                MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+                retriever.setDataSource(ApplicationLoader.applicationContext, Uri.fromFile(file));
+                int width = Integer.valueOf(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_WIDTH));
+                int height = Integer.valueOf(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_VIDEO_HEIGHT));
+                try {
+                    retriever.release();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                aspectRatio = width / (float) height;
+            } else {
+                aspectRatio = 0.671f;
             }
-            aspectRatio = width / (float) height;
 
             if (allowPlay) {
                 runVideoPlayer();
@@ -94,6 +99,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
     private final static float[] speedScaleVideoTimestamps = new float[]{0.02f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 1f, 0.02f};
     private MatrixParticlesDrawable matrixParticlesDrawable;
 
+    private TLRPC.Document document;
 
     public VideoScreenPreview(Context context, SvgHelper.SvgDrawable svgDrawable, int currentAccount, int type) {
         super(context);
@@ -233,7 +239,8 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                 }
                 attachFileName = FileLoader.getAttachFileName(document);
                 imageReceiver.setImage(null, null, drawable, null, null, 1);
-                FileLoader.getInstance(currentAccount).loadFile(document, null, FileLoader.PRIORITY_NORMAL, 0);
+                FileLoader.getInstance(currentAccount).loadFile(document, null, FileLoader.PRIORITY_HIGH, 0);
+                this.document = document;
                 Utilities.globalQueue.postRunnable(() -> {
                     File file = FileLoader.getInstance(currentAccount).getPathToAttach(document);
                     AndroidUtilities.runOnUIThread(() -> {
@@ -499,7 +506,7 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
     }
 
     private void runVideoPlayer() {
-        if (file != null) {
+        if (file != null || SharedConfig.streamMedia) {
             if (videoPlayer != null) {
                 return;
             }
@@ -552,7 +559,32 @@ public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, 
                 }
 
             });
-            videoPlayer.preparePlayer(Uri.fromFile(file), "other");
+
+            Uri uri;
+            if (file != null && file.exists()) {
+                uri = Uri.fromFile(file);
+            } else {
+                try {
+                    String params = "?account=" + currentAccount +
+                            "&id=" + document.id +
+                            "&hash=" + document.access_hash +
+                            "&dc=" + document.dc_id +
+                            "&size=" + document.size +
+                            "&mime=" + URLEncoder.encode(document.mime_type, "UTF-8") +
+                            "&rid=" + FileLoader.getInstance(currentAccount).getFileReference(document) +
+                            "&name=" + URLEncoder.encode(FileLoader.getDocumentFileName(document), "UTF-8") +
+                            "&reference=" + Utilities.bytesToHex(document.file_reference != null ? document.file_reference : new byte[0]);
+                    uri = Uri.parse("tg://" + attachFileName + params);
+                } catch (Exception exception) {
+                    uri = null;
+                }
+            }
+
+            if (uri == null) {
+                return;
+            }
+
+            videoPlayer.preparePlayer(uri, "other");
             videoPlayer.setPlayWhenReady(true);
             if (!firstFrameRendered) {
                 imageReceiver.stopAnimation();

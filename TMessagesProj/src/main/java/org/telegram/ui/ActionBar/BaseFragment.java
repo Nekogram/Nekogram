@@ -275,7 +275,9 @@ public abstract class BaseFragment {
     }
 
     public void finishPreviewFragment() {
-        parentLayout.finishPreviewFragment();
+        if (parentLayout != null) {
+            parentLayout.finishPreviewFragment();
+        }
     }
 
     public void finishFragment() {
