@@ -10,11 +10,6 @@ package org.telegram.messenger;
 
 import android.util.Log;
 
-import com.google.gson.ExclusionStrategy;
-import com.google.gson.FieldAttributes;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import org.telegram.messenger.time.FastDateFormat;
 import org.telegram.messenger.video.MediaCodecVideoConvertor;
 import org.telegram.tgnet.TLObject;
@@ -64,7 +59,7 @@ public class FileLog {
         init();
     }
 
-
+/*
     private static Gson gson;
     private static HashSet<String> excludeRequests;
 
@@ -177,7 +172,7 @@ public class FileLog {
             }).create();
         }
     }
-
+*/
 
 
     public void init() {
