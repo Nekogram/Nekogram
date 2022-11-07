@@ -4,7 +4,6 @@
     <string name="IPv6">Essayez de se connecter en IPv6</string>
     <string name="MessageMenu">Menu des messages</string>
     <string name="HidePhone">Masquer mon numéro de téléphone</string>
-    <string name="Hide">Masquer</string>
     <string name="DeleteAllFromSelf">Supprimer ses propres messages</string>
     <string name="DeleteAllFromSelfAlert">Attention ! Cela **supprimera tous les messages de votre part** dans cet échange pour **tous** les participants.</string>
     <string name="BotLogin">Connexion avec bot</string>

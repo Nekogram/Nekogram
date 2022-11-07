@@ -4,7 +4,6 @@
     <string name="IPv6">Coba sambungan melalui IPv6</string>
     <string name="MessageMenu">Menu pesan</string>
     <string name="HidePhone">Sembunyikan nomor telepon saya</string>
-    <string name="Hide">Sembunyikan</string>
     <string name="DeleteAllFromSelf">Hapus pesan dari saya</string>
     <string name="DeleteAllFromSelfAlert">Perhatian! Ini akan **menghapus semua pesan dari Anda** di obrolan ini untuk **semua** orang.</string>
     <string name="BotLogin">Login Bot</string>

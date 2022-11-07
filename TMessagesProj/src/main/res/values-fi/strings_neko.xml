@@ -4,7 +4,6 @@
     <string name="IPv6">Yritä muodostaa yhteys IPv6:n kautta</string>
     <string name="MessageMenu">Viestivalikko</string>
     <string name="HidePhone">Piilota puhelinnumeroni</string>
-    <string name="Hide">Piilota</string>
     <string name="DeleteAllFromSelf">Poista myös viestini</string>
     <string name="DeleteAllFromSelfAlert">Varoitus! Tämä **poistaa kaikki viestit sinulta** tässä keskustelussa **kaikille** osallistujille.</string>
     <string name="BotLogin">Bot Kirjautuminen</string>

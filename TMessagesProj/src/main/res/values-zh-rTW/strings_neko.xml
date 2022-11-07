@@ -4,7 +4,6 @@
     <string name="IPv6">優先嚐試使用 IPv6 連線</string>
     <string name="MessageMenu">訊息選單</string>
     <string name="HidePhone">隱藏您的手機號碼</string>
-    <string name="Hide">隱藏</string>
     <string name="DeleteAllFromSelf">刪除自己的訊息</string>
     <string name="DeleteAllFromSelfAlert">警告！ 這將為此對話中的**所有人**刪除**所有您發送的訊息**。</string>
     <string name="BotLogin">機器人登入</string>

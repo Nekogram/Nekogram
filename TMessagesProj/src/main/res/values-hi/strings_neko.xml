@@ -4,7 +4,6 @@
     <string name="IPv6">IPv6 से जोड़ने का प्रयास करें</string>
     <string name="MessageMenu">संदेश मेनू</string>
     <string name="HidePhone">मेरा फोन नंबर छिपाएं</string>
-    <string name="Hide">छुपाएं</string>
     <string name="DeleteAllFromSelf">खुद के संदेश मिटाएं</string>
     <string name="DeleteAllFromSelfAlert">चेतावनी! यह इस चैट में **सभी** प्रतिभागियों के लिए **आपके सभी संदेशों को ** हटा देगा।</string>
     <string name="BotLogin">बॉट लॉगिन</string>

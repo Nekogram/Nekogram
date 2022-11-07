@@ -4,7 +4,6 @@
     <string name="IPv6">Încercați conectarea prin IPv6</string>
     <string name="MessageMenu">Meniu mesaj</string>
     <string name="HidePhone">Ascunde numărul de telefon</string>
-    <string name="Hide">Ascunde</string>
     <string name="DeleteAllFromSelf">Șterge mesajele proprii</string>
     <string name="DeleteAllFromSelfAlert">Atenție! Acest lucru va **șterge toate mesajele de la tine** în acest chat pentru **toți** participanții.</string>
     <string name="BotLogin">Logare Bot</string>

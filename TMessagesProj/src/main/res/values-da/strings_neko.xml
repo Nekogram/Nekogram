@@ -4,7 +4,6 @@
     <string name="IPv6">Prøv at oprette forbindelse via IPv6</string>
     <string name="MessageMenu">Meddelelse menu</string>
     <string name="HidePhone">Skjul mit telefonnummer</string>
-    <string name="Hide">Skjul</string>
     <string name="DeleteAllFromSelf">Slet egne beskeder</string>
     <string name="DeleteAllFromSelfAlert">Advarsel! Dette vil ** slette alle beskeder fra dig** i denne chat for **alle** deltagere.</string>
     <string name="BotLogin">Bot Login</string>

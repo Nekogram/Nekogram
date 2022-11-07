@@ -3,7 +3,6 @@
     <string name="IPv6">Prøv å koble til via IPv6</string>
     <string name="MessageMenu">Meldingsmeny</string>
     <string name="HidePhone">Skjul mitt telefonnummer</string>
-    <string name="Hide">Skjul</string>
     <string name="DeleteAllFromSelfAlert">Advarsel! Dette vil **slette alle meldinger fra deg** i denne chatten for **alle** deltakere.</string>
     <string name="BotLogin">Bot innlogging</string>
     <string name="InvalidAccessToken">Ugyldig tilgangstoken</string>

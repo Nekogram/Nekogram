@@ -4,7 +4,6 @@
     <string name="IPv6">Spróbuj połączyć się za pomocą IPv6</string>
     <string name="MessageMenu">Menu wiadomości</string>
     <string name="HidePhone">Ukryj mój numer telefonu</string>
-    <string name="Hide">Ukryj</string>
     <string name="DeleteAllFromSelf">Usuń własne wiadomości</string>
     <string name="DeleteAllFromSelfAlert">Ostrzeżenie! To usunie **wszystkie twoje wiadomości** na tym czacie **u wszystkich** uczestników.</string>
     <string name="BotLogin">Logowanie bota</string>

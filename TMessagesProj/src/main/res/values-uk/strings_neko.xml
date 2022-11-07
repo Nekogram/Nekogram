@@ -4,7 +4,6 @@
     <string name="IPv6">Спробувати з\'єднуватись через IPv6</string>
     <string name="MessageMenu">Меню повідомлення</string>
     <string name="HidePhone">Приховати мій номер телефону</string>
-    <string name="Hide">Сховати</string>
     <string name="DeleteAllFromSelf">Видалити свої повідомлення</string>
     <string name="DeleteAllFromSelfAlert">Увага! Це призведе до **видалення усіх ваших повідомлень** для **всіх** користувачів цього чату.</string>
     <string name="BotLogin">Бот логін</string>

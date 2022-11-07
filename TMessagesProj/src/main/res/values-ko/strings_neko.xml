@@ -4,7 +4,6 @@
     <string name="IPv6">IPv6 를 통한 접속</string>
     <string name="MessageMenu">메세지 메뉴</string>
     <string name="HidePhone">내 번호 숨기기</string>
-    <string name="Hide">숨기기</string>
     <string name="DeleteAllFromSelf">본인 메시지 삭제하기</string>
     <string name="DeleteAllFromSelfAlert">정말 이 채팅방에서 \"내가 쓴 모든 대화 내용\"을 삭제하시겠습니까?</string>
     <string name="BotLogin">봇 로그인</string>

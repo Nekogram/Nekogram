@@ -4,7 +4,6 @@
     <string name="IPv6">Prova a connetterti via IPv6</string>
     <string name="MessageMenu">Menu messaggio</string>
     <string name="HidePhone">Nascondi il mio numero</string>
-    <string name="Hide">Nascondi</string>
     <string name="DeleteAllFromSelf">Elimina i miei messaggi</string>
     <string name="DeleteAllFromSelfAlert">Attenzione! Questo eliminerà **tutti i tuoi messaggi** da questa chat per **tutti i partecipanti.**</string>
     <string name="BotLogin">Login con bot token</string>

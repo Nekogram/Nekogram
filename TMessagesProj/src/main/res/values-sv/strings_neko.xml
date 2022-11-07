@@ -4,7 +4,6 @@
     <string name="IPv6">Försök ansluta via IPv6</string>
     <string name="MessageMenu">Meddelandemeny</string>
     <string name="HidePhone">Dölj mitt telefonnummer</string>
-    <string name="Hide">Dölj</string>
     <string name="DeleteAllFromSelf">Radera egna meddelanden</string>
     <string name="DeleteAllFromSelfAlert">Varning! Detta tar **bort alla meddelanden från dig** i den här chatten för **alla** deltagare.</string>
     <string name="BotLogin">Botinloggning</string>

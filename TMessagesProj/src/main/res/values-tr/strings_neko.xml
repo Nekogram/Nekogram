@@ -4,7 +4,6 @@
     <string name="IPv6">IPv6 aracılığıyla bağlanmayı dene</string>
     <string name="MessageMenu">Mesaj Menüsü</string>
     <string name="HidePhone">Telefon numaramı gizle</string>
-    <string name="Hide">Gizle</string>
     <string name="DeleteAllFromSelf">Kendi mesajlarını sil</string>
     <string name="DeleteAllFromSelfAlert">Warnig! This will**delete all messages from you** in this chat for **all** participants.</string>
     <string name="BotLogin">Bot Girişi</string>

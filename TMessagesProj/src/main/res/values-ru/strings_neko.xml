@@ -4,7 +4,6 @@
     <string name="IPv6">Пробовать подключиться через IPv6</string>
     <string name="MessageMenu">Меню сообщений</string>
     <string name="HidePhone">Скрыть мой номер телефона</string>
-    <string name="Hide">Скрыть</string>
     <string name="DeleteAllFromSelf">Удалить мои сообщения</string>
     <string name="DeleteAllFromSelfAlert">Внимание! Это **удалит все ваши сообщения** в этом чате для **всех**.</string>
     <string name="BotLogin">Вход по токену</string>

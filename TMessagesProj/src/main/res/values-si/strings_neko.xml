@@ -3,7 +3,6 @@
     <string name="IPv6">IPv6 හරහා සම්බන්ධ වීමට උත්සාහ කරන්න</string>
     <string name="MessageMenu">පණිවිඩ මෙනුව</string>
     <string name="HidePhone">මගේ දුරකථන අංකය හංගන්න</string>
-    <string name="Hide">හංගන්න</string>
     <string name="DeleteAllFromSelf">තමන්ගේ පණිවිඩ මකන්න</string>
     <string name="DeleteAllFromSelfAlert">අවවාදයයි! මෙහිදී මෙම කතාබහෙහි **ඔබගේ සියලූම පණිවිඩ** **සියලුම සාමාජිකයන්ගෙන්** මකා දමයි.</string>
     <string name="BotLogin">බොට් මගින්</string>

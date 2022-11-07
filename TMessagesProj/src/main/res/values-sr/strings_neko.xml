@@ -4,7 +4,6 @@
     <string name="IPv6">Покушајте да се повежете путем ИПв6</string>
     <string name="MessageMenu">Мени порука</string>
     <string name="HidePhone">Сакриј мој број телефона</string>
-    <string name="Hide">Сакриј</string>
     <string name="DeleteAllFromSelf">Избришите прилагођене поруке</string>
     <string name="DeleteAllFromSelfAlert">Upozorenje! Ово ће **избрисати све поруке од вас** у овом ћаскању за **све ** чланове.</string>
     <string name="BotLogin">Бот логин</string>

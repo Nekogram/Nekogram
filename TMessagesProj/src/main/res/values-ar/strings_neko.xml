@@ -4,7 +4,6 @@
     <string name="IPv6">مُحاولة الاتصال عبر IPv6</string>
     <string name="MessageMenu">اختيارات ضغطة الرسائل</string>
     <string name="HidePhone">إخفاء رقم هاتفي</string>
-    <string name="Hide">إخفاء</string>
     <string name="DeleteAllFromSelf">حذف الرسائل الخاصة بي</string>
     <string name="DeleteAllFromSelfAlert">تحذير! سيؤدي هذا إلى **حذفَ جميع الرسائل منكَ** في هذه المحادثة لـ **جميع** المشاركين.</string>
     <string name="BotLogin">تسجيل الدخول کبوت</string>

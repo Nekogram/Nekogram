@@ -4,7 +4,6 @@
     <string name="IPv6">Mēģiniet izveidot savienojumu, izmantojot IPv6</string>
     <string name="MessageMenu">Ziņu izvēlne</string>
     <string name="HidePhone">Paslēpt manu tālruņa numuru</string>
-    <string name="Hide">Paslēpt</string>
     <string name="DeleteAllFromSelf">Dzēst savus ziņojumus</string>
     <string name="DeleteAllFromSelfAlert">Brīdinājums! Tas **izdzēsīs visus jūsu** ziņojumus šajā tērzēšanā **visiem** dalībniekiem.</string>
     <string name="BotLogin">Bot Pieteikšanās</string>

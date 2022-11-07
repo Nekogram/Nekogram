@@ -4,7 +4,6 @@
     <string name="IPv6">Probeer verbinding te maken via IPv6</string>
     <string name="MessageMenu">Bericht menu</string>
     <string name="HidePhone">Mijn telefoonnummer verbergen</string>
-    <string name="Hide">Verbergen</string>
     <string name="DeleteAllFromSelf">Uw eigen berichten verwijderen</string>
     <string name="DeleteAllFromSelfAlert">Waarschuwing! Dit zal **alle berichten van jou** in deze chat verwijderen voor **alle** deelnemers.</string>
     <string name="BotLogin">Inloggen met bot</string>

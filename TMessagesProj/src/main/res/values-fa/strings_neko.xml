@@ -4,7 +4,6 @@
     <string name="IPv6">تلاش برای برقراری اتصال از طریق IPv6</string>
     <string name="MessageMenu">منوی پیام</string>
     <string name="HidePhone">شماره تلفن من را پنهان کن</string>
-    <string name="Hide">پنهان‌سازی</string>
     <string name="DeleteAllFromSelf">حذف پیام های خود</string>
     <string name="DeleteAllFromSelfAlert">هشدار! با این کار **همه پیام های شما** در این چت برای **همه** شرکت کنندگان حذف می شود.</string>
     <string name="BotLogin">ورود از طریق روبات</string>

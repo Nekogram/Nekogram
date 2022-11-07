@@ -4,7 +4,6 @@
     <string name="IPv6">IPv6 で接続することを優先する</string>
     <string name="MessageMenu">メッセージメニュー</string>
     <string name="HidePhone">あなたの携帯電話番号を隠す</string>
-    <string name="Hide">隠す</string>
     <string name="DeleteAllFromSelf">自分のメッセージを削除</string>
     <string name="DeleteAllFromSelfAlert">警告！これはこのチャットの **すべての人** が **あなたが送った全部のメッセージ** を削除します。</string>
     <string name="BotLogin">ボットログイン</string>

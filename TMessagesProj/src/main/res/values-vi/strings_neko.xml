@@ -4,7 +4,6 @@
     <string name="IPv6">Thử kết nối qua IPv6</string>
     <string name="MessageMenu">Menu tin nhắn</string>
     <string name="HidePhone">Ẩn số điện thoại của tôi</string>
-    <string name="Hide">Ẩn</string>
     <string name="DeleteAllFromSelf">Xóa tin nhắn của chính bạn</string>
     <string name="DeleteAllFromSelfAlert">Cảnh báo! Điều này sẽ **xóa tất cả các tin nhắn của bạn** trong cuộc trò chuyện này cho **tất cả** người tham gia.</string>
     <string name="BotLogin">Đăng nhập Bot</string>
