@@ -1380,7 +1380,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 return false;
             }
             if (NekoConfig.doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_REACTION) {
-
                 String reactionStringSetting = getMediaDataController().getDoubleTapReaction();
                 TLRPC.TL_availableReaction reaction = getMediaDataController().getReactionsMap().get(reactionStringSetting);
                 if (reaction == null && (reactionStringSetting == null || !reactionStringSetting.startsWith("animated_"))) {
@@ -1404,7 +1403,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         !message.isSponsored() && (getMessageType(message) != 1 || message.getDialogId() != mergeDialogId) &&
                         !(message.messageOwner.action instanceof TLRPC.TL_messageActionSecureValuesSent) &&
                         (currentEncryptedChat != null || message.getId() >= 0) &&
-                        (bottomOverlayChat == null || bottomOverlayChat.getVisibility() != View.VISIBLE) &&
+                        (bottomOverlayChat == null || bottomOverlayChat.getVisibility() != View.VISIBLE || bottomOverlayChatWaitsReply && selectedObject != null && (MessageObject.getTopicId(selectedObject.messageOwner) != 0 || selectedObject.wasJustSent)) &&
                         (currentChat == null || ((!ChatObject.isNotInChat(currentChat) || isThreadChat()) && (!ChatObject.isChannel(currentChat) || ChatObject.canPost(currentChat) || currentChat.megagroup) && ChatObject.canSendMessages(currentChat)));
                 boolean allowEdit = message.canEditMessage(currentChat) && !chatActivityEnterView.hasAudioToSend() && message.getDialogId() != mergeDialogId;
                 if (allowEdit && messageGroup != null) {
@@ -1432,12 +1431,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     case NekoConfig.DOUBLE_TAP_ACTION_REPLY:
                         return message.getId() > 0 && allowChatActions;
                     case NekoConfig.DOUBLE_TAP_ACTION_SAVE:
-                        return !message.isSponsored() && chatMode != MODE_SCHEDULED && !message.needDrawBluredPreview() && !message.isLiveLocation() && message.type != 16 && !getMessagesController().isChatNoForwards(currentChat) && !UserObject.isUserSelf(currentUser);
+                        return !message.isSponsored() && chatMode != MODE_SCHEDULED && (!message.needDrawBluredPreview() || message.hasExtendedMediaPreview()) && !message.isLiveLocation() && message.type != MessageObject.TYPE_PHONE_CALL && !noforwards && message.type != MessageObject.TYPE_GIFT_PREMIUM && !UserObject.isUserSelf(currentUser);
                     case NekoConfig.DOUBLE_TAP_ACTION_REPEAT:
-                        boolean allowRepeat = allowChatActions &&
-                                (!isThreadChat() && !noforwards ||
-                                        getMessageHelper().getMessageForRepeat(message, messageGroup) != null);
-                        return allowRepeat && !message.isSponsored() && chatMode != MODE_SCHEDULED && !message.needDrawBluredPreview() && !message.isLiveLocation() && message.type != 16;
+                        return allowChatActions && (!(isThreadChat() && !isTopic) && !noforwards || getMessageHelper().getMessageForRepeat(message, messageGroup) != null) && !message.isSponsored() && chatMode != MODE_SCHEDULED && (!message.needDrawBluredPreview() || message.hasExtendedMediaPreview()) && !message.isLiveLocation() && message.type != MessageObject.TYPE_PHONE_CALL && message.type != MessageObject.TYPE_GIFT_PREMIUM && !UserObject.isUserSelf(currentUser);
                     case NekoConfig.DOUBLE_TAP_ACTION_EDIT:
                         return allowEdit;
                 }
@@ -22863,10 +22859,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                         }
                         if (NekoConfig.showRepeat) {
-                            if (!selectedObject.isSponsored() && chatMode != MODE_SCHEDULED && !selectedObject.needDrawBluredPreview() && !selectedObject.isLiveLocation() && selectedObject.type != 16) {
-                                boolean allowRepeat = allowChatActions &&
-                                        (!isThreadChat() && !noforwards ||
-                                                getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup) != null);
+                            if (!selectedObject.isSponsored() && chatMode != MODE_SCHEDULED && (!selectedObject.needDrawBluredPreview() || selectedObject.hasExtendedMediaPreview()) &&
+                                    !selectedObject.isLiveLocation() && selectedObject.type != MessageObject.TYPE_PHONE_CALL &&
+                                    selectedObject.type != MessageObject.TYPE_GIFT_PREMIUM) {
+                                boolean allowRepeat = allowChatActions && (!(isThreadChat() && !isTopic) && !noforwards || getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup) != null);
                                 if (allowRepeat) {
                                     items.add(LocaleController.getString("Repeat", R.string.Repeat));
                                     options.add(OPTION_REPEAT);
@@ -25269,7 +25265,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     public boolean processRepeatMessage(boolean longClick) {
-        if (longClick || getMessagesController().isChatNoForwards(currentChat) || selectedObject.messageOwner.noforwards) {
+        if (longClick || (isThreadChat() && !isTopic) || getMessagesController().isChatNoForwards(currentChat) || selectedObject.messageOwner.noforwards) {
             var messageObject = getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup);
             if (messageObject != null) {
                 if (messageObject.isAnyKindOfSticker() && !messageObject.isAnimatedEmojiStickers() && !messageObject.isAnimatedEmoji() && !messageObject.isDice()) {
