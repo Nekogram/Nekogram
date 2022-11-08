@@ -53,6 +53,7 @@ public interface INavigationLayout {
     void drawCurrentPreviewFragment(Canvas canvas, Drawable foregroundDrawable);
 
     void drawHeaderShadow(Canvas canvas, int alpha, int y);
+    void setHeaderShadow(Drawable drawable);
 
     boolean isSwipeInProgress();
 
