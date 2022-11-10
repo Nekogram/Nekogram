@@ -188,7 +188,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             types.add(NekoConfig.DOUBLE_TAP_ACTION_EDIT);
             PopupHelper.show(arrayList, LocaleController.getString("DoubleTapAction", R.string.DoubleTapAction), types.indexOf(NekoConfig.doubleTapAction), getParentActivity(), view, i -> {
                 NekoConfig.setDoubleTapAction(types.get(i));
-                listAdapter.notifyItemChanged(doubleTapActionRow);
+                listAdapter.notifyItemChanged(doubleTapActionRow, PARTIAL);
             });
         } else if (position == markdownEnableRow) {
             NekoConfig.toggleDisableMarkdownByDefault();
@@ -253,7 +253,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             }
             PopupHelper.show(types, LocaleController.getString("MaxRecentStickers", R.string.MaxRecentStickers), types.indexOf(String.valueOf(NekoConfig.maxRecentStickers)), getParentActivity(), view, i -> {
                 NekoConfig.setMaxRecentStickers(Integer.parseInt(types.get(i)));
-                listAdapter.notifyItemChanged(maxRecentStickersRow);
+                listAdapter.notifyItemChanged(maxRecentStickersRow, PARTIAL);
             });
         } else if (position == hideTimeOnStickerRow) {
             NekoConfig.toggleHideTimeOnSticker();
@@ -268,7 +268,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             boolean oldParser = NekoConfig.newMarkdownParser;
             PopupHelper.show(arrayList, LocaleController.getString("DoubleTapAction", R.string.DoubleTapAction), NekoConfig.newMarkdownParser ? 0 : 1, getParentActivity(), view, i -> {
                 NekoConfig.setNewMarkdownParser(i == 0);
-                listAdapter.notifyItemChanged(markdownParserRow);
+                listAdapter.notifyItemChanged(markdownParserRow, PARTIAL);
                 if (oldParser != NekoConfig.newMarkdownParser) {
                     if (oldParser) {
                         listAdapter.notifyItemRemoved(markdownParseLinksRow);
@@ -464,7 +464,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
             switch (holder.getItemViewType()) {
                 case 1: {
                     if (position == messageMenu2Row) {
@@ -477,9 +477,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                 case 2: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-                    if (position == stickerSizeRow) {
-                        textCell.setTextAndValue(LocaleController.getString("StickerSize", R.string.StickerSize), String.valueOf(Math.round(NekoConfig.stickerSize)), true);
-                    } else if (position == doubleTapActionRow) {
+                    if (position == doubleTapActionRow) {
                         String value;
                         switch (NekoConfig.doubleTapAction) {
                             case NekoConfig.DOUBLE_TAP_ACTION_REACTION:
@@ -504,11 +502,11 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                             default:
                                 value = LocaleController.getString("Disable", R.string.Disable);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("DoubleTapAction", R.string.DoubleTapAction), value, true);
+                        textCell.setTextAndValue(LocaleController.getString("DoubleTapAction", R.string.DoubleTapAction), value, partial, true);
                     } else if (position == maxRecentStickersRow) {
-                        textCell.setTextAndValue(LocaleController.getString("MaxRecentStickers", R.string.MaxRecentStickers), String.valueOf(NekoConfig.maxRecentStickers), false);
+                        textCell.setTextAndValue(LocaleController.getString("MaxRecentStickers", R.string.MaxRecentStickers), String.valueOf(NekoConfig.maxRecentStickers), partial, false);
                     } else if (position == markdownParserRow) {
-                        textCell.setTextAndValue(LocaleController.getString("MarkdownParser", R.string.MarkdownParser), NekoConfig.newMarkdownParser ? "Nekogram" : "Telegram", position + 1 != markdown2Row);
+                        textCell.setTextAndValue(LocaleController.getString("MarkdownParser", R.string.MarkdownParser), NekoConfig.newMarkdownParser ? "Nekogram" : "Telegram", partial, position + 1 != markdown2Row);
                     }
                     break;
                 }

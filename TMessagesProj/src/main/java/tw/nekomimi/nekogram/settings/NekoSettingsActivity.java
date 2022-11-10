@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -203,7 +204,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
                 case 1: {
                     if ((position == about2Row && sponsor2Row == -1) || position == sponsor2Row) {

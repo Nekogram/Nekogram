@@ -15,7 +15,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
@@ -66,7 +65,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
             }
             parentLayout.rebuildAllFragmentViews(false, false);
             getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-            listAdapter.notifyItemChanged(drawerRow, new Object());
+            listAdapter.notifyItemChanged(drawerRow, PARTIAL);
         } else if (position == tabletModeRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
@@ -78,7 +77,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
             types.add(NekoConfig.TABLET_DISABLE);
             PopupHelper.show(arrayList, LocaleController.getString("TabletMode", R.string.TabletMode), types.indexOf(NekoConfig.tabletMode), getParentActivity(), view, i -> {
                 NekoConfig.setTabletMode(types.get(i));
-                listAdapter.notifyItemChanged(tabletModeRow);
+                listAdapter.notifyItemChanged(tabletModeRow, PARTIAL);
                 showRestartBulletin();
             });
         } else if (position == transparentStatusBarRow) {
@@ -107,7 +106,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
             arrayList.add(LocaleController.getString("Halloween", R.string.Halloween));
             PopupHelper.show(arrayList, LocaleController.getString("EventType", R.string.EventType), NekoConfig.eventType, getParentActivity(), view, i -> {
                 NekoConfig.setEventType(i);
-                listAdapter.notifyItemChanged(eventTypeRow);
+                listAdapter.notifyItemChanged(eventTypeRow, PARTIAL);
                 getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
             });
         } else if (position == newYearRow) {
@@ -123,7 +122,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
             }
             getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
             TransitionManager.beginDelayedTransition(profilePreviewCell);
-            listAdapter.notifyItemChanged(drawerRow, new Object());
+            listAdapter.notifyItemChanged(drawerRow, PARTIAL);
             if (NekoConfig.avatarAsDrawerBackground) {
                 updateRows();
                 listAdapter.notifyItemRangeInserted(avatarBackgroundBlurRow, 2);
@@ -137,14 +136,14 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                 ((TextCheckCell) view).setChecked(NekoConfig.avatarBackgroundBlur);
             }
             getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-            listAdapter.notifyItemChanged(drawerRow, new Object());
+            listAdapter.notifyItemChanged(drawerRow, PARTIAL);
         } else if (position == avatarBackgroundDarkenRow) {
             NekoConfig.toggleAvatarBackgroundDarken();
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.avatarBackgroundDarken);
             }
             getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-            listAdapter.notifyItemChanged(drawerRow, new Object());
+            listAdapter.notifyItemChanged(drawerRow, PARTIAL);
         } else if (position == disableNumberRoundingRow) {
             NekoConfig.toggleDisableNumberRounding();
             if (view instanceof TextCheckCell) {
@@ -185,7 +184,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
             types.add(NekoConfig.TITLE_TYPE_MIX);
             PopupHelper.show(arrayList, LocaleController.getString("TabTitleType", R.string.TabTitleType), types.indexOf(NekoConfig.tabsTitleType), getParentActivity(), view, i -> {
                 NekoConfig.setTabsTitleType(types.get(i));
-                listAdapter.notifyItemChanged(tabsTitleTypeRow);
+                listAdapter.notifyItemChanged(tabsTitleTypeRow, PARTIAL);
                 getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
             });
         }
@@ -247,7 +246,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
             switch (holder.getItemViewType()) {
                 case 2: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
@@ -268,7 +267,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                             default:
                                 value = LocaleController.getString("DependsOnDate", R.string.DependsOnDate);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("EventType", R.string.EventType), value, true);
+                        textCell.setTextAndValue(LocaleController.getString("EventType", R.string.EventType), value, partial, true);
                     } else if (position == tabsTitleTypeRow) {
                         String value;
                         switch (NekoConfig.tabsTitleType) {
@@ -282,7 +281,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                             default:
                                 value = LocaleController.getString("TabTitleTypeMix", R.string.TabTitleTypeMix);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TabTitleType", R.string.TabTitleType), value, false);
+                        textCell.setTextAndValue(LocaleController.getString("TabTitleType", R.string.TabTitleType), value, partial, false);
                     } else if (position == tabletModeRow) {
                         String value;
                         switch (NekoConfig.tabletMode) {
@@ -296,7 +295,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                             default:
                                 value = LocaleController.getString("Disable", R.string.Disable);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TabletMode", R.string.TabletMode), value, false);
+                        textCell.setTextAndValue(LocaleController.getString("TabletMode", R.string.TabletMode), value, partial, false);
                     }
                     break;
                 }

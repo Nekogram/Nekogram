@@ -4,6 +4,7 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.core.text.HtmlCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
@@ -88,17 +89,17 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             types.add(2);
             PopupHelper.show(arrayList, LocaleController.getString("NameOrder", R.string.NameOrder), types.indexOf(NekoConfig.nameOrder), getParentActivity(), view, i -> {
                 NekoConfig.setNameOrder(types.get(i));
-                listAdapter.notifyItemChanged(nameOrderRow);
+                listAdapter.notifyItemChanged(nameOrderRow, PARTIAL);
                 parentLayout.rebuildAllFragmentViews(false, false);
             });
         } else if (position == translationProviderRow) {
             final String oldProvider = NekoConfig.translationProvider;
             Translator.showTranslationProviderSelector(getParentActivity(), view, param -> {
                 if (param) {
-                    listAdapter.notifyItemChanged(translationProviderRow);
+                    listAdapter.notifyItemChanged(translationProviderRow, PARTIAL);
                 } else {
-                    listAdapter.notifyItemChanged(translationProviderRow);
-                    listAdapter.notifyItemChanged(translationTargetRow);
+                    listAdapter.notifyItemChanged(translationProviderRow, PARTIAL);
+                    listAdapter.notifyItemChanged(translationTargetRow, PARTIAL);
                 }
                 if (!oldProvider.equals(NekoConfig.translationProvider)) {
                     if (oldProvider.equals(Translator.PROVIDER_DEEPL)) {
@@ -112,9 +113,9 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             });
         } else if (position == translationTargetRow) {
             Translator.showTranslationTargetSelector(this, view, () -> {
-                listAdapter.notifyItemChanged(translationTargetRow);
+                listAdapter.notifyItemChanged(translationTargetRow, PARTIAL);
                 if (getRestrictedLanguages().size() == 1) {
-                    listAdapter.notifyItemChanged(doNotTranslateRow);
+                    listAdapter.notifyItemChanged(doNotTranslateRow, PARTIAL);
                 }
             });
         } else if (position == deepLFormalityRow) {
@@ -128,7 +129,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             types.add(DeepLTranslator.FORMALITY_LESS);
             PopupHelper.show(arrayList, LocaleController.getString("DeepLFormality", R.string.DeepLFormality), types.indexOf(NekoConfig.deepLFormality), getParentActivity(), view, i -> {
                 NekoConfig.setDeepLFormality(types.get(i));
-                listAdapter.notifyItemChanged(deepLFormalityRow);
+                listAdapter.notifyItemChanged(deepLFormalityRow, PARTIAL);
             });
         } else if (position == openArchiveOnPullRow) {
             NekoConfig.toggleOpenArchiveOnPull();
@@ -151,7 +152,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             types.add(NekoConfig.ID_TYPE_BOTAPI);
             PopupHelper.show(arrayList, LocaleController.getString("IdType", R.string.IdType), types.indexOf(NekoConfig.idType), getParentActivity(), view, i -> {
                 NekoConfig.setIdType(types.get(i));
-                listAdapter.notifyItemChanged(idTypeRow);
+                listAdapter.notifyItemChanged(idTypeRow, PARTIAL);
                 parentLayout.rebuildAllFragmentViews(false, false);
             });
         } else if (position == accentAsNotificationColorRow) {
@@ -168,7 +169,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             int oldType = NekoConfig.transType;
             Translator.showTranslatorTypeSelector(getParentActivity(), view, () -> {
                 int newType = NekoConfig.transType;
-                listAdapter.notifyItemChanged(translatorTypeRow);
+                listAdapter.notifyItemChanged(translatorTypeRow, PARTIAL);
                 if (oldType != newType) {
                     int count = 4;
                     if (NekoConfig.translationProvider.equals(Translator.PROVIDER_DEEPL)) {
@@ -287,7 +288,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
             switch (holder.getItemViewType()) {
                 case 2: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
@@ -304,7 +305,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                                 value = LocaleController.getString("FirstLast", R.string.FirstLast);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("NameOrder", R.string.NameOrder), value, true);
+                        textCell.setTextAndValue(LocaleController.getString("NameOrder", R.string.NameOrder), value, partial, true);
                     } else if (position == translationProviderRow) {
                         Pair<ArrayList<String>, ArrayList<String>> providers = Translator.getProviders();
                         ArrayList<String> names = providers.first;
@@ -314,10 +315,10 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         }
                         int index = types.indexOf(NekoConfig.translationProvider);
                         if (index < 0) {
-                            textCell.setTextAndValue(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), "", true);
+                            textCell.setTextAndValue(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), "", partial, true);
                         } else {
                             String value = names.get(index);
-                            textCell.setTextAndValue(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), value, true);
+                            textCell.setTextAndValue(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), value, partial, true);
                         }
                     } else if (position == translationTargetRow) {
                         String language = NekoConfig.translationTarget;
@@ -332,7 +333,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                                 value = locale.getDisplayName();
                             }
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TranslationTarget", R.string.TranslationTarget), value, true);
+                        textCell.setTextAndValue(LocaleController.getString("TranslationTarget", R.string.TranslationTarget), value, partial, true);
                     } else if (position == deepLFormalityRow) {
                         String value;
                         switch (NekoConfig.deepLFormality) {
@@ -347,7 +348,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                                 value = LocaleController.getString("DeepLFormalityLess", R.string.DeepLFormalityLess);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("DeepLFormality", R.string.DeepLFormality), value, true);
+                        textCell.setTextAndValue(LocaleController.getString("DeepLFormality", R.string.DeepLFormality), value, partial, true);
                     } else if (position == idTypeRow) {
                         String value;
                         switch (NekoConfig.idType) {
@@ -362,7 +363,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                                 value = LocaleController.getString("IdTypeAPI", R.string.IdTypeAPI);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("IdType", R.string.IdType), value, false);
+                        textCell.setTextAndValue(LocaleController.getString("IdType", R.string.IdType), value, partial, false);
                     } else if (position == translatorTypeRow) {
                         String value;
                         switch (NekoConfig.transType) {
@@ -377,7 +378,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                                 value = LocaleController.getString("TranslatorTypeNeko", R.string.TranslatorTypeNeko);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TranslatorType", R.string.TranslatorType), value, position + 1 != translator2Row);
+                        textCell.setTextAndValue(LocaleController.getString("TranslatorType", R.string.TranslatorType), value, partial, position + 1 != translator2Row);
                     } else if (position == doNotTranslateRow) {
                         ArrayList<String> langCodes = getRestrictedLanguages();
                         CharSequence value;
@@ -391,7 +392,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         } else {
                             value = LocaleController.formatPluralString("Languages", langCodes.size());
                         }
-                        textCell.setTextAndValue(LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate), value, true);
+                        textCell.setTextAndValue(LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate), value, partial, true);
                     }
                     break;
                 }

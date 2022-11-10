@@ -13,6 +13,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -205,7 +206,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             types.add(NekoConfig.BOOST_EXTREME);
             PopupHelper.show(arrayList, LocaleController.getString("DownloadSpeedBoost", R.string.DownloadSpeedBoost), types.indexOf(NekoConfig.downloadSpeedBoost), getParentActivity(), view, i -> {
                 NekoConfig.setDownloadSpeedBoost(types.get(i));
-                listAdapter.notifyItemChanged(downloadSpeedBoostRow);
+                listAdapter.notifyItemChanged(downloadSpeedBoostRow, PARTIAL);
             });
         }
     }
@@ -308,7 +309,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
             switch (holder.getItemViewType()) {
                 case 1: {
                     if (position == deleteAccount2Row) {
@@ -340,7 +341,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                                 value = LocaleController.getString("DownloadSpeedBoostAverage", R.string.DownloadSpeedBoostAverage);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("DownloadSpeedBoost", R.string.DownloadSpeedBoost), value, true);
+                        textCell.setTextAndValue(LocaleController.getString("DownloadSpeedBoost", R.string.DownloadSpeedBoost), value, partial, true);
                     }
                     break;
                 }

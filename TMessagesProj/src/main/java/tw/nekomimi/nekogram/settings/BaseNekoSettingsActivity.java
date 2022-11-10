@@ -52,6 +52,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
+    protected static final Object PARTIAL = new Object();
+
     protected BlurredRecyclerView listView;
     protected BaseListAdapter listAdapter;
     protected LinearLayoutManager layoutManager;
@@ -333,6 +335,16 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int type = holder.getItemViewType();
             return type == 2 || type == 3 || type == 5 || type == 6 || type == 8 | type == 9 || type == 10 || type == 11 || type == 12;
+        }
+
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
+
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            var payload = holder.getPayload();
+            onBindViewHolder(holder, position, PARTIAL.equals(payload));
         }
 
         @NonNull

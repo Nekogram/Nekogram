@@ -198,7 +198,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
                 case 2: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;

@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.view.View;
 
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.LocaleController;
@@ -43,7 +44,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
             arrayList.add(LocaleController.getString("UseProxyTelegram", R.string.UseProxyTelegram));
             PopupHelper.show(arrayList, LocaleController.getString("WsLocalProxy", R.string.WsLocalProxy), NekoConfig.wsUseMTP ? 1 : 0, getParentActivity(), view, i -> {
                 NekoConfig.setWsUseMTP(i == 1);
-                listAdapter.notifyItemChanged(localProxyRow);
+                listAdapter.notifyItemChanged(localProxyRow, PARTIAL);
                 NekoConfig.wsReloadConfig();
             });
         } else if (position == enableDoHRow) {
@@ -88,14 +89,14 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
             switch (holder.getItemViewType()) {
                 case 2: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == localProxyRow) {
                         String value = NekoConfig.wsUseMTP ? LocaleController.getString("UseProxyTelegram", R.string.UseProxyTelegram) : LocaleController.getString("UseProxySocks5", R.string.UseProxySocks5);
-                        textCell.setTextAndValue(LocaleController.getString("WsLocalProxy", R.string.WsLocalProxy), value, true);
+                        textCell.setTextAndValue(LocaleController.getString("WsLocalProxy", R.string.WsLocalProxy), value, partial, true);
                     }
                     break;
                 }
