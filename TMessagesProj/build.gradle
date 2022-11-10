@@ -26,11 +26,11 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:20.3.0'
     implementation 'com.google.android.gms:play-services-vision:20.1.3'
     implementation 'com.google.android.gms:play-services-wearable:18.0.0'
-    implementation 'com.google.android.gms:play-services-location:21.0.0'
+    implementation 'com.google.android.gms:play-services-location:21.0.1'
     implementation 'com.googlecode.mp4parser:isoparser:1.0.6'
     implementation 'com.stripe:stripe-android:2.0.2'
     implementation 'com.google.mlkit:language-id:17.0.4'
-    implementation 'com.android.billingclient:billing:5.0.0'
+    implementation 'com.android.billingclient:billing:5.1.0'
 
     implementation "androidx.browser:browser:1.4.0"
     implementation 'com.getkeepsafe.relinker:relinker:1.4.5'
@@ -40,7 +40,7 @@ dependencies {
     implementation files('libs/org.tcp2ws.jar')
     implementation files('libs/org.translator.jar')
 
-    def appCenterSdkVersion = '4.4.5'
+    def appCenterSdkVersion = '5.0.0'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 
