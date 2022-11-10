@@ -223,7 +223,7 @@ public class AlertDialog extends Dialog implements Drawable.Callback {
         backgroundPaddings = new Rect();
         if (progressStyle != 3) {
             shadowDrawable = new GradientDrawable();
-            shadowDrawable.setCornerRadius(AndroidUtilities.dp(6));
+            shadowDrawable.setCornerRadius(AndroidUtilities.dp(10));
             shadowDrawable.setColor(getThemedColor(Theme.key_dialogBackground));
         }
 
