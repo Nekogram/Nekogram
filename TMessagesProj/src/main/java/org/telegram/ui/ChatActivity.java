@@ -15806,7 +15806,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             } else {
                                 yOffset = scrollToMessagePosition;
                             }
-                            yOffset += AndroidUtilities.dp(50); // in case pinned message view is visible
+                            // TODO: figure out what is this?
+                            //yOffset += AndroidUtilities.dp(50); // in case pinned message view is visible
                             if (!postponedScroll) {
                                 if (!messages.isEmpty()) {
                                     if (chatAdapter.loadingUpRow >= 0 && !messages.isEmpty() && (messages.get(messages.size() - 1) == scrollToMessage || messages.get(messages.size() - 2) == scrollToMessage)) {
