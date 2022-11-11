@@ -18,7 +18,6 @@
 #include "common.h"
 #include "openat.h"
 #include "path.h"
-#include "xposed-detector.h"
 
 #ifdef CHECK_MOUNT
 #include "mount.h"
@@ -1030,12 +1029,6 @@ bool checkGenuine(JNIEnv *env) {
     char *packageName = getGenuinePackageName();
 
     if (uid < 10000) {
-        goto clean;
-    }
-
-    int xposed_stat = get_xposed_status(env, 21);
-    if (xposed_stat == CAN_NOT_ANTI_XPOSED) {
-        genuine = CHECK_FATAL;
         goto clean;
     }
 
