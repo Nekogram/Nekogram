@@ -355,10 +355,10 @@ public class SharedConfig {
                     if (updateVersion == 0) {
                         updateVersion = BuildVars.BUILD_VERSION;
                     }
-                    //if (updateVersionString == null) {
-                    //    updateVersionString = BuildVars.BUILD_VERSION_STRING;
-                    //}
-                    if (pendingAppUpdateBuildVersion != updateVersion || pendingAppUpdate.version == null/* || updateVersionString.compareTo(pendingAppUpdate.version) >= 0*/) {
+                    ///if (updateVersionString == null) {
+                    ///    updateVersionString = BuildVars.BUILD_VERSION_STRING;
+                    ///}
+                    if (pendingAppUpdateBuildVersion != updateVersion || pendingAppUpdate.version == null/* || updateVersionString.compareTo(pendingAppUpdate.version) >= 0*/ || BuildVars.DEBUG_PRIVATE_VERSION) {
                         NekoConfig.buildAppChangelog(pendingAppUpdate);
                         pendingAppUpdate = null;
                         AndroidUtilities.runOnUIThread(SharedConfig::saveConfig);

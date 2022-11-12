@@ -3954,6 +3954,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             private Bulletin.Delegate delegate = new Bulletin.Delegate() {
                 @Override
                 public int getBottomOffset(int tag) {
+                    if (captionEditText.getVisibility() == View.GONE) {
+                        return 0;
+                    }
                     return getHeight() - captionEditText.getTop();
                 }
             };

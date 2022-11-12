@@ -13,6 +13,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Pair;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -23,7 +24,6 @@ import android.widget.TextView;
 
 import androidx.core.content.FileProvider;
 import androidx.core.text.HtmlCompat;
-import androidx.core.util.Pair;
 
 import org.json.JSONException;
 import org.json.JSONObject;

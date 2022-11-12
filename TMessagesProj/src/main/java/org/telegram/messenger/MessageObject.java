@@ -27,10 +27,10 @@ import android.text.style.ClickableSpan;
 import android.text.style.URLSpan;
 import android.text.util.Linkify;
 import android.util.Base64;
+import android.util.Pair;
 
 import androidx.annotation.IntDef;
 import androidx.collection.LongSparseArray;
-import androidx.core.util.Pair;
 
 import org.telegram.PhoneFormat.PhoneFormat;
 import org.telegram.messenger.browser.Browser;
@@ -179,6 +179,8 @@ public class MessageObject {
     public String sponsoredChatInviteHash;
     public boolean sponsoredShowPeerPhoto;
     public boolean sponsoredRecommended;
+
+    public TLRPC.TL_forumTopic replyToForumTopic; // used only for reply message in view all messages
 
     public String botStartParam;
 
@@ -2557,7 +2559,7 @@ public class MessageObject {
     }
 
     public boolean hasValidReplyMessageObject() {
-        return !(replyMessageObject == null || replyMessageObject.messageOwner instanceof TLRPC.TL_messageEmpty || replyMessageObject.messageOwner.action instanceof TLRPC.TL_messageActionHistoryClear);
+        return !(replyMessageObject == null || replyMessageObject.messageOwner instanceof TLRPC.TL_messageEmpty || replyMessageObject.messageOwner.action instanceof TLRPC.TL_messageActionHistoryClear || replyMessageObject.messageOwner.action instanceof TLRPC.TL_messageActionTopicCreate);
     }
 
     public void generatePaymentSentMessageText(TLRPC.User fromUser) {
@@ -3452,10 +3454,13 @@ public class MessageObject {
                     TLRPC.TL_messageActionTopicEdit editAction = (TLRPC.TL_messageActionTopicEdit) messageOwner.action;
 
                     String name = null;
+                    TLObject object = null;
                     if (fromUser != null) {
                         name = ContactsController.formatName(fromUser.first_name, fromUser.last_name);
+                        object = fromUser;
                     } else if (fromChat != null) {
                         name = fromChat.title;
+                        object = fromChat;
                     }
                     if (name != null) {
                         name = name.trim();
@@ -3465,10 +3470,10 @@ public class MessageObject {
 
                     if ((messageOwner.action.flags & 4) > 0) {
                         if (((TLRPC.TL_messageActionTopicEdit) messageOwner.action).closed) {
-                            messageText = LocaleController.formatString("TopicClosed2", R.string.TopicClosed2, name);
+                            messageText = replaceWithLink(LocaleController.getString("TopicClosed2", R.string.TopicClosed2), "%s", object);
                             messageTextShort = LocaleController.getString("TopicClosed", R.string.TopicClosed);
                         } else {
-                            messageText = LocaleController.formatString("TopicRestarted2", R.string.TopicRestarted2, name);
+                            messageText = replaceWithLink(LocaleController.getString("TopicRestarted2", R.string.TopicRestarted2), "%s", object);
                             messageTextShort = LocaleController.getString("TopicRestarted", R.string.TopicRestarted);
                         }
                     } else {
@@ -4793,6 +4798,10 @@ public class MessageObject {
     }
 
     public static Spannable replaceAnimatedEmoji(CharSequence text, ArrayList<TLRPC.MessageEntity> entities, Paint.FontMetricsInt fontMetricsInt) {
+        return replaceAnimatedEmoji(text, entities, fontMetricsInt, false);
+    }
+
+    public static Spannable replaceAnimatedEmoji(CharSequence text, ArrayList<TLRPC.MessageEntity> entities, Paint.FontMetricsInt fontMetricsInt, boolean top) {
         Spannable spannable = text instanceof Spannable ? (Spannable) text : new SpannableString(text);
         if (entities == null) {
             return spannable;
@@ -4829,6 +4838,7 @@ public class MessageObject {
                     } else {
                         span = new AnimatedEmojiSpan(entity.document_id, fontMetricsInt);
                     }
+                    span.top = top;
                     spannable.setSpan(span, messageEntity.offset, messageEntity.offset + messageEntity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
             }
@@ -5544,6 +5554,22 @@ public class MessageObject {
         }
         if (a instanceof TLRPC.TL_peerUser && b instanceof TLRPC.TL_peerUser) {
             return a.user_id == b.user_id;
+        }
+        return false;
+    }
+
+    public static boolean peersEqual(TLRPC.Chat a, TLRPC.Peer b) {
+        if (a == null && b == null) {
+            return true;
+        }
+        if (a == null || b == null) {
+            return false;
+        }
+        if (ChatObject.isChannel(a) && b instanceof TLRPC.TL_peerChannel) {
+            return a.id == b.channel_id;
+        }
+        if (!ChatObject.isChannel(a) && b instanceof TLRPC.TL_peerChat) {
+            return a.id == b.chat_id;
         }
         return false;
     }
