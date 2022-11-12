@@ -4036,7 +4036,7 @@ public class DialogCell extends BaseCell {
     }
 
     public void updateMessageThumbs() {
-        if (message == null || NekoConfig.mediaPreview) {
+        if (message == null || !NekoConfig.mediaPreview) {
             return;
         }
         String restrictionReason = MessagesController.getRestrictionReason(message.messageOwner.restriction_reason);
