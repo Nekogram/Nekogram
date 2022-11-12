@@ -104,6 +104,8 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Iterator;
 
+import tw.nekomimi.nekogram.BackButtonMenuRecent;
+
 public class TopicsFragment extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ChatActivityInterface {
 
     final long chatId;
@@ -860,6 +862,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
 
         updateChatInfo();
 
+        BackButtonMenuRecent.addToRecentDialogs(currentAccount, -chatId);
         return fragmentView;
     }
 

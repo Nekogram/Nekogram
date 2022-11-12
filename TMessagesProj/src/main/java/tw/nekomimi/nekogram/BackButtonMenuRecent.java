@@ -35,6 +35,7 @@ import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.ProfileActivity;
+import org.telegram.ui.TopicsFragment;
 
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicReference;
@@ -168,10 +169,15 @@ public class BackButtonMenuRecent {
                 Bundle bundle = new Bundle();
                 if (dialogId < 0) {
                     bundle.putLong("chat_id", -dialogId);
+                    if (MessagesController.getInstance(currentAccount).isForum(dialogId)) {
+                        fragment.presentFragment(new TopicsFragment(bundle));
+                    } else {
+                        fragment.presentFragment(new ChatActivity(bundle));
+                    }
                 } else {
                     bundle.putLong("user_id", dialogId);
+                    fragment.presentFragment(new ChatActivity(bundle));
                 }
-                fragment.presentFragment(new ChatActivity(bundle));
             });
             cell.setOnLongClickListener(e2 -> {
                 if (scrimPopupWindowRef.get() != null) {
