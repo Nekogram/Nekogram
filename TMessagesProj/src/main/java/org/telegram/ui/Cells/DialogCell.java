@@ -3215,7 +3215,7 @@ public class DialogCell extends BaseCell {
                 });
             }
 
-            if (lastTopicMessageUnread) {
+            if (true/*lastTopicMessageUnread*/) {
                 canvasButton.setColor(ColorUtils.setAlphaComponent(currentMessagePaint.getColor(), Theme.isCurrentThemeDark() ? 36 : 26));
                 canvasButton.rewind();
                 if (topMessageTopicEndIndex != topMessageTopicStartIndex && topMessageTopicEndIndex > 0) {
@@ -4295,7 +4295,7 @@ public class DialogCell extends BaseCell {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (delegate == null || delegate.canClickButtonInside()) {
-            if (lastTopicMessageUnread && canvasButton != null && buttonLayout != null && canvasButton.checkTouchEvent(event)) {
+            if (/*lastTopicMessageUnread && */canvasButton != null && buttonLayout != null && canvasButton.checkTouchEvent(event)) {
                 return true;
             }
         }
