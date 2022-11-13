@@ -6773,7 +6773,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         public void notifyDataSetChanged(boolean updateEmojipack) {
             ArrayList<Integer> prevRowHashCodes = new ArrayList<>(rowHashCodes);
 
-            final MediaDataController mediaDataController = MediaDataController.getInstance(currentAccount);
+            /*final MediaDataController mediaDataController = MediaDataController.getInstance(currentAccount);
             ArrayList<TLRPC.StickerSetCovered> featured = mediaDataController.getFeaturedEmojiSets();
             featuredEmojiSets.clear();
             for (int a = 0, N = featured.size(); a < N; a++) {
@@ -6781,7 +6781,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 if (!mediaDataController.isStickerPackInstalled(set.set.id) || installedEmojiSets.contains(set.set.id)) {
                     featuredEmojiSets.add(set);
                 }
-            }
+            }*/
 
             processEmoji(updateEmojipack);
             updateRows();
