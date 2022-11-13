@@ -72,6 +72,7 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.Objects;
@@ -15789,6 +15790,12 @@ public class MessagesController extends BaseController implements NotificationCe
                 if (res.peers.isEmpty()) {
                     result = null;
                 } else {
+                    ListIterator<TLRPC.TL_sendAsPeer> iterator = res.peers.listIterator();
+                    while (iterator.hasNext()) {
+                        if (iterator.next().premium_required) {
+                            iterator.remove();
+                        }
+                    }
                     result = res;
                     AndroidUtilities.runOnUIThread(() -> {
                         putUsers(res.users, false);
