@@ -492,7 +492,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     public boolean showCustomEmojiReaction() {
-        return !MessagesController.getInstance(currentAccount).premiumLocked && allReactionsAvailable;
+        return !MessagesController.getInstance(currentAccount).premiumLocked && UserConfig.getInstance(currentAccount).isPremium() && allReactionsAvailable;
     }
 
     private boolean showUnlockPremiumButton() {
