@@ -19638,14 +19638,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     @Override
     public void onBecomeFullyHidden() {
-        if (!getMessagesController().premiumLocked && !getMessagesController().didPressTranscribeButtonEnough() && !getUserConfig().isPremium() && messages != null) {
+        /*if (!getMessagesController().premiumLocked && !getMessagesController().didPressTranscribeButtonEnough() && !getUserConfig().isPremium() && messages != null) {
             for (int i = 0; i < messages.size(); ++i) {
                 MessageObject msg = messages.get(i);
                 if (msg != null && !msg.isOutOwner() && (msg.isVoice() || msg.isRoundVideo()) && !msg.isUnread() && (msg.isContentUnread() || ChatObject.isChannelAndNotMegaGroup(currentChat))) {
                     TranscribeButton.showOffTranscribe(msg, false);
                 }
             }
-        }
+        }*/
         isFullyVisible = false;
         hideUndoViews();
         if (parentLayout != null && parentLayout.getDrawerLayoutContainer() != null) {
@@ -22526,7 +22526,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             final ArrayList<Integer> options = new ArrayList<>();
             View optionsView = null;
 
-            if (!getUserConfig().isPremium() && !getMessagesController().premiumLocked && message.getDocument() != null && message.getDocument().size >= 300 * 1024 * 1024 && FileLoader.getInstance(currentAccount).isLoadingFile(FileLoader.getAttachFileName(message.getDocument()))) {
+            if (false && !getUserConfig().isPremium() && !getMessagesController().premiumLocked && message.getDocument() != null && message.getDocument().size >= 300 * 1024 * 1024 && FileLoader.getInstance(currentAccount).isLoadingFile(FileLoader.getAttachFileName(message.getDocument()))) {
                 items.add(LocaleController.getString(R.string.PremiumSpeedPromo));
                 options.add(OPTION_SPEED_PROMO);
                 icons.add(R.drawable.msg_speed);
@@ -22588,7 +22588,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     messageTextToTranslate = null; // message fully consists of emojis, do not translate
                 }*/
 
-                if (message.isSponsored() && !getMessagesController().premiumLocked) {
+                if (false && message.isSponsored() && !getMessagesController().premiumLocked) {
                     items.add(LocaleController.getString("HideAd", R.string.HideAd));
                     options.add(OPTION_HIDE_SPONSORED_MESSAGE);
                     icons.add(R.drawable.msg_block2);

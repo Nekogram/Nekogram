@@ -7892,7 +7892,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (seekBarWaveform != null) {
             seekBarWaveform.setWaveform(waveform);
         }
-        useTranscribeButton = currentMessageObject != null && (!currentMessageObject.isOutOwner() || currentMessageObject.isSent()) && (UserConfig.getInstance(currentAccount).isPremium() || !MessagesController.getInstance(currentAccount).didPressTranscribeButtonEnough() && (currentMessageObject.messageOwner != null && currentMessageObject.messageOwner.voiceTranscriptionForce || currentMessageObject.getDuration() >= 60) && !MessagesController.getInstance(currentAccount).premiumLocked) && (currentMessageObject.isVoice() && useSeekBarWaveform || currentMessageObject.isRoundVideo()) && currentMessageObject.messageOwner != null && !(MessageObject.getMedia(currentMessageObject.messageOwner) instanceof TLRPC.TL_messageMediaWebPage);
+        useTranscribeButton = currentMessageObject != null && (!currentMessageObject.isOutOwner() || currentMessageObject.isSent()) && (UserConfig.getInstance(currentAccount).isPremium()/* || !MessagesController.getInstance(currentAccount).didPressTranscribeButtonEnough() && (currentMessageObject.messageOwner != null && currentMessageObject.messageOwner.voiceTranscriptionForce || currentMessageObject.getDuration() >= 60) && !MessagesController.getInstance(currentAccount).premiumLocked*/) && (currentMessageObject.isVoice() && useSeekBarWaveform || currentMessageObject.isRoundVideo()) && currentMessageObject.messageOwner != null && !(MessageObject.getMedia(currentMessageObject.messageOwner) instanceof TLRPC.TL_messageMediaWebPage);
         updateSeekBarWaveformWidth(null);
     }
 
