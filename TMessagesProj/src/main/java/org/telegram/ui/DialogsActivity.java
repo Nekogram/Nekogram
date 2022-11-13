@@ -2232,10 +2232,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             downloadsItem.setVisibility(View.GONE);
             passcodeItem.setContentDescription(LocaleController.getString("AccDescrPasscodeLock", R.string.AccDescrPasscodeLock));
 
-            qrItem = menu.addItem(4, R.drawable.msg_qrcode);
-            qrItem.setContentDescription(LocaleController.getString("AuthAnotherClientScan", R.string.AuthAnotherClientScan));
-            qrItem.setVisibility(View.GONE);
-
             updatePasscodeButton();
             updateProxyButton(false, false);
         }
@@ -2251,9 +2247,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (downloadsItem != null && downloadsItemVisible) {
                     downloadsItem.setVisibility(View.GONE);
-                }
-                if (qrItem != null) {
-                    qrItem.setVisibility(View.VISIBLE);
                 }
                 if (viewPages[0] != null) {
                     if (searchString != null) {
@@ -2284,9 +2277,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
                 if (downloadsItem != null && downloadsItemVisible) {
                     downloadsItem.setVisibility(View.VISIBLE);
-                }
-                if (qrItem != null) {
-                    qrItem.setVisibility(View.GONE);
                 }
                 if (searchString != null) {
                     finishFragment();
@@ -2352,19 +2342,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         });
         FrameLayout searchContainer = (FrameLayout) searchItem.getSearchClearButton().getParent();
-        speedItem = new ActionBarMenuItem(context, menu, Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
-        speedItem.setIcon(R.drawable.avd_speed);
-        speedItem.getIconView().setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.SRC_IN));
-        speedItem.setTranslationX(AndroidUtilities.dp(32));
-        speedItem.setAlpha(0f);
-        speedItem.setOnClickListener(v -> showDialog(new PremiumFeatureBottomSheet(this, PremiumPreviewFragment.PREMIUM_FEATURE_DOWNLOAD_SPEED, true)));
-        speedItem.setClickable(false);
-        speedItem.setFixBackground(true);
+        qrItem = new ActionBarMenuItem(context, menu, Theme.getColor(Theme.key_actionBarDefaultSelector), Theme.getColor(Theme.key_actionBarDefaultIcon));
+        qrItem.setIcon(R.drawable.msg_qrcode);
+        qrItem.setTranslationX(AndroidUtilities.dp(32));
+        qrItem.setOnClickListener(v -> QrHelper.openCameraScanActivity(this));
+        qrItem.setFixBackground(true);
+        qrItem.setContentDescription(LocaleController.getString("AuthAnotherClientScan", R.string.AuthAnotherClientScan));
         FrameLayout.LayoutParams speedParams = new FrameLayout.LayoutParams(AndroidUtilities.dp(42), ViewGroup.LayoutParams.MATCH_PARENT);
         speedParams.leftMargin = speedParams.rightMargin = AndroidUtilities.dp(14 + 24);
         speedParams.gravity = Gravity.RIGHT;
-        searchContainer.addView(speedItem, speedParams);
-        searchItem.setSearchAdditionalButton(speedItem);
+        searchContainer.addView(qrItem, speedParams);
+        searchItem.setSearchAdditionalButton(qrItem);
 
         if (initialDialogsType == 2 || initialDialogsType == DIALOGS_TYPE_START_ATTACH_BOT) {
             searchItem.setVisibility(View.GONE);
@@ -4374,6 +4362,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public void updateSpeedItem(boolean visibleByPosition) {
+        if (true) {
+            return;
+        }
         boolean visibleByDownload = false;
         for (MessageObject obj : getDownloadController().downloadingFiles) {
             if (obj.getDocument() != null && obj.getDocument().size >= 300 * 1024 * 1024) {
@@ -4517,8 +4508,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } else if (id == 3) {
                         showSearch(true, true, true);
                         actionBar.openSearchField(true);
-                    } else if (id == 4) {
-                        QrHelper.openCameraScanActivity(DialogsActivity.this);
                     } else if (id >= 10 && id < 10 + UserConfig.MAX_ACCOUNT_COUNT) {
                         if (getParentActivity() == null) {
                             return;
@@ -5131,6 +5120,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
                 searchTabsView = null;
             }
+            if (qrItem != null) {
+                if (whiteActionBar) {
+                    qrItem.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 1));
+                    qrItem.setIconColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
+                } else {
+                    qrItem.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarDefaultSelector), 1));
+                    qrItem.setIconColor(Theme.getColor(Theme.key_actionBarDefaultIcon));
+                }
+            }
 
             EditTextBoldCursor editText = searchItem.getSearchField();
             if (whiteActionBar) {
@@ -5191,9 +5189,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             animators.add(ObjectAnimator.ofFloat(searchViewPager, View.SCALE_Y, show ? 1.0f : 1.05f));
             if (passcodeItem != null) {
                 animators.add(ObjectAnimator.ofFloat(passcodeItem.getIconView(), View.ALPHA, show ? 0 : 1f));
-            }
-            if (qrItem != null) {
-                animators.add(ObjectAnimator.ofFloat(qrItem.getIconView(), View.ALPHA, !show ? 0 : 1f));
             }
 
             if (downloadsItem != null) {
