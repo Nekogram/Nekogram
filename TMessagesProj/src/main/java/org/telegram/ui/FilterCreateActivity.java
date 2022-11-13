@@ -780,9 +780,9 @@ public class FilterCreateActivity extends BaseFragment {
                     break;
                 }
                 case 2: {
-                    PollEditTextCell cell = new PollEditTextCell(mContext, false, null, view1 -> IconSelectorAlert.show(FilterCreateActivity.this, (emoticon) -> {
+                    PollEditTextCell cell = new PollEditTextCell(mContext, false, null, view1 -> IconSelectorAlert.show(FilterCreateActivity.this, view1, newFilterEmoticon == null ? "\uD83D\uDCC1" : newFilterEmoticon, (emoticon) -> {
                         newFilterEmoticon = emoticon;
-                        adapter.notifyItemChanged(nameRow);
+                        ((PollEditTextCell) view1.getParent()).setIcon(FolderIconHelper.getTabIcon(newFilterEmoticon), true);
                         checkDoneButton(true);
                     }));
                     cell.createErrorTextView();
@@ -1007,7 +1007,7 @@ public class FilterCreateActivity extends BaseFragment {
                 }
                 case 2: {
                     PollEditTextCell cell = (PollEditTextCell) holder.itemView;
-                    cell.setIcon(FolderIconHelper.getTabIcon(newFilterEmoticon), newFilterEmoticon);
+                    cell.setIcon(FolderIconHelper.getTabIcon(newFilterEmoticon), false);
                     break;
                 }
             }

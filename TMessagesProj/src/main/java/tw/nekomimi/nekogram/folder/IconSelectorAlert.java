@@ -1,79 +1,99 @@
 package tw.nekomimi.nekogram.folder;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.view.ViewGroup;
+import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
+import android.view.Gravity;
+import android.view.View;
+import android.view.WindowManager;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 
-import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
-
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.ui.ActionBar.AlertDialog;
+import org.telegram.messenger.R;
+import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Components.ExtendedGridLayoutManager;
-import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.LayoutHelper;
+
+import java.util.concurrent.atomic.AtomicReference;
 
 public class IconSelectorAlert {
+    private final static Paint selectedPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
-    public static void show(BaseFragment fragment, OnIconSelectedListener onIconSelectedListener) {
+    public static void show(BaseFragment fragment, View view, String selectedIcon, OnIconSelectedListener onIconSelectedListener) {
+        selectedPaint.setColor(Theme.getColor(Theme.key_listSelector));
+
         Context context = fragment.getParentActivity();
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        ActionBarPopupWindow.ActionBarPopupWindowLayout layout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context);
+        Rect backgroundPaddings = new Rect();
+        Drawable shadowDrawable = fragment.getParentActivity().getResources().getDrawable(R.drawable.popup_fixed_alert).mutate();
+        shadowDrawable.getPadding(backgroundPaddings);
+        layout.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground));
 
-        GridAdapter gridAdapter = new GridAdapter();
-        RecyclerListView recyclerListView = new RecyclerListView(context);
-        recyclerListView.setClipToPadding(false);
-        recyclerListView.setPadding(AndroidUtilities.dp(8), 0, AndroidUtilities.dp(8), 0);
-        recyclerListView.setLayoutManager(new ExtendedGridLayoutManager(recyclerListView.getContext(), 6));
-        recyclerListView.setAdapter(gridAdapter);
-        recyclerListView.setSelectorDrawableColor(0);
-        recyclerListView.setOnItemClickListener((view, position) -> {
-            onIconSelectedListener.onIconSelected((String) view.getTag());
-            builder.getDismissRunnable().run();
-        });
+        int[] location = new int[2];
+        view.getLocationInWindow(location);
 
-        builder.setView(recyclerListView);
-        fragment.showDialog(builder.create());
-    }
+        int popupX = location[0] - AndroidUtilities.dp(8) - backgroundPaddings.left + view.getMeasuredWidth();
+        int popupY = location[1] - AndroidUtilities.dp(8) - backgroundPaddings.top + view.getMeasuredHeight();
 
-    private static class GridAdapter extends RecyclerListView.SelectionAdapter {
-        private final String[] icons = FolderIconHelper.folderIcons.keySet().toArray(new String[0]);
+        AtomicReference<ActionBarPopupWindow> scrimPopupWindowRef = new AtomicReference<>();
 
-        @NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            var view = new ImageView(parent.getContext()) {
+        GridLayout gridLayout = new GridLayout(context);
+        int columnCount = 6;
+        while (AndroidUtilities.displaySize.x - popupX < 48 * columnCount + AndroidUtilities.dp(8)) {
+            columnCount--;
+        }
+        gridLayout.setColumnCount(columnCount);
+
+        for (String icon : FolderIconHelper.folderIcons.keySet().toArray(new String[0])) {
+            var imageView = new ImageView(context) {
                 @Override
-                protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                    int iconSize = MeasureSpec.makeMeasureSpec(parent.getMeasuredWidth() / 6, MeasureSpec.EXACTLY);
-                    super.onMeasure(iconSize, iconSize);
+                protected void onDraw(Canvas canvas) {
+                    if (isSelected()) {
+                        AndroidUtilities.rectTmp.set(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                        canvas.drawRoundRect(AndroidUtilities.rectTmp, AndroidUtilities.dp(4), AndroidUtilities.dp(4), selectedPaint);
+                    }
+                    super.onDraw(canvas);
                 }
             };
-            view.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector), AndroidUtilities.dp(2), AndroidUtilities.dp(2)));
-            view.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
-            view.setPadding(AndroidUtilities.dp(10), AndroidUtilities.dp(10), AndroidUtilities.dp(10), AndroidUtilities.dp(10));
-            return new RecyclerListView.Holder(view);
+            imageView.setScaleType(ImageView.ScaleType.CENTER);
+            imageView.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector), AndroidUtilities.dp(2), AndroidUtilities.dp(2)));
+            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
+            imageView.setImageResource(FolderIconHelper.getTabIcon(icon));
+            imageView.setSelected(icon.equals(selectedIcon));
+            imageView.setOnClickListener(v -> {
+                if (selectedIcon.equals(icon)) {
+                    return;
+                }
+                if (scrimPopupWindowRef.get() != null) {
+                    scrimPopupWindowRef.getAndSet(null).dismiss();
+                }
+                onIconSelectedListener.onIconSelected(icon);
+            });
+            gridLayout.addView(imageView, LayoutHelper.createFrame(48, 48, Gravity.CENTER));
         }
+        layout.addView(gridLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 4, 4, 4, 4));
 
-        @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
-            var imageView = (ImageView) holder.itemView;
-            imageView.setTag(icons[position]);
-            imageView.setImageResource(FolderIconHelper.getTabIcon(icons[position]));
-        }
-
-        @Override
-        public int getItemCount() {
-            return icons.length;
-        }
-
-        @Override
-        public boolean isEnabled(RecyclerView.ViewHolder holder) {
-            return true;
-        }
+        ActionBarPopupWindow scrimPopupWindow = new ActionBarPopupWindow(layout, LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT);
+        scrimPopupWindowRef.set(scrimPopupWindow);
+        scrimPopupWindow.setPauseNotifications(true);
+        scrimPopupWindow.setDismissAnimationDuration(220);
+        scrimPopupWindow.setOutsideTouchable(true);
+        scrimPopupWindow.setClippingEnabled(true);
+        scrimPopupWindow.setAnimationStyle(R.style.PopupContextAnimation);
+        scrimPopupWindow.setFocusable(true);
+        layout.measure(View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000), View.MeasureSpec.AT_MOST), View.MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000), View.MeasureSpec.AT_MOST));
+        scrimPopupWindow.setInputMethodMode(ActionBarPopupWindow.INPUT_METHOD_NOT_NEEDED);
+        scrimPopupWindow.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_UNSPECIFIED);
+        scrimPopupWindow.getContentView().setFocusableInTouchMode(true);
+        scrimPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.TOP, popupX, popupY);
+        scrimPopupWindow.dimBehind();
     }
 
     public interface OnIconSelectedListener {
