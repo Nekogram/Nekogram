@@ -96,6 +96,8 @@
 -keep,allowshrinking,allowobfuscation class org.telegram.ui.Components.GroupCreateSpan {
     public void updateColors();
  }
+-keepclassmembernames class tw.nekomimi.nekogram.settings.AccountCell { <fields>; }
+-keepclassmembernames class tw.nekomimi.nekogram.settings.NekoChatSettingsActivity$StickerSizeCell { <fields>; }
 
 -keepclassmembernames class androidx.core.widget.NestedScrollView {
     private android.widget.OverScroller mScroller;
