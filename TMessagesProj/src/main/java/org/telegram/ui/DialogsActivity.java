@@ -4680,12 +4680,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 filterTabsView.removeTabs();
                 for (int a = 0, N = filters.size(); a < N; a++) {
                     if (filters.get(a).isDefault()) {
-                        filterTabsView.addTab(a, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), "\uD83D\uDCAC", true,  filters.get(a).locked);
+                        if (!NekoConfig.hideAllTab) filterTabsView.addTab(a, 0, LocaleController.getString("FilterAllChats", R.string.FilterAllChats), "\uD83D\uDCAC", true,  filters.get(a).locked);
                     } else {
                         filterTabsView.addTab(a, filters.get(a).localId, filters.get(a).name, filters.get(a).emoticon == null ? "\uD83D\uDCC1" : filters.get(a).emoticon, false,  filters.get(a).locked);
                     }
                 }
-                if (stableId >= 0) {
+                if (NekoConfig.hideAllTab && stableId <= 0) {
+                    id = filterTabsView.getFirstTabId();
+                    updateCurrentTab = true;
+                    viewPages[0].selectedType = id;
+                    filterTabsView.selectTabWithStableId(filterTabsView.getStableId(0));
+                } else if (stableId >= 0) {
                     if (filterTabsView.getStableId(viewPages[0].selectedType) != stableId) {
                         updateCurrentTab = true;
                         viewPages[0].selectedType = id;
