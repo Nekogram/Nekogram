@@ -30,7 +30,6 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
-import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -129,8 +128,6 @@ public class LogoutActivity extends BaseFragment {
                         if (availableAccount == null) {
                             availableAccount = a;
                         }
-                    } else if (ConnectionsManager.getInstance(a).isTestBackend() || UserConfig.getInstance(a).getCurrentUser() != null && UserConfig.getInstance(a).getCurrentUser().bot) {
-                        freeAccounts++;
                     }
                 }
                 if (!UserConfig.hasPremiumOnAccounts()) {

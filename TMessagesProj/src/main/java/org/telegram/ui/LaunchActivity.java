@@ -493,8 +493,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         if (availableAccount == null) {
                             availableAccount = a;
                         }
-                    } else if (ConnectionsManager.getInstance(a).isTestBackend() || UserConfig.getInstance(a).getCurrentUser() != null && UserConfig.getInstance(a).getCurrentUser().bot) {
-                        freeAccounts++;
                     }
                 }
                 if (!UserConfig.hasPremiumOnAccounts()) {
