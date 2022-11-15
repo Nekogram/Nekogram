@@ -12131,7 +12131,7 @@ public class MessagesStorage extends BaseController {
         forumTopic.topicStartMessage = message;
         forumTopic.top_message = message.id;
         forumTopic.topMessage = message;
-        forumTopic.from_id = getMessagesController().getPeer(getUserConfig().clientUserId);
+        forumTopic.from_id = message.from_id;
         forumTopic.notify_settings = new TLRPC.TL_peerNotifySettings();
         forumTopic.unread_count = 0;
 
