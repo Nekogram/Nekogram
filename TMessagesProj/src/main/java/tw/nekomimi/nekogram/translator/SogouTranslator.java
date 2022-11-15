@@ -15,22 +15,18 @@ import tw.nekomimi.nekogram.Extra;
 
 public class SogouTranslator extends BaseTranslator {
 
-    private static SogouTranslator instance;
     private final List<String> targetLanguages = Arrays.asList(
             "ar", "cs", "da", "de", "de", "en", "es",
             "fi", "fr", "hu", "it", "ja", "ko", "nl",
             "pl", "pt", "ru", "sv", "th", "tr", "vi",
             "zh", "zh-CN", "zh-TW");
 
+    private static final class InstanceHolder {
+        private static final SogouTranslator instance = new SogouTranslator();
+    }
+
     static SogouTranslator getInstance() {
-        if (instance == null) {
-            synchronized (SogouTranslator.class) {
-                if (instance == null) {
-                    instance = new SogouTranslator();
-                }
-            }
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     @Override

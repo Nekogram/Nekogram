@@ -13,7 +13,6 @@ import java.util.List;
 
 public class GoogleAppTranslator extends BaseTranslator {
 
-    private static GoogleAppTranslator instance;
     private final List<String> targetLanguages = Arrays.asList(
             "sq", "ar", "am", "az", "ga", "et", "or", "eu", "be", "bg", "is", "pl", "bs",
             "fa", "af", "tt", "da", "de", "ru", "fr", "tl", "fi", "fy", "km", "ka", "gu",
@@ -25,15 +24,12 @@ public class GoogleAppTranslator extends BaseTranslator {
             "el", "haw", "sd", "hu", "sn", "hy", "ig", "it", "yi", "hi", "su", "id", "jw",
             "en", "yo", "vi", "zh-TW", "zh-CN", "zh");
 
+    private static final class InstanceHolder {
+        private static final GoogleAppTranslator instance = new GoogleAppTranslator();
+    }
+
     static GoogleAppTranslator getInstance() {
-        if (instance == null) {
-            synchronized (GoogleAppTranslator.class) {
-                if (instance == null) {
-                    instance = new GoogleAppTranslator();
-                }
-            }
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     private final String[] devices = new String[]{

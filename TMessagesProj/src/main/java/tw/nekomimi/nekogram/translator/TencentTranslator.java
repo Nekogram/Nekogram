@@ -11,19 +11,15 @@ import java.util.List;
 
 public class TencentTranslator extends BaseTranslator {
 
-    private static TencentTranslator instance;
     private final List<String> targetLanguages = Arrays.asList("zh", "zh-TW", "en", "ja", "ko", "fr", "es", "it", "de", "tr", "ru", "pt", "vi", "id", "th", "ms", "ar", "hi");
     private final MrTranslatorWeb mrTranslatorWeb = new MrTranslatorWeb();
 
+    private static final class InstanceHolder {
+        private static final TencentTranslator instance = new TencentTranslator();
+    }
+
     static TencentTranslator getInstance() {
-        if (instance == null) {
-            synchronized (TencentTranslator.class) {
-                if (instance == null) {
-                    instance = new TencentTranslator();
-                }
-            }
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     @Override

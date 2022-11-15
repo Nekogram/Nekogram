@@ -15,7 +15,6 @@ import tw.nekomimi.nekogram.Extra;
 
 public class MicrosoftTranslator extends BaseTranslator {
 
-    private static MicrosoftTranslator instance;
     private final List<String> targetLanguages = Arrays.asList(
             "sq", "ar", "az", "ga", "et", "or", "mww", "bg", "is", "pl", "bs", "fa", "ko",
             "da", "de", "ru", "fr", "zh-TW", "fil", "fj", "fi", "gu", "kk", "ht", "nl",
@@ -25,15 +24,12 @@ public class MicrosoftTranslator extends BaseTranslator {
             "ur", "uk", "es", "he", "el", "hu", "hy", "it", "hi", "id", "en", "yua", "yue",
             "vi", "am", "as", "prs", "fr-CA", "iu", "km", "tlh-Latn", "ku", "kmr", "lo", "my", "ps", "ti");
 
+    private static final class InstanceHolder {
+        private static final MicrosoftTranslator instance = new MicrosoftTranslator();
+    }
+
     static MicrosoftTranslator getInstance() {
-        if (instance == null) {
-            synchronized (MicrosoftTranslator.class) {
-                if (instance == null) {
-                    instance = new MicrosoftTranslator();
-                }
-            }
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     @Override

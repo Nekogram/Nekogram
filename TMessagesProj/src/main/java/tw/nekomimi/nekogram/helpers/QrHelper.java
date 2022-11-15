@@ -26,7 +26,7 @@ public class QrHelper {
 
             @Override
             public boolean processQr(String link, Runnable onLoadEnd) {
-                AndroidUtilities.runOnUIThread(onLoadEnd::run, 750);
+                AndroidUtilities.runOnUIThread(onLoadEnd, 750);
                 return true;
             }
         });

@@ -79,11 +79,8 @@ public class NekoLocationSource implements LocationSource {
                 }
             }
         }
-        LocationRequest locationRequest = LocationRequest.create();
-        locationRequest.setPriority(Priority.PRIORITY_HIGH_ACCURACY);
-        locationRequest.setInterval(0);
-        locationRequest.setFastestInterval(0);
-        LocationServices.getFusedLocationProviderClient(context).requestLocationUpdates(locationRequest, callback, Looper.getMainLooper());
+        LocationRequest.Builder builder = new LocationRequest.Builder(Priority.PRIORITY_HIGH_ACCURACY, 0);
+        LocationServices.getFusedLocationProviderClient(context).requestLocationUpdates(builder.build(), callback, Looper.getMainLooper());
         this.onLocationChangedListener = onLocationChangedListener;
     }
 

@@ -13,18 +13,14 @@ import tw.nekomimi.nekogram.Extra;
 
 public class LingoTranslator extends BaseTranslator {
 
-    private static LingoTranslator instance;
     private final List<String> targetLanguages = Arrays.asList("zh", "en", "es", "fr", "ja", "ru");
 
+    private static final class InstanceHolder {
+        private static final LingoTranslator instance = new LingoTranslator();
+    }
+
     static LingoTranslator getInstance() {
-        if (instance == null) {
-            synchronized (LingoTranslator.class) {
-                if (instance == null) {
-                    instance = new LingoTranslator();
-                }
-            }
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     @Override

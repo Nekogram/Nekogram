@@ -14,21 +14,17 @@ import tw.nekomimi.nekogram.Extra;
 
 public class YouDaoTranslator extends BaseTranslator {
 
-    private static YouDaoTranslator instance;
     private final List<String> targetLanguages = Arrays.asList(
             "en", "ja", "ko", "fr", "de", "ru", "es",
             "pt", "it", "vi", "id", "ar", "nl", "th",
             "zh-CN", "zh-TW", "zh");
 
+    private static final class InstanceHolder {
+        private static final YouDaoTranslator instance = new YouDaoTranslator();
+    }
+
     static YouDaoTranslator getInstance() {
-        if (instance == null) {
-            synchronized (YouDaoTranslator.class) {
-                if (instance == null) {
-                    instance = new YouDaoTranslator();
-                }
-            }
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     @Override

@@ -12,7 +12,6 @@ import java.util.UUID;
 
 public class YandexTranslator extends BaseTranslator {
 
-    private static YandexTranslator instance;
     private final List<String> targetLanguages = Arrays.asList(
             "af", "sq", "am", "ar", "hy", "az", "ba", "eu", "be", "bn", "bs", "bg", "my",
             "ca", "ceb", "zh", "cv", "hr", "cs", "da", "nl", "sjn", "emj", "en", "eo",
@@ -24,15 +23,12 @@ public class YandexTranslator extends BaseTranslator {
             "udm", "uk", "ur", "uz", "uzbcyr", "vi", "cy", "xh", "sah", "yi", "zu");
     private final String uuid = UUID.randomUUID().toString().replace("-", "");
 
+    private static final class InstanceHolder {
+        private static final YandexTranslator instance = new YandexTranslator();
+    }
+
     static YandexTranslator getInstance() {
-        if (instance == null) {
-            synchronized (YandexTranslator.class) {
-                if (instance == null) {
-                    instance = new YandexTranslator();
-                }
-            }
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     private static Result getResult(String string) throws JSONException, IOException {

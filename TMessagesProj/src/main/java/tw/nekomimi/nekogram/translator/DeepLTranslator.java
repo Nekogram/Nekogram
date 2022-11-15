@@ -15,7 +15,6 @@ public class DeepLTranslator extends BaseTranslator {
     public static final int FORMALITY_MORE = 1;
     public static final int FORMALITY_LESS = 2;
 
-    private static DeepLTranslator instance;
     private final List<String> targetLanguages = Arrays.asList(
             "bg", "cs", "da", "de", "el", "en-GB", "en-US", "en", "es",
             "et", "fi", "fr", "hu", "id", "it", "ja", "lt", "lv", "nl",
@@ -23,15 +22,12 @@ public class DeepLTranslator extends BaseTranslator {
             "tr", "zh");
     private final DeepLTranslatorAndroid deeplTranslater = new DeepLTranslatorAndroid();
 
+    private static final class InstanceHolder {
+        private static final DeepLTranslator instance = new DeepLTranslator();
+    }
+
     static DeepLTranslator getInstance() {
-        if (instance == null) {
-            synchronized (DeepLTranslator.class) {
-                if (instance == null) {
-                    instance = new DeepLTranslator();
-                }
-            }
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     @Override

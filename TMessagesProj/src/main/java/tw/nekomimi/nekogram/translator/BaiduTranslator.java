@@ -17,7 +17,6 @@ import tw.nekomimi.nekogram.Extra;
 
 public class BaiduTranslator extends BaseTranslator {
 
-    private static BaiduTranslator instance;
     private final List<String> targetLanguages = Arrays.asList(
             "zh", "en", "ja", "ko", "fr", "es", "th", "ar",
             "ru", "pt", "de", "it", "el", "nl", "pl", "bg",
@@ -30,15 +29,12 @@ public class BaiduTranslator extends BaseTranslator {
             "cht", "vie");
     private final String cuid = UUID.randomUUID().toString().toUpperCase().replace("-", "") + "|" + randomString();
 
+    private static final class InstanceHolder {
+        private static final BaiduTranslator instance = new BaiduTranslator();
+    }
+
     static BaiduTranslator getInstance() {
-        if (instance == null) {
-            synchronized (BaiduTranslator.class) {
-                if (instance == null) {
-                    instance = new BaiduTranslator();
-                }
-            }
-        }
-        return instance;
+        return InstanceHolder.instance;
     }
 
     @Override
