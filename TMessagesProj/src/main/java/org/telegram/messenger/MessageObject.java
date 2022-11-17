@@ -5797,8 +5797,10 @@ public class MessageObject {
         return message.dialog_id;
     }
 
+    public boolean revealed = false;
+
     public boolean shouldBlockMessage() {
-        if (!NekoConfig.ignoreBlocked) {
+        if (!NekoConfig.ignoreBlocked || revealed) {
             return false;
         }
         var messagesController = MessagesController.getInstance(UserConfig.selectedAccount);

@@ -3899,6 +3899,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 newReply != lastReplyMessage;
         boolean groupChanged = groupedMessages != currentMessagesGroup;
         boolean pollChanged = false;
+        boolean blockChanged = currentMessageObject != null && currentMessageObject.shouldBlockMessage() != messageObject.shouldBlockMessage();
 
         if (!messageIdChanged && currentMessageObject != null) {
             messageObject.copyStableParams(currentMessageObject);
@@ -3969,7 +3970,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
             groupChanged = newPosition != currentPosition;
         }
-        if (messageChanged || dataChanged || groupChanged || pollChanged || widthChanged && messageObject.isPoll() || isPhotoDataChanged(messageObject) || pinnedBottom != bottomNear || pinnedTop != topNear) {
+        if (messageChanged || dataChanged || groupChanged || pollChanged || blockChanged || widthChanged && messageObject.isPoll() || isPhotoDataChanged(messageObject) || pinnedBottom != bottomNear || pinnedTop != topNear) {
             wasPinned = isPinned;
             pinnedBottom = bottomNear;
             pinnedTop = topNear;
@@ -5888,7 +5889,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     photoImage.setAllowStartAnimation(messageObject.gifState == 0);
                 }
 
-                photoImage.setForcePreview(messageObject.needDrawBluredPreview());
+                photoImage.setForcePreview(messageObject.shouldBlockMessage() || messageObject.needDrawBluredPreview());
                 if (messageObject.type == MessageObject.TYPE_FILE) {
                     if (AndroidUtilities.isTablet()) {
                         backgroundWidth = Math.min(AndroidUtilities.getMinTabletSide() - AndroidUtilities.dp(drawAvatar ? 102 : 50), AndroidUtilities.dp(300));
@@ -15029,7 +15030,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
         canvas.restore();
 
-        if (unlockLayout != null) {
+        if (unlockLayout != null || currentMessageObject.shouldBlockMessage() && photoImage.isForcePreview()) {
             if (unlockX == 0 || unlockY == 0) {
                 calculateUnlockXY();
             }
@@ -15047,9 +15048,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             canvas.clipPath(unlockSpoilerPath);
             unlockSpoilerPath.rewind();
 
-            AndroidUtilities.rectTmp.set(unlockX - AndroidUtilities.dp(12), unlockY - AndroidUtilities.dp(8), unlockX + Theme.chat_msgUnlockDrawable.getIntrinsicWidth() + AndroidUtilities.dp(14) + unlockLayout.getWidth() + AndroidUtilities.dp(12), unlockY + unlockLayout.getHeight() + AndroidUtilities.dp(8));
-            unlockSpoilerPath.addRoundRect(AndroidUtilities.rectTmp, AndroidUtilities.dp(32), AndroidUtilities.dp(32), Path.Direction.CW);
-            canvas.clipPath(unlockSpoilerPath, Region.Op.DIFFERENCE);
+            if (unlockLayout != null) {
+                AndroidUtilities.rectTmp.set(unlockX - AndroidUtilities.dp(12), unlockY - AndroidUtilities.dp(8), unlockX + Theme.chat_msgUnlockDrawable.getIntrinsicWidth() + AndroidUtilities.dp(14) + unlockLayout.getWidth() + AndroidUtilities.dp(12), unlockY + unlockLayout.getHeight() + AndroidUtilities.dp(8));
+                unlockSpoilerPath.addRoundRect(AndroidUtilities.rectTmp, AndroidUtilities.dp(32), AndroidUtilities.dp(32), Path.Direction.CW);
+                canvas.clipPath(unlockSpoilerPath, Region.Op.DIFFERENCE);
+            }
 
             int sColor = Color.WHITE;
             unlockSpoilerEffect.setColor(ColorUtils.setAlphaComponent(sColor, (int) (Color.alpha(sColor) * 0.325f)));
@@ -15058,17 +15061,19 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             invalidate();
             canvas.restore();
 
-            canvas.saveLayerAlpha(0, 0, getWidth(), getHeight(), (int)(unlockAlpha * 0xFF), Canvas.ALL_SAVE_FLAG);
-            int wasAlpha = Theme.chat_timeBackgroundPaint.getAlpha();
-            Theme.chat_timeBackgroundPaint.setAlpha((int) (wasAlpha * 0.7f));
-            canvas.drawRoundRect(AndroidUtilities.rectTmp, AndroidUtilities.dp(32), AndroidUtilities.dp(32), Theme.chat_timeBackgroundPaint);
-            Theme.chat_timeBackgroundPaint.setAlpha(wasAlpha);
-            canvas.translate(unlockX + AndroidUtilities.dp(4), unlockY);
-            Theme.chat_msgUnlockDrawable.setBounds(0, 0, Theme.chat_msgUnlockDrawable.getIntrinsicWidth(), Theme.chat_msgUnlockDrawable.getIntrinsicHeight());
-            Theme.chat_msgUnlockDrawable.draw(canvas);
-            canvas.translate(AndroidUtilities.dp(6) + Theme.chat_msgUnlockDrawable.getIntrinsicWidth(), 0);
-            unlockLayout.draw(canvas);
-            canvas.restore();
+            if (unlockLayout != null) {
+                canvas.saveLayerAlpha(0, 0, getWidth(), getHeight(), (int) (unlockAlpha * 0xFF), Canvas.ALL_SAVE_FLAG);
+                int wasAlpha = Theme.chat_timeBackgroundPaint.getAlpha();
+                Theme.chat_timeBackgroundPaint.setAlpha((int) (wasAlpha * 0.7f));
+                canvas.drawRoundRect(AndroidUtilities.rectTmp, AndroidUtilities.dp(32), AndroidUtilities.dp(32), Theme.chat_timeBackgroundPaint);
+                Theme.chat_timeBackgroundPaint.setAlpha(wasAlpha);
+                canvas.translate(unlockX + AndroidUtilities.dp(4), unlockY);
+                Theme.chat_msgUnlockDrawable.setBounds(0, 0, Theme.chat_msgUnlockDrawable.getIntrinsicWidth(), Theme.chat_msgUnlockDrawable.getIntrinsicHeight());
+                Theme.chat_msgUnlockDrawable.draw(canvas);
+                canvas.translate(AndroidUtilities.dp(6) + Theme.chat_msgUnlockDrawable.getIntrinsicWidth(), 0);
+                unlockLayout.draw(canvas);
+                canvas.restore();
+            }
 
             if (videoInfoLayout != null && photoImage.getVisible() && imageBackgroundSideColor == 0) {
                 float rad;
