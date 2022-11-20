@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Показывать вкладки при пересылке</string>
     <string name="CheckAllAdministrated">Добавить управляемые</string>
     <string name="RearVideoMessages">Задняя камера в видеосообщениях</string>
+    <string name="HideAllTab">Скрыть вкладку \"Все чаты\"</string>
     <string name="TabTitleType">Показывать на вкладках</string>
     <string name="TabTitleTypeTip">Иконки синхронизируются с Telegram.</string>
     <string name="TabTitleTypeText">Названия</string>

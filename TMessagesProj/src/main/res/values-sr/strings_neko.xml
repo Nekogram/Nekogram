@@ -19,5 +19,6 @@
     <string name="AddToSavedMessages">Сачувај поруку</string>
     <string name="CreateMention">Направите Помињање</string>
     <string name="Prpr">Пероперо</string>
+    <string name="IdTypeHidden">Сакриј</string>
     <!-- Accessibility -->
 </resources>

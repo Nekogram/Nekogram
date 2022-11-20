@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Exibir guias na frente</string>
     <string name="CheckAllAdministrated">Adicionar administrador</string>
     <string name="RearVideoMessages">Câmera traseira em Mensagem Vídeo</string>
+    <string name="HideAllTab">Ocultar guia \"Todos Chats\"</string>
     <string name="TabTitleType">Mostrar nas abas</string>
     <string name="TabTitleTypeTip">Os ícones são sincronizados na nuvem pelo Telegram.</string>
     <string name="TabTitleTypeText">Titulo</string>

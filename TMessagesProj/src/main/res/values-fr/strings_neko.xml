@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Afficher les dossiers lors d\'un transfert</string>
     <string name="CheckAllAdministrated">Ajouter administrateur</string>
     <string name="RearVideoMessages">Caméra arrière dans les messages vidéo</string>
+    <string name="HideAllTab">Masquer le dossier \"Tous\"</string>
     <string name="TabTitleType">Apparence des dossiers</string>
     <string name="TabTitleTypeTip">Les icônes sont synchronisées sur le cloud Telegram.</string>
     <string name="TabTitleTypeText">Titres</string>

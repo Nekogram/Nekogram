@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Показувати вкладки під час переходу вперед</string>
     <string name="CheckAllAdministrated">Додати адміністраторів</string>
     <string name="RearVideoMessages">Задня камера у відеоповідомленнях</string>
+    <string name="HideAllTab">Сховати вкладку \"Усі чати\"</string>
     <string name="TabTitleType">Показувати на вкладках</string>
     <string name="TabTitleTypeTip">Іконки синхронізуються з Telegram.</string>
     <string name="TabTitleTypeText">Назви</string>

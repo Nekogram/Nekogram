@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Mostra le cartelle durante l\'inoltro</string>
     <string name="CheckAllAdministrated">Aggiungi chat amministrate</string>
     <string name="RearVideoMessages">Fotocamera posteriore nei videomessaggi</string>
+    <string name="HideAllTab">Nascondi la cartella \"Tutte le chat\"</string>
     <string name="TabTitleType">Mostra sulle cartelle</string>
     <string name="TabTitleTypeTip">Le icone sono sincronizzate sul cloud da Telegram.</string>
     <string name="TabTitleTypeText">Titoli</string>

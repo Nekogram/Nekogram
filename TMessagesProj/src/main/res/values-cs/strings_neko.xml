@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Показати вкладки пересланих</string>
     <string name="CheckAllAdministrated">Додати адміністратора</string>
     <string name="RearVideoMessages">Фронтальна камера у відеоповідомленнях</string>
+    <string name="HideAllTab">Приховати вкладку «Усі чати»</string>
     <string name="TabTitleType">Покажати вкладки</string>
     <string name="TabTitleTypeTip">Іконки синхронізуються в Телеграм хмарі.</string>
     <string name="TabTitleTypeText">Назви</string>

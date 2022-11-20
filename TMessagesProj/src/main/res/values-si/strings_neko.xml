@@ -51,6 +51,7 @@
     <string name="ShowTabsOnForward">Show tabs on forward</string>
     <string name="CheckAllAdministrated">පරිපාලනයට යොදවන්න</string>
     <string name="RearVideoMessages">විඩීයෝ මැසේජ සදහා පසුපස කැමරාව භාවිතා කරන්න</string>
+    <string name="HideAllTab">සියලුම කතාබස් සඟවන්න</string>
     <string name="TabTitleType">Show on tabs</string>
     <string name="TabTitleTypeText">මාතෘකා</string>
     <string name="ConfirmAVMessage">වීඩියෝ / හඩ පණිවිඩ යැවීමට පෙර තහවුරු කරන්න</string>

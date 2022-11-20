@@ -54,6 +54,7 @@
     <string name="ShowTabsOnForward">Afișați filele pe înainte</string>
     <string name="CheckAllAdministrated">Adăugați administrator</string>
     <string name="RearVideoMessages">Camera din spate în mesajele video</string>
+    <string name="HideAllTab">Ascundeți fila \"Toate Conversațiile\"</string>
     <string name="TabTitleType">Afișați pe file</string>
     <string name="TabTitleTypeText">Titluri</string>
     <string name="TabTitleTypeIcon">Иконки</string>
@@ -111,6 +112,9 @@
     <string name="SelectBetween">Selectați între</string>
     <string name="StickerSavedHint">Sticker salvat în galerie</string>
     <string name="RegistrationDate">Dată înregistrare</string>
+    <string name="WsEnableTls">Activați TLS</string>
+    <string name="WsLocalProxy">Proxy local</string>
+    <string name="WsEnableDoh">Activați DoH</string>
     <string name="UpdateNekogram">Actualizați Nekogram</string>
     <string name="TranslationTarget">Limbă țintă</string>
     <string name="TranslationTargetApp">Urmăriți aplicația</string>

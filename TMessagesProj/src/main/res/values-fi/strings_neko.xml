@@ -21,5 +21,6 @@
     <string name="TransparentStatusBar">Läpinäkyvä tilapalkki</string>
     <string name="EnableResidentNotification">Näytä asukasilmoitus</string>
     <string name="DisableResidentNotification">Poista asukasilmoitus käytöstä</string>
+    <string name="IdTypeHidden">Piilota</string>
     <!-- Accessibility -->
 </resources>

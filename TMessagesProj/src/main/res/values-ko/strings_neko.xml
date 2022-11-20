@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">전달에서 탭 표시</string>
     <string name="CheckAllAdministrated">관리 추가</string>
     <string name="RearVideoMessages">비디오 메세지에 후면 카메라 사용</string>
+    <string name="HideAllTab">\"모든 채팅\" 탭 숨기기</string>
     <string name="TabTitleType">탭에 표시</string>
     <string name="TabTitleTypeTip">아이콘이 텔레그램 클라우드에 동기화 됩니다.</string>
     <string name="TabTitleTypeText">제목</string>

@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">在转发页面显示对话分组</string>
     <string name="CheckAllAdministrated">添加管理的群组与频道</string>
     <string name="RearVideoMessages">视频留言默认使用后置摄像头</string>
+    <string name="HideAllTab">隐藏“全部对话”</string>
     <string name="TabTitleType">在标签栏上显示</string>
     <string name="TabTitleTypeTip">图标由 Telegram 云同步。</string>
     <string name="TabTitleTypeText">标题</string>

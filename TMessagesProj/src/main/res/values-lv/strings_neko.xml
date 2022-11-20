@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Rādīt cilnes uz priekšu</string>
     <string name="CheckAllAdministrated">Pievienot administrēto</string>
     <string name="RearVideoMessages">Aizmugurējā kamera videoziņojumos</string>
+    <string name="HideAllTab">Paslēpt cilni \"Visas tērzēšanas\"</string>
     <string name="TabTitleType">Rādīt cilnēs</string>
     <string name="TabTitleTypeTip">Ikonas tiek sinhronizētas ar Telegram.</string>
     <string name="TabTitleTypeText">Nosaukumi</string>

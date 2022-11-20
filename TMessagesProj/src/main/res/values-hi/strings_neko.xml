@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">फ़ौरवार्ड करने पर टैब दिखाएं</string>
     <string name="CheckAllAdministrated">व्यवस्थापक जोड़ें</string>
     <string name="RearVideoMessages">वीडियो कॉल्स में पिछला कैमरा</string>
+    <string name="HideAllTab">\"सभी संदेशों\" टैब को छिपाए</string>
     <string name="TabTitleType">टैब्स पर दिखाए</string>
     <string name="TabTitleTypeTip">टेलीग्राम के द्वारा आईकॉन्स क्लाउड-सिंक्ड रहते हैं</string>
     <string name="TabTitleTypeText">टाइटल्स</string>

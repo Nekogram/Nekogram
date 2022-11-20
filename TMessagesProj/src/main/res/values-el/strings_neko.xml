@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Εμφάνιση καρτελών στην προώθηση</string>
     <string name="CheckAllAdministrated">Προσθήκη διαχειριζόμενου</string>
     <string name="RearVideoMessages">Οπίσθια κάμερα σε μηνύματα βίντεο</string>
+    <string name="HideAllTab">Hide \"All Chats\" tab</string>
     <string name="TabTitleType">Εμφάνιση σε καρτέλες</string>
     <string name="TabTitleTypeTip">Τα εικονίδια συγχρονίζονται με cloud από το Telegram.</string>
     <string name="TabTitleTypeText">Τίτλοι</string>

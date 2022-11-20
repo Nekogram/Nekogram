@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Tampilkan tab saat meneruskan</string>
     <string name="CheckAllAdministrated">Tambahkan seorang admin</string>
     <string name="RearVideoMessages">Kamera belakang saat Pesan Video</string>
+    <string name="HideAllTab">Sembunyikan folder \"Semua Obrolan\"</string>
     <string name="TabTitleType">Tampilkan di tab</string>
     <string name="TabTitleTypeTip">Ikon disinkronkan ke-awan oleh Telegram.</string>
     <string name="TabTitleTypeText">Judul</string>

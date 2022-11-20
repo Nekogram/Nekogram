@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Mostrar pastas ao encaminhar</string>
     <string name="CheckAllAdministrated">Adicionar administrados</string>
     <string name="RearVideoMessages">Câmera traseira em mensagens de vídeo</string>
+    <string name="HideAllTab">Ocultar aba \"Todos os bate-papos\"</string>
     <string name="TabTitleType">Mostrar nas abas</string>
     <string name="TabTitleTypeTip">Os ícones são sincronizados na nuvem pelo Telegram.</string>
     <string name="TabTitleTypeText">Títulos</string>

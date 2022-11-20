@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Pokaż foldery przy przekazywaniu</string>
     <string name="CheckAllAdministrated">Dodaj administrowane</string>
     <string name="RearVideoMessages">Tylna kamera w wiadomościach wideo</string>
+    <string name="HideAllTab">Ukryj zakładkę „Wszystkie”</string>
     <string name="TabTitleType">Pokaż na nazwach folderów</string>
     <string name="TabTitleTypeTip">Ikony są synchronizowane przez Telegrama.</string>
     <string name="TabTitleTypeText">Nazwy</string>

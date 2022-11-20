@@ -4,5 +4,6 @@
     <string name="MessageMenu">Xabarlar menyusi</string>
     <string name="HidePhone">Telefon raqamimni yashirish</string>
     <string name="DeleteAccount">Telegram akkountni oʻchirish</string>
+    <string name="IdTypeHidden">Yashirish</string>
     <!-- Accessibility -->
 </resources>

@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Vis faneblade fremad</string>
     <string name="CheckAllAdministrated">Tilføj administreret</string>
     <string name="RearVideoMessages">Bageste kamera i videobeskeder</string>
+    <string name="HideAllTab">Skjul fanen \"Alle Chats\"</string>
     <string name="TabTitleType">Vis i faneblade</string>
     <string name="TabTitleTypeTip">Ikoner er cloud-synkroniseret af Telegram.</string>
     <string name="TabTitleTypeText">Titler</string>

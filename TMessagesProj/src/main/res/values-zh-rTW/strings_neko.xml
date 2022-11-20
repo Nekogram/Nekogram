@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">在轉傳的頁面中顯示標籤</string>
     <string name="CheckAllAdministrated">新增管理員</string>
     <string name="RearVideoMessages">視頻消息中使用後置攝像頭</string>
+    <string name="HideAllTab">隱藏“所有聊天”標籤</string>
     <string name="TabTitleType">在標籤欄上顯示</string>
     <string name="TabTitleTypeTip">圖示由 Telegram 雲同步。</string>
     <string name="TabTitleTypeText">標題</string>

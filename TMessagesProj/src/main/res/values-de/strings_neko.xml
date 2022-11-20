@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Tabs bei Weiterleitung anzeigen</string>
     <string name="CheckAllAdministrated">Administrierte Gruppen/Kanäle hinzufügen</string>
     <string name="RearVideoMessages">Rückkamera in Videonachrichten</string>
+    <string name="HideAllTab">\"Alle Chats\"-Tab ausblenden</string>
     <string name="TabTitleType">Auf Tabs anzeigen</string>
     <string name="TabTitleTypeTip">Symbole werden mit Telegram-Cloud synchronisiert.</string>
     <string name="TabTitleTypeText">Titel</string>

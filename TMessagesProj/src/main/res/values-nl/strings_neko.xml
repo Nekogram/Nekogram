@@ -20,5 +20,6 @@
     <string name="TransparentStatusBar">Doorzichtige statusbalk</string>
     <string name="Categories">Categorieën</string>
     <string name="About">Over</string>
+    <string name="IdTypeHidden">Verbergen</string>
     <!-- Accessibility -->
 </resources>

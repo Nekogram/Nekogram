@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Visa flikar vid vidarebefordring</string>
     <string name="CheckAllAdministrated">Lägg till administrerade</string>
     <string name="RearVideoMessages">Bakre kameran i videomeddelanden</string>
+    <string name="HideAllTab">Dölj fliken \"Alla chattar\"</string>
     <string name="TabTitleType">Visa på flikar</string>
     <string name="TabTitleTypeTip">Ikoner är molnsynkroniserade av Telegram.</string>
     <string name="TabTitleTypeText">Titlar</string>

@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">نمایش برگه ها در جلو</string>
     <string name="CheckAllAdministrated">اضافه کردن administrated</string>
     <string name="RearVideoMessages">استفاده از دوربین اصلی در پیام های ویدیویی</string>
+    <string name="HideAllTab">تب \"همه چت ها\" را پنهان کنید</string>
     <string name="TabTitleType">نمایش در برگه ها</string>
     <string name="TabTitleTypeTip">آیکون ها توسط تلگرام ابر همگام سازی می شوند.</string>
     <string name="TabTitleTypeText">عناوین</string>

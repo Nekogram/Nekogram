@@ -6,7 +6,7 @@
     <string name="HidePhone">Ocultar mi número de teléfono</string>
     <string name="DeleteAllFromSelf">Eliminar mis mensajes</string>
     <string name="DeleteAllFromSelfAlert">¡Advertencia! Esto **borrará todos los mensajes que hayas enviado** en este chat para **todos** los participantes.</string>
-    <string name="BotLogin">Iniciar Sesión como Bot</string>
+    <string name="BotLogin">Iniciar sesión como Bot</string>
     <string name="InvalidAccessToken">Tóken de acceso inválido</string>
     <string name="IgnoreBlocked">Ocultar mensajes del usuario bloqueado</string>
     <string name="Connection">Conexión</string>
@@ -29,7 +29,7 @@
     <string name="Christmas">Navidad</string>
     <string name="Valentine">Día de San Valentín</string>
     <string name="DeleteDownloadedFile">Borrar archivo descargado</string>
-    <string name="TestBackend">Backend de Prueba</string>
+    <string name="TestBackend">Backend de prueba</string>
     <string name="TestBackendOn">Esta cuenta se conectará con el backend de prueba.</string>
     <string name="TestBackendOff">Esta cuenta se conectará con el backend de producción.</string>
     <string name="ViewHistory">Ver historial</string>
@@ -55,6 +55,7 @@
     <string name="ShowTabsOnForward">Mostrar carpetas al reenviar</string>
     <string name="CheckAllAdministrated">Añadir chats que administras</string>
     <string name="RearVideoMessages">Usar cámara trasera en videomensajes</string>
+    <string name="HideAllTab">Ocultar la pestaña \"Todos los chats\"</string>
     <string name="TabTitleType">Mostrar en pestañas</string>
     <string name="TabTitleTypeTip">Los iconos están sincronizados con la nube por Telegram.</string>
     <string name="TabTitleTypeText">Títulos</string>
@@ -91,12 +92,12 @@
     <string name="VoiceEnhancementsAbout">Supresión de ruido y normalización de voz</string>
     <string name="DisableInstantCamera">Deshabilitar cámara instantánea</string>
     <string name="OpenAllLinksInInstantView">Intentar abrir todos los enlaces en Vista rápida</string>
-    <string name="DonateThankYou">Gracias!</string>
+    <string name="DonateThankYou">¡Gracias!</string>
     <string name="DonateEvilGoogle">Google tomará el 30 porciento de tu donación.</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Formato de tiempo con segundos</string>
-    <string name="JumpToBeginning">Saltar al principio</string>
+    <string name="JumpToBeginning">Saltar al inicio</string>
     <string name="ProviderDeepLTranslate">Traductor DeepL</string>
     <string name="Halloween">Halloween</string>
     <string name="CheckUpdate">Buscar actualizaciones</string>

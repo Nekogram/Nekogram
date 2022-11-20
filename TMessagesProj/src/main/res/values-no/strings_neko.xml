@@ -50,6 +50,7 @@
     <string name="ShowTabsOnForward">Vis faner fremover</string>
     <string name="CheckAllAdministrated">Legg til administrert</string>
     <string name="RearVideoMessages">Bakre kamera i videomeldinger</string>
+    <string name="HideAllTab">Skjul fanen \"Alle samtaler\"</string>
     <string name="TabTitleType">Vis på faner</string>
     <string name="TabTitleTypeText">Titler</string>
     <string name="ConfirmAVMessage">Bekreft sending av video / talemelding</string>
@@ -106,5 +107,6 @@
     <string name="SelectBetween">Velg mellom</string>
     <string name="StickerSavedHint">Klistremerke lagret i galleriet</string>
     <string name="RegistrationDate">Registreringsdato</string>
+    <string name="WsEnableTls">Aktiver TLS</string>
     <!-- Accessibility -->
 </resources>
