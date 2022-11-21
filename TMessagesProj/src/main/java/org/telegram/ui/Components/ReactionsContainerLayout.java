@@ -967,7 +967,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         ArrayList<TLRPC.Reaction> recentReactions = MediaDataController.getInstance(currentAccount).getRecentReactions();
         for (int i = 0; i < recentReactions.size(); i++) {
             ReactionsLayoutInBubble.VisibleReaction visibleReaction = ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(recentReactions.get(i));
-            if (!hashSet.contains(visibleReaction)) {
+            if (!hashSet.contains(visibleReaction) && (UserConfig.getInstance(currentAccount).isPremium() || visibleReaction.documentId == 0)) {
                 hashSet.add(visibleReaction);
                 visibleReactions.add(visibleReaction);
             }

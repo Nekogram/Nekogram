@@ -3849,7 +3849,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 }
             }
         }
-        allowAnimatedEmoji = needAnimatedEmoji && UserConfig.getInstance(currentAccount).isPremium();
+        allowAnimatedEmoji = needAnimatedEmoji;
         allowStickers = needStickers;
         allowGifs = needGifs;
         if (emojiView != null) {
