@@ -2236,6 +2236,28 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             updateProxyButton(false, false);
         }
         searchItem = menu.addItem(0, R.drawable.ic_ab_search).setIsSearchField(true, true).setActionBarMenuItemSearchListener(new ActionBarMenuItem.ActionBarMenuItemSearchListener() {
+            boolean isSpeedItemCreated = false;
+
+            @Override
+            public void onPreToggleSearch() {
+                if (!isSpeedItemCreated) {
+                    isSpeedItemCreated = true;
+                    FrameLayout searchContainer = (FrameLayout) searchItem.getSearchClearButton().getParent();
+                    qrItem = new ActionBarMenuItem(context, menu, Theme.getColor(Theme.key_actionBarDefaultSelector), Theme.getColor(Theme.key_actionBarDefaultIcon));
+                    qrItem.setIcon(R.drawable.msg_qrcode);
+                    qrItem.setTranslationX(AndroidUtilities.dp(32));
+                    qrItem.setOnClickListener(v -> QrHelper.openCameraScanActivity(DialogsActivity.this));
+                    qrItem.setFixBackground(true);
+                    qrItem.setContentDescription(LocaleController.getString("AuthAnotherClientScan", R.string.AuthAnotherClientScan));
+                    FrameLayout.LayoutParams speedParams = new FrameLayout.LayoutParams(AndroidUtilities.dp(42), ViewGroup.LayoutParams.MATCH_PARENT);
+                    speedParams.leftMargin = speedParams.rightMargin = AndroidUtilities.dp(14 + 24);
+                    speedParams.gravity = Gravity.RIGHT;
+                    searchContainer.addView(qrItem, speedParams);
+                    searchItem.setSearchAdditionalButton(qrItem);
+                }
+            }
+
+
             @Override
             public void onSearchExpand() {
                 searching = true;
@@ -2341,18 +2363,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 return !actionBar.isActionModeShowed() && databaseMigrationHint == null;
             }
         });
-        FrameLayout searchContainer = (FrameLayout) searchItem.getSearchClearButton().getParent();
-        qrItem = new ActionBarMenuItem(context, menu, Theme.getColor(Theme.key_actionBarDefaultSelector), Theme.getColor(Theme.key_actionBarDefaultIcon));
-        qrItem.setIcon(R.drawable.msg_qrcode);
-        qrItem.setTranslationX(AndroidUtilities.dp(32));
-        qrItem.setOnClickListener(v -> QrHelper.openCameraScanActivity(this));
-        qrItem.setFixBackground(true);
-        qrItem.setContentDescription(LocaleController.getString("AuthAnotherClientScan", R.string.AuthAnotherClientScan));
-        FrameLayout.LayoutParams speedParams = new FrameLayout.LayoutParams(AndroidUtilities.dp(42), ViewGroup.LayoutParams.MATCH_PARENT);
-        speedParams.leftMargin = speedParams.rightMargin = AndroidUtilities.dp(14 + 24);
-        speedParams.gravity = Gravity.RIGHT;
-        searchContainer.addView(qrItem, speedParams);
-        searchItem.setSearchAdditionalButton(qrItem);
 
         if (initialDialogsType == 2 || initialDialogsType == DIALOGS_TYPE_START_ATTACH_BOT) {
             searchItem.setVisibility(View.GONE);
@@ -4362,18 +4372,19 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public void updateSpeedItem(boolean visibleByPosition) {
-        if (true) {
+        if (speedItem == null) {
             return;
         }
+
         boolean visibleByDownload = false;
         for (MessageObject obj : getDownloadController().downloadingFiles) {
-            if (obj.getDocument() != null && obj.getDocument().size >= 300 * 1024 * 1024) {
+            if (obj.getDocument() != null && obj.getDocument().size >= 150 * 1024 * 1024) {
                 visibleByDownload = true;
                 break;
             }
         }
         for (MessageObject obj : getDownloadController().recentDownloadingFiles) {
-            if (obj.getDocument() != null && obj.getDocument().size >= 300 * 1024 * 1024) {
+            if (obj.getDocument() != null && obj.getDocument().size >= 150 * 1024 * 1024) {
                 visibleByDownload = true;
                 break;
             }
@@ -4600,6 +4611,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
         int a = animated ? 1 : 0;
         RecyclerView.Adapter currentAdapter = viewPages[a].listView.getAdapter();
+
         MessagesController.DialogFilter filter = getMessagesController().dialogFilters.get(viewPages[a].selectedType);
         if (filter.isDefault()) {
             viewPages[a].dialogsType = initialDialogsType;
@@ -8902,6 +8914,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundBlue));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundPink));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundSaved));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundRed));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_background2Orange));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_background2Violet));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_background2Green));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_background2Cyan));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_background2Blue));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_background2Pink));
+        arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_background2Saved));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundArchived));
         arrayList.add(new ThemeDescription(null, 0, null, null, null, cellDelegate, Theme.key_avatar_backgroundArchivedHidden));
 
@@ -9289,6 +9309,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     @Override
+    public INavigationLayout.BackButtonState getBackButtonState() {
+        return INavigationLayout.BackButtonState.MENU;
+    }
+
+    @Override
     public void setProgressToDrawerOpened(float progress) {
         if (SharedConfig.getDevicePerformanceClass() == SharedConfig.PERFORMANCE_CLASS_LOW || isSlideBackTransition) {
             return;
@@ -9345,6 +9370,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     @Override
     public List<FloatingDebugController.DebugItem> onGetDebugItems() {
         return Arrays.asList(
+                new FloatingDebugController.DebugItem(LocaleController.getString(R.string.DebugDialogsActivity)),
                 new FloatingDebugController.DebugItem(LocaleController.getString(R.string.ClearLocalDatabase), () -> {
                     getMessagesStorage().clearLocalDatabase();
                     Toast.makeText(getContext(), LocaleController.getString(R.string.DebugClearLocalDatabaseSuccess), Toast.LENGTH_SHORT).show();

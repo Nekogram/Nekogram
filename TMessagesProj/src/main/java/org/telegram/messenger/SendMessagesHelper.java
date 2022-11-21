@@ -8031,7 +8031,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             } finally {
                 try {
                     retriever.release();
-                } catch (RuntimeException | IOException ex) {
+                } catch (Throwable ex) {
                     // Ignore failures while cleaning up.
                 }
             }

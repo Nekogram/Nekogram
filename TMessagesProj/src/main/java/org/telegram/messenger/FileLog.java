@@ -10,6 +10,7 @@ package org.telegram.messenger;
 
 import android.util.Log;
 
+import org.telegram.SQLite.SQLiteException;
 import org.telegram.messenger.time.FastDateFormat;
 import org.telegram.messenger.video.MediaCodecVideoConvertor;
 import org.telegram.tgnet.TLObject;
@@ -303,6 +304,9 @@ public class FileLog {
         }
         if (BuildVars.DEBUG_VERSION && needSent(e) && logToAppCenter) {
             AndroidUtilities.appCenterLog(e);
+        }
+        if (BuildVars.DEBUG_VERSION && e instanceof SQLiteException && e.getMessage() != null && e.getMessage().contains("disk image is malformed")) {
+
         }
         ensureInitied();
         e.printStackTrace();

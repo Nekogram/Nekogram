@@ -83,7 +83,7 @@ public class Browser {
         if (equals) {
             return url.equals("telegra.ph") || url.equals("te.legra.ph") || url.equals("graph.org");
         }
-        return url.matches("^(https" + (forceHttps ? "" : "?") + "://)?(te\\.?legra\\.ph|graph\\.org).*"); // telegra.ph, te.legra.ph, graph.org
+        return url.matches("^(https" + (forceHttps ? "" : "?") + "://)?(te\\.?legra\\.ph|graph\\.org)(/.*|$)"); // telegra.ph, te.legra.ph, graph.org
     }
 
     public static String extractUsername(String link) {
@@ -112,9 +112,9 @@ public class Browser {
     public static boolean urlMustNotHaveConfirmation(String url) {
         return (
             isTelegraphUrl(url, false, true) ||
-            url.matches("^(https://)?t\\.me/iv\\??.*") || // t.me/iv?
-            url.matches("^(https://)?telegram\\.org/(blog|tour)/?.*") || // telegram.org/blog, telegram.org/tour
-            url.matches("^(https://)?fragment\\.com/?.*") // fragment.com
+            url.matches("^(https://)?t\\.me/iv\\??(/.*|$)") || // t.me/iv?
+            url.matches("^(https://)?telegram\\.org/(blog|tour)(/.*|$)") || // telegram.org/blog, telegram.org/tour
+            url.matches("^(https://)?fragment\\.com(/.*|$)") // fragment.com
         );
     }
 

@@ -79,6 +79,10 @@ public interface INavigationLayout {
         return SharedConfig.useLNavigation ? new LNavigation(context) : new ActionBarLayout(context);
     }
 
+    default boolean isActionBarInCrossfade() {
+        return false;
+    }
+
     default boolean hasIntegratedBlurInPreview() {
         return false;
     }
@@ -377,5 +381,10 @@ public interface INavigationLayout {
                 colors.put(key, fragmentResourceProvider.getCurrentColor(key));
             }
         }
+    }
+
+    enum BackButtonState {
+        BACK,
+        MENU
     }
 }

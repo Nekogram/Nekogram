@@ -52,7 +52,6 @@ import android.provider.OpenableColumns;
 import android.telephony.PhoneStateListener;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.HapticFeedbackConstants;
 import android.view.TextureView;
@@ -4989,11 +4988,15 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         try {
             retriever.setDataSource(path);
             bitrate = Integer.parseInt(retriever.extractMetadata(MediaMetadataRetriever.METADATA_KEY_BITRATE));
-            retriever.release();
         } catch (Exception e) {
             FileLog.e(e);
         }
 
+        try {
+            retriever.release();
+        } catch (Throwable throwable) {
+            FileLog.e(throwable);
+        }
         return bitrate;
     }
 
