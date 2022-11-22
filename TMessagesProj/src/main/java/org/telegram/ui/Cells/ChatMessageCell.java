@@ -4168,6 +4168,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             photoImage.setAllowDecodeSingleFrame(false);
             photoImage.setColorFilter(null);
             photoImage.setMediaStartEndTime(-1, -1);
+            photoImage.setForcePreview(false);
             boolean canChangeRadius = true;
 
 
@@ -15027,7 +15028,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
         canvas.restore();
 
-        if (unlockLayout != null || currentMessageObject.shouldBlockMessage() && photoImage.isForcePreview()) {
+        if (unlockLayout != null || currentMessageObject.shouldBlockMessage() && drawPhotoImage && photoImage.isForcePreview() && !currentMessageObject.isAnyKindOfSticker() ) {
             if (unlockX == 0 || unlockY == 0) {
                 calculateUnlockXY();
             }
