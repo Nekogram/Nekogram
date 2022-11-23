@@ -102,11 +102,14 @@ public class FilterTabsView extends FrameLayout {
         void onPageReorder(int fromId, int toId);
 
         boolean canPerformActions();
+
+        default void onTabSelected(Tab tab, boolean forward, boolean animated) {};
     }
 
     public class Tab {
         public int id;
         public String title;
+        public String realTitle;
         public int titleWidth;
         public String emoticon;
         public int iconWidth;
@@ -117,6 +120,7 @@ public class FilterTabsView extends FrameLayout {
         public Tab(int i, String t, String e) {
             id = i;
             title = NekoConfig.tabsTitleType != NekoConfig.TITLE_TYPE_ICON ? t : "";
+            realTitle = t;
             emoticon = i != Integer.MAX_VALUE ? e : "\uD83D\uDCAC";
         }
 
@@ -147,6 +151,7 @@ public class FilterTabsView extends FrameLayout {
 
         public boolean setTitle(String newTitle) {
             newTitle = NekoConfig.tabsTitleType != NekoConfig.TITLE_TYPE_ICON ? newTitle : "";
+            realTitle = newTitle;
             if (TextUtils.equals(title, newTitle)) {
                 return false;
             }
@@ -1188,6 +1193,7 @@ public class FilterTabsView extends FrameLayout {
 
         if (delegate != null) {
             delegate.onPageSelected(tab, scrollingForward);
+            delegate.onTabSelected(tab, scrollingForward, true);
         }
         scrollToChild(position);
     }
@@ -1259,6 +1265,7 @@ public class FilterTabsView extends FrameLayout {
     public void finishAddingTabs(boolean animated) {
         listView.setItemAnimator(animated ? itemAnimator : null);
         adapter.notifyDataSetChanged();
+        delegate.onTabSelected(tabs.get(currentPosition), false, false);
     }
 
     public void animateColorsTo(String line, String active, String unactive, String selector, String background) {
@@ -1518,6 +1525,7 @@ public class FilterTabsView extends FrameLayout {
         scrollToChild(position);
 
         if (progress >= 1.0f) {
+            if (manualScrollingToPosition != currentPosition) delegate.onTabSelected(tabs.get(position), currentPosition < position, true);
             manualScrollingToPosition = -1;
             manualScrollingToId = -1;
             currentPosition = position;

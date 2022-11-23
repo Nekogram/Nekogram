@@ -1573,6 +1573,44 @@ public class ActionBar extends FrameLayout {
         requestLayout();
     }
 
+    public void setTitleAnimatedX(CharSequence title, Drawable rightDrawable, boolean forward, long duration) {
+        if (titleTextView[0] == null || title == null) {
+            setTitle(title, rightDrawable);
+            return;
+        }
+        if (titleTextView[1] != null) {
+            if (titleTextView[1].getParent() != null) {
+                ViewGroup viewGroup = (ViewGroup) titleTextView[1].getParent();
+                viewGroup.removeView(titleTextView[1]);
+            }
+            titleTextView[1] = null;
+        }
+        titleTextView[1] = titleTextView[0];
+        titleTextView[0] = null;
+        setTitle(title, rightDrawable);
+        titleTextView[0].setAlpha(0);
+        titleTextView[0].setTranslationX(forward ? AndroidUtilities.dp(20) : -AndroidUtilities.dp(20));
+        titleTextView[0].animate().alpha(1f).translationX(0).setDuration(duration).start();
+
+        titleAnimationRunning = true;
+        ViewPropertyAnimator a = titleTextView[1].animate().alpha(0);
+        a.translationX(forward ? -AndroidUtilities.dp(20) : AndroidUtilities.dp(20));
+        a.setDuration(duration).setListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                if (titleTextView[1] != null && titleTextView[1].getParent() != null) {
+                    ViewGroup viewGroup = (ViewGroup) titleTextView[1].getParent();
+                    viewGroup.removeView(titleTextView[1]);
+                }
+                titleTextView[1] = null;
+                titleAnimationRunning = false;
+
+                requestLayout();
+            }
+        }).start();
+        requestLayout();
+    }
+
     @Override
     public boolean hasOverlappingRendering() {
         return false;
