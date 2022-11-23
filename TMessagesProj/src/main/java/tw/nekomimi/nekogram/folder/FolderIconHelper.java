@@ -73,6 +73,12 @@ public class FolderIconHelper {
             if (flags == 0) {
                 newName = LocaleController.getString("FilterContacts", R.string.FilterContacts);
                 newEmoticon = "\uD83D\uDC64";
+            } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS) != 0) {
+                flags &= ~MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
+                if (flags == 0) {
+                    newName = LocaleController.getString("FilterContacts", R.string.FilterContacts);
+                    newEmoticon = "\uD83D\uDC64";
+                }
             }
         } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS) != 0) {
             flags &= ~MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
