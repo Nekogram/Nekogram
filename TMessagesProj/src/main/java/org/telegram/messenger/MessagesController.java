@@ -11,11 +11,13 @@ package org.telegram.messenger;
 import static org.telegram.messenger.NotificationsController.TYPE_CHANNEL;
 import static org.telegram.messenger.NotificationsController.TYPE_PRIVATE;
 
+import android.Manifest;
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import android.util.SparseBooleanArray;
 import android.util.SparseIntArray;
 
 import androidx.collection.LongSparseArray;
+import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationManagerCompat;
 import androidx.core.util.Consumer;
 
@@ -14901,8 +14904,16 @@ public class MessagesController extends BaseController implements NotificationCe
                                 }
                             }
                             TelephonyManager tm = (TelephonyManager) ApplicationLoader.applicationContext.getSystemService(Context.TELEPHONY_SERVICE);
-                            boolean ongoingcall = (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || ApplicationLoader.applicationContext.checkSelfPermission(android.Manifest.permission.READ_PHONE_STATE) == android.content.pm.PackageManager.PERMISSION_GRANTED) && tm.getCallState() != TelephonyManager.CALL_STATE_IDLE;
-                            if (svc != null || VoIPService.callIShouldHavePutIntoIntent != null || ongoingcall) {
+                            boolean callStateIsIdle = true;
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                                //TODO check
+                                if (ActivityCompat.checkSelfPermission(ApplicationLoader.applicationContext, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+                                    callStateIsIdle = tm.getCallState() == TelephonyManager.CALL_STATE_IDLE;
+                                }
+                            } else {
+                                callStateIsIdle = tm.getCallState() == TelephonyManager.CALL_STATE_IDLE;
+                            }
+                            if (svc != null || VoIPService.callIShouldHavePutIntoIntent != null || !callStateIsIdle) {
                                 if (BuildVars.LOGS_ENABLED) {
                                     FileLog.d("Auto-declining call " + call.id + " because there's already active one");
                                 }
