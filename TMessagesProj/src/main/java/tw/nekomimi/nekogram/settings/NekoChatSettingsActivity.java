@@ -58,6 +58,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
     private int tryToOpenAllLinksInIVRow;
     private int disableJumpToNextRow;
     private int disableGreetingStickerRow;
+    private int disableStickersAutoReorderRow;
     private int doubleTapActionRow;
     private int maxRecentStickersRow;
     private int chat2Row;
@@ -288,6 +289,11 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                 ((TextCheckCell) view).setChecked(NekoConfig.markdownParseLinks);
             }
             listAdapter.notifyItemChanged(markdown2Row);
+        } else if (position == disableStickersAutoReorderRow) {
+            NekoConfig.toggleStickersAutoReorder();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.disableStickersAutoReorder);
+            }
         }
     }
 
@@ -316,6 +322,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         tryToOpenAllLinksInIVRow = addRow("tryToOpenAllLinksInIV");
         disableJumpToNextRow = addRow("disableJumpToNext");
         disableGreetingStickerRow = addRow("disableGreetingSticker");
+        disableStickersAutoReorderRow = addRow("disableStickersAutoReorder");
         doubleTapActionRow = addRow("doubleTapAction");
         maxRecentStickersRow = addRow("maxRecentStickers");
         chat2Row = addRow();
@@ -545,6 +552,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         textCell.setTextAndCheck(LocaleController.getString("MarkdownEnableByDefault", R.string.MarkdownEnableByDefault), !NekoConfig.disableMarkdownByDefault, true);
                     } else if (position == markdownParseLinksRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MarkdownParseLinks", R.string.MarkdownParseLinks), NekoConfig.markdownParseLinks, false);
+                    } else if (position == disableStickersAutoReorderRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("DisableStickersAutoReorder", R.string.DisableStickersAutoReorder), NekoConfig.disableStickersAutoReorder, true);
                     }
                     break;
                 }

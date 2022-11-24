@@ -138,6 +138,7 @@ public class NekoConfig {
     public static boolean newMarkdownParser = true;
     public static boolean markdownParseLinks = true;
     public static boolean uploadSpeedBoost = false;
+    public static boolean disableStickersAutoReorder = false;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
@@ -328,6 +329,7 @@ public class NekoConfig {
             markdownParseLinks = preferences.getBoolean("markdownParseLinks", true);
             downloadSpeedBoost = preferences.getInt("downloadSpeedBoost2", BOOST_NONE);
             uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
+            disableStickersAutoReorder = preferences.getBoolean("disableStickersAutoReorder", false);
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             for (int a = 1; a <= 5; a++) {
@@ -398,6 +400,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("downloadSpeedBoost2", boost);
+        editor.apply();
+    }
+
+    public static void toggleStickersAutoReorder() {
+        disableStickersAutoReorder = !disableStickersAutoReorder;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("disableStickersAutoReorder", disableStickersAutoReorder);
         editor.apply();
     }
 

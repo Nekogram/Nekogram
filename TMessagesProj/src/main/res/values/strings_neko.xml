@@ -255,6 +255,7 @@
     <string name="NoUpdateAvailablePlay">Please check for update in Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">Update in Play Store usually comes slower than direct APKs due to Google\'s review.</string>
     <string name="ProviderTelegram">Telegram</string>
+    <string name="DisableStickersAutoReorder">Disable sticker packs auto-reorder</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
