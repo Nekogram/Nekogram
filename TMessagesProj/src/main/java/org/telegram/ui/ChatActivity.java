@@ -28762,7 +28762,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                 }
 
-                if (DialogConfig.isAutoTranslateEnable(dialog_id, getTopicId()) && NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
+                if (DialogConfig.isAutoTranslateEnable(dialog_id, getTopicId()) && LanguageDetector.hasSupport() && NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
                     final var messageObject = messageCell.getMessageObject();
                     if (getMessageHelper().isMessageObjectAutoTranslatable(messageObject)) {
                         messageObject.translating = true;

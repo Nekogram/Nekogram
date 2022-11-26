@@ -7,12 +7,15 @@ import android.widget.FrameLayout;
 import android.widget.TextView;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
+import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
 
@@ -26,8 +29,10 @@ public class AutoTranslatePopupWrapper {
     private final ActionBarMenuSubItem defaultItem;
     private final ActionBarMenuSubItem enableItem;
     private final ActionBarMenuSubItem disableItem;
+    private final boolean supportLanguageDetector = LanguageDetector.hasSupport();
 
-    public AutoTranslatePopupWrapper(Context context, PopupSwipeBackLayout swipeBackLayout, long dialogId, int topicId, Theme.ResourcesProvider resourcesProvider) {
+    public AutoTranslatePopupWrapper(BaseFragment fragment, PopupSwipeBackLayout swipeBackLayout, long dialogId, int topicId, Theme.ResourcesProvider resourcesProvider) {
+        Context context = fragment.getParentActivity();
         windowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, 0, resourcesProvider);
         windowLayout.setFitItems(true);
         this.dialogId = dialogId;
@@ -41,23 +46,38 @@ public class AutoTranslatePopupWrapper {
         defaultItem = ActionBarMenuItem.addItem(windowLayout, 0, LocaleController.getString("Default", R.string.Default), true, resourcesProvider);
 
         defaultItem.setOnClickListener(view -> {
+            if (!supportLanguageDetector) {
+                BulletinFactory.of(fragment).createErrorBulletinSubtitle(LocaleController.getString("BrokenMLKit", R.string.BrokenMLKit), LocaleController.getString("BrokenMLKitDetail", R.string.BrokenMLKitDetail), null).show();
+                return;
+            }
             DialogConfig.removeAutoTranslateConfig(dialogId, topicId);
             updateItems();
         });
+        defaultItem.setAlpha(supportLanguageDetector ? 1.0f : 0.5f);
 
         enableItem = ActionBarMenuItem.addItem(windowLayout, 0, LocaleController.getString("Enable", R.string.Enable), true, resourcesProvider);
         enableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId, topicId) && DialogConfig.isAutoTranslateEnable(dialogId, topicId));
         enableItem.setOnClickListener(view -> {
+            if (!supportLanguageDetector) {
+                BulletinFactory.of(fragment).createErrorBulletinSubtitle(LocaleController.getString("BrokenMLKit", R.string.BrokenMLKit), LocaleController.getString("BrokenMLKitDetail", R.string.BrokenMLKitDetail), null).show();
+                return;
+            }
             DialogConfig.setAutoTranslateEnable(dialogId, topicId, true);
             updateItems();
         });
+        enableItem.setAlpha(supportLanguageDetector ? 1.0f : 0.5f);
 
         disableItem = ActionBarMenuItem.addItem(windowLayout, 0, LocaleController.getString("Disable", R.string.Disable), true, resourcesProvider);
         disableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId, topicId) && !DialogConfig.isAutoTranslateEnable(dialogId, topicId));
         disableItem.setOnClickListener(view -> {
+            if (!supportLanguageDetector) {
+                BulletinFactory.of(fragment).createErrorBulletinSubtitle(LocaleController.getString("BrokenMLKit", R.string.BrokenMLKit), LocaleController.getString("BrokenMLKitDetail", R.string.BrokenMLKitDetail), null).show();
+                return;
+            }
             DialogConfig.setAutoTranslateEnable(dialogId, topicId, false);
             updateItems();
         });
+        disableItem.setAlpha(supportLanguageDetector ? 1.0f : 0.5f);
         updateItems();
 
         View gap = new FrameLayout(context);
