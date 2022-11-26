@@ -24615,8 +24615,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
         Translator.translate(message, sourceLanguage, new Translator.TranslateCallBack() {
             @Override
-            public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
-                if (autoTranslate && sourceLanguage != null && (sourceLanguage.equals(targetLanguage) || Translator.isLanguageRestricted(sourceLanguage))) {
+            public void onSuccess(Object translation, String sourceLanguageT, String targetLanguageT) {
+                if (autoTranslate && sourceLanguageT != null && (sourceLanguageT.equals(targetLanguageT) || Translator.isLanguageRestricted(sourceLanguageT))) {
                     getMessageHelper().resetMessageContent(dialog_id, messageObject, false, false);
                     return;
                 }
@@ -24633,7 +24633,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 } else if (translation instanceof TLRPC.TL_poll) {
                     ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
                 }
-                getMessageHelper().resetMessageContent(dialog_id, messageObject, true, original, false, Pair.create(sourceLanguage, targetLanguage));
+                getMessageHelper().resetMessageContent(dialog_id, messageObject, true, original, false, Pair.create(TextUtils.isEmpty(sourceLanguageT) ? sourceLanguage : sourceLanguageT, targetLanguageT));
             }
 
             @Override

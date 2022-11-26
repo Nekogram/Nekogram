@@ -4874,7 +4874,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     LanguageDetectorTimeout.detectLanguage(
                             view, finalText,
                             (String fromLang) -> {
-                                fromLanguage[0] = fromLang;
+                                fromLanguage[0] = Translator.stripLanguageCode(fromLang);
                                 if (!Translator.isLanguageRestricted(fromLang) || (currentChat != null && (currentChat.has_link || ChatObject.isPublic(currentChat))) && ("uk".equals(fromLang) || "ru".equals(fromLang))) {
                                     withTranslate[0] = true;
                                 }

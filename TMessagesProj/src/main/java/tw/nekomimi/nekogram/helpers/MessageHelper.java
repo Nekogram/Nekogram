@@ -264,7 +264,7 @@ public class MessageHelper extends BaseController {
             return LocaleController.getString("Translating", R.string.Translating) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
         }
         var translatedLanguage = messageObject.translatedLanguage;
-        if (translatedLanguage == null || translatedLanguage.first == null || translatedLanguage.second == null) {
+        if (translatedLanguage == null || "und".equals(translatedLanguage.first) || TextUtils.isEmpty(translatedLanguage.first) || TextUtils.isEmpty(translatedLanguage.second)) {
             return LocaleController.getString("Translated", R.string.Translated) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
         }
         if (spannedStrings[0] == null) {
