@@ -290,7 +290,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
             switch (holder.getItemViewType()) {
-                case 2: {
+                case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setCanDisable(true);
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
@@ -396,7 +396,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 3: {
+                case TYPE_CHECK: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
                     if (position == ipv6Row) {
@@ -419,7 +419,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 4: {
+                case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == generalRow) {
                         headerCell.setText(LocaleController.getString("General", R.string.General));
@@ -432,7 +432,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 7: {
+                case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     if (position == general2Row) {
                         cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
@@ -444,11 +444,6 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                         cell.setText(LocaleController.getString("TranslateMessagesInfo1", R.string.TranslateMessagesInfo1));
                     }
-                    break;
-                }
-                case 9: {
-                    DrawerProfilePreviewCell cell = (DrawerProfilePreviewCell) holder.itemView;
-                    cell.setUser(getUserConfig().getCurrentUser(), false);
                     break;
                 }
             }
@@ -466,22 +461,22 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         @Override
         public int getItemViewType(int position) {
             if (position == connection2Row) {
-                return 1;
+                return TYPE_SHADOW;
             } else if (position == nameOrderRow || position == idTypeRow || position == translatorTypeRow ||
                     (position >= translationProviderRow && position <= doNotTranslateRow)) {
-                return 2;
+                return TYPE_SETTINGS;
             } else if (position == ipv6Row || position == autoTranslateRow ||
                     (position > generalRow && position < nameOrderRow) ||
                     (position > notificationRow && position < notification2Row) ||
                     position == showOriginalRow) {
-                return 3;
+                return TYPE_CHECK;
             } else if (position == generalRow || position == connectionRow || position == notificationRow ||
                     position == translatorRow) {
-                return 4;
+                return TYPE_HEADER;
             } else if (position == general2Row || position == notification2Row || position == translator2Row) {
-                return 7;
+                return TYPE_INFO_PRIVACY;
             }
-            return 2;
+            return TYPE_SETTINGS;
         }
     }
 }

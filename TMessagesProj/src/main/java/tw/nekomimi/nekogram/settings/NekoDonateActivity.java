@@ -200,7 +200,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
-                case 2: {
+                case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     if (position > donateRow && position < donate2Row) {
                         if (skuDetails != null) {
@@ -213,14 +213,14 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                     }
                     break;
                 }
-                case 4: {
+                case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == donateRow) {
                         headerCell.setText(LocaleController.getString("GooglePlay", R.string.GooglePlay));
                     }
                     break;
                 }
-                case 7: {
+                case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     if (position == donate2Row) {
@@ -244,15 +244,15 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
         @Override
         public int getItemViewType(int position) {
             if (position == buyMeACoffee2Row) {
-                return 1;
+                return TYPE_SHADOW;
             } else if (position == donateRow) {
-                return 4;
+                return TYPE_HEADER;
             } else if (position == donate2Row) {
-                return 7;
+                return TYPE_INFO_PRIVACY;
             } else if (position == buyMeACoffeeRow) {
-                return 12;
+                return TYPE_BUYMEACOFFEE;
             }
-            return 2;
+            return TYPE_SETTINGS;
         }
     }
 }

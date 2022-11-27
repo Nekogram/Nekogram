@@ -225,7 +225,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
-                case 1: {
+                case TYPE_SHADOW: {
                     if (position == clearPasscodes2Row) {
                         holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     } else {
@@ -233,7 +233,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 2: {
+                case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setCanDisable(true);
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
@@ -248,7 +248,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 3: {
+                case TYPE_CHECK: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(passcodeSet, null);
                     if (position == showInSettingsRow) {
@@ -256,7 +256,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 4: {
+                case TYPE_HEADER: {
                     HeaderCell cell = (HeaderCell) holder.itemView;
                     cell.setEnabled(passcodeSet, null);
                     if (position == accountsStartRow) {
@@ -266,7 +266,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 7: {
+                case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     cell.setEnabled(passcodeSet, null);
                     cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
@@ -294,7 +294,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 11: {
+                case TYPE_ACCOUNT: {
                     AccountCell cell = (AccountCell) holder.itemView;
                     cell.setEnabled(passcodeSet);
                     int account = accounts.get(position - accountsStartRow - 1);
@@ -312,19 +312,19 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
         @Override
         public int getItemViewType(int position) {
             if (position == clearPasscodes2Row) {
-                return 1;
+                return TYPE_SHADOW;
             } else if (position == clearPasscodesRow || position == setPanicCodeRow || position == removePanicCodeRow) {
-                return 2;
+                return TYPE_SETTINGS;
             } else if (position == showInSettingsRow) {
-                return 3;
+                return TYPE_CHECK;
             } else if (position == accountsStartRow || position == panicCodeRow) {
-                return 4;
+                return TYPE_HEADER;
             } else if (position == showInSettings2Row || position == accountsEndRow || position == panicCode2Row) {
-                return 7;
+                return TYPE_INFO_PRIVACY;
             } else if (position > accountsStartRow && position < accountsEndRow) {
-                return 11;
+                return TYPE_ACCOUNT;
             }
-            return 2;
+            return TYPE_SETTINGS;
         }
     }
 

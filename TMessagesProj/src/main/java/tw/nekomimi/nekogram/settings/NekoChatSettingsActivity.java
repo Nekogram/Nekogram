@@ -475,7 +475,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
             switch (holder.getItemViewType()) {
-                case 1: {
+                case TYPE_SHADOW: {
                     if (position == messageMenu2Row) {
                         holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     } else {
@@ -483,7 +483,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     }
                     break;
                 }
-                case 2: {
+                case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == doubleTapActionRow) {
@@ -519,7 +519,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     }
                     break;
                 }
-                case 3: {
+                case TYPE_CHECK: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
                     if (position == ignoreBlockedRow) {
@@ -557,7 +557,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     }
                     break;
                 }
-                case 4: {
+                case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == chatRow) {
                         headerCell.setText(LocaleController.getString("Chat", R.string.Chat));
@@ -572,7 +572,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     }
                     break;
                 }
-                case 7: {
+                case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     if (position == markdown2Row) {
                         cell.getTextView().setMovementMethod(null);
@@ -581,7 +581,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     }
                     break;
                 }
-                case 9: {
+                case TYPE_CHECKBOX: {
                     TextCheckbox2Cell cell = (TextCheckbox2Cell) holder.itemView;
                     int menuPosition = position - messageMenuRow - 1;
                     if (menuPosition == 0) {
@@ -632,25 +632,25 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         @Override
         public int getItemViewType(int position) {
             if (position == chat2Row || position == stickerSize2Row || position == messageMenu2Row || position == media2Row) {
-                return 1;
+                return TYPE_SHADOW;
             } else if (position == doubleTapActionRow || position == maxRecentStickersRow || position == markdownParserRow) {
-                return 2;
+                return TYPE_SETTINGS;
             } else if ((position > chatRow && position < doubleTapActionRow) ||
                     (position > mediaRow && position < media2Row) ||
                     (position > markdownRow && position < markdown2Row) ||
                     position == hideTimeOnStickerRow
             ) {
-                return 3;
+                return TYPE_CHECK;
             } else if (position == chatRow || position == stickerSizeHeaderRow || position == messageMenuRow || position == mediaRow || position == markdownRow) {
-                return 4;
+                return TYPE_HEADER;
             } else if (position == markdown2Row) {
-                return 7;
+                return TYPE_INFO_PRIVACY;
             } else if (position > messageMenuRow && position < messageMenu2Row) {
-                return 9;
+                return TYPE_CHECKBOX;
             } else if (position == stickerSizeRow) {
                 return Integer.MAX_VALUE;
             }
-            return 2;
+            return TYPE_SETTINGS;
         }
     }
 

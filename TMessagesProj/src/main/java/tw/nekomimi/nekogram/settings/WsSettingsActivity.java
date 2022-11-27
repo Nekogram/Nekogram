@@ -91,7 +91,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
             switch (holder.getItemViewType()) {
-                case 2: {
+                case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == localProxyRow) {
@@ -100,7 +100,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 3: {
+                case TYPE_CHECK: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     if (position == enableTLSRow) {
                         textCell.setTextAndCheck(LocaleController.getString("WsEnableTls", R.string.WsEnableTls), NekoConfig.wsEnableTLS, true);
@@ -109,14 +109,14 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 4: {
+                case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == settingsRow) {
                         headerCell.setText(LocaleController.getString("Settings", R.string.Settings));
                     }
                     break;
                 }
-                case 7: {
+                case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     cell.setText(getSpannedString("WsDescription", R.string.WsDescription, "https://nekogram.app/proxy"));
                     cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
@@ -128,13 +128,13 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
         @Override
         public int getItemViewType(int position) {
             if (position == descriptionRow) {
-                return 7;
+                return TYPE_INFO_PRIVACY;
             } else if (position == settingsRow) {
-                return 4;
+                return TYPE_HEADER;
             } else if (position == enableTLSRow || position == enableDoHRow) {
-                return 3;
+                return TYPE_CHECK;
             }
-            return 2;
+            return TYPE_SETTINGS;
         }
     }
 

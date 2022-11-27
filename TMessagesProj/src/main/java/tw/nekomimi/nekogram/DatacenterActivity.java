@@ -161,7 +161,7 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
-                case 1: {
+                case TYPE_SHADOW: {
                     if (position == datacenters2Row) {
                         holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                     } else {
@@ -169,7 +169,7 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
                     }
                     break;
                 }
-                case 4: {
+                case TYPE_HEADER: {
                     HeaderCell cell = (HeaderCell) holder.itemView;
                     cell.setText(LocaleController.getString("DatacenterStatus", R.string.DatacenterStatus));
                     break;
@@ -214,9 +214,9 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
         @Override
         public int getItemViewType(int position) {
             if (position == header2Row || position == datacenters2Row) {
-                return 1;
+                return TYPE_SHADOW;
             } else if (position == datacentersRow) {
-                return 4;
+                return TYPE_HEADER;
             } else if (position == headerRow) {
                 return Integer.MAX_VALUE - 1;
             }

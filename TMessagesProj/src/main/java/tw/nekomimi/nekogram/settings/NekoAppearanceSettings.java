@@ -258,7 +258,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
             switch (holder.getItemViewType()) {
-                case 2: {
+                case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == eventTypeRow) {
@@ -309,7 +309,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 3: {
+                case TYPE_CHECK: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
                     if (position == hidePhoneRow) {
@@ -341,7 +341,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 4: {
+                case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == appearanceRow) {
                         headerCell.setText(LocaleController.getString("Appearance", R.string.Appearance));
@@ -350,7 +350,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 7: {
+                case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     if (position == folders2Row) {
                         cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
@@ -382,21 +382,21 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
         @Override
         public int getItemViewType(int position) {
             if (position == appearance2Row || position == drawer2Row) {
-                return 1;
+                return TYPE_SHADOW;
             } else if (position == eventTypeRow || position == tabsTitleTypeRow || position == tabletModeRow) {
-                return 2;
+                return TYPE_SETTINGS;
             } else if (position == newYearRow || position == showTabsOnForwardRow || position == hideAllTabRow ||
                     (position > appearanceRow && position <= disableNumberRoundingRow) ||
                     (position > drawerRow && position < drawer2Row)) {
-                return 3;
+                return TYPE_CHECK;
             } else if (position == appearanceRow || position == foldersRow) {
-                return 4;
+                return TYPE_HEADER;
             } else if (position == folders2Row) {
-                return 7;
+                return TYPE_INFO_PRIVACY;
             } else if (position == drawerRow) {
                 return Integer.MAX_VALUE;
             }
-            return 2;
+            return TYPE_SETTINGS;
         }
     }
 

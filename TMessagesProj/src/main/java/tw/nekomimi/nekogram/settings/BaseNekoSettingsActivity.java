@@ -56,6 +56,19 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
     protected static final Object PARTIAL = new Object();
 
+    public static final int TYPE_SHADOW = 1;
+    public static final int TYPE_SETTINGS = 2;
+    public static final int TYPE_CHECK = 3;
+    public static final int TYPE_HEADER = 4;
+    public static final int TYPE_NOTIFICATION_CHECK = 5;
+    public static final int TYPE_DETAIL_SETTINGS = 6;
+    public static final int TYPE_INFO_PRIVACY = 7;
+    public static final int TYPE_TEXT = 8;
+    public static final int TYPE_CHECKBOX = 9;
+    public static final int TYPE_RADIO = 10;
+    public static final int TYPE_ACCOUNT = 11;
+    public static final int TYPE_BUYMEACOFFEE = 12;
+
     protected BlurredRecyclerView listView;
     protected BaseListAdapter listAdapter;
     protected LinearLayoutManager layoutManager;
@@ -336,7 +349,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int type = holder.getItemViewType();
-            return type == 2 || type == 3 || type == 5 || type == 6 || type == 8 | type == 9 || type == 10 || type == 11 || type == 12;
+            return type == TYPE_SETTINGS || type == TYPE_CHECK || type == TYPE_NOTIFICATION_CHECK || type == TYPE_DETAIL_SETTINGS || type == TYPE_TEXT | type == TYPE_CHECKBOX || type == TYPE_RADIO || type == TYPE_ACCOUNT || type == TYPE_BUYMEACOFFEE;
         }
 
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
@@ -354,50 +367,50 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = null;
             switch (viewType) {
-                case 1:
+                case TYPE_SHADOW:
                     view = new ShadowSectionCell(mContext, resourcesProvider);
                     break;
-                case 2:
+                case TYPE_SETTINGS:
                     view = new TextSettingsCell(mContext, resourcesProvider);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
-                case 3:
+                case TYPE_CHECK:
                     view = new TextCheckCell(mContext, resourcesProvider);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
-                case 4:
+                case TYPE_HEADER:
                     view = new HeaderCell(mContext, resourcesProvider);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
-                case 5:
+                case TYPE_NOTIFICATION_CHECK:
                     view = new NotificationsCheckCell(mContext, resourcesProvider);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
-                case 6:
+                case TYPE_DETAIL_SETTINGS:
                     view = new TextDetailSettingsCell(mContext, resourcesProvider);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
-                case 7:
+                case TYPE_INFO_PRIVACY:
                     view = new TextInfoPrivacyCell(mContext, resourcesProvider);
                     view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                     break;
-                case 8:
+                case TYPE_TEXT:
                     view = new TextCell(mContext, resourcesProvider);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
-                case 9:
+                case TYPE_CHECKBOX:
                     view = new TextCheckbox2Cell(mContext);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
-                case 10:
+                case TYPE_RADIO:
                     view = new TextRadioCell(mContext, resourcesProvider);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
-                case 11:
+                case TYPE_ACCOUNT:
                     view = new AccountCell(mContext);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
-                case 12:
+                case TYPE_BUYMEACOFFEE:
                     view = new BuyMeACoffeeCell(mContext);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;

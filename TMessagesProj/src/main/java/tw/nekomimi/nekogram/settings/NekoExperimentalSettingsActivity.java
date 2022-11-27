@@ -311,7 +311,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
             switch (holder.getItemViewType()) {
-                case 1: {
+                case TYPE_SHADOW: {
                     if (position == deleteAccount2Row) {
                         holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     } else {
@@ -319,7 +319,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 2: {
+                case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == deleteAccountRow) {
@@ -345,7 +345,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 3: {
+                case TYPE_CHECK: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
                     if (position == disableFilteringRow) {
@@ -360,14 +360,14 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case 4: {
+                case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == experimentRow) {
                         headerCell.setText(LocaleController.getString("Experiment", R.string.Experiment));
                     }
                     break;
                 }
-                case 5: {
+                case TYPE_NOTIFICATION_CHECK: {
                     NotificationsCheckCell textCell = (NotificationsCheckCell) holder.itemView;
                     if (position == emojiRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("CustomEmojiTypeface", R.string.CustomEmojiTypeface), new File(NekoConfig.customEmojiFontPath).getName(), NekoConfig.customEmojiFont, true);
@@ -380,17 +380,17 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         @Override
         public int getItemViewType(int position) {
             if (position == experiment2Row || position == deleteAccount2Row) {
-                return 1;
+                return TYPE_SHADOW;
             } else if (position == deleteAccountRow || position == downloadSpeedBoostRow) {
-                return 2;
+                return TYPE_SETTINGS;
             } else if (position > downloadSpeedBoostRow && position <= showRPCErrorRow) {
-                return 3;
+                return TYPE_CHECK;
             } else if (position == experimentRow) {
-                return 4;
+                return TYPE_HEADER;
             } else if (position == emojiRow) {
-                return TextUtils.isEmpty(NekoConfig.customEmojiFontPath) ? 2 : 5;
+                return TextUtils.isEmpty(NekoConfig.customEmojiFontPath) ? TYPE_SETTINGS : TYPE_NOTIFICATION_CHECK;
             }
-            return 2;
+            return TYPE_SETTINGS;
         }
     }
 }

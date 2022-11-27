@@ -206,7 +206,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
-                case 1: {
+                case TYPE_SHADOW: {
                     if ((position == about2Row && sponsor2Row == -1) || position == sponsor2Row) {
                         holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     } else {
@@ -214,7 +214,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
                     }
                     break;
                 }
-                case 2: {
+                case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     if (position == channelRow) {
                         textCell.setTextAndValue(LocaleController.getString("OfficialChannel", R.string.OfficialChannel), "@" + LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), true);
@@ -225,7 +225,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
                     }
                     break;
                 }
-                case 4: {
+                case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == categoriesRow) {
                         headerCell.setText(LocaleController.getString("Categories", R.string.Categories));
@@ -234,7 +234,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
                     }
                     break;
                 }
-                case 6: {
+                case TYPE_DETAIL_SETTINGS: {
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
                     textCell.setMultilineDetail(true);
                     if (position == translationRow) {
@@ -251,7 +251,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
                     }
                     break;
                 }
-                case 8: {
+                case TYPE_TEXT: {
                     TextCell textCell = (TextCell) holder.itemView;
                     if (position == chatRow) {
                         textCell.setTextAndIcon(LocaleController.getString("Chat", R.string.Chat), R.drawable.msg_discussion, true);
@@ -276,22 +276,22 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
             if (position >= sponsorRow && position < sponsor2Row) {
                 ConfigHelper.NewsItem item = news.get(position - sponsorRow);
                 if (item.type == 1) {
-                    return 12;
+                    return TYPE_BUYMEACOFFEE;
                 } else {
-                    return 6;
+                    return TYPE_DETAIL_SETTINGS;
                 }
             } else if (position == categories2Row || position == about2Row || position == sponsor2Row) {
-                return 1;
+                return TYPE_SHADOW;
             } else if (position >= channelRow && position < translationRow) {
-                return 2;
+                return TYPE_SETTINGS;
             } else if (position == categoriesRow || position == aboutRow) {
-                return 4;
+                return TYPE_HEADER;
             } else if (position >= translationRow && position < about2Row) {
-                return 6;
+                return TYPE_DETAIL_SETTINGS;
             } else if (position > categoriesRow && position < categories2Row) {
-                return 8;
+                return TYPE_TEXT;
             }
-            return 2;
+            return TYPE_SETTINGS;
         }
     }
 }

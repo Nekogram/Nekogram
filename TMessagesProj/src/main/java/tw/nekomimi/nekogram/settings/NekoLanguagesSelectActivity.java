@@ -285,29 +285,29 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
 
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
-            return holder.getItemViewType() == 7 || super.isEnabled(holder);
+            return holder.getItemViewType() == TYPE_INFO_PRIVACY || super.isEnabled(holder);
         }
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
-                case 1: {
+                case TYPE_SHADOW: {
                     holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     break;
                 }
-                case 4: {
+                case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     headerCell.setText(LocaleController.getString("ChooseLanguages", R.string.ChooseLanguages));
                     break;
                 }
-                case 7: {
+                case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                     cell.getTextView().setMovementMethod(null);
                     cell.setText("miaŭ");
                     break;
                 }
-                case 9: {
+                case TYPE_CHECKBOX: {
                     if (!search) position--;
                     TextCheckbox2Cell cell = (TextCheckbox2Cell) holder.itemView;
                     LocaleInfo localeInfo;
@@ -323,7 +323,7 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
                     cell.setTextAndValueAndCheck(localeInfo.name, localeInfo.nameLocalized, checked, false, !last);
                     break;
                 }
-                case 10: {
+                case TYPE_RADIO: {
                     if (!search) position--;
                     TextRadioCell cell = (TextRadioCell) holder.itemView;
                     LocaleInfo localeInfo;
@@ -351,12 +351,12 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
                 i--;
             }
             if (i == -1) {
-                return 4;
+                return TYPE_HEADER;
             }
             if (i == (search ? searchResult : sortedLanguages).size()) {
-                return currentType == TYPE_RESTRICTED && !search ? 7 : 1;
+                return currentType == TYPE_RESTRICTED && !search ? TYPE_INFO_PRIVACY : TYPE_SHADOW;
             }
-            return currentType == TYPE_TARGET ? 10 : 9;
+            return currentType == TYPE_TARGET ? TYPE_RADIO : TYPE_CHECKBOX;
         }
     }
 

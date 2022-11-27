@@ -424,11 +424,11 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
             switch (holder.getItemViewType()) {
-                case 1: {
+                case TYPE_SHADOW: {
                     holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                     break;
                 }
-                case 6: {
+                case TYPE_DETAIL_SETTINGS: {
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
                     textCell.setMultilineDetail(true);
                     boolean divider = position + 1 != endRow;
@@ -561,11 +561,11 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         @Override
         public int getItemViewType(int position) {
             if (position == endRow) {
-                return 1;
+                return TYPE_SHADOW;
             } else if (position == messageRow || position == captionRow) {
                 return Integer.MAX_VALUE;
             } else {
-                return 6;
+                return TYPE_DETAIL_SETTINGS;
             }
         }
 
