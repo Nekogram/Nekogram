@@ -101,11 +101,7 @@ public class ReactedUsersListView extends FrameLayout {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
             listView.setVerticalScrollbarThumbDrawable(new ColorDrawable(Theme.getColor(Theme.key_listSelector)));
         }
-        listView.setAdapter(adapter = new RecyclerListView.SelectionAdapter() {
-            @Override
-            public boolean isEnabled(RecyclerView.ViewHolder holder) {
-                return true;
-            }
+        listView.setAdapter(adapter = new RecyclerView.Adapter() {
 
             @NonNull
             @Override
@@ -375,7 +371,7 @@ public class ReactedUsersListView extends FrameLayout {
         SimpleTextView titleView;
         BackupImageView reactView;
         AvatarDrawable avatarDrawable = new AvatarDrawable();
-        //View overlaySelectorView;
+        View overlaySelectorView;
 
         ReactedUserHolderView(@NonNull Context context) {
             super(context);
@@ -398,9 +394,9 @@ public class ReactedUsersListView extends FrameLayout {
             reactView = new BackupImageView(context);
             addView(reactView, LayoutHelper.createFrameRelatively(24, 24, Gravity.END | Gravity.CENTER_VERTICAL, 0, 0, 12, 0));
 
-            //overlaySelectorView = new View(context);
-            //overlaySelectorView.setBackground(Theme.getSelectorDrawable(false));
-            //addView(overlaySelectorView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
+            overlaySelectorView = new View(context);
+            overlaySelectorView.setBackground(Theme.getSelectorDrawable(false));
+            addView(overlaySelectorView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
         }
 
         void setUserReaction(TLRPC.MessagePeerReaction reaction) {
