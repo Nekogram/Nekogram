@@ -4852,7 +4852,7 @@ public class Theme {
         defaultColors.put(key_chat_outTextSelectionCursor, 0xFF419FE8);
         defaultColors.put(key_chat_outBubbleLocationPlaceholder, 0x1e307311);
         defaultColors.put(key_chat_inBubbleLocationPlaceholder, 0x1e506373);
-        defaultColors.put(key_chat_BlurAlpha, 0xCF000000);
+        defaultColors.put(key_chat_BlurAlpha, 0xFF000000);
 
         defaultColors.put(key_statisticChartSignature, 0x7f252529);
         defaultColors.put(key_statisticChartSignatureAlpha, 0x7f252529);
