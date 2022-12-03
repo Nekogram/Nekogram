@@ -38,7 +38,7 @@ public class TextDetailSettingsCell extends FrameLayout {
     }
 
     public TextDetailSettingsCell(Context context, Theme.ResourcesProvider resourcesProvider) {
-        this(context, false, null);
+        this(context, false, resourcesProvider);
     }
 
     public TextDetailSettingsCell(Context context, boolean valueOnly, Theme.ResourcesProvider resourcesProvider) {

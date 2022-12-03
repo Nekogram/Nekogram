@@ -96,6 +96,9 @@
 -keep,allowshrinking,allowobfuscation class org.telegram.ui.Components.GroupCreateSpan {
     public void updateColors();
  }
+-keepclassmembernames class tw.nekomimi.nekogram.DatacenterActivity$DatacenterCell { <fields>; }
+-keepclassmembernames class tw.nekomimi.nekogram.DatacenterActivity$DatacenterHeaderCell { <fields>; }
+-keepclassmembernames class tw.nekomimi.nekogram.MessageDetailsActivity$TextDetailSimpleCell { <fields>; }
 -keepclassmembernames class tw.nekomimi.nekogram.settings.AccountCell { <fields>; }
 -keepclassmembernames class tw.nekomimi.nekogram.settings.NekoChatSettingsActivity$StickerSizeCell { <fields>; }
 
