@@ -187,7 +187,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     }
 
     @Override
-    protected ActionBar createActionBar(Context context) {
+    public ActionBar createActionBar(Context context) {
         ActionBar actionBar;
         if (!hasWhiteActionBar()) {
             actionBar = super.createActionBar(context);

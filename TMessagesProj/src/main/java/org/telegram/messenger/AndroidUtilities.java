@@ -477,7 +477,7 @@ public class AndroidUtilities {
         return spannableStringBuilder;
     }
 
-    public static void recycleBitmaps(ArrayList<Bitmap> bitmapToRecycle) {
+    public static void recycleBitmaps(List<Bitmap> bitmapToRecycle) {
         if (bitmapToRecycle != null && !bitmapToRecycle.isEmpty()) {
             AndroidUtilities.runOnUIThread(() -> Utilities.globalQueue.postRunnable(() -> {
                 for (int i = 0; i < bitmapToRecycle.size(); i++) {
@@ -526,6 +526,10 @@ public class AndroidUtilities {
                 FileLog.e(e);
             }
         });
+    }
+
+    public static void recycleBitmap(Bitmap image) {
+        recycleBitmaps(Collections.singletonList(image));
     }
 
     private static class LinkSpec {
