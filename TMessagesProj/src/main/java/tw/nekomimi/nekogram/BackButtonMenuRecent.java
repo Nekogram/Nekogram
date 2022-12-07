@@ -119,7 +119,7 @@ public class BackButtonMenuRecent {
             cell.setMinimumWidth(AndroidUtilities.dp(200));
 
             BackupImageView imageView = new BackupImageView(context);
-            imageView.setRoundRadius(AndroidUtilities.dp(32));
+            imageView.setRoundRadius(chat != null && chat.forum ? AndroidUtilities.dp(8) : AndroidUtilities.dp(16));
             cell.addView(imageView, LayoutHelper.createFrameRelatively(32, 32, Gravity.START | Gravity.CENTER_VERTICAL, 13, 0, 0, 0));
 
             TextView titleView = new TextView(context);
