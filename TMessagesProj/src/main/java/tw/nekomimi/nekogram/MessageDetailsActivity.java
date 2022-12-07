@@ -326,13 +326,13 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         } else {
                             builder1.append(emojiSetOwner);
                         }
-                        cell.setTextAndValue("", builder1.toString(), false);
+                        cell.setTextAndValueWithEmoji("", builder1, false);
                     });
                     builder.append("Loading...");
                     builder.append("\n");
                     builder.append(emojiSetOwner);
                 }
-                cell.setTextAndValue("", builder.toString(), false);
+                cell.setTextAndValueWithEmoji("", builder, false);
             }
 
             showDialog(dialog);
@@ -438,7 +438,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     } else if (position == channelRow || position == groupRow) {
                         StringBuilder builder = new StringBuilder();
                         appendUserOrChat(toChat, builder);
-                        textCell.setTextAndValue(position == channelRow ? "Channel" : "Group", builder.toString(), divider);
+                        textCell.setTextAndValueWithEmoji(position == channelRow ? "Channel" : "Group", builder, divider);
                     } else if (position == fromRow) {
                         StringBuilder builder = new StringBuilder();
                         if (fromUser != null) {
@@ -448,7 +448,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         } else if (!TextUtils.isEmpty(messageObject.messageOwner.post_author)) {
                             builder.append(messageObject.messageOwner.post_author);
                         }
-                        textCell.setTextAndValue("From", builder.toString(), divider);
+                        textCell.setTextAndValueWithEmoji("From", builder, divider);
                     } else if (position == botRow) {
                         textCell.setTextAndValue("Bot", "Yes", divider);
                     } else if (position == dateRow) {
@@ -468,7 +468,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         } else if (!TextUtils.isEmpty(messageObject.messageOwner.fwd_from.from_name)) {
                             builder.append(messageObject.messageOwner.fwd_from.from_name);
                         }
-                        textCell.setTextAndValue("Forward from", builder.toString(), divider);
+                        textCell.setTextAndValueWithEmoji("Forward from", builder, divider);
                     } else if (position == fileNameRow) {
                         textCell.setTextAndValue("File name", fileName, divider);
                     } else if (position == filePathRow) {
@@ -488,7 +488,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                                 value.append(", ");
                             }
                         }
-                        textCell.setTextAndValue("Restriction reason", value.toString(), divider);
+                        textCell.setTextAndValue("Restriction reason", value, divider);
                     } else if (position == forwardsRow) {
                         textCell.setTextAndValue("Forwards", String.format(Locale.US, "%d", messageObject.messageOwner.forwards), divider);
                     } else if (position == sponsoredRow) {
@@ -516,13 +516,13 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                                 } else {
                                     builder1.append(stickerSetOwner);
                                 }
-                                textCell.setTextAndValue("Sticker Pack creator", builder1.toString(), divider);
+                                textCell.setTextAndValueWithEmoji("Sticker Pack creator", builder1, divider);
                             });
                             builder.append("Loading...");
                             builder.append("\n");
                             builder.append(stickerSetOwner);
                         }
-                        textCell.setTextAndValue("Sticker Pack creator", builder.toString(), divider);
+                        textCell.setTextAndValueWithEmoji("Sticker Pack creator", builder, divider);
                     } else if (position == emojiSetRow) {
                         textCell.setTextAndValue("Emoji Pack creators", TextUtils.join(", ", emojiSetOwners), divider);
                     }
