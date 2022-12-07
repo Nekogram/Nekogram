@@ -32,7 +32,6 @@
     <string name="Christmas">Christmas</string>
     <string name="Valentine">Valentine\'s day</string>
     <string name="DeleteDownloadedFile">Delete downloaded file</string>
-    <string name="TestBackend">Test Backend</string>
     <string name="TestBackendOn">This account will connect to the test backend.</string>
     <string name="TestBackendOff">This account will connect to the production backend.</string>
     <string name="ViewHistory">View history</string>
