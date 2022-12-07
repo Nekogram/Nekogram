@@ -4640,7 +4640,7 @@ public class DialogCell extends BaseCell {
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if (delegate == null || delegate.canClickButtonInside()) {
-            if (/*lastTopicMessageUnread && */canvasButton != null && buttonLayout != null && canvasButton.checkTouchEvent(event)) {
+            if (lastTopicMessageUnread && canvasButton != null && buttonLayout != null && canvasButton.checkTouchEvent(event)) {
                 return true;
             }
         }
