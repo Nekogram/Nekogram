@@ -2537,7 +2537,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     isSpeedItemCreated = true;
                     FrameLayout searchContainer = (FrameLayout) searchItem.getSearchClearButton().getParent();
                     qrItem = new ActionBarMenuItem(context, menu, Theme.getColor(Theme.key_actionBarDefaultSelector), Theme.getColor(Theme.key_actionBarDefaultIcon));
-                    qrItem.setIcon(R.drawable.msg_qrcode);
+                    qrItem.setIcon(R.drawable.ic_line_scan);
                     qrItem.setTranslationX(AndroidUtilities.dp(32));
                     qrItem.setOnClickListener(v -> QrHelper.openCameraScanActivity(DialogsActivity.this));
                     qrItem.setFixBackground(true);

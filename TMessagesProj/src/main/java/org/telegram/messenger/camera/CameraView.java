@@ -463,6 +463,7 @@ public class CameraView extends FrameLayout implements TextureView.SurfaceTextur
         if (cameraThread != null) {
             cameraThread.shutdown(0);
             cameraThread.postRunnable(() -> this.cameraThread = null);
+            cameraThread = null;
         }
         if (cameraSession != null) {
             CameraController.getInstance().close(cameraSession, null, null);

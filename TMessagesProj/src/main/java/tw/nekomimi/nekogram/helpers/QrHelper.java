@@ -17,7 +17,7 @@ import java.util.HashMap;
 public class QrHelper {
 
     public static void openCameraScanActivity(BaseFragment fragment) {
-        CameraScanActivity.showAsSheet(fragment, false, CameraScanActivity.TYPE_QR, new CameraScanActivity.CameraScanActivityDelegate() {
+        CameraScanActivity.showAsSheet(fragment, true, CameraScanActivity.TYPE_QR, new CameraScanActivity.CameraScanActivityDelegate() {
 
             @Override
             public void didFindQr(String link) {

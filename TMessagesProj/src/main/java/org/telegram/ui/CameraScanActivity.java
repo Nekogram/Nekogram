@@ -617,7 +617,7 @@ public class CameraScanActivity extends BaseFragment {
                 galleryButton = new ImageView(context);
                 galleryButton.setScaleType(ImageView.ScaleType.CENTER);
                 galleryButton.setImageResource(R.drawable.qr_gallery);
-                galleryButton.setBackgroundDrawable(Theme.createSelectorDrawableFromDrawables(Theme.createCircleDrawable(AndroidUtilities.dp(60), 0x22ffffff), Theme.createCircleDrawable(AndroidUtilities.dp(60), 0x44ffffff)));
+                galleryButton.setBackground(Theme.AdaptiveRipple.filledCircle(Theme.createCircleDrawable(AndroidUtilities.dp(60), 0x22ffffff)));
                 viewGroup.addView(galleryButton);
                 galleryButton.setOnClickListener(currentImage -> {
                     if (getParentActivity() == null) {
@@ -673,7 +673,8 @@ public class CameraScanActivity extends BaseFragment {
             flashButton = new ImageView(context);
             flashButton.setScaleType(ImageView.ScaleType.CENTER);
             flashButton.setImageResource(R.drawable.qr_flashlight);
-            flashButton.setBackgroundDrawable(Theme.createCircleDrawable(AndroidUtilities.dp(60), 0x22ffffff));
+            ShapeDrawable shapeDrawable = Theme.createCircleDrawable(AndroidUtilities.dp(60), 0x22ffffff);
+            flashButton.setBackground(Theme.AdaptiveRipple.filledCircle(shapeDrawable));
             viewGroup.addView(flashButton);
             flashButton.setOnClickListener(currentImage -> {
                 if (cameraView == null) {
@@ -681,7 +682,6 @@ public class CameraScanActivity extends BaseFragment {
                 }
                 CameraSession session = cameraView.getCameraSession();
                 if (session != null) {
-                    ShapeDrawable shapeDrawable = (ShapeDrawable) flashButton.getBackground();
                     if (flashAnimator != null) {
                         flashAnimator.cancel();
                         flashAnimator = null;
