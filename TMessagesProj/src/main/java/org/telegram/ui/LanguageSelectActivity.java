@@ -487,15 +487,15 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
             header.setContentDescription(LocaleController.getString("TranslateMessages", R.string.TranslateMessages));
             addView(header, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
-            TextSettingsCell cell = new TextSettingsCell(context);
-            cell.setText(LocaleController.getString("NekoSettings", R.string.NekoSettings), false);
-            cell.setBackground(Theme.createSelectorWithBackgroundDrawable(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(Theme.key_listSelector)));
-            cell.setOnClickListener(e -> {
+            doNotTranslateCell = new TextSettingsCell(context);
+            doNotTranslateCell.setText(LocaleController.getString("NekoSettings", R.string.NekoSettings), false);
+            doNotTranslateCell.setBackground(Theme.createSelectorWithBackgroundDrawable(Theme.getColor(Theme.key_windowBackgroundWhite), Theme.getColor(Theme.key_listSelector)));
+            doNotTranslateCell.setOnClickListener(e -> {
                 presentFragment(new NekoGeneralSettingsActivity());
             });
-            addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+            addView(doNotTranslateCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
-            addView(new ShadowSectionCell(context), LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+            addView(new ShadowSectionCell(context, 12, Theme.getColor(Theme.key_windowBackgroundGray)), LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
             /*boolean value = getValue();
             showButtonCheck = new TextCheckCell(context);
@@ -551,17 +551,15 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
 
         public void updateTranslations() {
             header.setText(LocaleController.getString("TranslateMessages", R.string.TranslateMessages));
-            showButtonCheck.setTextAndCheck(
-                LocaleController.getString("ShowTranslateButton", R.string.ShowTranslateButton), getValue(), getValue()
-            );
-            showButtonCheck.updateRTL();
+            doNotTranslateCell.setText(LocaleController.getString("NekoSettings", R.string.NekoSettings), false);
+            //showButtonCheck.updateRTL();
             doNotTranslateCell.updateRTL();
-            info.setText(LocaleController.getString("TranslateMessagesInfo1", R.string.TranslateMessagesInfo1));
+            /*info.setText(LocaleController.getString("TranslateMessagesInfo1", R.string.TranslateMessagesInfo1));
             info.getTextView().setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             info2.setText(LocaleController.getString("TranslateMessagesInfo2", R.string.TranslateMessagesInfo2));
             info2.getTextView().setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
             update();
-            updateHeight();
+            updateHeight();*/
         }
 
         private boolean getValue() {
