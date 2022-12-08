@@ -31,6 +31,7 @@ import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextCheckbox2Cell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
+import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
@@ -98,18 +99,19 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         ActionBarMenu menu = actionBar.createMenu();
         resetItem = menu.addItem(0, R.drawable.msg_reset);
         resetItem.setContentDescription(LocaleController.getString("ResetStickerSize", R.string.ResetStickerSize));
-        resetItem.setVisibility(NekoConfig.stickerSize != 14.0f ? View.VISIBLE : View.GONE);
         resetItem.setTag(null);
         resetItem.setOnClickListener(v -> {
             AndroidUtilities.updateViewVisibilityAnimated(resetItem, false, 0.5f, true);
             ValueAnimator animator = ValueAnimator.ofFloat(NekoConfig.stickerSize, 14.0f);
             animator.setDuration(150);
+            animator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             animator.addUpdateListener(valueAnimator -> {
                 NekoConfig.setStickerSize((Float) valueAnimator.getAnimatedValue());
                 stickerSizeCell.invalidate();
             });
             animator.start();
         });
+        AndroidUtilities.updateViewVisibilityAnimated(resetItem, NekoConfig.stickerSize != 14.0f, 1f, false);
 
         return fragmentView;
     }

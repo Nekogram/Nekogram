@@ -22,6 +22,7 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
+import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
@@ -94,6 +95,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
             }
             statusBarColorAnimator = SharedConfig.noStatusBar ? ValueAnimator.ofInt(alpha, 0) : ValueAnimator.ofInt(0, alpha);
             statusBarColorAnimator.setDuration(300);
+            statusBarColorAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             statusBarColorAnimator.addUpdateListener(animation -> getParentActivity().getWindow().setStatusBarColor(ColorUtils.setAlphaComponent(0, (int) animation.getAnimatedValue())));
             statusBarColorAnimator.start();
         } else if (position == useSystemEmojiRow) {
