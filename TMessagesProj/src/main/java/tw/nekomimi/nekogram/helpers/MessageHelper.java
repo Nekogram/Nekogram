@@ -593,7 +593,7 @@ public class MessageHelper extends BaseController {
         BackupImageView imageView = new BackupImageView(context);
         imageView.setRoundRadius(AndroidUtilities.dp(20));
         if (forumTopic != null) {
-            ForumUtilities.setTopicIcon(imageView, forumTopic, true, resourcesProvider);
+            ForumUtilities.setTopicIcon(imageView, forumTopic, false, true, resourcesProvider);
         } else {
             imageView.setForUserOrChat(chat, avatarDrawable);
         }

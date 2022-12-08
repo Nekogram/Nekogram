@@ -3261,6 +3261,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
             Bundle args = new Bundle();
             args.putBoolean("onlySelect", true);
+            args.putBoolean("canSelectTopics", true);
             args.putInt("dialogsType", 3);
             DialogsActivity fragment = new DialogsActivity(args);
             ArrayList<MessageObject> fmessages = new ArrayList<>();
@@ -3329,6 +3330,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     profileActivity.getNotificationCenter().postNotificationName(NotificationCenter.closeChats);
 
                     ChatActivity chatActivity = new ChatActivity(args1);
+                    ForumUtilities.applyTopic(chatActivity, dids.get(0));
                     fragment1.presentFragment(chatActivity, true);
                     chatActivity.showFieldPanelForForward(true, fmessages);
                 }

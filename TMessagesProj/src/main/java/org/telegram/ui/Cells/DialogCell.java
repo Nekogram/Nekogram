@@ -2072,6 +2072,7 @@ public class DialogCell extends BaseCell {
                 if (useForceThreeLines || SharedConfig.useThreeLinesLayout) {
                     typingLayout = StaticLayoutEx.createStaticLayout(typingString, Theme.dialogs_messagePrintingPaint[paintIndex], messageWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, AndroidUtilities.dp(1), false, TextUtils.TruncateAt.END, messageWidth, typingString != null ? 1 : 2);
                 } else {
+                    typingString = TextUtils.ellipsize(typingString, currentMessagePaint, messageWidth - AndroidUtilities.dp(12), TextUtils.TruncateAt.END);
                     typingLayout = new StaticLayout(typingString, Theme.dialogs_messagePrintingPaint[paintIndex], messageWidth, Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 }
             }
@@ -2320,7 +2321,7 @@ public class DialogCell extends BaseCell {
                 }
                 if (boldLen > 0) {
                     spannableStringBuilder.setSpan(
-                            new TypefaceSpan(AndroidUtilities.getTypeface("fonts/rmedium.ttf"), 0, Theme.getColor(Theme.key_chats_name, resourcesProvider)),
+                            new TypefaceSpan(AndroidUtilities.getTypeface("fonts/rmedium.ttf"), 0, Theme.key_chats_name, null),
                             0, Math.min(spannableStringBuilder.length(), boldLen + 2), 0
                     );
                 }
@@ -4719,7 +4720,9 @@ public class DialogCell extends BaseCell {
             }
             int messageHash = message == null ? 0 : message.getId();
             Integer printingType = null;
-            long readHash = dialog.read_inbox_max_id + ((long) dialog.read_outbox_max_id << 8) + ((long) dialog.unread_count << 16);
+            long readHash = dialog.read_inbox_max_id + ((long) dialog.read_outbox_max_id << 8) + ((long) (dialog.unread_count + (dialog.unread_mark ? -1 : 0)) << 16) +
+                    (dialog.unread_reactions_count > 0 ? (1 << 18) : 0) +
+                    (dialog.unread_mentions_count > 0 ? (1 << 19) : 0);
             if (!isForumCell() && (isDialogCell || isTopic)) {
                 if (!TextUtils.isEmpty(MessagesController.getInstance(currentAccount).getPrintingString(currentDialogId, getTopicId(), true))) {
                     printingType = MessagesController.getInstance(currentAccount).getPrintingStringType(currentDialogId, getTopicId());
