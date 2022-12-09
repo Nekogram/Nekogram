@@ -1409,7 +1409,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
         }
 
         if (logCell != null) {
-            logCell.setNeedDivider(stickersCell != null);
+            logCell.setVisibility(!currentChat.megagroup || currentChat.gigagroup || info != null && info.participants_count > 200 ? View.VISIBLE : View.GONE);
         }
 
         if (linkedCell != null) {
@@ -1572,7 +1572,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 }
                 adminCell.setTextAndIcon(LocaleController.getString("ChannelAdministrators", R.string.ChannelAdministrators), R.drawable.msg_admins, true);
             }
-            reactionsCell.setVisibility(ChatObject.canChangeChatInfo(currentChat) ? View.VISIBLE : View.GONE);
+            reactionsCell.setVisibility(ChatObject.hasAdminRights(currentChat) && ChatObject.canChangeChatInfo(currentChat) ? View.VISIBLE : View.GONE);
             updateReactionsCell(animated);
             if (info == null || !ChatObject.canUserDoAdminAction(currentChat, ChatObject.ACTION_INVITE) || (!isPrivate && currentChat.creator)) {
                 inviteLinksCell.setVisibility(View.GONE);
