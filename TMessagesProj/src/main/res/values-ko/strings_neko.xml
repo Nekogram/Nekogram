@@ -29,7 +29,6 @@
     <string name="Christmas">크리스마스</string>
     <string name="Valentine">발렌타인 데이</string>
     <string name="DeleteDownloadedFile">다운로드 한 파일 삭제</string>
-    <string name="TestBackend">백엔드 테스트</string>
     <string name="TestBackendOn">이 계정은 테스트 백엔드에 연결됩니다.</string>
     <string name="TestBackendOff">이 계정은 프로덕션 백엔드에 연결됩니다.</string>
     <string name="ViewHistory">이전 기록 보기</string>

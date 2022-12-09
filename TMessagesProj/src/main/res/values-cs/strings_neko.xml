@@ -29,7 +29,6 @@
     <string name="Christmas">Різдво</string>
     <string name="Valentine">День закоханих</string>
     <string name="DeleteDownloadedFile">Видалити скачаний файл</string>
-    <string name="TestBackend">Підтримка тексту</string>
     <string name="TestBackendOn">Цей обліковий запис буде підключено до тестового сервера.</string>
     <string name="TestBackendOff">Цей обліковий запис буде підключено до робочого сервера.</string>
     <string name="ViewHistory">Подивитись історію</string>
@@ -145,9 +144,20 @@
     <string name="ApplyEmojiFont">Použít emoji font</string>
     <string name="DisableJumpToNextChannel">Vypnutí \"Přejít na další kanál\"</string>
     <string name="DisableGreetingSticker">Vypnout uvítací nálepku</string>
+    <string name="DeleteAllFromSelfAdmin">SmazatVšeProJáAdmin</string>
     <string name="OfficialSite">Oficiální web stránky</string>
     <string name="MutualContact">Vzájemný kontakt</string>
     <string name="MutualContactDescription">Tento kontakt je vzájemný.</string>
     <string name="NoUpdateAvailable">Update nebylo nalezeno.</string>
+    <string name="InviteTextNeko">TextPozvánkyNeko</string>
+    <string name="ShareNekogram">PodílNekoGram...</string>
+    <string name="NekogramVersion">VerzeNekogram</string>
+    <string name="UpdateInstalling">InstalaceAktualizace</string>
+    <string name="UpdateInstallingNotification">UpozorněníNaInstalaciAktualizace</string>
+    <string name="UpdateInstallingRelaunch">AktualizaceInstalaceZnovuSpustit.</string>
+    <string name="UpdateInstalledNotification">UpozorněníaNaInstalaciAktualizace.</string>
+    <string name="UpdateFailedToInstall">AktualizaciSeNepodařilNainstalovat</string>
+    <string name="QRLoginMessage">QR PřihlašovacíZpráva.</string>
+    <string name="QRLoginTitle">QR PřihlašovacíTitulek</string>
     <!-- Accessibility -->
 </resources>

@@ -29,7 +29,6 @@
     <string name="Christmas">عيدُ الميلاد</string>
     <string name="Valentine">عيد الحب</string>
     <string name="DeleteDownloadedFile">حذف الملف المحمل</string>
-    <string name="TestBackend">اختبار الخادم التجريبي</string>
     <string name="TestBackendOn">سيتصل هذا الحساب بالخادم التجريبي.</string>
     <string name="TestBackendOff">سيتصل هذا الحساب بالخوادم العادية.</string>
     <string name="ViewHistory">عرض الرسائل</string>

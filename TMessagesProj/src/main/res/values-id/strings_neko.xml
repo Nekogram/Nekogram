@@ -29,7 +29,6 @@
     <string name="Christmas">Natal</string>
     <string name="Valentine">Hari Valentine</string>
     <string name="DeleteDownloadedFile">Hapus berkas yang diunduh</string>
-    <string name="TestBackend">Uji Backend</string>
     <string name="TestBackendOn">Akun ini akan terhubung ke pengujian backend.</string>
     <string name="TestBackendOff">Akun ini akan terhubung ke produksi backend.</string>
     <string name="ViewHistory">Lihat riwayat</string>

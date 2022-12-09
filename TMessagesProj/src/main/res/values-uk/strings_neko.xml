@@ -29,7 +29,6 @@
     <string name="Christmas">Різдво</string>
     <string name="Valentine">День святого Валентина</string>
     <string name="DeleteDownloadedFile">Видалити завантажений файл</string>
-    <string name="TestBackend">Використовувати тестовий сервер</string>
     <string name="TestBackendOn">Цей обліковий запис буде під\'єднано до тестового сервера.</string>
     <string name="TestBackendOff">Цей обліковий запис буде підключений до тестового сервера.</string>
     <string name="ViewHistory">Переглянути історію</string>

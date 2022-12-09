@@ -5,10 +5,10 @@
     <string name="MessageMenu">Μενού μηνυμάτων</string>
     <string name="HidePhone">Απόκρυψη αριθμού τηλεφώνου</string>
     <string name="DeleteAllFromSelf">Διαγραφή μηνυμάτων μου</string>
-    <string name="DeleteAllFromSelfAlert">Προειδοποίηση! Αυτό θα **διαγράψει όλα τα μηνύματα σας** σε αυτή τη συνομιλία για **όλους τους συμμετέχοντες**.</string>
+    <string name="DeleteAllFromSelfAlert">Προειδοποίηση! Αυτό θα **διαγράψει όλα τα μηνύματα σας** σε αυτή τη συνομιλία για **όλους** τους συμμετέχοντες.</string>
     <string name="BotLogin">Σύνδεση Bot</string>
     <string name="InvalidAccessToken">Μη έγκυρο διακριτικό πρόσβασης</string>
-    <string name="IgnoreBlocked">Απόκρυψη μηνυμάτων από αποκλεισμένο χρήστη</string>
+    <string name="IgnoreBlocked">Απόκρυψη μηνυμ. αποκλεισμ. χρήστη</string>
     <string name="Connection">Σύνδεση</string>
     <string name="Chat">Συνομιλία</string>
     <string name="NameOrder">Σειρά ονόματος</string>
@@ -29,7 +29,6 @@
     <string name="Christmas">Χριστούγεννα</string>
     <string name="Valentine">Αγίου Βαλεντίνου</string>
     <string name="DeleteDownloadedFile">Διαγραφή ληφθέντος αρχείου</string>
-    <string name="TestBackend">Δοκιμή παρασκηνίου</string>
     <string name="TestBackendOn">Αυτός ο λογαριασμός θα συνδεθεί με το δοκιμαστικό backend.</string>
     <string name="TestBackendOff">Αυτός ο λογαριασμός θα συνδεθεί με το παραγωγικό backend.</string>
     <string name="ViewHistory">Προβολή ιστορικού</string>
@@ -50,12 +49,12 @@
     <string name="UndoTranslate">Αναίρεση μετάφρασης</string>
     <string name="DisablePhotoViewerSideAction">Απενεργοποίηση \"Γύρισμα φωτο με άγγιγμα\"</string>
     <string name="BotToken">Διακριτικό</string>
-    <string name="OpenArchiveOnPull">Άνοιγμα αρχείου με κάτω σάρωση</string>
+    <string name="OpenArchiveOnPull">Άνοιγμα Αρχ/θέτησης με κάτω σάρωση</string>
     <string name="HideKeyboardOnChatScroll">Απόκρ. πληκτ/γίου στην κύλιση συνομιλίας</string>
     <string name="ShowTabsOnForward">Εμφάνιση καρτελών στην προώθηση</string>
     <string name="CheckAllAdministrated">Προσθήκη διαχειριζόμενου</string>
     <string name="RearVideoMessages">Οπίσθια κάμερα σε μηνύματα βίντεο</string>
-    <string name="HideAllTab">Hide \"All Chats\" tab</string>
+    <string name="HideAllTab">Απόκρυψη καρτέλας Συνομιλίας *Όλες*</string>
     <string name="TabTitleType">Εμφάνιση σε καρτέλες</string>
     <string name="TabTitleTypeTip">Τα εικονίδια συγχρονίζονται με cloud από το Telegram.</string>
     <string name="TabTitleTypeText">Τίτλοι</string>
@@ -123,7 +122,7 @@
     <string name="WsLocalProxy">Τοπικός proxy</string>
     <string name="WsEnableDoh">Ενεργοποίηση DoH</string>
     <string name="UpdateNekogram">Ενημέρωση Nekogram</string>
-    <string name="TranslationTarget">Γλώσσα προορισμού</string>
+    <string name="TranslationTarget">Μετάφραση σε</string>
     <string name="TranslationTargetApp">Γλώσσα εφαρμογής</string>
     <string name="Translator">Μεταφραστής</string>
     <string name="ResetLanguage">Επαναφορά γλώσσας</string>
@@ -181,7 +180,7 @@
     <string name="AutoTranslateAbout">Αυτόματη μετάφραση μηνυμάτων άλλης γλώσσας.</string>
     <string name="CreateMono">Δημιουργία Monospace</string>
     <string name="CreateMonoLanguage">Κωδικός γλώσσας (προαιρετικά)</string>
-    <string name="DoubleTapAction">Ενέργεια διπλού αγγίγματος</string>
+    <string name="DoubleTapAction">Με 2πλό άγγιγμα στο μήνυμα</string>
     <string name="BlockedUserIgnored">αποκλεισμένος</string>
     <string name="EditUndo">Αναίρεση</string>
     <string name="EditRedo">Επανάληψη</string>
@@ -249,6 +248,8 @@
     <string name="UploadloadSpeedBoost">Ενίσχυση ταχύτητας αποστολής</string>
     <string name="NoUpdateAvailablePlay">Παρακαλώ ελέγξτε για ενημέρωση στο Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">Η ενημέρωση στο Play Store έρχεται συνήθως πιο αργά από τα απευθείας APKs λόγω της αναθεώρησης της Google.</string>
+    <string name="ProviderTelegram">Telegram</string>
+    <string name="DisableStickersAutoReorder">Απενεργ. αυτο-διάταξης πακ αυτοκόλ.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>

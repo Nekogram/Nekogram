@@ -29,7 +29,6 @@
     <string name="Christmas">Crăciun</string>
     <string name="Valentine">Ziua Îndrăgostiților</string>
     <string name="DeleteDownloadedFile">Șterge fișierul descărcat</string>
-    <string name="TestBackend">Testare backend</string>
     <string name="TestBackendOn">Acest cont se va conecta la sistemul backend de testare.</string>
     <string name="TestBackendOff">Acest cont se va conecta la sistemul backend de producție.</string>
     <string name="ViewHistory">Vizualizare istoric</string>

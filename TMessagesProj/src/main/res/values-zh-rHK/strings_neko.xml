@@ -29,7 +29,6 @@
     <string name="Christmas">聖誕節</string>
     <string name="Valentine">情人節</string>
     <string name="DeleteDownloadedFile">刪除緩存的文件</string>
-    <string name="TestBackend">異世界</string>
     <string name="TestBackendOn">此賬户將連接至測試後端服務器。</string>
     <string name="TestBackendOff">此賬户將連接至生產後端服務器。</string>
     <string name="ViewHistory">顯示歷史消息</string>

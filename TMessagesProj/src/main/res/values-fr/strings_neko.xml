@@ -29,7 +29,6 @@
     <string name="Christmas">Noël</string>
     <string name="Valentine">Saint Valentin</string>
     <string name="DeleteDownloadedFile">Supprimer des fichiers téléchargés</string>
-    <string name="TestBackend">Serveur de test</string>
     <string name="TestBackendOn">Ce compte se connectera au serveur de test.</string>
     <string name="TestBackendOff">Ce compte sera déconnecter du serveur de test.</string>
     <string name="ViewHistory">Afficher l\'historique</string>

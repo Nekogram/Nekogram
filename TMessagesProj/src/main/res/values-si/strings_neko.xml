@@ -27,7 +27,6 @@
     <string name="Christmas">නත්තල්</string>
     <string name="Valentine">ආදරන්තයන්ගේ දිනය</string>
     <string name="DeleteDownloadedFile">බාගත කරගත ගොනුව මකා දමන්න</string>
-    <string name="TestBackend">පරීක්ෂණ පසුබිම</string>
     <string name="TestBackendOn">මෙම ගිණුම පරීක්ෂණ පසුබිම සදහා සම්බන්ධ වේවි.</string>
     <string name="TestBackendOff">මෙම ගිණුම පරීක්ෂණ පසුබිම සදහා සම්බන්ධ වේවි.</string>
     <string name="ViewHistory">පසුගිය මැසේජ පෙන්වන්න</string>

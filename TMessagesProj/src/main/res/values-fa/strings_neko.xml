@@ -29,7 +29,6 @@
     <string name="Christmas">کریسمس</string>
     <string name="Valentine">روز ولنتاین</string>
     <string name="DeleteDownloadedFile">حذف فایل دانلود شده</string>
-    <string name="TestBackend">تست Backend</string>
     <string name="TestBackendOn">این حساب به پشتیبان آزمایشی متصل می شود.</string>
     <string name="TestBackendOff">این حساب به باطن تولید متصل می شود.</string>
     <string name="ViewHistory">مشاهده تاریخچه</string>

@@ -29,7 +29,6 @@
     <string name="Christmas">圣诞节</string>
     <string name="Valentine">情人节</string>
     <string name="DeleteDownloadedFile">删除缓存的文件</string>
-    <string name="TestBackend">异世界</string>
     <string name="TestBackendOn">此账户将连接至测试后端服务器。</string>
     <string name="TestBackendOff">此账户将连接至生产后端服务器。</string>
     <string name="ViewHistory">显示历史消息</string>

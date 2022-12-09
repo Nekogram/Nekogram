@@ -29,7 +29,6 @@
     <string name="Christmas">Weihnachten</string>
     <string name="Valentine">Valentinstag</string>
     <string name="DeleteDownloadedFile">Heruntergeladene Datei löschen</string>
-    <string name="TestBackend">Test-Backend</string>
     <string name="TestBackendOn">Dieses Konto wird mit dem Test-Backend verbunden.</string>
     <string name="TestBackendOff">Dieses Konto wird mit dem Release-Backend verbunden.</string>
     <string name="ViewHistory">Verlauf anzeigen</string>

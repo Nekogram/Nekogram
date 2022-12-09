@@ -29,7 +29,6 @@
     <string name="Christmas">क्रिसमस</string>
     <string name="Valentine">वेलेंटाइन डे</string>
     <string name="DeleteDownloadedFile">डाउनलोड की गई फ़ाइल को हटाएं</string>
-    <string name="TestBackend">टेस्ट बैकएंड</string>
     <string name="TestBackendOn">यह अकाउंट टेस्ट बैकएंड से कनेक्ट करेगा।</string>
     <string name="TestBackendOff">यह खाता प्रोडक्शन बैकएंड से कनेक्ट करेगा।</string>
     <string name="ViewHistory">इतिहास देखें</string>

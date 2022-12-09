@@ -29,7 +29,6 @@
     <string name="Christmas">Yılbaşı</string>
     <string name="Valentine">Sevgililer günü</string>
     <string name="DeleteDownloadedFile">İndirilen dosyayı sil</string>
-    <string name="TestBackend">Test Arka Ucu</string>
     <string name="TestBackendOn">Bu hesap test arka ucuna bağlanacak.</string>
     <string name="TestBackendOff">Bu hesap ürün arka ucuna bağlanacak.</string>
     <string name="ViewHistory">Geçmiş</string>
@@ -42,7 +41,7 @@
     <string name="Experiment">Deneysel</string>
     <string name="MessageDetails">Detaylar</string>
     <string name="DeleteAccount">Telegram hesabını sil</string>
-    <string name="TranslateFailed">Çeviri sunucu hatası</string>
+    <string name="TranslateFailed">Çeviri sunucusu hatası</string>
     <string name="TranslationProvider">Çeviri sağlayıcısı</string>
     <string name="ProviderGoogleTranslate">Google Çeviri</string>
     <string name="TranslateApiUnsupported">Seçtiğiniz çeviri sağlayıcısı dilinizi desteklemiyor.</string>
@@ -69,11 +68,11 @@
     <string name="About">Hakkında</string>
     <string name="IgnoreBlockedAbout">GERÇEKTEN GİZLEMEZ! Mesajlar görüntülenmeye devam eder, ancak metin spoilera dönüştürülür ve medya otomatik olarak indirilmez.</string>
     <string name="Donate">Bağış yap!</string>
-    <string name="DonateAbout">Gelişimimizi destekleyin.</string>
+    <string name="DonateAbout">Gelişmemizi destekleyin.</string>
     <string name="TranslationAbout">Nekogram\'ı dilinize çevirmemize yardımcı olun.</string>
     <string name="Translation">Nekogram\'ı diline çevir</string>
     <string name="GooglePlay">Google Play</string>
-    <string name="ResetStickerSize">Çıkartma boyutunu varsayılan yap</string>
+    <string name="ResetStickerSize">Çıkartma boyutunu sıfırla</string>
     <string name="RestartAppToTakeEffect">Etkili olması için uygulamayı yeniden başlatın.</string>
     <string name="DisableAppBarShadow">Başlık çubuğu gölgesini devre dışı bırak</string>
     <string name="MediaPreview">Sohbet listesinde medya önizlemesi</string>
@@ -249,6 +248,8 @@
     <string name="UploadloadSpeedBoost">Yükleme hızını arttır</string>
     <string name="NoUpdateAvailablePlay">Lütfen Play Store\'da güncellemeyi kontrol edin.</string>
     <string name="NoUpdateAvailablePlayDelay">Play Store\'daki güncelleme, Google\'ın incelemesi nedeniyle doğrudan indirilebilen APK sürümlerinden genellikle daha yavaş gelir.</string>
+    <string name="ProviderTelegram">Telegram</string>
+    <string name="DisableStickersAutoReorder">Çıkartma paketlerinin otomatik yeniden sıralanmasını devre dışı bırak</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Erişilebilirlik ayarları</string>
     <string name="AccSeekbarHeading">Arama çubuğu ayarları</string>

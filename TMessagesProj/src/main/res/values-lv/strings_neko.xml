@@ -6,7 +6,7 @@
     <string name="HidePhone">Paslēpt manu tālruņa numuru</string>
     <string name="DeleteAllFromSelf">Dzēst savus ziņojumus</string>
     <string name="DeleteAllFromSelfAlert">Brīdinājums! Tas **izdzēsīs visus jūsu** ziņojumus šajā tērzēšanā **visiem** dalībniekiem.</string>
-    <string name="BotLogin">Bot Pieteikšanās</string>
+    <string name="BotLogin">Botu pieteikšanās</string>
     <string name="InvalidAccessToken">Nederīgs piekļuves žetons</string>
     <string name="IgnoreBlocked">Slēpt ziņojumus no bloķēta lietotāja</string>
     <string name="Connection">Savienojums</string>
@@ -29,11 +29,10 @@
     <string name="Christmas">Ziemassvētki</string>
     <string name="Valentine">Valentīna diena</string>
     <string name="DeleteDownloadedFile">Lejupielādētā faila dzēšana</string>
-    <string name="TestBackend">Testēšanas backend</string>
     <string name="TestBackendOn">Šis konts tiks savienots ar testa backend.</string>
     <string name="TestBackendOff">Šis konts tiks savienots ar testa backend.</string>
     <string name="ViewHistory">Skatīt vēsturi</string>
-    <string name="Nya">Māsiņa!</string>
+    <string name="Nya">Mjau!</string>
     <string name="SensitiveDisableFiltering">Izslēgt sensitīva satura filtrēšanu</string>
     <string name="SensitiveAbout">Rādiet sensitīvus multivides failus publiskajos kanālos visās ierīcēs.</string>
     <string name="StickerSize">Uzlīmes izmērs</string>
@@ -239,6 +238,18 @@
     <string name="AppIconCloud">Mākonis</string>
     <string name="AppIconNeon">Neona</string>
     <string name="AppIconMaterial">Materiāls</string>
+    <string name="RecentChats">Pēdējās tērzēšanas sarunas</string>
+    <string name="ClearRecentChats">Notīrīt pēdējās tērzēšanas sarunas</string>
+    <string name="ClearRecentChatAlert">Vai vēlaties notīrīt pēdējās tērzēšanas sarunas?</string>
+    <string name="DownloadSpeedBoost">Lejupielādes ātruma palielināšana</string>
+    <string name="DownloadSpeedBoostNone">Izslēgts</string>
+    <string name="DownloadSpeedBoostAverage">Ieslēgts</string>
+    <string name="DownloadSpeedBoostExtreme">Ekstrēms</string>
+    <string name="UploadloadSpeedBoost">Augšupielādes ātruma palielināšana</string>
+    <string name="NoUpdateAvailablePlay">Lūdzu, pārbaudiet atjauninājumu Play veikalā.</string>
+    <string name="NoUpdateAvailablePlayDelay">Google pārskatīšanas dēļ Play veikalā atjauninājumi parasti tiek veikti lēnāk nekā tiešos APK.</string>
+    <string name="ProviderTelegram">Telegramma</string>
+    <string name="DisableStickersAutoReorder">Atspējot uzlīmju paku automātisko pārkārtošanu</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Pieejamības iestatījumi</string>
 </resources>

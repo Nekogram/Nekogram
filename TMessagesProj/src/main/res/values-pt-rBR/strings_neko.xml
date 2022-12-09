@@ -29,7 +29,6 @@
     <string name="Christmas">Natal</string>
     <string name="Valentine">Dia dos Namorados</string>
     <string name="DeleteDownloadedFile">Excluir arquivo baixado</string>
-    <string name="TestBackend">Testar backend</string>
     <string name="TestBackendOn">Esta conta se conectará ao servidor de testes do Telegram.</string>
     <string name="TestBackendOff">Esta conta se conectará ao back-end de produção.</string>
     <string name="ViewHistory">Ver histórico</string>

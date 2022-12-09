@@ -29,7 +29,6 @@
     <string name="Christmas">Giáng sinh</string>
     <string name="Valentine">Ngày lễ tình nhân</string>
     <string name="DeleteDownloadedFile">Xóa tệp đã tải xuống</string>
-    <string name="TestBackend">Kiểm tra cuối</string>
     <string name="TestBackendOn">Tài khoản này sẽ kết nối với phụ trợ thử nghiệm.</string>
     <string name="TestBackendOff">Tài khoản này sẽ kết nối với phụ trợ sản xuất.</string>
     <string name="ViewHistory">Xem lịch sử</string>

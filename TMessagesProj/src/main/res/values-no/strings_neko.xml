@@ -26,7 +26,6 @@
     <string name="Christmas">Jul</string>
     <string name="Valentine">Valentinsdag</string>
     <string name="DeleteDownloadedFile">Slett nedlastet fil</string>
-    <string name="TestBackend">Test Backend</string>
     <string name="TestBackendOn">Denne kontoen kobles til test-backend.</string>
     <string name="TestBackendOff">Denne kontoen kobles til test-backend.</string>
     <string name="ViewHistory">Vis historikk</string>
