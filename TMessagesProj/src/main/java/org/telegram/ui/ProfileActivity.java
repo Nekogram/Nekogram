@@ -3810,8 +3810,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         idTextView.setAlpha(1.0f);
         idTextView.setTag(1.0f);
         idTextView.setVisibility(NekoConfig.idType == NekoConfig.ID_TYPE_HIDDEN ? View.GONE : View.VISIBLE);
+        idTextView.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(2), AndroidUtilities.dp(4), AndroidUtilities.dp(2));
         idTextView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-        avatarContainer2.addView(idTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118, 0, 48, 0));
+        avatarContainer2.addView(idTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118 - 4, -2, 4, 0));
 
         mediaCounterTextView = new AudioPlayerAlert.ClippingTextViewSwitcher(context) {
             @Override
