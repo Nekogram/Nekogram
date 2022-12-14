@@ -1577,6 +1577,10 @@ public class RecyclerListView extends RecyclerView {
     }
 
     public void setSelectorDrawableColor(int color) {
+        if (color == 0) {
+            selectorDrawable = null;
+            return;
+        }
         if (selectorDrawable != null) {
             selectorDrawable.setCallback(null);
         }
