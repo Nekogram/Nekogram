@@ -35,6 +35,9 @@
     <item name="menu_reload_page" type="id"/>
     <item name="menu_delete_bot" type="id"/>
 
+    <item name="id_dc" type="id"/>
+    <item name="id_copy" type="id"/>
+
     <!-- there are required for focusing order customization on the passcode screen -->
     <item name="passcode_btn_1" type="id"/>
     <item name="passcode_btn_2" type="id"/>

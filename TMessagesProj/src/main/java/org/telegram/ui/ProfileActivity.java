@@ -202,7 +202,6 @@ import org.telegram.ui.Components.SharedMediaLayout;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.StickerEmptyView;
 import org.telegram.ui.Components.TimerDrawable;
-import org.telegram.ui.Components.TranslateAlert;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.UndoView;
 import org.telegram.ui.Components.voip.VoIPHelper;
@@ -216,6 +215,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
@@ -231,6 +231,7 @@ import java.util.zip.ZipOutputStream;
 import tw.nekomimi.nekogram.BackButtonMenuRecent;
 import tw.nekomimi.nekogram.DatacenterActivity;
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.SimpleTextViewSwitcher;
 import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 import tw.nekomimi.nekogram.translator.popupwrapper.AutoTranslatePopupWrapper;
@@ -251,7 +252,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private SimpleTextView[] nameTextView = new SimpleTextView[2];
     private String nameTextViewRightDrawableContentDescription = null;
     private SimpleTextView[] onlineTextView = new SimpleTextView[2];
-    private SimpleTextView idTextView;
+    private SimpleTextViewSwitcher idTextView;
     private AudioPlayerAlert.ClippingTextViewSwitcher mediaCounterTextView;
     private RLottieImageView writeButton;
     private AnimatorSet writeButtonAnimation;
@@ -1334,6 +1335,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     invalidateIndicatorRect(prevPage != realPosition);
                     prevPage = realPosition;
                     updateAvatarItems();
+                    if (isPulledDown) updateIdText(true, true);
                 }
 
                 @Override
@@ -1350,6 +1352,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     invalidateIndicatorRect(false);
                     refreshVisibility(1f);
                     updateAvatarItems();
+                    if (isPulledDown) updateIdText(true, true);
                 }
             });
         }
@@ -2175,6 +2178,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             getMessagesStorage().clearUserPhoto(userId, photo.id);
                         }
                         if (avatarsViewPager.removePhotoAtIndex(position)) {
+                            updateIdText(false, true);
                             avatarsViewPager.setVisibility(View.GONE);
                             avatarImage.setForegroundAlpha(1f);
                             avatarContainer.setVisibility(View.VISIBLE);
@@ -3776,7 +3780,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                     });
                     showDialog(builder.create());
-                    return false;
+                    return true;
                 });
                 nameTextView[a].setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             }
@@ -3803,15 +3807,42 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         avatarContainer2.addView(animatedStatusView);
 
-        idTextView = new SimpleTextView(context);
-        idTextView.setTextColor(getThemedColor(Theme.key_avatar_subtitleInProfileBlue));
-        idTextView.setTextSize(14);
-        idTextView.setGravity(Gravity.LEFT);
-        idTextView.setAlpha(1.0f);
-        idTextView.setTag(1.0f);
-        idTextView.setVisibility(NekoConfig.idType == NekoConfig.ID_TYPE_HIDDEN ? View.GONE : View.VISIBLE);
-        idTextView.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(2), AndroidUtilities.dp(4), AndroidUtilities.dp(2));
-        idTextView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+        idTextView = new SimpleTextViewSwitcher(context);
+        idTextView.setFactory(() -> {
+            SimpleTextView view = new SimpleTextView(context);
+            view.setTextColor(getThemedColor(Theme.key_avatar_subtitleInProfileBlue));
+            view.setTextSize(14);
+            view.setGravity(Gravity.LEFT);
+            view.setAlpha(1.0f);
+            view.setTag(1.0f);
+            view.setVisibility(NekoConfig.idType == NekoConfig.ID_TYPE_HIDDEN ? View.GONE : View.VISIBLE);
+            view.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(2), AndroidUtilities.dp(4), AndroidUtilities.dp(2));
+            view.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+            return view;
+        });
+        idTextView.setInAnimation(context, R.anim.alpha_in);
+        idTextView.setOutAnimation(context, R.anim.alpha_out);
+        idTextView.setOnClickListener(v -> {
+            Object tag = idTextView.getTag(R.id.id_dc);
+            if (tag instanceof Integer) {
+                presentFragment(new DatacenterActivity((int) tag));
+            }
+        });
+        idTextView.setOnLongClickListener(v -> {
+            Object tag = idTextView.getTag(R.id.id_copy);
+            if (tag instanceof Long) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
+                builder.setItems(new CharSequence[]{LocaleController.getString("CopyID", R.string.CopyID)}, new int[]{R.drawable.msg_copy}, (dialogInterface, i) -> {
+                    if (i == 0) {
+                        AndroidUtilities.addToClipboard(String.valueOf(tag));
+                        BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                    }
+                });
+                showDialog(builder.create());
+                return true;
+            }
+            return false;
+        });
         avatarContainer2.addView(idTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118 - 4, -2, 4, 0));
 
         mediaCounterTextView = new AudioPlayerAlert.ClippingTextViewSwitcher(context) {
@@ -4123,6 +4154,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         contentView.blurBehindViews.add(sharedMediaLayout);
         updateTtlIcon();
         BackButtonMenuRecent.addToRecentDialogs(currentAccount, userId != 0 ? userId : -chatId);
+        updateIdText(false, false);
         return fragmentView;
     }
 
@@ -5492,6 +5524,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             searchItem.setEnabled(false);
                         }
                         isPulledDown = true;
+                        updateIdText(true, true);
                         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, true);
                         overlaysView.setOverlaysVisible(true, durationFactor);
                         avatarsViewPagerIndicatorView.refreshVisibility(durationFactor);
@@ -5541,6 +5574,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 } else {
                     if (isPulledDown) {
                         isPulledDown = false;
+                        updateIdText(false, true);
                         NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.needCheckSystemBarColors, true);
                         if (otherItem != null) {
                             otherItem.hideSubItem(gallery_menu_save);
@@ -7229,7 +7263,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             onlineTextOverride = null;
         }
 
-        long id = 0;
         TLRPC.TL_forumTopic topic = null;
 
         if (userId != 0) {
@@ -7418,15 +7451,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 previousTransitionFragment.checkAndUpdateAvatar();
             }
             avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(photoBig), false);
-
-            id = userId;
-            int dc = user.photo != null && user.photo.dc_id != 0 ? user.photo.dc_id : UserObject.isUserSelf(user) ? getConnectionsManager().getCurrentDatacenterId() : 0;
-            if (dc != 0) {
-                idTextView.setText("ID: " + id + ", DC: " + dc);
-                idTextView.setOnClickListener(v -> presentFragment(new DatacenterActivity(dc)));
-            } else {
-                idTextView.setText("ID: " + id);
-            }
         } else if (chatId != 0) {
             TLRPC.Chat chat = getMessagesController().getChat(chatId);
             if (chat != null) {
@@ -7647,31 +7671,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 getFileLoader().loadFile(imageLocation, chat, null, FileLoader.PRIORITY_LOW, 1);
             }
             avatarImage.getImageReceiver().setVisible(!PhotoViewer.isShowingImage(photoBig), false);
-
-            if (NekoConfig.idType == NekoConfig.ID_TYPE_BOTAPI) {
-                if (ChatObject.isChannel(chat)) {
-                    id = -1000000000000L - chat.id;
-                } else {
-                    id = - chat.id;
-                }
-            } else {
-                id = chatId;
-            }
-            idTextView.setText("ID: " + id);
-        }
-        if (id != 0) {
-            long finalId = id;
-            idTextView.setOnLongClickListener(v -> {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-                builder.setItems(new CharSequence[]{LocaleController.getString("CopyID", R.string.CopyID)}, new int[]{R.drawable.msg_copy}, (dialogInterface, i) -> {
-                    if (i == 0) {
-                        AndroidUtilities.addToClipboard(String.valueOf(finalId));
-                        BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
-                    }
-                });
-                showDialog(builder.create());
-                return false;
-            });
         }
 
         if (qrItem != null) {
@@ -10485,6 +10484,59 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         private void put(int id, int position, SparseIntArray sparseIntArray) {
             if (position >= 0) {
                 sparseIntArray.put(position, id);
+            }
+        }
+    }
+
+    private void updateIdText(boolean showDate, boolean animated) {
+        if (!showDate && isPulledDown && !animated) {
+            return;
+        }
+        idTextView.setTag(R.id.id_dc, null);
+        idTextView.setTag(R.id.id_copy, null);
+        if (!showDate) {
+            long id;
+            if (userId != 0) {
+                id = userId;
+                TLRPC.User user = getMessagesController().getUser(userId);
+                int dc = user.photo != null && user.photo.dc_id != 0 ? user.photo.dc_id : UserObject.isUserSelf(user) ? getConnectionsManager().getCurrentDatacenterId() : 0;
+                if (dc != 0) {
+                    idTextView.setText("ID: " + id + ", DC: " + dc, animated);
+                    idTextView.setTag(R.id.id_dc, dc);
+                } else {
+                    idTextView.setText("ID: " + id, animated);
+                }
+            } else if (chatId != 0) {
+                TLRPC.Chat chat = getMessagesController().getChat(chatId);
+                if (NekoConfig.idType == NekoConfig.ID_TYPE_BOTAPI) {
+                    if (ChatObject.isChannel(chat)) {
+                        id = -1000000000000L - chat.id;
+                    } else {
+                        id = - chat.id;
+                    }
+                } else {
+                    id = chatId;
+                }
+                idTextView.setText("ID: " + id, animated);
+            } else {
+                id = 0;
+            }
+            if (id != 0) {
+                idTextView.setTag(R.id.id_copy, id);
+            }
+        } else {
+            int position = avatarsViewPager.getRealPosition();
+            TLRPC.Photo avatar = avatarsViewPager.getPhoto(position);
+            if (avatar == null) {
+                return;
+            }
+            long date = (long) avatar.date * 1000;
+            if (date != 0) {
+                String dateString = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(date)), LocaleController.getInstance().formatterDay.format(new Date(date))) + ", DC: " + avatar.dc_id;
+                idTextView.setText(dateString, animated);
+                idTextView.setTag(R.id.id_dc, avatar.dc_id);
+            } else {
+                idTextView.setText("", animated);
             }
         }
     }
