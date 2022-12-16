@@ -26758,10 +26758,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             ApplicationLoader.applicationContext.startActivity(chooserIntent);
                         }
                     });
+                    ChatMessageCell finalCell = cell;
+                    builder.setOnPreDismissListener(di -> {
+                        if (finalCell != null) {
+                            finalCell.resetPressedLink(-1);
+                        }
+                    });
                     showDialog(builder.create());
                 }
-            }
-            if (longPress && cell != null) {
+            } else if (longPress && cell != null) {
                 cell.resetPressedLink(-1);
             }
         } else if (url instanceof URLSpanUserMention) {

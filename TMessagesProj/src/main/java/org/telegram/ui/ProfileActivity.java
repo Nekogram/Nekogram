@@ -4744,6 +4744,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
 
             showDialog(dialog);
+            return true;
         } else if (position == phoneRow || position == numberRow) {
             final TLRPC.User user = getMessagesController().getUser(userId);
             if (user == null || user.phone == null || user.phone.length() == 0 || getParentActivity() == null) {
