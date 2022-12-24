@@ -7952,7 +7952,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     chatActivityEnterView.getEmojiView().onMessageSend();
                 }
 
-                if (!getMessagesController().premiumLocked && !getMessagesController().didPressTranscribeButtonEnough() && !getUserConfig().isPremium() && !TextUtils.isEmpty(message) && messages != null) {
+                if (false && !getMessagesController().premiumLocked && !getMessagesController().didPressTranscribeButtonEnough() && !getUserConfig().isPremium() && !TextUtils.isEmpty(message) && messages != null) {
                     for (int i = 1; i < Math.min(5, messages.size()); ++i) {
                         MessageObject msg = messages.get(i);
                         if (msg != null && !msg.isOutOwner() && (msg.isVoice() || msg.isRoundVideo()) && msg.isContentUnread()) {
