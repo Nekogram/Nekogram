@@ -8,7 +8,7 @@ import android.os.Build;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import org.tcp2ws.tcp2wsServer;
+import org.tcp2ws.Tcp2WsServer;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildConfig;
@@ -143,7 +143,7 @@ public class NekoConfig {
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
     private static boolean tcp2wsStarted = false;
-    private static tcp2wsServer tcp2wsServer;
+    private static Tcp2WsServer tcp2wsServer;
     public static boolean wsEnableTLS = true;
     public static boolean wsUseMTP = false;
     public static boolean wsUseDoH = true;
@@ -204,7 +204,7 @@ public class NekoConfig {
             }
             if (!tcp2wsStarted) {
                 // TODO: new domains
-                tcp2wsServer = new tcp2wsServer()
+                tcp2wsServer = (Tcp2WsServer) new Tcp2WsServer()
                         .setTgaMode(false)
                         .setTls(wsEnableTLS)
                         .setIfMTP(wsUseMTP)
