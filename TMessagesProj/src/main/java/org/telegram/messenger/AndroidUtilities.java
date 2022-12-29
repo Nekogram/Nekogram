@@ -1611,7 +1611,7 @@ public class AndroidUtilities {
         synchronized (typefaceCache) {
             if (!typefaceCache.containsKey(assetPath)) {
                 try {
-                    Typeface t = null;
+                    Typeface t;
                     switch (assetPath) {
                         case "fonts/rmedium.ttf":
                             t = Typeface.create("sans-serif-medium", Typeface.NORMAL);
@@ -1625,12 +1625,22 @@ public class AndroidUtilities {
                         case "fonts/rmono.ttf":
                             t = Typeface.MONOSPACE;
                             break;
-                        case "fonts/mw_bold.ttf":
-                            t = Typeface.create("serif", Typeface.BOLD);
-                            break;
                         case "fonts/rcondensedbold.ttf":
                             t = Typeface.create("sans-serif-condensed", Typeface.BOLD);
                             break;
+                        default:
+                            if (Build.VERSION.SDK_INT >= 26) {
+                                Typeface.Builder builder = new Typeface.Builder(ApplicationLoader.applicationContext.getAssets(), assetPath);
+                                if (assetPath.contains("medium")) {
+                                    builder.setWeight(700);
+                                }
+                                if (assetPath.contains("italic")) {
+                                    builder.setItalic(true);
+                                }
+                                t = builder.build();
+                            } else {
+                                t = Typeface.createFromAsset(ApplicationLoader.applicationContext.getAssets(), assetPath);
+                            }
                     }
                     typefaceCache.put(assetPath, t);
                 } catch (Exception e) {
