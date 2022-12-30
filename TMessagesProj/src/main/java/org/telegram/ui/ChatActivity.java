@@ -948,7 +948,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int OPTION_TRANSCRIBE = 30;
     private final static int OPTION_HIDE_SPONSORED_MESSAGE = 31;
     private final static int OPTION_VIEW_IN_TOPIC = 32;
-    private final static int OPTION_REVEAL = 84;
     private final static int OPTION_SET_REMINDER = 85;
     private final static int OPTION_COPY_PHOTO = 86;
     private final static int OPTION_SAVE_TO_GALLERY_STICKER = 87;
@@ -23543,11 +23542,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     options.add(OPTION_DETAILS);
                     icons.add(R.drawable.msg_info);
                 }
-                if (selectedObject.shouldBlockMessage()) {
-                    items.add(LocaleController.getString("Show", R.string.Show));
-                    options.add(OPTION_REVEAL);
-                    icons.add(R.drawable.msg_message);
-                }
             }
 
             if (options.isEmpty() && optionsView == null) {
@@ -25498,9 +25492,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 });
                 builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
                 showDialog(builder.create());
-                break;
-            } case OPTION_REVEAL: {
-                getMessageHelper().revealMessageContent(dialog_id, selectedObject);
                 break;
             } case OPTION_COPY_PHOTO: {
                 getMessageHelper().addMessageToClipboard(selectedObject, () -> {
@@ -28245,10 +28236,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             createMenu(cell, false, false, x, y);
                             return;
                         } else if (message.isSending()) {
-                            return;
-                        }
-                        if (message.shouldBlockMessage() && cell.getPhotoImage().isForcePreview()) {
-                            getMessageHelper().revealMessageContent(dialog_id, message);
                             return;
                         }
                         if (message.isDice()) {

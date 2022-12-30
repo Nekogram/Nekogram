@@ -356,7 +356,7 @@ public class MessageObject {
     }
 
     public boolean hasMediaSpoilers() {
-        return messageOwner.media != null && messageOwner.media.spoiler;
+        return messageOwner.media != null && messageOwner.media.spoiler || shouldBlockMessage();
     }
 
     public boolean shouldDrawReactionsInLayout() {
@@ -5900,10 +5900,8 @@ public class MessageObject {
         return message.dialog_id;
     }
 
-    public boolean revealed = false;
-
     public boolean shouldBlockMessage() {
-        if (!NekoConfig.ignoreBlocked || revealed) {
+        if (!NekoConfig.ignoreBlocked) {
             return false;
         }
         var messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
