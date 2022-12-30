@@ -13,6 +13,7 @@ import androidx.core.util.Pair;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
+import org.telegram.messenger.UserConfig;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -46,7 +47,7 @@ public class Translator {
         if (NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL) {
             Translator.startExternalTranslator(context, query);
         } else {
-            TranslateAlert.showAlert(context, fragment, sourceLanguage, NekoConfig.translationTarget, query, noforwards, onLinkPress, null);
+            TranslateAlert.showAlert(context, fragment, UserConfig.selectedAccount, sourceLanguage, NekoConfig.translationTarget, query, noforwards, onLinkPress, null);
         }
     }
 

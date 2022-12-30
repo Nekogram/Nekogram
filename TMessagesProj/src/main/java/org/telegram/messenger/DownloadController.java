@@ -1261,8 +1261,10 @@ public class DownloadController extends BaseController implements NotificationCe
 
         AndroidUtilities.runOnUIThread(() -> {
             boolean removed = false;
+            TLRPC.Document parentDocument = parentObject.getDocument();
             for (int i = 0; i < downloadingFiles.size(); i++) {
-                if (downloadingFiles.get(i).getDocument().id == parentObject.getDocument().id) {
+                TLRPC.Document downloadingDocument = downloadingFiles.get(i).getDocument();
+                if (downloadingDocument == null || parentDocument != null && downloadingDocument.id == parentDocument.id) {
                     downloadingFiles.remove(i);
                     removed = true;
                     break;

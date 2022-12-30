@@ -745,7 +745,7 @@ public class FileRefController extends BaseController {
                             } else if (message.media.webpage != null) {
                                 result = getFileReference(message.media.webpage, requester.location, needReplacement, locationReplacement);
                             }
-                        } else if (message.action instanceof TLRPC.TL_messageActionChatEditPhoto) {
+                        } else if (message.action instanceof TLRPC.TL_messageActionChatEditPhoto || message.action instanceof TLRPC.TL_messageActionSuggestProfilePhoto) {
                             result = getFileReference(message.action.photo, requester.location, needReplacement, locationReplacement);
                         }
                         if (result != null) {

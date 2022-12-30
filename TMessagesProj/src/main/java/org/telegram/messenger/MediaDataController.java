@@ -66,7 +66,6 @@ import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.ChatThemeBottomSheet;
 import org.telegram.ui.Components.RLottieDrawable;
-import org.telegram.ui.Components.Reactions.ReactionsEffectOverlay;
 import org.telegram.ui.Components.StickerSetBulletinLayout;
 import org.telegram.ui.Components.StickersArchiveAlert;
 import org.telegram.ui.Components.TextStyleSpan;
@@ -657,7 +656,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void preloadDefaultReactions() {
-        if (reactionsList == null || reactionsCacheGenerated) {
+        if (reactionsList == null || reactionsCacheGenerated || SharedConfig.getLiteMode().enabled()) {
             return;
         }
         reactionsCacheGenerated = true;
@@ -670,8 +669,6 @@ public class MediaDataController extends BaseController {
 
         for (int i = 0; i < arrayList.size(); i++) {
             TLRPC.TL_availableReaction reaction = arrayList.get(i);
-            int size = ReactionsEffectOverlay.sizeForBigReaction();
-            preloadImage(ImageLocation.getForDocument(reaction.around_animation), ReactionsEffectOverlay.getFilterForAroundAnimation(), true);
             preloadImage(ImageLocation.getForDocument(reaction.effect_animation), null);
         }
     }
@@ -700,6 +697,14 @@ public class MediaDataController extends BaseController {
             }
         });
         imageReceiver.setFileLoadingPriority(FileLoader.PRIORITY_LOW);
+        imageReceiver.setUniqKeyPrefix("preload");
+        imageReceiver.setImage(location, filter, null, null, 0, FileLoader.PRELOAD_CACHE_TYPE);
+    }
+
+    public void preloadImage(ImageReceiver imageReceiver, ImageLocation location, String filter) {
+        if (SharedConfig.getLiteMode().enabled()) {
+            return;
+        }
         imageReceiver.setUniqKeyPrefix("preload");
         imageReceiver.setImage(location, filter, null, null, 0, FileLoader.PRELOAD_CACHE_TYPE);
     }
@@ -1070,6 +1075,16 @@ public class MediaDataController extends BaseController {
 
     public void putGroupStickerSet(TLRPC.TL_messages_stickerSet stickerSet) {
         groupStickerSets.put(stickerSet.set.id, stickerSet);
+    }
+
+    public static TLRPC.InputStickerSet getInputStickerSet(TLRPC.StickerSet set) {
+        if (set != null) {
+            TLRPC.TL_inputStickerSetID inputStickerSetID = new TLRPC.TL_inputStickerSetID();
+            inputStickerSetID.id = set.id;
+            inputStickerSetID.access_hash = set.access_hash;
+            return inputStickerSetID;
+        }
+        return null;
     }
 
     public TLRPC.TL_messages_stickerSet getStickerSet(TLRPC.InputStickerSet inputStickerSet, boolean cacheOnly) {

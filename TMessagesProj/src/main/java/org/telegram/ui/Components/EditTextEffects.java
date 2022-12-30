@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.Region;
+import android.os.Looper;
 import android.text.Editable;
 import android.text.Layout;
 import android.text.Spannable;
@@ -12,6 +13,7 @@ import android.view.MotionEvent;
 import android.widget.EditText;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.FileLog;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
 
@@ -35,8 +37,17 @@ public class EditTextEffects extends AppCompatEditText {
     private float lastRippleX, lastRippleY;
     private boolean postedSpoilerTimeout;
     private AnimatedEmojiSpan.EmojiGroupedSpans animatedEmojiDrawables;
+    protected boolean animatedEmojiRawDraw;
+    protected int animatedEmojiRawDrawFps;
+    protected int animatedEmojiOffsetX;
     private Layout lastLayout = null;
     private int lastTextLength;
+
+    public void incrementFrames(int frames) {
+        if (animatedEmojiDrawables != null) {
+            animatedEmojiDrawables.incrementFrames(frames);
+        }
+    }
 
     private Runnable spoilerTimeout = () -> {
         postedSpoilerTimeout = false;
@@ -57,7 +68,9 @@ public class EditTextEffects extends AppCompatEditText {
     public EditTextEffects(Context context) {
         super(context);
 
-        clickDetector = new SpoilersClickDetector(this, spoilers, this::onSpoilerClicked);
+        if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
+            clickDetector = new SpoilersClickDetector(this, spoilers, this::onSpoilerClicked);
+        }
     }
 
     private void onSpoilerClicked(SpoilerEffect eff, float x, float y) {
@@ -129,6 +142,10 @@ public class EditTextEffects extends AppCompatEditText {
         AnimatedEmojiSpan.release(this, animatedEmojiDrawables);
     }
 
+    public void recycleEmojis() {
+        AnimatedEmojiSpan.release(this, animatedEmojiDrawables);
+    }
+
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
@@ -164,7 +181,8 @@ public class EditTextEffects extends AppCompatEditText {
                         }
                     }
                 }
-            } catch (Exception ignored) {
+            } catch (Exception e) {
+                FileLog.e(e);
             }
         }
         updateAnimatedEmoji(true);
@@ -197,7 +215,7 @@ public class EditTextEffects extends AppCompatEditText {
     @Override
     public boolean dispatchTouchEvent(MotionEvent event) {
         boolean detector = false;
-        if (shouldRevealSpoilersByTouch && clickDetector.onTouchEvent(event)) {
+        if (shouldRevealSpoilersByTouch && clickDetector != null && clickDetector.onTouchEvent(event)) {
             int act = event.getActionMasked();
             if (act == MotionEvent.ACTION_UP) {
                 MotionEvent c = MotionEvent.obtain(0, 0, MotionEvent.ACTION_CANCEL, 0, 0, 0);
@@ -248,7 +266,14 @@ public class EditTextEffects extends AppCompatEditText {
         updateAnimatedEmoji(false);
         super.onDraw(canvas);
         if (animatedEmojiDrawables != null) {
-            AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), animatedEmojiDrawables, 0, spoilers, computeVerticalScrollOffset() - AndroidUtilities.dp(6), computeVerticalScrollOffset() + computeVerticalScrollExtent(), 0, 1f);
+            canvas.save();
+            canvas.translate(animatedEmojiOffsetX, 0);
+            if (animatedEmojiRawDraw) {
+                AnimatedEmojiSpan.drawRawAnimatedEmojis(canvas, getLayout(), animatedEmojiDrawables, 0, spoilers, computeVerticalScrollOffset() - AndroidUtilities.dp(6), computeVerticalScrollOffset() + computeVerticalScrollExtent(), 0, 1f, animatedEmojiRawDrawFps);
+            } else {
+                AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), animatedEmojiDrawables, 0, spoilers, computeVerticalScrollOffset() - AndroidUtilities.dp(6), computeVerticalScrollOffset() + computeVerticalScrollExtent(), 0, 1f);
+            }
+            canvas.restore();
         }
         canvas.restore();
 

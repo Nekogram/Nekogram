@@ -162,7 +162,6 @@
 
     <style name="TransparentDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowAnimationStyle">@style/DialogAnimation</item>
-        <item name="android:windowElevation">24dp</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:background">@null</item>
         <item name="android:windowContentOverlay">@null</item>
