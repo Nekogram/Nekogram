@@ -19,7 +19,7 @@ public class DeepLTranslator extends BaseTranslator {
             "bg", "cs", "da", "de", "el", "en-GB", "en-US", "en", "es",
             "et", "fi", "fr", "hu", "id", "it", "ja", "lt", "lv", "nl",
             "pl", "pt-BR", "pt-PT", "pt", "ro", "ru", "sk", "sl", "sv",
-            "tr", "zh");
+            "tr", "uk", "zh");
     private final DeepLTranslatorAndroid deeplTranslater = new DeepLTranslatorAndroid();
 
     private static final class InstanceHolder {

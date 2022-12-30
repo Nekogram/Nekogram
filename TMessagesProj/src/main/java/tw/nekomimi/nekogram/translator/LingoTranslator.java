@@ -13,7 +13,7 @@ import tw.nekomimi.nekogram.Extra;
 
 public class LingoTranslator extends BaseTranslator {
 
-    private final List<String> targetLanguages = Arrays.asList("zh", "en", "es", "fr", "ja", "ru");
+    private final List<String> targetLanguages = Arrays.asList("zh", "en", "ja", "ko", "es", "fr", "ru");
 
     private static final class InstanceHolder {
         private static final LingoTranslator instance = new LingoTranslator();
