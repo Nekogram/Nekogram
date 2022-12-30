@@ -1362,34 +1362,6 @@ public class PhotoPaintView extends FrameLayout implements IPhotoPaintView, Enti
             });
             parent.addView(duplicateView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 48));
 
-            float degrees = 0.0f;
-            final float r = entityView.getRotation();
-            if (r % 90.0f == 0) {
-                degrees = r + 90.0f;
-            }
-            if (degrees >= 360) {
-                degrees -= 360;
-            }
-            final float finalDegrees = degrees;
-
-            TextView rotationView = new TextView(getContext());
-            rotationView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
-            rotationView.setBackgroundDrawable(Theme.getSelectorDrawable(false));
-            rotationView.setGravity(Gravity.CENTER_VERTICAL);
-            rotationView.setPadding(AndroidUtilities.dp(14), 0, AndroidUtilities.dp(16), 0);
-            rotationView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-            rotationView.setTag(2);
-            rotationView.setText((int)degrees + "°");
-            rotationView.setOnClickListener(v -> {
-                editedTextRotation = finalDegrees;
-                entityView.setRotation(editedTextRotation);
-
-                if (popupWindow != null && popupWindow.isShowing()) {
-                    popupWindow.dismiss(true);
-                }
-            });
-            parent.addView(rotationView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 48));
-
             popupLayout.addView(parent);
 
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) parent.getLayoutParams();
