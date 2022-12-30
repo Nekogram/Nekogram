@@ -398,7 +398,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                 loadingUserCellRow = rowCount++;
             }
         } else if (type == TYPE_USERS) {
-            if (!ChatObject.isChannelAndNotMegaGroup(currentChat) && !needOpenSearch) {
+            if (ChatObject.hasAdminRights(currentChat) && !ChatObject.isChannelAndNotMegaGroup(currentChat) && !needOpenSearch) {
                 hideMembersRow = rowCount++;
                 hideMembersInfoRow = rowCount++;
             }
