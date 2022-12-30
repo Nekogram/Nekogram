@@ -1749,7 +1749,11 @@ public class MessagesStorage extends BaseController {
                     for (int a = 0; a < dialogs.size(); a++) {
                         long did = dialogs.keyAt(a);
                         ReadDialog dialog = dialogs.valueAt(a);
-                        getMessagesController().markDialogAsRead(did, dialog.lastMid, dialog.lastMid, dialog.date, false, 0, dialog.unreadCount, true, 0);
+                        if (getMessagesController().isForum(did)) {
+                            getMessagesController().markAllTopicsAsRead(did);
+                        } else {
+                            getMessagesController().markDialogAsRead(did, dialog.lastMid, dialog.lastMid, dialog.date, false, 0, dialog.unreadCount, true, 0);
+                        }
                     }
                 });
             } catch (Exception e) {
