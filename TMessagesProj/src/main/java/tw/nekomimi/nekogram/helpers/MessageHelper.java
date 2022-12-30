@@ -43,6 +43,7 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLRPC;
@@ -91,37 +92,40 @@ public class MessageHelper extends BaseController {
         void onResult(TLRPC.User user);
     }
 
-    public void openById(Long userId, BaseFragment fragment, Runnable runnable) {
-        if (userId == 0 || fragment == null) {
+    public void openById(Long userId, Activity activity, Runnable runnable, Browser.Progress progress) {
+        if (userId == 0 || activity == null) {
             return;
         }
         TLRPC.User user = getMessagesController().getUser(userId);
         if (user != null) {
             runnable.run();
         } else {
-            if (fragment.getParentActivity() == null) {
-                return;
-            }
-            AlertDialog[] progressDialog = new AlertDialog[]{new AlertDialog(fragment.getParentActivity(), 3)};
+            AlertDialog progressDialog = progress != null ? null : new AlertDialog(activity, AlertDialog.ALERT_TYPE_SPINNER);
 
             searchUser(userId, user1 -> {
-                try {
-                    progressDialog[0].dismiss();
-                } catch (Exception ignored) {
-
+                if (progress != null) {
+                    progress.end();
                 }
-                progressDialog[0] = null;
-                fragment.setVisibleDialog(null);
+                if (progressDialog != null) {
+                    try {
+                        progressDialog.dismiss();
+                    } catch (Exception ignored) {
+
+                    }
+                }
                 if (user1 != null && user1.access_hash != 0) {
                     runnable.run();
                 }
             });
-            AndroidUtilities.runOnUIThread(() -> {
-                if (progressDialog[0] == null) {
-                    return;
+            if (progress != null) {
+                progress.init();
+            } else {
+                try {
+                    progressDialog.showDelayed(300);
+                } catch (Exception ignore) {
+
                 }
-                fragment.showDialog(progressDialog[0]);
-            }, 500);
+            }
         }
     }
 

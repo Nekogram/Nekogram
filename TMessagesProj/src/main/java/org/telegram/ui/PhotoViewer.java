@@ -17690,7 +17690,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         } catch (Throwable ignore) {
 
         }
-        progressDialog = new AlertDialog(parentActivity, 3, resourcesProvider);
+        progressDialog = new AlertDialog(parentActivity, AlertDialog.ALERT_TYPE_SPINNER, resourcesProvider);
         progressDialog.showDelayed(400);
         Translator.translate(original, translateFromLanguage, new Translator.TranslateCallBack() {
             @Override

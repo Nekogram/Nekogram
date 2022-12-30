@@ -84,7 +84,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             sensitiveEnabled = !sensitiveEnabled;
             TLRPC.TL_account_setContentSettings req = new TLRPC.TL_account_setContentSettings();
             req.sensitive_enabled = sensitiveEnabled;
-            AlertDialog progressDialog = new AlertDialog(getParentActivity(), 3);
+            AlertDialog progressDialog = new AlertDialog(getParentActivity(), AlertDialog.ALERT_TYPE_SPINNER);
             progressDialog.show();
             getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
                 progressDialog.dismiss();
@@ -102,7 +102,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             builder.setTitle(LocaleController.getString("DeleteAccount", R.string.DeleteAccount));
             builder.setPositiveButton(LocaleController.getString("Deactivate", R.string.Deactivate), (dialog, which) -> {
                 if (BuildConfig.DEBUG) return;
-                final AlertDialog progressDialog = new AlertDialog(getParentActivity(), 3);
+                final AlertDialog progressDialog = new AlertDialog(getParentActivity(), AlertDialog.ALERT_TYPE_SPINNER);
                 progressDialog.setCanCancel(false);
 
                 ArrayList<TLRPC.Dialog> dialogs = new ArrayList<>(getMessagesController().getAllDialogs());

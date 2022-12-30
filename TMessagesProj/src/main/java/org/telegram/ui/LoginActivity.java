@@ -3164,7 +3164,7 @@ public class LoginActivity extends BaseFragment {
                 }
             }
 
-            AlertDialog progressDialog = new AlertDialog(getParentActivity(), 3);
+            AlertDialog progressDialog = new AlertDialog(getParentActivity(), AlertDialog.ALERT_TYPE_SPINNER);
             int requestId = getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
                 progressDialog.dismiss();
                 if (error == null) {

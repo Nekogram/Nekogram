@@ -2752,7 +2752,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 Bundle args = new Bundle();
                 args.putLong("user_id", profile_user_id);
                 ProfileActivity fragment = new ProfileActivity(args);
-                MessageHelper.getInstance(currentAccount).openById(profile_user_id, actionBarLayout.getFragmentStack().get(0), () -> {
+                MessageHelper.getInstance(currentAccount).openById(profile_user_id, this, () -> {
                     AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
                     if (AndroidUtilities.isTablet()) {
                         actionBarLayout.showLastFragment();
@@ -2761,7 +2761,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     } else {
                         drawerLayoutContainer.setAllowOpenDrawer(true, false);
                     }
-                });
+                }, progress);
             } else if (showDialogsList) {
                 if (!AndroidUtilities.isTablet()) {
                     actionBarLayout.removeAllFragments();
