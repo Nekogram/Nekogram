@@ -54,7 +54,7 @@
     <string name="ShowTabsOnForward">إظهار التبويبات عند إعادة التوجيه</string>
     <string name="CheckAllAdministrated">إضافة ادارة</string>
     <string name="RearVideoMessages">افتح الكاميرا الخلفية افتراضيا في رسائل الفيديو</string>
-    <string name="HideAllTab">إخفاء تبويب \"الجـمـيـع\"</string>
+    <string name="HideAllTab">إخفاء تبويب \"كل المحادثات\"</string>
     <string name="TabTitleType">نوع علامات التبويب</string>
     <string name="TabTitleTypeTip">تتم مزامنة الرموز عبر السحابة بواسطة Telegram</string>
     <string name="TabTitleTypeText">العناوين</string>
@@ -250,6 +250,8 @@
     <string name="UploadloadSpeedBoost">زيادة سرعة الرفع</string>
     <string name="NoUpdateAvailablePlay">يرجى التحقق من التحديث في متجر Play.</string>
     <string name="NoUpdateAvailablePlayDelay">عادةً ما يأتي التحديث في متجر Play أبطأ من ملفات APK المباشرة بسبب مراجعة Google.</string>
+    <string name="ProviderTelegram">تيليجرام</string>
+    <string name="DisableStickersAutoReorder">تعطيل إعادة ترتيب التلقائي لحزم الملصقات</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

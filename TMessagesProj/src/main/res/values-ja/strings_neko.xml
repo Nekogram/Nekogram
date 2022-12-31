@@ -27,7 +27,7 @@
     <string name="ChristmasHat">クリスマスの帽子を毎日表示</string>
     <string name="DependsOnDate">日付に依存</string>
     <string name="Christmas">クリスマス</string>
-    <string name="Valentine">バレンタイン</string>
+    <string name="Valentine">バレンタインデー</string>
     <string name="DeleteDownloadedFile">キャッシュを削除</string>
     <string name="TestBackendOn">このアカウントは、テストバックエンドに接続します。</string>
     <string name="TestBackendOff">このアカウントは、本番バックエンドに接続します。</string>

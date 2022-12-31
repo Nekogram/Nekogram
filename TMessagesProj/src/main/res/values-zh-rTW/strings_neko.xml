@@ -152,15 +152,35 @@
     <string name="ShareNekogram">分享 Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\n基於 Telegram %2$s\n由 %3$s 設計。</string>
     <string name="UpdateInstalling">安裝更新...</string>
+    <string name="UpdateInstallingNotification">更新完成後將顯示通知</string>
+    <string name="UpdateInstallingRelaunch">更新完成後, 應用程序將重新啟動</string>
+    <string name="UpdateInstalledNotification">更新完成, 點擊打開Nekogram</string>
+    <string name="UpdateFailedToInstall">更新失敗: %d</string>
     <string name="QRLoginMessage">掃描 QRCode，登入另一台設備。</string>
     <string name="QRLoginTitle">使用 QRCode 登入</string>
+    <string name="NoTranslatorAppInstalled">你沒有任何可以處理翻譯的應用程式, 請安裝一個來繼續</string>
+    <string name="DisableVoiceMessagesAutoPlay">停止自動播放語音訊息</string>
     <string name="TranslatorType">類型</string>
     <string name="TranslatorTypeNeko">消息下</string>
     <string name="TranslatorTypeTG">對話框</string>
     <string name="TranslatorTypeExternal">使用外部程序翻譯</string>
+    <string name="CopyPhoto">複製照片</string>
     <string name="PhotoCopied">圖片已拷貝！</string>
+    <string name="SaveToDownloadCount_zero">正在儲存%1$d到Downloads</string>
+    <string name="ThemesChannel">主題頻道</string>
+    <string name="AppLinkNotVerifiedMessage">在安卓12或更高的版本, 你需要手動加入連結來在Nekogram中打開 t.me 之類的連結</string>
     <string name="AutoTranslate">自動翻譯</string>
     <string name="DoubleTapAction">雙擊操作</string>
+    <string name="EditUndo">還原</string>
+    <string name="EditRedo">重做</string>
+    <string name="EditEnableMarkdown">開啟Markdown</string>
+    <string name="EditDisableMarkdown">關閉Markdown</string>
+    <string name="ProviderYouDaoTranslate">有道翻譯</string>
+    <string name="ProviderBaiduTranslate">百度翻譯</string>
+    <string name="ProviderSogouTranslate">搜狗翻譯</string>
+    <string name="Translating">翻譯中</string>
+    <string name="Translated">已翻譯</string>
+    <string name="PasscodeShowInSettingsAbout">隱藏之後, 你**只能**透過這個連結打開這個頁面:</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">可訪問性設置</string>
 </resources>

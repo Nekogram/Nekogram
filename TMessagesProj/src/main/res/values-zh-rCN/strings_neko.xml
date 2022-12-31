@@ -249,6 +249,7 @@
     <string name="UploadloadSpeedBoost">上传速度提升</string>
     <string name="NoUpdateAvailablePlay">请在 Play 商店检查更新。</string>
     <string name="NoUpdateAvailablePlayDelay">由于谷歌的审核，Play 商店中的更新通常比直接的 APK 来得慢。</string>
+    <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">禁用贴纸包自动重新排序</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
