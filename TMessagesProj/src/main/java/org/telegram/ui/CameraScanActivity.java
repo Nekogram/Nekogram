@@ -769,6 +769,7 @@ public class CameraScanActivity extends BaseFragment {
             if (currentType == TYPE_QR_WEB_BOT) {
                 descriptionText.setAlpha(1f - recognizedT);
             }
+            galleryButton.setAlpha(1f - recognizedT);
             flashButton.setAlpha(1f - recognizedT);
             backShadowAlpha = .5f + recognizedT * .25f;
             fragmentView.invalidate();
