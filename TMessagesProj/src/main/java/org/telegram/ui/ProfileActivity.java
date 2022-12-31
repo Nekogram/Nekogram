@@ -3931,18 +3931,18 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         avatarContainer2.addView(animatedStatusView);
 
         idTextView = new SimpleTextViewSwitcher(context);
+        idTextView.setVisibility(NekoConfig.idType == NekoConfig.ID_TYPE_HIDDEN ? View.GONE : View.VISIBLE);
         idTextView.setFactory(() -> {
             SimpleTextView view = new SimpleTextView(context);
             view.setTextColor(getThemedColor(Theme.key_avatar_subtitleInProfileBlue));
             view.setTextSize(14);
             view.setGravity(Gravity.LEFT);
-            view.setAlpha(1.0f);
-            view.setTag(1.0f);
-            view.setVisibility(NekoConfig.idType == NekoConfig.ID_TYPE_HIDDEN ? View.GONE : View.VISIBLE);
             view.setPadding(AndroidUtilities.dp(4), AndroidUtilities.dp(2), AndroidUtilities.dp(4), AndroidUtilities.dp(2));
             view.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             return view;
         });
+        idTextView.setAlpha(1.0f);
+        idTextView.setTag(1.0f);
         idTextView.setInAnimation(context, R.anim.alpha_in);
         idTextView.setOutAnimation(context, R.anim.alpha_out);
         idTextView.setOnClickListener(v -> {
@@ -10666,6 +10666,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void updateIdText(boolean showDate, boolean animated) {
+        if (NekoConfig.idType == NekoConfig.ID_TYPE_HIDDEN) {
+            return;
+        }
         if (!showDate && isPulledDown && !animated) {
             return;
         }
