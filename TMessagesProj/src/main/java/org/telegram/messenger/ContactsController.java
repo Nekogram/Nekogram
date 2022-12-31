@@ -747,7 +747,6 @@ public class ContactsController extends BaseController {
                 pCur = null;
             }
 
-            //TODO optimize
             Cursor cur = cr.query(ContactsContract.Contacts.CONTENT_URI, null,ContactsContract.Contacts.HAS_PHONE_NUMBER + " = ?", new String[]{"0"}, null);
             if (cur != null) {
                 String[] metadata = new String[5];
@@ -783,6 +782,8 @@ public class ContactsController extends BaseController {
                         }
                     }
 
+                    pCur.close();
+
                     if (phone != null) {
 
                         String shortNumber = phone;
@@ -805,7 +806,9 @@ public class ContactsController extends BaseController {
                         contactsMap.put(lookup_key, contact);
                     }
                 }
+                cur.close();
             }
+
         } catch (Throwable e) {
             FileLog.e(e);
             if (contactsMap != null) {

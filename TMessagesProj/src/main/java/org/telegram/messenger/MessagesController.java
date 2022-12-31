@@ -5336,7 +5336,6 @@ public class MessagesController extends BaseController implements NotificationCe
             getMessagesStorage().putDialogPhotos(did, res, messages);
         } else if (res == null || res.photos.isEmpty()) {
             loadDialogPhotos(did, count, maxId, false, classGuid);
-            return;
         }
         AndroidUtilities.runOnUIThread(() -> {
             putUsers(res.users, fromCache);
