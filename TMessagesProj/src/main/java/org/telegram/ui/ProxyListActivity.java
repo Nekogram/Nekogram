@@ -43,7 +43,6 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
@@ -219,6 +218,9 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
 
         public void setSelectionEnabled(boolean enabled, boolean animated) {
             if (isSelectionEnabled == enabled && animated) {
+                return;
+            }
+            if (NekoConfig.WS_ADDRESS.equals(currentInfo.address)) {
                 return;
             }
             isSelectionEnabled = enabled;
@@ -492,8 +494,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         });
         listView.setOnItemLongClickListener((view, position) -> {
             if (position >= proxyStartRow && position < proxyEndRow) {
-                listAdapter.toggleSelected(position);
-                return true;
+                return listAdapter.toggleSelected(position);
             }
             return false;
         });
@@ -613,6 +614,11 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
 
             boolean isChecking = checking;
             Collections.sort(proxyList, (o1, o2) -> {
+                if (NekoConfig.WS_ADDRESS.equals(o1.address)) {
+                    return -1;
+                } else if (NekoConfig.WS_ADDRESS.equals(o2.address)) {
+                    return 1;
+                }
                 long bias1 = SharedConfig.currentProxy == o1 ? -200000 : 0;
                 if (!o1.available) {
                     bias1 += 100000;
@@ -762,13 +768,13 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             setHasStableIds(true);
         }
 
-        public void toggleSelected(int position) {
+        public boolean toggleSelected(int position) {
             if (position < proxyStartRow || position >= proxyEndRow) {
-                return;
+                return false;
             }
             SharedConfig.ProxyInfo info = proxyList.get(position - proxyStartRow);
             if (info.address.equals(NekoConfig.WS_ADDRESS)) {
-                return;
+                return false;
             }
             if (selectedItems.contains(info)) {
                 selectedItems.remove(info);
@@ -777,6 +783,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             }
             notifyItemChanged(position, PAYLOAD_SELECTION_CHANGED);
             checkActionMode();
+            return true;
         }
 
         public void clearSelected() {
