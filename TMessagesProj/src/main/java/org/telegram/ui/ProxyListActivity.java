@@ -498,6 +498,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 builder.setTitle(LocaleController.getString(R.string.DeleteProxyTitle));
                 builder.setPositiveButton(LocaleController.getString(R.string.Delete), (dialog, which) -> {
                     for (SharedConfig.ProxyInfo info : proxyList) {
+                        if (NekoConfig.WS_ADDRESS.equals(info.address)) continue;
                         SharedConfig.deleteProxy(info);
                     }
                     useProxyForCalls = false;
