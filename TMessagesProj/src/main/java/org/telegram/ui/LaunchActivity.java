@@ -2476,7 +2476,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                     } else if (url.startsWith("tg:meow") || url.startsWith("tg://meow") || url.startsWith("tg:nya") || url.startsWith("tg://nya")) {
                                         showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("Nya", R.string.Nya)));
                                     } else if (url.startsWith("tg:upgrade") || url.startsWith("tg://upgrade") || url.startsWith("tg:update") || url.startsWith("tg://update")) {
-                                        checkAppUpdate(true);
+                                        checkAppUpdate(true, progress);
                                     } else if (url.startsWith("tg:donate") || url.startsWith("tg://donate")) {
                                         open_settings = 101;
                                     } else if (url.startsWith("tg:neko") || url.startsWith("tg://neko")) {
@@ -4855,8 +4855,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             sideMenu.setPadding(0, 0, 0, 0);
         }
     }
-
     public void checkAppUpdate(boolean force) {
+        checkAppUpdate(force, null);
+    }
+
+    public void checkAppUpdate(boolean force, Browser.Progress progress) {
         if (!force && BuildVars.DEBUG_VERSION || !force && !BuildVars.CHECK_UPDATES) {
             return;
         }
@@ -4864,6 +4867,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             return;
         }
         final int accountNum = currentAccount;
+        if (progress != null) progress.init();
         UpdateHelper.getInstance().checkNewVersionAvailable((res, error) -> {
             SharedConfig.lastUpdateCheckTime = System.currentTimeMillis();
             SharedConfig.saveConfig();
@@ -4896,6 +4900,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     drawerLayoutAdapter.notifyDataSetChanged();
                 }
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.appUpdateAvailable);
+                if (progress != null) progress.end();
             });
         });
     }
