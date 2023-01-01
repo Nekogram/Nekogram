@@ -69,7 +69,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
         if (!passcodeSet) {
-            BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("PasscodeNeeded", R.string.PasscodeNeeded)).show();
+            makePasscodeBulletin();
             return;
         }
         if (position > accountsStartRow && position < accountsEndRow) {
@@ -181,10 +181,14 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
     public void onResume() {
         passcodeSet = SharedConfig.passcodeHash.length() > 0;
         if (!passcodeSet) {
-            BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("PasscodeNeeded", R.string.PasscodeNeeded)).show();
+            makePasscodeBulletin();
         }
         updateRows();
         super.onResume();
+    }
+
+    private void makePasscodeBulletin() {
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.info, LocaleController.getString("PasscodeNeeded", R.string.PasscodeNeeded), LocaleController.getString("Passcode", R.string.Passcode), () -> presentFragment(PasscodeActivity.determineOpenFragment())).show();
     }
 
     @Override
