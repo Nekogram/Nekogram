@@ -2675,7 +2675,7 @@ public class AndroidUtilities {
     }
 
     public static boolean shouldShowClipboardToast() {
-        return (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || !OneUIUtilities.hasBuiltInClipboardToasts()) && Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU;
+        return (Build.VERSION.SDK_INT < Build.VERSION_CODES.S || !OneUIUtilities.hasBuiltInClipboardToasts()) && (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU || XiaomiUtilities.isMIUI());
     }
 
     public static boolean addToClipboard(CharSequence str) {
