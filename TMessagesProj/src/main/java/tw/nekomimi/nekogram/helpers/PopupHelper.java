@@ -1,6 +1,8 @@
 package tw.nekomimi.nekogram.helpers;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Path;
 import android.view.View;
 import android.widget.LinearLayout;
 
@@ -8,9 +10,13 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.ui.ActionBar.ActionBarMenuItem;
+import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AlertDialog;
+import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.RadioColorCell;
+import org.telegram.ui.Components.AlertsCreator;
 
 import java.util.ArrayList;
 
@@ -65,5 +71,31 @@ public class PopupHelper {
 
             mPopupWindow.show(itemView, container, 0);
         }
+    }
+
+    public static void showCopyPopup(BaseFragment fragment, CharSequence title, View anchorView, float x, float y, Runnable callback) {
+        Context context = fragment.getParentActivity();
+        ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, R.drawable.popup_fixed_alert, fragment.getResourceProvider()) {
+            final Path path = new Path();
+
+            @Override
+            protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+                canvas.save();
+                path.rewind();
+                AndroidUtilities.rectTmp.set(child.getLeft(), child.getTop(), child.getRight(), child.getBottom());
+                path.addRoundRect(AndroidUtilities.rectTmp, AndroidUtilities.dp(6), AndroidUtilities.dp(6), Path.Direction.CW);
+                canvas.clipPath(path);
+                boolean draw = super.drawChild(canvas, child, drawingTime);
+                canvas.restore();
+                return draw;
+            }
+        };
+        popupLayout.setFitItems(true);
+        ActionBarPopupWindow popupWindow = AlertsCreator.createSimplePopup(fragment, popupLayout, anchorView, x, y);
+        ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_copy, title, false, fragment.getResourceProvider()).setOnClickListener(v -> {
+            popupWindow.dismiss();
+            callback.run();
+        });
+        popupLayout.setParentWindow(popupWindow);
     }
 }

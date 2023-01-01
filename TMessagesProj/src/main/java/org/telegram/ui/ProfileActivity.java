@@ -65,6 +65,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.view.WindowManager;
+import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityNodeInfo;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
@@ -236,6 +237,7 @@ import tw.nekomimi.nekogram.DatacenterActivity;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.SimpleTextViewSwitcher;
 import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
+import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 import tw.nekomimi.nekogram.translator.popupwrapper.AutoTranslatePopupWrapper;
 import tw.nekomimi.nekogram.translator.Translator;
@@ -3844,6 +3846,20 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         info.setText(getText() + ", " + nameTextViewRightDrawableContentDescription);
                     }
                 }
+
+                @Override
+                public boolean performLongClick(float x, float y) {
+                    if (this.equals(nameTextView[1])) {
+                        sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_LONG_CLICKED);
+                        PopupHelper.showCopyPopup(ProfileActivity.this, LocaleController.getString("Copy", R.string.Copy), nameTextView[1], x, y, () -> {
+                            AndroidUtilities.addToClipboard(nameTextView[1].getText());
+                            BulletinFactory.of(ProfileActivity.this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                        });
+                        performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                        return true;
+                    }
+                    return false;
+                }
             };
             if (a == 1) {
                 nameTextView[a].setTextColor(getThemedColor(Theme.key_profile_title));
@@ -3860,17 +3876,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             nameTextView[a].setAlpha(a == 0 ? 0.0f : 1.0f);
             if (a == 1) {
                 nameTextView[a].setScrollNonFitText(true);
-                nameTextView[a].setOnLongClickListener(v -> {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-                    builder.setItems(new CharSequence[]{LocaleController.getString("Copy", R.string.Copy)}, new int[]{R.drawable.msg_copy}, (dialogInterface, i) -> {
-                        if (i == 0) {
-                            AndroidUtilities.addToClipboard(((SimpleTextView) v).getText());
-                            BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
-                        }
-                    });
-                    showDialog(builder.create());
-                    return true;
-                });
+                nameTextView[a].setLongClickable(true);
                 nameTextView[a].setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             }
             nameTextView[a].setFocusable(a == 0);
@@ -3932,7 +3938,22 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         checkPhotoDescriptionAlpha();
         avatarContainer2.addView(animatedStatusView);
 
-        idTextView = new SimpleTextViewSwitcher(context);
+        idTextView = new SimpleTextViewSwitcher(context) {
+            @Override
+            public boolean performLongClick(float x, float y) {
+                sendAccessibilityEvent(AccessibilityEvent.TYPE_VIEW_LONG_CLICKED);
+                Object tag = idTextView.getTag(R.id.id_copy);
+                if (tag instanceof Long) {
+                    PopupHelper.showCopyPopup(ProfileActivity.this, LocaleController.getString("CopyID", R.string.CopyID), idTextView, x, y, () -> {
+                        AndroidUtilities.addToClipboard(String.valueOf(tag));
+                        BulletinFactory.of(ProfileActivity.this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                    });
+                    performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
+                    return true;
+                }
+                return false;
+            }
+        };
         idTextView.setVisibility(NekoConfig.idType == NekoConfig.ID_TYPE_HIDDEN ? View.GONE : View.VISIBLE);
         idTextView.setFactory(() -> {
             SimpleTextView view = new SimpleTextView(context);
@@ -3953,21 +3974,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 presentFragment(new DatacenterActivity((int) tag));
             }
         });
-        idTextView.setOnLongClickListener(v -> {
-            Object tag = idTextView.getTag(R.id.id_copy);
-            if (tag instanceof Long) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-                builder.setItems(new CharSequence[]{LocaleController.getString("CopyID", R.string.CopyID)}, new int[]{R.drawable.msg_copy}, (dialogInterface, i) -> {
-                    if (i == 0) {
-                        AndroidUtilities.addToClipboard(String.valueOf(tag));
-                        BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
-                    }
-                });
-                showDialog(builder.create());
-                return true;
-            }
-            return false;
-        });
+        idTextView.setLongClickable(true);
         avatarContainer2.addView(idTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118 - 4, -2, 4, 0));
 
         mediaCounterTextView = new AudioPlayerAlert.ClippingTextViewSwitcher(context) {
