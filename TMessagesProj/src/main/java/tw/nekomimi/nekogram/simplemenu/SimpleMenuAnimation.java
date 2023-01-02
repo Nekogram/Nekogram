@@ -33,9 +33,6 @@ class SimpleMenuAnimation {
         Animator elevationAnimator = createElevationAnimator(view, elevation);
 
         AnimatorSet animatorSet = new AnimatorSet();
-        animatorSet.playTogether(
-                backgroundAnimator,
-                createElevationAnimator(view, elevation));
         animatorSet.playTogether(backgroundAnimator, elevationAnimator);
         animatorSet.setDuration(backgroundAnimator.getDuration());
         animatorSet.start();

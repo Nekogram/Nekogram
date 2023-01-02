@@ -329,7 +329,7 @@ public class SimpleMenuPopupWindow extends PopupWindow {
         int startLeft;
         int startRight;
 
-        if (!rtl) {
+        if (rtl) {
             startLeft = centerX;
             startRight = centerX + unit;
         } else {
