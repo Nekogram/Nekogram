@@ -1,9 +1,6 @@
 package tw.nekomimi.nekogram.settings;
 
-import android.app.assist.AssistContent;
 import android.content.Context;
-import android.net.Uri;
-import android.os.Build;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -14,7 +11,6 @@ import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
-import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 
 import java.util.ArrayList;
@@ -24,11 +20,11 @@ import tw.nekomimi.nekogram.helpers.PopupHelper;
 
 public class WsSettingsActivity extends BaseNekoSettingsActivity {
 
-    private int descriptionRow;
     private int settingsRow;
     private int enableTLSRow;
     private int localProxyRow;
     private int enableDoHRow;
+    private int settings2Row;
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
@@ -74,7 +70,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
         enableTLSRow = rowCount++;
         localProxyRow = rowCount++;
         enableDoHRow = rowCount++;
-        descriptionRow = rowCount++;
+        settings2Row = rowCount++;
     }
 
     @Override
@@ -91,6 +87,10 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
             switch (holder.getItemViewType()) {
+                case TYPE_SHADOW: {
+                    holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                    break;
+                }
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
@@ -116,32 +116,19 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
-                case TYPE_INFO_PRIVACY: {
-                    TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                    cell.setText(getSpannedString("WsDescription", R.string.WsDescription, "https://nekogram.app/proxy"));
-                    cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                    break;
-                }
             }
         }
 
         @Override
         public int getItemViewType(int position) {
-            if (position == descriptionRow) {
-                return TYPE_INFO_PRIVACY;
+            if (position == settings2Row) {
+                return TYPE_SHADOW;
             } else if (position == settingsRow) {
                 return TYPE_HEADER;
             } else if (position == enableTLSRow || position == enableDoHRow) {
                 return TYPE_CHECK;
             }
             return TYPE_SETTINGS;
-        }
-    }
-
-    @Override
-    public void onProvideAssistContent(AssistContent outContent) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            outContent.setWebUri(Uri.parse("https://nekogram.app/proxy"));
         }
     }
 }
