@@ -1624,16 +1624,16 @@ public class AndroidUtilities {
                 try {
                     Typeface t;
                     switch (assetPath) {
-                        case "fonts/rmedium.ttf":
+                        case TYPEFACE_ROBOTO_MEDIUM:
                             t = Typeface.create("sans-serif-medium", Typeface.NORMAL);
                             break;
                         case "fonts/ritalic.ttf":
                             t = Typeface.create("sans-serif", Typeface.ITALIC);
                             break;
-                        case "fonts/rmediumitalic.ttf":
+                        case TYPEFACE_ROBOTO_MEDIUM_ITALIC:
                             t = Typeface.create("sans-serif-medium", Typeface.ITALIC);
                             break;
-                        case "fonts/rmono.ttf":
+                        case TYPEFACE_ROBOTO_MONO:
                             t = Typeface.MONOSPACE;
                             break;
                         case "fonts/rcondensedbold.ttf":

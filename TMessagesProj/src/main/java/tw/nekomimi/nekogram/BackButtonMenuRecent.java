@@ -76,7 +76,7 @@ public class BackButtonMenuRecent {
         titleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlue));
         titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         titleTextView.setText(LocaleController.getString("RecentChats", R.string.RecentChats));
-        titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        titleTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         headerView.addView(titleTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 24, Gravity.LEFT));
 
         ImageView clearImageView = new ImageView(context);
