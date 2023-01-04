@@ -15047,6 +15047,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 info.ttl = entry.ttl;
                 info.videoEditedInfo = entry.editedInfo;
                 info.canDeleteAfter = entry.canDeleteAfter;
+                info.hasMediaSpoilers = entry.hasSpoiler;
                 photos.add(info);
                 entry.reset();
             }

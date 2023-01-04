@@ -2053,6 +2053,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     public interface PhotoViewerProvider {
+        default void spoilerPressed() {
+        }
         PlaceProviderObject getPlaceForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int index, boolean needPreview);
         ImageReceiver.BitmapHolder getThumbForPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int index);
         void willSwitchFromPhoto(MessageObject messageObject, TLRPC.FileLocation fileLocation, int index);
@@ -5591,11 +5593,18 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             sendPopupLayout.setShownFromBottom(false);
             sendPopupLayout.setBackgroundColor(0xf9222222);
 
+            Object currentObject = imagesArrLocals.get(currentIndex);
+            boolean canSpoiler = fragment instanceof ChatActivity && !((ChatActivity) fragment).isSecretChat() && currentObject instanceof MediaController.PhotoEntry;
+            boolean spoilerEnabled = false;
+            if (canSpoiler) {
+                MediaController.PhotoEntry entry = (MediaController.PhotoEntry) currentObject;
+                spoilerEnabled = entry.hasSpoiler;
+            }
             final boolean canReplace = placeProvider != null && placeProvider.canReplace(currentIndex);
-            final int[] order = {4, 3, 2, 0, 1};
-            for (int i = 0; i < 5; i++) {
+            final int[] order = {5, 4, 3, 2, 0, 1};
+            for (int i = 0; i < 6; i++) {
                 final int a = order[i];
-                if (a != 2 && a != 3 && canReplace) {
+                if (a != 2 && a != 3 && a!= 5 && canReplace) {
                     continue;
                 }
                 if (a == 0 && !parentChatActivity.canScheduleMessage()) {
@@ -5627,7 +5636,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     continue;
                 } else if ((a == 2 || a == 3) && !canReplace) {
                     continue;
-                } else if (a == 4 && (isCurrentVideo || timeItem.getColorFilter() != null)) {
+                } else if (a == 4 && (isCurrentVideo || timeItem.getColorFilter() != null || spoilerEnabled)) {
+                    continue;
+                } else if (a == 5 && !canSpoiler) {
                     continue;
                 }
                 ActionBarMenuSubItem cell = new ActionBarMenuSubItem(parentActivity, a == 0, a == 3, resourcesProvider);
@@ -5645,6 +5656,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     cell.setTextAndIcon(LocaleController.getString("SendAsNewPhoto", R.string.SendAsNewPhoto), R.drawable.msg_send);
                 } else if (a == 4) {
                     cell.setTextAndIcon(LocaleController.getString("SendWithoutCompression", R.string.SendWithoutCompression), R.drawable.msg_sendfile);
+                } else if (a == 5) {
+                    cell.setTextAndIcon(LocaleController.getString(spoilerEnabled ? R.string.DisablePhotoSpoiler : R.string.EnablePhotoSpoiler), spoilerEnabled ? R.drawable.msg_spoiler : R.drawable.msg_spoiler_off);
                 }
                 cell.setMinimumWidth(AndroidUtilities.dp(196));
                 cell.setColors(0xffffffff, 0xffffffff);
@@ -5663,6 +5676,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         sendPressed(true, 0);
                     } else if (a == 4) {
                         sendPressed(true, 0, false, true, false);
+                    } else if (a == 5) {
+                        if (placeProvider != null && !placeProvider.isPhotoChecked(currentIndex)) {
+                            setPhotoChecked();
+                        }
+                        MediaController.PhotoEntry entry = (MediaController.PhotoEntry) currentObject;
+                        entry.hasSpoiler = !entry.hasSpoiler;
+                        if (placeProvider != null) placeProvider.spoilerPressed();
                     }
                 });
             }
