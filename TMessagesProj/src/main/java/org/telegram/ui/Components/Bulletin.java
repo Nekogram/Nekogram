@@ -1122,11 +1122,10 @@ public class Bulletin {
             titleTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             linearLayout.addView(titleTextView);
 
-            subtitleTextView = new TextView(context);
+            subtitleTextView = new LinkSpanDrawable.LinksTextView(context);
             subtitleTextView.setMaxLines(2);
             subtitleTextView.setTextColor(undoInfoColor);
             subtitleTextView.setLinkTextColor(getThemedColor(Theme.key_undo_cancelColor));
-            subtitleTextView.setMovementMethod(new LinkMovementMethod());
             subtitleTextView.setTypeface(Typeface.SANS_SERIF);
             subtitleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
             linearLayout.addView(subtitleTextView);

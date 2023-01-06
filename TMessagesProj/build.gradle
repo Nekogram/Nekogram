@@ -34,6 +34,7 @@ dependencies {
 
     implementation "androidx.browser:browser:1.4.0"
     implementation 'com.getkeepsafe.relinker:relinker:1.4.5'
+    implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
     implementation 'org.codeberg.qwerty287:prism4j:003cb5e380'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
     implementation files('libs/org.tcp2ws.jar')

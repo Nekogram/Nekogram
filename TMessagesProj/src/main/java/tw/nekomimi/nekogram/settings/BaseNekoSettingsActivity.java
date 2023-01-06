@@ -27,6 +27,7 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
+import org.telegram.ui.Cells.CreationTextCell;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.NotificationsCheckCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
@@ -40,6 +41,7 @@ import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.BlurredRecyclerView;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
@@ -66,7 +68,11 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     public static final int TYPE_CHECKBOX = 9;
     public static final int TYPE_RADIO = 10;
     public static final int TYPE_ACCOUNT = 11;
-    public static final int TYPE_BUYMEACOFFEE = 12;
+    public static final int TYPE_EMOJI = 12;
+    public static final int TYPE_EMOJI_SELECTION = 13;
+    public static final int TYPE_CREATION = 14;
+    public static final int TYPE_FLICKER = 15;
+    public static final int TYPE_BUYMEACOFFEE = 16;
 
     protected BlurredRecyclerView listView;
     protected BaseListAdapter listAdapter;
@@ -149,7 +155,9 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             actionBar = new ActionBar(context);
             actionBar.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
             actionBar.setItemsColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText), false);
+            actionBar.setItemsBackgroundColor(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), true);
             actionBar.setItemsBackgroundColor(getThemedColor(Theme.key_actionBarWhiteSelector), false);
+            actionBar.setItemsColor(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), true);
             actionBar.setTitleColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
             actionBar.setCastShadows(false);
         }
@@ -303,7 +311,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int type = holder.getItemViewType();
-            return type == TYPE_SETTINGS || type == TYPE_CHECK || type == TYPE_NOTIFICATION_CHECK || type == TYPE_DETAIL_SETTINGS || type == TYPE_TEXT | type == TYPE_CHECKBOX || type == TYPE_RADIO || type == TYPE_ACCOUNT || type == TYPE_BUYMEACOFFEE;
+            return type == TYPE_SETTINGS || type == TYPE_CHECK || type == TYPE_NOTIFICATION_CHECK || type == TYPE_DETAIL_SETTINGS || type == TYPE_TEXT | type == TYPE_CHECKBOX || type == TYPE_RADIO || type == TYPE_ACCOUNT || type == TYPE_EMOJI || type == TYPE_EMOJI_SELECTION || type == TYPE_CREATION || type == TYPE_BUYMEACOFFEE;
         }
 
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
@@ -364,6 +372,21 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
                     view = new AccountCell(mContext);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
+                case TYPE_EMOJI:
+                case TYPE_EMOJI_SELECTION:
+                    view = new EmojiSetCell(mContext, viewType == TYPE_EMOJI_SELECTION);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_CREATION:
+                    CreationTextCell creationTextCell = new CreationTextCell(mContext, resourcesProvider);
+                    creationTextCell.startPadding = 61;
+                    view = creationTextCell;
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
+                case TYPE_FLICKER:
+                    view = new FlickerLoadingView(mContext, resourcesProvider);
+                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
+                    break;
                 case TYPE_BUYMEACOFFEE:
                     view = new BuyMeACoffeeCell(mContext);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
@@ -396,7 +419,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         };
         ArrayList<ThemeDescription> themeDescriptions = new ArrayList<>();
 
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{TextSettingsCell.class, TextCheckCell.class, HeaderCell.class, NotificationsCheckCell.class, TextDetailSettingsCell.class, TextCell.class, TextCheckbox2Cell.class, TextRadioCell.class, AccountCell.class}, null, null, null, Theme.key_windowBackgroundWhite));
+        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR, new Class[]{TextSettingsCell.class, TextCheckCell.class, HeaderCell.class, NotificationsCheckCell.class, TextDetailSettingsCell.class, TextCell.class, TextCheckbox2Cell.class, TextRadioCell.class, AccountCell.class, EmojiSetCell.class, CreationTextCell.class}, null, null, null, Theme.key_windowBackgroundWhite));
         themeDescriptions.add(new ThemeDescription(fragmentView, ThemeDescription.FLAG_BACKGROUND, null, null, null, null, Theme.key_windowBackgroundGray));
 
         if (hasWhiteActionBar()) {
@@ -456,6 +479,19 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
         themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{AccountCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
         themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{AccountCell.class}, new String[]{"checkImageView"}, null, null, null, Theme.key_switchTrackChecked));
+
+        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{EmojiSetCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
+        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{EmojiSetCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
+        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_USEBACKGROUNDDRAWABLE | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, new Class[]{EmojiSetCell.class}, new String[]{"optionsButton"}, null, null, null, Theme.key_stickers_menuSelector));
+        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{EmojiSetCell.class}, new String[]{"optionsButton"}, null, null, null, Theme.key_stickers_menu));
+        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_CHECKBOX, new Class[]{EmojiSetCell.class}, new String[]{"checkBox"}, null, null, null, Theme.key_windowBackgroundWhite));
+        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{EmojiSetCell.class}, new String[]{"progressBar"}, null, null, null, Theme.key_featuredStickers_addedIcon));
+        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_CHECKBOXCHECK, new Class[]{EmojiSetCell.class}, new String[]{"checkBox"}, null, null, null, Theme.key_checkboxCheck));
+
+        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{CreationTextCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlueText2));
+        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_BACKGROUNDFILTER, new Class[]{CreationTextCell.class}, new String[]{"imageView"}, null, null, null, Theme.key_switchTrackChecked));
+        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{CreationTextCell.class}, new String[]{"imageView"}, null, null, null, Theme.key_checkboxCheck));
+        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{HeaderCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlueHeader));
 
         themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, blurDelegate, Theme.key_chat_BlurAlpha));
         return themeDescriptions;

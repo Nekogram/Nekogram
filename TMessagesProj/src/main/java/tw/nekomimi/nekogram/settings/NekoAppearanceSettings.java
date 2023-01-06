@@ -29,8 +29,9 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
+import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
 
-public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
+public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate, EmojiHelper.EmojiPacksLoadedListener {
 
     private DrawerProfilePreviewCell profilePreviewCell;
     private ValueAnimator statusBarColorAnimator;
@@ -43,7 +44,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
     private int drawer2Row;
 
     private int appearanceRow;
-    private int useSystemEmojiRow;
+    private int emojiSetsRow;
     private int transparentStatusBarRow;
     private int mediaPreviewRow;
     private int appBarShadowRow;
@@ -59,6 +60,19 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
     private int hideAllTabRow;
     private int tabsTitleTypeRow;
     private int folders2Row;
+
+    @Override
+    public boolean onFragmentCreate() {
+        EmojiHelper.getInstance().loadEmojisInfo(this);
+        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
+        return super.onFragmentCreate();
+    }
+
+    @Override
+    public void onFragmentDestroy() {
+        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
+        super.onFragmentDestroy();
+    }
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
@@ -98,11 +112,8 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
             statusBarColorAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
             statusBarColorAnimator.addUpdateListener(animation -> getParentActivity().getWindow().setStatusBarColor(ColorUtils.setAlphaComponent(0, (int) animation.getAnimatedValue())));
             statusBarColorAnimator.start();
-        } else if (position == useSystemEmojiRow) {
-            NekoConfig.toggleUseSystemEmoji();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.useSystemEmoji);
-            }
+        } else if (position == emojiSetsRow) {
+            presentFragment(new NekoEmojiSettingsActivity());
         } else if (position == eventTypeRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             arrayList.add(LocaleController.getString("DependsOnDate", R.string.DependsOnDate));
@@ -233,7 +244,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
         drawer2Row = addRow();
 
         appearanceRow = addRow("appearance");
-        useSystemEmojiRow = addRow("useSystemEmoji");
+        emojiSetsRow = addRow("emojiSets");
         transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? addRow("transparentStatusBar") : -1;
         mediaPreviewRow = addRow("mediaPreview");
         appBarShadowRow = addRow("appBarShadow");
@@ -249,6 +260,20 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
         hideAllTabRow = addRow("hideAllTab");
         tabsTitleTypeRow = addRow("tabsTitleType");
         folders2Row = addRow();
+    }
+
+    @Override
+    public void emojiPacksLoaded(String error) {
+        if (listAdapter != null) {
+            listAdapter.notifyItemChanged(emojiSetsRow, PARTIAL);
+        }
+    }
+
+    @Override
+    public void didReceivedNotification(int id, int account, Object... args) {
+        if (id == NotificationCenter.emojiLoaded && listAdapter != null) {
+            listAdapter.notifyItemChanged(emojiSetsRow, PARTIAL);
+        }
     }
 
     private class ListAdapter extends BaseListAdapter {
@@ -318,8 +343,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                         textCell.setTextAndCheck(LocaleController.getString("HidePhone", R.string.HidePhone), NekoConfig.hidePhone, false);
                     } else if (position == transparentStatusBarRow) {
                         textCell.setTextAndCheck(LocaleController.getString("TransparentStatusBar", R.string.TransparentStatusBar), SharedConfig.noStatusBar, true);
-                    } else if (position == useSystemEmojiRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), NekoConfig.useSystemEmoji, true);
                     } else if (position == newYearRow) {
                         textCell.setTextAndCheck(LocaleController.getString("ChristmasHat", R.string.ChristmasHat), NekoConfig.newYear, true);
                     } else if (position == avatarAsDrawerBackgroundRow) {
@@ -360,6 +383,13 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
                     }
                     break;
                 }
+                case TYPE_EMOJI: {
+                    EmojiSetCell emojiPackSetCell = (EmojiSetCell) holder.itemView;
+                    if (position == emojiSetsRow) {
+                        emojiPackSetCell.setData(EmojiHelper.getInstance().getCurrentEmojiPackInfo(), partial, true);
+                    }
+                    break;
+                }
                 case Integer.MAX_VALUE: {
                     DrawerProfilePreviewCell cell = (DrawerProfilePreviewCell) holder.itemView;
                     cell.setUser(getUserConfig().getCurrentUser(), false);
@@ -388,13 +418,15 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity {
             } else if (position == eventTypeRow || position == tabsTitleTypeRow || position == tabletModeRow) {
                 return TYPE_SETTINGS;
             } else if (position == newYearRow || position == showTabsOnForwardRow || position == hideAllTabRow ||
-                    (position > appearanceRow && position <= disableNumberRoundingRow) ||
+                    (position > emojiSetsRow && position <= disableNumberRoundingRow) ||
                     (position > drawerRow && position < drawer2Row)) {
                 return TYPE_CHECK;
             } else if (position == appearanceRow || position == foldersRow) {
                 return TYPE_HEADER;
             } else if (position == folders2Row) {
                 return TYPE_INFO_PRIVACY;
+            } else if (position == emojiSetsRow) {
+                return TYPE_EMOJI;
             } else if (position == drawerRow) {
                 return Integer.MAX_VALUE;
             }

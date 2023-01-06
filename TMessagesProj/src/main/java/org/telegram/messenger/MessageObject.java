@@ -4841,7 +4841,7 @@ public class MessageObject {
     }
 
     public void replaceEmojiToLottieFrame(CharSequence text, int[] emojiOnly) {
-        if (!(text instanceof Spannable) || NekoConfig.useSystemEmoji || NekoConfig.customEmojiFont) {
+        if (!(text instanceof Spannable) || Emoji.isSelectedCustomPack()) {
             return;
         }
         Spannable spannable = (Spannable) text;

@@ -89,7 +89,6 @@
     <string name="AutoPauseVideo">Auto pause video</string>
     <string name="AutoPauseVideoAbout">When lock screen/switch to background.</string>
     <string name="DisableProximityEvents">Disable proximity events</string>
-    <string name="CustomEmojiTypeface">Custom emoji font</string>
     <string name="Page1Message2">Nekogram is an **unofficial** messaging app\nthat uses Telegram\'s API.</string>
     <string name="MapDriftingFix">Map drifting fix for Mainland China</string>
     <string name="VoiceEnhancements">Voice enhancements</string>
@@ -146,7 +145,6 @@
     <string name="RestrictionReason">Restriction reason</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">Max recent stickers</string>
-    <string name="ApplyEmojiFont">Apply emoji font</string>
     <string name="DisableJumpToNextChannel">Disable \"Jump to Next Channel\"</string>
     <string name="DisableGreetingSticker">Disable greeting sticker</string>
     <string name="DeleteAllFromSelfAdmin">With admin rights</string>
@@ -255,6 +253,23 @@
     <string name="NoUpdateAvailablePlayDelay">Update in Play Store usually comes slower than direct APKs due to Google\'s review.</string>
     <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">Disable sticker packs auto-reorder</string>
+    <string name="DownloadEmojiSet">Download %s</string>
+    <string name="EmojiSets">Emoji Sets</string>
+    <string name="MyEmojiSets">My Emoji Sets</string>
+    <string name="InstalledEmojiSet">Installed</string>
+    <string name="InstallingEmojiSet">Installing…</string>
+    <string name="UpdateEmojiSet">Update %s</string>
+    <string name="EmojiSetHint">This affects emoji appearance only for you. Others see them based on their preferences.</string>
+    <string name="CustomEmojiSetHint">Import and choose emoji sets from your internal storage.</string>
+    <string name="AddEmojiSet">Add Emoji Set</string>
+    <string name="EmojiSetRemoved">Emoji set removed.</string>
+    <string name="EmojiSetRemovedInfo">%1$s is no longer in your emoji sets.</string>
+    <string name="DeleteEmojiSets">%1$s emoji sets</string>
+    <string name="DeleteEmojiSetsMessage">Are you sure you want to delete the selected emoji sets?</string>
+    <string name="ApplyEmojiSet">Apply emoji set</string>
+    <string name="EmojiSetApplied">Emoji set applied.</string>
+    <string name="EmojiSetAppliedInfo">%1$s is now your emoji set.</string>
+    <string name="EmojiSetAlreadyApplied">Emoji set already applied.</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

@@ -298,6 +298,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.DialogConfig;
 import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
 import tw.nekomimi.nekogram.helpers.PermissionHelper;
+import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.popupwrapper.TranslatorSettingsPopupWrapper;
 
@@ -23260,7 +23261,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 icons.add(R.drawable.msg_shareout);
                             }
                         } else if (type == 100) {
-                            items.add(LocaleController.getString("ApplyEmojiFont", R.string.ApplyEmojiFont));
+                            items.add(LocaleController.getString("ApplyEmojiSet", R.string.ApplyEmojiSet));
                             options.add(OPTION_APPLY_LOCALIZATION_OR_THEME);
                             icons.add(R.drawable.smiles_tab_smiles);
                             if (!noforwards) {
@@ -25096,22 +25097,43 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             showDialog(builder.create());
                         }
                     } else if (getMessageType(selectedObject) == 100) {
-                        try {
-                            String fileName = FileLoader.getDocumentFileName(selectedObject.getDocument());
-                            if (TextUtils.isEmpty(fileName)) {
-                                fileName = selectedObject.getFileName();
+                        AlertDialog progressDialog = new AlertDialog(getParentActivity(), 3);
+                        File finalLocFile = locFile;
+                        Utilities.globalQueue.postRunnable(() -> {
+                            boolean success = true;
+                            EmojiHelper.EmojiPackBase emojiPackBase = null;
+                            try {
+                                emojiPackBase = EmojiHelper.getInstance().installEmoji(finalLocFile, false);
+                            } catch (Exception e) {
+                                FileLog.e("Emoji Font install failed", e);
+                                success = false;
                             }
-                            File dest = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), fileName == null ? "emoji.ttf" : fileName);
-                            AndroidUtilities.copyFile(locFile, dest);
-                            if (NekoConfig.setCustomEmojiFontPath(dest.toString())) {
-                                if (!NekoConfig.customEmojiFont) NekoConfig.toggleCustomEmojiFont();
-                            } else {
-                                BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("InvalidCustomEmojiTypeface", R.string.InvalidCustomEmojiTypeface), themeDelegate).show();
-                            }
-                        } catch (Exception e) {
-                            FileLog.e(e);
-                            AlertsCreator.showSimpleAlert(this, e.getLocalizedMessage());
-                        }
+                            boolean finalSuccess = success;
+                            EmojiHelper.EmojiPackBase finalEmojiPackBase = emojiPackBase;
+                            AndroidUtilities.runOnUIThread(() -> {
+                                progressDialog.dismiss();
+                                if (finalSuccess && finalEmojiPackBase != null) {
+                                    if (finalEmojiPackBase.getPackId().equals(EmojiHelper.getInstance().getEmojiPack())) {
+                                        BulletinFactory.of(ChatActivity.this).createErrorBulletin(LocaleController.getString("EmojiSetAlreadyApplied", R.string.EmojiSetAlreadyApplied), themeDelegate).show();
+                                    } else {
+                                        EmojiHelper.EmojiSetBulletinLayout bulletinLayout = new EmojiHelper.EmojiSetBulletinLayout(
+                                                getParentActivity(),
+                                                LocaleController.getString("EmojiSetApplied", R.string.EmojiSetApplied),
+                                                LocaleController.formatString("EmojiSetAppliedInfo", R.string.EmojiSetAppliedInfo, finalEmojiPackBase.getPackName()),
+                                                finalEmojiPackBase,
+                                                themeDelegate
+                                        );
+                                        Bulletin.make(ChatActivity.this, bulletinLayout, Bulletin.DURATION_LONG).show();
+                                        EmojiHelper.getInstance().setEmojiPack(finalEmojiPackBase.getPackId());
+                                        EmojiHelper.reloadEmoji();
+                                    }
+                                } else {
+                                    BulletinFactory.of(ChatActivity.this).createErrorBulletin(LocaleController.getString("InvalidCustomEmojiTypeface", R.string.InvalidCustomEmojiTypeface), themeDelegate).show();
+                                }
+                            });
+                        });
+                        progressDialog.setCanCancel(false);
+                        progressDialog.showDelayed(300);
                     } else {
                         if (LocaleController.getInstance().applyLanguageFile(locFile, currentAccount)) {
                             presentFragment(new LanguageSelectActivity());

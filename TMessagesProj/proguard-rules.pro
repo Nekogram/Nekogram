@@ -100,6 +100,7 @@
 -keepclassmembernames class tw.nekomimi.nekogram.DatacenterActivity$DatacenterHeaderCell { <fields>; }
 -keepclassmembernames class tw.nekomimi.nekogram.MessageDetailsActivity$TextDetailSimpleCell { <fields>; }
 -keepclassmembernames class tw.nekomimi.nekogram.settings.AccountCell { <fields>; }
+-keepclassmembernames class tw.nekomimi.nekogram.settings.EmojiSetCell { <fields>; }
 -keepclassmembernames class tw.nekomimi.nekogram.settings.NekoChatSettingsActivity$StickerSizeCell { <fields>; }
 
 -keepclassmembernames class androidx.core.widget.NestedScrollView {

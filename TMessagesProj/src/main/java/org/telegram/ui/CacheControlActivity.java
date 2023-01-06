@@ -111,6 +111,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
 
+import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
+
 public class CacheControlActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     private static final int VIEW_TYPE_INFO = 1;
@@ -145,7 +147,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
 
     private boolean[] selected = new boolean[] { true, true, true, true, true, true, true, true, true };
     private long databaseSize = -1;
-    private long cacheSize = -1, cacheEmojiSize = -1, cacheTempSize = -1;
+    private long cacheSize = -1, cacheEmojiSize = -1, cacheTempSize = -1, cacheCustomEmojiSize = -1;
     private long documentsSize = -1;
     private long audioSize = -1;
     private long musicSize = -1;
@@ -255,6 +257,11 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 return;
             }
             stickersCacheSize += cacheEmojiSize;
+            cacheCustomEmojiSize = EmojiHelper.getInstance().getEmojiSize();
+            if (canceled) {
+                return;
+            }
+            stickersCacheSize += cacheCustomEmojiSize;
             audioSize = getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_AUDIO), 0);
             totalSize = cacheSize + cacheTempSize + videoSize + audioSize + photoSize + documentsSize + musicSize + stickersCacheSize;
 
@@ -764,7 +771,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 clearedSize += audioSize;
             } else if (a == 5) {
                 type = 100;
-                clearedSize += stickersCacheSize + cacheEmojiSize;
+                clearedSize += stickersCacheSize + cacheEmojiSize + cacheCustomEmojiSize;
             } else if (a == 6) {
                 clearedSize += cacheSize;
                 documentsMusicType = 5;
@@ -791,6 +798,9 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 if (file != null) {
                     Utilities.clearDir(file.getAbsolutePath(), 3, Long.MAX_VALUE, false);
                 }
+            }
+            if (type == 100) {
+                EmojiHelper.getInstance().deleteAll();
             }
             if (type == FileLoader.MEDIA_DIR_IMAGE || type == FileLoader.MEDIA_DIR_VIDEO) {
                 int publicDirectoryType;
@@ -838,6 +848,8 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
                 stickersCacheSize = getDirectorySize(new File(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_CACHE), "acache"), documentsMusicType);
                 cacheEmojiSize = getDirectorySize(FileLoader.checkDirectory(FileLoader.MEDIA_DIR_CACHE), 3);
                 stickersCacheSize += cacheEmojiSize;
+                cacheCustomEmojiSize = EmojiHelper.getInstance().getEmojiSize();
+                stickersCacheSize += cacheCustomEmojiSize;
             }
         }
         final boolean imagesClearedFinal = imagesCleared;

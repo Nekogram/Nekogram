@@ -7,6 +7,7 @@ import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
@@ -32,6 +33,10 @@ public abstract class BaseRemoteHelper {
 
     protected MessagesStorage getMessagesStorage() {
         return MessagesStorage.getInstance(UserConfig.selectedAccount);
+    }
+
+    protected FileLoader getFileLoader() {
+        return FileLoader.getInstance(UserConfig.selectedAccount);
     }
 
     abstract protected void onError(String text, Delegate delegate);

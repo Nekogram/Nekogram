@@ -10,6 +10,7 @@ import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoAppearanceSettings;
 import tw.nekomimi.nekogram.settings.NekoChatSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoDonateActivity;
+import tw.nekomimi.nekogram.settings.NekoEmojiSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoExperimentalSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoGeneralSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoPasscodeSettingsActivity;
@@ -51,6 +52,9 @@ public class SettingsHelper {
                 case "experimental":
                 case "e":
                     fragment = new NekoExperimentalSettingsActivity(false, false);
+                    break;
+                case "emoji":
+                    fragment = new NekoEmojiSettingsActivity();
                     break;
                 case "general":
                 case "g":
