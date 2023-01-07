@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Tự động tạm dừng video</string>
     <string name="AutoPauseVideoAbout">Khi khóa màn hình/chuyển sang nền.</string>
     <string name="DisableProximityEvents">Vô hiệu hóa các sự kiện lân cận</string>
-    <string name="CustomEmojiTypeface">Phông chữ biểu tượng cảm xúc tùy chỉnh</string>
     <string name="MapDriftingFix">Sửa lỗi bản đồ trôi dạt cho Trung Quốc đại lục</string>
     <string name="VoiceEnhancements">Cải tiến giọng nói</string>
     <string name="VoiceEnhancementsAbout">Khử tiếng ồn và bình thường hóa giọng nói</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Lý do hạn chế</string>
     <string name="ProviderTencentTranslator">Công cụ dịch</string>
     <string name="MaxRecentStickers">Nhãn dán tối đa hiện tại</string>
-    <string name="ApplyEmojiFont">Áp dụng phông biểu tượng cảm xúc</string>
     <string name="DisableJumpToNextChannel">Vô hiệu \"Nhảy tới kênh tiếp theo\"</string>
     <string name="DisableGreetingSticker">Vô hiệu nhãn dán chào hỏi</string>
     <string name="DeleteAllFromSelfAdmin">Với quyền quản trị</string>

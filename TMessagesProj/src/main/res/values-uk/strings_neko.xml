@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Автоматичне призупинення відео</string>
     <string name="AutoPauseVideoAbout">При вимкненні екрана/переході у фон.</string>
     <string name="DisableProximityEvents">Вимкнути датчик наближення</string>
-    <string name="CustomEmojiTypeface">Користувацький шрифт емодзі</string>
     <string name="MapDriftingFix">Виправлення мап для Китаю</string>
     <string name="VoiceEnhancements">Покращення голосу</string>
     <string name="VoiceEnhancementsAbout">Зменшення шуму та нормалізація голосу</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Причина обмеження</string>
     <string name="ProviderTencentTranslator">Містер Перекладач</string>
     <string name="MaxRecentStickers">Макс. кількість наліпок</string>
-    <string name="ApplyEmojiFont">Застосувати шрифт емодзі</string>
     <string name="DisableJumpToNextChannel">Вимкнути функцію переходу до наступного каналу</string>
     <string name="DisableGreetingSticker">Вимкнути вітальну наліпку</string>
     <string name="DeleteAllFromSelfAdmin">З правами адміністратора</string>
@@ -250,6 +248,31 @@
     <string name="NoUpdateAvailablePlayDelay">Зазвичай оновлення у Play Маркет з\'являються пізніше за прямий APK через рецензію Google.</string>
     <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">Вимкнути автоматичне впорядкування наборів наліпок</string>
+    <string name="DownloadEmojiSet">Завантажити %s</string>
+    <string name="EmojiSets">Набори емодзі</string>
+    <string name="MyEmojiSets">Мої набори емодзі</string>
+    <string name="InstalledEmojiSet">Встановлено</string>
+    <string name="InstallingEmojiSet">Встановлення…</string>
+    <string name="UpdateEmojiSet">Оновити %s</string>
+    <string name="EmojiSetHint">Це впливає на вигляд емодзі тільки для вас. Інші бачитимуть їх відповідно до власних налаштувань.</string>
+    <string name="CustomEmojiSetHint">Імпортуйте та оберіть набори емодзі з внутрішнього сховища пристрою.</string>
+    <string name="AddEmojiSet">Додати набір емодзі</string>
+    <string name="EmojiSetRemoved">Набір емодзі видалено.</string>
+    <string name="EmojiSetRemovedInfo">%1$s більше немає серед ваших наборів емодзі.</string>
+    <string name="DeleteEmojiSets">%1$s набори емодзі</string>
+    <string name="DeleteEmojiSetsMessage">Ви впевнені, що хочете видалити вибрані набори емодзі?</string>
+    <string name="ApplyEmojiSet">Застосувати набір емодзі</string>
+    <string name="EmojiSetApplied">Набір емодзі застосовано.</string>
+    <string name="EmojiSetAppliedInfo">%1$s тепер є вашим набором емодзі.</string>
+    <string name="EmojiSetAlreadyApplied">Набір емодзі вже застосовано.</string>
+    <string name="SendAnonymousData">Відправляти анонімні дані</string>
+    <string name="SendBugReport">Відправити повідомлення про помилку</string>
+    <string name="SendBugReportDesc">Це допоможе нам швидше виявити проблему.</string>
+    <string name="AnonymousDataDelete">Видалити дані</string>
+    <string name="AnonymousDataDeleteDesc">Повністю блокувати надсилання даних з цього пристрою та видалити зібрані дані.</string>
+    <string name="SendAnonymousDataDesc">Зазначена вище функція використовує Visual Studio App Center від Microsoft. Зібрана інформація анонімна, і ми ніяк не можемо пов\'язати її з конкретним пристроєм або користувачем.</string>
+    <string name="SendLargePhotos">Надсилати великі фото</string>
+    <string name="SendLargePhotosAbout">Збільшити обмеження на розмір сторони для стиснених зображень до 2560 пікс.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccSeekbarHeading">Налаштування панелі повзунка</string>

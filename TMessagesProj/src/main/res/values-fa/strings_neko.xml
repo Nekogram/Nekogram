@@ -22,7 +22,7 @@
     <string name="TransparentStatusBar">نوار وضعیت شفاف</string>
     <string name="EnableResidentNotification">نمایش یک اعلان ساکن</string>
     <string name="DisableResidentNotification">اعلان ساکن را غیرفعال کنید</string>
-    <string name="NekogramRunning">نکوگرام در حال اجراست</string>
+    <string name="NekogramRunning">نکوگرام در حال اجراعه</string>
     <string name="EventType">مجموعه آیکون نوار کناری</string>
     <string name="ChristmasHat">نمایش کلاه کریسمس هر روز</string>
     <string name="DependsOnDate">بستگی به تاریخ</string>
@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">مکث خودکار ویدیو</string>
     <string name="AutoPauseVideoAbout">وقتی صفحه قفل است/به پس‌زمینه برود.</string>
     <string name="DisableProximityEvents">غیرفعال کردن رویدادهای مجاورت</string>
-    <string name="CustomEmojiTypeface">فونت ایموجی سفارشی</string>
     <string name="MapDriftingFix">اصلاح نقشه رانش برای سرزمین اصلی چین</string>
     <string name="VoiceEnhancements">تقویت صدا</string>
     <string name="VoiceEnhancementsAbout">حذف نویز و عادی سازی صدا</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">دلیل محدودیت</string>
     <string name="ProviderTencentTranslator">آقای مترجم</string>
     <string name="MaxRecentStickers">حداکثر استیکر های اخیر</string>
-    <string name="ApplyEmojiFont">فونت ایموجی را اعمال کنید</string>
     <string name="DisableJumpToNextChannel">غیر فعال کردن \"پرش به کانال بعدی\"</string>
     <string name="DisableGreetingSticker">غیر فعال کردن استیکر سلام</string>
     <string name="DeleteAllFromSelfAdmin">با دسترسی های مدیریتی</string>
@@ -248,6 +246,33 @@
     <string name="UploadloadSpeedBoost">افزایش سرعت آپلود</string>
     <string name="NoUpdateAvailablePlay">لطفاً به‌روزرسانی را در فروشگاه Play بررسی کنید.</string>
     <string name="NoUpdateAvailablePlayDelay">به‌روزرسانی در فروشگاه Play معمولاً به دلیل بررسی Google، دیرتر از فایل های APK مستقیم انجام می‌شود.</string>
+    <string name="ProviderTelegram">تلگرام</string>
+    <string name="DisableStickersAutoReorder">سفارش مجدد خودکار بسته‌های برچسب را غیرفعال کن</string>
+    <string name="DownloadEmojiSet">دانلود %s</string>
+    <string name="EmojiSets">بسته های ایموجی</string>
+    <string name="MyEmojiSets">بسته های ایموجی من</string>
+    <string name="InstalledEmojiSet">نصب شده</string>
+    <string name="InstallingEmojiSet">در حال نصب…</string>
+    <string name="UpdateEmojiSet">آپدیت %s</string>
+    <string name="EmojiSetHint">این افکت ایموجی فقط برای تو معلومه. دیگران اینارو بر اساس ترجیحات و تنظیمات خوشون می بینن.</string>
+    <string name="CustomEmojiSetHint">وارد کردن و انتخاب کردن بسته ایموجی از حافظه داخلی تو.</string>
+    <string name="AddEmojiSet">اضافه کردن بسته ایموجی</string>
+    <string name="EmojiSetRemoved">بسته ایموجی حذف شد.</string>
+    <string name="EmojiSetRemovedInfo">%1$s دیگه داخل بسته های ایموجی تو نیس.</string>
+    <string name="DeleteEmojiSets">%1$s ایموجی تنظیم شده</string>
+    <string name="DeleteEmojiSetsMessage">آیا شما مطمئنید که این بسته ایموجی را میخواهید حذف کنید؟</string>
+    <string name="ApplyEmojiSet">تنظیم کردن بسته ایموجی</string>
+    <string name="EmojiSetApplied">بسته ایموجی تنظیم شد.</string>
+    <string name="EmojiSetAppliedInfo">%1$s الان بسته ایموجی توعه.</string>
+    <string name="EmojiSetAlreadyApplied">بسته ایموجی قبلا فعال شده.</string>
+    <string name="SendAnonymousData">ارسال کردن اطلاعات به صورت ناشناس </string>
+    <string name="SendBugReport">ارسال گزارش باگ</string>
+    <string name="SendBugReportDesc">این به ما کمک میکنه که مشکلات رو سریع‌تر پیدا کنیم.</string>
+    <string name="AnonymousDataDelete">پاک کردن اطلاعات </string>
+    <string name="AnonymousDataDeleteDesc">داده های خروجی را برای همیشه از این نمونه مسدود کن و داده های جمع آوری شده را حذف کن.</string>
+    <string name="SendAnonymousDataDesc">ویژگی های فوق از Visual Studio App Center ارائه شده توسط مایکروسافت استفاده می کنن. اطلاعات جمع‌آوری‌شده ناشناس است و ما نمیتونیم آن را به یک دستگاه یا کاربر مستقل ردیابی کنیم.</string>
+    <string name="SendLargePhotos">ارسال عکس بزرگ</string>
+    <string name="SendLargePhotosAbout">محدودیت جانبی در تصاویر فشرده شده را به 2560 پیکسل افزایش بده.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
 </resources>

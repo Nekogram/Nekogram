@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Pause video secara otomatis</string>
     <string name="AutoPauseVideoAbout">Saat mengunci layar/berpindah aplikasi.</string>
     <string name="DisableProximityEvents">Matikan sensor jarak</string>
-    <string name="CustomEmojiTypeface">Font emoji kustom</string>
     <string name="MapDriftingFix">Perbaiki kesalahan peta untuk Daratan China</string>
     <string name="VoiceEnhancements">Peningkatan suara</string>
     <string name="VoiceEnhancementsAbout">Peredam Kebisingan dan Normalisasi Suara</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Alasan pembatasan</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">Maksimum stiker terakhir digunakan</string>
-    <string name="ApplyEmojiFont">Terapkan font emoji</string>
     <string name="DisableJumpToNextChannel">Matikan \"Jump to Next Channel\"</string>
     <string name="DisableGreetingSticker">Matikan stiker menyapa</string>
     <string name="DeleteAllFromSelfAdmin">Dengan hak admin</string>

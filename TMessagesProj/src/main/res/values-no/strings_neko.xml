@@ -76,7 +76,6 @@
     <string name="AutoPauseVideo">Automatisk pause video</string>
     <string name="AutoPauseVideoAbout">Når låseskjerm/bytt til bakgrunn.</string>
     <string name="DisableProximityEvents">Deaktiver nærhetshendelser</string>
-    <string name="CustomEmojiTypeface">Egendefinert emoji-skrift</string>
     <string name="MapDriftingFix">Kartdrivende løsning for Kina</string>
     <string name="DisableInstantCamera">Deaktiver øyeblikkelig kamera</string>
     <string name="OpenAllLinksInInstantView">Prøv å åpne alle koblinger i InstantView</string>

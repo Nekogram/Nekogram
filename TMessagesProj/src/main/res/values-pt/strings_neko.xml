@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Pausar vídeo automaticamente</string>
     <string name="AutoPauseVideoAbout">Quando bloquear tela/alternar para segundo plano.</string>
     <string name="DisableProximityEvents">Desativar eventos de proximidade</string>
-    <string name="CustomEmojiTypeface">Fontes de emojis personalizada</string>
     <string name="MapDriftingFix">Correção de deriva no mapa para a China continental</string>
     <string name="VoiceEnhancements">Melhoramentos de voz</string>
     <string name="VoiceEnhancementsAbout">Supressão de Ruído e Normalização da Voz</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Motivo de restrição</string>
     <string name="ProviderTencentTranslator">Sr. Tradutor</string>
     <string name="MaxRecentStickers">Máximo de adesivos recentes</string>
-    <string name="ApplyEmojiFont">Aplicar a fonte emoji</string>
     <string name="DisableJumpToNextChannel">Desativar \"ir para o próximo canal\"</string>
     <string name="DisableGreetingSticker">Desactivar o autocolante de saudação</string>
     <string name="DeleteAllFromSelfAdmin">Com direitos de administrador</string>
@@ -250,6 +248,23 @@
     <string name="NoUpdateAvailablePlayDelay">A actualização na Play Store costuma ser mais lenta do que os APKs directos devido à revisão do Google.</string>
     <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">Desativar reordenamento automático de pacotes de figurinha</string>
+    <string name="DownloadEmojiSet">Baixar %s</string>
+    <string name="EmojiSets">Pacotes de Emoji</string>
+    <string name="MyEmojiSets">Meus Pacotes de Emoji</string>
+    <string name="InstalledEmojiSet">Instalado</string>
+    <string name="InstallingEmojiSet">Instalando…</string>
+    <string name="UpdateEmojiSet">Atualizando %s</string>
+    <string name="EmojiSetHint">Isso afeta somente a aparência dos emoji para você. Outros o verão baseado nas configurações deles.</string>
+    <string name="CustomEmojiSetHint">Importe e escolha pacotes de emoji do seu armazenamento interno.</string>
+    <string name="AddEmojiSet">Adicionar Pacote de Emoji</string>
+    <string name="EmojiSetRemoved">Pacote de emoji removido.</string>
+    <string name="EmojiSetRemovedInfo">%1$s não faz mais parte do seu pacote de emoji.</string>
+    <string name="DeleteEmojiSets">%1$s pacotes de emoji</string>
+    <string name="DeleteEmojiSetsMessage">Tem certeza que deseja excluir os pacotes de emoji selecionados?</string>
+    <string name="ApplyEmojiSet">Aplicar o pacote de emoji</string>
+    <string name="EmojiSetApplied">Pacote de emoji aplicado.</string>
+    <string name="EmojiSetAppliedInfo">%1$s definido como seu pacote de emoji.</string>
+    <string name="EmojiSetAlreadyApplied">Pacote de emoji já definido.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
 </resources>

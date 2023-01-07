@@ -81,7 +81,6 @@
     <string name="AutoPauseVideo">Oprire automată video</string>
     <string name="AutoPauseVideoAbout">Când se blochează ecranul/comută la fundal.</string>
     <string name="DisableProximityEvents">Dezactivare evenimente de proximitate</string>
-    <string name="CustomEmojiTypeface">Font emoji customizat</string>
     <string name="MapDriftingFix">Remedierea în derivă a hărții pentru Mainland China</string>
     <string name="DisableInstantCamera">Dezactivează camera instantanee</string>
     <string name="OpenAllLinksInInstantView">Încercați să deschideți toate link-urile în InstantView</string>

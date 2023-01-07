@@ -5,7 +5,7 @@
     <string name="MessageMenu">消息菜单</string>
     <string name="HidePhone">隐藏您的手机号码</string>
     <string name="DeleteAllFromSelf">删除自己的消息</string>
-    <string name="DeleteAllFromSelfAlert">警告！这将为此会话中的 **所有人** 删除 **全部你发出的消息**。</string>
+    <string name="DeleteAllFromSelfAlert">警告！这将为此会话中的 **所有人** 删除 **全部您发出的消息**。</string>
     <string name="BotLogin">机器人登录</string>
     <string name="InvalidAccessToken">无效的访问令牌</string>
     <string name="IgnoreBlocked">隐藏来自已屏蔽用户的消息</string>
@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">自动暂停视频</string>
     <string name="AutoPauseVideoAbout">当锁定屏幕/切换到后台时。</string>
     <string name="DisableProximityEvents">禁用距离传感器事件</string>
-    <string name="CustomEmojiTypeface">自定义 Emoji 字体</string>
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**应用</string>
     <string name="MapDriftingFix">地图定位漂移修复</string>
     <string name="VoiceEnhancements">语音增强</string>
@@ -142,7 +141,6 @@
     <string name="RestrictionReason">限制原因</string>
     <string name="ProviderTencentTranslator">腾讯翻译君</string>
     <string name="MaxRecentStickers">最大最近贴纸数量</string>
-    <string name="ApplyEmojiFont">应用 Emoji 字体</string>
     <string name="DisableJumpToNextChannel">禁用“跳转到下一个频道”</string>
     <string name="DisableGreetingSticker">禁用问候贴纸</string>
     <string name="DeleteAllFromSelfAdmin">使用管理员权限</string>
@@ -251,6 +249,31 @@
     <string name="NoUpdateAvailablePlayDelay">由于谷歌的审核，Play 商店中的更新通常比直接的 APK 来得慢。</string>
     <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">禁用贴纸包自动重新排序</string>
+    <string name="DownloadEmojiSet">下载 %s</string>
+    <string name="EmojiSets">Emoji 包</string>
+    <string name="MyEmojiSets">我的 Emoji 包</string>
+    <string name="InstalledEmojiSet">已安装</string>
+    <string name="InstallingEmojiSet">正在安装…</string>
+    <string name="UpdateEmojiSet">更新 %s</string>
+    <string name="EmojiSetHint">这只对您影响 Emoji 的外观。其他人会根据自己的设置看到它们。</string>
+    <string name="CustomEmojiSetHint">从您的内部存储中导入和选择 Emoji 包。</string>
+    <string name="AddEmojiSet">添加 Emoji 包</string>
+    <string name="EmojiSetRemoved">Emoji 包已移除。</string>
+    <string name="EmojiSetRemovedInfo">%1$s 已经不在您的 Emoji 包中。</string>
+    <string name="DeleteEmojiSets">%1$s 个 Emoji 包</string>
+    <string name="DeleteEmojiSetsMessage">你确定要删除所选的 Emoji 包吗？</string>
+    <string name="ApplyEmojiSet">应用 Emoji 包</string>
+    <string name="EmojiSetApplied">Emoji 包已应用。</string>
+    <string name="EmojiSetAppliedInfo">%1$s 现在是您的 Emoji 包。</string>
+    <string name="EmojiSetAlreadyApplied">Emoji 包已经被应用。</string>
+    <string name="SendAnonymousData">发送匿名数据</string>
+    <string name="SendBugReport">发送错误报告</string>
+    <string name="SendBugReportDesc">这将帮助我们更快地发现问题。</string>
+    <string name="AnonymousDataDelete">删除数据</string>
+    <string name="AnonymousDataDeleteDesc">永久阻止从此实例传出数据，并删除已收集的数据。</string>
+    <string name="SendAnonymousDataDesc">上述功能使用 Microsoft 提供的 Visual Studio App Center。收集的信息是匿名的，我们无法追溯到独立的设备或用户。</string>
+    <string name="SendLargePhotos">发送大图片</string>
+    <string name="SendLargePhotosAbout">将压缩图片的侧边限制增加到 2560px。</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

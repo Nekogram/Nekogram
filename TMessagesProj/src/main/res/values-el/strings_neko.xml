@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Ρυθμίσεις Neko</string>
+    <string name="NekoSettings">Ρυθμίσεις Nekogram</string>
     <string name="IPv6">Σύνδεση μέσω IPv6</string>
     <string name="MessageMenu">Μενού μηνύματος</string>
     <string name="HidePhone">Απόκρυψη του αριθμού μου</string>
@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Αυτόματη παύση βίντεο</string>
     <string name="AutoPauseVideoAbout">Όταν κλειδώνει η οθόνη/εναλλαγή στο Φόντο.</string>
     <string name="DisableProximityEvents">Απεν/ποίηση συμβάντων Εγγύτητας</string>
-    <string name="CustomEmojiTypeface">Προσαρμοσμένη γραμ/σειρά emoji</string>
     <string name="MapDriftingFix">Διόρθ χάρτη για ηπειρωτική Κίνα</string>
     <string name="VoiceEnhancements">Βελτιώσεις φωνής</string>
     <string name="VoiceEnhancementsAbout">Καταστολή θορύβου &amp; ισορροπία φωνής</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Αιτία περιορισμού</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">Σύνολο Πρόσφατων Αυτοκόλλητων</string>
-    <string name="ApplyEmojiFont">Εφαρμογή γραμ/σειράς emoji</string>
     <string name="DisableJumpToNextChannel">Απενεργ. το \"Μετάβ. στο επόμ. κανάλι\"</string>
     <string name="DisableGreetingSticker">Απεν/ποίηση αυτοκόλ. χαιρετισμού</string>
     <string name="DeleteAllFromSelfAdmin">Με δικαιώμ. διαχειριστή</string>
@@ -250,6 +248,31 @@
     <string name="NoUpdateAvailablePlayDelay">Η ενημέρωση στο Play Store έρχεται συνήθως πιο αργά από τα άμεσα APK λόγω της αναθεώρησης της Google.</string>
     <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">Απενεργ. αυτο-διάταξης πακ αυτοκόλ.</string>
+    <string name="DownloadEmojiSet">Λήψη %s</string>
+    <string name="EmojiSets">Πακέτα Emoji</string>
+    <string name="MyEmojiSets">Τα Emoji πακέτα μου</string>
+    <string name="InstalledEmojiSet">Εγκαταστάθηκε</string>
+    <string name="InstallingEmojiSet">Εγκατάσταση…</string>
+    <string name="UpdateEmojiSet">Ενημέρωση %s</string>
+    <string name="EmojiSetHint">Αυτά τα εφέ των emoji εμφανίζονται μόνο για εσάς. Οι άλλοι τα βλέπουν με βάση τις προτιμήσεις τους.</string>
+    <string name="CustomEmojiSetHint">Εισάγετε και επιλέξτε πακέτα emoji από τον αποθηκευτικό σας χώρο.</string>
+    <string name="AddEmojiSet">Προσθήκη Πακέτου Emoji</string>
+    <string name="EmojiSetRemoved">Το πακέτο Emoji αφαιρέθηκε.</string>
+    <string name="EmojiSetRemovedInfo">%1$s δεν είναι πλέον στα πακέτα emoji.</string>
+    <string name="DeleteEmojiSets">%1$s πακέτα emoji</string>
+    <string name="DeleteEmojiSetsMessage">Σίγουρα θέλετε να διαγράψετε τα επιλεγμένα πακέτα emoji;</string>
+    <string name="ApplyEmojiSet">Εφαρμογή πακέτου emoji</string>
+    <string name="EmojiSetApplied">Το πακέτο Emoji εφαρμόστηκε.</string>
+    <string name="EmojiSetAppliedInfo">%1$s είναι πλέον στα πακέτα emoji.</string>
+    <string name="EmojiSetAlreadyApplied">Το πακέτο Emoji έχει ήδη εφαρμοστεί.</string>
+    <string name="SendAnonymousData">Αποστολή ανώνυμων δεδομένων</string>
+    <string name="SendBugReport">Αποστολή αναφοράς σφαλμάτων</string>
+    <string name="SendBugReportDesc">Αυτό θα μας βοηθήσει να βρούμε τα προβλήματα πιο γρήγορα.</string>
+    <string name="AnonymousDataDelete">Διαγραφή δεδομένων</string>
+    <string name="AnonymousDataDeleteDesc">Μόνιμη φραγή εξερχόμενων δεδομένων από αυτήν την περίπτωση και διαγραφή συλλεγμένων δεδομένων.</string>
+    <string name="SendAnonymousDataDesc">Οι παραπάνω λειτουργίες χρησιμοποιούν το Visual Studio App Center που παρέχεται από τη Microsoft. Οι πληροφορίες που συλλέγονται είναι ανώνυμες και δεν μπορούμε να τις εντοπίσουμε σε ανεξάρτητη συσκευή ή χρήστη.</string>
+    <string name="SendLargePhotos">Αποστολή μεγάλων φωτογραφιών</string>
+    <string name="SendLargePhotosAbout">Αύξηση του πλαϊνού ορίου για τις συμπιεσμένες εικόνες στα 2560px.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>

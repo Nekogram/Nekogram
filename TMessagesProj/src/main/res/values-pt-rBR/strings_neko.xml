@@ -86,7 +86,6 @@
     <string name="AutoPauseVideo">Pausar vídeo automaticamente</string>
     <string name="AutoPauseVideoAbout">Quando bloquear a tela/Alternar para segundo plano</string>
     <string name="DisableProximityEvents">Desativar eventos de proximidade</string>
-    <string name="CustomEmojiTypeface">Fonte personalizada de emoji</string>
     <string name="MapDriftingFix">Correção de desvio de mapa para a China continental</string>
     <string name="VoiceEnhancements">Melhorias de voz</string>
     <string name="VoiceEnhancementsAbout">Supressão de ruído e normalização de voz</string>
@@ -142,7 +141,6 @@
     <string name="RestrictionReason">Motivo de restrição</string>
     <string name="ProviderTencentTranslator">Sr. Tradutor</string>
     <string name="MaxRecentStickers">Máximo de adesivos recentes</string>
-    <string name="ApplyEmojiFont">Aplicar fonte de emoji customizada</string>
     <string name="DisableJumpToNextChannel">Desativar \"Pular para o Próximo Canal\"</string>
     <string name="DisableGreetingSticker">Desativar sticker de saudação</string>
     <string name="DeleteAllFromSelfAdmin">Com direitos de administrador</string>
@@ -251,6 +249,31 @@
     <string name="NoUpdateAvailablePlayDelay">A atualização na Play Store geralmente chega mais lenta do que os APKs diretos devido à revisão do Google.</string>
     <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">Desativar auto-reordenamento de figurinhas</string>
+    <string name="DownloadEmojiSet">Baixar %s</string>
+    <string name="EmojiSets">Pacotes de Emoji</string>
+    <string name="MyEmojiSets">Meus Pacotes de Emoji</string>
+    <string name="InstalledEmojiSet">Instalado</string>
+    <string name="InstallingEmojiSet">Instalando…</string>
+    <string name="UpdateEmojiSet">Atualizando %s</string>
+    <string name="EmojiSetHint">Isso afeta a aparência dos emojis apenas para você. Outros os verão com base nas preferências deles.</string>
+    <string name="CustomEmojiSetHint">Importe e escolha pacotes de emojis do seu armazenamento interno.</string>
+    <string name="AddEmojiSet">Adicionar Pacote de Emoji</string>
+    <string name="EmojiSetRemoved">Pacote de emoji removido.</string>
+    <string name="EmojiSetRemovedInfo">%1$s não está mais em seu pacote de emoji.</string>
+    <string name="DeleteEmojiSets">%1$s pacotes de emoji</string>
+    <string name="DeleteEmojiSetsMessage">Tem certeza que deseja excluir os pacotes de emoji selecionados?</string>
+    <string name="ApplyEmojiSet">Aplicar pacote de emoji</string>
+    <string name="EmojiSetApplied">Pacote de emoji aplicado.</string>
+    <string name="EmojiSetAppliedInfo">%1$s é agora seu pacote de emoji.</string>
+    <string name="EmojiSetAlreadyApplied">O pacote de emoji já foi aplicado.</string>
+    <string name="SendAnonymousData">Enviar dados anônimos</string>
+    <string name="SendBugReport">Enviar relatório de erros</string>
+    <string name="SendBugReportDesc">Isso nos ajudará a resolver problemas mais rapidamente.</string>
+    <string name="AnonymousDataDelete">Excluir dados</string>
+    <string name="AnonymousDataDeleteDesc">Bloqueia permanentemente dados em curso dessa instância e exclui dados coletados.</string>
+    <string name="SendAnonymousDataDesc">As funções acimas usam o Visual Studio App Center fornecido pela Microsoft. A informação coletada é anônima e incapaz de ser usada para identificar um usuário ou dispositivo específico.</string>
+    <string name="SendLargePhotos">Enviar fotos grandes</string>
+    <string name="SendLargePhotosAbout">Aumenta o limite de imagens comprimidas para 2560px.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>

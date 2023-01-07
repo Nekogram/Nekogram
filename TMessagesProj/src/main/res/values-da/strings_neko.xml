@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Auto pause video</string>
     <string name="AutoPauseVideoAbout">Når skærmlås/skift til baggrund.</string>
     <string name="DisableProximityEvents">Deaktiver nærhedshændelser</string>
-    <string name="CustomEmojiTypeface">Brugerdefineret emoji-skrifttype</string>
     <string name="MapDriftingFix">Kort drivende fix for fastlandet Kina</string>
     <string name="VoiceEnhancements">Stemmeforbedringer</string>
     <string name="VoiceEnhancementsAbout">Støjundertrykkelse og stemmenormalisering</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Årsag til begrænsning</string>
     <string name="ProviderTencentTranslator">Hr. Oversætter</string>
     <string name="MaxRecentStickers">Max seneste klistermærker</string>
-    <string name="ApplyEmojiFont">Anvend emoji-skrifttype</string>
     <string name="DisableJumpToNextChannel">Deaktivér \"Hop til næste kanal\"</string>
     <string name="DisableGreetingSticker">Deaktivér klistermærke til hilsen</string>
     <string name="DeleteAllFromSelfAdmin">Med administratorrettigheder</string>

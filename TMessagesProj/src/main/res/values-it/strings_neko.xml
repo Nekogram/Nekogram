@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Metti in pausa il video automaticamente</string>
     <string name="AutoPauseVideoAbout">Quando blocchi lo schermo/passi allo sfondo.</string>
     <string name="DisableProximityEvents">Disattiva gli eventi di prossimità</string>
-    <string name="CustomEmojiTypeface">Font emoji personalizzato</string>
     <string name="MapDriftingFix">Mappa linea di deriva per la Cina continentale</string>
     <string name="VoiceEnhancements">Miglioramenti vocali</string>
     <string name="VoiceEnhancementsAbout">Soppressione del rumore e Normalizzazione della voce</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Motivo della restrizione</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">Numero massimo di sticker recenti</string>
-    <string name="ApplyEmojiFont">Applica il font emoji</string>
     <string name="DisableJumpToNextChannel">Disattiva \"Passa al canale successivo\"</string>
     <string name="DisableGreetingSticker">Disattiva lo sticker di benvenuto</string>
     <string name="DeleteAllFromSelfAdmin">Con i permessi da amministratore</string>

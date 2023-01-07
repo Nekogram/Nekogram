@@ -86,7 +86,6 @@
     <string name="AutoPauseVideo">إيقاف تلقائي للفيديو</string>
     <string name="AutoPauseVideoAbout">عند إطفاء الشاشة أو التنقل بين التطبيقات.</string>
     <string name="DisableProximityEvents">إيقاف مستشعرات الجسم</string>
-    <string name="CustomEmojiTypeface">خطٌ مخصص للرموز التعبيرية</string>
     <string name="MapDriftingFix">تصليح الخرائط للصين</string>
     <string name="VoiceEnhancements">تحسينات صوتية</string>
     <string name="VoiceEnhancementsAbout">قمع الضوضاء وتطبيع الصوت</string>
@@ -143,7 +142,6 @@
     <string name="RestrictionReason">سبب التقييد</string>
     <string name="ProviderTencentTranslator">الأستاذ المترجم</string>
     <string name="MaxRecentStickers">الحد الأقصى للملصقات الأخيرة</string>
-    <string name="ApplyEmojiFont">تطبيق خط للرموز التعبيرية</string>
     <string name="DisableJumpToNextChannel">تعطيل \"الانتقال إلى القناة الاتية\"</string>
     <string name="DisableGreetingSticker">تعطيل ملصق الترحيب</string>
     <string name="DeleteAllFromSelfAdmin">مع حقوق المشرف</string>
@@ -252,6 +250,12 @@
     <string name="NoUpdateAvailablePlayDelay">عادةً ما يأتي التحديث في متجر Play أبطأ من ملفات APK المباشرة بسبب مراجعة Google.</string>
     <string name="ProviderTelegram">تيليجرام</string>
     <string name="DisableStickersAutoReorder">تعطيل إعادة ترتيب التلقائي لحزم الملصقات</string>
+    <string name="DownloadEmojiSet">تحميل %s</string>
+    <string name="EmojiSets">مجموعات الرموز التعبيرية</string>
+    <string name="MyEmojiSets">مجموعات الإيموجي الخاصة بي</string>
+    <string name="InstalledEmojiSet">المثبت</string>
+    <string name="InstallingEmojiSet">جارٍ تثبيت…</string>
+    <string name="UpdateEmojiSet">تحديث %s</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

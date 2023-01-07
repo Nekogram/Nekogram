@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">動画の自動一時停止</string>
     <string name="AutoPauseVideoAbout">ロック画面/バックグラウンドに切り替えた時</string>
     <string name="DisableProximityEvents">近接センサーを無効にする</string>
-    <string name="CustomEmojiTypeface">カスタム絵文字フォント</string>
     <string name="MapDriftingFix">中国本土の地図ズレ修正</string>
     <string name="VoiceEnhancements">音声拡張機能</string>
     <string name="VoiceEnhancementsAbout">ノイズの抑制と音声の正規化</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">制限の理由</string>
     <string name="ProviderTencentTranslator">翻訳者</string>
     <string name="MaxRecentStickers">最近のステッカーの最大数</string>
-    <string name="ApplyEmojiFont">絵文字フォントを適用する</string>
     <string name="DisableJumpToNextChannel">「次のチャンネルにジャンプ」を無効にする</string>
     <string name="DisableGreetingSticker">挨拶ステッカーを無効にする</string>
     <string name="DeleteAllFromSelfAdmin">管理者権限で</string>

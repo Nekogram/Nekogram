@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Pausa video automatiskt</string>
     <string name="AutoPauseVideoAbout">När du låser skärmen/växlar till bakgrunden.</string>
     <string name="DisableProximityEvents">Inaktivera närhetshändelser</string>
-    <string name="CustomEmojiTypeface">Anpassat emoji-typsnitt</string>
     <string name="MapDriftingFix">Fix för kartförjutning för Kinas fastland</string>
     <string name="VoiceEnhancements">Förbättring av röst</string>
     <string name="VoiceEnhancementsAbout">Ljuddämpning och normalisering av röst</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Orsak till restriktioner</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">Maximalt antal senaste klistermärken</string>
-    <string name="ApplyEmojiFont">Använd emoji-typsnitt</string>
     <string name="DisableJumpToNextChannel">Inaktivera \"Hoppa till nästa kanal\"</string>
     <string name="DisableGreetingSticker">Inaktivera hälsningsklistermärke</string>
     <string name="DeleteAllFromSelfAdmin">Med administratörsbehörighet</string>

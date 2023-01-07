@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Авто зупинення відео</string>
     <string name="AutoPauseVideoAbout">При заблокованому екрані/фоновий режим.</string>
     <string name="DisableProximityEvents">Вимкнути безконтактні події</string>
-    <string name="CustomEmojiTypeface">Користуватися шрифтом емодзі</string>
     <string name="MapDriftingFix">Виправлення дрейфу карти у Материковому Китаї</string>
     <string name="VoiceEnhancements">Покращення голосу</string>
     <string name="VoiceEnhancementsAbout">Усунення шуму та нормалізація голосу</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Причина обмежень</string>
     <string name="ProviderTencentTranslator">Містер перекладач</string>
     <string name="MaxRecentStickers">Максимум недавніх наліпок</string>
-    <string name="ApplyEmojiFont">Použít emoji font</string>
     <string name="DisableJumpToNextChannel">Vypnutí \"Přejít na další kanál\"</string>
     <string name="DisableGreetingSticker">Vypnout uvítací nálepku</string>
     <string name="DeleteAllFromSelfAdmin">SmazatVšeProJáAdmin</string>

@@ -82,7 +82,6 @@
     <string name="AutoPauseVideo">自動暫停影像</string>
     <string name="AutoPauseVideoAbout">關於自動暫停視頻</string>
     <string name="DisableProximityEvents">禁用接近時間？</string>
-    <string name="CustomEmojiTypeface">自定義表情符號字體</string>
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**應用</string>
     <string name="MapDriftingFix">世界大地測量系統 ==> 火星大地測量系統</string>
     <string name="DisableInstantCamera">禁用即使相機</string>
@@ -136,7 +135,6 @@
     <string name="RestrictionReason">限制原因</string>
     <string name="ProviderTencentTranslator">翻譯者先生</string>
     <string name="MaxRecentStickers">最多最近的貼紙</string>
-    <string name="ApplyEmojiFont">支持的表情符號字體</string>
     <string name="DisableJumpToNextChannel">禁用“轉跳到下一個頻道”</string>
     <string name="DisableGreetingSticker">禁用問候貼紙</string>
     <string name="DeleteAllFromSelfAdmin">擁有管理員權限</string>

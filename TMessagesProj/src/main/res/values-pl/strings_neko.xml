@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Automatycznie pauzuj wideo</string>
     <string name="AutoPauseVideoAbout">Po zablokowaniu ekranu/przejściu w tło.</string>
     <string name="DisableProximityEvents">Wyłącz usługi oparte na lokalizacji</string>
-    <string name="CustomEmojiTypeface">Własna czcionka emoji</string>
     <string name="MapDriftingFix">Poprawka na dryfowanie map dla Chin kontynentalnych</string>
     <string name="VoiceEnhancements">Wzmocnienie głosu</string>
     <string name="VoiceEnhancementsAbout">Tłumienie hałasu i normalizacja głosu</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Powód ograniczenia</string>
     <string name="ProviderTencentTranslator">Tłumacz</string>
     <string name="MaxRecentStickers">Maksymalna liczba ostatnio używanych naklejek</string>
-    <string name="ApplyEmojiFont">Zastosuj czcionkę emoji</string>
     <string name="DisableJumpToNextChannel">Wyłącz \"Przejdź do następnego kanału\"</string>
     <string name="DisableGreetingSticker">Wyłącz naklejkę powitalną</string>
     <string name="DeleteAllFromSelfAdmin">Z prawami administratora</string>

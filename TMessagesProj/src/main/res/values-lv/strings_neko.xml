@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Automātiskā video pauze</string>
     <string name="AutoPauseVideoAbout">Kad bloķējat ekrānu/pārslēdzat uz fonu.</string>
     <string name="DisableProximityEvents">Tuvuma notikumu atspējošana</string>
-    <string name="CustomEmojiTypeface">Pielāgots emodži fonts</string>
     <string name="MapDriftingFix">Kartes driftēšanas labojums kontinentālajai Ķīnai</string>
     <string name="VoiceEnhancements">Balss uzlabojumi</string>
     <string name="VoiceEnhancementsAbout">Trokšņu slāpēšana un balss normalizēšana</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Ierobežojuma iemesls</string>
     <string name="ProviderTencentTranslator">Tulkotāja kungs</string>
     <string name="MaxRecentStickers">Maksimālais nesen uzlīmēto uzlīmju skaits</string>
-    <string name="ApplyEmojiFont">Piemērot emodži fontu</string>
     <string name="DisableJumpToNextChannel">\"Pāriet uz nākamo kanālu\" atspējošana</string>
     <string name="DisableGreetingSticker">Izslēgt apsveikuma uzlīmi</string>
     <string name="DeleteAllFromSelfAdmin">Ar administratora tiesībām</string>

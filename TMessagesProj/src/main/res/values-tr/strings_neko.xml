@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Videoyu otomatik duraklat</string>
     <string name="AutoPauseVideoAbout">Kilit ekranı/arka plana geçildiğinde.</string>
     <string name="DisableProximityEvents">Yakınlık olaylarını devre dışı bırak</string>
-    <string name="CustomEmojiTypeface">Özel emoji yazı tipi</string>
     <string name="MapDriftingFix">Çin Anakarası için harita sürüklenme düzeltmesi</string>
     <string name="VoiceEnhancements">Ses geliştirmeleri</string>
     <string name="VoiceEnhancementsAbout">Gürültü Engelleme ve Ses Normalleştirme</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Kısıtlama nedeni</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">Maksimum son çıkartmalar</string>
-    <string name="ApplyEmojiFont">Özel emoji yazı tipini uygula</string>
     <string name="DisableJumpToNextChannel">\"Sonraki Kanala Atla\"yı devre dışı bırak</string>
     <string name="DisableGreetingSticker">Selamlama çıkartmasını devre dışı bırak</string>
     <string name="DeleteAllFromSelfAdmin">Yönetici haklarıyla</string>

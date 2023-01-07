@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Videos automatisch pausieren</string>
     <string name="AutoPauseVideoAbout">Beim sperren/wechseln in den Hintergrund.</string>
     <string name="DisableProximityEvents">Näherungssensor deaktivieren</string>
-    <string name="CustomEmojiTypeface">Benutzerdefinierte Emoji-Schriftart</string>
     <string name="MapDriftingFix">Kartendrifting-Fix für China</string>
     <string name="VoiceEnhancements">Stimmenverbesserungen</string>
     <string name="VoiceEnhancementsAbout">Rauschunterdrückung und Stimmnormalisierung</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Einschränkungsgrund</string>
     <string name="ProviderTencentTranslator">Mr. Translator Übersetzer</string>
     <string name="MaxRecentStickers">Max. aktuelle Sticker</string>
-    <string name="ApplyEmojiFont">Emoji-Schriftart anwenden</string>
     <string name="DisableJumpToNextChannel">Deaktiviere \"zum nächsten Kanal springen\"</string>
     <string name="DisableGreetingSticker">Begrüßungssticker deaktivieren</string>
     <string name="DeleteAllFromSelfAdmin">Mit Admin-Rechten</string>
@@ -250,6 +248,31 @@
     <string name="NoUpdateAvailablePlayDelay">Die Aktualisierung im Play Store erfolgt in der Regel langsamer als direkte APKs aufgrund der Überprüfung durch Google.</string>
     <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">Auto-Neuanordnung der Sticker Packs deaktivieren</string>
+    <string name="DownloadEmojiSet">%s herunterladen</string>
+    <string name="EmojiSets">Emoji-Sets</string>
+    <string name="MyEmojiSets">Meine Emoji-Sets</string>
+    <string name="InstalledEmojiSet">Installiert</string>
+    <string name="InstallingEmojiSet">… wird installiert</string>
+    <string name="UpdateEmojiSet">%s aktualisieren</string>
+    <string name="EmojiSetHint">Dies wirkt sich nur auf die Darstellung der Emojis für Sie aus. Andere sehen sie je nach ihren Vorlieben.</string>
+    <string name="CustomEmojiSetHint">Importieren und wählen Sie Emoji-Sets aus Ihrem internen Speicher.</string>
+    <string name="AddEmojiSet">Emoji-Set hinzufügen</string>
+    <string name="EmojiSetRemoved">Emoji-Set entfernt.</string>
+    <string name="EmojiSetRemovedInfo">%1$s ist nicht mehr in Ihren Emoji-Sets enthalten.</string>
+    <string name="DeleteEmojiSets">%1$s Emoji-Sets</string>
+    <string name="DeleteEmojiSetsMessage">Sind Sie sicher, dass Sie die ausgewählten Emoji-Sets löschen möchten?</string>
+    <string name="ApplyEmojiSet">Emoji-Set anwenden</string>
+    <string name="EmojiSetApplied">Emoji-Set angewendet.</string>
+    <string name="EmojiSetAppliedInfo">%1$s ist jetzt dein Emoji-Set.</string>
+    <string name="EmojiSetAlreadyApplied">Das Emoji-Set wurde bereits angewendet.</string>
+    <string name="SendAnonymousData">Anonyme Daten senden</string>
+    <string name="SendBugReport">Fehlerbericht senden</string>
+    <string name="SendBugReportDesc">Dies wird uns helfen, Probleme schneller zu finden.</string>
+    <string name="AnonymousDataDelete">Daten löschen</string>
+    <string name="AnonymousDataDeleteDesc">Ausgehende Daten von diesem Gerät dauerhaft blockieren und gesammelte Daten löschen.</string>
+    <string name="SendAnonymousDataDesc">Die oben genannten Funktionen verwenden das von Microsoft bereitgestellte Visual Studio App Center. Die erfassten Informationen sind anonym und können nicht zu einem unabhängigen Gerät oder Benutzer zurückverfolgt werden.</string>
+    <string name="SendLargePhotos">Große Fotos senden</string>
+    <string name="SendLargePhotosAbout">Erhöhen Sie die Seitenbegrenzung für komprimierte Bilder auf 2560px.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Bedienungshilfen</string>
 </resources>

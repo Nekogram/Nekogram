@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">Pause automatique de la vidéo</string>
     <string name="AutoPauseVideoAbout">Au verrouillage de l\'écran ou si l\'app bascule en arrière-plan.</string>
     <string name="DisableProximityEvents">Désactiver les événements de proximité</string>
-    <string name="CustomEmojiTypeface">Police d\'emojis personnalisée</string>
     <string name="MapDriftingFix">Correction de la dérive de carte pour la Chine continentale</string>
     <string name="VoiceEnhancements">Améliorations vocales</string>
     <string name="VoiceEnhancementsAbout">Suppression du bruit et normalisation vocale</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">Motif de la restriction</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">Nombre maximum d\'autocollants récents</string>
-    <string name="ApplyEmojiFont">Appliquer la police d\'emoji</string>
     <string name="DisableJumpToNextChannel">Désactiver \"Passer au canal suivant\"</string>
     <string name="DisableGreetingSticker">Désactiver l\'autocollant de salutation</string>
     <string name="DeleteAllFromSelfAdmin">Avec les droits d\'administrateur</string>
@@ -229,7 +227,16 @@
     <string name="MarkdownParser">Analyseur</string>
     <string name="MarkdownParseLinks">Analyser les liens</string>
     <string name="MarkdownAbout">Modifier le texte dans les messages en utilisant le format Markdown : ^1**gras**^1, ^2__italique__^2, ^3~~barré~~^3, ^4`monospace`^4, ^5||spoiler||^5, ^6texte^7url^8.</string>
+    <string name="AppIconOldSchool">Old School</string>
+    <string name="AppIconMerio">Merio</string>
+    <string name="AppIconRainbow">Arc-en-ciel</string>
+    <string name="AppIconMusheen">Musheen</string>
+    <string name="AppIconSpace">Espace</string>
+    <string name="AppIconCloud">Nuage</string>
+    <string name="AppIconNeon">Néon</string>
+    <string name="AppIconMaterial">Material</string>
     <string name="NoUpdateAvailablePlayDelay">En raison de la révision de Google, la mise à jour dans le Play Store est généralement plus lente que les APK directs.</string>
+    <string name="ProviderTelegram">Telegram</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

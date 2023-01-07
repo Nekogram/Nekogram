@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">वीडियो ऑटो पॉज</string>
     <string name="AutoPauseVideoAbout">जब लॉक स्क्रीन होगी/बैकग्राउंड को जायेगा।</string>
     <string name="DisableProximityEvents">प्रॉक्सिमिटी इवेंट्स डिसेबल करें</string>
-    <string name="CustomEmojiTypeface">कस्टम इमोजी फ़ॉन्ट्स</string>
     <string name="MapDriftingFix">मुख्यभूमि चीन के लिए मैप ड्रिफ्टिंग फिक्स</string>
     <string name="VoiceEnhancements">आवाज़ को इन्हैंस करें</string>
     <string name="VoiceEnhancementsAbout">शोर दमन और आवाज सामान्यीकरण</string>
@@ -141,7 +140,6 @@
     <string name="RestrictionReason">प्रतिबंध का कारण</string>
     <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">पिछले स्टीकरों की अधिकतम संख्या</string>
-    <string name="ApplyEmojiFont">इमोजी फ़ॉन्ट को लागू करें</string>
     <string name="DisableJumpToNextChannel">\"Jump to Next Channel\" को डिसेबल करें</string>
     <string name="DisableGreetingSticker">ग्रीटिंग स्टिकर को डिसेबल करें</string>
     <string name="DeleteAllFromSelfAdmin">एडमिन अधिकार सहित</string>

@@ -85,7 +85,6 @@
     <string name="AutoPauseVideo">自動暫停影片</string>
     <string name="AutoPauseVideoAbout">當鎖定螢幕/切換到背景時</string>
     <string name="DisableProximityEvents">禁用接近事件</string>
-    <string name="CustomEmojiTypeface">自定義表情符號字體</string>
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**應用</string>
     <string name="MapDriftingFix">中國大陸地圖漂移修復</string>
     <string name="VoiceEnhancements">語音增強功能</string>
@@ -142,7 +141,6 @@
     <string name="RestrictionReason">限制原因</string>
     <string name="ProviderTencentTranslator">騰訊翻譯</string>
     <string name="MaxRecentStickers">最大最近貼紙數量</string>
-    <string name="ApplyEmojiFont">應用 Emoji 字體</string>
     <string name="DisableJumpToNextChannel">不要滑動跳轉到下一個頻道</string>
     <string name="DisableGreetingSticker">不要「打招呼」表情</string>
     <string name="OfficialSite">官方網站</string>
