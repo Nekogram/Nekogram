@@ -30,6 +30,7 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.BulletinFactory;
+import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.LaunchActivity;
 
 import java.util.Arrays;
@@ -43,6 +44,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
     private int buyMeACoffee2Row;
 
     private int donateRow;
+    private int placeHolderRow;
     private int donate2Row;
 
     private BillingClient billingClient;
@@ -100,7 +102,9 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                                 AndroidUtilities.runOnUIThread(() -> {
                                     if (listAdapter != null) {
                                         skuDetails = list;
-                                        listAdapter.notifyItemRangeChanged(donateRow + 1, 7);
+                                        updateRows();
+                                        listAdapter.notifyItemChanged(donateRow + 1);
+                                        listAdapter.notifyItemRangeInserted(donateRow + 2, skuDetails.size() - 1);
                                     }
                                 });
                             }
@@ -156,7 +160,12 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
         buyMeACoffee2Row = -1;
 
         donateRow = rowCount++;
-        rowCount += 7;
+        if (skuDetails == null || skuDetails.isEmpty()) {
+            placeHolderRow = rowCount++;
+        } else {
+            placeHolderRow = -1;
+            rowCount += skuDetails.size();
+        }
         donate2Row = rowCount++;
     }
 
@@ -228,6 +237,12 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                     }
                     break;
                 }
+                case TYPE_FLICKER: {
+                    FlickerLoadingView flickerLoadingView = (FlickerLoadingView) holder.itemView;
+                    flickerLoadingView.setViewType(FlickerLoadingView.TEXT_SETTINGS_TYPE);
+                    flickerLoadingView.setIsSingleCell(true);
+                    break;
+                }
             }
         }
 
@@ -251,6 +266,8 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                 return TYPE_INFO_PRIVACY;
             } else if (position == buyMeACoffeeRow) {
                 return TYPE_BUYMEACOFFEE;
+            } else if (position == placeHolderRow) {
+                return TYPE_FLICKER;
             }
             return TYPE_SETTINGS;
         }

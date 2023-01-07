@@ -45,6 +45,8 @@ public class FlickerLoadingView extends View {
     public static final int DIALOG_CACHE_CONTROL = 25;
     public static final int CHECKBOX_TYPE = 26;
 
+    public static final int TEXT_SETTINGS_TYPE = 100;
+
     private int gradientWidth;
     private LinearGradient gradient;
     private Paint paint = new Paint();
@@ -709,6 +711,19 @@ public class FlickerLoadingView extends View {
                     break;
                 }
             }
+        } else if (viewType == TEXT_SETTINGS_TYPE) {
+            int k = 0;
+            while (h <= getMeasuredHeight()) {
+                rectF.set(AndroidUtilities.dp(21), h + AndroidUtilities.dp(21), AndroidUtilities.dp(80), h + AndroidUtilities.dp(29));
+                checkRtl(rectF);
+                canvas.drawRoundRect(rectF, AndroidUtilities.dp(4), AndroidUtilities.dp(4), paint);
+
+                h += getCellHeight(getMeasuredWidth());
+                k++;
+                if (isSingleCell && k >= itemsCount) {
+                    break;
+                }
+            }
         }
         invalidate();
     }
@@ -830,6 +845,8 @@ public class FlickerLoadingView extends View {
                 return AndroidUtilities.dp(51);
             case CHECKBOX_TYPE:
                 return AndroidUtilities.dp(50) + 1;
+            case TEXT_SETTINGS_TYPE:
+                return AndroidUtilities.dp(50);
         }
         return 0;
     }
