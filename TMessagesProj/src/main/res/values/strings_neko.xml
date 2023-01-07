@@ -270,6 +270,12 @@
     <string name="EmojiSetApplied">Emoji set applied.</string>
     <string name="EmojiSetAppliedInfo">%1$s is now your emoji set.</string>
     <string name="EmojiSetAlreadyApplied">Emoji set already applied.</string>
+    <string name="SendAnonymousData">Send anonymous data</string>
+    <string name="SendBugReport">Send bug report</string>
+    <string name="SendBugReportDesc">This will help us find problems faster.</string>
+    <string name="AnonymousDataDelete">Delete data</string>
+    <string name="AnonymousDataDeleteDesc">Permanently block outgoing data from this instance and delete collected data.</string>
+    <string name="SendAnonymousDataDesc">The above features use the Visual Studio App Center provided by Microsoft. The information collected is anonymous and we cannot trace it back to an independent device or user.</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

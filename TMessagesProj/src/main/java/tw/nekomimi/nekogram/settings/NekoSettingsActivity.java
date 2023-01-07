@@ -262,7 +262,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
                     } else if (position == passcodeRow) {
                         textCell.setTextAndIcon(LocaleController.getString("PasscodeNeko", R.string.PasscodeNeko), R.drawable.msg_permissions, true);
                     } else if (position == experimentRow) {
-                        textCell.setTextAndIcon(LocaleController.getString("Experiment", R.string.Experiment), R.drawable.msg_fave, accessibilityRow != -1);
+                        textCell.setTextAndIcon(LocaleController.getString("NotificationsOther", R.string.NotificationsOther), R.drawable.msg_fave, accessibilityRow != -1);
                     } else if (position == accessibilityRow) {
                         textCell.setText(LocaleController.getString("AccessibilitySettings", R.string.AccessibilitySettings), false);
                     }

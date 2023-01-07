@@ -1,6 +1,7 @@
 package tw.nekomimi.nekogram.helpers.remote;
 
 import android.app.Application;
+import android.content.SharedPreferences;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,11 @@ import java.util.HashMap;
 import tw.nekomimi.nekogram.Extra;
 
 public class AnalyticsHelper {
+    private static SharedPreferences preferences;
+
+    public static boolean sendBugReport = true;
+    public static boolean analyticsDisabled = false;
+
     private static final Channel.Listener patchDeviceListener = new AbstractChannelListener() {
         @Override
         public void onPreparedLog(@NonNull Log log, @NonNull String groupName, int flags) {
@@ -57,19 +63,46 @@ public class AnalyticsHelper {
         if (BuildConfig.DEBUG) return;
         if ("play".equals(BuildConfig.BUILD_TYPE)) {
             AppCenter.start(application, Extra.APPCENTER_SECRET, Analytics.class);
+            patchDevice();
         } else {
+            preferences = application.getSharedPreferences("nekoanalytics", Application.MODE_PRIVATE);
+            analyticsDisabled = preferences.getBoolean("analyticsDisabled", false);
+            if (analyticsDisabled) {
+                return;
+            }
             AppCenter.start(application, Extra.APPCENTER_SECRET, Analytics.class, Crashes.class);
+            patchDevice();
+            sendBugReport = preferences.getBoolean("sendBugReport", true);
+            Crashes.setEnabled(sendBugReport);
         }
-        patchDevice();
     }
 
     public static void trackEvent(String event) {
-        if (BuildConfig.DEBUG) return;
+        if (BuildConfig.DEBUG || analyticsDisabled) return;
         Analytics.trackEvent(event);
     }
 
     public static void trackEvent(String event, HashMap<String, String> map) {
-        if (BuildConfig.DEBUG) return;
+        if (BuildConfig.DEBUG || analyticsDisabled) return;
         Analytics.trackEvent(event, map);
+    }
+
+    public static boolean isSettingsAvailable() {
+        return !"play".equals(BuildConfig.BUILD_TYPE);
+    }
+
+    public static void setAnalyticsDisabled() {
+        AnalyticsHelper.analyticsDisabled = true;
+        if (BuildConfig.DEBUG) return;
+        Analytics.setEnabled(false);
+        Crashes.setEnabled(false);
+        preferences.edit().putBoolean("analyticsDisabled", true).apply();
+    }
+
+    public static void toggleSendBugReport() {
+        AnalyticsHelper.sendBugReport = !AnalyticsHelper.sendBugReport;
+        if (BuildConfig.DEBUG) return;
+        Crashes.setEnabled(sendBugReport);
+        preferences.edit().putBoolean("sendBugReport", sendBugReport).apply();
     }
 }

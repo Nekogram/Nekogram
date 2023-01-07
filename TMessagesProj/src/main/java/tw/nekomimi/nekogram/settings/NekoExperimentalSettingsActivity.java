@@ -21,6 +21,8 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
+import org.telegram.ui.Cells.TextDetailSettingsCell;
+import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.AlertsCreator;
 
@@ -29,6 +31,7 @@ import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
+import tw.nekomimi.nekogram.helpers.remote.AnalyticsHelper;
 
 public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
@@ -42,6 +45,11 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int disableFilteringRow;
     private int showRPCErrorRow;
     private int experiment2Row;
+
+    private int dataRow;
+    private int sendBugReportRow;
+    private int deleteDataRow;
+    private int data2Row;
 
     private int deleteAccountRow;
     private int deleteAccount2Row;
@@ -184,6 +192,20 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 NekoConfig.setDownloadSpeedBoost(types.get(i));
                 listAdapter.notifyItemChanged(downloadSpeedBoostRow, PARTIAL);
             });
+        } else if (position == sendBugReportRow) {
+            if (AnalyticsHelper.analyticsDisabled) {
+                return;
+            }
+            AnalyticsHelper.toggleSendBugReport();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(AnalyticsHelper.sendBugReport);
+            }
+        } else if (position == deleteDataRow) {
+            if (AnalyticsHelper.analyticsDisabled) {
+                return;
+            }
+            AnalyticsHelper.setAnalyticsDisabled();
+            listAdapter.notifyItemRangeChanged(sendBugReportRow, 2);
         }
     }
 
@@ -199,7 +221,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
     @Override
     protected String getActionBarTitle() {
-        return LocaleController.getString("Experiment", R.string.Experiment);
+        return LocaleController.getString("NotificationsOther", R.string.NotificationsOther);
     }
 
     @Override
@@ -213,6 +235,19 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         disableFilteringRow = sensitiveCanChange ? addRow("disableFiltering") : -1;
         showRPCErrorRow = addRow("showRPCError");
         experiment2Row = addRow();
+
+        if (AnalyticsHelper.isSettingsAvailable()) {
+            dataRow = addRow();
+            sendBugReportRow = addRow();
+            deleteDataRow = addRow();
+            data2Row = addRow();
+        } else {
+            dataRow = -1;
+            sendBugReportRow = -1;
+            deleteDataRow = -1;
+            data2Row = -1;
+        }
+
         deleteAccountRow = addRow("deleteAccount");
         deleteAccount2Row = addRow();
     }
@@ -270,6 +305,9 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("ShowRPCError", R.string.ShowRPCError), LocaleController.formatString("ShowRPCErrorException", R.string.ShowRPCErrorException, "FILE_REFERENCE_EXPIRED"), NekoConfig.showRPCError, true, false);
                     } else if (position == uploadSpeedBoostRow) {
                         textCell.setTextAndCheck(LocaleController.getString("UploadloadSpeedBoost", R.string.UploadloadSpeedBoost), NekoConfig.uploadSpeedBoost, true);
+                    } else if (position == sendBugReportRow) {
+                        textCell.setEnabled(!AnalyticsHelper.analyticsDisabled, null);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("SendBugReport", R.string.SendBugReport), LocaleController.getString("SendBugReportDesc", R.string.SendBugReportDesc), !AnalyticsHelper.analyticsDisabled && AnalyticsHelper.sendBugReport, true, true);
                     }
                     break;
                 }
@@ -277,10 +315,38 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == experimentRow) {
                         headerCell.setText(LocaleController.getString("Experiment", R.string.Experiment));
+                    } else if (position == dataRow) {
+                        headerCell.setText(LocaleController.getString("SendAnonymousData", R.string.SendAnonymousData));
+                    }
+                    break;
+                }
+                case TYPE_DETAIL_SETTINGS: {
+                    TextDetailSettingsCell cell = (TextDetailSettingsCell) holder.itemView;
+                    cell.setEnabled(true);
+                    if (position == deleteDataRow) {
+                        cell.setEnabled(!AnalyticsHelper.analyticsDisabled);
+                        cell.setMultilineDetail(true);
+                        cell.setTextAndValue(LocaleController.getString("AnonymousDataDelete", R.string.AnonymousDataDelete), LocaleController.getString("AnonymousDataDeleteDesc", R.string.AnonymousDataDeleteDesc), false);
+                    }
+                    break;
+                }
+                case TYPE_INFO_PRIVACY: {
+                    TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
+                    if (position == data2Row) {
+                        cell.setText(LocaleController.getString("SendAnonymousDataDesc", R.string.SendAnonymousDataDesc));
                     }
                     break;
                 }
             }
+        }
+
+        @Override
+        public boolean isEnabled(RecyclerView.ViewHolder holder) {
+            int position = holder.getAdapterPosition();
+            if (position == sendBugReportRow || position == deleteDataRow) {
+                return !AnalyticsHelper.analyticsDisabled;
+            }
+            return super.isEnabled(holder);
         }
 
         @Override
@@ -289,10 +355,14 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 return TYPE_SHADOW;
             } else if (position == deleteAccountRow || position == downloadSpeedBoostRow) {
                 return TYPE_SETTINGS;
-            } else if (position > downloadSpeedBoostRow && position <= showRPCErrorRow) {
+            } else if (position > downloadSpeedBoostRow && position <= showRPCErrorRow || position == sendBugReportRow) {
                 return TYPE_CHECK;
-            } else if (position == experimentRow) {
+            } else if (position == experimentRow || position == dataRow) {
                 return TYPE_HEADER;
+            } else if (position == deleteDataRow) {
+                return TYPE_DETAIL_SETTINGS;
+            } else if (position == data2Row) {
+                return TYPE_INFO_PRIVACY;
             }
             return TYPE_SETTINGS;
         }
