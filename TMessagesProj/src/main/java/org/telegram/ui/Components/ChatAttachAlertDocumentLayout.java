@@ -960,13 +960,18 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
                 ListItem item = new ListItem();
                 item.title = file.getName();
                 item.file = file;
-                String fname = file.getName();
-                String[] sp = fname.split("\\.");
-                item.ext = sp.length > 1 ? sp[sp.length - 1] : "?";
-                item.subtitle = AndroidUtilities.formatFileSize(file.length());
-                fname = fname.toLowerCase();
-                if (fname.endsWith(".jpg") || fname.endsWith(".png") || fname.endsWith(".gif") || fname.endsWith(".jpeg")) {
-                    item.thumb = file.getAbsolutePath();
+                if (file.isDirectory()) {
+                    item.icon = R.drawable.files_folder;
+                    item.subtitle = LocaleController.getString("Folder", R.string.Folder);
+                } else {
+                    String fname = file.getName();
+                    String[] sp = fname.split("\\.");
+                    item.ext = sp.length > 1 ? sp[sp.length - 1] : "?";
+                    item.subtitle = AndroidUtilities.formatFileSize(file.length());
+                    fname = fname.toLowerCase();
+                    if (fname.endsWith(".jpg") || fname.endsWith(".png") || fname.endsWith(".gif") || fname.endsWith(".jpeg")) {
+                        item.thumb = file.getAbsolutePath();
+                    }
                 }
                 listAdapter.recentItems.add(item);
             }
