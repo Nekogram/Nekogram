@@ -32,13 +32,13 @@ dependencies {
     implementation 'com.google.mlkit:language-id:17.0.4'
     implementation 'com.android.billingclient:billing:5.1.0'
 
-    implementation "androidx.browser:browser:1.4.0"
+    implementation 'androidx.browser:browser:1.4.0'
+    implementation 'app.nekogram.prism4j:prism4j:2.1.0'
+    implementation 'app.nekogram.tcp2ws:tcp2ws:1.2.0'
+    implementation 'app.nekogram.translator:translator:1.0.0'
     implementation 'com.getkeepsafe.relinker:relinker:1.4.5'
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
-    implementation 'org.codeberg.qwerty287:prism4j:003cb5e380'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
-    implementation files('libs/org.tcp2ws.jar')
-    implementation files('libs/org.translator.jar')
 
     def appCenterSdkVersion = '5.0.0'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
