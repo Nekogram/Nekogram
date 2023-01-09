@@ -58,7 +58,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
     private AudioManager audioManager;
 
     private static boolean supportBigNotifications = Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN;
-    private static boolean supportLockScreenControls = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP || !TextUtils.isEmpty(AndroidUtilities.getSystemProperty("ro.miui.ui.version.code"));
+    private static boolean supportLockScreenControls = Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP;
 
     private MediaSession mediaSession;
     private PlaybackState.Builder playbackState;
