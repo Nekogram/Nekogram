@@ -52,7 +52,7 @@ public class TencentTranslator extends BaseTranslator {
 
     @Override
     protected Result translate(String query, String fl, String tl) throws Exception {
-        var result = mrTranslatorWeb.translate(query, "auto", tl);
+        var result = mrTranslatorWeb.translate(query.replace("\n", "<br/>"), "auto", tl);
         return new Result(HtmlCompat.fromHtml(result[1], HtmlCompat.FROM_HTML_MODE_LEGACY).toString(), result[0]);
     }
 }

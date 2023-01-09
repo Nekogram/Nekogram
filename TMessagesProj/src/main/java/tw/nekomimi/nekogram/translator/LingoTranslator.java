@@ -2,6 +2,7 @@ package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -31,7 +32,11 @@ public class LingoTranslator extends BaseTranslator {
     @Override
     protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("source", query);
+        JSONArray source = new JSONArray();
+        for (var s : query.split("\n")) {
+            source.put(s);
+        }
+        jsonObject.put("source", source);
         jsonObject.put("trans_type", "auto2" + tl);
         jsonObject.put("request_id", String.valueOf(System.currentTimeMillis()));
         jsonObject.put("detect", true);
@@ -48,6 +53,14 @@ public class LingoTranslator extends BaseTranslator {
         if (!jsonObject.has("target") && jsonObject.has("error")) {
             throw new IOException(jsonObject.getString("error"));
         }
-        return new Result(jsonObject.getString("target"), null);
+        JSONArray target = jsonObject.getJSONArray("target");
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < target.length(); i++) {
+            result.append(target.getString(i));
+            if (i != target.length() - 1) {
+                result.append("\n");
+            }
+        }
+        return new Result(result.toString(), null);
     }
 }

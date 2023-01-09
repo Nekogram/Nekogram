@@ -19,7 +19,7 @@ public class SogouTranslator extends BaseTranslator {
             "ar", "cs", "da", "de", "de", "en", "es",
             "fi", "fr", "hu", "it", "ja", "ko", "nl",
             "pl", "pt", "ru", "sv", "th", "tr", "vi",
-            "zh", "zh-CN", "zh-TW");
+            "zh");
 
     private static final class InstanceHolder {
         private static final SogouTranslator instance = new SogouTranslator();
@@ -38,18 +38,22 @@ public class SogouTranslator extends BaseTranslator {
             if (targetLanguages.contains(languageLowerCase + "-" + countryUpperCase)) {
                 code = languageLowerCase + "-" + countryUpperCase;
             } else if (languageLowerCase.equals("zh")) {
-                if (countryUpperCase.equals("DG")) {
-                    code = "zh-CN";
-                } else if (countryUpperCase.equals("HK")) {
-                    code = "zh-TW";
-                } else {
-                    code = languageLowerCase;
-                }
+                code = "zh-CHS";
             } else {
                 code = languageLowerCase;
             }
         } else {
             code = languageLowerCase;
+        }
+        return code;
+    }
+
+    @Override
+    public String convertLanguageCode(String code, boolean reverse) {
+        if (reverse) {
+            if (code.equals("zh-CHS")) return "zh";
+        } else {
+            if (code.equals("zh")) return "zh-CHS";
         }
         return code;
     }
