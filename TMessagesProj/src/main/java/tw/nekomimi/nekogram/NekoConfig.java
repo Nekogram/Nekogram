@@ -133,6 +133,7 @@ public class NekoConfig {
     public static boolean markdownParseLinks = true;
     public static boolean uploadSpeedBoost = false;
     public static boolean disableStickersAutoReorder = false;
+    public static boolean sendLargePhotos = true;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
@@ -316,6 +317,7 @@ public class NekoConfig {
             downloadSpeedBoost = preferences.getInt("downloadSpeedBoost2", BOOST_NONE);
             uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
             disableStickersAutoReorder = preferences.getBoolean("disableStickersAutoReorder", false);
+            sendLargePhotos = preferences.getBoolean("sendLargePhotos", true);
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             for (int a = 1; a <= 5; a++) {
@@ -386,6 +388,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("downloadSpeedBoost2", boost);
+        editor.apply();
+    }
+
+    public static void toggleSendLargePhotos() {
+        sendLargePhotos = !sendLargePhotos;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("sendLargePhotos", sendLargePhotos);
         editor.apply();
     }
 

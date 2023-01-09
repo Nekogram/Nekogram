@@ -43,6 +43,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int uploadSpeedBoostRow;
     private int mapDriftingFixRow;
     private int disableFilteringRow;
+    private int sendLargePhotosRow;
     private int showRPCErrorRow;
     private int experiment2Row;
 
@@ -206,6 +207,11 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             }
             AnalyticsHelper.setAnalyticsDisabled();
             listAdapter.notifyItemRangeChanged(sendBugReportRow, 2);
+        } else if (position == sendLargePhotosRow) {
+            NekoConfig.toggleSendLargePhotos();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.sendLargePhotos);
+            }
         }
     }
 
@@ -233,6 +239,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         uploadSpeedBoostRow = addRow("uploadSpeedBoost");
         mapDriftingFixRow = addRow("mapDriftingFix");
         disableFilteringRow = sensitiveCanChange ? addRow("disableFiltering") : -1;
+        sendLargePhotosRow = addRow("sendLargePhotosRow");
         showRPCErrorRow = addRow("showRPCError");
         experiment2Row = addRow();
 
@@ -308,6 +315,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     } else if (position == sendBugReportRow) {
                         textCell.setEnabled(!AnalyticsHelper.analyticsDisabled, null);
                         textCell.setTextAndValueAndCheck(LocaleController.getString("SendBugReport", R.string.SendBugReport), LocaleController.getString("SendBugReportDesc", R.string.SendBugReportDesc), !AnalyticsHelper.analyticsDisabled && AnalyticsHelper.sendBugReport, true, true);
+                    } else if (position == sendLargePhotosRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString("SendLargePhotos", R.string.SendLargePhotos), LocaleController.getString("SendLargePhotosAbout", R.string.SendLargePhotosAbout), NekoConfig.sendLargePhotos, true, true);
                     }
                     break;
                 }

@@ -6217,7 +6217,11 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     public TLRPC.TL_photo generatePhotoSizes(TLRPC.TL_photo photo, String path, Uri imageUri) {
-        Bitmap bitmap = ImageLoader.loadBitmap(path, imageUri, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), true);
+        int maxSize = NekoConfig.sendLargePhotos ? 2560 : 1280;
+        Bitmap bitmap = ImageLoader.loadBitmap(path, imageUri, maxSize, maxSize, true);
+        if (bitmap == null && NekoConfig.sendLargePhotos) {
+            bitmap = ImageLoader.loadBitmap(path, imageUri, 1280, 1280, true);
+        }
         if (bitmap == null) {
             bitmap = ImageLoader.loadBitmap(path, imageUri, 800, 800, true);
         }
@@ -6226,7 +6230,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (size != null) {
             sizes.add(size);
         }
-        size = ImageLoader.scaleAndSaveImage(bitmap, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), true, 80, false, 101, 101);
+        size = ImageLoader.scaleAndSaveImage(bitmap, maxSize, maxSize, true, 80, false, 101, 101);
         if (size != null) {
             sizes.add(size);
         }
@@ -7169,12 +7173,16 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             File bigFile = FileLoader.getInstance(accountInstance.getCurrentAccount()).getPathToAttach(bigSize, false);
             boolean bigExists = bigFile.exists();
             if (!smallExists || !bigExists) {
-                Bitmap bitmap = ImageLoader.loadBitmap(path, uri, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), true);
+                int maxSize = NekoConfig.sendLargePhotos ? 2560 : 1280;
+                Bitmap bitmap = ImageLoader.loadBitmap(path, uri, maxSize, maxSize, true);
+                if (bitmap == null && NekoConfig.sendLargePhotos) {
+                    bitmap = ImageLoader.loadBitmap(path, uri, 1280, 1280, true);
+                }
                 if (bitmap == null) {
                     bitmap = ImageLoader.loadBitmap(path, uri, 800, 800, true);
                 }
                 if (!bigExists) {
-                    TLRPC.PhotoSize size = ImageLoader.scaleAndSaveImage(bigSize, bitmap, Bitmap.CompressFormat.JPEG, true, AndroidUtilities.getPhotoSize(), AndroidUtilities.getPhotoSize(), 80, false, 101, 101,false);
+                    TLRPC.PhotoSize size = ImageLoader.scaleAndSaveImage(bigSize, bitmap, Bitmap.CompressFormat.JPEG, true, maxSize, maxSize, 80, false, 101, 101,false);
                     if (size != bigSize) {
                         photo.sizes.add(0, size);
                     }
