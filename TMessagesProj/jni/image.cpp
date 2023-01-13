@@ -7,8 +7,6 @@
 #include <unistd.h>
 #include <android/bitmap.h>
 #include <string>
-#include <mozjpeg/java/org_libjpegturbo_turbojpeg_TJ.h>
-#include <mozjpeg/jpeglib.h>
 #include <tgnet/FileLog.h>
 #include <vector>
 #include <algorithm>
@@ -1061,110 +1059,6 @@ JNIEXPORT void Java_org_telegram_messenger_Utilities_drawDitheredGradient(JNIEnv
         env->ThrowNew(jclass_RuntimeException, "AndroidBitmap_unlockPixels failed with a reason: " + reason);
         return;
     }
-}
-
-JNIEXPORT jint Java_org_telegram_messenger_Utilities_saveProgressiveJpeg(JNIEnv *env, jclass clazz, jobject bitmap, jint width, jint height, jint stride, jint quality, jstring path) {
-    if (!bitmap || !path || !width || !height || !stride || stride != width * 4) {
-        return 0;
-    }
-    void *pixels = 0;
-    if (AndroidBitmap_lockPixels(env, bitmap, &pixels) < 0) {
-        return 0;
-    }
-    if (pixels == NULL) {
-        return 0;
-    }
-    tjhandle handle = 0;
-    if ((handle = tjInitCompress()) == NULL) {
-        return 0;
-    }
-    const char *pathStr = env->GetStringUTFChars(path, 0);
-    std::string filePath = std::string(pathStr);
-    if (pathStr != 0) {
-        env->ReleaseStringUTFChars(path, pathStr);
-    }
-
-    const char *enabledValue = "1";
-    const char *disabledValue = "0";
-    setenv("TJ_OPTIMIZE", enabledValue, 1);
-    setenv("TJ_ARITHMETIC", disabledValue, 1);
-    setenv("TJ_PROGRESSIVE", enabledValue, 1);
-    setenv("TJ_REVERT", enabledValue, 1);
-
-    TJSAMP jpegSubsamp = TJSAMP::TJSAMP_420;
-    jint buffSize = (jint) tjBufSize(width, height, jpegSubsamp);
-    unsigned char *jpegBuf = new unsigned char[buffSize];
-    unsigned char *srcBuf = (unsigned char *) pixels;
-
-    int pf = org_libjpegturbo_turbojpeg_TJ_PF_RGBA;
-
-    jsize actualPitch = width * tjPixelSize[pf];
-    jsize arraySize = (height - 1) * actualPitch + (width) * tjPixelSize[pf];
-    unsigned long jpegSize = tjBufSize(width, height, jpegSubsamp);
-
-    if (tjCompress2(handle, srcBuf, width, stride, height, pf, &jpegBuf, &jpegSize, jpegSubsamp, quality, TJFLAG_ACCURATEDCT | TJFLAG_PROGRESSIVE | TJFLAG_NOREALLOC) == 0) {
-        FILE *f = fopen(filePath.c_str(), "wb");
-        if (f && fwrite(jpegBuf, sizeof(unsigned char), jpegSize, f) == jpegSize) {
-            fflush(f);
-            fsync(fileno(f));
-        } else {
-            jpegSize = -1;
-        }
-        fclose(f);
-    } else {
-        jpegSize = -1;
-    }
-    delete[] jpegBuf;
-    tjDestroy(handle);
-    AndroidBitmap_unlockPixels(env, bitmap);
-    return jpegSize;
-
-    /*struct jpeg_compress_struct cinfo;
-    struct jpeg_error_mgr jerr;
-    cinfo.err = jpeg_std_error(&jerr);
-    jpeg_create_compress(&cinfo);
-
-    const char *pathStr = env->GetStringUTFChars(path, 0);
-    std::string filePath = std::string(pathStr);
-    if (pathStr != 0) {
-        env->ReleaseStringUTFChars(path, pathStr);
-    }
-
-    uint8_t *outBuffer = NULL;
-    unsigned long outSize = 0;
-    jpeg_mem_dest(&cinfo, &outBuffer, &outSize);
-    unsigned char *srcBuf = (unsigned char *) pixels;
-
-    cinfo.image_width = (uint32_t) width;
-    cinfo.image_height = (uint32_t) height;
-    cinfo.input_components = 4;
-    cinfo.in_color_space = JCS_EXT_RGBA;
-    jpeg_c_set_int_param(&cinfo, JINT_COMPRESS_PROFILE, JCP_FASTEST);
-    jpeg_set_defaults(&cinfo);
-    cinfo.arith_code = FALSE;
-    cinfo.dct_method = JDCT_ISLOW;
-    cinfo.optimize_coding = TRUE;
-    jpeg_set_quality(&cinfo, 78, 1);
-    jpeg_simple_progression(&cinfo);
-    jpeg_start_compress(&cinfo, 1);
-
-    JSAMPROW rowPointer[1];
-    while (cinfo.next_scanline < cinfo.image_height) {
-        rowPointer[0] = (JSAMPROW) (srcBuf + cinfo.next_scanline * stride);
-        jpeg_write_scanlines(&cinfo, rowPointer, 1);
-    }
-
-    jpeg_finish_compress(&cinfo);
-
-    FILE *f = fopen(filePath.c_str(), "wb");
-    if (f && fwrite(outBuffer, sizeof(uint8_t), outSize, f) == outSize) {
-        fflush(f);
-        fsync(fileno(f));
-    }
-    fclose(f);
-
-    jpeg_destroy_compress(&cinfo);
-    return outSize;*/
 }
 
 std::vector<std::pair<float, float>> gatherPositions(std::vector<std::pair<float, float>> list, int phase) {
