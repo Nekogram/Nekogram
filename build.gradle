@@ -9,7 +9,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.android.application' version '7.3.1' apply false
+    id 'com.android.application' version '7.4.0' apply false
     id 'com.google.gms.google-services' version '4.3.10' apply false
 }
 
@@ -20,7 +20,7 @@ subprojects {
             android {
                 compileSdkVersion 33
                 buildToolsVersion "33.0.1"
-                ndkVersion "21.4.7075529"
+                ndkVersion "23.2.8568313"
 
                 lint {
                     checkReleaseBuilds false
@@ -47,7 +47,7 @@ subprojects {
             }
 
             dependencies {
-                coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:1.2.2'
+                coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.0.0'
             }
         }
     }
