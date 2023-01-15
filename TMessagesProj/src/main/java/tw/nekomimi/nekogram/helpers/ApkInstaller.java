@@ -199,7 +199,7 @@ public final class ApkInstaller {
                 case PackageInstaller.STATUS_FAILURE_INCOMPATIBLE:
                 case PackageInstaller.STATUS_FAILURE_INVALID:
                 case PackageInstaller.STATUS_FAILURE_STORAGE:
-                    int id = intent.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, 0);
+                    int id = i.getIntExtra(PackageInstaller.EXTRA_SESSION_ID, 0);
                     if (id > 0) {
                         var installer = context.getPackageManager().getPackageInstaller();
                         var info = installer.getSessionInfo(id);
