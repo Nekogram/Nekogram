@@ -452,6 +452,9 @@ public class MessageHelper extends BaseController {
     }
 
     public boolean isLinkOrEmojiOnlyMessage(MessageObject messageObject) {
+        if (messageObject.messageOwner.message.matches("[\\d -/:-@\\[-`{-~]")) {
+            return true;
+        }
         var entities = messageObject.messageOwner.entities;
         if (entities != null) {
             for (TLRPC.MessageEntity entity : entities) {

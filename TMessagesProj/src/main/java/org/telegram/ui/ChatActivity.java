@@ -29309,7 +29309,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (DialogConfig.isAutoTranslateEnable(dialog_id, getTopicId()) && LanguageDetector.hasSupport() && NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
                     final var messageObject = messageCell.getMessageObject();
                     if (getMessageHelper().isMessageObjectAutoTranslatable(messageObject)) {
-                        messageObject.translating = true;
                         LanguageDetector.detectLanguage(
                                 getMessageHelper().getMessagePlainText(messageObject),
                                 (String lang) -> {
@@ -29320,7 +29319,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 (Exception e) -> {
                                     FileLog.e("mlkit: failed to detect language in message");
                                     e.printStackTrace();
-                                    messageObject.translating = false;
                                 });
                     }
                 }
