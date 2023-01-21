@@ -305,24 +305,25 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     private Typeface getSelectedTypeface() {
-        return getEmojiCustomPacksInfo()
+        EmojiPackBase pack = getEmojiCustomPacksInfo()
                 .parallelStream()
                 .filter(emojiPackInfo -> emojiPackInfo.packId.equals(emojiPack))
-                .map(emojiPackInfo -> {
-                    Typeface typeface;
-                    if (!typefaceCache.containsKey(emojiPackInfo.packId)) {
-                        File emojiFile = new File(emojiPackInfo.fileLocation);
-                        if (!emojiFile.exists()) {
-                            return null;
-                        }
-                        typefaceCache.put(emojiPackInfo.packId, typeface = Typeface.createFromFile(emojiFile));
-                    } else {
-                        typeface = typefaceCache.get(emojiPackInfo.packId);
-                    }
-                    return typeface;
-                })
                 .findFirst()
                 .orElse(null);
+        if (pack == null) {
+            return null;
+        }
+        Typeface typeface;
+        if (!typefaceCache.containsKey(pack.packId)) {
+            File emojiFile = new File(pack.fileLocation);
+            if (!emojiFile.exists()) {
+                return null;
+            }
+            typefaceCache.put(pack.packId, typeface = Typeface.createFromFile(emojiFile));
+        } else {
+            typeface = typefaceCache.get(pack.packId);
+        }
+        return typeface;
     }
 
     public String getSelectedPackName() {
@@ -349,10 +350,6 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
                 ? emojiPack : "default";
     }
 
-    public boolean loadedPackInfo() {
-        return emojiPacksInfo.parallelStream().anyMatch(e -> e instanceof EmojiPackInfo);
-    }
-
     public void loadEmojisInfo(EmojiPacksLoadedListener listener) {
         if (loadingPack) {
             return;
@@ -368,13 +365,13 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     public void loadEmojiPackInfo() {
-        String list = preferences.getString("emoji_packs", "");
+        String list = preferences.getString("emoji_packs_v2", "");
         if (!TextUtils.isEmpty(list)) {
             byte[] bytes = Base64.decode(list, Base64.DEFAULT);
             SerializedData data = new SerializedData(bytes);
             int count = data.readInt32(false);
             for (int a = 0; a < count; a++) {
-                emojiPacksInfo.add(data.readBool(false) ? EmojiPackInfo.deserialize(data) : EmojiPackBase.deserialize(data));
+                emojiPacksInfo.add(EmojiPackInfo.deserialize(data));
             }
             data.cleanup();
         }
@@ -672,15 +669,17 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     private void checkAccount() {
-        if (currentAccount != UserConfig.selectedAccount) {
-            NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.fileLoaded);
-            NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.fileLoadProgressChanged);
-            NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.fileLoadFailed);
-        }
-        currentAccount = UserConfig.selectedAccount;
-        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.fileLoaded);
-        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.fileLoadProgressChanged);
-        NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.fileLoadFailed);
+        AndroidUtilities.runOnUIThread(() -> {
+            if (currentAccount != UserConfig.selectedAccount) {
+                NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.fileLoaded);
+                NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.fileLoadProgressChanged);
+                NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.fileLoadFailed);
+            }
+            currentAccount = UserConfig.selectedAccount;
+            NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.fileLoaded);
+            NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.fileLoadProgressChanged);
+            NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.fileLoadFailed);
+        });
     }
 
     private void getNewVersionMessagesCallback(Delegate delegate, ArrayList<EmojiPackInfo> packs, TLObject response) {
@@ -698,15 +697,21 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
             SerializedData serializedData = new SerializedData();
             serializedData.writeInt32(packs.size());
             for (EmojiPackInfo pack : packs) {
-                pack.fileDocument = documents.get(pack.fileId);
-                pack.previewDocument = documents.get(pack.previewId);
-                if (pack.fileDocument != null) {
-                    pack.fileSize = pack.fileDocument.size;
-                    pack.fileLocation = getFileLoader().getPathToAttach(pack.fileDocument).getAbsolutePath();
+                TLRPC.Document file = documents.get(pack.fileId);
+                if (file != null) {
+                    pack.flags |= 1;
+                    pack.fileDocument = file;
+                    pack.fileSize = file.size;
+                    pack.fileLocation = getFileLoader().getPathToAttach(file).getAbsolutePath();
+                }
+                TLRPC.Document preview = documents.get(pack.previewId);
+                if (preview != null) {
+                    pack.flags |= 2;
+                    pack.previewDocument = preview;
                 }
                 pack.serializeToStream(serializedData);
             }
-            preferences.edit().putString("emoji_packs", Base64.encodeToString(serializedData.toByteArray(), Base64.NO_WRAP)).apply();
+            preferences.edit().putString("emoji_packs_v2", Base64.encodeToString(serializedData.toByteArray(), Base64.NO_WRAP | Base64.NO_PADDING)).apply();
             serializedData.cleanup();
 
             AndroidUtilities.runOnUIThread(() -> {
@@ -787,8 +792,8 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
                     }
                     int reason = (Integer) args[1];
                     if (reason == 0) {
-                        EmojiHelper.getInstance().load((res, error) -> {
-                            EmojiHelper.EmojiPackInfo newPack = EmojiHelper.getInstance().getEmojiPackInfo(pack.getPackId());
+                        EmojiHelper.getInstance().load((res, error) -> AndroidUtilities.runOnUIThread(() -> {
+                            EmojiPackInfo newPack = EmojiHelper.getInstance().getEmojiPackInfo(pack.getPackId());
                             if (newPack == null) {
                                 return;
                             }
@@ -796,7 +801,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
                                 loadingEmojiPacks.remove(pack.getFileLocation());
                                 downloadPack(newPack, params[0], true);
                             }
-                        });
+                        }));
                     }
                 } else {
                     installDownloadedEmoji(pack, params[0]);
@@ -869,7 +874,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
         protected String packName;
         protected String packId;
         protected String fileLocation;
-        protected String preview;
+        private String preview;
         protected long fileSize;
 
         public EmojiPackBase() {
@@ -882,16 +887,6 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
             this.fileLocation = fileLocation;
             this.preview = preview;
             this.fileSize = fileSize;
-        }
-
-        public static EmojiPackBase deserialize(AbstractSerializedData stream) {
-            EmojiPackBase pack = new EmojiPackBase();
-            pack.packId = stream.readString(false);
-            pack.packName = stream.readString(false);
-            pack.fileLocation = stream.readString(false);
-            pack.preview = stream.readString(false);
-            pack.fileSize = stream.readInt64(false);
-            return pack;
         }
 
         public void loadFromFile(File file) {
@@ -925,18 +920,10 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
         public Long getFileSize() {
             return fileSize;
         }
-
-        public void serializeToStream(AbstractSerializedData serializedData) {
-            serializedData.writeBool(false);
-            serializedData.writeString(packId);
-            serializedData.writeString(packName);
-            serializedData.writeString(fileLocation);
-            serializedData.writeString(preview);
-            serializedData.writeInt64(fileSize);
-        }
     }
 
     public static class EmojiPackInfo extends EmojiPackBase {
+        private int flags;
         private int previewId;
         private int fileId;
         private int packVersion;
@@ -954,34 +941,6 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
         public EmojiPackInfo() {
         }
 
-        public static EmojiPackInfo deserialize(AbstractSerializedData stream) {
-            EmojiPackInfo pack = new EmojiPackInfo();
-            pack.packId = stream.readString(false);
-            pack.packName = stream.readString(false);
-            pack.fileLocation = stream.readString(false);
-            pack.preview = stream.readString(false);
-            pack.fileSize = stream.readInt64(false);
-
-            pack.fileId = stream.readInt32(false);
-            pack.previewId = stream.readInt32(false);
-            pack.packVersion = stream.readInt32(false);
-            if (stream.readBool(false)) {
-                pack.previewDocument = TLRPC.Document.TLdeserialize(stream, stream.readInt32(false), false);
-            }
-            if (stream.readBool(false)) {
-                pack.fileDocument = TLRPC.Document.TLdeserialize(stream, stream.readInt32(false), false);
-            }
-            return pack;
-        }
-
-        public int getFileId() {
-            return fileId;
-        }
-
-        public int getPreviewId() {
-            return previewId;
-        }
-
         public TLRPC.Document getPreviewDocument() {
             return previewDocument;
         }
@@ -994,24 +953,40 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
             return packVersion;
         }
 
-        @Override
+        public static EmojiPackInfo deserialize(AbstractSerializedData stream) {
+            EmojiPackInfo pack = new EmojiPackInfo();
+            pack.flags = stream.readInt32(false);
+            pack.packId = stream.readString(false);
+            pack.packName = stream.readString(false);
+
+            pack.fileId = stream.readInt32(false);
+            pack.previewId = stream.readInt32(false);
+            pack.packVersion = stream.readInt32(false);
+            if ((pack.flags & 1) != 0) {
+                pack.previewDocument = TLRPC.Document.TLdeserialize(stream, stream.readInt32(false), false);
+                pack.fileSize = stream.readInt64(false);
+                pack.fileLocation = stream.readString(false);
+            }
+            if ((pack.flags & 2) != 0) {
+                pack.fileDocument = TLRPC.Document.TLdeserialize(stream, stream.readInt32(false), false);
+            }
+            return pack;
+        }
+
         public void serializeToStream(AbstractSerializedData serializedData) {
-            serializedData.writeBool(true);
+            serializedData.writeInt32(flags);
             serializedData.writeString(packId);
             serializedData.writeString(packName);
-            serializedData.writeString(fileLocation);
-            serializedData.writeString(preview == null ? "" : preview);
-            serializedData.writeInt64(fileSize);
 
             serializedData.writeInt32(fileId);
             serializedData.writeInt32(previewId);
             serializedData.writeInt32(packVersion);
-            if (previewDocument != null) {
-                serializedData.writeBool(true);
+            if ((flags & 1) != 0) {
                 previewDocument.serializeToStream(serializedData);
+                serializedData.writeInt64(fileSize);
+                serializedData.writeString(fileLocation);
             }
-            if (fileDocument != null) {
-                serializedData.writeBool(true);
+            if ((flags & 2) != 0) {
                 fileDocument.serializeToStream(serializedData);
             }
         }
