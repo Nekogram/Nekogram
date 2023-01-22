@@ -1,0 +1,79 @@
+name: Android CI
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
+      CCACHE_NOHASHDIR: "true"
+      CCACHE_MAXSIZE: "5G"
+      CCACHE_HARDLINK: "true"
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      with:
+        submodules: 'recursive'
+        fetch-depth: 0
+    - name: Write key
+      run: |
+        if [ ! -z "${{ secrets.KEY_STORE }}" ]; then
+          echo storePassword='${{ secrets.KEY_STORE_PASSWORD }}' >> local.properties
+          echo keyAlias='${{ secrets.ALIAS }}' >> local.properties
+          echo keyPassword='${{ secrets.KEY_PASSWORD }}' >> local.properties
+          echo storeFile='key.jks' >> local.properties
+          echo ${{ secrets.KEY_STORE }} | base64 --decode > TMessagesProj_App/key.jks
+        fi
+        echo '${{ secrets.EXTRA }}' > TMessagesProj/src/main/java/tw/nekomimi/nekogram/Extra.java
+    - name: Setup Java
+      uses: actions/setup-java@v3
+      with:
+        distribution: 'temurin'
+        java-version: '17'
+        cache: 'gradle'
+    - name: Cache Gradle Build
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/.gradle/caches/build-cache-*
+          ~/.gradle/buildOutputCleanup/cache.properties
+        key: gradle-builds-${{ github.sha }}
+        restore-keys: |
+          gradle-builds
+    - name: Set up ccache
+      uses: hendrikmuhs/ccache-action@v1.2
+      with:
+        key: ${{ runner.os }}
+        restore-keys: ${{ runner.os }}
+    - name: Build with Gradle
+      run: |
+        [ $(du -s ~/.gradle/wrapper | awk '{ print $1 }') -gt 250000 ] && rm -rf ~/.gradle/wrapper/* || true
+        find ~/.gradle/caches -exec touch -d "2 days ago" {} + || true
+        echo 'org.gradle.caching=true' >> gradle.properties
+        echo 'org.gradle.parallel=true' >> gradle.properties
+        echo 'org.gradle.vfs.watch=true' >> gradle.properties
+        echo 'org.gradle.jvmargs=-Xmx4096m' >> gradle.properties
+        echo 'android.native.buildOutput=verbose' >> gradle.properties
+        echo 'buildCache { local { removeUnusedEntriesAfterDays = 1 } }' >> settings.gradle.kts
+        ./gradlew :TMessagesProj_App:assembleRelease
+        ./gradlew :TMessagesProj_App:bundlePlay
+    - name: Upload apk
+      uses: actions/upload-artifact@v3
+      with:
+        name: apk
+        path: TMessagesProj_App/build/outputs/apk
+    - name: Upload bundle
+      uses: actions/upload-artifact@v3
+      with:
+        name: bundle
+        path: TMessagesProj_App/build/outputs/bundle
+    - name: Upload mapping
+      uses: actions/upload-artifact@v3
+      with:
+        name: mapping
+        path: TMessagesProj_App/build/outputs/mapping
+
