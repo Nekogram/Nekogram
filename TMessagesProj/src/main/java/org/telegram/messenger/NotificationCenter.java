@@ -737,7 +737,7 @@ public class NotificationCenter {
 
         @Override
         public boolean remove(@Nullable Object o) {
-            if (set.remove(0)) {
+            if (set.remove(o)) {
                 return super.remove(o);
             }
             return false;
