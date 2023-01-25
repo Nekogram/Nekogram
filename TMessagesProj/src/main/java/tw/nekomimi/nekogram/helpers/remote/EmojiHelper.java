@@ -63,7 +63,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     private static final String EMOJI_TAG = "emoji";
     private static final String EMOJI_FONT_AOSP = "NotoColorEmoji.ttf";
     private static final int EMOJI_COUNT = 3538;
-    private final static String EMOJI_PACKS_FILE_DIR = ApplicationLoader.applicationContext.getExternalFilesDir(null).getAbsolutePath() + "/emojis/";
+    private static final String EMOJI_PACKS_FILE_DIR;
     private static final Runnable invalidateUiRunnable = () -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiLoaded);
     private static final String[] previewEmojis = {
             "\uD83D\uDE00",
@@ -88,6 +88,15 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     private boolean loadingPack = false;
     private String pendingDeleteEmojiPackId;
     private Bulletin emojiPackBulletin;
+
+    static {
+        var files = ApplicationLoader.applicationContext.getExternalFilesDir(null);
+        if (files != null) {
+            EMOJI_PACKS_FILE_DIR = files.getAbsolutePath() + "/emojis/";
+        } else {
+            EMOJI_PACKS_FILE_DIR = ApplicationLoader.applicationContext.getFilesDir().getAbsolutePath() + "/emojis/";
+        }
+    }
 
     private EmojiHelper() {
         checkAccount();
