@@ -96,6 +96,9 @@
 -keep,allowshrinking,allowobfuscation class org.telegram.ui.Components.GroupCreateSpan {
     public void updateColors();
  }
+-keep,allowshrinking,allowobfuscation class org.telegram.ui.Components.Premium.GLIcon.ObjLoader {
+    public <init>();
+ }
 -keepclassmembernames class tw.nekomimi.nekogram.DatacenterActivity$DatacenterCell { <fields>; }
 -keepclassmembernames class tw.nekomimi.nekogram.DatacenterActivity$DatacenterHeaderCell { <fields>; }
 -keepclassmembernames class tw.nekomimi.nekogram.MessageDetailsActivity$TextDetailSimpleCell { <fields>; }
