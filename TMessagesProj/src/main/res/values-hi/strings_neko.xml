@@ -249,6 +249,30 @@
     <string name="NoUpdateAvailablePlayDelay">Google की समीक्षा के कारण Play Store में अपडेट आमतौर पर सीधे APK की तुलना में धीमा आता है</string>
     <string name="ProviderTelegram">टेलीग्राम प्रदाता</string>
     <string name="DisableStickersAutoReorder">टेलीग्राम स्टिकर अक्षम करें</string>
+    <string name="DownloadEmojiSet">डाऊनलोड %s</string>
+    <string name="EmojiSets">इमोजी सेट</string>
+    <string name="MyEmojiSets">मेरा इमोजी सेट</string>
+    <string name="InstalledEmojiSet">इंस्टॉल्ड</string>
+    <string name="InstallingEmojiSet">इंस्टॉल हो रहा है…</string>
+    <string name="UpdateEmojiSet">अपडेट %s</string>
+    <string name="EmojiSetHint">इसका प्रभाव केवल आपके इमोजी दिखावट पे होगा। दूसरो को, जो उन्होंने चुना है उसके आधारित इमोजी दिखेंगे।</string>
+    <string name="CustomEmojiSetHint">अपने डिवाइस स्टोरेज से इमोजी सेट को चुने और उसे आयत करे।</string>
+    <string name="AddEmojiSet">नए इमोजी सेट ले</string>
+    <string name="EmojiSetRemoved">इमोजी सेट को निकाल दिया गया है।</string>
+    <string name="EmojiSetRemovedInfo">अभी ये, %1$s आपके इमोजी सेट में नहीं है।</string>
+    <string name="DeleteEmojiSetsMessage">क्या आपको विश्वास है कि आपको ये चुने गये इमोजी सेट को डिलीट करना है?</string>
+    <string name="ApplyEmojiSet">इमोजी सेट को अप्लाई करे</string>
+    <string name="EmojiSetApplied">इमोजी सेट को अप्लाई कर दिया।</string>
+    <string name="EmojiSetAppliedInfo">अभी %1$s आपका इमोजी सेट है।</string>
+    <string name="EmojiSetAlreadyApplied">इमोजी सेट पहले से ही अप्लाई हो चुका है।</string>
+    <string name="SendAnonymousData">अनाम डेटा भेजे</string>
+    <string name="SendBugReport">बग रिपोर्ट भेजे</string>
+    <string name="SendBugReportDesc">ये हमे समस्याएं जल्दी ढूंढने में सहायता कर सकेगा।</string>
+    <string name="AnonymousDataDelete">डेटा को मिटा दे</string>
+    <string name="AnonymousDataDeleteDesc">इस उदाहरण से आउटगोइंग डेटा को स्थायी रूप से ब्लॉक करें और एकत्रित डेटा को हटा दें।</string>
+    <string name="SendAnonymousDataDesc">उपरोक्त सुविधाएँ माइक्रोसॉफ्ट द्वारा प्रदान किए गए विशूवअल स्टूडियो ऐप सेंटर का उपयोग करती हैं। एकत्र की गई जानकारी गुमनाम है, जिससे की यह डेटा किस स्वतंत्र उपकरण या उपयोगकर्ता से है, उसका पता हम नही लगा सकते है।</string>
+    <string name="SendLargePhotos">विशाल चित्रों को भेजे</string>
+    <string name="SendLargePhotosAbout">कंप्रेस की गई इमेज पर साइड लिमिट को बढ़ाकर, २५६०px करें।</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">एक्सेसिबिलिटी सेटिंग</string>
 </resources>

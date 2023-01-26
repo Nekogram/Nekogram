@@ -234,7 +234,7 @@
     <string name="AppIconRainbow">Радуга</string>
     <string name="AppIconMusheen">Мушин</string>
     <string name="AppIconSpace">Космос</string>
-    <string name="AppIconCloud">Облачная</string>
+    <string name="AppIconCloud">Облако</string>
     <string name="AppIconNeon">Неон</string>
     <string name="AppIconMaterial">Material</string>
     <string name="RecentChats">Недавно просмотренные</string>
@@ -270,7 +270,7 @@
     <string name="SendBugReport">Отправить сообщение об ошибке</string>
     <string name="SendBugReportDesc">Это позволит нам быстрее находить проблемы.</string>
     <string name="AnonymousDataDelete">Удалить данные</string>
-    <string name="AnonymousDataDeleteDesc">Навсегда заблокировать исходящие данные этого экземпляра и удалить собранные данные.</string>
+    <string name="AnonymousDataDeleteDesc">Навсегда заблокировать исходящие данные этого устройства и удалить собранные данные.</string>
     <string name="SendAnonymousDataDesc">Функции выше используют Visual Studio App Center предоставленный Microsoft. Собранная информация является анонимной и мы не можем отследить её до независимого устройства или пользователя.</string>
     <string name="SendLargePhotos">Отправлять фотографии большого размера</string>
     <string name="SendLargePhotosAbout">Увеличить размер сторон на сжатых изображениях до 2560px.</string>

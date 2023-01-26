@@ -248,6 +248,31 @@
     <string name="NoUpdateAvailablePlayDelay">Playストアでの更新は、Googleの審査により.apkでのアップデートより遅れます。</string>
     <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">ステッカーパックの自動並べ替えを無効にする</string>
+    <string name="DownloadEmojiSet">ダウンロード %s</string>
+    <string name="EmojiSets">絵文字セット</string>
+    <string name="MyEmojiSets">マイ絵文字セット</string>
+    <string name="InstalledEmojiSet">インストール済み</string>
+    <string name="InstallingEmojiSet">インストール中…</string>
+    <string name="UpdateEmojiSet">アップデート %s</string>
+    <string name="EmojiSetHint">これは絵文字の外観にのみ影響します。他のユーザーは自分の好みに基づいて表示されます。</string>
+    <string name="CustomEmojiSetHint">内部ストレージから絵文字セットをインポートして選択します。</string>
+    <string name="AddEmojiSet">絵文字セットを追加</string>
+    <string name="EmojiSetRemoved">絵文字セットを削除しました。</string>
+    <string name="EmojiSetRemovedInfo">%1$s は絵文字セットに含まれていません。</string>
+    <string name="DeleteEmojiSets">%1$s 絵文字セット</string>
+    <string name="DeleteEmojiSetsMessage">選択した絵文字セットを削除してもよろしいですか？</string>
+    <string name="ApplyEmojiSet">絵文字セットを適用する</string>
+    <string name="EmojiSetApplied">絵文字セットを適用しました。</string>
+    <string name="EmojiSetAppliedInfo">%1$s があなたの絵文字セットになりました。</string>
+    <string name="EmojiSetAlreadyApplied">絵文字セットは既に適用されています。</string>
+    <string name="SendAnonymousData">匿名データを送信</string>
+    <string name="SendBugReport">バグレポートを送信</string>
+    <string name="SendBugReportDesc">これは問題をより早く見つけるのに役立ちます。</string>
+    <string name="AnonymousDataDelete">データを削除</string>
+    <string name="AnonymousDataDeleteDesc">このインスタンスからの送信データを完全にブロックし、収集したデータを削除します。</string>
+    <string name="SendAnonymousDataDesc">上記の機能は、Microsoftが提供するVisual Studio App Centerを使用しています。 収集された情報は匿名であり、独立したデバイスまたはユーザーに追跡することはできません。</string>
+    <string name="SendLargePhotos">大きな写真を送信する</string>
+    <string name="SendLargePhotosAbout">圧縮画像の横幅制限を2560pxにする。</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">アクセシビリティの設定</string>
 </resources>

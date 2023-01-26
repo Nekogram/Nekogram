@@ -256,6 +256,25 @@
     <string name="InstalledEmojiSet">المثبت</string>
     <string name="InstallingEmojiSet">جارٍ تثبيت…</string>
     <string name="UpdateEmojiSet">تحديث %s</string>
+    <string name="EmojiSetHint">هذا يؤثر على مظهر الرموز التعبيرية بالنسبة لك فقط. ويراها آخرون على أساس تفضيلاتهم.</string>
+    <string name="CustomEmojiSetHint">استيراد واختيار مجموعات الرموز التعبيرية من وحدة التخزين الداخلية.</string>
+    <string name="AddEmojiSet">إضافة مجموعة الرموز التعبيرية</string>
+    <string name="EmojiSetRemoved">تمت إزالة مجموعة الرموز التعبيرية.</string>
+    <string name="EmojiSetRemovedInfo">%1$s لم يعد في مجموعات الرموز التعبيرية الخاصة بك.</string>
+    <string name="DeleteEmojiSets">%1$s مجموعات إيموجي</string>
+    <string name="DeleteEmojiSetsMessage">هل أنت متأكد من أنك تريد حذف مجموعات الرموز التعبيرية المحددة؟</string>
+    <string name="ApplyEmojiSet">تطبيق مجموعة الرموز التعبيرية</string>
+    <string name="EmojiSetApplied">تم تطبيق مجموعة الرموز التعبيرية.</string>
+    <string name="EmojiSetAppliedInfo">%1$s هو الآن مجموعة الرموز التعبيرية الخاصة بك.</string>
+    <string name="EmojiSetAlreadyApplied">تم تطبيق مجموعة الرموز التعبيرية مسبقاً.</string>
+    <string name="SendAnonymousData">إرسال بيانات مجهولة الهوية</string>
+    <string name="SendBugReport">إرسال تقرير الأخطاء</string>
+    <string name="SendBugReportDesc">وهذا سيساعدنا في العثور على المشاكل بشكل أسرع.</string>
+    <string name="AnonymousDataDelete">حذف البيانات</string>
+    <string name="AnonymousDataDeleteDesc">حظر البيانات الصادرة من هذا المثيل بشكل دائم وحذف البيانات التي تم جمعها.</string>
+    <string name="SendAnonymousDataDesc">تستخدم الميزات المذكورة أعلاه مركز تطبيقات Visual Studio الذي توفره شركة Microsoft. المعلومات التي تم جمعها مجهولة الهوية ولا يمكننا تعقبها مرة أخرى إلى جهاز مستقل أو مستخدم مستقل.</string>
+    <string name="SendLargePhotos">إرسال صور كبيرة</string>
+    <string name="SendLargePhotosAbout">زيادة الحد الجانبي على الصور المضغوطة إلى 2560 بكسل.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>
