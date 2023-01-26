@@ -34,7 +34,7 @@ dependencies {
 
     implementation 'androidx.browser:browser:1.4.0'
     implementation 'app.nekogram.prism4j:prism4j:2.1.0'
-    implementation 'app.nekogram.tcp2ws:tcp2ws:1.2.0'
+    implementation 'app.nekogram.tcp2ws:tcp2ws:1.2.1'
     implementation 'app.nekogram.translator:translator:1.0.0'
     implementation 'com.getkeepsafe.relinker:relinker:1.4.5'
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
