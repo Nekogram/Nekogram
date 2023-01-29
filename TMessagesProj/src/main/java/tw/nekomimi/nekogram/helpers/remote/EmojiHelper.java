@@ -254,7 +254,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     public Long getEmojiSize() {
-        return getAllEmojis().parallelStream()
+        return getAllEmojis().stream()
                 .filter(file -> !file.getName().startsWith(emojiPack))
                 .filter(file -> !isValidCustomPack(file))
                 .map(EmojiHelper::calculateFolderSize)
@@ -262,7 +262,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     public void deleteAll() {
-        getAllEmojis().parallelStream()
+        getAllEmojis().stream()
                 .filter(file -> !file.getName().startsWith(emojiPack))
                 .filter(file -> !isValidCustomPack(file))
                 .forEach(EmojiHelper::deleteFolder);
@@ -315,7 +315,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
 
     private Typeface getSelectedTypeface() {
         EmojiPackBase pack = getEmojiCustomPacksInfo()
-                .parallelStream()
+                .stream()
                 .filter(emojiPackInfo -> emojiPackInfo.packId.equals(emojiPack))
                 .findFirst()
                 .orElse(null);
@@ -338,7 +338,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     public String getSelectedPackName() {
         if (NekoConfig.useSystemEmoji) return "System";
         return emojiPacksInfo
-                .parallelStream()
+                .stream()
                 .filter(e -> {
                     if (e instanceof EmojiPackInfo) {
                         return isPackInstalled((EmojiPackInfo) e);
@@ -353,7 +353,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
 
     public String getSelectedEmojiPackId() {
         return getAllEmojis()
-                .parallelStream()
+                .stream()
                 .map(File::getName)
                 .anyMatch(name -> name.startsWith(emojiPack) || name.endsWith(emojiPack))
                 ? emojiPack : "default";
@@ -391,7 +391,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     public ArrayList<EmojiPackInfo> getEmojiPacksInfo() {
-        return emojiPacksInfo.parallelStream()
+        return emojiPacksInfo.stream()
                 .filter(e -> e instanceof EmojiPackInfo)
                 .map(e -> (EmojiPackInfo) e)
                 .filter(e -> e.getFileDocument() != null && e.getPreviewDocument() != null)
@@ -399,7 +399,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     public ArrayList<EmojiPackBase> getEmojiCustomPacksInfo() {
-        return emojiPacksInfo.parallelStream()
+        return emojiPacksInfo.stream()
                 .filter(e -> !(e instanceof EmojiPackInfo))
                 .filter(e -> !e.getPackId().equals(pendingDeleteEmojiPackId))
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -419,13 +419,13 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
 
     public File getCurrentEmojiPackOffline() {
         return getAllVersions(emojiPack)
-                .parallelStream()
+                .stream()
                 .findFirst()
                 .orElse(null);
     }
 
     public ArrayList<File> getAllVersions(String emojiID, int version) {
-        return getAllEmojis().parallelStream()
+        return getAllEmojis().stream()
                 .filter(file -> file.getName().startsWith(emojiID))
                 .filter(file -> version == -1 || !file.getName().endsWith("_v" + version))
                 .collect(Collectors.toCollection(ArrayList::new));
@@ -452,14 +452,14 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
 
     public EmojiPackBase getCurrentEmojiPackInfo() {
         var selected = getSelectedEmojiPackId();
-        return emojiPacksInfo.parallelStream()
+        return emojiPacksInfo.stream()
                 .filter(emojiPackInfo -> emojiPackInfo != null && emojiPackInfo.packId.equals(selected))
                 .findFirst()
                 .orElse(null);
     }
 
     public EmojiPackInfo getEmojiPackInfo(String emojiPackId) {
-        return emojiPacksInfo.parallelStream()
+        return emojiPacksInfo.stream()
                 .filter(emojiPackInfo -> emojiPackInfo instanceof EmojiPackInfo)
                 .filter(emojiPackInfo -> emojiPackInfo.packId.equals(emojiPackId))
                 .map(emojiPackInfo -> (EmojiPackInfo) emojiPackInfo)
@@ -523,7 +523,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
             FileLog.e(e);
         }
         File emojiDir = new File(EMOJI_PACKS_FILE_DIR + fontName + "_v" + sb);
-        boolean isAlreadyInstalled = getAllEmojis().parallelStream()
+        boolean isAlreadyInstalled = getAllEmojis().stream()
                 .filter(EmojiHelper::isValidCustomPack)
                 .anyMatch(file -> file.getName().endsWith(sb.toString()));
         if (isAlreadyInstalled) {
@@ -582,7 +582,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     private void loadCustomEmojiPacks() {
-        getAllEmojis().parallelStream()
+        getAllEmojis().stream()
                 .filter(EmojiHelper::isValidCustomPack)
                 .sorted(Comparator.comparingLong(File::lastModified))
                 .map(file -> {
@@ -594,7 +594,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     public boolean isSelectedCustomEmojiPack() {
-        return getAllEmojis().parallelStream()
+        return getAllEmojis().stream()
                 .filter(EmojiHelper::isValidCustomPack)
                 .anyMatch(file -> file.getName().endsWith(emojiPack));
     }
