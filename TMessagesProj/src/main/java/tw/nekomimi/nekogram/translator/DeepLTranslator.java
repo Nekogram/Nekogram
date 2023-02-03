@@ -55,6 +55,9 @@ public class DeepLTranslator extends BaseTranslator {
     @Override
     protected Result translate(String query, String fl, String tl) throws Exception {
         var result = deeplTranslater.translate(query, tl, getFormalityString(), "newlines");
+        if (result == null) {
+            return null;
+        }
         return new Result(result[1], result[0]);
     }
 
