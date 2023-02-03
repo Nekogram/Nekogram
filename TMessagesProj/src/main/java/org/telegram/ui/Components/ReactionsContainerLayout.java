@@ -494,7 +494,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     }
 
     public boolean showCustomEmojiReaction() {
-        return !MessagesController.getInstance(currentAccount).premiumLocked && UserConfig.getInstance(currentAccount).isPremium() && allReactionsAvailable;
+        return !MessagesController.getInstance(currentAccount).premiumLocked && allReactionsAvailable;
     }
 
     private boolean showUnlockPremiumButton() {
@@ -969,7 +969,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         ArrayList<TLRPC.Reaction> recentReactions = MediaDataController.getInstance(currentAccount).getRecentReactions();
         for (int i = 0; i < recentReactions.size(); i++) {
             ReactionsLayoutInBubble.VisibleReaction visibleReaction = ReactionsLayoutInBubble.VisibleReaction.fromTLReaction(recentReactions.get(i));
-            if (!hashSet.contains(visibleReaction) && (UserConfig.getInstance(currentAccount).isPremium() || visibleReaction.documentId == 0)) {
+            if (!hashSet.contains(visibleReaction)) {
                 hashSet.add(visibleReaction);
                 visibleReactions.add(visibleReaction);
             }
