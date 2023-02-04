@@ -1281,7 +1281,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int text_spoiler = 57;
     private final static int text_mention = 58;
 
-    private final static int view_as_topics = 62;
+    private final static int view_as_topics = 59;
 
     private final static int search = 40;
 
