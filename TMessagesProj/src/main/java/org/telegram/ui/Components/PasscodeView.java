@@ -1113,7 +1113,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             return;
         }
         Activity parentActivity = (Activity) getContext();
-        if (parentActivity != null && fingerprintView.getVisibility() == VISIBLE && !ApplicationLoader.mainInterfacePaused) {
+        if (parentActivity != null && fingerprintView.getVisibility() == VISIBLE && !ApplicationLoader.mainInterfacePaused && (!(parentActivity instanceof LaunchActivity) || ((LaunchActivity) parentActivity).allowShowFingerprintDialog(this))) {
             biometricPromptHelper.prompt(() -> processDone(true));
         }
     }
