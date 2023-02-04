@@ -959,7 +959,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     }
 
     public static String capitalFirst(String text) {
-        if (text == null) {
+        if (TextUtils.isEmpty(text)) {
             return null;
         }
         return text.substring(0, 1).toUpperCase() + text.substring(1);

@@ -278,7 +278,6 @@ import org.telegram.ui.Components.TextSelectionHint;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.ThemeEditorView;
 import org.telegram.ui.Components.TranscribeButton;
-import org.telegram.ui.Components.TranslateAlert2;
 import org.telegram.ui.Components.TranslateButton;
 import org.telegram.ui.Components.TrendingStickersAlert;
 import org.telegram.ui.Components.TypefaceSpan;
@@ -300,7 +299,6 @@ import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.ForwardContext;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.DialogConfig;
 import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
 import tw.nekomimi.nekogram.helpers.PermissionHelper;
 import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
@@ -18574,72 +18572,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     View child = chatListView.getChildAt(i);
                     if (child instanceof ChatMessageCell) {
                         ChatMessageCell cell = (ChatMessageCell) child;
-                        MessageObject messageObject = cell.getMessageObject();
-                        boolean update = false;
-                        if (messageObject != null && messageObject.updateTranslation(false)) {
-                            update = true;
-
-                            MessageObject pinnedMessageObject = pinnedMessageObjects.get(messageObject.getId());
-                            if (pinnedMessageObject != null) {
-                                pinnedMessageObject.messageOwner.translatedText = messageObject.messageOwner.translatedText;
-                                pinnedMessageObject.messageOwner.translatedToLanguage = messageObject.messageOwner.translatedToLanguage;
-                                if (pinnedMessageObject.updateTranslation(currentPinnedMessageId == messageObject.getId())) {
-                                    updatedPinned = true;
-                                }
-                            }
-                        }
-                        MessageObject.GroupedMessages group = groupedMessagesMap.get(messageObject.getGroupId());
-                        if (group != null && !groupChecked.contains(group.groupId)) {
-                            for (int j = 0; j < group.messages.size(); ++j) {
-                                MessageObject groupMessageObject = group.messages.get(j);
-                                if (groupMessageObject != null && groupMessageObject.updateTranslation(false)) {
-                                    update = true;
-                                }
-                            }
-                            groupChecked.add(group.groupId);
-                        }
-                        if (messageObject != null && messageObject.replyMessageObject != null) {
-                            MessageObject translatedReplyMessageObject = getMessagesController().getTranslateController().findReplyMessageObject(dialogId, messageObject.replyMessageObject.getId());
-                            if (translatedReplyMessageObject != null) {
-                                messageObject.replyMessageObject.messageOwner.translatedText = translatedReplyMessageObject.messageOwner.translatedText;
-                                messageObject.replyMessageObject.messageOwner.translatedToLanguage = translatedReplyMessageObject.messageOwner.translatedToLanguage;
-                                if (messageObject.replyMessageObject.updateTranslation(true)) {
-                                    update = true;
-                                }
-                            }
-                        }
-
-                        if (update) {
-                            messageObject.forceUpdate = true;
-                            cell.setMessageObject(messageObject, cell.getCurrentMessagesGroup(), cell.isPinnedBottom(), cell.isPinnedTop());
-                            if (group != null) {
-                                if (chatListItemAnimator != null) {
-                                    chatListItemAnimator.groupWillChanged(group);
-                                }
-                                for (int j = 0; j < group.messages.size(); j++) {
-                                    group.messages.get(j).forceUpdate = true;
-                                }
-                                chatAdapter.notifyDataSetChanged(true);
-                            } else {
-                                chatAdapter.updateRowAtPosition(chatListView.getChildAdapterPosition(child));
-                            }
-                        } else {
-                            cell.invalidate();
-                        }
+                        checkAutoTranslate(cell, (boolean) args[1]);
                     }
-                }
-                if (!updatedPinned) {
-                    for (MessageObject pinnedMessageObject : pinnedMessageObjects.values()) {
-                        if (pinnedMessageObject != null && pinnedMessageObject.updateTranslation(currentPinnedMessageId == pinnedMessageObject.getId())) {
-                            updatedPinned = true;
-                        }
-                    }
-                }
-                if (updatedPinned) {
-                    updatePinnedMessageView(true, 1);
                 }
             }
-            checkTranslation(true);
+            //checkTranslation(true);
             updateTranslateItemVisibility();
         } else if (id == NotificationCenter.messageTranslated) {
             MessageObject messageObject = (MessageObject) args[0];
@@ -25338,8 +25275,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         MediaController.saveFile(path, getParentActivity(), messageObject.isVideo() ? 1 : 0, null, null);
     }
 
-    private void translateOrResetMessage(MessageObject messageObject, String sourceLanguage) {
-        if (!messageObject.isVoiceTranscriptionOpen() && messageObject.translated && messageObject.originalMessage != null) {
+    private void resetMessage(MessageObject messageObject) {
+        if (messageObject.originalMessage != null) {
             if (messageObject.originalMessage instanceof String) {
                 messageObject.messageOwner.message = (String) messageObject.originalMessage;
             } else if (messageObject.originalMessage instanceof Pair) {
@@ -25350,12 +25287,47 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) messageObject.originalMessage;
             }
             getMessageHelper().resetMessageContent(dialog_id, messageObject, false);
+        }
+    }
+
+    private void translateOrResetMessage(MessageObject messageObject, String sourceLanguage) {
+        if (!messageObject.isVoiceTranscriptionOpen() && messageObject.translated && messageObject.originalMessage != null) {
+            resetMessage(messageObject);
         } else {
             translateMessage(messageObject, sourceLanguage, false);
         }
     }
 
+    private void checkAutoTranslate(ChatMessageCell messageCell, boolean enable) {
+        final var messageObject = messageCell.getMessageObject();
+        if (!enable && messageObject.translated) {
+            resetMessage(messageObject);
+            return;
+        }
+        TranslateController controller = getMessagesController().getTranslateController();
+        if (controller.isTranslatingDialog(dialog_id) && LanguageDetector.hasSupport() && NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
+            String target = controller.getDialogTranslateTo(dialog_id);
+            if (getMessageHelper().isMessageObjectAutoTranslatable(messageObject)) {
+                LanguageDetector.detectLanguage(
+                        getMessageHelper().getMessagePlainText(messageObject),
+                        (String lang) -> {
+                            if (!Translator.isLanguageRestricted(lang)) {
+                                translateMessage(messageObject, Translator.stripLanguageCode(lang), "app".equals(target) ? null : target, true);
+                            }
+                        },
+                        (Exception e) -> {
+                            FileLog.e("mlkit: failed to detect language in message");
+                            e.printStackTrace();
+                        });
+            }
+        }
+    }
+
     private void translateMessage(MessageObject messageObject, String sourceLanguage, boolean autoTranslate) {
+        translateMessage(messageObject, sourceLanguage, null, autoTranslate);
+    }
+
+    private void translateMessage(MessageObject messageObject, String sourceLanguage, String targetLanguage, boolean autoTranslate) {
         if (messageObject == null) {
             return;
         }
@@ -25382,7 +25354,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         } else {
             message = messageObject.messageOwner.message;
         }
-        Translator.translate(message, sourceLanguage, new Translator.TranslateCallBack() {
+        Translator.translate(message, sourceLanguage, targetLanguage, new Translator.TranslateCallBack() {
             @Override
             public void onSuccess(Object translation, String sourceLanguageT, String targetLanguageT) {
                 if (autoTranslate && sourceLanguageT != null && (sourceLanguageT.equals(targetLanguageT) || Translator.isLanguageRestricted(sourceLanguageT))) {
@@ -29838,22 +29810,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                 }
 
-                if (DialogConfig.isAutoTranslateEnable(dialog_id, getTopicId()) && LanguageDetector.hasSupport() && NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
-                    final var messageObject = messageCell.getMessageObject();
-                    if (getMessageHelper().isMessageObjectAutoTranslatable(messageObject)) {
-                        LanguageDetector.detectLanguage(
-                                getMessageHelper().getMessagePlainText(messageObject),
-                                (String lang) -> {
-                                    if (!Translator.isLanguageRestricted(lang)) {
-                                        translateMessage(messageObject, Translator.stripLanguageCode(lang), true);
-                                    }
-                                },
-                                (Exception e) -> {
-                                    FileLog.e("mlkit: failed to detect language in message");
-                                    e.printStackTrace();
-                                });
-                    }
-                }
+                checkAutoTranslate(messageCell, true);
             }
 
             int position = holder.getAdapterPosition();
@@ -31985,12 +31942,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     private void updateBotHelpCellClick(BotHelpCell cell) {
-        final boolean translateButtonEnabled = MessagesController.getInstance(currentAccount).getTranslateController().isContextTranslateEnabled();
-        if (translateButtonEnabled && LanguageDetector.hasSupport()) {
+        if (LanguageDetector.hasSupport()) {
             final CharSequence text = cell.getText();
             LanguageDetector.detectLanguage(text == null ? "" : text.toString(), lang -> {
-                String toLang = LocaleController.getInstance().getCurrentLocale().getLanguage();
-                if (lang != null && (!lang.equals(toLang) || lang.equals("und")) && !RestrictedLanguagesSelectActivity.getRestrictedLanguages().contains(lang)) {
+                String fromLang = Translator.stripLanguageCode(lang);
+                if (lang != null && !Translator.isLanguageRestricted(fromLang)) {
                     cell.setOnClickListener(e -> {
 
                         ActionBarPopupWindow.ActionBarPopupWindowLayout layout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext());
@@ -32002,7 +31958,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         ActionBarMenuSubItem translateButton = new ActionBarMenuSubItem(getContext(), true, true);
                         translateButton.setTextAndIcon(LocaleController.getString("TranslateMessage", R.string.TranslateMessage), R.drawable.msg_translate);
                         translateButton.setOnClickListener(e2 -> {
-                            TranslateAlert2.showAlert(getContext(), this, currentAccount, lang, toLang, text, null, false, null, null);
+                            Translator.showTranslateDialog(getParentActivity(), text.toString(), false, this, null, fromLang);
                             if (dismiss[0] != null) {
                                 dismiss[0].run();
                             }

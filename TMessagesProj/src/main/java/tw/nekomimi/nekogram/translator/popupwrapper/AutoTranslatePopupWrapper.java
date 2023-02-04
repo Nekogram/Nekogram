@@ -10,6 +10,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.TranslateController;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -19,17 +20,15 @@ import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
 
-import tw.nekomimi.nekogram.DialogConfig;
-
 public class AutoTranslatePopupWrapper {
 
     public ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout;
     private final long dialogId;
     private final int topicId;
-    private final ActionBarMenuSubItem defaultItem;
     private final ActionBarMenuSubItem enableItem;
     private final ActionBarMenuSubItem disableItem;
     private final boolean supportLanguageDetector = LanguageDetector.hasSupport();
+    private final TranslateController controller;
 
     public AutoTranslatePopupWrapper(BaseFragment fragment, PopupSwipeBackLayout swipeBackLayout, long dialogId, int topicId, Theme.ResourcesProvider resourcesProvider) {
         Context context = fragment.getParentActivity();
@@ -43,38 +42,28 @@ public class AutoTranslatePopupWrapper {
             backItem.setOnClickListener(view -> swipeBackLayout.closeForeground());
         }
 
-        defaultItem = ActionBarMenuItem.addItem(windowLayout, 0, LocaleController.getString("Default", R.string.Default), true, resourcesProvider);
-
-        defaultItem.setOnClickListener(view -> {
-            if (!supportLanguageDetector) {
-                BulletinFactory.of(fragment).createErrorBulletinSubtitle(LocaleController.getString("BrokenMLKit", R.string.BrokenMLKit), LocaleController.getString("BrokenMLKitDetail", R.string.BrokenMLKitDetail), null).show();
-                return;
-            }
-            DialogConfig.removeAutoTranslateConfig(dialogId, topicId);
-            updateItems();
-        });
-        defaultItem.setAlpha(supportLanguageDetector ? 1.0f : 0.5f);
+        controller = fragment.getMessagesController().getTranslateController();
 
         enableItem = ActionBarMenuItem.addItem(windowLayout, 0, LocaleController.getString("Enable", R.string.Enable), true, resourcesProvider);
-        enableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId, topicId) && DialogConfig.isAutoTranslateEnable(dialogId, topicId));
+        enableItem.setChecked(controller.isTranslatingDialog(dialogId));
         enableItem.setOnClickListener(view -> {
             if (!supportLanguageDetector) {
                 BulletinFactory.of(fragment).createErrorBulletinSubtitle(LocaleController.getString("BrokenMLKit", R.string.BrokenMLKit), LocaleController.getString("BrokenMLKitDetail", R.string.BrokenMLKitDetail), null).show();
                 return;
             }
-            DialogConfig.setAutoTranslateEnable(dialogId, topicId, true);
+            controller.toggleTranslatingDialog(dialogId, true);
             updateItems();
         });
         enableItem.setAlpha(supportLanguageDetector ? 1.0f : 0.5f);
 
         disableItem = ActionBarMenuItem.addItem(windowLayout, 0, LocaleController.getString("Disable", R.string.Disable), true, resourcesProvider);
-        disableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId, topicId) && !DialogConfig.isAutoTranslateEnable(dialogId, topicId));
+        enableItem.setChecked(!controller.isTranslatingDialog(dialogId));
         disableItem.setOnClickListener(view -> {
             if (!supportLanguageDetector) {
                 BulletinFactory.of(fragment).createErrorBulletinSubtitle(LocaleController.getString("BrokenMLKit", R.string.BrokenMLKit), LocaleController.getString("BrokenMLKitDetail", R.string.BrokenMLKitDetail), null).show();
                 return;
             }
-            DialogConfig.setAutoTranslateEnable(dialogId, topicId, false);
+            controller.toggleTranslatingDialog(dialogId, false);
             updateItems();
         });
         disableItem.setAlpha(supportLanguageDetector ? 1.0f : 0.5f);
@@ -98,8 +87,7 @@ public class AutoTranslatePopupWrapper {
     }
 
     public void updateItems() {
-        defaultItem.setChecked(!DialogConfig.hasAutoTranslateConfig(dialogId, topicId));
-        enableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId, topicId) && DialogConfig.isAutoTranslateEnable(dialogId, topicId));
-        disableItem.setChecked(DialogConfig.hasAutoTranslateConfig(dialogId, topicId) && !DialogConfig.isAutoTranslateEnable(dialogId, topicId));
+        enableItem.setChecked(controller.isTranslatingDialog(dialogId));
+        disableItem.setChecked(!controller.isTranslatingDialog(dialogId));
     }
 }

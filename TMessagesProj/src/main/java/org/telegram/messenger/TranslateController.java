@@ -28,6 +28,9 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
+import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.translator.Translator;
+
 public class TranslateController extends BaseController {
 
     public static final String UNKNOWN_LANGUAGE = "und";
@@ -64,7 +67,7 @@ public class TranslateController extends BaseController {
     }
 
     public boolean isFeatureAvailable() {
-        return UserConfig.getInstance(currentAccount).isPremium() && isChatTranslateEnabled();
+        return NekoConfig.autoTranslate && NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL;
     }
 
     public boolean isChatTranslateEnabled() {
@@ -72,7 +75,7 @@ public class TranslateController extends BaseController {
     }
 
     public boolean isContextTranslateEnabled() {
-        return MessagesController.getMainSettings(currentAccount).getBoolean("translate_button", MessagesController.getGlobalMainSettings().getBoolean("translate_button", false));
+        return false;//MessagesController.getMainSettings(currentAccount).getBoolean("translate_button", MessagesController.getGlobalMainSettings().getBoolean("translate_button", false));
     }
 
     public void setContextTranslateEnabled(boolean enable) {
@@ -108,14 +111,14 @@ public class TranslateController extends BaseController {
         if (hideTranslateDialogs.contains(dialogId)) {
             return true;
         }
-        TLRPC.ChatFull chatFull = getMessagesController().getChatFull(-dialogId);
+        /*TLRPC.ChatFull chatFull = getMessagesController().getChatFull(-dialogId);
         if (chatFull != null) {
             return chatFull.translations_disabled;
         }
         TLRPC.UserFull userFull = getMessagesController().getUserFull(dialogId);
         if (userFull != null) {
             return userFull.translations_disabled;
-        }
+        }*/
         return false;
     }
 
@@ -161,13 +164,10 @@ public class TranslateController extends BaseController {
     public String getDialogTranslateTo(long dialogId) {
         String lang = translateDialogLanguage.get(dialogId);
         if (lang == null) {
-            lang = TranslateAlert2.getToLanguage();
+            lang = NekoConfig.translationTarget;
             if (lang == null || lang.equals(getDialogDetectedLanguage(dialogId))) {
                 lang = currentLanguage();
             }
-        }
-        if ("nb".equals(lang)) {
-            lang = "no";
         }
         return lang;
     }
@@ -200,11 +200,11 @@ public class TranslateController extends BaseController {
         }
         NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.dialogTranslate, dialogId, false);
 
-        TranslateAlert2.setToLanguage(language);
+        //TranslateAlert2.setToLanguage(language);
     }
 
     public void updateDialogFull(long dialogId) {
-        if (!isFeatureAvailable() || !isDialogTranslatable(dialogId)) {
+        if (true || !isFeatureAvailable() || !isDialogTranslatable(dialogId)) {
             return;
         }
 
@@ -240,7 +240,7 @@ public class TranslateController extends BaseController {
     }
 
     public void setHideTranslateDialog(long dialogId, boolean hide, boolean doNotNotify) {
-        TLRPC.TL_messages_togglePeerTranslations req = new TLRPC.TL_messages_togglePeerTranslations();
+        /*TLRPC.TL_messages_togglePeerTranslations req = new TLRPC.TL_messages_togglePeerTranslations();
         req.peer = getMessagesController().getInputPeer(dialogId);
         req.disabled = hide;
         getConnectionsManager().sendRequest(req, null);
@@ -254,7 +254,7 @@ public class TranslateController extends BaseController {
         if (userFull != null) {
             userFull.translations_disabled = hide;
             getMessagesStorage().updateUserInfo(userFull, true);
-        }
+        }*/
 
         synchronized (this) {
             if (hide) {
@@ -284,10 +284,11 @@ public class TranslateController extends BaseController {
     }
 
     public static ArrayList<Language> getLanguages() {
+        ArrayList<String> targetLanguages = new ArrayList<>(Translator.getCurrentTranslator().getTargetLanguages());
         ArrayList<Language> result = new ArrayList<>();
-        for (int i = 0; i < allLanguages.size(); ++i) {
+        for (int i = 0; i < targetLanguages.size(); ++i) {
             Language language = new Language();
-            language.code = allLanguages.get(i);
+            language.code = targetLanguages.get(i);
             language.displayName = TranslateAlert2.capitalFirst(TranslateAlert2.languageName(language.code));
             if (language.displayName == null) {
                 continue;
@@ -310,17 +311,12 @@ public class TranslateController extends BaseController {
     public static void analyzeSuggestedLanguageCodes() {
         LinkedHashSet<String> langs = new LinkedHashSet<>();
         try {
-            langs.add(LocaleController.getInstance().getCurrentLocaleInfo().pluralLangCode);
-        } catch (Exception e1) {
-            FileLog.e(e1);
-        }
-        try {
             langs.add(Resources.getSystem().getConfiguration().locale.getLanguage());
         } catch (Exception e2) {
             FileLog.e(e2);
         }
         try {
-            langs.addAll(RestrictedLanguagesSelectActivity.getRestrictedLanguages());
+            langs.addAll(NekoConfig.restrictedLanguages);
         } catch (Exception e3) {
             FileLog.e(e3);
         }
@@ -363,12 +359,16 @@ public class TranslateController extends BaseController {
             }
             Language language = new Language();
             language.code = code;
-            language.displayName = TranslateAlert2.capitalFirst(TranslateAlert2.languageName(language.code));
+            language.displayName = code.equals("app") ? LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp) : TranslateAlert2.capitalFirst(TranslateAlert2.languageName(language.code));
             if (language.displayName == null) {
                 continue;
             }
             result.add(language);
         }
+        Language language = new Language();
+        language.code = "app";
+        language.displayName = LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp);
+        result.add(0, language);
         return result;
     }
 
@@ -419,7 +419,7 @@ public class TranslateController extends BaseController {
             translatableDialogMessages.clear();
 
             ArrayList<Long> toNotify = new ArrayList<>();
-            HashSet<String> languages = RestrictedLanguagesSelectActivity.getRestrictedLanguages();
+            HashSet<String> languages = NekoConfig.restrictedLanguages;
             for (long dialogId : translatableDialogs) {
                 String language = detectedDialogLanguage.get(dialogId);
                 if (language != null && languages.contains(language)) {
@@ -469,7 +469,7 @@ public class TranslateController extends BaseController {
             return;
         }
 
-        final String language = getDialogTranslateTo(dialogId);
+        /*final String language = getDialogTranslateTo(dialogId);
         MessageObject potentialReplyMessageObject;
         if (!keepReply && (messageObject.messageOwner.translatedText == null || !language.equals(messageObject.messageOwner.translatedToLanguage)) && (potentialReplyMessageObject = findReplyMessageObject(dialogId, messageObject.getId())) != null) {
             messageObject.messageOwner.translatedToLanguage = potentialReplyMessageObject.messageOwner.translatedToLanguage;
@@ -509,11 +509,11 @@ public class TranslateController extends BaseController {
             } else if (keepReply) {
                 keepReplyMessage(messageObject);
             }
-        }
+        }*/
     }
 
     public void invalidateTranslation(MessageObject messageObject) {
-        if (!isFeatureAvailable()) {
+        if (true || !isFeatureAvailable()) {
             return;
         }
         if (messageObject == null || messageObject.messageOwner == null) {
@@ -529,7 +529,7 @@ public class TranslateController extends BaseController {
     }
 
     public void checkDialogMessages(long dialogId) {
-        if (!isFeatureAvailable()) {
+        if (true || !isFeatureAvailable()) {
             return;
         }
         getMessagesStorage().getStorageQueue().postRunnable(() -> {
@@ -641,7 +641,7 @@ public class TranslateController extends BaseController {
             isTranslatable(messageObject) &&
             messageObject.messageOwner.originalLanguage != null &&
             !UNKNOWN_LANGUAGE.equals(messageObject.messageOwner.originalLanguage) &&
-            !RestrictedLanguagesSelectActivity.getRestrictedLanguages().contains(messageObject.messageOwner.originalLanguage) &&
+            !Translator.isLanguageRestricted(messageObject.messageOwner.originalLanguage) &&
             !TextUtils.equals(getDialogTranslateTo(dialogId), messageObject.messageOwner.originalLanguage)
         );
 
@@ -898,7 +898,6 @@ public class TranslateController extends BaseController {
         }
         String[] dialogs = translatingDialogsCache.split(";");
 
-        HashSet<String> restricted = RestrictedLanguagesSelectActivity.getRestrictedLanguages();
         for (int i = 0; i < dialogs.length; ++i) {
             String[] keyval = dialogs[i].split("=");
             if (keyval.length < 2) {
@@ -914,7 +913,7 @@ public class TranslateController extends BaseController {
             if ("null".equals(to)) to = null;
             if (from != null) {
                 detectedDialogLanguage.put(did, from);
-                if (!restricted.contains(from)) {
+                if (!Translator.isLanguageRestricted(from)) {
                     translatingDialogs.add(did);
                     translatableDialogs.add(did);
                 }

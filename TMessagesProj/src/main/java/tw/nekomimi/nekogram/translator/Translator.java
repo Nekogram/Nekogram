@@ -249,16 +249,20 @@ public class Translator {
         }
     }
 
-    public static void translate(Object query, String fl, TranslateCallBack translateCallBack) {
+    public static void translate(Object query, String fl, String tl, TranslateCallBack translateCallBack) {
         BaseTranslator translator = getCurrentTranslator();
 
-        String language = translator.getCurrentTargetLanguage();
+        String language = tl == null ? translator.getCurrentTargetLanguage() : tl;
 
         if (!translator.supportLanguage(language)) {
             translateCallBack.onError(new UnsupportedTargetLanguageException());
         } else {
             translator.startTask(query, fl, language, translateCallBack);
         }
+    }
+
+    public static void translate(Object query, String fl, TranslateCallBack translateCallBack) {
+        translate(query, fl, null, translateCallBack);
     }
 
     public static void startExternalTranslator(Context context, String text) {

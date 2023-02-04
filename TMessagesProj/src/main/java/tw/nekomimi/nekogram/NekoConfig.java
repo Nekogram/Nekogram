@@ -73,7 +73,7 @@ public class NekoConfig {
     public static boolean askBeforeCall = true;
     public static boolean disableNumberRounding = false;
     public static boolean disableGreetingSticker = false;
-    public static boolean autoTranslate = false;
+    public static boolean autoTranslate = true;
     public static boolean showRPCError = false;
     public static float stickerSize = 14.0f;
     public static String translationProvider = Translator.PROVIDER_GOOGLE;
@@ -301,7 +301,7 @@ public class NekoConfig {
             maxRecentStickers = preferences.getInt("maxRecentStickers", 20);
             disableJumpToNextChannel = preferences.getBoolean("disableJumpToNextChannel", false);
             disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
-            autoTranslate = preferences.getBoolean("autoTranslate", false);
+            autoTranslate = preferences.getBoolean("autoTranslate", true);
             disableVoiceMessageAutoPlay = preferences.getBoolean("disableVoiceMessageAutoPlay", false);
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);

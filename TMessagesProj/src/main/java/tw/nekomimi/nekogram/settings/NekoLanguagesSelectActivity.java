@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.TranslateController;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.Theme;
@@ -172,6 +173,25 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
             }
         }
     }
+
+    public static boolean toggleLanguage(String language, boolean doNotTranslate) {
+        if (language == null) {
+            return false;
+        }
+        var currentTargetLanguage = Translator.stripLanguageCode(Translator.getCurrentTranslator().getCurrentTargetLanguage());
+        if (language.equals(currentTargetLanguage) && doNotTranslate) {
+            return false;
+        }
+        if (!doNotTranslate) {
+            NekoConfig.restrictedLanguages.removeIf(s -> s != null && s.equals(language));
+        } else {
+            NekoConfig.restrictedLanguages.add(language);
+        }
+        NekoConfig.saveRestrictedLanguages();
+        TranslateController.invalidateSuggestedLanguageCodes();
+        return true;
+    }
+
 
     @Override
     protected BaseListAdapter createAdapter(Context context) {

@@ -32,6 +32,8 @@ import org.telegram.ui.RestrictedLanguagesSelectActivity;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.settings.NekoLanguagesSelectActivity;
+
 public class TranslateButton extends FrameLayout {
 
     private final int currentAccount;
@@ -127,7 +129,7 @@ public class TranslateButton extends FrameLayout {
         ArrayList<TranslateController.Language> suggestedLanguages = TranslateController.getSuggestedLanguages(currentTranslateTo);
         ArrayList<TranslateController.Language> allLanguages = TranslateController.getLanguages();
         if (currentTranslateTo != null) {
-            String displayName = TranslateAlert2.capitalFirst(TranslateAlert2.languageName(currentTranslateTo));
+            String displayName = "app".equals(currentTranslateTo) ? LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp) : TranslateAlert2.capitalFirst(TranslateAlert2.languageName(currentTranslateTo));
             if (displayName != null) {
                 ActionBarMenuSubItem button = new ActionBarMenuSubItem(getContext(), 2, false, false, resourcesProvider);
                 button.setChecked(true);
@@ -138,6 +140,9 @@ public class TranslateButton extends FrameLayout {
         for (TranslateController.Language lng : suggestedLanguages) {
             final String code = lng.code;
             if (TextUtils.equals(code, detectedLanguage)) {
+                continue;
+            }
+            if (currentTranslateTo != null && currentTranslateTo.equals(code)) {
                 continue;
             }
 
@@ -197,11 +202,11 @@ public class TranslateButton extends FrameLayout {
             }
             dontTranslateButton.setTextAndIcon(text, R.drawable.msg_block2);
             dontTranslateButton.setOnClickListener(e -> {
-                RestrictedLanguagesSelectActivity.toggleLanguage(detectedLanguage, true);
+                NekoLanguagesSelectActivity.toggleLanguage(detectedLanguage, true);
                 translateController.checkRestrictedLanguagesUpdate();
                 translateController.setHideTranslateDialog(dialogId, true);
                 BulletinFactory.of(fragment).createSimpleBulletin(R.raw.msg_translate, AndroidUtilities.replaceTags(LocaleController.formatString("AddedToDoNotTranslate", R.string.AddedToDoNotTranslate, TranslateAlert2.capitalFirst(detectedLanguageName))), LocaleController.getString("Settings", R.string.Settings), () -> {
-                    fragment.presentFragment(new RestrictedLanguagesSelectActivity());
+                    fragment.presentFragment(new NekoLanguagesSelectActivity(NekoLanguagesSelectActivity.TYPE_RESTRICTED, false));
                 }).show();
                 popupWindow.dismiss();
             });

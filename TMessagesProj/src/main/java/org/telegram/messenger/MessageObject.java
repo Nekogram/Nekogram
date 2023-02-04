@@ -2528,7 +2528,7 @@ public class MessageObject {
 
     public boolean translated = false;
     public boolean updateTranslation(boolean force) {
-        boolean replyUpdated = replyMessageObject != null && replyMessageObject.updateTranslation(force);
+        /*boolean replyUpdated = replyMessageObject != null && replyMessageObject.updateTranslation(force);
         if (
             TranslateController.isTranslatable(this) &&
             MessagesController.getInstance(currentAccount).getTranslateController().isTranslatingDialog(getDialogId()) &&
@@ -2549,11 +2549,12 @@ public class MessageObject {
             generateCaption();
             return replyUpdated || true;
         }
-        return replyUpdated || false;
+        return replyUpdated || false;*/
+        return false;
     }
 
     public void applyNewText() {
-        translated = false;
+        //translated = false;
         applyNewText(messageOwner.message);
     }
 
@@ -2566,7 +2567,7 @@ public class MessageObject {
             fromUser = MessagesController.getInstance(currentAccount).getUser(messageOwner.from_id.user_id);
         }
         messageText = text;
-        ArrayList<TLRPC.MessageEntity> entities = translated && messageOwner.translatedText != null ? messageOwner.translatedText.entities : messageOwner.entities;
+        ArrayList<TLRPC.MessageEntity> entities = false && messageOwner.translatedText != null ? messageOwner.translatedText.entities : messageOwner.entities;
         TextPaint paint;
         if (getMedia(messageOwner) instanceof TLRPC.TL_messageMediaGame) {
             paint = Theme.chat_msgGameTextPaint;
@@ -4627,7 +4628,7 @@ public class MessageObject {
     private boolean captionTranslated;
 
     public void generateCaption() {
-        if (caption != null && translated == captionTranslated || isRoundVideo()) {
+        if (caption != null && false == captionTranslated || isRoundVideo()) {
             return;
         }
         String text = messageOwner.message;
@@ -4635,7 +4636,7 @@ public class MessageObject {
         if (hasExtendedMedia()) {
             text = messageOwner.message = messageOwner.media.description;
         }
-        if (captionTranslated = translated) {
+        if (captionTranslated = false) {
             text = messageOwner.translatedText.text;
             entities = messageOwner.translatedText.entities;
         }
@@ -4913,7 +4914,7 @@ public class MessageObject {
             return addEntitiesToText(text, entities, isOutOwner(), true, photoViewer, useManualParse);
         } else {
             ArrayList<TLRPC.MessageEntity> entities;
-            if (translated) {
+            if (false) {
                 if (messageOwner.translatedText == null) {
                     entities = null;
                 } else {
@@ -4951,7 +4952,7 @@ public class MessageObject {
     }
 
     public Spannable replaceAnimatedEmoji(CharSequence text, Paint.FontMetricsInt fontMetricsInt) {
-        ArrayList<TLRPC.MessageEntity> entities = translated && messageOwner.translatedText != null ? messageOwner.translatedText.entities : messageOwner.entities;
+        ArrayList<TLRPC.MessageEntity> entities = false && messageOwner.translatedText != null ? messageOwner.translatedText.entities : messageOwner.entities;
         return replaceAnimatedEmoji(text, entities, fontMetricsInt, false);
     }
 
@@ -5338,7 +5339,7 @@ public class MessageObject {
         textLayoutBlocks = new ArrayList<>();
         textWidth = 0;
 
-        ArrayList<TLRPC.MessageEntity> entities = translated && messageOwner.translatedText != null ? messageOwner.translatedText.entities : messageOwner.entities;
+        ArrayList<TLRPC.MessageEntity> entities = false && messageOwner.translatedText != null ? messageOwner.translatedText.entities : messageOwner.entities;
 
         boolean hasEntities;
         if (messageOwner.send_state != MESSAGE_SEND_STATE_SENT) {

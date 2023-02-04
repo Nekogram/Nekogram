@@ -10772,7 +10772,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             textY = transitionParams.animateFromTextY * (1f - transitionParams.animateChangeProgress) + this.textY * transitionParams.animateChangeProgress;
         }
 
-        boolean translating = MessagesController.getInstance(currentAccount).getTranslateController().isTranslating(getMessageObject());
+        boolean translating = getMessageObject().translating;
         if ((textLayoutBlocks == transitionParams.animateOutTextBlocks) == (currentMessageObject != null && currentMessageObject.translated)) {
             if (translationLoadingFloat == null) {
                 translationLoadingFloat = new AnimatedFloat(this, 350, CubicBezierInterpolator.EASE_OUT_QUINT);
@@ -12164,7 +12164,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         } else if (currentMessageObject.shouldBlockMessage()) {
             timeString = MessageHelper.createBlockedString(currentMessageObject);
             customDrawableWidth = Theme.chat_blockDrawable.getIntrinsicWidth();
-        } else if (currentMessageObject.translating || currentMessageObject.translated) {
+        } else if (currentMessageObject.translated) {
             timeString = MessageHelper.createTranslateString(currentMessageObject);
             customDrawableWidth = timeString instanceof SpannableStringBuilder ? Theme.chat_arrowDrawable.getIntrinsicWidth() : 0;
         } else if (edited) {
@@ -15381,7 +15381,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
         }
         canvas.translate(captionX, captionY);
-        boolean translating = MessagesController.getInstance(currentAccount).getTranslateController().isTranslating(getMessageObject(), getCurrentMessagesGroup());
+        boolean translating = getMessageObject().translating;
         if (true) {
             if (translationLoadingFloat == null) {
                 translationLoadingFloat = new AnimatedFloat(((View) getParent()), 350, CubicBezierInterpolator.EASE_OUT_QUINT);
