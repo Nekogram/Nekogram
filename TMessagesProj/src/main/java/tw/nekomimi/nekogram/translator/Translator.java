@@ -5,6 +5,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
+import android.text.style.URLSpan;
 import android.view.View;
 
 import androidx.core.text.HtmlCompat;
@@ -14,10 +15,11 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Components.TranslateAlert;
+import org.telegram.ui.Components.TranslateAlert2;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -42,11 +44,11 @@ public class Translator {
         showTranslateDialog(context, query, noforwards, null, null, null);
     }
 
-    public static void showTranslateDialog(Context context, String query, boolean noforwards, BaseFragment fragment, TranslateAlert.OnLinkPress onLinkPress, String sourceLanguage) {
+    public static void showTranslateDialog(Context context, String query, boolean noforwards, BaseFragment fragment, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, String sourceLanguage) {
         if (NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL) {
             Translator.startExternalTranslator(context, query);
         } else {
-            TranslateAlert.showAlert(context, fragment, UserConfig.selectedAccount, sourceLanguage, NekoConfig.translationTarget, query, noforwards, onLinkPress, null);
+            TranslateAlert2.showAlert(context, fragment, UserConfig.selectedAccount, sourceLanguage, NekoConfig.translationTarget, query, null, noforwards, onLinkPress, null);
         }
     }
 
