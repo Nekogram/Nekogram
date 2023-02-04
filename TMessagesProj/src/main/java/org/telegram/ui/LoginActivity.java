@@ -92,7 +92,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
-import com.google.android.gms.safetynet.SafetyNet;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -1658,7 +1657,7 @@ public class LoginActivity extends BaseFragment {
 
     private boolean isRequestingFirebaseSms;
     private void fillNextCodeParams(Bundle params, TLRPC.auth_SentCode res, boolean animate) {
-        if (res.type instanceof TLRPC.TL_auth_sentCodeTypeFirebaseSms && !res.type.verifiedFirebase && !isRequestingFirebaseSms) {
+        /*if (res.type instanceof TLRPC.TL_auth_sentCodeTypeFirebaseSms && !res.type.verifiedFirebase && !isRequestingFirebaseSms) {
             if (PushListenerController.GooglePushListenerServiceProvider.INSTANCE.hasServices()) {
                 needShowProgress(0);
                 isRequestingFirebaseSms = true;
@@ -1720,7 +1719,7 @@ public class LoginActivity extends BaseFragment {
                 resendCodeFromSafetyNet(params, res);
             }
             return;
-        }
+        }*/
 
         params.putString("phoneHash", res.phone_code_hash);
         if (res.next_type instanceof TLRPC.TL_auth_codeTypeCall) {
