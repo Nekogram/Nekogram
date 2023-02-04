@@ -1398,7 +1398,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             }
             Bundle args = new Bundle();
             args.putBoolean("onlySelect", true);
-            args.putInt("dialogsType", 3);
+            args.putInt("dialogsType", DialogsActivity.DIALOGS_TYPE_FORWARD);
             DialogsActivity fragment = new DialogsActivity(args);
             final ArrayList<MessageObject> fmessages = new ArrayList<>();
             fmessages.add(messageObject);
@@ -1431,6 +1431,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                         fragment1.finishFragment();
                     }
                 }
+                return true;
             });
             parentActivity.presentFragment(fragment);
             dismiss();

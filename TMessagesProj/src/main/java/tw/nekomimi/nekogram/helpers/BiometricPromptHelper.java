@@ -267,7 +267,7 @@ public class BiometricPromptHelper {
         return parentActivity.getDrawable(iconRes);
     }
 
-    public void onPause() {
+    public void dismiss() {
         if (alertDialog != null) {
             alertDialog.dismiss();
             alertDialog = null;

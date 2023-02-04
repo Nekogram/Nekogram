@@ -74,6 +74,7 @@ public class NotificationCenter {
     public static final int updateMessageMedia = totalEvents++;
     public static final int replaceMessagesObjects = totalEvents++;
     public static final int didSetPasscode = totalEvents++;
+    public static final int passcodeDismissed = totalEvents++;
     public static final int twoStepPasswordChanged = totalEvents++;
     public static final int didSetOrRemoveTwoStepPassword = totalEvents++;
     public static final int didRemoveTwoStepPassword = totalEvents++;
@@ -137,6 +138,11 @@ public class NotificationCenter {
     public static final int animatedEmojiDocumentLoaded = totalEvents++;
     public static final int recentEmojiStatusesUpdate = totalEvents++;
     public static final int updateSearchSettings = totalEvents++;
+
+    public static final int messageTranslated = totalEvents++;
+    public static final int messageTranslating = totalEvents++;
+    public static final int dialogIsTranslatable = totalEvents++;
+    public static final int dialogTranslate = totalEvents++;
 
     public static final int didGenerateFingerprintKeyPair = totalEvents++;
 
@@ -233,6 +239,7 @@ public class NotificationCenter {
     public static final int didSetNewWallpapper = totalEvents++;
     public static final int proxySettingsChanged = totalEvents++;
     public static final int proxyCheckDone = totalEvents++;
+    public static final int proxyChangedByRotation = totalEvents++;
     public static final int liveLocationsChanged = totalEvents++;
     public static final int newLocationAvailable = totalEvents++;
     public static final int liveLocationsCacheChanged = totalEvents++;
