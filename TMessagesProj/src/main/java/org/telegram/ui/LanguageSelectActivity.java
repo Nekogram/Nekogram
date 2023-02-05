@@ -221,11 +221,12 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     }
                     final boolean currentFullValue = getContextValue() || getChatValue();
                     if (currentFullValue != prevFullValue) {
-                        listAdapter.notifyItemChanged(2);
+                        int start = 1 + (!getMessagesController().premiumLocked ? 1 : 0);
+                        listAdapter.notifyItemChanged(start);
                         if (currentFullValue) {
-                            listAdapter.notifyItemInserted(3);
+                            listAdapter.notifyItemInserted(start + 1);
                         } else {
-                            listAdapter.notifyItemRemoved(3);
+                            listAdapter.notifyItemRemoved(start + 1);
                         }
                     }
                     return;
@@ -238,7 +239,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 }
                 boolean search = listView.getAdapter() == searchListViewAdapter;
                 if (!search) {
-                    position -= (getChatValue() || getContextValue()) ? 7 : 6;
+                    position -= 4;
                 }
                 LocaleController.LocaleInfo localeInfo;
                 if (search) {
@@ -301,7 +302,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 }
                 boolean search = listView.getAdapter() == searchListViewAdapter;
                 if (!search) {
-                    position -= (getChatValue() || getContextValue()) ? 7 : 6;
+                    position -= 4;
                 }
                 LocaleController.LocaleInfo localeInfo;
                 if (search) {
@@ -910,8 +911,9 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     final String doNotTranslateCellName = LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate);
                     String doNotTranslateCellValue = null;
                     try {
+                        boolean[] accusative = new boolean[1];
                         if (langCodes.size() == 1) {
-                            doNotTranslateCellValue = TranslateAlert2.capitalFirst(TranslateAlert2.languageName(langCodes.iterator().next()));
+                            doNotTranslateCellValue = TranslateAlert2.capitalFirst(TranslateAlert2.languageName(langCodes.iterator().next(), accusative));
                         } else {
                             Iterator<String> iterator = langCodes.iterator();
                             boolean first = true;
@@ -921,7 +923,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                                 if (!first) {
                                     string.append(", ");
                                 }
-                                string.append(TranslateAlert2.capitalFirst(TranslateAlert2.languageName(lang)));
+                                string.append(TranslateAlert2.capitalFirst(TranslateAlert2.languageName(lang, accusative)));
                                 first = false;
                             }
                             doNotTranslateCellValue = string.toString();
@@ -977,15 +979,17 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 if (i-- == 0) return VIEW_TYPE_HEADER;
                 if (i-- == 0) return VIEW_TYPE_SETTINGS;
                 if (i-- == 0) return VIEW_TYPE_SHADOW;
-                //if (i-- == 0) return VIEW_TYPE_SWITCH;
-                //if (i-- == 0) return VIEW_TYPE_SWITCH;
-                //if (getChatValue() || getContextValue()) {
-                //    if (i-- == 0) return VIEW_TYPE_SETTINGS;
-                //}
-                //if (i-- == 0) return VIEW_TYPE_INFO;
-                //if (i-- == 0) return VIEW_TYPE_INFO;
+                /*if (i-- == 0) return VIEW_TYPE_SWITCH;
+                if (!getMessagesController().premiumLocked) {
+                    if (i-- == 0) return VIEW_TYPE_SWITCH;
+                }
+                if (getChatValue() || getContextValue()) {
+                    if (i-- == 0) return VIEW_TYPE_SETTINGS;
+                }
+                if (i-- == 0) return VIEW_TYPE_INFO;
+                if (i-- == 0) return VIEW_TYPE_INFO;*/
                 if (i-- == 0) return VIEW_TYPE_HEADER;
-                if (!unofficialLanguages.isEmpty() && (i == unofficialLanguages.size() || i == unofficialLanguages.size() + 1 + sortedLanguages.size() + 1) || unofficialLanguages.isEmpty() && i == sortedLanguages.size()) {
+                if (!unofficialLanguages.isEmpty() && (i == unofficialLanguages.size() || i == unofficialLanguages.size() + sortedLanguages.size() + 1) || unofficialLanguages.isEmpty() && i == sortedLanguages.size()) {
                     return VIEW_TYPE_SHADOW;
                 }
                 return VIEW_TYPE_LANGUAGE;

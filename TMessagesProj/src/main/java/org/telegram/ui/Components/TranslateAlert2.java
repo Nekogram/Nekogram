@@ -966,7 +966,11 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     }
 
     public static String languageName(String locale) {
-        if (locale == null || locale.equals("und") || locale.equals("auto")) {
+        return languageName(locale, null);
+    }
+
+    public static String languageName(String locale, boolean[] accusative) {
+        if (locale == null || locale.equals(TranslateController.UNKNOWN_LANGUAGE) || locale.equals("auto")) {
             return null;
         }
         String toLang;
