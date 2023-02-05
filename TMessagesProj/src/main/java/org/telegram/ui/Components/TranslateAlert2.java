@@ -263,27 +263,31 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         Translator.translate(reqText == null ? "" : reqText.toString(), fromLanguage, new Translator.TranslateCallBack() {
             @Override
             public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
-                firstTranslation = false;
-                CharSequence translated = SpannableStringBuilder.valueOf((CharSequence) translation);
-                MessageObject.addUrlsByPattern(false, translated, false, 0, 0, true);
-                translated = preprocessText(translated);
-                AndroidUtilities.addLinks((Spannable) translated, Linkify.WEB_URLS);
-                translated = preprocessText(translated);
-                textView.setText(translated);
-                headerView.fromLanguageTextView.setText(languageName(fromLanguage = sourceLanguage));
-                adapter.updateMainView(textViewContainer);
+                AndroidUtilities.runOnUIThread(() -> {
+                    firstTranslation = false;
+                    CharSequence translated = SpannableStringBuilder.valueOf((CharSequence) translation);
+                    MessageObject.addUrlsByPattern(false, translated, false, 0, 0, true);
+                    translated = preprocessText(translated);
+                    AndroidUtilities.addLinks((Spannable) translated, Linkify.WEB_URLS);
+                    translated = preprocessText(translated);
+                    textView.setText(translated);
+                    headerView.fromLanguageTextView.setText(languageName(fromLanguage = sourceLanguage));
+                    adapter.updateMainView(textViewContainer);
+                });
             }
 
             @Override
             public void onError(Exception e) {
-                if (firstTranslation) {
-                    dismiss();
-                    NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_ERROR, LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2));
-                } else {
-                    BulletinFactory.of((FrameLayout) containerView, resourcesProvider).createErrorBulletin(LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2)).show();
-                    headerView.toLanguageTextView.setText(languageName(toLanguage = prevToLanguage));
-                    adapter.updateMainView(textViewContainer);
-                }
+                AndroidUtilities.runOnUIThread(() -> {
+                    if (firstTranslation) {
+                        dismiss();
+                        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_ERROR, LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2));
+                    } else {
+                        BulletinFactory.of((FrameLayout) containerView, resourcesProvider).createErrorBulletin(LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2)).show();
+                        headerView.toLanguageTextView.setText(languageName(toLanguage = prevToLanguage));
+                        adapter.updateMainView(textViewContainer);
+                    }
+                });
             }
         });
     }
@@ -695,14 +699,14 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             }
             subtitleView.setPivotX(0);
             subtitleView.setPivotY(0);
-            if (!TextUtils.isEmpty(fromLanguage) && !"und".equals(fromLanguage)) {
+            //if (!TextUtils.isEmpty(fromLanguage) && !"und".equals(fromLanguage)) {
                 fromLanguageTextView = new TextView(context);
                 fromLanguageTextView.setLines(1);
                 fromLanguageTextView.setTextColor(getThemedColor(Theme.key_player_actionBarSubtitle));
                 fromLanguageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 fromLanguageTextView.setText(capitalFirst(languageName(fromLanguage)));
                 fromLanguageTextView.setPadding(0, dp(2), 0, dp(2));
-            }
+            //}
 
             arrowView = new ImageView(context);
             arrowView.setImageResource(R.drawable.search_arrow);
