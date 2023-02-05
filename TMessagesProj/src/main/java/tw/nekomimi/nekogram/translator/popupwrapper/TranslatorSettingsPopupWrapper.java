@@ -1,15 +1,11 @@
 package tw.nekomimi.nekogram.translator.popupwrapper;
 
-import android.view.View;
-import android.widget.FrameLayout;
-
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
 
 import tw.nekomimi.nekogram.translator.Translator;
@@ -49,28 +45,6 @@ public class TranslatorSettingsPopupWrapper {
                         break;
                 }
             });
-        }
-        var subSwipeBackLayout = windowLayout.getSwipeBack();
-        if (subSwipeBackLayout != null) {
-            subSwipeBackLayout.addOnSwipeBackProgressListener((layout, toProgress, progress) -> {
-                if (swipeBackLayout != null) {
-                    swipeBackLayout.setSwipeBackDisallowed(progress != 0);
-                }
-            });
-
-            FrameLayout gap = new FrameLayout(context);
-            gap.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuSeparator, resourcesProvider));
-            View gapShadow = new View(context);
-            gapShadow.setBackground(Theme.getThemedDrawable(context, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow, resourcesProvider));
-            gap.addView(gapShadow, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-            gap.setTag(R.id.fit_width_tag, 1);
-            windowLayout.addView(gap, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 8));
-
-            var autoTranslatePopupWrapper = new AutoTranslatePopupWrapper(fragment, windowLayout.getSwipeBack(), dialogId, topicId, resourcesProvider);
-            int autoTranslateSwipeBackIndex = windowLayout.addViewToSwipeBack(autoTranslatePopupWrapper.windowLayout);
-            var autoTranslateItem = ActionBarMenuItem.addItem(windowLayout, R.drawable.msg_translate, LocaleController.getString("AutoTranslate", R.string.AutoTranslate), true, resourcesProvider);
-            autoTranslateItem.setRightIcon(R.drawable.msg_arrowright);
-            autoTranslateItem.setOnClickListener(view -> subSwipeBackLayout.openForeground(autoTranslateSwipeBackIndex));
         }
     }
 }
