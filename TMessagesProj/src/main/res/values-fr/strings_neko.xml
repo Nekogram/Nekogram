@@ -236,7 +236,6 @@
     <string name="AppIconNeon">Néon</string>
     <string name="AppIconMaterial">Material</string>
     <string name="NoUpdateAvailablePlayDelay">En raison de la révision de Google, la mise à jour dans le Play Store est généralement plus lente que les APK directs.</string>
-    <string name="ProviderTelegram">Telegram</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

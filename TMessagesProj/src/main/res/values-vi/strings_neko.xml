@@ -246,7 +246,6 @@
     <string name="UploadloadSpeedBoost">Tăng tốc tải lên</string>
     <string name="NoUpdateAvailablePlay">Vui lòng kiểm tra cập nhật trong Cửa hàng Play.</string>
     <string name="NoUpdateAvailablePlayDelay">Quá trình cập nhật trong Cửa hàng Play thường chậm hơn APK trực tiếp do quá trình xem xét của Google.</string>
-    <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">Tắt tính năng tự động sắp xếp lại gói nhãn dán</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>

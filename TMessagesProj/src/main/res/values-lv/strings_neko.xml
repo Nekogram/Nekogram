@@ -246,7 +246,6 @@
     <string name="UploadloadSpeedBoost">Augšupielādes ātruma palielināšana</string>
     <string name="NoUpdateAvailablePlay">Lūdzu, pārbaudiet atjauninājumu Play veikalā.</string>
     <string name="NoUpdateAvailablePlayDelay">Google pārskatīšanas dēļ Play veikalā atjauninājumi parasti tiek veikti lēnāk nekā tiešos APK.</string>
-    <string name="ProviderTelegram">Telegramma</string>
     <string name="DisableStickersAutoReorder">Atspējot uzlīmju paku automātisko pārkārtošanu</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Pieejamības iestatījumi</string>

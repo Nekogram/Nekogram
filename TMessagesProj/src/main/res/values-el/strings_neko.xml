@@ -246,7 +246,6 @@
     <string name="UploadloadSpeedBoost">Αύξηση ταχύτητας μεταφόρτωσης</string>
     <string name="NoUpdateAvailablePlay">Παρακαλώ ελέγξτε για ενημέρωση στο Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">Η ενημέρωση στο Play Store έρχεται συνήθως πιο αργά από τα άμεσα APK λόγω της αναθεώρησης της Google.</string>
-    <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">Απενεργ. αυτο-διάταξης πακ αυτοκόλ.</string>
     <string name="DownloadEmojiSet">Λήψη %s</string>
     <string name="EmojiSets">Πακέτα Emoji</string>

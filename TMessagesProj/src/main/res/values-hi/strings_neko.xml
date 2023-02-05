@@ -247,7 +247,6 @@
     <string name="NoUpdateAvailablePlay">कृपया Play Store में अपडेट की जांच करें।
  संदर्भ:</string>
     <string name="NoUpdateAvailablePlayDelay">Google की समीक्षा के कारण Play Store में अपडेट आमतौर पर सीधे APK की तुलना में धीमा आता है</string>
-    <string name="ProviderTelegram">टेलीग्राम प्रदाता</string>
     <string name="DisableStickersAutoReorder">टेलीग्राम स्टिकर अक्षम करें</string>
     <string name="DownloadEmojiSet">डाऊनलोड %s</string>
     <string name="EmojiSets">इमोजी सेट</string>

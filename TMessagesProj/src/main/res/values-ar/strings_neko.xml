@@ -248,7 +248,6 @@
     <string name="UploadloadSpeedBoost">زيادة سرعة الرفع</string>
     <string name="NoUpdateAvailablePlay">يرجى التحقق من التحديث في متجر Play.</string>
     <string name="NoUpdateAvailablePlayDelay">عادةً ما يأتي التحديث في متجر Play أبطأ من ملفات APK المباشرة بسبب مراجعة Google.</string>
-    <string name="ProviderTelegram">تيليجرام</string>
     <string name="DisableStickersAutoReorder">تعطيل إعادة ترتيب التلقائي لحزم الملصقات</string>
     <string name="DownloadEmojiSet">تحميل %s</string>
     <string name="EmojiSets">مجموعات الرموز التعبيرية</string>

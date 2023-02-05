@@ -247,7 +247,6 @@
     <string name="UploadloadSpeedBoost">Увеличение скорости отдачи</string>
     <string name="NoUpdateAvailablePlay">Пожалуйста, проверьте наличие обновлений в Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">Обновление в Play Store обычно происходит медленнее, чем прямые APK из-за проверки Google.</string>
-    <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">Отключить автоматическую сортировку стикеров</string>
     <string name="DownloadEmojiSet">Скачать %s</string>
     <string name="EmojiSets">Наборы эмодзи</string>

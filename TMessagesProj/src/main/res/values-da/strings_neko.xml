@@ -222,7 +222,6 @@
     <string name="TranslatorShowOriginal">Med originaltekst</string>
     <string name="DatacenterStatusAbout">Kontroller status for Telegrams **datacentre**.</string>
     <string name="DatacenterStatus">Datacenter status</string>
-    <string name="ProviderTelegram">Telegram</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
     <string name="AccSeekbarHeading">Indstillinger for søgepanel</string>

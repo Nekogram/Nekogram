@@ -246,7 +246,6 @@
     <string name="UploadloadSpeedBoost">アップロード速度向上</string>
     <string name="NoUpdateAvailablePlay">Playストアでアップデートを確認してください。</string>
     <string name="NoUpdateAvailablePlayDelay">Playストアでの更新は、Googleの審査により.apkでのアップデートより遅れます。</string>
-    <string name="ProviderTelegram">Telegram</string>
     <string name="DisableStickersAutoReorder">ステッカーパックの自動並べ替えを無効にする</string>
     <string name="DownloadEmojiSet">ダウンロード %s</string>
     <string name="EmojiSets">絵文字セット</string>
