@@ -5998,7 +5998,8 @@ public class MessageObject {
             return false;
         }
         var messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
-        if (messagesController.blockePeers.indexOfKey(getFromChatId()) >= 0) {
+        var fromId = getFromChatId();
+        if (messagesController.blockePeers.indexOfKey(getFromChatId()) >= 0 && !UserObject.isReplyUser(fromId)) {
             return true;
         }
         if (messageOwner.fwd_from == null || messageOwner.fwd_from.from_id == null) {
