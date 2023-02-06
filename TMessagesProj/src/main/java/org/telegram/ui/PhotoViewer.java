@@ -67,7 +67,6 @@ import android.transition.TransitionManager;
 import android.transition.TransitionSet;
 import android.transition.TransitionValues;
 import android.util.FloatProperty;
-import android.util.Log;
 import android.util.Property;
 import android.util.Range;
 import android.util.SparseArray;
@@ -199,7 +198,6 @@ import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.Crop.CropTransform;
 import org.telegram.ui.Components.Crop.CropView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
-import org.telegram.ui.Components.EmojiPacksAlert;
 import org.telegram.ui.Components.FadingTextViewLayout;
 import org.telegram.ui.Components.FilterShaders;
 import org.telegram.ui.Components.FloatSeekBarAccessibilityDelegate;
@@ -4384,7 +4382,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         fragment.forwardContext = () -> fmessages;
                         var forwardParams = fragment.forwardContext.getForwardParams();
                         forwardParams.noQuote = id == gallery_menu_send_noquote;
-                        fragment.setDelegate((fragment1, dids, message, param) -> {
+                        fragment.setDelegate((fragment1, dids, message, param, topicsFragment) -> {
                             if (dids.size() > 1 || dids.get(0).dialogId == UserConfig.getInstance(currentAccount).getClientUserId() || message != null) {
                                 for (int a = 0; a < dids.size(); a++) {
                                     long did = dids.get(a).dialogId;
@@ -15594,18 +15592,25 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 progress = progress + (1f - progress) * clippingImageProgress;
             }
             float scale = 1f + (1f - Utilities.clamp(progress, 1, 0)) * ZOOM_SCALE;
+            if (SharedConfig.getDevicePerformanceClass() != SharedConfig.PERFORMANCE_CLASS_HIGH || SharedConfig.getLiteMode().enabled()) {
+                scale = 1f;
+            }
             View view = parentFragment.getFragmentView();
-            view.setPivotX(view.getWidth() / 2f);
-            view.setPivotY(view.getHeight() / 2f);
-            view.setScaleX(scale);
-            view.setScaleY(scale);
-
-            if (parentAlert != null) {
-                view = parentAlert.getContainer();
+            if (view.getScaleX() != scale || view.getScaleY() != scale) {
                 view.setPivotX(view.getWidth() / 2f);
                 view.setPivotY(view.getHeight() / 2f);
                 view.setScaleX(scale);
                 view.setScaleY(scale);
+            }
+
+            if (parentAlert != null) {
+                view = parentAlert.getContainer();
+                if (view.getScaleX() != scale || view.getScaleY() != scale) {
+                    view.setPivotX(view.getWidth() / 2f);
+                    view.setPivotY(view.getHeight() / 2f);
+                    view.setScaleX(scale);
+                    view.setScaleY(scale);
+                }
             }
 
             if (animationInProgress == 1 || animationInProgress == 2 || animationInProgress == 3 || pipAnimationInProgress) {

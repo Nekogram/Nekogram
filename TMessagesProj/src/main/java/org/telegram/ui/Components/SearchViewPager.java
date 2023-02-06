@@ -551,7 +551,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             fragment.forwardContext = () -> fmessages;
             var forwardParams = fragment.forwardContext.getForwardParams();
             forwardParams.noQuote = id == forwardNoQuoteItemId;
-            fragment.setDelegate((fragment1, dids, message, param) -> {
+            fragment.setDelegate((fragment1, dids, message, param, topicsFragment) -> {
                 selectedFiles.clear();
 
                 showActionMode(false);

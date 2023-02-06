@@ -239,9 +239,18 @@ public class TranslateButton extends FrameLayout {
                 NekoLanguagesSelectActivity.toggleLanguage(detectedLanguage, true);
                 translateController.checkRestrictedLanguagesUpdate();
                 translateController.setHideTranslateDialog(dialogId, true);
-                BulletinFactory.of(fragment).createSimpleBulletin(R.raw.msg_translate, AndroidUtilities.replaceTags(LocaleController.formatString("AddedToDoNotTranslate", R.string.AddedToDoNotTranslate, TranslateAlert2.capitalFirst(detectedLanguageName))), LocaleController.getString("Settings", R.string.Settings), () -> {
-                    fragment.presentFragment(new NekoLanguagesSelectActivity(NekoLanguagesSelectActivity.TYPE_RESTRICTED, false));
-                }).show();
+                String bulletinText;
+                if (accusative[0]) {
+                    bulletinText = LocaleController.formatString("AddedToDoNotTranslate", R.string.AddedToDoNotTranslate, TranslateAlert2.capitalFirst(detectedLanguageNameAccusative));
+                } else {
+                    bulletinText = LocaleController.formatString("AddedToDoNotTranslateOther", R.string.AddedToDoNotTranslateOther, TranslateAlert2.capitalFirst(detectedLanguageNameAccusative));
+                }
+                BulletinFactory.of(fragment).createSimpleBulletin(
+                    R.raw.msg_translate,
+                    bulletinText,
+                    LocaleController.getString("Settings", R.string.Settings),
+                    () -> fragment.presentFragment(new NekoLanguagesSelectActivity(NekoLanguagesSelectActivity.TYPE_RESTRICTED, false))
+                ).show();
                 popupWindow.dismiss();
             });
             popupLayout.addView(dontTranslateButton);
