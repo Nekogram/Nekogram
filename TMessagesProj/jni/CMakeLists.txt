@@ -202,36 +202,6 @@ set_target_properties(sqlite PROPERTIES
 target_compile_definitions(sqlite PUBLIC
         NULL=0 SOCKLEN_T=socklen_t LOCALE_NOT_USED ANDROID_NDK DISABLE_IMPORTGL AVOID_TABLES ANDROID_TILE_BASED_DECODE HAVE_STRCHRNUL=0 ANDROID_ARMV6_IDCT)
 
-#breakpad
-add_library(breakpad STATIC
-        third_party/breakpad/src/client/linux/crash_generation/crash_generation_client.cc
-        third_party/breakpad/src/client/linux/handler/exception_handler.cc
-        third_party/breakpad/src/client/linux/handler/minidump_descriptor.cc
-        third_party/breakpad/src/client/linux/log/log.cc
-        third_party/breakpad/src/client/linux/dump_writer_common/thread_info.cc
-        third_party/breakpad/src/client/linux/dump_writer_common/seccomp_unwinder.cc
-        third_party/breakpad/src/client/linux/dump_writer_common/ucontext_reader.cc
-        third_party/breakpad/src/client/linux/microdump_writer/microdump_writer.cc
-        third_party/breakpad/src/client/linux/minidump_writer/linux_dumper.cc
-        third_party/breakpad/src/client/linux/minidump_writer/linux_ptrace_dumper.cc
-        third_party/breakpad/src/client/linux/minidump_writer/minidump_writer.cc
-        third_party/breakpad/src/client/minidump_file_writer.cc
-        third_party/breakpad/src/common/android/breakpad_getcontext.S
-        third_party/breakpad/src/common/convert_UTF.c
-        third_party/breakpad/src/common/md5.cc
-        third_party/breakpad/src/common/string_conversion.cc
-        third_party/breakpad/src/common/linux/elfutils.cc
-        third_party/breakpad/src/common/linux/file_id.cc
-        third_party/breakpad/src/common/linux/guid_creator.cc
-        third_party/breakpad/src/common/linux/linux_libc_support.cc
-        third_party/breakpad/src/common/linux/memory_mapped_file.cc
-        third_party/breakpad/src/common/linux/safe_readlink.cc)
-set_target_properties(breakpad PROPERTIES ANDROID_ARM_MODE arm)
-set_property(SOURCE third_party/breakpad/src/common/android/breakpad_getcontext.S PROPERTY LANGUAGE C)
-target_include_directories(breakpad PUBLIC
-        third_party/breakpad/src/common/android/include
-        third_party/breakpad/src)
-
 
 #voip
 include(${CMAKE_HOME_DIRECTORY}/voip/CMakeLists.txt)
@@ -539,7 +509,6 @@ target_link_libraries(${NATIVE_LIB}
         android
         OpenSLES
         cpufeatures
-        breakpad
         genuine)
 
 #if (${ANDROID_ABI} STREQUAL "x86" OR ${ANDROID_ABI} STREQUAL "x86_64")
