@@ -3446,7 +3446,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 headerItem.lazilyAddSubItem(change_colors, R.drawable.msg_colors, LocaleController.getString("ChangeColors", R.string.ChangeColors));
             }
             if (currentChat != null && (ChatObject.isMegagroup(currentChat) || !ChatObject.isChannel(currentChat))) {
-                headerItem.addSubItem(delete_history, R.drawable.msg_delete, LocaleController.getString("DeleteAllFromSelf", R.string.DeleteAllFromSelf), themeDelegate);
+                headerItem.lazilyAddSubItem(delete_history, R.drawable.msg_delete, LocaleController.getString("DeleteAllFromSelf", R.string.DeleteAllFromSelf));
             }
             if (!isTopic) {
                 if (ChatObject.isChannel(currentChat)) {
