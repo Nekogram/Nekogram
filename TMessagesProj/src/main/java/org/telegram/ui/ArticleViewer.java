@@ -3077,6 +3077,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     return super.drawChild(canvas, child, drawingTime);
                 }
             }
+
+            @Override
+            public void invalidate() {
+                super.invalidate();
+            }
         };
         windowView.addView(containerView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         //containerView.setFitsSystemWindows(true);

@@ -795,6 +795,7 @@ public class NotificationsController extends BaseController {
             }
             return;
         }
+
         ArrayList<MessageObject> popupArrayAdd = new ArrayList<>(0);
         notificationsQueue.postRunnable(() -> {
             boolean added = false;
@@ -914,7 +915,7 @@ public class NotificationsController extends BaseController {
                         hasScheduled = messageObject.messageOwner.from_scheduled;
                     }
                     delayedPushMessages.add(messageObject);
-                    pushMessages.add(0, messageObject);
+                    appendMessage(messageObject);
                     if (mid != 0) {
                         if (sparseArray == null) {
                             sparseArray = new SparseArray<>();
@@ -1023,6 +1024,15 @@ public class NotificationsController extends BaseController {
                 countDownLatch.countDown();
             }
         });
+    }
+
+    private void appendMessage(MessageObject messageObject) {
+        for (int i = 0; i < pushMessages.size(); i++) {
+            if (pushMessages.get(i).getId() == messageObject.getId() && pushMessages.get(i).getDialogId() == messageObject.getDialogId()) {
+                return;
+            }
+        }
+        pushMessages.add(0, messageObject);
     }
 
     public int getTotalUnreadCount() {
@@ -1220,7 +1230,7 @@ public class NotificationsController extends BaseController {
                         pushMessagesDict.put(did, sparseArray);
                     }
                     sparseArray.put(message.id, messageObject);
-                    pushMessages.add(0, messageObject);
+                    appendMessage(messageObject);
                     if (original_dialog_id != dialog_id) {
                         Integer current = pushDialogsOverrideMention.get(original_dialog_id);
                         pushDialogsOverrideMention.put(original_dialog_id, current == null ? 1 : current + 1);
@@ -1304,7 +1314,7 @@ public class NotificationsController extends BaseController {
                     } else if (randomId != 0) {
                         fcmRandomMessagesDict.put(randomId, messageObject);
                     }
-                    pushMessages.add(0, messageObject);
+                    appendMessage(messageObject);
                     if (originalDialogId != dialogId) {
                         Integer current = pushDialogsOverrideMention.get(originalDialogId);
                         pushDialogsOverrideMention.put(originalDialogId, current == null ? 1 : current + 1);
@@ -4613,7 +4623,7 @@ public class NotificationsController extends BaseController {
             if (wearReplyAction != null) {
                 builder.addAction(wearReplyAction);
             }
-            if (!passcode) {
+            if (!waitingForPasscode) {
                 builder.addAction(readAction);
             }
             if (sortedDialogs.size() == 1 && !TextUtils.isEmpty(summary)) {

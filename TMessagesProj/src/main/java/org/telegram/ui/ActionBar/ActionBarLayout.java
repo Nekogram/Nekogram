@@ -1073,7 +1073,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 }
                 long newTime = System.nanoTime() / 1000000;
                 long dt = newTime - lastFrameTime;
-                if (dt > 18) {
+                if (dt > 40 && first) {
+                    dt = 0;
+                } else if (dt > 18) {
                     dt = 18;
                 }
                 lastFrameTime = newTime;
@@ -1218,6 +1220,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 parent.removeView(fragmentView);
             }
         }
+
         View wrappedView = fragmentView;
         containerViewBack.addView(wrappedView);
         int menuHeight = 0;
@@ -1265,8 +1268,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             fragment.actionBar.setTitleOverlayText(titleOverlayText, titleOverlayTextId, overlayAction);
         }
         fragmentsStack.add(fragment);
+
         onFragmentStackChanged();
         fragment.onResume();
+
         currentActionBar = fragment.actionBar;
         if (!fragment.hasOwnBackground && fragmentView.getBackground() == null) {
             fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
@@ -1415,7 +1420,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                                     if (delayedAnimationResumed) {
                                         delayedOpenAnimationRunnable.run();
                                     } else {
-                                        AndroidUtilities.runOnUIThread(delayedOpenAnimationRunnable, 200);
+                                        AndroidUtilities.runOnUIThread(delayedOpenAnimationRunnable, 100);
                                     }
                                 }
                             }
@@ -1868,11 +1873,15 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (allowFinishFragment && fragmentsStack.get(fragmentsStack.size() - 1) == fragment) {
             fragment.finishFragment();
         } else {
-            fragment.onPause();
-            fragment.onFragmentDestroy();
-            fragment.setParentLayout(null);
-            fragmentsStack.remove(fragment);
-            onFragmentStackChanged();
+            if (fragmentsStack.get(fragmentsStack.size() - 1) == fragment && fragmentsStack.size() > 1) {
+                fragment.finishFragment(false);
+            } else {
+                fragment.onPause();
+                fragment.onFragmentDestroy();
+                fragment.setParentLayout(null);
+                fragmentsStack.remove(fragment);
+                onFragmentStackChanged();
+            }
         }
     }
 
