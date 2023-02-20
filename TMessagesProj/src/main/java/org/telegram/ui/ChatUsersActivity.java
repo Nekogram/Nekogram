@@ -717,6 +717,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
             boolean listAdapter = listView.getAdapter() == listViewAdapter;
             if (listAdapter) {
                 if (isExpandableSendMediaRow(position)) {
+                    if (!ChatObject.canBlockUsers(currentChat)) return;
                     CheckBoxCell checkBoxCell = (CheckBoxCell) view;
                     if (position == sendMediaPhotosRow) {
                         defaultBannedRights.send_photos = !defaultBannedRights.send_photos;
@@ -1047,7 +1048,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     return;
                 } else if (position > permissionsSectionRow && position <= Math.max(manageTopicsRow, changeInfoRow)) {
                     TextCheckCell2 checkCell = (TextCheckCell2) view;
-                    if (!checkCell.isEnabled()) {
+                    if (position != sendMediaRow && !checkCell.isEnabled()) {
                         return;
                     }
                     if (checkCell.hasIcon()) {
@@ -3039,7 +3040,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
         @Override
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int viewType = holder.getItemViewType();
-            if (viewType == 7 || viewType == VIEW_TYPE_EXPANDABLE_SWITCH) {
+            if (viewType == 7 || viewType == VIEW_TYPE_EXPANDABLE_SWITCH || viewType == VIEW_TYPE_INNER_CHECK) {
                 return ChatObject.canBlockUsers(currentChat);
             } else if (viewType == 0) {
                 ManageChatUserCell cell = (ManageChatUserCell) holder.itemView;
@@ -3175,7 +3176,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                     CheckBoxCell checkBoxCell = new CheckBoxCell(mContext, 4, 21, getResourceProvider());
                     checkBoxCell.getCheckBoxRound().setDrawBackgroundAsArc(14);
                     checkBoxCell.getCheckBoxRound().setColor(Theme.key_switch2TrackChecked, Theme.key_radioBackground, Theme.key_checkboxCheck);
-                    checkBoxCell.setEnabled(true);
+                    checkBoxCell.setEnabled(ChatObject.canBlockUsers(currentChat));
                     view = checkBoxCell;
                     view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
                     break;
@@ -3409,6 +3410,7 @@ public class ChatUsersActivity extends BaseFragment implements NotificationCente
                         checkCell.setCollapseArrow(String.format(Locale.US, "%d/9", sentMediaCount), !sendMediaExpanded, new Runnable() {
                             @Override
                             public void run() {
+                                if (!ChatObject.canBlockUsers(currentChat)) return;
                                 boolean checked = !checkCell.isChecked();
                                 checkCell.setChecked(checked);
                                 setSendMediaEnabled(checked);
