@@ -26351,6 +26351,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 AlertsCreator.createScheduleDatePickerDialog(getParentActivity(), getUserConfig().getClientUserId(), (notify, scheduleDate) -> {
                     forwardMessages(messages, false, false, notify, scheduleDate, getUserConfig().getClientUserId());
+                    createUndoView();
+                    if (undoView == null) {
+                        return;
+                    }
                     undoView.showWithAction(getUserConfig().getClientUserId(), UndoView.ACTION_FWD_MESSAGES, messages.size());
                 }, themeDelegate);
                 break;
@@ -26362,6 +26366,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     messages.add(selectedObject);
                 }
                 forwardMessages(messages, false, false, true, 0, getUserConfig().getClientUserId());
+                createUndoView();
+                if (undoView == null) {
+                    return;
+                }
                 undoView.showWithAction(getUserConfig().getClientUserId(), UndoView.ACTION_FWD_MESSAGES, messages.size());
                 break;
             } case OPTION_REPEAT: {
@@ -29871,6 +29879,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     } else if (which == 3) {
                         AndroidUtilities.addToClipboard(String.valueOf(button.user_id));
                     }
+                    createUndoView();
+                    if (undoView == null) {
+                        return;
+                    }
                     undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
                 });
                 showDialog(builder.create());
@@ -32537,7 +32549,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override
             public void didChangeOwner(TLRPC.User user) {
-                undoView.showWithAction(-currentChat.id, UndoView.ACTION_OWNER_TRANSFERED_GROUP, user);
+                createUndoView();
+                if (undoView == null) {
+                    return;
+                }
+                undoView.showWithAction(-currentChat.id, currentChat.megagroup ? UndoView.ACTION_OWNER_TRANSFERED_GROUP : UndoView.ACTION_OWNER_TRANSFERED_CHANNEL, user);
             }
         });
         presentFragment(fragment);
