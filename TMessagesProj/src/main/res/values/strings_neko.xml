@@ -10,6 +10,7 @@
     <string name="DeleteAllFromSelf">Delete own messages</string>
     <string name="DeleteAllFromSelfAlert">Warning! This will **delete all messages from you** in this chat for **all** participants.</string>
     <string name="BotLogin">Bot Login</string>
+    <string name="BotLoginMessage">Enter the bot token obtained from **@BotFather**.</string>
     <string name="InvalidAccessToken">Invalid access token</string>
     <string name="IgnoreBlocked">Hide messages from blocked user</string>
     <string name="Connection">Connection</string>
