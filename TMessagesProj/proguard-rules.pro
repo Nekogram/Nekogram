@@ -124,8 +124,8 @@
     public static *** d(...);
 }
 
--dontwarn org.jetbrains.annotations.NotNull
--dontwarn org.jetbrains.annotations.Nullable
+-dontwarn com.google.j2objc.annotations.RetainedWith
+-dontwarn com.google.j2objc.annotations.Weak
 
 -repackageclasses
 -allowaccessmodification
