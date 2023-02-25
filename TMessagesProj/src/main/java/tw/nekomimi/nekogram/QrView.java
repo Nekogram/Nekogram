@@ -41,6 +41,7 @@ public class QrView extends View {
 
     protected QrView(Context context) {
         super(context);
+        paint.setColor(Color.BLACK);
 
         crossfadeFromPaint.setShader(new LinearGradient(0, 0, 0, AndroidUtilities.dp(crossfadeWidthDp), new int[]{0xffffffff, 0}, new float[]{0f, 1f}, Shader.TileMode.CLAMP));
         crossfadeFromPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
@@ -76,7 +77,6 @@ public class QrView extends View {
             }
             int imageSize = imageBloks * multiple - 24;
             int imageX = (size - imageSize) / 2;
-            paint.setColor(Color.BLACK);
             QRCodeWriter.drawSideQuads(canvas, 0, 0, paint, 7, multiple, 16, size, .75f, radii, true);
             String svg = RLottieDrawable.readRes(null, R.raw.qr_logo);
             Bitmap icon = SvgHelper.getBitmap(svg, imageSize, imageSize, false);
@@ -88,9 +88,7 @@ public class QrView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        paint.setColor(Color.WHITE);
-        AndroidUtilities.rectTmp.set(0, 0, getWidth(), getHeight());
-        canvas.drawRoundRect(AndroidUtilities.rectTmp, AndroidUtilities.dp(20), AndroidUtilities.dp(20), paint);
+        canvas.drawColor(Color.WHITE);
 
         float crossfadeAlpha = contentBitmapAlpha.set(1f);
         boolean crossfading = crossfadeAlpha > 0 && crossfadeAlpha < 1;
