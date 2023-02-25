@@ -362,6 +362,9 @@ public class ConnectionsManager extends BaseController {
                         if (BuildVars.LOGS_ENABLED) {
                             FileLog.e(object + " got error " + error.code + " " + error.text);
                         }
+                        if (NekoConfig.showRPCError) {
+                            ErrorDatabase.showErrorToast(object, errorText);
+                        }
                     }
                     if (BuildVars.DEBUG_PRIVATE_VERSION && !getUserConfig().isClientActivated() && error != null && error.code == 400 && Objects.equals(error.text, "CONNECTION_NOT_INITED")) {
                         if (BuildVars.LOGS_ENABLED) {
