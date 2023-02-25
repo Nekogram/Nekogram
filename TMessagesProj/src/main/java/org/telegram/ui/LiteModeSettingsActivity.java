@@ -176,7 +176,8 @@ public class LiteModeSettingsActivity extends BaseFragment {
         items.add(Item.asSwitch(LocaleController.getString("LiteSmoothTransitions"), SWITCH_TYPE_SMOOTH_TRANSITIONS));
         items.add(Item.asInfo(LocaleController.getString("LiteSmoothTransitionsInfo")));
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        // TODO: enable this after official
+        if (false && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             items.add(Item.asSwitch(LocaleController.getString("LitePowerSaver"), SWITCH_TYPE_LOW_BATTERY));
             items.add(Item.asInfo(LocaleController.getString("LitePowerSaverInfo")));
         }
