@@ -2895,6 +2895,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                 } else if (id == 6536) {
                     getMessageHelper().generateUpdateInfo(ChatActivity.this, selectedMessagesIds, () -> {
+                        UndoView undoView = getUndoView();
+                        if (undoView == null) {
+                            return;
+                        }
                         undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
                         clearSelectionMode();
                     });
@@ -32445,9 +32449,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     private void updateBotHelpCellClick(BotHelpCell cell) {
-        if (LanguageDetector.hasSupport()) {
-            final CharSequence text = cell.getText();
-            LanguageDetector.detectLanguage(text == null ? "" : text.toString(), lang -> {
+        final CharSequence text = cell.getText();
+        if (text != null && LanguageDetector.hasSupport()) {
+            LanguageDetector.detectLanguage(text.toString(), lang -> {
                 String fromLang = Translator.stripLanguageCode(lang);
                 if (lang != null && !Translator.isLanguageRestricted(fromLang)) {
                     cell.setOnClickListener(e -> {
