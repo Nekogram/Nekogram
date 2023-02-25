@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Удалить мои сообщения</string>
     <string name="DeleteAllFromSelfAlert">Внимание! Это **удалит все ваши сообщения** в этом чате для **всех**.</string>
     <string name="BotLogin">Вход по токену</string>
+    <string name="BotLoginMessage">Введите токен бота, полученный от **@BotFather**.</string>
     <string name="InvalidAccessToken">Токен недействителен</string>
     <string name="IgnoreBlocked">Скрывать сообщения от заблокированных пользователей</string>
     <string name="Connection">Соединение</string>
@@ -247,7 +248,6 @@
     <string name="UploadloadSpeedBoost">Увеличение скорости отдачи</string>
     <string name="NoUpdateAvailablePlay">Пожалуйста, проверьте наличие обновлений в Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">Обновление в Play Store обычно происходит медленнее, чем прямые APK из-за проверки Google.</string>
-    <string name="DisableStickersAutoReorder">Отключить автоматическую сортировку стикеров</string>
     <string name="DownloadEmojiSet">Скачать %s</string>
     <string name="EmojiSets">Наборы эмодзи</string>
     <string name="MyEmojiSets">Мои наборы эмодзи</string>

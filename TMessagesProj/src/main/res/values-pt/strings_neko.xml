@@ -246,7 +246,6 @@
     <string name="UploadloadSpeedBoost">Otimizar velocidade de download</string>
     <string name="NoUpdateAvailablePlay">Verifique por favor para actualização na Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">A actualização na Play Store costuma ser mais lenta do que os APKs directos devido à revisão do Google.</string>
-    <string name="DisableStickersAutoReorder">Desativar reordenamento automático de pacotes de figurinha</string>
     <string name="DownloadEmojiSet">Baixar %s</string>
     <string name="EmojiSets">Pacotes de Emoji</string>
     <string name="MyEmojiSets">Meus Pacotes de Emoji</string>

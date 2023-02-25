@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Hapus pesan dari saya</string>
     <string name="DeleteAllFromSelfAlert">Perhatian! Ini akan **menghapus semua pesan dari Anda** di obrolan ini untuk **semua** orang.</string>
     <string name="BotLogin">Login Bot</string>
+    <string name="BotLoginMessage">Masukkan token bot yang diperoleh dari **@BotFather**.</string>
     <string name="InvalidAccessToken">Token akses tidak valid</string>
     <string name="IgnoreBlocked">Sembunyikan pesan dari pengguna yang diblokir</string>
     <string name="Connection">Sambungan</string>
@@ -246,6 +247,31 @@
     <string name="UploadloadSpeedBoost">Peningkatan kecepatan upload</string>
     <string name="NoUpdateAvailablePlay">Silakan periksa pembaruan di Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">Pembaruan di Play Store biasanya tersedia lebih lambat daripada pengunduhan APK langsung karena tinjauan Google.</string>
+    <string name="DownloadEmojiSet">Unduh %s</string>
+    <string name="EmojiSets">Gaya Emoji</string>
+    <string name="MyEmojiSets">Gaya Emojiku</string>
+    <string name="InstalledEmojiSet">Terinstal</string>
+    <string name="InstallingEmojiSet">Menginstal…</string>
+    <string name="UpdateEmojiSet">Perbarui %s</string>
+    <string name="EmojiSetHint">Ini memengaruhi tampilan emoji hanya untuk Anda. Orang lain melihatnya berdasarkan preferensi mereka.</string>
+    <string name="CustomEmojiSetHint">Impor dan pilih gaya emoji dari penyimpanan internal Anda.</string>
+    <string name="AddEmojiSet">Tambahkan Gaya Emoji</string>
+    <string name="EmojiSetRemoved">Gaya Emoji dihapus.</string>
+    <string name="EmojiSetRemovedInfo">%1$s tidak lagi ada dalam gaya emoji anda.</string>
+    <string name="DeleteEmojiSets">%1$s gaya emoji</string>
+    <string name="DeleteEmojiSetsMessage">Apakah Anda yakin ingin menghapus gaya emoji yang dipilih?</string>
+    <string name="ApplyEmojiSet">Terapkan gaya emoji</string>
+    <string name="EmojiSetApplied">Gaya Emoji diterapkan.</string>
+    <string name="EmojiSetAppliedInfo">%1$s sekarang menjadi gaya emoji Anda.</string>
+    <string name="EmojiSetAlreadyApplied">Gaya emoji telah diterapkan.</string>
+    <string name="SendAnonymousData">Kirim data anonim</string>
+    <string name="SendBugReport">Kirim laporan bug</string>
+    <string name="SendBugReportDesc">Ini akan membantu kami melakukan letak masalah lebih cepat.</string>
+    <string name="AnonymousDataDelete">Hapus data</string>
+    <string name="AnonymousDataDeleteDesc">Blokir pengumpulan data secara permanen dari instansi ini dan hapus data yang dikumpulkan.</string>
+    <string name="SendAnonymousDataDesc">Fitur-fitur di atas menggunakan Visual Studio App Center yang disediakan oleh Microsoft. Informasi yang dikumpulkan bersifat anonim dan kami tidak dapat melacaknya kembali ke perangkat atau pengguna independen.</string>
+    <string name="SendLargePhotos">Kirim foto berukuran besar</string>
+    <string name="SendLargePhotosAbout">Menaikkan batas pixel pada kompresi gambar menjadi 2560px.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Setelan Aksesibilitas</string>
 </resources>

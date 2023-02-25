@@ -246,7 +246,6 @@
     <string name="UploadloadSpeedBoost">افزایش سرعت آپلود</string>
     <string name="NoUpdateAvailablePlay">لطفاً به‌روزرسانی را در فروشگاه Play بررسی کنید.</string>
     <string name="NoUpdateAvailablePlayDelay">به‌روزرسانی در فروشگاه Play معمولاً به دلیل بررسی Google، دیرتر از فایل های APK مستقیم انجام می‌شود.</string>
-    <string name="DisableStickersAutoReorder">سفارش مجدد خودکار بسته‌های برچسب را غیرفعال کن</string>
     <string name="DownloadEmojiSet">دانلود %s</string>
     <string name="EmojiSets">بسته های ایموجی</string>
     <string name="MyEmojiSets">بسته های ایموجی من</string>

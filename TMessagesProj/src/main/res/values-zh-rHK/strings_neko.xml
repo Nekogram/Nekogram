@@ -83,7 +83,7 @@
     <string name="AutoPauseVideoAbout">關於自動暫停視頻</string>
     <string name="DisableProximityEvents">禁用接近時間？</string>
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**應用</string>
-    <string name="MapDriftingFix">世界大地測量系統 ==> 火星大地測量系統</string>
+    <string name="MapDriftingFix">世界大地測量系統 ==&gt; 火星大地測量系統</string>
     <string name="DisableInstantCamera">禁用即使相機</string>
     <string name="OpenAllLinksInInstantView">嘗試在即時視圖裏打開鏈接</string>
     <string name="DonateThankYou">謝謝你！</string>

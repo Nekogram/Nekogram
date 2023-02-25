@@ -6,7 +6,7 @@
     <string name="HidePhone">Masquer mon numéro de téléphone</string>
     <string name="DeleteAllFromSelf">Supprimer ses propres messages</string>
     <string name="DeleteAllFromSelfAlert">Attention ! Cela **supprimera tous les messages de votre part** dans cet échange pour **tous** les participants.</string>
-    <string name="BotLogin">Connexion avec bot</string>
+    <string name="BotLogin">Connexion au bot</string>
     <string name="InvalidAccessToken">Token d\'accès invalide</string>
     <string name="IgnoreBlocked">Cacher les messages d\'utilisateurs bloqués</string>
     <string name="Connection">Connexion</string>
@@ -227,6 +227,8 @@
     <string name="MarkdownParser">Analyseur</string>
     <string name="MarkdownParseLinks">Analyser les liens</string>
     <string name="MarkdownAbout">Modifier le texte dans les messages en utilisant le format Markdown : ^1**gras**^1, ^2__italique__^2, ^3~~barré~~^3, ^4`monospace`^4, ^5||spoiler||^5, ^6texte^7url^8.</string>
+    <string name="MarkdownAbout2">Éditez le texte dans les messages en utilisant ces démarquages :
+^1**gras**^1, ^2__italique__^2,^3~~barré~~^3, ^4`monospace`^4, ^5||spoilers ||^5.</string>
     <string name="AppIconOldSchool">Old School</string>
     <string name="AppIconMerio">Merio</string>
     <string name="AppIconRainbow">Arc-en-ciel</string>
@@ -235,7 +237,41 @@
     <string name="AppIconCloud">Nuage</string>
     <string name="AppIconNeon">Néon</string>
     <string name="AppIconMaterial">Material</string>
+    <string name="RecentChats">Discussions récentes</string>
+    <string name="ClearRecentChats">Effacer les discussions récentes</string>
+    <string name="ClearRecentChatAlert">Voulez-vous effacer vos conversations récentes ?</string>
+    <string name="DownloadSpeedBoost">Téléchargement plus rapide</string>
+    <string name="DownloadSpeedBoostNone">Off</string>
+    <string name="DownloadSpeedBoostAverage">On</string>
+    <string name="DownloadSpeedBoostExtreme">Extrême</string>
+    <string name="UploadloadSpeedBoost">Téléchargement plus rapide</string>
+    <string name="NoUpdateAvailablePlay">Veuillez vérifier la mise à jour dans le Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">En raison de la révision de Google, la mise à jour dans le Play Store est généralement plus lente que les APK directs.</string>
+    <string name="DownloadEmojiSet">Téléchargement %s</string>
+    <string name="EmojiSets">Sets d\'Emoji</string>
+    <string name="MyEmojiSets">Mes sets d\'Emoji</string>
+    <string name="InstalledEmojiSet">Installé</string>
+    <string name="InstallingEmojiSet">Installation…</string>
+    <string name="UpdateEmojiSet">Mise à jour %s</string>
+    <string name="EmojiSetHint">Cela n\'affecte l\'apparence des emoji que pour vous. Les autres les voient en fonction de leurs préférences.</string>
+    <string name="CustomEmojiSetHint">Importez et choisissez des jeux d\'emoji à partir de votre stockage interne.</string>
+    <string name="AddEmojiSet">Ajouter un set d\'Emoji</string>
+    <string name="EmojiSetRemoved">Set d\'Emoji supprimer.</string>
+    <string name="EmojiSetRemovedInfo">%1$s n\'est plus dans vos sets d\'Emoji.</string>
+    <string name="DeleteEmojiSets">%1$s sets d\'Emoji</string>
+    <string name="DeleteEmojiSetsMessage">Êtes-vous sûr de vouloir supprimer les sets d\'emoji sélectionnés ?</string>
+    <string name="ApplyEmojiSet">Appliquer le set d\'emoji</string>
+    <string name="EmojiSetApplied">Set d\'Emoji appliqué.</string>
+    <string name="EmojiSetAppliedInfo">%1$s est maintenant dans vos sets d\'Emoji.</string>
+    <string name="EmojiSetAlreadyApplied">Le set d\'Emoji est déjà appliqué.</string>
+    <string name="SendAnonymousData">Envoyer des données anonymes</string>
+    <string name="SendBugReport">Envoyer un rapport de bug</string>
+    <string name="SendBugReportDesc">Cela nous aidera à trouver les problèmes plus rapidement.</string>
+    <string name="AnonymousDataDelete">Supprimer les données</string>
+    <string name="AnonymousDataDeleteDesc">Bloquer de façon permanente les données sortantes de cette instance et supprimer les données collectées.</string>
+    <string name="SendAnonymousDataDesc">Les fonctionnalités ci-dessus utilisent le Visual Studio App Center fourni par Microsoft. Les informations recueillies sont anonymes et nous ne pouvons pas les relier à un appareil ou à un utilisateur indépendant.</string>
+    <string name="SendLargePhotos">Envoyer des photos de grande taille</string>
+    <string name="SendLargePhotosAbout">Augmenter la limite de taille des images compressées à 2560px.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

@@ -247,7 +247,6 @@
     <string name="UploadloadSpeedBoost">Aumentar velocidade de upload</string>
     <string name="NoUpdateAvailablePlay">Por favor, verifique se há atualizações na Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">A atualização na Play Store geralmente chega mais lenta do que os APKs diretos devido à revisão do Google.</string>
-    <string name="DisableStickersAutoReorder">Desativar auto-reordenamento de figurinhas</string>
     <string name="DownloadEmojiSet">Baixar %s</string>
     <string name="EmojiSets">Pacotes de Emoji</string>
     <string name="MyEmojiSets">Meus Pacotes de Emoji</string>

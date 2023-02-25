@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Kendi mesajlarını sil</string>
     <string name="DeleteAllFromSelfAlert">Uyarı! Bu, **tüm** katılımcılar için bu sohbetteki **sizden gelen tüm mesajları siler**.</string>
     <string name="BotLogin">Bot Girişi</string>
+    <string name="BotLoginMessage">**@BotFather** aracılığıyla alınan bot token\'ını girin.</string>
     <string name="InvalidAccessToken">Erişim anahtarı geçersiz</string>
     <string name="IgnoreBlocked">Engellenen kullanıcıdan gelen mesajları gizle</string>
     <string name="Connection">Bağlantı</string>
@@ -246,7 +247,6 @@
     <string name="UploadloadSpeedBoost">Yükleme hızını arttır</string>
     <string name="NoUpdateAvailablePlay">Lütfen Play Store\'da güncellemeyi kontrol edin.</string>
     <string name="NoUpdateAvailablePlayDelay">Play Store\'daki güncelleme, Google\'ın incelemesi nedeniyle doğrudan indirilebilen APK sürümlerinden genellikle daha yavaş gelir.</string>
-    <string name="DisableStickersAutoReorder">Çıkartma paketlerini oto. sıralamayı devre dışı bırak</string>
     <string name="DownloadEmojiSet">%s Paketini İndir</string>
     <string name="EmojiSets">İfade Paketleri</string>
     <string name="MyEmojiSets">İfade Paketlerim</string>

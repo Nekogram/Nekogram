@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">自闭</string>
     <string name="DeleteAllFromSelfAlert">警告！这将为此会话中的 **所有人** 删除 **全部您发出的消息**。</string>
     <string name="BotLogin">机器人登录</string>
+    <string name="BotLoginMessage">输入从 **@BotFather** 获得的机器人令牌。</string>
     <string name="InvalidAccessToken">无效的访问令牌</string>
     <string name="IgnoreBlocked">隐藏来自坏东西的消息</string>
     <string name="Connection">连接</string>
@@ -247,7 +248,6 @@
     <string name="UploadloadSpeedBoost">上传速度提升</string>
     <string name="NoUpdateAvailablePlay">请在 Play 商店检查更新。</string>
     <string name="NoUpdateAvailablePlayDelay">由于谷歌的审核，Play 商店中的更新通常比直接的 APK 来得慢。</string>
-    <string name="DisableStickersAutoReorder">禁用贴纸包自动重新排序</string>
     <string name="DownloadEmojiSet">下载 %s</string>
     <string name="EmojiSets">Emoji 包</string>
     <string name="MyEmojiSets">我的 Emoji 包</string>
