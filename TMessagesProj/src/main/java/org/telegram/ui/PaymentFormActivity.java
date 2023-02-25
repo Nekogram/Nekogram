@@ -3841,8 +3841,11 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
                         goToNextStep();
                         if (parentFragment instanceof ChatActivity) {
-                            CharSequence info = AndroidUtilities.replaceTags(LocaleController.formatString(R.string.PaymentInfoHint, totalPrice[0], currentItemName));
-                            ((ChatActivity) parentFragment).getUndoView().showWithAction(0, UndoView.ACTION_PAYMENT_SUCCESS, info, message[0], null, null);
+                            UndoView undoView = ((ChatActivity) parentFragment).getUndoView();
+                            if (undoView != null) {
+                                CharSequence info = AndroidUtilities.replaceTags(LocaleController.formatString(R.string.PaymentInfoHint, totalPrice[0], currentItemName));
+                                undoView.showWithAction(0, UndoView.ACTION_PAYMENT_SUCCESS, info, message[0], null, null);
+                            }
                         }
                     });
                 } else if (response instanceof TLRPC.TL_payments_paymentVerificationNeeded) {
@@ -3872,8 +3875,11 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                                     onCheckoutSuccess(parentLayout, parentActivity);
 
                                     if (parentFragment instanceof ChatActivity) {
-                                        CharSequence info = AndroidUtilities.replaceTags(LocaleController.formatString(R.string.PaymentInfoHint, totalPrice[0], currentItemName));
-                                        ((ChatActivity) parentFragment).getUndoView().showWithAction(0, UndoView.ACTION_PAYMENT_SUCCESS, info, message, null, null);
+                                        UndoView undoView = ((ChatActivity) parentFragment).getUndoView();
+                                        if (undoView != null) {
+                                            CharSequence info = AndroidUtilities.replaceTags(LocaleController.formatString(R.string.PaymentInfoHint, totalPrice[0], currentItemName));
+                                            undoView.showWithAction(0, UndoView.ACTION_PAYMENT_SUCCESS, info, message, null, null);
+                                        }
                                     }
                                 });
                                 return true;

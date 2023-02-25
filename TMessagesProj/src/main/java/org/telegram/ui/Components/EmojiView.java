@@ -97,6 +97,7 @@ import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
@@ -857,7 +858,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
 
                     @Override
                     protected boolean isTabIconsAnimationEnabled(boolean loaded) {
-                        return !SharedConfig.getLiteMode().enabled();
+                        return LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
                     }
                 };
                 categoriesListView.setDontOccupyWidth((int) (searchEditText.getPaint().measureText(searchEditText.getHint() + "")) + dp(16));
@@ -2374,6 +2375,10 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         }
                         return 0;
                     });
+                    if (frozenStickerSets != null) {
+                        frozenStickerSets.clear();
+                        frozenStickerSets.addAll(stickerSets);
+                    }
 
                     reloadStickersAdapter();
                     AndroidUtilities.cancelRunOnUIThread(checkExpandStickerTabsRunnable);
@@ -3100,7 +3105,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             lineDrawables.clear();
         }
 
-        private HashMap<Integer, TouchDownInfo> touches;
+        private SparseArray<TouchDownInfo> touches;
         class TouchDownInfo {
             float x, y;
             long time;
@@ -3108,9 +3113,11 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
         public void clearTouchesFor(View view) {
             if (touches != null) {
-                for (Map.Entry<Integer, TouchDownInfo> e : touches.entrySet()) {
-                    if (e != null && e.getValue().view == view) {
-                        TouchDownInfo touch = touches.remove(e.getKey());
+                for (int i = 0; i < touches.size(); i++) {
+                    TouchDownInfo touch = touches.valueAt(i);
+                    if (touch.view == view) {
+                        touches.removeAt(i);
+                        i--;
                         if (touch != null) {
                             if (touch.view != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && touch.view.getBackground() instanceof RippleDrawable) {
                                 touch.view.getBackground().setState(new int[]{});
@@ -3125,19 +3132,16 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
         }
         public void clearAllTouches() {
             if (touches != null) {
-                for (Map.Entry<Integer, TouchDownInfo> e : touches.entrySet()) {
-                    if (e != null) {
-                        View view = e.getValue().view;
-                        if (view != null) {
-                            TouchDownInfo touch = touches.remove(e.getKey());
-                            if (touch != null) {
-                                if (touch.view != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && touch.view.getBackground() instanceof RippleDrawable) {
-                                    touch.view.getBackground().setState(new int[]{});
-                                }
-                                if (touch.view != null) {
-                                    touch.view.setPressed(false);
-                                }
-                            }
+                for (int i = 0; i < touches.size(); i++) {
+                    TouchDownInfo touch = touches.valueAt(i);
+                    touches.removeAt(i);
+                    i--;
+                    if (touch != null) {
+                        if (touch.view != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && touch.view.getBackground() instanceof RippleDrawable) {
+                            touch.view.getBackground().setState(new int[]{});
+                        }
+                        if (touch.view != null) {
+                            touch.view.setPressed(false);
                         }
                     }
                 }
@@ -3169,7 +3173,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 if (imageViewEmojis == null) {
                     return;
                 }
-                boolean drawInUi = imageViewEmojis.size() <= 4 || SharedConfig.getDevicePerformanceClass() == SharedConfig.PERFORMANCE_CLASS_LOW || SharedConfig.getLiteMode().enabled();
+                boolean drawInUi = imageViewEmojis.size() <= 4 || SharedConfig.getDevicePerformanceClass() == SharedConfig.PERFORMANCE_CLASS_LOW || !LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD);
                 if (!drawInUi) {
                     boolean animatedExpandIn = animateExpandStartTime > 0 && (SystemClock.elapsedRealtime() - animateExpandStartTime) < animateExpandDuration();
                     for (int i = 0; i < imageViewEmojis.size(); i++) {
@@ -3306,7 +3310,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                 int index = ev.getActionIndex();
                 int id = ev.getPointerId(index);
                 if (touches == null) {
-                    touches = new HashMap<>();
+                    touches = new SparseArray<>();
                 }
 
                 float x = ev.getX(index), y = ev.getY(index);
@@ -3328,7 +3332,8 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                         stopScroll();
                     }
                 } else {
-                    touch = touches.remove(id);
+                    touch = touches.get(id);
+                    touches.remove(id);
                     if (
                         touchChild != null && touch != null &&
                         Math.sqrt(Math.pow(x - touch.x, 2) + Math.pow(y - touch.y, 2)) < AndroidUtilities.touchSlop * 3 &&
@@ -3362,7 +3367,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                     }
                 }
             }
-            return super.dispatchTouchEvent(ev) || !cancel && !touches.isEmpty();
+            return super.dispatchTouchEvent(ev) || !cancel && touches.size() > 0;
         }
 
         private Path lockPath;
@@ -6209,7 +6214,7 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
             if (imageLocation == null) {
                 return;
             }
-            String filter = SharedConfig.getLiteMode().enabled() || emoji && !SharedConfig.playEmojiInKeyboard ? "30_30_firstframe" : "30_30";
+            String filter = !LiteMode.isEnabled(emoji ? LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD : LiteMode.FLAG_ANIMATED_STICKERS_KEYBOARD) ? "30_30_firstframe" : "30_30";
             if (object instanceof TLRPC.Document && (MessageObject.isAnimatedStickerDocument(document, true) || MessageObject.isVideoSticker(document))) {
                 if (svgThumb != null) {
                     imageView.setImage(ImageLocation.getForDocument(document), filter, svgThumb, 0, set);

@@ -148,6 +148,7 @@ import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LanguageDetector;
+import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MediaDataController;
@@ -1019,7 +1020,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             pipVideoOverlayAnimateFlag = true;
 
             changedTextureView.setVisibility(View.INVISIBLE);
-            aspectRatioFrameLayout.removeView(videoTextureView);
+            if (aspectRatioFrameLayout != null) {
+                aspectRatioFrameLayout.removeView(videoTextureView);
+            }
         }
     };
 
@@ -3993,7 +3996,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 super.dispatchDraw(canvas);
                 if (parentChatActivity != null) {
                     View undoView = parentChatActivity.getUndoView();
-                    if (undoView.getVisibility() == View.VISIBLE) {
+                    if (undoView != null && undoView.getVisibility() == View.VISIBLE) {
                         canvas.save();
                         View parent = (View) undoView.getParent();
                         canvas.clipRect(parent.getX(), parent.getY(), parent.getX() + parent.getWidth(), parent.getY() + parent.getHeight());
@@ -4393,10 +4396,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 }
                                 fragment1.finishFragment();
                                 if (parentChatActivityFinal != null) {
-                                    if (dids.size() == 1) {
-                                        parentChatActivityFinal.getUndoView().showWithAction(dids.get(0).dialogId, UndoView.ACTION_FWD_MESSAGES, fmessages.size());
-                                    } else {
-                                        parentChatActivityFinal.getUndoView().showWithAction(0, UndoView.ACTION_FWD_MESSAGES, fmessages.size(), dids.size(), null, null);
+                                    UndoView undoView = parentChatActivityFinal.getUndoView();
+                                    if (undoView != null) {
+                                        if (dids.size() == 1) {
+                                            undoView.showWithAction(dids.get(0).dialogId, UndoView.ACTION_FWD_MESSAGES, fmessages.size());
+                                        } else {
+                                            undoView.showWithAction(0, UndoView.ACTION_FWD_MESSAGES, fmessages.size(), dids.size(), null, null);
+                                        }
                                     }
                                 }
                             } else {
@@ -6978,7 +6984,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
             @Override
             public boolean onTouchEvent(MotionEvent event) {
-
+                if (getLayout() == null) {
+                    return false;
+                }
                 boolean linkResult = false;
                 if (event.getAction() == MotionEvent.ACTION_DOWN || pressedLink != null && event.getAction() == MotionEvent.ACTION_UP) {
                     int x = (int) (event.getX() - getPaddingLeft());
@@ -7293,7 +7301,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             switchToInlineRunnable.run();
             dismissInternal();
         }
-        if (parentChatActivity != null) {
+        if (parentChatActivity != null && parentChatActivity.getFragmentView() != null) {
             parentChatActivity.getFragmentView().invalidate();
         }
     }
@@ -14160,8 +14168,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         object.imageReceiver.setVisible(false, true);
                     };
                     if (parentChatActivity != null && parentChatActivity.getFragmentView() != null) {
-                        if (parentChatActivity.getUndoView() != null) {
-                            parentChatActivity.getUndoView().hide(false, 1);
+                        UndoView undoView = parentChatActivity.getUndoView();
+                        if (undoView != null) {
+                            undoView.hide(false, 1);
                         }
                         parentChatActivity.getFragmentView().invalidate();
                     }
@@ -14181,7 +14190,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             initCropView();
             setCropBitmap();
             if (parentChatActivity != null) {
-                parentChatActivity.getUndoView().hide(false, 1);
+                UndoView undoView = parentChatActivity.getUndoView();
+                if (undoView != null) {
+                    undoView.hide(false, 1);
+                }
                 parentChatActivity.getFragmentView().invalidate();
             }
             windowView.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
@@ -14290,7 +14302,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
             @Override
             protected void processTouch(MotionEvent event) {
-                gestureDetector.onTouchEvent(event);
+              //  gestureDetector.onTouchEvent(event);
             }
         };
         photoViewerWebView.init(embedSeekTime, MessageObject.getMedia(currentMessageObject.messageOwner).webpage);
@@ -15594,7 +15606,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 progress = progress + (1f - progress) * clippingImageProgress;
             }
             float scale = 1f + (1f - Utilities.clamp(progress, 1, 0)) * ZOOM_SCALE;
-            if (SharedConfig.getDevicePerformanceClass() != SharedConfig.PERFORMANCE_CLASS_HIGH || SharedConfig.getLiteMode().enabled()) {
+            if (SharedConfig.getDevicePerformanceClass() != SharedConfig.PERFORMANCE_CLASS_HIGH || !LiteMode.isEnabled(LiteMode.FLAG_CHAT_BACKGROUND)) {
                 scale = 1f;
             }
             View view = parentFragment.getFragmentView();

@@ -278,6 +278,7 @@ public class NotificationCenter {
     public static int topicsDidLoaded = totalEvents++;
     public static int chatSwithcedToForum = totalEvents++;
     public static int didUpdateGlobalAutoDeleteTimer = totalEvents++;
+    public static int onDatabaseReset = totalEvents++;
 
     public static boolean alreadyLogged;
 

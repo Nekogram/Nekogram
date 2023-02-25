@@ -208,7 +208,7 @@ include(${CMAKE_HOME_DIRECTORY}/voip/CMakeLists.txt)
 
 include(${CMAKE_HOME_DIRECTORY}/integrity/CMakeLists.txt)
 
-set(NATIVE_LIB "neko.42")
+set(NATIVE_LIB "neko.43")
 
 #tmessages
 add_library(${NATIVE_LIB} SHARED
