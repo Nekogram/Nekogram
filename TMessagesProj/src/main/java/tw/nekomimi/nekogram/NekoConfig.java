@@ -6,7 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import org.tcp2ws.Tcp2WsServer;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildConfig;
@@ -137,10 +136,8 @@ public class NekoConfig {
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
     private static boolean tcp2wsStarted = false;
-    private static Tcp2WsServer tcp2wsServer;
+    private static org.tcp2ws.tcp2wsServer tcp2wsServer;
     public static boolean wsEnableTLS = true;
-    public static boolean wsUseMTP = false;
-    public static boolean wsUseDoH = true;
 
     public static final ArrayList<DatacenterInfo> datacenterInfos = new ArrayList<>(5);
 
@@ -191,12 +188,8 @@ public class NekoConfig {
                 socket.close();
             }
             if (!tcp2wsStarted) {
-                // TODO: new domains
-                tcp2wsServer = (Tcp2WsServer) new Tcp2WsServer()
-                        .setTgaMode(false)
-                        .setTls(wsEnableTLS)
-                        .setIfMTP(wsUseMTP)
-                        .setIfDoH(wsUseDoH);
+                org.tcp2ws.tcp2wsServer.setCdnDomain(ConfigHelper.getWsDomain());
+                tcp2wsServer = new org.tcp2ws.tcp2wsServer().setTls(wsEnableTLS);
                 tcp2wsServer.start(socksPort);
                 tcp2wsStarted = true;
                 var map = new HashMap<String, String>();
@@ -222,7 +215,7 @@ public class NekoConfig {
     public static void wsReloadConfig() {
         if (tcp2wsServer != null) {
             try {
-                tcp2wsServer.setTls(wsEnableTLS).setIfMTP(wsUseMTP).setIfDoH(wsUseDoH);
+                tcp2wsServer.setTls(wsEnableTLS);
             } catch (Exception e) {
                 FileLog.e(e);
             }
@@ -294,8 +287,6 @@ public class NekoConfig {
             silenceNonContacts = preferences.getBoolean("silenceNonContacts", false);
             showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", true);
             wsEnableTLS = preferences.getBoolean("wsEnableTLS", true);
-            wsUseMTP = preferences.getBoolean("wsUseMTP", false);
-            wsUseDoH = preferences.getBoolean("wsUseDoH", true);
             translationTarget = preferences.getString("translationTarget", "app");
             maxRecentStickers = preferences.getInt("maxRecentStickers", 20);
             disableJumpToNextChannel = preferences.getBoolean("disableJumpToNextChannel", false);
@@ -373,14 +364,6 @@ public class NekoConfig {
         editor.apply();
     }
 
-    public static void setWsUseMTP(boolean use) {
-        wsUseMTP = use;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("wsUseMTP", wsUseMTP);
-        editor.apply();
-    }
-
     public static void setDownloadSpeedBoost(int boost) {
         downloadSpeedBoost = boost;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
@@ -442,14 +425,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showRPCError", showRPCError);
-        editor.apply();
-    }
-
-    public static void toggleWsEnableDoH() {
-        wsUseDoH = !wsUseDoH;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("wsUseDoH", wsUseDoH);
         editor.apply();
     }
 
