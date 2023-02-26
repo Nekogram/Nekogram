@@ -210,7 +210,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     public final static int group = 0;
     public final static int compress = 1;
     public final static int spoiler = 2;
-    public final static int spoiler_update = 20;
+    public final static int spoiler_update = 9;
     public final static int open_in = 3;
     public final static int preview_gap = 4;
     public final static int preview = 5;
