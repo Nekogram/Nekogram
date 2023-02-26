@@ -2275,6 +2275,8 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                         textCheckCell.setTextAndValueAndCheck(LocaleController.getString("DirectShare", R.string.DirectShare), LocaleController.getString("DirectShareInfo", R.string.DirectShareInfo), SharedConfig.directShare, false, true);
                     } else if (position == chatBlurRow) {
                         textCheckCell.setTextAndCheck(LocaleController.getString("BlurInChat", R.string.BlurInChat), SharedConfig.chatBlurEnabled(), true);
+                    } else if (position == lightModeRow) {
+                        textCheckCell.setTextAndCheck(LocaleController.getString("LightMode", R.string.LightMode), (LiteMode.getValue() & LiteMode.ENABLED) == 0, true);
                     }
                     break;
                 }
