@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Видалити свої повідомлення</string>
     <string name="DeleteAllFromSelfAlert">Увага! Це призведе до **видалення усіх ваших повідомлень** для **всіх** користувачів цього чату.</string>
     <string name="BotLogin">Бот логін</string>
+    <string name="BotLoginMessage">Введіть токен бота, отриманий від **@BotFather**.</string>
     <string name="InvalidAccessToken">Неправильний ключ доступу</string>
     <string name="IgnoreBlocked">Приховувати повідомлення від заблокованих користувачів</string>
     <string name="Connection">З\'єднання</string>

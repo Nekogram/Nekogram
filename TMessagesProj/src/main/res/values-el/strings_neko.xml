@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Διαγραφή μηνυμάτων μου</string>
     <string name="DeleteAllFromSelfAlert">Προειδοποίηση! Αυτό θα **διαγράψει ΌΛΑ τα μηνύματά σας** σε αυτή τη συνομιλία για **ΌΛΟΥΣ** τους συμμετέχοντες.</string>
     <string name="BotLogin">Σύνδεση Bot</string>
+    <string name="BotLoginMessage">Εισάγετε το διακριτικό του bot που ελήφθη από **@BotFather**.</string>
     <string name="InvalidAccessToken">Άκυρο διακριτικό πρόσβασης</string>
     <string name="IgnoreBlocked">Απόκρυψη μηνυμ. αποκλεισμ. χρήστη</string>
     <string name="Connection">Σύνδεση</string>

@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Elimina i miei messaggi</string>
     <string name="DeleteAllFromSelfAlert">Attenzione! Questo eliminerà **tutti i tuoi messaggi** da questa chat per **tutti i partecipanti.**</string>
     <string name="BotLogin">Login con bot token</string>
+    <string name="BotLoginMessage">Inserire il token del bot ottenuto da **@BotFather**.</string>
     <string name="InvalidAccessToken">Accesso col token non valido</string>
     <string name="IgnoreBlocked">Nascondi i messaggi degli utenti bloccati</string>
     <string name="Connection">Connessione</string>
@@ -246,6 +247,31 @@
     <string name="UploadloadSpeedBoost">caricamento veloce</string>
     <string name="NoUpdateAvailablePlay">Verificare la presenza di aggiornamenti nel Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">L\'aggiornamento nel Play Store di solito è più lento rispetto agli APK diretti a causa della revisione di Google.</string>
+    <string name="DownloadEmojiSet">Scarica %s</string>
+    <string name="EmojiSets">Set di emoji</string>
+    <string name="MyEmojiSets">I miei set di emoji</string>
+    <string name="InstalledEmojiSet">Installato</string>
+    <string name="InstallingEmojiSet">Installazione…</string>
+    <string name="UpdateEmojiSet">Aggiorna %s</string>
+    <string name="EmojiSetHint">Questo influisce sull\'aspetto delle emoji solo per voi. Gli altri le vedono in base alle loro preferenze.</string>
+    <string name="CustomEmojiSetHint">Importa e scegli i set di emoji dalla tua memoria interna.</string>
+    <string name="AddEmojiSet">Aggiungi set di emoji</string>
+    <string name="EmojiSetRemoved">Set di emoji rimosso.</string>
+    <string name="EmojiSetRemovedInfo">%1$s non è più nei tuoi set di emoji.</string>
+    <string name="DeleteEmojiSets">%1$s set di emoji</string>
+    <string name="DeleteEmojiSetsMessage">Sei sicuro di voler eliminare i set di emoji selezionati?</string>
+    <string name="ApplyEmojiSet">Applica il set di emoji</string>
+    <string name="EmojiSetApplied">Set di emoji applicato.</string>
+    <string name="EmojiSetAppliedInfo">%1$s è ora il tuo set di emoji.</string>
+    <string name="EmojiSetAlreadyApplied">Set di emoji già applicato.</string>
+    <string name="SendAnonymousData">Invia dati anonimi</string>
+    <string name="SendBugReport">Invia segnalazione di bug</string>
+    <string name="SendBugReportDesc">Questo ci aiuterà a trovare i problemi più velocemente.</string>
+    <string name="AnonymousDataDelete">Elimina i dati</string>
+    <string name="AnonymousDataDeleteDesc">Blocca definitivamente i dati in uscita da questa istanza ed elimina i dati raccolti.</string>
+    <string name="SendAnonymousDataDesc">Queste funzionalità usano Visual Studio App Center fornito da Microsoft. Le informazioni raccolte sono anonime e noi non possiamo ricondurle a nessun singolo dispositivo o utente.</string>
+    <string name="SendLargePhotos">Invia foto di grandi dimensioni</string>
+    <string name="SendLargePhotosAbout">Aumenta il limite laterale delle immagini compresse a 2560px.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>

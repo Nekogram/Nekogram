@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Apagar minhas mensagens</string>
     <string name="DeleteAllFromSelfAlert">Aviso! Isso irá **excluir todas as suas mensagens** nesse chat para **todos** os participantes.</string>
     <string name="BotLogin">Login via Bot</string>
+    <string name="BotLoginMessage">Insira o token do bot obtido através do **@BotFather**.</string>
     <string name="InvalidAccessToken">Token de acesso inválido</string>
     <string name="IgnoreBlocked">Ocultar mensagens de usuários bloqueados</string>
     <string name="Connection">Conexão</string>

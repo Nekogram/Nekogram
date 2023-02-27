@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Uw eigen berichten verwijderen</string>
     <string name="DeleteAllFromSelfAlert">Waarschuwing! Dit zal **alle berichten van jou** in deze chat verwijderen voor **alle** deelnemers.</string>
     <string name="BotLogin">Inloggen met bot</string>
+    <string name="BotLoginMessage">Enter the bot token obtained from **@BotFather**.</string>
     <string name="InvalidAccessToken">Ongeldige toegangstoken</string>
     <string name="IgnoreBlocked">Verberg berichten van geblokkeerde gebruiker</string>
     <string name="Connection">Verbinding</string>
@@ -21,5 +22,6 @@
     <string name="Categories">Categorieën</string>
     <string name="About">Over</string>
     <string name="IdTypeHidden">Verbergen</string>
+    <string name="SendLargePhotos">Stuur grote foto\'s</string>
     <!-- Accessibility -->
 </resources>
