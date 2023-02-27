@@ -605,7 +605,7 @@ public class LoginActivity extends BaseFragment {
             slideViewsContainer.addView(views[a], LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.CENTER, AndroidUtilities.isTablet() ? 26 : 18, 30, AndroidUtilities.isTablet() ? 26 : 18, 0));
         }
 
-        Bundle savedInstanceState = activityMode == MODE_LOGIN ? loadCurrentState(newAccount) : null;
+        Bundle savedInstanceState = activityMode == MODE_LOGIN ? loadCurrentState(newAccount, currentAccount) : null;
         if (savedInstanceState != null) {
             currentViewNum = savedInstanceState.getInt("currentViewNum", 0);
             syncContacts = savedInstanceState.getInt("syncContacts", 0) == 1;
@@ -909,13 +909,10 @@ public class LoginActivity extends BaseFragment {
         }
     }
 
-    public static Bundle loadCurrentState(boolean newAccount) {
-        if (newAccount) {
-            return null;
-        }
+    public static Bundle loadCurrentState(boolean newAccount, int currentAccount) {
         try {
             Bundle bundle = new Bundle();
-            SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("logininfo2", Context.MODE_PRIVATE);
+            SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("logininfo2" + (newAccount ? "_" + currentAccount : ""), Context.MODE_PRIVATE);
             Map<String, ?> params = preferences.getAll();
             for (Map.Entry<String, ?> entry : params.entrySet()) {
                 String key = entry.getKey();
@@ -952,7 +949,7 @@ public class LoginActivity extends BaseFragment {
     }
 
     private void clearCurrentState() {
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("logininfo2", Context.MODE_PRIVATE);
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("logininfo2" + (newAccount ? "_" + currentAccount : ""), Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.clear();
         editor.commit();
@@ -1567,7 +1564,7 @@ public class LoginActivity extends BaseFragment {
                     v.saveStateParams(bundle);
                 }
             }
-            SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("logininfo2", Context.MODE_PRIVATE);
+            SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("logininfo2" + (newAccount ? "_" + currentAccount : ""), Context.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             editor.clear();
             putBundleToEditor(bundle, editor, null);
@@ -3544,7 +3541,10 @@ public class LoginActivity extends BaseFragment {
             timeText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             timeText.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL);
             timeText.setOnClickListener(v-> {
-                if (isRequestingFirebaseSms || isResendingCode) {
+//                if (isRequestingFirebaseSms || isResendingCode) {
+//                    return;
+//                }
+                if (time > 0 && timeTimer != null) {
                     return;
                 }
                 isResendingCode = true;
@@ -4063,9 +4063,11 @@ public class LoginActivity extends BaseFragment {
             if (currentType == AUTH_TYPE_MESSAGE) {
                 setProblemTextVisible(true);
                 timeText.setVisibility(GONE);
+                problemText.setVisibility(VISIBLE);
             } else if (currentType == AUTH_TYPE_FLASH_CALL && (nextType == AUTH_TYPE_CALL || nextType == AUTH_TYPE_SMS)) {
                 setProblemTextVisible(false);
                 timeText.setVisibility(VISIBLE);
+                problemText.setVisibility(GONE);
                 if (nextType == AUTH_TYPE_CALL || nextType == AUTH_TYPE_MISSED_CALL) {
                     timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 1, 0));
                 } else if (nextType == AUTH_TYPE_SMS) {
@@ -4083,6 +4085,7 @@ public class LoginActivity extends BaseFragment {
                 timeText.setText(LocaleController.formatString("CallAvailableIn", R.string.CallAvailableIn, 2, 0));
                 setProblemTextVisible(time < 1000);
                 timeText.setVisibility(time < 1000 ? GONE : VISIBLE);
+                problemText.setVisibility(time < 1000 ? VISIBLE : GONE);
 
                 SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
                 String hash = preferences.getString("sms_hash", null);
@@ -4105,9 +4108,11 @@ public class LoginActivity extends BaseFragment {
                 timeText.setText(LocaleController.formatString("SmsAvailableIn", R.string.SmsAvailableIn, 2, 0));
                 setProblemTextVisible(time < 1000);
                 timeText.setVisibility(time < 1000 ? GONE : VISIBLE);
+                problemText.setVisibility(time < 1000 ? VISIBLE : GONE);
                 createTimer();
             } else {
                 timeText.setVisibility(GONE);
+                problemText.setVisibility(VISIBLE);
                 setProblemTextVisible(false);
                 createCodeTimer();
             }
@@ -4159,6 +4164,7 @@ public class LoginActivity extends BaseFragment {
                         if (codeTime <= 1000) {
                             setProblemTextVisible(true);
                             timeText.setVisibility(GONE);
+                            problemText.setVisibility(VISIBLE);
                             destroyCodeTimer();
                         }
                     });
@@ -5958,6 +5964,10 @@ public class LoginActivity extends BaseFragment {
 
             showKeyboard(codeFieldContainer.codeField[0]);
             codeFieldContainer.requestFocus();
+
+            if (!restore && params.containsKey("nextType")) {
+                AndroidUtilities.runOnUIThread(resendCodeTimeout, params.getInt("timeout"));
+            }
         }
 
         private void onPasscodeError(boolean clear) {
@@ -6210,8 +6220,6 @@ public class LoginActivity extends BaseFragment {
                     codeFieldContainer.setText("");
                     codeFieldContainer.codeField[0].requestFocus();
                 }
-
-                AndroidUtilities.runOnUIThread(resendCodeTimeout, 60000);
             }, SHOW_DELAY);
         }
 
