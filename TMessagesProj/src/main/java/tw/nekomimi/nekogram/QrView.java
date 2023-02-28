@@ -29,60 +29,64 @@ import java.util.HashMap;
 
 public class QrView extends View {
 
-    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint blackPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final AnimatedFloat contentBitmapAlpha = new AnimatedFloat(1f, this, 0, 2000, CubicBezierInterpolator.EASE_OUT_QUINT);
     private final Paint crossfadeFromPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final Paint crossfadeToPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final int crossfadeWidthDp = 120;
     private RLottieDrawable loadingMatrix;
-    private Bitmap contentBitmap, oldContentBitmap;
+    private Bitmap contentBitmap, oldContentBitmap, qrLogo;
     private String link;
     private final float[] radii = new float[8];
 
     protected QrView(Context context) {
         super(context);
-        paint.setColor(Color.BLACK);
 
+        blackPaint.setColor(Color.BLACK);
         crossfadeFromPaint.setShader(new LinearGradient(0, 0, 0, AndroidUtilities.dp(crossfadeWidthDp), new int[]{0xffffffff, 0}, new float[]{0f, 1f}, Shader.TileMode.CLAMP));
         crossfadeFromPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
         crossfadeToPaint.setShader(new LinearGradient(0, 0, 0, AndroidUtilities.dp(crossfadeWidthDp), new int[]{0, 0xffffffff}, new float[]{0f, 1f}, Shader.TileMode.CLAMP));
         crossfadeToPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-
-        loadingMatrix = new RLottieDrawable(R.raw.qr_matrix, "qr_matrix", AndroidUtilities.dp(200), AndroidUtilities.dp(200));
-        loadingMatrix.setMasterParent(this);
-        loadingMatrix.setAutoRepeat(1);
-        loadingMatrix.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
-        loadingMatrix.start();
     }
 
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         if (w != oldw || h != oldh) {
+            if (qrLogo != null) {
+                qrLogo.recycle();
+                qrLogo = null;
+            }
             Utilities.themeQueue.postRunnable(() -> prepareContent(w, h));
         }
     }
 
     private void drawLoading(Canvas canvas) {
-        if (loadingMatrix != null) {
-            int width = getWidth();
-            loadingMatrix.setBounds(16, 16, width - 16, width - 16);
-            loadingMatrix.draw(canvas);
-            int qrSize = 37;
-            int multiple = width / qrSize;
-            int size = multiple * qrSize + 32;
-            int imageBloks = Math.round((size - 32) / 4.65f / multiple);
-            if (imageBloks % 2 != qrSize % 2) {
-                imageBloks++;
-            }
-            int imageSize = imageBloks * multiple - 24;
-            int imageX = (size - imageSize) / 2;
-            QRCodeWriter.drawSideQuads(canvas, 0, 0, paint, 7, multiple, 16, size, .75f, radii, true);
-            String svg = RLottieDrawable.readRes(null, R.raw.qr_logo);
-            Bitmap icon = SvgHelper.getBitmap(svg, imageSize, imageSize, false);
-            canvas.drawBitmap(icon, imageX, imageX, null);
-            icon.recycle();
+        if (loadingMatrix == null) {
+            loadingMatrix = new RLottieDrawable(R.raw.qr_matrix, "qr_matrix", AndroidUtilities.dp(200), AndroidUtilities.dp(200));
+            loadingMatrix.setMasterParent(this);
+            loadingMatrix.setAutoRepeat(1);
+            loadingMatrix.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);
+            loadingMatrix.start();
         }
+        int width = getWidth();
+        loadingMatrix.setBounds(16, 16, width - 16, width - 16);
+        loadingMatrix.draw(canvas);
+        int qrSize = 37;
+        int multiple = width / qrSize;
+        int size = multiple * qrSize + 32;
+        int imageBloks = Math.round((size - 32) / 4.65f / multiple);
+        if (imageBloks % 2 != qrSize % 2) {
+            imageBloks++;
+        }
+        int imageSize = imageBloks * multiple - 24;
+        int imageX = (size - imageSize) / 2;
+        QRCodeWriter.drawSideQuads(canvas, 0, 0, blackPaint, 7, multiple, 16, size, .75f, radii, true);
+        if (qrLogo == null) {
+            String svg = RLottieDrawable.readRes(null, R.raw.qr_logo);
+            qrLogo = SvgHelper.getBitmap(svg, imageSize, imageSize, false);
+        }
+        canvas.drawBitmap(qrLogo, imageX, imageX, null);
     }
 
     @Override
@@ -131,6 +135,11 @@ public class QrView extends View {
                 canvas.restore();
             }
         }
+    }
+
+    public void clear() {
+        link = hadLink = null;
+        contentBitmap = oldContentBitmap = null;
     }
 
     public void setData(String link) {
@@ -212,6 +221,10 @@ public class QrView extends View {
             loadingMatrix.stop();
             loadingMatrix.recycle(false);
             loadingMatrix = null;
+        }
+        if (qrLogo != null) {
+            qrLogo.recycle();
+            qrLogo = null;
         }
     }
 }

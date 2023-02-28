@@ -7593,8 +7593,6 @@ public class LoginActivity extends BaseFragment {
             qrView.setClipToOutline(true);
             qrView.setData(null);
             addView(qrView, LayoutHelper.createLinear(280, 280, Gravity.CENTER_HORIZONTAL, 30, 30,30, 30));
-
-            getNotificationCenter().addObserver(this, NotificationCenter.onUpdateLoginToken);
         }
 
         @Override
@@ -7615,12 +7613,6 @@ public class LoginActivity extends BaseFragment {
         }
 
         @Override
-        public boolean onBackPressed(boolean force) {
-            removeObserver();
-            return true;
-        }
-
-        @Override
         public void onDestroyActivity() {
             removeObserver();
             super.onDestroyActivity();
@@ -7631,6 +7623,13 @@ public class LoginActivity extends BaseFragment {
             super.onShow();
             waitingForEvent = true;
             exportLoginToken(true);
+        }
+
+        @Override
+        public void onHide() {
+            removeObserver();
+            super.onHide();
+            qrView.clear();
         }
 
         private void removeObserver() {
@@ -7648,6 +7647,11 @@ public class LoginActivity extends BaseFragment {
             }
 
             if (show)  {
+                getNotificationCenter().addObserver(this, NotificationCenter.onUpdateLoginToken);
+                boolean testBackend = getConnectionsManager().isTestBackend();
+                if (testBackend != LoginActivity.this.testBackend) {
+                    getConnectionsManager().switchBackend(false);
+                }
                 getConnectionsManager().cleanup(false);
             }
 
@@ -7698,6 +7702,7 @@ public class LoginActivity extends BaseFragment {
                         }), ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagWithoutLogin | ConnectionsManager.RequestFlagTryDifferentDc | ConnectionsManager.RequestFlagEnableUnauthorized);
                     }
                 } else if (error.text != null) {
+                    removeObserver();
                     handleError(error.text);
                 }
 
@@ -7705,7 +7710,6 @@ public class LoginActivity extends BaseFragment {
         }
 
         private void handleError(String errorText) {
-            removeObserver();
             if (errorText.contains("SESSION_PASSWORD_NEEDED")) {
                 TLRPC.TL_account_getPassword req = new TLRPC.TL_account_getPassword();
                 getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
