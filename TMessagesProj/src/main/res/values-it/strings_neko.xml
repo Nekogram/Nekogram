@@ -240,11 +240,11 @@
     <string name="RecentChats">Chat recenti</string>
     <string name="ClearRecentChats">Cancella le chat recenti</string>
     <string name="ClearRecentChatAlert">Vuoi cancellare le tue chat recenti?</string>
-    <string name="DownloadSpeedBoost">Download aumento velocità</string>
+    <string name="DownloadSpeedBoost">Aumento velocità di download</string>
     <string name="DownloadSpeedBoostNone">disattivato</string>
     <string name="DownloadSpeedBoostAverage">attivo</string>
     <string name="DownloadSpeedBoostExtreme">Estremo</string>
-    <string name="UploadloadSpeedBoost">caricamento veloce</string>
+    <string name="UploadloadSpeedBoost">Boost velocità di caricamento</string>
     <string name="NoUpdateAvailablePlay">Verificare la presenza di aggiornamenti nel Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">L\'aggiornamento nel Play Store di solito è più lento rispetto agli APK diretti a causa della revisione di Google.</string>
     <string name="DownloadEmojiSet">Scarica %s</string>

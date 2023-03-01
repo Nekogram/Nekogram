@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Xóa tin nhắn của chính bạn</string>
     <string name="DeleteAllFromSelfAlert">Cảnh báo! Việc này sẽ **xóa tất cả các tin nhắn từ bạn** trong cuộc trò chuyện này với **tất cả** những người tham gia.</string>
     <string name="BotLogin">Đăng nhập Bot</string>
+    <string name="BotLoginMessage">Nhập mã thông báo bot nhận được từ **@BotFather**.</string>
     <string name="InvalidAccessToken">Mã truy cập không hợp lệ</string>
     <string name="IgnoreBlocked">Ẩn tin nhắn từ người dùng bị chặn</string>
     <string name="Connection">Kết nối</string>
@@ -246,6 +247,31 @@
     <string name="UploadloadSpeedBoost">Tăng tốc tải lên</string>
     <string name="NoUpdateAvailablePlay">Vui lòng kiểm tra cập nhật trong Cửa hàng Play.</string>
     <string name="NoUpdateAvailablePlayDelay">Quá trình cập nhật trong Cửa hàng Play thường chậm hơn APK trực tiếp do quá trình xem xét của Google.</string>
+    <string name="DownloadEmojiSet">Tải xuống%s</string>
+    <string name="EmojiSets">Bộ Emoji</string>
+    <string name="MyEmojiSets">Bộ Emoji của tôi</string>
+    <string name="InstalledEmojiSet">Tải về</string>
+    <string name="InstallingEmojiSet">Đang tải…</string>
+    <string name="UpdateEmojiSet">Cập nhật%s</string>
+    <string name="EmojiSetHint">Điều này ảnh hưởng đến sự xuất hiện biểu tượng cảm xúc chỉ dành cho bạn. Những người khác nhìn thấy chúng dựa trên sở thích của họ.</string>
+    <string name="CustomEmojiSetHint">Nhập và chọn bộ biểu tượng cảm xúc từ bộ nhớ trong của bạn.</string>
+    <string name="AddEmojiSet">Thêm bộ biểu tượng cảm xúc</string>
+    <string name="EmojiSetRemoved">Đã xóa bộ biểu tượng cảm xúc.</string>
+    <string name="EmojiSetRemovedInfo">%1$s không còn trong bộ biểu tượng cảm xúc của bạn nữa.</string>
+    <string name="DeleteEmojiSets">%1$s bộ biểu tượng cảm xúc</string>
+    <string name="DeleteEmojiSetsMessage">Bạn có chắc chắn muốn xóa bộ biểu tượng cảm xúc đã chọn không?</string>
+    <string name="ApplyEmojiSet">Áp dụng bộ biểu tượng cảm xúc</string>
+    <string name="EmojiSetApplied">Đã áp dụng bộ biểu tượng cảm xúc.</string>
+    <string name="EmojiSetAppliedInfo">%1$s hiện là bộ biểu tượng cảm xúc của bạn.</string>
+    <string name="EmojiSetAlreadyApplied">Bộ biểu tượng cảm xúc đã được áp dụng.</string>
+    <string name="SendAnonymousData">Gửi dữ liệu ẩn danh</string>
+    <string name="SendBugReport">Gửi báo cáo lỗi</string>
+    <string name="SendBugReportDesc">Điều này sẽ giúp chúng tôi tìm ra vấn đề nhanh hơn.</string>
+    <string name="AnonymousDataDelete">Xoá dữ liệu</string>
+    <string name="AnonymousDataDeleteDesc">Chặn vĩnh viễn dữ liệu gửi đi khỏi phiên bản này và xóa dữ liệu đã thu thập.</string>
+    <string name="SendAnonymousDataDesc">Các tính năng trên sử dụng Visual Studio App Center do Microsoft cung cấp. Thông tin được thu thập là ẩn danh và chúng tôi không thể truy ngược thông tin đó đến một thiết bị hoặc người dùng độc lập.</string>
+    <string name="SendLargePhotos">Gửi ảnh lớn</string>
+    <string name="SendLargePhotosAbout">Tăng giới hạn bên trên hình ảnh nén lên 2560px.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>
