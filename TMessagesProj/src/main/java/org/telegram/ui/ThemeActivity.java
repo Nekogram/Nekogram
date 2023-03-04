@@ -648,7 +648,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             distanceRow = rowCount++;
             settings2Row = rowCount++;
 
-            if (true || SharedConfig.getDevicePerformanceClass() <= SharedConfig.PERFORMANCE_CLASS_AVERAGE || BuildVars.DEBUG_VERSION) {
+            if (SharedConfig.getDevicePerformanceClass() <= SharedConfig.PERFORMANCE_CLASS_AVERAGE || BuildVars.DEBUG_VERSION) {
                 lightModeRow = rowCount++;
                 lightModeTopInfoRow = rowCount++;
             }
@@ -1177,7 +1177,12 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     ((TextCheckCell) view).setChecked(SharedConfig.chatBlurEnabled());
                 }
             } else if (position == lightModeRow) {
-                presentFragment(new LiteModeSettingsActivity());
+                boolean liteModeEnabled = (LiteMode.getValue() & LiteMode.ENABLED) == 0;
+                int newFlags = (liteModeEnabled ? LiteMode.ENABLED : 0) | (LiteMode.getValue() & ~LiteMode.ENABLED);
+                LiteMode.setAllFlags(newFlags);
+                if (view instanceof TextCheckCell) {
+                    ((TextCheckCell) view).setChecked((LiteMode.getValue() & LiteMode.ENABLED) == 0);
+                }
             } else if (position == nightThemeRow) {
                 if (LocaleController.isRTL && x <= AndroidUtilities.dp(76) || !LocaleController.isRTL && x >= view.getMeasuredWidth() - AndroidUtilities.dp(76)) {
                     NotificationsCheckCell checkCell = (NotificationsCheckCell) view;
@@ -2172,18 +2177,6 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     } else if (position == bluetoothScoRow) {
                         cell.setTextAndValue(LocaleController.getString(R.string.MicrophoneForVoiceMessages), LocaleController.getString(SharedConfig.recordViaSco ? R.string.MicrophoneForVoiceMessagesSco : R.string.MicrophoneForVoiceMessagesBuiltIn), updateRecordViaSco, true);
                         updateRecordViaSco = false;
-                    } else if (position == lightModeRow) {
-                        String value;
-                        if (LiteMode.getValue() == LiteMode.PRESET_HIGH) {
-                            value = LocaleController.getString("AutoDownloadHigh", R.string.AutoDownloadHigh);
-                        } else if (LiteMode.getValue() == LiteMode.PRESET_MEDIUM) {
-                            value = LocaleController.getString("AutoDownloadMedium", R.string.AutoDownloadMedium);
-                        } else if (LiteMode.getValue() == LiteMode.PRESET_LOW) {
-                            value = LocaleController.getString("AutoDownloadLow", R.string.AutoDownloadLow);
-                        } else {
-                            value = LocaleController.getString("AutoDownloadCustom", R.string.AutoDownloadCustom);
-                        }
-                        cell.setTextAndValue(LocaleController.getString("PowerUsage", R.string.PowerUsage), value, false);
                     }
                     break;
                 }
@@ -2371,7 +2364,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             if (position == scheduleFromRow || position == distanceRow ||
                     position == scheduleToRow || position == scheduleUpdateLocationRow ||
                     position == contactsReimportRow || position == contactsSortRow ||
-                    position == bluetoothScoRow || position == lightModeRow) {
+                    position == bluetoothScoRow) {
                 return TYPE_TEXT_SETTING;
             } else if (position == automaticBrightnessInfoRow || position == scheduleLocationInfoRow || position == lightModeTopInfoRow) {
                 return TYPE_TEXT_INFO_PRIVACY;
@@ -2390,7 +2383,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                 return TYPE_BRIGHTNESS;
             } else if (position == scheduleLocationRow || position == enableAnimationsRow || position == sendByEnterRow ||
                     position == raiseToSpeakRow || position == pauseOnRecordRow || position == customTabsRow ||
-                    position == directShareRow || position == chatBlurRow) {
+                    position == directShareRow || position == chatBlurRow || position == lightModeRow) {
                 return TYPE_TEXT_CHECK;
             } else if (position == textSizeRow) {
                 return TYPE_TEXT_SIZE;
