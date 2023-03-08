@@ -17,7 +17,11 @@ public class UnzipHelper {
                 var entries = zip.entries();
                 while (entries.hasMoreElements()) {
                     var entry = entries.nextElement();
-                    var target = new File(output.getAbsolutePath(), entry.getName());
+                    var target = new File(output, entry.getName());
+                    String canonicalPath = target.getCanonicalPath();
+                    if (!canonicalPath.startsWith(output.getAbsolutePath())) {
+                        throw new SecurityException();
+                    }
                     if (!entry.isDirectory()) {
                         var in = zip.getInputStream(entry);
                         AndroidUtilities.copyFile(in, target);

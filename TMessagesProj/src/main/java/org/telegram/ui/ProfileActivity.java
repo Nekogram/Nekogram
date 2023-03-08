@@ -5302,25 +5302,16 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             };
             if (withTranslate[0]) {
                 if (LanguageDetector.hasSupport()) {
-                    withTranslate[0] = false;
-                    LanguageDetectorTimeout.detectLanguage(
-                            view, finalText,
-                            (String fromLang) -> {
-                                fromLanguage[0] = Translator.stripLanguageCode(fromLang);
-                                if (!Translator.isLanguageRestricted(fromLang) || (currentChat != null && (currentChat.has_link || ChatObject.isPublic(currentChat))) && ("uk".equals(fromLang) || "ru".equals(fromLang))) {
-                                    withTranslate[0] = true;
-                                }
-                            },
-                            null, waitForLangDetection, onLangDetectionDone
-                    );
-                    view.postDelayed(() -> {
-                        if (onLangDetectionDone.get() != null) {
-                            onLangDetectionDone.getAndSet(null).run();
+                    LanguageDetector.detectLanguage(finalText, (fromLang) -> {
+                        fromLanguage[0] = Translator.stripLanguageCode(fromLang);
+                        if (!Translator.isLanguageRestricted(fromLang) || (currentChat != null && (currentChat.has_link || ChatObject.isPublic(currentChat))) && ("uk".equals(fromLang) || "ru".equals(fromLang))) {
+                            withTranslate[0] = true;
                         }
-                    }, 250);
-                }
-                if (waitForLangDetection.get()) {
-                    onLangDetectionDone.set(showMenu);
+                        showMenu.run();
+                    }, (error) -> {
+                        FileLog.e("mlkit: failed to detect language in selection", error);
+                        showMenu.run();
+                    });
                 } else {
                     showMenu.run();
                 }
