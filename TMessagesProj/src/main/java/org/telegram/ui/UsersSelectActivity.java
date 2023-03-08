@@ -285,8 +285,8 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
             }
             selectedContacts.put(uid, span);
 
-            editText.setHintVisible(false);
-            if (currentAnimation != null) {
+            editText.setHintVisible(false, TextUtils.isEmpty(editText.getText()));
+            if (currentAnimation != null && currentAnimation.isRunning()) {
                 currentAnimation.setupEndValues();
                 currentAnimation.cancel();
             }
@@ -337,7 +337,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
                     animationStarted = false;
                     editText.setAllowDrawCursor(true);
                     if (allSpans.isEmpty()) {
-                        editText.setHintVisible(true);
+                        editText.setHintVisible(true, true);
                     }
                 }
             });

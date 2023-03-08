@@ -833,6 +833,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 }
                 if (dialogsActivity != null) {
                     dialogsActivity.didSelectResult(-chatId, topic.id, true, false, this);
+                    dialogsActivity.removeSelfFromStack();
                 }
                 return;
             }
@@ -1764,7 +1765,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
         alertDialog.show();
         TextView button = (TextView) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
         if (button != null) {
-            button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
+            button.setTextColor(Theme.getColor(Theme.key_dialogTextRed));
         }
     }
 
@@ -3813,7 +3814,7 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
     }
 
     private void prepareBlurBitmap() {
-        if (blurredView == null || parentLayout == null || SharedConfig.useLNavigation) {
+        if (blurredView == null || parentLayout == null) {
             return;
         }
         int w = (int) (fragmentView.getMeasuredWidth() / 6.0f);

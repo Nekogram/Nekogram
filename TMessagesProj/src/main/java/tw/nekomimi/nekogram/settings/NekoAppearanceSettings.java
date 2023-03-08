@@ -452,7 +452,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
         themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chats_menuName));
         themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chats_menuPhone));
         themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chats_menuPhoneCats));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chats_menuCloudBackgroundCats));
         themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chat_serviceBackground));
         themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chats_menuTopShadow));
         themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chats_menuTopShadowCats));

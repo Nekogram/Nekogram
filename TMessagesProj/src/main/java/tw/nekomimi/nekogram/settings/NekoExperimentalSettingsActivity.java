@@ -148,7 +148,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             AlertDialog dialog = builder.create();
             dialog.setOnShowListener(dialog1 -> {
                 var button = (TextView) dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
+                button.setTextColor(Theme.getColor(Theme.key_dialogTextRed));
                 button.setEnabled(false);
                 var buttonText = button.getText();
                 new CountDownTimer(60000, 100) {

@@ -608,7 +608,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     DownloadController.getInstance(currentAccount).addLoadingFileObserver(currentSecureDocument.path, this);
                     buttonState = 1;
                     Float progress = ImageLoader.getInstance().getFileProgress(currentSecureDocument.path);
-                    radialProgress.setBackground(Theme.chat_photoStatesDrawables[5][0], true, animated);
+                    radialProgress.setBackground(getResources().getDrawable(R.drawable.circle), true, animated);
                     radialProgress.setProgress(progress != null ? progress : 0, false);
                     invalidate();
                 }
@@ -622,7 +622,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     DownloadController.getInstance(currentAccount).addLoadingFileObserver(fileName, this);
                     buttonState = 1;
                     Float progress = ImageLoader.getInstance().getFileProgress(fileName);
-                    radialProgress.setBackground(Theme.chat_photoStatesDrawables[5][0], true, animated);
+                    radialProgress.setBackground(getResources().getDrawable(R.drawable.circle), true, animated);
                     radialProgress.setProgress(progress != null ? progress : 0, animated);
                     invalidate();
                 }
@@ -2477,7 +2477,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             showDialog(alertDialog);
             TextView button = (TextView) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
             if (button != null) {
-                button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
+                button.setTextColor(Theme.getColor(Theme.key_dialogTextRed));
             }
         });
 

@@ -262,7 +262,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                     if (!sameLang) {
                         progressDialog.showDelayed(500);
                     }
-                    int reqId = LocaleController.getInstance().applyLanguage(localeInfo, true, false, false, true, true, currentAccount, () -> {
+                    int reqId = LocaleController.getInstance().applyLanguage(localeInfo, true, false, false, true, currentAccount, () -> {
                         progressDialog.dismiss();
                         if (!sameLang) {
                             AndroidUtilities.runOnUIThread(() -> {
@@ -346,7 +346,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 showDialog(alertDialog);
                 TextView button = (TextView) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
                 if (button != null) {
-                    button.setTextColor(Theme.getColor(Theme.key_dialogTextRed2));
+                    button.setTextColor(Theme.getColor(Theme.key_dialogTextRed));
                 }
             } catch (Exception e) {
                 FileLog.e(e);

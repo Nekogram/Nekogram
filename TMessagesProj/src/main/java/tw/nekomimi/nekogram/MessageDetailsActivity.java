@@ -22,6 +22,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
+import org.telegram.messenger.FlagSecureReason;
 import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
@@ -64,7 +65,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     private int dc;
     private long stickerSetOwner;
     private final ArrayList<Long> emojiSetOwners = new ArrayList<>();
-    private Runnable unregisterFlagSecure;
+    private FlagSecureReason flagSecure;
 
     private int idRow;
     private int messageRow;
@@ -207,9 +208,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     public View createView(Context context) {
         View fragmentView = super.createView(context);
 
-        if (noforwards) {
-            unregisterFlagSecure = AndroidUtilities.registerFlagSecure(getParentActivity().getWindow());
-        }
+        flagSecure = new FlagSecureReason(getParentActivity().getWindow(), () -> noforwards);
 
         return fragmentView;
     }
@@ -408,12 +407,21 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        flagSecure.attach();
+    }
+
+    @Override
+    public void onBecomeFullyHidden() {
+        super.onBecomeFullyHidden();
+        flagSecure.detach();
+    }
+
+    @Override
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
-        if (unregisterFlagSecure != null) {
-            unregisterFlagSecure.run();
-        }
     }
 
     private class ListAdapter extends BaseListAdapter {
