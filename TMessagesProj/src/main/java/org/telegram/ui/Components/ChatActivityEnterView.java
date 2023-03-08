@@ -7422,7 +7422,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
     }
 
     public void updateGiftButton(boolean animated) {
-        boolean visible = !MessagesController.getInstance(currentAccount).premiumLocked && MessagesController.getInstance(currentAccount).giftAttachMenuIcon &&
+        /*boolean visible = !MessagesController.getInstance(currentAccount).premiumLocked && MessagesController.getInstance(currentAccount).giftAttachMenuIcon &&
                 MessagesController.getInstance(currentAccount).giftTextFieldIcon && getParentFragment() != null && getParentFragment().getCurrentUser() != null && !BuildVars.IS_BILLING_UNAVAILABLE &&
                 !getParentFragment().getCurrentUser().self && !getParentFragment().getCurrentUser().premium && getParentFragment().getCurrentUserInfo() != null && !getParentFragment().getCurrentUserInfo().premium_gifts.isEmpty();
 
@@ -7431,7 +7431,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         }
         createGiftButton();
 
-        AndroidUtilities.updateViewVisibilityAnimated(giftButton, visible, 1f, animated);
+        AndroidUtilities.updateViewVisibilityAnimated(giftButton, visible, 1f, animated);*/
     }
 
     public void updateScheduleButton(boolean animated) {
