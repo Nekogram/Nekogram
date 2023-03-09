@@ -189,6 +189,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.TypefaceHelper;
 
 public class AndroidUtilities {
     public final static int LIGHT_STATUS_BAR_OVERLAY = 0x0f000000, DARK_STATUS_BAR_OVERLAY = 0x33000000;
@@ -1682,13 +1683,21 @@ public class AndroidUtilities {
                     Typeface t;
                     switch (assetPath) {
                         case TYPEFACE_ROBOTO_MEDIUM:
-                            t = Typeface.create("sans-serif-medium", Typeface.NORMAL);
+                            if (TypefaceHelper.isMediumWeightSupported()) {
+                                t = Typeface.create("sans-serif-medium", Typeface.NORMAL);
+                            } else {
+                                t = Typeface.create("sans-serif", Typeface.BOLD);
+                            }
                             break;
                         case "fonts/ritalic.ttf":
                             t = Typeface.create("sans-serif", Typeface.ITALIC);
                             break;
                         case TYPEFACE_ROBOTO_MEDIUM_ITALIC:
-                            t = Typeface.create("sans-serif-medium", Typeface.ITALIC);
+                            if (TypefaceHelper.isMediumWeightSupported()) {
+                                t = Typeface.create("sans-serif-medium", Typeface.ITALIC);
+                            } else {
+                                t = Typeface.create("sans-serif", Typeface.BOLD_ITALIC);
+                            }
                             break;
                         case TYPEFACE_ROBOTO_MONO:
                             t = Typeface.MONOSPACE;
