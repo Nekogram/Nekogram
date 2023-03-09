@@ -330,6 +330,7 @@ public class DialogCell extends BaseCell {
     private int thumbsCount;
     private boolean hasVideoThumb;
     private Paint thumbBackgroundPaint;
+    private boolean[] thumbImageSeen = new boolean[3];
     private ImageReceiver[] thumbImage = new ImageReceiver[3];
     private boolean[] drawPlay = new boolean[3];
     private boolean[] drawSpoiler = new boolean[3];
@@ -2272,6 +2273,11 @@ public class DialogCell extends BaseCell {
                         }
                         for (int i = 0; i < thumbsCount; ++i) {
                             thumbImage[i].setImageX(left + offset + AndroidUtilities.dp((thumbSize + 2) * i));
+                            thumbImageSeen[i] = true;
+                        }
+                    } else {
+                        for (int i = 0; i < 3; ++i) {
+                            thumbImageSeen[i] = false;
                         }
                     }
                 }
@@ -3648,6 +3654,9 @@ public class DialogCell extends BaseCell {
                     canvas.translate(0, top);
                 }
                 for (int i = 0; i < thumbsCount; ++i) {
+                    if (!thumbImageSeen[i]) {
+                        continue;
+                    }
                     if (thumbBackgroundPaint == null) {
                         thumbBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
                         thumbBackgroundPaint.setShadowLayer(AndroidUtilities.dp(1.34f), 0, AndroidUtilities.dp(0.34f), 0x18000000);
