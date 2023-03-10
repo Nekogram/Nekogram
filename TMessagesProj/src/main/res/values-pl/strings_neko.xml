@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Usuń własne wiadomości</string>
     <string name="DeleteAllFromSelfAlert">Ostrzeżenie! To usunie **wszystkie twoje wiadomości** na tym czacie **u wszystkich** uczestników.</string>
     <string name="BotLogin">Logowanie bota</string>
+    <string name="BotLoginMessage">Wpisz token bota uzyskany od **@BotFather**.</string>
     <string name="InvalidAccessToken">Nieprawidłowy token dostępu</string>
     <string name="IgnoreBlocked">Ukryj wiadomości od zablokowanego użytkownika</string>
     <string name="Connection">Połączenie</string>
@@ -246,6 +247,31 @@
     <string name="UploadloadSpeedBoost">Zwiększenie szybkości wysyłania</string>
     <string name="NoUpdateAvailablePlay">Sprawdź aktualizację w sklepie Play.</string>
     <string name="NoUpdateAvailablePlayDelay">Aktualizacja w sklepie Play jest zwykle wolniejsza niż bezpośrednie APK ze względu na recenzję Google.</string>
+    <string name="DownloadEmojiSet">Pobierz %s</string>
+    <string name="EmojiSets">Zestawy emotek</string>
+    <string name="MyEmojiSets">Moje zestawy emotek</string>
+    <string name="InstalledEmojiSet">Zainstalowane</string>
+    <string name="InstallingEmojiSet">Instalacja…</string>
+    <string name="UpdateEmojiSet">Aktualizacja %s</string>
+    <string name="EmojiSetHint">To wpływa na wygląd emotek tylko u Ciebie. Inni widzą je w oparciu o swoje preferencje.</string>
+    <string name="CustomEmojiSetHint">Importuj i wybierz zestawy emoji z pamięci wewnętrznej.</string>
+    <string name="AddEmojiSet">Dodaj zestaw emotikon</string>
+    <string name="EmojiSetRemoved">Usunięto zestaw emotikon.</string>
+    <string name="EmojiSetRemovedInfo">%1$s nie jest już w twoim zestawie emotek.</string>
+    <string name="DeleteEmojiSets">%1$s zestawy emotek</string>
+    <string name="DeleteEmojiSetsMessage">Czy na pewno chcesz usunąć wybrane zestawy emotek?</string>
+    <string name="ApplyEmojiSet">Zastosuj zestaw emotek</string>
+    <string name="EmojiSetApplied">Zastosowano zestaw emotek.</string>
+    <string name="EmojiSetAppliedInfo">%1$s to teraz twój zestaw emotek.</string>
+    <string name="EmojiSetAlreadyApplied">Zestaw emotek już zastosowany.</string>
+    <string name="SendAnonymousData">Wysyłaj anonimowe dane</string>
+    <string name="SendBugReport">Wyślij raport o błędach</string>
+    <string name="SendBugReportDesc">To pomoże nam szybciej znaleźć problemy.</string>
+    <string name="AnonymousDataDelete">Usuń dane</string>
+    <string name="AnonymousDataDeleteDesc">Trwale zablokuj dane wychodzące z Neko i usuń zebrane dane.</string>
+    <string name="SendAnonymousDataDesc">Powyższe funkcje wykorzystują Visual Studio App Center dostarczane przez firmę Microsoft. Gromadzone informacje są anonimowe i nie możemy ich prześledzić do niezależnego urządzenia lub użytkownika.</string>
+    <string name="SendLargePhotos">Wysyłanie dużych zdjęć</string>
+    <string name="SendLargePhotosAbout">Zwiększ limit skompresowanych obrazów do 2560 pikseli.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>
