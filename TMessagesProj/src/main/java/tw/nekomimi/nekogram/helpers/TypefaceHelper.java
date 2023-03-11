@@ -15,13 +15,16 @@ public class TypefaceHelper {
 
     private static final String TEST_TEXT;
     private static final int CANVAS_SIZE = AndroidUtilities.dp(12);
-    private static final Paint PAINT = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private static final Paint PAINT = new Paint();
 
     private static Boolean mediumWeightSupported = null;
     private static Boolean italicSupported = null;
 
     static {
         PAINT.setTextSize(CANVAS_SIZE);
+        PAINT.setAntiAlias(false);
+        PAINT.setSubpixelText(false);
+        PAINT.setFakeBoldText(false);
         if (List.of("zh", "ja", "ko").contains(LocaleController.getInstance().getCurrentLocale().getLanguage())) {
             TEST_TEXT = "日";
         } else {
@@ -51,12 +54,12 @@ public class TypefaceHelper {
         Bitmap bitmap1 = Bitmap.createBitmap(CANVAS_SIZE, CANVAS_SIZE, Bitmap.Config.ALPHA_8);
         canvas.setBitmap(bitmap1);
         PAINT.setTypeface(null);
-        canvas.drawText(TEST_TEXT, 0, 0, PAINT);
+        canvas.drawText(TEST_TEXT, 0, CANVAS_SIZE, PAINT);
 
         Bitmap bitmap2 = Bitmap.createBitmap(CANVAS_SIZE, CANVAS_SIZE, Bitmap.Config.ALPHA_8);
         canvas.setBitmap(bitmap2);
         PAINT.setTypeface(typeface);
-        canvas.drawText(TEST_TEXT, 0, 0, PAINT);
+        canvas.drawText(TEST_TEXT, 0, CANVAS_SIZE, PAINT);
 
         boolean supported = !bitmap1.sameAs(bitmap2);
         AndroidUtilities.recycleBitmaps(List.of(bitmap1, bitmap2));
