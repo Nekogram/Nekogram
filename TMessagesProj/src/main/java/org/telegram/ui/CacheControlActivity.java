@@ -249,6 +249,10 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         });
     }
 
+    public static void resetCalculatedTotalSIze() {
+        lastTotalSizeCalculated = null;
+    }
+
     public static void getDeviceTotalSize(Utilities.Callback2<Long, Long> onDone) {
         if (lastDeviceTotalSize != null && lastDeviceTotalFreeSize != null) {
             if (onDone != null) {
