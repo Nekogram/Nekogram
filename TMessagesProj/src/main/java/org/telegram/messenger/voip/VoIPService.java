@@ -3737,9 +3737,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 	}
 
 	private void fetchBluetoothDeviceName() {
-		if (Build.VERSION.SDK_INT >= 31 && ApplicationLoader.applicationContext.checkSelfPermission(Manifest.permission.BLUETOOTH_CONNECT) != PackageManager.PERMISSION_GRANTED) {
-			return;
-		}
 		if (fetchingBluetoothDeviceName) {
 			return;
 		}
