@@ -309,6 +309,6 @@ public class TranslateButton extends FrameLayout {
             textView.setText(TextUtils.concat(translateIcon, " ", text));
         }
 
-        menuView.setVisibility(UserConfig.getInstance(currentAccount).isPremium() ? VISIBLE : GONE);
+        //menuView.setVisibility(UserConfig.getInstance(currentAccount).isPremium() ? VISIBLE : GONE);
     }
 }
