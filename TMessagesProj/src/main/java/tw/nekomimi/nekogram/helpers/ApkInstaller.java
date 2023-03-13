@@ -42,7 +42,6 @@ import org.telegram.ui.LaunchActivity;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
@@ -69,7 +68,7 @@ public final class ApkInstaller {
         try (PackageInstaller.Session session = installer.openSession(installer.createSession(params))) {
             OutputStream out = session.openWrite(apk.getName(), 0, apk.length());
             try (var in = new FileInputStream(apk); out) {
-                transfer(in, out);
+                AndroidUtilities.copyFile(in, out);
             }
             session.commit(pending.getIntentSender());
         } catch (IOException e) {
@@ -143,15 +142,6 @@ public final class ApkInstaller {
                 context.startActivity(intent);
             }
         });
-    }
-
-    private static void transfer(InputStream in, OutputStream out) throws IOException {
-        int size = 8192;
-        var buffer = new byte[size];
-        int read;
-        while ((read = in.read(buffer, 0, size)) >= 0) {
-            out.write(buffer, 0, read);
-        }
     }
 
     private static InstallReceiver register(Context context, Runnable onSuccess) {

@@ -44,17 +44,21 @@ public abstract class BaseRemoteHelper {
     abstract protected String getTag();
 
     protected JSONObject getJSON() {
+        return getJSON(true);
+    }
+
+    protected JSONObject getJSON(boolean load) {
         var tag = getTag();
         var json = preferences.getString(tag, "");
         if (TextUtils.isEmpty(json)) {
-            load();
+            if (load) load();
             return null;
         }
         try {
             return new JSONObject(json);
         } catch (JSONException e) {
             FileLog.e(e);
-            load();
+            if (load) load();
             return null;
         }
     }

@@ -44,7 +44,7 @@ public class ConfigHelper extends BaseRemoteHelper {
     }
 
     public static String getWsDomain() {
-        JSONObject jsonObject = getInstance().getJSON();
+        JSONObject jsonObject = getInstance().getJSON(false);
         if (jsonObject == null) {
             return DEFAULT_WS_DOMAIN;
         }
