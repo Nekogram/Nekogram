@@ -833,7 +833,6 @@ public class TopicsFragment extends BaseFragment implements NotificationCenter.N
                 }
                 if (dialogsActivity != null) {
                     dialogsActivity.didSelectResult(-chatId, topic.id, true, false, this);
-                    dialogsActivity.removeSelfFromStack();
                 }
                 return;
             }
