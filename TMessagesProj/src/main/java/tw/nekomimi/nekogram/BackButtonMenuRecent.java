@@ -252,7 +252,8 @@ public class BackButtonMenuRecent {
             recentDialog.removeLast();
         }
         recentDialog.addFirst(dialogId);
-        Utilities.globalQueue.postRunnable(() -> saveRecentDialogs(currentAccount, recentDialog));
+        LinkedList<Long> finalRecentDialog = new LinkedList<>(recentDialog);
+        Utilities.globalQueue.postRunnable(() -> saveRecentDialogs(currentAccount, finalRecentDialog));
     }
 
     private static void saveRecentDialogs(int currentAccount, LinkedList<Long> recentDialog) {

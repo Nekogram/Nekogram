@@ -18,7 +18,6 @@ public class ConfigHelper extends BaseRemoteHelper {
     private static volatile ConfigHelper Instance;
     private static final ArrayList<NewsItem> DEFAULT_NEWS_LIST = new ArrayList<>();
     private static final ArrayList<Long> DEFAULT_VERIFY_LIST = new ArrayList<>();
-    private static final String DEFAULT_WS_DOMAIN = "nekoe.eu.org";
 
     static {
         DEFAULT_VERIFY_LIST.add(1302242053L);
@@ -41,19 +40,6 @@ public class ConfigHelper extends BaseRemoteHelper {
             }
         }
         return localInstance;
-    }
-
-    public static String getWsDomain() {
-        JSONObject jsonObject = getInstance().getJSON(false);
-        if (jsonObject == null) {
-            return DEFAULT_WS_DOMAIN;
-        }
-        try {
-            return jsonObject.getString("wsdomain");
-        } catch (JSONException e) {
-            FileLog.e(e);
-            return DEFAULT_WS_DOMAIN;
-        }
     }
 
     public static ArrayList<Long> getVerify() {

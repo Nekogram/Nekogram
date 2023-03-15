@@ -24,6 +24,7 @@ import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.Emoji;
+import org.telegram.messenger.EmojiData;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -60,9 +61,9 @@ import tw.nekomimi.nekogram.helpers.UnzipHelper;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.NotificationCenterDelegate {
-    private static final String EMOJI_TAG = "emoji";
+    private static final String EMOJI_TAG = "emoji" + 15;
     private static final String EMOJI_FONT_AOSP = "NotoColorEmoji.ttf";
-    private static final int EMOJI_COUNT = 3538;
+    private static final int EMOJI_COUNT;
     private static final String EMOJI_PACKS_FILE_DIR;
     private static final Runnable invalidateUiRunnable = () -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiLoaded);
     private static final String[] previewEmojis = {
@@ -96,6 +97,11 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
         } else {
             EMOJI_PACKS_FILE_DIR = ApplicationLoader.applicationContext.getFilesDir().getAbsolutePath() + "/emojis/";
         }
+        int count = 0;
+        for (String[] data : EmojiData.data) {
+            count += data.length;
+        }
+        EMOJI_COUNT = count;
     }
 
     private EmojiHelper() {
@@ -374,7 +380,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     public void loadEmojiPackInfo() {
-        String list = preferences.getString("emoji_packs_v2", "");
+        String list = preferences.getString("emoji_packs_v3", "");
         if (!TextUtils.isEmpty(list)) {
             byte[] bytes = Base64.decode(list, Base64.DEFAULT);
             SerializedData data = new SerializedData(bytes);
@@ -720,7 +726,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
                 }
                 pack.serializeToStream(serializedData);
             }
-            preferences.edit().putString("emoji_packs_v2", Base64.encodeToString(serializedData.toByteArray(), Base64.NO_WRAP | Base64.NO_PADDING)).apply();
+            preferences.edit().putString("emoji_packs_v3", Base64.encodeToString(serializedData.toByteArray(), Base64.NO_WRAP | Base64.NO_PADDING)).apply();
             serializedData.cleanup();
 
             AndroidUtilities.runOnUIThread(() -> {
@@ -972,12 +978,12 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
             pack.previewId = stream.readInt32(false);
             pack.packVersion = stream.readInt32(false);
             if ((pack.flags & 1) != 0) {
-                pack.previewDocument = TLRPC.Document.TLdeserialize(stream, stream.readInt32(false), false);
+                pack.fileDocument = TLRPC.Document.TLdeserialize(stream, stream.readInt32(false), false);
                 pack.fileSize = stream.readInt64(false);
                 pack.fileLocation = stream.readString(false);
             }
             if ((pack.flags & 2) != 0) {
-                pack.fileDocument = TLRPC.Document.TLdeserialize(stream, stream.readInt32(false), false);
+                pack.previewDocument = TLRPC.Document.TLdeserialize(stream, stream.readInt32(false), false);
             }
             return pack;
         }
@@ -991,12 +997,12 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
             serializedData.writeInt32(previewId);
             serializedData.writeInt32(packVersion);
             if ((flags & 1) != 0) {
-                previewDocument.serializeToStream(serializedData);
+                fileDocument.serializeToStream(serializedData);
                 serializedData.writeInt64(fileSize);
                 serializedData.writeString(fileLocation);
             }
             if ((flags & 2) != 0) {
-                fileDocument.serializeToStream(serializedData);
+                previewDocument.serializeToStream(serializedData);
             }
         }
     }
