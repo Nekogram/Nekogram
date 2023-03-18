@@ -3250,6 +3250,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 	}
 
 	public void declineIncomingCall(int reason, final Runnable onDone) {
+		if (groupCall != null) {
+			stopScreenCapture();
+		}
 		stopRinging();
 		callDiscardReason = reason;
 		if (currentState == STATE_REQUESTING) {

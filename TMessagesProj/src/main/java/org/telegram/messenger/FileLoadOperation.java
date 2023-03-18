@@ -33,6 +33,9 @@ import tw.nekomimi.nekogram.NekoConfig;
 
 public class FileLoadOperation {
 
+    private final static int FINISH_CODE_DEFAULT = 0;
+    private final static int FINISH_CODE_FILE_ALREADY_EXIST = 1;
+
     FileLoadOperationStream stream;
     boolean streamPriority;
     long streamOffset;
@@ -1081,7 +1084,7 @@ public class FileLoadOperation {
             Utilities.stageQueue.postRunnable(() -> {
                 if (totalBytesCount != 0 && (isPreloadVideoOperation && preloaded[0] || downloadedBytes == totalBytesCount)) {
                     try {
-                        onFinishLoadingFile(false);
+                        onFinishLoadingFile(false, FINISH_CODE_FILE_ALREADY_EXIST);
                     } catch (Exception e) {
                         onFail(true, 0);
                     }
@@ -1092,7 +1095,7 @@ public class FileLoadOperation {
         } else {
             started = true;
             try {
-                onFinishLoadingFile(false);
+                onFinishLoadingFile(false, FINISH_CODE_FILE_ALREADY_EXIST);
                 if (pathSaveData != null) {
                     delegate.saveFilePath(pathSaveData, null);
                 }
@@ -1305,7 +1308,7 @@ public class FileLoadOperation {
         }
     }
 
-    private void onFinishLoadingFile(final boolean increment) {
+    private void onFinishLoadingFile(final boolean increment, int finishCode) {
         if (state != stateDownloading) {
             return;
         }
@@ -1315,7 +1318,11 @@ public class FileLoadOperation {
         if (isPreloadVideoOperation) {
             preloadFinished = true;
             if (BuildVars.DEBUG_VERSION) {
-                FileLog.d("finished preloading file to " + cacheFileTemp + " loaded " + totalPreloadedBytes + " of " + totalBytesCount);
+                if (finishCode == FINISH_CODE_FILE_ALREADY_EXIST) {
+                    FileLog.d("file already exist " + cacheFileTemp);
+                } else {
+                    FileLog.d("finished preloading file to " + cacheFileTemp + " loaded " + totalPreloadedBytes + " of " + totalBytesCount);
+                }
             }
             if (fileMetadata != null) {
                 if (cacheFileTemp != null) {
@@ -1403,7 +1410,7 @@ public class FileLoadOperation {
                                 state = stateDownloading;
                                 Utilities.stageQueue.postRunnable(() -> {
                                     try {
-                                        onFinishLoadingFile(increment);
+                                        onFinishLoadingFile(increment, FINISH_CODE_DEFAULT);
                                     } catch (Exception e) {
                                         onFail(false, 0);
                                     }
@@ -1581,7 +1588,7 @@ public class FileLoadOperation {
                     bytes = null;
                 }
                 if (bytes == null || bytes.limit() == 0) {
-                    onFinishLoadingFile(true);
+                    onFinishLoadingFile(true, FINISH_CODE_DEFAULT);
                     return false;
                 }
                 int currentBytesSize = bytes.limit();
@@ -1773,7 +1780,7 @@ public class FileLoadOperation {
                 }
 
                 if (finishedDownloading) {
-                    onFinishLoadingFile(true);
+                    onFinishLoadingFile(true, FINISH_CODE_DEFAULT);
                 } else if (state != stateCanceled) {
                     startDownloadRequest();
                 }
@@ -1813,7 +1820,7 @@ public class FileLoadOperation {
             } else if (error.text.contains("OFFSET_INVALID")) {
                 if (downloadedBytes % currentDownloadChunkSize == 0) {
                     try {
-                        onFinishLoadingFile(true);
+                        onFinishLoadingFile(true, FINISH_CODE_DEFAULT);
                     } catch (Exception e) {
                         FileLog.e(e);
                         onFail(false, 0);
@@ -1952,7 +1959,7 @@ public class FileLoadOperation {
                         tries--;
                     }
                     if (!found && requestInfos.isEmpty()) {
-                        onFinishLoadingFile(false);
+                        onFinishLoadingFile(false, FINISH_CODE_DEFAULT);
                     }
                 } else {
                     downloadOffset = nextPreloadDownloadOffset;
