@@ -54,6 +54,11 @@ android {
             }
             proguardFiles '../TMessagesProj/proguard-rules.pro'
             ndk.debugSymbolLevel 'FULL'
+            optimization {
+                keepRules {
+                    ignoreExternalDependencies 'com.microsoft.appcenter:appcenter'
+                }
+            }
         }
     }
 
