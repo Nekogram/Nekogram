@@ -561,6 +561,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     private long lastProgress = 0;
     private MessageObject playingMessageObject;
     private MessageObject goingToShowMessageObject;
+    private boolean manualRecording;
     private Timer progressTimer = null;
     private final Object progressTimerSync = new Object();
     private boolean downloadingCurrentMessage;
@@ -1634,7 +1635,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         if (raisedToBack == minCount || accelerometerVertical) {
             lastAccelerometerDetected = System.currentTimeMillis();
         }
-        if (proximityTouched && (raisedToBack == minCount || accelerometerVertical || System.currentTimeMillis() - lastAccelerometerDetected < 60) && !NotificationsController.audioManager.isWiredHeadsetOn() && !NotificationsController.audioManager.isBluetoothA2dpOn() && !VoIPService.isAnyKindOfCallActive()) {
+        if (proximityTouched && (raisedToBack == minCount || accelerometerVertical || System.currentTimeMillis() - lastAccelerometerDetected < 60) && !NotificationsController.audioManager.isWiredHeadsetOn() && !NotificationsController.audioManager.isBluetoothA2dpOn() && !VoIPService.isAnyKindOfCallActive() && !manualRecording) {
             if (SharedConfig.enabledRaiseTo(true) && playingMessageObject == null && recordStartRunnable == null && recordingAudio == null && !PhotoViewer.getInstance().isVisible() && ApplicationLoader.isScreenOn && !inputFieldHasText && allowStartRecord && raiseChat != null && !callInProgress) {
                 if (!raiseToEarRecord) {
                     if (BuildVars.LOGS_ENABLED) {
@@ -1644,7 +1645,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     if (!raiseChat.playFirstUnreadVoiceMessage()) {
                         raiseToEarRecord = true;
                         useFrontSpeaker = false;
-                        startRecording(raiseChat.getCurrentAccount(), raiseChat.getDialogId(), null, raiseChat.getThreadMessage(), raiseChat.getClassGuid());
+                        startRecording(raiseChat.getCurrentAccount(), raiseChat.getDialogId(), null, raiseChat.getThreadMessage(), raiseChat.getClassGuid(), false);
                     }
                     if (useFrontSpeaker) {
                         setUseFrontSpeaker(true);
@@ -1673,7 +1674,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             countLess = 0;
         } else if (proximityTouched && ((accelerometerSensor == null || linearSensor == null) && gravitySensor == null || ignoreAccelerometerGestures()) && !VoIPService.isAnyKindOfCallActive()) {
             if (playingMessageObject != null && !ApplicationLoader.mainInterfacePaused && (playingMessageObject.isVoice() || playingMessageObject.isRoundVideo()) && SharedConfig.enabledRaiseTo(false)) {
-                if (!useFrontSpeaker && !NotificationsController.audioManager.isWiredHeadsetOn() && !NotificationsController.audioManager.isBluetoothA2dpOn()) {
+                if (!useFrontSpeaker && !NotificationsController.audioManager.isWiredHeadsetOn() && !NotificationsController.audioManager.isBluetoothA2dpOn() && !manualRecording) {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("start listen by proximity only");
                     }
@@ -1685,7 +1686,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     ignoreOnPause = true;
                 }
             }
-        } else if (!proximityTouched) {
+        } else if (!proximityTouched && !manualRecording) {
             if (raiseToEarRecord) {
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("stop record");
@@ -1733,7 +1734,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             return;
         }
         raiseToEarRecord = true;
-        startRecording(raiseChat.getCurrentAccount(), raiseChat.getDialogId(), null, raiseChat.getThreadMessage(), raiseChat.getClassGuid());
+        startRecording(raiseChat.getCurrentAccount(), raiseChat.getDialogId(), null, raiseChat.getThreadMessage(), raiseChat.getClassGuid(), false);
         ignoreOnPause = true;
     }
 
@@ -2286,20 +2287,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             return;
         }
 
-        boolean last = false;
-        if (SharedConfig.playOrderReversed) {
-            currentPlaylistNum++;
-            if (currentPlaylistNum >= currentPlayList.size()) {
-                currentPlaylistNum = 0;
-                last = true;
-            }
-        } else {
-            currentPlaylistNum--;
-            if (currentPlaylistNum < 0) {
-                currentPlaylistNum = currentPlayList.size() - 1;
-                last = true;
-            }
-        }
+        boolean last = traversePlaylist(currentPlayList, SharedConfig.playOrderReversed ? +1 : -1);
         if (last && byStop && SharedConfig.repeatMode == 0 && !forceLoopCurrentPlaylist) {
             if (audioPlayer != null || videoPlayer != null) {
                 if (audioPlayer != null) {
@@ -2356,22 +2344,46 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             return;
         }
 
-        if (SharedConfig.playOrderReversed) {
-            currentPlaylistNum--;
-            if (currentPlaylistNum < 0) {
-                currentPlaylistNum = currentPlayList.size() - 1;
-            }
-        } else {
-            currentPlaylistNum++;
-            if (currentPlaylistNum >= currentPlayList.size()) {
-                currentPlaylistNum = 0;
-            }
-        }
+        traversePlaylist(currentPlayList, SharedConfig.playOrderReversed ? -1 : 1);
         if (currentPlaylistNum >= currentPlayList.size()) {
             return;
         }
         playMusicAgain = true;
         playMessage(currentPlayList.get(currentPlaylistNum));
+    }
+    
+    private boolean traversePlaylist(ArrayList<MessageObject> playlist, int direction) {
+        boolean last = false;
+        final int wasCurrentPlaylistNum = currentPlaylistNum;
+        int connectionState = ConnectionsManager.getInstance(UserConfig.selectedAccount).getConnectionState();
+        boolean offline = connectionState == ConnectionsManager.ConnectionStateWaitingForNetwork;
+        currentPlaylistNum += direction;
+        if (offline) {
+            while (currentPlaylistNum < playlist.size() && currentPlaylistNum >= 0) {
+                MessageObject audio = playlist.get(currentPlaylistNum);
+                if (audio != null && audio.mediaExists) {
+                    break;
+                }
+                currentPlaylistNum += direction;
+            }
+        }
+        if (currentPlaylistNum >= playlist.size() || currentPlaylistNum < 0) {
+            currentPlaylistNum = currentPlaylistNum >= playlist.size() ? 0 : playlist.size() - 1;
+            if (offline) {
+                while (currentPlaylistNum >= 0 && currentPlaylistNum < playlist.size() && (direction > 0 ? currentPlaylistNum <= wasCurrentPlaylistNum : currentPlaylistNum >= wasCurrentPlaylistNum)) {
+                    MessageObject audio = playlist.get(currentPlaylistNum);
+                    if (audio != null && audio.mediaExists) {
+                        break;
+                    }
+                    currentPlaylistNum += direction;
+                }
+                if (currentPlaylistNum >= playlist.size() || currentPlaylistNum < 0) {
+                    currentPlaylistNum = currentPlaylistNum >= playlist.size() ? 0 : playlist.size() - 1;
+                }
+            }
+            last = true;
+        }
+        return last;
     }
 
     protected void checkIsNextMediaFileDownloaded() {
@@ -3571,12 +3583,12 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
     }
 
-    public void startRecording(int currentAccount, long dialogId, MessageObject replyToMsg, MessageObject replyToTopMsg, int guid) {
+    public void startRecording(int currentAccount, long dialogId, MessageObject replyToMsg, MessageObject replyToTopMsg, int guid, boolean manual) {
         boolean paused = false;
         if (playingMessageObject != null && isPlayingMessage(playingMessageObject) && !isMessagePaused()) {
             paused = true;
         }
-
+        manualRecording = manual;
         requestAudioFocus(true);
 
         try {
@@ -3780,6 +3792,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         }
         recordingAudio = null;
         recordingAudioFile = null;
+        manualRecording = false;
     }
 
     public void stopRecording(final int send, boolean notify, int scheduleDate) {

@@ -1851,6 +1851,10 @@ public class RecyclerListView extends RecyclerView {
         Theme.setSelectorDrawableColor(selectorDrawable, color, true);
     }
 
+    public Integer getSelectorColor(int position) {
+        return null;
+    }
+
     public void setOnItemClickListener(OnItemClickListener listener) {
         onItemClickListener = listener;
     }
@@ -2268,6 +2272,10 @@ public class RecyclerListView extends RecyclerView {
         if (positionChanged) {
             selectorDrawable.setVisible(false, false);
             selectorDrawable.setState(StateSet.NOTHING);
+        }
+        Integer color = getSelectorColor(position);
+        if (color != null) {
+            setListSelectorColor(color);
         }
         selectorDrawable.setBounds(selectorRect);
         if (positionChanged) {

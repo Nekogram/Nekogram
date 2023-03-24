@@ -502,7 +502,7 @@ public class ContentPreviewViewer {
                 if (delegate.needSend(currentContentType) && !delegate.isInScheduleMode()) {
                     items.add(LocaleController.getString("SendWithoutSound", R.string.SendWithoutSound));
                     icons.add(R.drawable.input_notify_off);
-                    actions.add(6);
+                    actions.add(4);
                 }
                 if (delegate.canSchedule()) {
                     items.add(LocaleController.getString("Schedule", R.string.Schedule));
@@ -540,8 +540,10 @@ public class ContentPreviewViewer {
                         return;
                     }
                     int which = (int) v.getTag();
-                    if (actions.get(which) == 0 || actions.get(which) == 6) {
-                        delegate.sendGif(currentDocument != null ? currentDocument : inlineResult, parentObject, actions.get(which) == 0, 0);
+                    if (actions.get(which) == 0) {
+                        delegate.sendGif(currentDocument != null ? currentDocument : inlineResult, parentObject, true, 0);
+                    } else if (actions.get(which) == 4) {
+                        delegate.sendGif(currentDocument != null ? currentDocument : inlineResult, parentObject, false, 0);
                     } else if (actions.get(which) == 1) {
                         MediaDataController.getInstance(currentAccount).removeRecentGif(currentDocument);
                         delegate.gifAddedOrDeleted();

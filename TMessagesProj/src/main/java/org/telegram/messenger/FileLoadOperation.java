@@ -35,6 +35,7 @@ public class FileLoadOperation {
 
     private final static int FINISH_CODE_DEFAULT = 0;
     private final static int FINISH_CODE_FILE_ALREADY_EXIST = 1;
+    public boolean preFinished;
 
     FileLoadOperationStream stream;
     boolean streamPriority;
@@ -43,11 +44,16 @@ public class FileLoadOperation {
     public static volatile DispatchQueue filesQueue = new DispatchQueue("writeFileQueue");
     public static ImmutableByteArrayOutputStream filesQueueByteBuffer;
     private boolean forceSmallChunk;
+    private Runnable fileWriteRunnable;
 
     public void setStream(FileLoadOperationStream stream, boolean streamPriority, long streamOffset) {
         this.stream = stream;
         this.streamOffset = streamOffset;
         this.streamPriority = streamPriority;
+    }
+
+    public int getPositionInQueue() {
+        return getQueue().getPosition(this);
     }
 
     protected static class RequestInfo {
@@ -207,6 +213,7 @@ public class FileLoadOperation {
     private FileLoaderPriorityQueue priorityQueue;
 
     public interface FileLoadOperationDelegate {
+        void didPreFinishLoading(FileLoadOperation operation, File finalFile);
         void didFinishLoadingFile(FileLoadOperation operation, File finalFile);
         void didFailedLoadingFile(FileLoadOperation operation, int state);
         void didChangedLoadProgress(FileLoadOperation operation, long uploadedSize, long totalSize);
@@ -527,7 +534,10 @@ public class FileLoadOperation {
         if (save) {
             if (modified) {
                 ArrayList<FileLoadOperation.Range> rangesFinal = new ArrayList<>(ranges);
-                filesQueue.postRunnable(() -> {
+                if (fileWriteRunnable != null) {
+                    filesQueue.cancelRunnable(fileWriteRunnable);
+                }
+                filesQueue.postRunnable(fileWriteRunnable = () -> {
                     long time = System.currentTimeMillis();
                     try {
                         if (filePartsStream == null) {
@@ -557,6 +567,8 @@ public class FileLoadOperation {
                         FileLog.e(e, false);
                         if (AndroidUtilities.isENOSPC(e)) {
                             LaunchActivity.checkFreeDiscSpaceStatic(1);
+                        } else if (AndroidUtilities.isEROFS(e)) {
+                            SharedConfig.checkSdCard(cacheFileFinal);
                         }
                     }
                     totalTime += System.currentTimeMillis() - time;
@@ -721,7 +733,7 @@ public class FileLoadOperation {
                         requestedBytesCount -= currentDownloadChunkSize;
                         removePart(notRequestedBytesRanges, priorityRequestInfo.offset, priorityRequestInfo.offset + currentDownloadChunkSize);
                         if (priorityRequestInfo.requestToken != 0) {
-                            ConnectionsManager.getInstance(currentAccount).cancelRequest(priorityRequestInfo.requestToken, true);
+                            ConnectionsManager.getInstance(currentAccount).cancelRequest(priorityRequestInfo.requestToken, false);
                             requestsCount--;
                         }
                         if (BuildVars.DEBUG_VERSION) {
@@ -890,6 +902,9 @@ public class FileLoadOperation {
                     if (AndroidUtilities.isENOSPC(e)) {
                         LaunchActivity.checkFreeDiscSpaceStatic(1);
                         FileLog.e(e, false);
+                    } else if (AndroidUtilities.isEROFS(e)) {
+                        SharedConfig.checkSdCard(cacheFileFinal);
+                        FileLog.e(e, false);
                     } else {
                         FileLog.e(e);
                     }
@@ -1054,6 +1069,9 @@ public class FileLoadOperation {
                     if (AndroidUtilities.isENOSPC(e)) {
                         LaunchActivity.checkFreeDiscSpaceStatic(1);
                         FileLog.e(e, false);
+                    } else if (AndroidUtilities.isEROFS(e)) {
+                        SharedConfig.checkSdCard(cacheFileFinal);
+                        FileLog.e(e, false);
                     } else {
                         FileLog.e(e);
                     }
@@ -1072,6 +1090,11 @@ public class FileLoadOperation {
                 FileLog.e(e, false);
                 if (AndroidUtilities.isENOSPC(e)) {
                     LaunchActivity.checkFreeDiscSpaceStatic(1);
+                    onFail(true, -1);
+                    return false;
+                } else if (AndroidUtilities.isEROFS(e)) {
+                    SharedConfig.checkSdCard(cacheFileFinal);
+                    FileLog.e(e, false);
                     onFail(true, -1);
                     return false;
                 }
@@ -1097,13 +1120,17 @@ public class FileLoadOperation {
             try {
                 onFinishLoadingFile(false, FINISH_CODE_FILE_ALREADY_EXIST);
                 if (pathSaveData != null) {
-                    delegate.saveFilePath(pathSaveData, null);
+                    delegate.saveFilePath(pathSaveData, cacheFileFinal);
                 }
             } catch (Exception e) {
                 FileLog.e(e, false);
                 if (AndroidUtilities.isENOSPC(e)) {
                     LaunchActivity.checkFreeDiscSpaceStatic(1);
                     onFail(true, -1);
+                } if (AndroidUtilities.isEROFS(e)) {
+                    SharedConfig.checkSdCard(cacheFileFinal);
+                    onFail(true, -1);
+                    return false;
                 } else {
                     onFail(true, 0);
                 }
@@ -1159,7 +1186,7 @@ public class FileLoadOperation {
         cancel(false);
     }
 
-    public void cancel(boolean deleteFiles) {
+    private void cancel(boolean deleteFiles) {
         Utilities.stageQueue.postRunnable(() -> {
             if (state != stateFinished && state != stateFailed) {
                 cancelRequests();
@@ -1220,7 +1247,7 @@ public class FileLoadOperation {
             for (int a = 0; a < requestInfos.size(); a++) {
                 RequestInfo requestInfo = requestInfos.get(a);
                 if (requestInfo.requestToken != 0) {
-                    ConnectionsManager.getInstance(currentAccount).cancelRequest(requestInfo.requestToken, true);
+                    ConnectionsManager.getInstance(currentAccount).cancelRequest(requestInfo.requestToken, false);
                 }
             }
         }
@@ -1338,7 +1365,7 @@ public class FileLoadOperation {
             final File cacheFilePartsFinal = cacheFileParts;
             final File cacheFilePreloadFinal = cacheFilePreload;
             final File cacheFileTempFinal = cacheFileTemp;
-            Utilities.globalQueue.postRunnable(() -> {
+            filesQueue.postRunnable(() -> {
                 if (cacheIvTempFinal != null) {
                     cacheIvTempFinal.delete();
                 }
@@ -1455,6 +1482,7 @@ public class FileLoadOperation {
             cacheIvTemp = null;
             cacheFileParts = null;
             cacheFilePreload = null;
+            delegate.didPreFinishLoading(FileLoadOperation.this, cacheFileFinal);
         }
 
     }
@@ -1788,6 +1816,9 @@ public class FileLoadOperation {
                 FileLog.e(e, !AndroidUtilities.isFilNotFoundException(e) && !AndroidUtilities.isENOSPC(e));
                 if (AndroidUtilities.isENOSPC(e)) {
                     onFail(false, -1);
+                } else if (AndroidUtilities.isEROFS(e)) {
+                    SharedConfig.checkSdCard(cacheFileFinal);
+                    onFail(true, -1);
                 } else {
                     onFail(false, 0);
                 }
@@ -1850,7 +1881,11 @@ public class FileLoadOperation {
         if (delegate != null) {
             if (BuildVars.LOGS_ENABLED) {
                 long time = startTime == 0 ? 0 : (System.currentTimeMillis() - startTime);
-                FileLog.d("failed downloading file to " + cacheFileFinal + " reason = " + reason + " time = " + (System.currentTimeMillis() - startTime) + " dc = " + datacenterId + " size = " + AndroidUtilities.formatFileSize(totalBytesCount));
+                if (reason == 1) {
+                    FileLog.d("cancel downloading file to " + cacheFileFinal + " time = " + time + " dc = " + datacenterId + " size = " + AndroidUtilities.formatFileSize(totalBytesCount));
+                } else {
+                    FileLog.d("failed downloading file to " + cacheFileFinal + " reason = " + reason + " time = " + time + " dc = " + datacenterId + " size = " + AndroidUtilities.formatFileSize(totalBytesCount));
+                }
             }
             if (thread) {
                 Utilities.stageQueue.postRunnable(() -> delegate.didFailedLoadingFile(FileLoadOperation.this, reason));
@@ -1874,7 +1909,7 @@ public class FileLoadOperation {
                 continue;
             }
             if (info.requestToken != 0) {
-                ConnectionsManager.getInstance(currentAccount).cancelRequest(info.requestToken, true);
+                ConnectionsManager.getInstance(currentAccount).cancelRequest(info.requestToken, false);
             }
         }
         requestInfos.clear();
@@ -1910,7 +1945,7 @@ public class FileLoadOperation {
         if (requestingReference) {
             return;
         }
-        clearOperaion(requestInfo, false);
+        clearOperaion(null, false);
         requestingReference = true;
         if (parentObject instanceof MessageObject) {
             MessageObject messageObject = (MessageObject) parentObject;
@@ -1918,12 +1953,19 @@ public class FileLoadOperation {
                 parentObject = messageObject.messageOwner.media.webpage;
             }
         }
+        if (BuildVars.LOGS_ENABLED) {
+            FileLog.d("debug_loading: " + cacheFileFinal.getName() + " file reference expired ");
+        }
         FileRefController.getInstance(currentAccount).requestReference(parentObject, location, this, requestInfo);
     }
 
     protected void startDownloadRequest() {
-        if (paused || reuploadingCdn ||
-                state != stateDownloading ||
+        if (BuildVars.DEBUG_PRIVATE_VERSION) {
+            if (Utilities.stageQueue != null && Utilities.stageQueue.getHandler() != null && Thread.currentThread() != Utilities.stageQueue.getHandler().getLooper().getThread()) {
+                throw new RuntimeException("Wrong thread!!!");
+            }
+        }
+        if (paused || reuploadingCdn || state != stateDownloading || requestingReference ||
                 streamPriorityStartOffset == 0 && (
                         !nextPartWasPreloaded && (requestInfos.size() + delayedRequestInfos.size() >= currentMaxDownloadRequests) ||
                                 isPreloadVideoOperation && (requestedBytesCount > preloadMaxBytes || moovFound != 0 && requestInfos.size() > 0))) {
@@ -2091,7 +2133,7 @@ public class FileLoadOperation {
                     return;
                 }
                 if (BuildVars.LOGS_ENABLED) {
-                    FileLog.d("debug_loading: " + request.getClass().getSimpleName() + " time=" + (System.currentTimeMillis() - requestInfo.requestStartTime) + " dcId=" + datacenterId + " cdn=" + isCdn + " connectionType=" + connectionType + " " + isLast);
+                    FileLog.d("debug_loading: " + cacheFileFinal.getName() + " time=" + (System.currentTimeMillis() - requestInfo.requestStartTime) + " dcId=" + datacenterId + " cdn=" + isCdn + " conType=" + connectionType + " reqId" + requestInfo.requestToken);
                 }
                 if (requestInfo == priorityRequestInfo) {
                     if (BuildVars.DEBUG_VERSION) {
@@ -2203,6 +2245,9 @@ public class FileLoadOperation {
                     processRequestResult(requestInfo, error);
                 }
             }, null, null, flags, datacenterId, connectionType, isLast);
+            if (BuildVars.LOGS_ENABLED) {
+                FileLog.d("debug_loading: " + cacheFileFinal.getName() + " send reqId " + requestInfo.requestToken);
+            }
             requestsCount++;
         }
     }
