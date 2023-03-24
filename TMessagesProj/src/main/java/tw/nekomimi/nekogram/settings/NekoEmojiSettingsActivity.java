@@ -235,6 +235,14 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
     }
 
     @Override
+    public Integer getSelectorColor(int position) {
+        if (position == customEmojiAddRow) {
+            return Theme.multAlpha(getThemedColor(Theme.key_switchTrackChecked), .1f);
+        }
+        return super.getSelectorColor(position);
+    }
+
+    @Override
     public void didSelectFiles(ArrayList<String> files, String caption, ArrayList<MessageObject> fMessages, boolean notify, int scheduleDate) {
         ArrayList<File> filesToUpload = new ArrayList<>();
         for (String file : files) {

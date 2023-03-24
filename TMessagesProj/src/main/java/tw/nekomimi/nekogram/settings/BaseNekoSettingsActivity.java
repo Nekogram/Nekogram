@@ -100,7 +100,12 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
         actionBar.setDrawBlurBackground(frameLayout);
 
-        listView = new BlurredRecyclerView(context);
+        listView = new BlurredRecyclerView(context) {
+            @Override
+            public Integer getSelectorColor(int position) {
+                return BaseNekoSettingsActivity.this.getSelectorColor(position);
+            }
+        };
         listView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
@@ -190,6 +195,10 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     protected abstract BaseListAdapter createAdapter(Context context);
 
     protected abstract String getActionBarTitle();
+
+    public Integer getSelectorColor(int position) {
+        return getThemedColor(Theme.key_listSelector);
+    }
 
     protected void showRestartBulletin() {
         BulletinFactory.of(this).createErrorBulletin(LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect)).show();
@@ -319,7 +328,12 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+        public final void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            if (holder.getItemViewType() == TYPE_SHADOW) {
+                ShadowSectionCell shadowCell = (ShadowSectionCell) holder.itemView;
+                shadowCell.setTopBottom(position > 0, position < getItemCount() - 1);
+                return;
+            }
             var payload = holder.getPayload();
             onBindViewHolder(holder, position, PARTIAL.equals(payload));
         }
