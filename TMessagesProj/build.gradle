@@ -4,6 +4,7 @@ import java.nio.file.Paths
 
 plugins {
     id 'com.android.library'
+    id 'org.lsposed.lsparanoid'
 }
 
 configurations.all {
@@ -44,7 +45,7 @@ dependencies {
 
     implementation 'androidx.browser:browser:1.5.0'
     implementation 'app.nekogram.prism4j:prism4j:2.1.0'
-    implementation 'app.nekogram.tcp2ws:tcp2ws:1.2.2'
+    implementation 'app.nekogram.tcp2ws:tcp2ws:1.2.4'
     implementation 'app.nekogram.translator:translator:1.1.1'
     implementation 'com.getkeepsafe.relinker:relinker:1.4.5'
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
@@ -56,6 +57,10 @@ dependencies {
 }
 
 def refId = new FileRepository(rootProject.file(".git")).getRefDatabase().exactRef("HEAD").getObjectId().name()
+
+lsparanoid {
+    variantFilter = { variant -> variant.buildType == "release" || variant.buildType == "play" }
+}
 
 android {
     namespace 'org.telegram.messenger'

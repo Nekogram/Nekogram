@@ -1,5 +1,7 @@
 package tw.nekomimi.nekogram;
 
+import org.telegram.messenger.BuildConfig;
+
 public class Extra {
     // See UpdateHelper.java
     public static final int UPDATE_CHANNEL_ID = 0;
@@ -31,6 +33,10 @@ public class Extra {
 
     public static final String USER_INFO_BOT = "";
     public static final long USER_INFO_BOT_ID = 0;
+
+    public static String WS_USER_AGENT = "";
+    public static String WS_CONN_HASH = "";
+    public static String WS_DEFAULT_DOMAIN = "";
 
     public static String signSogou(String query, long time) {
         throw new RuntimeException("Not implemented");

@@ -135,7 +135,6 @@ public class NekoConfig {
     public static boolean sendLargePhotos = true;
 
     public static final String WS_ADDRESS = "ws.neko";
-    private static final String DEFAULT_WS_DOMAIN = "nekoe.eu.org";
     private static int socksPort = -1;
     private static boolean tcp2wsStarted = false;
     private static org.tcp2ws.tcp2wsServer tcp2wsServer;
@@ -191,7 +190,7 @@ public class NekoConfig {
             }
             if (!tcp2wsStarted) {
                 org.tcp2ws.tcp2wsServer.setCdnDomain(getWsDomain());
-                tcp2wsServer = new org.tcp2ws.tcp2wsServer().setTls(wsEnableTLS);
+                tcp2wsServer = new org.tcp2ws.tcp2wsServer().setUserAgent(Extra.WS_USER_AGENT).setConnHash(Extra.WS_CONN_HASH).setTls(wsEnableTLS);
                 tcp2wsServer.start(socksPort);
                 tcp2wsStarted = true;
                 var map = new HashMap<String, String>();
@@ -214,13 +213,13 @@ public class NekoConfig {
         var preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoremoteconfig", Activity.MODE_PRIVATE);
         var json = preferences.getString("config", "");
         if (TextUtils.isEmpty(json)) {
-            return DEFAULT_WS_DOMAIN;
+            return Extra.WS_DEFAULT_DOMAIN;
         }
         try {
             return new JSONObject(json).getString("wsdomain");
         } catch (Exception e) {
             FileLog.e(e);
-            return DEFAULT_WS_DOMAIN;
+            return Extra.WS_DEFAULT_DOMAIN;
         }
     }
 
