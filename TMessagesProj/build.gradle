@@ -51,7 +51,7 @@ dependencies {
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
 
-    def appCenterSdkVersion = '5.0.0'
+    def appCenterSdkVersion = '5.0.1'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 }
