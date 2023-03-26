@@ -5984,15 +5984,19 @@ public class MessageObject {
         if (!NekoConfig.ignoreBlocked) {
             return false;
         }
-        var messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
-        var fromId = getFromChatId();
-        if (messagesController.blockePeers.indexOfKey(getFromChatId()) >= 0 && !UserObject.isReplyUser(fromId)) {
+        if (isUserBlocked(getFromChatId())) {
             return true;
         }
         if (messageOwner.fwd_from == null || messageOwner.fwd_from.from_id == null) {
             return false;
         }
-        return messagesController.blockePeers.indexOfKey(MessageObject.getPeerId(messageOwner.fwd_from.from_id)) >= 0;
+        return isUserBlocked(MessageObject.getPeerId(messageOwner.fwd_from.from_id));
+    }
+
+    public boolean isUserBlocked(long id) {
+        var messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
+        var userFull = messagesController.getUserFull(id);
+        return (userFull != null && userFull.blocked) || messagesController.blockePeers.indexOfKey(id) >= 0;
     }
 
     public boolean isSending() {
