@@ -2051,18 +2051,24 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             if (hasRecordVideo && isInVideoMode()) {
                                 delegate.needStartRecordVideo(NekoConfig.confirmAVMessage ? 3 : 1, true, 0);
                             } else {
-                                if (recordingAudioVideo && isInScheduleMode()) {
-                                    AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate) -> MediaController.getInstance().stopRecording(1, notify, scheduleDate), () -> MediaController.getInstance().stopRecording(0, false, 0), resourcesProvider);
+                                if (NekoConfig.confirmAVMessage) {
+                                    MediaController.getInstance().stopRecording(2, true, 0);
+                                } else {
+                                    if (recordingAudioVideo && isInScheduleMode()) {
+                                        AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate) -> MediaController.getInstance().stopRecording(1, notify, scheduleDate), () -> MediaController.getInstance().stopRecording(0, false, 0), resourcesProvider);
+                                    }
+                                    MediaController.getInstance().stopRecording(isInScheduleMode() ? 3 : 1, true, 0);
                                 }
-                                MediaController.getInstance().stopRecording(isInScheduleMode() ? 3 : 1, true, 0);
                                 delegate.needStartRecordAudio(0);
                             }
-                            recordingAudioVideo = false;
-                            messageTransitionIsRunning = false;
-                            AndroidUtilities.runOnUIThread(moveToSendStateRunnable = () -> {
-                                moveToSendStateRunnable = null;
-                                updateRecordInterface(RECORD_STATE_SENDING);
-                            }, 200);
+                            if (!NekoConfig.confirmAVMessage) {
+                                recordingAudioVideo = false;
+                                messageTransitionIsRunning = false;
+                                AndroidUtilities.runOnUIThread(moveToSendStateRunnable = () -> {
+                                    moveToSendStateRunnable = null;
+                                    updateRecordInterface(RECORD_STATE_SENDING);
+                                }, 200);
+                            }
                         }
                         getParent().requestDisallowInterceptTouchEvent(true);
                         return true;
@@ -2136,22 +2142,30 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                             startedDraggingX = -1;
                             if (hasRecordVideo && isInVideoMode()) {
                                 CameraController.getInstance().cancelOnInitRunnable(onFinishInitCameraRunnable);
-                                delegate.needStartRecordVideo(1, true, 0);
+                                delegate.needStartRecordVideo(NekoConfig.confirmAVMessage ? 3 : 1, true, 0);
                             } else if (!sendVoiceEnabled) {
                                 delegate.needShowMediaBanHint();
                             } else {
-                                if (recordingAudioVideo && isInScheduleMode()) {
-                                    AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate) -> MediaController.getInstance().stopRecording(1, notify, scheduleDate), () -> MediaController.getInstance().stopRecording(0, false, 0), resourcesProvider);
+                                if (!NekoConfig.confirmAVMessage) {
+                                    if (recordingAudioVideo && isInScheduleMode()) {
+                                        AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), (notify, scheduleDate) -> MediaController.getInstance().stopRecording(1, notify, scheduleDate), () -> MediaController.getInstance().stopRecording(0, false, 0), resourcesProvider);
+                                    }
                                 }
                                 delegate.needStartRecordAudio(0);
-                                MediaController.getInstance().stopRecording(isInScheduleMode() ? 3 : 1, true, 0);
+                                if (!NekoConfig.confirmAVMessage) {
+                                    MediaController.getInstance().stopRecording(isInScheduleMode() ? 3 : 1, true, 0);
+                                } else {
+                                    MediaController.getInstance().stopRecording(2, true, 0);
+                                }
                             }
-                            recordingAudioVideo = false;
-                            messageTransitionIsRunning = false;
-                            AndroidUtilities.runOnUIThread(moveToSendStateRunnable = () -> {
-                                moveToSendStateRunnable = null;
-                                updateRecordInterface(RECORD_STATE_SENDING);
-                            }, 500);
+                            if (!NekoConfig.confirmAVMessage) {
+                                recordingAudioVideo = false;
+                                messageTransitionIsRunning = false;
+                                AndroidUtilities.runOnUIThread(moveToSendStateRunnable = () -> {
+                                    moveToSendStateRunnable = null;
+                                    updateRecordInterface(RECORD_STATE_SENDING);
+                                }, 500);
+                            }
                         }
                     }
                     return true;
@@ -2196,7 +2210,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     if (alpha == 0) {
                         if (hasRecordVideo && isInVideoMode()) {
                             CameraController.getInstance().cancelOnInitRunnable(onFinishInitCameraRunnable);
-                            delegate.needStartRecordVideo(NekoConfig.confirmAVMessage ? 3 : 2, true, 0);
+                            delegate.needStartRecordVideo(2, true, 0);
                         } else {
                             delegate.needStartRecordAudio(0);
                             MediaController.getInstance().stopRecording(0, false, 0);
