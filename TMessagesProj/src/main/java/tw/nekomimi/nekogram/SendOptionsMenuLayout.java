@@ -221,7 +221,7 @@ public class SendOptionsMenuLayout extends LinearLayout {
                 scheduleButton.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
                 scheduleButton.setIconColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
             }
-            scheduleButton.setTextAndIcon(LocaleController.getString("ScheduleMessage", R.string.ScheduleMessage), R.drawable.msg_schedule);
+            scheduleButton.setTextAndIcon(LocaleController.getString("ScheduleMessage", R.string.ScheduleMessage), R.drawable.msg_calendar2);
             scheduleButton.setMinimumWidth(AndroidUtilities.dp(196));
             scheduleButton.setOnClickListener(v -> {
                 if (sendPopupWindow != null && sendPopupWindow.isShowing()) {
