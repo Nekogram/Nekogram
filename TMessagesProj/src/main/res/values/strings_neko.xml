@@ -122,6 +122,9 @@
     <string name="SelectBetween">Select between</string>
     <string name="StickerSavedHint">Sticker saved to gallery</string>
     <string name="RegistrationDate">Registration date</string>
+    <string name="RegistrationDateNewer">Newer than %s</string>
+    <string name="RegistrationDateOlder">Older than %s</string>
+    <string name="RegistrationDateApproximately">Approximately %s</string>
     <string name="WsDescription">Connect to Telegram through WebSocket via Cloudflare. **Learn more**</string>
     <string name="WsEnableTls">Enable TLS</string>
     <string name="WsLocalProxy">Local proxy</string>
@@ -228,6 +231,7 @@
     <string name="TranslatorShowOriginal">With original text</string>
     <string name="DatacenterStatusAbout">Check the status of Telegram\'s **datacenters**.</string>
     <string name="DatacenterStatus">Datacenter status</string>
+    <string name="DatacenterStatusShort">Datacenter</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Enable by default</string>
     <string name="MarkdownParser">Parser</string>

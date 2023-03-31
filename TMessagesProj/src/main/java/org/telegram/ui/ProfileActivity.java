@@ -237,7 +237,7 @@ import tw.nekomimi.nekogram.BackButtonMenuRecent;
 import tw.nekomimi.nekogram.DatacenterActivity;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.SimpleTextViewSwitcher;
-import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
+import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 import tw.nekomimi.nekogram.translator.Translator;
@@ -4134,12 +4134,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         idTextView = new SimpleTextViewSwitcher(context) {
             @Override
             public boolean performLongClick(float x, float y) {
-                Object tag = idTextView.getTag(R.id.id_copy);
-                if (tag instanceof Long) {
-                    PopupHelper.showCopyPopup(ProfileActivity.this, LocaleController.getString("CopyID", R.string.CopyID), idTextView, x, y, () -> {
-                        AndroidUtilities.addToClipboard(String.valueOf(tag));
-                        BulletinFactory.of(ProfileActivity.this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
-                    });
+                long id = idTextView.getTag(R.id.id_copy) != null ? (long) idTextView.getTag(R.id.id_copy) : 0;
+                int dc = idTextView.getTag(R.id.id_dc) != null ? (int) idTextView.getTag(R.id.id_dc) : 0;
+                if (id != 0 || dc != 0) {
+                    PopupHelper.showIdPopup(ProfileActivity.this, idTextView, id, dc, userId != 0, x, y);
                     performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                     return true;
                 }
@@ -4160,12 +4158,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         idTextView.setTag(1.0f);
         idTextView.setInAnimation(context, R.anim.alpha_in);
         idTextView.setOutAnimation(context, R.anim.alpha_out);
-        idTextView.setOnClickListener(v -> {
-            Object tag = idTextView.getTag(R.id.id_dc);
-            if (tag instanceof Integer) {
-                presentFragment(new DatacenterActivity((int) tag));
-            }
-        });
         idTextView.setLongClickable(true);
         avatarContainer2.addView(idTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118 - 4, -2, 4, 0));
 

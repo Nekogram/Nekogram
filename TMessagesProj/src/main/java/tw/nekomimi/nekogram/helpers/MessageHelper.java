@@ -71,6 +71,7 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.regex.Matcher;
@@ -793,7 +794,7 @@ public class MessageHelper extends BaseController {
         return acc;
     }
 
-    public static String getDCLocation(int dc) {
+    private static String getDCLocation(int dc) {
         switch (dc) {
             case 1:
             case 3:
@@ -808,7 +809,7 @@ public class MessageHelper extends BaseController {
         }
     }
 
-    public static String getDCName(int dc) {
+    private static String getDCName(int dc) {
         switch (dc) {
             case 1:
                 return "Pluto";
@@ -823,6 +824,10 @@ public class MessageHelper extends BaseController {
             default:
                 return "Unknown";
         }
+    }
+
+    public static String formatDCString(int dc) {
+        return String.format(Locale.US, "DC%d %s, %s", dc, MessageHelper.getDCName(dc), MessageHelper.getDCLocation(dc));
     }
 
     public void sendWebFile(BaseFragment fragment, int did, String url, boolean isPhoto, Theme.ResourcesProvider resourcesProvider) {
@@ -912,5 +917,48 @@ public class MessageHelper extends BaseController {
         });
         fragment.showDialog(alertDialog);
         editText.setSelection(0, editText.getText().length());
+    }
+
+    private static final HashMap<Long, RegDate> regDates = new HashMap<>();
+
+    public static String formatRegDate(RegDate regDate) {
+        if (regDate.error == null) {
+            switch (regDate.type) {
+                case 0:
+                    return LocaleController.formatString("RegistrationDateApproximately", R.string.RegistrationDateApproximately, regDate.date);
+                case 2:
+                    return LocaleController.formatString("RegistrationDateNewer", R.string.RegistrationDateNewer, regDate.date);
+                case 3:
+                    return LocaleController.formatString("RegistrationDateOlder", R.string.RegistrationDateOlder, regDate.date);
+                default:
+                    return regDate.date;
+            }
+        } else {
+            return regDate.error;
+        }
+    }
+
+    public static RegDate getRegDate(long userId) {
+        return regDates.get(userId);
+    }
+
+    public static void getRegDate(long userId, Utilities.Callback<RegDate> callback) {
+        RegDate regDate = regDates.get(userId);
+        if (regDate != null) {
+            callback.run(regDate);
+            return;
+        }
+        Extra.getRegDate(userId, arg -> {
+            if (arg != null && arg.error == null) {
+                regDates.put(userId, arg);
+            }
+            callback.run(arg);
+        });
+    }
+
+    public static class RegDate {
+        public int type;
+        public String date;
+        public String error;
     }
 }

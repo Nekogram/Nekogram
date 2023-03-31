@@ -480,7 +480,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     } else if (position == fileSizeRow) {
                         textCell.setTextAndValue("File size", AndroidUtilities.formatFileSize(messageObject.getSize()), divider);
                     } else if (position == dcRow) {
-                        textCell.setTextAndValue("DC", String.format(Locale.US, "DC%d %s, %s", dc, MessageHelper.getDCName(dc), MessageHelper.getDCLocation(dc)), divider);
+                        textCell.setTextAndValue("DC", MessageHelper.formatDCString(dc), divider);
                     } else if (position == restrictionReasonRow) {
                         ArrayList<TLRPC.TL_restrictionReason> reasons = messageObject.messageOwner.restriction_reason;
                         StringBuilder value = new StringBuilder();

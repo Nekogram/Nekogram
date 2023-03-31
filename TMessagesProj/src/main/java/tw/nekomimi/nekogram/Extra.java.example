@@ -1,6 +1,8 @@
 package tw.nekomimi.nekogram;
 
-import org.telegram.messenger.BuildConfig;
+import org.telegram.messenger.Utilities;
+
+import tw.nekomimi.nekogram.helpers.MessageHelper;
 
 public class Extra {
     // See UpdateHelper.java
@@ -55,6 +57,10 @@ public class Extra {
     }
 
     public static long getOwnerFromStickerSetId(long id) {
+        throw new RuntimeException("Apparently not possible");
+    }
+
+    public static void getRegDate(long userId, Utilities.Callback<MessageHelper.RegDate> callback) {
         throw new RuntimeException("Apparently not possible");
     }
 }

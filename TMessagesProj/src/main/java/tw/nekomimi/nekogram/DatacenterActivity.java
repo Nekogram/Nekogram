@@ -33,7 +33,6 @@ import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
@@ -346,7 +345,7 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
         }
 
         public void setDC(NekoConfig.DatacenterInfo info, boolean divider) {
-            textView.setText(String.format(Locale.US, "DC%d %s, %s", info.id, MessageHelper.getDCName(info.id), MessageHelper.getDCLocation(info.id)));
+            textView.setText(MessageHelper.formatDCString(info.id));
             currentInfo = info;
             needDivider = divider;
             setWillNotDraw(!needDivider);

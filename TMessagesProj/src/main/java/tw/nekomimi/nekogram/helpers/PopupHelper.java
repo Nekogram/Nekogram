@@ -11,15 +11,18 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
+import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Components.AlertsCreator;
+import org.telegram.ui.Components.BulletinFactory;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.DatacenterActivity;
 import tw.nekomimi.nekogram.simplemenu.SimpleMenuPopupWindow;
 
 public class PopupHelper {
@@ -71,6 +74,57 @@ public class PopupHelper {
 
             mPopupWindow.show(itemView, container, 0);
         }
+    }
+
+    public static void showIdPopup(BaseFragment fragment, View anchorView, long id, int dc, boolean user, float x, float y) {
+        Context context = fragment.getParentActivity();
+        ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, R.drawable.popup_fixed_alert, fragment.getResourceProvider()) {
+            final Path path = new Path();
+
+            @Override
+            protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+                canvas.save();
+                path.rewind();
+                AndroidUtilities.rectTmp.set(child.getLeft(), child.getTop(), child.getRight(), child.getBottom());
+                path.addRoundRect(AndroidUtilities.rectTmp, AndroidUtilities.dp(6), AndroidUtilities.dp(6), Path.Direction.CW);
+                canvas.clipPath(path);
+                boolean draw = super.drawChild(canvas, child, drawingTime);
+                canvas.restore();
+                return draw;
+            }
+        };
+        popupLayout.setFitItems(true);
+        ActionBarPopupWindow popupWindow = AlertsCreator.createSimplePopup(fragment, popupLayout, anchorView, x, y);
+        if (id != 0) {
+            ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_copy, LocaleController.getString("CopyID", R.string.CopyID), false, fragment.getResourceProvider()).setOnClickListener(v -> {
+                popupWindow.dismiss();
+                AndroidUtilities.addToClipboard(String.valueOf(id));
+                BulletinFactory.of(fragment).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+            });
+        }
+        if (dc != 0) {
+            ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_satellite, LocaleController.getString("DatacenterStatusShort", R.string.DatacenterStatusShort), false, fragment.getResourceProvider());
+            subItem.setSubtext(MessageHelper.formatDCString(dc));
+            subItem.setOnClickListener(v -> {
+                popupWindow.dismiss();
+                fragment.presentFragment(new DatacenterActivity(dc));
+            });
+        }
+        if (id != 0 && user) {
+            ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_calendar, LocaleController.getString("RegistrationDate", R.string.RegistrationDate), false, fragment.getResourceProvider());
+            MessageHelper.RegDate regDate = MessageHelper.getRegDate(id);
+            subItem.setSubtext(regDate != null ? MessageHelper.formatRegDate(regDate) : LocaleController.getString("Loading", R.string.Loading));
+            if (regDate == null) {
+                MessageHelper.getRegDate(id, arg -> {
+                    if (arg != null) {
+                        subItem.setSubtext(MessageHelper.formatRegDate(arg));
+                    } else {
+                        subItem.setSubtext(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
+                    }
+                });
+            }
+        }
+        popupLayout.setParentWindow(popupWindow);
     }
 
     public static void showCopyPopup(BaseFragment fragment, CharSequence title, View anchorView, float x, float y, Runnable callback) {
