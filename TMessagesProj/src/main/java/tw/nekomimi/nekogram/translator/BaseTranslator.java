@@ -1,13 +1,18 @@
 package tw.nekomimi.nekogram.translator;
 
-import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.util.Pair;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.collection.LruCache;
+import androidx.core.content.ContextCompat;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
+
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -24,6 +29,7 @@ import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.concurrent.Callable;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
@@ -48,7 +54,19 @@ abstract public class BaseTranslator {
         if (result != null) {
             translateCallBack.onSuccess(result.translation, result.sourceLanguage == null ? fromLang : convertLanguageCode(result.sourceLanguage, true), toLang);
         } else {
-            new MyAsyncTask().request(query, fromLang, toLang, translateCallBack).execute();
+            TranslateTask translateTask = new TranslateTask(query, fromLang, toLang, translateCallBack);
+            ListenableFuture<Object> future = Translator.getExecutorService().submit(translateTask);
+            Futures.addCallback(future, new FutureCallback<>() {
+                @Override
+                public void onSuccess(Object result) {
+                    translateTask.onPostExecute(result);
+                }
+
+                @Override
+                public void onFailure(@NonNull Throwable t) {
+                    translateTask.onPostExecute(t);
+                }
+            }, ContextCompat.getMainExecutor(ApplicationLoader.applicationContext));
         }
     }
 
@@ -85,24 +103,33 @@ abstract public class BaseTranslator {
         return getTargetLanguage(NekoConfig.translationTarget);
     }
 
-    @SuppressWarnings("deprecation")
-    @SuppressLint("StaticFieldLeak")
-    private class MyAsyncTask extends AsyncTask<Void, Integer, Object> {
-        Translator.TranslateCallBack translateCallBack;
-        Object query;
-        String fl;
-        String tl;
+    private class TranslateTask implements Callable<Object> {
+        private final Translator.TranslateCallBack translateCallBack;
+        private final Object query;
+        private final String fl;
+        private final String tl;
 
-        public MyAsyncTask request(Object query, String fl, String tl, Translator.TranslateCallBack translateCallBack) {
+        public TranslateTask(Object query, String fl, String tl, Translator.TranslateCallBack translateCallBack) {
             this.query = query;
             this.fl = fl;
             this.tl = tl;
             this.translateCallBack = translateCallBack;
-            return this;
+        }
+
+        protected void onPostExecute(Object result) {
+            if (result == null) {
+                translateCallBack.onError(null);
+            } else if (result instanceof Exception) {
+                translateCallBack.onError((Exception) result);
+            } else {
+                Result translationResult = (Result) result;
+                translateCallBack.onSuccess(translationResult.translation, translationResult.sourceLanguage == null ? fl : convertLanguageCode(translationResult.sourceLanguage, true), tl);
+                cache.put(Pair.create(query, tl), translationResult);
+            }
         }
 
         @Override
-        protected Object doInBackground(Void... params) {
+        public Object call() throws Exception {
             try {
                 var from = convertLanguageCode(TextUtils.isEmpty(fl) || "und".equals(fl) ? "auto" : fl, false);
                 var to = convertLanguageCode(tl, false);
@@ -148,20 +175,6 @@ abstract public class BaseTranslator {
                 return e;
             }
         }
-
-        @Override
-        protected void onPostExecute(Object result) {
-            if (result == null) {
-                translateCallBack.onError(null);
-            } else if (result instanceof Exception) {
-                translateCallBack.onError((Exception) result);
-            } else {
-                Result translationResult = (Result) result;
-                translateCallBack.onSuccess(translationResult.translation, translationResult.sourceLanguage == null ? fl : convertLanguageCode(translationResult.sourceLanguage, true), tl);
-                cache.put(Pair.create(query, tl), translationResult);
-            }
-        }
-
     }
 
     public static class Http {

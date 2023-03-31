@@ -74,6 +74,23 @@
   <init>(com.google.android.exoplayer2.upstream.DataSource$Factory);
 }
 
+# Used by AtomicReferenceFieldUpdater and sun.misc.Unsafe
+-keepclassmembers class com.google.common.util.concurrent.AbstractFuture** {
+  *** waiters;
+  *** value;
+  *** listeners;
+  *** thread;
+  *** next;
+}
+
+# Since Unsafe is using the field offsets of these inner classes, we don't want
+# to have class merging or similar tricks applied to these classes and their
+# fields. It's safe to allow obfuscation, since the by-name references are
+# already preserved in the -keep statement above.
+-keep,allowshrinking,allowobfuscation class com.google.common.util.concurrent.AbstractFuture** {
+  <fields>;
+}
+
 # Huawei Services
 -keep class com.huawei.hianalytics.**{ *; }
 -keep class com.huawei.updatesdk.**{ *; }

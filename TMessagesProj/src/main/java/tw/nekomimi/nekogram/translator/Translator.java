@@ -11,6 +11,9 @@ import android.view.View;
 import androidx.core.text.HtmlCompat;
 import androidx.core.util.Pair;
 
+import com.google.common.util.concurrent.ListeningExecutorService;
+import com.google.common.util.concurrent.MoreExecutors;
+
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
@@ -23,6 +26,7 @@ import org.telegram.ui.Components.TranslateAlert2;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.Executors;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
@@ -39,6 +43,12 @@ public class Translator {
     public static final String PROVIDER_BAIDU = "baidu";
     public static final String PROVIDER_SOGOU = "sogou";
     public static final String PROVIDER_TENCENT = "tencent";
+
+    private static final ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
+
+    public static ListeningExecutorService getExecutorService() {
+        return executorService;
+    }
 
     public static void showTranslateDialog(Context context, String query, boolean noforwards) {
         showTranslateDialog(context, query, noforwards, null, null, null);
