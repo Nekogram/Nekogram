@@ -118,6 +118,9 @@
     <string name="SelectBetween">选择之间的</string>
     <string name="StickerSavedHint">贴纸已保存到相册</string>
     <string name="RegistrationDate">注册日期</string>
+    <string name="RegistrationDateNewer">晚于 %s</string>
+    <string name="RegistrationDateOlder">早于 %s</string>
+    <string name="RegistrationDateApproximately">大约 %s</string>
     <string name="WsDescription">通过 WebSocket 从 Cloudflare 连接到 Telegram。**了解更多 **</string>
     <string name="WsEnableTls">启用 TLS</string>
     <string name="WsLocalProxy">本地代理</string>
@@ -224,6 +227,7 @@
     <string name="TranslatorShowOriginal">显示原文</string>
     <string name="DatacenterStatusAbout">检查 Telegram 的**数据中心**的状态。</string>
     <string name="DatacenterStatus">数据中心状态</string>
+    <string name="DatacenterStatusShort">数据中心</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">默认启用</string>
     <string name="MarkdownParser">解析器</string>

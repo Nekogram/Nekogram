@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Выдаліць мае паведамленні</string>
     <string name="DeleteAllFromSelfAlert">Увага! Гэта ** выдаліць усе вашыя паведамленні ** у гэтым чаце **для** ўсіх.</string>
     <string name="BotLogin">Лагін бота</string>
+    <string name="BotLoginMessage">Увядзіце токен бота, атрыманы ад **@BotFather**.</string>
     <string name="InvalidAccessToken">Няправільны маркер доступу</string>
     <string name="IgnoreBlocked">Схаваць паведамленні ад заблакіраваных карыстальнікаў</string>
     <string name="Connection">Злучэнне</string>
@@ -111,5 +112,10 @@
     <string name="BlurAvatarBackground">Размыццё фатаграфіі профілю</string>
     <string name="DarkenAvatarBackground">Зацямненне фатаграфіі профілю</string>
     <string name="AccentAsNotificationColor">Колер акцэнту як колер апавяшчэння</string>
+    <string name="SilenceNonContacts">Бязгучныя паведамлення ад людзей не з кантактаў</string>
+    <string name="SilenceNonContactsAbout">Апавяшчэнні ад людзей, якія не з\'яўляюцца вашымі кантактамі, будуць прыходзіць без гуку. Вы можаце дадаваць карыстальнікаў у кантакты з іх профілю, не ведаючы нумара тэлефона.</string>
+    <string name="SelectBetween">Выберыце паміж</string>
+    <string name="StickerSavedHint">Стыкер захаваны ў галерэю</string>
+    <string name="RegistrationDate">Дата рэгістрацыі</string>
     <!-- Accessibility -->
 </resources>

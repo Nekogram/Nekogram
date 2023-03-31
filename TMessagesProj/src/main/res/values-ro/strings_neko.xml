@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Șterge mesajele proprii</string>
     <string name="DeleteAllFromSelfAlert">Atenție! Acest lucru va **șterge toate mesajele de la tine** în acest chat pentru **toți** participanții.</string>
     <string name="BotLogin">Logare Bot</string>
+    <string name="BotLoginMessage">Introduceți token-ul bot obținut de la **@BotFather**.</string>
     <string name="InvalidAccessToken">Cod de acces invalid</string>
     <string name="IgnoreBlocked">Скрывать сообщения блок. польз</string>
     <string name="Connection">Conexiune</string>
@@ -47,6 +48,7 @@
     <string name="TranslateApiUnsupported">Furnizorul de traduceri selectat nu acceptă limba dvs.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Anulați traducere</string>
+    <string name="DisablePhotoViewerSideAction">Dezactivați rotirea fotografiilor prin apăsare</string>
     <string name="BotToken">Cod</string>
     <string name="OpenArchiveOnPull">Deschideți arhiva la tragere</string>
     <string name="HideKeyboardOnChatScroll">Ascundeți tastatura pe derularea conversațiilor</string>
@@ -55,8 +57,10 @@
     <string name="RearVideoMessages">Camera din spate în mesajele video</string>
     <string name="HideAllTab">Ascundeți fila \"Toate Conversațiile\"</string>
     <string name="TabTitleType">Afișați pe file</string>
+    <string name="TabTitleTypeTip">Pictogramele sunt sincronizate în cloud de Telegram.</string>
     <string name="TabTitleTypeText">Titluri</string>
     <string name="TabTitleTypeIcon">Иконки</string>
+    <string name="TabTitleTypeMix">Pictograme cu titluri</string>
     <string name="ConfirmAVMessage">Confirmați trimiterea de mesaje video/voce</string>
     <string name="AskBeforeCalling">Întrebați înainte de apelare</string>
     <string name="DisableNumberRounding">Dezactivați rotunjirea numerelor</string>

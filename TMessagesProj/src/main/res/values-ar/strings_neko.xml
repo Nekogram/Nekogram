@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">حذف الرسائل الخاصة بي</string>
     <string name="DeleteAllFromSelfAlert">تحذير! سيؤدي هذا إلى **حذفَ جميع الرسائل منكَ** في هذه المحادثة لـ **جميع** المشاركين.</string>
     <string name="BotLogin">تسجيل الدخول کبوت</string>
+    <string name="BotLoginMessage">أدخل رمز البوت الذي تم الحصول عليه من **@BotFather**.</string>
     <string name="InvalidAccessToken">مفتاح التوكن غيرُ صالح</string>
     <string name="IgnoreBlocked">إخفاء الرسائل من المستخدم المحظور</string>
     <string name="Connection">اتصال</string>
@@ -117,9 +118,9 @@
     <string name="SelectBetween">اختر بين</string>
     <string name="StickerSavedHint">تم حفظ الملصق في معرض الصور</string>
     <string name="RegistrationDate">تاريخ التسجيل</string>
-    <string name="WsDescription">اتصل بـ Telegram من خلال WebSocket عبر Cloudflare.  **يتعلم أكثر**</string>
+    <string name="WsDescription">اتصل بـ Telegram من خلال مقبس الويب عبر Cloudflare.  **يتعلم أكثر**</string>
     <string name="WsEnableTls">تمكين TLS</string>
-    <string name="WsLocalProxy">Local proxy</string>
+    <string name="WsLocalProxy">الوكيل المحلي</string>
     <string name="WsEnableDoh">تمكين DoH</string>
     <string name="UpdateNekogram">تحديث نيكوغرام</string>
     <string name="TranslationTarget">اللغة المراد الترجمة إليها</string>

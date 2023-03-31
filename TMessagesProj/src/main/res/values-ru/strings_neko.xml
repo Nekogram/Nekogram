@@ -118,6 +118,9 @@
     <string name="SelectBetween">Выбрать между</string>
     <string name="StickerSavedHint">Стикер сохранен в галерею</string>
     <string name="RegistrationDate">Дата регистрации</string>
+    <string name="RegistrationDateNewer">Новее %s</string>
+    <string name="RegistrationDateOlder">Старше %s</string>
+    <string name="RegistrationDateApproximately">Приблизительно %s</string>
     <string name="WsDescription">Подключиться к Telegram через WebSocket Cloudflare. **Узнать больше**</string>
     <string name="WsEnableTls">Включить TLS</string>
     <string name="WsLocalProxy">Локальный прокси</string>
@@ -224,6 +227,7 @@
     <string name="TranslatorShowOriginal">С исходным текстом</string>
     <string name="DatacenterStatusAbout">Проверка состояния **дата-центров** Telegram.</string>
     <string name="DatacenterStatus">Состояние дата-центра</string>
+    <string name="DatacenterStatusShort">Дата-центр</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Включить по умолчанию</string>
     <string name="MarkdownParser">Синтаксический анализатор</string>
