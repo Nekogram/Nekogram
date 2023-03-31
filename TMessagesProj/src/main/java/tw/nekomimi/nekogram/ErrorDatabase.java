@@ -7,10 +7,10 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.tgnet.TLObject;
 
 import java.util.Arrays;
-import java.util.HashSet;
+import java.util.List;
 
 public class ErrorDatabase {
-    private static final HashSet<String> userOnly = new HashSet<>(Arrays.asList("account.acceptAuthorization",
+    private static final List<String> userOnly = Arrays.asList("account.acceptAuthorization",
             "account.cancelPasswordEmail",
             "account.changeAuthorizationSettings",
             "account.changePhone",
@@ -381,7 +381,7 @@ public class ErrorDatabase {
             "stickers.checkShortName",
             "stickers.suggestShortName",
             "upload.getCdnFile",
-            "upload.getWebFile"));
+            "upload.getWebFile");
 
     public static String getMethodName(TLObject method) {
         var name = method.toString();

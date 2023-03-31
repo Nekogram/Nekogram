@@ -15,16 +15,17 @@ public class TypefaceHelper {
 
     private static final String TEST_TEXT;
     private static final int CANVAS_SIZE = AndroidUtilities.dp(12);
-    private static final Paint PAINT = new Paint();
+    private static final Paint PAINT = new Paint() {{
+        setTextSize(CANVAS_SIZE);
+        setAntiAlias(false);
+        setSubpixelText(false);
+        setFakeBoldText(false);
+    }};
 
     private static Boolean mediumWeightSupported = null;
     private static Boolean italicSupported = null;
 
     static {
-        PAINT.setTextSize(CANVAS_SIZE);
-        PAINT.setAntiAlias(false);
-        PAINT.setSubpixelText(false);
-        PAINT.setFakeBoldText(false);
         if (List.of("zh", "ja", "ko").contains(LocaleController.getInstance().getCurrentLocale().getLanguage())) {
             TEST_TEXT = "日";
         } else {

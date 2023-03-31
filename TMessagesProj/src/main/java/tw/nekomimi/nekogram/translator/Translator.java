@@ -186,7 +186,7 @@ public class Translator {
         PopupHelper.show(arrayList, LocaleController.getString("TranslatorType", R.string.TranslatorType), types.indexOf(NekoConfig.transType), context, view, i -> {
             NekoConfig.setTransType(types.get(i));
             if (callback != null) callback.run();
-        });
+        }, resourcesProvider);
     }
 
     public static void showTranslationProviderSelector(Context context, View view, MessagesStorage.BooleanCallback callback) {

@@ -29,10 +29,18 @@ import java.util.HashMap;
 
 public class QrView extends View {
 
-    private final Paint blackPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint blackPaint = new Paint(Paint.ANTI_ALIAS_FLAG) {{
+        setColor(Color.BLACK);
+    }};
     private final AnimatedFloat contentBitmapAlpha = new AnimatedFloat(1f, this, 0, 2000, CubicBezierInterpolator.EASE_OUT_QUINT);
-    private final Paint crossfadeFromPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final Paint crossfadeToPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+    private final Paint crossfadeFromPaint = new Paint(Paint.ANTI_ALIAS_FLAG) {{
+        setShader(new LinearGradient(0, 0, 0, AndroidUtilities.dp(crossfadeWidthDp), new int[]{0xffffffff, 0}, new float[]{0f, 1f}, Shader.TileMode.CLAMP));
+        setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+    }};
+    private final Paint crossfadeToPaint = new Paint(Paint.ANTI_ALIAS_FLAG) {{
+        setShader(new LinearGradient(0, 0, 0, AndroidUtilities.dp(crossfadeWidthDp), new int[]{0, 0xffffffff}, new float[]{0f, 1f}, Shader.TileMode.CLAMP));
+        setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
+    }};
     private final int crossfadeWidthDp = 120;
     private RLottieDrawable loadingMatrix;
     private Bitmap contentBitmap, oldContentBitmap, qrLogo;
@@ -41,12 +49,6 @@ public class QrView extends View {
 
     protected QrView(Context context) {
         super(context);
-
-        blackPaint.setColor(Color.BLACK);
-        crossfadeFromPaint.setShader(new LinearGradient(0, 0, 0, AndroidUtilities.dp(crossfadeWidthDp), new int[]{0xffffffff, 0}, new float[]{0f, 1f}, Shader.TileMode.CLAMP));
-        crossfadeFromPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
-        crossfadeToPaint.setShader(new LinearGradient(0, 0, 0, AndroidUtilities.dp(crossfadeWidthDp), new int[]{0, 0xffffffff}, new float[]{0f, 1f}, Shader.TileMode.CLAMP));
-        crossfadeToPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
     }
 
     @Override

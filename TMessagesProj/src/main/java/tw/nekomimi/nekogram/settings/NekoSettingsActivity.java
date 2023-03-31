@@ -23,7 +23,7 @@ import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.LaunchActivity;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import tw.nekomimi.nekogram.accessibility.AccessibilitySettingsActivity;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
@@ -32,7 +32,7 @@ import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
 public class NekoSettingsActivity extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate {
 
-    private final ArrayList<ConfigHelper.News> news = ConfigHelper.getNews();
+    private final List<ConfigHelper.News> news = ConfigHelper.getNews();
 
     private boolean sensitiveCanChange = false;
     private boolean sensitiveEnabled = false;
