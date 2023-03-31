@@ -18,19 +18,19 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
 
-import java.io.DataOutputStream;
+import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.net.URLEncoder;
-import java.nio.charset.Charset;
 import java.util.List;
 import java.util.Locale;
-import java.util.Scanner;
 import java.util.concurrent.Callable;
 
+import okhttp3.Cache;
+import okhttp3.MediaType;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.RequestBody;
 import tw.nekomimi.nekogram.NekoConfig;
 
 abstract public class BaseTranslator {
@@ -178,49 +178,57 @@ abstract public class BaseTranslator {
     }
 
     public static class Http {
-        private final HttpURLConnection httpURLConnection;
+        private static OkHttpClient okHttpClient;
+        private static Cache okHttpCache;
 
-        private Http(String url) throws IOException {
-            httpURLConnection = (HttpURLConnection) new URL(url).openConnection();
-            httpURLConnection.setConnectTimeout(3000);
-            //httpURLConnection.setReadTimeout(2000);
+        public static Cache getOkHttpCache() {
+            if (okHttpCache != null) return okHttpCache;
+            long size50MiB = 50 * 1024 * 1024;
+            okHttpCache = new Cache(new File(ApplicationLoader.applicationContext.getCacheDir(), "http_cache"), size50MiB);
+            return okHttpCache;
         }
 
-        public static Http url(String url) throws IOException {
+        private final Request.Builder builder;
+
+        private Http(String url) {
+            if (okHttpClient == null) {
+                var builder = new OkHttpClient.Builder()
+                        .cache(getOkHttpCache());
+                okHttpClient = builder.build();
+            }
+            builder = new Request.Builder()
+                    .url(url);
+        }
+
+        public static Http url(String url) {
             return new Http(url);
         }
 
         public Http header(String key, String value) {
-            httpURLConnection.setRequestProperty(key, value);
+            builder.header(key, value);
             return this;
         }
 
-        public Http data(String data) throws IOException {
-            httpURLConnection.setDoOutput(true);
-            DataOutputStream dataOutputStream = new DataOutputStream(httpURLConnection.getOutputStream());
-            byte[] t = data.getBytes(Charset.defaultCharset());
-            dataOutputStream.write(t);
-            dataOutputStream.flush();
-            dataOutputStream.close();
+        public Http data(String data) {
+            return data(data, "application/x-www-form-urlencoded");
+        }
+
+        public Http data(String data, String mediaType) {
+            builder.post(RequestBody.create(data, MediaType.get(mediaType)));
             return this;
         }
 
         public String request() throws IOException {
-            httpURLConnection.connect();
-            if (httpURLConnection.getResponseCode() == 429) {
-                throw new Http429Exception();
+            try (var response = okHttpClient.newCall(builder.build()).execute()) {
+                if (response.code() == 429) {
+                    throw new BaseTranslator.Http429Exception();
+                }
+                var body = response.body();
+                if (body == null) {
+                    return null;
+                }
+                return body.string();
             }
-            InputStream stream;
-            if (httpURLConnection.getResponseCode() < HttpURLConnection.HTTP_BAD_REQUEST) {
-                stream = httpURLConnection.getInputStream();
-            } else {
-                stream = httpURLConnection.getErrorStream();
-            }
-            String response = new Scanner(stream, "UTF-8")
-                    .useDelimiter("\\A")
-                    .next();
-            stream.close();
-            return response;
         }
     }
 

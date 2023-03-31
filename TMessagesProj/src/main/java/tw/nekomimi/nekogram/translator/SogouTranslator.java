@@ -82,7 +82,6 @@ public class SogouTranslator extends BaseTranslator {
         jsonObject.put("to", tl);
         var param = jsonObject.toString();
         return getResult(Http.url("https://fanyi.sogou.com/openapi/external/dictTranslation")
-                .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("S-AppId", String.valueOf(Extra.SOGOU_APP_ID))
                 .header("S-AppKey", Extra.SOGOU_APP_KEY)
                 .header("S-CurTime", String.valueOf(currentTimeMillis))

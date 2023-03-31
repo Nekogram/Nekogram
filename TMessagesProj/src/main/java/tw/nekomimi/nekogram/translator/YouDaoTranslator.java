@@ -73,7 +73,6 @@ public class YouDaoTranslator extends BaseTranslator {
         var time = System.currentTimeMillis() + Math.round(Math.random() * 10);
         var sign = Extra.signYouDao(query, time);
         return getResult(Http.url("https://fanyi.youdao.com/appapi/tran?&product=fanyiguan&appVersion=4.0.9&vendor=tencent&network=wifi")
-                .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("User-Agent", "okhttp/4.9.1")
                 .data("q=" + URLEncode(query) + "&salt=" + time + "&sign=" + sign + "&needad=false&category=Android&type=AUTO2" + tl + "&needdict=true&version=4.0.9&needfanyi=true&needsentences=false&scene=realtime")
                 .request());

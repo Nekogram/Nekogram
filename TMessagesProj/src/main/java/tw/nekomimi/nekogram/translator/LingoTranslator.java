@@ -41,10 +41,9 @@ public class LingoTranslator extends BaseTranslator {
         jsonObject.put("request_id", String.valueOf(System.currentTimeMillis()));
         jsonObject.put("detect", true);
         String response = Http.url("https://api.interpreter.caiyunai.com/v1/translator")
-                .header("Content-Type", "application/json; charset=UTF-8")
                 .header("X-Authorization", "token " + Extra.LINGO_TOKEN)
                 .header("User-Agent", "okhttp/3.12.3")
-                .data(jsonObject.toString())
+                .data(jsonObject.toString(), "application/json; charset=UTF-8")
                 .request();
         if (TextUtils.isEmpty(response)) {
             return null;

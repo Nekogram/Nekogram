@@ -91,7 +91,6 @@ public class BaiduTranslator extends BaseTranslator {
         var time = System.currentTimeMillis();
         var sign = Extra.signBaidu(query, tl, time);
         var response = Http.url("https://fanyi-app.baidu.com/transapp/agent.php?product=transapp&type=json&version=153&plat=android&req=v2trans&cuid=" + cuid)
-                .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("User-Agent", "BDTApp; Android 12; BaiduTranslate/10.2.1")
                 .data("sign=" + sign + "&sofireId=&zhType=0&use_cache_response=1&from=auto&timestamp=" + time + "&query=" + URLEncode(query) + "&needfixl=1&lfixver=1&is_show_ad=1&appRecommendSwitch=1&to=" + tl + "&page=translate")
                 .request();

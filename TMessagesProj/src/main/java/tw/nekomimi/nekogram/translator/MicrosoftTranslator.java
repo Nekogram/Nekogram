@@ -109,10 +109,9 @@ public class MicrosoftTranslator extends BaseTranslator {
         jsonObject.put("Text", query);
         String url = "api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=&to=" + tl;
         return getResult(Http.url("https://" + url)
-                .header("Content-Type", "application/json; charset=UTF-8")
                 .header("X-Mt-Signature", Extra.signMicrosoft(url))
                 .header("User-Agent", "okhttp/4.5.0")
-                .data(new JSONArray().put(new JSONObject().put("Text", query)).toString())
+                .data(new JSONArray().put(new JSONObject().put("Text", query)).toString(), "application/json; charset=UTF-8")
                 .request());
     }
 }

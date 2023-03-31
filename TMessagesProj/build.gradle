@@ -49,6 +49,7 @@ dependencies {
     implementation 'app.nekogram.translator:translator:1.1.1'
     implementation 'com.getkeepsafe.relinker:relinker:1.4.5'
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.10.0'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
 
     def appCenterSdkVersion = '5.0.1'
