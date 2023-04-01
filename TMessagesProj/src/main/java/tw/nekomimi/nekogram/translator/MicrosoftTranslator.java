@@ -2,10 +2,9 @@ package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.telegram.messenger.FileLog;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -62,27 +61,28 @@ public class MicrosoftTranslator extends BaseTranslator {
         return code;
     }
 
-    private static Result getResult(String response) throws JSONException, IOException {
-        if (TextUtils.isEmpty(response)) {
+    private static Result getResult(String string) throws IOException {
+        if (TextUtils.isEmpty(string)) {
             return null;
         }
-        JSONObject jsonObject;
+        Response[] responseArray;
         try {
-            jsonObject = new JSONArray(response).getJSONObject(0);
-        } catch (JSONException e) {
-            jsonObject = new JSONObject(response);
+            responseArray = GSON.fromJson(string, Response[].class);
+        } catch (JsonSyntaxException e) {
+            var responseError = GSON.fromJson(string, ResponseError.class);
+            if (responseError != null && responseError.message != null) {
+                throw new IOException(responseError.message);
+            }
+            return null;
         }
-        if (!jsonObject.has("translations") && jsonObject.has("message")) {
-            throw new IOException(jsonObject.getString("message"));
+        Response response = responseArray[0];
+        String sourceLang;
+        if (response.detectedLanguage != null) {
+            sourceLang = response.detectedLanguage.language;
+        } else {
+            sourceLang = null;
         }
-        JSONArray array = jsonObject.getJSONArray("translations");
-        String sourceLang = null;
-        try {
-            sourceLang = jsonObject.getJSONObject("detectedLanguage").getString("language");
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        return new Result(array.getJSONObject(0).getString("text"), sourceLang);
+        return new Result(response.translations.get(0).text, sourceLang);
     }
 
     @Override
@@ -104,14 +104,49 @@ public class MicrosoftTranslator extends BaseTranslator {
     }
 
     @Override
-    protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("Text", query);
+    protected Result translate(String query, String fl, String tl) throws IOException {
         String url = "api.cognitive.microsofttranslator.com/translate?api-version=3.0&from=&to=" + tl;
         return getResult(Http.url("https://" + url)
                 .header("X-Mt-Signature", Extra.signMicrosoft(url))
                 .header("User-Agent", "okhttp/4.5.0")
-                .data(new JSONArray().put(new JSONObject().put("Text", query)).toString(), "application/json; charset=UTF-8")
+                .data(GSON.toJson(new Request[]{new Request(query)}), "application/json; charset=UTF-8")
                 .request());
+    }
+
+    public static class Request {
+        @SerializedName("Text")
+        @Expose
+        public String text;
+
+        public Request(String text) {
+            this.text = text;
+        }
+    }
+
+    public static class DetectedLanguage {
+        @SerializedName("language")
+        @Expose
+        public String language;
+    }
+
+    public static class Response {
+        @SerializedName("detectedLanguage")
+        @Expose
+        public DetectedLanguage detectedLanguage;
+        @SerializedName("translations")
+        @Expose
+        public List<Translation> translations;
+    }
+
+    public static class ResponseError {
+        @SerializedName("message")
+        @Expose
+        public String message;
+    }
+
+    public static class Translation {
+        @SerializedName("text")
+        @Expose
+        public String text;
     }
 }

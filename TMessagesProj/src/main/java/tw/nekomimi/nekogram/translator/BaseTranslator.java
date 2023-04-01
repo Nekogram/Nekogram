@@ -11,6 +11,7 @@ import androidx.core.content.ContextCompat;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListenableFuture;
+import com.google.gson.Gson;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
@@ -35,6 +36,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 
 abstract public class BaseTranslator {
 
+    public static final Gson GSON = new Gson();
     private final LruCache<Pair<Object, String>, Result> cache = new LruCache<>(200);
 
     abstract protected Result translate(String query, String fl, String tl) throws Exception;

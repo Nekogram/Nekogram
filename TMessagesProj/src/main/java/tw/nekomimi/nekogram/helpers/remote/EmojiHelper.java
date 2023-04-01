@@ -17,10 +17,11 @@ import android.util.Pair;
 
 import androidx.annotation.NonNull;
 
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 import com.jaredrummler.truetypeparser.TTFFile;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.Emoji;
@@ -52,6 +53,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -743,30 +745,26 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     @Override
-    protected void onLoadSuccess(ArrayList<JSONObject> responses, Delegate delegate) {
-        var json = responses.size() > 0 ? responses.get(0) : null;
-        if (json == null) {
+    protected void onLoadSuccess(ArrayList<String> responses, Delegate delegate) {
+        var string = responses.size() > 0 ? responses.get(0) : null;
+        if (string == null) {
             return;
         }
 
         try {
             ArrayList<EmojiPackInfo> packs = new ArrayList<>();
-            var array = json.getJSONArray("emojis");
+            var emojis = GSON.fromJson(string, Emojis.class);
             var previews = new HashMap<EmojiPackInfo, Integer>();
             var files = new HashMap<EmojiPackInfo, Integer>();
-            for (int i = 0; i < array.length(); i++) {
-                var obj = array.getJSONObject(i);
-                var pack = new EmojiPackInfo(
-                        obj.getString("name"),
-                        obj.getInt("file"),
-                        obj.getInt("preview"),
-                        obj.getString("id"),
-                        obj.getInt("version"));
+            emojis.emojis.forEach(pack -> {
+                if ("apple".equals(pack.packId)) {
+                    pack.packId = "default";
+                }
                 packs.add(pack);
 
-                previews.put(pack, obj.getInt("preview"));
-                files.put(pack, obj.getInt("file"));
-            }
+                previews.put(pack, pack.previewId);
+                files.put(pack, pack.fileId);
+            });
 
             var req = new TLRPC.TL_channels_getMessages();
             req.channel = getMessagesController().getInputChannel(-Extra.UPDATE_CHANNEL_ID);
@@ -779,7 +777,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
                     delegate.onTLResponse(null, error1.text);
                 }
             });
-        } catch (JSONException e) {
+        } catch (JsonSyntaxException e) {
             FileLog.e(e);
             delegate.onTLResponse(null, e.getLocalizedMessage());
         }
@@ -886,7 +884,11 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     public static class EmojiPackBase {
+        @SerializedName("name")
+        @Expose
         protected String packName;
+        @SerializedName("id")
+        @Expose
         protected String packId;
         protected String fileLocation;
         private String preview;
@@ -939,22 +941,18 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
 
     public static class EmojiPackInfo extends EmojiPackBase {
         private int flags;
+        @SerializedName("preview")
+        @Expose
         private int previewId;
+        @SerializedName("file")
+        @Expose
         private int fileId;
+        @SerializedName("version")
+        @Expose
         private int packVersion;
 
         private TLRPC.Document previewDocument;
         private TLRPC.Document fileDocument;
-
-        public EmojiPackInfo(String packName, int fileId, int previewId, String packId, int packVersion) {
-            super(packName, Objects.equals(packId, "apple") ? "default" : packId, null, null, 0);
-            this.previewId = previewId;
-            this.fileId = fileId;
-            this.packVersion = packVersion;
-        }
-
-        public EmojiPackInfo() {
-        }
 
         public TLRPC.Document getPreviewDocument() {
             return previewDocument;
@@ -1005,6 +1003,12 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
                 previewDocument.serializeToStream(serializedData);
             }
         }
+    }
+
+    public static class Emojis {
+        @SerializedName("emojis")
+        @Expose
+        public List<EmojiPackInfo> emojis;
     }
 
     @SuppressLint("ViewConstructor")

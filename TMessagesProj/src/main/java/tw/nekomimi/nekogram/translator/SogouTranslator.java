@@ -2,12 +2,10 @@ package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.telegram.messenger.FileLog;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
-import java.security.GeneralSecurityException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,29 +56,22 @@ public class SogouTranslator extends BaseTranslator {
         return code;
     }
 
-    private static Result getResult(String string) throws JSONException, IOException {
-        JSONObject json = new JSONObject(string);
-        if (!json.has("data") && json.has("message")) {
-            throw new IOException(json.getString("message"));
+    private static Result getResult(String string) throws IOException {
+        Response response = GSON.fromJson(string, Response.class);
+        if (response.data == null) {
+            if (response.message != null) {
+                throw new IOException(response.message);
+            }
+            return null;
         }
-        JSONObject translation = json.getJSONObject("data").getJSONObject("translation");
-        String sourceLang = null;
-        try {
-            sourceLang = translation.getString("from");
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        return new Result(translation.getString("trans_text"), sourceLang);
+        Translation translation = response.data.translation;
+        return new Result(translation.transText, translation.from);
     }
 
     @Override
-    protected Result translate(String query, String fl, String tl) throws IOException, JSONException, GeneralSecurityException {
+    protected Result translate(String query, String fl, String tl) throws IOException {
         long currentTimeMillis = System.currentTimeMillis();
-        var jsonObject = new JSONObject();
-        jsonObject.put("query", query);
-        jsonObject.put("from", "auto");
-        jsonObject.put("to", tl);
-        var param = jsonObject.toString();
+        var param = GSON.toJson(new Request(query, "auto", tl));
         return getResult(Http.url("https://fanyi.sogou.com/openapi/external/dictTranslation")
                 .header("S-AppId", String.valueOf(Extra.SOGOU_APP_ID))
                 .header("S-AppKey", Extra.SOGOU_APP_KEY)
@@ -95,4 +86,42 @@ public class SogouTranslator extends BaseTranslator {
         return targetLanguages;
     }
 
+    public static class Request {
+        @SerializedName("query")
+        public String query;
+        @SerializedName("from")
+        public String from;
+        @SerializedName("to")
+        public String to;
+
+        public Request(String query, String from, String to) {
+            this.query = query;
+            this.from = from;
+            this.to = to;
+        }
+    }
+
+    public static class Data {
+        @SerializedName("translation")
+        @Expose
+        public Translation translation;
+    }
+
+    public static class Response {
+        @SerializedName("message")
+        @Expose
+        public String message;
+        @SerializedName("data")
+        @Expose
+        public Data data;
+    }
+
+    public static class Translation {
+        @SerializedName("from")
+        @Expose
+        public String from;
+        @SerializedName("trans_text")
+        @Expose
+        public String transText;
+    }
 }

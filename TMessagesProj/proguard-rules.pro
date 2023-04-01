@@ -91,10 +91,13 @@
   <fields>;
 }
 
-# Huawei Services
--keep class com.huawei.hianalytics.**{ *; }
--keep class com.huawei.updatesdk.**{ *; }
--keep class com.huawei.hms.**{ *; }
+-keepclasseswithmembers,allowobfuscation class * {
+  @com.google.gson.annotations.SerializedName <fields>;
+}
+
+# Gson uses generic type information stored in a class file when working with fields. Proguard
+# removes such information by default, so configure it to keep all of it.
+-keepattributes Signature,InnerClasses,EnclosingMethod
 
 -keepclassmembernames class com.microsoft.appcenter.AppCenter {
     private com.microsoft.appcenter.channel.Channel mChannel;

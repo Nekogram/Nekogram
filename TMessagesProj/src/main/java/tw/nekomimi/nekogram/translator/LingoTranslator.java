@@ -2,9 +2,8 @@ package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -30,36 +29,64 @@ public class LingoTranslator extends BaseTranslator {
     }
 
     @Override
-    protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
-        JSONObject jsonObject = new JSONObject();
-        JSONArray source = new JSONArray();
-        for (var s : query.split("\n")) {
-            source.put(s);
-        }
-        jsonObject.put("source", source);
-        jsonObject.put("trans_type", "auto2" + tl);
-        jsonObject.put("request_id", String.valueOf(System.currentTimeMillis()));
-        jsonObject.put("detect", true);
-        String response = Http.url("https://api.interpreter.caiyunai.com/v1/translator")
+    protected Result translate(String query, String fl, String tl) throws IOException {
+        Request request = new Request(
+                Arrays.asList(query.split("\n")),
+                "auto2" + tl,
+                String.valueOf(System.currentTimeMillis()),
+                "true");
+        String response = Http.url("https://interpreter.cyapi.cn/v1/translator")
                 .header("X-Authorization", "token " + Extra.LINGO_TOKEN)
                 .header("User-Agent", "okhttp/3.12.3")
-                .data(jsonObject.toString(), "application/json; charset=UTF-8")
+                .data(GSON.toJson(request), "application/json; charset=UTF-8")
                 .request();
         if (TextUtils.isEmpty(response)) {
             return null;
         }
-        jsonObject = new JSONObject(response);
-        if (!jsonObject.has("target") && jsonObject.has("error")) {
-            throw new IOException(jsonObject.getString("error"));
-        }
-        JSONArray target = jsonObject.getJSONArray("target");
-        StringBuilder result = new StringBuilder();
-        for (int i = 0; i < target.length(); i++) {
-            result.append(target.getString(i));
-            if (i != target.length() - 1) {
-                result.append("\n");
+        return getResult(response);
+    }
+
+    private Result getResult(String string) throws IOException {
+        Response response = GSON.fromJson(string, Response.class);
+        if (response.target == null) {
+            if (response.error != null) {
+                throw new IOException(response.error);
             }
+            return null;
         }
-        return new Result(result.toString(), null);
+        StringBuilder sb = new StringBuilder();
+        response.target.forEach(s -> sb.append(s).append("\n"));
+        return new Result(sb.toString().trim(), null);
+    }
+
+    public static class Request {
+        @SerializedName("source")
+        @Expose
+        public List<String> source;
+        @SerializedName("trans_type")
+        @Expose
+        public String transType;
+        @SerializedName("request_id")
+        @Expose
+        public String requestId;
+        @SerializedName("detect")
+        @Expose
+        public String detect;
+
+        public Request(List<String> source, String transType, String requestId, String detect) {
+            this.source = source;
+            this.transType = transType;
+            this.requestId = requestId;
+            this.detect = detect;
+        }
+    }
+
+    public static class Response {
+        @SerializedName("target")
+        @Expose
+        public List<String> target;
+        @SerializedName("error")
+        @Expose
+        public String error;
     }
 }

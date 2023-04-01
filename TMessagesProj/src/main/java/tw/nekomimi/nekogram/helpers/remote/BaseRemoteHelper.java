@@ -4,11 +4,11 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLoader;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.UserConfig;
@@ -22,6 +22,7 @@ import tw.nekomimi.nekogram.Extra;
 
 public abstract class BaseRemoteHelper {
     protected static final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoremoteconfig", Activity.MODE_PRIVATE);
+    public static final Gson GSON = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
 
     protected MessagesController getMessagesController() {
         return MessagesController.getInstance(UserConfig.selectedAccount);
@@ -43,27 +44,17 @@ public abstract class BaseRemoteHelper {
 
     abstract protected String getTag();
 
-    protected JSONObject getJSON() {
-        return getJSON(true);
-    }
-
-    protected JSONObject getJSON(boolean load) {
+    protected String getJSON() {
         var tag = getTag();
         var json = preferences.getString(tag, "");
         if (TextUtils.isEmpty(json)) {
-            if (load) load();
+            load();
             return null;
         }
-        try {
-            return new JSONObject(json);
-        } catch (JSONException e) {
-            FileLog.e(e);
-            if (load) load();
-            return null;
-        }
+        return json;
     }
 
-    protected void onLoadSuccess(ArrayList<JSONObject> responses, Delegate delegate) {
+    protected void onLoadSuccess(ArrayList<String> responses, Delegate delegate) {
         var tag = getTag();
         var json = responses.size() > 0 ? responses.get(0) : null;
         if (json == null) {
@@ -74,7 +65,7 @@ public abstract class BaseRemoteHelper {
         } else {
             preferences.edit()
                     .putLong(tag + "_update_time", System.currentTimeMillis())
-                    .putString(tag, json.toString())
+                    .putString(tag, json)
                     .apply();
         }
     }
@@ -83,16 +74,12 @@ public abstract class BaseRemoteHelper {
         var tag = "#" + getTag();
         final var res = (TLRPC.messages_Messages) response;
         getMessagesController().removeDeletedMessagesFromArray(Extra.UPDATE_CHANNEL_ID, res.messages);
-        ArrayList<JSONObject> responses = new ArrayList<>();
+        ArrayList<String> responses = new ArrayList<>();
         for (var message : res.messages) {
             if (TextUtils.isEmpty(message.message) || !message.message.startsWith(tag)) {
                 continue;
             }
-            try {
-                responses.add(new JSONObject(message.message.substring(tag.length()).trim()));
-            } catch (JSONException e) {
-                FileLog.e(e);
-            }
+            responses.add(message.message.substring(tag.length()).trim());
         }
         onLoadSuccess(responses, delegate);
     }

@@ -2,10 +2,9 @@ package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.telegram.messenger.FileLog;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import org.telegram.messenger.Utilities;
 
 import java.io.IOException;
@@ -60,21 +59,17 @@ public class BaiduTranslator extends BaseTranslator {
         return code;
     }
 
-    private static Result getResult(String string) throws JSONException {
+    private static Result getResult(String string) throws IOException {
+        Response response = GSON.fromJson(string, Response.class);
+        if (response.fanyiList == null) {
+            if (response.msg != null) {
+                throw new IOException(response.msg);
+            }
+            return null;
+        }
         StringBuilder sb = new StringBuilder();
-        JSONObject json = new JSONObject(string);
-        JSONArray array = json.getJSONArray("fanyi_list");
-        for (int i = 0; i < array.length(); i++) {
-            sb.append(array.getString(i));
-            if (i != array.length() - 1) sb.append("\n");
-        }
-        String sourceLang = null;
-        try {
-            sourceLang = json.getString("detect_lang");
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        return new Result(sb.toString(), sourceLang);
+        response.fanyiList.forEach(s -> sb.append(s).append("\n"));
+        return new Result(sb.toString().trim(), response.detectLang);
     }
 
     @Override
@@ -87,11 +82,11 @@ public class BaiduTranslator extends BaseTranslator {
     }
 
     @Override
-    protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
+    protected Result translate(String query, String fl, String tl) throws IOException {
         var time = System.currentTimeMillis();
         var sign = Extra.signBaidu(query, tl, time);
         var response = Http.url("https://fanyi-app.baidu.com/transapp/agent.php?product=transapp&type=json&version=153&plat=android&req=v2trans&cuid=" + cuid)
-                .header("User-Agent", "BDTApp; Android 12; BaiduTranslate/10.2.1")
+                .header("User-Agent", "BDTApp; Android 13; BaiduTranslate/10.2.1")
                 .data("sign=" + sign + "&sofireId=&zhType=0&use_cache_response=1&from=auto&timestamp=" + time + "&query=" + URLEncode(query) + "&needfixl=1&lfixver=1&is_show_ad=1&appRecommendSwitch=1&to=" + tl + "&page=translate")
                 .request();
         if (TextUtils.isEmpty(response)) {
@@ -112,5 +107,17 @@ public class BaiduTranslator extends BaseTranslator {
             buf[idx] = symbols[Utilities.random.nextInt(symbols.length)];
         }
         return new String(buf);
+    }
+
+    public static class Response {
+        @SerializedName("detect_lang")
+        @Expose
+        public String detectLang;
+        @SerializedName("fanyi_list")
+        @Expose
+        public List<String> fanyiList;
+        @SerializedName("msg")
+        @Expose
+        public String msg;
     }
 }

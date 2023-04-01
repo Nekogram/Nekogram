@@ -3,8 +3,10 @@ package tw.nekomimi.nekogram.helpers.remote;
 import android.content.pm.PackageInfo;
 import android.os.Build;
 
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLog;
@@ -17,12 +19,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class UpdateHelper extends BaseRemoteHelper {
-    public static final String UPDATE_TAG = BuildConfig.DEBUG ? "updatetest" : NekoConfig.isDirectApp() ? "updatev2" : ("update" + BuildConfig.BUILD_TYPE + "v2");
+    public static final String UPDATE_TAG = BuildConfig.DEBUG ? "updatetest" : NekoConfig.isDirectApp() ? "updatev3" : ("update" + BuildConfig.BUILD_TYPE + "v3");
 
     private static volatile UpdateHelper Instance;
     private int installedVersion;
@@ -132,129 +136,141 @@ public class UpdateHelper extends BaseRemoteHelper {
         return UPDATE_TAG;
     }
 
-    private int getPreferredAbiFile(JSONObject files) throws JSONException {
+    @SuppressWarnings("ConstantConditions")
+    private int getPreferredAbiFile(Map<String, Integer> files) {
         for (String abi : Build.SUPPORTED_ABIS) {
-            if (files.has(abi)) {
-                return files.getInt(abi);
+            if (files.containsKey(abi)) {
+                return files.get(abi);
             }
         }
-        if (files.has(installedAbi)) {
-            return files.getInt(installedAbi);
+        if (files.containsKey(installedAbi)) {
+            return files.get(installedAbi);
         } else {
-            return files.getInt("universal");
+            return files.get("universal");
         }
     }
 
-    private JSONObject getShouldUpdateVersion(ArrayList<JSONObject> responses) {
+    private Update getShouldUpdateVersion(List<String> responses) {
         int maxVersion = installedVersion;
-        JSONObject ref = null;
-        for (var json : responses) {
+        Update ref = null;
+        for (var string : responses) {
             try {
-                int version_code = json.getInt("version_code");
+                var update = GSON.fromJson(string, Update.class);
+                int version_code = update.versionCode;
                 if (version_code > maxVersion) {
                     maxVersion = version_code;
-                    ref = json;
+                    ref = update;
                 }
-            } catch (JSONException e) {
+            } catch (JsonSyntaxException e) {
                 FileLog.e(e);
             }
         }
         return ref;
     }
 
-    private void getNewVersionMessagesCallback(Delegate delegate, JSONObject json,
+    private void getNewVersionMessagesCallback(Delegate delegate, Update json,
                                                HashMap<String, Integer> ids, TLObject response) {
-        try {
-            var update = new TLRPC.TL_help_appUpdate();
-            update.version = json.getString("version");
-            update.can_not_skip = json.getBoolean("can_not_skip");
-            if (json.has("url")) {
-                update.url = json.getString("url");
-                update.flags |= 4;
-            }
-            if (response != null) {
-                var res = (TLRPC.messages_Messages) response;
-                getMessagesController().removeDeletedMessagesFromArray(Extra.UPDATE_CHANNEL_ID, res.messages);
-                var messages = new HashMap<Integer, TLRPC.Message>();
-                for (var message : res.messages) {
-                    messages.put(message.id, message);
-                }
-
-                if (ids.containsKey("file")) {
-                    var file = messages.get(ids.get("file"));
-                    if (file != null && file.media != null) {
-                        update.document = file.media.document;
-                        update.flags |= 2;
-                    }
-                }
-                if (ids.containsKey("message")) {
-                    var message = messages.get(ids.get("message"));
-                    if (message != null) {
-                        update.text = message.message;
-                        update.entities = message.entities;
-                    }
-                }
-                if (ids.containsKey("sticker")) {
-                    var sticker = messages.get(ids.get("sticker"));
-                    if (sticker != null && sticker.media != null) {
-                        update.sticker = sticker.media.document;
-                        update.flags |= 8;
-                    }
-                }
-            }
-            delegate.onTLResponse(update, null);
-        } catch (JSONException e) {
-            FileLog.e(e);
-            delegate.onTLResponse(null, e.getLocalizedMessage());
+        var update = new TLRPC.TL_help_appUpdate();
+        update.version = json.version;
+        update.can_not_skip = json.canNotSkip;
+        if (json.url != null) {
+            update.url = json.url;
+            update.flags |= 4;
         }
+        if (response != null) {
+            var res = (TLRPC.messages_Messages) response;
+            getMessagesController().removeDeletedMessagesFromArray(Extra.UPDATE_CHANNEL_ID, res.messages);
+            var messages = new HashMap<Integer, TLRPC.Message>();
+            for (var message : res.messages) {
+                messages.put(message.id, message);
+            }
+
+            if (ids.containsKey("file")) {
+                var file = messages.get(ids.get("file"));
+                if (file != null && file.media != null) {
+                    update.document = file.media.document;
+                    update.flags |= 2;
+                }
+            }
+            if (ids.containsKey("message")) {
+                var message = messages.get(ids.get("message"));
+                if (message != null) {
+                    update.text = message.message;
+                    update.entities = message.entities;
+                }
+            }
+            if (ids.containsKey("sticker")) {
+                var sticker = messages.get(ids.get("sticker"));
+                if (sticker != null && sticker.media != null) {
+                    update.sticker = sticker.media.document;
+                    update.flags |= 8;
+                }
+            }
+        }
+        delegate.onTLResponse(update, null);
     }
 
     @Override
-    protected void onLoadSuccess(ArrayList<JSONObject> responses, Delegate delegate) {
-        var json = getShouldUpdateVersion(responses);
-        if (json == null) {
+    protected void onLoadSuccess(ArrayList<String> responses, Delegate delegate) {
+        var update = getShouldUpdateVersion(responses);
+        if (update == null) {
             delegate.onTLResponse(null, null);
             return;
         }
 
-        try {
-            var ids = new HashMap<String, Integer>();
-            if (json.has("messages")) {
-                var messageJson = json.getJSONObject("messages");
-                var channel = LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername);
-                if (messageJson.has(channel)) {
-                    ids.put("message", messageJson.getInt(channel));
-                }
-            }
-            if (json.has("sticker")) {
-                ids.put("sticker", json.getInt("sticker"));
-            }
-            if (json.has("files")) {
-                ids.put("file", getPreferredAbiFile(json.getJSONObject("files")));
-            }
+        var ids = new HashMap<String, Integer>();
+        if (update.message != null) {
+            ids.put("message", update.message);
+        }
+        if (update.sticker != null) {
+            ids.put("sticker", update.sticker);
+        }
+        if (update.files != null) {
+            ids.put("file", getPreferredAbiFile(update.files));
+        }
 
-            if (ids.isEmpty()) {
-                getNewVersionMessagesCallback(delegate, json, null, null);
-            } else {
-                var req = new TLRPC.TL_channels_getMessages();
-                req.channel = getMessagesController().getInputChannel(-Extra.UPDATE_CHANNEL_ID);
-                req.id = new ArrayList<>(ids.values());
-                getConnectionsManager().sendRequest(req, (response1, error1) -> {
-                    if (error1 == null) {
-                        getNewVersionMessagesCallback(delegate, json, ids, response1);
-                    } else {
-                        delegate.onTLResponse(null, error1.text);
-                    }
-                });
-            }
-        } catch (JSONException e) {
-            FileLog.e(e);
-            delegate.onTLResponse(null, e.getLocalizedMessage());
+        if (ids.isEmpty()) {
+            getNewVersionMessagesCallback(delegate, update, null, null);
+        } else {
+            var req = new TLRPC.TL_channels_getMessages();
+            req.channel = getMessagesController().getInputChannel(-Extra.UPDATE_CHANNEL_ID);
+            req.id = new ArrayList<>(ids.values());
+            getConnectionsManager().sendRequest(req, (response1, error1) -> {
+                if (error1 == null) {
+                    getNewVersionMessagesCallback(delegate, update, ids, response1);
+                } else {
+                    delegate.onTLResponse(null, error1.text);
+                }
+            });
         }
     }
 
     public void checkNewVersionAvailable(Delegate delegate) {
         load(delegate);
         ConfigHelper.getInstance().load();
+    }
+
+    public static class Update {
+        @SerializedName("can_not_skip")
+        @Expose
+        public Boolean canNotSkip;
+        @SerializedName("version")
+        @Expose
+        public String version;
+        @SerializedName("version_code")
+        @Expose
+        public Integer versionCode;
+        @SerializedName("sticker")
+        @Expose
+        public Integer sticker;
+        @SerializedName("message")
+        @Expose
+        public Integer message;
+        @SerializedName("files")
+        @Expose
+        public Map<String, Integer> files;
+        @SerializedName("url")
+        @Expose
+        public String url;
     }
 }

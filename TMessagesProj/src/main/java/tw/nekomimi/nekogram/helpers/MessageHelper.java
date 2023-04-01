@@ -8,7 +8,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -25,8 +24,6 @@ import android.widget.TextView;
 import androidx.core.content.FileProvider;
 import androidx.core.text.HtmlCompat;
 
-import org.json.JSONException;
-import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BaseController;
@@ -78,6 +75,8 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.Extra;
+import tw.nekomimi.nekogram.helpers.remote.BaseRemoteHelper;
+import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
 public class MessageHelper extends BaseController {
 
@@ -331,72 +330,46 @@ public class MessageHelper extends BaseController {
     public void generateUpdateInfo(BaseFragment fragment, SparseArray<MessageObject>[] selectedMessagesIds, Runnable callback) {
         fragment.showDialog(new AlertDialog.Builder(fragment.getParentActivity())
                 .setItems(new CharSequence[]{"direct", "play"}, (dialog, which) -> {
-                    var tag = which == 0 ? "updatev2" : "updateplayv2";
+                    var tag = which == 0 ? "updatev3" : "updateplayv3";
                     ArrayList<MessageObject> messageObjects = new ArrayList<>();
                     for (int a = 1; a >= 0; a--) {
                         for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
                             messageObjects.add(selectedMessagesIds[a].valueAt(b));
                         }
                     }
-                    try {
-                        JSONObject jsonObject = new JSONObject();
-                        jsonObject.put("can_not_skip", false);
-                        Pattern regex = Pattern.compile("Nekogram-(.*)-([0-9]+)-(.*)\\.apk");
-                        JSONObject file = new JSONObject();
-                        JSONObject message = new JSONObject();
-                        for (MessageObject messageObject : messageObjects) {
-                            if (messageObject.isAnyKindOfSticker()) {
-                                jsonObject.put("sticker", messageObject.getId());
-                            } else if (messageObject.getDocument() != null) {
-                                Matcher m = regex.matcher(messageObject.getDocumentName());
-                                if (m.find()) {
-                                    if (!jsonObject.has("version")) {
-                                        jsonObject.put("version", m.group(1));
-                                        jsonObject.put("version_code", m.group(2));
-                                    }
-                                    if (which == 0) {
-                                        String abi = m.group(3);
-                                        if (abi != null) file.put(abi, messageObject.getId());
-                                    } else if (!jsonObject.has("url")) {
-                                        jsonObject.put("url", "https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram");
-                                    }
+                    var update = new UpdateHelper.Update();
+                    update.canNotSkip = false;
+                    Pattern regex = Pattern.compile("Nekogram-(.*)-(\\d+)-(.*)\\.apk");
+                    for (MessageObject messageObject : messageObjects) {
+                        if (messageObject.isAnyKindOfSticker()) {
+                            update.sticker = messageObject.getId();
+                        } else if (messageObject.getDocument() != null) {
+                            Matcher m = regex.matcher(messageObject.getDocumentName());
+                            if (m.find()) {
+                                if (update.version == null) {
+                                    update.version = m.group(1);
+                                    //noinspection ConstantConditions
+                                    update.versionCode = Integer.valueOf(m.group(2));
                                 }
-                            } else {
-                                if (containsHanScript(messageObject.messageOwner.message)) {
-                                    message.put("Zuragram", messageObject.getId());
-                                } else {
-                                    message.put("nekoupdates", messageObject.getId());
+                                if (which == 0) {
+                                    String abi = m.group(3);
+                                    if (abi != null) {
+                                        if (update.files == null) {
+                                            update.files = new HashMap<>();
+                                        }
+                                        update.files.put(abi, messageObject.getId());
+                                    }
+                                } else if (update.url == null) {
+                                    update.url = "https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram";
                                 }
                             }
+                        } else {
+                            update.message = messageObject.getId();
                         }
-                        if (message.length() != 0) {
-                            jsonObject.put("messages", message);
-                            if (message.has("nekoupdates") && !message.has("Zuragram")) {
-                                message.put("Zuragram", message.getInt("nekoupdates"));
-                            }
-                        }
-                        if (file.length() != 0) {
-                            jsonObject.put("files", file);
-                        }
-                        AndroidUtilities.addToClipboard("#" + tag + jsonObject);
-                        callback.run();
-                    } catch (JSONException e) {
-                        FileLog.e(e);
                     }
+                    AndroidUtilities.addToClipboard("#" + tag + BaseRemoteHelper.GSON.toJson(update));
+                    callback.run();
                 }).create());
-    }
-
-    public static boolean containsHanScript(String s) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-            return s.codePoints().anyMatch(Character::isIdeographic);
-        } else {
-            for (int i = 0; i < s.length(); i++) {
-                if (Character.isIdeographic(s.codePointAt(i))) {
-                    return true;
-                }
-            }
-            return false;
-        }
     }
 
     private MessageObject getTargetMessageObjectFromGroup(MessageObject.GroupedMessages selectedObjectGroup) {

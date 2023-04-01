@@ -2,9 +2,8 @@ package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.telegram.messenger.FileLog;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -52,15 +51,12 @@ public class YouDaoTranslator extends BaseTranslator {
         return code;
     }
 
-    private static Result getResult(String string) throws JSONException {
-        JSONObject json = new JSONObject(string);
-        String sourceLang = null;
-        try {
-            sourceLang = json.getString("lang");
-        } catch (Exception e) {
-            FileLog.e(e);
+    private static Result getResult(String string) {
+        Response response = GSON.fromJson(string, Response.class);
+        if (response.fanyi == null) {
+            return null;
         }
-        return new Result(json.getJSONObject("fanyi").getString("trans"), sourceLang);
+        return new Result(response.fanyi.trans, response.lang);
     }
 
     @Override
@@ -69,17 +65,32 @@ public class YouDaoTranslator extends BaseTranslator {
     }
 
     @Override
-    protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
+    protected Result translate(String query, String fl, String tl) throws IOException {
         var time = System.currentTimeMillis() + Math.round(Math.random() * 10);
         var sign = Extra.signYouDao(query, time);
-        return getResult(Http.url("https://fanyi.youdao.com/appapi/tran?&product=fanyiguan&appVersion=4.0.9&vendor=tencent&network=wifi")
+        return getResult(Http.url("https://fanyi.youdao.com/appapi/tran?&product=fanyiguan&appVersion=4.1.16&keyfrom=fanyi.4.1.16.android&network=wifi")
                 .header("User-Agent", "okhttp/4.9.1")
-                .data("q=" + URLEncode(query) + "&salt=" + time + "&sign=" + sign + "&needad=false&category=Android&type=AUTO2" + tl + "&needdict=true&version=4.0.9&needfanyi=true&needsentences=false&scene=realtime")
+                .data("q=" + URLEncode(query) + "&salt=" + time + "&sign=" + sign + "&needad=false&category=Android&type=AUTO2" + tl + "&needdict=true&version=4.1.16&needfanyi=true&needsentences=false&scene=realtime")
                 .request());
     }
 
     @Override
     public List<String> getTargetLanguages() {
         return targetLanguages;
+    }
+
+    public static class Fanyi {
+        @SerializedName("trans")
+        @Expose
+        public String trans;
+    }
+
+    public static class Response {
+        @SerializedName("fanyi")
+        @Expose
+        public Fanyi fanyi;
+        @SerializedName("lang")
+        @Expose
+        public String lang;
     }
 }

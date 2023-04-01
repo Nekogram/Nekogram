@@ -2,10 +2,8 @@ package tw.nekomimi.nekogram.translator;
 
 import android.text.TextUtils;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-import org.telegram.messenger.FileLog;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -32,35 +30,14 @@ public class GoogleAppTranslator extends BaseTranslator {
         return InstanceHolder.instance;
     }
 
-    private final String[] devices = new String[]{
-            "Linux; U; Android 10; Pixel 4",
-            "Linux; U; Android 10; Pixel 4 XL",
-            "Linux; U; Android 10; Pixel 4a",
-            "Linux; U; Android 10; Pixel 4a XL",
-            "Linux; U; Android 11; Pixel 4",
-            "Linux; U; Android 11; Pixel 4 XL",
-            "Linux; U; Android 11; Pixel 4a",
-            "Linux; U; Android 11; Pixel 4a XL",
-            "Linux; U; Android 11; Pixel 5",
-            "Linux; U; Android 11; Pixel 5a",
-            "Linux; U; Android 12; Pixel 4",
-            "Linux; U; Android 12; Pixel 4 XL",
-            "Linux; U; Android 12; Pixel 4a",
-            "Linux; U; Android 12; Pixel 4a XL",
-            "Linux; U; Android 12; Pixel 5",
-            "Linux; U; Android 12; Pixel 5a",
-            "Linux; U; Android 12; Pixel 6",
-            "Linux; U; Android 12; Pixel 6 Pro",
-    };
-
     @Override
-    protected Result translate(String query, String fl, String tl) throws IOException, JSONException {
+    protected Result translate(String query, String fl, String tl) throws IOException {
         String url = "https://translate.google.com/translate_a/single?dj=1" +
                 "&q=" + URLEncode(query) +
                 "&sl=auto" +
                 "&tl=" + tl +
                 "&ie=UTF-8&oe=UTF-8&client=at&dt=t&otf=2";
-        var userAgent = "GoogleTranslate/6.28.0.05.421483610 (" + devices[(int) Math.round(Math.random() * (devices.length - 1))] + ")";
+        var userAgent = "GoogleTranslate/6.28.0.05.421483610 (Linux; U; Android 13; Pixel 7 Pro)";
         String response = Http.url(url)
                 .header("User-Agent", userAgent)
                 .request();
@@ -100,19 +77,28 @@ public class GoogleAppTranslator extends BaseTranslator {
         return code;
     }
 
-    private Result getResult(String string) throws JSONException {
+    private Result getResult(String string) {
         StringBuilder sb = new StringBuilder();
-        JSONObject object = new JSONObject(string);
-        JSONArray array = object.getJSONArray("sentences");
-        for (int i = 0; i < array.length(); i++) {
-            sb.append(array.getJSONObject(i).getString("trans"));
+        Response response = GSON.fromJson(string, Response.class);
+        if (response.sentences == null) {
+            return null;
         }
-        String sourceLang = null;
-        try {
-            sourceLang = object.getJSONObject("ld_result").getJSONArray("srclangs").getString(0);
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        return new Result(sb.toString(), sourceLang);
+        response.sentences.forEach(sentence -> sb.append(sentence.trans));
+        return new Result(sb.toString(), response.src);
+    }
+
+    public static class Response {
+        @SerializedName("sentences")
+        @Expose
+        public List<Sentence> sentences;
+        @SerializedName("src")
+        @Expose
+        public String src;
+    }
+
+    public static class Sentence {
+        @SerializedName("trans")
+        @Expose
+        public String trans;
     }
 }

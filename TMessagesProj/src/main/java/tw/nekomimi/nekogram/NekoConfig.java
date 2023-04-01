@@ -6,7 +6,8 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.text.TextUtils;
 
-import org.json.JSONObject;
+import com.google.gson.JsonParser;
+
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildConfig;
@@ -216,7 +217,7 @@ public class NekoConfig {
             return Extra.WS_DEFAULT_DOMAIN;
         }
         try {
-            return new JSONObject(json).getString("wsdomain");
+            return JsonParser.parseString(json).getAsJsonObject().get("wsdomainv2").getAsString();
         } catch (Exception e) {
             FileLog.e(e);
             return Extra.WS_DEFAULT_DOMAIN;
