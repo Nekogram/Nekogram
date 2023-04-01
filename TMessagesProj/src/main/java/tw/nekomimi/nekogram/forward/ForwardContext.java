@@ -1,4 +1,4 @@
-package tw.nekomimi.nekogram;
+package tw.nekomimi.nekogram.forward;
 
 import org.telegram.messenger.MessageObject;
 
@@ -18,7 +18,7 @@ public interface ForwardContext {
     }
 
     default void setForwardParams(boolean noquote, boolean nocaption) {
-        forwardParams.noQuote = noquote;
+        forwardParams.noQuote = noquote || nocaption;
         forwardParams.noCaption = nocaption;
         forwardParams.notify = true;
         forwardParams.scheduleDate = 0;

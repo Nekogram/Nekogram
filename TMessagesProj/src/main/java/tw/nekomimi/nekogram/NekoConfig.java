@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import tw.nekomimi.nekogram.forward.ForwardItem;
 import tw.nekomimi.nekogram.helpers.remote.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import tw.nekomimi.nekogram.translator.DeepLTranslator;
@@ -87,6 +88,7 @@ public class NekoConfig {
     public static int doubleTapAction = DOUBLE_TAP_ACTION_REACTION;
     public static int downloadSpeedBoost = BOOST_NONE;
     public static HashSet<String> restrictedLanguages = new HashSet<>();
+    public static int lastForwardOption = ForwardItem.ID_FORWARD;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showSetReminder = false;
@@ -99,7 +101,6 @@ public class NekoConfig {
     public static boolean showMessageDetails = false;
     public static boolean showTranslate = true;
     public static boolean showRepeat = true;
-    public static boolean showNoQuoteForward = true;
     public static boolean showCopyPhoto = false;
 
     public static boolean hidePhone = true;
@@ -301,7 +302,6 @@ public class NekoConfig {
             formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
             accentAsNotificationColor = preferences.getBoolean("accentAsNotificationColor", false);
             silenceNonContacts = preferences.getBoolean("silenceNonContacts", false);
-            showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", true);
             wsEnableTLS = preferences.getBoolean("wsEnableTLS", true);
             translationTarget = preferences.getString("translationTarget", "app");
             maxRecentStickers = preferences.getInt("maxRecentStickers", 20);
@@ -323,6 +323,7 @@ public class NekoConfig {
             downloadSpeedBoost = preferences.getInt("downloadSpeedBoost2", BOOST_NONE);
             uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
             sendLargePhotos = preferences.getBoolean("sendLargePhotos", true);
+            lastForwardOption = preferences.getInt("lastForwardOption", ForwardItem.ID_FORWARD);
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             for (int a = 1; a <= 5; a++) {
@@ -339,6 +340,14 @@ public class NekoConfig {
 
     public static boolean isChatCat(TLRPC.Chat chat) {
         return ConfigHelper.getVerify().stream().anyMatch(id -> id == chat.id);
+    }
+
+    public static void setLastForwardOption(int option) {
+        lastForwardOption = option;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("lastForwardOption", lastForwardOption);
+        editor.apply();
     }
 
     public static void setNewMarkdownParser(boolean newParser) {
@@ -876,14 +885,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("disableJumpToNextChannel", disableJumpToNextChannel);
-        editor.apply();
-    }
-
-    public static void toggleShowNoQuoteForward() {
-        showNoQuoteForward = !showNoQuoteForward;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("showNoQuoteForward", showNoQuoteForward);
         editor.apply();
     }
 

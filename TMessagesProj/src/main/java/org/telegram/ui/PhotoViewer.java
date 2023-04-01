@@ -263,6 +263,7 @@ import java.util.Map;
 import java.util.Objects;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.forward.ForwardItem;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
@@ -333,7 +334,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private ActionBarMenuSubItem speedItem;
     private ActionBarPopupWindow.GapView speedGap;
     private ActionBarMenuItem sendItem;
-    private ActionBarMenuItem sendNoQuoteItem;
     private ActionBarMenuItem pipItem;
     private ActionBarMenuItem masksItem;
     private ActionBarMenuItem shareItem;
@@ -1328,8 +1328,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
     private final static int gallery_menu_save = 1;
     private final static int gallery_menu_showall = 2;
-    private final static int gallery_menu_send = 3;
-    private final static int gallery_menu_send_noquote = 93;
+    private final static int gallery_menu_send = ForwardItem.ID_FORWARD;
+    private final static int gallery_menu_send_noquote = ForwardItem.ID_FORWARD_NOQUOTE;
+    private final static int gallery_menu_send_nocaption = ForwardItem.ID_FORWARD_NOCAPTION;
     private final static int gallery_menu_showinchat = 4;
     private final static int gallery_menu_pip = 5;
     private final static int gallery_menu_delete = 6;
@@ -4321,10 +4322,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                     closePhoto(false, false);
                     currentMessageObject = null;
-                } else if (id == gallery_menu_send || id == gallery_menu_send_noquote) {
+                } else if (id == gallery_menu_send || id == gallery_menu_send_noquote || id == gallery_menu_send_nocaption) {
                     if (currentMessageObject == null || !(parentActivity instanceof LaunchActivity)) {
                         return;
                     }
+                    NekoConfig.setLastForwardOption(id);
                     boolean isChannel = false;
                     if (!currentMessageObject.scheduled) {
                         long dialogId = currentMessageObject.getDialogId();
@@ -4343,7 +4345,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
 
                     if (isChannel && msgs.size() <= 1) {
-                        showShareAlert(msgs, id == gallery_menu_send_noquote);
+                        showShareAlert(msgs, id == gallery_menu_send_noquote, id == gallery_menu_send_nocaption);
                     } else if (msgs.size() > 1) {
                         boolean photos = true;
                         for (int i = 0; i < msgs.size(); ++i) {
@@ -4359,10 +4361,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 .setNegativeButton((photos ? LocaleController.getString("ThisPhoto", R.string.ThisPhoto) : LocaleController.getString("ThisMedia", R.string.ThisMedia)), (di, a) -> {
                                     ArrayList<MessageObject> singleMessage = new ArrayList<>(1);
                                     singleMessage.add(currentMessageObject);
-                                    showShareAlert(singleMessage, id == gallery_menu_send_noquote);
+                                    showShareAlert(singleMessage, id == gallery_menu_send_noquote, id == gallery_menu_send_nocaption);
                                 })
                                 .setPositiveButton(photos ? LocaleController.formatPluralString("AllNPhotos", msgs.size()) : LocaleController.formatPluralString("AllNMedia", msgs.size()), (di, a) -> {
-                                    showShareAlert(msgs, id == gallery_menu_send_noquote);
+                                    showShareAlert(msgs, id == gallery_menu_send_noquote, id == gallery_menu_send_nocaption);
                                 })
                                 .setNeutralButton(LocaleController.getString("Cancel", R.string.Cancel), (di, a) -> {
                                     di.dismiss();
@@ -4388,8 +4390,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         fmessages.add(currentMessageObject);
                         final ChatActivity parentChatActivityFinal = parentChatActivity;
                         fragment.forwardContext = () -> fmessages;
+                        fragment.forwardContext.setForwardParams(id == gallery_menu_send_noquote, id == gallery_menu_send_nocaption);
                         var forwardParams = fragment.forwardContext.getForwardParams();
-                        forwardParams.noQuote = id == gallery_menu_send_noquote;
                         fragment.setDelegate((fragment1, dids, message, param, topicsFragment) -> {
                             if (dids.size() > 1 || dids.get(0).dialogId == UserConfig.getInstance(currentAccount).getClientUserId() || message != null) {
                                 for (int a = 0; a < dids.size(); a++) {
@@ -4875,9 +4877,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         masksItem.setContentDescription(LocaleController.getString("Masks", R.string.Masks));
         pipItem = menu.addItem(gallery_menu_pip, R.drawable.ic_goinline);
         pipItem.setContentDescription(LocaleController.getString("AccDescrPipMode", R.string.AccDescrPipMode));
-        sendNoQuoteItem = menu.addItem(gallery_menu_send_noquote, R.drawable.msg_forward);
-        sendNoQuoteItem.setContentDescription(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
-        sendItem = menu.addItem(gallery_menu_send, NekoConfig.showNoQuoteForward ? R.drawable.msg_forward_quote : R.drawable.msg_forward);
+        sendItem = menu.addItem(gallery_menu_send, R.drawable.msg_forward);
         sendItem.setContentDescription(LocaleController.getString("Forward", R.string.Forward));
         shareItem = menu.addItem(gallery_menu_share2, R.drawable.share);
         shareItem.setContentDescription(LocaleController.getString("ShareFile", R.string.ShareFile));
@@ -6860,7 +6860,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    private void showShareAlert(ArrayList<MessageObject> messages, boolean noQuote) {
+    private void showShareAlert(ArrayList<MessageObject> messages, boolean noQuote, boolean noCaption) {
         final FrameLayout photoContainerView = containerView;
         requestAdjustToNothing();
         boolean openKeyboardOnShareAlertClose = false;
@@ -6874,7 +6874,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             parentChatActivity.getFragmentView().requestLayout();
         }
         final boolean finalOpenKeyboardOnShareAlertClose = openKeyboardOnShareAlertClose;
-        ShareAlert alert = new ShareAlert(parentActivity, parentChatActivity, messages, null, null, false, null, null, false, true, noQuote, null) {
+        ShareAlert alert = new ShareAlert(parentActivity, parentChatActivity, messages, null, null, false, null, null, false, true, noQuote, noCaption, null) {
             @Override
             protected void onSend(LongSparseArray<TLRPC.Dialog> dids, int count, TLRPC.TL_forumTopic topic) {
                 AndroidUtilities.runOnUIThread(() -> {
@@ -11178,8 +11178,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         sharedMediaType = MediaDataController.MEDIA_PHOTOVIDEO;
         allMediaItem.setText(LocaleController.getString("ShowAllMedia", R.string.ShowAllMedia));
         setItemVisible(sendItem, false, false);
-        sendItem.setIcon(NekoConfig.showNoQuoteForward ? R.drawable.msg_forward_quote : R.drawable.msg_forward);
-        setItemVisible(sendNoQuoteItem, false, false);
+        if (messageObject != null) {
+            ForwardItem.setupForwardItem(sendItem, true, true, ForwardItem.hasCaption(messageObject, parentChatActivity != null ? parentChatActivity.getGroup(messageObject.getGroupId()) : null), resourcesProvider, id -> actionBar.getActionBarMenuOnItemClick().onItemClick(id));
+        }
         setItemVisible(pipItem, false, true);
         if (photoCropView != null) {
             photoCropView.setSubtitle(null);
@@ -11347,7 +11348,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     needSearchImageInArr = false;
                     if (messageObject.canForwardMessage() && !noforwards) {
                         setItemVisible(sendItem, true, false);
-                        setItemVisible(sendNoQuoteItem, NekoConfig.showNoQuoteForward, false);
                     }
                 } else if (!messageObject.scheduled && !(MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC.TL_messageMediaInvoice) && !(MessageObject.getMedia(messageObject.messageOwner) instanceof TLRPC.TL_messageMediaWebPage) && (messageObject.messageOwner.action == null || messageObject.messageOwner.action instanceof TLRPC.TL_messageActionEmpty)) {
                     needSearchImageInArr = true;
@@ -11357,10 +11357,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         menuItem.showSubItem(gallery_menu_showall);
                     }
                     setItemVisible(sendItem, !noforwards, false);
-                    setItemVisible(sendNoQuoteItem, NekoConfig.showNoQuoteForward && !noforwards, false);
                 } else if (isEmbedVideo && messageObject.eventId == 0) {
                     setItemVisible(sendItem, true, false);
-                    setItemVisible(sendNoQuoteItem, NekoConfig.showNoQuoteForward, false);
                 }
                 setImageIndex(0);
             }
@@ -11429,7 +11427,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 menuItem.showSubItem(gallery_menu_showinchat);
                 if (openingObject.canForwardMessage() && !noforwards) {
                     setItemVisible(sendItem, true, false);
-                    setItemVisible(sendNoQuoteItem, NekoConfig.showNoQuoteForward, false);
                 }
                 if (openingObject.canPreviewDocument()) {
                     sharedMediaType = MediaDataController.MEDIA_FILE;
@@ -11847,7 +11844,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 if (DialogObject.isEncryptedDialog(currentDialogId) && !isEmbedVideo || noforwards) {
                     setItemVisible(sendItem, false, false);
-                    setItemVisible(sendNoQuoteItem, false, false);
                 }
                 if (isEmbedVideo || newMessageObject.messageOwner.ttl != 0 && newMessageObject.messageOwner.ttl < 60 * 60 || noforwards) {
                     allowShare = false;

@@ -276,7 +276,7 @@ public class ActionBarMenuItem extends FrameLayout {
             }
         } else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
             if (showSubmenuByMove && hasSubMenu() && (popupWindow == null || !popupWindow.isShowing())) {
-                if (event.getY() > getHeight()) {
+                if (event.getY() > getHeight() || (event.getY() < getHeight() && subMenuOpenSide == 2)) {
                     if (getParent() != null) {
                         getParent().requestDisallowInterceptTouchEvent(true);
                     }
@@ -316,6 +316,8 @@ public class ActionBarMenuItem extends FrameLayout {
                     }
                 }
             }
+        } else if (longClickEnabled && hasSubMenu() && (popupWindow == null || !popupWindow.isShowing()) && event.getActionMasked() == MotionEvent.ACTION_UP) {
+            AndroidUtilities.cancelRunOnUIThread(showMenuRunnable);
         } else if (popupWindow != null && popupWindow.isShowing() && event.getActionMasked() == MotionEvent.ACTION_UP) {
             if (selectedMenuView != null) {
                 selectedMenuView.setSelected(false);

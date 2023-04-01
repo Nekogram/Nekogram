@@ -128,6 +128,10 @@ public class ActionBarMenuSubItem extends FrameLayout {
     }
 
     public void setRightIcon(int icon) {
+        setRightIcon(icon, null);
+    }
+
+    public void setRightIcon(int icon, OnClickListener listener) {
         if (rightIcon == null) {
             rightIcon = new ImageView(getContext());
             rightIcon.setScaleType(ImageView.ScaleType.CENTER);
@@ -137,8 +141,15 @@ public class ActionBarMenuSubItem extends FrameLayout {
             }
             addView(rightIcon, LayoutHelper.createFrame(24, LayoutHelper.MATCH_PARENT, Gravity.CENTER_VERTICAL | (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT)));
         }
-        setPadding(AndroidUtilities.dp(LocaleController.isRTL ? 8 : 18), 0, AndroidUtilities.dp(LocaleController.isRTL ? 18 : 8), 0);
+        setPadding(AndroidUtilities.dp(LocaleController.isRTL ? listener != null ? 0 : 8 : 18), 0, AndroidUtilities.dp(LocaleController.isRTL ? 18 : listener != null ? 0 : 8), 0);
         rightIcon.setImageResource(icon);
+        if (listener != null) {
+            rightIcon.getLayoutParams().width = AndroidUtilities.dp(48);
+            rightIcon.setOnClickListener(listener);
+            rightIcon.setBackground(Theme.createRadSelectorDrawable(selectorColor, 6, 0, 0, 6));
+            int iconWidth = AndroidUtilities.dp(48 + 5);
+            ((FrameLayout.LayoutParams) textView.getLayoutParams()).setMargins(LocaleController.isRTL ? iconWidth : 0, 0, LocaleController.isRTL ? 0 : iconWidth, 0);
+        }
     }
 
     public void setTextAndIcon(CharSequence text, int icon) {

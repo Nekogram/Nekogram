@@ -1,11 +1,10 @@
-package tw.nekomimi.nekogram;
+package tw.nekomimi.nekogram.forward;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
@@ -15,7 +14,6 @@ import androidx.core.graphics.ColorUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -128,13 +126,7 @@ public class SendOptionsMenuLayout extends LinearLayout {
                 }
             });
 
-            boolean hasCaption = false;
-            for (MessageObject message : forwardContext.getForwardingMessages()) {
-                if (!TextUtils.isEmpty(message.caption)) {
-                    hasCaption = true;
-                    break;
-                }
-            }
+            boolean hasCaption = ForwardItem.hasCaption(forwardContext.getForwardingMessages());
 
             if (hasCaption) {
                 sendPopupLayout1.addView(dividerView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));

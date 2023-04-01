@@ -64,6 +64,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.forward.ForwardItem;
 
 public class SearchViewPager extends ViewPagerFixed implements FilteredSearchView.UiCallback {
 
@@ -86,16 +87,16 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
     private final static String actionModeTag = "search_view_pager";
 
     public final static int gotoItemId = 200;
-    public final static int forwardItemId = 201;
-    public final static int forwardNoQuoteItemId = 202;
-    public final static int saveItemId = 203;
-    public final static int deleteItemId = 204;
-    public final static int speedItemId = 205;
+    public final static int forwardItemId = ForwardItem.ID_FORWARD;
+    public final static int forwardNoQuoteItemId = ForwardItem.ID_FORWARD_NOQUOTE;
+    public final static int forwardNoCaptionItemId = ForwardItem.ID_FORWARD_NOCAPTION;
+    public final static int deleteItemId = 202;
+    public final static int speedItemId = 203;
+    public final static int saveItemId = 204;
 
     private ActionBarMenuItem speedItem;
     private ActionBarMenuItem gotoItem;
     private ActionBarMenuItem forwardItem;
-    private ActionBarMenuItem forwardNoQuoteItem;
     private ActionBarMenuItem saveItem;
     private ActionBarMenuItem deleteItem;
 
@@ -424,8 +425,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             speedItem = actionMode.addItemWithWidth(speedItemId, R.drawable.avd_speed, AndroidUtilities.dp(54), LocaleController.getString("AccDescrPremiumSpeed", R.string.AccDescrPremiumSpeed));
             speedItem.getIconView().setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.SRC_IN));
             gotoItem = actionMode.addItemWithWidth(gotoItemId, R.drawable.msg_message, AndroidUtilities.dp(54), LocaleController.getString("AccDescrGoToMessage", R.string.AccDescrGoToMessage));
-            forwardNoQuoteItem = actionMode.addItemWithWidth(forwardNoQuoteItemId, R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
-            forwardItem = actionMode.addItemWithWidth(forwardItemId, NekoConfig.showNoQuoteForward ? R.drawable.msg_forward_quote : R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString("Forward", R.string.Forward));
+            forwardItem = actionMode.addItemWithWidth(forwardItemId, R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString("Forward", R.string.Forward));
             saveItem = actionMode.addItemWithWidth(saveItemId, R.drawable.msg_download, AndroidUtilities.dp(54), LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
             deleteItem = actionMode.addItemWithWidth(deleteItemId, R.drawable.msg_delete, AndroidUtilities.dp(54), LocaleController.getString("Delete", R.string.Delete));
         }
@@ -447,13 +447,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             speedItem.setVisibility(isSpeedItemVisible() ? View.VISIBLE : View.GONE);
             gotoItem.setVisibility(View.VISIBLE);
             forwardItem.setVisibility(View.VISIBLE);
-            if (NekoConfig.showNoQuoteForward) {
-                forwardNoQuoteItem.setVisibility(View.VISIBLE);
-                forwardItem.setIcon(R.drawable.msg_forward_quote);
-            } else {
-                forwardNoQuoteItem.setVisibility(View.GONE);
-                forwardItem.setIcon(R.drawable.msg_forward);
-            }
+            ForwardItem.setupForwardItem(forwardItem, ForwardItem.hasCaption(selectedFiles.values()), null, this::onActionBarItemClick);
             deleteItem.setVisibility(View.VISIBLE);
         } else {
             parent.getActionBar().hideActionMode();
@@ -542,15 +536,16 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                     BulletinFactory.of(fragmentView, null).createDownloadBulletin(BulletinFactory.FileType.UNKNOWNS, count, null).show();
                 }
             });
-        } else if (id == forwardItemId || id == forwardNoQuoteItemId) {
+        } else if (id == forwardItemId || id == forwardNoQuoteItemId || id == forwardNoCaptionItemId) {
+            NekoConfig.setLastForwardOption(id);
             Bundle args = new Bundle();
             args.putBoolean("onlySelect", true);
             args.putInt("dialogsType", DialogsActivity.DIALOGS_TYPE_FORWARD);
             DialogsActivity fragment = new DialogsActivity(args);
             ArrayList<MessageObject> fmessages = new ArrayList<>(selectedFiles.values());
             fragment.forwardContext = () -> fmessages;
+            fragment.forwardContext.setForwardParams(id == forwardNoQuoteItemId, id == forwardNoQuoteItemId);
             var forwardParams = fragment.forwardContext.getForwardParams();
-            forwardParams.noQuote = id == forwardNoQuoteItemId;
             fragment.setDelegate((fragment1, dids, message, param, topicsFragment) -> {
                 selectedFiles.clear();
 

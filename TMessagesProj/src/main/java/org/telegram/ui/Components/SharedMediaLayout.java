@@ -117,9 +117,11 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.forward.ForwardContext;
+import tw.nekomimi.nekogram.forward.ForwardItem;
 
 @SuppressWarnings("unchecked")
-public class SharedMediaLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
+public class SharedMediaLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, ForwardContext {
 
     public static final int FILTER_PHOTOS_AND_VIDEOS = 0;
     public static final int FILTER_PHOTOS_ONLY = 1;
@@ -345,6 +347,24 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
+    @Override
+    public ArrayList<MessageObject> getForwardingMessages() {
+        ArrayList<MessageObject> fmessages = new ArrayList<>();
+        for (int a = 1; a >= 0; a--) {
+            ArrayList<Integer> ids = new ArrayList<>();
+            for (int b = 0; b < selectedFiles[a].size(); b++) {
+                ids.add(selectedFiles[a].keyAt(b));
+            }
+            Collections.sort(ids);
+            for (Integer id1 : ids) {
+                if (id1 > 0) {
+                    fmessages.add(selectedFiles[a].get(id1));
+                }
+            }
+        }
+        return fmessages;
+    }
+
     private static class MediaPage extends FrameLayout {
         public long lastCheckScrollTime;
         public boolean fastScrollEnabled;
@@ -458,7 +478,6 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     private ActionBarMenuItem deleteItem;
     private ActionBarMenuItem searchItem;
     public ImageView photoVideoOptionsItem;
-    private ActionBarMenuItem forwardNoQuoteItem;
     private ActionBarMenuItem forwardItem;
     private ActionBarMenuItem gotoItem;
     private int searchItemState;
@@ -1168,8 +1187,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     private SharedMediaData[] sharedMediaData = new SharedMediaData[6];
     private SharedMediaPreloader sharedMediaPreloader;
 
-    private final static int forward = 100;
-    private final static int forward_noquote = 1001;
+    private final static int forward = ForwardItem.ID_FORWARD;
+    private final static int forward_noquote = ForwardItem.ID_FORWARD_NOQUOTE;
+    private final static int forward_nocaption = ForwardItem.ID_FORWARD_NOCAPTION;
     private final static int delete = 101;
     private final static int gotochat = 102;
 
@@ -1553,24 +1573,16 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         actionModeLayout.addView(gotoItem, new LinearLayout.LayoutParams(AndroidUtilities.dp(54), ViewGroup.LayoutParams.MATCH_PARENT));
         actionModeViews.add(gotoItem);
         gotoItem.setOnClickListener(v -> onActionBarItemClick(v, gotochat));
-        if (!DialogObject.isEncryptedDialog(dialog_id)) {
-            if (NekoConfig.showNoQuoteForward) {
-                forwardNoQuoteItem = new ActionBarMenuItem(context, null, getThemedColor(Theme.key_actionBarActionModeDefaultSelector), getThemedColor(Theme.key_actionBarActionModeDefaultIcon), false);
-                forwardNoQuoteItem.setIcon(R.drawable.msg_forward);
-                forwardNoQuoteItem.setContentDescription(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
-                forwardNoQuoteItem.setDuplicateParentStateEnabled(false);
-                actionModeLayout.addView(forwardNoQuoteItem, new LinearLayout.LayoutParams(AndroidUtilities.dp(54), ViewGroup.LayoutParams.MATCH_PARENT));
-                actionModeViews.add(forwardNoQuoteItem);
-                forwardNoQuoteItem.setOnClickListener(v -> onActionBarItemClick(v, forward_noquote));
-            }
 
+        if (!DialogObject.isEncryptedDialog(dialog_id)) {
             forwardItem = new ActionBarMenuItem(context, null, getThemedColor(Theme.key_actionBarActionModeDefaultSelector), getThemedColor(Theme.key_actionBarActionModeDefaultIcon), false);
-            forwardItem.setIcon(NekoConfig.showNoQuoteForward ? R.drawable.msg_forward_quote : R.drawable.msg_forward);
+            forwardItem.setIcon(R.drawable.msg_forward);
             forwardItem.setContentDescription(LocaleController.getString("Forward", R.string.Forward));
             forwardItem.setDuplicateParentStateEnabled(false);
             actionModeLayout.addView(forwardItem, new LinearLayout.LayoutParams(AndroidUtilities.dp(54), ViewGroup.LayoutParams.MATCH_PARENT));
             actionModeViews.add(forwardItem);
             forwardItem.setOnClickListener(v -> onActionBarItemClick(v, forward));
+            forwardItem.setDelegate(id -> onActionBarItemClick(forwardItem, id));
 
             updateForwardItem();
         }
@@ -2356,14 +2368,12 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
         boolean noforwards = profileActivity.getMessagesController().isChatNoForwards(-dialog_id) || hasNoforwardsMessage();
         forwardItem.setAlpha(noforwards ? 0.5f : 1f);
-        if (forwardNoQuoteItem != null) forwardNoQuoteItem.setAlpha(noforwards ? 0.5f : 1f);
         if (noforwards && forwardItem.getBackground() != null) {
             forwardItem.setBackground(null);
-            if (forwardNoQuoteItem != null) forwardNoQuoteItem.setBackground(null);
         } else if (!noforwards && forwardItem.getBackground() == null) {
             forwardItem.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 5));
-            if (forwardNoQuoteItem != null) forwardNoQuoteItem.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 5));
         }
+        ForwardItem.setupForwardItem(forwardItem, ForwardItem.hasCaption(getForwardingMessages()), resourcesProvider, id -> onActionBarItemClick(forwardItem, id));
     }
     private boolean hasNoforwardsMessage() {
         boolean hasNoforwardsMessage = false;
@@ -3255,7 +3265,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 actionBar.closeSearchField();
                 cantDeleteMessagesCount = 0;
             }, null, resourcesProvider);
-        } else if (id == forward || id == forward_noquote) {
+        } else if (id == forward || id == forward_noquote || id == forward_nocaption) {
             if (info != null) {
                 TLRPC.Chat chat = profileActivity.getMessagesController().getChat(info.id);
                 if (profileActivity.getMessagesController().isChatNoForwards(chat)) {
@@ -3274,28 +3284,17 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
                 return;
             }
+            NekoConfig.setLastForwardOption(id);
 
             Bundle args = new Bundle();
             args.putBoolean("onlySelect", true);
             args.putBoolean("canSelectTopics", true);
             args.putInt("dialogsType", DialogsActivity.DIALOGS_TYPE_FORWARD);
             DialogsActivity fragment = new DialogsActivity(args);
-            ArrayList<MessageObject> fmessages = new ArrayList<>();
-            for (int a = 1; a >= 0; a--) {
-                ArrayList<Integer> ids = new ArrayList<>();
-                for (int b = 0; b < selectedFiles[a].size(); b++) {
-                    ids.add(selectedFiles[a].keyAt(b));
-                }
-                Collections.sort(ids);
-                for (Integer id1 : ids) {
-                    if (id1 > 0) {
-                        fmessages.add(selectedFiles[a].get(id1));
-                    }
-                }
-            }
-            fragment.forwardContext = () -> fmessages;
+            fragment.forwardContext = this;
+            fragment.forwardContext.setForwardParams(id == forward_noquote, id == forward_nocaption);
             var forwardParams = fragment.forwardContext.getForwardParams();
-            forwardParams.noQuote = id == forward_noquote;
+            ArrayList<MessageObject> fmessages = getForwardingMessages();
             fragment.setDelegate((fragment1, dids, message, param, topicsFragment) -> {
                 for (int a = 1; a >= 0; a--) {
                     selectedFiles[a].clear();
@@ -6556,10 +6555,6 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (gotoItem != null) {
             arrayList.add(new ThemeDescription(gotoItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_actionBarActionModeDefaultIcon));
             arrayList.add(new ThemeDescription(gotoItem, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_actionBarActionModeDefaultSelector));
-        }
-        if (forwardNoQuoteItem != null) {
-            arrayList.add(new ThemeDescription(forwardNoQuoteItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
-            arrayList.add(new ThemeDescription(forwardNoQuoteItem, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_actionBarActionModeDefaultSelector));
         }
         if (forwardItem != null) {
             arrayList.add(new ThemeDescription(forwardItem.getIconView(), ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_actionBarActionModeDefaultIcon));
