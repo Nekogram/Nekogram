@@ -112,6 +112,9 @@
 -keep class org.telegram.SQLite.SQLiteException { <methods>; }
 -keep class org.telegram.tgnet.ConnectionsManager { <methods>; }
 -keep class org.telegram.tgnet.NativeByteBuffer { <methods>; }
+-keepnames class org.telegram.messenger.MessagesController {
+    public org.telegram.messenger.MessagesController$SponsoredMessagesInfo getSponsoredMessages(long);
+ }
 -keepnames class org.telegram.tgnet.TLRPC$TL_* {}
 -keepclassmembernames class org.telegram.ui.* { <fields>; }
 -keepclassmembernames class org.telegram.ui.Cells.* { <fields>; }
@@ -142,6 +145,11 @@
     @android.webkit.JavascriptInterface <methods>;
 }
 
+-assumenosideeffects class kotlin.jvm.internal.Intrinsics {
+    public static void check*(...);
+    public static void throw*(...);
+}
+
 -assumenosideeffects class android.util.Log {
     public static *** v(...);
     public static *** d(...);
@@ -149,6 +157,17 @@
 
 -dontwarn com.google.j2objc.annotations.RetainedWith
 -dontwarn com.google.j2objc.annotations.Weak
+-dontwarn com.google.j2objc.annotations.ReflectionSupport$Level
+-dontwarn com.google.j2objc.annotations.ReflectionSupport
+-dontwarn org.bouncycastle.jsse.BCSSLParameters
+-dontwarn org.bouncycastle.jsse.BCSSLSocket
+-dontwarn org.bouncycastle.jsse.provider.BouncyCastleJsseProvider
+-dontwarn org.conscrypt.Conscrypt$Version
+-dontwarn org.conscrypt.Conscrypt
+-dontwarn org.conscrypt.ConscryptHostnameVerifier
+-dontwarn org.openjsse.javax.net.ssl.SSLParameters
+-dontwarn org.openjsse.javax.net.ssl.SSLSocket
+-dontwarn org.openjsse.net.ssl.OpenJSSE
 
 -repackageclasses
 -allowaccessmodification
