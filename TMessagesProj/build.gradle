@@ -20,7 +20,7 @@ dependencies {
     implementation "androidx.sharetarget:sharetarget:1.2.0"
 
     compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
-    compileOnly 'org.checkerframework:checker-qual:3.13.0'
+    compileOnly 'org.checkerframework:checker-qual:3.32.0'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.5'
     implementation 'com.google.firebase:firebase-messaging:23.1.2'
     implementation 'com.google.firebase:firebase-appindexing:20.0.0'
@@ -34,7 +34,7 @@ dependencies {
     implementation 'com.google.mlkit:language-id:17.0.4'
     implementation 'com.android.billingclient:billing:5.1.0'
     implementation 'com.google.code.gson:gson:2.10.1'
-    implementation ('com.google.guava:guava:31.0.1-android') {
+    implementation ('com.google.guava:guava:31.1-android') {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
         exclude group: 'org.checkerframework', module: 'checker-compat-qual'
         exclude group: 'org.checkerframework', module: 'checker-qual'
@@ -45,7 +45,7 @@ dependencies {
 
     implementation 'androidx.browser:browser:1.5.0'
     implementation 'app.nekogram.prism4j:prism4j:2.1.0'
-    implementation 'app.nekogram.tcp2ws:tcp2ws:1.2.4'
+    implementation 'app.nekogram.tcp2ws:tcp2ws:1.2.6'
     implementation 'app.nekogram.translator:translator:1.1.1'
     implementation 'com.getkeepsafe.relinker:relinker:1.4.5'
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
