@@ -59,6 +59,7 @@ dependencies {
 def refId = new FileRepository(rootProject.file(".git")).getRefDatabase().exactRef("HEAD").getObjectId().name()
 
 lsparanoid {
+    seed = 7436
     variantFilter = { variant -> variant.buildType == "release" || variant.buildType == "play" }
 }
 
