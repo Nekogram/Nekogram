@@ -3667,6 +3667,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
 
             @Override
+            protected void onMeasure(int widthSpec, int heightSpec) {
+                saveScrollPosition();
+                super.onMeasure(widthSpec, heightSpec);
+            }
+
+            @Override
             protected void onLayout(boolean changed, int l, int t, int r, int b) {
                 super.onLayout(changed, l, t, r, b);
                 if (lastWidth != r - l) {
@@ -9024,28 +9030,24 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         if (chatListView != null && chatLayoutManager != null && chatAdapter != null) {
             if (chatListView.getPaddingTop() != p) {
-                int firstVisPos = chatLayoutManager.findFirstVisibleItemPosition();
-                int lastVisPos = chatLayoutManager.findLastVisibleItemPosition();
                 int top = 0;
                 MessageObject scrollToMessageObject = null;
-                if (firstVisPos != RecyclerView.NO_POSITION) {
-                    for (int i = firstVisPos; i <= lastVisPos; i++) {
-                        View v = chatLayoutManager.findViewByPosition(i);
-                        if (v instanceof ChatMessageCell) {
-                            scrollToMessageObject = ((ChatMessageCell) v).getMessageObject();
-                            top = chatListView.getMeasuredHeight() - v.getBottom() - chatListView.getPaddingBottom();
-                            break;
-                        } else if (v instanceof ChatActionCell) {
-                            scrollToMessageObject = ((ChatActionCell) v).getMessageObject();
-                            top = chatListView.getMeasuredHeight() - v.getBottom() - chatListView.getPaddingBottom();
-                            break;
-                        }
+                for (int i = 0; i < chatListView.getChildCount(); i++) {
+                    View v = chatListView.getChildAt(i);
+                    if (v instanceof ChatMessageCell) {
+                        scrollToMessageObject = ((ChatMessageCell) v).getMessageObject();
+                        top = getScrollingOffsetForView(v);
+                        break;
+                    } else if (v instanceof ChatActionCell) {
+                        scrollToMessageObject = ((ChatActionCell) v).getMessageObject();
+                        top = getScrollingOffsetForView(v);
+                        break;
                     }
                 }
 
                 chatListView.setPadding(0, p, 0, AndroidUtilities.dp(3) + blurredViewBottomOffset);
 
-                if (firstVisPos != RecyclerView.NO_POSITION && scrollToMessageObject != null) {
+                if (scrollToMessageObject != null) {
                     chatAdapter.updateRowsSafe();
                     int index = messages.indexOf(scrollToMessageObject);
                     if (index >= 0) {
@@ -16193,22 +16195,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     startLoadFromMessageId = 0;
                 }
                 if (newRowsCount > 0) {
-                    int firstVisPos = chatLayoutManager.findFirstVisibleItemPosition();
-                    int lastVisPos = chatLayoutManager.findLastVisibleItemPosition();
                     int top = 0;
                     MessageObject scrollToMessageObject = null;
-                    if (firstVisPos != RecyclerView.NO_POSITION) {
-                        for (int i = firstVisPos; i <= lastVisPos; i++) {
-                            View v = chatLayoutManager.findViewByPosition(i);
-                            if (v instanceof ChatMessageCell) {
-                                scrollToMessageObject = ((ChatMessageCell) v).getMessageObject();
-                                top = chatListView.getMeasuredHeight() - v.getBottom() - chatListView.getPaddingBottom();
-                                break;
-                            } else if (v instanceof ChatActionCell) {
-                                scrollToMessageObject = ((ChatActionCell) v).getMessageObject();
-                                top = chatListView.getMeasuredHeight() - v.getBottom() - chatListView.getPaddingBottom();
-                                break;
-                            }
+                    for (int i = 0; i < chatListView.getChildCount(); i++) {
+                        View v = chatListView.getChildAt(i);
+                        if (v instanceof ChatMessageCell) {
+                            scrollToMessageObject = ((ChatMessageCell) v).getMessageObject();
+                            top = getScrollingOffsetForView(v);
+                            break;
+                        } else if (v instanceof ChatActionCell) {
+                            scrollToMessageObject = ((ChatActionCell) v).getMessageObject();
+                            top = getScrollingOffsetForView(v);
+                            break;
                         }
                     }
 
@@ -16310,22 +16308,18 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                     } else {
                         if (newRowsCount != 0) {
-                            int firstVisPos = chatLayoutManager.findFirstVisibleItemPosition();
-                            int lastVisPos = chatLayoutManager.findLastVisibleItemPosition();
                             int top = 0;
                             MessageObject scrollToMessageObject = null;
-                            if (firstVisPos != RecyclerView.NO_POSITION) {
-                                for (int i = firstVisPos; i <= lastVisPos; i++) {
-                                    View v = chatLayoutManager.findViewByPosition(i);
-                                    if (v instanceof ChatMessageCell) {
-                                        scrollToMessageObject = ((ChatMessageCell) v).getMessageObject();
-                                        top = chatListView.getMeasuredHeight() - v.getBottom() - chatListView.getPaddingBottom();
-                                        break;
-                                    } else if (v instanceof ChatActionCell) {
-                                        scrollToMessageObject = ((ChatActionCell) v).getMessageObject();
-                                        top = chatListView.getMeasuredHeight() - v.getBottom() - chatListView.getPaddingBottom();
-                                        break;
-                                    }
+                            for (int i = 0; i < chatListView.getChildCount(); i++) {
+                                View v = chatListView.getChildAt(i);
+                                if (v instanceof ChatMessageCell) {
+                                    scrollToMessageObject = ((ChatMessageCell) v).getMessageObject();
+                                    top = getScrollingOffsetForView(v);
+                                    break;
+                                } else if (v instanceof ChatActionCell) {
+                                    scrollToMessageObject = ((ChatActionCell) v).getMessageObject();
+                                    top = getScrollingOffsetForView(v);
+                                    break;
                                 }
                             }
                             int insertStart = chatAdapter.messagesEndRow;
@@ -18558,6 +18552,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
     }
 
+    private int getScrollingOffsetForView(View v) {
+        return chatListView.getMeasuredHeight() - v.getBottom() - chatListView.getPaddingBottom();
+    }
+
     private boolean updateMessageTranslation(MessageObject messageObject) {
         if (messageObject == null || messageObject.messageOwner == null) {
             return false;
@@ -19728,7 +19726,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                 } else {
                     if (child != null) {
-                        chatLayoutManager.scrollToPositionWithOffset(lastVisible + 1, chatListView.getMeasuredHeight() - child.getBottom() - chatListView.getPaddingBottom());
+                        chatLayoutManager.scrollToPositionWithOffset(lastVisible + 1,  getScrollingOffsetForView(child));
                     }
                 }
                 if (newMentionsCount != 0 && mentiondownButtonCounter != null) {
@@ -19775,6 +19773,32 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         if (!isAd && notPushedSponsoredMessages != null && !notPushedSponsoredMessages.isEmpty() && arr != notPushedSponsoredMessages) {
             processNewMessages(notPushedSponsoredMessages);
+        }
+    }
+
+    private void saveScrollPosition() {
+        if (chatListView == null || chatLayoutManager == null || chatLayoutManager.hasPendingScrollPosition()) {
+            return;
+        }
+        int top = 0;
+        MessageObject scrollToMessageObject = null;
+        for (int i = 0; i < chatListView.getChildCount(); i++) {
+            View v = chatListView.getChildAt(i);
+            if (v instanceof ChatMessageCell) {
+                scrollToMessageObject = ((ChatMessageCell) v).getMessageObject();
+                top = getScrollingOffsetForView(v);
+                break;
+            } else if (v instanceof ChatActionCell) {
+                scrollToMessageObject = ((ChatActionCell) v).getMessageObject();
+                top = getScrollingOffsetForView(v);
+                break;
+            }
+        }
+        if (scrollToMessageObject != null) {
+            int scrollToIndex = messages.indexOf(scrollToMessageObject);
+            if (scrollToIndex > 0) {
+                chatLayoutManager.scrollToPositionWithOffset(chatAdapter.messagesStartRow + scrollToIndex, top);
+            }
         }
     }
 
@@ -26941,7 +26965,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     int unreadMessageIndex =  messages.indexOf(unreadMessageObject);
                     if (unreadMessageIndex >= 0) {
                         lastVisibleItem = chatAdapter.messagesStartRow + messages.indexOf(unreadMessageObject);
-                        top = chatListView.getMeasuredHeight() - child.getBottom() - chatListView.getPaddingBottom();
+                        top =  getScrollingOffsetForView(child);
                     }
                     break;
                 }
@@ -27003,7 +27027,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         }
         if (lastVisibleItem != RecyclerView.NO_POSITION) {
-         //   chatLayoutManager.scrollToPositionWithOffset(lastVisibleItem, top);
+            chatLayoutManager.scrollToPositionWithOffset(lastVisibleItem, top);
         }
     }
 
@@ -29154,7 +29178,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         int unreadMessageIndex = messages.indexOf(unreadMessageObject);
                         if (unreadMessageIndex >= 0) {
                             lastVisibleItem = messagesStartRow + messages.indexOf(unreadMessageObject);
-                            top = chatListView.getMeasuredHeight() - child.getBottom() - chatListView.getPaddingBottom();
+                            top = getScrollingOffsetForView(child);
                         }
                         break;
                     }
