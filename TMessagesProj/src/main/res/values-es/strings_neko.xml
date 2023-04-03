@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Eliminar mis mensajes</string>
     <string name="DeleteAllFromSelfAlert">¡Advertencia! Esto **borrará todos los mensajes que hayas enviado** en este chat para **todos** los participantes.</string>
     <string name="BotLogin">Iniciar sesión como Bot</string>
+    <string name="BotLoginMessage">Ingresa el token de bot obtenido de **@BotFather**.</string>
     <string name="InvalidAccessToken">Tóken de acceso inválido</string>
     <string name="IgnoreBlocked">Ocultar mensajes del usuario bloqueado</string>
     <string name="Connection">Conexión</string>
@@ -15,6 +16,7 @@
     <string name="FirstLast">Nombre Apellido</string>
     <string name="LastFirst">Apellido Nombre</string>
     <string name="NoQuoteForward">Reenviar sin citar</string>
+    <string name="NoCaptionForward">Reenvío sin título</string>
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Guardar mensaje</string>
     <string name="CreateMention">Crear mención</string>
@@ -116,6 +118,9 @@
     <string name="SelectBetween">Seleccionar entre</string>
     <string name="StickerSavedHint">Sticker guardado en la galería</string>
     <string name="RegistrationDate">Fecha de registro</string>
+    <string name="RegistrationDateNewer">Más nuevo que %s</string>
+    <string name="RegistrationDateOlder">Más viejo que %s</string>
+    <string name="RegistrationDateApproximately">Aproximadamente %s</string>
     <string name="WsDescription">Conectarse a Telegram mediante WebSocket a través de Cloudflare. **Aprende más**</string>
     <string name="WsEnableTls">Habilitar TLS</string>
     <string name="WsLocalProxy">Proxy local</string>
@@ -222,6 +227,7 @@
     <string name="TranslatorShowOriginal">Con texto original</string>
     <string name="DatacenterStatusAbout">Comprueba el estado de los **datacenters** de Telegram.</string>
     <string name="DatacenterStatus">Estado del centro de datos</string>
+    <string name="DatacenterStatusShort">Centro de datos</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Activar por defecto</string>
     <string name="MarkdownParser">Análisis</string>

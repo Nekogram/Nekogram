@@ -16,6 +16,7 @@
     <string name="FirstLast">Ad Soyad</string>
     <string name="LastFirst">Soyad Ad</string>
     <string name="NoQuoteForward">Anonim ilet</string>
+    <string name="NoCaptionForward">Başlıksız İlet</string>
     <string name="Repeat">Tekrarla</string>
     <string name="AddToSavedMessages">Mesajı kaydet</string>
     <string name="CreateMention">Bahset</string>
@@ -117,6 +118,9 @@
     <string name="SelectBetween">Arasında seçim yapın</string>
     <string name="StickerSavedHint">Çıkartma galeriye kaydedildi</string>
     <string name="RegistrationDate">Kayıt tarihi</string>
+    <string name="RegistrationDateNewer">%s tarihinden sonra</string>
+    <string name="RegistrationDateOlder">%s tarihinden önce</string>
+    <string name="RegistrationDateApproximately">Yaklaşık olarak %s</string>
     <string name="WsDescription">Cloudflare tarafından sunulan WebSocket aracılığıyla Telegram\'a bağlanın. **Daha fazla**</string>
     <string name="WsEnableTls">TLS\'yi etkinleştir</string>
     <string name="WsLocalProxy">Yerel proxy</string>
@@ -223,6 +227,7 @@
     <string name="TranslatorShowOriginal">Orijinal metin ile</string>
     <string name="DatacenterStatusAbout">Telegram\'ın **veri merkezlerinin** durumunu kontrol edin.</string>
     <string name="DatacenterStatus">Veri merkezi durumu</string>
+    <string name="DatacenterStatusShort">Veri Merkezi</string>
     <string name="Markdown">Biçimlendirme</string>
     <string name="MarkdownEnableByDefault">Varsayılan olarak etkinleştir</string>
     <string name="MarkdownParser">Ayrıştırıcı</string>

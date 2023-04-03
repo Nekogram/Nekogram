@@ -117,6 +117,9 @@
     <string name="SelectBetween">Wybierz pomiędzy</string>
     <string name="StickerSavedHint">Naklejka zapisana w galerii</string>
     <string name="RegistrationDate">Data rejestracji</string>
+    <string name="RegistrationDateNewer">Nowszy niż %s</string>
+    <string name="RegistrationDateOlder">Starsze niż %s</string>
+    <string name="RegistrationDateApproximately">Około %s</string>
     <string name="WsDescription">Połącz się z Telegramem przez WebSocket za pośrednictwem Cloudflare. **Dowiedz się więcej**</string>
     <string name="WsEnableTls">Włącz TLS</string>
     <string name="WsLocalProxy">Lokalne proxy</string>

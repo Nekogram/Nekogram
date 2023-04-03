@@ -16,6 +16,7 @@
     <string name="FirstLast">Спочатку ім\'я</string>
     <string name="LastFirst">Спочатку прізвище</string>
     <string name="NoQuoteForward">Переслати без цитування</string>
+    <string name="NoCaptionForward">Переслати без цитування</string>
     <string name="Repeat">Повторити</string>
     <string name="AddToSavedMessages">Зберегти повідомлення</string>
     <string name="CreateMention">Створити згадку</string>
@@ -117,6 +118,9 @@
     <string name="SelectBetween">Виберіть між</string>
     <string name="StickerSavedHint">Наліпка збережена в галерею</string>
     <string name="RegistrationDate">Дата реєстрації</string>
+    <string name="RegistrationDateNewer">Пізніше %s</string>
+    <string name="RegistrationDateOlder">Раніше %s</string>
+    <string name="RegistrationDateApproximately">Приблизно %s</string>
     <string name="WsDescription">Під\'єднатися до Telegram через WebSocket через Cloudflare. **Дізнатися більше**</string>
     <string name="WsEnableTls">Увімкнути TLS</string>
     <string name="WsLocalProxy">Локальний проксі</string>
@@ -223,6 +227,7 @@
     <string name="TranslatorShowOriginal">З початковим текстом</string>
     <string name="DatacenterStatusAbout">Перевірте стан **центрів обробки даних Telegram**.</string>
     <string name="DatacenterStatus">Стан центру обробки даних</string>
+    <string name="DatacenterStatusShort">Датацентр</string>
     <string name="Markdown">Позначка</string>
     <string name="MarkdownEnableByDefault">Ввімкнено за замовчуванням</string>
     <string name="MarkdownParser">Аналізатор</string>

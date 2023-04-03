@@ -16,6 +16,7 @@
     <string name="FirstLast">الأول ثم الآخر</string>
     <string name="LastFirst">الآخر ثم الأول</string>
     <string name="NoQuoteForward">توجيه دون اسم</string>
+    <string name="NoCaptionForward">إعادة تحويل دون تعليق</string>
     <string name="Repeat">كَرر</string>
     <string name="AddToSavedMessages">حفظُ الرسالة</string>
     <string name="CreateMention">صنع إشعار</string>
@@ -118,6 +119,9 @@
     <string name="SelectBetween">اختر بين</string>
     <string name="StickerSavedHint">تم حفظ الملصق في معرض الصور</string>
     <string name="RegistrationDate">تاريخ التسجيل</string>
+    <string name="RegistrationDateNewer">أحدث من %s</string>
+    <string name="RegistrationDateOlder">أقدم من %s</string>
+    <string name="RegistrationDateApproximately">%s تقريبا</string>
     <string name="WsDescription">اتصل بـ Telegram من خلال مقبس الويب عبر Cloudflare.  **يتعلم أكثر**</string>
     <string name="WsEnableTls">تمكين TLS</string>
     <string name="WsLocalProxy">الوكيل المحلي</string>
@@ -225,6 +229,7 @@
     <string name="TranslatorShowOriginal">مع النص الأصلي</string>
     <string name="DatacenterStatusAbout">تحقق من حالة مراكز البيانات **في تيليجرام**.</string>
     <string name="DatacenterStatus">حالة مركز البيانات</string>
+    <string name="DatacenterStatusShort">مركز البيانات</string>
     <string name="Markdown">مارك داون</string>
     <string name="MarkdownEnableByDefault">تفعيل بشكل افتراضي</string>
     <string name="MarkdownParser">محلل</string>
