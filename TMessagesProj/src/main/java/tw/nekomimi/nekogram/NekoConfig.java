@@ -141,6 +141,7 @@ public class NekoConfig {
     private static boolean tcp2wsStarted = false;
     private static org.tcp2ws.tcp2wsServer tcp2wsServer;
     public static boolean wsEnableTLS = true;
+    public static String wsDomain;
 
     public static final ArrayList<DatacenterInfo> datacenterInfos = new ArrayList<>(5);
 
@@ -212,6 +213,9 @@ public class NekoConfig {
     }
 
     public static String getWsDomain() {
+        if (!TextUtils.isEmpty(NekoConfig.wsDomain)) {
+            return NekoConfig.wsDomain;
+        }
         var preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoremoteconfig", Activity.MODE_PRIVATE);
         var json = preferences.getString("config", "");
         if (TextUtils.isEmpty(json)) {
@@ -324,6 +328,7 @@ public class NekoConfig {
             uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
             sendLargePhotos = preferences.getBoolean("sendLargePhotos", true);
             lastForwardOption = preferences.getInt("lastForwardOption", ForwardItem.ID_FORWARD);
+            wsDomain = preferences.getString("wsDomain", "");
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             for (int a = 1; a <= 5; a++) {
@@ -340,6 +345,14 @@ public class NekoConfig {
 
     public static boolean isChatCat(TLRPC.Chat chat) {
         return ConfigHelper.getVerify().stream().anyMatch(id -> id == chat.id);
+    }
+
+    public static void setWsDomain(String domain) {
+        wsDomain = domain;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("wsDomain", wsDomain);
+        editor.apply();
     }
 
     public static void setLastForwardOption(int option) {

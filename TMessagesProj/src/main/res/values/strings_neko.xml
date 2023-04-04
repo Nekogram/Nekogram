@@ -128,8 +128,10 @@
     <string name="RegistrationDateApproximately">Approximately %s</string>
     <string name="WsDescription">Connect to Telegram through WebSocket via Cloudflare. **Learn more**</string>
     <string name="WsEnableTls">Enable TLS</string>
-    <string name="WsLocalProxy">Local proxy</string>
-    <string name="WsEnableDoh">Enable DoH</string>
+    <string name="WsProvider">Provider</string>
+    <string name="WsNotWorking">Proxy isn\'t working!</string>
+    <string name="WsUseMyOwnDomain">How to set-up a custom provider</string>
+    <string name="WsStandaloneApp">Use proxy in other apps</string>
     <string name="UpdateNekogram">Update Nekogram</string>
     <string name="TranslationTarget">Target language</string>
     <string name="TranslationTargetApp">Follow app</string>
