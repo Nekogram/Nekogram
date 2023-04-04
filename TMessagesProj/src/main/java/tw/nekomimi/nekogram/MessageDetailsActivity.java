@@ -4,6 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -17,6 +20,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.core.content.FileProvider;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.gson.ExclusionStrategy;
+import com.google.gson.FieldAttributes;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -34,6 +46,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
+import org.telegram.ui.Cells.CreationTextCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
@@ -43,8 +56,10 @@ import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ProfileActivity;
 
 import java.io.File;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.helpers.MessageHelper;
@@ -52,6 +67,79 @@ import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
 
 @SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
 public class MessageDetailsActivity extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate {
+
+    public static final Gson gson = new GsonBuilder()
+            .setExclusionStrategies(new Exclusion())
+            .registerTypeHierarchyAdapter(byte[].class, new ByteArrayToBase64TypeAdapter()).create();
+
+    private static class ByteArrayToBase64TypeAdapter implements JsonSerializer<byte[]> {
+
+        public JsonElement serialize(byte[] src, Type typeOfSrc, JsonSerializationContext context) {
+            return new JsonPrimitive(MessageHelper.getTextOrBase64(src));
+        }
+    }
+
+    public static class Exclusion implements ExclusionStrategy {
+        private final HashSet<String> skipMessageFields = new HashSet<>() {{
+            add("send_state");
+            add("fwd_msg_id");
+            add("attachPath");
+            add("params");
+            add("random_id");
+            add("local_id");
+            add("dialog_id");
+            add("ttl");
+            add("destroyTime");
+            add("layer");
+            add("seq_in");
+            add("seq_out");
+            add("replyMessage");
+            add("reqId");
+            add("realId");
+            add("stickerVerified");
+            add("isThreadMessage");
+            add("voiceTranscription");
+            add("voiceTranscriptionOpen");
+            add("voiceTranscriptionRated");
+            add("voiceTranscriptionFinal");
+            add("voiceTranscriptionForce");
+            add("voiceTranscriptionId");
+            add("premiumEffectWasPlayed");
+            add("originalLanguage");
+            add("translatedToLanguage");
+            add("translatedText");
+        }};
+        private final HashSet<String> skipDocumentFields = new HashSet<>() {{
+            add("file_name_fixed");
+            add("localPath");
+        }};
+        private final HashSet<String> skipReactionCountFields = new HashSet<>() {{
+            add("chosen");
+            add("lastDrawnPosition");
+        }};
+
+        public boolean shouldSkipClass(Class<?> clazz) {
+            return false;
+        }
+
+        public boolean shouldSkipField(FieldAttributes f) {
+            if ("disableFree".equals(f.getName()) || "networkType".equals(f.getName()) || "strippedBitmap".equals(f.getName())) {
+                return true;
+            }
+            if (f.getDeclaringClass().equals(TLRPC.Message.class)) {
+                return skipMessageFields.contains(f.getName());
+            } else if (f.getDeclaringClass().equals(TLRPC.TL_messageReplyHeader.class)) {
+                return "reply_to_random_id".equals(f.getName());
+            } else if (f.getDeclaringClass().equals(TLRPC.Document.class)) {
+                return skipDocumentFields.contains(f.getName());
+            } else if (f.getDeclaringClass().equals(TLRPC.ReactionCount.class)) {
+                return skipReactionCountFields.contains(f.getName());
+            } else if (f.getDeclaringClass().equals(TLRPC.TL_messageEntityCustomEmoji.class)) {
+                return "document".equals(f.getName());
+            }
+            return false;
+        }
+    }
 
     private final MessageObject messageObject;
     private final boolean noforwards;
@@ -65,6 +153,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     private int dc;
     private long stickerSetOwner;
     private final ArrayList<Long> emojiSetOwners = new ArrayList<>();
+    private final String buttons;
     private FlagSecureReason flagSecure;
 
     private int idRow;
@@ -89,6 +178,10 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     private int shouldBlockMessageRow;
     private int languageRow;
     private int linkOrEmojiOnlyRow;
+    private int buttonsRow;
+    private int emptyRow;
+
+    private int exportRow;
     private int endRow;
 
     public MessageDetailsActivity(MessageObject messageObject) {
@@ -175,6 +268,8 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             }
         }
 
+        buttons = messageObject.messageOwner.reply_markup != null ? gson.toJson(messageObject.messageOwner.reply_markup) : null;
+
         noforwards = getMessagesController().isChatNoForwards(toChat) || messageObject.messageOwner.noforwards;
     }
 
@@ -185,6 +280,14 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
 
         return true;
+    }
+
+    @Override
+    public Integer getSelectorColor(int position) {
+        if (position == exportRow) {
+            return Theme.multAlpha(getThemedColor(Theme.key_switchTrackChecked), .1f);
+        }
+        return super.getSelectorColor(position);
     }
 
     @Override
@@ -335,12 +438,15 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             }
 
             showDialog(dialog);
+        } else if (position == exportRow) {
+            AndroidUtilities.addToClipboard(gson.toJson(messageObject.messageOwner));
+            BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
         }
     }
 
     @Override
     protected boolean onItemLongClick(View view, int position, float x, float y) {
-        if (position != endRow) {
+        if (position < emptyRow) {
             if (!noforwards || !(position == messageRow || position == captionRow || position == filePathRow)) {
                 CharSequence text;
                 if (view instanceof TextDetailSettingsCell) {
@@ -352,11 +458,13 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 }
                 AndroidUtilities.addToClipboard(text);
                 BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                return true;
             } else {
                 showNoForwards();
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     @Override
@@ -394,6 +502,10 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         shouldBlockMessageRow = messageObject.shouldBlockMessage() ? rowCount++ : -1;
         languageRow = TextUtils.isEmpty(getMessageHelper().getMessagePlainText(messageObject)) ? -1 : rowCount++;
         linkOrEmojiOnlyRow = !TextUtils.isEmpty(messageObject.messageOwner.message) && getMessageHelper().isLinkOrEmojiOnlyMessage(messageObject) ? rowCount++ : -1;
+        buttonsRow = TextUtils.isEmpty(buttons) ? -1 : rowCount++;
+        emptyRow = rowCount++;
+
+        exportRow = rowCount++;
         endRow = rowCount++;
     }
 
@@ -529,6 +641,17 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         textCell.setTextAndValueWithEmoji("Sticker Pack creator", builder, divider);
                     } else if (position == emojiSetRow) {
                         textCell.setTextAndValue("Emoji Pack creators", TextUtils.join(", ", emojiSetOwners), divider);
+                    } else if (position == buttonsRow) {
+                        textCell.setTextAndValue("Buttons", buttons, divider);
+                    }
+                    break;
+                }
+                case TYPE_CREATION: {
+                    CreationTextCell creationTextCell = (CreationTextCell) holder.itemView;
+                    if (position == exportRow) {
+                        Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_copy);
+                        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
+                        creationTextCell.setTextAndIcon(LocaleController.getString("ExportAsJson", R.string.ExportAsJson), drawable, false);
                     }
                     break;
                 }
@@ -565,8 +688,10 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
 
         @Override
         public int getItemViewType(int position) {
-            if (position == endRow) {
+            if (position == emptyRow || position == endRow) {
                 return TYPE_SHADOW;
+            } else if (position == exportRow) {
+                return TYPE_CREATION;
             } else if (position == messageRow || position == captionRow) {
                 return Integer.MAX_VALUE;
             } else {

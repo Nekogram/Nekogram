@@ -312,7 +312,7 @@ public class MessageHelper extends BaseController {
         }
     }
 
-    public String getTextOrBase64(byte[] data) {
+    public static String getTextOrBase64(byte[] data) {
         try {
             return utf8Decoder.decode(ByteBuffer.wrap(data)).toString();
         } catch (CharacterCodingException e) {

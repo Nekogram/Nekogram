@@ -284,6 +284,7 @@
     <string name="SendAnonymousDataDesc">The above features use the Visual Studio App Center provided by Microsoft. The information collected is anonymous and we cannot trace it back to an independent device or user.</string>
     <string name="SendLargePhotos">Send large photos</string>
     <string name="SendLargePhotosAbout">Increase the side limit on compressed images to 2560px.</string>
+    <string name="ExportAsJson">Copy as JSON</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

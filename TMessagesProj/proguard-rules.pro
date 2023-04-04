@@ -115,10 +115,13 @@
 -keepnames class org.telegram.messenger.MessagesController {
     public org.telegram.messenger.MessagesController$SponsoredMessagesInfo getSponsoredMessages(long);
  }
--keepnames class org.telegram.tgnet.TLRPC$TL_* {}
--keepclassmembernames class org.telegram.ui.* { <fields>; }
--keepclassmembernames class org.telegram.ui.Cells.* { <fields>; }
--keepclassmembernames class org.telegram.ui.Components.* { <fields>; }
+-keepclasseswithmembers,allowshrinking,allowoptimization class org.telegram.tgnet.TLRPC$TL_* {
+    public org.telegram.tgnet.TLObject deserializeResponse(org.telegram.tgnet.AbstractSerializedData, int, boolean);
+}
+-keepclassmembernames,allowshrinking,allowoptimization class org.telegram.tgnet.TLRPC$* { <fields>; }
+-keepclassmembernames,allowshrinking,allowoptimization class org.telegram.ui.* { <fields>; }
+-keepclassmembernames,allowshrinking,allowoptimization class org.telegram.ui.Cells.* { <fields>; }
+-keepclassmembernames,allowshrinking,allowoptimization class org.telegram.ui.Components.* { <fields>; }
 -keep class org.telegram.ui.Components.RLottieDrawable$LottieMetadata { <fields>; }
 -keep,allowshrinking,allowobfuscation class org.telegram.ui.Components.GroupCreateSpan {
     public void updateColors();
@@ -126,12 +129,12 @@
 -keep,allowshrinking,allowobfuscation class org.telegram.ui.Components.Premium.GLIcon.ObjLoader {
     public <init>();
  }
--keepclassmembernames class tw.nekomimi.nekogram.DatacenterActivity$DatacenterCell { <fields>; }
--keepclassmembernames class tw.nekomimi.nekogram.DatacenterActivity$DatacenterHeaderCell { <fields>; }
--keepclassmembernames class tw.nekomimi.nekogram.MessageDetailsActivity$TextDetailSimpleCell { <fields>; }
--keepclassmembernames class tw.nekomimi.nekogram.settings.AccountCell { <fields>; }
--keepclassmembernames class tw.nekomimi.nekogram.settings.EmojiSetCell { <fields>; }
--keepclassmembernames class tw.nekomimi.nekogram.settings.NekoChatSettingsActivity$StickerSizeCell { <fields>; }
+-keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.DatacenterActivity$DatacenterCell { <fields>; }
+-keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.DatacenterActivity$DatacenterHeaderCell { <fields>; }
+-keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.MessageDetailsActivity$TextDetailSimpleCell { <fields>; }
+-keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.settings.AccountCell { <fields>; }
+-keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.settings.EmojiSetCell { <fields>; }
+-keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.settings.NekoChatSettingsActivity$StickerSizeCell { <fields>; }
 
 -keepclassmembernames class androidx.core.widget.NestedScrollView {
     private android.widget.OverScroller mScroller;
