@@ -512,7 +512,7 @@ public class MessageHelper extends BaseController {
                 } else {
                     Bitmap image = BitmapFactory.decodeFile(path);
                     if (image != null) {
-                        File file = new File(path.replace(".webp", ".png"));
+                        File file = new File(path.endsWith(".webp") ? path.replace(".webp", ".png") : path + ".png");
                         FileOutputStream stream = new FileOutputStream(file);
                         image.compress(Bitmap.CompressFormat.PNG, 100, stream);
                         stream.close();
