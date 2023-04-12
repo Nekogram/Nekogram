@@ -88,8 +88,11 @@ public class ForwardItem {
 
     public static int getLastForwardOption(boolean hasCaption) {
         var lastOption = NekoConfig.lastForwardOption;
+        if (NekoConfig.showNoQuoteForward && lastOption == ID_FORWARD_NOQUOTE) {
+            return ID_FORWARD;
+        }
         if (!hasCaption && lastOption == ID_FORWARD_NOCAPTION) {
-            return ID_FORWARD_NOQUOTE;
+            return NekoConfig.showNoQuoteForward ? ID_FORWARD : ID_FORWARD_NOQUOTE;
         }
         return lastOption;
     }

@@ -101,6 +101,7 @@ public class NekoConfig {
     public static boolean showMessageDetails = false;
     public static boolean showTranslate = true;
     public static boolean showRepeat = true;
+    public static boolean showNoQuoteForward = false;
     public static boolean showCopyPhoto = false;
 
     public static boolean hidePhone = true;
@@ -306,6 +307,7 @@ public class NekoConfig {
             formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
             accentAsNotificationColor = preferences.getBoolean("accentAsNotificationColor", false);
             silenceNonContacts = preferences.getBoolean("silenceNonContacts", false);
+            showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", false);
             wsEnableTLS = preferences.getBoolean("wsEnableTLS", true);
             translationTarget = preferences.getString("translationTarget", "app");
             maxRecentStickers = preferences.getInt("maxRecentStickers", 20);
@@ -898,6 +900,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("disableJumpToNextChannel", disableJumpToNextChannel);
+        editor.apply();
+    }
+
+    public static void toggleShowNoQuoteForward() {
+        showNoQuoteForward = !showNoQuoteForward;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showNoQuoteForward", showNoQuoteForward);
         editor.apply();
     }
 
