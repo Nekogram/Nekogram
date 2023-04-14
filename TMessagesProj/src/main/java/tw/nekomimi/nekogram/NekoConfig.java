@@ -112,7 +112,6 @@ public class NekoConfig {
     public static boolean avatarAsDrawerBackground = false;
     public static boolean avatarBackgroundBlur = true;
     public static boolean avatarBackgroundDarken = true;
-    public static boolean showTabsOnForward = false;
     public static int nameOrder = 1;
     public static int eventType = 0;
     public static boolean newYear = false;
@@ -287,7 +286,6 @@ public class NekoConfig {
             avatarBackgroundBlur = preferences.getBoolean("avatarBackgroundBlur", false);
             avatarBackgroundDarken = preferences.getBoolean("avatarBackgroundDarken", false);
             useSystemEmoji = preferences.getBoolean("useSystemEmoji", SharedConfig.useSystemEmoji);
-            showTabsOnForward = preferences.getBoolean("showTabsOnForward", false);
             rearVideoMessages = preferences.getBoolean("rearVideoMessages", false);
             hideAllTab = preferences.getBoolean("hideAllTab", false);
             tabsTitleType = preferences.getInt("tabsTitleType2", TITLE_TYPE_MIX);
@@ -734,14 +732,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("useSystemEmoji", useSystemEmoji);
-        editor.apply();
-    }
-
-    public static void toggleShowTabsOnForward() {
-        showTabsOnForward = !showTabsOnForward;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("showTabsOnForward", showTabsOnForward);
         editor.apply();
     }
 

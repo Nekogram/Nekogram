@@ -56,7 +56,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
     private int appearance2Row;
 
     private int foldersRow;
-    private int showTabsOnForwardRow;
     private int hideAllTabRow;
     private int tabsTitleTypeRow;
     private int folders2Row;
@@ -184,11 +183,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
             }
             LocaleController.getInstance().recreateFormatters();
             parentLayout.rebuildAllFragmentViews(false, false);
-        } else if (position == showTabsOnForwardRow) {
-            NekoConfig.toggleShowTabsOnForward();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.showTabsOnForward);
-            }
         } else if (position == hideAllTabRow) {
             NekoConfig.toggleHideAllTab();
             if (view instanceof TextCheckCell) {
@@ -256,7 +250,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
         appearance2Row = addRow();
 
         foldersRow = addRow("folders");
-        showTabsOnForwardRow = addRow("showTabsOnForward");
         hideAllTabRow = addRow("hideAllTab");
         tabsTitleTypeRow = addRow("tabsTitleType");
         folders2Row = addRow();
@@ -359,8 +352,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                         textCell.setTextAndCheck(LocaleController.getString("BlurAvatarBackground", R.string.BlurAvatarBackground), NekoConfig.avatarBackgroundBlur, true);
                     } else if (position == avatarBackgroundDarkenRow) {
                         textCell.setTextAndCheck(LocaleController.getString("DarkenAvatarBackground", R.string.DarkenAvatarBackground), NekoConfig.avatarBackgroundDarken, true);
-                    } else if (position == showTabsOnForwardRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("ShowTabsOnForward", R.string.ShowTabsOnForward), NekoConfig.showTabsOnForward, true);
                     } else if (position == hideAllTabRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HideAllTab", R.string.HideAllTab), NekoConfig.hideAllTab, true);
                     }
@@ -417,7 +408,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 return TYPE_SHADOW;
             } else if (position == eventTypeRow || position == tabsTitleTypeRow || position == tabletModeRow) {
                 return TYPE_SETTINGS;
-            } else if (position == newYearRow || position == showTabsOnForwardRow || position == hideAllTabRow ||
+            } else if (position == newYearRow || position == hideAllTabRow ||
                     (position > emojiSetsRow && position <= disableNumberRoundingRow) ||
                     (position > drawerRow && position < drawer2Row)) {
                 return TYPE_CHECK;
