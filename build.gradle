@@ -9,7 +9,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.android.application' version '7.4.2' apply false
+    id 'com.android.application' version '8.0.0' apply false
     id 'com.google.gms.google-services' version '4.3.10' apply false
     id 'org.lsposed.lsparanoid' version '0.5.2'
 }
@@ -45,6 +45,8 @@ subprojects {
                         initWith release
                     }
                 }
+
+                buildFeatures.buildConfig = true
             }
 
             dependencies {
