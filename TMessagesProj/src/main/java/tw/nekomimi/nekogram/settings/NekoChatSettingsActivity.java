@@ -71,7 +71,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
     private int mediaRow;
     private int voiceEnhancementsRow;
-    private int disablePhotoSideActionRow;
     private int rearVideoMessagesRow;
     private int confirmAVRow;
     private int disableProximityEventsRow;
@@ -121,11 +120,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             NekoConfig.toggleIgnoreBlocked();
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.ignoreBlocked);
-            }
-        } else if (position == disablePhotoSideActionRow) {
-            NekoConfig.toggleDisablePhotoSideAction();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.disablePhotoSideAction);
             }
         } else if (position == hideKeyboardOnChatScrollRow) {
             NekoConfig.toggleHideKeyboardOnChatScroll();
@@ -333,7 +327,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
         mediaRow = addRow("media");
         voiceEnhancementsRow = VoiceEnhancementsHelper.isAvailable() ? addRow("voiceEnhancements") : -1;
-        disablePhotoSideActionRow = addRow("disablePhotoSideAction");
         rearVideoMessagesRow = addRow("rearVideoMessages");
         confirmAVRow = addRow("confirmAV");
         disableProximityEventsRow = addRow("disableProximityEvents");
@@ -515,8 +508,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     textCell.setEnabled(true, null);
                     if (position == ignoreBlockedRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("IgnoreBlocked", R.string.IgnoreBlocked), LocaleController.getString("IgnoreBlockedAbout", R.string.IgnoreBlockedAbout), NekoConfig.ignoreBlocked, true, true);
-                    } else if (position == disablePhotoSideActionRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("DisablePhotoViewerSideAction", R.string.DisablePhotoViewerSideAction), NekoConfig.disablePhotoSideAction, true);
                     } else if (position == hideKeyboardOnChatScrollRow) {
                         textCell.setTextAndCheck(LocaleController.getString("HideKeyboardOnChatScroll", R.string.HideKeyboardOnChatScroll), NekoConfig.hideKeyboardOnChatScroll, true);
                     } else if (position == rearVideoMessagesRow) {

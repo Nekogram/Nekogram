@@ -67,7 +67,6 @@ public class NekoConfig {
 
     public static boolean useSystemEmoji = SharedConfig.useSystemEmoji;
     public static boolean ignoreBlocked = false;
-    public static boolean disablePhotoSideAction = true;
     public static boolean hideKeyboardOnChatScroll = false;
     public static boolean rearVideoMessages = false;
     public static boolean hideAllTab = false;
@@ -278,7 +277,6 @@ public class NekoConfig {
             newYear = preferences.getBoolean("newYear", false);
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
             translationProvider = preferences.getString("translationProvider2", isChineseUser ? Translator.PROVIDER_LINGO : Translator.PROVIDER_GOOGLE);
-            disablePhotoSideAction = preferences.getBoolean("disablePhotoSideAction", true);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
             showHiddenFeature = preferences.getBoolean("showHiddenFeature5", BuildConfig.DEBUG);
             hideKeyboardOnChatScroll = preferences.getBoolean("hideKeyboardOnChatScroll", false);
@@ -668,14 +666,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("deepLFormality", deepLFormality);
-        editor.apply();
-    }
-
-    public static void toggleDisablePhotoSideAction() {
-        disablePhotoSideAction = !disablePhotoSideAction;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("disablePhotoSideAction", disablePhotoSideAction);
         editor.apply();
     }
 
