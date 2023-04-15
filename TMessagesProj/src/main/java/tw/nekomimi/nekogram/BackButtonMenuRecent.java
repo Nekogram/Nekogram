@@ -2,6 +2,8 @@ package tw.nekomimi.nekogram;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
+import android.graphics.Path;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -57,13 +59,27 @@ public class BackButtonMenuRecent {
             return;
         }
         LinkedList<Long> dialogs = getRecentDialogs(fragment.getCurrentAccount());
-        if (dialogs.size() <= 0) {
+        if (dialogs.isEmpty()) {
             return;
         }
 
-        ActionBarPopupWindow.ActionBarPopupWindowLayout layout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context);
+        ActionBarPopupWindow.ActionBarPopupWindowLayout layout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context) {
+            final Path path = new Path();
+
+            @Override
+            protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
+                canvas.save();
+                path.rewind();
+                AndroidUtilities.rectTmp.set(child.getLeft(), child.getTop(), child.getRight(), child.getBottom());
+                path.addRoundRect(AndroidUtilities.rectTmp, AndroidUtilities.dp(6), AndroidUtilities.dp(6), Path.Direction.CW);
+                canvas.clipPath(path);
+                boolean draw = super.drawChild(canvas, child, drawingTime);
+                canvas.restore();
+                return draw;
+            }
+        };
         Rect backgroundPaddings = new Rect();
-        Drawable shadowDrawable = fragment.getParentActivity().getResources().getDrawable(R.drawable.popup_fixed_alert).mutate();
+        Drawable shadowDrawable = fragment.getParentActivity().getResources().getDrawable(R.drawable.popup_fixed_alert2).mutate();
         shadowDrawable.getPadding(backgroundPaddings);
         layout.setBackgroundColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground));
 
