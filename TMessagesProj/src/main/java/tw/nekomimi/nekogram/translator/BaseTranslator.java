@@ -121,8 +121,8 @@ abstract public class BaseTranslator {
         protected void onPostExecute(Object result) {
             if (result == null) {
                 translateCallBack.onError(null);
-            } else if (result instanceof Exception) {
-                translateCallBack.onError((Exception) result);
+            } else if (result instanceof Throwable) {
+                translateCallBack.onError((Throwable) result);
             } else {
                 Result translationResult = (Result) result;
                 translateCallBack.onSuccess(translationResult.translation, translationResult.sourceLanguage == null ? fl : convertLanguageCode(translationResult.sourceLanguage, true), tl);

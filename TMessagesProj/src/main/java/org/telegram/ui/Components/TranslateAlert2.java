@@ -277,16 +277,17 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError(Throwable t) {
                 AndroidUtilities.runOnUIThread(() -> {
-                    if (firstTranslation) {
-                        dismiss();
-                        NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_ERROR, LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2));
-                    } else {
-                        BulletinFactory.of((FrameLayout) containerView, resourcesProvider).createErrorBulletin(LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2)).show();
-                        headerView.toLanguageTextView.setText(languageName(toLanguage = prevToLanguage));
-                        adapter.updateMainView(textViewContainer);
-                    }
+                    String toLangRetry = toLanguage;
+                    Translator.handleTranslationError(containerView.getContext(), t, () -> {
+                        if (!firstTranslation) {
+                            headerView.toLanguageTextView.setText(languageName(toLanguage = toLangRetry));
+                        }
+                        translate();
+                    }, resourcesProvider);
+                    headerView.toLanguageTextView.setText(languageName(toLanguage = prevToLanguage));
+                    adapter.updateMainView(textViewContainer);
                 });
             }
         });

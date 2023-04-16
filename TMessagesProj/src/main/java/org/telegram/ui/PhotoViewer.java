@@ -17874,13 +17874,13 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
 
             @Override
-            public void onError(Exception e) {
+            public void onError(Throwable t) {
                 try {
                     progressDialog.dismiss();
                 } catch (Throwable ignore) {
 
                 }
-                Translator.handleTranslationError(parentActivity, e, () -> translateCaption(), resourcesProvider);
+                Translator.handleTranslationError(parentActivity, t, () -> translateCaption(), resourcesProvider);
             }
         });
     }

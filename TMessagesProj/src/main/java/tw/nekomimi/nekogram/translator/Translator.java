@@ -62,21 +62,21 @@ public class Translator {
         }
     }
 
-    public static void handleTranslationError(Context context, final Exception e, final Runnable onRetry, Theme.ResourcesProvider resourcesProvider) {
+    public static void handleTranslationError(Context context, final Throwable t, final Runnable onRetry, Theme.ResourcesProvider resourcesProvider) {
         if (context == null) {
             return;
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
-        if (e instanceof UnsupportedTargetLanguageException) {
+        if (t instanceof UnsupportedTargetLanguageException) {
             builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
             builder.setPositiveButton(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(context, null, null, resourcesProvider));
         } else {
-            if (e instanceof BaseTranslator.Http429Exception) {
+            if (t instanceof BaseTranslator.Http429Exception) {
                 builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
                 builder.setMessage(LocaleController.getString("FloodWait", R.string.FloodWait));
-            } else if (e != null && e.getLocalizedMessage() != null) {
+            } else if (t != null && t.getLocalizedMessage() != null) {
                 builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
-                builder.setMessage(e.getLocalizedMessage());
+                builder.setMessage(t.getLocalizedMessage());
             } else {
                 builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
             }
@@ -291,7 +291,7 @@ public class Translator {
     public interface TranslateCallBack {
         void onSuccess(Object translation, String sourceLanguage, String targetLanguage);
 
-        void onError(Exception e);
+        void onError(Throwable t);
     }
 
     private static class UnsupportedTargetLanguageException extends IllegalArgumentException {

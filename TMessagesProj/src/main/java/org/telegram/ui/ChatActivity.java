@@ -14450,10 +14450,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 ActionBarMenuItem forwardNoQuoteItem = actionBar.createActionMode().getItem(ForwardItem.ID_FORWARD_NOQUOTE);
                 ActionBarMenuItem deleteItem = actionBar.createActionMode().getItem(delete);
                 var hasCaption = ForwardItem.hasCaption(getForwardingMessages());
-                ForwardItem.setupForwardItem(forwardItem, hasCaption, themeDelegate, id -> {
-                    setForwardParams(id == ForwardItem.ID_FORWARD_NOQUOTE, id == ForwardItem.ID_FORWARD_NOCAPTION);
-                    openForward(true);
-                });
+                if (forwardItem != null) {
+                    ForwardItem.setupForwardItem(forwardItem, hasCaption, themeDelegate, id -> {
+                        setForwardParams(id == ForwardItem.ID_FORWARD_NOQUOTE, id == ForwardItem.ID_FORWARD_NOCAPTION);
+                        openForward(true);
+                    });
+                }
 
                 createBottomMessagesActionButtons();
                 boolean noforwards = getMessagesController().isChatNoForwards(currentChat) || hasSelectedNoforwardsMessage();
@@ -14466,7 +14468,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         openForward(false);
                     });
                     forwardButton.setText(ForwardItem.getLastForwardOptionTitle(hasCaption));
-                    var image = getContext().getResources().getDrawable(ForwardItem.getLastForwardOptionIcon(hasCaption)).mutate();
+                    var image = getParentActivity().getResources().getDrawable(ForwardItem.getLastForwardOptionIcon(hasCaption)).mutate();
                     image.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.MULTIPLY));
                     forwardButton.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null);
                 }
@@ -25793,8 +25795,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
 
             @Override
-            public void onError(Exception e) {
-                Translator.handleTranslationError(getParentActivity(), e, () -> translateMessage(messageObject, sourceLanguage, autoTranslate), themeDelegate);
+            public void onError(Throwable t) {
+                Translator.handleTranslationError(getParentActivity(), t, () -> translateMessage(messageObject, sourceLanguage, autoTranslate), themeDelegate);
                 getMessageHelper().resetMessageContent(dialog_id, messageObject, false, false);
             }
         });
