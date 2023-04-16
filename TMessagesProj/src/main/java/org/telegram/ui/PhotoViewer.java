@@ -265,6 +265,7 @@ import java.util.Objects;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.forward.ForwardItem;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
+import tw.nekomimi.nekogram.helpers.QrHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 @SuppressLint("WrongConstant")
@@ -337,6 +338,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private ActionBarMenuItem pipItem;
     private ActionBarMenuItem masksItem;
     private ActionBarMenuItem shareItem;
+    private ActionBarMenuSubItem qrItem;
     private ActionBarMenuSubItem translateItem;
     private String translateFromLanguage = null;
     private LinearLayout itemsLayout;
@@ -1353,6 +1355,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private final static int gallery_menu_set_as_main = 16;
     private final static int gallery_menu_edit_avatar = 17;
     private final static int gallery_menu_share2 = 18;
+    private final static int gallery_menu_qr = 84;
     private final static int gallery_menu_copy = 86;
     private final static int gallery_menu_translate = 88;
     private final static int gallery_menu_speed = 19;
@@ -4841,6 +4844,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         thumb = null;
                     }
                     placeProvider.openPhotoForEdit(f.getAbsolutePath(), thumb, isVideo);
+                } else if (id == gallery_menu_qr) {
+                    QrHelper.showQrDialog(parentFragment, resourcesProvider, qrResults, true);
                 } else if (id == gallery_menu_translate) {
                     translateCaption();
                 } else if (id == gallery_menu_copy) {
@@ -4943,10 +4948,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         menuItem.addSubItem(gallery_menu_copy, R.drawable.msg_copy, LocaleController.getString("CopyPhoto", R.string.CopyPhoto)).setColors(0xfffafafa, 0xfffafafa);
         //menuItem.addSubItem(gallery_menu_edit_avatar, R.drawable.photo_paint, LocaleController.getString("EditPhoto", R.string.EditPhoto)).setColors(0xfffafafa, 0xfffafafa);
         menuItem.addSubItem(gallery_menu_set_as_main, R.drawable.msg_openprofile, LocaleController.getString("SetAsMain", R.string.SetAsMain)).setColors(0xfffafafa, 0xfffafafa);
-        menuItem.addSubItem(gallery_menu_delete, R.drawable.msg_delete, LocaleController.getString("Delete", R.string.Delete)).setColors(0xfffafafa, 0xfffafafa);
-        menuItem.addSubItem(gallery_menu_cancel_loading, R.drawable.msg_cancel, LocaleController.getString("StopDownload", R.string.StopDownload)).setColors(0xfffafafa, 0xfffafafa);
         translateItem = menuItem.addSubItem(gallery_menu_translate, R.drawable.msg_translate, LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
         translateItem.setColors(0xfffafafa, 0xfffafafa);
+        qrItem = menuItem.addSubItem(gallery_menu_qr, R.drawable.msg_qrcode, LocaleController.getString("QrCode", R.string.QrCode));
+        qrItem.setColors(0xfffafafa, 0xfffafafa);
+        menuItem.addSubItem(gallery_menu_delete, R.drawable.msg_delete, LocaleController.getString("Delete", R.string.Delete)).setColors(0xfffafafa, 0xfffafafa);
+        menuItem.addSubItem(gallery_menu_cancel_loading, R.drawable.msg_cancel, LocaleController.getString("StopDownload", R.string.StopDownload)).setColors(0xfffafafa, 0xfffafafa);
         menuItem.redrawPopup(0xf9222222);
         setMenuItemIcon(false, true);
         menuItem.setPopupItemsSelectorColor(0x0fffffff);
@@ -11643,6 +11650,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 nameTextView.setText("");
                 dateTextView.setText("");
             } else {
+                readQr();
                 menuItem.hideSubItem(gallery_menu_translate);
                 if (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL || !noforwards) {
                     var messageHelper = MessageHelper.getInstance(currentAccount);
@@ -17753,6 +17761,60 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private int getThemedColor(String key) {
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
         return color != null ? color : Theme.getColor(key);
+    }
+
+    ArrayList<QrHelper.QrResult> qrResults;
+    Runnable readQrRunnable = new Runnable() {
+        @Override
+        public void run() {
+            if (containerView == null ||  containerView.getHeight() == 0 || animationInProgress != 0) {
+                Utilities.globalQueue.postRunnable(readQrRunnable, 150);
+                return;
+            }
+            var bitmap = Bitmap.createBitmap(containerView.getWidth(), containerView.getHeight(), Bitmap.Config.ARGB_8888);
+            var canvas = new Canvas(bitmap);
+            try {
+                PhotoViewer.this.onDraw(canvas);
+            } catch (Throwable t) {
+                FileLog.e(t);
+                return;
+            }
+            ArrayList<QrHelper.QrResult> qrResults = new ArrayList<>();
+            try {
+                qrResults.addAll(QrHelper.readQr(bitmap));
+            } catch (Throwable t) {
+                FileLog.e(t);
+            }
+            AndroidUtilities.recycleBitmap(bitmap);
+            AndroidUtilities.runOnUIThread(() -> {
+                if (menuItem == null || qrItem == null) {
+                    return;
+                }
+                PhotoViewer.this.qrResults = qrResults;
+                if (qrResults.size() == 1) {
+                    menuItem.showSubItem(gallery_menu_qr);
+                    var text = qrResults.get(0).text;
+                    var username = Browser.extractUsername(text);
+                    if (username != null) {
+                        qrItem.setSubtext("@" + username);
+                    } else if (text.startsWith("http://") || text.startsWith("https://")) {
+                        Uri uri = Uri.parse(qrResults.get(0).text);
+                        qrItem.setSubtext(uri.getHost());
+                    } else {
+                        qrItem.setSubtext(null);
+                    }
+                } else if (!qrResults.isEmpty()) {
+                    menuItem.showSubItem(gallery_menu_qr);
+                    qrItem.setSubtext(null);
+                } else {
+                    menuItem.hideSubItem(gallery_menu_qr);
+                }
+            });
+        }
+    };
+
+    private void readQr() {
+        Utilities.globalQueue.postRunnable(readQrRunnable);
     }
 
     private void translateCaption() {
