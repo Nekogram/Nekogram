@@ -241,6 +241,9 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             } else if (menuPosition == 12) {
                 NekoConfig.toggleShowSetReminder();
                 cell.setChecked(NekoConfig.showSetReminder);
+            } else if (menuPosition == 13) {
+                NekoConfig.toggleShowQrCode();
+                cell.setChecked(NekoConfig.showQrCode);
             }
         } else if (position == voiceEnhancementsRow) {
             NekoConfig.toggleVoiceEnhancements();
@@ -352,6 +355,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         addRow("showMessageDetails");
         addRow("showCopyPhoto");
         addRow("showSetReminder");
+        addRow("showQrCode");
         messageMenu2Row = addRow();
     }
 
@@ -594,7 +598,9 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     } else if (menuPosition == 11) {
                         cell.setTextAndCheck(LocaleController.getString("CopyPhoto", R.string.CopyPhoto), NekoConfig.showCopyPhoto, true);
                     } else if (menuPosition == 12) {
-                        cell.setTextAndCheck(LocaleController.getString("SetReminder", R.string.SetReminder), NekoConfig.showSetReminder, false);
+                        cell.setTextAndCheck(LocaleController.getString("SetReminder", R.string.SetReminder), NekoConfig.showSetReminder, true);
+                    } else if (menuPosition == 13) {
+                        cell.setTextAndCheck(LocaleController.getString("QrCode", R.string.QrCode), NekoConfig.showQrCode, false);
                     }
                     break;
                 }

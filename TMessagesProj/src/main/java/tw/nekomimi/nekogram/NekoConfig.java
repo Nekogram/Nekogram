@@ -103,6 +103,7 @@ public class NekoConfig {
     public static boolean showRepeat = true;
     public static boolean showNoQuoteForward = false;
     public static boolean showCopyPhoto = false;
+    public static boolean showQrCode = true;
 
     public static boolean hidePhone = true;
     public static boolean transparentStatusBar = false;
@@ -330,6 +331,7 @@ public class NekoConfig {
             uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
             sendLargePhotos = preferences.getBoolean("sendLargePhotos", true);
             lastForwardOption = preferences.getInt("lastForwardOption", ForwardItem.ID_FORWARD);
+            showQrCode = preferences.getBoolean("showQrCode", true);
             wsDomain = preferences.getString("wsDomain", "");
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
@@ -409,6 +411,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("downloadSpeedBoost2", boost);
+        editor.apply();
+    }
+
+    public static void toggleShowQrCode() {
+        showQrCode = !showQrCode;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showQrCode", showQrCode);
         editor.apply();
     }
 

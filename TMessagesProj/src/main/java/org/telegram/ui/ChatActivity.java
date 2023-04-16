@@ -307,7 +307,9 @@ import tw.nekomimi.nekogram.forward.ForwardPopupWrapper;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
+import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.PermissionHelper;
+import tw.nekomimi.nekogram.helpers.QrHelper;
 import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.popupwrapper.TranslatorSettingsPopupWrapper;
@@ -639,6 +641,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private AnimatorSet runningAnimation;
     private int runningAnimationIndex = -1;
 
+    private ArrayList<QrHelper.QrResult> qrResults;
     private MessageObject selectedObjectToEditCaption;
     private MessageObject selectedObject;
     private MessageObject.GroupedMessages selectedObjectGroup;
@@ -984,6 +987,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int OPTION_TRANSCRIBE = 30;
     private final static int OPTION_HIDE_SPONSORED_MESSAGE = 31;
     private final static int OPTION_VIEW_IN_TOPIC = 32;
+    private final static int OPTION_QR = 84;
     private final static int OPTION_SET_REMINDER = 85;
     private final static int OPTION_COPY_PHOTO = 86;
     private final static int OPTION_SAVE_TO_GALLERY_STICKER = 87;
@@ -23980,6 +23984,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     icons.add(R.drawable.msg_translate);
                                 }
                             }
+                            if (NekoConfig.showQrCode && selectedObject.isPhoto()) {
+                                items.add(LocaleController.getString("QrCode", R.string.QrCode));
+                                options.add(OPTION_QR);
+                                icons.add(R.drawable.msg_qrcode);
+                            }
                         }
                         if (message.messageOwner.forwards > 0 && ChatObject.hasAdminRights(currentChat) && !message.isForwarded()) {
                             items.add(LocaleController.getString("ViewStats", R.string.ViewStats));
@@ -24177,7 +24186,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
 
             final AtomicBoolean waitForLangDetection = new AtomicBoolean(false);
+            final AtomicBoolean waitForQr = new AtomicBoolean(false);
             final AtomicReference<Runnable> onLangDetectionDone = new AtomicReference(null);
+            final AtomicReference<Runnable> onQrDetectionDone = new AtomicReference(null);
 
             Rect rect = new Rect();
 
@@ -24802,6 +24813,29 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                         return false;
                     });
+                    if (option == OPTION_QR) {
+                        cell.setVisibility(View.GONE);
+                        this.qrResults = null;
+                        MessageHelper.readQrFromMessage(cell, selectedObject, selectedObjectGroup, chatListView, results -> {
+                            this.qrResults = results;
+                            if (qrResults.size() == 1) {
+                                var text = qrResults.get(0).text;
+                                var username = Browser.extractUsername(text);
+                                if (username != null) {
+                                    cell.setSubtext("@" + username);
+                                } else if (text.startsWith("http://") || text.startsWith("https://")) {
+                                    Uri uri = Uri.parse(qrResults.get(0).text);
+                                    cell.setSubtext(uri.getHost());
+                                } else {
+                                    cell.setSubtext(null);
+                                }
+                                cell.setVisibility(View.VISIBLE);
+                            } else if (!qrResults.isEmpty()) {
+                                cell.setSubtext(null);
+                                cell.setVisibility(View.VISIBLE);
+                            }
+                        }, waitForQr, onQrDetectionDone);
+                    }
                     if (option == OPTION_FORWARD || (option == OPTION_FORWARD_NOQUOTE && !NekoConfig.showNoQuoteForward) || option == OPTION_FORWARD_NOCAPTION) {
                         var forwardPopupWrapper = new ForwardPopupWrapper(this, selectedObject, selectedObjectGroup, popupLayout.getSwipeBack(), this::processSelectedOption, getResourceProvider());
                         int swipeBackIndex = popupLayout.addViewToSwipeBack(forwardPopupWrapper.windowLayout);
@@ -25117,6 +25151,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (scrimPopupWindow == null || fragmentView == null || scrimPopupWindow.isShowing()) {
                     return;
                 }
+                if (waitForLangDetection.get() || waitForQr.get()) {
+                    return;
+                }
                 scrimPopupWindow.showAtLocation(chatListView, Gravity.LEFT | Gravity.TOP, finalPopupX, finalPopupY);
                 if (isReactionsAvailable && finalReactionsLayout != null) {
                     finalReactionsLayout.startEnterAnimation(true);
@@ -25129,8 +25166,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                 }, 420);
             };
-            if (waitForLangDetection.get()) {
-                onLangDetectionDone.set(showMenu);
+            if (waitForLangDetection.get() || waitForQr.get()) {
+                if (waitForLangDetection.get()) {
+                    onLangDetectionDone.set(showMenu);
+                }
+                if (waitForQr.get()) {
+                    onQrDetectionDone.set(showMenu);
+                }
             } else {
                 showMenu.run();
             }
@@ -26476,6 +26518,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (messageCell != null) {
                     messageCell.updateButtonState(false, true, false);
                 }
+                break;
+            } case OPTION_QR: {
+                QrHelper.showQrDialog(this, themeDelegate, qrResults);
                 break;
             } case OPTION_SET_REMINDER: {
                 ArrayList<MessageObject> messages =  new ArrayList<>();
