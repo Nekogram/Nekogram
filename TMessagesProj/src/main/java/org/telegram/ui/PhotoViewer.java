@@ -724,10 +724,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             builder.setTitle(link.getURL());
         }
         final int finalTimestamp = timestamp;
-        builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
+        builder.setItems(new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("ShareFile", R.string.ShareFile), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
             if (which == 0) {
                 onLinkClick(link, widget);
-            } else if (which == 1) {
+            } else if (which == 1 || which == 2) {
                 String url1 = link.getURL();
                 boolean tel = false;
                 if (url1.startsWith("mailto:")) {
@@ -770,19 +770,28 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                     }
                 }
-                AndroidUtilities.addToClipboard(url1);
-                String bulletinMessage;
-                if (tel) {
-                    bulletinMessage = LocaleController.getString("PhoneCopied", R.string.PhoneCopied);
-                } else if (url1.startsWith("#")) {
-                    bulletinMessage = LocaleController.getString("HashtagCopied", R.string.HashtagCopied);
-                } else if (url1.startsWith("@")) {
-                    bulletinMessage = LocaleController.getString("UsernameCopied", R.string.UsernameCopied);
+                if (which == 2) {
+                    AndroidUtilities.addToClipboard(url1);
+                    String bulletinMessage;
+                    if (tel) {
+                        bulletinMessage = LocaleController.getString("PhoneCopied", R.string.PhoneCopied);
+                    } else if (url1.startsWith("#")) {
+                        bulletinMessage = LocaleController.getString("HashtagCopied", R.string.HashtagCopied);
+                    } else if (url1.startsWith("@")) {
+                        bulletinMessage = LocaleController.getString("UsernameCopied", R.string.UsernameCopied);
+                    } else {
+                        bulletinMessage = LocaleController.getString("LinkCopied", R.string.LinkCopied);
+                    }
+                    if (AndroidUtilities.shouldShowClipboardToast()) {
+                        BulletinFactory.of(containerView, resourcesProvider).createSimpleBulletin(R.raw.voip_invite, bulletinMessage).show();
+                    }
                 } else {
-                    bulletinMessage = LocaleController.getString("LinkCopied", R.string.LinkCopied);
-                }
-                if (AndroidUtilities.shouldShowClipboardToast()) {
-                    BulletinFactory.of(containerView, resourcesProvider).createSimpleBulletin(R.raw.voip_invite, bulletinMessage).show();
+                    Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                    shareIntent.setType("text/plain");
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, url1);
+                    Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+                    chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    ApplicationLoader.applicationContext.startActivity(chooserIntent);
                 }
             }
         });
@@ -795,6 +804,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         } catch (Exception ignore) {}
         bottomSheet.setItemColor(0,0xffffffff, 0xffffffff);
         bottomSheet.setItemColor(1,0xffffffff, 0xffffffff);
+        bottomSheet.setItemColor(2,0xffffffff, 0xffffffff);
         bottomSheet.setBackgroundColor(0xff1C2229);
         bottomSheet.setTitleColor(0xff8A8A8A);
         bottomSheet.setCalcMandatoryInsets(true);
