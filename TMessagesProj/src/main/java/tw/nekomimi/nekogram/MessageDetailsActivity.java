@@ -650,7 +650,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     CreationTextCell creationTextCell = (CreationTextCell) holder.itemView;
                     if (position == exportRow) {
                         Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_copy);
-                        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
+                        drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
                         creationTextCell.setTextAndIcon(LocaleController.getString("ExportAsJson", R.string.ExportAsJson), drawable, false);
                     }
                     break;
