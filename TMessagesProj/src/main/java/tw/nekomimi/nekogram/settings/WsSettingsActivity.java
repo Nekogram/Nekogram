@@ -64,6 +64,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     NekoConfig.setWsDomain("");
                     NekoConfig.wsReloadConfig();
                     listAdapter.notifyItemChanged(providerRow, PARTIAL);
+                    showRestartBulletin();
                 } else {
                     Context context = getParentActivity();
                     AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
