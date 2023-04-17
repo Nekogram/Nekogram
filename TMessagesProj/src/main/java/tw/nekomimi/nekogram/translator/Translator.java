@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.text.TextUtils;
 import android.text.style.URLSpan;
 import android.view.View;
@@ -137,8 +138,10 @@ public class Translator {
         types.add(Translator.PROVIDER_BAIDU);
         names.add(LocaleController.getString("ProviderSogouTranslate", R.string.ProviderSogouTranslate));
         types.add(Translator.PROVIDER_SOGOU);
-        names.add(LocaleController.getString("ProviderTencentTranslator", R.string.ProviderTencentTranslator));
-        types.add(Translator.PROVIDER_TENCENT);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            names.add(LocaleController.getString("ProviderTencentTranslator", R.string.ProviderTencentTranslator));
+            types.add(Translator.PROVIDER_TENCENT);
+        }
         return new Pair<>(names, types);
     }
 
