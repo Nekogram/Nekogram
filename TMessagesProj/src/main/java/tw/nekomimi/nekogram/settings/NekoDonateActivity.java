@@ -36,6 +36,8 @@ import org.telegram.ui.LaunchActivity;
 import java.util.Arrays;
 import java.util.List;
 
+import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
+
 @SuppressWarnings("deprecation")
 public class NekoDonateActivity extends BaseNekoSettingsActivity implements PurchasesUpdatedListener {
     private static final List<String> SKUS = Arrays.asList("donate001", "donate002", "donate005", "donate010", "donate020", "donate050", "donate100");
@@ -131,7 +133,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                 billingClient.launchBillingFlow(getParentActivity(), flowParams);
             }
         } else if (position == buyMeACoffeeRow) {
-            Browser.openUrl(ApplicationLoader.applicationContext, "https://www.buymeacoffee.com/nekogram");
+            Browser.openUrl(getParentActivity(), "https://www.buymeacoffee.com/nekogram");
         }
     }
 
@@ -156,8 +158,13 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
     protected void updateRows() {
         rowCount = 0;
 
-        buyMeACoffeeRow = -1;
-        buyMeACoffee2Row = -1;
+        if (ConfigHelper.getCoffee()) {
+            buyMeACoffeeRow = rowCount++;
+            buyMeACoffee2Row = rowCount++;
+        } else {
+            buyMeACoffeeRow = -1;
+            buyMeACoffee2Row = -1;
+        }
 
         donateRow = rowCount++;
         if (skuDetails == null || skuDetails.isEmpty()) {

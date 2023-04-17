@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
+import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 
 public class WsSettingsActivity extends BaseNekoSettingsActivity {
 
@@ -37,6 +38,9 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
     private int providerRow;
     private int enableTLSRow;
     private int settings2Row;
+
+    private int buyMeACoffeeRow;
+    private int buyMeACoffee2Row;
 
     private int notWorkingRow;
     private int ownRow;
@@ -108,6 +112,8 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
             });
         } else if (position == notWorkingRow || position == ownRow || position == appRow) {
             Browser.openUrl(getParentActivity(), "https://t.me/WSProxy/8");
+        } else if (position == buyMeACoffeeRow) {
+            Browser.openUrl(getParentActivity(), "https://www.buymeacoffee.com/nekogram");
         }
     }
 
@@ -139,6 +145,14 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
         providerRow = rowCount++;
         enableTLSRow = rowCount++;
         settings2Row = rowCount++;
+
+        if (ConfigHelper.getCoffee()) {
+            buyMeACoffeeRow = rowCount++;
+            buyMeACoffee2Row = rowCount++;
+        } else {
+            buyMeACoffeeRow = -1;
+            buyMeACoffee2Row = -1;
+        }
 
         notWorkingRow = rowCount++;
         ownRow = rowCount++;
@@ -210,7 +224,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == settings2Row || position == endRow) {
+            if (position == settings2Row || position == buyMeACoffee2Row || position == endRow) {
                 return TYPE_SHADOW;
             } else if (position == settingsRow) {
                 return TYPE_HEADER;
@@ -220,6 +234,8 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                 return TYPE_SETTINGS;
             } else if (position == notWorkingRow || position == ownRow || position == appRow) {
                 return TYPE_CREATION;
+            } else if (position == buyMeACoffeeRow) {
+                return TYPE_BUYMEACOFFEE;
             }
             return TYPE_SETTINGS;
         }

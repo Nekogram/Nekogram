@@ -17,7 +17,7 @@ public class BuyMeACoffeeCell extends FrameLayout {
 
         imageView = new ImageView(context);
         imageView.setImageResource(R.drawable.ic_bmc_button);
-        imageView.setBackgroundColor(0xFFFFDD00);
+        imageView.setBackgroundColor(0xFF5F7FFF);
         addView(imageView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
     }
 

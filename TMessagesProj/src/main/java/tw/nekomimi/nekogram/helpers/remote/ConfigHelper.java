@@ -47,6 +47,17 @@ public class ConfigHelper extends BaseRemoteHelper {
         return config.verify;
     }
 
+    public static boolean getCoffee() {
+        Config config = getInstance().getConfig();
+        if (config == null) {
+            return true;
+        }
+        if (config.coffee == null) {
+            return true;
+        }
+        return config.coffee;
+    }
+
     public static List<News> getNews() {
         Config config = getInstance().getConfig();
         if (config == null) {
@@ -135,5 +146,8 @@ public class ConfigHelper extends BaseRemoteHelper {
         @SerializedName("newsv2")
         @Expose
         public List<News> news;
+        @SerializedName("coffee")
+        @Expose
+        public Boolean coffee;
     }
 }
