@@ -1,0 +1,8 @@
+<adaptive-icon xmlns:android="http://schemas.android.com/apk/res/android">
+    <background android:drawable="@color/color_user" />
+    <foreground>
+        <inset
+            android:drawable="@drawable/shortcut_user"
+            android:inset="13.461%" />
+    </foreground>
+</adaptive-icon>

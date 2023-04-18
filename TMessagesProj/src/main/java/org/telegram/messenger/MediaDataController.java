@@ -24,6 +24,7 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.RectF;
 import android.graphics.Shader;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Spannable;
@@ -4280,6 +4281,18 @@ public class MediaDataController extends BaseController {
     private static RectF bitmapRect;
     private static Path roundPath;
 
+    private static final int ADAPTIVE_SIZE = AndroidUtilities.dp(108);
+    private static final int ADAPTIVE_SIDE_SIZE = AndroidUtilities.dp(18);
+
+    public static Bitmap convertBitmapToAdaptive(Bitmap bitmap) {
+        Drawable bitmapDrawable = new BitmapDrawable(ApplicationLoader.applicationContext.getResources(), bitmap);
+        Bitmap result = Bitmap.createBitmap(ADAPTIVE_SIZE, ADAPTIVE_SIZE, Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(result);
+        bitmapDrawable.setBounds(ADAPTIVE_SIDE_SIZE, ADAPTIVE_SIDE_SIZE, ADAPTIVE_SIZE - ADAPTIVE_SIDE_SIZE, ADAPTIVE_SIZE - ADAPTIVE_SIDE_SIZE);
+        bitmapDrawable.draw(canvas);
+        return result;
+    }
+
     public void buildShortcuts() {
         if (Build.VERSION.SDK_INT < 23) {
             return;
@@ -4342,7 +4355,7 @@ public class MediaDataController extends BaseController {
                 ShortcutInfoCompat shortcut = new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, "compose")
                         .setShortLabel(LocaleController.getString("NewConversationShortcut", R.string.NewConversationShortcut))
                         .setLongLabel(LocaleController.getString("NewConversationShortcut", R.string.NewConversationShortcut))
-                        .setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.shortcut_compose))
+                        .setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.shortcut_compose_adaptive))
                         .setRank(0)
                         .setIntent(intent)
                         .build();
@@ -4406,29 +4419,6 @@ public class MediaDataController extends BaseController {
                         try {
                             File path = getFileLoader().getPathToAttach(photo, true);
                             bitmap = BitmapFactory.decodeFile(path.toString());
-                            if (bitmap != null) {
-                                int size = AndroidUtilities.dp(48);
-                                Bitmap result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
-                                Canvas canvas = new Canvas(result);
-                                if (roundPaint == null) {
-                                    roundPaint = new Paint(Paint.ANTI_ALIAS_FLAG | Paint.FILTER_BITMAP_FLAG);
-                                    bitmapRect = new RectF();
-                                    erasePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                                    erasePaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-                                    roundPath = new Path();
-                                    roundPath.addCircle(size / 2, size / 2, size / 2 - AndroidUtilities.dp(2), Path.Direction.CW);
-                                    roundPath.toggleInverseFillType();
-                                }
-                                bitmapRect.set(AndroidUtilities.dp(2), AndroidUtilities.dp(2), AndroidUtilities.dp(46), AndroidUtilities.dp(46));
-                                canvas.drawBitmap(bitmap, null, bitmapRect, roundPaint);
-                                canvas.drawPath(roundPath, erasePaint);
-                                try {
-                                    canvas.setBitmap(null);
-                                } catch (Exception ignore) {
-
-                                }
-                                bitmap = result;
-                            }
                         } catch (Throwable e) {
                             FileLog.e(e);
                         }
@@ -4447,9 +4437,9 @@ public class MediaDataController extends BaseController {
                         builder.setCategories(category);
                     }
                     if (bitmap != null) {
-                        builder.setIcon(IconCompat.createWithBitmap(bitmap));
+                        builder.setIcon(IconCompat.createWithAdaptiveBitmap(convertBitmapToAdaptive(bitmap)));
                     } else {
-                        builder.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.shortcut_user));
+                        builder.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.shortcut_user_adaptive));
                     }
 
                     if (recreateShortcuts) {
@@ -4887,103 +4877,48 @@ public class MediaDataController extends BaseController {
                         File path = getFileLoader().getPathToAttach(photo, true);
                         bitmap = BitmapFactory.decodeFile(path.toString());
                     }
-                    if (overrideAvatar || bitmap != null) {
-                        int size = AndroidUtilities.dp(58);
+                    if (overrideAvatar) {
+                        int size = AndroidUtilities.dp(Build.VERSION.SDK_INT < 26 ? 58 : 72);
                         Bitmap result = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
                         result.eraseColor(Color.TRANSPARENT);
                         Canvas canvas = new Canvas(result);
-                        if (overrideAvatar) {
-                            AvatarDrawable avatarDrawable = new AvatarDrawable(user);
-                            if (UserObject.isReplyUser(user)) {
-                                avatarDrawable.setAvatarType(AvatarDrawable.AVATAR_TYPE_REPLIES);
-                            } else {
-                                avatarDrawable.setAvatarType(AvatarDrawable.AVATAR_TYPE_SAVED);
-                            }
-                            avatarDrawable.setBounds(0, 0, size, size);
-                            avatarDrawable.draw(canvas);
+                        AvatarDrawable avatarDrawable = new AvatarDrawable(user);
+                        if (UserObject.isReplyUser(user)) {
+                            avatarDrawable.setAvatarType(AvatarDrawable.AVATAR_TYPE_REPLIES);
                         } else {
-                            BitmapShader shader = new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
-                            if (roundPaint == null) {
-                                roundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                                bitmapRect = new RectF();
-                            }
-                            float scale = size / (float) bitmap.getWidth();
-                            canvas.save();
-                            canvas.scale(scale, scale);
-                            roundPaint.setShader(shader);
-                            bitmapRect.set(0, 0, bitmap.getWidth(), bitmap.getHeight());
-                            canvas.drawRoundRect(bitmapRect, bitmap.getWidth(), bitmap.getHeight(), roundPaint);
-                            canvas.restore();
+                            avatarDrawable.setAvatarType(AvatarDrawable.AVATAR_TYPE_SAVED);
                         }
-                        Drawable drawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.book_logo);
-                        int w = AndroidUtilities.dp(15);
-                        int left = size - w - AndroidUtilities.dp(2);
-                        int top = size - w - AndroidUtilities.dp(2);
-                        drawable.setBounds(left, top, left + w, top + w);
-                        drawable.draw(canvas);
-                        try {
-                            canvas.setBitmap(null);
-                        } catch (Exception e) {
-                            //don't promt, this will crash on 2.x
-                        }
-                        bitmap = result;
+                        avatarDrawable.setBounds(0, 0, size, size);
+                        avatarDrawable.draw(canvas);
                     }
                 } catch (Throwable e) {
                     FileLog.e(e);
                 }
             }
-            if (Build.VERSION.SDK_INT >= 26) {
-                ShortcutInfoCompat.Builder pinShortcutInfo =
-                        new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, "sdid_" + dialogId)
-                                .setShortLabel(name)
-                                .setIntent(shortcutIntent);
+            ShortcutInfoCompat.Builder pinShortcutInfo =
+                    new ShortcutInfoCompat.Builder(ApplicationLoader.applicationContext, "sdid_" + dialogId)
+                            .setShortLabel(name)
+                            .setIntent(shortcutIntent);
 
-                if (bitmap != null) {
-                    pinShortcutInfo.setIcon(IconCompat.createWithBitmap(bitmap));
-                } else {
-                    if (user != null) {
-                        if (user.bot) {
-                            pinShortcutInfo.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_bot));
-                        } else {
-                            pinShortcutInfo.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_user));
-                        }
-                    } else {
-                        if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                            pinShortcutInfo.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_channel));
-                        } else {
-                            pinShortcutInfo.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group));
-                        }
-                    }
-                }
-
-                ShortcutManagerCompat.requestPinShortcut(ApplicationLoader.applicationContext, pinShortcutInfo.build(), null);
+            if (bitmap != null) {
+                pinShortcutInfo.setIcon(IconCompat.createWithAdaptiveBitmap(convertBitmapToAdaptive(bitmap)));
             } else {
-                Intent addIntent = new Intent();
-                if (bitmap != null) {
-                    addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON, bitmap);
-                } else {
-                    if (user != null) {
-                        if (user.bot) {
-                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_bot));
-                        } else {
-                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_user));
-                        }
+                if (user != null) {
+                    if (user.bot) {
+                        pinShortcutInfo.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_bot_adaptvie));
                     } else {
-                        if (ChatObject.isChannel(chat) && !chat.megagroup) {
-                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_channel));
-                        } else {
-                            addIntent.putExtra(Intent.EXTRA_SHORTCUT_ICON_RESOURCE, Intent.ShortcutIconResource.fromContext(ApplicationLoader.applicationContext, R.drawable.book_group));
-                        }
+                        pinShortcutInfo.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_user_adaptvie));
+                    }
+                } else {
+                    if (ChatObject.isChannel(chat) && !chat.megagroup) {
+                        pinShortcutInfo.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_channel_adaptvie));
+                    } else {
+                        pinShortcutInfo.setIcon(IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group_adaptvie));
                     }
                 }
-
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, shortcutIntent);
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
-                addIntent.putExtra("duplicate", false);
-
-                addIntent.setAction("com.android.launcher.action.INSTALL_SHORTCUT");
-                ApplicationLoader.applicationContext.sendBroadcast(addIntent);
             }
+
+            ShortcutManagerCompat.requestPinShortcut(ApplicationLoader.applicationContext, pinShortcutInfo.build(), null);
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -4991,51 +4926,10 @@ public class MediaDataController extends BaseController {
 
     public void uninstallShortcut(long dialogId) {
         try {
-            if (Build.VERSION.SDK_INT >= 26) {
-                ArrayList<String> arrayList = new ArrayList<>();
-                arrayList.add("sdid_" + dialogId);
-                arrayList.add("ndid_" + dialogId);
-                ShortcutManagerCompat.removeDynamicShortcuts(ApplicationLoader.applicationContext, arrayList);
-                if (Build.VERSION.SDK_INT >= 30) {
-                    ShortcutManager shortcutManager = ApplicationLoader.applicationContext.getSystemService(ShortcutManager.class);
-                    shortcutManager.removeLongLivedShortcuts(arrayList);
-                }
-            } else {
-                TLRPC.User user = null;
-                TLRPC.Chat chat = null;
-                if (DialogObject.isEncryptedDialog(dialogId)) {
-                    int encryptedChatId = DialogObject.getEncryptedChatId(dialogId);
-                    TLRPC.EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(encryptedChatId);
-                    if (encryptedChat == null) {
-                        return;
-                    }
-                    user = getMessagesController().getUser(encryptedChat.user_id);
-                } else if (DialogObject.isUserDialog(dialogId)) {
-                    user = getMessagesController().getUser(dialogId);
-                } else if (DialogObject.isChatDialog(dialogId)) {
-                    chat = getMessagesController().getChat(-dialogId);
-                } else {
-                    return;
-                }
-                if (user == null && chat == null) {
-                    return;
-                }
-                String name;
-
-                if (user != null) {
-                    name = ContactsController.formatName(user.first_name, user.last_name);
-                } else {
-                    name = chat.title;
-                }
-
-                Intent addIntent = new Intent();
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_INTENT, createIntrnalShortcutIntent(dialogId));
-                addIntent.putExtra(Intent.EXTRA_SHORTCUT_NAME, name);
-                addIntent.putExtra("duplicate", false);
-
-                addIntent.setAction("com.android.launcher.action.UNINSTALL_SHORTCUT");
-                ApplicationLoader.applicationContext.sendBroadcast(addIntent);
-            }
+            ArrayList<String> arrayList = new ArrayList<>();
+            arrayList.add("sdid_" + dialogId);
+            arrayList.add("ndid_" + dialogId);
+            ShortcutManagerCompat.removeLongLivedShortcuts(ApplicationLoader.applicationContext, arrayList);
         } catch (Exception e) {
             FileLog.e(e);
         }

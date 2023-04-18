@@ -3040,12 +3040,12 @@ public class NotificationsController extends BaseController {
             intent.putExtra("currentAccount", currentAccount);
 
             IconCompat icon;
-            if (avatar != null) {
-                icon = IconCompat.createWithAdaptiveBitmap(avatar);
+            if (person != null) {
+                icon = person.getIcon();
             } else if (user != null) {
-                icon = IconCompat.createWithResource(ApplicationLoader.applicationContext, user.bot ? R.drawable.book_bot : R.drawable.book_user);
+                icon = IconCompat.createWithResource(ApplicationLoader.applicationContext, user.bot ? R.drawable.book_bot_adaptvie : R.drawable.book_user_adaptvie);
             } else {
-                icon = IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group);
+                icon = IconCompat.createWithResource(ApplicationLoader.applicationContext, R.drawable.book_group_adaptvie);
             }
             NotificationCompat.BubbleMetadata.Builder bubbleBuilder =
                     new NotificationCompat.BubbleMetadata.Builder(
@@ -4723,20 +4723,8 @@ public class NotificationsController extends BaseController {
     private void loadRoundAvatar(File avatar, Person.Builder personBuilder) {
         if (avatar != null) {
             try {
-                Bitmap bitmap = ImageDecoder.decodeBitmap(ImageDecoder.createSource(avatar), (decoder, info, src) -> decoder.setPostProcessor((canvas) -> {
-                    Path path = new Path();
-                    path.setFillType(Path.FillType.INVERSE_EVEN_ODD);
-                    int width = canvas.getWidth();
-                    int height = canvas.getHeight();
-                    path.addRoundRect(0, 0, width, height, width / 2, width / 2, Path.Direction.CW);
-                    Paint paint = new Paint();
-                    paint.setAntiAlias(true);
-                    paint.setColor(Color.TRANSPARENT);
-                    paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC));
-                    canvas.drawPath(path, paint);
-                    return PixelFormat.TRANSLUCENT;
-                }));
-                IconCompat icon = IconCompat.createWithBitmap(bitmap);
+                Bitmap bitmap = BitmapFactory.decodeFile(avatar.getAbsolutePath());
+                IconCompat icon = IconCompat.createWithAdaptiveBitmap(MediaDataController.convertBitmapToAdaptive(bitmap));
                 personBuilder.setIcon(icon);
             } catch (Throwable ignore) {
 

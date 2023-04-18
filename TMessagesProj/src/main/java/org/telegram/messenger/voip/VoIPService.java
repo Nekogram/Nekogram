@@ -100,6 +100,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
@@ -2910,7 +2911,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		Intent endIntent = new Intent(this, VoIPActionsReceiver.class);
 		endIntent.setAction(getPackageName() + ".END_CALL");
 		Person caller = new Person.Builder()
-				.setIcon(IconCompat.createWithBitmap(photo))
+				.setIcon(IconCompat.createWithAdaptiveBitmap(MediaDataController.convertBitmapToAdaptive(photo)))
 				.setName(name)
 				.build();
 		NotificationCompat.CallStyle callStyle = NotificationCompat.CallStyle.forOngoingCall(caller, PendingIntent.getBroadcast(this, 0, endIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
@@ -3974,14 +3975,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			placeholder.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
 			placeholder.draw(new Canvas(bitmap));
 		}
-
-		Canvas canvas = new Canvas(bitmap);
-		Path circlePath = new Path();
-		circlePath.addCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, bitmap.getWidth() / 2, Path.Direction.CW);
-		circlePath.toggleInverseFillType();
-		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-		canvas.drawPath(circlePath, paint);
 		return bitmap;
 	}
 
@@ -4063,7 +4056,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		}
 		Bitmap avatar = getRoundAvatarBitmap(userOrChat);
 		Person caller = new Person.Builder()
-				.setIcon(IconCompat.createWithBitmap(avatar))
+				.setIcon(IconCompat.createWithAdaptiveBitmap(MediaDataController.convertBitmapToAdaptive(avatar)))
 				.setName(name)
 				.build();
 		NotificationCompat.CallStyle callStyle = NotificationCompat.CallStyle.forIncomingCall(caller, endPendingIntent, answerPendingIntent);
