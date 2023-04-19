@@ -212,7 +212,7 @@
     <string name="Translating">translating</string>
     <string name="Translated">translated</string>
     <string name="BrokenMLKit">Option unavailable</string>
-    <string name="BrokenMLKitDetail">Google MLKit language identifier is somehow broken on this device.</string>
+    <string name="BrokenMLKitDetail">MLKit language identifier is broken on this device.</string>
     <string name="PasscodeNeeded">You have to enable passcode lock first</string>
     <string name="PasscodeNeko">Passcode</string>
     <string name="PasscodeShowInSettings">Show in Neko Settings</string>
