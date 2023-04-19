@@ -29,9 +29,7 @@ import java.util.HashMap;
 
 public class QrView extends View {
 
-    private final Paint blackPaint = new Paint(Paint.ANTI_ALIAS_FLAG) {{
-        setColor(Color.BLACK);
-    }};
+    private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final AnimatedFloat contentBitmapAlpha = new AnimatedFloat(1f, this, 0, 2000, CubicBezierInterpolator.EASE_OUT_QUINT);
     private final Paint crossfadeFromPaint = new Paint(Paint.ANTI_ALIAS_FLAG) {{
         setShader(new LinearGradient(0, 0, 0, AndroidUtilities.dp(crossfadeWidthDp), new int[]{0xffffffff, 0}, new float[]{0f, 1f}, Shader.TileMode.CLAMP));
@@ -41,13 +39,13 @@ public class QrView extends View {
         setShader(new LinearGradient(0, 0, 0, AndroidUtilities.dp(crossfadeWidthDp), new int[]{0, 0xffffffff}, new float[]{0f, 1f}, Shader.TileMode.CLAMP));
         setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_OUT));
     }};
-    private final int crossfadeWidthDp = 120;
+    private final int crossfadeWidthDp = 140;
     private RLottieDrawable loadingMatrix;
     private Bitmap contentBitmap, oldContentBitmap, qrLogo;
     private String link;
     private final float[] radii = new float[8];
 
-    protected QrView(Context context) {
+    public QrView(Context context) {
         super(context);
     }
 
@@ -63,7 +61,7 @@ public class QrView extends View {
         }
     }
 
-    private void drawLoading(Canvas canvas) {
+    private void drawLoading(Canvas canvas, int multiple, int size, float scale) {
         if (loadingMatrix == null) {
             loadingMatrix = new RLottieDrawable(R.raw.qr_matrix, "qr_matrix", AndroidUtilities.dp(200), AndroidUtilities.dp(200));
             loadingMatrix.setMasterParent(this);
@@ -74,46 +72,58 @@ public class QrView extends View {
         int width = getWidth();
         loadingMatrix.setBounds(16, 16, width - 16, width - 16);
         loadingMatrix.draw(canvas);
-        int qrSize = 37;
-        int multiple = width / qrSize;
-        int size = multiple * qrSize + 32;
         int imageBloks = Math.round((size - 32) / 4.65f / multiple);
-        if (imageBloks % 2 != qrSize % 2) {
+        if (imageBloks % 2 != 37 % 2) {
             imageBloks++;
         }
         int imageSize = imageBloks * multiple - 24;
         int imageX = (size - imageSize) / 2;
-        QRCodeWriter.drawSideQuads(canvas, 0, 0, blackPaint, 7, multiple, 16, size, .75f, radii, true);
+        canvas.save();
+        canvas.scale(scale, scale);
+        paint.setColor(Color.BLACK);
+        QRCodeWriter.drawSideQuads(canvas, 0, 0, paint, 7, multiple, 16, size, .75f, radii, true);
         if (qrLogo == null) {
             String svg = RLottieDrawable.readRes(null, R.raw.qr_logo);
             qrLogo = SvgHelper.getBitmap(svg, imageSize, imageSize, false);
         }
         canvas.drawBitmap(qrLogo, imageX, imageX, null);
+        canvas.restore();
     }
 
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawColor(Color.WHITE);
+
+        paint.setColor(Color.WHITE);
+        canvas.drawRoundRect(0, 0, getMeasuredWidth(), getMeasuredHeight(), AndroidUtilities.dp(12), AndroidUtilities.dp(12), paint);
+
+        int width = getWidth();
+        int qrSize = 37;
+        int multiple = getWidth() / qrSize;
+        int size = multiple * qrSize + 32;
+        float scale = width / (float) size;
 
         float crossfadeAlpha = contentBitmapAlpha.set(1f);
         boolean crossfading = crossfadeAlpha > 0 && crossfadeAlpha < 1;
 
         if (crossfadeAlpha < 1f) {
             if (crossfading) {
-                AndroidUtilities.rectTmp.set(0, 0, getWidth(), getHeight());
+                AndroidUtilities.rectTmp.set(0, 0, size, size);
                 canvas.saveLayerAlpha(AndroidUtilities.rectTmp, 255, Canvas.ALL_SAVE_FLAG);
             }
             if (oldContentBitmap != null) {
+                canvas.save();
+                canvas.scale(scale, scale);
                 canvas.drawBitmap(oldContentBitmap, 0, 0, null);
+                canvas.restore();
             } else {
-                drawLoading(canvas);
+                drawLoading(canvas, multiple, size, scale);
             }
             if (crossfading) {
                 float h = AndroidUtilities.dp(crossfadeWidthDp);
                 canvas.save();
-                canvas.translate(0, -h + (getHeight() + h) * (1f - crossfadeAlpha));
-                canvas.drawRect(0, 0, getWidth(), getHeight() + h, crossfadeToPaint);
+                canvas.translate(0, -h + (size + h) * (1f - crossfadeAlpha));
+                canvas.drawRect(0, 0, size, size + h, crossfadeToPaint);
                 canvas.restore();
                 canvas.restore();
             }
@@ -124,9 +134,12 @@ public class QrView extends View {
                 canvas.saveLayerAlpha(AndroidUtilities.rectTmp, 255, Canvas.ALL_SAVE_FLAG);
             }
             if (contentBitmap != null) {
+                canvas.save();
+                canvas.scale(scale, scale);
                 canvas.drawBitmap(contentBitmap, 0f, 0f, null);
+                canvas.restore();
             } else {
-                drawLoading(canvas);
+                drawLoading(canvas, multiple, size, scale);
             }
             if (crossfading) {
                 float h = AndroidUtilities.dp(crossfadeWidthDp);

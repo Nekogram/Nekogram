@@ -7846,20 +7846,7 @@ public class LoginActivity extends BaseFragment {
             confirmTextView.setText(LocaleController.getString(R.string.QRLoginMessage));
             addView(confirmTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 12, 8, 12, 0));
 
-            qrView = new QrView(context) {
-                @Override
-                protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                    int size = MeasureSpec.getSize(widthMeasureSpec);
-                    super.onMeasure(MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(size, MeasureSpec.EXACTLY));
-                }
-            };
-            qrView.setOutlineProvider(new ViewOutlineProvider() {
-                @Override
-                public void getOutline(View view, Outline outline) {
-                    outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight(), AndroidUtilities.dp(12));
-                }
-            });
-            qrView.setClipToOutline(true);
+            qrView = new QrView(context);
             qrView.setData(null);
             addView(qrView, LayoutHelper.createLinear(280, 280, Gravity.CENTER_HORIZONTAL, 30, 30,30, 30));
         }
