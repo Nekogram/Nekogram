@@ -67,6 +67,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MrzRecognizer;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SendMessagesHelper;
@@ -84,6 +85,7 @@ import org.telegram.ui.ActionBar.INavigationLayout;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Components.AnimationProperties;
+import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkPath;
@@ -93,6 +95,7 @@ import org.telegram.ui.Components.URLSpanNoUnderline;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import tw.nekomimi.nekogram.helpers.PermissionHelper;
 import tw.nekomimi.nekogram.helpers.QrHelper;
@@ -658,44 +661,41 @@ public class CameraScanActivity extends BaseFragment {
                             return;
                         }
                     }
-                    PhotoAlbumPickerActivity fragment = new PhotoAlbumPickerActivity(PhotoAlbumPickerActivity.SELECT_TYPE_QR, false, false, null);
-                    fragment.setMaxSelectedPhotos(1, false);
-                    fragment.setAllowSearchImages(false);
-                    fragment.setDelegate(new PhotoAlbumPickerActivity.PhotoAlbumPickerActivityDelegate() {
-                        @Override
-                        public void didSelectPhotos(ArrayList<SendMessagesHelper.SendingMediaInfo> photos, boolean notify, int scheduleDate) {
-                            try {
-                                if (!photos.isEmpty()) {
-                                    SendMessagesHelper.SendingMediaInfo info = photos.get(0);
-                                    if (info.path != null) {
-                                        Point screenSize = AndroidUtilities.getRealScreenSize();
-                                        Bitmap bitmap = ImageLoader.loadBitmap(info.path, null, screenSize.x, screenSize.y, true);
-                                        QrResult res = tryReadQr(null, null, 0, 0, 0, bitmap);
-                                        if (res != null) {
-                                            if (delegate != null) {
-                                                delegate.didFindQr(res.text);
-                                            }
-                                            removeSelfFromStack();
+                    ChatAttachAlert chatAttachAlert = new ChatAttachAlert(getParentActivity(), this, true, false, false, null);
+                    chatAttachAlert.drawNavigationBar = true;
+                    chatAttachAlert.setupPhotoPicker(LocaleController.getString("ChoosePhoto", R.string.ChoosePhoto));
+                    chatAttachAlert.setDelegate((button, arg, notify, scheduleDate, forceDocument) -> {
+                        try {
+                            HashMap<Object, Object> photos = chatAttachAlert.getPhotoLayout().getSelectedPhotos();
+                            if (!photos.isEmpty()) {
+                                MediaController.PhotoEntry entry = (MediaController.PhotoEntry) photos.values().iterator().next();
+                                String path;
+                                if (entry.imagePath != null) {
+                                    path = entry.imagePath;
+                                } else {
+                                    path = entry.path;
+                                }
+                                if (path != null) {
+                                    Point screenSize = AndroidUtilities.getRealScreenSize();
+                                    Bitmap bitmap = ImageLoader.loadBitmap(path, null, screenSize.x, screenSize.y, true);
+                                    QrResult res = tryReadQr(null, null, 0, 0, 0, bitmap);
+                                    if (res != null) {
+                                        if (delegate != null) {
+                                            delegate.didFindQr(res.text);
                                         }
+                                        removeSelfFromStack();
+                                        chatAttachAlert.dismissInternal();
                                     }
                                 }
-                            } catch (Throwable e) {
-                                FileLog.e(e);
                             }
-                        }
-
-                        @Override
-                        public void startPhotoSelectActivity() {
-                            try {
-                                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                                photoPickerIntent.setType("image/*");
-                                getParentActivity().startActivityForResult(photoPickerIntent, 11);
-                            } catch (Exception e) {
-                                FileLog.e(e);
-                            }
+                        } catch (Throwable e) {
+                            FileLog.e(e);
                         }
                     });
-                    presentFragment(fragment);
+                    chatAttachAlert.setMaxSelectedPhotos(1, false);
+                    chatAttachAlert.init();
+                    chatAttachAlert.getPhotoLayout().loadGalleryPhotos();
+                    chatAttachAlert.show();
                 });
             }
 
