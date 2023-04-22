@@ -78,7 +78,7 @@ public class PopupHelper {
 
     public static void showIdPopup(BaseFragment fragment, View anchorView, long id, int dc, boolean user, float x, float y) {
         Context context = fragment.getParentActivity();
-        ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, R.drawable.popup_fixed_alert, fragment.getResourceProvider()) {
+        ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, fragment.getResourceProvider()) {
             final Path path = new Path();
 
             @Override
@@ -129,7 +129,7 @@ public class PopupHelper {
 
     public static void showCopyPopup(BaseFragment fragment, CharSequence title, View anchorView, float x, float y, Runnable callback) {
         Context context = fragment.getParentActivity();
-        ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, R.drawable.popup_fixed_alert, fragment.getResourceProvider()) {
+        ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, fragment.getResourceProvider()) {
             final Path path = new Path();
 
             @Override

@@ -6,6 +6,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.text.SpannableStringBuilder;
@@ -42,6 +43,7 @@ import org.telegram.ui.Components.BlurredRecyclerView;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.FlickerLoadingView;
+import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
@@ -50,8 +52,6 @@ import org.telegram.ui.Components.URLSpanNoUnderline;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
-
-import tw.nekomimi.nekogram.helpers.PopupHelper;
 
 public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
@@ -132,10 +132,14 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             var holder = listView.findViewHolderForAdapterPosition(position);
             var key = getKey();
             if (key != null && holder != null && listAdapter.isEnabled(holder) && rowMapReverse.containsKey(position)) {
-                PopupHelper.showCopyPopup(this, LocaleController.getString("CopyLink", R.string.CopyLink), view, x, y, () -> {
-                    AndroidUtilities.addToClipboard(String.format(Locale.getDefault(), "https://%s/nekosettings/%s?r=%s", getMessagesController().linkPrefix, getKey(), rowMapReverse.get(position)));
-                    BulletinFactory.of(BaseNekoSettingsActivity.this).createCopyLinkBulletin().show();
-                });
+                ItemOptions.makeOptions(this, view)
+                        .setScrimViewBackground(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite)))
+                        .add(R.drawable.msg_copy, LocaleController.getString("CopyLink", R.string.CopyLink), () -> {
+                            AndroidUtilities.addToClipboard(String.format(Locale.getDefault(), "https://%s/nekosettings/%s?r=%s", getMessagesController().linkPrefix, getKey(), rowMapReverse.get(position)));
+                            BulletinFactory.of(BaseNekoSettingsActivity.this).createCopyLinkBulletin().show();
+                        })
+                        .setMinWidth(190)
+                        .show();
                 return true;
             }
             return false;
