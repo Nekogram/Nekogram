@@ -4786,6 +4786,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                                 break;
                             }
                         }
+
                         AlertDialog dialog = new AlertDialog.Builder(parentActivity, resourcesProvider)
                                 .setTitle(LocaleController.getString("ForwardGroupMedia", R.string.ForwardGroupMedia))
                                 .setMessage(LocaleController.getString("ForwardGroupMediaMessage", R.string.ForwardGroupMediaMessage))
@@ -11688,6 +11689,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         menuItem.hideSubItem(gallery_menu_set_as_main);
         menuItem.hideSubItem(gallery_menu_delete);
         menuItem.hideSubItem(gallery_menu_translate);
+        menuItem.hideSubItem(gallery_menu_qr);
+        menuItem.hideSubItem(gallery_menu_copy);
         speedItem.setVisibility(View.GONE);
         speedGap.setVisibility(View.GONE);
         actionBar.setTranslationY(0);
@@ -12123,7 +12126,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 allowShare = false;
 //                captionTextViewSwitcher.setTranslationY(AndroidUtilities.dp(48));
             } else {
-                readQr();
+                Utilities.globalQueue.postRunnable(readQrRunnable);
+                menuItem.hideSubItem(gallery_menu_qr);
                 menuItem.hideSubItem(gallery_menu_translate);
                 if (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL || !noforwards) {
                     var messageHelper = MessageHelper.getInstance(currentAccount);
@@ -12263,11 +12267,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         countView.updateShow(true, animated);
                         countView.set((totalImagesCount + totalImagesCountMerge - imagesArr.size()) + switchingToIndex + 1, totalImagesCount + totalImagesCountMerge);
                     }
-                    if (newMessageObject.isPhoto()) {
-                        menuItem.showSubItem(gallery_menu_copy);
-                    } else {
-                        menuItem.hideSubItem(gallery_menu_copy);
-                    }
                 }
             } else if (slideshowMessageId == 0 && MessageObject.getMedia(newMessageObject.messageOwner) instanceof TLRPC.TL_messageMediaWebPage) {
                 if (countView != null) {
@@ -12311,11 +12310,17 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             if (isEmbedVideo || newMessageObject.messageOwner.ttl != 0 && newMessageObject.messageOwner.ttl < 60 * 60 || noforwards) {
                 allowShare = false;
                 menuItem.hideSubItem(gallery_menu_save);
+                menuItem.hideSubItem(gallery_menu_copy);
                 menuItem.hideSubItem(gallery_menu_share);
                 setItemVisible(editItem, false, animated);
             } else {
                 allowShare = true;
                 menuItem.showSubItem(gallery_menu_save);
+                if (newMessageObject.isPhoto()) {
+                    menuItem.showSubItem(gallery_menu_copy);
+                } else {
+                    menuItem.hideSubItem(gallery_menu_copy);
+                }
                 menuItem.showSubItem(gallery_menu_share);
             }
             groupedPhotosListView.fillList();
@@ -12323,7 +12328,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             allowShare = false;
             menuItem.showSubItem(gallery_menu_delete);
             menuItem.hideSubItem(gallery_menu_save);
-            menuItem.hideSubItem(gallery_menu_copy);
             if (countView != null) {
                 countView.updateShow(secureDocuments.size() > 1, true);
                 countView.set(switchingToIndex + 1, secureDocuments.size());
@@ -12657,6 +12661,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     } else {
                         title = LocaleController.getString("AttachPhoto", R.string.AttachPhoto);
                     }
+                }
+                if (isVideo) {
+                    menuItem.hideSubItem(gallery_menu_copy);
+                } else {
+                    menuItem.showSubItem(gallery_menu_copy);
                 }
                 menuItem.showSubItem(gallery_menu_save);
                 menuItem.hideSubItem(gallery_menu_savegif);
@@ -18254,10 +18263,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             });
         }
     };
-
-    private void readQr() {
-        Utilities.globalQueue.postRunnable(readQrRunnable);
-    }
 
     private void translateCaption() {
         if (currentMessageObject == null) {
