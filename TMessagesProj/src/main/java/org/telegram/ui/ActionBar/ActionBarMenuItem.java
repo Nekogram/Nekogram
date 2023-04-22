@@ -499,6 +499,10 @@ public class ActionBarMenuItem extends FrameLayout {
         return addSubItem(id, icon, null, text, true, false, resourcesProvider);
     }
 
+    public ActionBarMenuSubItem addSubItem(int id, Drawable icon, CharSequence text, Theme.ResourcesProvider resourcesProvider) {
+        return addSubItem(id, 0, icon, text, true, false, resourcesProvider);
+    }
+
     public ActionBarMenuSubItem addSubItem(int id, int icon, CharSequence text, boolean needCheck) {
         return addSubItem(id, icon, null, text, true, needCheck);
     }
@@ -2378,8 +2382,12 @@ public class ActionBarMenuItem extends FrameLayout {
     }
 
     public static ActionBarMenuSubItem addItem(boolean first, boolean last, ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout, int icon, CharSequence text, boolean needCheck, Theme.ResourcesProvider resourcesProvider) {
+        return addItem(first, last, windowLayout, icon, null, text, needCheck, resourcesProvider);
+    }
+
+    public static ActionBarMenuSubItem addItem(boolean first, boolean last, ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout, int icon, Drawable iconDrawable, CharSequence text, boolean needCheck, Theme.ResourcesProvider resourcesProvider) {
         ActionBarMenuSubItem cell = new ActionBarMenuSubItem(windowLayout.getContext(), needCheck, first, last, resourcesProvider);
-        cell.setTextAndIcon(text, icon);
+        cell.setTextAndIcon(text, icon, iconDrawable);
         cell.setMinimumWidth(AndroidUtilities.dp(196));
         windowLayout.addView(cell);
         LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) cell.getLayoutParams();

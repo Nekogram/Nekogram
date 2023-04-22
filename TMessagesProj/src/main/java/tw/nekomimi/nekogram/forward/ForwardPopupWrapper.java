@@ -15,7 +15,6 @@ public class ForwardPopupWrapper {
 
     public ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout;
 
-    @SuppressWarnings("ConstantConditions")
     public ForwardPopupWrapper(ChatActivity fragment, MessageObject selectedObject, MessageObject.GroupedMessages selectedObjectGroup, PopupSwipeBackLayout swipeBackLayout, ActionBarMenuItem.ActionBarMenuItemDelegate delegate, Theme.ResourcesProvider resourcesProvider) {
         var context = fragment.getParentActivity();
         windowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, 0, resourcesProvider, ActionBarPopupWindow.ActionBarPopupWindowLayout.FLAG_USE_SWIPEBACK);
@@ -32,7 +31,7 @@ public class ForwardPopupWrapper {
             if (!hasCaption && id == ForwardItem.ID_FORWARD_NOCAPTION) {
                 return;
             }
-            var item = ActionBarMenuItem.addItem(windowLayout, ForwardItem.ITEM_ICONS.get(id), ForwardItem.ITEM_TITLES.get(id), false, resourcesProvider);
+            var item = ActionBarMenuItem.addItem(false, false, windowLayout, 0, new ForwardDrawable(id), ForwardItem.ITEM_TITLES.get(id), false, resourcesProvider);
             item.setOnClickListener(view -> delegate.onItemClick(id));
         });
     }

@@ -302,6 +302,7 @@ import org.telegram.ui.Delegates.ChatActivityMemberRequestsDelegate;
 import tw.nekomimi.nekogram.BackButtonMenuRecent;
 import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.forward.ForwardContext;
+import tw.nekomimi.nekogram.forward.ForwardDrawable;
 import tw.nekomimi.nekogram.forward.ForwardItem;
 import tw.nekomimi.nekogram.forward.ForwardPopupWrapper;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
@@ -14468,7 +14469,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         openForward(false);
                     });
                     forwardButton.setText(ForwardItem.getLastForwardOptionTitle(hasCaption));
-                    var image = getParentActivity().getResources().getDrawable(ForwardItem.getLastForwardOptionIcon(hasCaption)).mutate();
+                    var image = ForwardItem.getLastForwardOptionIcon(hasCaption);
                     image.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.MULTIPLY));
                     forwardButton.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null);
                 }
@@ -23935,7 +23936,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             var hasCaption = ForwardItem.hasCaption(selectedObject, selectedObjectGroup);
                             items.add(ForwardItem.getLastForwardOptionTitle(hasCaption));
                             options.add(ForwardItem.getLastForwardOption(hasCaption));
-                            icons.add(ForwardItem.getLastForwardOptionIcon(hasCaption));
+                            icons.add(R.drawable.msg_forward);
                             if (NekoConfig.showNoQuoteForward) {
                                 items.add(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
                                 options.add(OPTION_FORWARD_NOQUOTE);
@@ -24841,6 +24842,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     if (option == OPTION_FORWARD || (option == OPTION_FORWARD_NOQUOTE && !NekoConfig.showNoQuoteForward) || option == OPTION_FORWARD_NOCAPTION) {
                         var forwardPopupWrapper = new ForwardPopupWrapper(this, selectedObject, selectedObjectGroup, popupLayout.getSwipeBack(), this::processSelectedOption, getResourceProvider());
                         int swipeBackIndex = popupLayout.addViewToSwipeBack(forwardPopupWrapper.windowLayout);
+                        cell.setIcon(new ForwardDrawable(option));
                         cell.setRightIcon(R.drawable.msg_arrowright, v12 -> popupLayout.getSwipeBack().openForeground(swipeBackIndex));
                         cell.setOnLongClickListener(view -> {
                             popupLayout.getSwipeBack().openForeground(swipeBackIndex);

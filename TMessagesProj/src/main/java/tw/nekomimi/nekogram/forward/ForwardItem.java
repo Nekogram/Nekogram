@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
-@SuppressWarnings("ConstantConditions")
 public class ForwardItem {
     public static final int ID_FORWARD = -100;
     public static final int ID_FORWARD_NOQUOTE = -101;
@@ -30,11 +29,6 @@ public class ForwardItem {
         put(ID_FORWARD_NOQUOTE, LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
         put(ID_FORWARD_NOCAPTION, LocaleController.getString("NoCaptionForward", R.string.NoCaptionForward));
     }};
-    static final HashMap<Integer, Integer> ITEM_ICONS = new HashMap<>() {{
-        put(ID_FORWARD, R.drawable.msg_forward_quote);
-        put(ID_FORWARD_NOQUOTE, R.drawable.msg_forward);
-        put(ID_FORWARD_NOCAPTION, R.drawable.msg_remove);
-    }};
 
     public static void setupForwardItem(ActionBarMenuItem item, boolean hasCaption, Theme.ResourcesProvider resourcesProvider, ActionBarMenuItem.ActionBarMenuItemDelegate delegate) {
         setupForwardItem(item, true, false, hasCaption, resourcesProvider, delegate);
@@ -47,7 +41,7 @@ public class ForwardItem {
         }
         if (!item.hasSubMenu()) {
             Arrays.stream(ITEM_IDS).forEach(itemId -> {
-                var subItem = item.addSubItem(itemId, ITEM_ICONS.get(itemId), ITEM_TITLES.get(itemId), resourcesProvider);
+                var subItem = item.addSubItem(itemId, new ForwardDrawable(itemId), ITEM_TITLES.get(itemId), resourcesProvider);
                 if (darkTheme) subItem.setColors(0xfffafafa, 0xfffafafa);
             });
             if (darkTheme) {
@@ -82,8 +76,8 @@ public class ForwardItem {
         return ITEM_TITLES.get(getLastForwardOption(hasCaption));
     }
 
-    public static int getLastForwardOptionIcon(boolean hasCaption) {
-        return ITEM_ICONS.get(getLastForwardOption(hasCaption));
+    public static ForwardDrawable getLastForwardOptionIcon(boolean hasCaption) {
+        return new ForwardDrawable(getLastForwardOption(hasCaption));
     }
 
     public static int getLastForwardOption(boolean hasCaption) {
