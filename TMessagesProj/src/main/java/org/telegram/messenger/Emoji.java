@@ -155,7 +155,7 @@ public class Emoji {
                     );
                 } else {
                     if (isSelectedEmojiPack) {
-                        bitmap = loadBitmap("emoji/" + String.format(Locale.US, "%d_%d.png", page, page2), false);
+                        bitmap = loadBitmap(emojiFile.getAbsolutePath() + "/" + String.format(Locale.US, "%d_%d.png", page, page2), false);
                     } else {
                         bitmap = loadBitmap("emoji/" + String.format(Locale.US, "%d_%d.png", page, page2));
                     }
