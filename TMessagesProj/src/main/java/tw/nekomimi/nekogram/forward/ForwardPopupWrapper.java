@@ -31,7 +31,7 @@ public class ForwardPopupWrapper {
             if (!hasCaption && id == ForwardItem.ID_FORWARD_NOCAPTION) {
                 return;
             }
-            var item = ActionBarMenuItem.addItem(false, false, windowLayout, 0, new ForwardDrawable(id), ForwardItem.ITEM_TITLES.get(id), false, resourcesProvider);
+            var item = ActionBarMenuItem.addItem(false, false, windowLayout, 0, new ForwardDrawable(id, false), ForwardItem.ITEM_TITLES.get(id), false, resourcesProvider);
             item.setOnClickListener(view -> delegate.onItemClick(id));
         });
     }

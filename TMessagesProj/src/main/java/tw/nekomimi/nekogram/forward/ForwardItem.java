@@ -35,13 +35,17 @@ public class ForwardItem {
     }
 
     public static void setupForwardItem(ActionBarMenuItem item, boolean setIcon, boolean darkTheme, boolean hasCaption, Theme.ResourcesProvider resourcesProvider, ActionBarMenuItem.ActionBarMenuItemDelegate delegate) {
+        setupForwardItem(item, setIcon, darkTheme, hasCaption, false, resourcesProvider, delegate);
+    }
+
+    public static void setupForwardItem(ActionBarMenuItem item, boolean setIcon, boolean darkTheme, boolean hasCaption, boolean share, Theme.ResourcesProvider resourcesProvider, ActionBarMenuItem.ActionBarMenuItemDelegate delegate) {
         if (setIcon) {
-            item.setIcon(getLastForwardOptionIcon(hasCaption));
+            item.setIcon(getLastForwardOptionIcon(hasCaption, share));
             item.setContentDescription(getLastForwardOptionTitle(hasCaption));
         }
         if (!item.hasSubMenu()) {
             Arrays.stream(ITEM_IDS).forEach(itemId -> {
-                var subItem = item.addSubItem(itemId, new ForwardDrawable(itemId), ITEM_TITLES.get(itemId), resourcesProvider);
+                var subItem = item.addSubItem(itemId, new ForwardDrawable(itemId, share), ITEM_TITLES.get(itemId), resourcesProvider);
                 if (darkTheme) subItem.setColors(0xfffafafa, 0xfffafafa);
             });
             if (darkTheme) {
@@ -77,7 +81,11 @@ public class ForwardItem {
     }
 
     public static ForwardDrawable getLastForwardOptionIcon(boolean hasCaption) {
-        return new ForwardDrawable(getLastForwardOption(hasCaption));
+        return getLastForwardOptionIcon(hasCaption, false);
+    }
+
+    public static ForwardDrawable getLastForwardOptionIcon(boolean hasCaption, boolean share) {
+        return new ForwardDrawable(getLastForwardOption(hasCaption), share);
     }
 
     public static int getLastForwardOption(boolean hasCaption) {

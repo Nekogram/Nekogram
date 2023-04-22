@@ -11647,7 +11647,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         allMediaItem.setText(LocaleController.getString("ShowAllMedia", R.string.ShowAllMedia));
         setItemVisible(sendItem, false, false);
         if (messageObject != null) {
-            ForwardItem.setupForwardItem(sendItem, true, true, ForwardItem.hasCaption(messageObject, parentChatActivity != null ? parentChatActivity.getGroup(messageObject.getGroupId()) : null), resourcesProvider, id -> actionBar.getActionBarMenuOnItemClick().onItemClick(id));
+            ForwardItem.setupForwardItem(sendItem, true, true, ForwardItem.hasCaption(messageObject, parentChatActivity != null ? parentChatActivity.getGroup(messageObject.getGroupId()) : null), true, resourcesProvider, id -> actionBar.getActionBarMenuOnItemClick().onItemClick(id));
         }
         setItemVisible(pipItem, false, true);
         if (photoCropView != null) {

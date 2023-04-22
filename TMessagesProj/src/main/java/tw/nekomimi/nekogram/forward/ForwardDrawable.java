@@ -15,15 +15,14 @@ import org.telegram.messenger.R;
 
 public class ForwardDrawable extends Drawable {
 
-    private static final int BADGE_LEFT = AndroidUtilities.dp(5f);
-    private static final int BADGE_TOP = AndroidUtilities.dp(3f);
-
     private final Drawable drawable;
     private Drawable badgeDrawable = null;
     private int badgeHeight;
     private int badgeWidth;
+    private int badgeLeft;
+    private int badgeTop;
 
-    public ForwardDrawable(int type) {
+    public ForwardDrawable(int type, boolean share) {
         super();
 
         switch (type) {
@@ -35,8 +34,10 @@ public class ForwardDrawable extends Drawable {
                 badgeDrawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.msg_forward_badge).mutate();
                 badgeHeight = Math.round(badgeDrawable.getIntrinsicHeight() / 3.4f);
                 badgeWidth = Math.round(badgeDrawable.getIntrinsicWidth() / 3.4f);
+                badgeLeft = AndroidUtilities.dp(share ? 3f : 5f);
+                badgeTop = AndroidUtilities.dp(share ? 1f : 3f);
             case ForwardItem.ID_FORWARD_NOQUOTE:
-                drawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.msg_forward).mutate();
+                drawable = ApplicationLoader.applicationContext.getResources().getDrawable(share ? R.drawable.msg_header_share : R.drawable.msg_forward).mutate();
                 break;
         }
     }
@@ -45,7 +46,7 @@ public class ForwardDrawable extends Drawable {
     public void draw(@NonNull Canvas canvas) {
         Rect bounds = getBounds();
         if (badgeDrawable != null) {
-            badgeDrawable.setBounds(bounds.left + BADGE_LEFT, bounds.top + BADGE_TOP, bounds.left + BADGE_LEFT + badgeWidth, bounds.top + BADGE_TOP + badgeHeight);
+            badgeDrawable.setBounds(bounds.left + badgeLeft, bounds.top + badgeTop, bounds.left + badgeLeft + badgeWidth, bounds.top + badgeTop + badgeHeight);
             badgeDrawable.draw(canvas);
         }
         drawable.setBounds(getBounds());
