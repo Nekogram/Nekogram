@@ -142,10 +142,14 @@ public class Browser {
     }
 
     public static void openUrl(final Context context, Uri uri, final boolean allowCustom, boolean tryTelegraph) {
-        openUrl(context, uri, allowCustom, tryTelegraph, null);
+        openUrl(context, uri, allowCustom, tryTelegraph, false, null);
     }
 
     public static void openUrl(final Context context, Uri uri, final boolean allowCustom, boolean tryTelegraph, Progress inCaseLoading) {
+        openUrl(context, uri, allowCustom, tryTelegraph, false, inCaseLoading);
+    }
+
+    public static void openUrl(final Context context, Uri uri, final boolean allowCustom, boolean tryTelegraph, boolean forceNotInternalForApps, Progress inCaseLoading) {
         if (context == null || uri == null) {
             return;
         }
@@ -269,6 +273,7 @@ public class Browser {
             intent.putExtra(android.provider.Browser.EXTRA_APPLICATION_ID, context.getPackageName());
             intent.putExtra("internal", true);
             if (internalUri && context instanceof LaunchActivity) {
+                intent.putExtra(LaunchActivity.EXTRA_FORCE_NOT_INTERNAL_APPS, forceNotInternalForApps);
                 ((LaunchActivity) context).onNewIntent(intent, inCaseLoading);
             } else {
                 context.startActivity(intent);

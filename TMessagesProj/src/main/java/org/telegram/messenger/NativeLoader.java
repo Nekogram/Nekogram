@@ -15,10 +15,11 @@ import com.getkeepsafe.relinker.ReLinker;
 
 public class NativeLoader {
 
-    private final static int LIB_VERSION = 44;
+    private final static int LIB_VERSION = 45;
     private final static String LIB_NAME = "neko." + LIB_VERSION;
 
     private static volatile boolean nativeLoaded = false;
+    public static StringBuilder log = new StringBuilder();
 
     public static synchronized void initNativeLibs(Context context) {
         try {
@@ -26,6 +27,7 @@ public class NativeLoader {
             nativeLoaded = true;
         } catch (Error e) {
             FileLog.e(e);
+            log.append("185: ").append(e).append("\n");
         }
     }
 

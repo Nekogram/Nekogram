@@ -170,6 +170,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     private int commonInputType;
     private boolean stickersEnabled;
+    private ActionBarMenuSubItem sendWhenOnlineButton;
 
     public interface ChatActivityEnterViewDelegate {
 
@@ -3309,20 +3310,14 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (SharedPrefsHelper.isWebViewConfirmShown(currentAccount, dialog_id)) {
             onRequestWebView.run();
         } else {
-            new AlertDialog.Builder(parentFragment.getParentActivity())
-                    .setTitle(LocaleController.getString(R.string.BotOpenPageTitle))
-                    .setMessage(AndroidUtilities.replaceTags(LocaleController.formatString(R.string.BotOpenPageMessage, UserObject.getUserName(MessagesController.getInstance(currentAccount).getUser(dialog_id)))))
-                    .setPositiveButton(LocaleController.getString(R.string.OK), (dialog, which) -> {
-                        onRequestWebView.run();
-                        SharedPrefsHelper.setWebViewConfirmShown(currentAccount, dialog_id, true);
-                    })
-                    .setNegativeButton(LocaleController.getString(R.string.Cancel), null)
-                    .setOnDismissListener(dialog -> {
-                        if (botCommandsMenuButton != null && !SharedPrefsHelper.isWebViewConfirmShown(currentAccount, dialog_id))  {
-                            botCommandsMenuButton.setOpened(false);
-                        }
-                    })
-                    .show();
+            AlertsCreator.createBotLaunchAlert(parentFragment, MessagesController.getInstance(currentAccount).getUser(dialog_id), () -> {
+                onRequestWebView.run();
+                SharedPrefsHelper.setWebViewConfirmShown(currentAccount, dialog_id, true);
+            }, () -> {
+                if (botCommandsMenuButton != null && !SharedPrefsHelper.isWebViewConfirmShown(currentAccount, dialog_id))  {
+                    botCommandsMenuButton.setOpened(false);
+                }
+            });
         }
     }
 
@@ -3512,6 +3507,18 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     AlertsCreator.createScheduleDatePickerDialog(parentActivity, parentFragment.getDialogId(), this::sendMessageInternal, resourcesProvider);
                 });
                 sendPopupLayout.addView(scheduleButton, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
+                if (!self && dialog_id > 0) {
+                    sendWhenOnlineButton = new ActionBarMenuSubItem(getContext(), true, !sendWithoutSoundButtonValue, resourcesProvider);
+                    sendWhenOnlineButton.setTextAndIcon(LocaleController.getString("SendWhenOnline", R.string.SendWhenOnline), R.drawable.msg_online);
+                    sendWhenOnlineButton.setMinimumWidth(AndroidUtilities.dp(196));
+                    sendWhenOnlineButton.setOnClickListener(v -> {
+                        if (sendPopupWindow != null && sendPopupWindow.isShowing()) {
+                            sendPopupWindow.dismiss();
+                        }
+                        sendMessageInternal(true, 0x7FFFFFFE);
+                    });
+                    sendPopupLayout.addView(sendWhenOnlineButton, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
+                }
             }
             if (sendWithoutSoundButtonValue) {
                 ActionBarMenuSubItem sendWithoutSoundButton = new ActionBarMenuSubItem(getContext(), !scheduleButtonValue, true, resourcesProvider);
@@ -3548,6 +3555,14 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             }
         }
 
+        if (sendWhenOnlineButton != null) {
+            TLRPC.User user = parentFragment.getCurrentUser();
+            if (user != null && !(user.status instanceof TLRPC.TL_userStatusEmpty) && !(user.status instanceof TLRPC.TL_userStatusOnline)) {
+                sendWhenOnlineButton.setVisibility(VISIBLE);
+            } else {
+                sendWhenOnlineButton.setVisibility(GONE);
+            }
+        }
         sendPopupLayout.measure(MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000), MeasureSpec.AT_MOST), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(1000), MeasureSpec.AT_MOST));
         sendPopupWindow.setFocusable(true);
         view.getLocationInWindow(location);
@@ -4176,7 +4191,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                     captionLimitView.animate().alpha(1f).scaleX(1f).scaleY(1f).setDuration(100).start();
                     if (beforeLimit < 0) {
                         doneButtonEnabledLocal = false;
-                        captionLimitView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteRedText));
+                        captionLimitView.setTextColor(getThemedColor(Theme.key_text_RedRegular));
                     } else {
                         captionLimitView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText));
                     }
@@ -7419,7 +7434,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
         if (captionLimitView != null && messageEditText != null) {
             if (codePointCount - currentLimit < 0) {
-                captionLimitView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteRedText));
+                captionLimitView.setTextColor(getThemedColor(Theme.key_text_RedRegular));
             } else {
                 captionLimitView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText));
             }
@@ -8072,15 +8087,10 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             if (SharedPrefsHelper.isWebViewConfirmShown(currentAccount, botId)) {
                 onRequestWebView.run();
             } else {
-                new AlertDialog.Builder(parentFragment.getParentActivity())
-                        .setTitle(LocaleController.getString(R.string.BotOpenPageTitle))
-                        .setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("BotOpenPageMessage", R.string.BotOpenPageMessage, UserObject.getUserName(user))))
-                        .setPositiveButton(LocaleController.getString(R.string.OK), (dialog, which) -> {
-                            onRequestWebView.run();
-                            SharedPrefsHelper.setWebViewConfirmShown(currentAccount, botId, true);
-                        })
-                        .setNegativeButton(LocaleController.getString(R.string.Cancel), null)
-                        .show();
+                AlertsCreator.createBotLaunchAlert(parentFragment, MessagesController.getInstance(currentAccount).getUser(dialog_id), () -> {
+                    onRequestWebView.run();
+                    SharedPrefsHelper.setWebViewConfirmShown(currentAccount, botId, true);
+                }, null);
             }
         } else if (button instanceof TLRPC.TL_keyboardButtonRequestGeoLocation) {
             AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
@@ -8117,6 +8127,25 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
                 Bundle args = new Bundle();
                 args.putBoolean("onlySelect", true);
                 args.putInt("dialogsType", DialogsActivity.DIALOGS_TYPE_BOT_SHARE);
+
+                if ((button.flags & 2) != 0) {
+                    args.putBoolean("allowGroups", false);
+                    args.putBoolean("allowUsers", false);
+                    args.putBoolean("allowChannels", false);
+                    args.putBoolean("allowBots", false);
+                    for (TLRPC.InlineQueryPeerType peerType : button.peer_types) {
+                        if (peerType instanceof TLRPC.TL_inlineQueryPeerTypePM) {
+                            args.putBoolean("allowUsers", true);
+                        } else if (peerType instanceof TLRPC.TL_inlineQueryPeerTypeBotPM) {
+                            args.putBoolean("allowBots", true);
+                        } else if (peerType instanceof TLRPC.TL_inlineQueryPeerTypeBroadcast) {
+                            args.putBoolean("allowChannels", true);
+                        } else if (peerType instanceof TLRPC.TL_inlineQueryPeerTypeChat || peerType instanceof TLRPC.TL_inlineQueryPeerTypeMegagroup) {
+                            args.putBoolean("allowGroups", true);
+                        }
+                    }
+                }
+
                 DialogsActivity fragment = new DialogsActivity(args);
                 fragment.setDelegate((fragment1, dids, message, param, topicsFragment) -> {
                     long uid = messageObject.messageOwner.from_id.user_id;

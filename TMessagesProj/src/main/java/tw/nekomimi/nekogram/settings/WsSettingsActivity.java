@@ -87,7 +87,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     editText.setSingleLine(true);
                     editText.setFocusable(true);
                     editText.setTransformHintToHeader(true);
-                    editText.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteRedText3, resourcesProvider));
+                    editText.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated, resourcesProvider), Theme.getColor(Theme.key_text_RedRegular, resourcesProvider));
                     editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
                     editText.setBackground(null);
                     editText.requestFocus();
@@ -133,7 +133,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
         if (position == ownRow || position == appRow) {
             return Theme.multAlpha(getThemedColor(Theme.key_switchTrackChecked), .1f);
         } else if (position == notWorkingRow) {
-            return Theme.multAlpha(getThemedColor(Theme.key_windowBackgroundWhiteRedText2), .1f);
+            return Theme.multAlpha(getThemedColor(Theme.key_text_RedRegular), .1f);
         }
         return super.getSelectorColor(position);
     }
@@ -206,8 +206,8 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     CreationTextCell creationTextCell = (CreationTextCell) holder.itemView;
                     if (position == notWorkingRow) {
                         Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_report);
-                        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteRedText2), PorterDuff.Mode.MULTIPLY));
-                        creationTextCell.setTextColor(Theme.key_windowBackgroundWhiteRedText2);
+                        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_text_RedRegular), PorterDuff.Mode.MULTIPLY));
+                        creationTextCell.setTextColor(Theme.key_text_RedRegular);
                         creationTextCell.setTextAndIcon(LocaleController.getString("WsNotWorking", R.string.WsNotWorking), drawable, true);
                     } else if (position == ownRow) {
                         Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_psa);

@@ -19,8 +19,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -31,6 +34,7 @@ import android.text.TextUtils;
 import android.util.SparseArray;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.graphics.ColorUtils;
 import androidx.exifinterface.media.ExifInterface;
 
 import org.json.JSONArray;
@@ -43,6 +47,8 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Components.AnimatedFileDrawable;
+import org.telegram.ui.Components.BackgroundGradientDrawable;
+import org.telegram.ui.Components.MotionBackgroundDrawable;
 import org.telegram.ui.Components.Point;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.SlotsDrawable;
@@ -868,6 +874,9 @@ public class ImageLoader {
                 } catch (Throwable e) {
                     FileLog.e(e);
                 }
+                if (bitmap != null && !TextUtils.isEmpty(cacheImage.filter) && cacheImage.filter.contains("wallpaper") && cacheImage.parentObject instanceof TLRPC.WallPaper) {
+                    bitmap = applyWallpaperSetting(bitmap, (TLRPC.WallPaper) cacheImage.parentObject);
+                }
                 onPostExecute(bitmap != null ? new BitmapDrawable(bitmap) : null);
             } else if (cacheImage.imageType == FileLoader.IMAGE_TYPE_LOTTIE) {
                 int w = Math.min(512, AndroidUtilities.dp(170.6f));
@@ -1580,12 +1589,60 @@ public class ImageLoader {
                 if (BuildVars.LOGS_ENABLED && inEncryptedFile) {
                     FileLog.e("Image Loader image is empty = " + (image == null) + " " + cacheFileFinal);
                 }
+                if (image != null && !TextUtils.isEmpty(cacheImage.filter) && cacheImage.filter.contains("wallpaper") && cacheImage.parentObject instanceof TLRPC.WallPaper) {
+                    image = applyWallpaperSetting(image, (TLRPC.WallPaper) cacheImage.parentObject);
+                }
                 if (needInvert || orientation != 0) {
                     onPostExecute(image != null ? new ExtendedBitmapDrawable(image, needInvert, orientation) : null);
                 } else {
                     onPostExecute(image != null ? new BitmapDrawable(image) : null);
                 }
             }
+        }
+
+        private Bitmap applyWallpaperSetting(Bitmap bitmap, TLRPC.WallPaper wallPaper) {
+            if (!wallPaper.pattern || wallPaper.settings == null) {
+                if (wallPaper.settings != null && wallPaper.settings.blur) {
+                    return Utilities.blurWallpaper(bitmap);
+                }
+                return bitmap;
+            }
+            Bitmap finalBitmap = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+            Canvas canvas = new Canvas(finalBitmap);
+            int patternColor;
+
+            boolean applyPattern = true;
+            if (wallPaper.settings.second_background_color == 0) { //one color
+                patternColor = AndroidUtilities.getPatternColor(wallPaper.settings.background_color);
+                canvas.drawColor(ColorUtils.setAlphaComponent(wallPaper.settings.background_color, 255));
+            } else if (wallPaper.settings.third_background_color == 0) { //two color
+                int color1 = ColorUtils.setAlphaComponent(wallPaper.settings.background_color, 255);
+                int color2 = ColorUtils.setAlphaComponent(wallPaper.settings.second_background_color, 255);
+                patternColor = AndroidUtilities.getAverageColor(color1, color2);
+                GradientDrawable gradientDrawable = new GradientDrawable(BackgroundGradientDrawable.getGradientOrientation(wallPaper.settings.rotation), new int[]{color1, color2});
+                gradientDrawable.setBounds(0, 0, finalBitmap.getWidth(), finalBitmap.getHeight());
+                gradientDrawable.draw(canvas);
+            } else {
+                int color1 = ColorUtils.setAlphaComponent(wallPaper.settings.background_color, 255);
+                int color2 = ColorUtils.setAlphaComponent(wallPaper.settings.second_background_color, 255);
+                int color3 = ColorUtils.setAlphaComponent(wallPaper.settings.third_background_color, 255);
+                int color4 = wallPaper.settings.fourth_background_color == 0 ? 0 :  ColorUtils.setAlphaComponent(wallPaper.settings.fourth_background_color, 255);
+                patternColor = MotionBackgroundDrawable.getPatternColor(color1, color2, color3, color4);
+                MotionBackgroundDrawable motionBackgroundDrawable = new MotionBackgroundDrawable();
+                motionBackgroundDrawable.setColors(color1, color2, color3, color4);
+                motionBackgroundDrawable.setBounds(0, 0, finalBitmap.getWidth(), finalBitmap.getHeight());
+                motionBackgroundDrawable.setPatternBitmap(wallPaper.settings.intensity, bitmap);
+                motionBackgroundDrawable.draw(canvas);
+                applyPattern = false;
+            }
+
+            if (applyPattern) {
+                Paint paint = new Paint(Paint.FILTER_BITMAP_FLAG);
+                paint.setColorFilter(new PorterDuffColorFilter(patternColor, PorterDuff.Mode.SRC_IN));
+                paint.setAlpha((int) (wallPaper.settings.intensity / 100.0f * 255));
+                canvas.drawBitmap(bitmap, 0, 0, paint);
+            }
+            return finalBitmap;
         }
 
         private void loadLastFrame(RLottieDrawable lottieDrawable, int w, int h, boolean lastFrame, boolean reaction) {

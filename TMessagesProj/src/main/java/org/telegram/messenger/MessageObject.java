@@ -106,6 +106,7 @@ public class MessageObject {
     public static final int TYPE_EMOJIS = 19;
     public static final int TYPE_EXTENDED_MEDIA_PREVIEW = 20;
     public static final int TYPE_SUGGEST_PHOTO = 21;
+    public static final int TYPE_ACTION_WALLPAPER = 22;
 
     public int localType;
     public String localName;
@@ -357,6 +358,10 @@ public class MessageObject {
         return SharedConfig.getDevicePerformanceClass() == SharedConfig.PERFORMANCE_CLASS_HIGH;
     }
 
+    public boolean isWallpaperAction() {
+        return type == TYPE_ACTION_WALLPAPER || (messageOwner != null && messageOwner.action instanceof TLRPC.TL_messageActionSetSameChatWallPaper);
+    }
+
     public int getEmojiOnlyCount() {
         return emojiOnlyCount;
     }
@@ -366,14 +371,7 @@ public class MessageObject {
     }
 
     public boolean shouldDrawReactionsInLayout() {
-        if (getDialogId() < 0 || UserConfig.getInstance(currentAccount).isPremium()) {
-            return true;
-        }
-        TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(getDialogId());
-        if (user != null && user.premium) {
-            return true;
-        }
-        return false;//getDialogId() < 0 || UserConfig.getInstance(currentAccount).isPremium();
+        return true;
     }
 
     public TLRPC.MessagePeerReaction getRandomUnreadReaction() {
@@ -1186,7 +1184,9 @@ public class MessageObject {
 
         updateMessageText(users, chats, sUsers, sChats);
         setType();
-        updateTranslation(false);
+        if (generateLayout) {
+            updateTranslation(false);
+        }
         measureInlineBotButtons();
 
         Calendar rightNow = new GregorianCalendar();
@@ -2136,7 +2136,11 @@ public class MessageObject {
             }
         } else if (event.action instanceof TLRPC.TL_channelAdminLogEventActionParticipantJoinByInvite) {
             TLRPC.TL_channelAdminLogEventActionParticipantJoinByInvite action = (TLRPC.TL_channelAdminLogEventActionParticipantJoinByInvite) event.action;
-            messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", R.string.ActionInviteUser), "un1", fromUser);
+            if (action.via_chatlist) {
+                messageText = replaceWithLink(LocaleController.getString("ActionInviteUserFolder", R.string.ActionInviteUserFolder), "un1", fromUser);
+            } else {
+                messageText = replaceWithLink(LocaleController.getString("ActionInviteUser", R.string.ActionInviteUser), "un1", fromUser);
+            }
         } else if (event.action instanceof TLRPC.TL_channelAdminLogEventActionToggleNoForwards) {
             TLRPC.TL_channelAdminLogEventActionToggleNoForwards action = (TLRPC.TL_channelAdminLogEventActionToggleNoForwards) event.action;
             boolean isChannel = ChatObject.isChannel(chat) && !chat.megagroup;
@@ -2536,12 +2540,13 @@ public class MessageObject {
     public boolean translated = false;
     public boolean updateTranslation(boolean force) {
         /*boolean replyUpdated = replyMessageObject != null && replyMessageObject.updateTranslation(force);
+        TranslateController translateController = MessagesController.getInstance(currentAccount).getTranslateController();
         if (
             TranslateController.isTranslatable(this) &&
-            MessagesController.getInstance(currentAccount).getTranslateController().isTranslatingDialog(getDialogId()) &&
+            translateController.isTranslatingDialog(getDialogId()) &&
             messageOwner != null &&
             messageOwner.translatedText != null &&
-            TextUtils.equals(MessagesController.getInstance(currentAccount).getTranslateController().getDialogTranslateTo(getDialogId()), messageOwner.translatedToLanguage)
+            TextUtils.equals(translateController.getDialogTranslateTo(getDialogId()), messageOwner.translatedToLanguage)
         ) {
             if (translated) {
                 return replyUpdated || false;
@@ -3052,6 +3057,10 @@ public class MessageObject {
         }
     }
 
+    public boolean hasInlineBotButtons() {
+        return !isRestrictedMessage && messageOwner != null && messageOwner.reply_markup instanceof TLRPC.TL_replyInlineMarkup && !messageOwner.reply_markup.rows.isEmpty();
+    }
+
     public void measureInlineBotButtons() {
         if (isRestrictedMessage) {
             return;
@@ -3066,7 +3075,7 @@ public class MessageObject {
             }
         }
 
-        if (messageOwner.reply_markup instanceof TLRPC.TL_replyInlineMarkup && !hasExtendedMedia()) {
+        if (messageOwner.reply_markup instanceof TLRPC.TL_replyInlineMarkup && !hasExtendedMedia() && messageOwner.reply_markup.rows != null) {
             for (int a = 0; a < messageOwner.reply_markup.rows.size(); a++) {
                 TLRPC.TL_keyboardButtonRow row = messageOwner.reply_markup.rows.get(a);
                 int maxButtonSize = 0;
@@ -3146,7 +3155,41 @@ public class MessageObject {
 
         if (messageOwner instanceof TLRPC.TL_messageService) {
             if (messageOwner.action != null) {
-                if (messageOwner.action instanceof TLRPC.TL_messageActionGroupCallScheduled) {
+                if (messageOwner.action instanceof TLRPC.TL_messageActionSetSameChatWallPaper) {
+                    contentType = 1;
+                    type = TYPE_TEXT;
+                    TLRPC.TL_messageActionSetSameChatWallPaper action = (TLRPC.TL_messageActionSetSameChatWallPaper) messageOwner.action;
+                    TLRPC.User user = getUser(users, sUsers, isOutOwner() ? 0 : getDialogId());
+                    photoThumbs = new ArrayList<>();
+                    if (action.wallpaper.document != null) {
+                        photoThumbs.addAll(action.wallpaper.document.thumbs);
+                        photoThumbsObject = action.wallpaper.document;
+                    }
+                    if (user != null) {
+                        if (user.id == UserConfig.getInstance(currentAccount).clientUserId) {
+                            messageText = LocaleController.formatString("ActionSetSameWallpaperForThisChatSelf", R.string.ActionSetSameWallpaperForThisChatSelf);
+                        } else {
+                            messageText = LocaleController.formatString("ActionSetSameWallpaperForThisChat", R.string.ActionSetSameWallpaperForThisChat, user.first_name);
+                        }
+                    }
+                } else if (messageOwner.action instanceof TLRPC.TL_messageActionSetChatWallPaper) {
+                    contentType = 1;
+                    type = TYPE_ACTION_WALLPAPER;
+                    TLRPC.TL_messageActionSetChatWallPaper wallPaper = (TLRPC.TL_messageActionSetChatWallPaper) messageOwner.action;
+                    photoThumbs = new ArrayList<>();
+                    if (wallPaper.wallpaper.document != null) {
+                        photoThumbs.addAll(wallPaper.wallpaper.document.thumbs);
+                        photoThumbsObject = wallPaper.wallpaper.document;
+                    }
+                    TLRPC.User user = getUser(users, sUsers, isOutOwner() ? 0 : getDialogId());
+                    if (user != null) {
+                        if (user.id == UserConfig.getInstance(currentAccount).clientUserId) {
+                            messageText = LocaleController.formatString("ActionSetWallpaperForThisChatSelf", R.string.ActionSetWallpaperForThisChatSelf);
+                        } else {
+                            messageText = LocaleController.formatString("ActionSetWallpaperForThisChat", R.string.ActionSetWallpaperForThisChat, user.first_name);
+                        }
+                    }
+                } else if (messageOwner.action instanceof TLRPC.TL_messageActionGroupCallScheduled) {
                     TLRPC.TL_messageActionGroupCallScheduled action = (TLRPC.TL_messageActionGroupCallScheduled) messageOwner.action;
                     if (messageOwner.peer_id instanceof TLRPC.TL_peerChat || isSupergroup()) {
                         messageText = LocaleController.formatString("ActionGroupCallScheduled", R.string.ActionGroupCallScheduled, LocaleController.formatStartsTime(action.schedule_date, 3, false));
@@ -3961,7 +4004,19 @@ public class MessageObject {
                 type = TYPE_TEXT;
             }
         } else if (messageOwner instanceof TLRPC.TL_messageService) {
-            if (messageOwner.action instanceof TLRPC.TL_messageActionSuggestProfilePhoto) {
+            if (messageOwner.action instanceof TLRPC.TL_messageActionSetSameChatWallPaper) {
+                contentType = 1;
+                type = TYPE_TEXT;
+            } else if (messageOwner.action instanceof TLRPC.TL_messageActionSetChatWallPaper) {
+                contentType = 1;
+                type = TYPE_ACTION_WALLPAPER;
+                TLRPC.TL_messageActionSetChatWallPaper wallPaper = (TLRPC.TL_messageActionSetChatWallPaper) messageOwner.action;
+                photoThumbs = new ArrayList<>();
+                if (wallPaper.wallpaper.document != null) {
+                    photoThumbs.addAll(wallPaper.wallpaper.document.thumbs);
+                    photoThumbsObject = wallPaper.wallpaper.document;
+                }
+            } else if (messageOwner.action instanceof TLRPC.TL_messageActionSuggestProfilePhoto) {
                 contentType = 1;
                 type = TYPE_SUGGEST_PHOTO;
                 photoThumbs = new ArrayList<>();
@@ -5110,6 +5165,10 @@ public class MessageObject {
                 }
                 newRun.flags = TextStyleSpan.FLAG_STYLE_URL;
                 newRun.urlEntity = entity;
+
+                if (entity instanceof TLRPC.TL_messageEntityTextUrl) {
+                    newRun.flags |= TextStyleSpan.FLAG_STYLE_TEXT_URL;
+                }
             }
 
             for (int b = 0, N2 = runs.size(); b < N2; b++) {
@@ -6357,6 +6416,10 @@ public class MessageObject {
     }
 
     public static String findAnimatedEmojiEmoticon(TLRPC.Document document, String fallback) {
+        return findAnimatedEmojiEmoticon(document, fallback, null);
+    }
+
+    public static String findAnimatedEmojiEmoticon(TLRPC.Document document, String fallback, Integer currentAccountForFull) {
         if (document == null) {
             return fallback;
         }
@@ -6364,6 +6427,21 @@ public class MessageObject {
             TLRPC.DocumentAttribute attribute = document.attributes.get(a);
             if (attribute instanceof TLRPC.TL_documentAttributeCustomEmoji ||
                 attribute instanceof TLRPC.TL_documentAttributeSticker) {
+                if (currentAccountForFull != null) {
+                    TLRPC.TL_messages_stickerSet set = MediaDataController.getInstance(currentAccountForFull).getStickerSet(attribute.stickerset, true);
+                    StringBuilder emoji = new StringBuilder("");
+                    if (set != null && set.packs != null) {
+                        for (int p = 0; p < set.packs.size(); ++p) {
+                            TLRPC.TL_stickerPack pack = set.packs.get(p);
+                            if (pack.documents.contains(document.id)) {
+                                emoji.append(pack.emoticon);
+                            }
+                        }
+                    }
+                    if (!TextUtils.isEmpty(emoji)) {
+                        return emoji.toString();
+                    }
+                }
                 return attribute.alt;
             }
         }

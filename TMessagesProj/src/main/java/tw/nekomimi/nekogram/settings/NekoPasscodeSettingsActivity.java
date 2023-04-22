@@ -130,7 +130,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                                 }
                             }).create();
                     showDialog(alertDialog);
-                    ((TextView) alertDialog.getButton(Dialog.BUTTON_POSITIVE)).setTextColor(Theme.getColor(Theme.key_dialogTextRed));
+                    ((TextView) alertDialog.getButton(Dialog.BUTTON_POSITIVE)).setTextColor(Theme.getColor(Theme.key_text_RedBold));
                 });
                 removePasscode.setBackground(Theme.getSelectorDrawable(false));
                 linearLayout.addView(removePasscode, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
@@ -155,7 +155,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                         updateRows();
                     }).create();
             showDialog(alertDialog);
-            ((TextView) alertDialog.getButton(Dialog.BUTTON_POSITIVE)).setTextColor(Theme.getColor(Theme.key_dialogTextRed));
+            ((TextView) alertDialog.getButton(Dialog.BUTTON_POSITIVE)).setTextColor(Theme.getColor(Theme.key_text_RedBold));
         } else if (position == showInSettingsRow) {
             PasscodeHelper.setHideSettings(!PasscodeHelper.isSettingsHidden());
             if (view instanceof TextCheckCell) {
@@ -238,10 +238,10 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                     if (position == setPanicCodeRow) {
                         textCell.setText(PasscodeHelper.hasPanicCode() ? LocaleController.getString("PasscodePanicCodeEdit", R.string.PasscodePanicCodeEdit) : LocaleController.getString("PasscodePanicCodeSet", R.string.PasscodePanicCodeSet), removePanicCodeRow != -1);
                     } else if (position == clearPasscodesRow) {
-                        textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
+                        textCell.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
                         textCell.setText("Clear passcodes", false);
                     } else if (position == removePanicCodeRow) {
-                        textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
+                        textCell.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
                         textCell.setText(LocaleController.getString("PasscodePanicCodeRemove", R.string.PasscodePanicCodeRemove), false);
                     }
                     break;

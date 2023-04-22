@@ -283,7 +283,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                     showDialog(alertDialog);
                     TextView button = (TextView) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
                     if (button != null) {
-                        button.setTextColor(Theme.getColor(Theme.key_dialogTextRed));
+                        button.setTextColor(Theme.getColor(Theme.key_text_RedBold));
                     }
                 }
             }
@@ -396,7 +396,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 showDialog(alertDialog);
                 TextView button = (TextView) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
                 if (button != null) {
-                    button.setTextColor(Theme.getColor(Theme.key_dialogTextRed));
+                    button.setTextColor(Theme.getColor(Theme.key_text_RedBold));
                 }
             } else if (currentType == TYPE_ENTER_HINT) {
                 onHintDone();
@@ -1402,7 +1402,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                                 needHideProgress();
                                 if ("PASSWORD_HASH_INVALID".equals(error.text)) {
                                     descriptionText.setText(LocaleController.getString("CheckPasswordWrong", R.string.CheckPasswordWrong));
-                                    descriptionText.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText4));
+                                    descriptionText.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
                                     onFieldError(outlineTextFirstRow, editTextFirstRow, true);
                                     showDoneButton(false);
                                 } else if (error.text.startsWith("FLOOD_WAIT")) {
@@ -2174,7 +2174,7 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
 
         builder.setNegativeButton(LocaleController.getString("ForceSetPasswordCancel", R.string.ForceSetPasswordCancel), (a1, a2) -> finishFragment());
         AlertDialog alertDialog = builder.show();
-        ((TextView)alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE)).setTextColor(Theme.getColor(Theme.key_dialogTextRed));
+        ((TextView)alertDialog.getButton(DialogInterface.BUTTON_NEGATIVE)).setTextColor(Theme.getColor(Theme.key_text_RedBold));
     }
 
     public void setBlockingAlert(int otherwiseRelogin) {

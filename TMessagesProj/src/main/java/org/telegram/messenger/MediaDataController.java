@@ -5885,6 +5885,9 @@ public class MediaDataController extends BaseController {
                 newRun.flags = TextStyleSpan.FLAG_STYLE_URL;
                 newRun.urlEntity = entity;
             }
+            if (entity instanceof TLRPC.TL_messageEntityTextUrl) {
+                newRun.flags |= TextStyleSpan.FLAG_STYLE_TEXT_URL;
+            }
 
             newRun.flags &= allowedFlags;
 
@@ -7393,7 +7396,7 @@ public class MediaDataController extends BaseController {
             }
             for (int i = 0; i < len; ++i) {
                 String emoji = result.get(i).emoji;
-                if (emoji == null) {
+                if (TextUtils.isEmpty(emoji)) {
                     continue;
                 }
                 animatedEmoji.clear();
@@ -7403,8 +7406,9 @@ public class MediaDataController extends BaseController {
                             try {
                                 long documentId = Long.parseLong(Emoji.recentEmoji.get(j).substring(9));
                                 TLRPC.Document document = AnimatedEmojiDrawable.findDocument(currentAccount, documentId);
+                                String emoticon = MessageObject.findAnimatedEmojiEmoticon(document, null);
                                 if (document != null &&
-                                    emoji.equals(MessageObject.findAnimatedEmojiEmoticon(document, null)) &&
+                                    emoticon != null && emoticon.contains(emoji) &&
                                     (isPremium || MessageObject.isFreeEmoji(document))
                                 ) {
                                     animatedEmoji.add(document);
@@ -7420,7 +7424,39 @@ public class MediaDataController extends BaseController {
                 if (animatedEmoji.size() < maxAnimatedPerEmoji && emojiPacks[0] != null) {
                     for (int j = 0; j < emojiPacks[0].size(); ++j) {
                         TLRPC.TL_messages_stickerSet set = emojiPacks[0].get(j);
-                        if (set != null && set.documents != null) {
+                        if (set != null && set.packs != null) {
+                            for (int k = 0; k < set.packs.size(); ++k) {
+                                TLRPC.TL_stickerPack pack = set.packs.get(k);
+                                if (pack != null && pack.emoticon != null && pack.emoticon.contains(emoji)) {
+                                    for (int d = 0; d < pack.documents.size(); ++d) {
+                                        long documentId = pack.documents.get(d);
+                                        TLRPC.Document document = null;
+                                        for (int d2 = 0; d2 < set.documents.size(); ++d2) {
+                                            TLRPC.Document doc = set.documents.get(d2);
+                                            if (doc != null && doc.id == documentId) {
+                                                document = doc;
+                                                break;
+                                            }
+                                        }
+                                        if (document != null && document.attributes != null && !animatedEmoji.contains(document)) {
+                                            boolean duplicate = false;
+                                            for (int l = 0; l < animatedEmoji.size(); ++l) {
+                                                if (animatedEmoji.get(l).id == document.id) {
+                                                    duplicate = true;
+                                                    break;
+                                                }
+                                            }
+                                            if (!duplicate) {
+                                                animatedEmoji.add(document);
+                                                if (animatedEmoji.size() >= maxAnimatedPerEmoji) {
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        } else if (set != null && set.documents != null) {
                             for (int d = 0; d < set.documents.size(); ++d) {
                                 TLRPC.Document document = set.documents.get(d);
                                 if (document != null && document.attributes != null && !animatedEmoji.contains(document)) {
@@ -7433,7 +7469,7 @@ public class MediaDataController extends BaseController {
                                         }
                                     }
 
-                                    if (attribute != null && emoji.equals(attribute.alt) && (isPremium || attribute.free || set.set != null && set.set.short_name != null && set.set.short_name.equals(topicIconsName))) {
+                                    if (attribute != null && !TextUtils.isEmpty(attribute.alt) && attribute.alt.contains(emoji) && (isPremium || attribute.free || set.set != null && set.set.short_name != null && set.set.short_name.equals(topicIconsName))) {
                                         boolean duplicate = false;
                                         for (int l = 0; l < animatedEmoji.size(); ++l) {
                                             if (animatedEmoji.get(l).id == document.id) {
@@ -7478,7 +7514,7 @@ public class MediaDataController extends BaseController {
                                     }
                                 }
 
-                                if (attribute != null && emoji.equals(attribute.alt) && (isPremium || attribute.free || set.set != null && set.set.short_name != null && set.set.short_name.equals(topicIconsName))) {
+                                if (attribute != null && !TextUtils.isEmpty(attribute.alt) && attribute.alt.contains(emoji) && (isPremium || attribute.free || set.set != null && set.set.short_name != null && set.set.short_name.equals(topicIconsName))) {
                                     boolean duplicate = false;
                                     for (int l = 0; l < animatedEmoji.size(); ++l) {
                                         if (animatedEmoji.get(l).id == document.id) {
@@ -7625,7 +7661,7 @@ public class MediaDataController extends BaseController {
         final int type = 1; // default
         if (!emojiStatusesFromCacheFetched[type]) {
             fetchEmojiStatuses(type, true);
-        } else if (/*emojiStatusesHash[type] == 0 || */emojiStatusesFetchDate[type] == null || (System.currentTimeMillis() / 1000 - emojiStatusesFetchDate[type]) > 60 * 30) {
+        } else if (emojiStatuses[type] == null || emojiStatusesFetchDate[type] != null && (System.currentTimeMillis() / 1000 - emojiStatusesFetchDate[type]) > 60 * 30) {
             fetchEmojiStatuses(type, false);
         }
         return emojiStatuses[type];
@@ -7635,7 +7671,7 @@ public class MediaDataController extends BaseController {
         final int type = 0; // recent
         if (!emojiStatusesFromCacheFetched[type]) {
             fetchEmojiStatuses(type, true);
-        } else if (/*emojiStatusesHash[type] == 0 || */emojiStatusesFetchDate[type] == null || (System.currentTimeMillis() / 1000 - emojiStatusesFetchDate[type]) > 60 * 30) {
+        } else if (emojiStatuses[type] == null || emojiStatusesFetchDate[type] != null && (System.currentTimeMillis() / 1000 - emojiStatusesFetchDate[type]) > 60 * 30) {
             fetchEmojiStatuses(type, false);
         }
         return emojiStatuses[type];

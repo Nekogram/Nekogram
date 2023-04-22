@@ -360,7 +360,7 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
             } else if (currentInfo.available) {
                 if (currentInfo.ping >= 1000) {
                     valueTextView.setText(String.format("%s, %s", LocaleController.getString("SpeedSlow", R.string.SpeedSlow), LocaleController.formatString("Ping", R.string.Ping, currentInfo.ping)));
-                    colorKey = Theme.key_windowBackgroundWhiteRedText4;
+                    colorKey = Theme.key_text_RedRegular;
                 } else if (currentInfo.ping != 0) {
                     valueTextView.setText(String.format("%s, %s", LocaleController.getString("Available", R.string.Available), LocaleController.formatString("Ping", R.string.Ping, currentInfo.ping)));
                     colorKey = Theme.key_windowBackgroundWhiteGreenText;
@@ -370,7 +370,7 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
                 }
             } else {
                 valueTextView.setText(LocaleController.getString("Unavailable", R.string.Unavailable));
-                colorKey = Theme.key_windowBackgroundWhiteRedText4;
+                colorKey = Theme.key_text_RedRegular;
             }
             valueTextView.setTag(colorKey);
             valueTextView.setTextColor(getThemedColor(colorKey));
@@ -394,7 +394,7 @@ public class DatacenterActivity extends BaseNekoSettingsActivity implements Noti
         themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG | ThemeDescription.FLAG_IMAGECOLOR, new Class[]{DatacenterCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteBlueText6));
         themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG | ThemeDescription.FLAG_IMAGECOLOR, new Class[]{DatacenterCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGrayText2));
         themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG | ThemeDescription.FLAG_IMAGECOLOR, new Class[]{DatacenterCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteGreenText));
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG | ThemeDescription.FLAG_IMAGECOLOR, new Class[]{DatacenterCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_windowBackgroundWhiteRedText4));
+        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_TEXTCOLOR | ThemeDescription.FLAG_CHECKTAG | ThemeDescription.FLAG_IMAGECOLOR, new Class[]{DatacenterCell.class}, new String[]{"valueTextView"}, null, null, null, Theme.key_text_RedRegular));
 
         themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DatacenterHeaderCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
         themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_LINKCOLOR, new Class[]{DatacenterHeaderCell.class}, new String[]{"textView"}, null, null, null, Theme.key_windowBackgroundWhiteLinkText));

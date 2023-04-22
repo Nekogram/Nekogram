@@ -148,7 +148,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             AlertDialog dialog = builder.create();
             dialog.setOnShowListener(dialog1 -> {
                 var button = (TextView) dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                button.setTextColor(Theme.getColor(Theme.key_dialogTextRed));
+                button.setTextColor(Theme.getColor(Theme.key_text_RedBold));
                 button.setEnabled(false);
                 var buttonText = button.getText();
                 new CountDownTimer(60000, 100) {
@@ -218,7 +218,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     @Override
     public Integer getSelectorColor(int position) {
         if (position == deleteAccountRow) {
-            return Theme.multAlpha(getThemedColor(Theme.key_windowBackgroundWhiteRedText2), .1f);
+            return Theme.multAlpha(getThemedColor(Theme.key_text_RedRegular), .1f);
         }
         return super.getSelectorColor(position);
     }
@@ -281,7 +281,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == deleteAccountRow) {
                         textCell.setText(LocaleController.getString("DeleteAccount", R.string.DeleteAccount), false);
-                        textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText));
+                        textCell.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
                     } else if (position == downloadSpeedBoostRow) {
                         String value;
                         switch (NekoConfig.downloadSpeedBoost) {

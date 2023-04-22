@@ -2443,7 +2443,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         addDocumentCell.setOnClickListener(v -> openAddDocumentAlert());
 
         deletePassportCell = new TextSettingsCell(context);
-        deletePassportCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText3));
+        deletePassportCell.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
         deletePassportCell.setBackgroundDrawable(Theme.getSelectorDrawable(true));
         deletePassportCell.setText(LocaleController.getString("TelegramPassportDelete", R.string.TelegramPassportDelete), false);
         linearLayout2.addView(deletePassportCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
@@ -2477,7 +2477,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             showDialog(alertDialog);
             TextView button = (TextView) alertDialog.getButton(DialogInterface.BUTTON_POSITIVE);
             if (button != null) {
-                button.setTextColor(Theme.getColor(Theme.key_dialogTextRed));
+                button.setTextColor(Theme.getColor(Theme.key_text_RedBold));
             }
         });
 
@@ -3209,7 +3209,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                     stringBuilder.append("\n\n");
                     stringBuilder.append(noAllDocumentsErrorText);
                     text = stringBuilder;
-                    stringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_windowBackgroundWhiteRedText3)), 0, errorText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    stringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_text_RedRegular)), 0, errorText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                     errorsValues.put("files_all", "");
                 }
             }
@@ -3263,7 +3263,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         stringBuilder.append("\n\n");
                         stringBuilder.append(noAllTranslationErrorText);
                         text = stringBuilder;
-                        stringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_windowBackgroundWhiteRedText3)), 0, errorText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        stringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_text_RedRegular)), 0, errorText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         errorsValues.put("translation_all", "");
                     }
                 }
@@ -3355,7 +3355,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             inputFields[a].setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             inputFields[a].setCursorSize(AndroidUtilities.dp(20));
             inputFields[a].setCursorWidth(1.5f);
-            inputFields[a].setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated), Theme.getColor(Theme.key_windowBackgroundWhiteRedText3));
+            inputFields[a].setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated), Theme.getColor(Theme.key_text_RedRegular));
             if (a == FIELD_COUNTRY) {
                 inputFields[a].setOnTouchListener((v, event) -> {
                     if (getParentActivity() == null) {
@@ -3507,7 +3507,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             sectionCell.setBackgroundDrawable(Theme.getThemedDrawable(context, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
 
             TextSettingsCell settingsCell1 = new TextSettingsCell(context);
-            settingsCell1.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText3));
+            settingsCell1.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
             settingsCell1.setBackgroundDrawable(Theme.getSelectorDrawable(true));
             if (currentDocumentsType == null) {
                 settingsCell1.setText(LocaleController.getString("PassportDeleteInfo", R.string.PassportDeleteInfo), false);
@@ -3993,7 +3993,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                         stringBuilder.append("\n\n");
                         stringBuilder.append(noAllTranslationErrorText);
                         text = stringBuilder;
-                        stringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_windowBackgroundWhiteRedText3)), 0, errorText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                        stringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_text_RedRegular)), 0, errorText.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
                         errorsValues.put("translation_all", "");
                     }
                 }
@@ -4150,7 +4150,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             inputFields[a].setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             inputFields[a].setCursorSize(AndroidUtilities.dp(20));
             inputFields[a].setCursorWidth(1.5f);
-            inputFields[a].setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated), Theme.getColor(Theme.key_windowBackgroundWhiteRedText3));
+            inputFields[a].setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated), Theme.getColor(Theme.key_text_RedRegular));
             if (a == FIELD_CITIZENSHIP || a == FIELD_RESIDENCE) {
                 inputFields[a].setOnTouchListener((v, event) -> {
                     if (getParentActivity() == null) {
@@ -4490,7 +4490,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             inputExtraFields[a].setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             inputExtraFields[a].setCursorSize(AndroidUtilities.dp(20));
             inputExtraFields[a].setCursorWidth(1.5f);
-            inputExtraFields[a].setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated), Theme.getColor(Theme.key_windowBackgroundWhiteRedText3));
+            inputExtraFields[a].setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated), Theme.getColor(Theme.key_text_RedRegular));
             inputExtraFields[a].setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
             inputExtraFields[a].setImeOptions(EditorInfo.IME_ACTION_NEXT | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
 
@@ -4582,7 +4582,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
 
             TextSettingsCell settingsCell1 = new TextSettingsCell(context);
-            settingsCell1.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText3));
+            settingsCell1.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
             settingsCell1.setBackgroundDrawable(Theme.getSelectorDrawable(true));
             if (currentDocumentsType == null) {
                 settingsCell1.setText(LocaleController.getString("PassportDeleteInfo", R.string.PassportDeleteInfo), false);
@@ -4697,7 +4697,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
         }
         if (stringBuilder != null) {
-            stringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_windowBackgroundWhiteRedText3)), 0, stringBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            stringBuilder.setSpan(new ForegroundColorSpan(Theme.getColor(Theme.key_text_RedRegular)), 0, stringBuilder.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
             topErrorCell.setText(stringBuilder);
             topErrorCell.setVisibility(View.VISIBLE);
         } else if (topErrorCell.getVisibility() != View.GONE) {
@@ -4860,7 +4860,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         if (key == null || documentsErrors == null || (value = documentsErrors.get(key)) == null) {
             value = LocaleController.formatDateForBan(document.secureFile.date);
         } else {
-            cell.valueTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteRedText3));
+            cell.valueTextView.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
             errorsValues.put(key, "");
         }
 
@@ -5281,7 +5281,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             }
         }
         view.setValue(value);
-        view.valueTextView.setTextColor(Theme.getColor(isError ? Theme.key_windowBackgroundWhiteRedText3 : Theme.key_windowBackgroundWhiteGrayText2));
+        view.valueTextView.setTextColor(Theme.getColor(isError ? Theme.key_text_RedRegular : Theme.key_windowBackgroundWhiteGrayText2));
         view.setChecked(!isError && currentActivityType != TYPE_MANAGE && (documentOnly && documentRequiredType != null || !documentOnly && requiredTypeValue != null) && (documentRequiredType == null || documentRequiredTypeValue != null));
     }
 
@@ -7980,7 +7980,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 arrayList.add(new ThemeDescription(inputFields[a], ThemeDescription.FLAG_HINTTEXTCOLOR | ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, Theme.key_windowBackgroundWhiteBlueHeader));
                 arrayList.add(new ThemeDescription(inputFields[a], ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_windowBackgroundWhiteInputField));
                 arrayList.add(new ThemeDescription(inputFields[a], ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_windowBackgroundWhiteInputFieldActivated));
-                arrayList.add(new ThemeDescription(inputFields[a], ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, Theme.key_windowBackgroundWhiteRedText3));
+                arrayList.add(new ThemeDescription(inputFields[a], ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, Theme.key_text_RedRegular));
             }
         } else {
             arrayList.add(new ThemeDescription(null, ThemeDescription.FLAG_TEXTCOLOR, null, null, null, null, Theme.key_windowBackgroundWhiteBlackText));
@@ -7988,7 +7988,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
             arrayList.add(new ThemeDescription(null, ThemeDescription.FLAG_HINTTEXTCOLOR | ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, Theme.key_windowBackgroundWhiteBlueHeader));
             arrayList.add(new ThemeDescription(null, ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_windowBackgroundWhiteInputField));
             arrayList.add(new ThemeDescription(null, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_windowBackgroundWhiteInputFieldActivated));
-            arrayList.add(new ThemeDescription(null, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, Theme.key_windowBackgroundWhiteRedText3));
+            arrayList.add(new ThemeDescription(null, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, Theme.key_text_RedRegular));
         }
 
         if (inputExtraFields != null) {
@@ -7999,7 +7999,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
                 arrayList.add(new ThemeDescription(inputExtraFields[a], ThemeDescription.FLAG_HINTTEXTCOLOR | ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, Theme.key_windowBackgroundWhiteBlueHeader));
                 arrayList.add(new ThemeDescription(inputExtraFields[a], ThemeDescription.FLAG_BACKGROUNDFILTER, null, null, null, null, Theme.key_windowBackgroundWhiteInputField));
                 arrayList.add(new ThemeDescription(inputExtraFields[a], ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_windowBackgroundWhiteInputFieldActivated));
-                arrayList.add(new ThemeDescription(inputExtraFields[a], ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, Theme.key_windowBackgroundWhiteRedText3));
+                arrayList.add(new ThemeDescription(inputExtraFields[a], ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_PROGRESSBAR, null, null, null, null, Theme.key_text_RedRegular));
             }
         }
 
