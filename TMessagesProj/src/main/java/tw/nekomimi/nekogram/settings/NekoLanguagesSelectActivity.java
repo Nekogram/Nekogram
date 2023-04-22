@@ -338,13 +338,9 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
             switch (holder.getItemViewType()) {
-                case TYPE_SHADOW: {
-                    holder.itemView.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                    break;
-                }
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                    cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
+                    cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow, resourcesProvider));
                     cell.getTextView().setMovementMethod(null);
                     cell.setText("miaŭ");
                     break;

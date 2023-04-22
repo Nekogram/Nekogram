@@ -548,7 +548,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 case TYPE_DETAIL_SETTINGS: {
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
                     textCell.setMultilineDetail(true);
-                    boolean divider = position + 1 != endRow;
+                    boolean divider = position + 1 != emptyRow;
                     if (position == idRow) {
                         textCell.setTextAndValue("ID", String.valueOf(messageObject.messageOwner.id), divider);
                     } else if (position == channelRow || position == groupRow) {

@@ -81,13 +81,13 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     };
                     editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
                     editText.setText("");
-                    editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
+                    editText.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
                     editText.setHintText(LocaleController.getString("WsProvider", R.string.WsProvider));
-                    editText.setHeaderHintColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider));
+                    editText.setHeaderHintColor(getThemedColor(Theme.key_windowBackgroundWhiteBlueHeader));
                     editText.setSingleLine(true);
                     editText.setFocusable(true);
                     editText.setTransformHintToHeader(true);
-                    editText.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated, resourcesProvider), Theme.getColor(Theme.key_text_RedRegular, resourcesProvider));
+                    editText.setLineColors(getThemedColor(Theme.key_windowBackgroundWhiteInputField), getThemedColor(Theme.key_windowBackgroundWhiteInputFieldActivated), getThemedColor(Theme.key_text_RedRegular));
                     editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
                     editText.setBackground(null);
                     editText.requestFocus();
@@ -206,16 +206,16 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     CreationTextCell creationTextCell = (CreationTextCell) holder.itemView;
                     if (position == notWorkingRow) {
                         Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_report);
-                        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_text_RedRegular), PorterDuff.Mode.MULTIPLY));
+                        drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_text_RedRegular), PorterDuff.Mode.MULTIPLY));
                         creationTextCell.setTextColor(Theme.key_text_RedRegular);
                         creationTextCell.setTextAndIcon(LocaleController.getString("WsNotWorking", R.string.WsNotWorking), drawable, true);
                     } else if (position == ownRow) {
                         Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_psa);
-                        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
+                        drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
                         creationTextCell.setTextAndIcon(LocaleController.getString("WsUseMyOwnDomain", R.string.WsUseMyOwnDomain), drawable, true);
                     } else if (position == appRow) {
                         Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_psa);
-                        drawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
+                        drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
                         creationTextCell.setTextAndIcon(LocaleController.getString("WsStandaloneApp", R.string.WsStandaloneApp), drawable, false);
                     }
                     break;

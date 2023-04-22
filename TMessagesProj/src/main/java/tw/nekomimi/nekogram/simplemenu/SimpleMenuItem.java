@@ -1,5 +1,6 @@
 package tw.nekomimi.nekogram.simplemenu;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.util.TypedValue;
@@ -9,13 +10,14 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 
+@SuppressLint("ViewConstructor")
 public class SimpleMenuItem extends TextView {
     private boolean isSelected;
 
-    public SimpleMenuItem(Context context) {
+    public SimpleMenuItem(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         setTextSize(TypedValue.COMPLEX_UNIT_SP, 16);
-        setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
+        setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem, resourcesProvider));
         setMinimumHeight(AndroidUtilities.dp(48));
         setGravity(Gravity.CENTER_VERTICAL);
     }

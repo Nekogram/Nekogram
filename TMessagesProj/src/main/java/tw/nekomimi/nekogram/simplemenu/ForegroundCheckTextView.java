@@ -1,6 +1,5 @@
 package tw.nekomimi.nekogram.simplemenu;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
@@ -39,7 +38,6 @@ public class ForegroundCheckTextView extends CheckedTextView {
         super(context, attrs, defStyleAttr);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public ForegroundCheckTextView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
         super(context, attrs, defStyleAttr, defStyleRes);
     }

@@ -46,6 +46,7 @@ public class PopupHelper {
                 cell.setTag(a);
                 cell.setCheckColor(Theme.getColor(Theme.key_radioBackground, resourcesProvider), Theme.getColor(Theme.key_dialogRadioBackgroundChecked, resourcesProvider));
                 cell.setTextAndValue(entries.get(a), checkedIndex == a);
+                cell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), Theme.RIPPLE_MASK_ALL));
                 linearLayout.addView(cell);
                 cell.setOnClickListener(v -> {
                     Integer which = (Integer) v.getTag();
@@ -67,7 +68,7 @@ public class PopupHelper {
                     FileLog.e(e);
                 }
             }
-            mPopupWindow = new SimpleMenuPopupWindow(context);
+            mPopupWindow = new SimpleMenuPopupWindow(context, resourcesProvider);
             mPopupWindow.setOnItemClickListener(listener);
             mPopupWindow.setEntries(entries.toArray(new CharSequence[0]));
             mPopupWindow.setSelectedIndex(checkedIndex);

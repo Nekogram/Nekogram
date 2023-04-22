@@ -56,7 +56,7 @@ public class SimpleMenuPopupWindow extends PopupWindow {
     private int mSelectedIndex;
     private int mMeasuredWidth;
 
-    public SimpleMenuPopupWindow(Context context) {
+    public SimpleMenuPopupWindow(Context context, Theme.ResourcesProvider resourcesProvider) {
 
         setFocusable(true);
         setOutsideTouchable(false);
@@ -75,7 +75,7 @@ public class SimpleMenuPopupWindow extends PopupWindow {
 
         GradientDrawable backgroundDrawable = new GradientDrawable();
         backgroundDrawable.setCornerRadius(AndroidUtilities.dp(4));
-        backgroundDrawable.setColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground));
+        backgroundDrawable.setColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground, resourcesProvider));
         setBackgroundDrawable(backgroundDrawable);
 
         RecyclerListView mList = new RecyclerListView(context);
@@ -103,7 +103,7 @@ public class SimpleMenuPopupWindow extends PopupWindow {
 
         setContentView(mList);
 
-        mAdapter = new SimpleMenuListAdapter(this);
+        mAdapter = new SimpleMenuListAdapter(this, resourcesProvider);
         mList.setAdapter(mAdapter);
 
         // TODO do not hardcode
@@ -373,7 +373,7 @@ public class SimpleMenuPopupWindow extends PopupWindow {
 
         Rect bounds = new Rect();
 
-        TextView view = new SimpleMenuItem(context);
+        TextView view = new SimpleMenuItem(context, null);
         Paint textPaint = view.getPaint();
 
         for (CharSequence chs : entries) {

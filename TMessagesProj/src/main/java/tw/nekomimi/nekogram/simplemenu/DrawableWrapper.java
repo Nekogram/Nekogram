@@ -8,13 +8,10 @@ import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.Region;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.core.graphics.drawable.DrawableCompat;
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 class DrawableWrapper extends Drawable implements Drawable.Callback {
 
     private Drawable mDrawable;
