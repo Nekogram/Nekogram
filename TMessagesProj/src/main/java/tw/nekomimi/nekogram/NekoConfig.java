@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import app.nekogram.tcp2ws.Tcp2WsServer;
 import app.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.forward.ForwardItem;
 import tw.nekomimi.nekogram.helpers.remote.AnalyticsHelper;
@@ -139,7 +140,7 @@ public class NekoConfig {
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
     private static boolean tcp2wsStarted = false;
-    private static org.tcp2ws.tcp2wsServer tcp2wsServer;
+    private static Tcp2WsServer tcp2wsServer;
     public static boolean wsEnableTLS = true;
     public static String wsDomain;
 
@@ -192,8 +193,8 @@ public class NekoConfig {
                 socket.close();
             }
             if (!tcp2wsStarted) {
-                org.tcp2ws.tcp2wsServer.setCdnDomain(getWsDomain());
-                tcp2wsServer = new org.tcp2ws.tcp2wsServer().setUserAgent(Extra.WS_USER_AGENT).setConnHash(Extra.WS_CONN_HASH).setTls(wsEnableTLS);
+                Tcp2WsServer.setCdnDomain(getWsDomain());
+                tcp2wsServer = new Tcp2WsServer().setUserAgent(Extra.WS_USER_AGENT).setConnHash(Extra.WS_CONN_HASH).setTls(wsEnableTLS);
                 tcp2wsServer.start(socksPort);
                 tcp2wsStarted = true;
                 var map = new HashMap<String, String>();
