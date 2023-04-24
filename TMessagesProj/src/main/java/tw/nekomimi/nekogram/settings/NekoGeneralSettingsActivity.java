@@ -24,9 +24,9 @@ import org.telegram.ui.Components.BulletinFactory;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import app.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
-import tw.nekomimi.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.translator.Translator;
 
 public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
@@ -273,7 +273,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
     }
 
     private ArrayList<String> getRestrictedLanguages() {
-        String currentLang = Translator.stripLanguageCode(Translator.getCurrentTranslator().getCurrentTargetLanguage());
+        String currentLang = Translator.stripLanguageCode(Translator.getCurrentTargetLanguage());
         ArrayList<String> langCodes = new ArrayList<>(NekoConfig.restrictedLanguages);
         if (!langCodes.contains(currentLang)) {
             langCodes.add(currentLang);

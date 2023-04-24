@@ -1,4 +1,4 @@
-package tw.nekomimi.nekogram.translator.popupwrapper;
+package tw.nekomimi.nekogram.translator;
 
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;

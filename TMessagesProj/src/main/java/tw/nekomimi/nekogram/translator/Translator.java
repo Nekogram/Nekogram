@@ -4,22 +4,29 @@ import android.annotation.SuppressLint;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.text.TextUtils;
 import android.text.style.URLSpan;
 import android.view.View;
 
+import androidx.annotation.NonNull;
+import androidx.collection.LruCache;
+import androidx.core.content.ContextCompat;
 import androidx.core.text.HtmlCompat;
 import androidx.core.util.Pair;
 
+import com.google.common.util.concurrent.FutureCallback;
+import com.google.common.util.concurrent.Futures;
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -27,8 +34,21 @@ import org.telegram.ui.Components.TranslateAlert2;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 
+import app.nekogram.translator.BaiduTranslator;
+import app.nekogram.translator.BaseTranslator;
+import app.nekogram.translator.DeepLTranslator;
+import app.nekogram.translator.GoogleAppTranslator;
+import app.nekogram.translator.Http429Exception;
+import app.nekogram.translator.LingoTranslator;
+import app.nekogram.translator.MicrosoftTranslator;
+import app.nekogram.translator.Result;
+import app.nekogram.translator.SogouTranslator;
+import app.nekogram.translator.TencentTranslator;
+import app.nekogram.translator.YandexTranslator;
+import app.nekogram.translator.YouDaoTranslator;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.settings.NekoLanguagesSelectActivity;
@@ -46,18 +66,24 @@ public class Translator {
     public static final String PROVIDER_TENCENT = "tencent";
 
     private static final ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
+    private static final LruCache<Pair<Object, String>, Pair<Object, String>> cache = new LruCache<>(200);
 
     public static ListeningExecutorService getExecutorService() {
         return executorService;
     }
 
-    public static void showTranslateDialog(Context context, String query, boolean noforwards) {
-        showTranslateDialog(context, query, noforwards, null, null, null);
-    }
-
     public static void showTranslateDialog(Context context, String query, boolean noforwards, BaseFragment fragment, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, String sourceLanguage) {
         if (NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL) {
-            Translator.startExternalTranslator(context, query);
+            @SuppressLint("InlinedApi") var intent = new Intent(Intent.ACTION_TRANSLATE);
+            intent.putExtra(Intent.EXTRA_TEXT, query);
+            try {
+                context.startActivity(intent);
+            } catch (ActivityNotFoundException e) {
+                new AlertDialog.Builder(context)
+                        .setTitle(LocaleController.getString("AppName", R.string.AppName))
+                        .setMessage(LocaleController.getString("NoTranslatorAppInstalled", R.string.NoTranslatorAppInstalled))
+                        .show();
+            }
         } else {
             TranslateAlert2.showAlert(context, fragment, UserConfig.selectedAccount, sourceLanguage, NekoConfig.translationTarget, query, null, noforwards, onLinkPress, null);
         }
@@ -72,7 +98,7 @@ public class Translator {
             builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
             builder.setPositiveButton(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(context, null, null, resourcesProvider));
         } else {
-            if (t instanceof BaseTranslator.Http429Exception) {
+            if (t instanceof Http429Exception) {
                 builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
                 builder.setMessage(LocaleController.getString("FloodWait", R.string.FloodWait));
             } else if (t != null && t.getLocalizedMessage() != null) {
@@ -101,7 +127,7 @@ public class Translator {
         if (lang == null || lang.equals("und")) {
             return false;
         }
-        String toLang = stripLanguageCode(Translator.getCurrentTranslator().getCurrentTargetLanguage());
+        String toLang = stripLanguageCode(getCurrentTargetLanguage());
         lang = stripLanguageCode(lang);
         if (lang.equals(toLang)) {
             return true;
@@ -123,25 +149,23 @@ public class Translator {
         ArrayList<String> names = new ArrayList<>();
         ArrayList<String> types = new ArrayList<>();
         names.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
-        types.add(Translator.PROVIDER_GOOGLE);
+        types.add(PROVIDER_GOOGLE);
         names.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
-        types.add(Translator.PROVIDER_YANDEX);
+        types.add(PROVIDER_YANDEX);
         names.add(LocaleController.getString("ProviderMicrosoftTranslator", R.string.ProviderMicrosoftTranslator));
-        types.add(Translator.PROVIDER_MICROSOFT);
+        types.add(PROVIDER_MICROSOFT);
         names.add(LocaleController.getString("ProviderDeepLTranslate", R.string.ProviderDeepLTranslate));
-        types.add(Translator.PROVIDER_DEEPL);
+        types.add(PROVIDER_DEEPL);
         names.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
-        types.add(Translator.PROVIDER_LINGO);
+        types.add(PROVIDER_LINGO);
         names.add(LocaleController.getString("ProviderYouDaoTranslate", R.string.ProviderYouDaoTranslate));
-        types.add(Translator.PROVIDER_YOUDAO);
+        types.add(PROVIDER_YOUDAO);
         names.add(LocaleController.getString("ProviderBaiduTranslate", R.string.ProviderBaiduTranslate));
-        types.add(Translator.PROVIDER_BAIDU);
+        types.add(PROVIDER_BAIDU);
         names.add(LocaleController.getString("ProviderSogouTranslate", R.string.ProviderSogouTranslate));
-        types.add(Translator.PROVIDER_SOGOU);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            names.add(LocaleController.getString("ProviderTencentTranslator", R.string.ProviderTencentTranslator));
-            types.add(Translator.PROVIDER_TENCENT);
-        }
+        types.add(PROVIDER_SOGOU);
+        names.add(LocaleController.getString("ProviderTencentTranslator", R.string.ProviderTencentTranslator));
+        types.add(PROVIDER_TENCENT);
         return new Pair<>(names, types);
     }
 
@@ -150,8 +174,8 @@ public class Translator {
     }
 
     public static void showTranslationTargetSelector(BaseFragment fragment, View view, Runnable callback, boolean whiteActionBar, Theme.ResourcesProvider resourcesProvider) {
-        if (Translator.getCurrentTranslator().getTargetLanguages().size() <= 30) {
-            ArrayList<String> targetLanguages = new ArrayList<>(Translator.getCurrentTranslator().getTargetLanguages());
+        if (getCurrentTranslator().getTargetLanguages().size() <= 30) {
+            ArrayList<String> targetLanguages = new ArrayList<>(getCurrentTranslator().getTargetLanguages());
             ArrayList<CharSequence> names = new ArrayList<>();
             for (String language : targetLanguages) {
                 Locale locale = Locale.forLanguageTag(language);
@@ -205,7 +229,7 @@ public class Translator {
         }
         PopupHelper.show(names, LocaleController.getString("TranslationProvider", R.string.TranslationProvider), types.indexOf(NekoConfig.translationProvider), context, view, i -> {
             BaseTranslator translator = getTranslator(types.get(i));
-            String targetLanguage = translator.getTargetLanguage(NekoConfig.translationTarget);
+            String targetLanguage = getTargetLanguage(translator, NekoConfig.translationTarget);
 
             if (translator.supportLanguage(targetLanguage)) {
                 NekoConfig.setTranslationProvider(types.get(i));
@@ -215,11 +239,11 @@ public class Translator {
                         .setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
                 if ("app".equals(NekoConfig.translationTarget)) {
                     builder.setPositiveButton(LocaleController.getString("UseGoogleTranslate", R.string.UseGoogleTranslate), (dialog, which) -> {
-                        NekoConfig.setTranslationProvider(Translator.PROVIDER_GOOGLE);
+                        NekoConfig.setTranslationProvider(PROVIDER_GOOGLE);
                         if (callback != null) callback.run(true);
                     });
                     builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-                } else if (translator.supportLanguage(translator.getCurrentAppLanguage())) {
+                } else if (translator.supportLanguage(getCurrentAppLanguage(translator))) {
                     builder.setPositiveButton(LocaleController.getString("ResetLanguage", R.string.ResetLanguage), (dialog, which) -> {
                         NekoConfig.setTranslationProvider(types.get(i));
                         NekoConfig.setTranslationTarget("app");
@@ -238,13 +262,14 @@ public class Translator {
         return getTranslator(NekoConfig.translationProvider);
     }
 
-    public static BaseTranslator getTranslator(String type) {
+    private static BaseTranslator getTranslator(String type) {
         switch (type) {
             case PROVIDER_YANDEX:
                 return YandexTranslator.getInstance();
             case PROVIDER_LINGO:
                 return LingoTranslator.getInstance();
             case PROVIDER_DEEPL:
+                DeepLTranslator.setFormality(NekoConfig.deepLFormality);
                 return DeepLTranslator.getInstance();
             case PROVIDER_MICROSOFT:
                 return MicrosoftTranslator.getInstance();
@@ -265,30 +290,17 @@ public class Translator {
     public static void translate(Object query, String fl, String tl, TranslateCallBack translateCallBack) {
         BaseTranslator translator = getCurrentTranslator();
 
-        String language = tl == null ? translator.getCurrentTargetLanguage() : tl;
+        String language = tl == null ? getCurrentTargetLanguage() : tl;
 
         if (!translator.supportLanguage(language)) {
             translateCallBack.onError(new UnsupportedTargetLanguageException());
         } else {
-            translator.startTask(query, fl, language, translateCallBack);
+            startTask(translator, query, fl, language, translateCallBack);
         }
     }
 
     public static void translate(Object query, String fl, TranslateCallBack translateCallBack) {
         translate(query, fl, null, translateCallBack);
-    }
-
-    public static void startExternalTranslator(Context context, String text) {
-        @SuppressLint("InlinedApi") var intent = new Intent(Intent.ACTION_TRANSLATE);
-        intent.putExtra(Intent.EXTRA_TEXT, text);
-        try {
-            context.startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            new AlertDialog.Builder(context)
-                    .setTitle(LocaleController.getString("AppName", R.string.AppName))
-                    .setMessage(LocaleController.getString("NoTranslatorAppInstalled", R.string.NoTranslatorAppInstalled))
-                    .show();
-        }
     }
 
     public interface TranslateCallBack {
@@ -300,5 +312,108 @@ public class Translator {
     private static class UnsupportedTargetLanguageException extends IllegalArgumentException {
     }
 
+    private static void startTask(BaseTranslator translator, Object query, String fromLang, String toLang, TranslateCallBack translateCallBack) {
+        var result = cache.get(Pair.create(query, toLang + "|" + NekoConfig.translationProvider));
+        if (result != null) {
+            translateCallBack.onSuccess(result.first, result.second == null ? fromLang : translator.convertLanguageCode(result.second, true), toLang);
+        } else {
+            TranslateTask translateTask = new TranslateTask(translator, query, fromLang, toLang, translateCallBack);
+            ListenableFuture<Pair<Object, String>> future = getExecutorService().submit(translateTask);
+            Futures.addCallback(future, translateTask, ContextCompat.getMainExecutor(ApplicationLoader.applicationContext));
+        }
+    }
 
+    private static String getCurrentAppLanguage(BaseTranslator translator) {
+        String toLang;
+        Locale locale = LocaleController.getInstance().getCurrentLocale();
+        toLang = translator.convertLanguageCode(locale.getLanguage(), locale.getCountry());
+        if (!translator.supportLanguage(toLang)) {
+            toLang = translator.convertLanguageCode(LocaleController.getString("LanguageCode", R.string.LanguageCode), null);
+        }
+        return toLang;
+    }
+
+    private static String getTargetLanguage(BaseTranslator translator, String language) {
+        String toLang;
+        if (language.equals("app")) {
+            toLang = getCurrentAppLanguage(translator);
+        } else {
+            toLang = language;
+        }
+        return toLang;
+    }
+
+    public static String getCurrentTargetLanguage() {
+        return getTargetLanguage(getCurrentTranslator(), NekoConfig.translationTarget);
+    }
+
+    private static class TranslateTask implements Callable<Pair<Object, String>>, FutureCallback<Pair<Object, String>> {
+        private final TranslateCallBack translateCallBack;
+        private final BaseTranslator translator;
+        private final Object query;
+        private final String fl;
+        private final String tl;
+
+        public TranslateTask(BaseTranslator translator, Object query, String fl, String tl, TranslateCallBack translateCallBack) {
+            this.translator = translator;
+            this.query = query;
+            this.fl = fl;
+            this.tl = tl;
+            this.translateCallBack = translateCallBack;
+        }
+
+        @Override
+        public Pair<Object, String> call() throws Exception {
+            var from = "";//translator.convertLanguageCode(TextUtils.isEmpty(fl) || "und".equals(fl) ? "auto" : fl, false);
+            var to = translator.convertLanguageCode(tl, false);
+            if (query instanceof String) {
+                Result result = translator.translate((String) query, from, to);
+                return Pair.create(result.translation, result.sourceLanguage);
+            } else if (query instanceof TLRPC.Poll) {
+                TLRPC.TL_poll poll = new TLRPC.TL_poll();
+                TLRPC.TL_poll original = (TLRPC.TL_poll) query;
+                var question = translator.translate(original.question, from, to);
+                if (NekoConfig.showOriginal) {
+                    poll.question = original.question +
+                            "\n" +
+                            "--------" +
+                            "\n" + question.translation;
+                } else {
+                    poll.question = (String) question.translation;
+                }
+                for (int i = 0; i < original.answers.size(); i++) {
+                    TLRPC.TL_pollAnswer answer = new TLRPC.TL_pollAnswer();
+                    if (NekoConfig.showOriginal) {
+                        answer.text = original.answers.get(i).text + " | " + translator.translate(original.answers.get(i).text, from, to).translation;
+                    } else {
+                        answer.text = translator.translate(original.answers.get(i).text, from, to).translation;
+                    }
+                    answer.option = original.answers.get(i).option;
+                    poll.answers.add(answer);
+                }
+                poll.close_date = original.close_date;
+                poll.close_period = original.close_period;
+                poll.closed = original.closed;
+                poll.flags = original.flags;
+                poll.id = original.id;
+                poll.multiple_choice = original.multiple_choice;
+                poll.public_voters = original.public_voters;
+                poll.quiz = original.quiz;
+                return Pair.create(poll, question.sourceLanguage);
+            } else {
+                throw new UnsupportedOperationException("Unsupported translation query");
+            }
+        }
+
+        @Override
+        public void onSuccess(Pair<Object, String> result) {
+            translateCallBack.onSuccess(result.first, result.second == null ? fl : translator.convertLanguageCode(result.second, true), tl);
+            cache.put(Pair.create(query, tl), result);
+        }
+
+        @Override
+        public void onFailure(@NonNull Throwable t) {
+            translateCallBack.onError(t);
+        }
+    }
 }

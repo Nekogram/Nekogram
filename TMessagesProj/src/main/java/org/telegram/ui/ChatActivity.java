@@ -314,7 +314,7 @@ import tw.nekomimi.nekogram.helpers.PermissionHelper;
 import tw.nekomimi.nekogram.helpers.QrHelper;
 import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
 import tw.nekomimi.nekogram.translator.Translator;
-import tw.nekomimi.nekogram.translator.popupwrapper.TranslatorSettingsPopupWrapper;
+import tw.nekomimi.nekogram.translator.TranslatorSettingsPopupWrapper;
 
 import java.io.BufferedWriter;
 import java.io.File;

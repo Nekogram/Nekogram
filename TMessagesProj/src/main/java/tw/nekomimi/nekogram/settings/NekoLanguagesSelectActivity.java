@@ -181,7 +181,7 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
         if (language == null) {
             return false;
         }
-        var currentTargetLanguage = Translator.stripLanguageCode(Translator.getCurrentTranslator().getCurrentTargetLanguage());
+        var currentTargetLanguage = Translator.stripLanguageCode(Translator.getCurrentTargetLanguage());
         if (language.equals(currentTargetLanguage) && doNotTranslate) {
             return false;
         }
@@ -212,7 +212,7 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
     }
 
     private String getCurrentTargetLanguage() {
-        var language = Translator.getCurrentTranslator().getCurrentTargetLanguage();
+        var language = Translator.getCurrentTargetLanguage();
         if (currentType == TYPE_RESTRICTED) {
             language = Translator.stripLanguageCode(language);
         }
