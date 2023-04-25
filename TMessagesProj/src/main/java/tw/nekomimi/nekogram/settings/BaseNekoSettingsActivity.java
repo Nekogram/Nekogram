@@ -333,10 +333,25 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
         @Override
         public final void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+            boolean top = position > 0;
+            boolean bottom = position < getItemCount() - 1;
             if (holder.getItemViewType() == TYPE_SHADOW) {
                 ShadowSectionCell shadowCell = (ShadowSectionCell) holder.itemView;
-                shadowCell.setTopBottom(position > 0, position < getItemCount() - 1);
+                shadowCell.setTopBottom(top, bottom);
                 return;
+            } else if (holder.getItemViewType() == TYPE_INFO_PRIVACY) {
+                TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
+                int drawable;
+                if (top && bottom) {
+                    drawable = R.drawable.greydivider;
+                } else if (top) {
+                    drawable = R.drawable.greydivider_bottom;
+                } else if (bottom) {
+                    drawable = R.drawable.greydivider_top;
+                } else {
+                    drawable = R.drawable.transparent;
+                }
+                cell.setBackground(Theme.getThemedDrawableByKey(mContext, drawable, Theme.key_windowBackgroundGrayShadow));
             }
             var payload = holder.getPayload();
             onBindViewHolder(holder, position, PARTIAL.equals(payload));
@@ -372,7 +387,6 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
                     break;
                 case TYPE_INFO_PRIVACY:
                     view = new TextInfoPrivacyCell(mContext, resourcesProvider);
-                    view.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, getThemedColor(Theme.key_windowBackgroundGrayShadow)));
                     break;
                 case TYPE_TEXT:
                     view = new TextCell(mContext, resourcesProvider);

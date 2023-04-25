@@ -369,7 +369,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     if (position == folders2Row) {
-                        cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
                         cell.setText(LocaleController.getString("TabTitleTypeTip", R.string.TabTitleTypeTip));
                     }
                     break;
