@@ -16,6 +16,7 @@
     <string name="FirstLast">Имя Фамилия</string>
     <string name="LastFirst">Фамилия Имя</string>
     <string name="NoQuoteForward">Переслать без автора</string>
+    <string name="NoCaptionForward">Переслать без текста</string>
     <string name="Repeat">Повторить</string>
     <string name="AddToSavedMessages">Сохранить сообщение</string>
     <string name="CreateMention">Создать упоминание</string>
@@ -48,7 +49,7 @@
     <string name="TranslateApiUnsupported">Выбранный переводчик не поддерживает ваш язык.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Отменить перевод</string>
-    <string name="DisablePhotoViewerSideAction">Отключить \"Переворачивание фотографий при нажатии\"</string>
+    <string name="DisablePhotoViewerSideAction">Отключить перелистывание фотографий нажатием</string>
     <string name="BotToken">Токен</string>
     <string name="OpenArchiveOnPull">Открывать архив по свайпу</string>
     <string name="HideKeyboardOnChatScroll">Скрыть клавиатуру при прокрутке</string>
@@ -123,8 +124,10 @@
     <string name="RegistrationDateApproximately">Приблизительно %s</string>
     <string name="WsDescription">Подключиться к Telegram через WebSocket Cloudflare. **Узнать больше**</string>
     <string name="WsEnableTls">Включить TLS</string>
-    <string name="WsLocalProxy">Локальный прокси</string>
-    <string name="WsEnableDoh">Включить DoH</string>
+    <string name="WsProvider">Провайдер</string>
+    <string name="WsNotWorking">Прокси не работает!</string>
+    <string name="WsUseMyOwnDomain">Как настроить пользовательского провайдера</string>
+    <string name="WsStandaloneApp">Использовать прокси в других приложениях</string>
     <string name="UpdateNekogram">Обновить Nekogram</string>
     <string name="TranslationTarget">Целевой язык</string>
     <string name="TranslationTargetApp">Системный</string>
@@ -205,7 +208,7 @@
     <string name="Translating">перевод</string>
     <string name="Translated">переведено</string>
     <string name="BrokenMLKit">Опция недоступна</string>
-    <string name="BrokenMLKitDetail">Определитель языка Google MLKit почему-то не работает на этом устройстве.</string>
+    <string name="BrokenMLKitDetail">Определитель языка MLKit не работает на этом устройстве.</string>
     <string name="PasscodeNeeded">Сначала необходимо включить блокировку паролем</string>
     <string name="PasscodeNeko">Пароль</string>
     <string name="PasscodeShowInSettings">Показать в настройках Neko</string>
@@ -270,13 +273,14 @@
     <string name="EmojiSetAppliedInfo">Набор эмодзи %1$s установлен.</string>
     <string name="EmojiSetAlreadyApplied">Набор эмодзи уже применён.</string>
     <string name="SendAnonymousData">Отправка анонимных данных</string>
-    <string name="SendBugReport">Отправить сообщение об ошибке</string>
+    <string name="SendBugReport">Сообщить об ошибке</string>
     <string name="SendBugReportDesc">Это позволит нам быстрее находить проблемы.</string>
     <string name="AnonymousDataDelete">Удалить данные</string>
     <string name="AnonymousDataDeleteDesc">Навсегда заблокировать исходящие данные этого устройства и удалить собранные данные.</string>
     <string name="SendAnonymousDataDesc">Функции выше используют Visual Studio App Center предоставленный Microsoft. Собранная информация является анонимной и мы не можем отследить её до независимого устройства или пользователя.</string>
-    <string name="SendLargePhotos">Отправлять фотографии большого размера</string>
+    <string name="SendLargePhotos">Отправка фотографии большого размера</string>
     <string name="SendLargePhotosAbout">Увеличить размер сторон на сжатых изображениях до 2560px.</string>
+    <string name="ExportAsJson">Скопировать как JSON</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>

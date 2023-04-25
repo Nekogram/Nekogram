@@ -118,8 +118,6 @@
     <string name="RegistrationDate">Reģistrācijas datums</string>
     <string name="WsDescription">Savienojums ar Telegram, izmantojot WebSocket, izmantojot Cloudflare. **Uzzināt vairāk**</string>
     <string name="WsEnableTls">TLS iespējošana</string>
-    <string name="WsLocalProxy">Vietējais starpnieks</string>
-    <string name="WsEnableDoh">Iespējot DoH</string>
     <string name="UpdateNekogram">Nekogrammas atjaunināšana</string>
     <string name="TranslationTarget">Mērķa valoda</string>
     <string name="TranslationTargetApp">Sekojiet lietotnei</string>
@@ -200,7 +198,6 @@
     <string name="Translating">tulkojums</string>
     <string name="Translated">tulkojums</string>
     <string name="BrokenMLKit">Iespēja nav pieejama</string>
-    <string name="BrokenMLKitDetail">Šajā ierīcē Google MLKit valodas identifikators kaut kādā veidā ir bojāts.</string>
     <string name="PasscodeNeeded">Vispirms jāaktivizē piekļuves koda bloķēšana</string>
     <string name="PasscodeNeko">Pieejas kods</string>
     <string name="PasscodeShowInSettings">Rādīt Neko iestatījumos</string>

@@ -118,8 +118,6 @@
     <string name="RegistrationDate">アカウント登録日</string>
     <string name="WsDescription">Cloudflare経由のWebSocketでTelegramに接続します。**詳細はこちら**</string>
     <string name="WsEnableTls">TLSを有効にする。</string>
-    <string name="WsLocalProxy">ローカルプロキシ</string>
-    <string name="WsEnableDoh">DoHを有効にする。</string>
     <string name="UpdateNekogram">Nekogramを更新</string>
     <string name="TranslationTarget">訳文の言語</string>
     <string name="TranslationTargetApp">自動</string>
@@ -200,7 +198,6 @@
     <string name="Translating">翻訳中</string>
     <string name="Translated">翻訳済み</string>
     <string name="BrokenMLKit">オプションは使用不可</string>
-    <string name="BrokenMLKitDetail">Google MLKitの言語識別子がこのデバイスで何らかの形で壊れています。</string>
     <string name="PasscodeNeeded">最初にパスコードロックを有効にする必要があります</string>
     <string name="PasscodeNeko">パスコード</string>
     <string name="PasscodeShowInSettings">Nekoの設定で表示</string>

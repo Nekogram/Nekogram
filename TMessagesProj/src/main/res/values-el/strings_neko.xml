@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Ρυθμίσεις Nekogram</string>
-    <string name="IPv6">Σύνδεση μέσω IPv6</string>
-    <string name="MessageMenu">Μενού μηνύματος</string>
+    <string name="NekoSettings">Ρυθμίσεις Neko</string>
+    <string name="IPv6">Δοκιμάστε να συνδεθείτε μέσω IPv6</string>
+    <string name="MessageMenu">Μενού μηνυμάτων</string>
     <string name="HidePhone">Απόκρυψη του αριθμού μου</string>
-    <string name="DeleteAllFromSelf">Διαγραφή μηνυμάτων μου</string>
-    <string name="DeleteAllFromSelfAlert">Προειδοποίηση! Αυτό θα **διαγράψει ΌΛΑ τα μηνύματά σας** σε αυτή τη συνομιλία για **ΌΛΟΥΣ** τους συμμετέχοντες.</string>
+    <string name="DeleteAllFromSelf">Διαγραφή των μηνυμάτων μου</string>
+    <string name="DeleteAllFromSelfAlert">Προειδοποίηση! Αυτό θά **διαγράψει ΌΛΑ τα μηνύματά σας** σε αυτή τη συνομιλία για **ΌΛΟΥΣ** τους συμμετέχοντες.</string>
     <string name="BotLogin">Σύνδεση Bot</string>
     <string name="BotLoginMessage">Εισάγετε το διακριτικό του bot που ελήφθη από **@BotFather**.</string>
     <string name="InvalidAccessToken">Άκυρο διακριτικό πρόσβασης</string>
@@ -16,6 +16,7 @@
     <string name="FirstLast">Όνομα Επίθετο</string>
     <string name="LastFirst">Επίθετο Όνομα</string>
     <string name="NoQuoteForward">Προώθ. χωρίς Πηγή</string>
+    <string name="NoCaptionForward">Προώθηση χωρίς περιγραφή</string>
     <string name="Repeat">Επανάληψη</string>
     <string name="AddToSavedMessages">Αποθήκευση</string>
     <string name="CreateMention">Δημιουργία αναφοράς</string>
@@ -117,10 +118,15 @@
     <string name="SelectBetween">Επιλέξτε μεταξύ</string>
     <string name="StickerSavedHint">Το αυτοκόλλητο αποθηκεύτηκε στη Συλλογή</string>
     <string name="RegistrationDate">Ημερομηνία Εγγραφής</string>
+    <string name="RegistrationDateNewer">Νεότερο από %s</string>
+    <string name="RegistrationDateOlder">Παλαιότερο από %s</string>
+    <string name="RegistrationDateApproximately">Περίπου %s</string>
     <string name="WsDescription">Συνδεθείτε στο Telegram μέσω WebSocket μέσω Cloudflare. **Μάθετε περισσότερα**</string>
     <string name="WsEnableTls">Ενεργοποίηση TLS</string>
-    <string name="WsLocalProxy">Τοπικός proxy</string>
-    <string name="WsEnableDoh">Ενεργοποίηση DoH</string>
+    <string name="WsProvider">Πάροχος Μετάφρασης</string>
+    <string name="WsNotWorking">Ο διακομιστής μεσολάβησης δεν λειτουργεί!</string>
+    <string name="WsUseMyOwnDomain">Πώς να ρυθμίσετε έναν προσαρμοσμένο πάροχο</string>
+    <string name="WsStandaloneApp">Χρήση διακομιστή μεσολάβησης σε άλλες εφαρμογές</string>
     <string name="UpdateNekogram">Ενημέρωση Nekogram</string>
     <string name="TranslationTarget">Μετάφραση σε</string>
     <string name="TranslationTargetApp">Γλώσσα εφαρμογής</string>
@@ -201,7 +207,6 @@
     <string name="Translating">...μεταφράζεται</string>
     <string name="Translated">μεταφράστηκε</string>
     <string name="BrokenMLKit">Μη διαθέσιμη επιλογή</string>
-    <string name="BrokenMLKitDetail">Το αναγνωριστικό γλώσσας Google MLKit είναι κάπως προβληματικό στη συσκευή.</string>
     <string name="PasscodeNeeded">Πρώτα ενεργοποιήστε το κλείδωμα με κωδικό</string>
     <string name="PasscodeNeko">Κωδικός</string>
     <string name="PasscodeShowInSettings">Εμφάνιση στις ρυθμίσεις Neko</string>
@@ -223,6 +228,7 @@
     <string name="TranslatorShowOriginal">Προβολή &amp; του Αρχικού κειμένου</string>
     <string name="DatacenterStatusAbout">Έλεγχος κατάστασης των **Κέντρων Δεδομένων** του Telegram.</string>
     <string name="DatacenterStatus">Κατάσταση Κέντρου Δεδομένων</string>
+    <string name="DatacenterStatusShort">Κέντρο Δεδομένων</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Ενεργοποίηση από προεπιλογή</string>
     <string name="MarkdownParser">Αναλυτής</string>
@@ -272,6 +278,7 @@
     <string name="SendAnonymousDataDesc">Οι παραπάνω λειτουργίες χρησιμοποιούν το Visual Studio App Center που παρέχεται από τη Microsoft. Οι πληροφορίες που συλλέγονται είναι ανώνυμες και δεν μπορούμε να τις εντοπίσουμε σε ανεξάρτητη συσκευή ή χρήστη.</string>
     <string name="SendLargePhotos">Αποστολή μεγάλων φωτογραφιών</string>
     <string name="SendLargePhotosAbout">Αύξηση του πλαϊνού ορίου για τις συμπιεσμένες εικόνες στα 2560px.</string>
+    <string name="ExportAsJson">Αντιγραφή ως JSON</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>

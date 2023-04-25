@@ -16,6 +16,7 @@
     <string name="FirstLast">Imię, Nazwisko</string>
     <string name="LastFirst">Nazwisko, Imię</string>
     <string name="NoQuoteForward">Przekaż bez cytowania</string>
+    <string name="NoCaptionForward">Polecenie \"Przekierowanie\"</string>
     <string name="Repeat">Powtórz</string>
     <string name="AddToSavedMessages">Zapisz wiadomość</string>
     <string name="CreateMention">Utwórz wzmiankę</string>
@@ -122,8 +123,10 @@
     <string name="RegistrationDateApproximately">Około %s</string>
     <string name="WsDescription">Połącz się z Telegramem przez WebSocket za pośrednictwem Cloudflare. **Dowiedz się więcej**</string>
     <string name="WsEnableTls">Włącz TLS</string>
-    <string name="WsLocalProxy">Lokalne proxy</string>
-    <string name="WsEnableDoh">Włącz DoH</string>
+    <string name="WsProvider">Dostawca</string>
+    <string name="WsNotWorking">Proxy nie działa!</string>
+    <string name="WsUseMyOwnDomain">Jak skonfigurować dostawcę niestandardowego</string>
+    <string name="WsStandaloneApp">Użyj proxy w innych aplikacjach</string>
     <string name="UpdateNekogram">Zaktualizuj Nekogram</string>
     <string name="TranslationTarget">Docelowy język</string>
     <string name="TranslationTargetApp">Śledź aplikację</string>
@@ -204,7 +207,6 @@
     <string name="Translating">tłumaczenie</string>
     <string name="Translated">przetłumaczone</string>
     <string name="BrokenMLKit">Opcja niedostępna</string>
-    <string name="BrokenMLKitDetail">Identyfikator języka Google MLKit na tym urządzeniu jest w jakiś sposób uszkodzony.</string>
     <string name="PasscodeNeeded">Najpierw należy włączyć blokadę kodem dostępu</string>
     <string name="PasscodeNeko">Kod dostępu</string>
     <string name="PasscodeShowInSettings">Pokaż w ustawieniach Neko</string>
@@ -226,6 +228,7 @@
     <string name="TranslatorShowOriginal">Z oryginalnym tekstem</string>
     <string name="DatacenterStatusAbout">Sprawdź status **centrów danych** Telegrama.</string>
     <string name="DatacenterStatus">Status centrum danych</string>
+    <string name="DatacenterStatusShort">Centrum danych</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Domyślnie włączone</string>
     <string name="MarkdownParser">Analizator</string>
@@ -275,6 +278,7 @@
     <string name="SendAnonymousDataDesc">Powyższe funkcje wykorzystują Visual Studio App Center dostarczane przez firmę Microsoft. Gromadzone informacje są anonimowe i nie możemy ich prześledzić do niezależnego urządzenia lub użytkownika.</string>
     <string name="SendLargePhotos">Wysyłanie dużych zdjęć</string>
     <string name="SendLargePhotosAbout">Zwiększ limit skompresowanych obrazów do 2560 pikseli.</string>
+    <string name="ExportAsJson">Kopiuj jako JSON</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>

@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">खुद के संदेश मिटाएं</string>
     <string name="DeleteAllFromSelfAlert">चेतावनी! यह इस चैट में **सभी** प्रतिभागियों के लिए **आपके सभी संदेशों को ** हटा देगा।</string>
     <string name="BotLogin">बॉट लॉगिन</string>
+    <string name="BotLoginMessage">**@BotFather** से जो टोकन मिला है उसे दर्ज करे।</string>
     <string name="InvalidAccessToken">एक्सेस टोकन गलत है</string>
     <string name="IgnoreBlocked">अवरोधित उपयोगकर्ता से संदेश छुपाएँ</string>
     <string name="Connection">कनेक्शन</string>
@@ -15,6 +16,7 @@
     <string name="FirstLast">नाम उपनाम</string>
     <string name="LastFirst">उपनाम नाम</string>
     <string name="NoQuoteForward">बिना कोट के फॉरवर्ड करें</string>
+    <string name="NoCaptionForward">बिनाकैप्शन अग्रषित करे</string>
     <string name="Repeat">दोहराएं</string>
     <string name="AddToSavedMessages">संदेश सेव करो</string>
     <string name="CreateMention">उल्लेख बनाएं</string>
@@ -116,10 +118,15 @@
     <string name="SelectBetween">इनके बीच सिलेक्ट करें</string>
     <string name="StickerSavedHint">स्टिकर गैलरी में सहेजा गया।</string>
     <string name="RegistrationDate">रजिस्ट्रेशन की दिनांक</string>
+    <string name="RegistrationDateNewer">%s से नया</string>
+    <string name="RegistrationDateOlder">%s से पुराना</string>
+    <string name="RegistrationDateApproximately">लगभग %s</string>
     <string name="WsDescription">Cloudflare के माध्यम से WebSocket के माध्यम से टेलीग्राम से कनेक्ट करें। **अधिक जानें**</string>
     <string name="WsEnableTls">TLS लागू करें</string>
-    <string name="WsLocalProxy">लोकल प्रॉक्सी</string>
-    <string name="WsEnableDoh">DoH लागू करें</string>
+    <string name="WsProvider">प्रदाता</string>
+    <string name="WsNotWorking">प्रॉक्सी काम नहीं कर रहा है!</string>
+    <string name="WsUseMyOwnDomain">कैसे एक कस्टम प्रदाता स्थापित कर सकते है</string>
+    <string name="WsStandaloneApp">दूसरे ऐप्स में प्रॉक्सी का उपयोग करे</string>
     <string name="UpdateNekogram">Nekogram को अपडेट करें</string>
     <string name="TranslationTarget">चाही गई भाषा</string>
     <string name="TranslationTargetApp">App को फॉलो करें</string>
@@ -200,7 +207,6 @@
     <string name="Translating">अनुवाद किया जा रहा है</string>
     <string name="Translated">अनुवाद किया जा चुका है</string>
     <string name="BrokenMLKit">विकल्प मौजूद नहीं है</string>
-    <string name="BrokenMLKitDetail">Google MLKit भाषा पहचानकर्ता इस डिवाइस पर किसी तरह काम नहीं कर रहा है।</string>
     <string name="PasscodeNeeded">आपको पहले पासकोड लॉक सक्षम करना होगा</string>
     <string name="PasscodeNeko">पासकोड </string>
     <string name="PasscodeShowInSettings">Neko सेटिंग में दिखाएं</string>
@@ -222,6 +228,7 @@
     <string name="TranslatorShowOriginal">मूल टेक्स्ट के साथ</string>
     <string name="DatacenterStatusAbout">टेलीग्राम के **डेटासेंटर** की स्थिति की जाँच करें।</string>
     <string name="DatacenterStatus">डैटासेंटर स्थिति</string>
+    <string name="DatacenterStatusShort">डेटासेंटर</string>
     <string name="Markdown">मार्कडाउन</string>
     <string name="MarkdownEnableByDefault">बाय डिफॉल्ट चालू करें</string>
     <string name="MarkdownParser">पार्सर</string>
@@ -258,6 +265,7 @@
     <string name="AddEmojiSet">नए इमोजी सेट ले</string>
     <string name="EmojiSetRemoved">इमोजी सेट को निकाल दिया गया है।</string>
     <string name="EmojiSetRemovedInfo">अभी ये, %1$s आपके इमोजी सेट में नहीं है।</string>
+    <string name="DeleteEmojiSets">%1$s इमोजी सैट्स</string>
     <string name="DeleteEmojiSetsMessage">क्या आपको विश्वास है कि आपको ये चुने गये इमोजी सेट को डिलीट करना है?</string>
     <string name="ApplyEmojiSet">इमोजी सेट को अप्लाई करे</string>
     <string name="EmojiSetApplied">इमोजी सेट को अप्लाई कर दिया।</string>
@@ -271,6 +279,7 @@
     <string name="SendAnonymousDataDesc">उपरोक्त सुविधाएँ माइक्रोसॉफ्ट द्वारा प्रदान किए गए विशूवअल स्टूडियो ऐप सेंटर का उपयोग करती हैं। एकत्र की गई जानकारी गुमनाम है, जिससे की यह डेटा किस स्वतंत्र उपकरण या उपयोगकर्ता से है, उसका पता हम नही लगा सकते है।</string>
     <string name="SendLargePhotos">विशाल चित्रों को भेजे</string>
     <string name="SendLargePhotosAbout">कंप्रेस की गई इमेज पर साइड लिमिट को बढ़ाकर, २५६०px करें।</string>
+    <string name="ExportAsJson">JSON के रूप में कॉपी करें</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">एक्सेसिबिलिटी सेटिंग</string>
 </resources>

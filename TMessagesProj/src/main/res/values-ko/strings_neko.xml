@@ -119,8 +119,6 @@
     <string name="RegistrationDate">가입일</string>
     <string name="WsDescription">텔레그램을 웹소켓을 통해 Cloudflare 로 연결하기 **더 알아보기**</string>
     <string name="WsEnableTls">TLS 활성화</string>
-    <string name="WsLocalProxy">로컬 프록시</string>
-    <string name="WsEnableDoh">DoH 활성화</string>
     <string name="UpdateNekogram">네코그램 업데이트</string>
     <string name="TranslationTarget">번역 언어</string>
     <string name="TranslationTargetApp">기기 언어 따라가기</string>
@@ -201,7 +199,6 @@
     <string name="Translating">번역</string>
     <string name="Translated">번역</string>
     <string name="BrokenMLKit">옵션을 사용할 수 없음</string>
-    <string name="BrokenMLKitDetail">이 기기에서 Google MLKit 언어 식별자가 손상되었습니다.</string>
     <string name="PasscodeNeeded">먼저 암호 잠금을 활성화해야 합니다.</string>
     <string name="PasscodeNeko">암호</string>
     <string name="PasscodeShowInSettings">네코 세팅에서 보기</string>

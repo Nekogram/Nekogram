@@ -118,8 +118,6 @@
     <string name="RegistrationDate">Registreringsdatum</string>
     <string name="WsDescription">Anslut till Telegram genom WebSocket via Cloudflare. **Läs mer**</string>
     <string name="WsEnableTls">Aktivera TLS</string>
-    <string name="WsLocalProxy">Lokal proxy</string>
-    <string name="WsEnableDoh">Aktivera DoH</string>
     <string name="UpdateNekogram">Uppdatera Nekogram</string>
     <string name="TranslationTarget">Målspråk</string>
     <string name="TranslationTargetApp">Följ appen</string>
@@ -196,7 +194,6 @@
     <string name="Translating">översätter</string>
     <string name="Translated">översatt</string>
     <string name="BrokenMLKit">Alternativ ej tillgängligt</string>
-    <string name="BrokenMLKitDetail">Google MLKit språkidentifierare är på något sätt trasigt på den här enheten.</string>
     <string name="PasscodeNeeded">Du måste först aktivera lösenordslåset</string>
     <string name="PasscodeNeko">Lösenord</string>
     <string name="PasscodeShowInSettings">Visa i Neko-inställningar</string>

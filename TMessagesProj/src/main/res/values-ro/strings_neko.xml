@@ -115,8 +115,6 @@
     <string name="StickerSavedHint">Sticker salvat în galerie</string>
     <string name="RegistrationDate">Dată înregistrare</string>
     <string name="WsEnableTls">Activați TLS</string>
-    <string name="WsLocalProxy">Proxy local</string>
-    <string name="WsEnableDoh">Activați DoH</string>
     <string name="UpdateNekogram">Actualizați Nekogram</string>
     <string name="TranslationTarget">Limbă țintă</string>
     <string name="TranslationTargetApp">Urmăriți aplicația</string>

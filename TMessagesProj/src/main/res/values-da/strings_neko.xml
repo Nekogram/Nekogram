@@ -118,8 +118,6 @@
     <string name="RegistrationDate">Registreringsdato</string>
     <string name="WsDescription">Opret forbindelse til Telegram via WebSocket via Cloudflare. **Lær mere**</string>
     <string name="WsEnableTls">Aktiver TLS</string>
-    <string name="WsLocalProxy">Lokal proxy</string>
-    <string name="WsEnableDoh">Aktiver DoH</string>
     <string name="UpdateNekogram">Opdater Nekogram</string>
     <string name="TranslationTarget">Målsprog</string>
     <string name="TranslationTargetApp">Følg app</string>
@@ -200,7 +198,6 @@
     <string name="Translating">oversæt</string>
     <string name="Translated">oversat</string>
     <string name="BrokenMLKit">Mulighed ikke tilgængelig</string>
-    <string name="BrokenMLKitDetail">Google MLKit language identifier er på en eller anden måde brudt på denne enhed.</string>
     <string name="PasscodeNeeded">Du er nødt til at aktivere adgangskode lås først</string>
     <string name="PasscodeNeko">Adgangskode</string>
     <string name="PasscodeShowInSettings">Vis i Neko-indstillinger</string>

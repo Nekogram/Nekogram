@@ -123,8 +123,10 @@
     <string name="RegistrationDateApproximately">Приблизно %s</string>
     <string name="WsDescription">Під\'єднатися до Telegram через WebSocket через Cloudflare. **Дізнатися більше**</string>
     <string name="WsEnableTls">Увімкнути TLS</string>
-    <string name="WsLocalProxy">Локальний проксі</string>
-    <string name="WsEnableDoh">Увімкнути DoH</string>
+    <string name="WsProvider">Провайдер</string>
+    <string name="WsNotWorking">Проксі не працює!</string>
+    <string name="WsUseMyOwnDomain">Як налаштувати параметри провайдера</string>
+    <string name="WsStandaloneApp">Використовувати проксі в інших додатках</string>
     <string name="UpdateNekogram">Оновити Nekogram</string>
     <string name="TranslationTarget">Цільова мова</string>
     <string name="TranslationTargetApp">Мова додатку</string>
@@ -205,7 +207,7 @@
     <string name="Translating">переклад</string>
     <string name="Translated">перекладено</string>
     <string name="BrokenMLKit">Опція недоступна</string>
-    <string name="BrokenMLKitDetail">Ідентифікатор мови Google MLKit якимось чином зламаний на цьому пристрої.</string>
+    <string name="BrokenMLKitDetail">Сервіс визначення мови MLKit не працює на цьому пристрої.</string>
     <string name="PasscodeNeeded">Спочатку потрібно ввімкнути блокування паролем</string>
     <string name="PasscodeNeko">Пароль</string>
     <string name="PasscodeShowInSettings">Показати в налаштуваннях Neko</string>
@@ -277,6 +279,7 @@
     <string name="SendAnonymousDataDesc">Зазначена вище функція використовує Visual Studio App Center від Microsoft. Зібрана інформація анонімна, і ми ніяк не можемо пов\'язати її з конкретним пристроєм або користувачем.</string>
     <string name="SendLargePhotos">Надсилати великі фото</string>
     <string name="SendLargePhotosAbout">Збільшити обмеження на розмір сторони для стиснених зображень до 2560 пікс.</string>
+    <string name="ExportAsJson">Копіювати як JSON</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccSeekbarHeading">Налаштування панелі повзунка</string>

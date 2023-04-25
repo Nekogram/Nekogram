@@ -118,8 +118,6 @@
     <string name="RegistrationDate">Data de registro</string>
     <string name="WsDescription">Conecte o Telegram através da Cloudfare. **Saiba mais**</string>
     <string name="WsEnableTls">Ativar o TLS</string>
-    <string name="WsLocalProxy">Proxy Local</string>
-    <string name="WsEnableDoh">Habilitar DoH</string>
     <string name="UpdateNekogram">Atualizar Nekogram</string>
     <string name="TranslationTarget">Idioma de destino</string>
     <string name="TranslationTargetApp">Seguir app</string>
@@ -200,7 +198,6 @@
     <string name="Translating">traduzindo</string>
     <string name="Translated">traduzido</string>
     <string name="BrokenMLKit">Opção indisponível</string>
-    <string name="BrokenMLKitDetail">O identificador de linguagem Google MLKit está, de alguma forma, quebrado neste dispositivo.</string>
     <string name="PasscodeNeeded">Tem de activar primeiro o bloqueio do código de acesso</string>
     <string name="PasscodeNeko">Código de acesso</string>
     <string name="PasscodeShowInSettings">Mostrar nas Configurações Neko</string>

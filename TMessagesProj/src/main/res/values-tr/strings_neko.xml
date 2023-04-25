@@ -123,8 +123,10 @@
     <string name="RegistrationDateApproximately">Yaklaşık olarak %s</string>
     <string name="WsDescription">Cloudflare tarafından sunulan WebSocket aracılığıyla Telegram\'a bağlanın. **Daha fazla**</string>
     <string name="WsEnableTls">TLS\'yi etkinleştir</string>
-    <string name="WsLocalProxy">Yerel proxy</string>
-    <string name="WsEnableDoh">DoH\'u etkinleştir</string>
+    <string name="WsProvider">Sağlayıcı</string>
+    <string name="WsNotWorking">Vekil sunucu çalışmıyor!</string>
+    <string name="WsUseMyOwnDomain">Özel sağlayıcı nasıl kurulur</string>
+    <string name="WsStandaloneApp">Vekil sunucuyu diğer uygulamalarda kullan</string>
     <string name="UpdateNekogram">Nekogram\'ı Güncelle</string>
     <string name="TranslationTarget">Hedef dil</string>
     <string name="TranslationTargetApp">Uygulamayı takip et</string>
@@ -205,7 +207,6 @@
     <string name="Translating">çevriliyor</string>
     <string name="Translated">çevrildi</string>
     <string name="BrokenMLKit">Seçenek kullanılamıyor</string>
-    <string name="BrokenMLKitDetail">Google MLKit dil tanımlayıcısı bu cihazda bir sebepten dolayı bozuk.</string>
     <string name="PasscodeNeeded">Önce uygulama kilidini etkinleştirmelisiniz</string>
     <string name="PasscodeNeko">Parola</string>
     <string name="PasscodeShowInSettings">Neko Ayarlarında Göster</string>
@@ -277,6 +278,7 @@
     <string name="SendAnonymousDataDesc">Yukarıdaki özellikler Microsoft\'a ait olan Visual Studio App Center\'ı kullanır. Toplanan bilgiler anonimdir ve bunları, tek tek özel bir cihaz veya kullanıcı olarak izleyemeyiz.</string>
     <string name="SendLargePhotos">Büyük fotoğraflar gönder</string>
     <string name="SendLargePhotosAbout">Sıkıştırılmış görsellerde kenar sınırını 2560 piksele yükseltin.</string>
+    <string name="ExportAsJson">JSON olarak kopyala</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Erişilebilirlik ayarları</string>
     <string name="AccSeekbarHeading">Arama çubuğu ayarları</string>

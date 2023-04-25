@@ -119,8 +119,6 @@
     <string name="RegistrationDate">Ngày đăng ký</string>
     <string name="WsDescription">Kết nối với Telegram thông qua WebSocket qua Cloudflare. **Tìm hiểu thêm**</string>
     <string name="WsEnableTls">Kích hoạt TLS</string>
-    <string name="WsLocalProxy">Proxy cục bộ</string>
-    <string name="WsEnableDoh">Kích hoạt DoH</string>
     <string name="UpdateNekogram">Cập nhật Nekogram</string>
     <string name="TranslationTarget">Tập trung vào ngôn ngữ</string>
     <string name="TranslationTargetApp">Dựa theo ứng dụng</string>
@@ -201,7 +199,6 @@
     <string name="Translating">đang dịch</string>
     <string name="Translated">đã dịch</string>
     <string name="BrokenMLKit">Không có tùy chọn</string>
-    <string name="BrokenMLKitDetail">Trình nhận dạng ngôn ngữ MLKit của Google bằng cách nào đó đã bị hỏng trên thiết bị này.</string>
     <string name="PasscodeNeeded">Bạn phải bật khóa mật mã trước tiên</string>
     <string name="PasscodeNeko">Mật mã</string>
     <string name="PasscodeShowInSettings">Hiện trong Cài đặt Neko</string>

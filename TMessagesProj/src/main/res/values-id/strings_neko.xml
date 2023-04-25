@@ -119,8 +119,6 @@
     <string name="RegistrationDate">Tanggal registrasi</string>
     <string name="WsDescription">Terhubung ke Telegram melalui WebSocket melalui Cloudflare. **Pelajari lebih lanjut**</string>
     <string name="WsEnableTls">Nyalakan TLS</string>
-    <string name="WsLocalProxy">Proksi lokal</string>
-    <string name="WsEnableDoh">Nyalakan DoH</string>
     <string name="UpdateNekogram">Perbarui Nekogram</string>
     <string name="TranslationTarget">Bahasa tujuan</string>
     <string name="TranslationTargetApp">Mengikuti aplikasi</string>
@@ -201,7 +199,6 @@
     <string name="Translating">menerjemahkan</string>
     <string name="Translated">diterjemahkan</string>
     <string name="BrokenMLKit">Pengaturan tidak tersedia</string>
-    <string name="BrokenMLKitDetail">Google MLKit language indentifier rusak di perangkat ini dengan alasan yang tidak diketahui.</string>
     <string name="PasscodeNeeded">Anda harus mengaktifkan sandi terlebih dahulu</string>
     <string name="PasscodeNeko">Sandi</string>
     <string name="PasscodeShowInSettings">Tampilkan di Pengaturan Neko</string>

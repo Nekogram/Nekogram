@@ -122,8 +122,6 @@
     <string name="RegistrationDateApproximately">Environ %s</string>
     <string name="WsDescription">Connectez-vous à Telegram avec WebSocket via Cloudflare. ** En savoir plus**</string>
     <string name="WsEnableTls">Activer le TLS</string>
-    <string name="WsLocalProxy">Proxy local</string>
-    <string name="WsEnableDoh">Activer le DoH</string>
     <string name="UpdateNekogram">Mettre à jour Nekogram</string>
     <string name="TranslationTarget">Langue cible</string>
     <string name="TranslationTargetApp">Comme l\'application</string>
@@ -204,7 +202,6 @@
     <string name="Translating">traduction en cours</string>
     <string name="Translated">traduit</string>
     <string name="BrokenMLKit">Option indisponible</string>
-    <string name="BrokenMLKitDetail">L\'identifiant de langue Google MLKit est en quelque sorte cassé sur cet appareil.</string>
     <string name="PasscodeNeeded">Vous devez d\'abord activer le verrouillage par code d\'accès</string>
     <string name="PasscodeNeko">Code d\'accès</string>
     <string name="PasscodeShowInSettings">Afficher dans les paramètres de Neko</string>
@@ -277,6 +274,7 @@
     <string name="SendAnonymousDataDesc">Les fonctionnalités ci-dessus utilisent le Visual Studio App Center fourni par Microsoft. Les informations recueillies sont anonymes et nous ne pouvons pas les relier à un appareil ou à un utilisateur indépendant.</string>
     <string name="SendLargePhotos">Envoyer des photos de grande taille</string>
     <string name="SendLargePhotosAbout">Augmenter la limite de taille des images compressées à 2560px.</string>
+    <string name="ExportAsJson">Copier en JSON</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

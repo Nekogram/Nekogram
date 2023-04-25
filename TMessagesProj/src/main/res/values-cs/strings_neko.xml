@@ -118,8 +118,6 @@
     <string name="RegistrationDate">Дата реєстрації</string>
     <string name="WsDescription">Підключіться до Telegram через WebSocket через Cloudflare. **Вчи більше**</string>
     <string name="WsEnableTls">Увімкнути TLS</string>
-    <string name="WsLocalProxy">Локальний проксі</string>
-    <string name="WsEnableDoh">Увімкнути DoH</string>
     <string name="UpdateNekogram">Оновити некограм</string>
     <string name="TranslationTarget">Цільова мова</string>
     <string name="TranslationTargetApp">Підписатись на програму</string>

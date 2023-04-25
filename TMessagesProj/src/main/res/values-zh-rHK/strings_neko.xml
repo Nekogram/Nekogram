@@ -113,8 +113,6 @@
     <string name="StickerSavedHint">貼紙已保存到圖庫</string>
     <string name="RegistrationDate">注冊日期</string>
     <string name="WsEnableTls">啓用TLS</string>
-    <string name="WsLocalProxy">本地代理</string>
-    <string name="WsEnableDoh">啓用DoH</string>
     <string name="UpdateNekogram">更新Nekogram</string>
     <string name="TranslationTarget">目標語言</string>
     <string name="TranslationTargetApp">跟隨應用</string>

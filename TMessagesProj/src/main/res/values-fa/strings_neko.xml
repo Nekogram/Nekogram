@@ -118,8 +118,6 @@
     <string name="RegistrationDate">تاریخ ثبت نام</string>
     <string name="WsDescription">اتصال به تلگرام از طریق WebSocket از طریق Cloudflare. در این مورد بیشتر بیاید</string>
     <string name="WsEnableTls">فعال کردن TLS</string>
-    <string name="WsLocalProxy">پروکسی محلی</string>
-    <string name="WsEnableDoh">فعال کردن DoH</string>
     <string name="UpdateNekogram">بروز رسانی نکوگرام</string>
     <string name="TranslationTarget">زبان مقصد</string>
     <string name="TranslationTargetApp">مانند برنامه</string>
@@ -200,7 +198,6 @@
     <string name="Translating">درحال ترجمه</string>
     <string name="Translated">ترجمه شده</string>
     <string name="BrokenMLKit">گزینه وجود ندارد</string>
-    <string name="BrokenMLKitDetail">زبان MLKit گوگل روی این دستگاه خرابه</string>
     <string name="PasscodeNeeded">ابتدا رمز عبور را فعال کنید</string>
     <string name="PasscodeNeko">رمز عبور</string>
     <string name="PasscodeShowInSettings">نمایش در تنظیمات نکو</string>

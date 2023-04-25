@@ -124,8 +124,10 @@
     <string name="RegistrationDateApproximately">大约 %s</string>
     <string name="WsDescription">通过 WebSocket 从 Cloudflare 连接到 Telegram。**了解更多 **</string>
     <string name="WsEnableTls">启用 TLS</string>
-    <string name="WsLocalProxy">本地代理</string>
-    <string name="WsEnableDoh">启用 DoH</string>
+    <string name="WsProvider">提供者</string>
+    <string name="WsNotWorking">代理不可用！</string>
+    <string name="WsUseMyOwnDomain">如何建立自定义提供者</string>
+    <string name="WsStandaloneApp">在其他应用程序中使用代理</string>
     <string name="UpdateNekogram">更新 Nekogram</string>
     <string name="TranslationTarget">目标语言</string>
     <string name="TranslationTargetApp">跟随应用</string>
@@ -206,7 +208,7 @@
     <string name="Translating">翻译中</string>
     <string name="Translated">已翻译</string>
     <string name="BrokenMLKit">选项不可用</string>
-    <string name="BrokenMLKitDetail">Google MLKit 语言识别器在这个设备上不知何故坏了。</string>
+    <string name="BrokenMLKitDetail">MLKit 语言识别器在此设备上被损坏。</string>
     <string name="PasscodeNeeded">您必须先启用锁定码</string>
     <string name="PasscodeNeko">锁定码</string>
     <string name="PasscodeShowInSettings">在喵设置中显示</string>
@@ -278,6 +280,7 @@
     <string name="SendAnonymousDataDesc">上述功能使用 Microsoft 提供的 Visual Studio App Center。收集的信息是匿名的，我们无法追溯到独立的设备或用户。</string>
     <string name="SendLargePhotos">发送大图片</string>
     <string name="SendLargePhotosAbout">将压缩图片的侧边限制增加到 2560px。</string>
+    <string name="ExportAsJson">复制为 JSON</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

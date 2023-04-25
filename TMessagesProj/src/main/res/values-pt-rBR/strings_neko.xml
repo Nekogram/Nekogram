@@ -16,6 +16,7 @@
     <string name="FirstLast">Primeiro Último</string>
     <string name="LastFirst">Último Primeiro</string>
     <string name="NoQuoteForward">Encaminhar sem citar</string>
+    <string name="NoCaptionForward">Encaminhar sem legenda</string>
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Salvar mensagem</string>
     <string name="CreateMention">Criar Menção</string>
@@ -118,10 +119,15 @@
     <string name="SelectBetween">Selecione entre</string>
     <string name="StickerSavedHint">Salvar sticker na galeria </string>
     <string name="RegistrationDate">Data de registro</string>
+    <string name="RegistrationDateNewer">Mais novo que %s</string>
+    <string name="RegistrationDateOlder">Mais antigo que %s</string>
+    <string name="RegistrationDateApproximately">Aproximadamente %s</string>
     <string name="WsDescription">Conecte-se ao Telegram através de WebSocket via Cloudflare. **Saiba mais**</string>
     <string name="WsEnableTls">Habilitar TLS</string>
-    <string name="WsLocalProxy">Proxy local</string>
-    <string name="WsEnableDoh">Habilitar DNS-over-HTTPS</string>
+    <string name="WsProvider">Provedor</string>
+    <string name="WsNotWorking">O Proxy não está funcionando!</string>
+    <string name="WsUseMyOwnDomain">Como configurar um proxy personalizado</string>
+    <string name="WsStandaloneApp">Usar proxy em outros aplicativos</string>
     <string name="UpdateNekogram">Atualizar Nekogram</string>
     <string name="TranslationTarget">Idioma de destino</string>
     <string name="TranslationTargetApp">Seguir o aplicativo</string>
@@ -202,7 +208,7 @@
     <string name="Translating">traduzindo</string>
     <string name="Translated">traduzido</string>
     <string name="BrokenMLKit">Opção indisponível</string>
-    <string name="BrokenMLKitDetail">O identificador de linguagem Google MLKit está, de alguma forma, quebrado neste dispositivo.</string>
+    <string name="BrokenMLKitDetail">O identificador de linguagem MLKit está quebrado neste dispositivo.</string>
     <string name="PasscodeNeeded">Você tem que habilitar a Senha de Bloqueio primeiro</string>
     <string name="PasscodeNeko">Senha de acesso</string>
     <string name="PasscodeShowInSettings">Mostrar nas Configurações Neko</string>
@@ -224,6 +230,7 @@
     <string name="TranslatorShowOriginal">Com texto original</string>
     <string name="DatacenterStatusAbout">Verifique o status dos **datacenters** do Telegram.</string>
     <string name="DatacenterStatus">Status do datacenter</string>
+    <string name="DatacenterStatusShort">Datacenter</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Habilitar por padrão</string>
     <string name="MarkdownParser">Parser</string>
@@ -273,6 +280,7 @@
     <string name="SendAnonymousDataDesc">As funções acimas usam o Visual Studio App Center fornecido pela Microsoft. A informação coletada é anônima e incapaz de ser usada para identificar um usuário ou dispositivo específico.</string>
     <string name="SendLargePhotos">Enviar fotos grandes</string>
     <string name="SendLargePhotosAbout">Aumenta o limite de imagens comprimidas para 2560px.</string>
+    <string name="ExportAsJson">Copiar em JSON</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>
