@@ -2911,7 +2911,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
         return 0;
     }
 
-    protected int getThemedColor(String key) {
+    protected int getThemedColor(int key) {
         return Theme.getColor(key);
     }
 

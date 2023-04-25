@@ -271,7 +271,7 @@ public class SendOptionsMenuLayout extends LinearLayout {
         void sendMessage();
     }
 
-    private int getThemedColor(String key) {
+    private int getThemedColor(int key) {
         Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
         return color != null ? color : Theme.getColor(key);
     }

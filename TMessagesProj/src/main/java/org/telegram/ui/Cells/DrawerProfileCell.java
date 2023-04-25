@@ -567,8 +567,8 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
     @Override
     protected void onDraw(Canvas canvas) {
         Drawable backgroundDrawable = Theme.getCachedWallpaper();
-        String backgroundKey = applyBackground(false);
-        boolean useImageBackground = !backgroundKey.equals(Theme.key_chats_menuTopBackground) && Theme.isCustomTheme() && !Theme.isPatternWallpaper() && backgroundDrawable != null && !(backgroundDrawable instanceof ColorDrawable) && !(backgroundDrawable instanceof GradientDrawable);
+        int backgroundKey = applyBackground(false);
+        boolean useImageBackground = backgroundKey != Theme.key_chats_menuTopBackground && Theme.isCustomTheme() && !Theme.isPatternWallpaper() && backgroundDrawable != null && !(backgroundDrawable instanceof ColorDrawable) && !(backgroundDrawable instanceof GradientDrawable);
         boolean drawCatsShadow = false;
         int color;
         int darkBackColor = 0;
@@ -658,7 +658,7 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         drawPremiumProgress = Utilities.clamp(drawPremiumProgress, 1f, 0);
         if (drawPremiumProgress != 0) {
             if (gradientTools == null) {
-                gradientTools = new PremiumGradient.PremiumGradientTools(Theme.key_premiumGradientBottomSheet1, Theme.key_premiumGradientBottomSheet2, Theme.key_premiumGradientBottomSheet3, null);
+                gradientTools = new PremiumGradient.PremiumGradientTools(Theme.key_premiumGradientBottomSheet1, Theme.key_premiumGradientBottomSheet2, Theme.key_premiumGradientBottomSheet3, -1);
                 gradientTools.x1 = 0;
                 gradientTools.y1 = 1.1f;
                 gradientTools.x2 = 1.5f;
@@ -772,10 +772,10 @@ public class DrawerProfileCell extends FrameLayout implements NotificationCenter
         updateRightDrawable = true;
     }
 
-    public String applyBackground(boolean force) {
-        String currentTag = (String) getTag();
-        String backgroundKey = Theme.hasThemeKey(Theme.key_chats_menuTopBackground) && Theme.getColor(Theme.key_chats_menuTopBackground) != 0 ? Theme.key_chats_menuTopBackground : Theme.key_chats_menuTopBackgroundCats;
-        if (force || !backgroundKey.equals(currentTag)) {
+    public Integer applyBackground(boolean force) {
+        Integer currentTag = (Integer) getTag();
+        int backgroundKey = Theme.hasThemeKey(Theme.key_chats_menuTopBackground) && Theme.getColor(Theme.key_chats_menuTopBackground) != 0 ? Theme.key_chats_menuTopBackground : Theme.key_chats_menuTopBackgroundCats;
+        if (force || currentTag == null || backgroundKey != currentTag) {
             setBackgroundColor(Theme.getColor(backgroundKey));
             setTag(backgroundKey);
         }

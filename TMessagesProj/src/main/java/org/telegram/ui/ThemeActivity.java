@@ -68,6 +68,7 @@ import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.EmojiThemes;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ActionBar.ThemeColors;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.AppIconsSelectorCell;
 import org.telegram.ui.Cells.BrightnessControlCell;
@@ -1855,8 +1856,9 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
                     File currentFile;
                     if (themeInfo.pathToFile == null && themeInfo.assetName == null) {
                         StringBuilder result = new StringBuilder();
-                        for (HashMap.Entry<String, Integer> entry : Theme.getDefaultColors().entrySet()) {
-                            result.append(entry.getKey()).append("=").append(entry.getValue()).append("\n");
+                        int[] defaultColors = Theme.getDefaultColors();
+                        for (int i = 0; i < defaultColors.length; i++) {
+                            result.append(ThemeColors.getStringName(i)).append("=").append(defaultColors[i]).append("\n");
                         }
                         currentFile = new File(ApplicationLoader.getFilesDirFixed(), "default_theme.attheme");
                         FileOutputStream stream = null;

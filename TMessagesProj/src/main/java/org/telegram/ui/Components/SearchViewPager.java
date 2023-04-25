@@ -982,7 +982,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             } else if (items.get(position).type == DOWNLOADS_TYPE) {
                 return LocaleController.getString("DownloadsTabs", R.string.DownloadsTabs);
             } else {
-                return FiltersView.filters[items.get(position).filterIndex].title;
+                return FiltersView.filters[items.get(position).filterIndex].getTitle();
             }
         }
 

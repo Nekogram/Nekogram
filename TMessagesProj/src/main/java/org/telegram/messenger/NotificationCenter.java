@@ -305,7 +305,7 @@ public class NotificationCenter {
 
     HashSet<Integer> heavyOperationsCounter = new HashSet<>();
 
-    private final HashMap<Integer, AllowedNotifications> allowedNotifications = new HashMap<>();
+    private final SparseArray<AllowedNotifications> allowedNotifications = new SparseArray<>();
 
     public interface NotificationCenterDelegate {
         void didReceivedNotification(int id, int account, Object... args);
@@ -387,19 +387,19 @@ public class NotificationCenter {
 
     private void checkForExpiredNotifications() {
         checkForExpiredNotifications = null;
-        if (this.allowedNotifications.isEmpty()) {
+        if (this.allowedNotifications.size() == 0) {
             return;
         }
         long minTime = Long.MAX_VALUE;
         long currentTime = SystemClock.elapsedRealtime();
         ArrayList<Integer> expiredIndices = null;
-        for (HashMap.Entry<Integer, AllowedNotifications> entry : this.allowedNotifications.entrySet()) {
-            AllowedNotifications allowedNotification = entry.getValue();
+        for (int i = 0; i < allowedNotifications.size(); i++) {
+            AllowedNotifications allowedNotification = allowedNotifications.valueAt(i);
             if (currentTime - allowedNotification.time > 1000) {
                 if (expiredIndices == null) {
                     expiredIndices = new ArrayList<>();
                 }
-                expiredIndices.add(entry.getKey());
+                expiredIndices.add(allowedNotifications.keyAt(i));
             } else {
                 minTime = Math.min(allowedNotification.time, minTime);
             }
@@ -423,7 +423,8 @@ public class NotificationCenter {
     }
 
     public void onAnimationFinish(int index) {
-        AllowedNotifications allowed = allowedNotifications.remove(index);
+        AllowedNotifications allowed = allowedNotifications.get(index);
+        allowedNotifications.delete(index);
         if (allowed != null) {
             animationInProgressCount--;
             if (!heavyOperationsCounter.isEmpty()) {
@@ -436,7 +437,7 @@ public class NotificationCenter {
                 runDelayedNotifications();
             }
         }
-        if (checkForExpiredNotifications != null && allowedNotifications.isEmpty()) {
+        if (checkForExpiredNotifications != null && allowedNotifications.size() == 0) {
             AndroidUtilities.cancelRunOnUIThread(checkForExpiredNotifications);
             checkForExpiredNotifications = null;
         }
@@ -480,17 +481,17 @@ public class NotificationCenter {
     public void postNotificationName(int id, Object... args) {
         boolean allowDuringAnimation = id == startAllHeavyOperations || id == stopAllHeavyOperations || id == didReplacedPhotoInMemCache || id == closeChats || id == invalidateMotionBackground;
         ArrayList<Integer> expiredIndices = null;
-        if (!allowDuringAnimation && !allowedNotifications.isEmpty()) {
+        if (!allowDuringAnimation && allowedNotifications.size() > 0) {
             int size = allowedNotifications.size();
             int allowedCount = 0;
             long currentTime = SystemClock.elapsedRealtime();
-            for (HashMap.Entry<Integer, AllowedNotifications> entry : allowedNotifications.entrySet()) {
-                AllowedNotifications allowedNotification = entry.getValue();
+            for (int i = 0; i < allowedNotifications.size(); i++) {
+                AllowedNotifications allowedNotification = allowedNotifications.valueAt(i);
                 if (currentTime - allowedNotification.time > EXPIRE_NOTIFICATIONS_TIME) {
                     if (expiredIndices == null) {
                         expiredIndices = new ArrayList<>();
                     }
-                    expiredIndices.add(entry.getKey());
+                    expiredIndices.add(allowedNotifications.keyAt(i));
                 }
                 int[] allowed = allowedNotification.allowedIds;
                 if (allowed != null) {
