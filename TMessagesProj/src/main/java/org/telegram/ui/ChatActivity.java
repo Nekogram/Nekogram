@@ -32174,7 +32174,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override
         public boolean contains(int key) {
-            return false;
+            return currentColors != null && currentColors.indexOfKey(key) >= 0;
         }
 
         @Override
