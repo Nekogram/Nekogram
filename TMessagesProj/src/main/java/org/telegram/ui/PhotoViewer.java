@@ -6660,6 +6660,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     containerView.requestLayout();
                 }
                 detectFaces();
+                detectQr();
             }
             if (imageReceiver == centerImage && set && placeProvider != null && placeProvider.scaleToFill() && !ignoreDidSetImage && sendPhotoType != SELECT_TYPE_AVATAR) {
                 if (!wasLayout) {
@@ -12171,8 +12172,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 allowShare = false;
 //                captionTextViewSwitcher.setTranslationY(AndroidUtilities.dp(48));
             } else {
-                Utilities.globalQueue.postRunnable(readQrRunnable);
-                menuItem.hideSubItem(gallery_menu_qr);
                 menuItem.hideSubItem(gallery_menu_translate);
                 if (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL || !noforwards) {
                     var messageHelper = MessageHelper.getInstance(currentAccount);
@@ -13127,6 +13126,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
         }
         detectFaces();
+        detectQr();
     }
 
     private void setCurrentCaption(MessageObject messageObject, final CharSequence _caption, boolean animated) {
@@ -18238,28 +18238,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     ArrayList<QrHelper.QrResult> qrResults;
-    Runnable readQrRunnable = new Runnable() {
-        @Override
-        public void run() {
-            if (containerView == null ||  containerView.getHeight() == 0 || animationInProgress != 0) {
-                Utilities.globalQueue.postRunnable(readQrRunnable, 150);
+    private void detectQr() {
+        menuItem.hideSubItem(gallery_menu_qr);
+        Utilities.globalQueue.postRunnable(() -> {
+            Bitmap bitmap = centerImage.getBitmap();
+            if (bitmap == null) {
                 return;
             }
-            var bitmap = Bitmap.createBitmap(containerView.getWidth(), containerView.getHeight(), Bitmap.Config.ARGB_8888);
-            var canvas = new Canvas(bitmap);
-            try {
-                PhotoViewer.this.onDraw(canvas);
-            } catch (Throwable t) {
-                FileLog.e(t);
-                return;
-            }
-            ArrayList<QrHelper.QrResult> qrResults = new ArrayList<>();
-            try {
-                qrResults.addAll(QrHelper.readQr(bitmap));
-            } catch (Throwable t) {
-                FileLog.e(t);
-            }
-            AndroidUtilities.recycleBitmap(bitmap);
+            ArrayList<QrHelper.QrResult> qrResults = new ArrayList<>(QrHelper.readQr(bitmap));
             AndroidUtilities.runOnUIThread(() -> {
                 if (menuItem == null || qrItem == null) {
                     return;
@@ -18284,8 +18270,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     menuItem.hideSubItem(gallery_menu_qr);
                 }
             });
-        }
-    };
+        });
+    }
 
     private void translateCaption() {
         if (currentMessageObject == null) {

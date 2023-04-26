@@ -34,9 +34,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
-import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -79,12 +77,8 @@ public class QrHelper {
         }
         if (qrResults.size() == 1) {
             var text = qrResults.get(0).text;
-            var username = Browser.extractUsername(text);
-            if (username != null) {
-                MessagesController.getInstance(UserConfig.selectedAccount).openByUserName(username, fragment, 1);
-                return;
-            } else if (text.startsWith("http://") || text.startsWith("https://")) {
-                AlertsCreator.showOpenUrlAlert(fragment, text, true, true);
+            if (text.startsWith("http://") || text.startsWith("https://")) {
+                AlertsCreator.showOpenUrlAlert(fragment, text, true, true, dark ? null : resourcesProvider);
                 return;
             }
         }
@@ -118,10 +112,8 @@ public class QrHelper {
                 sb.setSpan(new ClickableSpan() {
                     @Override
                     public void onClick(@NonNull View widget) {
-                        if (username != null) {
-                            MessagesController.getInstance(UserConfig.selectedAccount).openByUserName(username, fragment, 1);
-                        } else if (text.startsWith("http://") || text.startsWith("https://")) {
-                            AlertsCreator.showOpenUrlAlert(fragment, text, true, false);
+                        if (text.startsWith("http://") || text.startsWith("https://")) {
+                            AlertsCreator.showOpenUrlAlert(fragment, text, true, false, dark ? null : resourcesProvider);
                         }
                     }
                 }, 0, text.length(), 0);
@@ -139,7 +131,7 @@ public class QrHelper {
                 builder.setTitle(username != null ? "@" + username : text);
                 builder.setItems(linkOrUsername ? new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("ShareFile", R.string.ShareFile), LocaleController.getString("Copy", R.string.Copy)} : new CharSequence[]{null, null, null, LocaleController.getString("Copy", R.string.Copy)}, (d, which) -> {
                     if (which == 0) {
-                        AlertsCreator.showOpenUrlAlert(fragment, text, true, false);
+                        AlertsCreator.showOpenUrlAlert(fragment, text, true, false, dark ? null : resourcesProvider);
                     } else if (which == 1 || which == 2) {
                         String url1 = text;
                         boolean tel = false;
