@@ -277,7 +277,7 @@ public class ActionBarMenuItem extends FrameLayout {
             }
         } else if (event.getActionMasked() == MotionEvent.ACTION_MOVE) {
             if (showSubmenuByMove && hasSubMenu() && (popupWindow == null || !popupWindow.isShowing())) {
-                if (event.getY() > getHeight() || (event.getY() < getHeight() && subMenuOpenSide == 2)) {
+                if ((event.getY() > getHeight() && !popupLayout.shownFromBottom) || (event.getY() < getHeight() && popupLayout.shownFromBottom)) {
                     if (getParent() != null) {
                         getParent().requestDisallowInterceptTouchEvent(true);
                     }

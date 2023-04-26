@@ -14513,13 +14513,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 createBottomMessagesActionButtons();
                 boolean noforwards = getMessagesController().isChatNoForwards(currentChat) || hasSelectedNoforwardsMessage();
                 if (forwardButton != null) {
-                    forwardOptionsButton.setLongClickEnabled(!noforwards);
-                    forwardOptionsButton.setShowSubmenuByMove(!noforwards);
                     forwardOptionsButton.setAdditionalYOffset(-AndroidUtilities.dp(157 - (!hasCaption ? 48 : 0)));
                     ForwardItem.setupForwardItem(forwardOptionsButton, false, false, hasCaption, themeDelegate, id -> {
                         setForwardParams(id == ForwardItem.ID_FORWARD_NOQUOTE, id == ForwardItem.ID_FORWARD_NOCAPTION);
                         openForward(false);
                     });
+                    forwardOptionsButton.setLongClickEnabled(!noforwards);
+                    forwardOptionsButton.setShowSubmenuByMove(!noforwards);
+                    forwardOptionsButton.setShowedFromBottom(true);
                     forwardButton.setText(ForwardItem.getLastForwardOptionTitle(hasCaption));
                     var image = ForwardItem.getLastForwardOptionIcon(hasCaption);
                     image.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.MULTIPLY));
