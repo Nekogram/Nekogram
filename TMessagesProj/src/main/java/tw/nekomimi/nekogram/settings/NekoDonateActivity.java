@@ -71,7 +71,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
             if (TextUtils.isEmpty(result.getDebugMessage())) {
                 BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + ": " + result.getResponseCode()).show();
             } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+                AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
                 builder.setTitle(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
                 builder.setMessage(result.getDebugMessage());
                 builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);

@@ -51,7 +51,7 @@ public class EmojiSetCell extends FrameLayout {
     private boolean needDivider;
     private final boolean selection;
 
-    public EmojiSetCell(Context context, boolean selection) {
+    public EmojiSetCell(Context context, boolean selection, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.selection = selection;
 
@@ -66,14 +66,14 @@ public class EmojiSetCell extends FrameLayout {
             optionsButton = new ImageView(context);
             optionsButton.setFocusable(false);
             optionsButton.setScaleType(ImageView.ScaleType.CENTER);
-            optionsButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_featuredStickers_addedIcon), PorterDuff.Mode.MULTIPLY));
+            optionsButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_featuredStickers_addedIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY));
             optionsButton.setImageResource(R.drawable.floating_check);
             optionsButton.setVisibility(GONE);
             addView(optionsButton, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP, (LocaleController.isRTL ? 10 : 0), 9, (LocaleController.isRTL ? 0 : 10), 0));
 
             radialProgress = new RadialProgressView(context);
             radialProgress.setNoProgress(false);
-            radialProgress.setProgressColor(Theme.getColor(Theme.key_featuredStickers_addedIcon));
+            radialProgress.setProgressColor(Theme.getColor(Theme.key_featuredStickers_addedIcon, resourcesProvider));
             radialProgress.setStrokeWidth(2.8F);
             radialProgress.setSize(AndroidUtilities.dp(30));
             radialProgress.setLayoutParams(new LinearLayout.LayoutParams(AndroidUtilities.dp(40), AndroidUtilities.dp(40)));
@@ -89,7 +89,7 @@ public class EmojiSetCell extends FrameLayout {
             }
         };
         NotificationCenter.listenEmojiLoading(textView);
-        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         if (selection) {
             textView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
@@ -102,7 +102,7 @@ public class EmojiSetCell extends FrameLayout {
         addView(textView, LayoutHelper.createFrameRelatively(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.START, !selection ? 21 : 71, 9, 70, 0));
 
         valueTextView = new AnimatedTextView(context);
-        valueTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
+        valueTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider));
         valueTextView.setAnimationProperties(.55f, 0, 320, CubicBezierInterpolator.EASE_OUT_QUINT);
         valueTextView.setTextSize(AndroidUtilities.dp(13));
         valueTextView.setGravity(LayoutHelper.getAbsoluteGravityStart());

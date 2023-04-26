@@ -582,7 +582,7 @@ public final class BulletinFactory {
     }
 
     public Bulletin createErrorBulletin(CharSequence errorMessage) {
-        return createErrorBulletin(errorMessage, null);
+        return createErrorBulletin(errorMessage, resourcesProvider);
     }
 
     public Bulletin createErrorBulletin(CharSequence errorMessage, Theme.ResourcesProvider resourcesProvider) {
@@ -674,7 +674,7 @@ public final class BulletinFactory {
 
     @CheckResult
     public Bulletin createCopyBulletin(String message) {
-        return createCopyBulletin(message, null);
+        return createCopyBulletin(message, resourcesProvider);
     }
 
     @CheckResult
@@ -682,7 +682,7 @@ public final class BulletinFactory {
         if (!AndroidUtilities.shouldShowClipboardToast()) {
             return new Bulletin.EmptyBulletin();
         }
-        final Bulletin.LottieLayout layout = new Bulletin.LottieLayout(getContext(), null);
+        final Bulletin.LottieLayout layout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
         layout.setAnimation(R.raw.copy, 36, 36, "NULL ROTATION", "Back", "Front");
         layout.textView.setText(message);
         return create(layout, Bulletin.DURATION_SHORT);

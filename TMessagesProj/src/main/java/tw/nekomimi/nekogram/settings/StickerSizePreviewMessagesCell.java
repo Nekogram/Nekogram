@@ -39,7 +39,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
     private final Drawable shadowDrawable;
     private final INavigationLayout parentLayout;
 
-    public StickerSizePreviewMessagesCell(Context context, INavigationLayout layout) {
+    public StickerSizePreviewMessagesCell(Context context, INavigationLayout layout, Theme.ResourcesProvider resourcesProvider) {
         super(context);
 
         parentLayout = layout;
@@ -48,7 +48,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         setOrientation(LinearLayout.VERTICAL);
         setPadding(0, AndroidUtilities.dp(11), 0, AndroidUtilities.dp(11));
 
-        shadowDrawable = Theme.getThemedDrawableByKey(context, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow);
+        shadowDrawable = Theme.getThemedDrawable(context, R.drawable.greydivider_bottom, Theme.getColor(Theme.key_windowBackgroundGrayShadow, resourcesProvider));
 
         int date = (int) (System.currentTimeMillis() / 1000) - 60 * 60;
         TLRPC.TL_message message = new TLRPC.TL_message();
@@ -108,7 +108,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         messageObjects[1].replyMessageObject = messageObjects[0];
 
         for (int a = 0; a < cells.length; a++) {
-            cells[a] = new ChatMessageCell(context);
+            cells[a] = new ChatMessageCell(context, false, resourcesProvider);
             cells[a].setDelegate(new ChatMessageCell.ChatMessageCellDelegate() {
             });
             cells[a].isChat = false;

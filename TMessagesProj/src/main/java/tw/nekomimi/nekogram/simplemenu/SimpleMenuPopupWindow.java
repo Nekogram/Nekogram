@@ -78,7 +78,7 @@ public class SimpleMenuPopupWindow extends PopupWindow {
         backgroundDrawable.setColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuBackground, resourcesProvider));
         setBackgroundDrawable(backgroundDrawable);
 
-        RecyclerListView mList = new RecyclerListView(context);
+        RecyclerListView mList = new RecyclerListView(context, resourcesProvider);
         mList.setPadding(0, AndroidUtilities.dp(8), 0, AndroidUtilities.dp(8));
         mList.setScrollBarStyle(View.SCROLLBARS_OUTSIDE_OVERLAY);
         mList.setVerticalScrollBarEnabled(true);

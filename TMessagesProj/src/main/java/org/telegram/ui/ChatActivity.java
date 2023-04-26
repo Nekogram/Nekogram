@@ -25820,7 +25820,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             Translator.showTranslateDialog(getParentActivity(), message, getMessagesController().isChatNoForwards(currentChat) || messageObject.messageOwner.noforwards, this, link -> {
                 didPressMessageUrl(link, false, selectedObject, null);
                 return true;
-            }, sourceLanguage);
+            }, sourceLanguage, themeDelegate);
             return;
         }
         getMessageHelper().resetMessageContent(dialog_id, messageObject, false, true);
@@ -32747,7 +32747,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         ActionBarMenuSubItem translateButton = new ActionBarMenuSubItem(getContext(), true, true);
                         translateButton.setTextAndIcon(LocaleController.getString("TranslateMessage", R.string.TranslateMessage), R.drawable.msg_translate);
                         translateButton.setOnClickListener(e2 -> {
-                            Translator.showTranslateDialog(getParentActivity(), text.toString(), false, this, null, fromLang);
+                            Translator.showTranslateDialog(getParentActivity(), text.toString(), false, this, null, fromLang, themeDelegate);
                             if (dismiss[0] != null) {
                                 dismiss[0].run();
                             }

@@ -8,8 +8,6 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
 
-import tw.nekomimi.nekogram.translator.Translator;
-
 public class TranslatorSettingsPopupWrapper {
 
     public ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout;

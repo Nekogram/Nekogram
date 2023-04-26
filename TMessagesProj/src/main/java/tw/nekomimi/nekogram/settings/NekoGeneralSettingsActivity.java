@@ -14,7 +14,6 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
@@ -91,7 +90,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 NekoConfig.setNameOrder(types.get(i));
                 listAdapter.notifyItemChanged(nameOrderRow, PARTIAL);
                 parentLayout.rebuildAllFragmentViews(false, false);
-            });
+            }, resourcesProvider);
         } else if (position == translationProviderRow) {
             final String oldProvider = NekoConfig.translationProvider;
             Translator.showTranslationProviderSelector(getParentActivity(), view, param -> {
@@ -110,14 +109,14 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         listAdapter.notifyItemInserted(deepLFormalityRow);
                     }
                 }
-            });
+            }, resourcesProvider);
         } else if (position == translationTargetRow) {
             Translator.showTranslationTargetSelector(this, view, () -> {
                 listAdapter.notifyItemChanged(translationTargetRow, PARTIAL);
                 if (getRestrictedLanguages().size() == 1) {
                     listAdapter.notifyItemChanged(doNotTranslateRow, PARTIAL);
                 }
-            });
+            }, false, resourcesProvider);
         } else if (position == deepLFormalityRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
@@ -130,7 +129,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             PopupHelper.show(arrayList, LocaleController.getString("DeepLFormality", R.string.DeepLFormality), types.indexOf(NekoConfig.deepLFormality), getParentActivity(), view, i -> {
                 NekoConfig.setDeepLFormality(types.get(i));
                 listAdapter.notifyItemChanged(deepLFormalityRow, PARTIAL);
-            });
+            }, resourcesProvider);
         } else if (position == openArchiveOnPullRow) {
             NekoConfig.toggleOpenArchiveOnPull();
             if (view instanceof TextCheckCell) {
@@ -154,7 +153,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 NekoConfig.setIdType(types.get(i));
                 listAdapter.notifyItemChanged(idTypeRow, PARTIAL);
                 parentLayout.rebuildAllFragmentViews(false, false);
-            });
+            }, resourcesProvider);
         } else if (position == accentAsNotificationColorRow) {
             NekoConfig.toggleAccentAsNotificationColor();
             if (view instanceof TextCheckCell) {
@@ -192,7 +191,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         listAdapter.notifyItemInserted(showOriginalRow);
                     }
                 }
-            });
+            }, resourcesProvider);
         } else if (position == doNotTranslateRow) {
             if (!supportLanguageDetector) {
                 BulletinFactory.of(this).createErrorBulletinSubtitle(LocaleController.getString("BrokenMLKit", R.string.BrokenMLKit), LocaleController.getString("BrokenMLKitDetail", R.string.BrokenMLKitDetail), null).show();
@@ -293,7 +292,6 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setCanDisable(true);
-                    textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == nameOrderRow) {
                         String value;
                         switch (NekoConfig.nameOrder) {

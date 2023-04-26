@@ -18303,10 +18303,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             return;
         }
         if (NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO) {
-            Translator.showTranslateDialog(parentActivity, currentMessageObject.messageOwner.message, MessagesController.getInstance(currentAccount).isChatNoForwards(currentMessageObject.getChatId()) || (currentMessageObject.messageOwner != null && currentMessageObject.messageOwner.noforwards), null, urlSpan -> {
+            Translator.showTranslateDialog(parentActivity, currentMessageObject.messageOwner.message, MessagesController.getInstance(currentAccount).isChatNoForwards(currentMessageObject.getChatId()) || (currentMessageObject.messageOwner != null && currentMessageObject.messageOwner.noforwards), parentFragment, urlSpan -> {
                 onLinkClick(urlSpan, captionTextViewSwitcher.getCurrentView());
                 return true;
-            }, translateFromLanguage);
+            }, translateFromLanguage, resourcesProvider);
             return;
         }
         Object original = currentMessageObject.messageOwner.message;

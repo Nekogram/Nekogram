@@ -110,7 +110,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     showDialog(alertDialog);
                     editText.setSelection(0, editText.getText().length());
                 }
-            });
+            }, resourcesProvider);
         } else if (position == notWorkingRow || position == ownRow || position == appRow) {
             Browser.openUrl(getParentActivity(), "https://t.me/WSProxy/8");
         } else if (position == buyMeACoffeeRow) {

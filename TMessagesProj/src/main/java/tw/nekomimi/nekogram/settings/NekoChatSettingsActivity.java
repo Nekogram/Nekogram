@@ -187,7 +187,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             PopupHelper.show(arrayList, LocaleController.getString("DoubleTapAction", R.string.DoubleTapAction), types.indexOf(NekoConfig.doubleTapAction), getParentActivity(), view, i -> {
                 NekoConfig.setDoubleTapAction(types.get(i));
                 listAdapter.notifyItemChanged(doubleTapActionRow, PARTIAL);
-            });
+            }, resourcesProvider);
         } else if (position == markdownEnableRow) {
             NekoConfig.toggleDisableMarkdownByDefault();
             if (view instanceof TextCheckCell) {
@@ -255,7 +255,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             PopupHelper.show(types, LocaleController.getString("MaxRecentStickers", R.string.MaxRecentStickers), types.indexOf(String.valueOf(NekoConfig.maxRecentStickers)), getParentActivity(), view, i -> {
                 NekoConfig.setMaxRecentStickers(Integer.parseInt(types.get(i)));
                 listAdapter.notifyItemChanged(maxRecentStickersRow, PARTIAL);
-            });
+            }, resourcesProvider);
         } else if (position == hideTimeOnStickerRow) {
             NekoConfig.toggleHideTimeOnSticker();
             if (view instanceof TextCheckCell) {
@@ -280,7 +280,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     }
                     listAdapter.notifyItemChanged(markdown2Row);
                 }
-            });
+            }, resourcesProvider);
         } else if (position == markdownParseLinksRow) {
             NekoConfig.toggleMarkdownParseLinks();
             if (view instanceof TextCheckCell) {
@@ -390,7 +390,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setTextSize(AndroidUtilities.dp(16));
 
-            sizeBar = new SeekBarView(context);
+            sizeBar = new SeekBarView(context, resourcesProvider);
             sizeBar.setReportChanges(true);
             sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate() {
                 @Override
@@ -411,14 +411,14 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             sizeBar.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
             addView(sizeBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38, Gravity.LEFT | Gravity.TOP, 9, 5, 43, 11));
 
-            messagesCell = new StickerSizePreviewMessagesCell(context, parentLayout);
+            messagesCell = new StickerSizePreviewMessagesCell(context, parentLayout, resourcesProvider);
             messagesCell.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
             addView(messagesCell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0, 53, 0, 0));
         }
 
         @Override
         protected void onDraw(Canvas canvas) {
-            textPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteValueText));
+            textPaint.setColor(getThemedColor(Theme.key_windowBackgroundWhiteValueText));
             canvas.drawText(String.valueOf(Math.round(NekoConfig.stickerSize)), getMeasuredWidth() - AndroidUtilities.dp(39), AndroidUtilities.dp(28), textPaint);
         }
 
@@ -469,7 +469,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             switch (holder.getItemViewType()) {
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
-                    textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == doubleTapActionRow) {
                         String value;
                         switch (NekoConfig.doubleTapAction) {
@@ -602,7 +601,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             if (viewType == Integer.MAX_VALUE) {
                 stickerSizeCell = new StickerSizeCell(mContext);
-                stickerSizeCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                stickerSizeCell.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                 stickerSizeCell.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
                 return new RecyclerListView.Holder(stickerSizeCell);
             } else {

@@ -72,20 +72,20 @@ public class Translator {
         return executorService;
     }
 
-    public static void showTranslateDialog(Context context, String query, boolean noforwards, BaseFragment fragment, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, String sourceLanguage) {
+    public static void showTranslateDialog(Context context, String query, boolean noforwards, BaseFragment fragment, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, String sourceLanguage, Theme.ResourcesProvider resourcesProvider) {
         if (NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL) {
             @SuppressLint("InlinedApi") var intent = new Intent(Intent.ACTION_TRANSLATE);
             intent.putExtra(Intent.EXTRA_TEXT, query);
             try {
                 context.startActivity(intent);
             } catch (ActivityNotFoundException e) {
-                new AlertDialog.Builder(context)
+                new AlertDialog.Builder(context, resourcesProvider)
                         .setTitle(LocaleController.getString("AppName", R.string.AppName))
                         .setMessage(LocaleController.getString("NoTranslatorAppInstalled", R.string.NoTranslatorAppInstalled))
                         .show();
             }
         } else {
-            TranslateAlert2.showAlert(context, fragment, UserConfig.selectedAccount, sourceLanguage, NekoConfig.translationTarget, query, null, noforwards, onLinkPress, null);
+            TranslateAlert2.showAlert(context, fragment, UserConfig.selectedAccount, sourceLanguage, NekoConfig.translationTarget, query, null, noforwards, onLinkPress, null, resourcesProvider);
         }
     }
 
@@ -169,10 +169,6 @@ public class Translator {
         return new Pair<>(names, types);
     }
 
-    public static void showTranslationTargetSelector(BaseFragment fragment, View view, Runnable callback) {
-        showTranslationTargetSelector(fragment, view, callback, true, null);
-    }
-
     public static void showTranslationTargetSelector(BaseFragment fragment, View view, Runnable callback, boolean whiteActionBar, Theme.ResourcesProvider resourcesProvider) {
         if (getCurrentTranslator().getTargetLanguages().size() <= 30) {
             ArrayList<String> targetLanguages = new ArrayList<>(getCurrentTranslator().getTargetLanguages());
@@ -197,10 +193,6 @@ public class Translator {
         }
     }
 
-    public static void showTranslatorTypeSelector(Context context, View view, Runnable callback) {
-        showTranslatorTypeSelector(context, view, callback, null);
-    }
-
     public static void showTranslatorTypeSelector(Context context, View view, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
         ArrayList<String> arrayList = new ArrayList<>();
         ArrayList<Integer> types = new ArrayList<>();
@@ -214,10 +206,6 @@ public class Translator {
             NekoConfig.setTransType(types.get(i));
             if (callback != null) callback.run();
         }, resourcesProvider);
-    }
-
-    public static void showTranslationProviderSelector(Context context, View view, MessagesStorage.BooleanCallback callback) {
-        showTranslationProviderSelector(context, view, callback, null);
     }
 
     public static void showTranslationProviderSelector(Context context, View view, MessagesStorage.BooleanCallback callback, Theme.ResourcesProvider resourcesProvider) {

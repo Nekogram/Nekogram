@@ -100,7 +100,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
         actionBar.setDrawBlurBackground(frameLayout);
 
-        listView = new BlurredRecyclerView(context) {
+        listView = new BlurredRecyclerView(context, resourcesProvider) {
             @Override
             public Integer getSelectorColor(int position) {
                 return BaseNekoSettingsActivity.this.getSelectorColor(position);
@@ -133,7 +133,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             var key = getKey();
             if (key != null && holder != null && listAdapter.isEnabled(holder) && rowMapReverse.containsKey(position)) {
                 ItemOptions.makeOptions(this, view)
-                        .setScrimViewBackground(new ColorDrawable(Theme.getColor(Theme.key_windowBackgroundWhite)))
+                        .setScrimViewBackground(new ColorDrawable(getThemedColor(Theme.key_windowBackgroundWhite)))
                         .add(R.drawable.msg_copy, LocaleController.getString("CopyLink", R.string.CopyLink), () -> {
                             AndroidUtilities.addToClipboard(String.format(Locale.getDefault(), "https://%s/nekosettings/%s?r=%s", getMessagesController().linkPrefix, getKey(), rowMapReverse.get(position)));
                             BulletinFactory.of(BaseNekoSettingsActivity.this).createCopyLinkBulletin().show();
@@ -149,7 +149,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
     @Override
     public void setParentLayout(INavigationLayout layout) {
-        if (layout != null && layout.getLastFragment() != null && !hasWhiteActionBar()) {
+        if (layout != null && layout.getLastFragment() != null) {
             resourcesProvider = layout.getLastFragment().getResourceProvider();
         }
         super.setParentLayout(layout);
@@ -351,7 +351,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
                 } else {
                     drawable = R.drawable.transparent;
                 }
-                cell.setBackground(Theme.getThemedDrawableByKey(mContext, drawable, Theme.key_windowBackgroundGrayShadow));
+                cell.setBackground(Theme.getThemedDrawable(mContext, drawable, getThemedColor(Theme.key_windowBackgroundGrayShadow)));
             }
             var payload = holder.getPayload();
             onBindViewHolder(holder, position, PARTIAL.equals(payload));
@@ -393,7 +393,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case TYPE_CHECKBOX:
-                    view = new TextCheckbox2Cell(mContext);
+                    view = new TextCheckbox2Cell(mContext, resourcesProvider);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case TYPE_RADIO:
@@ -401,12 +401,12 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case TYPE_ACCOUNT:
-                    view = new AccountCell(mContext);
+                    view = new AccountCell(mContext, resourcesProvider);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case TYPE_EMOJI:
                 case TYPE_EMOJI_SELECTION:
-                    view = new EmojiSetCell(mContext, viewType == TYPE_EMOJI_SELECTION);
+                    view = new EmojiSetCell(mContext, viewType == TYPE_EMOJI_SELECTION, resourcesProvider);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case TYPE_CREATION:

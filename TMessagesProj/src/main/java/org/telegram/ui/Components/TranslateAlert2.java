@@ -236,11 +236,11 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         buttonTextView.setGravity(Gravity.CENTER_HORIZONTAL);
         buttonTextView.setEllipsize(TextUtils.TruncateAt.END);
         buttonTextView.setGravity(Gravity.CENTER);
-        buttonTextView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
+        buttonTextView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
         buttonTextView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         buttonTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         buttonTextView.setText(LocaleController.getString("CloseTranslation", R.string.CloseTranslation));
-        buttonTextView.setBackground(Theme.AdaptiveRipple.filledRect(Theme.getColor(Theme.key_featuredStickers_addButton), 6));
+        buttonTextView.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor(Theme.key_featuredStickers_addButton), 6));
         buttonTextView.setOnClickListener(e -> dismiss());
         buttonView.addView(buttonTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.BOTTOM | Gravity.FILL_HORIZONTAL, 16, 16, 16, 16));
 
@@ -450,7 +450,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                             if (!(urlSpan instanceof URLSpanNoUnderline)) {
                                 ds.setUnderlineText(true);
                             }
-                            ds.setColor(Theme.getColor(Theme.key_dialogTextLink));
+                            ds.setColor(getThemedColor(Theme.key_dialogTextLink));
                             ds.setAlpha(alpha);
                         }
                     },
@@ -661,7 +661,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             copyButton = new ImageView(context);
             copyButton.setScaleType(ImageView.ScaleType.CENTER);
             copyButton.setImageResource(R.drawable.msg_copy);
-            copyButton.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_player_actionBarSubtitle), PorterDuff.Mode.MULTIPLY));
+            copyButton.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_player_actionBarSubtitle), PorterDuff.Mode.MULTIPLY));
             copyButton.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector)));
             copyButton.setOnClickListener(v -> {
                 AndroidUtilities.addToClipboard(textView.getText());
@@ -883,7 +883,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
 
             copyButton.setTranslationX(AndroidUtilities.lerp(dpf2(14), dpf2(8), t));
             copyButton.setTranslationY(AndroidUtilities.lerp(dpf2(0), dpf2(16), t));
-            copyButton.setColorFilter(ColorUtils.blendARGB(Theme.getColor(Theme.key_dialogTextBlack), Theme.getColor(Theme.key_player_actionBarSubtitle), t), PorterDuff.Mode.MULTIPLY);
+            copyButton.setColorFilter(ColorUtils.blendARGB(getThemedColor(Theme.key_dialogTextBlack), getThemedColor(Theme.key_player_actionBarSubtitle), t), PorterDuff.Mode.MULTIPLY);
 
             shadow.setTranslationY(AndroidUtilities.lerp(0, dpf2(22), t));
             shadow.setAlpha(1f - t);
@@ -1089,8 +1089,8 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         return alert;
     }
 
-    public static TranslateAlert2 showAlert(Context context, BaseFragment fragment, int currentAccount, String fromLanguage, String toLanguage, CharSequence text, ArrayList<TLRPC.MessageEntity> entities, boolean noforwards, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, Runnable onDismiss) {
-        TranslateAlert2 alert = new TranslateAlert2(context, fromLanguage, toLanguage, text, entities, null) {
+    public static TranslateAlert2 showAlert(Context context, BaseFragment fragment, int currentAccount, String fromLanguage, String toLanguage, CharSequence text, ArrayList<TLRPC.MessageEntity> entities, boolean noforwards, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, Runnable onDismiss, Theme.ResourcesProvider resourcesProvider) {
+        TranslateAlert2 alert = new TranslateAlert2(context, fromLanguage, toLanguage, text, entities, resourcesProvider) {
             @Override
             public void dismiss() {
                 super.dismiss();

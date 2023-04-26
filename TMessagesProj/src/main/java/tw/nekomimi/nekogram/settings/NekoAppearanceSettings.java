@@ -96,7 +96,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 NekoConfig.setTabletMode(types.get(i));
                 listAdapter.notifyItemChanged(tabletModeRow, PARTIAL);
                 showRestartBulletin();
-            });
+            }, resourcesProvider);
         } else if (position == transparentStatusBarRow) {
             SharedConfig.toggleNoStatusBar();
             if (view instanceof TextCheckCell) {
@@ -123,7 +123,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 NekoConfig.setEventType(i);
                 listAdapter.notifyItemChanged(eventTypeRow, PARTIAL);
                 getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-            });
+            }, resourcesProvider);
         } else if (position == newYearRow) {
             NekoConfig.toggleNewYear();
             if (view instanceof TextCheckCell) {
@@ -202,7 +202,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 NekoConfig.setTabsTitleType(types.get(i));
                 listAdapter.notifyItemChanged(tabsTitleTypeRow, PARTIAL);
                 getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
-            });
+            }, resourcesProvider);
         }
     }
 
@@ -280,7 +280,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
             switch (holder.getItemViewType()) {
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
-                    textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == eventTypeRow) {
                         String value;
                         switch (NekoConfig.eventType) {
@@ -393,7 +392,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             if (viewType == Integer.MAX_VALUE) {
                 profilePreviewCell = new DrawerProfilePreviewCell(mContext);
-                profilePreviewCell.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
+                profilePreviewCell.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                 profilePreviewCell.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
                 return new RecyclerListView.Holder(profilePreviewCell);
             } else {

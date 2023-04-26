@@ -56,20 +56,19 @@ public class TextCheckbox2Cell extends FrameLayout {
         }
     };
 
-
     public TextCheckbox2Cell(Context context) {
-        this(context, 21);
+        this(context, 21, false, null);
     }
 
-    public TextCheckbox2Cell(Context context, int padding) {
-        this(context, padding, false);
+    public TextCheckbox2Cell(Context context, Theme.ResourcesProvider resourcesProvider) {
+        this(context, 21, false, resourcesProvider);
     }
 
-    public TextCheckbox2Cell(Context context, int padding, boolean dialog) {
+    public TextCheckbox2Cell(Context context, int padding, boolean dialog, Theme.ResourcesProvider resourcesProvider) {
         super(context);
 
         textView = new TextView(context);
-        textView.setTextColor(Theme.getColor(dialog ? Theme.key_dialogTextBlack : Theme.key_windowBackgroundWhiteBlackText));
+        textView.setTextColor(Theme.getColor(dialog ? Theme.key_dialogTextBlack : Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         textView.setLines(1);
         textView.setMaxLines(1);
@@ -79,7 +78,7 @@ public class TextCheckbox2Cell extends FrameLayout {
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? padding : 64, 0, LocaleController.isRTL ? 64 : padding, 0));
 
         valueTextView = new TextView(context);
-        valueTextView.setTextColor(Theme.getColor(dialog ? Theme.key_dialogIcon : Theme.key_windowBackgroundWhiteGrayText2));
+        valueTextView.setTextColor(Theme.getColor(dialog ? Theme.key_dialogIcon : Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider));
         valueTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         valueTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
         valueTextView.setLines(1);
@@ -89,7 +88,7 @@ public class TextCheckbox2Cell extends FrameLayout {
         valueTextView.setEllipsize(TextUtils.TruncateAt.END);
         addView(valueTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? padding : 64, 36, LocaleController.isRTL ? 64 : padding, 0));
 
-        checkbox = new CheckBox2(context, 21);
+        checkbox = new CheckBox2(context, 21, resourcesProvider);
         checkbox.setDrawUnchecked(true);
         checkbox.setDrawBackgroundAsArc(10);
         checkbox.setDuration(100);

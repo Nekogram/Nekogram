@@ -44,6 +44,7 @@ public class ItemOptions {
 
     private ViewGroup container;
     private BaseFragment fragment;
+    private Theme.ResourcesProvider resourcesProvider;
     private Context context;
     private View scrimView;
     private Drawable scrimViewBackground;
@@ -63,6 +64,7 @@ public class ItemOptions {
         }
 
         this.fragment = fragment;
+        this.resourcesProvider = fragment.getResourceProvider();
         this.context = fragment.getContext();
         this.scrimView = scrimView;
 
@@ -82,7 +84,7 @@ public class ItemOptions {
     }
 
     private void init() {
-        layout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context);
+        layout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, resourcesProvider);
         layout.setDispatchKeyEventListener(keyEvent -> {
             if (keyEvent.getKeyCode() == KeyEvent.KEYCODE_BACK && keyEvent.getRepeatCount() == 0 && actionBarPopupWindow != null && actionBarPopupWindow.isShowing()) {
                 actionBarPopupWindow.dismiss();
@@ -113,12 +115,12 @@ public class ItemOptions {
             return this;
         }
 
-        ActionBarMenuSubItem subItem = new ActionBarMenuSubItem(context, false, false);
+        ActionBarMenuSubItem subItem = new ActionBarMenuSubItem(context, false, false, resourcesProvider);
         subItem.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18 + 8), 0);
         subItem.setTextAndIcon(text, iconResId);
         if (isRed) {
-            subItem.setColors(Theme.getColor(Theme.key_text_RedRegular), Theme.getColor(Theme.key_text_RedRegular));
-            subItem.setSelectorColor(Theme.multAlpha(Theme.getColor(Theme.key_text_RedRegular), .12f));
+            subItem.setColors(Theme.getColor(Theme.key_text_RedRegular, resourcesProvider), Theme.getColor(Theme.key_text_RedRegular, resourcesProvider));
+            subItem.setSelectorColor(Theme.multAlpha(Theme.getColor(Theme.key_text_RedRegular, resourcesProvider), .12f));
         }
         subItem.setOnClickListener(view1 -> {
             if (actionBarPopupWindow != null) {

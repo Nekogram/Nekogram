@@ -110,9 +110,9 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
         item.setSearchFieldHint(LocaleController.getString("Search", R.string.Search));
 
         if (whiteActionBar) {
-            actionBar.setSearchTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText), true);
-            actionBar.setSearchTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), false);
-            actionBar.setSearchCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+            actionBar.setSearchTextColor(getThemedColor(Theme.key_windowBackgroundWhiteGrayText), true);
+            actionBar.setSearchTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText), false);
+            actionBar.setSearchCursorColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
         }
 
         searchListViewAdapter = new ListAdapter(context, true);

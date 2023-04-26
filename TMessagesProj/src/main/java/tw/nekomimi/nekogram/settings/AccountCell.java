@@ -33,7 +33,7 @@ public class AccountCell extends FrameLayout {
 
     private int accountNumber;
 
-    public AccountCell(Context context) {
+    public AccountCell(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
 
         avatarDrawable = new AvatarDrawable();
@@ -51,13 +51,13 @@ public class AccountCell extends FrameLayout {
         textView.setSingleLine(true);
         textView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         textView.setEllipsize(TextUtils.TruncateAt.END);
-        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+        textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP, 68, 0, 56, 0));
 
         checkImageView = new ImageView(context);
         checkImageView.setImageResource(R.drawable.account_check);
         checkImageView.setScaleType(ImageView.ScaleType.CENTER);
-        checkImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
+        checkImageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_switchTrackChecked, resourcesProvider), PorterDuff.Mode.MULTIPLY));
         addView(checkImageView, LayoutHelper.createFrame(40, LayoutHelper.MATCH_PARENT, Gravity.RIGHT | Gravity.TOP, 0, 0, 6, 0));
     }
 

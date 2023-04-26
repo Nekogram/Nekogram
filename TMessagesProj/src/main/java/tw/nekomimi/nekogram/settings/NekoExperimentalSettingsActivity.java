@@ -63,15 +63,15 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
         if (false) {
-            var builder = new AlertDialog.Builder(getParentActivity());
+            var builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
             var message = new TextView(getParentActivity());
             message.setText(getSpannedString("SoonRemovedOption", R.string.SoonRemovedOption, "https://t.me/" + LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername)));
             message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            message.setLinkTextColor(Theme.getColor(Theme.key_dialogTextLink));
-            message.setHighlightColor(Theme.getColor(Theme.key_dialogLinkSelection));
+            message.setLinkTextColor(getThemedColor(Theme.key_dialogTextLink));
+            message.setHighlightColor(getThemedColor(Theme.key_dialogLinkSelection));
             message.setPadding(AndroidUtilities.dp(23), 0, AndroidUtilities.dp(23), 0);
             message.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
-            message.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+            message.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
             builder.setView(message);
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             showDialog(builder.create());
@@ -93,7 +93,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 }
             }));
         } else if (position == deleteAccountRow) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
             builder.setMessage(LocaleController.getString("TosDeclineDeleteAccount", R.string.TosDeclineDeleteAccount));
             builder.setTitle(LocaleController.getString("DeleteAccount", R.string.DeleteAccount));
             builder.setPositiveButton(LocaleController.getString("Deactivate", R.string.Deactivate), (dialog, which) -> {
@@ -134,7 +134,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                             if (error != null) {
                                 errorText += "\n" + error.text;
                             }
-                            AlertDialog.Builder builder1 = new AlertDialog.Builder(getParentActivity());
+                            AlertDialog.Builder builder1 = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
                             builder1.setTitle(LocaleController.getString("AppName", R.string.AppName));
                             builder1.setMessage(errorText);
                             builder1.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
@@ -148,7 +148,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             AlertDialog dialog = builder.create();
             dialog.setOnShowListener(dialog1 -> {
                 var button = (TextView) dialog.getButton(AlertDialog.BUTTON_POSITIVE);
-                button.setTextColor(Theme.getColor(Theme.key_text_RedBold));
+                button.setTextColor(getThemedColor(Theme.key_text_RedBold));
                 button.setEnabled(false);
                 var buttonText = button.getText();
                 new CountDownTimer(60000, 100) {
@@ -192,7 +192,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             PopupHelper.show(arrayList, LocaleController.getString("DownloadSpeedBoost", R.string.DownloadSpeedBoost), types.indexOf(NekoConfig.downloadSpeedBoost), getParentActivity(), view, i -> {
                 NekoConfig.setDownloadSpeedBoost(types.get(i));
                 listAdapter.notifyItemChanged(downloadSpeedBoostRow, PARTIAL);
-            });
+            }, resourcesProvider);
         } else if (position == sendBugReportRow) {
             if (AnalyticsHelper.analyticsDisabled) {
                 return;
@@ -278,10 +278,10 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             switch (holder.getItemViewType()) {
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
-                    textCell.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
+                    textCell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == deleteAccountRow) {
                         textCell.setText(LocaleController.getString("DeleteAccount", R.string.DeleteAccount), false);
-                        textCell.setTextColor(Theme.getColor(Theme.key_text_RedRegular));
+                        textCell.setTextColor(getThemedColor(Theme.key_text_RedRegular));
                     } else if (position == downloadSpeedBoostRow) {
                         String value;
                         switch (NekoConfig.downloadSpeedBoost) {
