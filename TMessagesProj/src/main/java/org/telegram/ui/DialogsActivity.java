@@ -4568,9 +4568,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public boolean isPremiumRestoreHintVisible() {
-        if (!MessagesController.getInstance(currentAccount).premiumLocked && folderId == 0) {
+        /*if (!MessagesController.getInstance(currentAccount).premiumLocked && folderId == 0) {
             return MessagesController.getInstance(currentAccount).pendingSuggestions.contains("PREMIUM_RESTORE") && !getUserConfig().isPremium();
-        }
+        }*/
         return false;
     }
 
