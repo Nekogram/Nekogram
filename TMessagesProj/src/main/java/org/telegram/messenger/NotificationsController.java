@@ -1997,8 +1997,11 @@ public class NotificationsController extends BaseController {
     };
 
     private String replaceSpoilers(MessageObject messageObject) {
+        if (messageObject == null || messageObject.messageOwner == null) {
+            return null;
+        }
         String text = messageObject.messageOwner.message;
-        if (text == null || messageObject == null || messageObject.messageOwner == null || messageObject.messageOwner.entities == null) {
+        if (text == null || messageObject.messageOwner.entities == null) {
             return null;
         }
         StringBuilder stringBuilder = new StringBuilder(text);
@@ -3212,7 +3215,8 @@ public class NotificationsController extends BaseController {
         boolean secretChat = !isDefault && DialogObject.isEncryptedDialog(dialogId);
         boolean shouldOverwrite = !isInApp && overwriteKey != null && preferences.getBoolean(overwriteKey, false);
 
-        String soundHash = Utilities.MD5(sound == null ? "NoSound" : sound.toString());
+        int nosoundPatch = 2; // when changing code here about no-sound issues, make sure to increment this value
+        String soundHash = Utilities.MD5(sound == null ? "NoSound" + nosoundPatch : sound.toString());
         if (soundHash != null && soundHash.length() > 5) {
             soundHash = soundHash.substring(0, 5);
         }
@@ -3430,7 +3434,8 @@ public class NotificationsController extends BaseController {
             if (sound != null) {
                 notificationChannel.setSound(sound, builder.build());
             } else {
-               // notificationChannel.setSound(null, null);
+                // todo: deal with vendor messed up crash here later
+                notificationChannel.setSound(null, builder.build());
             }
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("create new channel " + channelId);

@@ -340,7 +340,6 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
             switch (holder.getItemViewType()) {
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                    cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow, resourcesProvider));
                     cell.getTextView().setMovementMethod(null);
                     cell.setText("miaŭ");
                     break;

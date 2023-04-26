@@ -4078,8 +4078,13 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			}
 		}
 		Bitmap avatar = getRoundAvatarBitmap(userOrChat);
+		String presonName = ContactsController.formatName(userOrChat);
+		if (TextUtils.isEmpty(presonName)) {
+			//java.lang.IllegalArgumentException: person must have a non-empty a name
+			presonName = "___";
+		}
 		Person person = new Person.Builder()
-				.setName(ContactsController.formatName(userOrChat))
+				.setName(presonName)
 				.setIcon(IconCompat.createWithAdaptiveBitmap(MediaDataController.convertBitmapToAdaptive(avatar)))
 				.build();
 		NotificationCompat.CallStyle callStyle = NotificationCompat.CallStyle.forIncomingCall(person, endPendingIntent, answerPendingIntent);
