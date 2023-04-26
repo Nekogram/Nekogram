@@ -48,6 +48,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.CreationTextCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
+import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.BulletinFactory;
@@ -319,13 +320,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
         if (position == dcRow) {
-            int dc = 0;
-            if (MessageObject.getMedia(messageObject.messageOwner).photo != null && MessageObject.getMedia(messageObject.messageOwner).photo.dc_id > 0) {
-                dc = MessageObject.getMedia(messageObject.messageOwner).photo.dc_id;
-            } else if (MessageObject.getMedia(messageObject.messageOwner).document != null && MessageObject.getMedia(messageObject.messageOwner).document.dc_id > 0) {
-                dc = MessageObject.getMedia(messageObject.messageOwner).document.dc_id;
-            }
-            presentFragment(new DatacenterActivity(dc));
+            AlertsCreator.createSimplePopup(this, new DatacenterPopupWrapper(this, null, resourcesProvider).windowLayout, view, Math.round(x), Math.round(y));
         } else if (position == filePathRow) {
             if (!noforwards) {
                 Intent intent = new Intent(Intent.ACTION_SEND);

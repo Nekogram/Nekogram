@@ -256,7 +256,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         return true;
     }
 
-    protected CharSequence getSpannedString(String key, int id, String url) {
+    public static CharSequence getSpannedString(String key, int id, String url) {
         var text = LocaleController.getString(key, id);
         var builder = new SpannableStringBuilder(text);
         int index1 = text.indexOf("**");

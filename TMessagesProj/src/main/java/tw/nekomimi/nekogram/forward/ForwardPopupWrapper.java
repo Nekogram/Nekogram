@@ -23,6 +23,8 @@ public class ForwardPopupWrapper {
         if (swipeBackLayout != null) {
             var backItem = ActionBarMenuItem.addItem(windowLayout, R.drawable.msg_arrow_back, LocaleController.getString("Back", R.string.Back), false, resourcesProvider);
             backItem.setOnClickListener(view -> swipeBackLayout.closeForeground());
+
+            ActionBarMenuItem.addColoredGap(windowLayout, resourcesProvider);
         }
 
         var hasCaption = ForwardItem.hasCaption(selectedObject, selectedObjectGroup);

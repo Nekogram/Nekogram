@@ -18,6 +18,7 @@ import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.ShapeDrawable;
 import android.os.Build;
@@ -2373,6 +2374,15 @@ public class ActionBarMenuItem extends FrameLayout {
             lazyList.get(i).add(this);
         }
         lazyList.clear();
+    }
+
+    public static FrameLayout addColoredGap(ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout, Theme.ResourcesProvider resourcesProvider) {
+        CombinedDrawable shadowDrawable = new CombinedDrawable(new ColorDrawable(Theme.getColor(Theme.key_actionBarDefaultSubmenuSeparator, resourcesProvider)), Theme.getThemedDrawable(windowLayout.getContext(), R.drawable.greydivider, Theme.getColor(Theme.key_windowBackgroundGrayShadow, resourcesProvider)));
+        shadowDrawable.setFullsize(true);
+        FrameLayout gap = new FrameLayout(windowLayout.getContext());
+        gap.setBackground(shadowDrawable);
+        windowLayout.addView(gap, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 8));
+        return gap;
     }
 
     public static ActionBarMenuSubItem addItem(ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout, int icon, CharSequence text, boolean needCheck, Theme.ResourcesProvider resourcesProvider) {

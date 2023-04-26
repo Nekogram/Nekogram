@@ -129,8 +129,6 @@
 -keep,allowshrinking,allowobfuscation class org.telegram.ui.Components.Premium.GLIcon.ObjLoader {
     public <init>();
  }
--keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.DatacenterActivity$DatacenterCell { <fields>; }
--keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.DatacenterActivity$DatacenterHeaderCell { <fields>; }
 -keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.MessageDetailsActivity$TextDetailSimpleCell { <fields>; }
 -keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.settings.AccountCell { <fields>; }
 -keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.settings.EmojiSetCell { <fields>; }

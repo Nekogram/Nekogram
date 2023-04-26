@@ -22,7 +22,7 @@ import org.telegram.ui.Components.BulletinFactory;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.DatacenterActivity;
+import tw.nekomimi.nekogram.DatacenterPopupWrapper;
 import tw.nekomimi.nekogram.simplemenu.SimpleMenuPopupWindow;
 
 public class PopupHelper {
@@ -79,7 +79,7 @@ public class PopupHelper {
 
     public static void showIdPopup(BaseFragment fragment, View anchorView, long id, int dc, boolean user, float x, float y) {
         Context context = fragment.getParentActivity();
-        ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, fragment.getResourceProvider()) {
+        ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, R.drawable.popup_fixed_alert2, fragment.getResourceProvider(), ActionBarPopupWindow.ActionBarPopupWindowLayout.FLAG_USE_SWIPEBACK) {
             final Path path = new Path();
 
             @Override
@@ -104,12 +104,11 @@ public class PopupHelper {
             });
         }
         if (dc != 0) {
+            var dcPopupWrapper = new DatacenterPopupWrapper(fragment, popupLayout.getSwipeBack(), fragment.getResourceProvider());
+            int swipeBackIndex = popupLayout.addViewToSwipeBack(dcPopupWrapper.windowLayout);
             ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_satellite, LocaleController.getString("DatacenterStatusShort", R.string.DatacenterStatusShort), false, fragment.getResourceProvider());
             subItem.setSubtext(MessageHelper.formatDCString(dc));
-            subItem.setOnClickListener(v -> {
-                popupWindow.dismiss();
-                fragment.presentFragment(new DatacenterActivity(dc));
-            });
+            subItem.setOnClickListener(v -> popupLayout.getSwipeBack().openForeground(swipeBackIndex));
         }
         if (id != 0 && user) {
             ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_calendar, LocaleController.getString("RegistrationDate", R.string.RegistrationDate), false, fragment.getResourceProvider());
