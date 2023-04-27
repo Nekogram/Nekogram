@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -40,6 +41,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SendMessagesHelper;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
@@ -496,11 +498,11 @@ public class MessageHelper extends BaseController {
         return path;
     }
 
-    public void saveStickerToGallery(Activity activity, MessageObject messageObject, Runnable callback) {
+    public void saveStickerToGallery(Activity activity, MessageObject messageObject, Utilities.Callback<Uri> callback) {
         saveStickerToGallery(activity, getPathToMessage(messageObject), messageObject.isVideoSticker(), callback);
     }
 
-    public static void saveStickerToGallery(Activity activity, TLRPC.Document document, Runnable callback) {
+    public static void saveStickerToGallery(Activity activity, TLRPC.Document document, Utilities.Callback<Uri> callback) {
         String path = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(document, true).toString();
         File temp = new File(path);
         if (!temp.exists()) {
@@ -509,7 +511,7 @@ public class MessageHelper extends BaseController {
         saveStickerToGallery(activity, path, MessageObject.isVideoSticker(document), callback);
     }
 
-    private static void saveStickerToGallery(Activity activity, String path, boolean video, Runnable callback) {
+    private static void saveStickerToGallery(Activity activity, String path, boolean video, Utilities.Callback<Uri> callback) {
         Utilities.globalQueue.postRunnable(() -> {
             try {
                 if (video) {
@@ -867,13 +869,8 @@ public class MessageHelper extends BaseController {
             req.silent = MessagesController.getNotificationsSettings(currentAccount).getBoolean("silent_" + peer.user_id, false);
         }
         req.message = "";
-        if (thread != null) {
-            req.top_msg_id = thread.getId();
-            req.flags |= 512;
-        }
         if (reply_to != null) {
-            req.flags |= 1;
-            req.reply_to_msg_id = reply_to.getId();
+            req.reply_to = SendMessagesHelper.creteReplyInput(reply_to.getId(), thread.getId());
         }
         getConnectionsManager().sendRequest(req, (response, error) -> {
             if (error == null) {

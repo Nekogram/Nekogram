@@ -87,7 +87,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
         }
 
         if (images.isEmpty()) {
-            accountInstance.getSendMessagesHelper().sendMessage(text.toString(), dialog_id, null, null, null, true, null, null, null, true, 0, null, false);
+            accountInstance.getSendMessagesHelper().sendMessage(SendMessagesHelper.SendMessageParams.of(text.toString(), dialog_id, null, null, null, true, null, null, null, true, 0, null, false));
         } else {
             ArrayList<SendMessagesHelper.SendingMediaInfo> infos = new ArrayList<>();
             for (int i = 0; i < images.size(); i++) {
@@ -98,7 +98,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
                 }
                 infos.add(info);
             }
-            SendMessagesHelper.prepareSendingMedia(accountInstance, infos, dialog_id, replyToMsgId, null, null, false, images.size() > 1, null, true, 0, false);
+            SendMessagesHelper.prepareSendingMedia(accountInstance, infos, dialog_id, replyToMsgId, null, null, false, images.size() > 1, null, true, 0, false, null);
         }
         //TODO handle topics
         if (topicId == 0) {

@@ -1201,16 +1201,16 @@ public final class FloatingToolbar {
         textView.setFocusable(false);
         textView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
         textView.setFocusableInTouchMode(false);
+        int selectorColor = getThemedColor(Theme.key_listSelector);
         if (currentStyle == STYLE_DIALOG) {
             textView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
-            menuItemButton.setBackgroundDrawable(Theme.getSelectorDrawable(false));
         } else if (currentStyle == STYLE_BLACK) {
             textView.setTextColor(0xfffafafa);
-            menuItemButton.setBackgroundDrawable(Theme.getSelectorDrawable(0x40ffffff, false));
+            selectorColor = 0x40ffffff;
         } else if (currentStyle == STYLE_THEME) {
             textView.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
-            menuItemButton.setBackgroundDrawable(Theme.getSelectorDrawable(false));
         }
+        menuItemButton.setBackgroundDrawable(Theme.getSelectorDrawable(selectorColor, false));
 
         textView.setPaddingRelative(AndroidUtilities.dp(11), 0, 0, 0);
         menuItemButton.addView(textView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, AndroidUtilities.dp(48)));

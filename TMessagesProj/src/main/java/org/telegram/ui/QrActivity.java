@@ -490,11 +490,6 @@ public class QrActivity extends BaseFragment {
     }
 
     @Override
-    public int getNavigationBarColor() {
-        return getThemedColor(Theme.key_windowBackgroundGray);
-    }
-
-    @Override
     public Theme.ResourcesProvider getResourceProvider() {
         return resourcesProvider;
     }
@@ -782,11 +777,6 @@ public class QrActivity extends BaseFragment {
 
 
     private class ThemeResourcesProvider implements Theme.ResourcesProvider {
-
-        @Override
-        public boolean contains(int key) {
-            return false;
-        }
 
         private SparseIntArray colors;
 

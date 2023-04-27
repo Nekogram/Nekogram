@@ -115,10 +115,7 @@
 -keepnames class org.telegram.messenger.MessagesController {
     public org.telegram.messenger.MessagesController$SponsoredMessagesInfo getSponsoredMessages(long);
  }
--keepclasseswithmembers,allowshrinking,allowoptimization class org.telegram.tgnet.TLRPC$TL_* {
-    public org.telegram.tgnet.TLObject deserializeResponse(org.telegram.tgnet.AbstractSerializedData, int, boolean);
-}
--keepclassmembernames,allowshrinking,allowoptimization class org.telegram.tgnet.TLRPC$* { <fields>; }
+-keep class org.telegram.tgnet.TLRPC* { *; }
 -keepclassmembernames,allowshrinking,allowoptimization class org.telegram.ui.* { <fields>; }
 -keepclassmembernames,allowshrinking,allowoptimization class org.telegram.ui.Cells.* { <fields>; }
 -keepclassmembernames,allowshrinking,allowoptimization class org.telegram.ui.Components.* { <fields>; }
