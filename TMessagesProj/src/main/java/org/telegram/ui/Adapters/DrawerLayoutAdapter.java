@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
@@ -316,11 +317,18 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             peopleNearbyIcon = R.drawable.msg_nearby;
         }
         UserConfig me = UserConfig.getInstance(UserConfig.selectedAccount);
-        if (me != null && me.isPremium()) {
-            if (me.getEmojiStatus() != null) {
-                items.add(new Item(15, LocaleController.getString("ChangeEmojiStatus", R.string.ChangeEmojiStatus), R.drawable.msg_status_edit));
-            } else {
-                items.add(new Item(15, LocaleController.getString("SetEmojiStatus", R.string.SetEmojiStatus), R.drawable.msg_status_set));
+        MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
+        boolean hasArchive = NekoConfig.hideAllTab && messagesController.getDialogFilters().size() > 1 && messagesController.dialogs_dict.get(DialogObject.makeFolderDialogId(1)) != null;
+        if (me != null && me.isPremium() || hasArchive) {
+            if (me != null && me.isPremium()) {
+                if (me.getEmojiStatus() != null) {
+                    items.add(new Item(15, LocaleController.getString("ChangeEmojiStatus", R.string.ChangeEmojiStatus), R.drawable.msg_status_edit));
+                } else {
+                    items.add(new Item(15, LocaleController.getString("SetEmojiStatus", R.string.SetEmojiStatus), R.drawable.msg_status_set));
+                }
+            }
+            if (hasArchive) {
+                items.add(new Item(20, LocaleController.getString("ArchivedChats", R.string.ArchivedChats), R.drawable.msg_archive));
             }
             items.add(null); // divider
         }

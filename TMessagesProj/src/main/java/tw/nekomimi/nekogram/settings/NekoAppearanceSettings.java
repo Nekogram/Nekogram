@@ -80,7 +80,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.hidePhone);
             }
-            parentLayout.rebuildAllFragmentViews(false, false);
             getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
             listAdapter.notifyItemChanged(drawerRow, PARTIAL);
         } else if (position == tabletModeRow) {
@@ -189,6 +188,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 ((TextCheckCell) view).setChecked(NekoConfig.hideAllTab);
             }
             getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
+            getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
         } else if (position == tabsTitleTypeRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
