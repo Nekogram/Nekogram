@@ -122,5 +122,30 @@
     <string name="RegistrationDateOlder">Иди нахуй %s</string>
     <string name="RegistrationDateApproximately">Поебался %s</string>
     <string name="WsDescription">Сука араная как Этну Рудню переводіть вы даўн Telegram Cloudflare **Сосать хуй**</string>
+    <string name="WsEnableTls">Уключыць TLS</string>
+    <string name="WsProvider">Пастаўшчык</string>
+    <string name="WsNotWorking">Проксі не працуе!</string>
+    <string name="WsUseMyOwnDomain">Як наладзіць карыстацкага пастаўшчыка</string>
+    <string name="WsStandaloneApp">Выкарыстоўваць проксі ў іншых прыкладаннях</string>
+    <string name="UpdateNekogram">Абнавіць Nekogram</string>
+    <string name="TranslationTarget">Мова перакладу</string>
+    <string name="TranslationTargetApp">Як у дадатку</string>
+    <string name="Translator">Перакладчык</string>
+    <string name="ResetLanguage">Скінуць мову</string>
+    <string name="UseGoogleTranslate">Выкарыстоўваць Google</string>
+    <string name="DeepLFormality">Пастаўшчык</string>
+    <string name="DeepLFormalityDefault">Па змаўчанні</string>
+    <string name="DeepLFormalityMore">Больш</string>
+    <string name="DeepLFormalityLess">Менш</string>
+    <string name="InvalidCustomEmojiTypeface">Няправільны файл шрыфта.</string>
+    <string name="AttachWebFile">Вэб файл</string>
+    <string name="WebFileInfo">Адправіць файл з URL</string>
+    <string name="SendWebFile">Адправіць вэб файл</string>
+    <string name="SendWebFileInfo">Telegram загрузіць і адправіць файл. Максімальны памер 5 МБ для фатаграфій і максімум 20 МБ для іншых тыпаў кантэнту.</string>
+    <string name="SendWebFileInvalid">Няправільны файл, пераканайцеся, што файл адпавядае патрабаванням.</string>
+    <string name="AutoLockInstant">Імгненна</string>
+    <string name="RestrictionReason">Прычына абмежавання</string>
+    <string name="ProviderTencentTranslator">Mр. Перакладчык</string>
+    <string name="MaxRecentStickers">Макс. апошніх стыкераў</string>
     <!-- Accessibility -->
 </resources>

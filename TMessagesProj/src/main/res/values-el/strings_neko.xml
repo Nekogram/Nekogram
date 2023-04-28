@@ -4,7 +4,7 @@
     <string name="IPv6">Δοκιμάστε να συνδεθείτε μέσω IPv6</string>
     <string name="MessageMenu">Μενού μηνυμάτων</string>
     <string name="HidePhone">Απόκρυψη του αριθμού μου</string>
-    <string name="DeleteAllFromSelf">Διαγραφή των μηνυμάτων μου</string>
+    <string name="DeleteAllFromSelf">Διαγραφή των μηνυμ. μου</string>
     <string name="DeleteAllFromSelfAlert">Προειδοποίηση! Αυτό θά **διαγράψει ΌΛΑ τα μηνύματά σας** σε αυτή τη συνομιλία για **ΌΛΟΥΣ** τους συμμετέχοντες.</string>
     <string name="BotLogin">Σύνδεση Bot</string>
     <string name="BotLoginMessage">Εισάγετε το διακριτικό του bot που ελήφθη από **@BotFather**.</string>
@@ -207,6 +207,7 @@
     <string name="Translating">...μεταφράζεται</string>
     <string name="Translated">μεταφράστηκε</string>
     <string name="BrokenMLKit">Μη διαθέσιμη επιλογή</string>
+    <string name="BrokenMLKitDetail">Το αναγνωριστικό γλώσσας MLKit είναι κατεστραμμένο σε αυτήν τη συσκευή.</string>
     <string name="PasscodeNeeded">Πρώτα ενεργοποιήστε το κλείδωμα με κωδικό</string>
     <string name="PasscodeNeko">Κωδικός</string>
     <string name="PasscodeShowInSettings">Εμφάνιση στις ρυθμίσεις Neko</string>
