@@ -9,20 +9,25 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.accessibility.AccessibilityNodeInfo;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.R;
 import org.telegram.ui.Components.CheckBox2;
+import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RLottieImageView;
+import org.telegram.ui.Components.TextViewSwitcher;
 
 public class ActionBarMenuSubItem extends FrameLayout {
 
     private TextView textView;
-    private TextView subtextView;
+    private TextViewSwitcher subtextView;
     private RLottieImageView imageView;
     private CheckBox2 checkView;
     private ImageView rightIcon;
@@ -224,15 +229,34 @@ public class ActionBarMenuSubItem extends FrameLayout {
     }
 
     public void setSubtext(String text) {
+        setSubtext(text, false);
+    }
+
+    public void setSubtext(String text, boolean animated) {
         if (subtextView == null) {
-            subtextView = new TextView(getContext());
-            subtextView.setLines(1);
-            subtextView.setSingleLine(true);
-            subtextView.setGravity(Gravity.LEFT);
-            subtextView.setEllipsize(TextUtils.TruncateAt.END);
-            subtextView.setTextColor(getThemedColor(Theme.key_groupcreate_sectionText));
+            subtextView = new TextViewSwitcher(getContext()) {
+                @Override
+                protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+                    super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100), MeasureSpec.AT_MOST));
+                }
+            };
+            subtextView.setFactory(() -> {
+                TextView view = new TextView(getContext());
+                view.setLines(1);
+                view.setSingleLine(true);
+                view.setGravity(Gravity.LEFT);
+                view.setEllipsize(TextUtils.TruncateAt.END);
+                view.setTextColor(getThemedColor(Theme.key_groupcreate_sectionText));
+                view.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+                return view;
+            });
+            Animation anim = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_in);
+            anim.setInterpolator(Easings.easeInOutQuad);
+            subtextView.setInAnimation(anim);
+            anim = AnimationUtils.loadAnimation(getContext(), R.anim.alpha_out);
+            anim.setInterpolator(Easings.easeInOutQuad);
+            subtextView.setOutAnimation(anim);
             subtextView.setVisibility(GONE);
-            subtextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
             if (imageView.getVisibility() == VISIBLE) subtextView.setPadding(LocaleController.isRTL ? 0 : AndroidUtilities.dp(43), 0, LocaleController.isRTL ? AndroidUtilities.dp(43) : 0, 0);
             addView(subtextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL, 0, 10, 0, 0));
         }
@@ -244,7 +268,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
             layoutParams.bottomMargin = visible ? AndroidUtilities.dp(10) : 0;
             textView.setLayoutParams(layoutParams);
         }
-        subtextView.setText(text);
+        subtextView.setText(text, animated);
     }
 
     public TextView getTextView() {

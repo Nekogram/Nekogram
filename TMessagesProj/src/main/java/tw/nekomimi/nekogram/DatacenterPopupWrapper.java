@@ -45,7 +45,7 @@ public class DatacenterPopupWrapper {
                 }
                 checkDatacenter(item, true, resourcesProvider);
             });
-            updateStatus(item, resourcesProvider);
+            updateStatus(item, resourcesProvider, false);
             checkDatacenter(item, false, resourcesProvider);
         }
 
@@ -70,7 +70,7 @@ public class DatacenterPopupWrapper {
             return;
         }
         datacenterInfo.checking = true;
-        updateStatus(item, resourcesProvider);
+        updateStatus(item, resourcesProvider, true);
         datacenterInfo.pingId = ConnectionsManager.getInstance(UserConfig.selectedAccount).checkProxy("ping.neko", datacenterInfo.id, null, null, null, time -> AndroidUtilities.runOnUIThread(() -> {
             datacenterInfo.availableCheckTime = SystemClock.elapsedRealtime();
             datacenterInfo.checking = false;
@@ -81,29 +81,29 @@ public class DatacenterPopupWrapper {
                 datacenterInfo.ping = time;
                 datacenterInfo.available = true;
             }
-            updateStatus(item, resourcesProvider);
+            updateStatus(item, resourcesProvider, true);
         }));
     }
 
-    public void updateStatus(ActionBarMenuSubItem item, Theme.ResourcesProvider resourcesProvider) {
+    public void updateStatus(ActionBarMenuSubItem item, Theme.ResourcesProvider resourcesProvider, boolean animated) {
         var datacenterInfo = (NekoConfig.DatacenterInfo) item.getTag();
         int colorKey;
         if (datacenterInfo.checking) {
-            item.setSubtext(LocaleController.getString("Checking", R.string.Checking));
+            item.setSubtext(LocaleController.getString("Checking", R.string.Checking), animated);
             colorKey = Theme.key_windowBackgroundWhiteGrayText2;
         } else if (datacenterInfo.available) {
             if (datacenterInfo.ping >= 1000) {
-                item.setSubtext(LocaleController.formatString("Ping", R.string.Ping, datacenterInfo.ping));
+                item.setSubtext(LocaleController.formatString("Ping", R.string.Ping, datacenterInfo.ping), animated);
                 colorKey = Theme.key_text_RedRegular;
             } else if (datacenterInfo.ping != 0) {
-                item.setSubtext(LocaleController.formatString("Ping", R.string.Ping, datacenterInfo.ping));
+                item.setSubtext(LocaleController.formatString("Ping", R.string.Ping, datacenterInfo.ping), animated);
                 colorKey = Theme.key_windowBackgroundWhiteGreenText;
             } else {
-                item.setSubtext(LocaleController.getString("Available", R.string.Available));
+                item.setSubtext(LocaleController.getString("Available", R.string.Available), animated);
                 colorKey = Theme.key_windowBackgroundWhiteGreenText;
             }
         } else {
-            item.setSubtext(LocaleController.getString("Unavailable", R.string.Unavailable));
+            item.setSubtext(LocaleController.getString("Unavailable", R.string.Unavailable), animated);
             colorKey = Theme.key_text_RedRegular;
         }
         item.setSubtextColor(Theme.getColor(colorKey, resourcesProvider));

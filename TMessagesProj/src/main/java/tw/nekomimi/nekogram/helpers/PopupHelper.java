@@ -117,9 +117,9 @@ public class PopupHelper {
             if (regDate == null) {
                 MessageHelper.getRegDate(id, arg -> {
                     if (arg != null) {
-                        subItem.setSubtext(MessageHelper.formatRegDate(arg));
+                        subItem.setSubtext(MessageHelper.formatRegDate(arg), true);
                     } else {
-                        subItem.setSubtext(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
+                        subItem.setSubtext(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred), true);
                     }
                 });
             }
