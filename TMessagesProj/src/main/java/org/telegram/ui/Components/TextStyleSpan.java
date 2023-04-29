@@ -72,7 +72,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
             }
 
             if ((flags & FLAG_STYLE_BOLD) != 0 && !TypefaceHelper.isMediumWeightSupported()) {
-                p.setStrokeWidth(.5f);
+                p.setStrokeWidth(0.65f);
                 p.setStyle(Paint.Style.FILL_AND_STROKE);
             }
             if ((flags & FLAG_STYLE_ITALIC) != 0 && !TypefaceHelper.isItalicSupported()) {
