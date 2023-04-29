@@ -170,6 +170,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     private int fileNameRow;
     private int filePathRow;
     private int fileSizeRow;
+    private int fileMimeTypeRow;
     private int stickerSetRow;
     private int emojiSetRow;
     private int dcRow;
@@ -257,15 +258,17 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             }
         }
 
-        if (MessageObject.getMedia(messageObject.messageOwner) != null) {
-            if (MessageObject.getMedia(messageObject.messageOwner).photo != null && MessageObject.getMedia(messageObject.messageOwner).photo.dc_id > 0) {
-                dc = MessageObject.getMedia(messageObject.messageOwner).photo.dc_id;
-            } else if (MessageObject.getMedia(messageObject.messageOwner).document != null && MessageObject.getMedia(messageObject.messageOwner).document.dc_id > 0) {
-                dc = MessageObject.getMedia(messageObject.messageOwner).document.dc_id;
-            } else if (MessageObject.getMedia(messageObject.messageOwner).webpage != null && MessageObject.getMedia(messageObject.messageOwner).webpage.photo != null && MessageObject.getMedia(messageObject.messageOwner).webpage.photo.dc_id > 0) {
-                dc = MessageObject.getMedia(messageObject.messageOwner).webpage.photo.dc_id;
-            } else if (MessageObject.getMedia(messageObject.messageOwner).webpage != null && MessageObject.getMedia(messageObject.messageOwner).webpage.document != null && MessageObject.getMedia(messageObject.messageOwner).webpage.document.dc_id > 0) {
-                dc = MessageObject.getMedia(messageObject.messageOwner).webpage.document.dc_id;
+
+        var media = MessageObject.getMedia(messageObject.messageOwner);
+        if (media != null) {
+            if (media.photo != null && media.photo.dc_id > 0) {
+                dc = media.photo.dc_id;
+            } else if (media.document != null && media.document.dc_id > 0) {
+                dc = media.document.dc_id;
+            } else if (media.webpage != null && media.webpage.photo != null && media.webpage.photo.dc_id > 0) {
+                dc = media.webpage.photo.dc_id;
+            } else if (media.webpage != null && media.webpage.document != null && media.webpage.document.dc_id > 0) {
+                dc = media.webpage.document.dc_id;
             }
         }
 
@@ -488,6 +491,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         fileNameRow = TextUtils.isEmpty(fileName) ? -1 : rowCount++;
         filePathRow = TextUtils.isEmpty(filePath) ? -1 : rowCount++;
         fileSizeRow = messageObject.getSize() != 0 ? rowCount++ : -1;
+        fileMimeTypeRow = !TextUtils.isEmpty(messageObject.getMimeType()) ? rowCount++ : -1;
         stickerSetRow = stickerSetOwner == 0 ? -1 : rowCount++;
         emojiSetRow = emojiSetOwners.size() == 0 ? -1 : rowCount++;
         dcRow = dc != 0 ? rowCount++ : -1;
@@ -579,6 +583,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         } else if (!TextUtils.isEmpty(messageObject.messageOwner.fwd_from.from_name)) {
                             builder.append(messageObject.messageOwner.fwd_from.from_name);
                         }
+                        builder.append("\n").append(formatTime(messageObject.messageOwner.fwd_from.date));
                         textCell.setTextAndValueWithEmoji("Forward from", builder, divider);
                     } else if (position == fileNameRow) {
                         textCell.setTextAndValue("File name", fileName, divider);
@@ -586,6 +591,8 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         textCell.setTextAndValue("File path", filePath, divider);
                     } else if (position == fileSizeRow) {
                         textCell.setTextAndValue("File size", AndroidUtilities.formatFileSize(messageObject.getSize()), divider);
+                    } else if (position == fileMimeTypeRow) {
+                        textCell.setTextAndValue("Mime type", messageObject.getMimeType(), divider);
                     } else if (position == dcRow) {
                         textCell.setTextAndValue("DC", MessageHelper.formatDCString(dc), divider);
                     } else if (position == restrictionReasonRow) {
