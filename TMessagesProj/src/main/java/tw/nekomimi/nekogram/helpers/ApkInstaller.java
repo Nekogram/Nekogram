@@ -54,7 +54,7 @@ public final class ApkInstaller {
     private static AlertDialog dialog;
 
     // @WorkerThread
-    private static void installapk(Context context, File apk) {
+    private static void installapk(Activity context, File apk) {
         //noinspection InlinedApi
         var flag = PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_MUTABLE;
         var action = ApkInstaller.class.getName();
@@ -79,6 +79,7 @@ public final class ApkInstaller {
                 dialog = null;
             }
             AlertsCreator.createSimpleAlert(context, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + e.getLocalizedMessage()).show();
+            AndroidUtilities.openForView(apk, "install.apk", "application/vnd.android.package-archive", context, null);
         }
     }
 
