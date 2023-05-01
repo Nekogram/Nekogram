@@ -4738,6 +4738,9 @@ public class NotificationsController extends BaseController {
         if (avatar != null) {
             try {
                 Bitmap bitmap = BitmapFactory.decodeFile(avatar.getAbsolutePath());
+                if (bitmap == null) {
+                    return;
+                }
                 IconCompat icon = IconCompat.createWithAdaptiveBitmap(MediaDataController.convertBitmapToAdaptive(bitmap));
                 personBuilder.setIcon(icon);
             } catch (Throwable ignore) {
