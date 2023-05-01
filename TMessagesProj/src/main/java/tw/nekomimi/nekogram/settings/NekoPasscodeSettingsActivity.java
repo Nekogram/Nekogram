@@ -267,7 +267,6 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     cell.setEnabled(passcodeSet, null);
-                    cell.setBackground(Theme.getThemedDrawable(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
                     if (position == accountsEndRow) {
                         cell.setText(LocaleController.getString("PasscodeAbout", R.string.PasscodeAbout));
                     } else if (position == panicCode2Row) {
