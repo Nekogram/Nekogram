@@ -46,7 +46,6 @@ import app.nekogram.translator.LingoTranslator;
 import app.nekogram.translator.MicrosoftTranslator;
 import app.nekogram.translator.Result;
 import app.nekogram.translator.SogouTranslator;
-import app.nekogram.translator.TencentTranslator;
 import app.nekogram.translator.YandexTranslator;
 import app.nekogram.translator.YouDaoTranslator;
 import tw.nekomimi.nekogram.NekoConfig;
@@ -268,7 +267,7 @@ public class Translator {
             case PROVIDER_SOGOU:
                 return SogouTranslator.getInstance();
             case PROVIDER_TENCENT:
-                return TencentTranslator.getInstance();
+                return TencentTranslatorNewLine.getInstance();
             case PROVIDER_GOOGLE:
             default:
                 return GoogleAppTranslator.getInstance();
@@ -367,7 +366,7 @@ public class Translator {
                             "--------" +
                             "\n" + question.translation;
                 } else {
-                    poll.question = (String) question.translation;
+                    poll.question = question.translation;
                 }
                 for (int i = 0; i < original.answers.size(); i++) {
                     TLRPC.TL_pollAnswer answer = new TLRPC.TL_pollAnswer();
