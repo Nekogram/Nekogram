@@ -843,7 +843,7 @@ public class MessageHelper extends BaseController {
         return String.format(Locale.US, "DC%d %s, %s", dc, MessageHelper.getDCName(dc), MessageHelper.getDCLocation(dc));
     }
 
-    public void sendWebFile(BaseFragment fragment, int did, String url, boolean isPhoto, Theme.ResourcesProvider resourcesProvider) {
+    public void sendWebFile(BaseFragment fragment, int did, MessageObject thread, MessageObject reply_to, String url, boolean isPhoto, Theme.ResourcesProvider resourcesProvider) {
         TLRPC.TL_messages_sendMedia req = new TLRPC.TL_messages_sendMedia();
         TLRPC.InputMedia media;
         if (isPhoto) {
@@ -857,8 +857,24 @@ public class MessageHelper extends BaseController {
         }
         req.media = media;
         req.random_id = Utilities.random.nextLong();
-        req.peer = getMessagesController().getInputPeer(did);
+        var peer = getMessagesController().getInputPeer(did);
+        req.peer = peer;
+        if (peer instanceof TLRPC.TL_inputPeerChannel) {
+            req.silent = MessagesController.getNotificationsSettings(currentAccount).getBoolean("silent_" + -peer.channel_id, false);
+        } else if (peer instanceof TLRPC.TL_inputPeerChat) {
+            req.silent = MessagesController.getNotificationsSettings(currentAccount).getBoolean("silent_" + -peer.chat_id, false);
+        } else {
+            req.silent = MessagesController.getNotificationsSettings(currentAccount).getBoolean("silent_" + peer.user_id, false);
+        }
         req.message = "";
+        if (thread != null) {
+            req.top_msg_id = thread.getId();
+            req.flags |= 512;
+        }
+        if (reply_to != null) {
+            req.flags |= 1;
+            req.reply_to_msg_id = reply_to.getId();
+        }
         getConnectionsManager().sendRequest(req, (response, error) -> {
             if (error == null) {
                 getMessagesController().processUpdates((TLRPC.Updates) response, false);
@@ -911,7 +927,7 @@ public class MessageHelper extends BaseController {
 
         CheckBoxCell cell = new CheckBoxCell(context, 1, resourcesProvider);
         cell.setBackground(Theme.getSelectorDrawable(false));
-        cell.setText(LocaleController.getString("SendWithoutCompression", R.string.SendWithoutCompression), "", true, false);
+        cell.setText(LocaleController.getString("SendWithoutCompression", R.string.SendWithoutCompression), "", false, false);
         cell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16) : AndroidUtilities.dp(8), 0, LocaleController.isRTL ? AndroidUtilities.dp(8) : AndroidUtilities.dp(16), 0);
         ll.addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
         cell.setOnClickListener(v -> {
@@ -920,7 +936,7 @@ public class MessageHelper extends BaseController {
         });
 
         builder.setView(ll);
-        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> sendWebFile(fragment, (int) fragment.getDialogId(), editText.getText().toString(), !cell.isChecked(), resourcesProvider));
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> sendWebFile(fragment, (int) fragment.getDialogId(), fragment.getThreadMessage(), fragment.getReplyMessage(), editText.getText().toString(), !cell.isChecked(), resourcesProvider));
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
 
         AlertDialog alertDialog = builder.create();
