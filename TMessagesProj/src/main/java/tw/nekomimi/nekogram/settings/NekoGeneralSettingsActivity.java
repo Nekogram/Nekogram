@@ -116,7 +116,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 if (getRestrictedLanguages().size() == 1) {
                     listAdapter.notifyItemChanged(doNotTranslateRow, PARTIAL);
                 }
-            }, false, resourcesProvider);
+            }, true, resourcesProvider);
         } else if (position == deepLFormalityRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
