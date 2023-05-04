@@ -39,6 +39,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private boolean sensitiveEnabled;
 
     private int experimentRow;
+    private int useLNavigationRow;
     private int downloadSpeedBoostRow;
     private int uploadSpeedBoostRow;
     private int mapDriftingFixRow;
@@ -212,6 +213,12 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.sendLargePhotos);
             }
+        } else if (position == useLNavigationRow) {
+            NekoConfig.toggleUseLNavigation();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.useLNavigation);
+            }
+            showRestartBulletin();
         }
     }
 
@@ -243,6 +250,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         super.updateRows();
 
         experimentRow = addRow("experiment");
+        useLNavigationRow = addRow("useLNavigation");
         downloadSpeedBoostRow = MessagesController.getInstance(currentAccount).getfileExperimentalParams ? -1 : addRow("downloadSpeedBoost");
         uploadSpeedBoostRow = addRow("uploadSpeedBoost");
         mapDriftingFixRow = addRow("mapDriftingFix");
@@ -317,6 +325,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("SendBugReport", R.string.SendBugReport), LocaleController.getString("SendBugReportDesc", R.string.SendBugReportDesc), !AnalyticsHelper.analyticsDisabled && AnalyticsHelper.sendBugReport, true, true);
                     } else if (position == sendLargePhotosRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("SendLargePhotos", R.string.SendLargePhotos), LocaleController.getString("SendLargePhotosAbout", R.string.SendLargePhotosAbout), NekoConfig.sendLargePhotos, true, true);
+                    } else if (position == useLNavigationRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("DebugAltNavigation", R.string.DebugAltNavigation), NekoConfig.useLNavigation, true);
                     }
                     break;
                 }
@@ -364,7 +374,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 return TYPE_SHADOW;
             } else if (position == deleteAccountRow || position == downloadSpeedBoostRow) {
                 return TYPE_SETTINGS;
-            } else if (position > downloadSpeedBoostRow && position <= showRPCErrorRow || position == sendBugReportRow) {
+            } else if (position > experimentRow && position < experiment2Row || position == sendBugReportRow) {
                 return TYPE_CHECK;
             } else if (position == experimentRow || position == dataRow) {
                 return TYPE_HEADER;

@@ -677,7 +677,7 @@ public class ActionBar extends FrameLayout {
         canvas.translate(front ? getWidth() * progress * 0.5f : -getWidth() * 0.4f * (1f - progress), 0);
         for (int i = 0; i < getChildCount(); i++) {
             View ch = getChildAt(i);
-            if ((!hideBackDrawable || ch != backButtonImageView) && ch.getVisibility() == View.VISIBLE && !(ch instanceof ActionBarMenu)) {
+            if ((!hideBackDrawable || ch != backButtonImageView) && ch.getVisibility() == View.VISIBLE && ch.getAlpha() != 0 && !(ch instanceof ActionBarMenu)) {
                 canvas.save();
                 canvas.translate(ch.getX(), ch.getY());
                 ch.draw(canvas);
@@ -1607,6 +1607,10 @@ public class ActionBar extends FrameLayout {
                 menu.updateItemsColor();
             }
         }
+    }
+
+    public int getItemsColor() {
+        return itemsColor;
     }
 
     public void setCastShadows(boolean value) {

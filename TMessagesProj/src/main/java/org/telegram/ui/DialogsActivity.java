@@ -451,8 +451,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private DialogsActivityDelegate delegate;
     public ForwardContext forwardContext;
 
-    private ChatActivity mLastChatActivity;
-
     private ArrayList<Long> selectedDialogs = new ArrayList<>();
 
     private int canReadCount;
@@ -653,6 +651,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (slideFragmentProgress != 1f) {
                     if (slideFragmentLite) {
                         canvas.translate((isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(slideAmplitudeDp) * (1f - slideFragmentProgress), 0);
+                    } else if (slideFragmentL) {
+                        canvas.translate(slideAmplitudeL * (1f - slideFragmentProgress), 0);
                     } else {
                         final float s = 1f - 0.05f * (1f - slideFragmentProgress);
                         canvas.translate((isDrawerTransition ? AndroidUtilities.dp(4) : -AndroidUtilities.dp(4)) * (1f - slideFragmentProgress), 0);
@@ -665,6 +665,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 canvas.save();
                 if (slideFragmentLite) {
                     canvas.translate((isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(slideAmplitudeDp) * (1f - slideFragmentProgress), 0);
+                } else if (slideFragmentL) {
+                    canvas.translate(slideAmplitudeL * (1f - slideFragmentProgress), 0);
                 } else {
                     float s = 1f - 0.05f * (1f - slideFragmentProgress);
                     canvas.translate((isDrawerTransition ? AndroidUtilities.dp(4) : -AndroidUtilities.dp(4)) * (1f - slideFragmentProgress), 0);
@@ -789,6 +791,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (slideFragmentProgress != 1f) {
                     if (slideFragmentLite) {
                         canvas.translate((isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(slideAmplitudeDp) * (1f - slideFragmentProgress), 0);
+                    } else if (slideFragmentL) {
+                        canvas.translate(slideAmplitudeL * (1f - slideFragmentProgress), 0);
                     } else {
                         final float s = 1f - 0.05f * (1f - slideFragmentProgress);
                         canvas.translate((isDrawerTransition ? AndroidUtilities.dp(4) : -AndroidUtilities.dp(4)) * (1f - slideFragmentProgress), 0);
@@ -6653,7 +6657,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (searchString != null) {
                 if (getMessagesController().checkCanOpenChat(args, DialogsActivity.this)) {
                     getNotificationCenter().postNotificationName(NotificationCenter.closeChats);
-                    presentFragment(mLastChatActivity = new ChatActivity(args));
+                    presentFragment(new ChatActivity(args));
                 }
             } else {
                 slowedReloadAfterDialogClick = true;
@@ -10550,7 +10554,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     float slideFragmentProgress = 1f;
     final int slideAmplitudeDp = 40;
+    final int slideAmplitudeL = AndroidUtilities.isTablet() ? AndroidUtilities.dp(320) : Math.min(AndroidUtilities.dp(320), Math.min(AndroidUtilities.getRealScreenSize().x, AndroidUtilities.getRealScreenSize().y) - AndroidUtilities.dp(56));
     boolean slideFragmentLite;
+    boolean slideFragmentL;
     boolean isSlideBackTransition;
     boolean isDrawerTransition;
     ValueAnimator slideBackTransitionAnimator;
@@ -10650,6 +10656,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         slideFragmentLite = SharedConfig.getDevicePerformanceClass() <= SharedConfig.PERFORMANCE_CLASS_AVERAGE || !LiteMode.isEnabled(LiteMode.FLAG_CHAT_SCALE);
+        slideFragmentL = NekoConfig.useLNavigation && isDrawerTransition;
         slideFragmentProgress = progress;
         if (fragmentView != null) {
             fragmentView.invalidate();
@@ -10663,6 +10670,16 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             if (rightSlidingDialogContainer != null && rightSlidingDialogContainer.getFragmentView() != null) {
                 if (!rightFragmentTransitionInProgress) {
                     rightSlidingDialogContainer.getFragmentView().setTranslationX((isDrawerTransition ? 1 : -1) * AndroidUtilities.dp(slideAmplitudeDp) * (1f - slideFragmentProgress));
+                }
+            }
+        } else if (slideFragmentL) {
+            if (filterTabsView != null) {
+                filterTabsView.getListView().setTranslationX(slideAmplitudeL * (1f - slideFragmentProgress));
+                filterTabsView.invalidate();
+            }
+            if (rightSlidingDialogContainer != null && rightSlidingDialogContainer.getFragmentView() != null) {
+                if (!rightFragmentTransitionInProgress) {
+                    rightSlidingDialogContainer.getFragmentView().setTranslationX(slideAmplitudeL * (1f - slideFragmentProgress));
                 }
             }
         } else {
@@ -10689,7 +10706,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override
     public INavigationLayout.BackButtonState getBackButtonState() {
-        return isArchive() || rightSlidingDialogContainer.isOpenned ? INavigationLayout.BackButtonState.BACK : INavigationLayout.BackButtonState.MENU;
+        return isArchive() || searching || searchString != null || onlySelect || rightSlidingDialogContainer.isOpenned ? INavigationLayout.BackButtonState.BACK : INavigationLayout.BackButtonState.MENU;
     }
 
     @Override
@@ -10784,5 +10801,10 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return filterTabsView.isFirstTab();
         }
         return true;
+    }
+
+    @Override
+    public boolean isActionBarCrossfadeEnabled() {
+        return super.isActionBarCrossfadeEnabled() && actionBar.getTranslationY() == 0 && !rightSlidingDialogContainer.isOpenned;
     }
 }

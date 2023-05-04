@@ -160,7 +160,7 @@ public abstract class BaseFragment {
     }
 
     public boolean isActionBarCrossfadeEnabled() {
-        return actionBar != null;
+        return actionBar != null && !actionBar.isActionModeShowed();
     }
 
     public INavigationLayout.BackButtonState getBackButtonState() {

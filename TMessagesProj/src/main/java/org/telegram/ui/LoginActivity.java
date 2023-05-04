@@ -8665,6 +8665,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     }
 
     @Override
+    public boolean isActionBarCrossfadeEnabled() {
+        return false;
+    }
+
+    @Override
     public boolean isLightStatusBar() {
         int color = Theme.getColor(Theme.key_windowBackgroundWhite, null, true);
         return ColorUtils.calculateLuminance(color) > 0.7f;

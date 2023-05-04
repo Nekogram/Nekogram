@@ -240,7 +240,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
 
         fragmentView.addView(sharedMediaLayout);
         fragmentView.addView(actionBar);
-        fragmentView.addView(avatarContainer);
+        actionBar.addView(avatarContainer, 0, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         fragmentView.blurBehindViews.add(sharedMediaLayout);
 
         TLObject avatarObject = null;
