@@ -29,6 +29,11 @@ public class ForwardItem {
         put(ID_FORWARD_NOQUOTE, LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
         put(ID_FORWARD_NOCAPTION, LocaleController.getString("NoCaptionForward", R.string.NoCaptionForward));
     }};
+    static final HashMap<Integer, String> ITEM_TITLES_SHORT = new HashMap<>() {{
+        put(ID_FORWARD, LocaleController.getString("Forward", R.string.Forward));
+        put(ID_FORWARD_NOQUOTE, LocaleController.getString("NoQuoteForwardShort", R.string.NoQuoteForwardShort));
+        put(ID_FORWARD_NOCAPTION, LocaleController.getString("NoCaptionForwardShort", R.string.NoCaptionForwardShort));
+    }};
 
     public static void setupForwardItem(ActionBarMenuItem item, boolean hasCaption, Theme.ResourcesProvider resourcesProvider, ActionBarMenuItem.ActionBarMenuItemDelegate delegate) {
         setupForwardItem(item, true, false, hasCaption, resourcesProvider, delegate);
@@ -41,7 +46,7 @@ public class ForwardItem {
     public static void setupForwardItem(ActionBarMenuItem item, boolean setIcon, boolean darkTheme, boolean hasCaption, boolean share, Theme.ResourcesProvider resourcesProvider, ActionBarMenuItem.ActionBarMenuItemDelegate delegate) {
         if (setIcon) {
             item.setIcon(getLastForwardOptionIcon(hasCaption, share));
-            item.setContentDescription(getLastForwardOptionTitle(hasCaption));
+            item.setContentDescription(getLastForwardOptionTitle(hasCaption, false));
         }
         if (!item.hasSubMenu()) {
             Arrays.stream(ITEM_IDS).forEach(itemId -> {
@@ -76,8 +81,8 @@ public class ForwardItem {
         }
     }
 
-    public static String getLastForwardOptionTitle(boolean hasCaption) {
-        return ITEM_TITLES.get(getLastForwardOption(hasCaption));
+    public static String getLastForwardOptionTitle(boolean hasCaption, boolean shortTitle) {
+        return (shortTitle ? ITEM_TITLES_SHORT : ITEM_TITLES).get(getLastForwardOption(hasCaption));
     }
 
     public static ForwardDrawable getLastForwardOptionIcon(boolean hasCaption) {

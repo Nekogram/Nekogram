@@ -20,6 +20,8 @@
     <string name="LastFirst">Last First</string>
     <string name="NoQuoteForward">NoQuote forward</string>
     <string name="NoCaptionForward">NoCaption forward</string>
+    <string name="NoQuoteForwardShort">NoQuote</string>
+    <string name="NoCaptionForwardShort">NoCaption</string>
     <string name="Repeat">Repeat</string>
     <string name="AddToSavedMessages">Save message</string>
     <string name="CreateMention">Create Mention</string>

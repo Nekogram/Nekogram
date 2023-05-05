@@ -14521,7 +14521,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     forwardOptionsButton.setLongClickEnabled(!noforwards);
                     forwardOptionsButton.setShowSubmenuByMove(!noforwards);
                     forwardOptionsButton.setShowedFromBottom(true);
-                    forwardButton.setText(ForwardItem.getLastForwardOptionTitle(hasCaption));
+                    forwardButton.setText(ForwardItem.getLastForwardOptionTitle(hasCaption, true));
                     var image = ForwardItem.getLastForwardOptionIcon(hasCaption);
                     image.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.MULTIPLY));
                     forwardButton.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null);
@@ -24000,11 +24000,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 !selectedObject.isLiveLocation() && selectedObject.type != MessageObject.TYPE_PHONE_CALL && !noforwards &&
                                 selectedObject.type != MessageObject.TYPE_GIFT_PREMIUM && selectedObject.type != MessageObject.TYPE_SUGGEST_PHOTO && !selectedObject.isWallpaperAction()) {
                             var hasCaption = ForwardItem.hasCaption(selectedObject, selectedObjectGroup);
-                            items.add(ForwardItem.getLastForwardOptionTitle(hasCaption));
+                            items.add(ForwardItem.getLastForwardOptionTitle(hasCaption, true));
                             options.add(ForwardItem.getLastForwardOption(hasCaption));
                             icons.add(R.drawable.msg_forward);
                             if (NekoConfig.showNoQuoteForward) {
-                                items.add(LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
+                                items.add(LocaleController.getString("NoQuoteForwardShort", R.string.NoQuoteForwardShort));
                                 options.add(OPTION_FORWARD_NOQUOTE);
                                 icons.add(R.drawable.msg_forward);
                             }
