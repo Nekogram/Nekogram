@@ -17,6 +17,8 @@
     <string name="LastFirst">姓氏 名字</string>
     <string name="NoQuoteForward">无引用转发</string>
     <string name="NoCaptionForward">无描述转发</string>
+    <string name="NoQuoteForwardShort">无引用</string>
+    <string name="NoCaptionForwardShort">无描述</string>
     <string name="Repeat">复读</string>
     <string name="AddToSavedMessages">保存消息</string>
     <string name="CreateMention">创建\@</string>
