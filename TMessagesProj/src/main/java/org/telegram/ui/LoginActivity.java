@@ -97,6 +97,7 @@ import com.google.zxing.common.detector.MathUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.telegram.PhoneFormat.PhoneFormat;
+import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.AuthTokensHelper;
@@ -148,6 +149,7 @@ import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.LoadingDrawable;
 import org.telegram.ui.Components.LoginOrView;
 import org.telegram.ui.Components.OutlineTextContainerView;
+import org.telegram.ui.Components.ProxyDrawable;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RLottieImageView;
 import org.telegram.ui.Components.RadialProgressView;
@@ -185,7 +187,7 @@ import tw.nekomimi.nekogram.QrView;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 
 @SuppressLint("HardwareIds")
-public class LoginActivity extends BaseFragment {
+public class LoginActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     public final static boolean ENABLE_PASTED_TEXT_PROCESSING = false;
     private final static int SHOW_DELAY = SharedConfig.getDevicePerformanceClass() <= SharedConfig.PERFORMANCE_CLASS_AVERAGE ? 150 : 100;
 
@@ -317,6 +319,9 @@ public class LoginActivity extends BaseFragment {
     private ImageView backButtonView;
     private ActionBarMenuItem moreButtonView;
     private RadialProgressView radialProgressView;
+
+    private ImageView proxyButtonView;
+    private ProxyDrawable proxyDrawable;
 
     // Open animation stuff
     private LinearLayout keyboardLinearLayout;
@@ -464,6 +469,13 @@ public class LoginActivity extends BaseFragment {
                 AndroidUtilities.cancelRunOnUIThread(callback);
             }
         }
+        getNotificationCenter().removeObserver(this, NotificationCenter.didUpdateConnectionState);
+    }
+
+    @Override
+    public boolean onFragmentCreate() {
+        getNotificationCenter().addObserver(this, NotificationCenter.didUpdateConnectionState);
+        return super.onFragmentCreate();
     }
 
     @Override
@@ -694,7 +706,7 @@ public class LoginActivity extends BaseFragment {
         moreButtonView.setSubMenuOpenSide(1);
         moreButtonView.setOnClickListener(view -> moreButtonView.toggleSubMenu());
         moreButtonView.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
-        sizeNotifierFrameLayout.addView(moreButtonView, LayoutHelper.createFrame(32, 32, Gravity.RIGHT | Gravity.TOP, 0, 16, 16, 0));
+        sizeNotifierFrameLayout.addView(moreButtonView, LayoutHelper.createFrame(32, 32, Gravity.RIGHT | Gravity.TOP, 16, 16, 16, 16));
 
         radialProgressView = new RadialProgressView(context);
         radialProgressView.setSize(AndroidUtilities.dp(20));
@@ -8322,6 +8334,10 @@ public class LoginActivity extends BaseFragment {
         moreButtonView.setIconColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         moreButtonView.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector)));
 
+        proxyDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText), PorterDuff.Mode.SRC_IN));
+        proxyDrawable.setColorKey(Theme.key_windowBackgroundWhiteBlackText);
+        proxyButtonView.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector)));
+
         radialProgressView.setProgressColor(Theme.getColor(Theme.key_chats_actionBackground));
 
         floatingButtonIcon.setColor(Theme.getColor(Theme.key_chats_actionIcon));
@@ -8652,5 +8668,78 @@ public class LoginActivity extends BaseFragment {
     public boolean isLightStatusBar() {
         int color = Theme.getColor(Theme.key_windowBackgroundWhite, null, true);
         return ColorUtils.calculateLuminance(color) > 0.7f;
+    }
+
+    private int currentConnectionState;
+
+    private void updateProxyButton(boolean animated, boolean force) {
+        if (proxyDrawable == null) {
+            return;
+        }
+        int state = getConnectionsManager().getConnectionState();
+        if (currentConnectionState == state && !force) {
+            return;
+        }
+        currentConnectionState = state;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
+        String proxyAddress = preferences.getString("proxy_ip", "");
+        final boolean proxyEnabled = preferences.getBoolean("proxy_enabled", false);
+        final boolean connected = currentConnectionState == ConnectionsManager.ConnectionStateConnected || currentConnectionState == ConnectionsManager.ConnectionStateUpdating;
+        final boolean connecting = currentConnectionState == ConnectionsManager.ConnectionStateConnecting || currentConnectionState == ConnectionsManager.ConnectionStateWaitingForNetwork || currentConnectionState == ConnectionsManager.ConnectionStateConnectingToProxy;
+        final boolean show = (proxyEnabled && !TextUtils.isEmpty(proxyAddress)) || getMessagesController().blockedCountry && !SharedConfig.proxyList.isEmpty() || connecting;
+        if (show) {
+            showProxyButtonDelayed();
+        } else {
+            showProxyButton(show, animated);
+        }
+        if (show) {
+            proxyDrawable.setConnected(true, connected, animated);
+        }
+    }
+    
+    private boolean proxyButtonVisible;
+    private Runnable showProxyButtonDelayed;
+    private void showProxyButtonDelayed() {
+        if (proxyButtonVisible) {
+            return;
+        }
+        if (showProxyButtonDelayed != null) {
+            AndroidUtilities.cancelRunOnUIThread(showProxyButtonDelayed);
+        }
+        proxyButtonVisible = true;
+        AndroidUtilities.runOnUIThread(showProxyButtonDelayed = () -> {
+            proxyButtonVisible = false;
+            showProxyButton(true, true);
+        }, 5000);
+    }
+
+    private void showProxyButton(boolean show, boolean animated) {
+        if (show == proxyButtonVisible) {
+            return;
+        }
+        if (showProxyButtonDelayed != null) {
+            AndroidUtilities.cancelRunOnUIThread(showProxyButtonDelayed);
+            showProxyButtonDelayed = null;
+        }
+        proxyButtonVisible = show;
+        proxyButtonView.clearAnimation();
+        if (animated) {
+            proxyButtonView.setVisibility(View.VISIBLE);
+            proxyButtonView.animate().alpha(show ? 1 : 0).withEndAction(() -> {
+                if (!show) {
+                    proxyButtonView.setVisibility(View.GONE);
+                }
+            }).start();
+        } else {
+            proxyButtonView.setVisibility(show ? View.VISIBLE : View.GONE);
+            proxyButtonView.setAlpha(show ? 1f : 0f);
+        }
+    }
+
+    @Override
+    public void didReceivedNotification(int id, int account, Object... args) {
+        if (id == NotificationCenter.didUpdateConnectionState) {
+            //updateProxyButton(true, false);
+        }
     }
 }
