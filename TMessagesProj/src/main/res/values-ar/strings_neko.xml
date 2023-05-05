@@ -127,7 +127,7 @@
     <string name="WsProvider">مزود الخدمة</string>
     <string name="WsNotWorking">البروكسي لا يعمل!</string>
     <string name="WsUseMyOwnDomain">كيفية إعداد مزود مخصص</string>
-    <string name="WsStandaloneApp">استخدام البروكسي في التطبيقات الأخرى</string>
+    <string name="WsStandaloneApp">استخدام البروكسي في تطبيقات أخرى</string>
     <string name="UpdateNekogram">تحديث نيكوغرام</string>
     <string name="TranslationTarget">اللغة المراد الترجمة إليها</string>
     <string name="TranslationTargetApp">لغة التطبيق</string>
@@ -209,6 +209,7 @@
     <string name="Translating">جار التَّرْجَمَة</string>
     <string name="Translated">تمت التَّرْجَمَة</string>
     <string name="BrokenMLKit">الخِيار غير متاح</string>
+    <string name="BrokenMLKitDetail">معرف لغة MLKit معطل على هذا الجهاز.</string>
     <string name="PasscodeNeeded">يجب عليك تفعيل قُفْل رمز المرور أولاً</string>
     <string name="PasscodeNeko">رمز الدخول</string>
     <string name="PasscodeShowInSettings">إظهار رمز المرور في الإعدادات ناكو</string>

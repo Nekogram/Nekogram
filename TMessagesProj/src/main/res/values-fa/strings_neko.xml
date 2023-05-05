@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">حذف پیام های خود</string>
     <string name="DeleteAllFromSelfAlert">هشدار! با این کار **همه پیام های شما** در این چت برای **همه** شرکت کنندگان حذف می شود.</string>
     <string name="BotLogin">ورود از طریق روبات</string>
+    <string name="BotLoginMessage">توکن دریافت شده توسط **@BotFather** را وارد کنید.</string>
     <string name="InvalidAccessToken">توکن دسترسی نامعتبر</string>
     <string name="IgnoreBlocked">پنهان‌سازی پیام‌های کاربر مسدود شده</string>
     <string name="Connection">اتصال</string>
@@ -15,6 +16,7 @@
     <string name="FirstLast">نام و نام خانوادگی</string>
     <string name="LastFirst">نام خانوادگی و نام</string>
     <string name="NoQuoteForward">هدایت بدون نقل قول</string>
+    <string name="NoCaptionForward">هدایت بدون عنوان</string>
     <string name="Repeat">تکرار</string>
     <string name="AddToSavedMessages">ذخیره پیام</string>
     <string name="CreateMention">ایجاد منشن</string>
@@ -219,6 +221,7 @@
     <string name="TranslatorShowOriginal">با متن اصلی</string>
     <string name="DatacenterStatusAbout">وضعیت **دیتاسنتر**های تلگرام را بررسی کنید.</string>
     <string name="DatacenterStatus">وضعیت دیتاسنترها</string>
+    <string name="DatacenterStatusShort">مرکز داده‌ها</string>
     <string name="Markdown">مارک‌داون</string>
     <string name="MarkdownEnableByDefault">فعال به‌صورت پیش‌فرض</string>
     <string name="MarkdownParser">تجزیه‌کننده (پارسر)</string>
@@ -268,6 +271,7 @@
     <string name="SendAnonymousDataDesc">ویژگی های فوق از Visual Studio App Center ارائه شده توسط مایکروسافت استفاده می کنن. اطلاعات جمع‌آوری‌شده ناشناس است و ما نمیتونیم آن را به یک دستگاه یا کاربر مستقل ردیابی کنیم.</string>
     <string name="SendLargePhotos">ارسال عکس بزرگ</string>
     <string name="SendLargePhotosAbout">محدودیت جانبی در تصاویر فشرده شده را به 2560 پیکسل افزایش بده.</string>
+    <string name="ExportAsJson">کپی به عنوان JSON</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
 </resources>

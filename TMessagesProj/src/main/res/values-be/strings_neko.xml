@@ -16,7 +16,6 @@
     <string name="FirstLast">Імя Прозвішча</string>
     <string name="LastFirst">Прозвішча Імя</string>
     <string name="NoQuoteForward">Пераслаць без аўтара</string>
-    <string name="NoCaptionForward">Отец умер</string>
     <string name="Repeat">Паўтарыць</string>
     <string name="AddToSavedMessages">Захаваць паведамленне</string>
     <string name="CreateMention">Стварыць згадванне</string>
@@ -118,10 +117,9 @@
     <string name="SelectBetween">Выберыце паміж</string>
     <string name="StickerSavedHint">Стыкер захаваны ў галерэю</string>
     <string name="RegistrationDate">Дата рэгістрацыі</string>
-    <string name="RegistrationDateNewer">Навее хуй %s</string>
-    <string name="RegistrationDateOlder">Иди нахуй %s</string>
-    <string name="RegistrationDateApproximately">Поебался %s</string>
-    <string name="WsDescription">Сука араная как Этну Рудню переводіть вы даўн Telegram Cloudflare **Сосать хуй**</string>
+    <string name="RegistrationDateNewer">Навейшы за %s</string>
+    <string name="RegistrationDateOlder">Старэй за %s</string>
+    <string name="WsDescription">Падключыцеся да Telegram праз WebSocket праз Cloudflare. **Даведацца больш**</string>
     <string name="WsEnableTls">Уключыць TLS</string>
     <string name="WsProvider">Пастаўшчык</string>
     <string name="WsNotWorking">Проксі не працуе!</string>

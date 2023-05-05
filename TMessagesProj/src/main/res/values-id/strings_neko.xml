@@ -117,6 +117,8 @@
     <string name="SelectBetween">Pilih antara</string>
     <string name="StickerSavedHint">Stiker tersimpan ke galeri</string>
     <string name="RegistrationDate">Tanggal registrasi</string>
+    <string name="RegistrationDateNewer">Lebih baru dari %s</string>
+    <string name="RegistrationDateOlder">Lebih tua dari %s</string>
     <string name="WsDescription">Terhubung ke Telegram melalui WebSocket melalui Cloudflare. **Pelajari lebih lanjut**</string>
     <string name="WsEnableTls">Nyalakan TLS</string>
     <string name="UpdateNekogram">Perbarui Nekogram</string>

@@ -16,6 +16,7 @@
     <string name="FirstLast">Prénom Nom</string>
     <string name="LastFirst">Nom Prénom</string>
     <string name="NoQuoteForward">Transférer sans citer</string>
+    <string name="NoCaptionForward">Transférer sans légende</string>
     <string name="Repeat">Répéter</string>
     <string name="AddToSavedMessages">Sauvegarder le message</string>
     <string name="CreateMention">Créer une mention</string>
