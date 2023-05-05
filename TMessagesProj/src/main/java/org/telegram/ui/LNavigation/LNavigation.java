@@ -505,16 +505,6 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
 
         fragment.onTransitionAnimationStart(true, true);
 
-        FloatValueHolder valueHolder = new FloatValueHolder(swipeProgress * SPRING_MULTIPLIER);
-        currentSpringAnimation = new SpringAnimation(valueHolder)
-                .setSpring(new SpringForce(0f)
-                        .setStiffness(SPRING_STIFFNESS)
-                        .setDampingRatio(SPRING_DAMPING_RATIO));
-        currentSpringAnimation.addUpdateListener((animation, value, velocity) -> {
-            swipeProgress = value / SPRING_MULTIPLIER;
-            invalidateTranslation();
-            fragment.onTransitionAnimationProgress(true, 1f - swipeProgress);
-        });
         Runnable onEnd = ()->{
             fragment.onTransitionAnimationEnd(true, true);
             fragment.prepareFragmentToSlide(true, false);
@@ -533,17 +523,29 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
             }
             invalidateActionBars();
         };
+
+        if (swipeProgress == 0f) {
+            onEnd.run();
+            return;
+        }
+
+        FloatValueHolder valueHolder = new FloatValueHolder(swipeProgress * SPRING_MULTIPLIER);
+        currentSpringAnimation = new SpringAnimation(valueHolder)
+                .setSpring(new SpringForce(0f)
+                        .setStiffness(SPRING_STIFFNESS)
+                        .setDampingRatio(SPRING_DAMPING_RATIO));
+        currentSpringAnimation.addUpdateListener((animation, value, velocity) -> {
+            swipeProgress = value / SPRING_MULTIPLIER;
+            invalidateTranslation();
+            fragment.onTransitionAnimationProgress(true, 1f - swipeProgress);
+        });
         currentSpringAnimation.addEndListener((animation, canceled, value, velocity) -> {
             if (animation == currentSpringAnimation) {
                 currentSpringAnimation = null;
                 onEnd.run();
             }
         });
-        if (swipeProgress != 0f) {
-            currentSpringAnimation.start();
-        } else {
-            onEnd.run();
-        }
+        currentSpringAnimation.start();
     }
 
     private void invalidateActionBars() {
@@ -1286,8 +1288,15 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
         }
 
         if (crossfade) {
-            BaseFragment foregroundFragment = getLastFragment();
-            BaseFragment backgroundFragment = getBackgroundFragment();
+            FragmentHolderView fgView = getForegroundView();
+            FragmentHolderView bgView = getBackgroundView();
+
+            if (fgView == null || bgView == null) {
+                return;
+            }
+
+            BaseFragment foregroundFragment = fgView.fragment;
+            BaseFragment backgroundFragment = bgView.fragment;
 
             ActionBar fgActionBar = foregroundFragment.getActionBar();
             ActionBar bgActionBar = backgroundFragment.getActionBar();
@@ -1325,7 +1334,7 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                 float bgAlpha = 1f - (bgActionBar.getY() / -(bgActionBar.getHeight() - AndroidUtilities.statusBarHeight));
                 float fgAlpha = 1f - (fgActionBar.getY() / -(fgActionBar.getHeight() - AndroidUtilities.statusBarHeight));
                 canvas.saveLayerAlpha(AndroidUtilities.rectTmp, (int) (AndroidUtilities.lerp(bgAlpha, fgAlpha, 1f - swipeProgress) * 0xFF), Canvas.ALL_SAVE_FLAG);
-                canvas.translate(AndroidUtilities.dp(16) - AndroidUtilities.dp(1) * (1f - progress), AndroidUtilities.dp(16) + (fgActionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0));
+                canvas.translate(AndroidUtilities.dp(16 - 0.5f), AndroidUtilities.dp(16) + (fgActionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0));
                 int color = ColorUtils.blendARGB(bgActionBar.getItemsColor(), fgActionBar.getItemsColor(), backDrawableReverse ? swipeProgress : 1f - swipeProgress);
                 menuDrawable.setIconColor(color);
                 menuDrawable.setRotation(backDrawableReverse ? progress : 1f - progress, false);
@@ -1333,14 +1342,15 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
                 canvas.restore();
             }
 
-            AndroidUtilities.rectTmp.set(0, AndroidUtilities.statusBarHeight, getWidth(), bgActionBar.getY() + bgActionBar.getHeight());
+            AndroidUtilities.rectTmp.set(0, AndroidUtilities.statusBarHeight, getWidth(),  bgActionBar.getY() + bgActionBar.getHeight() - bgView.fragmentPanTranslationOffset);
             canvas.saveLayerAlpha(AndroidUtilities.rectTmp, (int) (swipeProgress * 0xFF), Canvas.ALL_SAVE_FLAG);
-            canvas.translate(0, bgActionBar.getY());
+            canvas.translate(0, -bgView.fragmentPanTranslationOffset + bgActionBar.getY());
             bgActionBar.onDrawCrossfadeContent(canvas, false, useBackDrawable, swipeProgress);
             canvas.restore();
 
+            AndroidUtilities.rectTmp.set(0, AndroidUtilities.statusBarHeight, getWidth(),  fgActionBar.getY() + fgActionBar.getHeight() - fgView.fragmentPanTranslationOffset);
             canvas.saveLayerAlpha(AndroidUtilities.rectTmp, (int) ((1 - swipeProgress) * 0xFF), Canvas.ALL_SAVE_FLAG);
-            canvas.translate(0, fgActionBar.getY());
+            canvas.translate(0, fgActionBar.getY() - fgView.fragmentPanTranslationOffset);
             fgActionBar.onDrawCrossfadeContent(canvas, true, useBackDrawable, swipeProgress);
             canvas.restore();
         }
@@ -1924,10 +1934,14 @@ public class LNavigation extends FrameLayout implements INavigationLayout, Float
     }
 
     @Override
-    public void setFragmentPanTranslationOffset(int offset) {
-        FragmentHolderView holderView = getForegroundView();
-        if (holderView != null) {
-            holderView.setFragmentPanTranslationOffset(offset);
+    public void setFragmentPanTranslationOffset(int offset, BaseFragment fragment) {
+        var view = fragment.getFragmentView();
+        if (view == null) {
+            return;
+        }
+        var holderView = view.getParent();
+        if (holderView instanceof FragmentHolderView) {
+            ((FragmentHolderView) holderView).setFragmentPanTranslationOffset(offset);
         }
     }
 

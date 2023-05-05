@@ -2398,7 +2398,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     }
 
     @Override
-    public void setFragmentPanTranslationOffset(int offset) {
+    public void setFragmentPanTranslationOffset(int offset, BaseFragment fragment) {
         if (containerView != null) {
             containerView.setFragmentPanTranslationOffset(offset);
         }

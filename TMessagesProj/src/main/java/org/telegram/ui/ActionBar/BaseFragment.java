@@ -734,7 +734,7 @@ public abstract class BaseFragment {
 
     public void setFragmentPanTranslationOffset(int offset) {
         if (parentLayout != null) {
-            parentLayout.setFragmentPanTranslationOffset(offset);
+            parentLayout.setFragmentPanTranslationOffset(offset, this);
         }
     }
 

@@ -53,7 +53,7 @@ public interface INavigationLayout {
     void movePreviewFragment(float dy);
     void expandPreviewFragment();
     void finishPreviewFragment();
-    void setFragmentPanTranslationOffset(int offset);
+    void setFragmentPanTranslationOffset(int offset, BaseFragment fragment);
     FrameLayout getOverlayContainerView();
     void setHighlightActionButtons(boolean highlight);
     float getCurrentPreviewFragmentAlpha();
