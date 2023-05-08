@@ -20650,6 +20650,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 pendingRequestsDelegate.onBackToScreen();
             }
             updateMessagesVisiblePart(false);
+            setNavigationBarColor(getNavigationBarColor());
         } else {
             getNotificationCenter().onAnimationFinish(transitionAnimationIndex);
             NotificationCenter.getGlobalInstance().onAnimationFinish(transitionAnimationGlobalIndex);
