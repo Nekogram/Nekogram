@@ -653,7 +653,7 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                     BackupImageView imageView = tabView.imageView;
                     final boolean lite = !LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_STICKERS_KEYBOARD);
                     String imageFilter = lite ? "40_40_firstframe" : "40_40";
-                    if (MessageObject.isVideoSticker(sticker) && sticker.thumbs != null && sticker.thumbs.size() > 0) {
+                    if (object instanceof TLRPC.Document && (MessageObject.isAnimatedStickerDocument(sticker, true) || MessageObject.isVideoSticker(sticker))) {
                         if (lite) {
                             TLRPC.PhotoSize thumb = FileLoader.getClosestPhotoSizeWithSize(sticker.thumbs, 90);
                             imageView.setImage(ImageLocation.getForDocument(thumb, sticker), "40_40", svgThumb, 0, parentObject);
@@ -662,14 +662,10 @@ public class ScrollSlidingTabStrip extends HorizontalScrollView {
                         } else {
                             imageView.setImage(ImageLocation.getForDocument(sticker), imageFilter, imageLocation, null, 0, parentObject);
                         }
-                    } else if (MessageObject.isAnimatedStickerDocument(sticker, true)) {
-                        if (svgThumb != null) {
-                            imageView.setImage(imageLocation, imageFilter, svgThumb, 0, parentObject);
-                        } else {
-                            imageView.setImage(imageLocation, imageFilter, imageLocation, null, 0, parentObject);
-                        }
                     } else if (imageLocation.imageType == FileLoader.IMAGE_TYPE_LOTTIE) {
                         imageView.setImage(imageLocation, imageFilter, "tgs", svgThumb, parentObject);
+                    } else if (imageLocation.imageType == FileLoader.IMAGE_TYPE_ANIMATION) {
+                        imageView.setImage(imageLocation, imageFilter, "webm", svgThumb, parentObject);
                     } else {
                         imageView.setImage(imageLocation, imageFilter, "webp", svgThumb, parentObject);
                     }

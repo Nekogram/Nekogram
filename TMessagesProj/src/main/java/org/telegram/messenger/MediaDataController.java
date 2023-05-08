@@ -2941,7 +2941,7 @@ public class MediaDataController extends BaseController {
     private void loadStickerSetThumbInternal(TLRPC.PhotoSize thumb, Object parentObject, TLRPC.Document sticker, int thumbVersion) {
         ImageLocation imageLocation = ImageLocation.getForSticker(thumb, sticker, thumbVersion);
         if (imageLocation != null) {
-            String ext = imageLocation.imageType == FileLoader.IMAGE_TYPE_LOTTIE ? "tgs" : "webp";
+            String ext = imageLocation.imageType == FileLoader.IMAGE_TYPE_LOTTIE ? "tgs" : imageLocation.imageType == FileLoader.IMAGE_TYPE_ANIMATION ? "webm" : "webp";
             getFileLoader().loadFile(imageLocation, parentObject, ext, FileLoader.PRIORITY_HIGH, 1);
         }
     }

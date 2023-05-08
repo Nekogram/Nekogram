@@ -335,7 +335,7 @@ public class StickerSetCell extends FrameLayout {
 
             boolean allowPlay = LiteMode.isEnabled(emojis ? LiteMode.FLAG_ANIMATED_EMOJI_KEYBOARD : LiteMode.FLAG_ANIMATED_STICKERS_KEYBOARD);
             String filter = "50_50" + (!allowPlay ? "_firstframe" : "");
-            if (object instanceof TLRPC.Document && MessageObject.isAnimatedStickerDocument(sticker, true) || MessageObject.isVideoSticker(sticker)) {
+            if (object instanceof TLRPC.Document && (MessageObject.isAnimatedStickerDocument(sticker, true) || MessageObject.isVideoSticker(sticker))) {
                 if (svgThumb != null) {
                     imageView.setImage(ImageLocation.getForDocument(sticker), filter, svgThumb, 0, set);
                 } else {
@@ -346,6 +346,8 @@ public class StickerSetCell extends FrameLayout {
                 }
             } else if (imageLocation != null && imageLocation.imageType == FileLoader.IMAGE_TYPE_LOTTIE) {
                 imageView.setImage(imageLocation, filter, "tgs", svgThumb, set);
+            } else if (imageLocation != null && imageLocation.imageType == FileLoader.IMAGE_TYPE_ANIMATION) {
+                imageView.setImage(imageLocation, filter, "webm", svgThumb, set);
             } else {
                 imageView.setImage(imageLocation, filter, "webp", svgThumb, set);
             }

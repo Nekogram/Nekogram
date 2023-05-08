@@ -242,6 +242,9 @@ public class ImageLocation {
         if (MessageObject.isAnimatedStickerDocument(sticker, true)) {
             imageLocation.imageType = FileLoader.IMAGE_TYPE_LOTTIE;
         }
+        if (MessageObject.isVideoSticker(sticker)) {
+            imageLocation.imageType = FileLoader.IMAGE_TYPE_ANIMATION;
+        }
         imageLocation.thumbVersion = thumbVersion;
         return imageLocation;
     }
