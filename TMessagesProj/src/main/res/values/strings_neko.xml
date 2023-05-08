@@ -43,6 +43,8 @@
     <string name="SensitiveDisableFiltering">Disable sensitive content filtering</string>
     <string name="SensitiveAbout">Display sensitive media in public channels on all your devices.</string>
     <string name="StickerSize">Sticker size</string>
+    <string name="StickerSizeLeft">Small</string>
+    <string name="StickerSizeRight">Big</string>
     <string name="StickerSizeDialogMessage">Oh so cute! A black cat!</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
     <string name="Experiment">Experimental</string>

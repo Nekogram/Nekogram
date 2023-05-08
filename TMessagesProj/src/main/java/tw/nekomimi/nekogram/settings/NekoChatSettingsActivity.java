@@ -1,21 +1,21 @@
 package tw.nekomimi.nekogram.settings;
 
 import android.animation.ValueAnimator;
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.text.TextPaint;
 import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityEvent;
-import android.view.accessibility.AccessibilityNodeInfo;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -31,6 +31,7 @@ import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextCheckbox2Cell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
+import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
@@ -48,7 +49,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
     private ActionBarMenuItem resetItem;
     private StickerSizeCell stickerSizeCell;
 
-    private int stickerSizeHeaderRow;
     private int stickerSizeRow;
     private int hideTimeOnStickerRow;
     private int stickerSize2Row;
@@ -103,10 +103,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             ValueAnimator animator = ValueAnimator.ofFloat(NekoConfig.stickerSize, 14.0f);
             animator.setDuration(150);
             animator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-            animator.addUpdateListener(valueAnimator -> {
-                NekoConfig.setStickerSize((Float) valueAnimator.getAnimatedValue());
-                stickerSizeCell.invalidate();
-            });
+            animator.addUpdateListener(valueAnimator -> stickerSizeCell.setValue((float) valueAnimator.getAnimatedValue()));
             animator.start();
         });
         AndroidUtilities.updateViewVisibilityAnimated(resetItem, NekoConfig.stickerSize != 14.0f, 1f, false);
@@ -304,7 +301,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
     protected void updateRows() {
         super.updateRows();
 
-        stickerSizeHeaderRow = addRow("stickerSizeHeader");
         stickerSizeRow = addRow("stickerSize");
         hideTimeOnStickerRow = addRow("hideTimeOnSticker");
         stickerSize2Row = addRow();
@@ -375,32 +371,96 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
     private class StickerSizeCell extends FrameLayout {
 
         private final StickerSizePreviewMessagesCell messagesCell;
-        private final SeekBarView sizeBar;
-        private final int startStickerSize = 2;
-        private final int endStickerSize = 20;
-
-        private final TextPaint textPaint;
-        private int lastWidth;
+        private final AltSeekbar sizeBar;
 
         public StickerSizeCell(Context context) {
             super(context);
 
             setWillNotDraw(false);
 
-            textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
-            textPaint.setTextSize(AndroidUtilities.dp(16));
+            sizeBar = new AltSeekbar(context, (float p) -> {
+                setValue(p);
+                if (resetItem.getVisibility() != VISIBLE) {
+                    AndroidUtilities.updateViewVisibilityAnimated(resetItem, true, 0.5f, true);
+                }
+            }, false, 2, 20, LocaleController.getString("StickerSize", R.string.StickerSize), LocaleController.getString("StickerSizeLeft", R.string.StickerSizeLeft), LocaleController.getString("StickerSizeRight", R.string.StickerSizeRight), resourcesProvider);
+            sizeBar.setValue(NekoConfig.stickerSize);
+            addView(sizeBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
-            sizeBar = new SeekBarView(context, resourcesProvider);
-            sizeBar.setReportChanges(true);
-            sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate() {
+            messagesCell = new StickerSizePreviewMessagesCell(context, parentLayout, resourcesProvider);
+            messagesCell.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+            addView(messagesCell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0, 112, 0, 0));
+        }
+
+        public void setValue(float value) {
+            NekoConfig.setStickerSize(value);
+            sizeBar.setValue(value);
+            messagesCell.invalidate();
+        }
+    }
+
+    @SuppressLint("ViewConstructor")
+    public static class AltSeekbar extends FrameLayout {
+
+        private final AnimatedTextView headerValue;
+        private final TextView leftTextView;
+        private final TextView rightTextView;
+        private final SeekBarView seekBarView;
+        private final Theme.ResourcesProvider resourcesProvider;
+
+        private final int min, max;
+        private float currentValue;
+
+        public interface OnDrag {
+            void run(float progress);
+        }
+
+        public AltSeekbar(Context context, OnDrag onDrag, boolean round, int min, int max, String title, String left, String right, Theme.ResourcesProvider resourcesProvider) {
+            super(context);
+            this.resourcesProvider = resourcesProvider;
+
+            this.max = max;
+            this.min = min;
+
+            LinearLayout headerLayout = new LinearLayout(context);
+            headerLayout.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
+
+            TextView headerTextView = new TextView(context);
+            headerTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+            headerTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            headerTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider));
+            headerTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
+            headerTextView.setText(title);
+            headerLayout.addView(headerTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL));
+
+            headerValue = new AnimatedTextView(context, false, true, true) {
+                final Drawable backgroundDrawable = Theme.createRoundRectDrawable(AndroidUtilities.dp(4), Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider), 0.15f));
+
+                @Override
+                protected void onDraw(Canvas canvas) {
+                    backgroundDrawable.setBounds(0, 0, (int) (getPaddingLeft() + getDrawable().getCurrentWidth() + getPaddingRight()), getMeasuredHeight());
+                    backgroundDrawable.draw(canvas);
+
+                    super.onDraw(canvas);
+                }
+            };
+            headerValue.setAnimationProperties(.45f, 0, 80, CubicBezierInterpolator.EASE_OUT_QUINT);
+            headerValue.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            headerValue.setPadding(AndroidUtilities.dp(5.33f), AndroidUtilities.dp(2), AndroidUtilities.dp(5.33f), AndroidUtilities.dp(2));
+            headerValue.setTextSize(AndroidUtilities.dp(12));
+            headerValue.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider));
+            headerLayout.addView(headerValue, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 17, Gravity.CENTER_VERTICAL, 6, 1, 0, 0));
+
+            addView(headerLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.FILL_HORIZONTAL, 21, 17, 21, 0));
+
+            seekBarView = new SeekBarView(context, true, null);
+            seekBarView.setReportChanges(true);
+            seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() {
                 @Override
                 public void onSeekBarDrag(boolean stop, float progress) {
-                    sizeBar.getSeekBarAccessibilityDelegate().postAccessibilityEventRunnable(StickerSizeCell.this);
-                    NekoConfig.setStickerSize(startStickerSize + (endStickerSize - startStickerSize) * progress);
-                    StickerSizeCell.this.invalidate();
-                    if (resetItem.getVisibility() != VISIBLE) {
-                        AndroidUtilities.updateViewVisibilityAnimated(resetItem, true, 0.5f, true);
-                    }
+                    currentValue = round ? Math.round(min + (max - min) * progress) : (min + (max - min) * progress);
+                    onDrag.run(currentValue);
+                    setProgress(progress);
                 }
 
                 @Override
@@ -408,53 +468,68 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
                 }
             });
-            sizeBar.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
-            addView(sizeBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38, Gravity.LEFT | Gravity.TOP, 9, 5, 43, 11));
+            addView(seekBarView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38 + 6, Gravity.TOP, 6, 68, 6, 0));
 
-            messagesCell = new StickerSizePreviewMessagesCell(context, parentLayout, resourcesProvider);
-            messagesCell.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-            addView(messagesCell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0, 53, 0, 0));
+            FrameLayout valuesView = new FrameLayout(context);
+
+            leftTextView = new TextView(context);
+            leftTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+            leftTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider));
+            leftTextView.setGravity(Gravity.LEFT);
+            leftTextView.setText(left);
+            valuesView.addView(leftTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.CENTER_VERTICAL));
+
+            rightTextView = new TextView(context);
+            rightTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+            rightTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider));
+            rightTextView.setGravity(Gravity.RIGHT);
+            rightTextView.setText(right);
+            valuesView.addView(rightTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL));
+
+            addView(valuesView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.FILL_HORIZONTAL, 21, 52, 21, 0));
         }
 
-        @Override
-        protected void onDraw(Canvas canvas) {
-            textPaint.setColor(getThemedColor(Theme.key_windowBackgroundWhiteValueText));
-            canvas.drawText(String.valueOf(Math.round(NekoConfig.stickerSize)), getMeasuredWidth() - AndroidUtilities.dp(39), AndroidUtilities.dp(28), textPaint);
+        private void updateValues() {
+            int middle = (max - min) / 2 + min;
+            if (currentValue >= middle * 1.5f - min * 0.5f) {
+                rightTextView.setTextColor(ColorUtils.blendARGB(
+                        Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider),
+                        Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, resourcesProvider),
+                        (currentValue - (middle * 1.5f - min * 0.5f)) / (max - (middle * 1.5f - min * 0.5f))
+                ));
+                leftTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider));
+            } else if (currentValue <= (middle + min) * 0.5f) {
+                leftTextView.setTextColor(ColorUtils.blendARGB(
+                        Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider),
+                        Theme.getColor(Theme.key_windowBackgroundWhiteBlueText, resourcesProvider),
+                        (currentValue - (middle + min) * 0.5f) / (min - (middle + min) * 0.5f)
+                ));
+                rightTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider));
+            } else {
+                leftTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider));
+                rightTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText, resourcesProvider));
+            }
+        }
+
+        public void setValue(float value) {
+            currentValue = value;
+            seekBarView.setProgress((value - min) / (float) (max - min));
+            headerValue.setText(String.valueOf((int) currentValue), true);
+            updateValues();
+        }
+
+        private void setProgress(float progress) {
+            currentValue = min + (max - min) * progress;
+            headerValue.setText(String.valueOf((int) currentValue), true);
+            updateValues();
         }
 
         @Override
         protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-            int width = MeasureSpec.getSize(widthMeasureSpec);
-            if (lastWidth != width) {
-                sizeBar.setProgress((NekoConfig.stickerSize - startStickerSize) / (float) (endStickerSize - startStickerSize));
-                lastWidth = width;
-            }
-        }
-
-        @Override
-        public void invalidate() {
-            super.invalidate();
-            lastWidth = -1;
-            messagesCell.invalidate();
-            sizeBar.invalidate();
-        }
-
-        @Override
-        public void onInitializeAccessibilityEvent(AccessibilityEvent event) {
-            super.onInitializeAccessibilityEvent(event);
-            sizeBar.getSeekBarAccessibilityDelegate().onInitializeAccessibilityEvent(this, event);
-        }
-
-        @Override
-        public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
-            super.onInitializeAccessibilityNodeInfo(info);
-            sizeBar.getSeekBarAccessibilityDelegate().onInitializeAccessibilityNodeInfoInternal(this, info);
-        }
-
-        @Override
-        public boolean performAccessibilityAction(int action, Bundle arguments) {
-            return super.performAccessibilityAction(action, arguments) || sizeBar.getSeekBarAccessibilityDelegate().performAccessibilityActionInternal(this, action, arguments);
+            super.onMeasure(
+                    MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY),
+                    MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(112), MeasureSpec.EXACTLY)
+            );
         }
     }
 
@@ -540,8 +615,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == chatRow) {
                         headerCell.setText(LocaleController.getString("Chat", R.string.Chat));
-                    } else if (position == stickerSizeHeaderRow) {
-                        headerCell.setText(LocaleController.getString("StickerSize", R.string.StickerSize));
                     } else if (position == messageMenuRow) {
                         headerCell.setText(LocaleController.getString("MessageMenu", R.string.MessageMenu));
                     } else if (position == mediaRow) {
@@ -621,7 +694,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     position == hideTimeOnStickerRow
             ) {
                 return TYPE_CHECK;
-            } else if (position == chatRow || position == stickerSizeHeaderRow || position == messageMenuRow || position == mediaRow || position == markdownRow) {
+            } else if (position == chatRow || position == messageMenuRow || position == mediaRow || position == markdownRow) {
                 return TYPE_HEADER;
             } else if (position == markdown2Row) {
                 return TYPE_INFO_PRIVACY;
