@@ -26,7 +26,8 @@ public class IconSelectorAlert {
     private final static Paint selectedPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
     public static void show(BaseFragment fragment, View view, String selectedIcon, OnIconSelectedListener onIconSelectedListener) {
-        selectedPaint.setColor(Theme.getColor(Theme.key_listSelector));
+        selectedPaint.setColor(Theme.getColor(Theme.key_windowBackgroundWhiteValueText));
+        selectedPaint.setAlpha(40);
 
         Context context = fragment.getParentActivity();
 
@@ -62,11 +63,12 @@ public class IconSelectorAlert {
                     super.onDraw(canvas);
                 }
             };
+            boolean selected = icon.equals(selectedIcon);
             imageView.setScaleType(ImageView.ScaleType.CENTER);
-            imageView.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector), AndroidUtilities.dp(2), AndroidUtilities.dp(2)));
-            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
+            imageView.setBackground(Theme.createRadSelectorDrawable(selected ? Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteValueText), .1f) : Theme.getColor(Theme.key_listSelector), AndroidUtilities.dp(2), AndroidUtilities.dp(2)));
+            imageView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(selected ? Theme.key_windowBackgroundWhiteValueText : Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
             imageView.setImageResource(FolderIconHelper.getTabIcon(icon));
-            imageView.setSelected(icon.equals(selectedIcon));
+            imageView.setSelected(selected);
             imageView.setOnClickListener(v -> {
                 if (selectedIcon.equals(icon)) {
                     return;
