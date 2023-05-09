@@ -24066,7 +24066,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                         if (message.messageOwner.forwards > 0 && ChatObject.hasAdminRights(currentChat) && !message.isForwarded()) {
                             items.add(LocaleController.getString("ViewStats", R.string.ViewStats));
-                            options.add(28);
+                            options.add(OPTION_STATISTICS);
                             icons.add(R.drawable.msg_stats);
                         }
                         if (allowUnpin) {
