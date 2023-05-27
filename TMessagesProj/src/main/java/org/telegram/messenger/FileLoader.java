@@ -320,6 +320,10 @@ public class FileLoader extends BaseController {
     }
 
     public void checkUploadNewDataAvailable(final String location, final boolean encrypted, final long newAvailableSize, final long finalSize) {
+        checkUploadNewDataAvailable(location, encrypted, newAvailableSize, finalSize, null);
+    }
+
+    public void checkUploadNewDataAvailable(final String location, final boolean encrypted, final long newAvailableSize, final long finalSize, final Float progress) {
         fileLoaderQueue.postRunnable(() -> {
             FileUploadOperation operation;
             if (encrypted) {
@@ -328,7 +332,7 @@ public class FileLoader extends BaseController {
                 operation = uploadOperationPaths.get(location);
             }
             if (operation != null) {
-                operation.checkNewDataAvailable(newAvailableSize, finalSize);
+                operation.checkNewDataAvailable(newAvailableSize, finalSize, progress);
             } else if (finalSize != 0) {
                 uploadSizes.put(location, finalSize);
             }
