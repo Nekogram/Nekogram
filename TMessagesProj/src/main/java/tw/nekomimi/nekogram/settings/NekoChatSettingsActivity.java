@@ -18,6 +18,8 @@ import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.exoplayer2.util.Log;
+
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
@@ -383,7 +385,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                 if (resetItem.getVisibility() != VISIBLE) {
                     AndroidUtilities.updateViewVisibilityAnimated(resetItem, true, 0.5f, true);
                 }
-            }, false, 2, 20, LocaleController.getString("StickerSize", R.string.StickerSize), LocaleController.getString("StickerSizeLeft", R.string.StickerSizeLeft), LocaleController.getString("StickerSizeRight", R.string.StickerSizeRight), resourcesProvider);
+            }, 2, 20, LocaleController.getString("StickerSize", R.string.StickerSize), LocaleController.getString("StickerSizeLeft", R.string.StickerSizeLeft), LocaleController.getString("StickerSizeRight", R.string.StickerSizeRight), resourcesProvider);
             sizeBar.setValue(NekoConfig.stickerSize);
             addView(sizeBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
@@ -410,12 +412,13 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
         private final int min, max;
         private float currentValue;
+        private int roundedValue;
 
         public interface OnDrag {
             void run(float progress);
         }
 
-        public AltSeekbar(Context context, OnDrag onDrag, boolean round, int min, int max, String title, String left, String right, Theme.ResourcesProvider resourcesProvider) {
+        public AltSeekbar(Context context, OnDrag onDrag, int min, int max, String title, String left, String right, Theme.ResourcesProvider resourcesProvider) {
             super(context);
             this.resourcesProvider = resourcesProvider;
 
@@ -444,7 +447,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     super.onDraw(canvas);
                 }
             };
-            headerValue.setAnimationProperties(.45f, 0, 80, CubicBezierInterpolator.EASE_OUT_QUINT);
+            headerValue.setAnimationProperties(.45f, 0, 240, CubicBezierInterpolator.EASE_OUT_QUINT);
             headerValue.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             headerValue.setPadding(AndroidUtilities.dp(5.33f), AndroidUtilities.dp(2), AndroidUtilities.dp(5.33f), AndroidUtilities.dp(2));
             headerValue.setTextSize(AndroidUtilities.dp(12));
@@ -458,9 +461,12 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() {
                 @Override
                 public void onSeekBarDrag(boolean stop, float progress) {
-                    currentValue = round ? Math.round(min + (max - min) * progress) : (min + (max - min) * progress);
+                    currentValue = min + (max - min) * progress;
                     onDrag.run(currentValue);
-                    setProgress(progress);
+                    if (Math.round(currentValue) != roundedValue) {
+                        roundedValue = Math.round(currentValue);
+                        updateText();
+                    }
                 }
 
                 @Override
@@ -514,13 +520,15 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         public void setValue(float value) {
             currentValue = value;
             seekBarView.setProgress((value - min) / (float) (max - min));
-            headerValue.setText(String.valueOf((int) currentValue), true);
-            updateValues();
+            if (Math.round(currentValue) != roundedValue) {
+                roundedValue = Math.round(currentValue);
+                updateText();
+            }
         }
 
-        private void setProgress(float progress) {
-            currentValue = min + (max - min) * progress;
-            headerValue.setText(String.valueOf((int) currentValue), true);
+        private void updateText() {
+            headerValue.cancelAnimation();
+            headerValue.setText(getTextForHeader(), true);
             updateValues();
         }
 
@@ -530,6 +538,18 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY),
                     MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(112), MeasureSpec.EXACTLY)
             );
+        }
+
+        public CharSequence getTextForHeader() {
+            CharSequence text;
+            if (roundedValue == min) {
+                text = leftTextView.getText();
+            } else if (roundedValue == max) {
+                text = rightTextView.getText();
+            } else {
+                text = String.valueOf(roundedValue);
+            }
+            return text.toString().toUpperCase();
         }
     }
 
