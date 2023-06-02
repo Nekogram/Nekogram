@@ -2259,7 +2259,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         paymentForm.invoice.phone_requested && (paymentForm.saved_info == null || paymentForm.saved_info.phone == null)
                     );
 
-                    if (isCheckoutPreview && !savedInfoMissing && validateRequest == null) {
+                    if (isCheckoutPreview && paymentForm.saved_info != null && !savedInfoMissing && validateRequest == null) {
                         setDonePressed(true);
 
                         sendSavedForm(()->{
