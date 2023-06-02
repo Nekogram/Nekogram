@@ -17,6 +17,8 @@
     <string name="LastFirst">الآخر ثم الأول</string>
     <string name="NoQuoteForward">توجيه دون اسم</string>
     <string name="NoCaptionForward">إعادة تحويل دون تعليق</string>
+    <string name="NoQuoteForwardShort">دون اقتباس</string>
+    <string name="NoCaptionForwardShort">دون تعليق</string>
     <string name="Repeat">كَرر</string>
     <string name="AddToSavedMessages">حفظُ الرسالة</string>
     <string name="CreateMention">صنع إشعار</string>
@@ -38,6 +40,8 @@
     <string name="SensitiveDisableFiltering">تعطيل حظر المحتويات الحساسة</string>
     <string name="SensitiveAbout">عرض المحتويات الحساسة في القنوات العامة على جميع أجهزتك.</string>
     <string name="StickerSize">حجم الملصقات</string>
+    <string name="StickerSizeLeft">ملصق صغير</string>
+    <string name="StickerSizeRight">ملصق كبير</string>
     <string name="StickerSizeDialogMessage">يا إلهي لطيف! قطة سوداء!</string>
     <string name="StickerSizeDialogMessageReplyTo">الـرد على</string>
     <string name="Experiment">تجريبية</string>
@@ -281,7 +285,7 @@
     <string name="SendAnonymousDataDesc">تستخدم الميزات المذكورة أعلاه مركز تطبيقات Visual Studio الذي توفره شركة Microsoft. المعلومات التي تم جمعها مجهولة الهوية ولا يمكننا تعقبها مرة أخرى إلى جهاز مستقل أو مستخدم مستقل.</string>
     <string name="SendLargePhotos">إرسال صور كبيرة</string>
     <string name="SendLargePhotosAbout">زيادة الحد الجانبي على الصور المضغوطة إلى 2560 بكسل.</string>
-    <string name="ExportAsJson">نسخ كـ جافا سكريبت</string>
+    <string name="ExportAsJson">نسخ كملف جيسون</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

@@ -17,6 +17,8 @@
     <string name="LastFirst">Apellido Nombre</string>
     <string name="NoQuoteForward">Reenviar sin citar</string>
     <string name="NoCaptionForward">Reenvío sin título</string>
+    <string name="NoQuoteForwardShort">Sin citar</string>
+    <string name="NoCaptionForwardShort">Sin texto</string>
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Guardar mensaje</string>
     <string name="CreateMention">Crear mención</string>
@@ -38,6 +40,8 @@
     <string name="SensitiveDisableFiltering">Desactivar filtro de contenido sensible</string>
     <string name="SensitiveAbout">Mostrar multimedia sensible en canales públicos en todos tus dispositivos.</string>
     <string name="StickerSize">Tamaño de stickers</string>
+    <string name="StickerSizeLeft">Pequeño</string>
+    <string name="StickerSizeRight">Grande</string>
     <string name="StickerSizeDialogMessage">¡Oh, es tan lindo! ¡Un gato negro!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="Experiment">Experimental</string>

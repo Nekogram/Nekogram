@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Ρυθμίσεις Neko</string>
-    <string name="IPv6">Δοκιμάστε να συνδεθείτε μέσω IPv6</string>
+    <string name="IPv6">Προσπάθεια σύνδεσης μέσω IPv6</string>
     <string name="MessageMenu">Μενού μηνυμάτων</string>
     <string name="HidePhone">Απόκρυψη του αριθμού μου</string>
     <string name="DeleteAllFromSelf">Διαγραφή των μηνυμ. μου</string>
@@ -16,7 +16,9 @@
     <string name="FirstLast">Όνομα Επίθετο</string>
     <string name="LastFirst">Επίθετο Όνομα</string>
     <string name="NoQuoteForward">Προώθ. χωρίς Πηγή</string>
-    <string name="NoCaptionForward">Προώθηση χωρίς περιγραφή</string>
+    <string name="NoCaptionForward">Προώθ. χωρίς Περιγραφή</string>
+    <string name="NoQuoteForwardShort">Χωρίς Παράθεση</string>
+    <string name="NoCaptionForwardShort">Χωρίς Τίτλο</string>
     <string name="Repeat">Επανάληψη</string>
     <string name="AddToSavedMessages">Αποθήκευση</string>
     <string name="CreateMention">Δημιουργία αναφοράς</string>
@@ -38,6 +40,8 @@
     <string name="SensitiveDisableFiltering">Απεν/ση φίλτρου ευαίσθ. περιεχ/νου</string>
     <string name="SensitiveAbout">Εμφάνιση ευαίσθητων πολυμέσων στα δημόσια κανάλια σε όλες τις συσκευές σας.</string>
     <string name="StickerSize">Μέγεθος αυτοκόλλητου</string>
+    <string name="StickerSizeLeft">Μικρό</string>
+    <string name="StickerSizeRight">Μεγάλο</string>
     <string name="StickerSizeDialogMessage">Τόσο χαριτωμένο! Μια μαύρη γάτα!</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
     <string name="Experiment">Πειραματικές</string>
@@ -273,7 +277,7 @@
     <string name="EmojiSetAlreadyApplied">Το πακέτο Emoji έχει ήδη εφαρμοστεί.</string>
     <string name="SendAnonymousData">Αποστολή ανώνυμων δεδομένων</string>
     <string name="SendBugReport">Αποστολή αναφοράς σφαλμάτων</string>
-    <string name="SendBugReportDesc">Αυτό θα μας βοηθήσει να βρούμε τα προβλήματα πιο γρήγορα.</string>
+    <string name="SendBugReportDesc">Αυτό θα μας βοηθήσει να εντοπίσουμε τα προβλήματα γρηγορότερα.</string>
     <string name="AnonymousDataDelete">Διαγραφή δεδομένων</string>
     <string name="AnonymousDataDeleteDesc">Μόνιμη φραγή εξερχόμενων δεδομένων από αυτήν την περίπτωση και διαγραφή συλλεγμένων δεδομένων.</string>
     <string name="SendAnonymousDataDesc">Οι παραπάνω λειτουργίες χρησιμοποιούν το Visual Studio App Center που παρέχεται από τη Microsoft. Οι πληροφορίες που συλλέγονται είναι ανώνυμες και δεν μπορούμε να τις εντοπίσουμε σε ανεξάρτητη συσκευή ή χρήστη.</string>

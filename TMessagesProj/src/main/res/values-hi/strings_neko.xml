@@ -17,6 +17,8 @@
     <string name="LastFirst">उपनाम नाम</string>
     <string name="NoQuoteForward">बिना कोट के फॉरवर्ड करें</string>
     <string name="NoCaptionForward">बिनाकैप्शन अग्रषित करे</string>
+    <string name="NoQuoteForwardShort">कोई उद्धरण नहीं</string>
+    <string name="NoCaptionForwardShort">कोई शीर्षक नहीं</string>
     <string name="Repeat">दोहराएं</string>
     <string name="AddToSavedMessages">संदेश सेव करो</string>
     <string name="CreateMention">उल्लेख बनाएं</string>
@@ -38,6 +40,8 @@
     <string name="SensitiveDisableFiltering">सेंसिटिव कॉन्टेंट फिल्टरिंग को डिसेबल करें</string>
     <string name="SensitiveAbout">अपने सभी उपकरणों पर सार्वजनिक चैनलों में संवेदनशील मीडिया प्रदर्शित करें।</string>
     <string name="StickerSize">चैट में स्टीकर का साइज</string>
+    <string name="StickerSizeLeft">छोटा</string>
+    <string name="StickerSizeRight">बड़ा</string>
     <string name="StickerSizeDialogMessage">ओह, बहुत प्यारी! एक काली बिल्ली!</string>
     <string name="StickerSizeDialogMessageReplyTo">म्याऊँ</string>
     <string name="Experiment">प्रायोगिक</string>
@@ -207,6 +211,7 @@
     <string name="Translating">अनुवाद किया जा रहा है</string>
     <string name="Translated">अनुवाद किया जा चुका है</string>
     <string name="BrokenMLKit">विकल्प मौजूद नहीं है</string>
+    <string name="BrokenMLKitDetail">इस डिवाइस पर MLKIT भाषा पहचानकर्ता टूटा हुआ हैइस डिवाइस पर MLKIT भाषा पहचानकर्ता टूटा हुआ है</string>
     <string name="PasscodeNeeded">आपको पहले पासकोड लॉक सक्षम करना होगा</string>
     <string name="PasscodeNeko">पासकोड </string>
     <string name="PasscodeShowInSettings">Neko सेटिंग में दिखाएं</string>

@@ -17,6 +17,8 @@
     <string name="LastFirst">Фамилия Имя</string>
     <string name="NoQuoteForward">Переслать без автора</string>
     <string name="NoCaptionForward">Переслать без текста</string>
+    <string name="NoQuoteForwardShort">Без текста</string>
+    <string name="NoCaptionForwardShort">Без подписи</string>
     <string name="Repeat">Повторить</string>
     <string name="AddToSavedMessages">Сохранить сообщение</string>
     <string name="CreateMention">Создать упоминание</string>
@@ -38,6 +40,8 @@
     <string name="SensitiveDisableFiltering">Показывать деликатный контент</string>
     <string name="SensitiveAbout">Отображать деликатный контент в публичных каналах на всех ваших устройствах.</string>
     <string name="StickerSize">Размер стикеров</string>
+    <string name="StickerSizeLeft">Маленькие</string>
+    <string name="StickerSizeRight">Большие</string>
     <string name="StickerSizeDialogMessage">Ооо так мило! Черная кошка!</string>
     <string name="StickerSizeDialogMessageReplyTo">Мяу</string>
     <string name="Experiment">Экспериментальные</string>

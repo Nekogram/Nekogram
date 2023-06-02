@@ -17,6 +17,8 @@
     <string name="LastFirst">Спочатку прізвище</string>
     <string name="NoQuoteForward">Переслати без цитування</string>
     <string name="NoCaptionForward">Переслати без цитування</string>
+    <string name="NoQuoteForwardShort">Без Цитування</string>
+    <string name="NoCaptionForwardShort">Без заголовка</string>
     <string name="Repeat">Повторити</string>
     <string name="AddToSavedMessages">Зберегти повідомлення</string>
     <string name="CreateMention">Створити згадку</string>
@@ -38,6 +40,8 @@
     <string name="SensitiveDisableFiltering">Вимкнути фільтрацію чутливого вмісту</string>
     <string name="SensitiveAbout">Показувати чутливий контент у відкритих каналах на всіх пристроях.</string>
     <string name="StickerSize">Розмір наліпки</string>
+    <string name="StickerSizeLeft">Малий</string>
+    <string name="StickerSizeRight">Великий</string>
     <string name="StickerSizeDialogMessage">Ой, як гарно! Чорний кіт!</string>
     <string name="StickerSizeDialogMessageReplyTo">Няв</string>
     <string name="Experiment">Експериментальні</string>

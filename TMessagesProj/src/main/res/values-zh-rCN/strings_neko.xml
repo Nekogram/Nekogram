@@ -40,6 +40,8 @@
     <string name="SensitiveDisableFiltering">禁用敏感内容过滤</string>
     <string name="SensitiveAbout">在您所有设备上显示公共频道中的敏感媒体内容。</string>
     <string name="StickerSize">贴纸大小</string>
+    <string name="StickerSizeLeft">小</string>
+    <string name="StickerSizeRight">大</string>
     <string name="StickerSizeDialogMessage">呜好可爱！黑色猫猫！</string>
     <string name="StickerSizeDialogMessageReplyTo">喵</string>
     <string name="Experiment">实验性</string>

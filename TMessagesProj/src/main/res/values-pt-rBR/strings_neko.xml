@@ -17,6 +17,8 @@
     <string name="LastFirst">Último Primeiro</string>
     <string name="NoQuoteForward">Encaminhar sem citar</string>
     <string name="NoCaptionForward">Encaminhar sem legenda</string>
+    <string name="NoQuoteForwardShort">SemCitar</string>
+    <string name="NoCaptionForwardShort">SemLegenda</string>
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Salvar mensagem</string>
     <string name="CreateMention">Criar Menção</string>

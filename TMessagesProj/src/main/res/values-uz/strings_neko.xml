@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Shaxsiy xabarlarni o\'chiring</string>
     <string name="DeleteAllFromSelfAlert">Ogohlantirish! Bu **barcha** ishtirokchilar uchun ushbu chatdagi **sizdan kelgan barcha xabarlarni** o‘chirib tashlaydi.</string>
     <string name="BotLogin">Botga kirish</string>
+    <string name="BotLoginMessage">**@BotFather** dan olgan tokeningizni kiriting.</string>
     <string name="InvalidAccessToken">Kirish tokeni yaroqsiz</string>
     <string name="IgnoreBlocked">Bloklangan foydalanuvchidan xabarlarni yashirish</string>
     <string name="Connection">aloqa</string>
