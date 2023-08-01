@@ -871,6 +871,7 @@ public class MessageHelper extends BaseController {
         req.message = "";
         if (reply_to != null) {
             req.reply_to = SendMessagesHelper.creteReplyInput(reply_to.getId(), thread.getId());
+            req.flags |= 1;
         }
         getConnectionsManager().sendRequest(req, (response, error) -> {
             if (error == null) {
