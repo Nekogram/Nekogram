@@ -289,6 +289,7 @@
     <string name="SendLargePhotos">Send large photos</string>
     <string name="SendLargePhotosAbout">Increase the side limit on compressed images to 2560px.</string>
     <string name="ExportAsJson">Copy as JSON</string>
+    <string name="HideStories">Hide Stories</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

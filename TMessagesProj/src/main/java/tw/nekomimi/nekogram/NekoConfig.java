@@ -137,6 +137,7 @@ public class NekoConfig {
     public static boolean uploadSpeedBoost = false;
     public static boolean sendLargePhotos = true;
     public static boolean useLNavigation = false;
+    public static boolean hideStories = false;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
@@ -332,6 +333,7 @@ public class NekoConfig {
             showQrCode = preferences.getBoolean("showQrCode", true);
             wsDomain = preferences.getString("wsDomain", "");
             useLNavigation = preferences.getBoolean("useLNavigation", false);
+            hideStories = preferences.getBoolean("hideStories", false);
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             for (int a = 1; a <= 5; a++) {
@@ -410,6 +412,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("downloadSpeedBoost2", boost);
+        editor.apply();
+    }
+
+    public static void toggleHideStories() {
+        hideStories = !hideStories;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("hideStories", hideStories);
         editor.apply();
     }
 

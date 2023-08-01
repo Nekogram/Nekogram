@@ -50,7 +50,9 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
     private int accentAsNotificationColorRow;
     private int silenceNonContactsRow;
     private int notification2Row;
+
     private int generalRow;
+    private int hideStoriesRow;
     private int disabledInstantCameraRow;
     private int askBeforeCallRow;
     private int openArchiveOnPullRow;
@@ -212,6 +214,11 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.showOriginal);
             }
+        } else if (position == hideStoriesRow) {
+            NekoConfig.toggleHideStories();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.hideStories);
+            }
         }
     }
 
@@ -258,6 +265,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         notification2Row = addRow();
 
         generalRow = addRow("general");
+        hideStoriesRow = addRow("hideStories");
         disabledInstantCameraRow = addRow("disabledInstantCamera");
         askBeforeCallRow = addRow("askBeforeCall");
         openArchiveOnPullRow = addRow("openArchiveOnPull");
@@ -414,6 +422,8 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("AutoTranslate", R.string.AutoTranslate), LocaleController.getString("AutoTranslateAbout", R.string.AutoTranslateAbout), NekoConfig.autoTranslate, true, false);
                     } else if (position == showOriginalRow) {
                         textCell.setTextAndCheck(LocaleController.getString("TranslatorShowOriginal", R.string.TranslatorShowOriginal), NekoConfig.showOriginal, true);
+                    } else if (position == hideStoriesRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("HideStories", R.string.HideStories), NekoConfig.hideStories, true);
                     }
                     break;
                 }
