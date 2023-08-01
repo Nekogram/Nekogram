@@ -1875,7 +1875,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 if (frameLayout2.getTag() != null && commentTextView.length() > 0) {
                     SendMessagesHelper.getInstance(currentAccount).sendMessage(SendMessagesHelper.SendMessageParams.of(text[0] == null ? null : text[0].toString(), key, replyTopMsg, replyTopMsg, null, true, entities, null, null, withSound, scheduleDate, null, false));
                 }
-                int result = SendMessagesHelper.getInstance(currentAccount).sendMessage(sendingMessageObjects, key, forwardContext.getForwardParams().noQuote, forwardContext.getForwardParams().noCaption, withSound, 0, replyTopMsg);
+                int result = SendMessagesHelper.getInstance(currentAccount).sendMessage(sendingMessageObjects, key, forwardContext.getForwardParams().noQuote, forwardContext.getForwardParams().noCaption, withSound, scheduleDate, replyTopMsg);
                 if (result != 0) {
                     removeKeys.add(key);
                 }
@@ -1913,12 +1913,12 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     SendMessagesHelper.SendMessageParams params;
                     if (storyItem == null) {
                         if (frameLayout2.getTag() != null && commentTextView.length() > 0) {
-                            params = SendMessagesHelper.SendMessageParams.of(text[0] == null ? null : text[0].toString(), key, null, replyTopMsg, null, true, entities, null, null, withSound, 0, null, false);
+                            params = SendMessagesHelper.SendMessageParams.of(text[0] == null ? null : text[0].toString(), key, null, replyTopMsg, null, true, entities, null, null, withSound, scheduleDate, null, false);
                         } else {
-                            params = SendMessagesHelper.SendMessageParams.of(sendingText[num], key, null, replyTopMsg, null, true, null, null, null, withSound, 0, null, false);
+                            params = SendMessagesHelper.SendMessageParams.of(sendingText[num], key, null, replyTopMsg, null, true, null, null, null, withSound, scheduleDate, null, false);
                         }
                     } else {
-                        params = SendMessagesHelper.SendMessageParams.of(null, key, null, replyTopMsg, null, true, null, null, null, withSound, 0, null, false);
+                        params = SendMessagesHelper.SendMessageParams.of(null, key, null, replyTopMsg, null, true, null, null, null, withSound, scheduleDate, null, false);
                         params.caption = frameLayout2.getTag() != null && commentTextView.length()  > 0 && text[0] != null ? text[0].toString() : null;
                         params.sendingStory = storyItem;
                     }
