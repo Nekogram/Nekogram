@@ -284,6 +284,7 @@
     <string name="SendLargePhotos">Enviar fotos grandes</string>
     <string name="SendLargePhotosAbout">Aumentar el límite lateral de las imágenes comprimidas a 2560px.</string>
     <string name="ExportAsJson">Copiar como JSON</string>
+    <string name="HideStories">Ocultar historias</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccSeekbarHeading">Configuración de la barra de búsqueda</string>

@@ -16,6 +16,8 @@
     <string name="FirstLast">Tên đứng cuối</string>
     <string name="LastFirst">Tên đứng đầu</string>
     <string name="NoQuoteForward">Chuyển tiếp không trích dẫn</string>
+    <string name="NoCaptionForward">Helo</string>
+    <string name="NoQuoteForwardShort">Không trích dẫn</string>
     <string name="Repeat">Lặp lại</string>
     <string name="AddToSavedMessages">Lưu tin nhắn</string>
     <string name="CreateMention">Tạo đề cập đến</string>
@@ -269,6 +271,7 @@
     <string name="SendAnonymousDataDesc">Các tính năng trên sử dụng Visual Studio App Center do Microsoft cung cấp. Thông tin được thu thập là ẩn danh và chúng tôi không thể truy ngược thông tin đó đến một thiết bị hoặc người dùng độc lập.</string>
     <string name="SendLargePhotos">Gửi ảnh lớn</string>
     <string name="SendLargePhotosAbout">Tăng giới hạn bên trên hình ảnh nén lên 2560px.</string>
+    <string name="ExportAsJson">Sao chép dưới dạng JSON</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>

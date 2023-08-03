@@ -284,6 +284,7 @@
     <string name="SendLargePhotos">Αποστολή μεγάλων φωτογραφιών</string>
     <string name="SendLargePhotosAbout">Αύξηση του πλαϊνού ορίου για τις συμπιεσμένες εικόνες στα 2560px.</string>
     <string name="ExportAsJson">Αντιγραφή ως JSON</string>
+    <string name="HideStories">Απόκρυψη Ιστοριών</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>

@@ -40,6 +40,8 @@
     <string name="SensitiveDisableFiltering">Desabilitar filtro de conteúdo sensível</string>
     <string name="SensitiveAbout">Exiba mídia sensível em canais públicos em todos os seus dispositivos.</string>
     <string name="StickerSize">Tamanho dos stickers</string>
+    <string name="StickerSizeLeft">Pequeno</string>
+    <string name="StickerSizeRight">Grande</string>
     <string name="StickerSizeDialogMessage">Oh, tão fofo! Um gato preto!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="Experiment">Experimental</string>
@@ -83,7 +85,7 @@
     <string name="MediaPreview">Visualizar mídia na lista de conversas</string>
     <string name="ProviderYandex">Yandex Tradutor</string>
     <string name="IdType">ID do chat no perfil</string>
-    <string name="IdTypeAbout">A API do Telegram usa IDs como está, mas o Bot API adiciona menos no início para grupos, e -100 para que os canais e supergrupos se encaixem em um campo.</string>
+    <string name="IdTypeAbout">A API do Telegram usa os IDs no formato que se encontram, mas a Bot API adiciona um sinal de menos no início para grupos, e -100 para que os canais e supergrupos se encaixem em um campo.</string>
     <string name="IdTypeHidden">Ocultar</string>
     <string name="IdTypeAPI">API do Telegram</string>
     <string name="IdTypeBOTAPI">Bot API</string>
@@ -283,6 +285,7 @@
     <string name="SendLargePhotos">Enviar fotos grandes</string>
     <string name="SendLargePhotosAbout">Aumenta o limite de imagens comprimidas para 2560px.</string>
     <string name="ExportAsJson">Copiar em JSON</string>
+    <string name="HideStories">Ocultar Stories</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>

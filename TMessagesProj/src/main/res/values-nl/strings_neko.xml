@@ -16,6 +16,7 @@
     <string name="FirstLast">Voornaam laatst</string>
     <string name="LastFirst">Laatste eerst</string>
     <string name="NoQuoteForward">Vooruit</string>
+    <string name="NoCaptionForward">Geen bijschrift Doorsturen</string>
     <string name="Repeat">Herhaal</string>
     <string name="AddToSavedMessages">Bewaar bericht</string>
     <string name="CreateMention">Maak vermelding</string>

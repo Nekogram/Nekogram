@@ -285,6 +285,7 @@
     <string name="SendLargePhotos">发送大图片</string>
     <string name="SendLargePhotosAbout">将压缩图片的侧边限制增加到 2560px。</string>
     <string name="ExportAsJson">复制为 JSON</string>
+    <string name="HideStories">隐藏动态</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

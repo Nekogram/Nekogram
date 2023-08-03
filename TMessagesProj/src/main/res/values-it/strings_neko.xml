@@ -17,6 +17,8 @@
     <string name="LastFirst">Dall\'ultimo al primo</string>
     <string name="NoQuoteForward">Inoltro senza citare</string>
     <string name="NoCaptionForward">Inoltro senza didascalia</string>
+    <string name="NoQuoteForwardShort">NoQuota</string>
+    <string name="NoCaptionForwardShort">NoDidascalia</string>
     <string name="Repeat">Ripeti</string>
     <string name="AddToSavedMessages">Salva messaggio</string>
     <string name="CreateMention">Crea menzione</string>
@@ -38,6 +40,8 @@
     <string name="SensitiveDisableFiltering">Disattiva il filtro dei contenuti sensibili</string>
     <string name="SensitiveAbout">Mostra i media sensibili nei canali pubblici su tutti i tuoi dispositivi.</string>
     <string name="StickerSize">Dimensione dell\'adesivo</string>
+    <string name="StickerSizeLeft">Piccolo</string>
+    <string name="StickerSizeRight">Grande</string>
     <string name="StickerSizeDialogMessage">Oh che carino! Un gatto nero!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miao</string>
     <string name="Experiment">Sperimentale</string>
@@ -207,6 +211,7 @@
     <string name="Translating">traducendo</string>
     <string name="Translated">tradotto</string>
     <string name="BrokenMLKit">Opzione non disponibile</string>
+    <string name="BrokenMLKitDetail">L\'identificatore di lingua MLKit é rotta su questo dispositivo.</string>
     <string name="PasscodeNeeded">Devi prima abilitare il codice di blocco</string>
     <string name="PasscodeNeko">Codice d\'accesso</string>
     <string name="PasscodeShowInSettings">Mostra in Impostazioni Neko</string>

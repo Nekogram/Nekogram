@@ -286,6 +286,7 @@
     <string name="SendLargePhotos">إرسال صور كبيرة</string>
     <string name="SendLargePhotosAbout">زيادة الحد الجانبي على الصور المضغوطة إلى 2560 بكسل.</string>
     <string name="ExportAsJson">نسخ كملف جيسون</string>
+    <string name="HideStories">إخفاء القصص</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

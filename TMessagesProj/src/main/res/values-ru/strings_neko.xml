@@ -17,7 +17,7 @@
     <string name="LastFirst">Фамилия Имя</string>
     <string name="NoQuoteForward">Переслать без автора</string>
     <string name="NoCaptionForward">Переслать без текста</string>
-    <string name="NoQuoteForwardShort">Без текста</string>
+    <string name="NoQuoteForwardShort">Без автора</string>
     <string name="NoCaptionForwardShort">Без подписи</string>
     <string name="Repeat">Повторить</string>
     <string name="AddToSavedMessages">Сохранить сообщение</string>
@@ -35,7 +35,7 @@
     <string name="DeleteDownloadedFile">Удалить загруженный файл</string>
     <string name="TestBackendOn">Эта учетная запись будет подключаться к тестовому серверу.</string>
     <string name="TestBackendOff">Эта учетная запись будет подключаться к основному серверу.</string>
-    <string name="ViewHistory">История сообщений</string>
+    <string name="ViewHistory">Посмотреть историю</string>
     <string name="Nya">Мяу!</string>
     <string name="SensitiveDisableFiltering">Показывать деликатный контент</string>
     <string name="SensitiveAbout">Отображать деликатный контент в публичных каналах на всех ваших устройствах.</string>
@@ -48,7 +48,7 @@
     <string name="MessageDetails">Подробности</string>
     <string name="DeleteAccount">Удалить Telegram аккаунт</string>
     <string name="TranslateFailed">Ошибка сервера переводчика</string>
-    <string name="TranslationProvider">Переводчик</string>
+    <string name="TranslationProvider">Поставщик переводов</string>
     <string name="ProviderGoogleTranslate">Google Переводчик</string>
     <string name="TranslateApiUnsupported">Выбранный переводчик не поддерживает ваш язык.</string>
     <string name="ProviderLingocloud">Lingocloud</string>

@@ -24,7 +24,7 @@
     <string name="CreateMention">Створити згадку</string>
     <string name="Prpr">Peropero</string>
     <string name="TransparentStatusBar">Прозорий рядок стану</string>
-    <string name="EnableResidentNotification">Включити сповіщення</string>
+    <string name="EnableResidentNotification">Включити постійні сповіщення</string>
     <string name="DisableResidentNotification">Вимкнути постійні сповіщення</string>
     <string name="NekogramRunning">Nekogram запущений</string>
     <string name="EventType">Зображення бокової панелі</string>
@@ -284,6 +284,7 @@
     <string name="SendLargePhotos">Надсилати великі фото</string>
     <string name="SendLargePhotosAbout">Збільшити обмеження на розмір сторони для стиснених зображень до 2560 пікс.</string>
     <string name="ExportAsJson">Копіювати як JSON</string>
+    <string name="HideStories">Приховати Історії</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccSeekbarHeading">Налаштування панелі повзунка</string>
