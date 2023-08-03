@@ -1462,7 +1462,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             animated = false;
         }
         if (BuildVars.IS_BILLING_UNAVAILABLE) {
-            premiumButtonView.setButton(getPremiumButtonText(currentAccount, subscriptionTiers.get(selectedTierIndex)), v -> buyPremium(this), animated);
+            premiumButtonView.setButton(getPremiumButtonText(currentAccount, null), v -> buyPremium(this), animated);
             return;
         }
         if (!BuildVars.useInvoiceBilling() && (!BillingController.getInstance().isReady() || subscriptionTiers.isEmpty() || selectedTierIndex >= subscriptionTiers.size() || subscriptionTiers.get(selectedTierIndex).googlePlayProductDetails == null)) {

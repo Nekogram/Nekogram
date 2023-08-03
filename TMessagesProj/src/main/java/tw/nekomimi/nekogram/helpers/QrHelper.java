@@ -198,15 +198,21 @@ public class QrHelper {
         }
         ArrayList<QrResult> results = new ArrayList<>(readQrInternal(bitmap));
         Bitmap inverted = null;
-        if (results.isEmpty()) {
-            inverted = invert(bitmap);
-            results.addAll(readQrInternal(inverted));
-            AndroidUtilities.recycleBitmap(inverted);
+        try {
+            if (results.isEmpty()) {
+                inverted = invert(bitmap);
+                results.addAll(readQrInternal(inverted));
+                AndroidUtilities.recycleBitmap(inverted);
+            }
+        } catch (Throwable ignored) {
         }
-        if (results.isEmpty()) {
-            Bitmap monochrome = monochrome(inverted);
-            results.addAll(readQrInternal(monochrome));
-            AndroidUtilities.recycleBitmap(monochrome);
+        try {
+            if (results.isEmpty()) {
+                Bitmap monochrome = monochrome(inverted);
+                results.addAll(readQrInternal(monochrome));
+                AndroidUtilities.recycleBitmap(monochrome);
+            }
+        } catch (Throwable ignored) {
         }
         return results;
     }
