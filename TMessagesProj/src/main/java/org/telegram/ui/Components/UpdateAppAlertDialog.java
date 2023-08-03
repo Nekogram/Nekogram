@@ -36,6 +36,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.spoilers.SpoilersTextView;
+import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 
 import tw.nekomimi.nekogram.TextViewEffects;
 
@@ -293,14 +294,8 @@ public class UpdateAppAlertDialog extends BottomSheet {
         shadow.setTag(1);
         container.addView(shadow, frameLayoutParams);
 
-        TextView doneButton = new TextView(context);
-        doneButton.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
-        doneButton.setGravity(Gravity.CENTER);
-        doneButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        doneButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        doneButton.setText(LocaleController.formatString("AppUpdateDownloadNow", R.string.AppUpdateDownloadNow));
-        doneButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
-        doneButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Theme.getColor(Theme.key_featuredStickers_addButton), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_windowBackgroundWhite), 120)));
+        ButtonWithCounterView doneButton = new ButtonWithCounterView(context, true, null);
+        doneButton.setText(LocaleController.formatString("AppUpdateDownloadNow", R.string.AppUpdateDownloadNow), false);
         doneButton.setOnClickListener(v -> {
             if (update.document instanceof TLRPC.TL_document) {
                 FileLoader.getInstance(accountNum).loadFile(appUpdate.document, "update", FileLoader.PRIORITY_NORMAL, 1);
@@ -309,16 +304,12 @@ public class UpdateAppAlertDialog extends BottomSheet {
             }
             dismiss();
         });
-        container.addView(doneButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.BOTTOM, 16, 15, 16, 48 + 8 + 8));
+        container.addView(doneButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.BOTTOM, 14, 14, 14, 48 + 8 + 8));
 
-        TextView scheduleButton = new TextView(context);
-        scheduleButton.setGravity(Gravity.CENTER);
-        scheduleButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        scheduleButton.setText(LocaleController.getString("AppUpdateRemindMeLater", R.string.AppUpdateRemindMeLater));
-        scheduleButton.setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton));
-        scheduleButton.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Color.TRANSPARENT, ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_featuredStickers_addButton), 120)));
+        ButtonWithCounterView scheduleButton = new ButtonWithCounterView(context, false, null);
+        scheduleButton.setText(LocaleController.getString("AppUpdateRemindMeLater", R.string.AppUpdateRemindMeLater), false);
         scheduleButton.setOnClickListener(v -> dismiss());
-        container.addView(scheduleButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.BOTTOM, 16, 0, 16, 8));
+        container.addView(scheduleButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.LEFT | Gravity.BOTTOM, 14, 14, 14, 8));
     }
 
     private void runShadowAnimation(final int num, final boolean show) {

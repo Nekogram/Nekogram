@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.verify.domain.DomainVerificationManager;
 import android.content.pm.verify.domain.DomainVerificationUserState;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.provider.Settings;
@@ -18,7 +17,6 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.graphics.ColorUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -27,7 +25,9 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.Components.ScaleStateListAnimator;
 import org.telegram.ui.Components.StickerImageView;
+import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 
 import java.util.Map;
 
@@ -90,6 +90,7 @@ public class AppLinkVerifyBottomSheet extends BottomSheet {
         closeView.setOnClickListener((view) -> dismiss());
         int closeViewPadding = AndroidUtilities.dp(8);
         closeView.setPadding(closeViewPadding, closeViewPadding, closeViewPadding, closeViewPadding);
+        ScaleStateListAnimator.apply(closeView);
         frameLayout.addView(closeView, LayoutHelper.createFrame(36, 36, Gravity.TOP | Gravity.END, 6, 8, 6, 0));
 
         LinearLayout linearLayout = new LinearLayout(context);
@@ -116,17 +117,9 @@ public class AppLinkVerifyBottomSheet extends BottomSheet {
         description.setText(AndroidUtilities.replaceTags(LocaleController.getString("AppLinkNotVerifiedMessage", R.string.AppLinkNotVerifiedMessage)));
         linearLayout.addView(description, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 21, 15, 21, 16));
 
-        TextView buttonTextView = new TextView(context);
-        buttonTextView.setPadding(AndroidUtilities.dp(34), 0, AndroidUtilities.dp(34), 0);
-        buttonTextView.setGravity(Gravity.CENTER);
-        buttonTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        buttonTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        buttonTextView.setText(LocaleController.getString("GoToSettings", R.string.GoToSettings));
-
-        buttonTextView.setTextColor(Theme.getColor(Theme.key_featuredStickers_buttonText));
-        buttonTextView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Theme.getColor(Theme.key_featuredStickers_addButton), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_windowBackgroundWhite), 120)));
-
-        linearLayout.addView(buttonTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, 0, 16, 15, 16, 8));
+        ButtonWithCounterView buttonTextView = new ButtonWithCounterView(context, true, null);
+        buttonTextView.setText(LocaleController.getString("GoToSettings", R.string.GoToSettings), false);
+        linearLayout.addView(buttonTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, 0, 14, 14, 14, 0));
 
         buttonTextView.setOnClickListener(view -> {
             try {
@@ -146,14 +139,9 @@ public class AppLinkVerifyBottomSheet extends BottomSheet {
             }
         });
 
-        TextView textView = new TextView(context);
-        textView.setGravity(Gravity.CENTER);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        textView.setText(LocaleController.getString("DontAskAgain", R.string.DontAskAgain));
-        textView.setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton));
-        textView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Color.TRANSPARENT, ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_featuredStickers_addButton), 120)));
-
-        linearLayout.addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, 0, 16, 0, 16, 0));
+        ButtonWithCounterView textView = new ButtonWithCounterView(context, false, null);
+        textView.setText(LocaleController.getString("DontAskAgain", R.string.DontAskAgain), false);
+        linearLayout.addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, 0, 14, 14, 14, 0));
 
         textView.setOnClickListener(view -> {
             dismiss();
