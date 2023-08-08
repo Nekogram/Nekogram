@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Excluir suas próprias mensagens</string>
     <string name="DeleteAllFromSelfAlert">Cuidado! Isto irá **excluir todas as suas mensagens** nesse chat para **todos** os participantes.</string>
     <string name="BotLogin">Entrar por Bot</string>
+    <string name="BotLoginMessage">Introduzir o token de bot obtido de **@BotFather**.</string>
     <string name="InvalidAccessToken">Token de acesso inválido</string>
     <string name="IgnoreBlocked">Oculta mensagens de usuários bloqueados</string>
     <string name="Connection">Conexão</string>
@@ -15,6 +16,9 @@
     <string name="FirstLast">Nome Sobrenome</string>
     <string name="LastFirst">Sobrenome Nome</string>
     <string name="NoQuoteForward">Encaminhar sem remetente</string>
+    <string name="NoCaptionForward">NoCaption para a frente</string>
+    <string name="NoQuoteForwardShort">Sem citação</string>
+    <string name="NoCaptionForwardShort">SemCapítulo</string>
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Mensagens salvas</string>
     <string name="CreateMention">Criar menção</string>
@@ -36,6 +40,8 @@
     <string name="SensitiveDisableFiltering">Desativar o filtro de conteúdo sensível</string>
     <string name="SensitiveAbout">Exiba mídia sensível de canais públicos em todos os seus dispositivos.</string>
     <string name="StickerSize">Tamanho da figurinha</string>
+    <string name="StickerSizeLeft">Pequeno</string>
+    <string name="StickerSizeRight">Grande</string>
     <string name="StickerSizeDialogMessage">Que fofura! Um gato preto!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="Experiment">Experimentos</string>
@@ -116,8 +122,15 @@
     <string name="SelectBetween">Selecionar entre</string>
     <string name="StickerSavedHint">Sticker guardado na galeria</string>
     <string name="RegistrationDate">Data de registro</string>
+    <string name="RegistrationDateNewer">Mais recente que %s</string>
+    <string name="RegistrationDateOlder">Mais antigo do que %s</string>
+    <string name="RegistrationDateApproximately">Aproximadamente %s</string>
     <string name="WsDescription">Conecte o Telegram através da Cloudfare. **Saiba mais**</string>
     <string name="WsEnableTls">Ativar o TLS</string>
+    <string name="WsProvider">Fornecedor</string>
+    <string name="WsNotWorking">O proxy não está a funcionar!</string>
+    <string name="WsUseMyOwnDomain">Como configurar um fornecedor personalizado</string>
+    <string name="WsStandaloneApp">Utilizar o proxy noutras aplicações</string>
     <string name="UpdateNekogram">Atualizar Nekogram</string>
     <string name="TranslationTarget">Idioma de destino</string>
     <string name="TranslationTargetApp">Seguir app</string>
@@ -198,6 +211,7 @@
     <string name="Translating">traduzindo</string>
     <string name="Translated">traduzido</string>
     <string name="BrokenMLKit">Opção indisponível</string>
+    <string name="BrokenMLKitDetail">O identificador de idioma MLKit está quebrado neste dispositivo.</string>
     <string name="PasscodeNeeded">Tem de activar primeiro o bloqueio do código de acesso</string>
     <string name="PasscodeNeko">Código de acesso</string>
     <string name="PasscodeShowInSettings">Mostrar nas Configurações Neko</string>
@@ -219,6 +233,7 @@
     <string name="TranslatorShowOriginal">Com o texto original</string>
     <string name="DatacenterStatusAbout">Verifique o estado do Telegram **datacenters**.</string>
     <string name="DatacenterStatus">Estado do centro de dados</string>
+    <string name="DatacenterStatusShort">Centro de dados</string>
     <string name="Markdown">Remarcacao</string>
     <string name="MarkdownEnableByDefault">Ativar por padrão</string>
     <string name="MarkdownParser">Analisador</string>
@@ -260,6 +275,18 @@
     <string name="EmojiSetApplied">Pacote de emoji aplicado.</string>
     <string name="EmojiSetAppliedInfo">%1$s definido como seu pacote de emoji.</string>
     <string name="EmojiSetAlreadyApplied">Pacote de emoji já definido.</string>
+    <string name="SendAnonymousData">Enviar dados anónimos</string>
+    <string name="SendBugReport">Enviar relatório de erros</string>
+    <string name="SendBugReportDesc">Isto ajudar-nos-á a encontrar problemas mais rapidamente.</string>
+    <string name="AnonymousDataDelete">Eliminar dados</string>
+    <string name="AnonymousDataDeleteDesc">Bloquear permanentemente os dados de saída desta instância e eliminar os dados recolhidos.</string>
+    <string name="SendAnonymousDataDesc">As funcionalidades acima referidas utilizam o Visual Studio App Center fornecido pela 
+Microsoft. As informações recolhidas são anónimas e não podemos rastreá-las
+ a um dispositivo ou utilizador independente.</string>
+    <string name="SendLargePhotos">Enviar fotografias grandes</string>
+    <string name="SendLargePhotosAbout">Aumentar o limite lateral das imagens comprimidas para 2560px.</string>
+    <string name="ExportAsJson">Copiar como JSON</string>
+    <string name="HideStories">Ocultar histórias</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
 </resources>

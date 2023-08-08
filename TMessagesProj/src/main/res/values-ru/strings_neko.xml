@@ -285,6 +285,7 @@
     <string name="SendLargePhotos">Отправка фотографии большого размера</string>
     <string name="SendLargePhotosAbout">Увеличить размер сторон на сжатых изображениях до 2560px.</string>
     <string name="ExportAsJson">Скопировать как JSON</string>
+    <string name="HideStories">Скрыть истории</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>
