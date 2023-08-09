@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.PatternMatcher;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.exoplayer2.util.Log;
 
@@ -116,7 +117,7 @@ public class MonetHelper {
             IntentFilter packageFilter = new IntentFilter(ACTION_OVERLAY_CHANGED);
             packageFilter.addDataScheme("package");
             packageFilter.addDataSchemeSpecificPart("android", PatternMatcher.PATTERN_LITERAL);
-            context.registerReceiver(this, packageFilter);
+            ContextCompat.registerReceiver(context, this, packageFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
         }
 
         public void unregister(Context context) {

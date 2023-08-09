@@ -36,6 +36,7 @@ import android.util.Pair;
 import android.util.SparseArray;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.ColorUtils;
 
 import org.json.JSONArray;
@@ -2324,7 +2325,7 @@ public class ImageLoader {
         filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
         filter.addDataScheme("file");
         try {
-            ApplicationLoader.applicationContext.registerReceiver(receiver, filter);
+            ContextCompat.registerReceiver(ApplicationLoader.applicationContext, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED);
         } catch (Throwable ignore) {
 
         }

@@ -11,6 +11,8 @@ package org.telegram.messenger;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.content.pm.ServiceInfo;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import androidx.core.app.NotificationCompat;
@@ -151,7 +153,11 @@ public class LocationSharingService extends Service implements NotificationCente
             }
 
             updateNotification(false);
-            startForeground(6, builder.build());
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+                startForeground(6, builder.build(), ServiceInfo.FOREGROUND_SERVICE_TYPE_LOCATION);
+            } else {
+                startForeground(6, builder.build());
+            }
         } catch (Throwable e) {
             FileLog.e(e);
         }

@@ -21,6 +21,7 @@ import android.text.format.DateFormat;
 import android.util.Xml;
 
 import androidx.annotation.StringRes;
+import androidx.core.content.ContextCompat;
 
 import org.telegram.messenger.time.FastDateFormat;
 import org.telegram.tgnet.ConnectionsManager;
@@ -474,7 +475,7 @@ public class LocaleController {
 
         try {
             IntentFilter timezoneFilter = new IntentFilter(Intent.ACTION_TIMEZONE_CHANGED);
-            ApplicationLoader.applicationContext.registerReceiver(new TimeZoneChangedReceiver(), timezoneFilter);
+            ContextCompat.registerReceiver(ApplicationLoader.applicationContext, new TimeZoneChangedReceiver(), timezoneFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
         } catch (Exception e) {
             FileLog.e(e);
         }

@@ -40,6 +40,7 @@ import android.webkit.MimeTypeMap;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.LinearSmoothScroller;
 import androidx.recyclerview.widget.RecyclerView;
@@ -226,7 +227,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             filter.addAction(Intent.ACTION_MEDIA_UNMOUNTABLE);
             filter.addAction(Intent.ACTION_MEDIA_UNMOUNTED);
             filter.addDataScheme("file");
-            ApplicationLoader.applicationContext.registerReceiver(receiver, filter);
+            ContextCompat.registerReceiver(ApplicationLoader.applicationContext, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED);
         }
 
         ActionBarMenu menu = parentAlert.actionBar.createMenu();

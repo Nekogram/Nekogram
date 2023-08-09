@@ -1934,7 +1934,7 @@ public class AndroidUtilities {
                 if (value) {
                     if (callReceiver == null) {
                         final IntentFilter filter = new IntentFilter(TelephonyManager.ACTION_PHONE_STATE_CHANGED);
-                        ApplicationLoader.applicationContext.registerReceiver(callReceiver = new CallReceiver(), filter);
+                        ContextCompat.registerReceiver(ApplicationLoader.applicationContext, callReceiver = new CallReceiver(), filter, ContextCompat.RECEIVER_NOT_EXPORTED);
                     }
                 } else {
                     if (callReceiver != null) {

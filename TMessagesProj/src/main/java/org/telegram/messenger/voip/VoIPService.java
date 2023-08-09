@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.pm.ServiceInfo;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -86,6 +87,7 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.Person;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.drawable.IconCompat;
 
 import org.json.JSONObject;
@@ -2951,7 +2953,11 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			builder.setLargeIcon(photo);
 		}
 		try {
-			startForeground(ID_ONGOING_CALL_NOTIFICATION, builder.getNotification());
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+				startForeground(ID_ONGOING_CALL_NOTIFICATION, builder.getNotification(), videoCall ? ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA | ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE : ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE);
+			} else {
+				startForeground(ID_ONGOING_CALL_NOTIFICATION, builder.getNotification());
+			}
 		} catch (Exception e) {
 			if (photo != null && e instanceof IllegalArgumentException) {
 				showNotification(name, null);
@@ -3555,7 +3561,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 				filter.addAction(Intent.ACTION_SCREEN_ON);
 				filter.addAction(Intent.ACTION_SCREEN_OFF);
 			}
-			registerReceiver(receiver, filter);
+			ContextCompat.registerReceiver(this, receiver, filter, ContextCompat.RECEIVER_NOT_EXPORTED);
 			fetchBluetoothDeviceName();
 
 			if (audioDeviceCallback == null) {
@@ -3599,7 +3605,11 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			} else {
 				bldr.setSmallIcon(R.drawable.notification);
 			}
-			startForeground(ID_ONGOING_CALL_NOTIFICATION, bldr.build());
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+				startForeground(ID_ONGOING_CALL_NOTIFICATION, bldr.build(), videoCall ? ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA | ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE : ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE);
+			} else {
+				startForeground(ID_ONGOING_CALL_NOTIFICATION, bldr.build());
+			}
 		}
 	}
 
@@ -4116,7 +4126,11 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		//builder.setContentText(video ? LocaleController.getString("VoipInVideoCallBranding", R.string.VoipInVideoCallBranding) : LocaleController.getString("VoipInCallBranding", R.string.VoipInCallBranding));
 		builder.setLargeIcon(avatar);
 		Notification incomingNotification = builder.build();
-		startForeground(ID_INCOMING_CALL_NOTIFICATION, incomingNotification);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
+			startForeground(ID_INCOMING_CALL_NOTIFICATION, incomingNotification, videoCall ? ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA | ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE : ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE);
+		} else {
+			startForeground(ID_INCOMING_CALL_NOTIFICATION, incomingNotification);
+		}
 		startRingtoneAndVibration();
 	}
 

@@ -35,6 +35,7 @@ import android.view.View;
 import android.widget.RemoteViews;
 
 import androidx.core.app.NotificationCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.exoplayer2.C;
 
@@ -147,7 +148,7 @@ public class MusicPlayerService extends Service implements NotificationCenter.No
             mediaSession.setActive(true);
         }
 
-        registerReceiver(headsetPlugReceiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY));
+        ContextCompat.registerReceiver(this, headsetPlugReceiver, new IntentFilter(AudioManager.ACTION_AUDIO_BECOMING_NOISY), ContextCompat.RECEIVER_NOT_EXPORTED);
 
         super.onCreate();
     }

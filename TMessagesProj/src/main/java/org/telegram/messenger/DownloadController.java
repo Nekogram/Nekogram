@@ -18,6 +18,7 @@ import android.util.Pair;
 import android.util.SparseArray;
 
 import androidx.collection.LongSparseArray;
+import androidx.core.content.ContextCompat;
 
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLitePreparedStatement;
@@ -336,7 +337,7 @@ public class DownloadController extends BaseController implements NotificationCe
             }
         };
         IntentFilter filter = new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
-        ApplicationLoader.applicationContext.registerReceiver(networkStateReceiver, filter);
+        ContextCompat.registerReceiver(ApplicationLoader.applicationContext, networkStateReceiver, filter, Context.RECEIVER_NOT_EXPORTED);
 
         if (getUserConfig().isClientActivated()) {
             checkAutodownloadSettings();
