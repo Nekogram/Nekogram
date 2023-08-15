@@ -64,8 +64,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import tw.nekomimi.nekogram.helpers.PermissionHelper;
-
 public class ImageUpdater implements NotificationCenter.NotificationCenterDelegate, PhotoCropActivity.PhotoEditActivityDelegate {
     private final static int ID_TAKE_PHOTO = 0,
             ID_UPLOAD_FROM_GALLERY = 1,

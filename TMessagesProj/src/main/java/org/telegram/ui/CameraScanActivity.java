@@ -97,7 +97,6 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import tw.nekomimi.nekogram.helpers.PermissionHelper;
 import tw.nekomimi.nekogram.helpers.QrHelper;
 
 @TargetApi(18)
