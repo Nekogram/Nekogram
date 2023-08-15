@@ -177,7 +177,6 @@
     <string name="AppLinkNotVerifiedTitle">Tautan aplikasi tidak terverifikasi</string>
     <string name="AutoTranslate">Terjemahkan otomatis</string>
     <string name="AutoTranslateAbout">Terjemahkan pesan bahasa lain secara otomatis.</string>
-    <string name="CreateMono">Buat Monospace</string>
     <string name="CreateMonoLanguage">Bahasa kode (opsional)</string>
     <string name="DoubleTapAction">Aksi ketuk ganda</string>
     <string name="BlockedUserIgnored">diblokir</string>

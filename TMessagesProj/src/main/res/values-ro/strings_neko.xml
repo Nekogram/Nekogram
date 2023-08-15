@@ -183,7 +183,6 @@
     <string name="AppLinkNotVerifiedTitle">Link-urile aplicației nu sunt verificate</string>
     <string name="AutoTranslate">Traducere automată</string>
     <string name="AutoTranslateAbout">Traduceți automat mesajele în altă limbă.</string>
-    <string name="CreateMono">Creează Monospace</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Activat în mod implicit</string>
     <string name="MarkdownParser">Parser</string>

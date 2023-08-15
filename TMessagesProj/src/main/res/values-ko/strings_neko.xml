@@ -175,7 +175,6 @@
     <string name="AppLinkNotVerifiedTitle">앱 링크가 확인되지 않음</string>
     <string name="AutoTranslate">자동 번역</string>
     <string name="AutoTranslateAbout">다른 언어로 된 메시지를 자동으로 번역합니다.</string>
-    <string name="CreateMono">모노스페이스 생성</string>
     <string name="CreateMonoLanguage">언어 코드 (옵션사항)</string>
     <string name="DoubleTapAction">두번 누루기 기능</string>
     <string name="BlockedUserIgnored">차단함</string>

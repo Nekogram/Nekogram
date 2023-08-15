@@ -189,7 +189,6 @@
     <string name="AppLinkNotVerifiedTitle">لم يتم التحقق من روابط التطبيق</string>
     <string name="AutoTranslate">ترجمة تلقائية</string>
     <string name="AutoTranslateAbout">يمكنك ترجمة الرسائل المكتوبة بلغة أخرى تلقائيًا.</string>
-    <string name="CreateMono">إنشاء مساحة أحادية</string>
     <string name="CreateMonoLanguage">لغة الكود (اختياري)</string>
     <string name="DoubleTapAction">انقر نقرًا مزدوجًا</string>
     <string name="BlockedUserIgnored">تجاهل المستخدم المحظور</string>

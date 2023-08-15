@@ -183,7 +183,6 @@
     <string name="AppLinkNotVerifiedTitle">Linki aplikacji nie zostały zweryfikowane</string>
     <string name="AutoTranslate">Automatyczne tłumaczenie</string>
     <string name="AutoTranslateAbout">Automatycznie tłumacz wiadomości w innym języku.</string>
-    <string name="CreateMono">Utwórz stałą szerokość</string>
     <string name="CreateMonoLanguage">Kod języka (opcjonalnie)</string>
     <string name="DoubleTapAction">Akcja dwukrotnego dotknięcia</string>
     <string name="BlockedUserIgnored">zablokowany</string>

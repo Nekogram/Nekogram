@@ -174,7 +174,6 @@
     <string name="AppLinkNotVerifiedTitle">App-links ikke verificeret</string>
     <string name="AutoTranslate">Automatisk oversættelse</string>
     <string name="AutoTranslateAbout">Oversæt automatisk meddelelser, der er på et andet sprog.</string>
-    <string name="CreateMono">Opret Monospace</string>
     <string name="CreateMonoLanguage">Kode sprog (valgfrit)</string>
     <string name="DoubleTapAction">Handling ved dobbelttryk</string>
     <string name="BlockedUserIgnored">blokeret</string>

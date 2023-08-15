@@ -176,7 +176,6 @@
     <string name="AppLinkNotVerifiedTitle">پیوندهای برنامه تأیید نشده است</string>
     <string name="AutoTranslate">ترجمه خودکار</string>
     <string name="AutoTranslateAbout">ترجمه خودکار پیام هایی که به زبان دیگری هستند.</string>
-    <string name="CreateMono">Monospace را ایجاد کنید</string>
     <string name="CreateMonoLanguage">زبان کد (اختیاری)</string>
     <string name="DoubleTapAction">عملکرد دو ضربه ای</string>
     <string name="BlockedUserIgnored">مسدود شده</string>

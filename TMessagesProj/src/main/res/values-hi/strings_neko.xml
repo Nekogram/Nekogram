@@ -98,7 +98,6 @@
     <string name="OpenAllLinksInInstantView">सभी लिंक्स को इंस्टेंट व्यू में खोलने के लिए ट्राई करें</string>
     <string name="DonateThankYou">धन्यवाद!</string>
     <string name="DonateEvilGoogle">आपके डोनेशन का 30 प्रतिशत गूगल रखेगा।</string>
-    <string name="formatterDay24HSec">घंटा:मिनट:सैकंड</string>
     <string name="formatterDay12HSec">घंटा:मिनट:सैकंड</string>
     <string name="FormatWithSeconds">समय को सेकंड्स के साथ फॉर्मेट करें</string>
     <string name="JumpToBeginning">शुरुआत में जाए</string>
@@ -187,7 +186,6 @@
     <string name="AppLinkNotVerifiedTitle">एप्प लिंक्स वेरिफाई नहीं हो सकी।</string>
     <string name="AutoTranslate">ऑटोमैटिक अनुवाद</string>
     <string name="AutoTranslateAbout">उन संदेशों का स्वचालित रूप से अनुवाद करें जो दूसरी भाषा में हैं।</string>
-    <string name="CreateMono">मोनोस्पेस बनाएं</string>
     <string name="CreateMonoLanguage">भाषा कोड (वैकल्पिक)</string>
     <string name="DoubleTapAction">Double टैप ऐक्शन</string>
     <string name="BlockedUserIgnored">ब्लॉक किए गए</string>

@@ -188,7 +188,8 @@
     <string name="AppLinkNotVerifiedTitle">Ссылки приложения не подтверждены</string>
     <string name="AutoTranslate">Автоперевод</string>
     <string name="AutoTranslateAbout">Автоматически переводить сообщения с иностранного языка.</string>
-    <string name="CreateMono">Создать моноширинный</string>
+    <string name="MonoCode">Код</string>
+    <string name="CreateMono">Создать код</string>
     <string name="CreateMonoLanguage">Язык программирования (необязательно)</string>
     <string name="DoubleTapAction">Действие при двойном нажатии</string>
     <string name="BlockedUserIgnored">заблокирован</string>

@@ -187,7 +187,8 @@
     <string name="AppLinkNotVerifiedTitle">Μη επαληθευμένοι σύνδεσμοι εφαρμογών</string>
     <string name="AutoTranslate">Αυτόματη Μετάφραση</string>
     <string name="AutoTranslateAbout">Αυτόματη μετάφραση μηνυμάτων άλλης γλώσσας χωρίς την παρέμβαση σας.</string>
-    <string name="CreateMono">Δημιουργία Monospace</string>
+    <string name="MonoCode">Κωδικός</string>
+    <string name="CreateMono">Δημιουργία Κωδικού</string>
     <string name="CreateMonoLanguage">Κωδικός γλώσσας (προαιρετικά)</string>
     <string name="DoubleTapAction">Με 2πλό άγγιγμα στο μήνυμα</string>
     <string name="BlockedUserIgnored">αποκλεισμένος</string>

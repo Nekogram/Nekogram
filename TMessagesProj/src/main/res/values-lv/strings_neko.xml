@@ -187,7 +187,6 @@
     <string name="AppLinkNotVerifiedTitle">Programmu saites nav pārbaudītas</string>
     <string name="AutoTranslate">Automātiskais tulkojums</string>
     <string name="AutoTranslateAbout">Automātiski tulkot ziņojumus citā valodā.</string>
-    <string name="CreateMono">Izveidot Monospace</string>
     <string name="CreateMonoLanguage">Kodēšanas valoda (pēc izvēles)</string>
     <string name="DoubleTapAction">Dubultā pieskaršanās darbība</string>
     <string name="BlockedUserIgnored">bloķēts</string>

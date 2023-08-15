@@ -16,8 +16,9 @@
     <string name="FirstLast">Tên đứng cuối</string>
     <string name="LastFirst">Tên đứng đầu</string>
     <string name="NoQuoteForward">Chuyển tiếp không trích dẫn</string>
-    <string name="NoCaptionForward">Helo</string>
+    <string name="NoCaptionForward">Không có phụ đề phía trước</string>
     <string name="NoQuoteForwardShort">Không trích dẫn</string>
+    <string name="NoCaptionForwardShort">Không có chú thích</string>
     <string name="Repeat">Lặp lại</string>
     <string name="AddToSavedMessages">Lưu tin nhắn</string>
     <string name="CreateMention">Tạo đề cập đến</string>
@@ -39,6 +40,8 @@
     <string name="SensitiveDisableFiltering">Vô hiệu hóa bộ lọc nội dung nhạy cảm</string>
     <string name="SensitiveAbout">Hiển thị phương tiện nhạy cảm trong các kênh công cộng trên tất cả các thiết bị của bạn.</string>
     <string name="StickerSize">Kích thước nhãn dán</string>
+    <string name="StickerSizeLeft">Nhỏ</string>
+    <string name="StickerSizeRight">Lớn</string>
     <string name="StickerSizeDialogMessage">Ồ dễ thương quá! Một con mèo đen!</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
     <string name="Experiment">Thử nghiệm</string>
@@ -74,7 +77,7 @@
     <string name="DonateAbout">Hỗ trợ sự phát triển của chúng tôi.</string>
     <string name="TranslationAbout">Hãy giúp chúng tôi dịch Nekogram sang ngôn ngữ của bạn.</string>
     <string name="Translation">Dịch Nekogram</string>
-    <string name="GooglePlay">Google Play</string>
+    <string name="GooglePlay">Cửa hàng Google</string>
     <string name="ResetStickerSize">Đặt lại kích thước nhãn dán</string>
     <string name="RestartAppToTakeEffect">Khởi động lại ứng dụng để có hiệu lực.</string>
     <string name="DisableAppBarShadow">Vô hiệu hóa bóng thanh tiêu đề</string>
@@ -88,7 +91,7 @@
     <string name="AutoPauseVideo">Tự động tạm dừng video</string>
     <string name="AutoPauseVideoAbout">Khi khóa màn hình/chuyển sang nền.</string>
     <string name="DisableProximityEvents">Vô hiệu hóa các sự kiện lân cận</string>
-    <string name="MapDriftingFix">Sửa lỗi bản đồ trôi dạt cho Trung Quốc đại lục</string>
+    <string name="MapDriftingFix">Sửa lỗi bản đồ bị lệch của Trung Quốc đại lục</string>
     <string name="VoiceEnhancements">Cải tiến giọng nói</string>
     <string name="VoiceEnhancementsAbout">Khử tiếng ồn và bình thường hóa giọng nói</string>
     <string name="DisableInstantCamera">Vô hiệu máy ảnh tức thì</string>
@@ -107,7 +110,7 @@
     <string name="LastUpdateRecently">Vừa kiểm tra thành công lần cuối.</string>
     <string name="LastUpdateNever">Không bao giờ kiểm tra trước khi cài </string>
     <string name="CheckingUpdate">Đang kiểm tra cập nhật…</string>
-    <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
+    <string name="ProviderMicrosoftTranslator">Trình dịch Microsoft</string>
     <string name="TranslationProviderShort">Nhà cung cấp dịch vụ</string>
     <string name="ViewSourceCode">Xem mã nguồn</string>
     <string name="AvatarAsBackground">Ảnh đại diện làm hình nền</string>
@@ -119,8 +122,15 @@
     <string name="SelectBetween">Chọn giữa</string>
     <string name="StickerSavedHint">Nhãn dán đã được lưu vào thư viện ảnh</string>
     <string name="RegistrationDate">Ngày đăng ký</string>
+    <string name="RegistrationDateNewer">Mới hơn %s</string>
+    <string name="RegistrationDateOlder">Cũ hơn %s</string>
+    <string name="RegistrationDateApproximately">Khoảng %s</string>
     <string name="WsDescription">Kết nối với Telegram thông qua WebSocket qua Cloudflare. **Tìm hiểu thêm**</string>
     <string name="WsEnableTls">Kích hoạt TLS</string>
+    <string name="WsProvider">Nhà cung cấp</string>
+    <string name="WsNotWorking">Proxy không hoạt động!</string>
+    <string name="WsUseMyOwnDomain">Cách thiết lập nhà cung cấp tùy chỉnh</string>
+    <string name="WsStandaloneApp">Sử dụng proxy trong các ứng dụng khác</string>
     <string name="UpdateNekogram">Cập nhật Nekogram</string>
     <string name="TranslationTarget">Tập trung vào ngôn ngữ</string>
     <string name="TranslationTargetApp">Dựa theo ứng dụng</string>
@@ -177,7 +187,6 @@
     <string name="AppLinkNotVerifiedTitle">Liên kết ứng dụng chưa được xác minh</string>
     <string name="AutoTranslate">Tự động dịch</string>
     <string name="AutoTranslateAbout">Tự động dịch các tin nhắn bằng ngôn ngữ khác.</string>
-    <string name="CreateMono">Tạo Monospace</string>
     <string name="CreateMonoLanguage">Ngôn ngữ mã (tùy chọn)</string>
     <string name="DoubleTapAction">Hành động nhấn đúp</string>
     <string name="BlockedUserIgnored">bị chặn</string>
@@ -201,6 +210,7 @@
     <string name="Translating">đang dịch</string>
     <string name="Translated">đã dịch</string>
     <string name="BrokenMLKit">Không có tùy chọn</string>
+    <string name="BrokenMLKitDetail">Mã định danh ngôn ngữ Malkit bị hỏng trên thiết bị này.</string>
     <string name="PasscodeNeeded">Bạn phải bật khóa mật mã trước tiên</string>
     <string name="PasscodeNeko">Mật mã</string>
     <string name="PasscodeShowInSettings">Hiện trong Cài đặt Neko</string>
@@ -209,19 +219,20 @@
     <string name="PasscodeEdit">Đổi mật mã</string>
     <string name="PasscodeRemove">Xóa mật mã</string>
     <string name="PasscodeHideAccount">Ẩn tài khoản</string>
-    <string name="PasscodeAllowPanic">Đăng xuất với mã hoảng sợ</string>
+    <string name="PasscodeAllowPanic">Đăng xuất với mã panic</string>
     <string name="PasscodeAbout">Đặt các mật mã khác nhau cho từng tài khoản và chuyển đổi giữa chúng bằng cách nhập mật mã tương ứng.</string>
-    <string name="PasscodePanicCode">Mã hoảng sợ</string>
-    <string name="PasscodePanicCodeSet">Đặt mã hoảng sợ</string>
-    <string name="PasscodePanicCodeEdit">Thay đổi mã hoảng sợ</string>
-    <string name="PasscodePanicCodeRemove">Tắt mã hoảng sợ</string>
-    <string name="PasscodePanicCodeRemoveConfirmMessage">Bạn có chắc chắn muốn tắt mã hoảng sợ không?</string>
+    <string name="PasscodePanicCode">Mã Panic</string>
+    <string name="PasscodePanicCodeSet">Đặt mã Panic</string>
+    <string name="PasscodePanicCodeEdit">Thay đổi mã Panic</string>
+    <string name="PasscodePanicCodeRemove">Tắt mã panic</string>
+    <string name="PasscodePanicCodeRemoveConfirmMessage">Bạn có chắc chắn muốn tắt mã panic không?</string>
     <string name="PasscodeRemoveConfirmMessage">Bạn có chắc chắn muốn xóa mật mã cho tài khoản này không?</string>
-    <string name="PasscodePanicCodeAbout">Sử dụng mã hoảng sợ để đăng xuất tài khoản nếu có sự cố.</string>
+    <string name="PasscodePanicCodeAbout">Sử dụng mã panic để đăng xuất tài khoản nếu có sự cố.</string>
     <string name="HideTimeOnSticker">Ẩn thời gian trên nhãn dán</string>
     <string name="TranslatorShowOriginal">Với văn bản gốc</string>
     <string name="DatacenterStatusAbout">Kiểm tra trạng thái của **trung tâm dữ liệu** của Telegram.</string>
     <string name="DatacenterStatus">Trạng thái trung tâm dữ liệu</string>
+    <string name="DatacenterStatusShort">Trung tâm dữ liệu</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Bật theo mặc định</string>
     <string name="MarkdownParser">Trình phân tích cú pháp</string>
@@ -232,7 +243,7 @@
     <string name="AppIconMerio">Merio</string>
     <string name="AppIconRainbow">Cầu vòng</string>
     <string name="AppIconMusheen">Musheen</string>
-    <string name="AppIconSpace">Vũ trụ</string>
+    <string name="AppIconSpace">Khoảng trắng</string>
     <string name="AppIconCloud">Mây</string>
     <string name="AppIconNeon">Phản quang</string>
     <string name="AppIconMaterial">Vật liệu</string>
@@ -272,6 +283,7 @@
     <string name="SendLargePhotos">Gửi ảnh lớn</string>
     <string name="SendLargePhotosAbout">Tăng giới hạn bên trên hình ảnh nén lên 2560px.</string>
     <string name="ExportAsJson">Sao chép dưới dạng JSON</string>
+    <string name="HideStories">Ẩn Câu Chuyện</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>

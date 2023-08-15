@@ -184,7 +184,6 @@
     <string name="AppLinkNotVerifiedTitle">アプリのリンクが確認されていません</string>
     <string name="AutoTranslate">自動翻訳</string>
     <string name="AutoTranslateAbout">他の言語のメッセージを自動的に翻訳します。</string>
-    <string name="CreateMono">等幅の作成</string>
     <string name="CreateMonoLanguage">コード言語 (任意)</string>
     <string name="DoubleTapAction">ダブルタップ時の動作</string>
     <string name="BlockedUserIgnored">ブロック</string>

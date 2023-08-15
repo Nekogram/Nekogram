@@ -165,7 +165,6 @@
     <string name="AppLinkNotVerifiedTitle">鏈接沒有經過驗證</string>
     <string name="AutoTranslate">自動翻譯</string>
     <string name="AutoTranslateAbout">自動翻譯其他語言的訊息。</string>
-    <string name="CreateMono">創建Monospace</string>
     <string name="DoubleTapAction">雙擊事件？</string>
     <string name="BlockedUserIgnored">封鎖</string>
     <!-- Accessibility -->

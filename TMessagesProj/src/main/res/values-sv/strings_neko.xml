@@ -173,7 +173,6 @@
     <string name="AppLinkNotVerifiedTitle">App-länkar inte verifierade</string>
     <string name="AutoTranslate">Automatisk översättning</string>
     <string name="AutoTranslateAbout">Översätt automatiskt meddelanden som är på ett annat språk.</string>
-    <string name="CreateMono">Skapa Monospace</string>
     <string name="CreateMonoLanguage">Kodspråk (frivilligt)</string>
     <string name="DoubleTapAction">Åtgärd vid dubbeltryck</string>
     <string name="BlockedUserIgnored">blockerad</string>

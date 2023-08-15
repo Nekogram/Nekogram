@@ -187,7 +187,8 @@
     <string name="AppLinkNotVerifiedTitle">Посилання додатка неперевірені</string>
     <string name="AutoTranslate">Автоматичний переклад</string>
     <string name="AutoTranslateAbout">Автоматично перекладати іншомовні повідомлення.</string>
-    <string name="CreateMono">Моноширинний шрифт</string>
+    <string name="MonoCode">Код</string>
+    <string name="CreateMono">Створити код</string>
     <string name="CreateMonoLanguage">Мова коду (необов’язково)</string>
     <string name="DoubleTapAction">Дія при подвійному дотику</string>
     <string name="BlockedUserIgnored">заблоковано</string>

@@ -179,7 +179,6 @@
     <string name="AppLinkNotVerifiedTitle">Liens d\'application non vérifiés</string>
     <string name="AutoTranslate">Traduction automatique</string>
     <string name="AutoTranslateAbout">Traduire automatiquement les messages qui sont dans une autre langue.</string>
-    <string name="CreateMono">Créer Monospace</string>
     <string name="CreateMonoLanguage">Langage de code (optionnel)</string>
     <string name="DoubleTapAction">Action de double appui</string>
     <string name="BlockedUserIgnored">bloqué</string>

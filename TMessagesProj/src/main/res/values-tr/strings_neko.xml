@@ -94,7 +94,6 @@
     <string name="OpenAllLinksInInstantView">Anlık Görünümde tüm bağlantıları açmayı dene</string>
     <string name="DonateThankYou">Teşekkürler!</string>
     <string name="DonateEvilGoogle">Google, bağışınızın yüzde 30\'unu alacaktır.</string>
-    <string name="formatterDay24HSec">SS:dd:ss</string>
     <string name="formatterDay12HSec">S:dd:ss a</string>
     <string name="FormatWithSeconds">Sürelerde saniyeyi de göster</string>
     <string name="JumpToBeginning">Başlangıca atla</string>
@@ -183,7 +182,6 @@
     <string name="AppLinkNotVerifiedTitle">Uygulama bağlantıları doğrulanmamış</string>
     <string name="AutoTranslate">Otomatik çeviri</string>
     <string name="AutoTranslateAbout">Başka bir dilde olan mesajları otomatik olarak çevirin.</string>
-    <string name="CreateMono">Eş Aralık Oluştur</string>
     <string name="CreateMonoLanguage">Kod dili (isteğe bağlı)</string>
     <string name="DoubleTapAction">Çift dokunma eylemi</string>
     <string name="BlockedUserIgnored">engellendi</string>

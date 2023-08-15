@@ -174,7 +174,8 @@
     <string name="AppLinkNotVerifiedTitle">App-Links nicht überprüft</string>
     <string name="AutoTranslate">Automatisch übersetzen</string>
     <string name="AutoTranslateAbout">Nachrichten in einer anderen Sprache automatisch übersetzen.</string>
-    <string name="CreateMono">Monospace erstellen</string>
+    <string name="MonoCode">Code</string>
+    <string name="CreateMono">Code erstellen</string>
     <string name="CreateMonoLanguage">Programmiersprache (optional)</string>
     <string name="DoubleTapAction">Doppeltipp-Aktion</string>
     <string name="BlockedUserIgnored">gesperrt</string>
