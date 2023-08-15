@@ -64,8 +64,8 @@ android {
 
     defaultConfig.versionCode = Integer.parseInt(APP_VERSION_CODE)
 
-    applicationVariants.all { variant ->
-        variant.outputs.all { output ->
+    applicationVariants.configureEach { variant ->
+        variant.outputs.configureEach { output ->
             def abi = output.getFilter('ABI')
             if (abi == null) abi = 'universal'
             outputFileName = "Nekogram-${defaultConfig.versionName}-${defaultConfig.versionCode}-${abi}.apk"

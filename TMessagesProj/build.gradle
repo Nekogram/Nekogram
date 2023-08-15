@@ -7,7 +7,7 @@ plugins {
     id 'org.lsposed.lsparanoid'
 }
 
-configurations.all {
+configurations.configureEach {
     exclude group: 'com.google.firebase', module: 'firebase-core'
     exclude group: 'androidx.recyclerview', module: 'recyclerview'
     exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
@@ -24,7 +24,7 @@ dependencies {
     compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
     compileOnly 'org.checkerframework:checker-qual:3.32.0'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.5'
-    implementation 'com.google.firebase:firebase-messaging:23.2.0'
+    implementation 'com.google.firebase:firebase-messaging:23.2.1'
     implementation 'com.google.firebase:firebase-appindexing:20.0.0'
     implementation 'com.google.android.gms:play-services-maps:18.1.0'
     implementation 'com.google.android.gms:play-services-auth:20.6.0'
@@ -45,7 +45,7 @@ dependencies {
         exclude group: 'org.codehaus.mojo', module: 'animal-sniffer-annotations'
     }
 
-    implementation 'androidx.browser:browser:1.5.0'
+    implementation 'androidx.browser:browser:1.6.0'
     implementation 'app.nekogram.prism4j:prism4j:2.1.0'
     implementation 'app.nekogram.tcp2ws:tcp2ws:1.3.1'
     implementation 'app.nekogram.translator:translator:1.3.4'
