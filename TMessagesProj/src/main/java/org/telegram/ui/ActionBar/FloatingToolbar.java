@@ -33,7 +33,6 @@ import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.util.Size;
@@ -45,7 +44,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.MeasureSpec;
 import android.view.View.OnLayoutChangeListener;
-import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.view.ViewOutlineProvider;
 import android.view.animation.Animation;
@@ -260,7 +258,9 @@ public final class FloatingToolbar {
             R.id.menu_link,
             R.id.menu_mono,
             R.id.menu_underline,
-            R.id.menu_spoiler
+            R.id.menu_spoiler,
+            R.id.menu_code,
+            R.id.menu_mention
     );
 
     private final class FloatingToolbarPopup {
@@ -1191,8 +1191,14 @@ public final class FloatingToolbar {
             OverflowPanel(FloatingToolbarPopup popup) {
                 super(popup.mContext);
                 this.mPopup = popup;
-                setScrollBarDefaultDelayBeforeFade(ViewConfiguration.getScrollDefaultDelay() * 3);
-                setScrollIndicators(View.SCROLL_INDICATOR_TOP | View.SCROLL_INDICATOR_BOTTOM);
+                setVerticalScrollBarEnabled(false);
+                setOutlineProvider(new ViewOutlineProvider() {
+                    @Override
+                    public void getOutline(View view, Outline outline) {
+                        outline.setRoundRect(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight() + AndroidUtilities.dp(6), AndroidUtilities.dp(6));
+                    }
+                });
+                setClipToOutline(true);
             }
 
             @Override
@@ -1273,13 +1279,13 @@ public final class FloatingToolbar {
         menuItemButton.setOrientation(LinearLayout.HORIZONTAL);
         menuItemButton.setMinimumWidth(AndroidUtilities.dp(48));
         menuItemButton.setMinimumHeight(AndroidUtilities.dp(48));
-        menuItemButton.setPaddingRelative(AndroidUtilities.dp(11), 0, AndroidUtilities.dp(11), 0);
+        menuItemButton.setPaddingRelative(AndroidUtilities.dp(16), 0, AndroidUtilities.dp(16), 0);
 
         TextView textView = new TextView(context);
         textView.setGravity(Gravity.CENTER);
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
-        if (Build.VERSION.SDK_INT < 31) textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+        textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         textView.setFocusable(false);
         textView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
@@ -1296,7 +1302,11 @@ public final class FloatingToolbar {
         } else {
             color = getThemedColor(Theme.key_windowBackgroundWhiteBlackText);
         }
-        menuItemButton.setBackgroundDrawable(Theme.getSelectorDrawable(selectorColor, false));
+        if (first || last) {
+            menuItemButton.setBackground(Theme.createRadSelectorDrawable(selectorColor, first ? 6 : 0, last ? 6 : 0, last ? 6 : 0, first ? 6 : 0));
+        } else {
+            menuItemButton.setBackground(Theme.getSelectorDrawable(selectorColor, false));
+        }
 
         textView.setPaddingRelative(AndroidUtilities.dp(11), 0, 0, 0);
         menuItemButton.addView(textView, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, AndroidUtilities.dp(48)));
@@ -1348,8 +1358,8 @@ public final class FloatingToolbar {
         contentContainer.setFocusableInTouchMode(true);
         GradientDrawable shape = new GradientDrawable();
         shape.setShape(GradientDrawable.RECTANGLE);
-        int r = AndroidUtilities.dp(Build.VERSION.SDK_INT < 31 ? 6 : 24);
-        shape.setCornerRadius(r);
+        int r = AndroidUtilities.dp(6);
+        shape.setCornerRadii(new float[] { r, r, r, r, r, r, r, r });
         if (currentStyle == STYLE_DIALOG) {
             shape.setColor(getThemedColor(Theme.key_dialogBackground));
         } else if (currentStyle == STYLE_BLACK) {
