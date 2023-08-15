@@ -773,7 +773,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private ActionBarMenuSubItem qrItem;
     private ActionBarMenuSubItem translateItem;
     private String translateFromLanguage = null;
-    private AlertDialog progressDialog;
     private LinearLayout itemsLayout;
     ChooseSpeedLayout chooseSpeedLayout;
     private Map<View, Boolean> actionBarItemsVisibility = new HashMap<>(3);
@@ -18540,21 +18539,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         Object original = currentMessageObject.messageOwner.message;
         currentMessageObject.originalMessage = original;
         final MessageObject finalMessageObject = currentMessageObject;
-        try {
-            progressDialog.dismiss();
-        } catch (Throwable ignore) {
-
-        }
-        progressDialog = new AlertDialog(parentActivity, AlertDialog.ALERT_TYPE_SPINNER, resourcesProvider);
-        progressDialog.showDelayed(400);
+        setCurrentCaption(currentMessageObject, currentMessageObject.caption, true, true);
         Translator.translate(original, translateFromLanguage, new Translator.TranslateCallBack() {
             @Override
             public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
-                try {
-                    progressDialog.dismiss();
-                } catch (Throwable ignore) {
-
-                }
                 if (translation instanceof String) {
                     final String finalMessage = original +
                             "\n" +
@@ -18573,11 +18561,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
             @Override
             public void onError(Throwable t) {
-                try {
-                    progressDialog.dismiss();
-                } catch (Throwable ignore) {
-
-                }
                 Translator.handleTranslationError(parentActivity, t, () -> translateCaption(), resourcesProvider);
             }
         });
