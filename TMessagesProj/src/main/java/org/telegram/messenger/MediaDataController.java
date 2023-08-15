@@ -5229,7 +5229,7 @@ public class MediaDataController extends BaseController {
         }
     }
 
-    public void loadReplyMessagesForMessages(ArrayList<MessageObject> messages, long dialogId, boolean scheduled, int threadMessageId, Runnable callback) {
+    public void loadReplyMessagesForMessages(ArrayList<MessageObject> messages, long dialogId, boolean scheduled, int threadMessageId, Runnable callback, int classGuid) {
         if (DialogObject.isEncryptedDialog(dialogId)) {
             ArrayList<Long> replyMessages = new ArrayList<>();
             LongSparseArray<ArrayList<MessageObject>> replyMessageRandomOwners = new LongSparseArray<>();
@@ -5441,7 +5441,7 @@ public class MediaDataController extends BaseController {
                                 AndroidUtilities.runOnUIThread(callback);
                             }
                         }
-                    });
+                    }, classGuid);
                     if (replyMessageOwners.isEmpty()) {
                         requestsCount[0]--;
                         if (requestsCount[0] == 0) {
@@ -5516,7 +5516,7 @@ public class MediaDataController extends BaseController {
                                 TLRPC.TL_messages_getScheduledMessages req = new TLRPC.TL_messages_getScheduledMessages();
                                 req.peer = getMessagesController().getInputPeer(dialogId);
                                 req.id = dialogReplyMessagesIds.valueAt(a);
-                                getConnectionsManager().sendRequest(req, (response, error) -> {
+                                int reqId = getConnectionsManager().sendRequest(req, (response, error) -> {
                                     if (error == null) {
                                         TLRPC.messages_Messages messagesRes = (TLRPC.messages_Messages) response;
                                         for (int i = 0; i < messagesRes.messages.size(); i++) {
@@ -5578,11 +5578,14 @@ public class MediaDataController extends BaseController {
                                         }
                                     }
                                 });
+                                if (classGuid != 0) {
+                                    getConnectionsManager().bindRequestToGuid(reqId, classGuid);
+                                }
                             } else if (channelId != 0) {
                                 TLRPC.TL_channels_getMessages req = new TLRPC.TL_channels_getMessages();
                                 req.channel = getMessagesController().getInputChannel(channelId);
                                 req.id = dialogReplyMessagesIds.valueAt(a);
-                                getConnectionsManager().sendRequest(req, (response, error) -> {
+                                int reqId = getConnectionsManager().sendRequest(req, (response, error) -> {
                                     if (error == null) {
                                         TLRPC.messages_Messages messagesRes = (TLRPC.messages_Messages) response;
                                         for (int i = 0; i < messagesRes.messages.size(); i++) {
@@ -5604,10 +5607,13 @@ public class MediaDataController extends BaseController {
                                         }
                                     }
                                 });
+                                if (classGuid != 0) {
+                                    getConnectionsManager().bindRequestToGuid(reqId, classGuid);
+                                }
                             } else {
                                 TLRPC.TL_messages_getMessages req = new TLRPC.TL_messages_getMessages();
                                 req.id = dialogReplyMessagesIds.valueAt(a);
-                                getConnectionsManager().sendRequest(req, (response, error) -> {
+                                int reqId = getConnectionsManager().sendRequest(req, (response, error) -> {
                                     if (error == null) {
                                         TLRPC.messages_Messages messagesRes = (TLRPC.messages_Messages) response;
                                         for (int i = 0; i < messagesRes.messages.size(); i++) {
@@ -5628,6 +5634,9 @@ public class MediaDataController extends BaseController {
                                         }
                                     }
                                 });
+                                if (classGuid != 0) {
+                                    getConnectionsManager().bindRequestToGuid(reqId, classGuid);
+                                }
                             }
                         }
                     } else {

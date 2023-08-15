@@ -2872,6 +2872,11 @@ public class ContactsController extends BaseController {
         if (firstName != null) {
             firstName = firstName.trim();
         }
+        if (firstName != null && lastName == null && maxLength > 0 && firstName.contains(" ") ) {
+            int i = firstName.indexOf(" ");
+            lastName = firstName.substring(i + 1);
+            firstName = firstName.substring(0, i);
+        }
         if (lastName != null) {
             lastName = lastName.trim();
         }
@@ -2879,7 +2884,7 @@ public class ContactsController extends BaseController {
         if (NekoConfig.nameOrder == 1) {
             if (firstName != null && firstName.length() > 0) {
                 if (maxLength > 0 && firstName.length() > maxLength + 2) {
-                    return firstName.substring(0, maxLength);
+                    return firstName.substring(0, maxLength) + "…";
                 }
                 result.append(firstName);
                 if (lastName != null && lastName.length() > 0) {
@@ -2892,14 +2897,14 @@ public class ContactsController extends BaseController {
                 }
             } else if (lastName != null && lastName.length() > 0) {
                 if (maxLength > 0 && lastName.length() > maxLength + 2) {
-                    return lastName.substring(0, maxLength);
+                    return lastName.substring(0, maxLength) + "…";
                 }
                 result.append(lastName);
             }
         } else {
             if (lastName != null && lastName.length() > 0) {
                 if (maxLength > 0 && lastName.length() > maxLength + 2) {
-                    return lastName.substring(0, maxLength);
+                    return lastName.substring(0, maxLength) + "…";
                 }
                 result.append(lastName);
                 if (firstName != null && firstName.length() > 0) {
@@ -2912,7 +2917,7 @@ public class ContactsController extends BaseController {
                 }
             } else if (firstName != null && firstName.length() > 0) {
                 if (maxLength > 0 && firstName.length() > maxLength + 2) {
-                    return firstName.substring(0, maxLength);
+                    return firstName.substring(0, maxLength) + "…";
                 }
                 result.append(firstName);
             }

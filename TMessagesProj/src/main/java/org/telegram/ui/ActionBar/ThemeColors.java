@@ -791,6 +791,14 @@ public class ThemeColors {
         defaultColors[key_codehighlight_tag] = 0xFF990055;
         defaultColors[key_codehighlight_url] = 0xFF9A6E3A;
         defaultColors[key_codehighlight_variable] = 0xFFEE9900;
+
+        defaultColors[key_stories_circle1] = 0xFF39DF3C;
+        defaultColors[key_stories_circle2] = 0xFF4DBBFF;
+        defaultColors[key_stories_circle_dialog1] = 0xFF4AED55;
+        defaultColors[key_stories_circle_dialog2] = 0xFF4DC3FF;
+        defaultColors[key_stories_circle_closeFriends1] = 0xFFC9EB38;
+        defaultColors[key_stories_circle_closeFriends2] = 0xFF09C167;
+
         return defaultColors;
     }
 
@@ -1544,6 +1552,13 @@ public class ThemeColors {
         colorKeysMap.put(key_codehighlight_tag, "key_codehighlight_tag");
         colorKeysMap.put(key_codehighlight_url, "key_codehighlight_url");
         colorKeysMap.put(key_codehighlight_variable, "key_codehighlight_variable");
+
+        colorKeysMap.put(key_stories_circle1, "stories_circle1");
+        colorKeysMap.put(key_stories_circle2, "stories_circle2");
+        colorKeysMap.put(key_stories_circle_dialog1, "stories_circle_dialog1");
+        colorKeysMap.put(key_stories_circle_dialog2, "stories_circle_dialog2");
+        colorKeysMap.put(key_stories_circle_closeFriends1, "stories_circle_closeFriends1");
+        colorKeysMap.put(key_stories_circle_closeFriends2, "stories_circle_closeFriends2");
 
         return colorKeysMap;
     }

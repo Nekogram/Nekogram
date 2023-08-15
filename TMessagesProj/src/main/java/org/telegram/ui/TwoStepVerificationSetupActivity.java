@@ -345,6 +345,9 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
         VerticalPositionAutoAnimator.attach(bottomSkipButton);
         bottomSkipButton.setPadding(AndroidUtilities.dp(32), 0, AndroidUtilities.dp(32), 0);
         bottomSkipButton.setOnClickListener(v -> {
+            if (bottomSkipButton.getAlpha() < .5f) {
+                return;
+            }
             if (currentType == TYPE_CREATE_PASSWORD_STEP_1) {
                 needShowProgress();
                 TLRPC.TL_auth_recoverPassword req = new TLRPC.TL_auth_recoverPassword();
@@ -1087,9 +1090,12 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 actionBar.getTitleTextView().setAlpha(0.0f);
                 if (!emailOnly) {
                     bottomSkipButton.setVisibility(View.VISIBLE);
+                    bottomSkipButton.setAlpha(0f);
                     bottomSkipButton.setText(LocaleController.getString("YourEmailSkip", R.string.YourEmailSkip));
                 }
                 titleTextView.setText(LocaleController.getString("RecoveryEmailTitle", R.string.RecoveryEmailTitle));
+                descriptionText.setText(LocaleController.getString("RecoveryEmailSubtitle", R.string.RecoveryEmailSubtitle));
+                descriptionText.setVisibility(View.VISIBLE);
                 outlineTextFirstRow.setText(LocaleController.getString(R.string.PaymentShippingEmailPlaceholder));
                 editTextFirstRow.setContentDescription(LocaleController.getString(R.string.PaymentShippingEmailPlaceholder));
                 editTextFirstRow.setImeOptions(EditorInfo.IME_ACTION_NEXT | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
@@ -1485,6 +1491,10 @@ public class TwoStepVerificationSetupActivity extends BaseFragment {
                 break;
             }
             case TYPE_ENTER_EMAIL: {
+                if (!emailOnly && bottomSkipButton.getAlpha() < 1) {
+                    bottomSkipButton.animate().cancel();
+                    bottomSkipButton.animate().alpha(1f).start();
+                }
                 email = editTextFirstRow.getText().toString();
                 if (!isValidEmail(email)) {
                     onFieldError(outlineTextFirstRow, editTextFirstRow, false);
