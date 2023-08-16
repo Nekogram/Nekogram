@@ -234,7 +234,7 @@ public final class FloatingToolbar {
                 Menu subMenu = menuItem.getSubMenu();
                 if (subMenu != null) {
                     menuItems.addAll(getVisibleAndEnabledMenuItems(subMenu));
-                } else if (menuItem.getItemId() != android.R.id.textAssist && (menuItem.getItemId() != R.id.menu_regular || premiumLockClickListener == null)) {
+                } else if (menuItem.getGroupId() != android.R.id.textAssist && (menuItem.getItemId() != R.id.menu_regular || premiumLockClickListener == null)) {
                     menuItems.add(menuItem);
                 }
             }
