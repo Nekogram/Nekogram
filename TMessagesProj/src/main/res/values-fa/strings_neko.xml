@@ -17,6 +17,8 @@
     <string name="LastFirst">نام خانوادگی و نام</string>
     <string name="NoQuoteForward">هدایت بدون نقل قول</string>
     <string name="NoCaptionForward">هدایت بدون عنوان</string>
+    <string name="NoQuoteForwardShort">بدون نقل قول</string>
+    <string name="NoCaptionForwardShort">بدون توضیحات</string>
     <string name="Repeat">تکرار</string>
     <string name="AddToSavedMessages">ذخیره پیام</string>
     <string name="CreateMention">ایجاد منشن</string>
@@ -38,6 +40,8 @@
     <string name="SensitiveDisableFiltering">غیرفعال کردن فیلتر محتوای حساس</string>
     <string name="SensitiveAbout">رسانه های حساس را در کانال های عمومی در همه دستگاه های خود نمایش دهید.</string>
     <string name="StickerSize">اندازه استیکر</string>
+    <string name="StickerSizeLeft">کوچک</string>
+    <string name="StickerSizeRight">بزرگ</string>
     <string name="StickerSizeDialogMessage">اوه چه بامزه! یک گربه سیاه!</string>
     <string name="StickerSizeDialogMessageReplyTo">میو</string>
     <string name="Experiment">آزمایشی</string>
@@ -118,8 +122,15 @@
     <string name="SelectBetween">انتخاب بین</string>
     <string name="StickerSavedHint">استیکر در گالری ذخیره شد</string>
     <string name="RegistrationDate">تاریخ ثبت نام</string>
+    <string name="RegistrationDateNewer">جدیدتر از %s</string>
+    <string name="RegistrationDateOlder">قدیمی تر از %s</string>
+    <string name="RegistrationDateApproximately">تقریبا %s</string>
     <string name="WsDescription">اتصال به تلگرام از طریق WebSocket از طریق Cloudflare. در این مورد بیشتر بیاید</string>
     <string name="WsEnableTls">فعال کردن TLS</string>
+    <string name="WsProvider">ارائه دهنده</string>
+    <string name="WsNotWorking">پروکسی کار نمی کند!</string>
+    <string name="WsUseMyOwnDomain">چگونه یک ارائه دهنده سفارشی را راه‌اندازی کنیم</string>
+    <string name="WsStandaloneApp">استفاده از پروکسی در برنامه های دیگر</string>
     <string name="UpdateNekogram">بروز رسانی نکوگرام</string>
     <string name="TranslationTarget">زبان مقصد</string>
     <string name="TranslationTargetApp">مانند برنامه</string>
@@ -176,6 +187,8 @@
     <string name="AppLinkNotVerifiedTitle">پیوندهای برنامه تأیید نشده است</string>
     <string name="AutoTranslate">ترجمه خودکار</string>
     <string name="AutoTranslateAbout">ترجمه خودکار پیام هایی که به زبان دیگری هستند.</string>
+    <string name="MonoCode">کد</string>
+    <string name="CreateMono">ساخت کد</string>
     <string name="CreateMonoLanguage">زبان کد (اختیاری)</string>
     <string name="DoubleTapAction">عملکرد دو ضربه ای</string>
     <string name="BlockedUserIgnored">مسدود شده</string>
@@ -199,6 +212,7 @@
     <string name="Translating">درحال ترجمه</string>
     <string name="Translated">ترجمه شده</string>
     <string name="BrokenMLKit">گزینه وجود ندارد</string>
+    <string name="BrokenMLKitDetail">شناسه زبان MLKit در این دستگاه شکسته شده است.</string>
     <string name="PasscodeNeeded">ابتدا رمز عبور را فعال کنید</string>
     <string name="PasscodeNeko">رمز عبور</string>
     <string name="PasscodeShowInSettings">نمایش در تنظیمات نکو</string>
@@ -271,6 +285,7 @@
     <string name="SendLargePhotos">ارسال عکس بزرگ</string>
     <string name="SendLargePhotosAbout">محدودیت جانبی در تصاویر فشرده شده را به 2560 پیکسل افزایش بده.</string>
     <string name="ExportAsJson">کپی به عنوان JSON</string>
+    <string name="HideStories">مخفی کردن استوری ها</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
 </resources>
