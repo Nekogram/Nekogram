@@ -11382,7 +11382,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     captionScrollView.setTranslationY(0);
                 }
             }
-            if (videoPlayerControlVisible && isPlaying) {
+            if (videoPlayerControlVisible/* && isPlaying*/) {
                 final ValueAnimator anim = ValueAnimator.ofFloat(photoProgressViews[0].animAlphas[1], show ? 1.0f : 0.0f);
                 anim.addUpdateListener(a -> photoProgressViews[0].setIndexedAlpha(1, (float) a.getAnimatedValue(), false));
                 arrayList.add(anim);
@@ -11447,7 +11447,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             if (muteItem.getTag() != null) {
                 muteItem.setAlpha(show ? 1.0f : 0.0f);
             }
-            if (videoPlayerControlVisible && isPlaying) {
+            if (videoPlayerControlVisible/* && isPlaying*/) {
                 photoProgressViews[0].setIndexedAlpha(1, show ? 1f : 0f, false);
             }
         }
