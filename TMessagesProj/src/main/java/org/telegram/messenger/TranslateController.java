@@ -1045,7 +1045,7 @@ public class TranslateController extends BaseController {
     public boolean canTranslateStory(TLRPC.StoryItem storyItem) {
         return storyItem != null && !TextUtils.isEmpty(storyItem.caption) && !Emoji.fullyConsistsOfEmojis(storyItem.caption) && (
             storyItem.detectedLng == null && storyItem.translatedText != null ||
-            storyItem.detectedLng != null && !NekoConfig.restrictedLanguages.contains(storyItem.detectedLng)
+            storyItem.detectedLng != null && !Translator.isLanguageRestricted(storyItem.detectedLng)
         );
     }
 
