@@ -399,6 +399,12 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             sizeBar.setValue(value);
             messagesCell.invalidate();
         }
+
+        @Override
+        public void invalidate() {
+            super.invalidate();
+            messagesCell.invalidate();
+        }
     }
 
     @SuppressLint("ViewConstructor")
