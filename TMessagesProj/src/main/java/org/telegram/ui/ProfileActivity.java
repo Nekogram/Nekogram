@@ -7960,7 +7960,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
 
             onlineTextView[2].setVisibility(View.VISIBLE);
-            onlineTextView[3].setVisibility(View.VISIBLE);
+            if (!searchMode) {
+                onlineTextView[3].setVisibility(View.VISIBLE);
+            }
 
             if (previousTransitionFragment != null) {
                 previousTransitionFragment.checkAndUpdateAvatar();
@@ -8614,6 +8616,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         avatarContainer.setVisibility(View.VISIBLE);
         nameTextView[1].setVisibility(View.VISIBLE);
         onlineTextView[1].setVisibility(View.VISIBLE);
+        onlineTextView[3].setVisibility(View.VISIBLE);
         if (NekoConfig.idType != NekoConfig.ID_TYPE_HIDDEN) idTextView.setVisibility(View.VISIBLE);
 
         actionBar.onSearchFieldVisibilityChanged(searchTransitionProgress > 0.5f);
@@ -8664,6 +8667,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             nameTextView[1].setAlpha(progressHalf);
             onlineTextView[1].setAlpha(progressHalf);
+            onlineTextView[3].setAlpha(progressHalf);
             idTextView.setAlpha(((float) idTextView.getTag()) * progressHalf);
 
             searchItem.getSearchField().setAlpha(progressHalfEnd);
@@ -8744,6 +8748,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         nameTextView[1].setVisibility(hide);
         onlineTextView[1].setVisibility(hide);
+        onlineTextView[3].setVisibility(hide);
         if (NekoConfig.idType != NekoConfig.ID_TYPE_HIDDEN) idTextView.setVisibility(hide);
 
         if (otherItem != null) {
