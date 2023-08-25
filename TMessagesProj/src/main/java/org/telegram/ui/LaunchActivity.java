@@ -1664,7 +1664,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         boolean pushOpened = false;
         long push_user_id = 0;
         long push_chat_id = 0;
-        long profile_user_id = 0;
+        long profile_dialog_id = 0;
         long[] push_story_dids = null;
         int push_story_id = 0;
         int push_topic_id = 0;
@@ -2503,7 +2503,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         String userID = data.getQueryParameter("id");
                                         if (userID != null) {
                                             try {
-                                                profile_user_id = Long.parseLong(userID);
+                                                profile_dialog_id = Long.parseLong(userID);
+                                            } catch (NumberFormatException ignore) {
+                                            }
+                                        }
+                                    } else if (url.startsWith("tg:chat") || url.startsWith("tg://chat")) {
+                                        url = url.replace("tg:chat", "tg://telegram.org").replace("tg://chat", "tg://telegram.org");
+                                        data = Uri.parse(url);
+                                        String chatID = data.getQueryParameter("id");
+                                        if (chatID != null) {
+                                            try {
+                                                profile_dialog_id = -Long.parseLong(chatID);
                                             } catch (NumberFormatException ignore) {
                                             }
                                         }
@@ -2868,11 +2878,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     pushOpened = true;
                     drawerLayoutContainer.closeDrawer();
                 }
-            } else if (profile_user_id != 0) {
+            } else if (profile_dialog_id != 0) {
                 Bundle args = new Bundle();
-                args.putLong("user_id", profile_user_id);
+                if (profile_dialog_id < 0) {
+                    args.putLong("chat_id", -profile_dialog_id);
+                } else {
+                    args.putLong("user_id", profile_dialog_id);
+                }
                 ProfileActivity fragment = new ProfileActivity(args);
-                UserHelper.getInstance(currentAccount).openById(profile_user_id, this, () -> {
+                UserHelper.getInstance(currentAccount).openByDialogId(profile_dialog_id, this, () -> {
                     AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
                     if (AndroidUtilities.isTablet()) {
                         actionBarLayout.showLastFragment();

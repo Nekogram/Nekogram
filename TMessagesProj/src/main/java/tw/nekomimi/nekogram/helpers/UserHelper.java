@@ -41,40 +41,42 @@ public class UserHelper extends BaseController {
         return localInstance;
     }
 
-    public void openById(Long userId, Activity activity, Runnable runnable, Browser.Progress progress) {
-        if (userId == 0 || activity == null) {
+    public void openByDialogId(long dialogId, Activity activity, Runnable runnable, Browser.Progress progress) {
+        if (dialogId == 0 || activity == null) {
             return;
         }
-        TLRPC.User user = getMessagesController().getUser(userId);
-        if (user != null) {
-            runnable.run();
-        } else {
-            AlertDialog progressDialog = progress != null ? null : new AlertDialog(activity, AlertDialog.ALERT_TYPE_SPINNER);
-
-            searchUser(userId, user1 -> {
-                if (progress != null) {
-                    progress.end();
-                }
-                if (progressDialog != null) {
-                    try {
-                        progressDialog.dismiss();
-                    } catch (Exception ignored) {
-
-                    }
-                }
-                if (user1 != null && user1.access_hash != 0) {
-                    runnable.run();
-                }
-            });
+        AlertDialog progressDialog = progress != null ? null : new AlertDialog(activity, AlertDialog.ALERT_TYPE_SPINNER);
+        searchPeer(dialogId, found -> {
             if (progress != null) {
-                progress.init();
-            } else {
+                progress.end();
+            }
+            if (progressDialog != null) {
                 try {
-                    progressDialog.showDelayed(300);
-                } catch (Exception ignore) {
+                    progressDialog.dismiss();
+                } catch (Exception ignored) {
 
                 }
             }
+            if (found) {
+                runnable.run();
+            }
+        });
+        if (progress != null) {
+            progress.init();
+        } else {
+            try {
+                progressDialog.showDelayed(300);
+            } catch (Exception ignore) {
+
+            }
+        }
+    }
+
+    public void searchPeer(long dialogId, Utilities.Callback<Boolean> callback) {
+        if (dialogId < 0) {
+            searchChat(-dialogId, chat -> callback.run(chat != null && chat.access_hash != 0));
+        } else {
+            searchUser(dialogId, user -> callback.run(user != null && user.access_hash != 0));
         }
     }
 
@@ -84,11 +86,26 @@ public class UserHelper extends BaseController {
             callback.run(user);
             return;
         }
-        searchUser(Extra.getUserInfoBot(false), userId, true, true, user1 -> {
+        searchUser(Extra.getUserInfoBot(false), userId, user1 -> {
             if (user1 == null) {
-                searchUser(Extra.getUserInfoBot(true), userId, true, true, callback);
+                searchUser(Extra.getUserInfoBot(true), userId, callback);
             } else {
                 callback.run(user1);
+            }
+        });
+    }
+
+    public void searchChat(long chatId, Utilities.Callback<TLRPC.Chat> callback) {
+        var chat = getMessagesController().getChat(chatId);
+        if (chat != null) {
+            callback.run(chat);
+            return;
+        }
+        searchChat(Extra.getUserInfoBot(false), chatId, chat1 -> {
+            if (chat1 == null) {
+                searchChat(Extra.getUserInfoBot(true), chatId, callback);
+            } else {
+                callback.run(chat1);
             }
         });
     }
@@ -97,6 +114,20 @@ public class UserHelper extends BaseController {
         resolvePeer(userName, peer -> {
             if (peer instanceof TLRPC.TL_peerUser) {
                 callback.run(peer.user_id == userId ? getMessagesController().getUser(userId) : null);
+            } else {
+                callback.run(null);
+            }
+        });
+    }
+
+    private void resolveChat(String userName, long chatId, Utilities.Callback<TLRPC.Chat> callback) {
+        resolvePeer(userName, peer -> {
+            if (peer instanceof TLRPC.TL_peerChat || peer instanceof TLRPC.TL_peerChannel) {
+                if (peer.chat_id == chatId || peer.channel_id == chatId) {
+                    callback.run(getMessagesController().getChat(chatId));
+                } else {
+                    callback.run(null);
+                }
             } else {
                 callback.run(null);
             }
@@ -119,21 +150,73 @@ public class UserHelper extends BaseController {
         }));
     }
 
-    private void searchUser(Extra.UserInfoBot botInfo, long userId, boolean searchUser, boolean cache, Utilities.Callback<TLRPC.User> callback) {
+    private void searchUser(Extra.UserInfoBot botInfo, long userId, Utilities.Callback<TLRPC.User> callback) {
+        searchPeer(botInfo, userId, true, true, lines -> {
+            if (lines == null) {
+                callback.run(null);
+                return;
+            }
+            var fakeUser = botInfo.parseUser(lines);
+            if (fakeUser.id == 0) {
+                callback.run(null);
+                return;
+            }
+            if (fakeUser.username != null) {
+                resolveUser(fakeUser.username, fakeUser.id, user -> {
+                    if (user != null) {
+                        callback.run(user);
+                    } else {
+                        fakeUser.username = null;
+                        callback.run(fakeUser);
+                    }
+                });
+            } else {
+                callback.run(fakeUser);
+            }
+        });
+    }
+
+    private void searchChat(Extra.UserInfoBot botInfo, long chatId, Utilities.Callback<TLRPC.Chat> callback) {
+        searchPeer(botInfo, -1000000000000L - chatId, true, true, lines -> {
+            if (lines == null) {
+                callback.run(null);
+                return;
+            }
+            var fakeChat = botInfo.parseChat(lines);
+            if (fakeChat.id == 0) {
+                callback.run(null);
+                return;
+            }
+            if (fakeChat.username != null) {
+                resolveChat(fakeChat.username, fakeChat.id, chat -> {
+                    if (chat != null) {
+                        callback.run(chat);
+                    } else {
+                        fakeChat.username = null;
+                        callback.run(fakeChat);
+                    }
+                });
+            } else {
+                callback.run(fakeChat);
+            }
+        });
+    }
+
+    private void searchPeer(Extra.UserInfoBot botInfo, long id, boolean searchUser, boolean cache, Utilities.Callback<String[]> callback) {
         var bot = getMessagesController().getUser(botInfo.getId());
         if (bot == null) {
             if (searchUser) {
-                resolveUser(botInfo.getUsername(), botInfo.getId(), user -> searchUser(botInfo, userId, false, false, callback));
+                resolveUser(botInfo.getUsername(), botInfo.getId(), user -> searchPeer(botInfo, id, false, false, callback));
             } else {
                 callback.run(null);
             }
             return;
         }
 
-        var key = "user_search_" + userId + "_" + botInfo.getId();
+        var key = "peer_search_" + id + "_" + botInfo.getId();
         RequestDelegate requestDelegate = (response, error) -> AndroidUtilities.runOnUIThread(() -> {
             if (cache && (!(response instanceof TLRPC.messages_BotResults) || ((TLRPC.messages_BotResults) response).results.isEmpty())) {
-                searchUser(botInfo, userId, searchUser, false, callback);
+                searchPeer(botInfo, id, searchUser, false, callback);
                 return;
             }
 
@@ -156,23 +239,7 @@ public class UserHelper extends BaseController {
                     callback.run(null);
                     return;
                 }
-                var fakeUser = botInfo.parseUser(lines);
-                if (fakeUser.id == 0) {
-                    callback.run(null);
-                    return;
-                }
-                if (fakeUser.username != null) {
-                    resolveUser(fakeUser.username, fakeUser.id, user -> {
-                        if (user != null) {
-                            callback.run(user);
-                        } else {
-                            fakeUser.username = null;
-                            callback.run(fakeUser);
-                        }
-                    });
-                } else {
-                    callback.run(fakeUser);
-                }
+                callback.run(lines);
             } else {
                 callback.run(null);
             }
@@ -182,7 +249,7 @@ public class UserHelper extends BaseController {
             getMessagesStorage().getBotCache(key, requestDelegate);
         } else {
             TLRPC.TL_messages_getInlineBotResults req = new TLRPC.TL_messages_getInlineBotResults();
-            req.query = String.valueOf(userId);
+            req.query = String.valueOf(id);
             req.bot = getMessagesController().getInputUser(bot);
             req.offset = "";
             req.peer = new TLRPC.TL_inputPeerEmpty();
