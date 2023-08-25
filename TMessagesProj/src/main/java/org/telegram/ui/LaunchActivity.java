@@ -214,9 +214,9 @@ import java.util.regex.Pattern;
 import tw.nekomimi.nekogram.forward.ForwardContext;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.MonetHelper;
 import tw.nekomimi.nekogram.helpers.SettingsHelper;
+import tw.nekomimi.nekogram.helpers.UserHelper;
 import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 import tw.nekomimi.nekogram.settings.NekoDonateActivity;
@@ -2872,7 +2872,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 Bundle args = new Bundle();
                 args.putLong("user_id", profile_user_id);
                 ProfileActivity fragment = new ProfileActivity(args);
-                MessageHelper.getInstance(currentAccount).openById(profile_user_id, this, () -> {
+                UserHelper.getInstance(currentAccount).openById(profile_user_id, this, () -> {
                     AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
                     if (AndroidUtilities.isTablet()) {
                         actionBarLayout.showLastFragment();

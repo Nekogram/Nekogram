@@ -60,6 +60,7 @@ import org.telegram.ui.Stories.StoryViewer;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.helpers.MessageHelper;
+import tw.nekomimi.nekogram.helpers.UserHelper;
 
 public abstract class BaseFragment {
 
@@ -783,6 +784,10 @@ public abstract class BaseFragment {
 
     public MessageHelper getMessageHelper() {
         return MessageHelper.getInstance(currentAccount);
+    }
+
+    public UserHelper getUserHelper() {
+        return UserHelper.getInstance(currentAccount);
     }
 
     public void setFragmentPanTranslationOffset(int offset) {

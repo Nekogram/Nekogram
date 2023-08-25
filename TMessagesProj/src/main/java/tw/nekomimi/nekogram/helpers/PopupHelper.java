@@ -107,17 +107,17 @@ public class PopupHelper {
             var dcPopupWrapper = new DatacenterPopupWrapper(fragment, popupLayout.getSwipeBack(), fragment.getResourceProvider());
             int swipeBackIndex = popupLayout.addViewToSwipeBack(dcPopupWrapper.windowLayout);
             ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_satellite, LocaleController.getString("DatacenterStatusShort", R.string.DatacenterStatusShort), false, fragment.getResourceProvider());
-            subItem.setSubtext(MessageHelper.formatDCString(dc));
+            subItem.setSubtext(UserHelper.formatDCString(dc));
             subItem.setOnClickListener(v -> popupLayout.getSwipeBack().openForeground(swipeBackIndex));
         }
         if (id != 0 && user) {
             ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_calendar, LocaleController.getString("RegistrationDate", R.string.RegistrationDate), false, fragment.getResourceProvider());
-            MessageHelper.RegDate regDate = MessageHelper.getRegDate(id);
-            subItem.setSubtext(regDate != null ? MessageHelper.formatRegDate(regDate) : LocaleController.getString("Loading", R.string.Loading));
+            UserHelper.RegDate regDate = UserHelper.getRegDate(id);
+            subItem.setSubtext(regDate != null ? UserHelper.formatRegDate(regDate) : LocaleController.getString("Loading", R.string.Loading));
             if (regDate == null) {
-                MessageHelper.getRegDate(id, arg -> {
+                UserHelper.getRegDate(id, arg -> {
                     if (arg != null) {
-                        subItem.setSubtext(MessageHelper.formatRegDate(arg), true);
+                        subItem.setSubtext(UserHelper.formatRegDate(arg), true);
                     } else {
                         subItem.setSubtext(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred), true);
                     }

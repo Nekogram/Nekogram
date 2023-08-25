@@ -17,7 +17,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
 
-import tw.nekomimi.nekogram.helpers.MessageHelper;
+import tw.nekomimi.nekogram.helpers.UserHelper;
 import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
 
 public class DatacenterPopupWrapper {
@@ -37,7 +37,7 @@ public class DatacenterPopupWrapper {
         }
 
         for (var datacenterInfo : NekoConfig.datacenterInfos) {
-            var item = ActionBarMenuItem.addItem(windowLayout, 0, MessageHelper.formatDCString(datacenterInfo.id), false, resourcesProvider);
+            var item = ActionBarMenuItem.addItem(windowLayout, 0, UserHelper.formatDCString(datacenterInfo.id), false, resourcesProvider);
             item.setTag(datacenterInfo);
             item.setOnClickListener(view -> {
                 if (datacenterInfo.checking) {
