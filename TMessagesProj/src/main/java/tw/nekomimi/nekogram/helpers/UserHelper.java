@@ -41,10 +41,6 @@ public class UserHelper extends BaseController {
         return localInstance;
     }
 
-    public interface UserCallback {
-        void onResult(TLRPC.User user);
-    }
-
     public void openById(Long userId, Activity activity, Runnable runnable, Browser.Progress progress) {
         if (userId == 0 || activity == null) {
             return;
@@ -82,16 +78,32 @@ public class UserHelper extends BaseController {
         }
     }
 
-    public void searchUser(long userId, UserCallback callback) {
+    public void searchUser(long userId, Utilities.Callback<TLRPC.User> callback) {
         var user = getMessagesController().getUser(userId);
         if (user != null) {
-            callback.onResult(user);
+            callback.run(user);
             return;
         }
-        searchUser(userId, true, true, callback);
+        searchUser(Extra.getUserInfoBot(false), userId, true, true, user1 -> {
+            if (user1 == null) {
+                searchUser(Extra.getUserInfoBot(true), userId, true, true, callback);
+            } else {
+                callback.run(user1);
+            }
+        });
     }
 
-    private void resolveUser(String userName, long userId, UserCallback callback) {
+    private void resolveUser(String userName, long userId, Utilities.Callback<TLRPC.User> callback) {
+        resolvePeer(userName, peer -> {
+            if (peer instanceof TLRPC.TL_peerUser) {
+                callback.run(peer.user_id == userId ? getMessagesController().getUser(userId) : null);
+            } else {
+                callback.run(null);
+            }
+        });
+    }
+
+    private void resolvePeer(String userName, Utilities.Callback<TLRPC.Peer> callback) {
         TLRPC.TL_contacts_resolveUsername req = new TLRPC.TL_contacts_resolveUsername();
         req.username = userName;
         getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
@@ -100,28 +112,28 @@ public class UserHelper extends BaseController {
                 getMessagesController().putUsers(res.users, false);
                 getMessagesController().putChats(res.chats, false);
                 getMessagesStorage().putUsersAndChats(res.users, res.chats, true, true);
-                callback.onResult(res.peer.user_id == userId ? getMessagesController().getUser(userId) : null);
+                callback.run(res.peer);
             } else {
-                callback.onResult(null);
+                callback.run(null);
             }
         }));
     }
 
-    protected void searchUser(long userId, boolean searchUser, boolean cache, UserCallback callback) {
-        var bot = getMessagesController().getUser(Extra.USER_INFO_BOT_ID);
+    private void searchUser(Extra.UserInfoBot botInfo, long userId, boolean searchUser, boolean cache, Utilities.Callback<TLRPC.User> callback) {
+        var bot = getMessagesController().getUser(botInfo.getId());
         if (bot == null) {
             if (searchUser) {
-                resolveUser(Extra.USER_INFO_BOT, Extra.USER_INFO_BOT_ID, user -> searchUser(userId, false, false, callback));
+                resolveUser(botInfo.getUsername(), botInfo.getId(), user -> searchUser(botInfo, userId, false, false, callback));
             } else {
-                callback.onResult(null);
+                callback.run(null);
             }
             return;
         }
 
-        var key = "user_search_" + userId;
+        var key = "user_search_" + userId + "_" + botInfo.getId();
         RequestDelegate requestDelegate = (response, error) -> AndroidUtilities.runOnUIThread(() -> {
             if (cache && (!(response instanceof TLRPC.messages_BotResults) || ((TLRPC.messages_BotResults) response).results.isEmpty())) {
-                searchUser(userId, searchUser, false, callback);
+                searchUser(botInfo, userId, searchUser, false, callback);
                 return;
             }
 
@@ -131,50 +143,38 @@ public class UserHelper extends BaseController {
                     getMessagesStorage().saveBotCache(key, res);
                 }
                 if (res.results.isEmpty()) {
-                    callback.onResult(null);
+                    callback.run(null);
                     return;
                 }
                 var result = res.results.get(0);
                 if (result.send_message == null || TextUtils.isEmpty(result.send_message.message)) {
-                    callback.onResult(null);
+                    callback.run(null);
                     return;
                 }
                 var lines = result.send_message.message.split("\n");
                 if (lines.length < 3) {
-                    callback.onResult(null);
+                    callback.run(null);
                     return;
                 }
-                var fakeUser = new TLRPC.TL_user();
-                for (var line : lines) {
-                    line = line.replaceAll("\\p{C}", "").trim();
-                    if (line.startsWith("\uD83D\uDC64")) {
-                        fakeUser.id = Utilities.parseLong(line.replace("\uD83D\uDC64", ""));
-                    } else if (line.startsWith("\uD83D\uDC66\uD83C\uDFFB")) {
-                        fakeUser.first_name = line.replace("\uD83D\uDC66\uD83C\uDFFB", "").trim();
-                    } else if (line.startsWith("\uD83D\uDC6A")) {
-                        fakeUser.last_name = line.replace("\uD83D\uDC6A", "").trim();
-                    } else if (line.startsWith("\uD83C\uDF10")) {
-                        fakeUser.username = line.replace("\uD83C\uDF10", "").replace("@", "").trim();
-                    }
-                }
+                var fakeUser = botInfo.parseUser(lines);
                 if (fakeUser.id == 0) {
-                    callback.onResult(null);
+                    callback.run(null);
                     return;
                 }
                 if (fakeUser.username != null) {
                     resolveUser(fakeUser.username, fakeUser.id, user -> {
                         if (user != null) {
-                            callback.onResult(user);
+                            callback.run(user);
                         } else {
                             fakeUser.username = null;
-                            callback.onResult(fakeUser);
+                            callback.run(fakeUser);
                         }
                     });
                 } else {
-                    callback.onResult(fakeUser);
+                    callback.run(fakeUser);
                 }
             } else {
-                callback.onResult(null);
+                callback.run(null);
             }
         });
 

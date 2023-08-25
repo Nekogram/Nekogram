@@ -1,6 +1,7 @@
 package tw.nekomimi.nekogram;
 
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.TLRPC;
 
 import tw.nekomimi.nekogram.helpers.UserHelper;
 
@@ -34,5 +35,17 @@ public class Extra {
 
     public static void getRegDate(long userId, Utilities.Callback<UserHelper.RegDate> callback) {
         throw new RuntimeException("Apparently not possible");
+    }
+
+    abstract public static class UserInfoBot {
+        abstract public long getId();
+
+        abstract public String getUsername();
+
+        abstract public TLRPC.TL_user parseUser(String[] lines);
+    }
+
+    public static UserInfoBot getUserInfoBot(boolean fallback) {
+        throw new RuntimeException("TODO");
     }
 }
