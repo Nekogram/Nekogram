@@ -7,6 +7,7 @@
     <string name="DeleteAllFromSelf">Eigene Nachrichten löschen</string>
     <string name="DeleteAllFromSelfAlert">Achtung! Dies wird **alle Nachrichten von dir** für **alle** Teilnehmer in diesem Chat **löschen**.</string>
     <string name="BotLogin">Bot-Anmeldung</string>
+    <string name="BotLoginMessage">Gib das Bot-Token ein, welches du von **@BotFather** erhalten hast.</string>
     <string name="InvalidAccessToken">Ungültiger Zugriffstoken</string>
     <string name="IgnoreBlocked">Nachrichten von blockierten Benutzern ausblenden</string>
     <string name="Connection">Verbindung</string>
@@ -15,6 +16,7 @@
     <string name="FirstLast">Nachname zuerst</string>
     <string name="LastFirst">Vorname zuerst</string>
     <string name="NoQuoteForward">Ohne Zitat weiterleiten</string>
+    <string name="NoCaptionForwardShort">Keine Űberschrift</string>
     <string name="Repeat">Wiederholen</string>
     <string name="AddToSavedMessages">Nachricht speichern</string>
     <string name="CreateMention">Erwähnung erstellen</string>
@@ -36,6 +38,8 @@
     <string name="SensitiveDisableFiltering">Filter für sensiblen Inhalt deaktivieren</string>
     <string name="SensitiveAbout">Sensible Medien in öffentlichen Kanälen auf all Ihren Geräten anzeigen.</string>
     <string name="StickerSize">Stickergröße</string>
+    <string name="StickerSizeLeft">Klein</string>
+    <string name="StickerSizeRight">Groß</string>
     <string name="StickerSizeDialogMessage">Oh wie süß, eine schwarze Katze!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="Experiment">Experimentell</string>
@@ -116,8 +120,15 @@
     <string name="SelectBetween">Wählen Sie zwischen</string>
     <string name="StickerSavedHint">Sticker in Galerie gespeichert</string>
     <string name="RegistrationDate">Registrierungsdatum</string>
+    <string name="RegistrationDateNewer">Neuer als %s</string>
+    <string name="RegistrationDateOlder">Älter als %s</string>
+    <string name="RegistrationDateApproximately">Ungefähr %s</string>
     <string name="WsDescription">Mit Telegram über WebSocket via Cloudflare verbinden. **Mehr erfahren**</string>
     <string name="WsEnableTls">TLS aktivieren</string>
+    <string name="WsProvider">Anbieter</string>
+    <string name="WsNotWorking">Der Proxy funktioniert nicht!</string>
+    <string name="WsUseMyOwnDomain">Wie man einen benutzerdefinierten Anbieter einrichtet</string>
+    <string name="WsStandaloneApp">Nutze den Proxy in anderen Apps</string>
     <string name="UpdateNekogram">Nekogram aktualisieren</string>
     <string name="TranslationTarget">Zielsprache</string>
     <string name="TranslationTargetApp">System folgen</string>
@@ -220,6 +231,7 @@
     <string name="TranslatorShowOriginal">Mit Originaltext</string>
     <string name="DatacenterStatusAbout">Überprüfen Sie den Status von Telegrams **Rechenzentren**.</string>
     <string name="DatacenterStatus">Status des Rechenzentrums</string>
+    <string name="DatacenterStatusShort">Rechenzentrum</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Standardmäßig einschalten</string>
     <string name="MarkdownParser">Parser (Zerteiler)</string>
@@ -269,6 +281,8 @@
     <string name="SendAnonymousDataDesc">Die oben genannten Funktionen verwenden das von Microsoft bereitgestellte Visual Studio App Center. Die erfassten Informationen sind anonym und können nicht zu einem unabhängigen Gerät oder Benutzer zurückverfolgt werden.</string>
     <string name="SendLargePhotos">Große Fotos senden</string>
     <string name="SendLargePhotosAbout">Erhöhen Sie die Seitenbegrenzung für komprimierte Bilder auf 2560px.</string>
+    <string name="ExportAsJson">Kopiere als JSON</string>
+    <string name="HideStories">Verberge Stories</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Bedienungshilfen</string>
 </resources>

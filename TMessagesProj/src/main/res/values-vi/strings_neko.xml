@@ -187,6 +187,8 @@
     <string name="AppLinkNotVerifiedTitle">Liên kết ứng dụng chưa được xác minh</string>
     <string name="AutoTranslate">Tự động dịch</string>
     <string name="AutoTranslateAbout">Tự động dịch các tin nhắn bằng ngôn ngữ khác.</string>
+    <string name="MonoCode">Mã</string>
+    <string name="CreateMono">Tạo mã</string>
     <string name="CreateMonoLanguage">Ngôn ngữ mã (tùy chọn)</string>
     <string name="DoubleTapAction">Hành động nhấn đúp</string>
     <string name="BlockedUserIgnored">bị chặn</string>

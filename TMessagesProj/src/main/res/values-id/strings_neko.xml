@@ -16,6 +16,9 @@
     <string name="FirstLast">Nama Belakang</string>
     <string name="LastFirst">Nama Depan</string>
     <string name="NoQuoteForward">Teruskan Tanpa Kutip</string>
+    <string name="NoCaptionForward">Teruskan Tanpa Keterangan</string>
+    <string name="NoQuoteForwardShort">Tanpa Kutipan</string>
+    <string name="NoCaptionForwardShort">Tanpa Keterangan</string>
     <string name="Repeat">Ulangi</string>
     <string name="AddToSavedMessages">Simpan pesan</string>
     <string name="CreateMention">Buat sebutan</string>
@@ -37,6 +40,8 @@
     <string name="SensitiveDisableFiltering">Nonaktifkan filter konten sensitif</string>
     <string name="SensitiveAbout">Tampilkan media sensitif di channel publik di semua perangkat Anda.</string>
     <string name="StickerSize">Ukuran stiker</string>
+    <string name="StickerSizeLeft">Kecil</string>
+    <string name="StickerSizeRight">Besar</string>
     <string name="StickerSizeDialogMessage">Oh lucu sekali! Seekor kucing hitam!</string>
     <string name="StickerSizeDialogMessageReplyTo">Meong</string>
     <string name="Experiment">Eksperimental</string>
@@ -119,8 +124,13 @@
     <string name="RegistrationDate">Tanggal registrasi</string>
     <string name="RegistrationDateNewer">Lebih baru dari %s</string>
     <string name="RegistrationDateOlder">Lebih tua dari %s</string>
+    <string name="RegistrationDateApproximately">Sekitar %s</string>
     <string name="WsDescription">Terhubung ke Telegram melalui WebSocket melalui Cloudflare. **Pelajari lebih lanjut**</string>
     <string name="WsEnableTls">Nyalakan TLS</string>
+    <string name="WsProvider">Penyedia</string>
+    <string name="WsNotWorking">Proxy tidak berfungsi!</string>
+    <string name="WsUseMyOwnDomain">Cara menyiapkan penyedia layanan khusus</string>
+    <string name="WsStandaloneApp">Gunakan proxy di aplikasi lain</string>
     <string name="UpdateNekogram">Perbarui Nekogram</string>
     <string name="TranslationTarget">Bahasa tujuan</string>
     <string name="TranslationTargetApp">Mengikuti aplikasi</string>
@@ -177,6 +187,8 @@
     <string name="AppLinkNotVerifiedTitle">Tautan aplikasi tidak terverifikasi</string>
     <string name="AutoTranslate">Terjemahkan otomatis</string>
     <string name="AutoTranslateAbout">Terjemahkan pesan bahasa lain secara otomatis.</string>
+    <string name="MonoCode">Kode</string>
+    <string name="CreateMono">Buat Kode</string>
     <string name="CreateMonoLanguage">Bahasa kode (opsional)</string>
     <string name="DoubleTapAction">Aksi ketuk ganda</string>
     <string name="BlockedUserIgnored">diblokir</string>
@@ -200,6 +212,7 @@
     <string name="Translating">menerjemahkan</string>
     <string name="Translated">diterjemahkan</string>
     <string name="BrokenMLKit">Pengaturan tidak tersedia</string>
+    <string name="BrokenMLKitDetail">Pengidentifikasi bahasa MLKit rusak pada perangkat ini.</string>
     <string name="PasscodeNeeded">Anda harus mengaktifkan sandi terlebih dahulu</string>
     <string name="PasscodeNeko">Sandi</string>
     <string name="PasscodeShowInSettings">Tampilkan di Pengaturan Neko</string>
@@ -221,6 +234,7 @@
     <string name="TranslatorShowOriginal">Dengan teks asli</string>
     <string name="DatacenterStatusAbout">Cek status **pusat data** Telegram.</string>
     <string name="DatacenterStatus">Status pusat data</string>
+    <string name="DatacenterStatusShort">Pusat Data</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Aktifkan secara default</string>
     <string name="MarkdownParser">Pengurai</string>
@@ -270,6 +284,8 @@
     <string name="SendAnonymousDataDesc">Fitur-fitur di atas menggunakan Visual Studio App Center yang disediakan oleh Microsoft. Informasi yang dikumpulkan bersifat anonim dan kami tidak dapat melacaknya kembali ke perangkat atau pengguna independen.</string>
     <string name="SendLargePhotos">Kirim foto berukuran besar</string>
     <string name="SendLargePhotosAbout">Menaikkan batas pixel pada kompresi gambar menjadi 2560px.</string>
+    <string name="ExportAsJson">Salin sebagai JSON</string>
+    <string name="HideStories">Sembunyikan Cerita</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Setelan Aksesibilitas</string>
 </resources>
