@@ -2,6 +2,8 @@ package tw.nekomimi.nekogram.helpers;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -20,6 +22,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -71,6 +74,7 @@ import java.nio.charset.CharacterCodingException;
 import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
@@ -429,6 +433,10 @@ public class MessageHelper extends BaseController {
     }
 
     public void createDeleteHistoryAlert(BaseFragment fragment, TLRPC.Chat chat, TLRPC.TL_forumTopic forumTopic, long mergeDialogId, Theme.ResourcesProvider resourcesProvider) {
+        createDeleteHistoryAlert(fragment, chat, forumTopic, mergeDialogId, -1, resourcesProvider);
+    }
+
+    private void createDeleteHistoryAlert(BaseFragment fragment, TLRPC.Chat chat, TLRPC.TL_forumTopic forumTopic, long mergeDialogId, int before, Theme.ResourcesProvider resourcesProvider) {
         if (fragment == null || fragment.getParentActivity() == null || chat == null) {
             return;
         }
@@ -436,7 +444,7 @@ public class MessageHelper extends BaseController {
         Context context = fragment.getParentActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
 
-        CheckBoxCell cell = forumTopic == null && ChatObject.isChannel(chat) && ChatObject.canUserDoAction(chat, ChatObject.ACTION_DELETE_MESSAGES) ? new CheckBoxCell(context, 1, resourcesProvider) : null;
+        CheckBoxCell cell = before == -1 && forumTopic == null && ChatObject.isChannel(chat) && ChatObject.canUserDoAction(chat, ChatObject.ACTION_DELETE_MESSAGES) ? new CheckBoxCell(context, 1, resourcesProvider) : null;
 
         TextView messageTextView = new TextView(context);
         messageTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
@@ -497,13 +505,18 @@ public class MessageHelper extends BaseController {
             });
         }
 
-        messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("DeleteAllFromSelfAlert", R.string.DeleteAllFromSelfAlert)));
+        if (before > 0) {
+            messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.formatString("DeleteAllFromSelfAlertBefore", R.string.DeleteAllFromSelfAlertBefore, LocaleController.formatDateForBan(before))));
+        } else {
+            messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("DeleteAllFromSelfAlert", R.string.DeleteAllFromSelfAlert)));
+        }
 
+        builder.setNeutralButton(LocaleController.getString("DeleteAllFromSelfBefore", R.string.DeleteAllFromSelfBefore), (dialog, which) -> showBeforeDatePickerAlert(fragment, before1 -> createDeleteHistoryAlert(fragment, chat, forumTopic, mergeDialogId, before1, resourcesProvider)));
         builder.setPositiveButton(LocaleController.getString("DeleteAll", R.string.DeleteAll), (dialogInterface, i) -> {
             if (cell != null && cell.isChecked()) {
                 showDeleteHistoryBulletin(fragment, 0, false, () -> getMessagesController().deleteUserChannelHistory(chat, getUserConfig().getCurrentUser(), null, 0), resourcesProvider);
             } else {
-                deleteUserHistoryWithSearch(fragment, -chat.id, forumTopic != null ? forumTopic.id : 0, mergeDialogId, (count, deleteAction) -> showDeleteHistoryBulletin(fragment, count, true, deleteAction, resourcesProvider));
+                deleteUserHistoryWithSearch(fragment, -chat.id, forumTopic != null ? forumTopic.id : 0, mergeDialogId, before == -1 ? getConnectionsManager().getCurrentTime() : before, (count, deleteAction) -> showDeleteHistoryBulletin(fragment, count, true, deleteAction, resourcesProvider));
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -513,6 +526,65 @@ public class MessageHelper extends BaseController {
         if (button != null) {
             button.setTextColor(Theme.getColor(Theme.key_text_RedBold, resourcesProvider));
         }
+    }
+
+    private void showBeforeDatePickerAlert(BaseFragment fragment, Utilities.Callback<Integer> callback) {
+        Context context = fragment.getParentActivity();
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setTitle(LocaleController.getString("DeleteAllFromSelfBefore", R.string.DeleteAllFromSelfBefore));
+        builder.setItems(new CharSequence[]{
+                LocaleController.formatPluralString("Days", 1),
+                LocaleController.formatPluralString("Weeks", 1),
+                LocaleController.formatPluralString("Months", 1),
+                LocaleController.getString("UserRestrictionsCustom", R.string.UserRestrictionsCustom)
+        }, (dialog1, which) -> {
+            switch (which) {
+                case 0:
+                    callback.run(getConnectionsManager().getCurrentTime() - 60 * 60 * 24);
+                    break;
+                case 1:
+                    callback.run(getConnectionsManager().getCurrentTime() - 60 * 60 * 24 * 7);
+                    break;
+                case 2:
+                    callback.run(getConnectionsManager().getCurrentTime() - 60 * 60 * 24 * 30);
+                    break;
+                case 3: {
+                    Calendar calendar = Calendar.getInstance();
+                    DatePickerDialog dateDialog = new DatePickerDialog(context, (view1, year1, month, dayOfMonth1) -> {
+                        TimePickerDialog timeDialog = new TimePickerDialog(context, (view11, hourOfDay, minute) -> {
+                            calendar.set(year1, month, dayOfMonth1, hourOfDay, minute);
+                            callback.run((int) (calendar.getTimeInMillis() / 1000));
+                        }, calendar.get(Calendar.HOUR_OF_DAY), calendar.get(Calendar.MINUTE), true);
+                        timeDialog.setButton(DialogInterface.BUTTON_POSITIVE, LocaleController.getString("Set", R.string.Set), timeDialog);
+                        timeDialog.setButton(DialogInterface.BUTTON_NEGATIVE, LocaleController.getString("Cancel", R.string.Cancel), (dialog3, which3) -> {
+                        });
+                        fragment.showDialog(timeDialog);
+                    }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+
+                    final DatePicker datePicker = dateDialog.getDatePicker();
+
+                    datePicker.setMinDate(1375315200000L);
+                    datePicker.setMaxDate(System.currentTimeMillis());
+
+                    dateDialog.setButton(DialogInterface.BUTTON_POSITIVE, LocaleController.getString("Set", R.string.Set), dateDialog);
+                    dateDialog.setButton(DialogInterface.BUTTON_NEGATIVE, LocaleController.getString("Cancel", R.string.Cancel), (dialog2, which2) -> {
+                    });
+                    dateDialog.setOnShowListener(dialog12 -> {
+                        int count = datePicker.getChildCount();
+                        for (int b = 0; b < count; b++) {
+                            View child = datePicker.getChildAt(b);
+                            ViewGroup.LayoutParams layoutParams = child.getLayoutParams();
+                            layoutParams.width = LayoutHelper.MATCH_PARENT;
+                            child.setLayoutParams(layoutParams);
+                        }
+                    });
+                    fragment.showDialog(dateDialog);
+                    break;
+                }
+            }
+            builder.getDismissRunnable().run();
+        });
+        fragment.showDialog(builder.create());
     }
 
     public static void showDeleteHistoryBulletin(BaseFragment fragment, int count, boolean search, Runnable delayedAction, Theme.ResourcesProvider resourcesProvider) {
@@ -569,13 +641,17 @@ public class MessageHelper extends BaseController {
         getNotificationCenter().postNotificationName(NotificationCenter.replaceMessagesObjects, dialogId, arrayList, false);
     }
 
-    public void deleteUserHistoryWithSearch(BaseFragment fragment, final long dialogId, int replyMessageId, final long mergeDialogId, SearchMessagesResultCallback callback) {
+    public void deleteUserHistoryWithSearch(BaseFragment fragment, final long dialogId) {
+        deleteUserHistoryWithSearch(fragment, dialogId, 0, 0, -1, null);
+    }
+
+    private void deleteUserHistoryWithSearch(BaseFragment fragment, final long dialogId, int replyMessageId, final long mergeDialogId, int before, SearchMessagesResultCallback callback) {
         Utilities.globalQueue.postRunnable(() -> {
             ArrayList<Integer> messageIds = new ArrayList<>();
             var latch = new CountDownLatch(1);
             var peer = getMessagesController().getInputPeer(dialogId);
             var fromId = MessagesController.getInputPeer(getUserConfig().getCurrentUser());
-            doSearchMessages(fragment, latch, messageIds, peer, replyMessageId, fromId, Integer.MAX_VALUE, 0);
+            doSearchMessages(fragment, latch, messageIds, peer, replyMessageId, fromId, before, Integer.MAX_VALUE, 0);
             try {
                 latch.await();
             } catch (Exception e) {
@@ -587,18 +663,15 @@ public class MessageHelper extends BaseController {
                 for (int i = 0; i < N; i += 100) {
                     lists.add(new ArrayList<>(messageIds.subList(i, Math.min(N, i + 100))));
                 }
-                var deleteAction = new Runnable() {
-                    @Override
-                    public void run() {
-                        for (ArrayList<Integer> list : lists) {
-                            getMessagesController().deleteMessages(list, null, null, dialogId, true, false);
-                        }
+                Runnable deleteAction = () -> {
+                    for (ArrayList<Integer> list : lists) {
+                        getMessagesController().deleteMessages(list, null, null, dialogId, true, false);
                     }
                 };
                 AndroidUtilities.runOnUIThread(callback != null ? () -> callback.run(messageIds.size(), deleteAction) : deleteAction);
             }
             if (mergeDialogId != 0) {
-                deleteUserHistoryWithSearch(fragment, mergeDialogId, 0, 0, null);
+                deleteUserHistoryWithSearch(fragment, mergeDialogId, 0, 0, before, null);
             }
         });
     }
@@ -607,7 +680,7 @@ public class MessageHelper extends BaseController {
         void run(int count, Runnable deleteAction);
     }
 
-    public void doSearchMessages(BaseFragment fragment, CountDownLatch latch, ArrayList<Integer> messageIds, TLRPC.InputPeer peer, int replyMessageId, TLRPC.InputPeer fromId, int offsetId, long hash) {
+    private void doSearchMessages(BaseFragment fragment, CountDownLatch latch, ArrayList<Integer> messageIds, TLRPC.InputPeer peer, int replyMessageId, TLRPC.InputPeer fromId, int before, int offsetId, long hash) {
         var req = new TLRPC.TL_messages_search();
         req.peer = peer;
         req.limit = 100;
@@ -631,12 +704,12 @@ public class MessageHelper extends BaseController {
                 var newOffsetId = offsetId;
                 for (TLRPC.Message message : res.messages) {
                     newOffsetId = Math.min(newOffsetId, message.id);
-                    if (!message.out || message.post) {
+                    if (!message.out || message.post || message.date >= before) {
                         continue;
                     }
                     messageIds.add(message.id);
                 }
-                doSearchMessages(fragment, latch, messageIds, peer, replyMessageId, fromId, newOffsetId, calcMessagesHash(res.messages));
+                doSearchMessages(fragment, latch, messageIds, peer, replyMessageId, fromId, before, newOffsetId, calcMessagesHash(res.messages));
             } else {
                 if (error != null) {
                     AndroidUtilities.runOnUIThread(() -> AlertsCreator.showSimpleAlert(fragment, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + error.text));
