@@ -65,6 +65,7 @@ import java.util.Iterator;
 import java.util.Set;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.forward.ForwardContext;
 import tw.nekomimi.nekogram.forward.ForwardItem;
 
 public class SearchViewPager extends ViewPagerFixed implements FilteredSearchView.UiCallback {
@@ -542,13 +543,21 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             });
         } else if (id == forwardItemId || id == forwardNoQuoteItemId || id == forwardNoCaptionItemId) {
             NekoConfig.setLastForwardOption(id);
+            ArrayList<MessageObject> fmessages = new ArrayList<>(selectedFiles.values());
+            ForwardContext forwardContext = () -> fmessages;
+            forwardContext.setForwardParams(id == forwardNoQuoteItemId, id == forwardNoQuoteItemId);
+            if (NekoConfig.quickForward) {
+                forwardContext.openShareAlert(parent, null, () -> {
+                    selectedFiles.clear();
+                    showActionMode(false);
+                });
+                return;
+            }
             Bundle args = new Bundle();
             args.putBoolean("onlySelect", true);
             args.putInt("dialogsType", DialogsActivity.DIALOGS_TYPE_FORWARD);
             DialogsActivity fragment = new DialogsActivity(args);
-            ArrayList<MessageObject> fmessages = new ArrayList<>(selectedFiles.values());
-            fragment.forwardContext = () -> fmessages;
-            fragment.forwardContext.setForwardParams(id == forwardNoQuoteItemId, id == forwardNoQuoteItemId);
+            fragment.forwardContext = forwardContext;
             var forwardParams = fragment.forwardContext.getForwardParams();
             fragment.setDelegate((fragment1, dids, message, param, topicsFragment) -> {
                 selectedFiles.clear();

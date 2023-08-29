@@ -55,6 +55,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
     private int chatRow;
     private int ignoreBlockedRow;
+    private int quickForwardRow;
     private int hideKeyboardOnChatScrollRow;
     private int tryToOpenAllLinksInIVRow;
     private int disableJumpToNextRow;
@@ -284,6 +285,11 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                 ((TextCheckCell) view).setChecked(NekoConfig.markdownParseLinks);
             }
             listAdapter.notifyItemChanged(markdown2Row);
+        } else if (position == quickForwardRow) {
+            NekoConfig.toggleQuickForward();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.quickForward);
+            }
         }
     }
 
@@ -307,6 +313,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
         chatRow = addRow("chat");
         ignoreBlockedRow = addRow("ignoreBlocked");
+        quickForwardRow = addRow("quickForward");
         hideKeyboardOnChatScrollRow = addRow("hideKeyboardOnChatScroll");
         tryToOpenAllLinksInIVRow = addRow("tryToOpenAllLinksInIV");
         disableJumpToNextRow = addRow("disableJumpToNext");
@@ -632,6 +639,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         textCell.setTextAndCheck(LocaleController.getString("MarkdownEnableByDefault", R.string.MarkdownEnableByDefault), !NekoConfig.disableMarkdownByDefault, true);
                     } else if (position == markdownParseLinksRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MarkdownParseLinks", R.string.MarkdownParseLinks), NekoConfig.markdownParseLinks, false);
+                    } else if (position == quickForwardRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("QuickForward", R.string.QuickForward), NekoConfig.quickForward, true);
                     }
                     break;
                 }

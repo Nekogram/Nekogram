@@ -3693,6 +3693,18 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 return;
             }
             NekoConfig.setLastForwardOption(id);
+            setForwardParams(id == forward_noquote, id == forward_nocaption);
+            if (NekoConfig.quickForward) {
+                openShareAlert(profileActivity, null, () -> {
+                    for (int a = 1; a >= 0; a--) {
+                        selectedFiles[a].clear();
+                    }
+                    cantDeleteMessagesCount = 0;
+                    showActionMode(false);
+                    updateRowsSelection(true);
+                });
+                return;
+            }
 
             Bundle args = new Bundle();
             args.putBoolean("onlySelect", true);
@@ -3700,8 +3712,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             args.putInt("dialogsType", DialogsActivity.DIALOGS_TYPE_FORWARD);
             DialogsActivity fragment = new DialogsActivity(args);
             fragment.forwardContext = this;
-            fragment.forwardContext.setForwardParams(id == forward_noquote, id == forward_nocaption);
-            var forwardParams = fragment.forwardContext.getForwardParams();
+            var forwardParams = getForwardParams();
             ArrayList<MessageObject> fmessages = getForwardingMessages();
             fragment.setDelegate((fragment1, dids, message, param, topicsFragment) -> {
                 for (int a = 1; a >= 0; a--) {

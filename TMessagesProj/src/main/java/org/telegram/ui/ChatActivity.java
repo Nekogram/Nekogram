@@ -9490,6 +9490,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
             return;
         }
+        if (NekoConfig.quickForward) {
+            openShareAlert(this, this, () -> {
+                for (int a = 1; a >= 0; a--) {
+                    selectedMessagesCanCopyIds[a].clear();
+                    selectedMessagesCanStarIds[a].clear();
+                    selectedMessagesIds[a].clear();
+                }
+                hideActionMode();
+                updatePinnedMessageView(true);
+                updateVisibleRows();
+            });
+            return;
+        }
         int hasPoll = 0;
         boolean hasInvoice = false;
         for (int a = 0; a < 2; a++) {
@@ -26100,6 +26113,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 NekoConfig.setLastForwardOption(option);
                 forwardingMessage = selectedObject;
                 forwardingMessageGroup = selectedObjectGroup;
+                if (NekoConfig.quickForward) {
+                    openShareAlert(this, this, () -> {
+                        forwardingMessage = null;
+                        forwardingMessageGroup = null;
+                    });
+                    break;
+                }
                 Bundle args = new Bundle();
                 args.putBoolean("onlySelect", true);
                 args.putInt("dialogsType", DialogsActivity.DIALOGS_TYPE_FORWARD);
