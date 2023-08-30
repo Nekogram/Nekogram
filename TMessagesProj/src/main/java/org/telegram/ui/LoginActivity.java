@@ -3764,6 +3764,14 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                         }
                         resendCode();
                     } else {
+                        if (currentType == AUTH_TYPE_MESSAGE) {
+                            new AlertDialog.Builder(context)
+                                    .setTitle(LocaleController.getString(R.string.RestorePasswordNoEmailTitle))
+                                    .setMessage(AndroidUtilities.replaceTags(LocaleController.getString("DidNotGetTheCodeBlameDurov", R.string.DidNotGetTheCodeBlameDurov)))
+                                    .setPositiveButton(LocaleController.getString(R.string.Close), null)
+                                    .show();
+                            return;
+                        }
                         new AlertDialog.Builder(context)
                                 .setTitle(LocaleController.getString(R.string.RestorePasswordNoEmailTitle))
                                 .setMessage(AndroidUtilities.replaceTags(LocaleController.formatString("DidNotGetTheCodeInfo", R.string.DidNotGetTheCodeInfo, phone)))
