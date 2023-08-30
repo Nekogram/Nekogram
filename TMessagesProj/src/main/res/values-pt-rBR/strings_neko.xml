@@ -6,6 +6,8 @@
     <string name="HidePhone">Ocultar meu número de telefone</string>
     <string name="DeleteAllFromSelf">Apagar minhas mensagens</string>
     <string name="DeleteAllFromSelfAlert">Aviso! Isso irá **excluir todas as suas mensagens** nesse chat para **todos** os participantes.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Atenção! Isso **excluirá todas suas mensagens antes de %s** nesse chat para **todos** os participantes.</string>
+    <string name="DeleteAllFromSelfBefore">Antes de...</string>
     <string name="BotLogin">Login via Bot</string>
     <string name="BotLoginMessage">Insira o token do bot obtido através do **@BotFather**.</string>
     <string name="InvalidAccessToken">Token de acesso inválido</string>
@@ -287,6 +289,7 @@
     <string name="SendLargePhotosAbout">Aumenta o limite de imagens comprimidas para 2560px.</string>
     <string name="ExportAsJson">Copiar em JSON</string>
     <string name="HideStories">Ocultar Stories</string>
+    <string name="QuickForward">Usar o menu de encaminhamento rápido</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>

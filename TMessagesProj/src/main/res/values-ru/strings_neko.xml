@@ -6,6 +6,8 @@
     <string name="HidePhone">Скрыть мой номер телефона</string>
     <string name="DeleteAllFromSelf">Удалить мои сообщения</string>
     <string name="DeleteAllFromSelfAlert">Внимание! Это **удалит все ваши сообщения** в этом чате для **всех**.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Осторожно! Это **удалит все ваши сообщения от вас до %s** в этом чате для **всех** участников.</string>
+    <string name="DeleteAllFromSelfBefore">До...</string>
     <string name="BotLogin">Вход по токену</string>
     <string name="BotLoginMessage">Введите токен бота, полученный от **@BotFather**.</string>
     <string name="InvalidAccessToken">Токен недействителен</string>
@@ -287,6 +289,7 @@
     <string name="SendLargePhotosAbout">Увеличить размер сторон на сжатых изображениях до 2560px.</string>
     <string name="ExportAsJson">Скопировать как JSON</string>
     <string name="HideStories">Скрыть истории</string>
+    <string name="QuickForward">Использовать меню быстрой пересылки</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>

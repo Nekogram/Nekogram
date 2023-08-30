@@ -6,6 +6,8 @@
     <string name="HidePhone">إخفاء رقم هاتفي</string>
     <string name="DeleteAllFromSelf">حذف الرسائل الخاصة بي</string>
     <string name="DeleteAllFromSelfAlert">تحذير! سيؤدي هذا إلى **حذفَ جميع الرسائل منكَ** في هذه المحادثة لـ **جميع** المشاركين.</string>
+    <string name="DeleteAllFromSelfAlertBefore">تحذير! سيؤدي هذا إلى حذف **جميع الرسائل منك قبل %s** في هذه المحادثة لـ **جميع المشاركين**.</string>
+    <string name="DeleteAllFromSelfBefore">قبل...</string>
     <string name="BotLogin">تسجيل الدخول کبوت</string>
     <string name="BotLoginMessage">أدخل رمز البوت الذي تم الحصول عليه من **@BotFather**.</string>
     <string name="InvalidAccessToken">مفتاح التوكن غيرُ صالح</string>
@@ -189,6 +191,8 @@
     <string name="AppLinkNotVerifiedTitle">لم يتم التحقق من روابط التطبيق</string>
     <string name="AutoTranslate">ترجمة تلقائية</string>
     <string name="AutoTranslateAbout">يمكنك ترجمة الرسائل المكتوبة بلغة أخرى تلقائيًا.</string>
+    <string name="MonoCode">رمز</string>
+    <string name="CreateMono">إنشاء رمز</string>
     <string name="CreateMonoLanguage">لغة الكود (اختياري)</string>
     <string name="DoubleTapAction">انقر نقرًا مزدوجًا</string>
     <string name="BlockedUserIgnored">تجاهل المستخدم المحظور</string>
@@ -286,6 +290,7 @@
     <string name="SendLargePhotosAbout">زيادة الحد الجانبي على الصور المضغوطة إلى 2560 بكسل.</string>
     <string name="ExportAsJson">نسخ كملف جيسون</string>
     <string name="HideStories">إخفاء القصص</string>
+    <string name="QuickForward">إستخدام قائمة التقدم السريع</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

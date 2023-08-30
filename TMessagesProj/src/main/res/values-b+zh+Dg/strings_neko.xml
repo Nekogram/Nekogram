@@ -6,6 +6,8 @@
     <string name="HidePhone">隐藏咱的手机号</string>
     <string name="DeleteAllFromSelf">自闭</string>
     <string name="DeleteAllFromSelfAlert">警告！这将为此会话中的 **所有人** 删除 **全部您发出的消息**。</string>
+    <string name="DeleteAllFromSelfAlertBefore">警告！这将为此会话中的 **所有人** 删除 **全部您在%s前发出的消息**。</string>
+    <string name="DeleteAllFromSelfBefore">早于...</string>
     <string name="BotLogin">机器人登录</string>
     <string name="BotLoginMessage">输入从 **@BotFather** 获得的机器人令牌。</string>
     <string name="InvalidAccessToken">无效的访问令牌</string>
@@ -287,6 +289,8 @@
     <string name="SendLargePhotosAbout">将压缩图片的侧边限制增加到 2560px。</string>
     <string name="ExportAsJson">复制为 JSON</string>
     <string name="HideStories">隐藏动态</string>
+    <string name="QuickForward">使用快速转发菜单</string>
+    <string name="DidNotGetTheCodeBlameDurov">如果您没有在另一台设备上收到验证码，请用短信登录官方的 Telegram，以接收到验证码。\n\nTelegram **已禁用在第三方应用使用短信登录**的能力。登录第三方应用的用户只能通过 Telegram 接收验证码。无法再请求短信登录。\n\n我们无法帮助您，如果登录有任何问题，请联系 Telegram 支持。</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>
