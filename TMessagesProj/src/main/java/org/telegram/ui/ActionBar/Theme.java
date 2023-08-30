@@ -1266,7 +1266,9 @@ public class Theme {
                     dst.compress(Bitmap.CompressFormat.JPEG, 87, stream);
                 } else {
                     FileOutputStream stream = new FileOutputStream(toFile);
-                    patternBitmap.compress(Bitmap.CompressFormat.PNG, 87, stream);
+                    Bitmap bitmap = patternBitmap.copy(Bitmap.Config.ARGB_8888, true);
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 87, stream);
+                    bitmap.recycle();
                     stream.close();
                 }
             } catch (Throwable e) {
@@ -9721,6 +9723,7 @@ public class Theme {
                     settings.isCustomTheme = true;
                 } catch (Throwable e) {
                     FileLog.e(e);
+                    bitmapCreated = false;
                 }
             }
             if (bitmapCreated) {
