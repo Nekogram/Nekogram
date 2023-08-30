@@ -703,25 +703,6 @@
             </intent-filter>
         </receiver>
 
-        <activity
-            android:name="tw.nekomimi.nekogram.DebugActivity"
-            android:exported="true"
-            android:theme="@style/Theme.TMessages.Transparent">
-            <intent-filter android:autoVerify="true">
-                <action android:name="android.intent.action.VIEW"/>
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data
-                    android:host="nekogram.app"
-                    android:scheme="http"
-                    android:path="/debug" />
-                <data
-                    android:host="nekogram.app"
-                    android:scheme="https"
-                    android:path="/debug" />
-            </intent-filter>
-        </activity>
-
         <meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyCGMAA5lSWvRAgaVtF1-Bh3Di07zePnUbA" />
 
         <meta-data android:name="firebase_analytics_collection_deactivated" android:value="true" />

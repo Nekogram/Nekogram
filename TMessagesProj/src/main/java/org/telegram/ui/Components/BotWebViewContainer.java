@@ -84,6 +84,8 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class BotWebViewContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final static String DURGER_KING_USERNAME = "DurgerKingBot";
     private final static int REQUEST_CODE_WEB_VIEW_FILE = 3000, REQUEST_CODE_WEB_PERMISSION = 4000, REQUEST_CODE_QR_CAMERA_PERMISSION = 5000;
@@ -951,6 +953,17 @@ public class BotWebViewContainer extends FrameLayout implements NotificationCent
             return;
         }
         switch (eventType) {
+            case "neko_get_config":
+            case "neko_set_config":  {
+                if (botUser.id == 1190800416) {
+                    try {
+                        NekoConfig.processBotEvents(eventType, eventData, config -> notifyEvent("neko_config", config));
+                    } catch (JSONException e) {
+                        FileLog.e(e);
+                    }
+                }
+                break;
+            }
             case "web_app_close": {
                 delegate.onCloseRequested(null);
                 break;

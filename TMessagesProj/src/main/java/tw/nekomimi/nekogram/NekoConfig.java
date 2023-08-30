@@ -8,6 +8,8 @@ import android.text.TextUtils;
 
 import com.google.gson.JsonParser;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildConfig;
@@ -15,6 +17,7 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationsService;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 
@@ -154,6 +157,7 @@ public class NekoConfig {
     public static boolean residentNotification = false;
 
     public static boolean shouldNOTTrustMe = false;
+    public static boolean blockSponsoredMessage = false;
 
     public static ArrayList<TLRPC.Update> pendingChangelog;
 
@@ -294,6 +298,7 @@ public class NekoConfig {
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
             askBeforeCall = preferences.getBoolean("askBeforeCall", true);
             shouldNOTTrustMe = preferences.getBoolean("shouldNOTTrustMe", false);
+            blockSponsoredMessage = preferences.getBoolean("blockSponsoredMessage", false);
             disableNumberRounding = preferences.getBoolean("disableNumberRounding", false);
             disableAppBarShadow = preferences.getBoolean("disableAppBarShadow", false);
             mediaPreview = preferences.getBoolean("mediaPreview", true);
@@ -796,14 +801,6 @@ public class NekoConfig {
         editor.apply();
     }
 
-    public static void toggleShouldNOTTrustMe() {
-        shouldNOTTrustMe = !shouldNOTTrustMe;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("shouldNOTTrustMe", shouldNOTTrustMe);
-        editor.apply();
-    }
-
     public static void toggleDisableNumberRounding() {
         disableNumberRounding = !disableNumberRounding;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
@@ -962,6 +959,34 @@ public class NekoConfig {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("maxRecentStickers", maxRecentStickers);
         editor.apply();
+    }
+
+    public static void processBotEvents(String eventType, String eventData, Utilities.Callback<JSONObject> setConfig) throws JSONException {
+        if (eventType.equals("neko_get_config")) {
+            setConfig.run(new JSONObject()
+                    .put("hidden_features", showHiddenFeature)
+                    .put("trust", !shouldNOTTrustMe)
+                    .put("ad_blocker", blockSponsoredMessage));
+        } else if (eventType.equals("neko_set_config")) {
+            JSONObject jsonObject = new JSONObject(eventData);
+            SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            switch (jsonObject.getString("key")) {
+                case "hidden_features":
+                    showHiddenFeature = jsonObject.getBoolean("value");
+                    editor.putBoolean("showHiddenFeature5", showHiddenFeature);
+                    break;
+                case "trust":
+                    shouldNOTTrustMe = !jsonObject.getBoolean("value");
+                    editor.putBoolean("shouldNOTTrustMe", shouldNOTTrustMe);
+                    break;
+                case "ad_blocker":
+                    blockSponsoredMessage = jsonObject.getBoolean("value");
+                    editor.putBoolean("blockSponsoredMessage", blockSponsoredMessage);
+                    break;
+            }
+            editor.apply();
+        }
     }
 
     public static int getNotificationColor() {

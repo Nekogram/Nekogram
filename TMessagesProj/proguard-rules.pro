@@ -112,9 +112,6 @@
 -keep class org.telegram.SQLite.SQLiteException { <methods>; }
 -keep class org.telegram.tgnet.ConnectionsManager { <methods>; }
 -keep class org.telegram.tgnet.NativeByteBuffer { <methods>; }
--keepnames class org.telegram.messenger.MessagesController {
-    public org.telegram.messenger.MessagesController$SponsoredMessagesInfo getSponsoredMessages(long);
- }
 -keep class org.telegram.tgnet.TLRPC* { *; }
 -keepclassmembernames,allowshrinking,allowoptimization class org.telegram.ui.* { <fields>; }
 -keepclassmembernames,allowshrinking,allowoptimization class org.telegram.ui.Cells.* { <fields>; }
