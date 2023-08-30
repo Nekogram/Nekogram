@@ -1,10 +1,12 @@
 package tw.nekomimi.nekogram.helpers;
 
 import android.app.Activity;
+import android.os.Bundle;
 import android.text.TextUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BaseController;
+import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -14,6 +16,10 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
+import org.telegram.ui.ActionBar.BaseFragment;
+import org.telegram.ui.ChatActivity;
+import org.telegram.ui.ProfileActivity;
+import org.telegram.ui.TopicsFragment;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -41,12 +47,12 @@ public class UserHelper extends BaseController {
         return localInstance;
     }
 
-    public void openByDialogId(long dialogId, Activity activity, Runnable runnable, Browser.Progress progress) {
+    public void openByDialogId(long dialogId, Activity activity, Utilities.Callback<BaseFragment> callback, Browser.Progress progress) {
         if (dialogId == 0 || activity == null) {
             return;
         }
         AlertDialog progressDialog = progress != null ? null : new AlertDialog(activity, AlertDialog.ALERT_TYPE_SPINNER);
-        searchPeer(dialogId, found -> {
+        searchPeer(dialogId, (user, chat) -> {
             if (progress != null) {
                 progress.end();
             }
@@ -57,8 +63,17 @@ public class UserHelper extends BaseController {
 
                 }
             }
-            if (found) {
-                runnable.run();
+            Bundle args = new Bundle();
+            if (user != null) {
+                args.putLong("user_id", user.id);
+                callback.run(new ProfileActivity(args));
+            } else if (chat != null) {
+                args.putLong("chat_id", chat.id);
+                if (ChatObject.isForum(chat)) {
+                    callback.run(new TopicsFragment(args));
+                } else {
+                    callback.run(new ChatActivity(args));
+                }
             }
         });
         if (progress != null) {
@@ -72,11 +87,11 @@ public class UserHelper extends BaseController {
         }
     }
 
-    public void searchPeer(long dialogId, Utilities.Callback<Boolean> callback) {
+    public void searchPeer(long dialogId, Utilities.Callback2<TLRPC.User, TLRPC.Chat> callback) {
         if (dialogId < 0) {
-            searchChat(-dialogId, chat -> callback.run(chat != null && chat.access_hash != 0));
+            searchChat(-dialogId, chat -> callback.run(null, chat));
         } else {
-            searchUser(dialogId, user -> callback.run(user != null && user.access_hash != 0));
+            searchUser(dialogId, user -> callback.run(user, null));
         }
     }
 

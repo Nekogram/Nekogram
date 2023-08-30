@@ -2879,14 +2879,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                     drawerLayoutContainer.closeDrawer();
                 }
             } else if (profile_dialog_id != 0) {
-                Bundle args = new Bundle();
-                if (profile_dialog_id < 0) {
-                    args.putLong("chat_id", -profile_dialog_id);
-                } else {
-                    args.putLong("user_id", profile_dialog_id);
-                }
-                ProfileActivity fragment = new ProfileActivity(args);
-                UserHelper.getInstance(currentAccount).openByDialogId(profile_dialog_id, this, () -> {
+                UserHelper.getInstance(currentAccount).openByDialogId(profile_dialog_id, this, (fragment) -> {
                     AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
                     if (AndroidUtilities.isTablet()) {
                         actionBarLayout.showLastFragment();
