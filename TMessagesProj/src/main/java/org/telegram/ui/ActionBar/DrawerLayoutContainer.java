@@ -493,11 +493,11 @@ public class DrawerLayoutContainer extends FrameLayout {
                     if (startedTracking || drawerPosition != 0 && drawerPosition != drawerLayout.getMeasuredWidth()) {
                         float velX = velocityTracker.getXVelocity();
                         float velY = velocityTracker.getYVelocity();
-                        boolean backAnimation = drawerPosition < drawerLayout.getMeasuredWidth() / 2.0f && (velX < 3500 || Math.abs(velX) < Math.abs(velY)) || velX < 0 && Math.abs(velX) >= 3500;
+                        boolean backAnimation = drawerPosition < drawerLayout.getMeasuredWidth() / 2.0f && (velX < 1400 || Math.abs(velX) < Math.abs(velY)) || velX < 0 && Math.abs(velX) >= 1400;
                         if (!backAnimation) {
-                            openDrawer(!drawerOpened && Math.abs(velX) >= 3500);
+                            openDrawer(!drawerOpened && Math.abs(velX) >= 1400);
                         } else {
-                            closeDrawer(drawerOpened && Math.abs(velX) >= 3500);
+                            closeDrawer(drawerOpened && Math.abs(velX) >= 1400);
                         }
                     }
                     startedTracking = false;
