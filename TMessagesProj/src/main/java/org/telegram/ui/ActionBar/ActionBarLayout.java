@@ -43,6 +43,9 @@ import android.widget.FrameLayout;
 import androidx.annotation.Keep;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.math.MathUtils;
+import androidx.dynamicanimation.animation.FloatValueHolder;
+import androidx.dynamicanimation.animation.SpringAnimation;
+import androidx.dynamicanimation.animation.SpringForce;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
@@ -587,7 +590,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return animationInProgress || checkTransitionAnimation() || onTouchEvent(ev);
+        return animationInProgress || previewOpenAnimationInProgress || checkTransitionAnimation() || onTouchEvent(ev);
     }
 
     @Override
@@ -627,7 +630,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         }
 
         final int restoreCount = canvas.save();
-        if (!isTransitionAnimationInProgress() && !inPreviewMode) {
+        if (!isTransitionAnimationInProgress() && !inPreviewMode && !previewOpenAnimationInProgress) {
             canvas.clipRect(clipLeft, 0, clipRight, getHeight());
         }
         if ((inPreviewMode || transitionAnimationPreviewMode) && child == containerView) {
@@ -639,13 +642,13 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         if (translationX != 0 || overrideWidthOffset != -1) {
             int widthOffset = overrideWidthOffset != -1 ? overrideWidthOffset : width - translationX;
             if (child == containerView) {
-                float alpha = MathUtils.clamp(widthOffset / (float) AndroidUtilities.dp(20), 0, 1f);
+                float alpha = USE_SPRING_ANIMATION ? MathUtils.clamp(widthOffset / (float) width, 0, 1.0f) : MathUtils.clamp(widthOffset / (float) AndroidUtilities.dp(20), 0, 1f);
                 layerShadowDrawable.setBounds(translationX - layerShadowDrawable.getIntrinsicWidth(), child.getTop(), translationX, child.getBottom());
                 layerShadowDrawable.setAlpha((int) (0xff * alpha));
                 layerShadowDrawable.draw(canvas);
             } else if (child == containerViewBack) {
                 float opacity = MathUtils.clamp(widthOffset / (float) width, 0, 0.8f);
-                scrimPaint.setColor(Color.argb((int) (0x99 * opacity), 0x00, 0x00, 0x00));
+                scrimPaint.setColor(Color.argb((int) ((USE_SPRING_ANIMATION ? 0x7a : 0x99) * opacity), 0x00, 0x00, 0x00));
                 if (overrideWidthOffset != -1) {
                     canvas.drawRect(0, 0, getWidth(), getHeight(), scrimPaint);
                 } else {
@@ -867,6 +870,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                             beginTrackingSent = true;
                         }
                         containerView.setTranslationX(dx);
+                        if (USE_SPRING_ANIMATION) {
+                            containerViewBack.setTranslationX(-(containerView.getMeasuredWidth() - dx) * 0.35f);
+                        }
                         setInnerTranslationX(dx);
                     }
                 } else if (ev != null && ev.getPointerId(0) == startedTrackingPointerId && (ev.getAction() == MotionEvent.ACTION_CANCEL || ev.getAction() == MotionEvent.ACTION_UP || ev.getAction() == MotionEvent.ACTION_POINTER_UP)) {
@@ -897,6 +903,48 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         float distToMove;
                         boolean overrideTransition = currentFragment.shouldOverrideSlideTransition(false, backAnimation);
 
+                        if (USE_SPRING_ANIMATION) {
+                            FloatValueHolder valueHolder = new FloatValueHolder((x / containerView.getMeasuredWidth()) * SPRING_MULTIPLIER);
+                            if (!backAnimation) {
+                                currentSpringAnimation = new SpringAnimation(valueHolder)
+                                        .setSpring(new SpringForce(SPRING_MULTIPLIER)
+                                                .setStiffness(SPRING_STIFFNESS)
+                                                .setDampingRatio(1f));
+                                if (velX != 0) {
+                                    currentSpringAnimation.setStartVelocity(velX / 15f);
+                                }
+                            } else {
+                                currentSpringAnimation = new SpringAnimation(valueHolder)
+                                        .setSpring(new SpringForce(0f)
+                                                .setStiffness(SPRING_STIFFNESS)
+                                                .setDampingRatio(1f));
+                            }
+                            currentSpringAnimation.addUpdateListener((animation, value, velocity) -> {
+                                var progress = value / SPRING_MULTIPLIER;
+                                containerView.setTranslationX(progress * containerView.getMeasuredWidth());
+                                containerViewBack.setTranslationX(-(containerView.getMeasuredWidth() - progress * containerView.getMeasuredWidth()) * 0.35f);
+                                setInnerTranslationX(progress * containerView.getMeasuredWidth());
+
+                                if (!backAnimation) {
+                                    getLastFragment().onTransitionAnimationProgress(false, progress);
+                                    getBackgroundFragment().onTransitionAnimationProgress(true, progress);
+                                } else {
+                                    getBackgroundFragment().onTransitionAnimationProgress(true, 1f - progress);
+                                }
+                            });
+                            currentSpringAnimation.addEndListener((animation, canceled, value, velocity) -> onSlideAnimationEnd(backAnimation));
+                            currentSpringAnimation.start();
+
+                            animationInProgress = true;
+                            layoutToIgnore = containerViewBack;
+
+                            if (velocityTracker != null) {
+                                velocityTracker.recycle();
+                                velocityTracker = null;
+                            }
+                            return startedTracking;
+                        }
+
                         if (!backAnimation) {
                             distToMove = containerView.getMeasuredWidth() - x;
                             int duration = Math.max((int) (200.0f / containerView.getMeasuredWidth() * distToMove), 50);
@@ -905,6 +953,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                                         ObjectAnimator.ofFloat(containerView, View.TRANSLATION_X, containerView.getMeasuredWidth()).setDuration(duration),
                                         ObjectAnimator.ofFloat(this, "innerTranslationX", (float) containerView.getMeasuredWidth()).setDuration(duration)
                                 );
+                                if (USE_SPRING_ANIMATION) {
+                                    animatorSet.play(ObjectAnimator.ofFloat(containerViewBack, View.TRANSLATION_X, 0).setDuration(duration));
+                                }
                             }
                         } else {
                             distToMove = x;
@@ -914,6 +965,9 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                                         ObjectAnimator.ofFloat(containerView, View.TRANSLATION_X, 0).setDuration(duration),
                                         ObjectAnimator.ofFloat(this, "innerTranslationX", 0.0f).setDuration(duration)
                                 );
+                                if (USE_SPRING_ANIMATION) {
+                                    animatorSet.play(ObjectAnimator.ofFloat(containerViewBack, View.TRANSLATION_X, -(containerView.getMeasuredWidth() - x) * 0.35f).setDuration(duration));
+                                }
                             }
                         }
 
@@ -1003,17 +1057,19 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             }
             currentAnimation = null;
         }
+        if (currentSpringAnimation != null) {
+            if (byCheck) {
+                currentSpringAnimation.cancel();
+            }
+            currentSpringAnimation = null;
+        }
         if (animationRunnable != null) {
             AndroidUtilities.cancelRunOnUIThread(animationRunnable);
             animationRunnable = null;
         }
         setAlpha(1.0f);
-        containerView.setAlpha(1.0f);
-        containerView.setScaleX(1.0f);
-        containerView.setScaleY(1.0f);
-        containerViewBack.setAlpha(1.0f);
-        containerViewBack.setScaleX(1.0f);
-        containerViewBack.setScaleY(1.0f);
+        resetViewProperties(containerView);
+        resetViewProperties(containerViewBack);
     }
 
     public BaseFragment getLastFragment() {
@@ -1088,10 +1144,98 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         containerViewBack.setVisibility(View.INVISIBLE);
     }
 
+    private static boolean USE_SPRING_ANIMATION = true;
+    private static final float SPRING_STIFFNESS = 1000f;
+    private static final float SPRING_STIFFNESS_PREVIEW = 650f;
+    private static final float SPRING_STIFFNESS_PREVIEW_OUT = 800f;
+    private static final float SPRING_STIFFNESS_PREVIEW_EXPAND = 750f;
+    private static final float SPRING_MULTIPLIER = 1000f;
+    private SpringAnimation currentSpringAnimation;
+
     private void startLayoutAnimation(final boolean open, final boolean first, final boolean preview) {
         if (first) {
             animationProgress = 0.0f;
             lastFrameTime = System.nanoTime() / 1000000;
+        }
+        if (USE_SPRING_ANIMATION) {
+            FloatValueHolder valueHolder = new FloatValueHolder(0);
+            currentSpringAnimation = new SpringAnimation(valueHolder)
+                    .setSpring(new SpringForce(SPRING_MULTIPLIER)
+                            .setStiffness(preview ? open ? SPRING_STIFFNESS_PREVIEW : SPRING_STIFFNESS_PREVIEW_OUT : SPRING_STIFFNESS)
+                            .setDampingRatio(preview ? 0.6f : 1f));
+            currentSpringAnimation.addUpdateListener((animation, value, velocity) -> {
+                animationProgress = value / SPRING_MULTIPLIER;
+                if (newFragment != null) {
+                    newFragment.onTransitionAnimationProgress(true, animationProgress);
+                }
+                if (oldFragment != null) {
+                    oldFragment.onTransitionAnimationProgress(false, animationProgress);
+                }
+                if (preview) {
+                    Integer oldNavigationBarColor = oldFragment != null ? oldFragment.getNavigationBarColor() : null;
+                    Integer newNavigationBarColor = newFragment != null ? newFragment.getNavigationBarColor() : null;
+                    if (newFragment != null && oldNavigationBarColor != null) {
+                        float ratio = MathUtils.clamp(4f * animationProgress, 0f, 1f);
+                        newFragment.setNavigationBarColor(ColorUtils.blendARGB(oldNavigationBarColor, newNavigationBarColor, ratio));
+                    }
+                }
+                float interpolated = animationProgress;
+                float widthNoPaddings = getWidth() - getPaddingLeft() - getPaddingRight();
+                if (open) {
+                    float clampedInterpolated = MathUtils.clamp(interpolated, 0, 1);
+                    if (preview) {
+                        containerView.setTranslationX(0);
+                        containerView.setTranslationY(0);
+
+                        float scale = 0.5f + interpolated * 0.5f;
+                        containerView.setScaleX(scale);
+                        containerView.setScaleY(scale);
+                        containerView.setAlpha(clampedInterpolated);
+
+                        if (previewMenu != null) {
+                            containerView.setTranslationY(AndroidUtilities.dp(40) * (1f - interpolated));
+                            previewMenu.setTranslationY(-AndroidUtilities.dp(40 + 30) * (1f - interpolated));
+                            previewMenu.setScaleX(0.95f + 0.05f * interpolated);
+                            previewMenu.setScaleY(0.95f + 0.05f * interpolated);
+                        }
+                        previewBackgroundDrawable.setAlpha((int) (0x2e * clampedInterpolated));
+                        Theme.moveUpDrawable.setAlpha((int) (255 * clampedInterpolated));
+                        containerView.invalidate();
+                        invalidate();
+                    } else {
+                        containerView.setTranslationX((1.0f - interpolated) * widthNoPaddings);
+                        containerViewBack.setTranslationX(-interpolated * 0.35f * widthNoPaddings);
+                        setInnerTranslationX((1.0f - interpolated) * widthNoPaddings);
+                    }
+                } else {
+                    float clampedReverseInterpolated = MathUtils.clamp(1f - interpolated, 0, 1);
+                    if (preview) {
+                        containerViewBack.setTranslationX(0);
+                        containerViewBack.setTranslationY(0);
+
+                        float scale = 0.5f + (1f - interpolated) * 0.5f;
+                        containerViewBack.setScaleX(scale);
+                        containerViewBack.setScaleY(scale);
+                        containerViewBack.setAlpha(clampedReverseInterpolated);
+                        previewBackgroundDrawable.setAlpha((int) (0x2e * clampedReverseInterpolated));
+                        if (previewMenu == null) {
+                            Theme.moveUpDrawable.setAlpha((int) (255 * clampedReverseInterpolated));
+                        }
+                        containerView.invalidate();
+                        invalidate();
+                    } else {
+                        containerViewBack.setTranslationX(interpolated * widthNoPaddings);
+                        containerView.setTranslationX(-(1f - interpolated) * 0.35f * widthNoPaddings);
+                        setInnerTranslationX(interpolated * widthNoPaddings);
+                    }
+                }
+            });
+            currentSpringAnimation.addEndListener((animation, canceled, value, velocity) -> {
+                onAnimationEndCheck(false);
+                setInnerTranslationX(0);
+            });
+            currentSpringAnimation.start();
+            return;
         }
         AndroidUtilities.runOnUIThread(animationRunnable = new Runnable() {
             @Override
@@ -1394,12 +1538,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         inPreviewMode = true;
                         previewMenu = menu;
                         transitionAnimationPreviewMode = false;
-                        containerView.setScaleX(1.0f);
-                        containerView.setScaleY(1.0f);
                     } else {
                         presentFragmentInternalRemoveOld(removeLast, currentFragment);
-                        containerView.setTranslationX(0);
                     }
+                    resetViewProperties(containerView);
                     if (currentFragment != null) {
                         currentFragment.onTransitionAnimationEnd(false, false);
                     }
@@ -1422,15 +1564,26 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     animation = fragment.onCustomTransitionAnimation(true, () -> onAnimationEndCheck(false));
                 }
                 if (animation == null) {
-                    containerView.setAlpha(0.0f);
-                    if (preview) {
-                        containerView.setTranslationX(0.0f);
-                        containerView.setScaleX(0.9f);
-                        containerView.setScaleY(0.9f);
+                    if (USE_SPRING_ANIMATION) {
+                        if (preview) {
+                            containerView.setAlpha(0.0f);
+                            containerView.setTranslationX(0.0f);
+                            containerView.setScaleX(0.5f);
+                            containerView.setScaleY(0.5f);
+                        } else {
+                            containerView.setTranslationX(getWidth() - getPaddingLeft() - getPaddingRight());
+                        }
                     } else {
-                        containerView.setTranslationX(48.0f);
-                        containerView.setScaleX(1.0f);
-                        containerView.setScaleY(1.0f);
+                        containerView.setAlpha(0.0f);
+                        if (preview) {
+                            containerView.setTranslationX(0.0f);
+                            containerView.setScaleX(0.9f);
+                            containerView.setScaleY(0.9f);
+                        } else {
+                            containerView.setTranslationX(48.0f);
+                            containerView.setScaleX(1.0f);
+                            containerView.setScaleY(1.0f);
+                        }
                     }
                     if (containerView.isKeyboardVisible || containerViewBack.isKeyboardVisible) {
                         if (currentFragment != null && !preview) {
@@ -1655,6 +1808,46 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         layoutParams.height = LayoutHelper.MATCH_PARENT;
         fragment.fragmentView.setLayoutParams(layoutParams);
 
+        if (USE_SPRING_ANIMATION) {
+            var view = fragment.fragmentView;
+            rect.set(view.getLeft(), view.getTop(), view.getRight(), view.getBottom());
+            float fromMenuY;
+            if (previewMenu != null) {
+                fromMenuY = previewMenu.getTranslationY();
+            } else {
+                fromMenuY = 0;
+            }
+
+            FloatValueHolder valueHolder = new FloatValueHolder(0);
+            currentSpringAnimation = new SpringAnimation(valueHolder)
+                    .setSpring(new SpringForce(SPRING_MULTIPLIER)
+                            .setStiffness(SPRING_STIFFNESS_PREVIEW_EXPAND)
+                            .setDampingRatio(0.6f));
+            currentSpringAnimation.addUpdateListener((animation, value, velocity) -> {
+                var progress = value / SPRING_MULTIPLIER;
+
+                view.setPivotX(rect.centerX());
+                view.setPivotY(rect.centerY());
+                view.setScaleX(AndroidUtilities.lerp(rect.width() / (float) view.getWidth(), 1f, progress));
+                view.setScaleY(AndroidUtilities.lerp(rect.height() / (float) view.getHeight(), 1f, progress));
+
+                if (previewMenu != null) {
+                    previewMenu.setTranslationY(AndroidUtilities.lerp(fromMenuY, getHeight(), progress));
+                }
+            });
+            currentSpringAnimation.addEndListener((animation, canceled, value, velocity) -> {
+                presentFragmentInternalRemoveOld(false, prevFragment);
+                previewOpenAnimationInProgress = false;
+                fragment.onPreviewOpenAnimationEnd();
+            });
+            currentSpringAnimation.start();
+            performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
+
+            fragment.setInPreviewMode(false);
+            fragment.setInMenuMode(false);
+            return;
+        }
+
         presentFragmentInternalRemoveOld(false, prevFragment);
 
         AnimatorSet animatorSet = new AnimatorSet();
@@ -1783,8 +1976,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         }
                     }
                     if (inPreviewMode || transitionAnimationPreviewMode) {
-                        containerViewBack.setScaleX(1.0f);
-                        containerViewBack.setScaleY(1.0f);
+                        resetViewProperties(containerViewBack);
                         inPreviewMode = false;
                         previewMenu = null;
                         transitionAnimationPreviewMode = false;
@@ -2343,6 +2535,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 currentAnimation.cancel();
                 currentAnimation = null;
             }
+            if (currentSpringAnimation != null) {
+                currentSpringAnimation.cancel();
+                currentSpringAnimation = null;
+            }
             if (onCloseAnimationEndRunnable != null) {
                 onCloseAnimationEnd();
             } else if (onOpenAnimationEndRunnable != null) {
@@ -2529,6 +2725,18 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         }
         int usableViewHeight = rootView.getHeight() - (rect.top != 0 ? AndroidUtilities.statusBarHeight : 0) - AndroidUtilities.getViewInset(rootView);
         return Math.max(0, usableViewHeight - (rect.bottom - rect.top));
+    }
+
+    private void resetViewProperties(View v) {
+        if (v == null) {
+            return;
+        }
+
+        v.setAlpha(1f);
+        v.setScaleX(1);
+        v.setScaleY(1);
+        v.setTranslationX(0);
+        v.setTranslationY(0);
     }
 
     @Override
