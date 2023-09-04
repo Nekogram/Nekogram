@@ -142,6 +142,9 @@ public class NekoConfig {
     public static boolean hideStories = false;
     public static boolean quickForward = false;
 
+    public static boolean springAnimation = false;
+    public static boolean actionbarCrossfade = false;
+
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
     private static boolean tcp2wsStarted = false;
@@ -339,6 +342,8 @@ public class NekoConfig {
             wsDomain = preferences.getString("wsDomain", "");
             hideStories = preferences.getBoolean("hideStories", false);
             quickForward = preferences.getBoolean("quickForward", false);
+            springAnimation = preferences.getBoolean("springAnimation", false);
+            actionbarCrossfade = preferences.getBoolean("actionbarCrossfade", false);
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             for (int a = 1; a <= 5; a++) {
@@ -441,6 +446,22 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showQrCode", showQrCode);
+        editor.apply();
+    }
+
+    public static void setSpringAnimation(boolean spring) {
+        springAnimation = spring;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("springAnimation", spring);
+        editor.apply();
+    }
+
+    public static void toggleActionbarCrossfade() {
+        actionbarCrossfade = !actionbarCrossfade;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("actionbarCrossfade", actionbarCrossfade);
         editor.apply();
     }
 

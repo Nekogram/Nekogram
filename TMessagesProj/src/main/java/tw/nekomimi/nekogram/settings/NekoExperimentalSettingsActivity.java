@@ -39,6 +39,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private boolean sensitiveEnabled;
 
     private int experimentRow;
+    private int springAnimationRow;
+    private int actionbarCrossfadeRow;
     private int downloadSpeedBoostRow;
     private int uploadSpeedBoostRow;
     private int mapDriftingFixRow;
@@ -212,6 +214,31 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.sendLargePhotos);
             }
+        } else if (position == springAnimationRow) {
+            ArrayList<String> arrayList = new ArrayList<>();
+            arrayList.add(LocaleController.getString("NavigationAnimationSpring", R.string.NavigationAnimationSpring));
+            arrayList.add(LocaleController.getString("NavigationAnimationBezier", R.string.NavigationAnimationBezier));
+            boolean oldAnimation = NekoConfig.springAnimation;
+            PopupHelper.show(arrayList, LocaleController.getString("NavigationAnimation", R.string.NavigationAnimation), NekoConfig.springAnimation ? 0 : 1, getParentActivity(), view, i -> {
+                NekoConfig.setSpringAnimation(i == 0);
+                listAdapter.notifyItemChanged(springAnimationRow, PARTIAL);
+                if (oldAnimation != NekoConfig.springAnimation) {
+                    if (oldAnimation) {
+                        listAdapter.notifyItemRemoved(actionbarCrossfadeRow);
+                        updateRows();
+                    } else {
+                        updateRows();
+                        listAdapter.notifyItemInserted(actionbarCrossfadeRow);
+                    }
+                    showRestartBulletin();
+                }
+            }, resourcesProvider);
+        } else if (position == actionbarCrossfadeRow) {
+            NekoConfig.toggleActionbarCrossfade();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.actionbarCrossfade);
+            }
+            showRestartBulletin();
         }
     }
 
@@ -243,6 +270,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         super.updateRows();
 
         experimentRow = addRow("experiment");
+        springAnimationRow = addRow("springAnimation");
+        actionbarCrossfadeRow = NekoConfig.springAnimation ? addRow("actionbarCrossfade") : -1;
         downloadSpeedBoostRow = MessagesController.getInstance(currentAccount).getfileExperimentalParams ? -1 : addRow("downloadSpeedBoost");
         uploadSpeedBoostRow = addRow("uploadSpeedBoost");
         mapDriftingFixRow = addRow("mapDriftingFix");
@@ -297,6 +326,14 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                                 break;
                         }
                         textCell.setTextAndValue(LocaleController.getString("DownloadSpeedBoost", R.string.DownloadSpeedBoost), value, partial, true);
+                    } else if (position == springAnimationRow) {
+                        String value;
+                        if (NekoConfig.springAnimation) {
+                            value = LocaleController.getString("NavigationAnimationSpring", R.string.NavigationAnimationSpring);
+                        } else {
+                            value = LocaleController.getString("NavigationAnimationBezier", R.string.NavigationAnimationBezier);
+                        }
+                        textCell.setTextAndValue(LocaleController.getString("NavigationAnimation", R.string.NavigationAnimation), value, partial, true);
                     }
                     break;
                 }
@@ -317,6 +354,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("SendBugReport", R.string.SendBugReport), LocaleController.getString("SendBugReportDesc", R.string.SendBugReportDesc), !AnalyticsHelper.analyticsDisabled && AnalyticsHelper.sendBugReport, true, true);
                     } else if (position == sendLargePhotosRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("SendLargePhotos", R.string.SendLargePhotos), LocaleController.getString("SendLargePhotosAbout", R.string.SendLargePhotosAbout), NekoConfig.sendLargePhotos, true, true);
+                    } else if (position == actionbarCrossfadeRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("NavigationAnimationCrossfading", R.string.NavigationAnimationCrossfading), NekoConfig.actionbarCrossfade, true);
                     }
                     break;
                 }
@@ -362,7 +401,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         public int getItemViewType(int position) {
             if (position == experiment2Row || position == deleteAccount2Row) {
                 return TYPE_SHADOW;
-            } else if (position == deleteAccountRow || position == downloadSpeedBoostRow) {
+            } else if (position == deleteAccountRow || position == downloadSpeedBoostRow || position == springAnimationRow) {
                 return TYPE_SETTINGS;
             } else if (position > experimentRow && position <= showRPCErrorRow || position == sendBugReportRow) {
                 return TYPE_CHECK;

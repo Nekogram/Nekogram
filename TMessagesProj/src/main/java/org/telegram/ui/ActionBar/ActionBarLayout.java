@@ -613,7 +613,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         return super.dispatchKeyEventPreIme(event);
     }
 
-    private static boolean USE_ACTIONBAR_CROSSFADE = true;
+    private static boolean USE_ACTIONBAR_CROSSFADE = NekoConfig.springAnimation && NekoConfig.actionbarCrossfade;
     private float swipeProgress;
     private MenuDrawable menuDrawable;
 
@@ -1269,7 +1269,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         containerViewBack.setVisibility(View.INVISIBLE);
     }
 
-    private static boolean USE_SPRING_ANIMATION = true;
+    private static boolean USE_SPRING_ANIMATION = NekoConfig.springAnimation;
     private static final float SPRING_STIFFNESS = 1000f;
     private static final float SPRING_STIFFNESS_PREVIEW = 650f;
     private static final float SPRING_STIFFNESS_PREVIEW_OUT = 800f;
