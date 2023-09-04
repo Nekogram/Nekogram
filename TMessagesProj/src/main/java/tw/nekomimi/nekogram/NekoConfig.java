@@ -139,7 +139,6 @@ public class NekoConfig {
     public static boolean markdownParseLinks = true;
     public static boolean uploadSpeedBoost = false;
     public static boolean sendLargePhotos = true;
-    public static boolean useLNavigation = false;
     public static boolean hideStories = false;
     public static boolean quickForward = false;
 
@@ -338,7 +337,6 @@ public class NekoConfig {
             lastForwardOption = preferences.getInt("lastForwardOption", ForwardItem.ID_FORWARD);
             showQrCode = preferences.getBoolean("showQrCode", true);
             wsDomain = preferences.getString("wsDomain", "");
-            useLNavigation = preferences.getBoolean("useLNavigation", false);
             hideStories = preferences.getBoolean("hideStories", false);
             quickForward = preferences.getBoolean("quickForward", false);
             preferences.registerOnSharedPreferenceChangeListener(listener);
@@ -443,14 +441,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showQrCode", showQrCode);
-        editor.apply();
-    }
-
-    public static void toggleUseLNavigation() {
-        useLNavigation = !useLNavigation;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("useLNavigation", useLNavigation);
         editor.apply();
     }
 

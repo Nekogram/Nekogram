@@ -15,12 +15,9 @@ import android.widget.FrameLayout;
 import androidx.core.util.Supplier;
 
 import org.telegram.ui.Components.BackButtonMenu;
-import org.telegram.ui.LNavigation.LNavigation;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import tw.nekomimi.nekogram.NekoConfig;
 
 public interface INavigationLayout {
     int REBUILD_FLAG_REBUILD_LAST = 1, REBUILD_FLAG_REBUILD_ONLY_LAST = 2;
@@ -83,16 +80,11 @@ public interface INavigationLayout {
     void setPulledDialogs(List<BackButtonMenu.PulledDialog> pulledDialogs);
 
     static INavigationLayout newLayout(Context context) {
-        return NekoConfig.useLNavigation ? new LNavigation(context) : new ActionBarLayout(context);
+        return new ActionBarLayout(context);
     }
 
     static INavigationLayout newLayout(Context context, Supplier<BottomSheet> supplier) {
-        return NekoConfig.useLNavigation ? new LNavigation(context) {
-            @Override
-            public BottomSheet getBottomSheet() {
-                return supplier.get();
-            }
-        } : new ActionBarLayout(context) {
+        return new ActionBarLayout(context) {
             @Override
             public BottomSheet getBottomSheet() {
                 return supplier.get();

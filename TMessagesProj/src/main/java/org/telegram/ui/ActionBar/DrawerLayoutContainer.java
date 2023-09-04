@@ -46,8 +46,6 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 
-import tw.nekomimi.nekogram.NekoConfig;
-
 public class DrawerLayoutContainer extends FrameLayout {
 
     private static final int MIN_DRAWER_MARGIN = 64;
@@ -743,7 +741,7 @@ public class DrawerLayoutContainer extends FrameLayout {
 
         if (scrimOpacity > 0 && drawingContent) {
             if (indexOfChild(child) == lastVisibleChild) {
-                scrimPaint.setColor((int) ((((NekoConfig.useLNavigation ? 0x29000000 : 0x99000000) & 0xff000000) >>> 24) * scrimOpacity) << 24);
+                scrimPaint.setColor((int) (((0x99000000 & 0xff000000) >>> 24) * scrimOpacity) << 24);
                 canvas.drawRect(clipLeft, 0, clipRight, getHeight(), scrimPaint);
             }
         } else if (shadowLeft != null) {
