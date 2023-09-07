@@ -73,9 +73,9 @@ public class ButtonWithCounterView extends FrameLayout {
         text.setAnimationProperties(.3f, 0, 250, CubicBezierInterpolator.EASE_OUT_QUINT);
         text.setCallback(this);
         text.setTextSize(dp(14));
-        if (filled) {
+        //if (filled) {
             text.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        }
+        //}
         text.setTextColor(Theme.getColor(filled ? Theme.key_featuredStickers_buttonText : Theme.key_featuredStickers_addButton, resourcesProvider));
         text.setGravity(Gravity.CENTER_HORIZONTAL);
 

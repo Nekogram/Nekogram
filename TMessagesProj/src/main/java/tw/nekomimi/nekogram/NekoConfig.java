@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.Environment;
 import android.text.TextUtils;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonParser;
 
 import org.json.JSONException;
@@ -26,11 +27,14 @@ import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
+import java.util.function.BiConsumer;
 
 import app.nekogram.tcp2ws.Tcp2WsServer;
 import app.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.forward.ForwardItem;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
+import tw.nekomimi.nekogram.helpers.CloudSettingsHelper;
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
@@ -169,11 +173,13 @@ public class NekoConfig {
         var map = new HashMap<String, String>(1);
         map.put("key", key);
         AnalyticsHelper.trackEvent("Neko config changed", map);
+
+        CloudSettingsHelper.getInstance().doAutoSync();
     };
     private static boolean configLoaded;
 
     static {
-        loadConfig();
+        loadConfig(false);
     }
 
     public static void buildAppChangelog(TLRPC.TL_help_appUpdate appUpdate) {
@@ -257,9 +263,9 @@ public class NekoConfig {
         return "release".equals(BuildConfig.BUILD_TYPE) || "debug".equals(BuildConfig.BUILD_TYPE);
     }
 
-    public static void loadConfig() {
+    public static void loadConfig(boolean force) {
         synchronized (sync) {
-            if (configLoaded) {
+            if (configLoaded && !force) {
                 return;
             }
             isChineseUser = ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isChineseUser);
@@ -344,18 +350,59 @@ public class NekoConfig {
             quickForward = preferences.getBoolean("quickForward", false);
             springAnimation = preferences.getBoolean("springAnimation", false);
             actionbarCrossfade = preferences.getBoolean("actionbarCrossfade", false);
-            preferences.registerOnSharedPreferenceChangeListener(listener);
 
-            for (int a = 1; a <= 5; a++) {
-                datacenterInfos.add(new DatacenterInfo(a));
+            if (!configLoaded) {
+                preferences.registerOnSharedPreferenceChangeListener(listener);
+
+                for (int a = 1; a <= 5; a++) {
+                    datacenterInfos.add(new DatacenterInfo(a));
+                }
+
+                var map = new HashMap<String, String>();
+                map.put("buildType", BuildConfig.BUILD_TYPE);
+                map.put("isChineseUser", String.valueOf(isChineseUser));
+                AnalyticsHelper.trackEvent("Load config", map);
             }
-
-            var map = new HashMap<String, String>();
-            map.put("buildType", BuildConfig.BUILD_TYPE);
-            map.put("isChineseUser", String.valueOf(isChineseUser));
-            AnalyticsHelper.trackEvent("Load config", map);
             configLoaded = true;
         }
+    }
+
+    private static Gson gson;
+
+    public static String exportConfigs() {
+        if (gson == null) {
+            gson = new Gson();
+        }
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        return gson.toJson(preferences.getAll());
+    }
+
+    public static void importConfigs(String config) {
+        if (gson == null) {
+            gson = new Gson();
+        }
+        //noinspection unchecked
+        Map<String, ?> map = gson.fromJson(config, Map.class);
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        var editor = preferences.edit();
+        map.forEach((BiConsumer<String, Object>) (s, o) -> {
+            if (o instanceof Integer) {
+                editor.putInt(s, (Integer) o);
+            } else if (o instanceof String) {
+                editor.putString(s, (String) o);
+            } else if (o instanceof Boolean) {
+                editor.putBoolean(s, (Boolean) o);
+            } else if (o instanceof Long) {
+                editor.putLong(s, (Long) o);
+            } else if (o instanceof Float) {
+                editor.putFloat(s, (Float) o);
+            } else if (o instanceof ArrayList) {
+                //noinspection unchecked
+                editor.putStringSet(s, new HashSet<>((ArrayList<String>) o));
+            }
+        });
+        editor.apply();
+        loadConfig(true);
     }
 
     public static boolean isChatCat(TLRPC.Chat chat) {

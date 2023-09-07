@@ -299,6 +299,19 @@
     <string name="NavigationAnimationBezier">Classic</string>
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="NavigationAnimationCrossfading">Crossfading effect</string>
+    <string name="CloudConfig">Cloud Settings</string>
+    <string name="CloudConfigDesc">Save your Neko Settings to Telegram cloud.</string>
+    <string name="CloudConfigSyncDate">Last synced: %s, cloud: %s</string>
+    <string name="CloudConfigSyncDateNever">never</string>
+    <string name="CloudConfigSync">Sync to cloud</string>
+    <string name="CloudConfigSyncShort">Sync</string>
+    <string name="CloudConfigRestore">Restore from cloud</string>
+    <string name="CloudConfigRestoreShort">Restore</string>
+    <string name="CloudConfigSyncing">Syncing...</string>
+    <string name="CloudConfigAutoSync">Auto sync</string>
+    <string name="CloudConfigAutoSyncDesc">Sync to cloud automatically after making changes to Neko Settings.</string>
+    <string name="CloudConfigSyncFailed">Failed to sync settings to cloud.</string>
+    <string name="CloudConfigRestoreFailed">Failed to restore settings from cloud.</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

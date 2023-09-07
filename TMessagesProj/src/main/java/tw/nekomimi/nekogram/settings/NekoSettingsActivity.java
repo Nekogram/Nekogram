@@ -25,6 +25,7 @@ import org.telegram.ui.LaunchActivity;
 import java.util.List;
 
 import tw.nekomimi.nekogram.accessibility.AccessibilitySettingsActivity;
+import tw.nekomimi.nekogram.helpers.CloudSettingsHelper;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
@@ -78,6 +79,17 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.appUpdateAvailable);
 
         return true;
+    }
+
+    @Override
+    public View createView(Context context) {
+        View fragmentView = super.createView(context);
+
+        actionBar.createMenu()
+                .addItem(0, R.drawable.cloud_sync)
+                .setOnClickListener(v -> CloudSettingsHelper.getInstance().showDialog(NekoSettingsActivity.this));
+
+        return fragmentView;
     }
 
     @Override
