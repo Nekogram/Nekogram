@@ -17,7 +17,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -59,6 +58,7 @@ import org.telegram.ui.Stories.StoryViewer;
 
 import java.util.ArrayList;
 
+import tw.nekomimi.nekogram.helpers.CloudStorageHelper;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.UserHelper;
 
@@ -783,11 +783,15 @@ public abstract class BaseFragment {
     }
 
     public MessageHelper getMessageHelper() {
-        return MessageHelper.getInstance(currentAccount);
+        return getAccountInstance().getMessageHelper();
     }
 
     public UserHelper getUserHelper() {
-        return UserHelper.getInstance(currentAccount);
+        return getAccountInstance().getUserHelper();
+    }
+
+    public CloudStorageHelper getCloudStorageHelper() {
+        return getAccountInstance().getCloudStorageHelper();
     }
 
     public void setFragmentPanTranslationOffset(int offset) {

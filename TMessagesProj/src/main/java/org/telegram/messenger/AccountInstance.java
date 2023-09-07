@@ -5,6 +5,10 @@ import android.content.SharedPreferences;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.Components.Paint.PersistColorPalette;
 
+import tw.nekomimi.nekogram.helpers.CloudStorageHelper;
+import tw.nekomimi.nekogram.helpers.MessageHelper;
+import tw.nekomimi.nekogram.helpers.UserHelper;
+
 public class AccountInstance {
 
     private int currentAccount;
@@ -92,6 +96,18 @@ public class AccountInstance {
 
     public SharedPreferences getNotificationsSettings() {
         return MessagesController.getNotificationsSettings(currentAccount);
+    }
+
+    public MessageHelper getMessageHelper() {
+        return MessageHelper.getInstance(currentAccount);
+    }
+
+    public UserHelper getUserHelper() {
+        return UserHelper.getInstance(currentAccount);
+    }
+
+    public CloudStorageHelper getCloudStorageHelper() {
+        return CloudStorageHelper.getInstance(currentAccount);
     }
 
     public MemberRequestsController getMemberRequestsController() {

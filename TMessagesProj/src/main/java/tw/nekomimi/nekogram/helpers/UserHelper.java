@@ -125,7 +125,7 @@ public class UserHelper extends BaseController {
         });
     }
 
-    private void resolveUser(String userName, long userId, Utilities.Callback<TLRPC.User> callback) {
+    void resolveUser(String userName, long userId, Utilities.Callback<TLRPC.User> callback) {
         resolvePeer(userName, peer -> {
             if (peer instanceof TLRPC.TL_peerUser) {
                 callback.run(peer.user_id == userId ? getMessagesController().getUser(userId) : null);
