@@ -6,6 +6,8 @@
     <string name="HidePhone">Ascunde numărul de telefon</string>
     <string name="DeleteAllFromSelf">Șterge mesajele proprii</string>
     <string name="DeleteAllFromSelfAlert">Atenție! Acest lucru va **șterge toate mesajele de la tine** în acest chat pentru **toți** participanții.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Предупреждение! Это приведет к **удалению всех сообщений от вас %s** в этом чате для **всех** участников.</string>
+    <string name="DeleteAllFromSelfBefore">До...</string>
     <string name="BotLogin">Logare Bot</string>
     <string name="BotLoginMessage">Introduceți token-ul bot obținut de la **@BotFather**.</string>
     <string name="InvalidAccessToken">Cod de acces invalid</string>
@@ -16,6 +18,9 @@
     <string name="FirstLast">Nume</string>
     <string name="LastFirst">Prenume</string>
     <string name="NoQuoteForward">NoProformă înainte</string>
+    <string name="NoCaptionForward">Нет перехода вперед</string>
+    <string name="NoQuoteForwardShort">Без цитаты</string>
+    <string name="NoCaptionForwardShort">Отсутствие захвата</string>
     <string name="Repeat">Repetă</string>
     <string name="AddToSavedMessages">Salvează mesaj</string>
     <string name="CreateMention">Creează mențiune</string>
@@ -120,6 +125,7 @@
     <string name="StickerSavedHint">Sticker salvat în galerie</string>
     <string name="RegistrationDate">Dată înregistrare</string>
     <string name="RegistrationDateNewer">Mai nou decât %s</string>
+    <string name="RegistrationDateOlder">Старше, чем %s</string>
     <string name="RegistrationDateApproximately">Aproximativ %s</string>
     <string name="WsDescription">Conectează-te la Telegram prin WebSocket prin Cloudflare. **Află mai multe**</string>
     <string name="WsEnableTls">Activați TLS</string>
@@ -183,6 +189,13 @@
     <string name="AppLinkNotVerifiedTitle">Link-urile aplicației nu sunt verificate</string>
     <string name="AutoTranslate">Traducere automată</string>
     <string name="AutoTranslateAbout">Traduceți automat mesajele în altă limbă.</string>
+    <string name="MonoCode">Код</string>
+    <string name="CreateMono">Создать код</string>
+    <string name="CreateMonoLanguage">Язык кода (необязательно)</string>
+    <string name="DoubleTapAction">Действие двойным касанием</string>
+    <string name="BlockedUserIgnored">заблокированный</string>
+    <string name="EditUndo">Отменить</string>
+    <string name="EditRedo">Переделывать</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Activat în mod implicit</string>
     <string name="MarkdownParser">Parser</string>

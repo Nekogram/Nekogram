@@ -290,6 +290,23 @@
     <string name="HideStories">Hikoyalarni yashirish</string>
     <string name="QuickForward">Tezkor yuborish menyusidan foydalanish</string>
     <string name="DidNotGetTheCodeBlameDurov">Kodni boshqa qurilmada olmagan bo\'lsangiz, kodni olish uchun rasmiy Telegram’ga SMS orqali kiring.\n\nTelegram uchinchi tomon ilovalarida **SMS bilan kirish imkoniyatini** o‘chirib qo‘ygan. Uchinchi tomon ilovalariga kirgan foydalanuvchilar kirish kodlarini faqat Telegram orqali olishlari mumkin. Endi tizimga kirish uchun SMS so‘rashning iloji yo‘q.\n\nBu borada sizga yordam bera olmaymiz, agar tizimga kirishda muammo bo‘lsa, Telegram yordam xizmatiga murojaat qiling.</string>
+    <string name="NavigationAnimation">Navigatsiya animatsiyasi</string>
+    <string name="NavigationAnimationBezier">Klassik</string>
+    <string name="NavigationAnimationSpring">Tabiiy</string>
+    <string name="NavigationAnimationCrossfading">Crossfade</string>
+    <string name="CloudConfig">Bulut Sozlamalari</string>
+    <string name="CloudConfigDesc">Neko sozlamalarini Telegram bulutga saqlash.</string>
+    <string name="CloudConfigSyncDate">Sinxronlandi: %s, bulutga: %s</string>
+    <string name="CloudConfigSyncDateNever">hech qachon</string>
+    <string name="CloudConfigSync">Bulutga sinxronlash</string>
+    <string name="CloudConfigSyncShort">Sinxronlash</string>
+    <string name="CloudConfigRestore">Bulutdan tiklsh</string>
+    <string name="CloudConfigRestoreShort">Tiklash</string>
+    <string name="CloudConfigSyncing">Sinxronlanmoqda...</string>
+    <string name="CloudConfigAutoSync">Avto sinxronlash</string>
+    <string name="CloudConfigAutoSyncDesc">Neko sozlamalarini o\'zgartirgach bulutga avtomatik sinxronlash.</string>
+    <string name="CloudConfigSyncFailed">Sozlamalarni bulutga sinxronlashda xatolik.</string>
+    <string name="CloudConfigRestoreFailed">Sozlamalarni bulutdan tiklashda xatolik.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Maxsus imkoniyatlar sozlamalari</string>
 </resources>

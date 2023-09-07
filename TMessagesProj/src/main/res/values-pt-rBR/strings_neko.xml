@@ -295,6 +295,19 @@
     <string name="NavigationAnimationBezier">Clássico</string>
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="NavigationAnimationCrossfading">Efeito de Crossfading</string>
+    <string name="CloudConfig">Configurações da Nuvem</string>
+    <string name="CloudConfigDesc">Salve as suas configurações Neko na nuvem do Telegram.</string>
+    <string name="CloudConfigSyncDate">Sincronizado por último em: %s, nuvem: %s</string>
+    <string name="CloudConfigSyncDateNever">nunca</string>
+    <string name="CloudConfigSync">Sincronizar com a nuvem</string>
+    <string name="CloudConfigSyncShort">Sincronizar</string>
+    <string name="CloudConfigRestore">Restaurar da nuvem</string>
+    <string name="CloudConfigRestoreShort">Restaurar</string>
+    <string name="CloudConfigSyncing">Sincronizando...</string>
+    <string name="CloudConfigAutoSync">Sincronizar automaticamente</string>
+    <string name="CloudConfigAutoSyncDesc">Sincronizar para a nuvem automaticamente após qualquer alteração nas Configurações Neko.</string>
+    <string name="CloudConfigSyncFailed">Falha ao sincronizar as configurações com a nuvem.</string>
+    <string name="CloudConfigRestoreFailed">Falha ao restaurar as configurações da nuvem.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>

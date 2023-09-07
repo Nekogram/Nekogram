@@ -294,6 +294,19 @@
     <string name="NavigationAnimationBezier">Класична</string>
     <string name="NavigationAnimationSpring">Природна</string>
     <string name="NavigationAnimationCrossfading">Ефект затухання</string>
+    <string name="CloudConfig">Налаштування хмарного сховища</string>
+    <string name="CloudConfigDesc">Зберігайте ваші налаштування Neko у хмарному сховищі Telegram.</string>
+    <string name="CloudConfigSyncDate">Остання синхронізація %s, хмара: %s</string>
+    <string name="CloudConfigSyncDateNever">ніколи</string>
+    <string name="CloudConfigSync">Зберегти до хмари</string>
+    <string name="CloudConfigSyncShort">Зберегти</string>
+    <string name="CloudConfigRestore">Відновити з хмари</string>
+    <string name="CloudConfigRestoreShort">Відновити</string>
+    <string name="CloudConfigSyncing">Виконується синхронізація...</string>
+    <string name="CloudConfigAutoSync">Автосинхронізація</string>
+    <string name="CloudConfigAutoSyncDesc">Автоматична синхронізація з хмарою після кожної зміни налаштувань Neko.</string>
+    <string name="CloudConfigSyncFailed">Не вдалося зберегти налаштування до хмарного сховища.</string>
+    <string name="CloudConfigRestoreFailed">Не вдалося відновити налаштування з хмарного сховища.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccSeekbarHeading">Налаштування панелі повзунка</string>

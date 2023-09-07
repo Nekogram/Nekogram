@@ -295,6 +295,19 @@
     <string name="NavigationAnimationBezier">经典</string>
     <string name="NavigationAnimationSpring">自然</string>
     <string name="NavigationAnimationCrossfading">淡入淡出效果</string>
+    <string name="CloudConfig">云设置</string>
+    <string name="CloudConfigDesc">保存喵设置到 Telegram 云。</string>
+    <string name="CloudConfigSyncDate">最后同步：%s，云端：%s</string>
+    <string name="CloudConfigSyncDateNever">从未</string>
+    <string name="CloudConfigSync">同步到云端</string>
+    <string name="CloudConfigSyncShort">同步</string>
+    <string name="CloudConfigRestore">从云端恢复</string>
+    <string name="CloudConfigRestoreShort">恢复</string>
+    <string name="CloudConfigSyncing">正在同步...</string>
+    <string name="CloudConfigAutoSync">自动同步</string>
+    <string name="CloudConfigAutoSyncDesc">修改喵设置后自动同步到云端。</string>
+    <string name="CloudConfigSyncFailed">无法将设置同步到云端。</string>
+    <string name="CloudConfigRestoreFailed">无法从云端恢复设置。</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

@@ -7,7 +7,7 @@
     <string name="DeleteAllFromSelf">Удалить мои сообщения</string>
     <string name="DeleteAllFromSelfAlert">Внимание! Это **удалит все ваши сообщения** в этом чате для **всех**.</string>
     <string name="DeleteAllFromSelfAlertBefore">Осторожно! Это **удалит все ваши сообщения от вас до %s** в этом чате для **всех** участников.</string>
-    <string name="DeleteAllFromSelfBefore">До...</string>
+    <string name="DeleteAllFromSelfBefore">Раньше...</string>
     <string name="BotLogin">Вход по токену</string>
     <string name="BotLoginMessage">Введите токен бота, полученный от **@BotFather**.</string>
     <string name="InvalidAccessToken">Токен недействителен</string>
@@ -295,6 +295,19 @@
     <string name="NavigationAnimationBezier">Стандартная</string>
     <string name="NavigationAnimationSpring">Обычная</string>
     <string name="NavigationAnimationCrossfading">Эффект затухания</string>
+    <string name="CloudConfig">Облачные настройки</string>
+    <string name="CloudConfigDesc">Сохранить ваши настройки Neko в облачном хранилище Telegram.</string>
+    <string name="CloudConfigSyncDate">Последняя синхронизация: %s, в облаке: %s</string>
+    <string name="CloudConfigSyncDateNever">никогда</string>
+    <string name="CloudConfigSync">Синхронизировать с облаком</string>
+    <string name="CloudConfigSyncShort">Синхронизировать</string>
+    <string name="CloudConfigRestore">Восстановить из облака</string>
+    <string name="CloudConfigRestoreShort">Восстановить</string>
+    <string name="CloudConfigSyncing">Синхронизация...</string>
+    <string name="CloudConfigAutoSync">Автосинхронизация</string>
+    <string name="CloudConfigAutoSyncDesc">Автоматическая синхронизация с облаком после изменения настроек Neko.</string>
+    <string name="CloudConfigSyncFailed">Не удалось синхронизировать настройки с облаком.</string>
+    <string name="CloudConfigRestoreFailed">Не удалось восстановить настройки из облака.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>
