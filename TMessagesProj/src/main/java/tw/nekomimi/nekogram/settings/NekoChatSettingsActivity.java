@@ -467,7 +467,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
             addView(headerLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.FILL_HORIZONTAL, 21, 17, 21, 0));
 
-            seekBarView = new SeekBarView(context, true, null);
+            seekBarView = new SeekBarView(context, true, resourcesProvider);
             seekBarView.setReportChanges(true);
             seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() {
                 @Override
