@@ -1371,6 +1371,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     private final static int translate = 62;
 
+    private final static int recent_actions = 60;
+
     private final static int id_chat_compose_panel = 1000;
 
     RecyclerListView.OnItemLongClickListenerExtended onItemLongClickListener = new RecyclerListView.OnItemLongClickListenerExtended() {
@@ -3242,6 +3244,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     SharedPreferences preferences = MessagesController.getNotificationsSettings(currentAccount);
                     preferences.edit().putInt("pin_" + dialog_id, 0).commit();
                     updatePinnedMessageView(true);
+                } else if (id == recent_actions) {
+                    presentFragment(new ChannelAdminLogActivity(currentChat));
                 } else if (id == topic_close) {
                     getMessagesController().getTopicsController().toggleCloseTopic(currentChat.id, forumTopic.id, forumTopic.closed = true);
                     updateTopicButtons();
@@ -3580,6 +3584,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         } else {
                             headerItem.lazilyAddSubItem(delete_chat, R.drawable.msg_leave, LocaleController.getString("LeaveChannelMenu", R.string.LeaveChannelMenu));
                         }
+                    }
+                    if (ChatObject.hasAdminRights(currentChat)) {
+                        headerItem.lazilyAddColoredGap();
+                        headerItem.lazilyAddSubItem(recent_actions, R.drawable.msg_log, LocaleController.getString("EventLog", R.string.EventLog));
                     }
                 } else if (!ChatObject.isChannel(currentChat)) {
                     if (currentChat != null) {
