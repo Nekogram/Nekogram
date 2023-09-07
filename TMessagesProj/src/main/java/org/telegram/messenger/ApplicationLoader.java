@@ -46,7 +46,7 @@ import java.util.HashMap;
 import java.util.concurrent.CountDownLatch;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.remote.AnalyticsHelper;
+import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 
 public class ApplicationLoader extends Application {
 

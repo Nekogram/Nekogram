@@ -30,7 +30,7 @@ import java.util.HashSet;
 import app.nekogram.tcp2ws.Tcp2WsServer;
 import app.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.forward.ForwardItem;
-import tw.nekomimi.nekogram.helpers.remote.AnalyticsHelper;
+import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 

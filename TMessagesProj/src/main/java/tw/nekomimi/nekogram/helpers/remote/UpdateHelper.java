@@ -28,7 +28,6 @@ import tw.nekomimi.nekogram.NekoConfig;
 public class UpdateHelper extends BaseRemoteHelper {
     public static final String UPDATE_TAG = BuildConfig.DEBUG ? "updatetest" : NekoConfig.isDirectApp() ? "updatev3" : ("update" + BuildConfig.BUILD_TYPE + "v3");
 
-    private static volatile UpdateHelper Instance;
     private int installedVersion;
     private String installedAbi;
 
@@ -112,18 +111,12 @@ public class UpdateHelper extends BaseRemoteHelper {
         return "LOC_ERR";
     }
 
+    private static final class InstanceHolder {
+        private static final UpdateHelper instance = new UpdateHelper();
+    }
+
     public static UpdateHelper getInstance() {
-        UpdateHelper localInstance = Instance;
-        if (localInstance == null) {
-            synchronized (UpdateHelper.class) {
-                localInstance = Instance;
-                if (localInstance == null) {
-                    Instance = localInstance = new UpdateHelper();
-                }
-                return localInstance;
-            }
-        }
-        return localInstance;
+        return InstanceHolder.instance;
     }
 
     @Override

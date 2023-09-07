@@ -30,8 +30,8 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
-import tw.nekomimi.nekogram.helpers.remote.AnalyticsHelper;
 
 public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 

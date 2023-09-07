@@ -74,7 +74,6 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
             "\uD83D\uDE14",
             "\uD83D\uDE28"
     };
-    private static volatile EmojiHelper Instance;
     private static int currentAccount = UserConfig.selectedAccount;
     private static TextPaint textPaint;
 
@@ -111,18 +110,12 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
         emojiPack = preferences.getString("emoji_pack", "");
     }
 
+    private static final class InstanceHolder {
+        private static final EmojiHelper instance = new EmojiHelper();
+    }
+
     public static EmojiHelper getInstance() {
-        EmojiHelper localInstance = Instance;
-        if (localInstance == null) {
-            synchronized (EmojiHelper.class) {
-                localInstance = Instance;
-                if (localInstance == null) {
-                    Instance = localInstance = new EmojiHelper();
-                }
-                return localInstance;
-            }
-        }
-        return localInstance;
+        return InstanceHolder.instance;
     }
 
     public static File getSystemEmojiFontPath() {

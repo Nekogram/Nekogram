@@ -16,7 +16,6 @@ import tw.nekomimi.nekogram.NekoConfig;
 public class ConfigHelper extends BaseRemoteHelper {
     private static final String NEWS_TAG = "config";
 
-    private static volatile ConfigHelper Instance;
     private static final List<News> DEFAULT_NEWS_LIST = new ArrayList<>();
     private static final List<Long> DEFAULT_VERIFY_LIST = Arrays.asList(
             1349472891L,
@@ -25,18 +24,12 @@ public class ConfigHelper extends BaseRemoteHelper {
             1715773134L
     );
 
+    private static final class InstanceHolder {
+        private static final ConfigHelper instance = new ConfigHelper();
+    }
+
     public static ConfigHelper getInstance() {
-        ConfigHelper localInstance = Instance;
-        if (localInstance == null) {
-            synchronized (ConfigHelper.class) {
-                localInstance = Instance;
-                if (localInstance == null) {
-                    Instance = localInstance = new ConfigHelper();
-                }
-                return localInstance;
-            }
-        }
-        return localInstance;
+        return InstanceHolder.instance;
     }
 
     public static List<Long> getVerify() {

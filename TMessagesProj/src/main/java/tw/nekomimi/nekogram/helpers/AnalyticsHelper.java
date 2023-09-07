@@ -1,4 +1,4 @@
-package tw.nekomimi.nekogram.helpers.remote;
+package tw.nekomimi.nekogram.helpers;
 
 import android.app.Application;
 import android.content.SharedPreferences;
