@@ -290,6 +290,11 @@
     <string name="ExportAsJson">Скопировать как JSON</string>
     <string name="HideStories">Скрыть истории</string>
     <string name="QuickForward">Использовать меню быстрой пересылки</string>
+    <string name="DidNotGetTheCodeBlameDurov">Если вы не получили код или вы не входили в Telegram аккаунт на другом устройстве, воспользуйтесь официальным приложением Telegram, чтобы получить код.\n\nTelegram **отключил возможность авторизации через СМС** для альтернативных приложений. Согласно новым правилам, пользователи альтернативных клиентов больше не могут получить СМС-код для авторизации. Теперь для получения кода требуется использовать официальное приложение Telegram.\n\nЕсли у вас возникла проблема со входом в аккаунт, пожалуйста, обратитесь в службу поддержки Telegram.</string>
+    <string name="NavigationAnimation">Анимация навигации</string>
+    <string name="NavigationAnimationBezier">Стандартная</string>
+    <string name="NavigationAnimationSpring">Обычная</string>
+    <string name="NavigationAnimationCrossfading">Эффект затухания</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>

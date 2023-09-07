@@ -290,6 +290,11 @@
     <string name="ExportAsJson">Copiar em JSON</string>
     <string name="HideStories">Ocultar Stories</string>
     <string name="QuickForward">Usar o menu de encaminhamento rápido</string>
+    <string name="DidNotGetTheCodeBlameDurov">Se você não recebeu o código em outro dispositivo ou não tem Telegram com sessão ativa em outro dispositivo, inicie sua sessão no client oficial do Telegram usando SMS para receber o código.\n\nO Telegram **desabilitou o login com SMS** em clients customizados. Usuários que usam clients de terceiros só podem receber códigos de login através do client oficial do Telegram. Não é mais possível solicitar SMS para iniciar a sua sessão.\n\nNão poderemos te ajudar com isso. Em caso de problemas ao iniciar a sua sessão, contate o Suporte do Telegram.</string>
+    <string name="NavigationAnimation">Animação de navegação</string>
+    <string name="NavigationAnimationBezier">Clássico</string>
+    <string name="NavigationAnimationSpring">Natural</string>
+    <string name="NavigationAnimationCrossfading">Efeito de Crossfading</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>

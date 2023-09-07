@@ -290,7 +290,11 @@
     <string name="ExportAsJson">复制为 JSON</string>
     <string name="HideStories">隐藏动态</string>
     <string name="QuickForward">使用快速转发菜单</string>
-    <string name="DidNotGetTheCodeBlameDurov">如果您没有在另一台设备上收到验证码，请用短信登录官方的 Telegram，以接收到验证码。\n\nTelegram **已禁用在第三方应用使用短信登录**的能力。登录第三方应用的用户只能通过 Telegram 接收验证码。无法再请求短信登录。\n\n我们无法帮助您，如果登录有任何问题，请联系 Telegram 支持。</string>
+    <string name="DidNotGetTheCodeBlameDurov">如果您没有在另一台设备上收到验证码，或者您没有在其他设备上登录 Telegram，请使用官方 Telegram 应用程序接收验证码。\n\nTelegram **已禁用在第三方应用使用短信登录**的能力。登录第三方应用的用户只能通过 Telegram 接收验证码。\n\n我们无法帮助您，如果登录有任何问题，请联系 Telegram 支持。</string>
+    <string name="NavigationAnimation">导航动画</string>
+    <string name="NavigationAnimationBezier">经典</string>
+    <string name="NavigationAnimationSpring">自然</string>
+    <string name="NavigationAnimationCrossfading">淡入淡出效果</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

@@ -6,6 +6,8 @@
     <string name="HidePhone">Telefon raqamimni yashirish</string>
     <string name="DeleteAllFromSelf">Shaxsiy xabarlarni o\'chiring</string>
     <string name="DeleteAllFromSelfAlert">Ogohlantirish! Bu **barcha** ishtirokchilar uchun ushbu chatdagi **sizdan kelgan barcha xabarlarni** o‘chirib tashlaydi.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Ogohlantirish! Bu **barcha** ishtirokchilar uchun ushbu chatdagi **sizdan kelgan barcha xabarlarni** o‘chirib tashlaydi.</string>
+    <string name="DeleteAllFromSelfBefore">Oldin...</string>
     <string name="BotLogin">Bot bo\'lib kirish</string>
     <string name="BotLoginMessage">**@BotFather** dan olgan tokeningizni kiriting.</string>
     <string name="InvalidAccessToken">Kirish tokeni yaroqsiz</string>
@@ -286,6 +288,8 @@
     <string name="SendLargePhotosAbout">Siqilgan tasvirlardagi yon chegarani 2560 pikselgacha oshiring.</string>
     <string name="ExportAsJson">JSON qilib ko\'chirish</string>
     <string name="HideStories">Hikoyalarni yashirish</string>
+    <string name="QuickForward">Tezkor yuborish menyusidan foydalanish</string>
+    <string name="DidNotGetTheCodeBlameDurov">Kodni boshqa qurilmada olmagan bo\'lsangiz, kodni olish uchun rasmiy Telegram’ga SMS orqali kiring.\n\nTelegram uchinchi tomon ilovalarida **SMS bilan kirish imkoniyatini** o‘chirib qo‘ygan. Uchinchi tomon ilovalariga kirgan foydalanuvchilar kirish kodlarini faqat Telegram orqali olishlari mumkin. Endi tizimga kirish uchun SMS so‘rashning iloji yo‘q.\n\nBu borada sizga yordam bera olmaymiz, agar tizimga kirishda muammo bo‘lsa, Telegram yordam xizmatiga murojaat qiling.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Maxsus imkoniyatlar sozlamalari</string>
 </resources>

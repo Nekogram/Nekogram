@@ -291,6 +291,11 @@
     <string name="ExportAsJson">نسخ كملف جيسون</string>
     <string name="HideStories">إخفاء القصص</string>
     <string name="QuickForward">إستخدام قائمة التقدم السريع</string>
+    <string name="DidNotGetTheCodeBlameDurov">إذا لم تحصل على الرمز على جهاز آخر أو لم تقم بتسجيل الدخول إلى Telegram على جهاز آخر، فيرجى استخدام تطبيق Telegram الرسمي لتلقي الرمز.\n\n**لقد عطل Telegram القدرة على تسجيل الدخول باستخدام الرسائل القصيرة ** على تطبيقات الطرف الثالث. لا يتمكن المستخدمون الذين يقومون بتسجيل الدخول إلى تطبيقات الطرف الثالث من تلقي رموز تسجيل الدخول إلا عبر Telegram.\n\nلا يمكننا مساعدتك في هذا الأمر، إذا كانت لديك أية مشكلات في تسجيل الدخول، فيرجى الاتصال بدعم Telegram.</string>
+    <string name="NavigationAnimation">تأثير حركة التنقل</string>
+    <string name="NavigationAnimationBezier">كلاسيكي</string>
+    <string name="NavigationAnimationSpring">طبيعي</string>
+    <string name="NavigationAnimationCrossfading">تأثير التداخل</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

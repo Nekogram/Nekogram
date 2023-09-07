@@ -6,6 +6,8 @@
     <string name="HidePhone">Ocultar mi número de teléfono</string>
     <string name="DeleteAllFromSelf">Eliminar mis mensajes</string>
     <string name="DeleteAllFromSelfAlert">¡Advertencia! Esto **borrará todos los mensajes que hayas enviado** en este chat para **todos** los participantes.</string>
+    <string name="DeleteAllFromSelfAlertBefore">¡Atención! Esto eliminará **todos tus mensajes antes de %s** en este chat para **todos** los participantes.</string>
+    <string name="DeleteAllFromSelfBefore">Anterior...</string>
     <string name="BotLogin">Iniciar sesión como Bot</string>
     <string name="BotLoginMessage">Ingresa el token de bot obtenido de **@BotFather**.</string>
     <string name="InvalidAccessToken">Tóken de acceso inválido</string>
@@ -286,6 +288,12 @@
     <string name="SendLargePhotosAbout">Aumentar el límite lateral de las imágenes comprimidas a 2560px.</string>
     <string name="ExportAsJson">Copiar como JSON</string>
     <string name="HideStories">Ocultar historias</string>
+    <string name="QuickForward">Usar menú de reenvío rápido</string>
+    <string name="DidNotGetTheCodeBlameDurov">Si no recibiste el código en otro dispositivo o no has iniciado sesión con Telegram en otro dispositivo, por favor usa la app oficial de Telegram para recibir el código.\n\nTelegram tiene **deshabilitada la posibilidad de iniciar sesión con SMS** en aplicaciones de terceros. Los usuarios que inicien sesión en aplicaciones de terceros sólo podrán recibir códigos de acceso a través de Telegram.\n\nNo podemos ayudarte con esto, si tienes algún problema para iniciar sesión, por favor contacta con el soporte de Telegram.</string>
+    <string name="NavigationAnimation">Animación de navegación</string>
+    <string name="NavigationAnimationBezier">Clásica</string>
+    <string name="NavigationAnimationSpring">Natural</string>
+    <string name="NavigationAnimationCrossfading">Efecto de fundido</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccSeekbarHeading">Configuración de la barra de búsqueda</string>
