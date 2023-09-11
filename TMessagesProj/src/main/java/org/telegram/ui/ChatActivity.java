@@ -11153,7 +11153,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (arrayList == null || arrayList.isEmpty()) {
             return;
         }
-        if (!checkSlowModeAlert()) {
+        if (did == 0 && !checkSlowModeAlert()) {
             return;
         }
         if ((scheduleDate != 0) == (chatMode == MODE_SCHEDULED)) {
