@@ -209,7 +209,10 @@ public class NekoConfig {
             }
             if (!tcp2wsStarted) {
                 Tcp2WsServer.setCdnDomain(getWsDomain());
-                tcp2wsServer = new Tcp2WsServer().setUserAgent(Extra.WS_USER_AGENT).setConnHash(Extra.WS_CONN_HASH).setTls(wsEnableTLS);
+                Tcp2WsServer.setUserAgent(Extra.WS_USER_AGENT);
+                Tcp2WsServer.setConnHash(Extra.WS_CONN_HASH);
+                Tcp2WsServer.setTls(wsEnableTLS);
+                tcp2wsServer = new Tcp2WsServer();
                 tcp2wsServer.start(socksPort);
                 tcp2wsStarted = true;
                 var map = new HashMap<String, String>();
