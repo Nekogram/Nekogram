@@ -194,6 +194,7 @@ import org.telegram.ui.Components.InstantCameraView;
 import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
+import org.telegram.ui.Components.MediaActivity;
 import org.telegram.ui.Components.Paint.PersistColorPalette;
 import org.telegram.ui.Components.Premium.GiftPremiumBottomSheet;
 import org.telegram.ui.Components.Premium.PremiumFeatureBottomSheet;
@@ -458,6 +459,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private final static int add_photo = 36;
     private final static int qr_button = 37;
     private final static int gift_premium = 38;
+    private final static int channel_stories = 39;
 
     private Rect rect = new Rect();
 
@@ -671,8 +673,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         private float foregroundAlpha;
         private ImageReceiver.BitmapHolder drawableHolder;
         boolean drawForeground = true;
+        float progressToExpand;
 
         ProfileGalleryView avatarsViewPager;
+        private boolean hasStories;
 
         public void setAvatarsViewPager(ProfileGalleryView avatarsViewPager) {
             this.avatarsViewPager = avatarsViewPager;
@@ -752,7 +756,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         protected void onDraw(Canvas canvas) {
             ImageReceiver imageReceiver = animatedEmojiDrawable != null ? animatedEmojiDrawable.getImageReceiver() : this.imageReceiver;
             if (imageReceiver != null && (foregroundAlpha < 1f || !drawForeground)) {
-                imageReceiver.setImageCoords(0, 0, getMeasuredWidth(), getMeasuredHeight());
+                int inset = hasStories ? (int) AndroidUtilities.dpf2(3.5f) : 0;
+                inset *= (1f - progressToExpand);
+                imageReceiver.setImageCoords(inset, inset, getMeasuredWidth() - inset * 2f, getMeasuredHeight() - inset * 2f);
                 imageReceiver.draw(canvas);
             }
             if (foregroundAlpha > 0f && drawForeground) {
@@ -779,6 +785,26 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
         public void drawForeground(boolean drawForeground) {
             this.drawForeground = drawForeground;
+        }
+
+        public ChatActivityInterface getPrevFragment() {
+            return null;
+        }
+
+        public void setHasStories(boolean hasStories) {
+            if (this.hasStories == hasStories) {
+                return;
+            }
+            this.hasStories = hasStories;
+            invalidate();
+        }
+
+        public void setProgressToExpand(float animatedFracture) {
+            if (progressToExpand == animatedFracture) {
+                return;
+            }
+            progressToExpand = animatedFracture;
+            invalidate();
         }
     }
 
@@ -2129,6 +2155,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     openDiscussion();
                 } else if (id == gift_premium) {
                     showDialog(new GiftPremiumBottomSheet(ProfileActivity.this, getMessagesController().getUser(userId)));
+                } else if (id == channel_stories) {
+                    Bundle args = new Bundle();
+                    args.putInt("type", MediaActivity.TYPE_ARCHIVED_CHANNEL_STORIES);
+                    args.putLong("dialog_id", -chatId);
+                    MediaActivity fragment = new MediaActivity(args, null);
+                    fragment.setChatInfo(chatInfo);
+                    presentFragment(fragment);
                 } else if (id == start_secret_chat) {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
                     builder.setTitle(LocaleController.getString("AreYouSureSecretChatTitle", R.string.AreYouSureSecretChatTitle));
@@ -3444,6 +3477,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 BuildVars.DEBUG_PRIVATE_VERSION && !InstantCameraView.allowBigSizeCameraDebug() ? (!SharedConfig.bigCameraForRound ? "Force big camera for round" : "Disable big camera for round") : null,
                                 LocaleController.getString(DualCameraView.dualAvailableStatic(getContext()) ? "DebugMenuDualOff" : "DebugMenuDualOn"),
                                 BuildVars.DEBUG_VERSION ? (SharedConfig.useSurfaceInStories ? "back to TextureView in stories" : "use SurfaceView in stories") : null,
+                                BuildVars.DEBUG_PRIVATE_VERSION ? (SharedConfig.photoViewerBlur ? "do not blur in photoviewer" : "blur in photoviewer") : null
                         };
 
                         builder.setItems(items, (dialog, which) -> {
@@ -3469,7 +3503,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 getMessagesStorage().clearSentMedia();
                                 SharedConfig.setNoSoundHintShowed(false);
                                 SharedPreferences.Editor editor = MessagesController.getGlobalMainSettings().edit();
-                                editor.remove("archivehint").remove("proximityhint").remove("archivehint_l").remove("speedhint").remove("gifhint").remove("reminderhint").remove("soundHint").remove("themehint").remove("bganimationhint").remove("filterhint").remove("n_0").remove("storyprvhint").remove("storyhint").remove("storyhint2").remove("storydualhint").remove("storysvddualhint").remove("stories_camera").remove("dualcam").remove("dualmatrix").remove("dual_available").remove("archivehint").remove("askNotificationsAfter").remove("askNotificationsDuration").commit();
+                                editor.remove("archivehint").remove("proximityhint").remove("archivehint_l").remove("speedhint").remove("gifhint").remove("reminderhint").remove("soundHint").remove("themehint").remove("bganimationhint").remove("filterhint").remove("n_0").remove("storyprvhint").remove("storyhint").remove("storyhint2").remove("storydualhint").remove("storysvddualhint").remove("stories_camera").remove("dualcam").remove("dualmatrix").remove("dual_available").remove("archivehint").remove("askNotificationsAfter").remove("askNotificationsDuration").remove("viewoncehint").commit();
                                 MessagesController.getEmojiSettings(currentAccount).edit().remove("featured_hidden").remove("emoji_featured_hidden").commit();
                                 SharedConfig.textSelectionHintShows = 0;
                                 SharedConfig.lockRecordAudioVideoHint = 0;
@@ -3668,6 +3702,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 for (int i = 0; i < getParentLayout().getFragmentStack().size(); i++) {
                                     getParentLayout().getFragmentStack().get(i).storyViewer = null;
                                 }
+                            } else if (which == 24) {
+                                SharedConfig.togglePhotoViewerBlur();
                             }
                         });
                         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
@@ -3991,6 +4027,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             openAvatar();
         });
+        avatarImage.setHasStories(needInsetForStories());
         avatarImage.setOnLongClickListener(v -> {
             if (avatarBig != null || isTopic) {
                 return false;
@@ -4219,11 +4256,12 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         };
         mediaCounterTextView.setAlpha(0.0f);
         avatarContainer2.addView(mediaCounterTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 118, 0, 8, 0));
-        storyView = new ProfileStoriesView(context, currentAccount, userId, avatarContainer, avatarImage, resourcesProvider) {
+        storyView = new ProfileStoriesView(context, currentAccount, userId == 0 ? chatId : userId, avatarContainer, avatarImage, resourcesProvider) {
             @Override
             protected void onTap(StoryViewer.PlaceProvider provider) {
-                if (getMessagesController().getStoriesController().hasStories(userId)) {
-                    getOrCreateStoryViewer().open(context, userId, provider);
+                long did = userId == 0 ? chatId : userId;
+                if (getMessagesController().getStoriesController().hasStories(did)) {
+                    getOrCreateStoryViewer().open(context, did, provider);
                 } else if (userInfo != null && userInfo.stories != null && !userInfo.stories.stories.isEmpty() && userId != getUserConfig().clientUserId) {
                     getOrCreateStoryViewer().open(context, userInfo.stories, provider);
                 } else {
@@ -6446,6 +6484,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     chatInfo = chatFull;
                 }
+                if (sharedMediaLayout != null) {
+                    sharedMediaLayout.setChatInfo(chatInfo);
+                }
                 if (chatInfo != null && (chatInfo.call == null && !hasVoiceChatItem || chatInfo.call != null && hasVoiceChatItem)) {
                     createActionBarMenu(false);
                 }
@@ -6823,6 +6864,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         avatarAnimationProgress = currentExpandAnimatorValue = progress;
         checkPhotoDescriptionAlpha();
 
+        if (playProfileAnimation == 2) {
+            avatarImage.setProgressToExpand(progress);
+        }
+
         listView.setAlpha(progress);
 
         listView.setTranslationX(AndroidUtilities.dp(48) - AndroidUtilities.dp(48) * progress);
@@ -6981,8 +7026,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     animators.add(ObjectAnimator.ofFloat(nameTextView[a], View.ALPHA, a == 0 ? 0.0f : 1.0f));
                 }
                 if (storyView != null) {
-                    storyView.setAlpha(0.0f);
-                    animators.add(ObjectAnimator.ofFloat(storyView, View.ALPHA, 1.0f));
+                    storyView.setAlpha(1f);
+                    if (dialogId > 0) {
+                        animators.add(ObjectAnimator.ofFloat(storyView, View.ALPHA, 1.0f));
+                    }
                 }
                 if (timeItem.getTag() != null) {
                     animators.add(ObjectAnimator.ofFloat(timeItem, View.ALPHA, 1.0f, 0.0f));
@@ -7044,7 +7091,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     animators.add(ObjectAnimator.ofFloat(nameTextView[a], View.ALPHA, a == 0 ? 1.0f : 0.0f));
                 }
                 if (storyView != null) {
-                    animators.add(ObjectAnimator.ofFloat(storyView, View.ALPHA, 0.0f));
+                    if (dialogId > 0) {
+                        animators.add(ObjectAnimator.ofFloat(storyView, View.ALPHA, 0.0f));
+                    }
                 }
                 if (timeItem.getTag() != null) {
                     timeItem.setAlpha(0f);
@@ -7107,6 +7156,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         callback.run();
                         return;
                     }
+                    avatarImage.setProgressToExpand(0);
                     listView.setLayerType(View.LAYER_TYPE_NONE, null);
                     if (animatingItem != null) {
                         ActionBarMenu menu = actionBar.createMenu();
@@ -7200,6 +7250,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             avatarsViewPager.setChatInfo(chatInfo);
         }
         fetchUsersFromChannelInfo();
+    }
+
+    private boolean needInsetForStories() {
+        return getDialogId() < 0 && getMessagesController().getStoriesController().hasStories(getDialogId());
     }
 
     public void setUserInfo(TLRPC.UserFull value) {

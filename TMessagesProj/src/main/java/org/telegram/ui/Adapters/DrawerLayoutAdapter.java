@@ -19,6 +19,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -317,24 +318,37 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             peopleNearbyIcon = R.drawable.msg_nearby;
         }
         UserConfig me = UserConfig.getInstance(UserConfig.selectedAccount);
+        boolean showDivider = false;
+        if (me != null && me.isPremium()) {
+            if (me.getEmojiStatus() != null) {
+                items.add(new Item(15, LocaleController.getString("ChangeEmojiStatus", R.string.ChangeEmojiStatus), R.drawable.msg_status_edit));
+            } else {
+                items.add(new Item(15, LocaleController.getString("SetEmojiStatus", R.string.SetEmojiStatus), R.drawable.msg_status_set));
+            }
+            showDivider = true;
+        }
         MessagesController messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
         boolean hasArchive = NekoConfig.hideAllTab && messagesController.getDialogFilters().size() > 1 && messagesController.dialogs_dict.get(DialogObject.makeFolderDialogId(1)) != null;
-        if (me != null && me.isPremium() || hasArchive) {
-            if (me != null && me.isPremium()) {
-                if (me.getEmojiStatus() != null) {
-                    items.add(new Item(15, LocaleController.getString("ChangeEmojiStatus", R.string.ChangeEmojiStatus), R.drawable.msg_status_edit));
-                } else {
-                    items.add(new Item(15, LocaleController.getString("SetEmojiStatus", R.string.SetEmojiStatus), R.drawable.msg_status_set));
-                }
-            }
-            if (hasArchive) {
-                items.add(new Item(20, LocaleController.getString("ArchivedChats", R.string.ArchivedChats), R.drawable.msg_archive));
-            }
+        if (hasArchive) {
+            items.add(new Item(20, LocaleController.getString("ArchivedChats", R.string.ArchivedChats), R.drawable.msg_archive));
+            showDivider = true;
         }
+        boolean needDivider = false;
         if (MessagesController.getInstance(UserConfig.selectedAccount).storiesEnabled()) {
             items.add(new Item(16, LocaleController.getString("ProfileMyStories", R.string.ProfileMyStories), R.drawable.msg_menu_stories));
-            items.add(null); // divider
-        } else if (me != null && me.isPremium()) {
+            showDivider = true;
+        }
+        TLRPC.TL_attachMenuBots menuBots = MediaDataController.getInstance(UserConfig.selectedAccount).getAttachMenuBots();
+        if (menuBots != null && menuBots.bots != null) {
+            for (int i = 0; i < menuBots.bots.size(); i++) {
+                TLRPC.TL_attachMenuBot bot = menuBots.bots.get(i);
+                if (bot.show_in_side_menu) {
+                    items.add(new Item(bot));
+                    showDivider = true;
+                }
+            }
+        }
+        if (showDivider) {
             items.add(null); // divider
         }
         items.add(new Item(2, LocaleController.getString("NewGroup", R.string.NewGroup), newGroupIcon));
@@ -378,10 +392,23 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
         return 1 + accountNumbers.size();
     }
 
+    public TLRPC.TL_attachMenuBot getAttachMenuBot(int position) {
+        position -= 2;
+        if (accountsShown) {
+            position -= getAccountRowsCount();
+        }
+        if (position < 0 || position >= items.size()) {
+            return null;
+        }
+        Item item = items.get(position);
+        return item != null ? item.bot : null;
+    }
+
     private static class Item {
         public int icon;
         public String text;
         public int id;
+        TLRPC.TL_attachMenuBot bot;
 
         public Item(int id, String text, int icon) {
             this.icon = icon;
@@ -389,8 +416,17 @@ public class DrawerLayoutAdapter extends RecyclerListView.SelectionAdapter {
             this.text = text;
         }
 
+        public Item(TLRPC.TL_attachMenuBot bot) {
+            this.bot = bot;
+            this.id = (int) (100 + (bot.bot_id >> 16));
+        }
+
         public void bind(DrawerActionCell actionCell) {
-            actionCell.setTextAndIcon(id, text, icon);
+            if (this.bot != null) {
+                actionCell.setBot(bot);
+            } else {
+                actionCell.setTextAndIcon(id, text, icon);
+            }
         }
     }
 }

@@ -99,6 +99,7 @@ import org.telegram.messenger.time.SunDate;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.ui.BlurSettingsBottomSheet;
 import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AudioVisualizerDrawable;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
@@ -3126,6 +3127,7 @@ public class Theme {
     public static TextPaint chat_msgTextPaintTwoEmoji;
     public static TextPaint chat_msgTextPaintThreeEmoji;
     public static TextPaint chat_infoPaint;
+    public static TextPaint chat_infoBoldPaint;
     public static TextPaint chat_stickerCommentCountPaint;
     public static TextPaint chat_livePaint;
     public static TextPaint chat_docNamePaint;
@@ -6330,6 +6332,7 @@ public class Theme {
         } catch (Exception e) {
             FileLog.e(e);
         }
+        BlurSettingsBottomSheet.onThemeApplyed();
         if (previousTheme == null && save && !switchingNightTheme) {
             MessagesController.getInstance(themeInfo.account).saveTheme(themeInfo, themeInfo.getAccent(false), nightTheme, false);
         }
@@ -8412,12 +8415,16 @@ public class Theme {
 
         if (chat_infoPaint == null) {
             chat_infoPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_infoBoldPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
+            chat_infoBoldPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             chat_stickerCommentCountPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
             chat_stickerCommentCountPaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             chat_docNamePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
             chat_docNamePaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             chat_docBackPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
             chat_deleteProgressPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            chat_deleteProgressPaint.setStyle(Paint.Style.STROKE);
+            chat_deleteProgressPaint.setStrokeCap(Paint.Cap.ROUND);
             chat_locationTitlePaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
             chat_locationTitlePaint.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
             chat_locationAddressPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
@@ -8652,7 +8659,7 @@ public class Theme {
             chat_filePath[1].lineTo(AndroidUtilities.dp(14), AndroidUtilities.dp(10));
             chat_filePath[1].close();
 
-            chat_flameIcon = resources.getDrawable(R.drawable.burn).mutate();
+            chat_flameIcon = resources.getDrawable(R.drawable.filled_fire).mutate();
             chat_gifIcon = resources.getDrawable(R.drawable.msg_round_gif_m).mutate();
 
             chat_fileStatesDrawable[0][0] = createCircleDrawableWithIcon(AndroidUtilities.dp(44), R.drawable.msg_round_play_m);
@@ -8732,6 +8739,7 @@ public class Theme {
 
         if (!fontsOnly && chat_infoPaint != null) {
             chat_infoPaint.setTextSize(AndroidUtilities.dp(12));
+            chat_infoBoldPaint.setTextSize(AndroidUtilities.dp(12));
             chat_stickerCommentCountPaint.setTextSize(AndroidUtilities.dp(11));
             chat_docNamePaint.setTextSize(AndroidUtilities.dp(15));
             chat_locationTitlePaint.setTextSize(AndroidUtilities.dp(15));
@@ -8814,7 +8822,6 @@ public class Theme {
             chat_botButtonPaint.setColor(getColor(key_chat_botButtonText));
             chat_urlPaint.setColor(getColor(key_chat_linkSelectBackground));
             chat_outUrlPaint.setColor(getColor(key_chat_outLinkSelectBackground));
-            chat_deleteProgressPaint.setColor(getColor(key_chat_secretTimeText));
             chat_textSearchSelectionPaint.setColor(getColor(key_chat_textSelectBackground));
             chat_msgErrorPaint.setColor(getColor(key_chat_sentError));
             chat_statusPaint.setColor(getColor(key_chat_status));

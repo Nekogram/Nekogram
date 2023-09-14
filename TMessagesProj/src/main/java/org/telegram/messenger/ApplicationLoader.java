@@ -171,6 +171,7 @@ public class ApplicationLoader extends Application {
             return;
         }
         applicationInited = true;
+        NativeLoader.initNativeLibs(ApplicationLoader.applicationContext);
 
         try {
             LocaleController.getInstance(); //TODO improve
@@ -249,7 +250,6 @@ public class ApplicationLoader extends Application {
             ContactsController.getInstance(a).checkAppAccount();
             DownloadController.getInstance(a);
         }
-        ChatThemeController.init();
         BillingController.getInstance().startConnection();
     }
 
