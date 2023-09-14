@@ -23,10 +23,13 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Stories.DarkThemeResourceProvider;
 import org.telegram.ui.Stories.recorder.CaptionContainerView;
 import org.telegram.ui.Stories.recorder.HintView2;
+
+import java.util.Arrays;
 
 public class CaptionPhotoViewer extends CaptionContainerView {
 
@@ -40,7 +43,7 @@ public class CaptionPhotoViewer extends CaptionContainerView {
 
     private int timer = 0;
     private final int SHOW_ONCE = 0x7FFFFFFF;
-    private final int[] values = new int[] { SHOW_ONCE, 3, 10, 30, 0 };
+    private final int[] values = new int[] { SHOW_ONCE, 3, 10, 30, 0, -1};
 
 //    private final BlurringShader.StoryBlurDrawer hintBlur;
     private final HintView2 hint;
@@ -99,7 +102,12 @@ public class CaptionPhotoViewer extends CaptionContainerView {
             timerPopup.addGap();
             for (int value : values) {
                 String text;
-                if (value == 0) {
+                if (value == -1) {
+                    text = LocaleController.getString("AutoDeleteCustom", R.string.AutoDeleteCustom);
+                    if (Arrays.stream(values).noneMatch(v -> v == this.timer)) {
+                        timerPopup.putCheck();
+                    }
+                } else if (value == 0) {
                     text = LocaleController.getString(R.string.TimerPeriodDoNotDelete);
                 } else if (value == SHOW_ONCE) {
                     text = LocaleController.getString(R.string.TimerPeriodOnce);
@@ -193,6 +201,47 @@ public class CaptionPhotoViewer extends CaptionContainerView {
 
     private void changeTimer(int value) {
         if (this.timer == value) {
+            return;
+        }
+        if (value == -1) {
+            Theme.ResourcesProvider resourcesProvider = new DarkThemeResourceProvider();
+            Context context = getContext();
+
+            final NumberPicker numberPicker = new NumberPicker(context, resourcesProvider);
+            numberPicker.setMinValue(0);
+            numberPicker.setMaxValue(28);
+            if (timer != 0) {
+                if (timer >= 0 && timer < 21) {
+                    numberPicker.setValue(timer);
+                } else {
+                    numberPicker.setValue(21 + timer / 5 - 5);
+                }
+            }
+            numberPicker.setFormatter(value1 -> {
+                if (value1 == 0) {
+                    return LocaleController.getString("ShortMessageLifetimeForever", R.string.ShortMessageLifetimeForever);
+                } else if (value1 >= 1 && value1 < 21) {
+                    return LocaleController.formatTTLString(value1);
+                } else {
+                    return LocaleController.formatTTLString((value1 - 16) * 5);
+                }
+            });
+            AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
+            builder.setTitle(LocaleController.getString("MessageLifetime", R.string.MessageLifetime));
+            builder.setView(numberPicker);
+            builder.setPositiveButton(LocaleController.getString("Done", R.string.Done), (di, a) -> {
+                int value1 = numberPicker.getValue();
+                builder.getDismissRunnable().run();
+                int seconds;
+                if (value1 >= 0 && value1 < 21) {
+                    seconds = value1;
+                } else {
+                    seconds = (value1 - 16) * 5;
+                }
+                changeTimer(seconds);
+            });
+            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), (di, a) -> builder.getDismissRunnable().run());
+            builder.show();
             return;
         }
         setTimer(value);
