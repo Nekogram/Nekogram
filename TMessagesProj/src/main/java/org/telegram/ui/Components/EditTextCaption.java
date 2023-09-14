@@ -159,7 +159,12 @@ public class EditTextCaption extends EditTextBoldCursor {
     }
 
     public void makeSelectedCode() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), resourcesProvider);
+        AlertDialog.Builder builder;
+        if (adaptiveCreateLinkDialog) {
+            builder = new AlertDialogDecor.Builder(getContext(), resourcesProvider);
+        } else {
+            builder = new AlertDialog.Builder(getContext(), resourcesProvider);
+        }
         builder.setTitle(LocaleController.getString("CreateMono", R.string.CreateMono));
 
         final EditTextBoldCursor editText = new EditTextBoldCursor(getContext()) {
@@ -243,10 +248,23 @@ public class EditTextCaption extends EditTextBoldCursor {
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.show().setOnShowListener(dialog -> {
-            editText.requestFocus();
-            AndroidUtilities.showKeyboard(editText);
-        });
+        if (adaptiveCreateLinkDialog) {
+            creationLinkDialog = builder.create();
+            creationLinkDialog.setOnDismissListener(dialog -> {
+                creationLinkDialog = null;
+                requestFocus();
+            });
+            creationLinkDialog.setOnShowListener(dialog -> {
+                editText.requestFocus();
+                AndroidUtilities.showKeyboard(editText);
+            });
+            creationLinkDialog.showDelayed(250);
+        } else {
+            builder.show().setOnShowListener(dialog -> {
+                editText.requestFocus();
+                AndroidUtilities.showKeyboard(editText);
+            });
+        }
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) editText.getLayoutParams();
         if (layoutParams != null) {
             if (layoutParams instanceof FrameLayout.LayoutParams) {
@@ -273,7 +291,12 @@ public class EditTextCaption extends EditTextBoldCursor {
 
 
     public void makeSelectedMention() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), resourcesProvider);
+        AlertDialog.Builder builder;
+        if (adaptiveCreateLinkDialog) {
+            builder = new AlertDialogDecor.Builder(getContext(), resourcesProvider);
+        } else {
+            builder = new AlertDialog.Builder(getContext(), resourcesProvider);
+        }
         builder.setTitle(LocaleController.getString("CreateMention", R.string.CreateMention));
 
         final EditTextBoldCursor editText = new EditTextBoldCursor(getContext()) {
@@ -344,10 +367,23 @@ public class EditTextCaption extends EditTextBoldCursor {
             }
         });
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-        builder.show().setOnShowListener(dialog -> {
-            editText.requestFocus();
-            AndroidUtilities.showKeyboard(editText);
-        });
+        if (adaptiveCreateLinkDialog) {
+            creationLinkDialog = builder.create();
+            creationLinkDialog.setOnDismissListener(dialog -> {
+                creationLinkDialog = null;
+                requestFocus();
+            });
+            creationLinkDialog.setOnShowListener(dialog -> {
+                editText.requestFocus();
+                AndroidUtilities.showKeyboard(editText);
+            });
+            creationLinkDialog.showDelayed(250);
+        } else {
+            builder.show().setOnShowListener(dialog -> {
+                editText.requestFocus();
+                AndroidUtilities.showKeyboard(editText);
+            });
+        }
         ViewGroup.MarginLayoutParams layoutParams = (ViewGroup.MarginLayoutParams) editText.getLayoutParams();
         if (layoutParams != null) {
             if (layoutParams instanceof FrameLayout.LayoutParams) {
