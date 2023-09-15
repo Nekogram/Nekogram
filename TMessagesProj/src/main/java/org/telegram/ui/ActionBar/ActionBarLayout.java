@@ -993,7 +993,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                     if (!inPreviewMode && !transitionAnimationPreviewMode && !startedTracking && currentFragment.isSwipeBackEnabled(ev)) {
                         float velX = velocityTracker.getXVelocity();
                         float velY = velocityTracker.getYVelocity();
-                        if (velX >= 1400 && velX > Math.abs(velY) && currentFragment.canBeginSlide()) {
+                        if (velX >= 2800 && velX > Math.abs(velY) && currentFragment.canBeginSlide()) {
                             prepareForMoving(ev);
                             if (!beginTrackingSent) {
                                 if (((Activity) getContext()).getCurrentFocus() != null) {
@@ -1008,7 +1008,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                         AnimatorSet animatorSet = new AnimatorSet();
                         float velX = velocityTracker.getXVelocity();
                         float velY = velocityTracker.getYVelocity();
-                        final boolean backAnimation = x < containerView.getMeasuredWidth() / 3.0f && (velX < 1400 || velX < velY);
+                        final boolean backAnimation = x < containerView.getMeasuredWidth() / 3.0f && (velX < 2800 || velX < velY);
                         float distToMove;
                         boolean overrideTransition = currentFragment.shouldOverrideSlideTransition(false, backAnimation);
 
