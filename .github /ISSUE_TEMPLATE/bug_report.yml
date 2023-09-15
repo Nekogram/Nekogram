@@ -1,0 +1,49 @@
+name: Bug report
+description: Report errors or unexpected behavior.
+labels: [bug]
+title: "[Bug] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting issues!
+
+        To make it easier for us to help you please enter detailed information below.
+  - type: textarea
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1.
+        2.
+        3.
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Expected behaviour
+      placeholder: Tell us what should happen
+    validations:
+      required: true
+  - type: textarea
+    attributes:
+      label: Actual behaviour
+      placeholder: Tell us what happens instead
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Nekogram version
+    validations:
+      required: true
+  - type: input
+    attributes:
+      label: Android version
+    validations:
+      required: true
+  - type: checkboxes
+    id: latest
+    attributes:
+      label: Reproducible requirement
+      options:
+        - label: I've test on official Telegram Android client and this bug is only reproducible on Nekogram.
+          required: true
