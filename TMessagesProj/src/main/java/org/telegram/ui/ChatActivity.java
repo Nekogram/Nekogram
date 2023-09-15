@@ -26087,7 +26087,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     private void translateMessage(MessageObject messageObject, String sourceLanguage, String targetLanguage, boolean autoTranslate) {
-        if (messageObject == null) {
+        if (messageObject == null || messageObject.translating) {
             return;
         }
         if (!autoTranslate && (NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO || messageObject.isVoiceTranscriptionOpen())) {
