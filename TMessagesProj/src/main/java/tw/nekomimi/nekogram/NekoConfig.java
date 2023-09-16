@@ -208,9 +208,9 @@ public class NekoConfig {
                 socket.close();
             }
             if (!tcp2wsStarted) {
-                Tcp2WsServer.setCdnDomain(getWsDomain());
                 Tcp2WsServer.setUserAgent(Extra.WS_USER_AGENT);
                 Tcp2WsServer.setConnHash(Extra.WS_CONN_HASH);
+                Tcp2WsServer.setCdnDomain(getWsDomain());
                 Tcp2WsServer.setTls(wsEnableTLS);
                 tcp2wsServer = new Tcp2WsServer();
                 tcp2wsServer.start(socksPort);
@@ -250,16 +250,6 @@ public class NekoConfig {
 
     public static int getSocksPort() {
         return getSocksPort(6356);
-    }
-
-    public static void wsReloadConfig() {
-        if (tcp2wsServer != null) {
-            try {
-                tcp2wsServer.setTls(wsEnableTLS);
-            } catch (Exception e) {
-                FileLog.e(e);
-            }
-        }
     }
 
     public static boolean isDirectApp() {

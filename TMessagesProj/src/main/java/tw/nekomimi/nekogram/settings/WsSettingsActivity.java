@@ -16,12 +16,12 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.CreationTextCell;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
+import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
@@ -30,7 +30,6 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
-import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 
 public class WsSettingsActivity extends BaseNekoSettingsActivity {
 
@@ -39,12 +38,10 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
     private int enableTLSRow;
     private int settings2Row;
 
-    private int buyMeACoffeeRow;
-    private int buyMeACoffee2Row;
+    private int donateRow;
+    private int donate2Row;
 
-    private int notWorkingRow;
-    private int ownRow;
-    private int appRow;
+    private int helpRow;
     private int endRow;
 
     @Override
@@ -54,7 +51,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.wsEnableTLS);
             }
-            NekoConfig.wsReloadConfig();
+            showRestartBulletin();
         } else if (position == providerRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             arrayList.add(LocaleController.getString("Nekogram", R.string.Nekogram));
@@ -62,7 +59,6 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
             PopupHelper.show(arrayList, LocaleController.getString("WsProvider", R.string.WsProvider), TextUtils.isEmpty(NekoConfig.wsDomain) ? 0 : 1, getParentActivity(), view, i -> {
                 if (i == 0) {
                     NekoConfig.setWsDomain("");
-                    NekoConfig.wsReloadConfig();
                     listAdapter.notifyItemChanged(providerRow, PARTIAL);
                     showRestartBulletin();
                 } else {
@@ -111,10 +107,10 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     editText.setSelection(0, editText.getText().length());
                 }
             }, resourcesProvider);
-        } else if (position == notWorkingRow || position == ownRow || position == appRow) {
-            Browser.openUrl(getParentActivity(), "https://t.me/WSProxy/8");
-        } else if (position == buyMeACoffeeRow) {
-            Browser.openUrl(getParentActivity(), "https://www.buymeacoffee.com/nekogram");
+        } else if (position == helpRow) {
+            getMessagesController().openByUserName("WSProxy", this, 1);
+        } else if (position == donateRow) {
+            presentFragment(new NekoDonateActivity());
         }
     }
 
@@ -130,10 +126,8 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
 
     @Override
     public Integer getSelectorColor(int position) {
-        if (position == ownRow || position == appRow) {
+        if (position == helpRow) {
             return Theme.multAlpha(getThemedColor(Theme.key_switchTrackChecked), .1f);
-        } else if (position == notWorkingRow) {
-            return Theme.multAlpha(getThemedColor(Theme.key_text_RedRegular), .1f);
         }
         return super.getSelectorColor(position);
     }
@@ -147,17 +141,10 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
         enableTLSRow = rowCount++;
         settings2Row = rowCount++;
 
-        if (ConfigHelper.getCoffee()) {
-            buyMeACoffeeRow = rowCount++;
-            buyMeACoffee2Row = rowCount++;
-        } else {
-            buyMeACoffeeRow = -1;
-            buyMeACoffee2Row = -1;
-        }
+        donateRow = rowCount++;
+        donate2Row = rowCount++;
 
-        notWorkingRow = rowCount++;
-        ownRow = rowCount++;
-        appRow = rowCount++;
+        helpRow = rowCount++;
         endRow = rowCount++;
     }
 
@@ -204,19 +191,18 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                 }
                 case TYPE_CREATION: {
                     CreationTextCell creationTextCell = (CreationTextCell) holder.itemView;
-                    if (position == notWorkingRow) {
-                        Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_report);
-                        drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_text_RedRegular), PorterDuff.Mode.MULTIPLY));
-                        creationTextCell.setTextColor(Theme.key_text_RedRegular);
-                        creationTextCell.setTextAndIcon(LocaleController.getString("WsNotWorking", R.string.WsNotWorking), drawable, true);
-                    } else if (position == ownRow) {
+                    if (position == helpRow) {
                         Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_psa);
                         drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
-                        creationTextCell.setTextAndIcon(LocaleController.getString("WsUseMyOwnDomain", R.string.WsUseMyOwnDomain), drawable, true);
-                    } else if (position == appRow) {
-                        Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_psa);
-                        drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
-                        creationTextCell.setTextAndIcon(LocaleController.getString("WsStandaloneApp", R.string.WsStandaloneApp), drawable, false);
+                        creationTextCell.setTextAndIcon(LocaleController.getString("BotHelp", R.string.BotHelp), drawable, false);
+                    }
+                    break;
+                }
+                case TYPE_DETAIL_SETTINGS: {
+                    TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
+                    textCell.setMultilineDetail(true);
+                    if (position == donateRow) {
+                        textCell.setTextAndValue(LocaleController.getString("Donate", R.string.Donate), LocaleController.getString("DonateAbout", R.string.DonateAbout), false);
                     }
                     break;
                 }
@@ -225,7 +211,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
 
         @Override
         public int getItemViewType(int position) {
-            if (position == settings2Row || position == buyMeACoffee2Row || position == endRow) {
+            if (position == settings2Row || position == donate2Row || position == endRow) {
                 return TYPE_SHADOW;
             } else if (position == settingsRow) {
                 return TYPE_HEADER;
@@ -233,10 +219,10 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                 return TYPE_CHECK;
             } else if (position == providerRow) {
                 return TYPE_SETTINGS;
-            } else if (position == notWorkingRow || position == ownRow || position == appRow) {
+            } else if (position == helpRow) {
                 return TYPE_CREATION;
-            } else if (position == buyMeACoffeeRow) {
-                return TYPE_BUYMEACOFFEE;
+            } else if (position == donateRow) {
+                return TYPE_DETAIL_SETTINGS;
             }
             return TYPE_SETTINGS;
         }
