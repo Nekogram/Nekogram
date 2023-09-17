@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 
 import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLog;
+import org.telegram.tgnet.TLRPC;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +31,10 @@ public class ConfigHelper extends BaseRemoteHelper {
 
     public static ConfigHelper getInstance() {
         return InstanceHolder.instance;
+    }
+
+    public static boolean isChatCat(TLRPC.Chat chat) {
+        return getVerify().stream().anyMatch(id -> id == chat.id);
     }
 
     public static List<Long> getVerify() {

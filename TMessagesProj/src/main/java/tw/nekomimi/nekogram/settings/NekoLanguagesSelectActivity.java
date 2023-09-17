@@ -321,7 +321,7 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
         @Override
         public int getItemCount() {
             if (search) {
-                if (searchResult == null || searchResult.size() == 0) {
+                if (searchResult == null || searchResult.isEmpty()) {
                     return 0;
                 }
                 return searchResult.size() + 1;

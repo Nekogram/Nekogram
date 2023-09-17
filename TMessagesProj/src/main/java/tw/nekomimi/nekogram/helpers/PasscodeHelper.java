@@ -145,7 +145,7 @@ public class PasscodeHelper {
     }
 
     public static boolean isEnabled() {
-        return preferences.getAll().size() != 0;
+        return !preferences.getAll().isEmpty();
     }
 
     public static void clearAll() {

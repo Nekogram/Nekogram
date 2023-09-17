@@ -407,11 +407,11 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
     }
 
     public boolean isInstalledOldVersion(String emojiID, int version) {
-        return getAllVersions(emojiID, version).size() > 0;
+        return !getAllVersions(emojiID, version).isEmpty();
     }
 
     public boolean isInstalledOffline(String emojiID) {
-        return getAllVersions(emojiID, -1).size() > 0;
+        return !getAllVersions(emojiID, -1).isEmpty();
     }
 
     public ArrayList<File> getAllVersions(String emojiID) {
@@ -739,7 +739,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
 
     @Override
     protected void onLoadSuccess(ArrayList<String> responses, Delegate delegate) {
-        var string = responses.size() > 0 ? responses.get(0) : null;
+        var string = !responses.isEmpty() ? responses.get(0) : null;
         if (string == null) {
             return;
         }

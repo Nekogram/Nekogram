@@ -35,7 +35,6 @@ import app.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.forward.ForwardItem;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.CloudSettingsHelper;
-import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 public class NekoConfig {
@@ -155,8 +154,6 @@ public class NekoConfig {
     private static Tcp2WsServer tcp2wsServer;
     public static boolean wsEnableTLS = true;
     public static String wsDomain;
-
-    public static final ArrayList<DatacenterInfo> datacenterInfos = new ArrayList<>(5);
 
     public static boolean verifyLinkTip = false;
 
@@ -347,10 +344,6 @@ public class NekoConfig {
             if (!configLoaded) {
                 preferences.registerOnSharedPreferenceChangeListener(listener);
 
-                for (int a = 1; a <= 5; a++) {
-                    datacenterInfos.add(new DatacenterInfo(a));
-                }
-
                 var map = new HashMap<String, String>();
                 map.put("buildType", BuildConfig.BUILD_TYPE);
                 map.put("isChineseUser", String.valueOf(isChineseUser));
@@ -396,10 +389,6 @@ public class NekoConfig {
         });
         editor.apply();
         loadConfig(true);
-    }
-
-    public static boolean isChatCat(TLRPC.Chat chat) {
-        return ConfigHelper.getVerify().stream().anyMatch(id -> id == chat.id);
     }
 
     public static void setWsDomain(String domain) {
@@ -1079,20 +1068,5 @@ public class NekoConfig {
         //noinspection ResultOfMethodCallIgnored
         telegramPath.mkdirs();
         return telegramPath;
-    }
-
-    public static class DatacenterInfo {
-
-        public int id;
-
-        public long pingId;
-        public long ping;
-        public boolean checking;
-        public boolean available;
-        public long availableCheckTime;
-
-        public DatacenterInfo(int i) {
-            id = i;
-        }
     }
 }

@@ -17,10 +17,18 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.PopupSwipeBackLayout;
 
+import java.util.ArrayList;
+
 import tw.nekomimi.nekogram.helpers.UserHelper;
 import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
 
 public class DatacenterPopupWrapper {
+
+    private static final ArrayList<DatacenterInfo> datacenterInfos = new ArrayList<>(5) {{
+        for (int a = 1; a <= 5; a++) {
+            add(new DatacenterInfo(a));
+        }
+    }};
 
     public ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout;
 
@@ -36,7 +44,7 @@ public class DatacenterPopupWrapper {
             ActionBarMenuItem.addColoredGap(windowLayout, resourcesProvider);
         }
 
-        for (var datacenterInfo : NekoConfig.datacenterInfos) {
+        for (var datacenterInfo : datacenterInfos) {
             var item = ActionBarMenuItem.addItem(windowLayout, 0, UserHelper.formatDCString(datacenterInfo.id), false, resourcesProvider);
             item.setTag(datacenterInfo);
             item.setOnClickListener(view -> {
@@ -62,7 +70,7 @@ public class DatacenterPopupWrapper {
     }
 
     private void checkDatacenter(ActionBarMenuSubItem item, boolean force, Theme.ResourcesProvider resourcesProvider) {
-        var datacenterInfo = (NekoConfig.DatacenterInfo) item.getTag();
+        var datacenterInfo = (DatacenterInfo) item.getTag();
         if (datacenterInfo.checking) {
             return;
         }
@@ -86,7 +94,7 @@ public class DatacenterPopupWrapper {
     }
 
     public void updateStatus(ActionBarMenuSubItem item, Theme.ResourcesProvider resourcesProvider, boolean animated) {
-        var datacenterInfo = (NekoConfig.DatacenterInfo) item.getTag();
+        var datacenterInfo = (DatacenterInfo) item.getTag();
         int colorKey;
         if (datacenterInfo.checking) {
             item.setSubtext(LocaleController.getString("Checking", R.string.Checking), animated);
@@ -107,5 +115,20 @@ public class DatacenterPopupWrapper {
             colorKey = Theme.key_text_RedRegular;
         }
         item.setSubtextColor(Theme.getColor(colorKey, resourcesProvider));
+    }
+
+    private static class DatacenterInfo {
+
+        public int id;
+
+        public long pingId;
+        public long ping;
+        public boolean checking;
+        public boolean available;
+        public long availableCheckTime;
+
+        public DatacenterInfo(int i) {
+            id = i;
+        }
     }
 }

@@ -207,7 +207,7 @@ public class QrHelper {
         } catch (Throwable ignored) {
         }
         try {
-            if (results.isEmpty()) {
+            if (inverted != null && results.isEmpty()) {
                 Bitmap monochrome = monochrome(inverted);
                 results.addAll(readQrInternal(monochrome));
                 AndroidUtilities.recycleBitmap(monochrome);

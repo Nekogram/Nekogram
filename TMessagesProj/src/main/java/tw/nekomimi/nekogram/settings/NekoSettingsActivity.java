@@ -178,7 +178,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
         checkUpdateRow = addRow("checkUpdate");
         about2Row = addRow();
 
-        if (news.size() != 0) {
+        if (!news.isEmpty()) {
             sponsorRow = addRow();
             rowCount += news.size() - 1;
             sponsor2Row = addRow();

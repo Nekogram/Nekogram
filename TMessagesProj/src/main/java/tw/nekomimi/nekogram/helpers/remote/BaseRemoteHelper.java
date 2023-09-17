@@ -56,7 +56,7 @@ public abstract class BaseRemoteHelper {
 
     protected void onLoadSuccess(ArrayList<String> responses, Delegate delegate) {
         var tag = getTag();
-        var json = responses.size() > 0 ? responses.get(0) : null;
+        var json = !responses.isEmpty() ? responses.get(0) : null;
         if (json == null) {
             preferences.edit()
                     .remove(tag + "_update_time")
@@ -115,7 +115,7 @@ public abstract class BaseRemoteHelper {
                 getMessagesController().putUsers(resolvedPeer.users, false);
                 getMessagesController().putChats(resolvedPeer.chats, false);
                 getMessagesStorage().putUsersAndChats(resolvedPeer.users, resolvedPeer.chats, false, true);
-                if ((resolvedPeer.chats == null || resolvedPeer.chats.size() == 0)) {
+                if ((resolvedPeer.chats == null || resolvedPeer.chats.isEmpty())) {
                     return;
                 }
                 req.peer = new TLRPC.TL_inputPeerChannel();

@@ -655,7 +655,7 @@ public class MessageHelper extends BaseController {
             try {
                 latch.await();
             } catch (Exception e) {
-                e.printStackTrace();
+                FileLog.e(e);
             }
             if (!messageIds.isEmpty()) {
                 ArrayList<ArrayList<Integer>> lists = new ArrayList<>();
@@ -778,6 +778,9 @@ public class MessageHelper extends BaseController {
     @SuppressLint("SetTextI18n")
     public void showSendWebFileDialog(ChatAttachAlert parentAlert, Theme.ResourcesProvider resourcesProvider) {
         ChatActivity fragment = (ChatActivity) parentAlert.getBaseFragment();
+        if (fragment == null) {
+            return;
+        }
         Context context = fragment.getParentActivity();
         AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
         builder.setTitle(LocaleController.getString("SendWebFile", R.string.SendWebFile));
