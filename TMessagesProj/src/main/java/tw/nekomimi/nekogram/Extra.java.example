@@ -29,6 +29,9 @@ public class Extra {
     public static String WS_CONN_HASH = "";
     public static String WS_DEFAULT_DOMAIN = "";
 
+    public static String WEBVIEW_BOT = "";
+    public static long WEBVIEW_BOT_ID = 0;
+
     public static long getOwnerFromStickerSetId(long id) {
         throw new RuntimeException("Apparently not possible");
     }
