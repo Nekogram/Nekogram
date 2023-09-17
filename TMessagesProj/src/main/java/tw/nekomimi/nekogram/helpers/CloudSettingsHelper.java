@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Handler;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.accessibility.AccessibilityNodeInfo;
@@ -33,14 +34,20 @@ import org.telegram.ui.Components.ScaleStateListAnimator;
 import org.telegram.ui.Components.TextViewSwitcher;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Scanner;
+import java.util.zip.GZIPInputStream;
+import java.util.zip.GZIPOutputStream;
 
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class CloudSettingsHelper {
-    private static final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekocloud", Context.MODE_PRIVATE);
+    private static final int CONFIG_VERSION = 0;
 
+    private final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekocloud", Context.MODE_PRIVATE);
     private final long[] cloudSyncedDate = new long[UserConfig.MAX_ACCOUNT_COUNT];
     private final Handler handler = new Handler();
     private final Runnable cloudSyncRunnable = () -> CloudSettingsHelper.getInstance().syncToCloud((success, error) -> {
@@ -164,7 +171,9 @@ public class CloudSettingsHelper {
     }
 
     private void syncToCloud(Utilities.Callback2<Boolean, String> callback) {
-        getCloudStorageHelper().setItem("neko_settings", NekoConfig.exportConfigs(), (res, error) -> {
+        String rawConfig = NekoConfig.exportConfigs();
+        String compressed = encodeConfig(rawConfig);
+        getCloudStorageHelper().setItem("neko_settings", rawConfig.length() >= compressed.length() ? compressed : rawConfig, (res, error) -> {
             if (error == null) {
                 localSyncedDate = cloudSyncedDate[UserConfig.selectedAccount] = System.currentTimeMillis();
                 getCloudStorageHelper().setItem("neko_settings_updated_at", String.valueOf(localSyncedDate), null);
@@ -179,14 +188,23 @@ public class CloudSettingsHelper {
     private void restoreFromCloud(Utilities.Callback2<Boolean, String> callback) {
         getCloudStorageHelper().getItem("neko_settings", (res, error) -> {
             if (error == null) {
-                try {
-                    NekoConfig.importConfigs(res);
-                    localSyncedDate = System.currentTimeMillis();
-                    preferences.edit().putLong("updated_at", localSyncedDate).apply();
-                    callback.run(true, null);
-                } catch (Exception e) {
-                    FileLog.e(e);
-                    callback.run(false, e.getLocalizedMessage());
+                if (TextUtils.isEmpty(res)) {
+                    callback.run(false, "EMPTY_CONFIG");
+                } else {
+                    String config = decodeConfig(res);
+                    if (config == null) {
+                        callback.run(false, "DECODE_FAILED");
+                    } else {
+                        try {
+                            NekoConfig.importConfigs(config);
+                            localSyncedDate = System.currentTimeMillis();
+                            preferences.edit().putLong("updated_at", localSyncedDate).apply();
+                            callback.run(true, null);
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                            callback.run(false, e.getLocalizedMessage());
+                        }
+                    }
                 }
             } else {
                 callback.run(false, error);
@@ -203,6 +221,44 @@ public class CloudSettingsHelper {
                 "CloudConfigSyncDate", R.string.CloudConfigSyncDate,
                 localSyncedDate > 0 ? formatDateUntil(localSyncedDate) : LocaleController.getString("CloudConfigSyncDateNever", R.string.CloudConfigSyncDateNever),
                 cloudSyncedDate[UserConfig.selectedAccount] > 0 ? formatDateUntil(cloudSyncedDate[UserConfig.selectedAccount]) : LocaleController.getString("CloudConfigSyncDateNever", R.string.CloudConfigSyncDateNever));
+    }
+
+    public static String encodeConfig(String string) {
+        try {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream(string.length());
+            GZIPOutputStream gzip = new GZIPOutputStream(bos);
+            gzip.write(string.getBytes());
+            gzip.close();
+            byte[] compressed = bos.toByteArray();
+            bos.close();
+            return CONFIG_VERSION + Base64.encodeToString(compressed, Base64.NO_PADDING | Base64.NO_WRAP);
+        } catch (Exception e) {
+            FileLog.e(e);
+            return string;
+        }
+    }
+
+    private static String decodeConfig(String string) {
+        if (string.startsWith("{")) {
+            return string;
+        } else if (string.startsWith(String.valueOf(CONFIG_VERSION))) {
+            try {
+                ByteArrayInputStream bis = new ByteArrayInputStream(Base64.decode(string.substring(1), Base64.DEFAULT));
+                GZIPInputStream gis = new GZIPInputStream(bis);
+                //noinspection CharsetObjectCanBeUsed
+                String config = new Scanner(gis, "UTF-8")
+                        .useDelimiter("\\A")
+                        .next();
+                gis.close();
+                bis.close();
+                return config;
+            } catch (Exception e) {
+                FileLog.e(e);
+                return null;
+            }
+        } else {
+            return null;
+        }
     }
 
     private static String formatDateUntil(long date) {
