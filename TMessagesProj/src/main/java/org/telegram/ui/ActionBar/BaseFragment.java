@@ -165,6 +165,9 @@ public abstract class BaseFragment {
     }
 
     public boolean isActionBarCrossfadeEnabled() {
+        if (storyViewer != null && storyViewer.attachedToParent()) {
+            return false;
+        }
         return actionBar != null && !actionBar.isActionModeShowed();
     }
 
