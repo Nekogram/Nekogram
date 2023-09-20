@@ -820,6 +820,7 @@ public class ContactsActivity extends BaseFragment implements NotificationCenter
         ActionBar actionBar = super.createActionBar(context);
         actionBar.setBackground(null);
         actionBar.setAddToContainer(false);
+        actionBar.setOccupyStatusBar(!AndroidUtilities.isTablet());
         return actionBar;
     }
 

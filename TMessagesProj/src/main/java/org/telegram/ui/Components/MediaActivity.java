@@ -185,6 +185,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         backDrawable.setAnimationTime(240);
         actionBar.setCastShadows(false);
         actionBar.setAddToContainer(false);
+        actionBar.setOccupyStatusBar(!AndroidUtilities.isTablet());
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override
             public void onItemClick(int id) {
