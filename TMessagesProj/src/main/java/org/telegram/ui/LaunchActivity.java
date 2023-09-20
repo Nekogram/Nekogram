@@ -1122,8 +1122,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             layersActionBarLayout.setDelegate(this);
             layersActionBarLayout.setDrawerLayoutContainer(drawerLayoutContainer);
 
-            View layersView = layersActionBarLayout.getView();
+            ViewGroup layersView = layersActionBarLayout.getView();
             layersView.setBackgroundResource(R.drawable.popup_fixed_alert3);
+            layersView.setClipToOutline(true);
             layersView.setVisibility(layerFragmentsStack.isEmpty() ? View.GONE : View.VISIBLE);
             launchLayout.addView(layersView);
         } else {

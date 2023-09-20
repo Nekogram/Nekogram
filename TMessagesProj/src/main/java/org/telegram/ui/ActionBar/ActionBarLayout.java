@@ -651,26 +651,30 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             boolean backDrawableReverse = false;
             Float backDrawableForcedProgress = null;
 
-            if (backgroundFragment.getBackButtonState() == BackButtonState.MENU && foregroundFragment.getBackButtonState() == BackButtonState.BACK) {
-                useBackDrawable = true;
-                backDrawableReverse = false;
-            } else if (backgroundFragment.getBackButtonState() == BackButtonState.BACK && foregroundFragment.getBackButtonState() == BackButtonState.MENU) {
-                useBackDrawable = true;
-                backDrawableReverse = true;
-            } else if (backgroundFragment.getBackButtonState() == BackButtonState.BACK && foregroundFragment.getBackButtonState() == BackButtonState.BACK) {
-                useBackDrawable = true;
-                backDrawableForcedProgress = 0f;
-            } else if (backgroundFragment.getBackButtonState() == BackButtonState.MENU && foregroundFragment.getBackButtonState() == BackButtonState.MENU) {
-                useBackDrawable = true;
-                backDrawableForcedProgress = 1f;
+            if (!AndroidUtilities.isTablet()) {
+                if (backgroundFragment.getBackButtonState() == BackButtonState.MENU && foregroundFragment.getBackButtonState() == BackButtonState.BACK) {
+                    useBackDrawable = true;
+                    backDrawableReverse = false;
+                } else if (backgroundFragment.getBackButtonState() == BackButtonState.BACK && foregroundFragment.getBackButtonState() == BackButtonState.MENU) {
+                    useBackDrawable = true;
+                    backDrawableReverse = true;
+                } else if (backgroundFragment.getBackButtonState() == BackButtonState.BACK && foregroundFragment.getBackButtonState() == BackButtonState.BACK) {
+                    useBackDrawable = true;
+                    backDrawableForcedProgress = 0f;
+                } else if (backgroundFragment.getBackButtonState() == BackButtonState.MENU && foregroundFragment.getBackButtonState() == BackButtonState.MENU) {
+                    useBackDrawable = true;
+                    backDrawableForcedProgress = 1f;
+                }
             }
 
-            AndroidUtilities.rectTmp.set(0, 0, getWidth(), bgActionBar.getY() + bgActionBar.getHeight());
+            AndroidUtilities.rectTmp.set(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingLeft(), bgActionBar.getY() + getPaddingTop() + bgActionBar.getHeight());
             canvas.saveLayerAlpha(AndroidUtilities.rectTmp, (int) (swipeProgress * 0xFF), Canvas.ALL_SAVE_FLAG);
+            canvas.translate(getPaddingLeft(), getPaddingTop());
             bgActionBar.onDrawCrossfadeBackground(canvas);
             canvas.restore();
 
             canvas.saveLayerAlpha(AndroidUtilities.rectTmp, (int) ((1 - swipeProgress) * 0xFF), Canvas.ALL_SAVE_FLAG);
+            canvas.translate(getPaddingLeft(), getPaddingTop());
             fgActionBar.onDrawCrossfadeBackground(canvas);
             canvas.restore();
 
@@ -688,15 +692,15 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 canvas.restore();
             }
 
-            AndroidUtilities.rectTmp.set(0, AndroidUtilities.statusBarHeight, getWidth(),  bgActionBar.getY() + bgActionBar.getHeight() - containerViewBack.fragmentPanTranslationOffset);
+            AndroidUtilities.rectTmp.set(getPaddingLeft(), !AndroidUtilities.isTablet() ? AndroidUtilities.statusBarHeight : getPaddingTop(), getWidth() - getPaddingLeft(),  bgActionBar.getY() + getPaddingTop() + bgActionBar.getHeight() - containerViewBack.fragmentPanTranslationOffset);
             canvas.saveLayerAlpha(AndroidUtilities.rectTmp, (int) (swipeProgress * 0xFF), Canvas.ALL_SAVE_FLAG);
-            canvas.translate(0, -containerViewBack.fragmentPanTranslationOffset + bgActionBar.getY());
+            canvas.translate(getPaddingLeft(), bgActionBar.getY() + getPaddingTop() - containerViewBack.fragmentPanTranslationOffset);
             bgActionBar.onDrawCrossfadeContent(canvas, false, useBackDrawable, swipeProgress);
             canvas.restore();
 
-            AndroidUtilities.rectTmp.set(0, AndroidUtilities.statusBarHeight, getWidth(),  fgActionBar.getY() + fgActionBar.getHeight() - containerView.fragmentPanTranslationOffset);
+            AndroidUtilities.rectTmp.set(getPaddingLeft(), !AndroidUtilities.isTablet() ? AndroidUtilities.statusBarHeight : getPaddingTop(), getWidth() - getPaddingLeft(),  fgActionBar.getY() + getPaddingTop() + fgActionBar.getHeight() - containerView.fragmentPanTranslationOffset);
             canvas.saveLayerAlpha(AndroidUtilities.rectTmp, (int) ((1 - swipeProgress) * 0xFF), Canvas.ALL_SAVE_FLAG);
-            canvas.translate(0, fgActionBar.getY() - containerView.fragmentPanTranslationOffset);
+            canvas.translate(getPaddingLeft(), fgActionBar.getY() + getPaddingTop() - containerView.fragmentPanTranslationOffset);
             fgActionBar.onDrawCrossfadeContent(canvas, true, useBackDrawable, swipeProgress);
             canvas.restore();
         }
@@ -738,6 +742,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             int widthOffset = overrideWidthOffset != -1 ? overrideWidthOffset : width - translationX;
             int top = 0;
             if (isActionBarInCrossfade()) {
+                top += getPaddingTop();
                 top += AndroidUtilities.lerp(getBackgroundFragment().getActionBar().getHeight(), getLastFragment().getActionBar().getHeight(), 1f - widthOffset / (float) width);
             }
             if (child == containerView) {
@@ -1065,14 +1070,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                                         ObjectAnimator.ofFloat(containerView, View.TRANSLATION_X, containerView.getMeasuredWidth()).setDuration(duration),
                                         ObjectAnimator.ofFloat(this, "innerTranslationX", (float) containerView.getMeasuredWidth()).setDuration(duration)
                                 );
-                                if (USE_SPRING_ANIMATION) {
-                                    animatorSet.play(ObjectAnimator.ofFloat(containerViewBack, View.TRANSLATION_X, 0).setDuration(duration));
-                                    if (USE_ACTIONBAR_CROSSFADE) {
-                                        var swipeProgressAnimator = ValueAnimator.ofFloat(swipeProgress, 1f).setDuration(duration);
-                                        swipeProgressAnimator.addUpdateListener(animation -> swipeProgress = (float) animation.getAnimatedValue());
-                                        animatorSet.play(swipeProgressAnimator);
-                                    }
-                                }
                             }
                         } else {
                             distToMove = x;
@@ -1082,15 +1079,6 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                                         ObjectAnimator.ofFloat(containerView, View.TRANSLATION_X, 0).setDuration(duration),
                                         ObjectAnimator.ofFloat(this, "innerTranslationX", 0.0f).setDuration(duration)
                                 );
-                                if (USE_SPRING_ANIMATION) {
-                                    animatorSet.play(ObjectAnimator.ofFloat(containerViewBack, View.TRANSLATION_X, -(containerView.getMeasuredWidth() - x) * 0.35f).setDuration(duration));
-                                    if (USE_ACTIONBAR_CROSSFADE) {
-                                        animatorSet.play(ObjectAnimator.ofFloat(containerViewBack, View.TRANSLATION_X, -(containerView.getMeasuredWidth() - x) * 0.35f).setDuration(duration));
-                                        var swipeProgressAnimator = ValueAnimator.ofFloat(swipeProgress, 0f).setDuration(duration);
-                                        swipeProgressAnimator.addUpdateListener(animation -> swipeProgress = (float) animation.getAnimatedValue());
-                                        animatorSet.play(swipeProgressAnimator);
-                                    }
-                                }
                             }
                         }
 
