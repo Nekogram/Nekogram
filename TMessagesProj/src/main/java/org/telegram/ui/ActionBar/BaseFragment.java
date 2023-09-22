@@ -400,6 +400,7 @@ public abstract class BaseFragment {
             actionBar.onResume();
         }
         if (storyViewer != null) {
+            storyViewer.onResume();
             storyViewer.updatePlayingMode();
         }
         if (overlayStoryViewer != null) {
@@ -833,11 +834,13 @@ public abstract class BaseFragment {
         }
         BottomSheet[] bottomSheet = new BottomSheet[1];
         INavigationLayout[] actionBarLayout = new INavigationLayout[]{INavigationLayout.newLayout(getParentActivity(), () -> bottomSheet[0])};
+        LaunchActivity.instance.sheetFragmentsStack.add(actionBarLayout[0]);
         bottomSheet[0] = new BottomSheet(getParentActivity(), true, fragment.getResourceProvider()) {
             {
                 drawNavigationBar = true;
                 actionBarLayout[0].setFragmentStack(new ArrayList<>());
                 actionBarLayout[0].addFragmentToStack(fragment);
+                actionBarLayout[0].setIsSheet(true);
                 actionBarLayout[0].showLastFragment();
                 actionBarLayout[0].getView().setPadding(backgroundPaddingLeft, 0, backgroundPaddingLeft, 0);
                 containerView = actionBarLayout[0].getView();
@@ -855,6 +858,7 @@ public abstract class BaseFragment {
             protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 fixNavigationBar(Theme.getColor(Theme.key_dialogBackgroundGray, fragment.getResourceProvider()));
+                AndroidUtilities.setLightStatusBar(getWindow(), fragment.isLightStatusBar());
             }
 
             @Override
@@ -879,6 +883,7 @@ public abstract class BaseFragment {
                     }
                 }
                 super.dismiss();
+                LaunchActivity.instance.sheetFragmentsStack.remove(actionBarLayout[0]);
                 actionBarLayout[0] = null;
             }
 
@@ -1075,6 +1080,9 @@ public abstract class BaseFragment {
     public StoryViewer getOrCreateStoryViewer() {
         if (storyViewer == null) {
             storyViewer = new StoryViewer(this);
+            if (parentLayout.isSheet()) {
+                storyViewer.fromBottomSheet = true;
+            }
         }
         return storyViewer;
     }

@@ -1171,6 +1171,10 @@ public class FileLoader extends BaseController {
     }
 
     public File getPathToMessage(TLRPC.Message message, boolean useFileDatabaseQueue) {
+        return getPathToMessage(message, useFileDatabaseQueue, false);
+    }
+
+    public File getPathToMessage(TLRPC.Message message, boolean useFileDatabaseQueue, boolean saveAsFile) {
         if (message == null) {
             return new File("");
         }
@@ -1186,7 +1190,7 @@ public class FileLoader extends BaseController {
             }
         } else {
             if (MessageObject.getMedia(message) instanceof TLRPC.TL_messageMediaDocument) {
-                return getPathToAttach(MessageObject.getMedia(message).document, null, !NekoConfig.shouldNOTTrustMe && MessageObject.getMedia(message).ttl_seconds != 0, useFileDatabaseQueue);
+                return getPathToAttach(MessageObject.getMedia(message).document, null,null, !NekoConfig.shouldNOTTrustMe && MessageObject.getMedia(message).ttl_seconds != 0, useFileDatabaseQueue, saveAsFile);
             } else if (MessageObject.getMedia(message) instanceof TLRPC.TL_messageMediaPhoto) {
                 ArrayList<TLRPC.PhotoSize> sizes = MessageObject.getMedia(message).photo.sizes;
                 if (sizes.size() > 0) {
@@ -1223,21 +1227,22 @@ public class FileLoader extends BaseController {
     }
 
     public File getPathToAttach(TLObject attach, String ext, boolean forceCache) {
-        return getPathToAttach(attach, null, ext, forceCache, true);
+        return getPathToAttach(attach, null, ext, forceCache, true, false);
     }
 
     public File getPathToAttach(TLObject attach, String ext, boolean forceCache, boolean useFileDatabaseQueue) {
-        return getPathToAttach(attach, null, ext, forceCache, useFileDatabaseQueue);
+        return getPathToAttach(attach, null, ext, forceCache, useFileDatabaseQueue, false);
     }
 
     /**
      * Return real file name. Used before file.exist()
      */
-    public File getPathToAttach(TLObject attach, String size, String ext, boolean forceCache, boolean useFileDatabaseQueue) {
+    public File getPathToAttach(TLObject attach, String size, String ext, boolean forceCache, boolean useFileDatabaseQueue, boolean saveAsFile) {
         File dir = null;
         long documentId = 0;
         int dcId = 0;
         int type = 0;
+        String fileName = null;
         if (forceCache) {
             dir = getDirectory(MEDIA_DIR_CACHE);
         } else {
@@ -1254,7 +1259,13 @@ public class FileLoader extends BaseController {
                     } else if (MessageObject.isVideoDocument(document)) {
                         type = MEDIA_DIR_VIDEO;
                     } else {
-                        type = MEDIA_DIR_DOCUMENT;
+                        String documentFileName = getDocumentFileName(document);
+                        if (saveAsFile && !TextUtils.isEmpty(documentFileName)) {
+                            fileName = documentFileName;
+                            type = MEDIA_DIR_FILES;
+                        } else {
+                            type = MEDIA_DIR_DOCUMENT;
+                        }
                     }
                 }
                 documentId = document.id;
@@ -1325,7 +1336,10 @@ public class FileLoader extends BaseController {
                 return new File(path);
             }
         }
-        return new File(dir, getAttachFileName(attach, ext));
+        if (fileName == null) {
+            fileName = getAttachFileName(attach, ext);
+        }
+        return new File(dir, fileName);
     }
 
     public FilePathDatabase getFileDatabase() {

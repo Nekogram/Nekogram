@@ -100,6 +100,7 @@ import tw.nekomimi.nekogram.helpers.MessageHelper;
 public class MediaDataController extends BaseController {
     public final static String ATTACH_MENU_BOT_ANIMATED_ICON_KEY = "android_animated",
             ATTACH_MENU_BOT_STATIC_ICON_KEY = "default_static",
+            ATTACH_MENU_BOT_SIDE_MENU_ICON_KEY = "android_side_menu_static",
             ATTACH_MENU_BOT_PLACEHOLDER_STATIC_KEY = "placeholder_static",
             ATTACH_MENU_BOT_COLOR_LIGHT_ICON = "light_icon",
             ATTACH_MENU_BOT_COLOR_LIGHT_TEXT = "light_text",
@@ -1568,6 +1569,16 @@ public class MediaDataController extends BaseController {
     public static TLRPC.TL_attachMenuBotIcon getStaticAttachMenuBotIcon(@NonNull TLRPC.TL_attachMenuBot bot) {
         for (TLRPC.TL_attachMenuBotIcon icon : bot.icons) {
             if (icon.name.equals(ATTACH_MENU_BOT_STATIC_ICON_KEY)) {
+                return icon;
+            }
+        }
+        return null;
+    }
+
+    @Nullable
+    public static TLRPC.TL_attachMenuBotIcon getSideAttachMenuBotIcon(@NonNull TLRPC.TL_attachMenuBot bot) {
+        for (TLRPC.TL_attachMenuBotIcon icon : bot.icons) {
+            if (icon.name.equals(ATTACH_MENU_BOT_SIDE_MENU_ICON_KEY)) {
                 return icon;
             }
         }
@@ -5368,7 +5379,7 @@ public class MediaDataController extends BaseController {
                 }
                 if (messageObject.type == MessageObject.TYPE_STORY || messageObject.type == MessageObject.TYPE_STORY_MENTION) {
                     if (messageObject.messageOwner.media.storyItem == null) {
-                        long storyDialogId = messageObject.messageOwner.media.user_id;
+                        long storyDialogId = DialogObject.getPeerDialogId(messageObject.messageOwner.media.peer);
                         if (messagesWithUnknownStories == null) {
                             messagesWithUnknownStories = new LongSparseArray<>();
                         }
@@ -5379,7 +5390,7 @@ public class MediaDataController extends BaseController {
                         }
                         array.add(messageObject);
                     } else {
-                        long storyDialogId = messageObject.messageOwner.media.user_id;
+                        long storyDialogId = DialogObject.getPeerDialogId(messageObject.messageOwner.media.peer);
                         messageObject.messageOwner.media.storyItem = StoriesStorage.checkExpiredStateLocal(currentAccount, storyDialogId, messageObject.messageOwner.media.storyItem);
                     }
                 } else if (messageObject.getId() > 0 && messageObject.isReplyToStory()) {
@@ -5453,7 +5464,7 @@ public class MediaDataController extends BaseController {
                         if (attr instanceof TLRPC.TL_webPageAttributeStory) {
                             TLRPC.TL_webPageAttributeStory attrStory = (TLRPC.TL_webPageAttributeStory) attr;
                             if (attrStory.storyItem == null) {
-                                long storyDialogId = attrStory.user_id;
+                                long storyDialogId = DialogObject.getPeerDialogId(attrStory.peer);
                                 if (messagesWithUnknownStories == null) {
                                     messagesWithUnknownStories = new LongSparseArray<>();
                                 }
@@ -5464,7 +5475,7 @@ public class MediaDataController extends BaseController {
                                 }
                                 array.add(messageObject);
                             } else {
-                                long storyDialogId = attrStory.user_id;
+                                long storyDialogId = DialogObject.getPeerDialogId(attrStory.peer);
                                 attrStory.storyItem = StoriesStorage.checkExpiredStateLocal(currentAccount, storyDialogId, attrStory.storyItem);
                             }
                         }
@@ -7147,6 +7158,7 @@ public class MediaDataController extends BaseController {
 
     public void applyAttachMenuBot(TLRPC.TL_attachMenuBotsBot attachMenuBot) {
         attachMenuBots.bots.add(attachMenuBot.bot);
+        loadAttachMenuBots(false, true);
     }
 
     public boolean botInAttachMenu(long id) {
