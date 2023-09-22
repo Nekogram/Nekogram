@@ -677,6 +677,24 @@ public class MentionsContainerView extends BlurredFrameLayout implements Notific
                 }
             }
         });
+        getListView().setOnItemLongClickListener((view, position) -> {
+            if (position == 0 || getAdapter().isBannedInline()) {
+                return false;
+            }
+            position--;
+            Object object = getAdapter().getItem(position);
+            int start = getAdapter().getResultStartPosition();
+            int len = getAdapter().getResultLength();
+            if (object instanceof TLRPC.User) {
+                TLRPC.User user = (TLRPC.User) object;
+                String name = UserObject.getFirstName(user, false);
+                Spannable spannable = new SpannableString(name + " ");
+                spannable.setSpan(new URLSpanUserMention("" + user.id, 3), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                delegate.replaceText(start, len, spannable, false);
+                return true;
+            }
+            return false;
+        });
         getListView().setOnTouchListener((v, event) -> ContentPreviewViewer.getInstance().onTouch(event, getListView(), 0, mentionsOnItemClickListener, null, resourcesProvider));
     }
 
