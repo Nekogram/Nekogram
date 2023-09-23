@@ -126,6 +126,11 @@ public class UserHelper extends BaseController {
     }
 
     void resolveUser(String userName, long userId, Utilities.Callback<TLRPC.User> callback) {
+        var user = getMessagesController().getUser(userId);
+        if (user != null) {
+            callback.run(user);
+            return;
+        }
         resolvePeer(userName, peer -> {
             if (peer instanceof TLRPC.TL_peerUser) {
                 callback.run(peer.user_id == userId ? getMessagesController().getUser(userId) : null);
@@ -136,6 +141,11 @@ public class UserHelper extends BaseController {
     }
 
     private void resolveChat(String userName, long chatId, Utilities.Callback<TLRPC.Chat> callback) {
+        var chat = getMessagesController().getChat(chatId);
+        if (chat != null) {
+            callback.run(chat);
+            return;
+        }
         resolvePeer(userName, peer -> {
             if (peer instanceof TLRPC.TL_peerChat || peer instanceof TLRPC.TL_peerChannel) {
                 if (peer.chat_id == chatId || peer.channel_id == chatId) {
