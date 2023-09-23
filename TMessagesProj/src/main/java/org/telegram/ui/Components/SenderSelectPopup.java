@@ -11,6 +11,7 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.TextUtils;
@@ -299,6 +300,15 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
             }
             clicked = true;
             selectCallback.onPeerSelected(recyclerView, (SenderView) view, peerObj.peer);
+        });
+        recyclerView.setOnItemLongClickListener((view, position) -> {
+            TLRPC.TL_sendAsPeer peerObj = peers.get(position);
+            if (peerObj.peer.channel_id != 0) {
+                Bundle args = new Bundle();
+                args.putLong("chat_id", peerObj.peer.channel_id);
+                parentFragment.presentFragment(new ChatActivity(args));
+            }
+            return true;
         });
         recyclerView.setOverScrollMode(View.OVER_SCROLL_NEVER);
 
