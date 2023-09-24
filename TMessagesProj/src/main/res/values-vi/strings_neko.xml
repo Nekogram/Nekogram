@@ -6,6 +6,7 @@
     <string name="HidePhone">Ẩn số điện thoại của tôi</string>
     <string name="DeleteAllFromSelf">Xóa tin nhắn của chính bạn</string>
     <string name="DeleteAllFromSelfAlert">Cảnh báo! Việc này sẽ **xóa tất cả các tin nhắn từ bạn** trong cuộc trò chuyện này với **tất cả** những người tham gia.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Cảnh báo! Việc này sẽ **xóa tất cả các tin nhắn của bạn trước đây %s** trong cuộc trò chuyện này với **tất cả** những người tham gia.</string>
     <string name="BotLogin">Đăng nhập Bot</string>
     <string name="BotLoginMessage">Nhập mã thông báo bot nhận được từ **@BotFather**.</string>
     <string name="InvalidAccessToken">Mã truy cập không hợp lệ</string>
@@ -286,6 +287,14 @@
     <string name="SendLargePhotosAbout">Tăng giới hạn bên trên hình ảnh nén lên 2560px.</string>
     <string name="ExportAsJson">Sao chép dưới dạng JSON</string>
     <string name="HideStories">Ẩn Câu Chuyện</string>
+    <string name="CloudConfigSyncShort">Đồng bộ</string>
+    <string name="CloudConfigRestore">Khôi phục từ đám mây</string>
+    <string name="CloudConfigRestoreShort">Khôi phục</string>
+    <string name="CloudConfigSyncing">Đang đồng bộ...</string>
+    <string name="CloudConfigAutoSync">Tự động đồng bộ</string>
+    <string name="CloudConfigAutoSyncDesc">Tự động đồng bộ với đám mây sau khi thực hiện thay đổi với Cài đặt Neko.</string>
+    <string name="CloudConfigSyncFailed">Không thể đồng bộ cài đặt với đám mây.</string>
+    <string name="CloudConfigRestoreFailed">Không thể khôi phục cài đặt từ đám mây.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>
