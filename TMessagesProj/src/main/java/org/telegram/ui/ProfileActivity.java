@@ -2186,7 +2186,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     args.putLong("chat_id", chatId);
                     args.putBoolean("is_megagroup", chat.megagroup);
                     if (!chatInfo.can_view_stats) {
-                        args.putBoolean("only_boosts", chat.megagroup);
+                        args.putBoolean("only_boosts", true);
                     }
                     StatisticActivity fragment = new StatisticActivity(args);
                     presentFragment(fragment);
@@ -4529,7 +4529,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private final AccelerateDecelerateInterpolator floatingInterpolator = new AccelerateDecelerateInterpolator();
 
     private void createFloatingActionButton(Context context) {
+        if (!getMessagesController().storiesEnabled()) {
+            return;
+        }
         if (getDialogId() > 0L) {
+            return;
+        }
+        if (!ChatObject.isChannelAndNotMegaGroup(-getDialogId(), currentAccount)) {
             return;
         }
         StoriesController storiesController = getMessagesController().getStoriesController();
@@ -4570,7 +4576,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         args.putBoolean("is_megagroup", chat.megagroup);
                         args.putBoolean("start_from_boosts", true);
                         if (chatInfo == null || !chatInfo.can_view_stats) {
-                            args.putBoolean("only_boosts", chat.megagroup);
+                            args.putBoolean("only_boosts", true);
                         };
                         StatisticActivity fragment = new StatisticActivity(args);
                         presentFragment(fragment);
@@ -6066,18 +6072,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (writeButton != null) {
                 writeButton.setTranslationY((actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + ActionBar.getCurrentActionBarHeight() + extraHeight + searchTransitionOffset - AndroidUtilities.dp(29.5f));
 
-                if (storyView != null) {
-                    storyView.setExpandCoords(avatarContainer2.getMeasuredWidth() - AndroidUtilities.dp(111), (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + ActionBar.getCurrentActionBarHeight() + extraHeight + searchTransitionOffset);
+                boolean writeButtonVisible = diff > 0.2f && !searchMode && (imageUpdater == null || setAvatarRow == -1);
+                if (writeButtonVisible && chatId != 0) {
+                    writeButtonVisible = ChatObject.isChannel(currentChat)/* && !currentChat.megagroup*/ && chatInfo != null && chatInfo.linked_chat_id != 0 && infoHeaderRow != -1;
                 }
-
                 if (!openAnimationInProgress) {
-                    boolean setVisible = diff > 0.2f && !searchMode && (imageUpdater == null || setAvatarRow == -1);
-                    if (setVisible && chatId != 0) {
-                        setVisible = ChatObject.isChannel(currentChat) /*&& !currentChat.megagroup */&& chatInfo != null && chatInfo.linked_chat_id != 0 && infoHeaderRow != -1;
-                    }
                     boolean currentVisible = writeButton.getTag() == null;
-                    if (setVisible != currentVisible) {
-                        if (setVisible) {
+                    if (writeButtonVisible != currentVisible) {
+                        if (writeButtonVisible) {
                             writeButton.setTag(null);
                         } else {
                             writeButton.setTag(0);
@@ -6089,7 +6091,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                         if (animated) {
                             writeButtonAnimation = new AnimatorSet();
-                            if (setVisible) {
+                            if (writeButtonVisible) {
                                 writeButtonAnimation.setInterpolator(new DecelerateInterpolator());
                                 writeButtonAnimation.playTogether(
                                         ObjectAnimator.ofFloat(writeButton, View.SCALE_X, 1.0f),
@@ -6115,9 +6117,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             });
                             writeButtonAnimation.start();
                         } else {
-                            writeButton.setScaleX(setVisible ? 1.0f : 0.2f);
-                            writeButton.setScaleY(setVisible ? 1.0f : 0.2f);
-                            writeButton.setAlpha(setVisible ? 1.0f : 0.0f);
+                            writeButton.setScaleX(writeButtonVisible ? 1.0f : 0.2f);
+                            writeButton.setScaleY(writeButtonVisible ? 1.0f : 0.2f);
+                            writeButton.setAlpha(writeButtonVisible ? 1.0f : 0.0f);
                         }
                     }
 
@@ -6131,6 +6133,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                             }
                         }
                     }
+                }
+
+                if (storyView != null) {
+                    storyView.setExpandCoords(avatarContainer2.getMeasuredWidth() - AndroidUtilities.dp(writeButtonVisible ? 111 : 40), (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0) + ActionBar.getCurrentActionBarHeight() + extraHeight + searchTransitionOffset);
                 }
             }
 
