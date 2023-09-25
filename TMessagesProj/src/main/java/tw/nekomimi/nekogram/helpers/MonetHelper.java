@@ -8,7 +8,6 @@ import android.os.Build;
 import android.os.PatternMatcher;
 
 import androidx.annotation.RequiresApi;
-import androidx.core.content.ContextCompat;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
@@ -114,7 +113,7 @@ public class MonetHelper {
             IntentFilter packageFilter = new IntentFilter(ACTION_OVERLAY_CHANGED);
             packageFilter.addDataScheme("package");
             packageFilter.addDataSchemeSpecificPart("android", PatternMatcher.PATTERN_LITERAL);
-            ContextCompat.registerReceiver(context, this, packageFilter, ContextCompat.RECEIVER_NOT_EXPORTED);
+            context.registerReceiver(this, packageFilter);
         }
 
         public void unregister(Context context) {
