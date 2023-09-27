@@ -2433,13 +2433,13 @@ public class AndroidUtilities {
     }
 
     public static boolean isTabletForce() {
+        if (NekoConfig.tabletMode != NekoConfig.TABLET_AUTO) {
+            return NekoConfig.tabletMode == NekoConfig.TABLET_ENABLE;
+        }
         return ApplicationLoader.applicationContext != null && ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isTablet);
     }
 
     public static boolean isTabletInternal() {
-        if (NekoConfig.tabletMode != NekoConfig.TABLET_AUTO) {
-            return NekoConfig.tabletMode == NekoConfig.TABLET_ENABLE;
-        }
         if (isTablet == null) {
             isTablet = isTabletForce();
         }
