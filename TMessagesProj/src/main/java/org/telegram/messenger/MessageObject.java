@@ -78,6 +78,7 @@ import java.util.regex.Pattern;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.syntaxhighlight.SyntaxHighlight;
+import tw.nekomimi.nekogram.translator.Translator;
 
 public class MessageObject {
 
@@ -215,8 +216,6 @@ public class MessageObject {
     public boolean preview;
 
     public boolean translating;
-    public Pair<String, String> translatedLanguage;
-    public Object originalMessage;
 
     public ArrayList<TLRPC.TL_pollAnswer> checkedVotes;
 
@@ -2651,22 +2650,26 @@ public class MessageObject {
         return updateTranslation(false);
     }
 
+    public boolean manually = false;
     public boolean translated = false;
     public boolean updateTranslation(boolean force) {
-        /*boolean replyUpdated = replyMessageObject != null && replyMessageObject.updateTranslation(force);
+        boolean replyUpdated = !manually && replyMessageObject != null && replyMessageObject.updateTranslation(force);
         TranslateController translateController = MessagesController.getInstance(currentAccount).getTranslateController();
         if (
-            TranslateController.isTranslatable(this) &&
-            translateController.isTranslatingDialog(getDialogId()) &&
+            TranslateController.isTranslatable(this, manually) &&
+            (translateController.isTranslatingDialog(getDialogId()) || manually) &&
             messageOwner != null &&
             messageOwner.translatedText != null &&
-            TextUtils.equals(translateController.getDialogTranslateTo(getDialogId()), messageOwner.translatedToLanguage)
+            TextUtils.equals(manually ? Translator.getCurrentTargetLanguage() : Translator.getTargetLanguage(translateController.getDialogTranslateTo(getDialogId())), messageOwner.translatedToLanguage)
         ) {
             if (translated) {
                 return replyUpdated || false;
             }
             translated = true;
-            applyNewText(messageOwner.translatedText.text);
+            applyNewText(!NekoConfig.showOriginal ? messageOwner.translatedText.text : (messageOwner.message +
+                    "\n" +
+                    "--------" +
+                    "\n" + messageOwner.translatedText.text));
             generateCaption();
             return replyUpdated || true;
         } else if (messageOwner != null && (force || translated)) {
@@ -2675,12 +2678,11 @@ public class MessageObject {
             generateCaption();
             return replyUpdated || true;
         }
-        return replyUpdated || false;*/
-        return false;
+        return replyUpdated || false;
     }
 
     public void applyNewText() {
-        //translated = false;
+        translated = false;
         applyNewText(messageOwner.message);
     }
 
@@ -2693,7 +2695,7 @@ public class MessageObject {
             fromUser = MessagesController.getInstance(currentAccount).getUser(messageOwner.from_id.user_id);
         }
         messageText = text;
-        ArrayList<TLRPC.MessageEntity> entities = false && messageOwner.translatedText != null ? messageOwner.translatedText.entities : messageOwner.entities;
+        ArrayList<TLRPC.MessageEntity> entities = translated && messageOwner.translatedText != null && !NekoConfig.showOriginal ? messageOwner.translatedText.entities : messageOwner.entities;
         TextPaint paint;
         if (getMedia(messageOwner) instanceof TLRPC.TL_messageMediaGame) {
             paint = Theme.chat_msgGameTextPaint;
@@ -4867,7 +4869,7 @@ public class MessageObject {
     private boolean captionTranslated;
 
     public void generateCaption() {
-        if (caption != null && false == captionTranslated || isRoundVideo()) {
+        if (caption != null && translated == captionTranslated || isRoundVideo()) {
             return;
         }
         String text = messageOwner.message;
@@ -4885,9 +4887,12 @@ public class MessageObject {
         } else if (hasExtendedMedia()) {
             text = messageOwner.message = messageOwner.media.description;
         }
-        if (captionTranslated = false) {
-            text = messageOwner.translatedText.text;
-            entities = messageOwner.translatedText.entities;
+        if (captionTranslated = translated) {
+            text = !NekoConfig.showOriginal ? messageOwner.translatedText.text : (messageOwner.message +
+                    "\n" +
+                    "--------" +
+                    "\n" + messageOwner.translatedText.text);
+            entities =  !NekoConfig.showOriginal ? messageOwner.translatedText.entities : messageOwner.entities;
         }
         if (!isMediaEmpty() && !(getMedia(messageOwner) instanceof TLRPC.TL_messageMediaGame) && !TextUtils.isEmpty(text)) {
             caption = Emoji.replaceEmoji(text, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20), false);
@@ -5170,7 +5175,7 @@ public class MessageObject {
             return addEntitiesToText(text, entities, isOutOwner(), true, photoViewer, useManualParse);
         } else {
             ArrayList<TLRPC.MessageEntity> entities;
-            if (false) {
+            if (translated && !NekoConfig.showOriginal) {
                 if (messageOwner.translatedText == null) {
                     entities = null;
                 } else {
@@ -5208,7 +5213,7 @@ public class MessageObject {
     }
 
     public Spannable replaceAnimatedEmoji(CharSequence text, Paint.FontMetricsInt fontMetricsInt) {
-        ArrayList<TLRPC.MessageEntity> entities = false && messageOwner.translatedText != null ? messageOwner.translatedText.entities : messageOwner.entities;
+        ArrayList<TLRPC.MessageEntity> entities = translated && messageOwner.translatedText != null && !NekoConfig.showOriginal ? messageOwner.translatedText.entities : messageOwner.entities;
         return replaceAnimatedEmoji(text, entities, fontMetricsInt, false);
     }
 
@@ -5616,7 +5621,7 @@ public class MessageObject {
     private boolean applyEntities() {
         generateLinkDescription();
 
-        ArrayList<TLRPC.MessageEntity> entities = false && messageOwner.translatedText != null ? messageOwner.translatedText.entities : messageOwner.entities;
+        ArrayList<TLRPC.MessageEntity> entities = translated && messageOwner.translatedText != null && !NekoConfig.showOriginal ? messageOwner.translatedText.entities : messageOwner.entities;
         spoilLoginCode();
 
         boolean hasEntities;

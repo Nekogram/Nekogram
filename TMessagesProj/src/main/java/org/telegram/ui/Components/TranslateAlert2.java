@@ -831,10 +831,9 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                     if (adapter.mMainView == textViewContainer) {
                         prevToLanguage = toLanguage;
                     }
-                    toLanguage = language;
-                    toLanguageTextView.setText(languageName(language));
+                    toLanguageTextView.setText(languageName(toLanguage = language));
                     adapter.updateMainView(loadingTextView);
-                    NekoConfig.setTranslationTarget(toLanguage);
+                    setToLanguage(toLanguage);
                     translate();
                 });
                 layout.addView(button);
@@ -1113,14 +1112,14 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     }
 
     public static String getToLanguage() {
-        return MessagesController.getGlobalMainSettings().getString("translate_to_language", LocaleController.getInstance().getCurrentLocale().getLanguage());
+        return Translator.getCurrentTargetLanguage();
     }
 
     public static void setToLanguage(String toLang) {
-        MessagesController.getGlobalMainSettings().edit().putString("translate_to_language", toLang).apply();
+        NekoConfig.setTranslationTarget(toLang);
     }
 
     public static void resetToLanguage() {
-        MessagesController.getGlobalMainSettings().edit().remove("translate_to_language").apply();
+        NekoConfig.setTranslationTarget("app");
     }
 }

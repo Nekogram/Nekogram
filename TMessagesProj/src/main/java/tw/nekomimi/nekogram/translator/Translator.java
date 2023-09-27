@@ -274,7 +274,7 @@ public class Translator {
         }
     }
 
-    public static void translate(Object query, String fl, String tl, TranslateCallBack translateCallBack) {
+    public static void translate(String query, String fl, String tl, TranslateCallBack translateCallBack) {
         BaseTranslator translator = getCurrentTranslator();
 
         String language = tl == null ? getCurrentTargetLanguage() : tl;
@@ -286,7 +286,7 @@ public class Translator {
         }
     }
 
-    public static void translate(Object query, String fl, TranslateCallBack translateCallBack) {
+    public static void translate(String query, String fl, TranslateCallBack translateCallBack) {
         translate(query, fl, null, translateCallBack);
     }
 
@@ -299,7 +299,7 @@ public class Translator {
     private static class UnsupportedTargetLanguageException extends IllegalArgumentException {
     }
 
-    private static void startTask(BaseTranslator translator, Object query, String fromLang, String toLang, TranslateCallBack translateCallBack) {
+    private static void startTask(BaseTranslator translator, String query, String fromLang, String toLang, TranslateCallBack translateCallBack) {
         var result = cache.get(Pair.create(query, toLang + "|" + NekoConfig.translationProvider));
         if (result != null) {
             translateCallBack.onSuccess(result.first, result.second == null ? fromLang : translator.convertLanguageCode(result.second, true), toLang);
@@ -308,6 +308,16 @@ public class Translator {
             ListenableFuture<Pair<Object, String>> future = getExecutorService().submit(translateTask);
             Futures.addCallback(future, translateTask, ContextCompat.getMainExecutor(ApplicationLoader.applicationContext));
         }
+    }
+
+    public static TLRPC.TL_textWithEntities getTLResult(Object translation, String message, ArrayList<TLRPC.MessageEntity> entities) {
+        if (translation instanceof String) {
+            TLRPC.TL_textWithEntities text = new TLRPC.TL_textWithEntities();
+            text.text = (String) translation;
+            text.entities = new ArrayList<>();
+            return text;
+        }
+        return null;
     }
 
     private static String getCurrentAppLanguage(BaseTranslator translator) {
@@ -330,6 +340,10 @@ public class Translator {
         return toLang;
     }
 
+    public static String getTargetLanguage(String language) {
+        return getTargetLanguage(getCurrentTranslator(), language);
+    }
+
     public static String getCurrentTargetLanguage() {
         return getTargetLanguage(getCurrentTranslator(), NekoConfig.translationTarget);
     }
@@ -337,11 +351,11 @@ public class Translator {
     private static class TranslateTask implements Callable<Pair<Object, String>>, FutureCallback<Pair<Object, String>> {
         private final TranslateCallBack translateCallBack;
         private final BaseTranslator translator;
-        private final Object query;
+        private final String query;
         private final String fl;
         private final String tl;
 
-        public TranslateTask(BaseTranslator translator, Object query, String fl, String tl, TranslateCallBack translateCallBack) {
+        public TranslateTask(BaseTranslator translator, String query, String fl, String tl, TranslateCallBack translateCallBack) {
             this.translator = translator;
             this.query = query;
             this.fl = fl;
@@ -353,49 +367,14 @@ public class Translator {
         public Pair<Object, String> call() throws Exception {
             var from = "";//translator.convertLanguageCode(TextUtils.isEmpty(fl) || "und".equals(fl) ? "auto" : fl, false);
             var to = translator.convertLanguageCode(tl, false);
-            if (query instanceof String) {
-                Result result = translator.translate((String) query, from, to);
-                return Pair.create(result.translation, result.sourceLanguage);
-            } else if (query instanceof TLRPC.Poll) {
-                TLRPC.TL_poll poll = new TLRPC.TL_poll();
-                TLRPC.TL_poll original = (TLRPC.TL_poll) query;
-                var question = translator.translate(original.question, from, to);
-                if (NekoConfig.showOriginal) {
-                    poll.question = original.question +
-                            "\n" +
-                            "--------" +
-                            "\n" + question.translation;
-                } else {
-                    poll.question = question.translation;
-                }
-                for (int i = 0; i < original.answers.size(); i++) {
-                    TLRPC.TL_pollAnswer answer = new TLRPC.TL_pollAnswer();
-                    if (NekoConfig.showOriginal) {
-                        answer.text = original.answers.get(i).text + " | " + translator.translate(original.answers.get(i).text, from, to).translation;
-                    } else {
-                        answer.text = translator.translate(original.answers.get(i).text, from, to).translation;
-                    }
-                    answer.option = original.answers.get(i).option;
-                    poll.answers.add(answer);
-                }
-                poll.close_date = original.close_date;
-                poll.close_period = original.close_period;
-                poll.closed = original.closed;
-                poll.flags = original.flags;
-                poll.id = original.id;
-                poll.multiple_choice = original.multiple_choice;
-                poll.public_voters = original.public_voters;
-                poll.quiz = original.quiz;
-                return Pair.create(poll, question.sourceLanguage);
-            } else {
-                throw new UnsupportedOperationException("Unsupported translation query");
-            }
+            Result result = translator.translate(query, from, to);
+            return Pair.create(result.translation, result.sourceLanguage);
         }
 
         @Override
         public void onSuccess(Pair<Object, String> result) {
             translateCallBack.onSuccess(result.first, result.second == null ? fl : translator.convertLanguageCode(result.second, true), tl);
-            cache.put(Pair.create(query, tl), result);
+            cache.put(Pair.create(query, tl + "|" + NekoConfig.translationProvider), result);
         }
 
         @Override

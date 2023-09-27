@@ -15,7 +15,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Pair;
 import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -123,16 +122,17 @@ public class MessageHelper extends BaseController {
     }
 
     public static CharSequence createTranslateString(MessageObject messageObject) {
-        var translatedLanguage = messageObject.translatedLanguage;
-        if (translatedLanguage == null || "und".equals(translatedLanguage.first) || TextUtils.isEmpty(translatedLanguage.first) || TextUtils.isEmpty(translatedLanguage.second)) {
+        var fromLanguage = messageObject.messageOwner.originalLanguage;
+        var toLanguage = messageObject.messageOwner.translatedToLanguage;
+        if ("und".equals(fromLanguage) || TextUtils.isEmpty(fromLanguage) || TextUtils.isEmpty(toLanguage)) {
             return LocaleController.getString("Translated", R.string.Translated) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
         }
         if (spannedStrings[0] == null) {
             spannedStrings[0] = new SpannableStringBuilder("\u200B");
             spannedStrings[0].setSpan(new ColoredImageSpan(Theme.chat_arrowDrawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        Locale from = Locale.forLanguageTag(translatedLanguage.first);
-        Locale to = Locale.forLanguageTag(translatedLanguage.second);
+        Locale from = Locale.forLanguageTag(fromLanguage);
+        Locale to = Locale.forLanguageTag(toLanguage);
         var spannableStringBuilder = new SpannableStringBuilder();
         spannableStringBuilder
                 .append(!TextUtils.isEmpty(from.getScript()) ? HtmlCompat.fromHtml(from.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY) : from.getDisplayName())
@@ -278,14 +278,23 @@ public class MessageHelper extends BaseController {
         if (messageObject != null && messageObject.translating) {
             return null;
         }
+        if (messageObject != null && messageObject.translated && !messageObject.manually) {
+            return null;
+        }
         return messageObject;
     }
 
-    public boolean isLinkOrEmojiOnlyMessage(MessageObject messageObject) {
-        if (messageObject.messageOwner.message.matches("[\\d -/:-@\\[-`{-~]")) {
+    public static boolean isLinkOrEmojiOnlyMessage(MessageObject messageObject) {
+        return isLinkOrEmojiOnlyMessage(messageObject.messageOwner.message, messageObject.messageOwner.entities);
+    }
+
+    public static boolean isLinkOrEmojiOnlyMessage(String message, ArrayList<TLRPC.MessageEntity> entities) {
+        if (message == null) {
+            return false;
+        }
+        if (message.matches("[\\d -/:-@\\[-`{-~]")) {
             return true;
         }
-        var entities = messageObject.messageOwner.entities;
         if (entities != null) {
             for (TLRPC.MessageEntity entity : entities) {
                 if (entity instanceof TLRPC.TL_messageEntityBotCommand ||
@@ -296,23 +305,13 @@ public class MessageHelper extends BaseController {
                         entity instanceof TLRPC.TL_messageEntityHashtag ||
                         entity instanceof TLRPC.TL_messageEntityBankCard ||
                         entity instanceof TLRPC.TL_messageEntityPhone) {
-                    if (entity.offset == 0 && entity.length == messageObject.messageOwner.message.length()) {
+                    if (entity.offset == 0 && entity.length == message.length()) {
                         return true;
                     }
                 }
             }
         }
-        return Emoji.fullyConsistsOfEmojis(messageObject.messageOwner.message);
-    }
-
-    public boolean isMessageObjectAutoTranslatable(MessageObject messageObject) {
-        if (messageObject.translated || messageObject.translating || messageObject.isOutOwner()) {
-            return false;
-        }
-        if (messageObject.isPoll()) {
-            return true;
-        }
-        return !TextUtils.isEmpty(messageObject.messageOwner.message) && !isLinkOrEmojiOnlyMessage(messageObject);
+        return Emoji.fullyConsistsOfEmojis(message);
     }
 
     public MessageObject getMessageForRepeat(MessageObject selectedObject, MessageObject.GroupedMessages selectedObjectGroup) {
@@ -612,25 +611,15 @@ public class MessageHelper extends BaseController {
     }
 
     public void resetMessageContent(long dialogId, MessageObject messageObject, boolean translated) {
-        resetMessageContent(dialogId, messageObject, translated, null, false, null);
+        resetMessageContent(dialogId, messageObject, translated, false);
     }
 
     public void resetMessageContent(long dialogId, MessageObject messageObject, boolean translated, boolean translating) {
-        resetMessageContent(dialogId, messageObject, translated, null, translating, null);
-    }
-
-    public void resetMessageContent(long dialogId, MessageObject messageObject, boolean translated, Object original, boolean translating, Pair<String, String> translatedLanguage) {
         TLRPC.Message message = messageObject.messageOwner;
 
         MessageObject obj = new MessageObject(currentAccount, message, true, true);
-        obj.originalMessage = original;
         obj.translating = translating;
-        obj.translatedLanguage = translatedLanguage;
-        obj.translated = translated;
-        if (messageObject.isSponsored()) {
-            obj.sponsoredId = messageObject.sponsoredId;
-            obj.botStartParam = messageObject.botStartParam;
-        }
+        obj.manually = translated;
 
         replaceMessagesObject(dialogId, obj);
     }

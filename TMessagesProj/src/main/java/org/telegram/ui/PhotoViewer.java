@@ -160,7 +160,6 @@ import org.telegram.messenger.FileStreamLoadOperation;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
-import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
@@ -809,8 +808,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private ActionBarMenuItem pipItem;
     private ActionBarMenuItem masksItem;
     private ActionBarMenuSubItem qrItem;
-    private ActionBarMenuSubItem translateItem;
-    private String translateFromLanguage = null;
     private LinearLayout itemsLayout;
     ChooseSpeedLayout chooseSpeedLayout;
     private Map<View, Boolean> actionBarItemsVisibility = new HashMap<>(3);
@@ -5391,8 +5388,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     placeProvider.openPhotoForEdit(f.getAbsolutePath(), thumb, isVideo);
                 } else if (id == gallery_menu_qr) {
                     QrHelper.showQrDialog(parentFragment, resourcesProvider, qrResults, true);
-                } else if (id == gallery_menu_translate) {
-                    translateCaption();
                 } else if (id == gallery_menu_copy) {
                     File f = null;
                     if (currentMessageObject != null) {
@@ -5413,6 +5408,25 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     } else {
                         showDownloadAlert();
                     }
+                } else if (id == gallery_menu_translate) {
+                    if (switchingToIndex < 0 || switchingToIndex >= imagesArr.size()) {
+                        return;
+                    }
+                    MessageObject messageObject = imagesArr.get(switchingToIndex);
+                    captionTranslated = true;
+                    AndroidUtilities.runOnUIThread(() -> {
+                        menuItem.hideSubItem(gallery_menu_translate);
+                        menuItem.showSubItem(gallery_menu_hide_translation);
+                    }, 32);
+                    updateCaptionTranslated();
+                    MessagesController.getInstance(currentAccount).getTranslateController().translatePhoto(activity, messageObject, captionDetectedLanguage, PhotoViewer.this::updateCaptionTranslated);
+                } else if (id == gallery_menu_hide_translation) {
+                    captionTranslated = false;
+                    AndroidUtilities.runOnUIThread(() -> {
+                        menuItem.showSubItem(gallery_menu_translate);
+                        menuItem.hideSubItem(gallery_menu_hide_translation);
+                    }, 32);
+                    updateCaptionTranslated();
                 }
             }
 
@@ -5494,13 +5508,15 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         menuItem.addSubItem(gallery_menu_copy, R.drawable.msg_copy, LocaleController.getString("CopyPhoto", R.string.CopyPhoto)).setColors(0xfffafafa, 0xfffafafa);
         //menuItem.addSubItem(gallery_menu_edit_avatar, R.drawable.photo_paint, LocaleController.getString("EditPhoto", R.string.EditPhoto)).setColors(0xfffafafa, 0xfffafafa);
         menuItem.addSubItem(gallery_menu_set_as_main, R.drawable.msg_openprofile, LocaleController.getString("SetAsMain", R.string.SetAsMain)).setColors(0xfffafafa, 0xfffafafa);
-        translateItem = menuItem.addSubItem(gallery_menu_translate, R.drawable.msg_translate, LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
-        translateItem.setColors(0xfffafafa, 0xfffafafa);
+        menuItem.addSubItem(gallery_menu_translate, R.drawable.msg_translate, LocaleController.getString(R.string.TranslateMessage)).setColors(0xfffafafa, 0xfffafafa);
+        menuItem.addSubItem(gallery_menu_hide_translation, R.drawable.msg_translate, LocaleController.getString(R.string.HideTranslation)).setColors(0xfffafafa, 0xfffafafa);
         qrItem = menuItem.addSubItem(gallery_menu_qr, R.drawable.msg_qrcode, LocaleController.getString("QrCode", R.string.QrCode));
         qrItem.setColors(0xfffafafa, 0xfffafafa);
         menuItem.addSubItem(gallery_menu_delete, R.drawable.msg_delete, LocaleController.getString("Delete", R.string.Delete)).setColors(0xfffafafa, 0xfffafafa);
         menuItem.addSubItem(gallery_menu_cancel_loading, R.drawable.msg_cancel, LocaleController.getString("StopDownload", R.string.StopDownload)).setColors(0xfffafafa, 0xfffafafa);
         menuItem.redrawPopup(0xf9222222);
+        menuItem.hideSubItem(gallery_menu_translate);
+        menuItem.hideSubItem(gallery_menu_hide_translation);
         setMenuItemIcon(false, true);
         menuItem.setPopupItemsSelectorColor(0x0fffffff);
 
@@ -11563,7 +11579,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         menuItem.hideSubItem(gallery_menu_edit_avatar);
         menuItem.hideSubItem(gallery_menu_set_as_main);
         menuItem.hideSubItem(gallery_menu_delete);
-        menuItem.hideSubItem(gallery_menu_translate);
         menuItem.hideSubItem(gallery_menu_qr);
         menuItem.hideSubItem(gallery_menu_copy);
         speedItem.setVisibility(View.GONE);
@@ -12012,26 +12027,43 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 menuItem.hideSubItem(gallery_menu_translate);
                 menuItem.hideSubItem(gallery_menu_hide_translation);
             } else {
-                menuItem.hideSubItem(gallery_menu_translate);
-                if (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL || !noforwards) {
-                    var messageHelper = MessageHelper.getInstance(currentAccount);
-                    var messageObject = messageHelper.getMessageForTranslate(newMessageObject, null);
-                    if (messageObject != null) {
-                        if (!messageObject.translated && LanguageDetector.hasSupport()) {
-                            LanguageDetector.detectLanguage(
-                                    messageHelper.getMessagePlainText(messageObject),
-                                    (String lang) -> {
-                                        translateFromLanguage = Translator.stripLanguageCode(lang);
-                                        if (!Translator.isLanguageRestricted(lang)) {
-                                            menuItem.showSubItem(gallery_menu_translate);
-                                        }
-                                    }, e -> FileLog.e("mlkit: failed to detect language")
-                            );
-                        } else {
-                            menuItem.showSubItem(gallery_menu_translate);
+                TranslateController translateController = MessagesController.getInstance(currentAccount).getTranslateController();
+                if (wasIndex != switchingToIndex) {
+                    captionTranslated = false;
+                    captionDetectedLanguage = null;
+                }
+                if (translateController.isContextTranslateEnabled()) {
+                    final MessageObject messageObject = newMessageObject;
+                    translateController.detectPhotoLanguage(messageObject, lng -> {
+                        if (index != switchingToIndex) {
+                            return;
                         }
-                        translateItem.setText(newMessageObject.translated ? LocaleController.getString("UndoTranslate", R.string.UndoTranslate) : LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
+                        captionDetectedLanguage = lng;
+                        if (translateController.isContextTranslateEnabled() && translateController.canTranslatePhoto(messageObject, captionDetectedLanguage)) {
+                            if (captionTranslated) {
+                                menuItem.showSubItem(gallery_menu_hide_translation);
+                                menuItem.hideSubItem(gallery_menu_translate);
+                            } else {
+                                menuItem.showSubItem(gallery_menu_translate);
+                                menuItem.hideSubItem(gallery_menu_hide_translation);
+                            }
+                        } else {
+                            menuItem.hideSubItem(gallery_menu_translate);
+                            menuItem.hideSubItem(gallery_menu_hide_translation);
+                        }
+                    });
+                }
+                if (translateController.isContextTranslateEnabled() && translateController.canTranslatePhoto(newMessageObject, captionDetectedLanguage)) {
+                    if (captionTranslated) {
+                        menuItem.showSubItem(gallery_menu_hide_translation);
+                        menuItem.hideSubItem(gallery_menu_translate);
+                    } else {
+                        menuItem.showSubItem(gallery_menu_translate);
+                        menuItem.hideSubItem(gallery_menu_hide_translation);
                     }
+                } else {
+                    menuItem.hideSubItem(gallery_menu_translate);
+                    menuItem.hideSubItem(gallery_menu_hide_translation);
                 }
                 allowShare = !noforwards;
                 if (newMessageObject.isNewGif() && allowShare && !DialogObject.isEncryptedDialog(newMessageObject.getDialogId())) {
@@ -12088,8 +12120,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 String restrictionReason = MessagesController.getRestrictionReason(newMessageObject.messageOwner.restriction_reason);
                 if (!TextUtils.isEmpty(restrictionReason)) {
                     caption = restrictionReason;
+                } else if (captionTranslated && newMessageObject.messageOwner != null && newMessageObject.messageOwner.translatedText != null && TextUtils.equals(newMessageObject.messageOwner.translatedToLanguage, TranslateAlert2.getToLanguage())) {
+                    caption = postProcessTranslated(newMessageObject);
                 } else {
                     caption = newMessageObject.caption;
+                    captionTranslating = captionTranslated;
                 }
             }
 
@@ -12590,7 +12625,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         setCurrentCaption(newMessageObject, caption, captionTranslating, animateCaption);
     }
 
-    /*private void updateCaptionTranslated() {
+    private void updateCaptionTranslated() {
         if (!imagesArr.isEmpty()) {
             if (switchingToIndex < 0 || switchingToIndex >= imagesArr.size()) {
                 return;
@@ -12629,7 +12664,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             MessageObject.addUrlsByPattern(messageObject.isOutOwner(), message, true, 4, (int) messageObject.getDuration(), false);
         }
         return message;
-    }*/
+    }
 
     private ObjectAnimator captionAnimator;
     private void showEditCaption(boolean show, boolean animated) {
@@ -18432,58 +18467,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     menuItem.hideSubItem(gallery_menu_qr);
                 }
             });
-        });
-    }
-
-    private void translateCaption() {
-        if (currentMessageObject == null) {
-            return;
-        }
-        if (currentMessageObject.translated && currentMessageObject.originalMessage != null) {
-            final String finalMessage = (String) currentMessageObject.originalMessage;
-            currentMessageObject.messageOwner.message = finalMessage;
-            currentMessageObject.translated = false;
-            currentMessageObject.caption = null;
-            currentMessageObject.generateCaption();
-
-            setCurrentCaption(currentMessageObject, finalMessage, false, true);
-            translateItem.setText(LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
-            return;
-        }
-        if (NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO) {
-            Translator.showTranslateDialog(parentActivity, currentMessageObject.messageOwner.message, MessagesController.getInstance(currentAccount).isChatNoForwards(currentMessageObject.getChatId()) || (currentMessageObject.messageOwner != null && currentMessageObject.messageOwner.noforwards), parentFragment, urlSpan -> {
-                onLinkClick(urlSpan, captionTextViewSwitcher.getCurrentView());
-                return true;
-            }, translateFromLanguage, resourcesProvider);
-            return;
-        }
-        Object original = currentMessageObject.messageOwner.message;
-        currentMessageObject.originalMessage = original;
-        final MessageObject finalMessageObject = currentMessageObject;
-        setCurrentCaption(currentMessageObject, currentMessageObject.caption, true, true);
-        Translator.translate(original, translateFromLanguage, new Translator.TranslateCallBack() {
-            @Override
-            public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
-                if (translation instanceof String) {
-                    final String finalMessage = original +
-                            "\n" +
-                            "--------" +
-                            "\n" +
-                            translation;
-                    finalMessageObject.messageOwner.message = finalMessage;
-                    finalMessageObject.translated = true;
-                    finalMessageObject.caption = null;
-                    finalMessageObject.generateCaption();
-
-                    setCurrentCaption(currentMessageObject, finalMessage, false, true);
-                    translateItem.setText(LocaleController.getString("UndoTranslate", R.string.UndoTranslate));
-                }
-            }
-
-            @Override
-            public void onError(Throwable t) {
-                Translator.handleTranslationError(parentActivity, t, () -> translateCaption(), resourcesProvider);
-            }
         });
     }
 

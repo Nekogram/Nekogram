@@ -311,7 +311,6 @@ import tw.nekomimi.nekogram.forward.ForwardItem;
 import tw.nekomimi.nekogram.forward.ForwardPopupWrapper;
 import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.LanguageDetectorTimeout;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.QrHelper;
 import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
@@ -1676,6 +1675,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 switch (NekoConfig.doubleTapAction) {
                     case NekoConfig.DOUBLE_TAP_ACTION_TRANSLATE:
                         var messageObject = getMessageHelper().getMessageForTranslate(selectedObject, selectedObjectGroup);
+                        if (messageObject == null) {
+                            return;
+                        }
                         translateOrResetMessage(messageObject, null);
                         break;
                     case NekoConfig.DOUBLE_TAP_ACTION_REPLY:
@@ -18841,11 +18843,72 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     View child = chatListView.getChildAt(i);
                     if (child instanceof ChatMessageCell) {
                         ChatMessageCell cell = (ChatMessageCell) child;
-                        checkAutoTranslate(cell, (boolean) args[1]);
+                        MessageObject messageObject = cell.getMessageObject();
+                        boolean update = false;
+                        if (messageObject != null && messageObject.updateTranslation(false)) {
+                            update = true;
+
+                            MessageObject pinnedMessageObject = pinnedMessageObjects.get(messageObject.getId());
+                            if (pinnedMessageObject != null) {
+                                pinnedMessageObject.messageOwner.translatedText = messageObject.messageOwner.translatedText;
+                                pinnedMessageObject.messageOwner.translatedToLanguage = messageObject.messageOwner.translatedToLanguage;
+                                if (pinnedMessageObject.updateTranslation(currentPinnedMessageId == messageObject.getId())) {
+                                    updatedPinned = true;
+                                }
+                            }
+                        }
+                        MessageObject.GroupedMessages group = groupedMessagesMap.get(messageObject.getGroupId());
+                        if (group != null && !groupChecked.contains(group.groupId)) {
+                            for (int j = 0; j < group.messages.size(); ++j) {
+                                MessageObject groupMessageObject = group.messages.get(j);
+                                if (groupMessageObject != null && groupMessageObject.updateTranslation(false)) {
+                                    update = true;
+                                }
+                            }
+                            groupChecked.add(group.groupId);
+                        }
+                        if (messageObject != null && messageObject.replyMessageObject != null) {
+                            MessageObject translatedReplyMessageObject = getMessagesController().getTranslateController().findReplyMessageObject(dialogId, messageObject.replyMessageObject.getId());
+                            if (translatedReplyMessageObject != null) {
+                                messageObject.replyMessageObject.messageOwner.translatedText = translatedReplyMessageObject.messageOwner.translatedText;
+                                messageObject.replyMessageObject.messageOwner.translatedToLanguage = translatedReplyMessageObject.messageOwner.translatedToLanguage;
+                                if (messageObject.replyMessageObject.updateTranslation(true)) {
+                                    update = true;
+                                }
+                            }
+                        }
+
+                        if (update) {
+                            messageObject.forceUpdate = true;
+                            cell.setMessageObject(messageObject, cell.getCurrentMessagesGroup(), cell.isPinnedBottom(), cell.isPinnedTop());
+                            if (group != null) {
+                                if (chatListItemAnimator != null) {
+                                    chatListItemAnimator.groupWillChanged(group);
+                                }
+                                for (int j = 0; j < group.messages.size(); j++) {
+                                    group.messages.get(j).forceUpdate = true;
+                                }
+                                chatAdapter.notifyDataSetChanged(true);
+                            } else {
+                                chatAdapter.updateRowAtPosition(chatListView.getChildAdapterPosition(child));
+                            }
+                        } else {
+                            cell.invalidate();
+                        }
                     }
                 }
+                if (!updatedPinned) {
+                    for (MessageObject pinnedMessageObject : pinnedMessageObjects.values()) {
+                        if (pinnedMessageObject != null && pinnedMessageObject.updateTranslation(currentPinnedMessageId == pinnedMessageObject.getId())) {
+                            updatedPinned = true;
+                        }
+                    }
+                }
+                if (updatedPinned) {
+                    updatePinnedMessageView(true, 1);
+                }
             }
-            //checkTranslation(true);
+            checkTranslation(true);
             updateTranslateItemVisibility();
         } else if (id == NotificationCenter.messageTranslated) {
             MessageObject messageObject = (MessageObject) args[0];
@@ -25279,7 +25342,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         });
                     }
                     if (option == OPTION_TRANSLATE) {
-                        // "Translate" button
                         MessageObject messageObject = getMessageHelper().getMessageForTranslate(selectedObject, selectedObjectGroup);
                         if (messageObject == null) {
                             continue;
@@ -25293,17 +25355,47 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         final String[] fromLang = { null };
                         cell.setVisibility(View.GONE);
                         translatorSettingsPopupWrapper.windowLayout.setVisibility(View.GONE);
-                        if (!messageObject.translated && LanguageDetector.hasSupport()) {
-                            LanguageDetectorTimeout.detectLanguage(
-                                    cell, getMessageHelper().getMessagePlainText(messageObject),
+                        if (!messageObject.translated && messageObject.messageOwner != null && messageObject.messageOwner.originalLanguage != null) {
+                            waitForLangDetection.set(false);
+                            fromLang[0] = messageObject.messageOwner.originalLanguage;
+                            if (fromLang[0] != null && (!Translator.isLanguageRestricted(fromLang[0]) ||
+                                    (currentChat != null && (currentChat.has_link || ChatObject.isPublic(currentChat)) || messageObject.messageOwner.fwd_from != null) && ("uk".equals(fromLang[0]) || "ru".equals(fromLang[0]))
+                            )) {
+                                cell.setVisibility(View.VISIBLE);
+                                translatorSettingsPopupWrapper.windowLayout.setVisibility(View.VISIBLE);
+                            }
+                        } else if (!messageObject.translated && LanguageDetector.hasSupport()) {
+                            waitForLangDetection.set(true);
+                            LanguageDetector.detectLanguage(
+                                    getMessageHelper().getMessagePlainText(messageObject),
                                     (String lang) -> {
-                                        fromLang[0] = Translator.stripLanguageCode(lang);
-                                        if (!Translator.isLanguageRestricted(lang) || (currentChat != null && (currentChat.has_link || ChatObject.isPublic(currentChat) || selectedObject.messageOwner.fwd_from != null)) && ("uk".equals(fromLang[0]) || "ru".equals(fromLang[0]))) {
+                                        fromLang[0] = lang;
+                                        if (fromLang[0] != null && (!Translator.isLanguageRestricted(fromLang[0]) ||
+                                                        (currentChat != null && (currentChat.has_link || ChatObject.isPublic(currentChat)) || messageObject.messageOwner.fwd_from != null) && ("uk".equals(fromLang[0]) || "ru".equals(fromLang[0]))
+                                        )) {
                                             cell.setVisibility(View.VISIBLE);
                                             translatorSettingsPopupWrapper.windowLayout.setVisibility(View.VISIBLE);
                                         }
-                                    }, null, waitForLangDetection, onLangDetectionDone
+                                        waitForLangDetection.set(false);
+                                        if (onLangDetectionDone.get() != null) {
+                                            onLangDetectionDone.get().run();
+                                            onLangDetectionDone.set(null);
+                                        }
+                                    },
+                                    (Exception e) -> {
+                                        FileLog.e("mlkit: failed to detect language in message");
+                                        waitForLangDetection.set(false);
+                                        if (onLangDetectionDone.get() != null) {
+                                            onLangDetectionDone.get().run();
+                                            onLangDetectionDone.set(null);
+                                        }
+                                    }
                             );
+                            cell.postDelayed(() -> {
+                                if (onLangDetectionDone.get() != null) {
+                                    onLangDetectionDone.getAndSet(null).run();
+                                }
+                            }, 250);
                         } else {
                             cell.setVisibility(View.VISIBLE);
                             translatorSettingsPopupWrapper.windowLayout.setVisibility(View.VISIBLE);
@@ -26123,63 +26215,19 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         MediaController.saveFile(path, getParentActivity(), messageObject.isVideo() ? 1 : 0, null, null);
     }
 
-    private void resetMessage(MessageObject messageObject) {
-        if (messageObject.originalMessage != null) {
-            if (messageObject.originalMessage instanceof String) {
-                messageObject.messageOwner.message = (String) messageObject.originalMessage;
-            } else if (messageObject.originalMessage instanceof Pair) {
-                var pair = (Pair<String, ArrayList<TLRPC.MessageEntity>>) messageObject.originalMessage;
-                messageObject.messageOwner.message = pair.first;
-                messageObject.messageOwner.entities = pair.second;
-            } else if (messageObject.originalMessage instanceof TLRPC.TL_poll) {
-                ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) messageObject.originalMessage;
-            }
-            getMessageHelper().resetMessageContent(dialog_id, messageObject, false);
-        }
-    }
-
     private void translateOrResetMessage(MessageObject messageObject, String sourceLanguage) {
-        if (!messageObject.isVoiceTranscriptionOpen() && messageObject.translated && messageObject.originalMessage != null) {
-            resetMessage(messageObject);
+        if (!messageObject.isVoiceTranscriptionOpen() && messageObject.translated) {
+            getMessageHelper().resetMessageContent(dialog_id, messageObject, false);
         } else {
-            translateMessage(messageObject, sourceLanguage, false);
+            translateMessage(messageObject, sourceLanguage);
         }
     }
 
-    private void checkAutoTranslate(ChatMessageCell messageCell, boolean enable) {
-        final var messageObject = messageCell.getMessageObject();
-        if (!enable && messageObject.translated) {
-            resetMessage(messageObject);
-            return;
-        }
-        TranslateController controller = getMessagesController().getTranslateController();
-        if (controller.isTranslatingDialog(dialog_id) && LanguageDetector.hasSupport() && NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
-            String target = controller.getDialogTranslateTo(dialog_id);
-            if (getMessageHelper().isMessageObjectAutoTranslatable(messageObject)) {
-                LanguageDetector.detectLanguage(
-                        getMessageHelper().getMessagePlainText(messageObject),
-                        (String lang) -> {
-                            if (!Translator.isLanguageRestricted(lang)) {
-                                translateMessage(messageObject, Translator.stripLanguageCode(lang), "app".equals(target) ? null : target, true);
-                            }
-                        },
-                        (Exception e) -> {
-                            FileLog.e("mlkit: failed to detect language in message");
-                            e.printStackTrace();
-                        });
-            }
-        }
-    }
-
-    private void translateMessage(MessageObject messageObject, String sourceLanguage, boolean autoTranslate) {
-        translateMessage(messageObject, sourceLanguage, null, autoTranslate);
-    }
-
-    private void translateMessage(MessageObject messageObject, String sourceLanguage, String targetLanguage, boolean autoTranslate) {
+    private void translateMessage(MessageObject messageObject, String sourceLanguage) {
         if (messageObject == null || messageObject.translating) {
             return;
         }
-        if (!autoTranslate && (NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO || messageObject.isVoiceTranscriptionOpen())) {
+        if (NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO || messageObject.isVoiceTranscriptionOpen() || messageObject.isPoll() || messageObject.isSponsored()) {
             String message = getMessageHelper().getMessagePlainText(messageObject);
             Translator.showTranslateDialog(getParentActivity(), message, getMessagesController().isChatNoForwards(currentChat) || messageObject.messageOwner.noforwards, this, link -> {
                 didPressMessageUrl(link, false, selectedObject, null);
@@ -26188,46 +26236,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return;
         }
         getMessageHelper().resetMessageContent(dialog_id, messageObject, false, true);
-        Object original;
-        if (messageObject.isPoll()) {
-            original = ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll;
-        } else if (!NekoConfig.showOriginal) {
-            original = Pair.create(messageObject.messageOwner.message, messageObject.messageOwner.entities);
-        } else {
-            original = messageObject.messageOwner.message;
-        }
-        Object message;
-        if (messageObject.isPoll()) {
-            message = original;
-        } else {
-            message = messageObject.messageOwner.message;
-        }
-        Translator.translate(message, sourceLanguage, targetLanguage, new Translator.TranslateCallBack() {
+        Translator.translate(messageObject.messageOwner.message, sourceLanguage, new Translator.TranslateCallBack() {
             @Override
             public void onSuccess(Object translation, String sourceLanguageT, String targetLanguageT) {
-                if (autoTranslate && sourceLanguageT != null && (sourceLanguageT.equals(targetLanguageT) || Translator.isLanguageRestricted(sourceLanguageT))) {
-                    getMessageHelper().resetMessageContent(dialog_id, messageObject, false, false);
-                    return;
-                }
-                if (translation instanceof String) {
-                    if (original instanceof Pair) {
-                        messageObject.messageOwner.message = (String) translation;
-                        messageObject.messageOwner.entities = new ArrayList<>();
-                    } else {
-                        messageObject.messageOwner.message = messageObject.messageOwner.message +
-                                "\n" +
-                                "--------" +
-                                "\n" + translation;
-                    }
-                } else if (translation instanceof TLRPC.TL_poll) {
-                    ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll = (TLRPC.TL_poll) translation;
-                }
-                getMessageHelper().resetMessageContent(dialog_id, messageObject, true, original, false, Pair.create(TextUtils.isEmpty(sourceLanguageT) ? sourceLanguage : sourceLanguageT, targetLanguageT));
+                TLRPC.TL_textWithEntities text = Translator.getTLResult(translation, messageObject.messageOwner.message, messageObject.messageOwner.entities);
+                messageObject.messageOwner.originalLanguage = sourceLanguageT;
+                messageObject.messageOwner.translatedToLanguage = targetLanguageT;
+                messageObject.messageOwner.translatedText = text;
+                getMessagesStorage().updateMessageCustomParams(messageObject.getDialogId(), messageObject.messageOwner);
+                getMessageHelper().resetMessageContent(dialog_id, messageObject, true);
             }
 
             @Override
             public void onError(Throwable t) {
-                Translator.handleTranslationError(getParentActivity(), t, () -> translateMessage(messageObject, sourceLanguage, autoTranslate), themeDelegate);
+                Translator.handleTranslationError(getParentActivity(), t, () -> translateMessage(messageObject, sourceLanguage), themeDelegate);
                 getMessageHelper().resetMessageContent(dialog_id, messageObject, false, false);
             }
         });
@@ -29711,8 +29733,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         startMessageUnselect();
                     }
                 }
-
-                checkAutoTranslate(messageCell, true);
             }
 
             int position = holder.getAdapterPosition();
@@ -33217,8 +33237,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         final CharSequence text = cell.getText();
         if (text != null && LanguageDetector.hasSupport()) {
             LanguageDetector.detectLanguage(text.toString(), lang -> {
-                String fromLang = Translator.stripLanguageCode(lang);
-                if (lang != null && !Translator.isLanguageRestricted(fromLang)) {
+                if (lang != null && !Translator.isLanguageRestricted(lang)) {
                     cell.setOnClickListener(e -> {
 
                         ActionBarPopupWindow.ActionBarPopupWindowLayout layout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(getContext());
@@ -33230,7 +33249,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         ActionBarMenuSubItem translateButton = new ActionBarMenuSubItem(getContext(), true, true);
                         translateButton.setTextAndIcon(LocaleController.getString("TranslateMessage", R.string.TranslateMessage), R.drawable.msg_translate);
                         translateButton.setOnClickListener(e2 -> {
-                            Translator.showTranslateDialog(getParentActivity(), text.toString(), false, this, null, fromLang, themeDelegate);
+                            Translator.showTranslateDialog(getParentActivity(), text.toString(), false, this, null, lang, themeDelegate);
                             if (dismiss[0] != null) {
                                 dismiss[0].run();
                             }

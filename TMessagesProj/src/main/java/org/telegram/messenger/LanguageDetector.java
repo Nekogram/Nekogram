@@ -1,5 +1,7 @@
 package org.telegram.messenger;
 
+import tw.nekomimi.nekogram.translator.Translator;
+
 public class LanguageDetector {
     private static Boolean hasSupport = null;
 
@@ -52,7 +54,7 @@ public class LanguageDetector {
                 .identifyLanguage(text)
                 .addOnSuccessListener(str -> {
                     if (onSuccess != null) {
-                        onSuccess.run(str);
+                        onSuccess.run(Translator.stripLanguageCode(str));
                     }
                 })
                 .addOnFailureListener(e -> {

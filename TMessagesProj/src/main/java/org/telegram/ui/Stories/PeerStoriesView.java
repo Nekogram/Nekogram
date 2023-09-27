@@ -1314,7 +1314,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         }
 
                         if (currentStory.storyItem != null) {
-                            if (currentStory.storyItem.translated) {
+                            if (currentStory.storyItem.translated && TextUtils.equals(currentStory.storyItem.translatedLng, TranslateAlert2.getToLanguage())) {
                                 ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_translate, LocaleController.getString("HideTranslation", R.string.HideTranslation), false, resourcesProvider).setOnClickListener(v -> {
                                     currentStory.storyItem.translated = false;
                                     MessagesController.getInstance(currentAccount).getStoriesController().getStoriesStorage().updateStoryItem(currentStory.storyItem.dialogId, currentStory.storyItem);
@@ -1341,7 +1341,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                                         checkBlackoutMode = true;
                                         storyCaptionView.expand(true);
                                     };
-                                    MessagesController.getInstance(currentAccount).getTranslateController().translateStory(currentStory.storyItem, () -> AndroidUtilities.runOnUIThread(finishTranslate, Math.max(0, 500L - (System.currentTimeMillis() - start))));
+                                    MessagesController.getInstance(currentAccount).getTranslateController().translateStory(context, currentStory.storyItem, () -> AndroidUtilities.runOnUIThread(finishTranslate, Math.max(0, 500L - (System.currentTimeMillis() - start))));
                                     updatePosition();
                                     checkBlackoutMode = true;
                                     storyCaptionView.expand(true);
@@ -3313,7 +3313,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         if (
             oldStoryItem != currentStory.storyItem ||
             oldUploadingStory != currentStory.uploadingStory ||
-            currentStory.captionTranslated != (currentStory.storyItem != null && currentStory.storyItem.translated && currentStory.storyItem.translatedText != null)
+            currentStory.captionTranslated != (currentStory.storyItem != null && currentStory.storyItem.translated && currentStory.storyItem.translatedText != null && TextUtils.equals(currentStory.storyItem.translatedLng, TranslateAlert2.getToLanguage()))
         ) {
             currentStory.updateCaption();
         }
@@ -4597,7 +4597,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                     MessageObject.addLinks(true, spannableStringBuilder);
                 }
             } else if (currentStory.storyItem != null) {
-                if (currentStory.storyItem.translated && currentStory.storyItem.translatedText != null) {
+                if (currentStory.storyItem.translated && currentStory.storyItem.translatedText != null && TextUtils.equals(currentStory.storyItem.translatedLng, TranslateAlert2.getToLanguage())) {
                     captionTranslated = true;
                     TLRPC.TL_textWithEntities text = currentStory.storyItem.translatedText;
                     caption = text.text;

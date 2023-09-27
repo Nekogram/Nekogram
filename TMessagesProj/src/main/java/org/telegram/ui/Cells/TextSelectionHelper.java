@@ -1407,7 +1407,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                 }
                 if (LanguageDetector.hasSupport() && getSelectedText() != null) {
                     LanguageDetector.detectLanguage(getSelectedText().toString(), lng -> {
-                        translateFromLanguage = Translator.stripLanguageCode(lng);
+                        translateFromLanguage = lng;
                         updateTranslateButton(menu);
                     }, err -> {
                         FileLog.e("mlkit: failed to detect language in selection");

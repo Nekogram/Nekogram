@@ -11187,7 +11187,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             textY = transitionParams.animateFromTextY * (1f - transitionParams.animateChangeProgress) + this.textY * transitionParams.animateChangeProgress;
         }
 
-        boolean translating = getMessageObject().translating;
+        boolean translating = getMessageObject().translating || MessagesController.getInstance(currentAccount).getTranslateController().isTranslating(getMessageObject());
         if ((textLayoutBlocks == transitionParams.animateOutTextBlocks) == (currentMessageObject != null && currentMessageObject.translated)) {
             if (translationLoadingFloat == null) {
                 translationLoadingFloat = new AnimatedFloat(this, 350, CubicBezierInterpolator.EASE_OUT_QUINT);
@@ -15862,7 +15862,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
         }
         canvas.translate(captionX, captionY);
-        boolean translating = getMessageObject().translating;
+        boolean translating = getMessageObject().translating || MessagesController.getInstance(currentAccount).getTranslateController().isTranslating(getMessageObject(), getCurrentMessagesGroup());
         if (true) {
             if (translationLoadingFloat == null) {
                 translationLoadingFloat = new AnimatedFloat(((View) getParent()), 350, CubicBezierInterpolator.EASE_OUT_QUINT);
