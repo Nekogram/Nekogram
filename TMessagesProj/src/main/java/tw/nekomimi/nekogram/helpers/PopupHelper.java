@@ -41,10 +41,9 @@ public class PopupHelper {
             builder.setView(linearLayout);
 
             for (int a = 0; a < entries.size(); a++) {
-                RadioColorCell cell = new RadioColorCell(context);
+                RadioColorCell cell = new RadioColorCell(context, resourcesProvider);
                 cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
                 cell.setTag(a);
-                cell.setCheckColor(Theme.getColor(Theme.key_radioBackground, resourcesProvider), Theme.getColor(Theme.key_dialogRadioBackgroundChecked, resourcesProvider));
                 cell.setTextAndValue(entries.get(a), checkedIndex == a);
                 cell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), Theme.RIPPLE_MASK_ALL));
                 linearLayout.addView(cell);
