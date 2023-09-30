@@ -1387,7 +1387,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
     private final static int translate = 62;
 
-    private final static int recent_actions = 60;
+    private final static int recent_actions = 64;
 
     private final static int id_chat_compose_panel = 1000;
 
