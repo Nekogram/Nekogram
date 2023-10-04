@@ -276,7 +276,6 @@
     <string name="SendBugReportDesc">これは問題をより早く見つけるのに役立ちます。</string>
     <string name="AnonymousDataDelete">データを削除</string>
     <string name="AnonymousDataDeleteDesc">このインスタンスからの送信データを完全にブロックし、収集したデータを削除します。</string>
-    <string name="SendAnonymousDataDesc">上記の機能は、Microsoftが提供するVisual Studio App Centerを使用しています。 収集された情報は匿名であり、独立したデバイスまたはユーザーに追跡することはできません。</string>
     <string name="SendLargePhotos">大きな写真を送信する</string>
     <string name="SendLargePhotosAbout">圧縮画像の横幅制限を2560pxにする。</string>
     <string name="ExportAsJson">JSON でコピー</string>

@@ -274,7 +274,6 @@
     <string name="SendBugReportDesc">To pomoże nam szybciej znaleźć problemy.</string>
     <string name="AnonymousDataDelete">Usuń dane</string>
     <string name="AnonymousDataDeleteDesc">Trwale zablokuj dane wychodzące z Neko i usuń zebrane dane.</string>
-    <string name="SendAnonymousDataDesc">Powyższe funkcje wykorzystują Visual Studio App Center dostarczane przez firmę Microsoft. Gromadzone informacje są anonimowe i nie możemy ich prześledzić do niezależnego urządzenia lub użytkownika.</string>
     <string name="SendLargePhotos">Wysyłanie dużych zdjęć</string>
     <string name="SendLargePhotosAbout">Zwiększ limit skompresowanych obrazów do 2560 pikseli.</string>
     <string name="ExportAsJson">Kopiuj jako JSON</string>

@@ -284,7 +284,7 @@
     <string name="SendBugReportDesc">Это позволит нам быстрее находить проблемы.</string>
     <string name="AnonymousDataDelete">Удалить данные</string>
     <string name="AnonymousDataDeleteDesc">Навсегда заблокировать исходящие данные этого устройства и удалить собранные данные.</string>
-    <string name="SendAnonymousDataDesc">Функции выше используют Visual Studio App Center предоставленный Microsoft. Собранная информация является анонимной и мы не можем отследить её до независимого устройства или пользователя.</string>
+    <string name="SendAnonymousDataDesc">Функции выше используют %1$s предоставленный %2$s. Собранная информация является анонимной и мы не можем отследить её до независимого устройства или пользователя.</string>
     <string name="SendLargePhotos">Отправка фотографии большого размера</string>
     <string name="SendLargePhotosAbout">Увеличить размер сторон на сжатых изображениях до 2560px.</string>
     <string name="ExportAsJson">Скопировать как JSON</string>

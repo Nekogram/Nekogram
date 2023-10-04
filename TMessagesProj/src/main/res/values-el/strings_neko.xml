@@ -61,7 +61,7 @@
     <string name="HideKeyboardOnChatScroll">Απόκρ. πληκ/γίου σε κύλιση συνομιλ.</string>
     <string name="ShowTabsOnForward">Εμφάνιση καρτελών στην προώθηση</string>
     <string name="CheckAllAdministrated">Προσθήκη διαχειριζόμενων</string>
-    <string name="RearVideoMessages">Πίσω κάμερα σε βιντεομηνύματα</string>
+    <string name="RearVideoMessages">Πίσω κάμερα σε Βίντεο Μηνύματα</string>
     <string name="HideAllTab">Απόκρυψη καρτέλας \"Όλες\"</string>
     <string name="TabTitleType">Εμφάνιση στις καρτέλες</string>
     <string name="TabTitleTypeTip">Τα εικονίδια συγχρονίζονται στο cloud από το Telegram.</string>
@@ -283,7 +283,6 @@
     <string name="SendBugReportDesc">Αυτό θα μας βοηθήσει να εντοπίσουμε τα προβλήματα γρηγορότερα.</string>
     <string name="AnonymousDataDelete">Διαγραφή δεδομένων</string>
     <string name="AnonymousDataDeleteDesc">Μόνιμη φραγή εξερχόμενων δεδομένων από αυτήν την περίπτωση και διαγραφή συλλεγμένων δεδομένων.</string>
-    <string name="SendAnonymousDataDesc">Οι παραπάνω λειτουργίες χρησιμοποιούν το Visual Studio App Center που παρέχεται από τη Microsoft. Οι πληροφορίες που συλλέγονται είναι ανώνυμες και δεν μπορούμε να τις εντοπίσουμε σε ανεξάρτητη συσκευή ή χρήστη.</string>
     <string name="SendLargePhotos">Αποστολή μεγάλων φωτογραφιών</string>
     <string name="SendLargePhotosAbout">Αύξηση του πλαϊνού ορίου για τις συμπιεσμένες εικόνες στα 2560px.</string>
     <string name="ExportAsJson">Αντιγραφή ως JSON</string>

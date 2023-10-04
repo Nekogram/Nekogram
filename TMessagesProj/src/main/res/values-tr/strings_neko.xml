@@ -273,7 +273,6 @@
     <string name="SendBugReportDesc">Bu, sorunları daha hızlı bulmamıza yardımcı olacaktır.</string>
     <string name="AnonymousDataDelete">Verileri sil</string>
     <string name="AnonymousDataDeleteDesc">Bu istemciden veri gönderilmesini kalıcı olarak engelleyin ve toplanan verileri silin.</string>
-    <string name="SendAnonymousDataDesc">Yukarıdaki özellikler Microsoft\'a ait olan Visual Studio App Center\'ı kullanır. Toplanan bilgiler anonimdir ve bunları, tek tek özel bir cihaz veya kullanıcı olarak izleyemeyiz.</string>
     <string name="SendLargePhotos">Büyük fotoğraflar gönder</string>
     <string name="SendLargePhotosAbout">Sıkıştırılmış görsellerde kenar sınırını 2560 piksele yükseltin.</string>
     <string name="ExportAsJson">JSON olarak kopyala</string>

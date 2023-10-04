@@ -285,7 +285,6 @@
     <string name="SendBugReportDesc">وهذا سيساعدنا في العثور على المشاكل بشكل أسرع.</string>
     <string name="AnonymousDataDelete">حذف البيانات</string>
     <string name="AnonymousDataDeleteDesc">حظر البيانات الصادرة من هذا المثيل بشكل دائم وحذف البيانات التي تم جمعها.</string>
-    <string name="SendAnonymousDataDesc">تستخدم الميزات المذكورة أعلاه مركز تطبيقات Visual Studio الذي توفره شركة Microsoft. المعلومات التي تم جمعها مجهولة الهوية ولا يمكننا تعقبها مرة أخرى إلى جهاز مستقل أو مستخدم مستقل.</string>
     <string name="SendLargePhotos">إرسال صور كبيرة</string>
     <string name="SendLargePhotosAbout">زيادة الحد الجانبي على الصور المضغوطة إلى 2560 بكسل.</string>
     <string name="ExportAsJson">نسخ كملف جيسون</string>

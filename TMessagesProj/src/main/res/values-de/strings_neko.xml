@@ -278,7 +278,6 @@
     <string name="SendBugReportDesc">Dies wird uns helfen, Probleme schneller zu finden.</string>
     <string name="AnonymousDataDelete">Daten löschen</string>
     <string name="AnonymousDataDeleteDesc">Ausgehende Daten von diesem Gerät dauerhaft blockieren und gesammelte Daten löschen.</string>
-    <string name="SendAnonymousDataDesc">Die oben genannten Funktionen verwenden das von Microsoft bereitgestellte Visual Studio App Center. Die erfassten Informationen sind anonym und können nicht zu einem unabhängigen Gerät oder Benutzer zurückverfolgt werden.</string>
     <string name="SendLargePhotos">Große Fotos senden</string>
     <string name="SendLargePhotosAbout">Erhöhen Sie die Seitenbegrenzung für komprimierte Bilder auf 2560px.</string>
     <string name="ExportAsJson">Kopiere als JSON</string>

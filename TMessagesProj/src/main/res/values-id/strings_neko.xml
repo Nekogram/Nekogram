@@ -6,6 +6,8 @@
     <string name="HidePhone">Sembunyikan nomor telepon saya</string>
     <string name="DeleteAllFromSelf">Hapus pesan dari saya</string>
     <string name="DeleteAllFromSelfAlert">Perhatian! Ini akan **menghapus semua pesan dari Anda** di obrolan ini untuk **semua** orang.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Peringatan! Ini akan **menghapus semua pesan sebelum anda %s** di percakapan ini untuk **semua **partisipan.</string>
+    <string name="DeleteAllFromSelfBefore">Sebelum...</string>
     <string name="BotLogin">Login Bot</string>
     <string name="BotLoginMessage">Masukkan token bot yang diperoleh dari **@BotFather**.</string>
     <string name="InvalidAccessToken">Token akses tidak valid</string>
@@ -281,11 +283,29 @@
     <string name="SendBugReportDesc">Ini akan membantu kami melakukan letak masalah lebih cepat.</string>
     <string name="AnonymousDataDelete">Hapus data</string>
     <string name="AnonymousDataDeleteDesc">Blokir pengumpulan data secara permanen dari instansi ini dan hapus data yang dikumpulkan.</string>
-    <string name="SendAnonymousDataDesc">Fitur-fitur di atas menggunakan Visual Studio App Center yang disediakan oleh Microsoft. Informasi yang dikumpulkan bersifat anonim dan kami tidak dapat melacaknya kembali ke perangkat atau pengguna independen.</string>
     <string name="SendLargePhotos">Kirim foto berukuran besar</string>
     <string name="SendLargePhotosAbout">Menaikkan batas pixel pada kompresi gambar menjadi 2560px.</string>
     <string name="ExportAsJson">Salin sebagai JSON</string>
     <string name="HideStories">Sembunyikan Cerita</string>
+    <string name="QuickForward">Gunakan menu teruskan cepat</string>
+    <string name="DidNotGetTheCodeBlameDurov">Jika Anda tidak mendapatkan kode di perangkat lain atau Anda tidak masuk ke Telegram di perangkat lain, silakan gunakan aplikasi Telegram resmi untuk menerima kode.\n\nTelegram telah **menonaktifkan kemampuan untuk masuk dengan SMS** pada aplikasi pihak ketiga. Pengguna yang masuk ke aplikasi pihak ketiga hanya dapat menerima kode masuk melalui Telegram.\n\nKami tidak dapat membantu Anda dalam hal ini, jika Anda mengalami masalah saat masuk, silakan hubungi Dukungan Telegram.</string>
+    <string name="NavigationAnimation">Animasi navigasi</string>
+    <string name="NavigationAnimationBezier">Klasik</string>
+    <string name="NavigationAnimationSpring">Natural</string>
+    <string name="NavigationAnimationCrossfading">Efek memudar</string>
+    <string name="CloudConfig">Pengaturan cloud</string>
+    <string name="CloudConfigDesc">Simpan pengaturan Neko anda ke Telegram cloud.</string>
+    <string name="CloudConfigSyncDate">Terakhir disinkronkan: %s, cloud: %s</string>
+    <string name="CloudConfigSyncDateNever">tidak pernah</string>
+    <string name="CloudConfigSync">Sinkronkan ke cloud</string>
+    <string name="CloudConfigSyncShort">Sinkronisasi</string>
+    <string name="CloudConfigRestore">Pulihkan dari cloud</string>
+    <string name="CloudConfigRestoreShort">Pulihkan</string>
+    <string name="CloudConfigSyncing">Menyinkronkan...</string>
+    <string name="CloudConfigAutoSync">Sinkronkan otomatis</string>
+    <string name="CloudConfigAutoSyncDesc">Otomatis sinkronkan ke cloud setelah membuat perubahan pada pengaturan Neko.</string>
+    <string name="CloudConfigSyncFailed">Gagal menyinkronkan pengaturan ke cloud.</string>
+    <string name="CloudConfigRestoreFailed">Gagal memulihkan pengaturan dari cloud.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Setelan Aksesibilitas</string>
 </resources>

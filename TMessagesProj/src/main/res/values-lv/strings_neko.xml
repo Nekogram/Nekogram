@@ -279,7 +279,6 @@
     <string name="SendBugReportDesc">Tas palīdzēs mums ātrāk atrast problēmas.</string>
     <string name="AnonymousDataDelete">Dzēst datus</string>
     <string name="AnonymousDataDeleteDesc">Pastāvīgi bloķēt izejošos datus no šī gadījuma un dzēst savāktos datus.</string>
-    <string name="SendAnonymousDataDesc">Iepriekš minētās funkcijas izmanto Microsoft nodrošināto Visual Studio lietojumprogrammu centru. Savāktā informācija ir anonīma, un mēs nevaram izsekot tās izcelsmei līdz neatkarīgai ierīcei vai lietotājam.</string>
     <string name="SendLargePhotos">Lielu fotoattēlu sūtīšana</string>
     <string name="SendLargePhotosAbout">Palieliniet saspiesto attēlu sānu ierobežojumu līdz 2560px.</string>
     <string name="ExportAsJson">Kopēt kā JSON</string>

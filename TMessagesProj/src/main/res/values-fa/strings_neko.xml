@@ -281,7 +281,6 @@
     <string name="SendBugReportDesc">این به ما کمک میکنه که مشکلات رو سریع‌تر پیدا کنیم.</string>
     <string name="AnonymousDataDelete">پاک کردن اطلاعات </string>
     <string name="AnonymousDataDeleteDesc">داده های خروجی را برای همیشه از این نمونه مسدود کن و داده های جمع آوری شده را حذف کن.</string>
-    <string name="SendAnonymousDataDesc">ویژگی های فوق از Visual Studio App Center ارائه شده توسط مایکروسافت استفاده می کنن. اطلاعات جمع‌آوری‌شده ناشناس است و ما نمیتونیم آن را به یک دستگاه یا کاربر مستقل ردیابی کنیم.</string>
     <string name="SendLargePhotos">ارسال عکس بزرگ</string>
     <string name="SendLargePhotosAbout">محدودیت جانبی در تصاویر فشرده شده را به 2560 پیکسل افزایش بده.</string>
     <string name="ExportAsJson">کپی به عنوان JSON</string>

@@ -284,7 +284,7 @@
     <string name="SendBugReportDesc">这将帮助我们更快地发现问题。</string>
     <string name="AnonymousDataDelete">删除数据</string>
     <string name="AnonymousDataDeleteDesc">永久阻止从此实例传出数据，并删除已收集的数据。</string>
-    <string name="SendAnonymousDataDesc">上述功能使用 Microsoft 提供的 Visual Studio App Center。收集的信息是匿名的，我们无法追溯到独立的设备或用户。</string>
+    <string name="SendAnonymousDataDesc">上述功能使用 %2$s 提供的 %1$s。收集的信息是匿名的，我们无法追溯到独立的设备或用户。</string>
     <string name="SendLargePhotos">发送大图片</string>
     <string name="SendLargePhotosAbout">将压缩图片的侧边限制增加到 2560px。</string>
     <string name="ExportAsJson">复制为 JSON</string>

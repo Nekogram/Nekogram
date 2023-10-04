@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Neko sozlamalari</string>
-    <string name="IPv6">IPv6 orqali ulanishga harakat qiling</string>
+    <string name="IPv6">IPv6 orqali ulanishga urinish</string>
     <string name="MessageMenu">Xabarlar menyusi</string>
     <string name="HidePhone">Telefon raqamimni yashirish</string>
-    <string name="DeleteAllFromSelf">Shaxsiy xabarlarni o\'chiring</string>
+    <string name="DeleteAllFromSelf">Shaxsiy xabarlarni o\'chirish</string>
     <string name="DeleteAllFromSelfAlert">Ogohlantirish! Bu **barcha** ishtirokchilar uchun ushbu chatdagi **sizdan kelgan barcha xabarlarni** o‘chirib tashlaydi.</string>
-    <string name="DeleteAllFromSelfAlertBefore">Ogohlantirish! Bu **barcha** ishtirokchilar uchun ushbu chatdagi **sizdan kelgan barcha xabarlarni** o‘chirib tashlaydi.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Ogohlantirish! Bu **barcha %s** ishtirokchilar uchun ushbu chatdagi **sizdan kelgan barcha xabarlarni** o‘chirib tashlaydi.</string>
     <string name="DeleteAllFromSelfBefore">Oldin...</string>
     <string name="BotLogin">Bot bo\'lib kirish</string>
-    <string name="BotLoginMessage">**@BotFather** dan olgan tokeningizni kiriting.</string>
-    <string name="InvalidAccessToken">Kirish tokeni yaroqsiz</string>
-    <string name="IgnoreBlocked">Bloklangan foydalanuvchidan xabarlarni yashirish</string>
+    <string name="BotLoginMessage">**@BotFather** dan olingan tokeningizni kiriting.</string>
+    <string name="InvalidAccessToken">Kirish tokeni noto\'g\'ri</string>
+    <string name="IgnoreBlocked">Bloklangan foydalanuvchilardan kelgan xabarlarni yashirish</string>
     <string name="Connection">Ulanish</string>
     <string name="Chat">Chat</string>
     <string name="NameOrder">Ism tartibi</string>
@@ -21,18 +21,18 @@
     <string name="NoCaptionForward">Sarlavhasiz uzatish</string>
     <string name="NoQuoteForwardShort">Iqtibossiz</string>
     <string name="NoCaptionForwardShort">Sarlavhasiz</string>
-    <string name="Repeat">Takrorlang</string>
+    <string name="Repeat">Takrorlash</string>
     <string name="AddToSavedMessages">Xabarni saqlash</string>
     <string name="CreateMention">Eslatma yaratish</string>
     <string name="Prpr">Biroq</string>
-    <string name="TransparentStatusBar">Shaffof holat paneli</string>
+    <string name="TransparentStatusBar">Shaffof panel</string>
     <string name="EnableResidentNotification">Rezident bildirishnomasini ko\'rsatish</string>
-    <string name="DisableResidentNotification">Rezident bildirishnomasini o\'chirib qo\'ying</string>
+    <string name="DisableResidentNotification">Rezident bildirishnomasini o\'chirib qo\'yish</string>
     <string name="NekogramRunning">Nekogram ishlamoqda</string>
     <string name="EventType">Yon panel piktogramma to\'plami</string>
-    <string name="ChristmasHat">Har kuni Rojdestvo shlyapasini ko\'rsating</string>
+    <string name="ChristmasHat">Har kuni Yangi yil shlyapasini ko\'rsatish</string>
     <string name="DependsOnDate">Sanaga bog\'liq</string>
-    <string name="Christmas">Rojdestvo</string>
+    <string name="Christmas">Yangi yil</string>
     <string name="Valentine">Sevishganlar kuni</string>
     <string name="DeleteDownloadedFile">Yuklab olingan faylni o\'chirish</string>
     <string name="TestBackendOn">Bu hisob test serveriga ulanadi.</string>
@@ -283,7 +283,7 @@
     <string name="SendBugReportDesc">Bu bizga muammolarni tezda yechishimizga yordam beradi.</string>
     <string name="AnonymousDataDelete">Ma\'lumotni o\'chirish</string>
     <string name="AnonymousDataDeleteDesc">Bu misoldan chiquvchi maʼlumotlarni butunlay bloklash va toʻplangan maʼlumotlarni oʻchirish.</string>
-    <string name="SendAnonymousDataDesc">Yuqoridagi xususiyatlar Microsoft tomonidan taqdim etilgan Visual Studio ilova markazidan foydalanadi. To\'plangan ma\'lumotlar anonimdir va biz uni mustaqil qurilma yoki foydalanuvchiga qaytarib bo\'lmaydi.</string>
+    <string name="SendAnonymousDataDesc">Yuqoridagi funksiyalar %2$s tomonidan taqdim etilgan %1$s dan foydalanadi. To\'plangan ma\'lumotlar anonimdir va biz uni mustaqil qurilma yoki foydalanuvchiga qaytara olmaymiz.</string>
     <string name="SendLargePhotos">Ulkan suratlar yuborish</string>
     <string name="SendLargePhotosAbout">Siqilgan tasvirlardagi yon chegarani 2560 pikselgacha oshiring.</string>
     <string name="ExportAsJson">JSON qilib ko\'chirish</string>
