@@ -760,38 +760,6 @@ public class ThemeColors {
         defaultColors[key_topics_unreadCounter] = 0xff4ecc5e;
         defaultColors[key_topics_unreadCounterMuted] = 0xff8b8d8f;
 
-        defaultColors[key_codehighlight_annotation] = 0x00000000;
-        defaultColors[key_codehighlight_atrule] = 0xFF0077AA;
-        defaultColors[key_codehighlight_attr_name] = 0xFF669900;
-        defaultColors[key_codehighlight_attr_value] = 0xFF0077AA;
-        defaultColors[key_codehighlight_boolean] = 0xFF990055;
-        defaultColors[key_codehighlight_builtin] = 0xFF669900;
-        defaultColors[key_codehighlight_cdata] = 0xFF708090;
-        defaultColors[key_codehighlight_char] = 0xFF669900;
-        defaultColors[key_codehighlight_class_name] = 0xFFDD4A68;
-        defaultColors[key_codehighlight_comment] = 0xFF708090;
-        defaultColors[key_codehighlight_constant] = 0xFF990055;
-        defaultColors[key_codehighlight_deleted] = 0xFF990055;
-        defaultColors[key_codehighlight_delimiter] = 0x00000000;
-        defaultColors[key_codehighlight_doctype] = 0xFF708090;
-        defaultColors[key_codehighlight_entity] = 0xFF9A6E3A;
-        defaultColors[key_codehighlight_function] = 0xFFDD4A68;
-        defaultColors[key_codehighlight_important] = 0xFFEE9900;
-        defaultColors[key_codehighlight_inserted] = 0xFF669900;
-        defaultColors[key_codehighlight_keyword] = 0xFF0077AA;
-        defaultColors[key_codehighlight_number] = 0xFF990055;
-        defaultColors[key_codehighlight_operator] = 0xFF9A6E3A;
-        defaultColors[key_codehighlight_prolog] = 0xFF708090;
-        defaultColors[key_codehighlight_property] = 0xFF990055;
-        defaultColors[key_codehighlight_punctuation] = 0xFF999999;
-        defaultColors[key_codehighlight_regex] = 0xFFEE9900;
-        defaultColors[key_codehighlight_selector] = 0xFF669900;
-        defaultColors[key_codehighlight_string] = 0xFF669900;
-        defaultColors[key_codehighlight_symbol] = 0xFF990055;
-        defaultColors[key_codehighlight_tag] = 0xFF990055;
-        defaultColors[key_codehighlight_url] = 0xFF9A6E3A;
-        defaultColors[key_codehighlight_variable] = 0xFFEE9900;
-
         defaultColors[key_stories_circle1] = 0xFF39DF3C;
         defaultColors[key_stories_circle2] = 0xFF4DBBFF;
         defaultColors[key_stories_circle_dialog1] = 0xFF4AED55;
@@ -1520,46 +1488,12 @@ public class ThemeColors {
         colorKeysMap.put(key_premiumGradientBottomSheet3, "premiumGradientBottomSheet3");
         colorKeysMap.put(key_topics_unreadCounter, "topics_unreadCounter");
         colorKeysMap.put(key_topics_unreadCounterMuted, "topics_unreadCounterMuted");
-
-        colorKeysMap.put(key_codehighlight_annotation, "key_codehighlight_annotation");
-        colorKeysMap.put(key_codehighlight_atrule, "key_codehighlight_atrule");
-        colorKeysMap.put(key_codehighlight_attr_name, "key_codehighlight_attr_name");
-        colorKeysMap.put(key_codehighlight_attr_value, "key_codehighlight_attr_value");
-        colorKeysMap.put(key_codehighlight_boolean, "key_codehighlight_boolean");
-        colorKeysMap.put(key_codehighlight_builtin, "key_codehighlight_builtin");
-        colorKeysMap.put(key_codehighlight_cdata, "key_codehighlight_cdata");
-        colorKeysMap.put(key_codehighlight_char, "key_codehighlight_char");
-        colorKeysMap.put(key_codehighlight_class_name, "key_codehighlight_class_name");
-        colorKeysMap.put(key_codehighlight_comment, "key_codehighlight_comment");
-        colorKeysMap.put(key_codehighlight_constant, "key_codehighlight_constant");
-        colorKeysMap.put(key_codehighlight_deleted, "key_codehighlight_deleted");
-        colorKeysMap.put(key_codehighlight_delimiter, "key_codehighlight_delimiter");
-        colorKeysMap.put(key_codehighlight_doctype, "key_codehighlight_doctype");
-        colorKeysMap.put(key_codehighlight_entity, "key_codehighlight_entity");
-        colorKeysMap.put(key_codehighlight_function, "key_codehighlight_function");
-        colorKeysMap.put(key_codehighlight_important, "key_codehighlight_important");
-        colorKeysMap.put(key_codehighlight_inserted, "key_codehighlight_inserted");
-        colorKeysMap.put(key_codehighlight_keyword, "key_codehighlight_keyword");
-        colorKeysMap.put(key_codehighlight_number, "key_codehighlight_number");
-        colorKeysMap.put(key_codehighlight_operator, "key_codehighlight_operator");
-        colorKeysMap.put(key_codehighlight_prolog, "key_codehighlight_prolog");
-        colorKeysMap.put(key_codehighlight_property, "key_codehighlight_property");
-        colorKeysMap.put(key_codehighlight_punctuation, "key_codehighlight_punctuation");
-        colorKeysMap.put(key_codehighlight_regex, "key_codehighlight_regex");
-        colorKeysMap.put(key_codehighlight_selector, "key_codehighlight_selector");
-        colorKeysMap.put(key_codehighlight_string, "key_codehighlight_string");
-        colorKeysMap.put(key_codehighlight_symbol, "key_codehighlight_symbol");
-        colorKeysMap.put(key_codehighlight_tag, "key_codehighlight_tag");
-        colorKeysMap.put(key_codehighlight_url, "key_codehighlight_url");
-        colorKeysMap.put(key_codehighlight_variable, "key_codehighlight_variable");
-
         colorKeysMap.put(key_stories_circle1, "stories_circle1");
         colorKeysMap.put(key_stories_circle2, "stories_circle2");
         colorKeysMap.put(key_stories_circle_dialog1, "stories_circle_dialog1");
         colorKeysMap.put(key_stories_circle_dialog2, "stories_circle_dialog2");
         colorKeysMap.put(key_stories_circle_closeFriends1, "stories_circle_closeFriends1");
         colorKeysMap.put(key_stories_circle_closeFriends2, "stories_circle_closeFriends2");
-
         return colorKeysMap;
     }
 

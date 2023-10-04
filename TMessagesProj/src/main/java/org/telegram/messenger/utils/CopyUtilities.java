@@ -7,7 +7,6 @@ import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.Spanned;
-import android.text.TextUtils;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.URLSpan;
@@ -17,7 +16,6 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
-import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.URLSpanReplacement;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
@@ -27,8 +25,6 @@ import org.xml.sax.XMLReader;
 
 import java.util.ArrayDeque;
 import java.util.ArrayList;
-
-import tw.nekomimi.nekogram.syntaxhighlight.SyntaxHighlight;
 
 public class CopyUtilities {
 
@@ -88,30 +84,15 @@ public class CopyUtilities {
         MediaDataController.addTextStyleRuns(entities, spannable, spannable, -1);
         for (int i = 0; i < spans.length; ++i) {
             Object span = spans[i];
-            int start = spanned.getSpanStart(span);
-            int end = spanned.getSpanEnd(span);
             if (span instanceof URLSpan) {
+                int start = spanned.getSpanStart(span);
+                int end = spanned.getSpanEnd(span);
                 String text = spanned.subSequence(start, end).toString();
                 String url = ((URLSpan) span).getURL();
                 if (text.equals(url)) {
                     spannable.setSpan(new URLSpan(url), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 } else {
                     spannable.setSpan(new URLSpanReplacement(url), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                }
-            } else if (span instanceof ParsedSpan) {
-                if (((ParsedSpan) span).type == TYPE_MONO) {
-                    entities.add(setEntityStartEnd(new TLRPC.TL_messageEntityPre(), start, end));
-                    var language = ((ParsedSpan) span).language;
-                    if (!TextUtils.isEmpty(language)) {
-                        TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
-                        run.flags |= TextStyleSpan.FLAG_STYLE_MONO;
-                        run.start = start;
-                        run.end = end;
-                        run.urlEntity = new TLRPC.TL_messageEntityPre();
-                        run.urlEntity.language = language;
-                        MediaDataController.addStyleToText(new TextStyleSpan(run), start, end, spannable, true);
-                        SyntaxHighlight.highlight(run, spannable);
-                    }
                 }
             }
         }
@@ -261,7 +242,7 @@ public class CopyUtilities {
                 }
             } else if (tag.equals("pre")) {
                 if (opening) {
-                    output.setSpan(new ParsedSpan(TYPE_MONO, HTMLTagAttributesHandler.getValue(attributes, "data-language")), output.length(), output.length(), Spanned.SPAN_MARK_MARK);
+                    output.setSpan(new ParsedSpan(TYPE_MONO), output.length(), output.length(), Spanned.SPAN_MARK_MARK);
                     return true;
                 } else {
                     ParsedSpan obj = getLast(output, ParsedSpan.class, TYPE_MONO);
@@ -309,15 +290,9 @@ public class CopyUtilities {
 
     private static class ParsedSpan {
         final int type;
-        final String language;
 
         private ParsedSpan(int type) {
-            this(type, null);
-        }
-
-        private ParsedSpan(int type, String language) {
             this.type = type;
-            this.language = language;
         }
     }
 }

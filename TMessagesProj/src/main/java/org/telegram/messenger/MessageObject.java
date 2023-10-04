@@ -5499,9 +5499,6 @@ public class MessageObject {
                 spannable.setSpan(new URLSpanUserMention("" + ((TLRPC.TL_inputMessageEntityMentionName) run.urlEntity).user_id.user_id, t, run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if ((run.flags & TextStyleSpan.FLAG_STYLE_MONO) != 0) {
                 spannable.setSpan(new URLSpanMono(spannable, run.start, run.end, t, run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                if (run.urlEntity instanceof TLRPC.TL_messageEntityPre) {
-                    SyntaxHighlight.highlight(run, spannable);
-                }
             } else {
                 setRun = true;
                 spannable.setSpan(new TextStyleSpan(run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

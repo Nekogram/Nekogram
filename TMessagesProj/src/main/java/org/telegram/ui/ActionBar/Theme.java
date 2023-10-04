@@ -147,7 +147,6 @@ import java.util.concurrent.CountDownLatch;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.MonetHelper;
-import tw.nekomimi.nekogram.syntaxhighlight.SyntaxHighlight;
 
 public class Theme {
 
@@ -3962,38 +3961,6 @@ public class Theme {
     public static final int key_sheet_scrollUp = colorsCount++;
     public static final int key_sheet_other = colorsCount++;
 
-    public static final int key_codehighlight_annotation = colorsCount++;
-    public static final int key_codehighlight_atrule = colorsCount++;
-    public static final int key_codehighlight_attr_name = colorsCount++;
-    public static final int key_codehighlight_attr_value = colorsCount++;
-    public static final int key_codehighlight_boolean = colorsCount++;
-    public static final int key_codehighlight_builtin = colorsCount++;
-    public static final int key_codehighlight_cdata = colorsCount++;
-    public static final int key_codehighlight_char = colorsCount++;
-    public static final int key_codehighlight_class_name = colorsCount++;
-    public static final int key_codehighlight_comment = colorsCount++;
-    public static final int key_codehighlight_constant = colorsCount++;
-    public static final int key_codehighlight_deleted = colorsCount++;
-    public static final int key_codehighlight_delimiter = colorsCount++;
-    public static final int key_codehighlight_doctype = colorsCount++;
-    public static final int key_codehighlight_entity = colorsCount++;
-    public static final int key_codehighlight_function = colorsCount++;
-    public static final int key_codehighlight_important = colorsCount++;
-    public static final int key_codehighlight_inserted = colorsCount++;
-    public static final int key_codehighlight_keyword = colorsCount++;
-    public static final int key_codehighlight_number = colorsCount++;
-    public static final int key_codehighlight_operator = colorsCount++;
-    public static final int key_codehighlight_prolog = colorsCount++;
-    public static final int key_codehighlight_property = colorsCount++;
-    public static final int key_codehighlight_punctuation = colorsCount++;
-    public static final int key_codehighlight_regex = colorsCount++;
-    public static final int key_codehighlight_selector = colorsCount++;
-    public static final int key_codehighlight_string = colorsCount++;
-    public static final int key_codehighlight_symbol = colorsCount++;
-    public static final int key_codehighlight_tag = colorsCount++;
-    public static final int key_codehighlight_url = colorsCount++;
-    public static final int key_codehighlight_variable = colorsCount++;
-
     //ununsed
     public static final int key_player_actionBarSelector = colorsCount++;
     public static final int key_player_actionBarTitle = colorsCount++;
@@ -6532,7 +6499,6 @@ public class Theme {
         applyDialogsTheme();
         applyProfileTheme();
         applyChatTheme(false, bg);
-        SyntaxHighlight.updateColors();
         boolean checkNavigationBarColor = !hasPreviousTheme;
         AndroidUtilities.runOnUIThread(() -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.didSetNewTheme, false, checkNavigationBarColor, true));
     }
