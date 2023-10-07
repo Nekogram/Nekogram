@@ -75,13 +75,6 @@ public class ApplicationLoader extends Application {
     private static IMapsProvider mapsProvider;
     private static ILocationServiceProvider locationServiceProvider;
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        AnalyticsHelper.start(this);
-        AnalyticsHelper.trackEvent("App start");
-    }
-
     public static ILocationServiceProvider getLocationServiceProvider() {
         if (locationServiceProvider == null) {
             locationServiceProvider = applicationLoaderInstance.onCreateLocationServiceProvider();
@@ -251,6 +244,9 @@ public class ApplicationLoader extends Application {
         }
 
         super.onCreate();
+
+        AnalyticsHelper.start(this);
+        AnalyticsHelper.trackEvent("app_start");
 
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("app start time = " + (startTime = SystemClock.elapsedRealtime()));

@@ -169,7 +169,7 @@ public class NekoConfig {
     private static final SharedPreferences.OnSharedPreferenceChangeListener listener = (preferences, key) -> {
         var map = new HashMap<String, String>(1);
         map.put("key", key);
-        AnalyticsHelper.trackEvent("Neko config changed", map);
+        AnalyticsHelper.trackEvent("neko_config_changed", map);
 
         CloudSettingsHelper.getInstance().doAutoSync();
     };
@@ -215,7 +215,7 @@ public class NekoConfig {
                 var map = new HashMap<String, String>();
                 map.put("buildType", BuildConfig.BUILD_TYPE);
                 map.put("isChineseUser", String.valueOf(isChineseUser));
-                AnalyticsHelper.trackEvent("tcp2ws started", map);
+                AnalyticsHelper.trackEvent("tcp2ws_started", map);
             }
             return socksPort;
         } catch (Exception e) {
@@ -347,7 +347,7 @@ public class NekoConfig {
                 var map = new HashMap<String, String>();
                 map.put("buildType", BuildConfig.BUILD_TYPE);
                 map.put("isChineseUser", String.valueOf(isChineseUser));
-                AnalyticsHelper.trackEvent("Load config", map);
+                AnalyticsHelper.trackEvent("load_config", map);
             }
             configLoaded = true;
         }

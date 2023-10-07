@@ -100,14 +100,6 @@
 # removes such information by default, so configure it to keep all of it.
 -keepattributes Signature,InnerClasses,EnclosingMethod
 
--keepclassmembernames class com.microsoft.appcenter.AppCenter {
-    private com.microsoft.appcenter.channel.Channel mChannel;
-    private android.os.Handler mHandler;
-}
--keepclassmembers class * implements com.microsoft.appcenter.AppCenterService {
-    public static ** getInstance();
-}
-
 -keep class org.telegram.messenger.voip.* { *; }
 -keep class org.telegram.messenger.AnimatedFileDrawableStream { <methods>; }
 -keep class org.telegram.SQLite.SQLiteException { <methods>; }
@@ -151,6 +143,11 @@
     public static *** d(...);
 }
 
+-keepclassmembers enum * {
+     public static **[] values();
+     public static ** valueOf(java.lang.String);
+}
+
 -dontwarn com.google.j2objc.annotations.RetainedWith
 -dontwarn com.google.j2objc.annotations.Weak
 -dontwarn com.google.j2objc.annotations.ReflectionSupport$Level
@@ -164,6 +161,7 @@
 -dontwarn org.openjsse.javax.net.ssl.SSLParameters
 -dontwarn org.openjsse.javax.net.ssl.SSLSocket
 -dontwarn org.openjsse.net.ssl.OpenJSSE
+-dontwarn reactor.blockhound.integration.BlockHoundIntegration
 
 -repackageclasses
 -allowaccessmodification

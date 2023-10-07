@@ -7,7 +7,6 @@ plugins {
 }
 
 configurations.configureEach {
-    exclude group: 'com.google.firebase', module: 'firebase-core'
     exclude group: 'androidx.recyclerview', module: 'recyclerview'
     exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk7'
     exclude group: 'org.jetbrains.kotlin', module: 'kotlin-stdlib-jdk8'
@@ -55,9 +54,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:4.11.0'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
 
-    def appCenterSdkVersion = '5.0.2'
-    implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
-    implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+    implementation 'com.google.firebase:firebase-crashlytics:18.4.3'
+    implementation 'com.google.firebase:firebase-analytics:21.3.0'
 }
 
 lsparanoid {
