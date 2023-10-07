@@ -207,8 +207,17 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             if (AnalyticsHelper.analyticsDisabled) {
                 return;
             }
-            AnalyticsHelper.setAnalyticsDisabled();
-            listAdapter.notifyItemRangeChanged(sendBugReportRow, 2);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
+            builder.setTitle(LocaleController.getString("AnonymousDataDelete", R.string.AnonymousDataDelete));
+            builder.setMessage(LocaleController.getString("AnonymousDataDeleteDesc", R.string.AnonymousDataDeleteDesc));
+            builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), (dialog, which) -> {
+                AnalyticsHelper.setAnalyticsDisabled();
+                listAdapter.notifyItemRangeChanged(sendBugReportRow, 2);
+            });
+            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            AlertDialog dialog = builder.create();
+            showDialog(dialog);
+            dialog.redPositive();
         } else if (position == sendLargePhotosRow) {
             NekoConfig.toggleSendLargePhotos();
             if (view instanceof TextCheckCell) {
