@@ -543,7 +543,7 @@ public class LanguageSelectActivity extends BaseFragment implements Notification
                 if (!unofficialLanguages.isEmpty()) {
                     count += unofficialLanguages.size() + 1;
                 }
-                return 3 + (getChatValue() || getContextValue() ? 1 : 0) + 1 + count;
+                return 4 + count;
             }
         }
 
