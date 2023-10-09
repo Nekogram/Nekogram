@@ -2463,7 +2463,7 @@ public class AndroidUtilities {
     }
 
     public static boolean isTablet() {
-        return isTabletInternal() && !SharedConfig.forceDisableTabletMode;
+        return isTabletInternal()/* && !SharedConfig.forceDisableTabletMode*/;
     }
 
     public static boolean isSmallScreen() {

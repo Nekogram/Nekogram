@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -24,6 +25,7 @@ import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.LaunchActivity;
 
 import java.util.ArrayList;
 
@@ -94,7 +96,10 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
             PopupHelper.show(arrayList, LocaleController.getString("TabletMode", R.string.TabletMode), types.indexOf(NekoConfig.tabletMode), getParentActivity(), view, i -> {
                 NekoConfig.setTabletMode(types.get(i));
                 listAdapter.notifyItemChanged(tabletModeRow, PARTIAL);
-                showRestartBulletin();
+                AndroidUtilities.resetTabletFlag();
+                if (getParentActivity() instanceof LaunchActivity) {
+                    ((LaunchActivity) getParentActivity()).invalidateTabletMode();
+                }
             }, resourcesProvider);
         } else if (position == transparentStatusBarRow) {
             SharedConfig.toggleNoStatusBar();

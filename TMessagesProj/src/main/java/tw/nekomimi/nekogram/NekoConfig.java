@@ -72,7 +72,7 @@ public class NekoConfig {
     public static boolean useIPv6 = false;
     public static boolean showHiddenFeature = BuildConfig.DEBUG;
 
-    public static boolean useSystemEmoji = SharedConfig.useSystemEmoji;
+    public static boolean useSystemEmoji = false;
     public static boolean ignoreBlocked = false;
     public static boolean hideKeyboardOnChatScroll = false;
     public static boolean rearVideoMessages = false;
@@ -289,7 +289,7 @@ public class NekoConfig {
             avatarAsDrawerBackground = preferences.getBoolean("avatarAsDrawerBackground", false);
             avatarBackgroundBlur = preferences.getBoolean("avatarBackgroundBlur", false);
             avatarBackgroundDarken = preferences.getBoolean("avatarBackgroundDarken", false);
-            useSystemEmoji = preferences.getBoolean("useSystemEmoji", SharedConfig.useSystemEmoji);
+            useSystemEmoji = preferences.getBoolean("useSystemEmoji", false);
             rearVideoMessages = preferences.getBoolean("rearVideoMessages", false);
             hideAllTab = preferences.getBoolean("hideAllTab", false);
             tabsTitleType = preferences.getInt("tabsTitleType2", TITLE_TYPE_MIX);
