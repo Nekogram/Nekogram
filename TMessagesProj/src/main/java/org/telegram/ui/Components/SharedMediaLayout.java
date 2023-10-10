@@ -3723,7 +3723,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
                 return;
             }
-            NekoConfig.setLastForwardOption(id);
+            ForwardItem.setLastForwardOption(id);
             setForwardParams(id == forward_noquote, id == forward_nocaption);
             if (NekoConfig.quickForward) {
                 openShareAlert(profileActivity, null, () -> {

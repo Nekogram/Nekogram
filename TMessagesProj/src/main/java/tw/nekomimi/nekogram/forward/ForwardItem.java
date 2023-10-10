@@ -1,7 +1,10 @@
 package tw.nekomimi.nekogram.forward;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
@@ -19,6 +22,9 @@ public class ForwardItem {
     public static final int ID_FORWARD_NOQUOTE = -101;
     public static final int ID_FORWARD_NOCAPTION = -102;
 
+    private static final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoforward", Context.MODE_PRIVATE);
+    public static int lastForwardOption = preferences.getInt("lastForwardOption", ForwardItem.ID_FORWARD);
+
     static final int[] ITEM_IDS = new int[]{
             ID_FORWARD,
             ID_FORWARD_NOQUOTE,
@@ -34,6 +40,11 @@ public class ForwardItem {
         put(ID_FORWARD_NOQUOTE, LocaleController.getString("NoQuoteForwardShort", R.string.NoQuoteForwardShort));
         put(ID_FORWARD_NOCAPTION, LocaleController.getString("NoCaptionForwardShort", R.string.NoCaptionForwardShort));
     }};
+
+    public static void setLastForwardOption(int option) {
+        lastForwardOption = option;
+        preferences.edit().putInt("lastForwardOption", lastForwardOption).apply();
+    }
 
     public static void setupForwardItem(ActionBarMenuItem item, boolean hasCaption, Theme.ResourcesProvider resourcesProvider, ActionBarMenuItem.ActionBarMenuItemDelegate delegate) {
         setupForwardItem(item, true, false, hasCaption, resourcesProvider, delegate);
@@ -94,7 +105,7 @@ public class ForwardItem {
     }
 
     public static int getLastForwardOption(boolean hasCaption) {
-        var lastOption = NekoConfig.lastForwardOption;
+        var lastOption = ForwardItem.lastForwardOption;
         if (NekoConfig.showNoQuoteForward && lastOption == ID_FORWARD_NOQUOTE) {
             return ID_FORWARD;
         }

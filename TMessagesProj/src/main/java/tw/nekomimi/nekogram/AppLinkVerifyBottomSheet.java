@@ -2,6 +2,7 @@ package tw.nekomimi.nekogram;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.pm.verify.domain.DomainVerificationManager;
 import android.content.pm.verify.domain.DomainVerificationUserState;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 import androidx.annotation.RequiresApi;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -33,6 +35,7 @@ import java.util.Map;
 
 @RequiresApi(api = Build.VERSION_CODES.S)
 public class AppLinkVerifyBottomSheet extends BottomSheet {
+    private static final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoverifylink", Context.MODE_PRIVATE);
 
     @Override
     protected boolean canDismissWithSwipe() {
@@ -45,7 +48,7 @@ public class AppLinkVerifyBottomSheet extends BottomSheet {
     }
 
     public static void checkBottomSheet(BaseFragment fragment) {
-        if (NekoConfig.verifyLinkTip) {
+        if (preferences.getBoolean("verifyLinkTip", false)) {
             return;
         }
         Context context = fragment.getParentActivity();
@@ -145,7 +148,7 @@ public class AppLinkVerifyBottomSheet extends BottomSheet {
 
         textView.setOnClickListener(view -> {
             dismiss();
-            NekoConfig.setVerifyLinkTip(true);
+            preferences.edit().putBoolean("verifyLinkTip", true).apply();
         });
 
         ScrollView scrollView = new ScrollView(context);

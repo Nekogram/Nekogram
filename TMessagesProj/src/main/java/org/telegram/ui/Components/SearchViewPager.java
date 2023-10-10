@@ -542,7 +542,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                 }
             });
         } else if (id == forwardItemId || id == forwardNoQuoteItemId || id == forwardNoCaptionItemId) {
-            NekoConfig.setLastForwardOption(id);
+            ForwardItem.setLastForwardOption(id);
             ArrayList<MessageObject> fmessages = new ArrayList<>(selectedFiles.values());
             ForwardContext forwardContext = () -> fmessages;
             forwardContext.setForwardParams(id == forwardNoQuoteItemId, id == forwardNoQuoteItemId);

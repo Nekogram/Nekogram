@@ -3096,7 +3096,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 } else if (id == ForwardItem.ID_FORWARD || id == ForwardItem.ID_FORWARD_NOQUOTE || id == ForwardItem.ID_FORWARD_NOCAPTION) {
                     setForwardParams(id == ForwardItem.ID_FORWARD_NOQUOTE, id == ForwardItem.ID_FORWARD_NOCAPTION);
                     openForward(true);
-                    NekoConfig.setLastForwardOption(id);
+                    ForwardItem.setLastForwardOption(id);
                 } else if (id == save_to) {
                     ArrayList<MessageObject> messageObjects = new ArrayList<>();
                     for (int a = 1; a >= 0; a--) {
@@ -7513,7 +7513,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         forwardOptionsButton.setDelegate(id -> {
             setForwardParams(id == ForwardItem.ID_FORWARD_NOQUOTE, id == ForwardItem.ID_FORWARD_NOCAPTION);
             openForward(false);
-            NekoConfig.setLastForwardOption(id);
+            ForwardItem.setLastForwardOption(id);
         });
         bottomMessagesActionContainer.addView(forwardOptionsButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.RIGHT | Gravity.TOP));
         forwardButton = new TextView(getContext());
@@ -26297,7 +26297,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             case OPTION_FORWARD_NOQUOTE:
             case OPTION_FORWARD_NOCAPTION:{
                 setForwardParams(option == OPTION_FORWARD_NOQUOTE, option == OPTION_FORWARD_NOCAPTION);
-                NekoConfig.setLastForwardOption(option);
+                ForwardItem.setLastForwardOption(option);
                 forwardingMessage = selectedObject;
                 forwardingMessageGroup = selectedObjectGroup;
                 if (NekoConfig.quickForward) {

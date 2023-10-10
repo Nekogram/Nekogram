@@ -32,7 +32,6 @@ import java.util.function.BiConsumer;
 
 import app.nekogram.tcp2ws.Tcp2WsServer;
 import app.nekogram.translator.DeepLTranslator;
-import tw.nekomimi.nekogram.forward.ForwardItem;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.CloudSettingsHelper;
 import tw.nekomimi.nekogram.translator.Translator;
@@ -94,7 +93,6 @@ public class NekoConfig {
     public static int doubleTapAction = DOUBLE_TAP_ACTION_REACTION;
     public static int downloadSpeedBoost = BOOST_NONE;
     public static HashSet<String> restrictedLanguages = new HashSet<>();
-    public static int lastForwardOption = ForwardItem.ID_FORWARD;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showSetReminder = false;
@@ -129,7 +127,6 @@ public class NekoConfig {
     public static boolean voiceEnhancements = false;
     public static boolean disableInstantCamera = false;
     public static boolean tryToOpenAllLinksInIV = false;
-    public static boolean enableAnalytics = true;
     public static boolean formatTimeWithSeconds = false;
     public static boolean accentAsNotificationColor = false;
     public static boolean silenceNonContacts = false;
@@ -154,8 +151,6 @@ public class NekoConfig {
     private static Tcp2WsServer tcp2wsServer;
     public static boolean wsEnableTLS = true;
     public static String wsDomain;
-
-    public static boolean verifyLinkTip = false;
 
     public static boolean residentNotification = false;
 
@@ -307,7 +302,6 @@ public class NekoConfig {
             voiceEnhancements = preferences.getBoolean("voiceEnhancements", false);
             disableInstantCamera = preferences.getBoolean("disableInstantCamera", false);
             tryToOpenAllLinksInIV = preferences.getBoolean("tryToOpenAllLinksInIV", false);
-            enableAnalytics = preferences.getBoolean("enableAnalytics", true);
             formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
             accentAsNotificationColor = preferences.getBoolean("accentAsNotificationColor", false);
             silenceNonContacts = preferences.getBoolean("silenceNonContacts", false);
@@ -321,7 +315,6 @@ public class NekoConfig {
             disableVoiceMessageAutoPlay = preferences.getBoolean("disableVoiceMessageAutoPlay", false);
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
-            verifyLinkTip = preferences.getBoolean("verifyLinkTip2", false);
             doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
             restrictedLanguages = new HashSet<>(preferences.getStringSet("restrictedLanguages", new HashSet<>()));
             disableMarkdownByDefault = preferences.getBoolean("disableMarkdownByDefault", false);
@@ -333,7 +326,6 @@ public class NekoConfig {
             downloadSpeedBoost = preferences.getInt("downloadSpeedBoost2", BOOST_NONE);
             uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
             sendLargePhotos = preferences.getBoolean("sendLargePhotos", true);
-            lastForwardOption = preferences.getInt("lastForwardOption", ForwardItem.ID_FORWARD);
             showQrCode = preferences.getBoolean("showQrCode", true);
             wsDomain = preferences.getString("wsDomain", "");
             hideStories = preferences.getBoolean("hideStories", false);
@@ -341,9 +333,9 @@ public class NekoConfig {
             springAnimation = preferences.getBoolean("springAnimation", false);
             actionbarCrossfade = preferences.getBoolean("actionbarCrossfade", false);
 
-            if (!configLoaded) {
-                preferences.registerOnSharedPreferenceChangeListener(listener);
+            preferences.registerOnSharedPreferenceChangeListener(listener);
 
+            if (!configLoaded) {
                 var map = new HashMap<String, String>();
                 map.put("buildType", BuildConfig.BUILD_TYPE);
                 map.put("isChineseUser", String.valueOf(isChineseUser));
@@ -370,7 +362,9 @@ public class NekoConfig {
         //noinspection unchecked
         Map<String, ?> map = gson.fromJson(config, Map.class);
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        preferences.unregisterOnSharedPreferenceChangeListener(listener);
         var editor = preferences.edit();
+        editor.clear();
         map.forEach((BiConsumer<String, Object>) (s, o) -> {
             if (o instanceof Integer) {
                 editor.putInt(s, (Integer) o);
@@ -399,14 +393,6 @@ public class NekoConfig {
         editor.apply();
     }
 
-    public static void setLastForwardOption(int option) {
-        lastForwardOption = option;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("lastForwardOption", lastForwardOption);
-        editor.apply();
-    }
-
     public static void setNewMarkdownParser(boolean newParser) {
         newMarkdownParser = newParser;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
@@ -427,14 +413,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("doubleTapAction", doubleTapAction);
-        editor.apply();
-    }
-
-    public static void setVerifyLinkTip(boolean shown) {
-        verifyLinkTip = shown;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("verifyLinkTip2", verifyLinkTip);
         editor.apply();
     }
 

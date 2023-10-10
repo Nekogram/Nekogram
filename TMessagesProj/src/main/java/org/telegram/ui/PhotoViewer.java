@@ -4873,7 +4873,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (currentMessageObject == null || !(parentActivity instanceof LaunchActivity)) {
                         return;
                     }
-                    NekoConfig.setLastForwardOption(id);
+                    ForwardItem.setLastForwardOption(id);
                     boolean isChannel = false;
                     if (!currentMessageObject.scheduled) {
                         long dialogId = currentMessageObject.getDialogId();
