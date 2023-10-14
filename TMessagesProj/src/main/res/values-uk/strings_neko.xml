@@ -283,6 +283,7 @@
     <string name="SendBugReportDesc">Це допоможе нам швидше виявити проблему.</string>
     <string name="AnonymousDataDelete">Видалити дані</string>
     <string name="AnonymousDataDeleteDesc">Повністю блокувати надсилання даних з цього пристрою та видалити зібрані дані.</string>
+    <string name="SendAnonymousDataDesc">Зазначена вище функція використовує %1$s від %2$s. Зібрана інформація анонімна, і ми ніяк не можемо пов\'язати її з конкретним користувачем або пристроєм.</string>
     <string name="SendLargePhotos">Надсилати великі фото</string>
     <string name="SendLargePhotosAbout">Збільшити обмеження на розмір сторони для стиснених зображень до 2560 пікс.</string>
     <string name="ExportAsJson">Копіювати як JSON</string>
