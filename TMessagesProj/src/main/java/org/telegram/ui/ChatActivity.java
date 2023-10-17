@@ -26238,7 +26238,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         getMessageHelper().resetMessageContent(dialog_id, messageObject, false, true);
         Translator.translate(messageObject.messageOwner.message, sourceLanguage, new Translator.TranslateCallBack() {
             @Override
-            public void onSuccess(Object translation, String sourceLanguageT, String targetLanguageT) {
+            public void onSuccess(String translation, String sourceLanguageT, String targetLanguageT) {
                 TLRPC.TL_textWithEntities text = Translator.getTLResult(translation, messageObject.messageOwner.message, messageObject.messageOwner.entities);
                 messageObject.messageOwner.originalLanguage = sourceLanguageT;
                 messageObject.messageOwner.translatedToLanguage = targetLanguageT;

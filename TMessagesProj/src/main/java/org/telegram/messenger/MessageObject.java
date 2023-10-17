@@ -2695,7 +2695,7 @@ public class MessageObject {
             fromUser = MessagesController.getInstance(currentAccount).getUser(messageOwner.from_id.user_id);
         }
         messageText = text;
-        ArrayList<TLRPC.MessageEntity> entities = translated && messageOwner.translatedText != null && !NekoConfig.showOriginal ? messageOwner.translatedText.entities : messageOwner.entities;
+        ArrayList<TLRPC.MessageEntity> entities = getCurrentEntities();
         TextPaint paint;
         if (getMedia(messageOwner) instanceof TLRPC.TL_messageMediaGame) {
             paint = Theme.chat_msgGameTextPaint;
@@ -2711,6 +2711,18 @@ public class MessageObject {
         checkEmojiOnly(emojiOnly);
         generateLayout(fromUser);
         setType();
+    }
+
+    private ArrayList<TLRPC.MessageEntity> getCurrentEntities() {
+        if (translated && messageOwner.translatedText != null) {
+            if (NekoConfig.showOriginal) {
+                return messageOwner.entities;
+            } else {
+                return messageOwner.translatedText.entities;
+            }
+        } else {
+            return messageOwner.entities;
+        }
     }
 
     private boolean allowsBigEmoji() {
@@ -4892,7 +4904,7 @@ public class MessageObject {
                     "\n" +
                     "--------" +
                     "\n" + messageOwner.translatedText.text);
-            entities =  !NekoConfig.showOriginal ? messageOwner.translatedText.entities : messageOwner.entities;
+            entities =  getCurrentEntities();
         }
         if (!isMediaEmpty() && !(getMedia(messageOwner) instanceof TLRPC.TL_messageMediaGame) && !TextUtils.isEmpty(text)) {
             caption = Emoji.replaceEmoji(text, Theme.chat_msgTextPaint.getFontMetricsInt(), AndroidUtilities.dp(20), false);
@@ -5174,17 +5186,7 @@ public class MessageObject {
             entities.add(entityItalic);
             return addEntitiesToText(text, entities, isOutOwner(), true, photoViewer, useManualParse);
         } else {
-            ArrayList<TLRPC.MessageEntity> entities;
-            if (translated && !NekoConfig.showOriginal) {
-                if (messageOwner.translatedText == null) {
-                    entities = null;
-                } else {
-                    entities = messageOwner.translatedText.entities;
-                }
-            } else {
-                entities = messageOwner.entities;
-            }
-            return addEntitiesToText(text, MessageHelper.checkBlockedUserEntities(this), isOutOwner(), true, photoViewer, useManualParse);
+            return addEntitiesToText(text, MessageHelper.checkBlockedUserEntities(this, getCurrentEntities()), isOutOwner(), true, photoViewer, useManualParse);
         }
     }
 
@@ -5213,7 +5215,7 @@ public class MessageObject {
     }
 
     public Spannable replaceAnimatedEmoji(CharSequence text, Paint.FontMetricsInt fontMetricsInt) {
-        ArrayList<TLRPC.MessageEntity> entities = translated && messageOwner.translatedText != null && !NekoConfig.showOriginal ? messageOwner.translatedText.entities : messageOwner.entities;
+        ArrayList<TLRPC.MessageEntity> entities = getCurrentEntities();
         return replaceAnimatedEmoji(text, entities, fontMetricsInt, false);
     }
 
@@ -5621,7 +5623,7 @@ public class MessageObject {
     private boolean applyEntities() {
         generateLinkDescription();
 
-        ArrayList<TLRPC.MessageEntity> entities = translated && messageOwner.translatedText != null && !NekoConfig.showOriginal ? messageOwner.translatedText.entities : messageOwner.entities;
+        ArrayList<TLRPC.MessageEntity> entities = getCurrentEntities();
         spoilLoginCode();
 
         boolean hasEntities;

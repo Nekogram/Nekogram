@@ -746,7 +746,7 @@ public class TranslateController extends BaseController {
 
         Translator.translate(message.messageOwner.message, message.messageOwner.originalLanguage, language, new Translator.TranslateCallBack() {
             @Override
-            public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
+            public void onSuccess(String translation, String sourceLanguage, String targetLanguage) {
                 TLRPC.TL_textWithEntities text = Translator.getTLResult(translation, message.messageOwner.message, message.messageOwner.entities);
                 callback.run(text, sourceLanguage, targetLanguage);
             }
@@ -996,7 +996,7 @@ public class TranslateController extends BaseController {
 
         Translator.translate(storyItem.caption, storyItem.detectedLng, new Translator.TranslateCallBack() {
             @Override
-            public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
+            public void onSuccess(String translation, String sourceLanguage, String targetLanguage) {
                 TLRPC.TL_textWithEntities text = Translator.getTLResult(translation, storyItem.caption, storyItem.entities);
                 storyItem.translatedLng = targetLanguage;
                 storyItem.translatedText = text;
@@ -1110,7 +1110,7 @@ public class TranslateController extends BaseController {
         final long start = System.currentTimeMillis();
         Translator.translate(messageObject.messageOwner.message, captionDetectedLanguage, new Translator.TranslateCallBack() {
             @Override
-            public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
+            public void onSuccess(String translation, String sourceLanguage, String targetLanguage) {
                 TLRPC.TL_textWithEntities text = Translator.getTLResult(translation, messageObject.messageOwner.message, messageObject.messageOwner.entities);
                 messageObject.messageOwner.originalLanguage = sourceLanguage;
                 messageObject.messageOwner.translatedToLanguage = targetLanguage;

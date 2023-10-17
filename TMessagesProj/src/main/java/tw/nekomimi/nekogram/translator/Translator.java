@@ -65,7 +65,7 @@ public class Translator {
     public static final String PROVIDER_TENCENT = "tencent";
 
     private static final ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
-    private static final LruCache<Pair<Object, String>, Pair<Object, String>> cache = new LruCache<>(200);
+    private static final LruCache<Pair<String, String>, Pair<String, String>> cache = new LruCache<>(200);
 
     public static ListeningExecutorService getExecutorService() {
         return executorService;
@@ -291,7 +291,7 @@ public class Translator {
     }
 
     public interface TranslateCallBack {
-        void onSuccess(Object translation, String sourceLanguage, String targetLanguage);
+        void onSuccess(String translation, String sourceLanguage, String targetLanguage);
 
         void onError(Throwable t);
     }
@@ -305,19 +305,16 @@ public class Translator {
             translateCallBack.onSuccess(result.first, result.second == null ? fromLang : translator.convertLanguageCode(result.second, true), toLang);
         } else {
             TranslateTask translateTask = new TranslateTask(translator, query, fromLang, toLang, translateCallBack);
-            ListenableFuture<Pair<Object, String>> future = getExecutorService().submit(translateTask);
+            ListenableFuture<Pair<String, String>> future = getExecutorService().submit(translateTask);
             Futures.addCallback(future, translateTask, ContextCompat.getMainExecutor(ApplicationLoader.applicationContext));
         }
     }
 
-    public static TLRPC.TL_textWithEntities getTLResult(Object translation, String message, ArrayList<TLRPC.MessageEntity> entities) {
-        if (translation instanceof String) {
-            TLRPC.TL_textWithEntities text = new TLRPC.TL_textWithEntities();
-            text.text = (String) translation;
-            text.entities = new ArrayList<>();
-            return text;
-        }
-        return null;
+    public static TLRPC.TL_textWithEntities getTLResult(String translation, String message, ArrayList<TLRPC.MessageEntity> entities) {
+        TLRPC.TL_textWithEntities text = new TLRPC.TL_textWithEntities();
+        text.text = translation;
+        text.entities = new ArrayList<>();
+        return text;
     }
 
     private static String getCurrentAppLanguage(BaseTranslator translator) {
@@ -348,7 +345,7 @@ public class Translator {
         return getTargetLanguage(getCurrentTranslator(), NekoConfig.translationTarget);
     }
 
-    private static class TranslateTask implements Callable<Pair<Object, String>>, FutureCallback<Pair<Object, String>> {
+    private static class TranslateTask implements Callable<Pair<String, String>>, FutureCallback<Pair<String, String>> {
         private final TranslateCallBack translateCallBack;
         private final BaseTranslator translator;
         private final String query;
@@ -364,7 +361,7 @@ public class Translator {
         }
 
         @Override
-        public Pair<Object, String> call() throws Exception {
+        public Pair<String, String> call() throws Exception {
             var from = "";//translator.convertLanguageCode(TextUtils.isEmpty(fl) || "und".equals(fl) ? "auto" : fl, false);
             var to = translator.convertLanguageCode(tl, false);
             Result result = translator.translate(query, from, to);
@@ -372,7 +369,7 @@ public class Translator {
         }
 
         @Override
-        public void onSuccess(Pair<Object, String> result) {
+        public void onSuccess(Pair<String, String> result) {
             translateCallBack.onSuccess(result.first, result.second == null ? fl : translator.convertLanguageCode(result.second, true), tl);
             cache.put(Pair.create(query, tl + "|" + NekoConfig.translationProvider), result);
         }

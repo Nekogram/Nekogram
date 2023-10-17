@@ -262,10 +262,10 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     public void translate() {
         Translator.translate(reqText == null ? "" : reqText.toString(), fromLanguage, new Translator.TranslateCallBack() {
             @Override
-            public void onSuccess(Object translation, String sourceLanguage, String targetLanguage) {
+            public void onSuccess(String translation, String sourceLanguage, String targetLanguage) {
                 AndroidUtilities.runOnUIThread(() -> {
                     firstTranslation = false;
-                    CharSequence translated = SpannableStringBuilder.valueOf((CharSequence) translation);
+                    CharSequence translated = SpannableStringBuilder.valueOf(translation);
                     MessageObject.addUrlsByPattern(false, translated, false, 0, 0, true);
                     translated = preprocessText(translated);
                     AndroidUtilities.addLinks((Spannable) translated, Linkify.WEB_URLS);
