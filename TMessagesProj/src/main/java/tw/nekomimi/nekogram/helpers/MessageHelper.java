@@ -285,7 +285,7 @@ public class MessageHelper extends BaseController {
     }
 
     public static boolean isLinkOrEmojiOnlyMessage(MessageObject messageObject) {
-        return isLinkOrEmojiOnlyMessage(messageObject.messageOwner.message, messageObject.messageOwner.entities);
+        return messageObject.getEmojiOnlyCount() > 0 || isLinkOrEmojiOnlyMessage(messageObject.messageOwner.message, messageObject.messageOwner.entities);
     }
 
     public static boolean isLinkOrEmojiOnlyMessage(String message, ArrayList<TLRPC.MessageEntity> entities) {
