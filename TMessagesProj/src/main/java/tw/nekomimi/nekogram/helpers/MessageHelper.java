@@ -33,7 +33,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BaseController;
 import org.telegram.messenger.ChatObject;
-import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -289,15 +288,12 @@ public class MessageHelper extends BaseController {
     }
 
     public static boolean isLinkOrEmojiOnlyMessage(MessageObject messageObject) {
-        return messageObject.getEmojiOnlyCount() > 0 || isLinkOrEmojiOnlyMessage(messageObject.messageOwner.message, messageObject.messageOwner.entities);
+        return messageObject.getEmojiOnlyCount() > 0 || isLinkOnlyMessage(messageObject.messageOwner.message, messageObject.messageOwner.entities);
     }
 
-    public static boolean isLinkOrEmojiOnlyMessage(String message, ArrayList<TLRPC.MessageEntity> entities) {
+    public static boolean isLinkOnlyMessage(String message, ArrayList<TLRPC.MessageEntity> entities) {
         if (message == null) {
             return false;
-        }
-        if (message.matches("[\\d -/:-@\\[-`{-~]")) {
-            return true;
         }
         if (entities != null) {
             for (TLRPC.MessageEntity entity : entities) {
@@ -315,7 +311,7 @@ public class MessageHelper extends BaseController {
                 }
             }
         }
-        return Emoji.fullyConsistsOfEmojis(message);
+        return false;
     }
 
     public MessageObject getMessageForRepeat(MessageObject selectedObject, MessageObject.GroupedMessages selectedObjectGroup) {

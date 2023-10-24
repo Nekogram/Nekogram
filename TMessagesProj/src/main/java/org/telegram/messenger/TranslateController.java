@@ -964,7 +964,7 @@ public class TranslateController extends BaseController {
     }
 
     public boolean canTranslateStory(TLRPC.StoryItem storyItem) {
-        return storyItem != null && !TextUtils.isEmpty(storyItem.caption) && !MessageHelper.isLinkOrEmojiOnlyMessage(storyItem.caption, storyItem.entities) && (
+        return storyItem != null && !TextUtils.isEmpty(storyItem.caption) && !MessageHelper.isLinkOnlyMessage(storyItem.caption, storyItem.entities) && (
             storyItem.detectedLng == null && storyItem.translatedText != null && TextUtils.equals(storyItem.translatedLng, TranslateAlert2.getToLanguage()) ||
             storyItem.detectedLng != null && !Translator.isLanguageRestricted(storyItem.detectedLng)
         );
