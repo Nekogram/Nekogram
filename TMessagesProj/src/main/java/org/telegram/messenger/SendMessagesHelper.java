@@ -6716,7 +6716,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     @UiThread
-    public static void prepareSendingDocument(AccountInstance accountInstance, String path, String originalPath, Uri uri, String caption, String mine, long dialogId, MessageObject replyToMsg, MessageObject replyToTopMsg, TLRPC.StoryItem storyItem, MessageObject editingMessageObject, boolean notify, int scheduleDate, InputContentInfoCompat inputContent) {
+    public static void prepareSendingDocument(AccountInstance accountInstance, String path, String originalPath, Uri uri, String caption, String mine, long dialogId, MessageObject replyToMsg, MessageObject replyToTopMsg, TLRPC.StoryItem storyItem, MessageObject editingMessageObject, boolean notify, int scheduleDate, String inputContent) {
         if ((path == null || originalPath == null) && uri == null) {
             return;
         }
@@ -6828,7 +6828,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     @UiThread
-    public static void prepareSendingDocuments(AccountInstance accountInstance, ArrayList<String> paths, ArrayList<String> originalPaths, ArrayList<Uri> uris, String caption, String mime, long dialogId, MessageObject replyToMsg, MessageObject replyToTopMsg, TLRPC.StoryItem storyItem, MessageObject editingMessageObject, boolean notify, int scheduleDate, InputContentInfoCompat inputContent) {
+    public static void prepareSendingDocuments(AccountInstance accountInstance, ArrayList<String> paths, ArrayList<String> originalPaths, ArrayList<Uri> uris, String caption, String mime, long dialogId, MessageObject replyToMsg, MessageObject replyToTopMsg, TLRPC.StoryItem storyItem, MessageObject editingMessageObject, boolean notify, int scheduleDate, String inputContent) {
         if (paths == null && originalPaths == null && uris == null || paths != null && originalPaths != null && paths.size() != originalPaths.size()) {
             return;
         }
@@ -6880,9 +6880,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     }
                 }
             }
-            if (inputContent != null) {
+            /*if (inputContent != null) {
                 inputContent.releasePermission();
-            }
+            }*/
             handleError(error, accountInstance);
         });
     }

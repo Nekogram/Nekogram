@@ -1905,7 +1905,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
 
     private void sendPhoto(String mime, Uri uri, boolean notify, int scheduleDate) {
         if (mime.equalsIgnoreCase("image/gif")) {
-            SendMessagesHelper.prepareSendingDocument(accountInstance, null, null, uri, null, "image/gif", dialog_id, replyingMessageObject, getThreadMessage(), null, null, notify, scheduleDate, null);
+            SendMessagesHelper.prepareSendingDocument(accountInstance, null, null, uri, null, "image/gif", dialog_id, replyingMessageObject, getThreadMessage(), null, null, notify, scheduleDate, "image/gif");
         } else {
             SendMessagesHelper.prepareSendingPhoto(accountInstance, null, uri, dialog_id, replyingMessageObject, getThreadMessage(), null, null, null, mime, 0, null, notify, scheduleDate);
         }
