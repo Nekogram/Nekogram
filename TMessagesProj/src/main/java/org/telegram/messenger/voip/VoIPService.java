@@ -17,6 +17,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.Person;
 import android.app.Service;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
@@ -76,6 +77,7 @@ import android.telephony.TelephonyManager;
 import android.text.SpannableString;
 import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.util.LruCache;
 import android.view.KeyEvent;
 import android.view.View;
@@ -85,7 +87,6 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
-import androidx.core.app.Person;
 import androidx.core.graphics.drawable.IconCompat;
 
 import org.json.JSONObject;
@@ -2923,7 +2924,8 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			builder.setSmallIcon(isMicMute() ? R.drawable.voicechat_muted : R.drawable.voicechat_active);
 		} else {
 			builder.setContentTitle(LocaleController.getString("VoipOutgoingCall", R.string.VoipOutgoingCall));
-			builder.setSmallIcon(R.drawable.notification);
+			builder.setSmallIcon(R.drawable.ic_call);
+            builder.setOngoing(true);
 		}
 		builder.setPriority(Notification.PRIORITY_MAX);
 		builder.setShowWhen(false);
@@ -2931,7 +2933,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		builder.setColorized(true);
 		Intent endIntent = new Intent(this, VoIPActionsReceiver.class);
 		endIntent.setAction(getPackageName() + ".END_CALL");
-		Person caller = new Person.Builder()
+		androidx.core.app.Person caller = new androidx.core.app.Person.Builder()
 				.setIcon(IconCompat.createWithAdaptiveBitmap(MediaDataController.convertBitmapToAdaptive(photo)))
 				.setName(name)
 				.build();
@@ -3597,7 +3599,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			if (groupCall != null) {
 				bldr.setSmallIcon(isMicMute() ? R.drawable.voicechat_muted : R.drawable.voicechat_active);
 			} else {
-				bldr.setSmallIcon(R.drawable.notification);
+				bldr.setSmallIcon(R.drawable.ic_call);
 			}
 			startForeground(ID_ONGOING_CALL_NOTIFICATION, bldr.build());
 		}
@@ -4029,12 +4031,11 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		Intent intent = new Intent(this, LaunchActivity.class);
 		intent.setAction("voip");
 
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+		Notification.Builder builder = new Notification.Builder(this)
 				.setContentTitle(video ? LocaleController.getString("VoipInVideoCallBranding", R.string.VoipInVideoCallBranding) : LocaleController.getString("VoipInCallBranding", R.string.VoipInCallBranding))
-				.setSmallIcon(R.drawable.notification)
+				.setSmallIcon(R.drawable.ic_call)
 				.setContentIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE));
-		Uri soundProviderUri = Uri.parse("content://" + ApplicationLoader.getApplicationId() + ".call_sound_provider/start_ringing");
-		if (Build.VERSION.SDK_INT >= 26) {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
 			SharedPreferences nprefs = MessagesController.getGlobalNotificationsSettings();
 			int chanIndex = nprefs.getInt("calls_notification_channel", 0);
 			NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
@@ -4042,14 +4043,18 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			if (oldChannel != null) {
 				nm.deleteNotificationChannel(oldChannel.getId());
 			}
-			NotificationChannel existingChannel = nm.getNotificationChannel("incoming_calls3" + chanIndex);
+            oldChannel = nm.getNotificationChannel("incoming_calls3" + chanIndex);
+            if (oldChannel != null) {
+                nm.deleteNotificationChannel(oldChannel.getId());
+            }
+			NotificationChannel existingChannel = nm.getNotificationChannel("incoming_calls4" + chanIndex);
 			boolean needCreate = true;
 			if (existingChannel != null) {
-				if (existingChannel.getImportance() < NotificationManager.IMPORTANCE_HIGH || !soundProviderUri.equals(existingChannel.getSound()) || existingChannel.getVibrationPattern() != null || existingChannel.shouldVibrate()) {
+				if (existingChannel.getImportance() < NotificationManager.IMPORTANCE_HIGH || existingChannel.getSound() != null) {
 					if (BuildVars.LOGS_ENABLED) {
 						FileLog.d("User messed up the notification channel; deleting it and creating a proper one");
 					}
-					nm.deleteNotificationChannel("incoming_calls3" + chanIndex);
+					nm.deleteNotificationChannel("incoming_calls4" + chanIndex);
 					chanIndex++;
 					nprefs.edit().putInt("calls_notification_channel", chanIndex).commit();
 				} else {
@@ -4062,8 +4067,13 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 						.setLegacyStreamType(AudioManager.STREAM_RING)
 						.setUsage(AudioAttributes.USAGE_VOICE_COMMUNICATION)
 						.build();
-				NotificationChannel chan = new NotificationChannel("incoming_calls3" + chanIndex, LocaleController.getString("IncomingCalls", R.string.IncomingCalls), NotificationManager.IMPORTANCE_HIGH);
-				chan.setSound(soundProviderUri, attrs);
+				NotificationChannel chan = new NotificationChannel("incoming_calls4" + chanIndex, LocaleController.getString("IncomingCallsSystemSetting", R.string.IncomingCallsSystemSetting), NotificationManager.IMPORTANCE_HIGH);
+                try {
+                    chan.setSound(null, attrs);
+                } catch (Exception e) {
+                    FileLog.e(e);
+                }
+                chan.setDescription(LocaleController.getString("IncomingCallsSystemSettingDescription", R.string.IncomingCallsSystemSettingDescription));
 				chan.enableVibration(false);
 				chan.enableLights(false);
 				chan.setBypassDnd(true);
@@ -4075,17 +4085,27 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 					return;
 				}
 			}
-			builder.setChannelId("incoming_calls3" + chanIndex);
+			builder.setChannelId("incoming_calls4" + chanIndex);
 		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-			builder.setSound(soundProviderUri, AudioManager.STREAM_RING);
+			builder.setSound(null);
 		}
 		Intent endIntent = new Intent(this, VoIPActionsReceiver.class);
 		endIntent.setAction(getPackageName() + ".DECLINE_CALL");
 		endIntent.putExtra("call_id", getCallID());
+		CharSequence endTitle = LocaleController.getString("VoipDeclineCall", R.string.VoipDeclineCall);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+			endTitle = new SpannableString(endTitle);
+			((SpannableString) endTitle).setSpan(new ForegroundColorSpan(0xFFF44336), 0, endTitle.length(), 0);
+		}
 		PendingIntent endPendingIntent = PendingIntent.getBroadcast(this, 0, endIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_CANCEL_CURRENT);
 		Intent answerIntent = new Intent(this, VoIPActionsReceiver.class);
 		answerIntent.setAction(getPackageName() + ".ANSWER_CALL");
 		answerIntent.putExtra("call_id", getCallID());
+		CharSequence answerTitle = LocaleController.getString("VoipAnswerCall", R.string.VoipAnswerCall);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N && Build.VERSION.SDK_INT < Build.VERSION_CODES.S) {
+			answerTitle = new SpannableString(answerTitle);
+			((SpannableString) answerTitle).setSpan(new ForegroundColorSpan(0xFF00AA00), 0, answerTitle.length(), 0);
+		}
 		PendingIntent answerPendingIntent = PendingIntent.getBroadcast(this, 0, answerIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_CANCEL_CURRENT);
 		builder.setPriority(Notification.PRIORITY_MAX);
 		builder.setShowWhen(false);
@@ -4100,22 +4120,51 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 				builder.addPerson("tel:" + user.phone);
 			}
 		}
-		Bitmap avatar = getRoundAvatarBitmap(userOrChat);
-		String presonName = ContactsController.formatName(userOrChat);
-		if (TextUtils.isEmpty(presonName)) {
-			//java.lang.IllegalArgumentException: person must have a non-empty a name
-			presonName = "___";
+		Notification incomingNotification;
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+			Bitmap avatar = getRoundAvatarBitmap(userOrChat);
+			String personName = ContactsController.formatName(userOrChat);
+			if (TextUtils.isEmpty(personName)) {
+				//java.lang.IllegalArgumentException: person must have a non-empty a name
+				personName = "___";
+			}
+			Person person = new Person.Builder()
+					.setName(personName)
+					.setIcon(Icon.createWithAdaptiveBitmap(MediaDataController.convertBitmapToAdaptive(avatar))).build();
+			Notification.CallStyle notificationStyle = Notification.CallStyle.forIncomingCall(person, endPendingIntent, answerPendingIntent);
+
+			builder.setStyle(notificationStyle);
+			incomingNotification = builder.build();
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP ) {
+			builder.addAction(R.drawable.ic_call_end_white_24dp, endTitle, endPendingIntent);
+			builder.addAction(R.drawable.ic_call, answerTitle, answerPendingIntent);
+			builder.setContentText(name);
+
+			RemoteViews customView = new RemoteViews(getPackageName(), LocaleController.isRTL ? R.layout.call_notification_rtl : R.layout.call_notification);
+			customView.setTextViewText(R.id.name, name);
+			customView.setViewVisibility(R.id.subtitle, View.GONE);
+			if (UserConfig.getActivatedAccountsCount() > 1) {
+				TLRPC.User self = UserConfig.getInstance(currentAccount).getCurrentUser();
+				customView.setTextViewText(R.id.title, video ? LocaleController.formatString("VoipInVideoCallBrandingWithName", R.string.VoipInVideoCallBrandingWithName, ContactsController.formatName(self.first_name, self.last_name)) : LocaleController.formatString("VoipInCallBrandingWithName", R.string.VoipInCallBrandingWithName, ContactsController.formatName(self.first_name, self.last_name)));
+			} else {
+				customView.setTextViewText(R.id.title, video ? LocaleController.getString("VoipInVideoCallBranding", R.string.VoipInVideoCallBranding) : LocaleController.getString("VoipInCallBranding", R.string.VoipInCallBranding));
+			}
+			Bitmap avatar = getRoundAvatarBitmap(userOrChat);
+			customView.setTextViewText(R.id.answer_text, LocaleController.getString("VoipAnswerCall", R.string.VoipAnswerCall));
+			customView.setTextViewText(R.id.decline_text, LocaleController.getString("VoipDeclineCall", R.string.VoipDeclineCall));
+			customView.setImageViewBitmap(R.id.photo, avatar);
+			customView.setOnClickPendingIntent(R.id.answer_btn, answerPendingIntent);
+			customView.setOnClickPendingIntent(R.id.decline_btn, endPendingIntent);
+			builder.setLargeIcon(avatar);
+
+			incomingNotification = builder.getNotification();
+			incomingNotification.headsUpContentView = incomingNotification.bigContentView = customView;
+		} else {
+			builder.setContentText(name);
+			builder.addAction(R.drawable.ic_call_end_white_24dp, endTitle, endPendingIntent);
+			builder.addAction(R.drawable.ic_call, answerTitle, answerPendingIntent);
+			incomingNotification = builder.getNotification();
 		}
-		Person person = new Person.Builder()
-				.setName(presonName)
-				.setIcon(IconCompat.createWithAdaptiveBitmap(MediaDataController.convertBitmapToAdaptive(avatar)))
-				.build();
-		NotificationCompat.CallStyle callStyle = NotificationCompat.CallStyle.forIncomingCall(person, endPendingIntent, answerPendingIntent);
-		callStyle.setIsVideo(videoCall);
-		builder.setStyle(callStyle);
-		//builder.setContentText(video ? LocaleController.getString("VoipInVideoCallBranding", R.string.VoipInVideoCallBranding) : LocaleController.getString("VoipInCallBranding", R.string.VoipInCallBranding));
-		builder.setLargeIcon(avatar);
-		Notification incomingNotification = builder.build();
 		startForeground(ID_INCOMING_CALL_NOTIFICATION, incomingNotification);
 		startRingtoneAndVibration();
 	}

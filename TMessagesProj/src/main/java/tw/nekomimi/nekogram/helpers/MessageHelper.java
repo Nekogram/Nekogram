@@ -469,7 +469,7 @@ public class MessageHelper extends BaseController {
         imageView.setRoundRadius(AndroidUtilities.dp(20));
         if (forumTopic != null) {
             if (forumTopic.id == 1) {
-                imageView.setImageDrawable(ForumUtilities.createGeneralTopicDrawable(context, 0.75f, Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider)));
+                imageView.setImageDrawable(ForumUtilities.createGeneralTopicDrawable(context, 0.75f, Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider), false));
             } else {
                 ForumUtilities.setTopicIcon(imageView, forumTopic, false, true, resourcesProvider);
             }
@@ -719,7 +719,7 @@ public class MessageHelper extends BaseController {
         return acc;
     }
 
-    public void sendWebFile(BaseFragment fragment, int did, MessageObject thread, MessageObject reply_to, String url, boolean isPhoto, Theme.ResourcesProvider resourcesProvider) {
+    public void sendWebFile(BaseFragment fragment, int did, MessageObject thread, MessageObject reply_to, ChatActivity.ReplyQuote replyQuote, String url, boolean isPhoto, Theme.ResourcesProvider resourcesProvider) {
         TLRPC.TL_messages_sendMedia req = new TLRPC.TL_messages_sendMedia();
         TLRPC.InputMedia media;
         if (isPhoto) {
@@ -744,7 +744,7 @@ public class MessageHelper extends BaseController {
         }
         req.message = "";
         if (reply_to != null) {
-            req.reply_to = SendMessagesHelper.creteReplyInput(reply_to.getId(), thread.getId());
+            req.reply_to = getSendMessagesHelper().createReplyInput(null, reply_to.getId(), thread.getId(), replyQuote);
             req.flags |= 1;
         }
         getConnectionsManager().sendRequest(req, (response, error) -> {
@@ -811,7 +811,7 @@ public class MessageHelper extends BaseController {
         });
 
         builder.setView(ll);
-        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> sendWebFile(fragment, (int) fragment.getDialogId(), fragment.getThreadMessage(), fragment.getReplyMessage(), editText.getText().toString(), !cell.isChecked(), resourcesProvider));
+        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> sendWebFile(fragment, (int) fragment.getDialogId(), fragment.getThreadMessage(), fragment.getReplyMessage(), fragment.getReplyQuote(), editText.getText().toString(), !cell.isChecked(), resourcesProvider));
         builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
 
         AlertDialog alertDialog = builder.create();

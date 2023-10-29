@@ -18,6 +18,7 @@ import android.widget.TextView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.LayoutHelper;
@@ -28,7 +29,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
 
     private TextView textView;
     private TextViewSwitcher subtextView;
-    private RLottieImageView imageView;
+    public RLottieImageView imageView;
     private CheckBox2 checkView;
     private ImageView rightIcon;
 
@@ -149,14 +150,19 @@ public class ActionBarMenuSubItem extends FrameLayout {
             }
             addView(rightIcon, LayoutHelper.createFrame(24, LayoutHelper.MATCH_PARENT, Gravity.CENTER_VERTICAL | (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT)));
         }
+        FrameLayout.LayoutParams layoutParams = (FrameLayout.LayoutParams) textView.getLayoutParams();
+        if (LocaleController.isRTL) {
+            layoutParams.leftMargin = rightIcon != null ? AndroidUtilities.dp(32) : 0;
+        } else {
+            layoutParams.rightMargin = rightIcon != null ? AndroidUtilities.dp(32) : 0;
+        }
+        textView.setLayoutParams(layoutParams);
         setPadding(AndroidUtilities.dp(LocaleController.isRTL ? listener != null ? 0 : 8 : 18), 0, AndroidUtilities.dp(LocaleController.isRTL ? 18 : listener != null ? 0 : 8), 0);
         rightIcon.setImageResource(icon);
         if (listener != null) {
             rightIcon.getLayoutParams().width = AndroidUtilities.dp(40);
             rightIcon.setOnClickListener(listener);
             rightIcon.setBackground(Theme.createRadSelectorDrawable(selectorColor, 6, 0, 0, 6));
-            int iconWidth = AndroidUtilities.dp(40);
-            ((FrameLayout.LayoutParams) textView.getLayoutParams()).setMargins(LocaleController.isRTL ? iconWidth : 0, 0, LocaleController.isRTL ? 0 : iconWidth, 0);
         }
     }
 
@@ -308,7 +314,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
         updateBackground();
     }
 
-    void updateBackground() {
+    public void updateBackground() {
         setBackground(Theme.createRadSelectorDrawable(selectorColor, top ? 6 : 0, bottom ? 6 : 0));
     }
 

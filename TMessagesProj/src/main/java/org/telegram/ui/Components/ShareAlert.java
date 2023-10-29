@@ -70,6 +70,7 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.GenericProvider;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
@@ -86,6 +87,7 @@ import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
@@ -187,9 +189,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     private ArrayList<DialogsSearchAdapter.RecentSearchObject> recentSearchObjects = new ArrayList<>();
     private LongSparseArray<DialogsSearchAdapter.RecentSearchObject> recentSearchObjectsById = new LongSparseArray<>();
     private final Theme.ResourcesProvider resourcesProvider;
-    TLRPC.StoryItem storyItem;
+    TL_stories.StoryItem storyItem;
 
-    public void setStoryToShare(TLRPC.StoryItem storyItem) {
+    public void setStoryToShare(TL_stories.StoryItem storyItem) {
         this.storyItem = storyItem;
     }
 
@@ -1012,6 +1014,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         topicsGridView.setHorizontalScrollBarEnabled(false);
         topicsGridView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         topicsGridView.setSelectorDrawableColor(0);
+        topicsGridView.setItemSelectorColorProvider(i -> 0);
         topicsGridView.setPadding(0, 0, 0, AndroidUtilities.dp(48));
         topicsGridView.setClipToPadding(false);
         topicsGridView.addItemDecoration(new RecyclerView.ItemDecoration() {
@@ -1089,6 +1092,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             }
         };
         gridView.setSelectorDrawableColor(0);
+        gridView.setItemSelectorColorProvider(i -> 0);
         gridView.setPadding(0, 0, 0, AndroidUtilities.dp(48));
         gridView.setClipToPadding(false);
         gridView.setLayoutManager(layoutManager = new GridLayoutManager(getContext(), 4));
@@ -1160,6 +1164,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 }
             }
         };
+        searchGridView.setItemSelectorColorProvider(i -> 0);
         searchGridView.setSelectorDrawableColor(0);
         searchGridView.setPadding(0, 0, 0, AndroidUtilities.dp(48));
         searchGridView.setClipToPadding(false);
@@ -1549,7 +1554,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     private void selectDialog(ShareDialogCell cell, TLRPC.Dialog dialog) {
-        if (topicsGridView.getVisibility() != View.GONE) {
+        if (topicsGridView.getVisibility() != View.GONE || parentActivity == null) {
             return;
         }
 
