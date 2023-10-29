@@ -189,9 +189,6 @@
     <string name="AppLinkNotVerifiedTitle">Links de aplicativos não verificados</string>
     <string name="AutoTranslate">Tradução automática</string>
     <string name="AutoTranslateAbout">Traduzir automaticamente mensagens que estejam noutra língua.</string>
-    <string name="MonoCode">Código</string>
-    <string name="CreateMono">Criar Código</string>
-    <string name="CreateMonoLanguage">Linguagem de código (opcional)</string>
     <string name="DoubleTapAction">Ação de toque duplo</string>
     <string name="BlockedUserIgnored">bloqueado</string>
     <string name="EditUndo">Desfazer</string>
@@ -288,6 +285,8 @@
     <string name="ExportAsJson">Copiar como JSON</string>
     <string name="HideStories">Ocultar histórias</string>
     <string name="QuickForward">Usar o encaminhamento rápido</string>
+    <string name="MonoCode">Código</string>
+    <string name="CreateCode">Criar Código</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
 </resources>

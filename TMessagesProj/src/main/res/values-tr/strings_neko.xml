@@ -6,8 +6,10 @@
     <string name="HidePhone">Telefon numaramı gizle</string>
     <string name="DeleteAllFromSelf">Kendi mesajlarını sil</string>
     <string name="DeleteAllFromSelfAlert">Uyarı! Bu, **tüm** katılımcılar için bu sohbetteki **sizden gelen tüm mesajları siler**.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Uyarı! Bu **tüm** katılımcılar için bu sohbetteki **%s\'dan önce sizden gelen tüm mesajları silecek**.</string>
+    <string name="DeleteAllFromSelfBefore">Önce...</string>
     <string name="BotLogin">Bot Girişi</string>
-    <string name="BotLoginMessage">**@BotFather** aracılığıyla alınan bot token\'ını girin.</string>
+    <string name="BotLoginMessage">**@BotFather** aracılığıyla alınan bot token\'ini girin.</string>
     <string name="InvalidAccessToken">Erişim anahtarı geçersiz</string>
     <string name="IgnoreBlocked">Engellenen kullanıcıdan gelen mesajları gizle</string>
     <string name="Connection">Bağlantı</string>
@@ -17,6 +19,8 @@
     <string name="LastFirst">Soyad Ad</string>
     <string name="NoQuoteForward">Anonim ilet</string>
     <string name="NoCaptionForward">Başlıksız İlet</string>
+    <string name="NoQuoteForwardShort">Alıntı Olmadan</string>
+    <string name="NoCaptionForwardShort">Başlıksız</string>
     <string name="Repeat">Tekrarla</string>
     <string name="AddToSavedMessages">Mesajı kaydet</string>
     <string name="CreateMention">Bahset</string>
@@ -38,6 +42,8 @@
     <string name="SensitiveDisableFiltering">Hassas içerik filtrelemeyi devre dışı bırak</string>
     <string name="SensitiveAbout">Hassas medyayı tüm cihazlarınızdaki herkese açık kanallarda görüntüleyin.</string>
     <string name="StickerSize">Çıkartma boyutu</string>
+    <string name="StickerSizeLeft">Küçük</string>
+    <string name="StickerSizeRight">Büyük</string>
     <string name="StickerSizeDialogMessage">Ne kadar da şirin! Siyah bir kedi!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miyav</string>
     <string name="Experiment">Deneysel</string>
@@ -94,6 +100,7 @@
     <string name="OpenAllLinksInInstantView">Anlık Görünümde tüm bağlantıları açmayı dene</string>
     <string name="DonateThankYou">Teşekkürler!</string>
     <string name="DonateEvilGoogle">Google, bağışınızın yüzde 30\'unu alacaktır.</string>
+    <string name="formatterDay24HSec">SS:dd:ss</string>
     <string name="formatterDay12HSec">S:dd:ss a</string>
     <string name="FormatWithSeconds">Sürelerde saniyeyi de göster</string>
     <string name="JumpToBeginning">Başlangıca atla</string>
@@ -182,7 +189,6 @@
     <string name="AppLinkNotVerifiedTitle">Uygulama bağlantıları doğrulanmamış</string>
     <string name="AutoTranslate">Otomatik çeviri</string>
     <string name="AutoTranslateAbout">Başka bir dilde olan mesajları otomatik olarak çevirin.</string>
-    <string name="CreateMonoLanguage">Kod dili (isteğe bağlı)</string>
     <string name="DoubleTapAction">Çift dokunma eylemi</string>
     <string name="BlockedUserIgnored">engellendi</string>
     <string name="EditUndo">Geri al</string>
@@ -205,6 +211,7 @@
     <string name="Translating">çevriliyor</string>
     <string name="Translated">çevrildi</string>
     <string name="BrokenMLKit">Seçenek kullanılamıyor</string>
+    <string name="BrokenMLKitDetail">MLKit dil tanımlayıcısı bu cihazda bozuk.</string>
     <string name="PasscodeNeeded">Önce uygulama kilidini etkinleştirmelisiniz</string>
     <string name="PasscodeNeko">Parola</string>
     <string name="PasscodeShowInSettings">Neko Ayarlarında Göster</string>
@@ -273,9 +280,32 @@
     <string name="SendBugReportDesc">Bu, sorunları daha hızlı bulmamıza yardımcı olacaktır.</string>
     <string name="AnonymousDataDelete">Verileri sil</string>
     <string name="AnonymousDataDeleteDesc">Bu istemciden veri gönderilmesini kalıcı olarak engelleyin ve toplanan verileri silin.</string>
+    <string name="SendAnonymousDataDesc">Yukarıdaki özellikler %2$s\'a ait olan %1$s\'ı kullanır. Toplanan bilgiler anonimdir ve bunları, tek tek özel bir cihaz veya kullanıcı olarak izleyemeyiz.</string>
     <string name="SendLargePhotos">Büyük fotoğraflar gönder</string>
     <string name="SendLargePhotosAbout">Sıkıştırılmış görsellerde kenar sınırını 2560 piksele yükseltin.</string>
     <string name="ExportAsJson">JSON olarak kopyala</string>
+    <string name="HideStories">Hikayeleri Gizle</string>
+    <string name="QuickForward">Hızlı yönlendirme menüsünü kullan</string>
+    <string name="DidNotGetTheCodeBlameDurov">Kodu başka bir cihazda almadıysanız veya başka bir cihazda Telegram oturumunuz yoksa, kodu almak için lütfen resmi Telegram uygulamasını kullanın.\n\nTelegram, **üçüncü taraf uygulamalarda SMS** ile giriş yapma özelliğini devre dışı bırakmıştır. Üçüncü taraf uygulamalara giriş yapan kullanıcılar yalnızca Telegram aracılığıyla giriş kodlarını alabilirler.\n\nBu konuda size yardımcı olamayız, oturum açma ile ilgili herhangi bir sorununuz varsa, lütfen Telegram Destek ile iletişime geçin.</string>
+    <string name="NavigationAnimation">Gezinme animasyonu</string>
+    <string name="NavigationAnimationBezier">Klasik</string>
+    <string name="NavigationAnimationSpring">Doğal</string>
+    <string name="NavigationAnimationCrossfading">Çapraz geçiş efekti</string>
+    <string name="CloudConfig">Bulut Ayarları</string>
+    <string name="CloudConfigDesc">Neko Ayarlarınızı Telegram bulutuna kaydedin.</string>
+    <string name="CloudConfigSyncDate">Son senkronize edillme: %s, bulut: %s</string>
+    <string name="CloudConfigSyncDateNever">asla</string>
+    <string name="CloudConfigSync">Bulut\'a senkronize edin</string>
+    <string name="CloudConfigSyncShort">Senkronize et</string>
+    <string name="CloudConfigRestore">Buluttan geri yükleme</string>
+    <string name="CloudConfigRestoreShort">Geri Yükle</string>
+    <string name="CloudConfigSyncing">Senkronize ediliyor...</string>
+    <string name="CloudConfigAutoSync">Otomatik senkronize et</string>
+    <string name="CloudConfigAutoSyncDesc">Neko Ayarlarında değişiklik yaptıktan sonra otomatik olarak buluta senkronize et.</string>
+    <string name="CloudConfigSyncFailed">Ayarlar buluta senkronize edilemedi.</string>
+    <string name="CloudConfigRestoreFailed">Buluttan ayarlar geri yüklenemedi.</string>
+    <string name="MonoCode">Kod</string>
+    <string name="CreateCode">Kod Oluştur</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Erişilebilirlik ayarları</string>
     <string name="AccSeekbarHeading">Arama çubuğu ayarları</string>

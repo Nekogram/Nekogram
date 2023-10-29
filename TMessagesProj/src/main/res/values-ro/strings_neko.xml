@@ -189,16 +189,16 @@
     <string name="AppLinkNotVerifiedTitle">Link-urile aplicației nu sunt verificate</string>
     <string name="AutoTranslate">Traducere automată</string>
     <string name="AutoTranslateAbout">Traduceți automat mesajele în altă limbă.</string>
-    <string name="MonoCode">Код</string>
-    <string name="CreateMono">Создать код</string>
-    <string name="CreateMonoLanguage">Язык кода (необязательно)</string>
     <string name="DoubleTapAction">Действие двойным касанием</string>
     <string name="BlockedUserIgnored">заблокированный</string>
     <string name="EditUndo">Отменить</string>
     <string name="EditRedo">Переделывать</string>
+    <string name="DatacenterStatusShort">Datacenter</string>
     <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">Activat în mod implicit</string>
     <string name="MarkdownParser">Parser</string>
     <string name="MarkdownParseLinks">Analizează link-urile</string>
+    <string name="MonoCode">Код</string>
+    <string name="CreateCode">Создать код</string>
     <!-- Accessibility -->
 </resources>

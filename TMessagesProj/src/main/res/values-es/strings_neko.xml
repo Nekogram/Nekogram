@@ -189,9 +189,6 @@
     <string name="AppLinkNotVerifiedTitle">Enlaces de app no verificados</string>
     <string name="AutoTranslate">Auto-traducir</string>
     <string name="AutoTranslateAbout">Traduce automáticamente los mensajes que están en otro idioma.</string>
-    <string name="MonoCode">Código</string>
-    <string name="CreateMono">Crear código</string>
-    <string name="CreateMonoLanguage">Lenguaje de código (opcional)</string>
     <string name="DoubleTapAction">Acción de doble toque</string>
     <string name="BlockedUserIgnored">bloqueado</string>
     <string name="EditUndo">Deshacer</string>
@@ -283,6 +280,7 @@
     <string name="SendBugReportDesc">Esto nos ayudará a encontrar los problemas más rápidamente.</string>
     <string name="AnonymousDataDelete">Borrar datos</string>
     <string name="AnonymousDataDeleteDesc">Bloquear permanentemente los datos salientes de esta instancia y eliminar los datos recolectados.</string>
+    <string name="SendAnonymousDataDesc">Las características anteriores usan el %1$s proporcionado por %2$s. La información recopilada es anónima y no podemos rastrearla hasta un dispositivo o usuario independiente.</string>
     <string name="SendLargePhotos">Enviar fotos grandes</string>
     <string name="SendLargePhotosAbout">Aumentar el límite lateral de las imágenes comprimidas a 2560px.</string>
     <string name="ExportAsJson">Copiar como JSON</string>
@@ -306,6 +304,10 @@
     <string name="CloudConfigAutoSyncDesc">Sincronizar en la nube automáticamente después de hacer cambios en la configuración de Neko.</string>
     <string name="CloudConfigSyncFailed">Error al sincronizar los ajustes en la nube.</string>
     <string name="CloudConfigRestoreFailed">Error al restaurar los ajustes desde la nube.</string>
+    <string name="ReducedColors">Reducir colores</string>
+    <string name="MonoCode">Código</string>
+    <string name="CreateCode">Crear código</string>
+    <string name="CreateCodeLanguage">Idioma</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccSeekbarHeading">Configuración de la barra de búsqueda</string>

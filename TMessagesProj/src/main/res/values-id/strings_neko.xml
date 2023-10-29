@@ -189,9 +189,6 @@
     <string name="AppLinkNotVerifiedTitle">Tautan aplikasi tidak terverifikasi</string>
     <string name="AutoTranslate">Terjemahkan otomatis</string>
     <string name="AutoTranslateAbout">Terjemahkan pesan bahasa lain secara otomatis.</string>
-    <string name="MonoCode">Kode</string>
-    <string name="CreateMono">Buat Kode</string>
-    <string name="CreateMonoLanguage">Bahasa kode (opsional)</string>
     <string name="DoubleTapAction">Aksi ketuk ganda</string>
     <string name="BlockedUserIgnored">diblokir</string>
     <string name="EditUndo">Batal</string>
@@ -283,6 +280,7 @@
     <string name="SendBugReportDesc">Ini akan membantu kami melakukan letak masalah lebih cepat.</string>
     <string name="AnonymousDataDelete">Hapus data</string>
     <string name="AnonymousDataDeleteDesc">Blokir pengumpulan data secara permanen dari instansi ini dan hapus data yang dikumpulkan.</string>
+    <string name="SendAnonymousDataDesc">.</string>
     <string name="SendLargePhotos">Kirim foto berukuran besar</string>
     <string name="SendLargePhotosAbout">Menaikkan batas pixel pada kompresi gambar menjadi 2560px.</string>
     <string name="ExportAsJson">Salin sebagai JSON</string>
@@ -306,6 +304,8 @@
     <string name="CloudConfigAutoSyncDesc">Otomatis sinkronkan ke cloud setelah membuat perubahan pada pengaturan Neko.</string>
     <string name="CloudConfigSyncFailed">Gagal menyinkronkan pengaturan ke cloud.</string>
     <string name="CloudConfigRestoreFailed">Gagal memulihkan pengaturan dari cloud.</string>
+    <string name="MonoCode">Kode</string>
+    <string name="CreateCode">Buat Kode</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Setelan Aksesibilitas</string>
 </resources>

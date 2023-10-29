@@ -190,9 +190,6 @@
     <string name="AppLinkNotVerifiedTitle">Links do aplicativo não verificados</string>
     <string name="AutoTranslate">Tradução automática</string>
     <string name="AutoTranslateAbout">Traduzir automaticamente as mensagens que estão em outro idioma.</string>
-    <string name="MonoCode">Código</string>
-    <string name="CreateMono">Criar Código</string>
-    <string name="CreateMonoLanguage">Código da linguagem (opcional)</string>
     <string name="DoubleTapAction">Ação de toque duplo</string>
     <string name="BlockedUserIgnored">bloqueado</string>
     <string name="EditUndo">Desfazer</string>
@@ -308,6 +305,10 @@
     <string name="CloudConfigAutoSyncDesc">Sincronizar para a nuvem automaticamente após qualquer alteração nas Configurações Neko.</string>
     <string name="CloudConfigSyncFailed">Falha ao sincronizar as configurações com a nuvem.</string>
     <string name="CloudConfigRestoreFailed">Falha ao restaurar as configurações da nuvem.</string>
+    <string name="ReducedColors">Reduzir cores</string>
+    <string name="MonoCode">Código</string>
+    <string name="CreateCode">Criar Código</string>
+    <string name="CreateCodeLanguage">Idioma</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>

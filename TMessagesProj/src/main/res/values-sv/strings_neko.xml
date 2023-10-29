@@ -118,6 +118,7 @@
     <string name="RegistrationDate">Registreringsdatum</string>
     <string name="WsDescription">Anslut till Telegram genom WebSocket via Cloudflare. **Läs mer**</string>
     <string name="WsEnableTls">Aktivera TLS</string>
+    <string name="WsProvider">Leverantör</string>
     <string name="UpdateNekogram">Uppdatera Nekogram</string>
     <string name="TranslationTarget">Målspråk</string>
     <string name="TranslationTargetApp">Följ appen</string>
@@ -173,7 +174,6 @@
     <string name="AppLinkNotVerifiedTitle">App-länkar inte verifierade</string>
     <string name="AutoTranslate">Automatisk översättning</string>
     <string name="AutoTranslateAbout">Översätt automatiskt meddelanden som är på ett annat språk.</string>
-    <string name="CreateMonoLanguage">Kodspråk (frivilligt)</string>
     <string name="DoubleTapAction">Åtgärd vid dubbeltryck</string>
     <string name="BlockedUserIgnored">blockerad</string>
     <string name="EditUndo">Ångra</string>

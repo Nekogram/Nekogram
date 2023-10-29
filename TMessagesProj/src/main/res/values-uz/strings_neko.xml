@@ -189,9 +189,6 @@
     <string name="AppLinkNotVerifiedTitle">Dastur havolalari tasdiqlanmagan</string>
     <string name="AutoTranslate">Avtomatik tarjima</string>
     <string name="AutoTranslateAbout">Boshqa tildagi xabarlarni avtomatik tarjima qilish.</string>
-    <string name="MonoCode">Kod</string>
-    <string name="CreateMono">Kod yaratish</string>
-    <string name="CreateMonoLanguage">Kod tili (ixtiyoriy)</string>
     <string name="DoubleTapAction">Ikki marta bosish buyrug\'i</string>
     <string name="BlockedUserIgnored">bloklangan</string>
     <string name="EditUndo">Bekor qilish</string>
@@ -307,6 +304,8 @@
     <string name="CloudConfigAutoSyncDesc">Neko sozlamalarini o\'zgartirgach bulutga avtomatik sinxronlash.</string>
     <string name="CloudConfigSyncFailed">Sozlamalarni bulutga sinxronlashda xatolik.</string>
     <string name="CloudConfigRestoreFailed">Sozlamalarni bulutdan tiklashda xatolik.</string>
+    <string name="MonoCode">Kod</string>
+    <string name="CreateCode">Kod yaratish</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Maxsus imkoniyatlar sozlamalari</string>
 </resources>

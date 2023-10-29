@@ -191,9 +191,6 @@
     <string name="AppLinkNotVerifiedTitle">لم يتم التحقق من روابط التطبيق</string>
     <string name="AutoTranslate">ترجمة تلقائية</string>
     <string name="AutoTranslateAbout">يمكنك ترجمة الرسائل المكتوبة بلغة أخرى تلقائيًا.</string>
-    <string name="MonoCode">رمز</string>
-    <string name="CreateMono">إنشاء رمز</string>
-    <string name="CreateMonoLanguage">لغة الكود (اختياري)</string>
     <string name="DoubleTapAction">انقر نقرًا مزدوجًا</string>
     <string name="BlockedUserIgnored">تجاهل المستخدم المحظور</string>
     <string name="EditUndo">تراجع</string>
@@ -308,6 +305,8 @@
     <string name="CloudConfigAutoSyncDesc">مزامنة إلى السحابة تلقائيًا بعد إجراء تغييرات على إعدادات نيكو.</string>
     <string name="CloudConfigSyncFailed">فشل مزامنة الإعدادات إلى السحابة.</string>
     <string name="CloudConfigRestoreFailed">فشل في استعادة الإعدادات من السحابة.</string>
+    <string name="MonoCode">رمز</string>
+    <string name="CreateCode">إنشاء رمز</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

@@ -184,9 +184,6 @@
     <string name="AppLinkNotVerifiedTitle">앱 링크가 확인되지 않음</string>
     <string name="AutoTranslate">자동 번역</string>
     <string name="AutoTranslateAbout">다른 언어로 된 메시지를 자동으로 번역합니다.</string>
-    <string name="MonoCode">코드</string>
-    <string name="CreateMono">코드 생성</string>
-    <string name="CreateMonoLanguage">언어 코드 (옵션사항)</string>
     <string name="DoubleTapAction">두번 누루기 기능</string>
     <string name="BlockedUserIgnored">차단함</string>
     <string name="EditUndo">실행 취소</string>
@@ -278,6 +275,8 @@
     <string name="SendBugReportDesc">이렇게 하면 문제를 더 빨리 찾을 수 있습니다.</string>
     <string name="AnonymousDataDelete">데이터 삭제</string>
     <string name="AnonymousDataDeleteDesc">이 인스턴스에서 발신 데이터를 영구적으로 차단하고 수집된 데이터를 삭제합니다.</string>
+    <string name="MonoCode">코드</string>
+    <string name="CreateCode">코드 생성</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">접근성 설정</string>
     <string name="AccSeekbarHeading">검색바 설정</string>

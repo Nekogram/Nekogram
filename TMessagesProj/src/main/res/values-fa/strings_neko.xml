@@ -6,6 +6,7 @@
     <string name="HidePhone">شماره تلفن من را پنهان کن</string>
     <string name="DeleteAllFromSelf">حذف پیام های خود</string>
     <string name="DeleteAllFromSelfAlert">هشدار! با این کار **همه پیام های شما** در این چت برای **همه** شرکت کنندگان حذف می شود.</string>
+    <string name="DeleteAllFromSelfBefore">قبل از...</string>
     <string name="BotLogin">ورود از طریق روبات</string>
     <string name="BotLoginMessage">توکن دریافت شده توسط **@BotFather** را وارد کنید.</string>
     <string name="InvalidAccessToken">توکن دسترسی نامعتبر</string>
@@ -187,9 +188,6 @@
     <string name="AppLinkNotVerifiedTitle">پیوندهای برنامه تأیید نشده است</string>
     <string name="AutoTranslate">ترجمه خودکار</string>
     <string name="AutoTranslateAbout">ترجمه خودکار پیام هایی که به زبان دیگری هستند.</string>
-    <string name="MonoCode">کد</string>
-    <string name="CreateMono">ساخت کد</string>
-    <string name="CreateMonoLanguage">زبان کد (اختیاری)</string>
     <string name="DoubleTapAction">عملکرد دو ضربه ای</string>
     <string name="BlockedUserIgnored">مسدود شده</string>
     <string name="EditUndo">واگرد</string>
@@ -285,6 +283,26 @@
     <string name="SendLargePhotosAbout">محدودیت جانبی در تصاویر فشرده شده را به 2560 پیکسل افزایش بده.</string>
     <string name="ExportAsJson">کپی به عنوان JSON</string>
     <string name="HideStories">مخفی کردن استوری ها</string>
+    <string name="QuickForward">استفاده از منوی هدایت سریع</string>
+    <string name="NavigationAnimation">انیمیشن ناوبری</string>
+    <string name="NavigationAnimationBezier">کلاسیک</string>
+    <string name="NavigationAnimationCrossfading">افکت متقاطع</string>
+    <string name="CloudConfig">تنظیمات ابری</string>
+    <string name="CloudConfigDesc">تنظیمات Neko خود را در ابر تلگرام ذخیره کنید.</string>
+    <string name="CloudConfigSyncDate">آخرین همگام سازی: %s، ابر: %s</string>
+    <string name="CloudConfigSyncDateNever">هرگز</string>
+    <string name="CloudConfigSync">همگام سازی با ابر</string>
+    <string name="CloudConfigSyncShort">همگام‌سازی</string>
+    <string name="CloudConfigRestore">بازیابی از ابر</string>
+    <string name="CloudConfigRestoreShort">بازیابی</string>
+    <string name="CloudConfigSyncing">در حال همگام سازی...</string>
+    <string name="CloudConfigAutoSync">همگام سازی خودکار</string>
+    <string name="CloudConfigAutoSyncDesc">پس از ایجاد تغییرات در تنظیمات Neko، به طور خودکار با ابر همگام سازی کنید.</string>
+    <string name="CloudConfigSyncFailed">تنظیمات با ابر همگام‌سازی نشد.</string>
+    <string name="CloudConfigRestoreFailed">بازیابی تنظیمات از ابر انجام نشد.</string>
+    <string name="ReducedColors">رنگ ها را کاهش دهید</string>
+    <string name="MonoCode">کد</string>
+    <string name="CreateCode">ساخت کد</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
 </resources>

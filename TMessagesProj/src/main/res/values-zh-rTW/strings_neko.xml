@@ -119,6 +119,7 @@
     <string name="RegistrationDate">註冊日期</string>
     <string name="WsDescription">使用 WebSocket 以 Cloudflare 連接到 Telegram。 **瞭解更多**</string>
     <string name="WsEnableTls">啟用 TLS</string>
+    <string name="WsProvider">供應商</string>
     <string name="UpdateNekogram">更新 Nekogram</string>
     <string name="TranslationTarget">目標語言</string>
     <string name="TranslationTargetApp">跟隨應用</string>
@@ -163,6 +164,10 @@
     <string name="CopyPhoto">複製照片</string>
     <string name="PhotoCopied">圖片已拷貝！</string>
     <string name="SaveToDownloadCount_zero">正在儲存%1$d到Downloads</string>
+    <string name="SaveToDownloadCount_two">正在儲存%1$d到Downloads</string>
+    <string name="SaveToDownloadCount_few">正在儲存%1$d到Downloads</string>
+    <string name="SaveToDownloadCount_many">正在儲存%1$d到Downloads</string>
+    <string name="SaveToDownloadCount_other">正在儲存%1$d到Downloads</string>
     <string name="ThemesChannel">主題頻道</string>
     <string name="AppLinkNotVerifiedMessage">在安卓12或更高的版本, 你需要手動加入連結來在Nekogram中打開 t.me 之類的連結</string>
     <string name="AutoTranslate">自動翻譯</string>
@@ -177,6 +182,7 @@
     <string name="Translating">翻譯中</string>
     <string name="Translated">已翻譯</string>
     <string name="PasscodeShowInSettingsAbout">隱藏之後, 你**只能**透過這個連結打開這個頁面:</string>
+    <string name="DatacenterStatusShort">資料中心</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">可訪問性設置</string>
 </resources>

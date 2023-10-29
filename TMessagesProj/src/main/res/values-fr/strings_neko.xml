@@ -123,6 +123,7 @@
     <string name="RegistrationDateApproximately">Environ %s</string>
     <string name="WsDescription">Connectez-vous à Telegram avec WebSocket via Cloudflare. ** En savoir plus**</string>
     <string name="WsEnableTls">Activer le TLS</string>
+    <string name="WsProvider">Fournisseur</string>
     <string name="UpdateNekogram">Mettre à jour Nekogram</string>
     <string name="TranslationTarget">Langue cible</string>
     <string name="TranslationTargetApp">Comme l\'application</string>
@@ -179,7 +180,6 @@
     <string name="AppLinkNotVerifiedTitle">Liens d\'application non vérifiés</string>
     <string name="AutoTranslate">Traduction automatique</string>
     <string name="AutoTranslateAbout">Traduire automatiquement les messages qui sont dans une autre langue.</string>
-    <string name="CreateMonoLanguage">Langage de code (optionnel)</string>
     <string name="DoubleTapAction">Action de double appui</string>
     <string name="BlockedUserIgnored">bloqué</string>
     <string name="EditUndo">Annuler</string>

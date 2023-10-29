@@ -186,7 +186,6 @@
     <string name="AppLinkNotVerifiedTitle">एप्प लिंक्स वेरिफाई नहीं हो सकी।</string>
     <string name="AutoTranslate">ऑटोमैटिक अनुवाद</string>
     <string name="AutoTranslateAbout">उन संदेशों का स्वचालित रूप से अनुवाद करें जो दूसरी भाषा में हैं।</string>
-    <string name="CreateMonoLanguage">भाषा कोड (वैकल्पिक)</string>
     <string name="DoubleTapAction">Double टैप ऐक्शन</string>
     <string name="BlockedUserIgnored">ब्लॉक किए गए</string>
     <string name="EditUndo">अन डू</string>

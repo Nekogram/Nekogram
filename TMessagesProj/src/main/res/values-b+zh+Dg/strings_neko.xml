@@ -190,9 +190,6 @@
     <string name="AppLinkNotVerifiedTitle">应用链接未验证</string>
     <string name="AutoTranslate">自动翻译</string>
     <string name="AutoTranslateAbout">自动翻译其他语言的消息。</string>
-    <string name="MonoCode">代码</string>
-    <string name="CreateMono">创建代码</string>
-    <string name="CreateMonoLanguage">代码语言（可选）</string>
     <string name="DoubleTapAction">双击操作</string>
     <string name="BlockedUserIgnored">已屏蔽</string>
     <string name="EditUndo">撤销</string>
@@ -308,6 +305,10 @@
     <string name="CloudConfigAutoSyncDesc">修改喵设置后自动同步到云端。</string>
     <string name="CloudConfigSyncFailed">无法将设置同步到云端。</string>
     <string name="CloudConfigRestoreFailed">无法从云端恢复设置。</string>
+    <string name="ReducedColors">减少颜色</string>
+    <string name="MonoCode">代码</string>
+    <string name="CreateCode">创建代码</string>
+    <string name="CreateCodeLanguage">语言</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

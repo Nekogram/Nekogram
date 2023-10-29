@@ -118,6 +118,7 @@
     <string name="RegistrationDate">Registreringsdato</string>
     <string name="WsDescription">Opret forbindelse til Telegram via WebSocket via Cloudflare. **Lær mere**</string>
     <string name="WsEnableTls">Aktiver TLS</string>
+    <string name="WsProvider">Udbyder</string>
     <string name="UpdateNekogram">Opdater Nekogram</string>
     <string name="TranslationTarget">Målsprog</string>
     <string name="TranslationTargetApp">Følg app</string>
@@ -174,7 +175,6 @@
     <string name="AppLinkNotVerifiedTitle">App-links ikke verificeret</string>
     <string name="AutoTranslate">Automatisk oversættelse</string>
     <string name="AutoTranslateAbout">Oversæt automatisk meddelelser, der er på et andet sprog.</string>
-    <string name="CreateMonoLanguage">Kode sprog (valgfrit)</string>
     <string name="DoubleTapAction">Handling ved dobbelttryk</string>
     <string name="BlockedUserIgnored">blokeret</string>
     <string name="EditUndo">Fortryd</string>
@@ -218,6 +218,7 @@
     <string name="TranslatorShowOriginal">Med originaltekst</string>
     <string name="DatacenterStatusAbout">Kontroller status for Telegrams **datacentre**.</string>
     <string name="DatacenterStatus">Datacenter status</string>
+    <string name="MonoCode">Kode</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
     <string name="AccSeekbarHeading">Indstillinger for søgepanel</string>

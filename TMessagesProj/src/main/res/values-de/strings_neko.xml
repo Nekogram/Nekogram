@@ -185,9 +185,6 @@
     <string name="AppLinkNotVerifiedTitle">App-Links nicht überprüft</string>
     <string name="AutoTranslate">Automatisch übersetzen</string>
     <string name="AutoTranslateAbout">Nachrichten in einer anderen Sprache automatisch übersetzen.</string>
-    <string name="MonoCode">Code</string>
-    <string name="CreateMono">Code erstellen</string>
-    <string name="CreateMonoLanguage">Programmiersprache (optional)</string>
     <string name="DoubleTapAction">Doppeltipp-Aktion</string>
     <string name="BlockedUserIgnored">gesperrt</string>
     <string name="EditUndo">Rückgängig</string>
@@ -282,6 +279,8 @@
     <string name="SendLargePhotosAbout">Erhöhen Sie die Seitenbegrenzung für komprimierte Bilder auf 2560px.</string>
     <string name="ExportAsJson">Kopiere als JSON</string>
     <string name="HideStories">Verberge Stories</string>
+    <string name="MonoCode">Code</string>
+    <string name="CreateCode">Code erstellen</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Bedienungshilfen</string>
 </resources>

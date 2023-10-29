@@ -189,9 +189,6 @@
     <string name="AppLinkNotVerifiedTitle">Μη επαληθευμένοι σύνδεσμοι εφαρμογών</string>
     <string name="AutoTranslate">Αυτόματη Μετάφραση</string>
     <string name="AutoTranslateAbout">Αυτόματη μετάφραση μηνυμάτων άλλης γλώσσας χωρίς την παρέμβαση σας.</string>
-    <string name="MonoCode">Κωδικός</string>
-    <string name="CreateMono">Δημιουργία Κωδικού</string>
-    <string name="CreateMonoLanguage">Κωδικός γλώσσας (προαιρετικά)</string>
     <string name="DoubleTapAction">Με 2πλό άγγιγμα στο μήνυμα</string>
     <string name="BlockedUserIgnored">αποκλεισμένος</string>
     <string name="EditUndo">Αναίρεση</string>
@@ -283,6 +280,7 @@
     <string name="SendBugReportDesc">Αυτό θα μας βοηθήσει να εντοπίσουμε τα προβλήματα γρηγορότερα.</string>
     <string name="AnonymousDataDelete">Διαγραφή δεδομένων</string>
     <string name="AnonymousDataDeleteDesc">Μόνιμη φραγή εξερχόμενων δεδομένων από αυτήν την περίπτωση και διαγραφή συλλεγμένων δεδομένων.</string>
+    <string name="SendAnonymousDataDesc">Οι παραπάνω λειτουργίες χρησιμοποιούν το %1$s που παρέχεται από τη %2$s. Οι πληροφορίες που συλλέγονται είναι ανώνυμες και δεν μπορούμε να τις εντοπίσουμε σε ανεξάρτητη συσκευή ή χρήστη.</string>
     <string name="SendLargePhotos">Αποστολή μεγάλων φωτογραφιών</string>
     <string name="SendLargePhotosAbout">Αύξηση του πλαϊνού ορίου για τις συμπιεσμένες εικόνες στα 2560px.</string>
     <string name="ExportAsJson">Αντιγραφή ως JSON</string>
@@ -306,6 +304,10 @@
     <string name="CloudConfigAutoSyncDesc">Συγχρονισμός στο cloud αυτόματα μετά τις αλλαγές στις ρυθμίσεις του Neko.</string>
     <string name="CloudConfigSyncFailed">Αποτυχία συγχρονισμού ρυθμίσεων στο cloud.</string>
     <string name="CloudConfigRestoreFailed">Αποτυχία επαναφοράς ρυθμίσεων από το cloud.</string>
+    <string name="ReducedColors">Μείωση χρωμάτων</string>
+    <string name="MonoCode">Κωδικός</string>
+    <string name="CreateCode">Δημιουργία Κωδικού</string>
+    <string name="CreateCodeLanguage">Γλώσσα</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>

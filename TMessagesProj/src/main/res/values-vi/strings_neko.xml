@@ -7,7 +7,7 @@
     <string name="DeleteAllFromSelf">Xóa tin nhắn của chính bạn</string>
     <string name="DeleteAllFromSelfAlert">Cảnh báo! Việc này sẽ **xóa tất cả các tin nhắn từ bạn** trong cuộc trò chuyện này với **tất cả** những người tham gia.</string>
     <string name="DeleteAllFromSelfAlertBefore">Cảnh báo! Việc này sẽ **xóa tất cả các tin nhắn của bạn trước đây %s** trong cuộc trò chuyện này với **tất cả** những người tham gia.</string>
-    <string name="DeleteAllFromSelfBefore">...</string>
+    <string name="DeleteAllFromSelfBefore">Trước...</string>
     <string name="BotLogin">Đăng nhập Bot</string>
     <string name="BotLoginMessage">Nhập mã thông báo bot nhận được từ **@BotFather**.</string>
     <string name="InvalidAccessToken">Mã truy cập không hợp lệ</string>
@@ -189,9 +189,6 @@
     <string name="AppLinkNotVerifiedTitle">Liên kết ứng dụng chưa được xác minh</string>
     <string name="AutoTranslate">Tự động dịch</string>
     <string name="AutoTranslateAbout">Tự động dịch các tin nhắn bằng ngôn ngữ khác.</string>
-    <string name="MonoCode">Mã</string>
-    <string name="CreateMono">Tạo mã</string>
-    <string name="CreateMonoLanguage">Ngôn ngữ mã (tùy chọn)</string>
     <string name="DoubleTapAction">Hành động nhấn đúp</string>
     <string name="BlockedUserIgnored">bị chặn</string>
     <string name="EditUndo">Hoàn tác</string>
@@ -307,6 +304,8 @@
     <string name="CloudConfigAutoSyncDesc">Tự động đồng bộ với đám mây sau khi thực hiện thay đổi với Cài đặt Neko.</string>
     <string name="CloudConfigSyncFailed">Không thể đồng bộ cài đặt với đám mây.</string>
     <string name="CloudConfigRestoreFailed">Không thể khôi phục cài đặt từ đám mây.</string>
+    <string name="MonoCode">Mã</string>
+    <string name="CreateCode">Tạo mã</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>
