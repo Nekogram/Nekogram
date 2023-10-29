@@ -51,6 +51,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
     private int stickerSizeRow;
     private int hideTimeOnStickerRow;
+    private int reducedColorsRow;
     private int stickerSize2Row;
 
     private int chatRow;
@@ -290,6 +291,12 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.quickForward);
             }
+        } else if (position == reducedColorsRow) {
+            NekoConfig.toggleReducedColors();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.reducedColors);
+            }
+            stickerSizeCell.invalidate();
         }
     }
 
@@ -309,6 +316,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
         stickerSizeRow = addRow("stickerSize");
         hideTimeOnStickerRow = addRow("hideTimeOnSticker");
+        reducedColorsRow = addRow("reducedColors");
         stickerSize2Row = addRow();
 
         chatRow = addRow("chat");
@@ -634,13 +642,15 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     } else if (position == voiceEnhancementsRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("VoiceEnhancements", R.string.VoiceEnhancements), LocaleController.getString("VoiceEnhancementsAbout", R.string.VoiceEnhancementsAbout), NekoConfig.voiceEnhancements, true, true);
                     } else if (position == hideTimeOnStickerRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("HideTimeOnSticker", R.string.HideTimeOnSticker), NekoConfig.hideTimeOnSticker, false);
+                        textCell.setTextAndCheck(LocaleController.getString("HideTimeOnSticker", R.string.HideTimeOnSticker), NekoConfig.hideTimeOnSticker, true);
                     } else if (position == markdownEnableRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MarkdownEnableByDefault", R.string.MarkdownEnableByDefault), !NekoConfig.disableMarkdownByDefault, true);
                     } else if (position == markdownParseLinksRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MarkdownParseLinks", R.string.MarkdownParseLinks), NekoConfig.markdownParseLinks, false);
                     } else if (position == quickForwardRow) {
                         textCell.setTextAndCheck(LocaleController.getString("QuickForward", R.string.QuickForward), NekoConfig.quickForward, true);
+                    } else if (position == reducedColorsRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("ReducedColors", R.string.ReducedColors), NekoConfig.reducedColors, false);
                     }
                     break;
                 }
@@ -724,7 +734,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             } else if ((position > chatRow && position < doubleTapActionRow) ||
                     (position > mediaRow && position < media2Row) ||
                     (position > markdownRow && position < markdown2Row) ||
-                    position == hideTimeOnStickerRow
+                    (position > stickerSizeRow && position < stickerSize2Row)
             ) {
                 return TYPE_CHECK;
             } else if (position == chatRow || position == messageMenuRow || position == mediaRow || position == markdownRow) {

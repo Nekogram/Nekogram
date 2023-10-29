@@ -309,6 +309,7 @@
     <string name="CloudConfigAutoSyncDesc">Sync to cloud automatically after making changes to Neko Settings.</string>
     <string name="CloudConfigSyncFailed">Failed to sync settings to cloud.</string>
     <string name="CloudConfigRestoreFailed">Failed to restore settings from cloud.</string>
+    <string name="ReducedColors">Reduce colors</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

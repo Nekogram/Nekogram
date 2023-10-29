@@ -141,6 +141,7 @@ public class NekoConfig {
     public static boolean sendLargePhotos = true;
     public static boolean hideStories = false;
     public static boolean quickForward = false;
+    public static boolean reducedColors = false;
 
     public static boolean springAnimation = false;
     public static boolean actionbarCrossfade = false;
@@ -332,6 +333,7 @@ public class NekoConfig {
             quickForward = preferences.getBoolean("quickForward", false);
             springAnimation = preferences.getBoolean("springAnimation", false);
             actionbarCrossfade = preferences.getBoolean("actionbarCrossfade", false);
+            reducedColors = preferences.getBoolean("reducedColors", false);
 
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
@@ -429,6 +431,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("downloadSpeedBoost2", boost);
+        editor.apply();
+    }
+
+    public static void toggleReducedColors() {
+        reducedColors = !reducedColors;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("reducedColors", reducedColors);
         editor.apply();
     }
 
