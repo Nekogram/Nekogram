@@ -5,9 +5,9 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 
+import org.telegram.messenger.CodeHighlighting;
 import org.telegram.messenger.LinkifyPort;
 import org.telegram.messenger.MediaDataController;
-import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.URLSpanReplacement;
 
@@ -59,39 +59,47 @@ public class EntitiesHelper {
                         continue find;
                     }
                 }
+                var codeHighlightingSpans = spannable.getSpans(start, end, CodeHighlighting.Span.class);
+                for (var codeHighlightingSpan : codeHighlightingSpans) {
+                    int spanStart = spannable.getSpanStart(codeHighlightingSpan);
+                    int spanEnd = spannable.getSpanEnd(codeHighlightingSpan);
+                    if (spanStart < start + length || spanEnd > end - length) {
+                        continue find;
+                    }
+                }
 
                 var destination = new SpannableStringBuilder(spannable.subSequence(m.start(i == 0 ? 2 : 1), m.end(i == 0 ? 2 : 1)));
-                if (i < 8) {
-                    var run = new TextStyleSpan.TextStyleRun();
-                    switch (i) {
-                        case 0:
-                        case 1:
-                        case 2:
-                        case 3:
-                            run.flags |= TextStyleSpan.FLAG_STYLE_MONO;
-                            if (i != 3) {
-                                run.start = start;
-                                run.end = end;
-                                run.urlEntity = new TLRPC.TL_messageEntityPre();
-                                run.urlEntity.language = i == 0 ? m.group(1) : "";
-                            }
-                            break;
-                        case 4:
-                            run.flags |= TextStyleSpan.FLAG_STYLE_BOLD;
-                            break;
-                        case 5:
-                            run.flags |= TextStyleSpan.FLAG_STYLE_ITALIC;
-                            break;
-                        case 6:
-                            run.flags |= TextStyleSpan.FLAG_STYLE_STRIKE;
-                            break;
-                        case 7:
-                            run.flags |= TextStyleSpan.FLAG_STYLE_SPOILER;
-                            break;
+                if (destination.length() > 0) {
+                    if (i == 0) {
+                        if (destination.charAt(destination.length() - 1) == '\n') {
+                            destination = (SpannableStringBuilder) destination.subSequence(0, destination.length() - 1);
+                        }
+                        destination.setSpan(new CodeHighlighting.Span(true, 0, null, m.group(1), destination.toString()), 0, destination.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    } else if (i < 8) {
+                        var run = new TextStyleSpan.TextStyleRun();
+                        switch (i) {
+                            case 1:
+                            case 2:
+                            case 3:
+                                run.flags |= TextStyleSpan.FLAG_STYLE_MONO;
+                                break;
+                            case 4:
+                                run.flags |= TextStyleSpan.FLAG_STYLE_BOLD;
+                                break;
+                            case 5:
+                                run.flags |= TextStyleSpan.FLAG_STYLE_ITALIC;
+                                break;
+                            case 6:
+                                run.flags |= TextStyleSpan.FLAG_STYLE_STRIKE;
+                                break;
+                            case 7:
+                                run.flags |= TextStyleSpan.FLAG_STYLE_SPOILER;
+                                break;
+                        }
+                        MediaDataController.addStyleToText(new TextStyleSpan(run), 0, destination.length(), destination, true);
+                    } else {
+                        destination.setSpan(new URLSpanReplacement(m.group(2)), 0, destination.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                     }
-                    MediaDataController.addStyleToText(new TextStyleSpan(run), 0, destination.length(), destination, true);
-                } else {
-                    destination.setSpan(new URLSpanReplacement(m.group(2)), 0, destination.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 }
                 sources.add(m.group(0));
                 destinations.add(destination);
