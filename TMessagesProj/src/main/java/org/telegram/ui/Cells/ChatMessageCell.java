@@ -2098,7 +2098,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                             }
                         } else if (webPage != null) {
                             if (delegate != null) {
-                                delegate.didPressWebPage(this, webPage, webPage.url, MessageObject.getMedia(currentMessageObject.messageOwner).safe);
+                                if (drawPhotoImage && photoImage.isInsideImage(x, y)) {
+                                    delegate.didPressImage(this, lastTouchX, lastTouchY);
+                                } else {
+                                    delegate.didPressWebPage(this, webPage, webPage.url, MessageObject.getMedia(currentMessageObject.messageOwner).safe);
+                                }
                             } else {
                                 Browser.openUrl(getContext(), webPage.url);
                             }
