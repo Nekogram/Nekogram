@@ -97,14 +97,15 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         message.date = date + 1270;
         message.dialog_id = -1;
         message.flags = 259;
-        message.id = 2;
+        message.id = 3;
+        message.reply_to = new TLRPC.TL_messageReplyHeader();
+        message.reply_to.flags |= 16;
+        message.reply_to.reply_to_msg_id = 2;
         message.media = new TLRPC.TL_messageMediaEmpty();
         message.out = false;
         message.peer_id = new TLRPC.TL_peerUser();
         message.peer_id.user_id = 1;
         messageObjects[1] = new MessageObject(UserConfig.selectedAccount, message, true, false);
-        TLRPC.User currentUser = MessagesController.getInstance(UserConfig.selectedAccount).getUser(UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId());
-        messageObjects[1].customReplyName = ContactsController.formatName(currentUser.first_name, currentUser.last_name);
         messageObjects[1].replyMessageObject = messageObjects[0];
 
         for (int a = 0; a < cells.length; a++) {
