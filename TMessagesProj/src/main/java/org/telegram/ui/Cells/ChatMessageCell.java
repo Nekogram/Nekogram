@@ -15811,7 +15811,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
                 adminLayout.draw(canvas);
                 canvas.restore();
-            } else if (currentMessageObject.isSponsored()) {
+            } else if (false && currentMessageObject.isSponsored()) {
                 if (closeSponsoredBounce == null) {
                     closeSponsoredBounce = new ButtonBounce(this);
                 }
