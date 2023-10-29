@@ -24275,7 +24275,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         } else if (entity instanceof TLRPC.TL_messageEntityCode || entity instanceof TLRPC.TL_messageEntityPre) {
                             TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
                             run.flags |= TextStyleSpan.FLAG_STYLE_MONO;
-                            run.urlEntity = entity;
                             MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
                         } else if (entity instanceof TLRPC.TL_messageEntityBold) {
                             TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
@@ -29498,41 +29497,13 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         boolean noforwards = getMessagesController().isChatNoForwards(currentChat) || (messageObject != null && messageObject.messageOwner != null && messageObject.messageOwner.noforwards);
         if (url instanceof URLSpanMono) {
             if (!noforwards) {
-                if (!longPress) {
-                    ((URLSpanMono) url).copyToClipboard();
-                    UndoView undoView = getUndoView();
-                    if (undoView != null) {
-                        undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
-                    }
-                } else {
-                    BottomSheet.Builder builder = new BottomSheet.Builder(getParentActivity(), false, themeDelegate);
-                    var language = ((URLSpanMono) url).getLanguage();
-                    if (language != null) builder.setTitle(language);
-                    builder.setItems(new CharSequence[]{LocaleController.getString("ShareFile", R.string.ShareFile), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
-                        if (which == 1) {
-                            ((URLSpanMono) url).copyToClipboard();
-                            UndoView undoView = getUndoView();
-                            if (undoView != null) {
-                                undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
-                            }
-                        } else {
-                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                            shareIntent.setType("text/plain");
-                            shareIntent.putExtra(Intent.EXTRA_TEXT, ((URLSpanMono) url).getTextToCopy());
-                            Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
-                            chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                            ApplicationLoader.applicationContext.startActivity(chooserIntent);
-                        }
-                    });
-                    ChatMessageCell finalCell = cell;
-                    builder.setOnPreDismissListener(di -> {
-                        if (finalCell != null) {
-                            finalCell.resetPressedLink(-1);
-                        }
-                    });
-                    showDialog(builder.create());
+                ((URLSpanMono) url).copyToClipboard();
+                UndoView undoView = getUndoView();
+                if (undoView != null) {
+                    undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
                 }
-            } else if (longPress && cell != null) {
+            }
+            if (longPress && cell != null) {
                 cell.resetPressedLink(-1);
             }
         } else if (url instanceof URLSpanUserMention) {
@@ -31844,16 +31815,37 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         }
 
         @Override
-        public void didPressCode(ChatMessageCell cell, CharacterStyle _span, boolean longPress) {
-            if (!(_span instanceof CodeHighlighting.Span)) {
+        public void didPressCode(ChatMessageCell cell, CharSequence code, String language, boolean longPress) {
+            if (code == null) {
                 return;
             }
-            final CodeHighlighting.Span span = (CodeHighlighting.Span) _span;
-            SpannableStringBuilder text = new SpannableStringBuilder(span.code);
-            text.setSpan(new CodeHighlighting.Span(false, 0, null, span.lng, span.code), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            AndroidUtilities.addToClipboard(text);
-            createUndoView();
-            undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+            SpannableStringBuilder text = new SpannableStringBuilder(code);
+            text.setSpan(new CodeHighlighting.Span(false, 0, null, language, code.toString()), 0, text.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (!longPress) {
+                AndroidUtilities.addToClipboard(text);
+                createUndoView();
+                undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+            } else {
+                BottomSheet.Builder builder = new BottomSheet.Builder(getParentActivity(), false, themeDelegate);
+                if (language != null) builder.setTitle(language);
+                builder.setItems(new CharSequence[]{LocaleController.getString("ShareFile", R.string.ShareFile), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
+                    if (which == 1) {
+                        AndroidUtilities.addToClipboard(text);
+                        UndoView undoView = getUndoView();
+                        if (undoView != null) {
+                            undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+                        }
+                    } else {
+                        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                        shareIntent.setType("text/plain");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, text);
+                        Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+                        chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        ApplicationLoader.applicationContext.startActivity(chooserIntent);
+                    }
+                });
+                showDialog(builder.create());
+            }
         }
 
         @Override

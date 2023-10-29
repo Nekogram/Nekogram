@@ -11,7 +11,6 @@ package org.telegram.ui.Components;
 import android.graphics.Paint;
 import android.graphics.Typeface;
 import android.text.TextPaint;
-import android.text.TextUtils;
 import android.text.style.MetricAffectingSpan;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -38,19 +37,8 @@ public class URLSpanMono extends MetricAffectingSpan {
         style = run;
     }
 
-    public String getTextToCopy() {
-        return currentMessage.subSequence(currentStart, currentEnd).toString();
-    }
-
     public void copyToClipboard() {
         AndroidUtilities.addToClipboard(currentMessage.subSequence(currentStart, currentEnd).toString());
-    }
-
-    public String getLanguage() {
-        if (style == null || style.urlEntity == null || TextUtils.isEmpty(style.urlEntity.language)) {
-            return null;
-        }
-        return style.urlEntity.language;
     }
 
     @Override
