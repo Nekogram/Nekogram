@@ -268,6 +268,7 @@ public final class FloatingToolbar {
             R.id.menu_mono,
             R.id.menu_underline,
             R.id.menu_spoiler,
+            R.id.menu_code,
             R.id.menu_mention,
             R.id.menu_quote
     );

@@ -310,6 +310,9 @@
     <string name="CloudConfigSyncFailed">Failed to sync settings to cloud.</string>
     <string name="CloudConfigRestoreFailed">Failed to restore settings from cloud.</string>
     <string name="ReducedColors">Reduce colors</string>
+    <string name="MonoCode">Code</string>
+    <string name="CreateCode">Create Code</string>
+    <string name="CreateCodeLanguage">Language</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
