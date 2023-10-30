@@ -14001,7 +14001,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         }
                         stringFinalText = TextUtils.ellipsize(stringFinalText, textPaint, maxWidth, TextUtils.TruncateAt.END);
                         if (stringFinalText instanceof Spannable && messageObject.replyMessageObject.messageOwner != null) {
-                            MediaDataController.addTextStyleRuns(messageObject.replyMessageObject, messageObject.replyMessageObject.caption, (Spannable) stringFinalText);
+                            MediaDataController.addTextStyleRuns(MessageHelper.checkBlockedUserEntities(messageObject.replyMessageObject), messageObject.replyMessageObject.caption, (Spannable) stringFinalText);
                         }
                     } else if (messageObject.replyMessageObject != null && messageObject.replyMessageObject.messageText != null && messageObject.replyMessageObject.messageText.length() > 0) {
                         String mess = messageObject.replyMessageObject.messageText.toString();

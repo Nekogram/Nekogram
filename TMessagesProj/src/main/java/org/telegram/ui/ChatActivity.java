@@ -12110,7 +12110,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 if (replyObjectText != null) {
                     if (replyObjectText instanceof Spannable && sourceText != null) {
-                        MediaDataController.addTextStyleRuns(entities, sourceText, (Spannable) replyObjectText, -1);
+                        MediaDataController.addTextStyleRuns(entities, sourceText, (Spannable) replyObjectText);
                     }
 
                     replyObjectTextView.setText(AnimatedEmojiSpan.cloneSpans(replyObjectText));
@@ -12278,8 +12278,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         }
                         mess = Emoji.replaceEmoji(mess, replyObjectTextView.getPaint().getFontMetricsInt(), AndroidUtilities.dp(14), false);
                         if (mess instanceof Spannable) {
-                            MediaDataController.addTextStyleRuns(messageObject, messageObject.messageText, (Spannable) mess);
-                             if (messageObject.messageOwner != null) {
+                            MediaDataController.addTextStyleRuns(messageObject.messageOwner.entities, messageObject.messageText, (Spannable) mess);
+                            if (messageObject.messageOwner != null) {
                                 mess = MessageObject.replaceAnimatedEmoji(mess, messageObject.messageOwner.entities, replyObjectTextView.getPaint().getFontMetricsInt());
                             }
                         }

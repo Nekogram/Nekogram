@@ -93,7 +93,7 @@ public class CopyUtilities {
         }
 
         SpannableString spannable = new SpannableString(spanned.toString());
-        MediaDataController.addTextStyleRuns(entities, spannable, spannable, -1);
+        MediaDataController.addTextStyleRuns(entities, spannable, spannable);
         for (int i = 0; i < spans.length; ++i) {
             Object span = spans[i];
             if (span instanceof URLSpan) {

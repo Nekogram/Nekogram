@@ -1102,7 +1102,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                     }
 
                     SpannableString spannableString = new SpannableString(premiumPromo.status_text);
-                    MediaDataController.addTextStyleRuns(premiumPromo.status_entities, premiumPromo.status_text, spannableString, -1);
+                    MediaDataController.addTextStyleRuns(premiumPromo.status_entities, premiumPromo.status_text, spannableString);
                     byte t = 0;
                     for (TextStyleSpan span : spannableString.getSpans(0, spannableString.length(), TextStyleSpan.class)) {
                         TextStyleSpan.TextStyleRun run = span.getTextStyleRun();
