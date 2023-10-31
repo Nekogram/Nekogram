@@ -31839,7 +31839,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
             } else {
                 BottomSheet.Builder builder = new BottomSheet.Builder(getParentActivity(), false, themeDelegate);
-                if (language != null) builder.setTitle(language);
+                if (!TextUtils.isEmpty(language)) builder.setTitle(language);
                 builder.setItems(new CharSequence[]{LocaleController.getString("ShareFile", R.string.ShareFile), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
                     if (which == 1) {
                         AndroidUtilities.addToClipboard(text);
