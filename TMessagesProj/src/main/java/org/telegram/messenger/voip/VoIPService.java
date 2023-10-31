@@ -4108,16 +4108,19 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		}
 		PendingIntent answerPendingIntent = PendingIntent.getBroadcast(this, 0, answerIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_CANCEL_CURRENT);
 		builder.setPriority(Notification.PRIORITY_MAX);
-		builder.setShowWhen(false);
-		builder.setColor(0xff282e31);
-		builder.setColorized(true);
-		builder.setVibrate(new long[0]);
-		builder.setCategory(Notification.CATEGORY_CALL);
-		builder.setFullScreenIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE), true);
-		if (userOrChat instanceof TLRPC.User) {
-			TLRPC.User user = (TLRPC.User) userOrChat;
-			if (!TextUtils.isEmpty(user.phone)) {
-				builder.addPerson("tel:" + user.phone);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			builder.setShowWhen(false);
+		}
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			builder.setColor(0xff2ca5e0);
+			builder.setVibrate(new long[0]);
+			builder.setCategory(Notification.CATEGORY_CALL);
+			builder.setFullScreenIntent(PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_MUTABLE), true);
+			if (userOrChat instanceof TLRPC.User) {
+				TLRPC.User user = (TLRPC.User) userOrChat;
+				if (!TextUtils.isEmpty(user.phone)) {
+					builder.addPerson("tel:" + user.phone);
+				}
 			}
 		}
 		Notification incomingNotification;
