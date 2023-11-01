@@ -307,6 +307,7 @@
     <string name="ReducedColors">Приглушити кольори</string>
     <string name="MonoCode">Код</string>
     <string name="CreateCode">Створити код</string>
+    <string name="CreateCodeLanguage">Мова</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccSeekbarHeading">Налаштування панелі повзунка</string>

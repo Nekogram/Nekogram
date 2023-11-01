@@ -110,7 +110,7 @@
     <string name="LastUpdateFormatted">Đã kiểm tra thành công lần cuối %1$s.</string>
     <string name="LastUpdateDateFormatted">Kiểm tra thành công lần cuối vào %1$s.</string>
     <string name="LastUpdateRecently">Vừa kiểm tra thành công lần cuối.</string>
-    <string name="LastUpdateNever">Không bao giờ kiểm tra trước khi cài </string>
+    <string name="LastUpdateNever">Chưa bao giờ kiểm tra kể từ lúc cài.</string>
     <string name="CheckingUpdate">Đang kiểm tra cập nhật…</string>
     <string name="ProviderMicrosoftTranslator">Trình dịch Microsoft</string>
     <string name="TranslationProviderShort">Nhà cung cấp dịch vụ</string>
@@ -134,7 +134,7 @@
     <string name="WsUseMyOwnDomain">Cách thiết lập nhà cung cấp tùy chỉnh</string>
     <string name="WsStandaloneApp">Sử dụng proxy trong các ứng dụng khác</string>
     <string name="UpdateNekogram">Cập nhật Nekogram</string>
-    <string name="TranslationTarget">Tập trung vào ngôn ngữ</string>
+    <string name="TranslationTarget">Ngôn ngữ chỉ định</string>
     <string name="TranslationTargetApp">Dựa theo ứng dụng</string>
     <string name="Translator">Công cụ dịch</string>
     <string name="ResetLanguage">Đặt lại ngôn ngữ</string>
@@ -240,11 +240,11 @@
     <string name="MarkdownParseLinks">Phân tích cú pháp liên kết</string>
     <string name="MarkdownAbout">Chỉnh sửa văn bản trong tin nhắn bằng cách sử dụng markdown: ^1**in đậm**^1, ^2__in nghiêng__^2, ^3~~gạch ngang~~^3, ^4`monospace`^4, ^5||spoiler||^5, ^6text^7url^8.</string>
     <string name="MarkdownAbout2">Chỉnh sửa văn bản trong tin nhắn bằng cách sử dụng markdown: ^1**in đậm**^1, ^2__in nghiêng__^2, ^3~~gạch ngang~~^3, ^4`monospace`^4, ^5||spoiler||^5.</string>
-    <string name="AppIconOldSchool">Trường cũ</string>
+    <string name="AppIconOldSchool">Cổ điển</string>
     <string name="AppIconMerio">Merio</string>
-    <string name="AppIconRainbow">Cầu vòng</string>
+    <string name="AppIconRainbow">Cầu vồng</string>
     <string name="AppIconMusheen">Musheen</string>
-    <string name="AppIconSpace">Khoảng trắng</string>
+    <string name="AppIconSpace">Vũ trụ</string>
     <string name="AppIconCloud">Mây</string>
     <string name="AppIconNeon">Phản quang</string>
     <string name="AppIconMaterial">Vật liệu</string>
@@ -304,8 +304,10 @@
     <string name="CloudConfigAutoSyncDesc">Tự động đồng bộ với đám mây sau khi thực hiện thay đổi với Cài đặt Neko.</string>
     <string name="CloudConfigSyncFailed">Không thể đồng bộ cài đặt với đám mây.</string>
     <string name="CloudConfigRestoreFailed">Không thể khôi phục cài đặt từ đám mây.</string>
+    <string name="ReducedColors">Giảm màu sắc</string>
     <string name="MonoCode">Mã</string>
     <string name="CreateCode">Tạo mã</string>
+    <string name="CreateCodeLanguage">Ngôn ngữ</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>
