@@ -7,7 +7,9 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParser;
+import com.google.gson.ToNumberPolicy;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -351,7 +353,9 @@ public class NekoConfig {
 
     public static String exportConfigs() {
         if (gson == null) {
-            gson = new Gson();
+            gson = new GsonBuilder()
+                    .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
+                    .create();
         }
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         return gson.toJson(preferences.getAll());
@@ -359,7 +363,9 @@ public class NekoConfig {
 
     public static void importConfigs(String config) {
         if (gson == null) {
-            gson = new Gson();
+            gson = new GsonBuilder()
+                    .setObjectToNumberStrategy(ToNumberPolicy.LONG_OR_DOUBLE)
+                    .create();
         }
         //noinspection unchecked
         Map<String, ?> map = gson.fromJson(config, Map.class);
@@ -368,19 +374,31 @@ public class NekoConfig {
         var editor = preferences.edit();
         editor.clear();
         map.forEach((BiConsumer<String, Object>) (s, o) -> {
-            if (o instanceof Integer) {
-                editor.putInt(s, (Integer) o);
-            } else if (o instanceof String) {
-                editor.putString(s, (String) o);
-            } else if (o instanceof Boolean) {
-                editor.putBoolean(s, (Boolean) o);
-            } else if (o instanceof Long) {
-                editor.putLong(s, (Long) o);
-            } else if (o instanceof Float) {
-                editor.putFloat(s, (Float) o);
-            } else if (o instanceof ArrayList) {
-                //noinspection unchecked
-                editor.putStringSet(s, new HashSet<>((ArrayList<String>) o));
+            try {
+                if (o instanceof Integer) {
+                    editor.putInt(s, (Integer) o);
+                } else if (o instanceof String) {
+                    editor.putString(s, (String) o);
+                } else if (o instanceof Boolean) {
+                    editor.putBoolean(s, (Boolean) o);
+                } else if (o instanceof Long) {
+                    if ("stickerSize".equals(s)) {
+                        editor.putFloat(s, ((Long) o).floatValue());
+                    } else {
+                        editor.putInt(s, ((Long) o).intValue());
+                    }
+                } else if (o instanceof Float) {
+                    editor.putFloat(s, (Float) o);
+                } else if (o instanceof Double) {
+                    editor.putFloat(s, ((Double) o).floatValue());
+                } else if (o instanceof ArrayList) {
+                    //noinspection unchecked
+                    editor.putStringSet(s, new HashSet<>((ArrayList<String>) o));
+                } else {
+                    FileLog.e("error putting " + s + " " + o.getClass().getName());
+                }
+            } catch (Exception e) {
+                FileLog.e("error putting " + s, e);
             }
         });
         editor.apply();
