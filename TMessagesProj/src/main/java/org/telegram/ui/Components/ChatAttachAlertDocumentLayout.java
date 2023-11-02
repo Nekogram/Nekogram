@@ -1379,7 +1379,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
             fs.file = null;
             listAdapter.items.add(fs);
         }
-        if (parentAlert.getBaseFragment() instanceof ChatActivity && parentAlert.editingMessageObject == null) {
+        if (parentAlert.getBaseFragment() instanceof ChatActivity && !((ChatActivity) parentAlert.getBaseFragment()).isSecretChat() && parentAlert.editingMessageObject == null) {
             fs = new ListItem();
             fs.title = LocaleController.getString("AttachWebFile", R.string.AttachWebFile);
             fs.subtitle = LocaleController.getString("WebFileInfo", R.string.WebFileInfo);

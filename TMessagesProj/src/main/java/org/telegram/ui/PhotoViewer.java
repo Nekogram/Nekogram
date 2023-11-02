@@ -6196,7 +6196,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             sendPopupLayout.setBackgroundColor(0xf9222222);
 
             Object currentObject = imagesArrLocals.get(currentIndex);
-            boolean canSpoiler = fragment instanceof ChatActivity && !((ChatActivity) fragment).isSecretChat() && currentObject instanceof MediaController.PhotoEntry;
+            boolean canSpoiler = !parentChatActivity.isSecretChat() && currentObject instanceof MediaController.PhotoEntry;
             boolean spoilerEnabled = false;
             if (canSpoiler) {
                 MediaController.PhotoEntry entry = (MediaController.PhotoEntry) currentObject;
