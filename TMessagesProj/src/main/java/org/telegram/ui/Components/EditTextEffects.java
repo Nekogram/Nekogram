@@ -273,7 +273,7 @@ public class EditTextEffects extends AppCompatEditText {
         return offsetY;
     }
 
-    public boolean wrapCanvasToFixClipping;
+    public boolean wrapCanvasToFixClipping = Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH;
     private NoClipCanvas wrappedCanvas;
 
     @Override

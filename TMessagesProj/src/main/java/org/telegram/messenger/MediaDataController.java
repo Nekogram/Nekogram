@@ -92,6 +92,7 @@ import java.util.Objects;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -1298,31 +1299,6 @@ public class MediaDataController extends BaseController {
             }
         }
         return set;
-    }
-
-    private void fetchStickerSetInternal(long id, Integer hash, Utilities.Callback2<Boolean, TLRPC.TL_messages_stickerSet> onDone) {
-        if (onDone == null) {
-            return;
-        }
-        TLRPC.TL_messages_getStickerSet req = new TLRPC.TL_messages_getStickerSet();
-        TLRPC.TL_inputStickerSetID inputStickerSetID = new TLRPC.TL_inputStickerSetID();
-        inputStickerSetID.id = id;
-        req.stickerset = inputStickerSetID;
-        if (hash != null) {
-            req.hash = hash;
-        }
-        getConnectionsManager().sendRequest(req, (response, error) -> {
-            AndroidUtilities.runOnUIThread(() -> {
-//                if (error != null && "".equals(error.text)) {
-//                    onDone.run(true, null);
-//                } else
-                if (response != null) {
-                    onDone.run(true, (TLRPC.TL_messages_stickerSet) response);
-                } else {
-                    onDone.run(false, null);
-                }
-            });
-        });
     }
 
     private final HashMap<TLRPC.InputStickerSet, ArrayList<Utilities.Callback2<Boolean, TLRPC.TL_messages_stickerSet>>> loadingStickerSets = new HashMap<>();
@@ -5502,20 +5478,18 @@ public class MediaDataController extends BaseController {
 
             LongSparseArray<ArrayList<MessageObject>> finalMessagesWithUnknownStories = messagesWithUnknownStories;
 
-            int[] requestsCount = new int[] {2};
+            AtomicInteger requestsCount = new AtomicInteger(2);
             getMessagesStorage().getStorageQueue().postRunnable(() -> {
                 try {
                     getMessagesController().getStoriesController().fillMessagesWithStories(finalMessagesWithUnknownStories, () -> {
-                        requestsCount[0]--;
-                        if (requestsCount[0] == 0) {
+                        if (requestsCount.decrementAndGet() == 0) {
                             if (callback != null) {
                                 AndroidUtilities.runOnUIThread(callback);
                             }
                         }
                     }, classGuid);
                     if (replyMessageOwners.isEmpty()) {
-                        requestsCount[0]--;
-                        if (requestsCount[0] == 0) {
+                        if (requestsCount.decrementAndGet() == 0) {
                             if (callback != null) {
                                 AndroidUtilities.runOnUIThread(callback);
                             }
@@ -5642,8 +5616,7 @@ public class MediaDataController extends BaseController {
                                             saveReplyMessages(replyMessageOwners, messagesRes.messages, scheduled);
                                         }
                                     }
-                                    requestsCount[0]--;
-                                    if (requestsCount[0] == 0) {
+                                    if (requestsCount.decrementAndGet() == 0) {
                                         if (callback != null) {
                                             AndroidUtilities.runOnUIThread(callback);
                                         }
@@ -5671,8 +5644,7 @@ public class MediaDataController extends BaseController {
                                         getMessagesStorage().putUsersAndChats(messagesRes.users, messagesRes.chats, true, true);
                                         saveReplyMessages(replyMessageOwners, messagesRes.messages, scheduled);
                                     }
-                                    requestsCount[0]--;
-                                    if (requestsCount[0] == 0) {
+                                    if (requestsCount.decrementAndGet() == 0) {
                                         if (callback != null) {
                                             AndroidUtilities.runOnUIThread(callback);
                                         }
@@ -5698,8 +5670,7 @@ public class MediaDataController extends BaseController {
                                         getMessagesStorage().putUsersAndChats(messagesRes.users, messagesRes.chats, true, true);
                                         saveReplyMessages(replyMessageOwners, messagesRes.messages, scheduled);
                                     }
-                                    requestsCount[0]--;
-                                    if (requestsCount[0] == 0) {
+                                    if (requestsCount.decrementAndGet() == 0) {
                                         if (callback != null) {
                                             AndroidUtilities.runOnUIThread(callback);
                                         }
@@ -5711,8 +5682,7 @@ public class MediaDataController extends BaseController {
                             }
                         }
                     } else {
-                        requestsCount[0]--;
-                        if (requestsCount[0] == 0) {
+                        if (requestsCount.decrementAndGet() == 0) {
                             if (callback != null) {
                                 AndroidUtilities.runOnUIThread(callback);
                             }
