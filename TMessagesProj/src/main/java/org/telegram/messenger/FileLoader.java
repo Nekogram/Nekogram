@@ -1391,6 +1391,9 @@ public class FileLoader extends BaseController {
         if (sizes == null || sizes.isEmpty()) {
             return null;
         }
+        if (side > 160) {
+            side = 1080;
+        }
         int lastSide = 0;
         TLRPC.VideoSize closestObject = null;
         for (int a = 0; a < sizes.size(); a++) {
