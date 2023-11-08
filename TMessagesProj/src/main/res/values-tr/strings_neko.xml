@@ -100,8 +100,8 @@
     <string name="OpenAllLinksInInstantView">Anlık Görünümde tüm bağlantıları açmayı dene</string>
     <string name="DonateThankYou">Teşekkürler!</string>
     <string name="DonateEvilGoogle">Google, bağışınızın yüzde 30\'unu alacaktır.</string>
-    <string name="formatterDay24HSec">SS:dd:ss</string>
-    <string name="formatterDay12HSec">S:dd:ss a</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Sürelerde saniyeyi de göster</string>
     <string name="JumpToBeginning">Başlangıca atla</string>
     <string name="ProviderDeepLTranslate">DeepL Çeviri</string>

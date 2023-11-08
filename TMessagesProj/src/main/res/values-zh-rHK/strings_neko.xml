@@ -88,8 +88,8 @@
     <string name="OpenAllLinksInInstantView">嘗試在即時視圖裏打開鏈接</string>
     <string name="DonateThankYou">謝謝你！</string>
     <string name="DonateEvilGoogle">谷歌將收取您捐款的 30%。</string>
-    <string name="formatterDay24HSec">格式化程序</string>
-    <string name="formatterDay12HSec">小時:分鐘:秒</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">帶秒的時間格式</string>
     <string name="JumpToBeginning">轉跳到頁頭</string>
     <string name="ProviderDeepLTranslate">深度翻譯</string>

@@ -50,7 +50,7 @@
     <string name="MessageDetails">Подробности</string>
     <string name="DeleteAccount">Удалить Telegram аккаунт</string>
     <string name="TranslateFailed">Ошибка сервера переводчика</string>
-    <string name="TranslationProvider">Поставщик переводов</string>
+    <string name="TranslationProvider">Переводчик</string>
     <string name="ProviderGoogleTranslate">Google Переводчик</string>
     <string name="TranslateApiUnsupported">Выбранный переводчик не поддерживает ваш язык.</string>
     <string name="ProviderLingocloud">Lingocloud</string>

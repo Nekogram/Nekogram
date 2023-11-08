@@ -98,7 +98,8 @@
     <string name="OpenAllLinksInInstantView">सभी लिंक्स को इंस्टेंट व्यू में खोलने के लिए ट्राई करें</string>
     <string name="DonateThankYou">धन्यवाद!</string>
     <string name="DonateEvilGoogle">आपके डोनेशन का 30 प्रतिशत गूगल रखेगा।</string>
-    <string name="formatterDay12HSec">घंटा:मिनट:सैकंड</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">समय को सेकंड्स के साथ फॉर्मेट करें</string>
     <string name="JumpToBeginning">शुरुआत में जाए</string>
     <string name="ProviderDeepLTranslate">DeepL अनुवाद</string>
