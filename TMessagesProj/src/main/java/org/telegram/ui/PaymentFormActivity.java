@@ -233,7 +233,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
     private PaymentInfoCell paymentInfoCell;
     private TextDetailSettingsCell[] detailSettingsCell = new TextDetailSettingsCell[7];
 
-    private boolean isAcceptTermsChecked;
+    private float shiftDp = -4.5f;
 
     private TLRPC.account_Password currentPassword;
     private boolean waitingForEmail;
@@ -1732,7 +1732,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 inputFields[a].setImeOptions(EditorInfo.IME_ACTION_DONE | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
                 switch (a) {
                     case FIELD_SAVEDCARD:
-                        inputFields[a].setText(savedCredentialsCard.title);
+                        inputFields[a].setText(savedCredentialsCard == null ? "" : savedCredentialsCard.title);
                         break;
                     case FIELD_SAVEDPASSWORD:
                         inputFields[a].setHint(LocaleController.getString("LoginPassword", R.string.LoginPassword));
@@ -2235,7 +2235,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             }
 
             if (currentStep == STEP_CHECKOUT) {
-                recurrentAccepted = isAcceptTermsChecked = !isCheckoutPreview;
+                recurrentAccepted = !isCheckoutPreview;
                 bottomLayout = new BottomFrameLayout(context, paymentForm);
                 if (Build.VERSION.SDK_INT >= 21) {
                     View selectorView = new View(context);
@@ -2244,8 +2244,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 }
                 frameLayout.addView(bottomLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.BOTTOM));
                 bottomLayout.setOnClickListener(v -> {
-                    if (paymentForm.invoice.recurring && !recurrentAccepted) {
-                        AndroidUtilities.shakeViewSpring(recurrentAcceptCell.getTextView(), 4.5f);
+                    if (recurrentAcceptCell != null && !recurrentAccepted) {
+                        shiftDp = -shiftDp;
+                        AndroidUtilities.shakeViewSpring(recurrentAcceptCell.getTextView(), shiftDp);
+                        AndroidUtilities.shakeViewSpring(recurrentAcceptCell.getCheckBox(), shiftDp);
                         try {
                             recurrentAcceptCell.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                         } catch (Exception ignored) {}
@@ -2329,8 +2331,8 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                 progressViewButton.setColors(color & 0x2fffffff, color);
                 bottomLayout.addView(progressViewButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
-                bottomLayout.setChecked(!paymentForm.invoice.recurring || isAcceptTermsChecked);
-                payTextView.setAlpha(paymentForm.invoice.recurring && !isAcceptTermsChecked ? 0.8f : 1f);
+                bottomLayout.setChecked(recurrentAccepted, false);
+                payTextView.setAlpha(!recurrentAccepted ? 0.8f : 1f);
 
                 doneItem.setEnabled(false);
                 doneItem.getContentView().setVisibility(View.INVISIBLE);
@@ -2396,9 +2398,10 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                     }
                 });
 
+                recurrentAcceptCell = null;
                 if (paymentForm.invoice.terms_url != null) {
                     recurrentAcceptCell = new RecurrentPaymentsAcceptCell(context, getResourceProvider());
-                    recurrentAcceptCell.setChecked(paymentForm.invoice.recurring && isAcceptTermsChecked);
+                    recurrentAcceptCell.setChecked(recurrentAccepted);
                     String str = LocaleController.getString(R.string.PaymentCheckoutAcceptRecurrent);
                     SpannableStringBuilder sb = new SpannableStringBuilder(str);
                     int firstIndex = str.indexOf('*'), lastIndex = str.lastIndexOf('*');
@@ -2426,7 +2429,7 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
                         recurrentAccepted = !recurrentAccepted;
                         recurrentAcceptCell.setChecked(recurrentAccepted);
 
-                        bottomLayout.setChecked(recurrentAccepted);
+                        bottomLayout.setChecked(recurrentAccepted, true);
                     });
                     frameLayout.addView(recurrentAcceptCell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM, 0, 0, 0, 48));
                 }
@@ -4313,8 +4316,6 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
 
         public BottomFrameLayout(@NonNull Context context, TLRPC.TL_payments_paymentForm paymentForm) {
             super(context);
-
-            progress = paymentForm.invoice.recurring && !isAcceptTermsChecked ? 0f : 1f;
             setWillNotDraw(false);
         }
 
@@ -4327,31 +4328,39 @@ public class PaymentFormActivity extends BaseFragment implements NotificationCen
             canvas.drawCircle(LocaleController.isRTL ? getWidth() - AndroidUtilities.dp(28) : AndroidUtilities.dp(28), -AndroidUtilities.dp(28), Math.max(getWidth(), getHeight()) * progress, paint);
         }
 
-        public void setChecked(boolean checked) {
+        public void setChecked(boolean checked, boolean animated) {
             if (springAnimation != null) {
                 springAnimation.cancel();
             }
             float to = checked ? 1f : 0f;
-            if (progress == to) {
-                return;
-            }
-            springAnimation = new SpringAnimation(new FloatValueHolder(progress * 100f))
-                    .setSpring(new SpringForce(to * 100f)
-                            .setStiffness(checked ? 500f : 650f)
-                            .setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY));
-            springAnimation.addUpdateListener((animation, value, velocity) -> {
-                progress = value / 100f;
+            if (animated) {
+                if (progress == to) {
+                    return;
+                }
+                springAnimation = new SpringAnimation(new FloatValueHolder(progress * 100f))
+                        .setSpring(new SpringForce(to * 100f)
+                                .setStiffness(checked ? 500f : 650f)
+                                .setDampingRatio(SpringForce.DAMPING_RATIO_NO_BOUNCY));
+                springAnimation.addUpdateListener((animation, value, velocity) -> {
+                    progress = value / 100f;
+                    if (payTextView != null) {
+                        payTextView.setAlpha(0.8f + 0.2f * progress);
+                    }
+                    invalidate();
+                });
+                springAnimation.addEndListener((animation, canceled1, value, velocity) -> {
+                    if (animation == springAnimation) {
+                        springAnimation = null;
+                    }
+                });
+                springAnimation.start();
+            } else {
+                progress = to;
                 if (payTextView != null) {
                     payTextView.setAlpha(0.8f + 0.2f * progress);
                 }
                 invalidate();
-            });
-            springAnimation.addEndListener((animation, canceled1, value, velocity) -> {
-                if (animation == springAnimation) {
-                    springAnimation = null;
-                }
-            });
-            springAnimation.start();
+            }
         }
     }
 }

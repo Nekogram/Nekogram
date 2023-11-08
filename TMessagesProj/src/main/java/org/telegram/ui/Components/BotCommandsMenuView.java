@@ -334,7 +334,7 @@ public class BotCommandsMenuView extends View {
         public BotCommandView(@NonNull Context context) {
             super(context);
             setOrientation(HORIZONTAL);
-            setPadding(AndroidUtilities.dp(16), 0, AndroidUtilities.dp(16), 0);
+            setPadding(AndroidUtilities.dp(16), AndroidUtilities.dp(8), AndroidUtilities.dp(16), AndroidUtilities.dp(8));
 
             description = new TextView(context) {
                 @Override
@@ -347,7 +347,7 @@ public class BotCommandsMenuView extends View {
             description.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             description.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
             description.setTag(Theme.key_windowBackgroundWhiteBlackText);
-            description.setLines(1);
+            description.setMaxLines(2);
             description.setEllipsize(TextUtils.TruncateAt.END);
             addView(description, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 1f, Gravity.CENTER_VERTICAL, 0, 0, AndroidUtilities.dp(8), 0));
 
@@ -356,11 +356,6 @@ public class BotCommandsMenuView extends View {
             command.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));
             command.setTag(Theme.key_windowBackgroundWhiteGrayText);
             addView(command, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0f, Gravity.CENTER_VERTICAL));
-        }
-
-        @Override
-        protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-            super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(36), MeasureSpec.EXACTLY));
         }
 
         public String getCommand() {
