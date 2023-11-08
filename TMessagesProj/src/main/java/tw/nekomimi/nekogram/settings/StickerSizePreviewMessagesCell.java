@@ -8,21 +8,20 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
-import android.view.MotionEvent;
 import android.widget.LinearLayout;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
-import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.ActionBar.INavigationLayout;
+import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
+import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.MotionBackgroundDrawable;
 
@@ -30,19 +29,25 @@ import org.telegram.ui.Components.MotionBackgroundDrawable;
 public class StickerSizePreviewMessagesCell extends LinearLayout {
 
     private BackgroundGradientDrawable.Disposable backgroundGradientDisposable;
-    private BackgroundGradientDrawable.Disposable oldBackgroundGradientDisposable;
 
-    private Drawable backgroundDrawable;
-    private Drawable oldBackgroundDrawable;
     private final ChatMessageCell[] cells = new ChatMessageCell[2];
     private final MessageObject[] messageObjects = new MessageObject[2];
     private final Drawable shadowDrawable;
-    private final INavigationLayout parentLayout;
 
-    public StickerSizePreviewMessagesCell(Context context, INavigationLayout layout, Theme.ResourcesProvider resourcesProvider) {
+    private int progress = -1;
+    private final Runnable cancelProgress = () -> {
+        progress = -1;
+        for (int i = 0; i < cells.length; ++i) {
+            if (cells[i] != null) {
+                cells[i].invalidate();
+            }
+        }
+    };
+
+    public StickerSizePreviewMessagesCell(Context context, BaseFragment fragment) {
         super(context);
 
-        parentLayout = layout;
+        var resourcesProvider = fragment.getResourceProvider();
 
         setWillNotDraw(false);
         setOrientation(LinearLayout.VERTICAL);
@@ -111,6 +116,30 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         for (int a = 0; a < cells.length; a++) {
             cells[a] = new ChatMessageCell(context, false, null, resourcesProvider);
             cells[a].setDelegate(new ChatMessageCell.ChatMessageCellDelegate() {
+
+                @Override
+                public boolean canPerformActions() {
+                    return true;
+                }
+
+                @Override
+                public void didPressImage(ChatMessageCell cell, float x, float y) {
+                    BulletinFactory.of(fragment).createErrorBulletin(LocaleController.getString("Nya", R.string.Nya), resourcesProvider).show();
+                }
+
+                @Override
+                public void didPressReplyMessage(ChatMessageCell cell, int id) {
+                    progress = ChatActivity.PROGRESS_REPLY;
+                    cell.invalidate();
+
+                    AndroidUtilities.cancelRunOnUIThread(cancelProgress);
+                    AndroidUtilities.runOnUIThread(cancelProgress, 5000);
+                }
+
+                @Override
+                public boolean isProgressLoading(ChatMessageCell cell, int type) {
+                    return type == progress;
+                }
             });
             cells[a].isChat = false;
             cells[a].setFullyDraw(true);
@@ -130,67 +159,41 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
 
     @Override
     protected void onDraw(Canvas canvas) {
-        Drawable newDrawable = Theme.getCachedWallpaperNonBlocking();
-        if (newDrawable != backgroundDrawable && newDrawable != null) {
-            if (Theme.isAnimatingColor()) {
-                oldBackgroundDrawable = backgroundDrawable;
-                oldBackgroundGradientDisposable = backgroundGradientDisposable;
-            } else if (backgroundGradientDisposable != null) {
-                backgroundGradientDisposable.dispose();
-                backgroundGradientDisposable = null;
-            }
-            backgroundDrawable = newDrawable;
+        Drawable drawable = Theme.getCachedWallpaperNonBlocking();
+        if (drawable == null) {
+            return;
         }
-        float themeAnimationValue = parentLayout.getThemeAnimationValue();
-        for (int a = 0; a < 2; a++) {
-            Drawable drawable = a == 0 ? oldBackgroundDrawable : backgroundDrawable;
-            if (drawable == null) {
-                continue;
-            }
-            if (a == 1 && oldBackgroundDrawable != null) {
-                drawable.setAlpha((int) (255 * themeAnimationValue));
+        drawable.setAlpha(255);
+        if (drawable instanceof ColorDrawable || drawable instanceof GradientDrawable || drawable instanceof MotionBackgroundDrawable) {
+            drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
+            if (drawable instanceof BackgroundGradientDrawable) {
+                final BackgroundGradientDrawable backgroundGradientDrawable = (BackgroundGradientDrawable) drawable;
+                backgroundGradientDisposable = backgroundGradientDrawable.drawExactBoundsSize(canvas, this);
             } else {
-                drawable.setAlpha(255);
-            }
-            if (drawable instanceof ColorDrawable || drawable instanceof GradientDrawable || drawable instanceof MotionBackgroundDrawable) {
-                drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-                if (drawable instanceof BackgroundGradientDrawable) {
-                    final BackgroundGradientDrawable backgroundGradientDrawable = (BackgroundGradientDrawable) drawable;
-                    backgroundGradientDisposable = backgroundGradientDrawable.drawExactBoundsSize(canvas, this);
-                } else {
-                    drawable.draw(canvas);
-                }
-            } else if (drawable instanceof BitmapDrawable) {
-                BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
-                if (bitmapDrawable.getTileModeX() == Shader.TileMode.REPEAT) {
-                    canvas.save();
-                    float scale = 2.0f / AndroidUtilities.density;
-                    canvas.scale(scale, scale);
-                    drawable.setBounds(0, 0, (int) Math.ceil(getMeasuredWidth() / scale), (int) Math.ceil(getMeasuredHeight() / scale));
-                } else {
-                    int viewHeight = getMeasuredHeight();
-                    float scaleX = (float) getMeasuredWidth() / (float) drawable.getIntrinsicWidth();
-                    float scaleY = (float) (viewHeight) / (float) drawable.getIntrinsicHeight();
-                    float scale = Math.max(scaleX, scaleY);
-                    int width = (int) Math.ceil(drawable.getIntrinsicWidth() * scale);
-                    int height = (int) Math.ceil(drawable.getIntrinsicHeight() * scale);
-                    int x = (getMeasuredWidth() - width) / 2;
-                    int y = (viewHeight - height) / 2;
-                    canvas.save();
-                    canvas.clipRect(0, 0, width, getMeasuredHeight());
-                    drawable.setBounds(x, y, x + width, y + height);
-                }
                 drawable.draw(canvas);
-                canvas.restore();
             }
-            if (a == 0 && oldBackgroundDrawable != null && themeAnimationValue >= 1.0f) {
-                if (oldBackgroundGradientDisposable != null) {
-                    oldBackgroundGradientDisposable.dispose();
-                    oldBackgroundGradientDisposable = null;
-                }
-                oldBackgroundDrawable = null;
-                invalidate();
+        } else if (drawable instanceof BitmapDrawable) {
+            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+            if (bitmapDrawable.getTileModeX() == Shader.TileMode.REPEAT) {
+                canvas.save();
+                float scale = 2.0f / AndroidUtilities.density;
+                canvas.scale(scale, scale);
+                drawable.setBounds(0, 0, (int) Math.ceil(getMeasuredWidth() / scale), (int) Math.ceil(getMeasuredHeight() / scale));
+            } else {
+                int viewHeight = getMeasuredHeight();
+                float scaleX = (float) getMeasuredWidth() / (float) drawable.getIntrinsicWidth();
+                float scaleY = (float) (viewHeight) / (float) drawable.getIntrinsicHeight();
+                float scale = Math.max(scaleX, scaleY);
+                int width = (int) Math.ceil(drawable.getIntrinsicWidth() * scale);
+                int height = (int) Math.ceil(drawable.getIntrinsicHeight() * scale);
+                int x = (getMeasuredWidth() - width) / 2;
+                int y = (viewHeight - height) / 2;
+                canvas.save();
+                canvas.clipRect(0, 0, width, getMeasuredHeight());
+                drawable.setBounds(x, y, x + width, y + height);
             }
+            drawable.draw(canvas);
+            canvas.restore();
         }
         shadowDrawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
         shadowDrawable.draw(canvas);
@@ -203,30 +206,10 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
             backgroundGradientDisposable.dispose();
             backgroundGradientDisposable = null;
         }
-        if (oldBackgroundGradientDisposable != null) {
-            oldBackgroundGradientDisposable.dispose();
-            oldBackgroundGradientDisposable = null;
-        }
-    }
-
-    @Override
-    public boolean onInterceptTouchEvent(MotionEvent ev) {
-        return false;
-    }
-
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        return false;
     }
 
     @Override
     protected void dispatchSetPressed(boolean pressed) {
 
-    }
-
-    @SuppressLint("ClickableViewAccessibility")
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        return false;
     }
 }

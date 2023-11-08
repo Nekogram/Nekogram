@@ -402,7 +402,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             sizeBar.setValue(NekoConfig.stickerSize);
             addView(sizeBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
-            messagesCell = new StickerSizePreviewMessagesCell(context, parentLayout, resourcesProvider);
+            messagesCell = new StickerSizePreviewMessagesCell(context, NekoChatSettingsActivity.this);
             messagesCell.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
             addView(messagesCell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0, 112, 0, 0));
         }
