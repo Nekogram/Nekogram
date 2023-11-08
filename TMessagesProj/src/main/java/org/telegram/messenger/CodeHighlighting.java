@@ -214,7 +214,7 @@ public class CodeHighlighting {
             long S = System.currentTimeMillis();
             final StringToken[][] tokens = new StringToken[1][];
             try {
-                tokens[0] = tokenize(text.subSequence(start, end).toString(), compiledPatterns == null ? null : compiledPatterns.get(lng)).toArray();
+                tokens[0] = tokenize(text.subSequence(start, end).toString(), compiledPatterns == null ? null : compiledPatterns.get(lng.toLowerCase().replaceAll("\\W", ""))).toArray();
             } catch (Exception e) {
                 FileLog.e(e);
             }
