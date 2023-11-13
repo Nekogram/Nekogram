@@ -2514,7 +2514,7 @@ public class Theme {
         }
 
         public boolean isLight() {
-            return pathToFile == null && !isDark();
+            return !isDark();
         }
 
         public String getKey() {
