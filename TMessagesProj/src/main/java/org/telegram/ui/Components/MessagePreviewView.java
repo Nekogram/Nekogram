@@ -936,6 +936,17 @@ public class MessagePreviewView extends FrameLayout {
                 applyChanges.setOnClickListener(v -> dismiss(true));
                 menu.addView(applyChanges, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
 
+                ActionBarMenuSubItem viewInChat = new ActionBarMenuSubItem(context, true, false, false, resourcesProvider);
+                viewInChat.setTextAndIcon(LocaleController.getString(R.string.ViewInChat), R.drawable.msg_view_file);
+                viewInChat.setOnClickListener(v -> {
+                    MessageObject replyMessage = getReplyMessage();
+                    if (replyMessage != null) {
+                        chatActivity.scrollToMessageId(getReplyMessage().getId(), 0, true, 0, true, 0);
+                    }
+                    dismiss(true);
+                });
+                menu.addView(viewInChat, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
+
                 deleteReplyButton = new ActionBarMenuSubItem(context, true, false, true, resourcesProvider);
                 deleteReplyButton.setTextAndIcon(LocaleController.getString(showOutdatedQuote ? R.string.DoNotQuote : R.string.DoNotReply), R.drawable.msg_delete);
                 deleteReplyButton.setColors(getThemedColor(Theme.key_text_RedBold), getThemedColor(Theme.key_text_RedRegular));
