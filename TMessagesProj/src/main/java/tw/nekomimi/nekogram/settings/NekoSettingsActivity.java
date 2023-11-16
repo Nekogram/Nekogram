@@ -14,16 +14,15 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.browser.Browser;
-import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextSettingsCell;
-import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.LaunchActivity;
 
 import java.util.List;
 
+import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.accessibility.AccessibilitySettingsActivity;
 import tw.nekomimi.nekogram.helpers.CloudSettingsHelper;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
@@ -33,9 +32,6 @@ import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 public class NekoSettingsActivity extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate {
 
     private final List<ConfigHelper.News> news = ConfigHelper.getNews();
-
-    private boolean sensitiveCanChange = false;
-    private boolean sensitiveEnabled = false;
     private boolean checkingUpdate = false;
 
     private int categoriesRow;
@@ -58,19 +54,6 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
 
     private int sponsorRow;
     private int sponsor2Row;
-
-    private void checkSensitive() {
-        TLRPC.TL_account_getContentSettings req = new TLRPC.TL_account_getContentSettings();
-        getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-            if (error == null) {
-                TLRPC.TL_account_contentSettings settings = (TLRPC.TL_account_contentSettings) response;
-                sensitiveEnabled = settings.sensitive_enabled;
-                sensitiveCanChange = settings.sensitive_can_change;
-            } else {
-                AndroidUtilities.runOnUIThread(() -> AlertsCreator.processError(currentAccount, error, this, req));
-            }
-        }));
-    }
 
     @Override
     public boolean onFragmentCreate() {
@@ -103,7 +86,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
         } else if (position == passcodeRow) {
             presentFragment(new NekoPasscodeSettingsActivity());
         } else if (position == experimentRow) {
-            presentFragment(new NekoExperimentalSettingsActivity(sensitiveCanChange, sensitiveEnabled));
+            presentFragment(new NekoExperimentalSettingsActivity(NekoConfig.isDirectApp()));
         } else if (position == accessibilityRow) {
             presentFragment(new AccessibilitySettingsActivity());
         } else if (position == channelRow) {
@@ -134,12 +117,6 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
     @Override
     protected String getActionBarTitle() {
         return LocaleController.getString("NekoSettings", R.string.NekoSettings);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        checkSensitive();
     }
 
     @Override

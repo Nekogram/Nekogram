@@ -237,13 +237,13 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 if (attribute instanceof TLRPC.TL_documentAttributeFilename) {
                     fileName = attribute.file_name;
                 }
-                if (NekoConfig.showHiddenFeature && attribute instanceof TLRPC.TL_documentAttributeSticker) {
+                if (attribute instanceof TLRPC.TL_documentAttributeSticker) {
                     stickerSetOwner = Extra.getOwnerFromStickerSetId(attribute.stickerset.id);
                 }
             }
         }
 
-        if (NekoConfig.showHiddenFeature && messageObject.messageOwner.entities != null) {
+        if (messageObject.messageOwner.entities != null) {
             for (var entity : messageObject.messageOwner.entities) {
                 if (entity instanceof TLRPC.TL_messageEntityCustomEmoji) {
                     TLRPC.Document document = AnimatedEmojiDrawable.findDocument(currentAccount, ((TLRPC.TL_messageEntityCustomEmoji) entity).document_id);

@@ -18311,7 +18311,7 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public static String getRestrictionReason(ArrayList<TLRPC.TL_restrictionReason> reasons) {
-        if (reasons.isEmpty() || NekoConfig.showHiddenFeature) {
+        if (reasons.isEmpty() || NekoConfig.ignoreContentRestriction) {
             return null;
         }
         for (int a = 0, N = reasons.size(); a < N; a++) {

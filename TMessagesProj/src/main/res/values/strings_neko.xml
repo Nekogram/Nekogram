@@ -313,6 +313,7 @@
     <string name="MonoCode">Code</string>
     <string name="CreateCode">Create Code</string>
     <string name="CreateCodeLanguage">Language</string>
+    <string name="IgnoreContentRestriction">Ignore content restriction</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

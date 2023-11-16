@@ -24,7 +24,6 @@ import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
-import org.telegram.ui.Components.AlertsCreator;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -35,8 +34,7 @@ import tw.nekomimi.nekogram.helpers.PopupHelper;
 
 public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
-    private final boolean sensitiveCanChange;
-    private boolean sensitiveEnabled;
+    private final boolean showContentRestrictionRow;
 
     private int experimentRow;
     private int springAnimationRow;
@@ -44,7 +42,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int downloadSpeedBoostRow;
     private int uploadSpeedBoostRow;
     private int mapDriftingFixRow;
-    private int disableFilteringRow;
+    private int contentRestrictionRow;
     private int sendLargePhotosRow;
     private int showRPCErrorRow;
     private int experiment2Row;
@@ -57,9 +55,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int deleteAccountRow;
     private int deleteAccount2Row;
 
-    public NekoExperimentalSettingsActivity(boolean sensitiveCanChange, boolean sensitiveEnabled) {
-        this.sensitiveCanChange = sensitiveCanChange;
-        this.sensitiveEnabled = sensitiveEnabled;
+    public NekoExperimentalSettingsActivity(boolean showContentRestrictionRow) {
+        this.showContentRestrictionRow = showContentRestrictionRow;
     }
 
     @Override
@@ -78,23 +75,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
             showDialog(builder.create());
         }
-        if (position == disableFilteringRow) {
-            sensitiveEnabled = !sensitiveEnabled;
-            TLRPC.TL_account_setContentSettings req = new TLRPC.TL_account_setContentSettings();
-            req.sensitive_enabled = sensitiveEnabled;
-            AlertDialog progressDialog = new AlertDialog(getParentActivity(), AlertDialog.ALERT_TYPE_SPINNER);
-            progressDialog.show();
-            getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-                progressDialog.dismiss();
-                if (error == null) {
-                    if (response instanceof TLRPC.TL_boolTrue && view instanceof TextCheckCell) {
-                        ((TextCheckCell) view).setChecked(sensitiveEnabled);
-                    }
-                } else {
-                    AndroidUtilities.runOnUIThread(() -> AlertsCreator.processError(currentAccount, error, this, req));
-                }
-            }));
-        } else if (position == deleteAccountRow) {
+        if (position == deleteAccountRow) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
             builder.setMessage(LocaleController.getString("TosDeclineDeleteAccount", R.string.TosDeclineDeleteAccount));
             builder.setTitle(LocaleController.getString("DeleteAccount", R.string.DeleteAccount));
@@ -248,6 +229,11 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 ((TextCheckCell) view).setChecked(NekoConfig.actionbarCrossfade);
             }
             showRestartBulletin();
+        } else if (position == contentRestrictionRow) {
+            NekoConfig.toggleIgnoreContentRestriction();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.ignoreContentRestriction);
+            }
         }
     }
 
@@ -284,7 +270,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         downloadSpeedBoostRow = MessagesController.getInstance(currentAccount).getfileExperimentalParams ? -1 : addRow("downloadSpeedBoost");
         uploadSpeedBoostRow = addRow("uploadSpeedBoost");
         mapDriftingFixRow = addRow("mapDriftingFix");
-        disableFilteringRow = sensitiveCanChange ? addRow("disableFiltering") : -1;
+        contentRestrictionRow = showContentRestrictionRow ? addRow("contentRestriction") : -1;
         sendLargePhotosRow = addRow("sendLargePhotosRow");
         showRPCErrorRow = addRow("showRPCError");
         experiment2Row = addRow();
@@ -349,10 +335,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 case TYPE_CHECK: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
-                    if (position == disableFilteringRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("SensitiveDisableFiltering", R.string.SensitiveDisableFiltering), LocaleController.getString("SensitiveAbout", R.string.SensitiveAbout), sensitiveEnabled, true, true);
-                        textCell.setEnabled(sensitiveCanChange, null);
-                    } else if (position == mapDriftingFixRow) {
+                    if (position == mapDriftingFixRow) {
                         textCell.setTextAndCheck(LocaleController.getString("MapDriftingFix", R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
                     } else if (position == showRPCErrorRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("ShowRPCError", R.string.ShowRPCError), LocaleController.formatString("ShowRPCErrorException", R.string.ShowRPCErrorException, "FILE_REFERENCE_EXPIRED"), NekoConfig.showRPCError, true, false);
@@ -365,6 +348,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndValueAndCheck(LocaleController.getString("SendLargePhotos", R.string.SendLargePhotos), LocaleController.getString("SendLargePhotosAbout", R.string.SendLargePhotosAbout), NekoConfig.sendLargePhotos, true, true);
                     } else if (position == actionbarCrossfadeRow) {
                         textCell.setTextAndCheck(LocaleController.getString("NavigationAnimationCrossfading", R.string.NavigationAnimationCrossfading), NekoConfig.actionbarCrossfade, true);
+                    } else if (position == contentRestrictionRow) {
+                        textCell.setTextAndCheck(LocaleController.getString("IgnoreContentRestriction", R.string.IgnoreContentRestriction), NekoConfig.ignoreContentRestriction, true);
                     }
                     break;
                 }

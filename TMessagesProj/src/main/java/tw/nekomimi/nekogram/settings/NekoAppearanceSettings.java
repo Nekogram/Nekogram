@@ -249,7 +249,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
         appBarShadowRow = addRow("appBarShadow");
         formatTimeWithSecondsRow = addRow("formatTimeWithSeconds");
         disableNumberRoundingRow = addRow("disableNumberRounding");
-        newYearRow = NekoConfig.showHiddenFeature ? addRow("newYear") : -1;
+        newYearRow = -1;
         eventTypeRow = addRow("eventType");
         tabletModeRow = addRow("tabletMode");
         appearance2Row = addRow();

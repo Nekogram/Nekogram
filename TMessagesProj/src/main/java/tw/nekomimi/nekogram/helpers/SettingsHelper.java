@@ -51,7 +51,7 @@ public class SettingsHelper {
                     break;
                 case "experimental":
                 case "e":
-                    fragment = new NekoExperimentalSettingsActivity(false, false);
+                    fragment = new NekoExperimentalSettingsActivity(true);
                     break;
                 case "emoji":
                     fragment = new NekoEmojiSettingsActivity();

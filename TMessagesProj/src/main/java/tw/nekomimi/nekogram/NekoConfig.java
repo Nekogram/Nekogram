@@ -144,6 +144,7 @@ public class NekoConfig {
     public static boolean hideStories = false;
     public static boolean quickForward = false;
     public static boolean reducedColors = false;
+    public static boolean ignoreContentRestriction = false;
 
     public static boolean springAnimation = false;
     public static boolean actionbarCrossfade = false;
@@ -282,7 +283,6 @@ public class NekoConfig {
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
             translationProvider = preferences.getString("translationProvider2", isChineseUser ? Translator.PROVIDER_LINGO : Translator.PROVIDER_GOOGLE);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
-            showHiddenFeature = preferences.getBoolean("showHiddenFeature5", BuildConfig.DEBUG);
             hideKeyboardOnChatScroll = preferences.getBoolean("hideKeyboardOnChatScroll", false);
             avatarAsDrawerBackground = preferences.getBoolean("avatarAsDrawerBackground", false);
             avatarBackgroundBlur = preferences.getBoolean("avatarBackgroundBlur", false);
@@ -336,6 +336,7 @@ public class NekoConfig {
             springAnimation = preferences.getBoolean("springAnimation", false);
             actionbarCrossfade = preferences.getBoolean("actionbarCrossfade", false);
             reducedColors = preferences.getBoolean("reducedColors", false);
+            ignoreContentRestriction = preferences.getBoolean("ignoreContentRestriction", false);
 
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
@@ -449,6 +450,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("downloadSpeedBoost2", boost);
+        editor.apply();
+    }
+
+    public static void toggleIgnoreContentRestriction() {
+        ignoreContentRestriction = !ignoreContentRestriction;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("ignoreContentRestriction", ignoreContentRestriction);
         editor.apply();
     }
 
@@ -759,14 +768,6 @@ public class NekoConfig {
         editor.apply();
     }
 
-    public static void toggleShowHiddenFeature() {
-        showHiddenFeature = !showHiddenFeature;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("showHiddenFeature5", showHiddenFeature);
-        editor.apply();
-    }
-
     public static void toggleHideKeyboardOnChatScroll() {
         hideKeyboardOnChatScroll = !hideKeyboardOnChatScroll;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
@@ -1010,7 +1011,6 @@ public class NekoConfig {
     public static void processBotEvents(String eventType, String eventData, Utilities.Callback<JSONObject> setConfig) throws JSONException {
         if (eventType.equals("neko_get_config")) {
             setConfig.run(new JSONObject()
-                    .put("hidden_features", showHiddenFeature)
                     .put("trust", !shouldNOTTrustMe)
                     .put("ad_blocker", blockSponsoredMessage));
         } else if (eventType.equals("neko_set_config")) {
@@ -1018,10 +1018,6 @@ public class NekoConfig {
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
             SharedPreferences.Editor editor = preferences.edit();
             switch (jsonObject.getString("key")) {
-                case "hidden_features":
-                    showHiddenFeature = jsonObject.getBoolean("value");
-                    editor.putBoolean("showHiddenFeature5", showHiddenFeature);
-                    break;
                 case "trust":
                     shouldNOTTrustMe = !jsonObject.getBoolean("value");
                     editor.putBoolean("shouldNOTTrustMe", shouldNOTTrustMe);
