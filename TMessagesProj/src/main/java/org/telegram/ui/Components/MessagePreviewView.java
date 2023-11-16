@@ -938,13 +938,7 @@ public class MessagePreviewView extends FrameLayout {
 
                 ActionBarMenuSubItem viewInChat = new ActionBarMenuSubItem(context, true, false, false, resourcesProvider);
                 viewInChat.setTextAndIcon(LocaleController.getString(R.string.ViewInChat), R.drawable.msg_view_file);
-                viewInChat.setOnClickListener(v -> {
-                    MessageObject replyMessage = getReplyMessage();
-                    if (replyMessage != null) {
-                        chatActivity.scrollToMessageId(getReplyMessage().getId(), 0, true, 0, true, 0);
-                    }
-                    dismiss(true);
-                });
+                viewInChat.setOnClickListener(v -> viewInChat());
                 menu.addView(viewInChat, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
 
                 deleteReplyButton = new ActionBarMenuSubItem(context, true, false, true, resourcesProvider);
@@ -1920,6 +1914,10 @@ public class MessagePreviewView extends FrameLayout {
     }
 
     protected void selectAnotherChat(boolean forward) {
+
+    }
+
+    protected void viewInChat() {
 
     }
 
