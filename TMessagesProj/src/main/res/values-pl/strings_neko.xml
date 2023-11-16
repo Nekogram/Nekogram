@@ -6,6 +6,8 @@
     <string name="HidePhone">Ukryj mój numer telefonu</string>
     <string name="DeleteAllFromSelf">Usuń własne wiadomości</string>
     <string name="DeleteAllFromSelfAlert">Ostrzeżenie! To usunie **wszystkie twoje wiadomości** na tym czacie **u wszystkich** uczestników.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Ostrzeżenie! To spowoduje **usunięcie wszystkich twoich wiadomości przed %s** na tym czacie dla **wszystkich** uczestników.</string>
+    <string name="DeleteAllFromSelfBefore">Przed...</string>
     <string name="BotLogin">Logowanie bota</string>
     <string name="BotLoginMessage">Wpisz token bota uzyskany od **@BotFather**.</string>
     <string name="InvalidAccessToken">Nieprawidłowy token dostępu</string>
@@ -17,6 +19,8 @@
     <string name="LastFirst">Nazwisko, Imię</string>
     <string name="NoQuoteForward">Przekaż bez cytowania</string>
     <string name="NoCaptionForward">Polecenie \"Przekierowanie\"</string>
+    <string name="NoQuoteForwardShort">Bez cytowania</string>
+    <string name="NoCaptionForwardShort">Bez podpisu</string>
     <string name="Repeat">Powtórz</string>
     <string name="AddToSavedMessages">Zapisz wiadomość</string>
     <string name="CreateMention">Utwórz wzmiankę</string>
@@ -38,6 +42,8 @@
     <string name="SensitiveDisableFiltering">Wyłącz filtrowanie wrażliwych treści</string>
     <string name="SensitiveAbout">Wyświetl wrażliwe multimedia w publicznych kanałach na wszystkich urządzeniach.</string>
     <string name="StickerSize">Rozmiar naklejek</string>
+    <string name="StickerSizeLeft">Mały</string>
+    <string name="StickerSizeRight">Duży</string>
     <string name="StickerSizeDialogMessage">Och, tak słodko! Czarny kot!</string>
     <string name="StickerSizeDialogMessageReplyTo">Miau</string>
     <string name="Experiment">Eksperymentalne</string>
@@ -205,6 +211,7 @@
     <string name="Translating">tłumaczenie</string>
     <string name="Translated">przetłumaczone</string>
     <string name="BrokenMLKit">Opcja niedostępna</string>
+    <string name="BrokenMLKitDetail">Identyfikator języka MLKit jest uszkodzony na tym urządzeniu.</string>
     <string name="PasscodeNeeded">Najpierw należy włączyć blokadę kodem dostępu</string>
     <string name="PasscodeNeko">Kod dostępu</string>
     <string name="PasscodeShowInSettings">Pokaż w ustawieniach Neko</string>
@@ -273,9 +280,34 @@
     <string name="SendBugReportDesc">To pomoże nam szybciej znaleźć problemy.</string>
     <string name="AnonymousDataDelete">Usuń dane</string>
     <string name="AnonymousDataDeleteDesc">Trwale zablokuj dane wychodzące z Neko i usuń zebrane dane.</string>
+    <string name="SendAnonymousDataDesc">Powyższe funkcje wykorzystują %1$s dostarczone przez %2$s. Gromadzone informacje są anonimowe i nie możemy ich prześledzić do niezależnego urządzenia lub użytkownika.</string>
     <string name="SendLargePhotos">Wysyłanie dużych zdjęć</string>
     <string name="SendLargePhotosAbout">Zwiększ limit skompresowanych obrazów do 2560 pikseli.</string>
     <string name="ExportAsJson">Kopiuj jako JSON</string>
+    <string name="HideStories">Ukryj relacje</string>
+    <string name="QuickForward">Użyj szybkiego menu przekazywania</string>
+    <string name="DidNotGetTheCodeBlameDurov">Jeśli nie otrzymałeś kodu na innym urządzeniu lub nie masz zalogowanego Telegrama na innym urządzeniu, użyj oficjalnej aplikacji Telegram, aby otrzymać kod.\n\nTelegram **wyłączył możliwość logowania się za pomocą wiadomości SMS** w aplikacjach innych firm. Użytkownicy logujący się do aplikacji innych firm mogą otrzymywać kody logowania tylko za pośrednictwem Telegrama.\n\nNie możemy ci w tym pomóc, jeśli masz jakiekolwiek problemy z logowaniem, skontaktuj się z pomocą techniczną Telegrama.</string>
+    <string name="NavigationAnimation">Animacja nawigacji</string>
+    <string name="NavigationAnimationBezier">Klasyczna</string>
+    <string name="NavigationAnimationSpring">Naturalna</string>
+    <string name="NavigationAnimationCrossfading">Efekt przenikania</string>
+    <string name="CloudConfig">Ustawienia chmury</string>
+    <string name="CloudConfigDesc">Zapisz ustawienia Neko w chmurze Telegrama.</string>
+    <string name="CloudConfigSyncDate">Ostatnia synchronizacja: %s, chmura: %s</string>
+    <string name="CloudConfigSyncDateNever">nigdy</string>
+    <string name="CloudConfigSync">Synchronizacja z chmurą</string>
+    <string name="CloudConfigSyncShort">Synchronizacja</string>
+    <string name="CloudConfigRestore">Przywracanie z chmury</string>
+    <string name="CloudConfigRestoreShort">Przywróć</string>
+    <string name="CloudConfigSyncing">Synchronizacja...</string>
+    <string name="CloudConfigAutoSync">Automatyczna synchronizacja</string>
+    <string name="CloudConfigAutoSyncDesc">Synchronizuj automatycznie z chmurą po wprowadzeniu zmian w ustawieniach Neko.</string>
+    <string name="CloudConfigSyncFailed">Nie udało się zsynchronizować ustawień z chmurą.</string>
+    <string name="CloudConfigRestoreFailed">Nie udało się zsynchronizować ustawień z chmurą.</string>
+    <string name="ReducedColors">Redukcja kolorów</string>
+    <string name="MonoCode">Kod</string>
+    <string name="CreateCode">Utwórz kod</string>
+    <string name="CreateCodeLanguage">Język</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>

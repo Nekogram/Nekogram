@@ -308,6 +308,7 @@
     <string name="MonoCode">Código</string>
     <string name="CreateCode">Crear código</string>
     <string name="CreateCodeLanguage">Idioma</string>
+    <string name="IgnoreContentRestriction">Ignorar la restricción de contenido</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccSeekbarHeading">Configuración de la barra de búsqueda</string>

@@ -309,6 +309,7 @@
     <string name="MonoCode">代码</string>
     <string name="CreateCode">创建代码</string>
     <string name="CreateCodeLanguage">语言</string>
+    <string name="IgnoreContentRestriction">忽略内容限制</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Neko sozlamalari</string>
-    <string name="IPv6">IPv6 orqali ulanishga urinish</string>
+    <string name="IPv6">IPv6 orqali ulanishga urining</string>
     <string name="MessageMenu">Xabarlar menyusi</string>
     <string name="HidePhone">Telefon raqamimni yashirish</string>
     <string name="DeleteAllFromSelf">Shaxsiy xabarlarni o\'chirish</string>
@@ -304,8 +304,10 @@
     <string name="CloudConfigAutoSyncDesc">Neko sozlamalarini o\'zgartirgach bulutga avtomatik sinxronlash.</string>
     <string name="CloudConfigSyncFailed">Sozlamalarni bulutga sinxronlashda xatolik.</string>
     <string name="CloudConfigRestoreFailed">Sozlamalarni bulutdan tiklashda xatolik.</string>
+    <string name="ReducedColors">Ranglarni kamaytirish</string>
     <string name="MonoCode">Kod</string>
     <string name="CreateCode">Kod yaratish</string>
+    <string name="CreateCodeLanguage">Til</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Maxsus imkoniyatlar sozlamalari</string>
 </resources>

@@ -282,6 +282,7 @@
     <string name="SendBugReportDesc">وهذا سيساعدنا في العثور على المشاكل بشكل أسرع.</string>
     <string name="AnonymousDataDelete">حذف البيانات</string>
     <string name="AnonymousDataDeleteDesc">حظر البيانات الصادرة من هذا المثيل بشكل دائم وحذف البيانات التي تم جمعها.</string>
+    <string name="SendAnonymousDataDesc">تستخدم الميزات المذكورة أعلاه %1$s المقدمة من %2$s. المعلومات التي تم جمعها مجهولة المصدر ولا يمكننا تتبعها إلى جهاز أو مستخدم مستقل.</string>
     <string name="SendLargePhotos">إرسال صور كبيرة</string>
     <string name="SendLargePhotosAbout">زيادة الحد الجانبي على الصور المضغوطة إلى 2560 بكسل.</string>
     <string name="ExportAsJson">نسخ كملف جيسون</string>
@@ -305,8 +306,11 @@
     <string name="CloudConfigAutoSyncDesc">مزامنة إلى السحابة تلقائيًا بعد إجراء تغييرات على إعدادات نيكو.</string>
     <string name="CloudConfigSyncFailed">فشل مزامنة الإعدادات إلى السحابة.</string>
     <string name="CloudConfigRestoreFailed">فشل في استعادة الإعدادات من السحابة.</string>
+    <string name="ReducedColors">تقليل الألوان</string>
     <string name="MonoCode">رمز</string>
     <string name="CreateCode">إنشاء رمز</string>
+    <string name="CreateCodeLanguage">اللغة</string>
+    <string name="IgnoreContentRestriction">تجاهل تقييد المحتوى</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

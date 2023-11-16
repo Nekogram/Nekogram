@@ -6,7 +6,10 @@
     <string name="HidePhone">Приховати мій номер телефону</string>
     <string name="DeleteAllFromSelf">Видалити власні повідомлення</string>
     <string name="DeleteAllFromSelfAlert">Увага! Це ** видалить усі ваші повідомлення ** у цьому чаті для ** всіх ** учасників.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Pozor!** Tímto **smažete všechny zprávy, které jste předtím %s** v tomto chatu napsali všem **účastníkům.</string>
+    <string name="DeleteAllFromSelfBefore">Před...</string>
     <string name="BotLogin">Вхід у бот</string>
+    <string name="BotLoginMessage">Zadejte token bota získaný z **@BotFather**.</string>
     <string name="InvalidAccessToken">Недійсний маркер доступу</string>
     <string name="IgnoreBlocked">Приховати повідомлення від заблокованих користувачів</string>
     <string name="Connection">Підключення</string>
@@ -15,6 +18,9 @@
     <string name="FirstLast">Перший Останній</string>
     <string name="LastFirst">Останній Перший</string>
     <string name="NoQuoteForward">Переслати без цитат</string>
+    <string name="NoCaptionForward">NoCaption dopředu</string>
+    <string name="NoQuoteForwardShort">NoQuote</string>
+    <string name="NoCaptionForwardShort">NoCaption</string>
     <string name="Repeat">Повтор</string>
     <string name="AddToSavedMessages">Зберегти повідомлення</string>
     <string name="CreateMention">Відредагувати коментар</string>
@@ -36,6 +42,8 @@
     <string name="SensitiveDisableFiltering">Вимкнути фільтрацію шокуючого контенту</string>
     <string name="SensitiveAbout">Показуйте конфіденційні медіа в загальнодоступних каналах на всіх ваших пристроях.</string>
     <string name="StickerSize">Розмір наліпки</string>
+    <string name="StickerSizeLeft">Malá</string>
+    <string name="StickerSizeRight">Velká</string>
     <string name="StickerSizeDialogMessage">Ох, дуже мило! Чорна кішка!</string>
     <string name="StickerSizeDialogMessageReplyTo">Мяв</string>
     <string name="Experiment">Експеремент</string>
@@ -116,9 +124,14 @@
     <string name="SelectBetween">Виберіть між</string>
     <string name="StickerSavedHint">Наліпка збережена до галереї</string>
     <string name="RegistrationDate">Дата реєстрації</string>
+    <string name="RegistrationDateNewer">Novější než %s</string>
+    <string name="RegistrationDateOlder">Novější než %s</string>
+    <string name="RegistrationDateApproximately">Přibližně %s</string>
     <string name="WsDescription">Підключіться до Telegram через WebSocket через Cloudflare. **Вчи більше**</string>
     <string name="WsEnableTls">Увімкнути TLS</string>
     <string name="WsProvider">Провайдер</string>
+    <string name="WsNotWorking">Proxy nefunguje!</string>
+    <string name="WsUseMyOwnDomain">Jak nastavit vlastního poskytovatele</string>
     <string name="UpdateNekogram">Оновити некограм</string>
     <string name="TranslationTarget">Цільова мова</string>
     <string name="TranslationTargetApp">Підписатись на програму</string>
