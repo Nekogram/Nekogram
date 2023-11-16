@@ -150,6 +150,7 @@ public class MediaDataController extends BaseController {
         } else {
             draftPreferences = ApplicationLoader.applicationContext.getSharedPreferences("drafts" + currentAccount, Activity.MODE_PRIVATE);
         }
+        final ArrayList<TLRPC.Message> replyMessageOwners = new ArrayList<>();
         Map<String, ?> values = draftPreferences.getAll();
         for (Map.Entry<String, ?> entry : values.entrySet()) {
             try {
@@ -169,6 +170,9 @@ public class MediaDataController extends BaseController {
                         }
                         int threadId = isThread ? Utilities.parseInt(key.substring(key.lastIndexOf('_') + 1)) : 0;
                         threads.put(threadId, message);
+                        if (message.reply_to != null) {
+                            replyMessageOwners.add(message);
+                        }
                     }
                 } else {
                     TLRPC.DraftMessage draftMessage = TLRPC.DraftMessage.TLdeserialize(serializedData, serializedData.readInt32(true), true);
@@ -187,6 +191,7 @@ public class MediaDataController extends BaseController {
                 //igonre
             }
         }
+        loadRepliesOfDraftReplies(replyMessageOwners);
 
         loadStickersByEmojiOrName(AndroidUtilities.STICKERS_PLACEHOLDER_PACK_NAME, false, true);
         loadEmojiThemes();
@@ -196,6 +201,30 @@ public class MediaDataController extends BaseController {
         ringtoneDataStore = new RingtoneDataStore(currentAccount);
 
         menuBotsUpdateDate = getMessagesController().getMainSettings().getInt("menuBotsUpdateDate", 0);
+    }
+
+    private void loadRepliesOfDraftReplies(final ArrayList<TLRPC.Message> messages) {
+        if (messages == null || messages.isEmpty()) {
+            return;
+        }
+        getMessagesStorage().getStorageQueue().postRunnable(() -> {
+            try {
+                ArrayList<Long> usersToLoad = new ArrayList<>();
+                ArrayList<Long> chatsToLoad = new ArrayList<>();
+                LongSparseArray<SparseArray<ArrayList<TLRPC.Message>>> replyMessageOwners = new LongSparseArray<>();
+                LongSparseArray<ArrayList<Integer>> dialogReplyMessagesIds = new LongSparseArray<>();
+                for (int i = 0; i < messages.size(); ++i) {
+                    try {
+                        MessagesStorage.addReplyMessages(messages.get(i), replyMessageOwners, dialogReplyMessagesIds);
+                    } catch (Exception e) {
+                        getMessagesStorage().checkSQLException(e);
+                    }
+                }
+                getMessagesStorage().loadReplyMessages(replyMessageOwners, dialogReplyMessagesIds, usersToLoad, chatsToLoad, false);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        });
     }
 
     public static final int TYPE_IMAGE = 0;
@@ -6543,12 +6572,12 @@ public class MediaDataController extends BaseController {
             if (quote != null) {
                 draftMessage.reply_to.quote_text = quote.getText();
                 if (draftMessage.reply_to.quote_text != null) {
-                    draftMessage.reply_to.flags |= 64;
+                    draftMessage.reply_to.flags |= 4;
                 }
                 draftMessage.reply_to.quote_entities = quote.getEntities();
                 if (draftMessage.reply_to.quote_entities != null && !draftMessage.reply_to.quote_entities.isEmpty()) {
                     draftMessage.reply_to.quote_entities = new ArrayList<>(draftMessage.reply_to.quote_entities);
-                    draftMessage.reply_to.flags |= 128;
+                    draftMessage.reply_to.flags |= 8;
                 }
                 if (quote.message != null && quote.message.messageOwner != null) {
                     TLRPC.Peer peer2 = getMessagesController().getPeer(dialogId);
@@ -6728,9 +6757,9 @@ public class MediaDataController extends BaseController {
             if (threads != null) {
                 replyToMessage = threads.get(threadId);
             }
-            if (replyToMessage == null || replyToMessage.id != draft.reply_to.reply_to_msg_id || !MessageObject.peersEqual(draft.reply_to.reply_to_peer_id, replyToMessage.peer_id)) {
-                replyToMessage = null;
-            }
+//            if (replyToMessage == null || replyToMessage.id != draft.reply_to.reply_to_msg_id || !MessageObject.peersEqual(draft.reply_to.reply_to_peer_id, replyToMessage.peer_id)) {
+//                replyToMessage = null;
+//            }
         } else if (draft != null && draft.reply_to == null) {
             replyToMessage = null;
         }

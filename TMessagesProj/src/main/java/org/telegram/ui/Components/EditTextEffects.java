@@ -278,8 +278,12 @@ public class EditTextEffects extends AppCompatEditText {
         if (allowHackingTextCanvasCache == null) {
             allowHackingTextCanvasCache = Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH && (
                 Build.MANUFACTURER == null ||
-                !Build.MANUFACTURER.equalsIgnoreCase("HONOR") &&
-                !Build.MANUFACTURER.equalsIgnoreCase("HUAWEI")
+                !Build.MANUFACTURER.toLowerCase().contains("honor") &&
+                !Build.MANUFACTURER.toLowerCase().contains("huawei") &&
+                !Build.MANUFACTURER.toLowerCase().contains("alps")
+            ) && (
+                Build.MODEL == null ||
+                !Build.MODEL.toLowerCase().contains("mediapad")
             );
         }
         return allowHackingTextCanvasCache;
@@ -292,19 +296,17 @@ public class EditTextEffects extends AppCompatEditText {
     protected void onDraw(Canvas canvas) {
         canvas.save();
         if (clipToPadding && getScrollY() != 0) {
-            canvas.clipRect(-AndroidUtilities.dp(3), getScrollY() - getExtendedPaddingTop() - offsetY, getMeasuredWidth(), getMeasuredHeight() + getScrollY() + getExtendedPaddingBottom() - offsetY);
+            canvas.clipRect(-AndroidUtilities.dp(3), getScrollY() - super.getExtendedPaddingTop() - offsetY, getMeasuredWidth(), getMeasuredHeight() + getScrollY() + super.getExtendedPaddingBottom() - offsetY);
         }
         path.rewind();
         for (SpoilerEffect eff : spoilers) {
             Rect bounds = eff.getBounds();
             path.addRect(bounds.left, bounds.top, bounds.right, bounds.bottom, Path.Direction.CW);
         }
-        canvas.translate(0, getExtendedPaddingTop());
         canvas.clipPath(path, Region.Op.DIFFERENCE);
-        canvas.translate(0, -getExtendedPaddingTop());
         invalidateQuotes(false);
         for (int i = 0; i < quoteBlocks.size(); ++i) {
-            quoteBlocks.get(i).draw(canvas, getExtendedPaddingTop(), getWidth(), quoteColor, 1f);
+            quoteBlocks.get(i).draw(canvas, 0, getWidth(), quoteColor, 1f);
         }
         updateAnimatedEmoji(false);
         if (wrapCanvasToFixClipping) {
@@ -318,21 +320,18 @@ public class EditTextEffects extends AppCompatEditText {
         }
         if (drawAnimatedEmojiDrawables && animatedEmojiDrawables != null) {
             canvas.save();
-            canvas.translate(getPaddingLeft(), getExtendedPaddingTop());
+            canvas.translate(getPaddingLeft(), 0);
             AnimatedEmojiSpan.drawAnimatedEmojis(canvas, getLayout(), animatedEmojiDrawables, 0, spoilers, computeVerticalScrollOffset() - AndroidUtilities.dp(6), computeVerticalScrollOffset() + computeVerticalScrollExtent(), 0, 1f, animatedEmojiColorFilter);
             canvas.restore();
         }
         canvas.restore();
 
         canvas.save();
-        canvas.translate(0, getExtendedPaddingTop());
         canvas.clipPath(path);
         path.rewind();
-        canvas.translate(0, -getExtendedPaddingTop());
         if (!spoilers.isEmpty())
             spoilers.get(0).getRipplePath(path);
         canvas.clipPath(path);
-        canvas.translate(0, getExtendedPaddingTop());
         canvas.translate(0, -getPaddingTop());
         if (wrapCanvasToFixClipping) {
             if (wrappedCanvas == null) {
@@ -345,9 +344,8 @@ public class EditTextEffects extends AppCompatEditText {
         }
         canvas.restore();
 
-        rect.set(0, (int) (getScrollY() - getExtendedPaddingTop() - offsetY), getWidth(), (int) (getMeasuredHeight() + getScrollY() + getExtendedPaddingBottom() - offsetY));
+        rect.set(0, (int) (getScrollY() - super.getExtendedPaddingTop() - offsetY), getWidth(), (int) (getMeasuredHeight() + getScrollY() + super.getExtendedPaddingBottom() - offsetY));
         canvas.save();
-        canvas.translate(0, getExtendedPaddingTop());
         canvas.clipRect(rect);
         for (SpoilerEffect eff : spoilers) {
             Rect b = eff.getBounds();

@@ -2265,7 +2265,9 @@ void ConnectionsManager::processRequestQueue(uint32_t connectionTypes, uint32_t 
 
         switch (request->connectionType & 0x0000ffff) {
             case ConnectionTypeGeneric:
-                genericRunningRequestCount++;
+                if (!request->failedByFloodWait) {
+                    genericRunningRequestCount++;
+                }
                 break;
             case ConnectionTypeDownload: {
                 auto map = request->isCancelRequest() ? downloadCancelRunningRequestCount : downloadRunningRequestCount;
@@ -2602,7 +2604,8 @@ void ConnectionsManager::processRequestQueue(uint32_t connectionTypes, uint32_t 
             case ConnectionTypeGenericMedia:
                 if (!canUseUnboundKey && genericRunningRequestCount >= 60) {
                     iter++;
-                    DEBUG_D("skip queue, token = %d: generic type: running generic requests >= 60", request->requestToken);
+                    if (LOGS_ENABLED)
+                        DEBUG_D("skip queue, token = %d: generic type: running generic requests >= 60", request->requestToken);
                     continue;
                 }
                 genericRunningRequestCount++;
