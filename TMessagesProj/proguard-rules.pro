@@ -148,6 +148,12 @@
      public static ** valueOf(java.lang.String);
 }
 
+-keepnames class androidx.recyclerview.widget.RecyclerView
+-keepclassmembers class androidx.recyclerview.widget.RecyclerView {
+    public void suppressLayout(boolean);
+    public boolean isLayoutSuppressed();
+}
+
 -dontwarn com.google.j2objc.annotations.RetainedWith
 -dontwarn com.google.j2objc.annotations.Weak
 -dontwarn com.google.j2objc.annotations.ReflectionSupport$Level
