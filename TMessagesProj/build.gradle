@@ -13,7 +13,7 @@ configurations.configureEach {
 }
 
 dependencies {
-    implementation 'androidx.fragment:fragment:1.6.1'
+    implementation 'androidx.fragment:fragment:1.6.2'
     implementation 'androidx.core:core:1.12.0'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.exifinterface:exifinterface:1.3.6'
@@ -34,7 +34,7 @@ dependencies {
     implementation 'com.googlecode.mp4parser:isoparser:1.0.6'
     implementation 'com.stripe:stripe-android:2.0.2'
     implementation 'com.google.mlkit:language-id:17.0.4'
-    implementation 'com.android.billingclient:billing:6.0.1'
+    implementation 'com.android.billingclient:billing:6.1.0'
     implementation 'com.google.code.gson:gson:2.10.1'
     implementation ('com.google.guava:guava:31.1-android') {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
@@ -45,16 +45,16 @@ dependencies {
         exclude group: 'org.codehaus.mojo', module: 'animal-sniffer-annotations'
     }
 
-    implementation 'androidx.browser:browser:1.6.0'
-    implementation 'app.nekogram.tcp2ws:tcp2ws:2.0.0'
+    implementation 'androidx.browser:browser:1.7.0'
+    implementation 'app.nekogram.tcp2ws:tcp2ws:2.0.3'
     implementation 'app.nekogram.translator:translator:1.3.4'
     implementation 'com.getkeepsafe.relinker:relinker:1.4.5'
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
-    implementation 'com.squareup.okhttp3:okhttp:4.11.0'
+    implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
 
-    implementation 'com.google.firebase:firebase-analytics:21.4.0'
-    implementation 'com.google.firebase:firebase-crashlytics:18.5.1'
+    implementation 'com.google.firebase:firebase-analytics:21.5.0'
+    implementation 'com.google.firebase:firebase-crashlytics:18.6.0'
 }
 
 lsparanoid {

@@ -66,6 +66,7 @@ android {
             if (abi == null) abi = 'universal'
             outputFileName = "Nekogram-${defaultConfig.versionName}-${defaultConfig.versionCode}-${abi}.apk"
             def abiVersionCode = project.ext.abiCodes.get(abi)
+            if (abiVersionCode == null) abiVersionCode = 0
             output.versionCodeOverride = defaultConfig.versionCode * 10 + abiVersionCode
         }
     }
