@@ -85,6 +85,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
+import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public abstract class BotWebViewContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
@@ -996,7 +997,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         switch (eventType) {
             case "neko_get_config":
             case "neko_set_config":  {
-                if (botUser.id == 1190800416) {
+                if (Extra.isTrustedBot(botUser.id)) {
                     try {
                         NekoConfig.processBotEvents(eventType, eventData, config -> notifyEvent("neko_config", config));
                     } catch (JSONException e) {

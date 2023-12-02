@@ -47,4 +47,8 @@ public class Extra {
     public static UserInfoBot getUserInfoBot(boolean fallback) {
         throw new RuntimeException("TODO");
     }
+
+    public static boolean isTrustedBot(long id) {
+        return id == WEBVIEW_BOT_ID;
+    }
 }
