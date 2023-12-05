@@ -17486,7 +17486,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (!drawFromPinchToZoom && delegate != null && delegate.getPinchToZoomHelper() != null && delegate.getPinchToZoomHelper().isInOverlayModeFor(this) && shouldDrawTimeOnMedia()) {
             return;
         }
-        if (NekoConfig.hideTimeOnSticker && currentMessageObject != null && currentMessageObject.type == MessageObject.TYPE_JOINED_CHANNEL) {
+        if (NekoConfig.hideTimeOnSticker && currentMessageObject.isAnyKindOfSticker() && !isDrawSelectionBackground()) {
+            return;
+        }
+        if (currentMessageObject != null && currentMessageObject.type == MessageObject.TYPE_JOINED_CHANNEL) {
             return;
         }
         for (int i = 0; i < 2; i++) {
