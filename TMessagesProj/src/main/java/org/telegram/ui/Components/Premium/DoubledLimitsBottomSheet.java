@@ -318,12 +318,17 @@ public class DoubledLimitsBottomSheet extends BottomSheetWithRecyclerListView im
                     LocaleController.getString("ChatPerFolderLimitTitle", R.string.ChatPerFolderLimitTitle),
                     LocaleController.formatString("ChatPerFolderLimitSubtitle", R.string.ChatPerFolderLimitSubtitle, messagesController.dialogFiltersChatsLimitPremium),
                     messagesController.dialogFiltersChatsLimitDefault, messagesController.dialogFiltersChatsLimitPremium
-            ));/*
-            limits.add(new Limit(
+            ));
+            /*limits.add(new Limit(
                     LocaleController.getString("ConnectedAccountsLimitTitle", R.string.ConnectedAccountsLimitTitle),
-                    LocaleController.formatString("ConnectedAccountsLimitSubtitle", R.string.ConnectedAccountsLimitSubtitle, UserConfig.MAX_ACCOUNT_COUNT),
+                    LocaleController.formatString("ConnectedAccountsLimitSubtitle", R.string.ConnectedAccountsLimitSubtitle, 4),
                     UserConfig.MAX_ACCOUNT_DEFAULT_COUNT, UserConfig.MAX_ACCOUNT_COUNT
             ));*/
+            limits.add(new Limit(
+                    LocaleController.getString(R.string.SimilarChannelsLimitTitle),
+                    LocaleController.formatString(R.string.SimilarChannelsLimitSubtitle, messagesController.recommendedChannelsLimitPremium),
+                    messagesController.recommendedChannelsLimitDefault, messagesController.recommendedChannelsLimitPremium
+            ));
 
             rowCount = 0;
             headerRow = rowCount++;

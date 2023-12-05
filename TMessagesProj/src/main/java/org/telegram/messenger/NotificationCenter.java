@@ -139,6 +139,7 @@ public class NotificationCenter {
     public static final int animatedEmojiDocumentLoaded = totalEvents++;
     public static final int recentEmojiStatusesUpdate = totalEvents++;
     public static final int updateSearchSettings = totalEvents++;
+    public static final int updateTranscriptionLock = totalEvents++;
 
     public static final int messageTranslated = totalEvents++;
     public static final int messageTranslating = totalEvents++;
@@ -221,6 +222,7 @@ public class NotificationCenter {
     public static final int storiesSendAsUpdate = totalEvents++;
     public static final int unconfirmedAuthUpdate = totalEvents++;
     public static final int dialogPhotosUpdate = totalEvents++;
+    public static final int channelRecommendationsLoaded = totalEvents++;
 
     //global
     public static final int pushMessagesUpdated = totalEvents++;

@@ -2079,6 +2079,9 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             } else if (view instanceof ChatActionCell) {
                 ChatActionCell cell = (ChatActionCell) view;
                 cell.setVisiblePart(view.getY() + actionBar.getMeasuredHeight() - contentView.getBackgroundTranslationY(), contentView.getBackgroundSizeY());
+                if (cell.hasGradientService()) {
+                    cell.invalidate();
+                }
             }
             if (view.getBottom() <= chatListView.getPaddingTop()) {
                 continue;

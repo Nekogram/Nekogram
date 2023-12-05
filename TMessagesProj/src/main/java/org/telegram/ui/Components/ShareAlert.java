@@ -99,6 +99,7 @@ import org.telegram.ui.Adapters.DialogsSearchAdapter;
 import org.telegram.ui.Adapters.SearchAdapterHelper;
 import org.telegram.ui.Cells.GraySectionCell;
 import org.telegram.ui.Cells.HintDialogCell;
+import org.telegram.ui.Cells.ProfileSearchCell;
 import org.telegram.ui.Cells.ShareDialogCell;
 import org.telegram.ui.Cells.ShareTopicCell;
 import org.telegram.ui.ChatActivity;
@@ -148,11 +149,13 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     private SwitchView switchView;
     private int containerViewTop = -1;
     private boolean fullyShown = false;
+    private boolean includeStory;
 
     private ChatActivity parentFragment;
     private Activity parentActivity;
 
     private boolean darkTheme;
+    public boolean forceDarkThemeForHint;
 
     private RectF rect = new RectF();
     private Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -463,20 +466,21 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     }
 
     public ShareAlert(final Context context, ArrayList<MessageObject> messages, final String text, boolean channel, final String copyLink, boolean fullScreen, Theme.ResourcesProvider resourcesProvider) {
-        this(context, null, messages, text, null, channel, copyLink, null, fullScreen, false, resourcesProvider);
+        this(context, null, messages, text, null, channel, copyLink, null, fullScreen, false, false, resourcesProvider);
     }
 
     public ShareAlert(final Context context, ChatActivity fragment, ArrayList<MessageObject> messages, final String text, final String text2, boolean channel, final String copyLink, final String copyLink2, boolean fullScreen, boolean forCall) {
-        this(context, fragment, messages, text, text2, channel, copyLink, copyLink2, fullScreen, forCall, null);
+        this(context, fragment, messages, text, text2, channel, copyLink, copyLink2, fullScreen, forCall, false, null);
     }
 
-    public ShareAlert(final Context context, ChatActivity fragment, ArrayList<MessageObject> messages, final String text, final String text2, boolean channel, final String copyLink, final String copyLink2, boolean fullScreen, boolean forCall, Theme.ResourcesProvider resourcesProvider) {
-        this(context, fragment, messages, text, text2, channel, copyLink, copyLink2, fullScreen, forCall, false, false, resourcesProvider);
+    public ShareAlert(final Context context, ChatActivity fragment, ArrayList<MessageObject> messages, final String text, final String text2, boolean channel, final String copyLink, final String copyLink2, boolean fullScreen, boolean forCall, boolean includeStory, Theme.ResourcesProvider resourcesProvider) {
+        this(context, fragment, messages, text, text2, channel, copyLink, copyLink2, fullScreen, forCall, includeStory, false, false, resourcesProvider);
     }
 
-    public ShareAlert(final Context context, ChatActivity fragment, ArrayList<MessageObject> messages, final String text, final String text2, boolean channel, final String copyLink, final String copyLink2, boolean fullScreen, boolean forCall, boolean noQuote, boolean noCaption, Theme.ResourcesProvider resourcesProvider) {
+    public ShareAlert(final Context context, ChatActivity fragment, ArrayList<MessageObject> messages, final String text, final String text2, boolean channel, final String copyLink, final String copyLink2, boolean fullScreen, boolean forCall, boolean includeStory, boolean noQuote, boolean noCaption, Theme.ResourcesProvider resourcesProvider) {
         super(context, true, resourcesProvider);
         this.resourcesProvider = resourcesProvider;
+        this.includeStory = includeStory;
         this.forwardContext = () -> sendingMessageObjects;
         this.forwardContext.setForwardParams(noQuote, noCaption);
 
@@ -877,6 +881,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             }
 
             private boolean lightStatusBar = AndroidUtilities.computePerceivedBrightness(getThemedColor(darkTheme ? Theme.key_voipgroup_inviteMembersBackground : Theme.key_dialogBackground)) > .721f;
+            private final AnimatedFloat pinnedToTop = new AnimatedFloat(this, 0, 350, CubicBezierInterpolator.EASE_OUT_QUINT);
 
             @Override
             protected void onDraw(Canvas canvas) {
@@ -887,37 +892,44 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 int height = getMeasuredHeight() + AndroidUtilities.dp(30 + 30) + backgroundPaddingTop;
                 int statusBarHeight = 0;
                 float radProgress = 1.0f;
+                float pinAlpha = 0;
                 if (!isFullscreen && Build.VERSION.SDK_INT >= 21) {
-                    top += AndroidUtilities.statusBarHeight;
                     y += AndroidUtilities.statusBarHeight;
-                    height -= AndroidUtilities.statusBarHeight;
-
-                    if (fullHeight) {
-                        if (top + backgroundPaddingTop < AndroidUtilities.statusBarHeight * 2) {
-                            int diff = Math.min(AndroidUtilities.statusBarHeight, AndroidUtilities.statusBarHeight * 2 - top - backgroundPaddingTop);
-                            top -= diff;
-                            height += diff;
-                            radProgress = 1.0f - Math.min(1.0f, (diff * 2) / (float) AndroidUtilities.statusBarHeight);
-                        }
-                        if (top + backgroundPaddingTop < AndroidUtilities.statusBarHeight) {
-                            statusBarHeight = Math.min(AndroidUtilities.statusBarHeight, AndroidUtilities.statusBarHeight - top - backgroundPaddingTop);
-                        }
-                    }
+                    final boolean pinnedToTop = fullHeight && top + backgroundPaddingTop < AndroidUtilities.statusBarHeight;
+                    top = AndroidUtilities.lerp(top + AndroidUtilities.statusBarHeight, -backgroundPaddingTop, pinAlpha = this.pinnedToTop.set(pinnedToTop));
+//                    top += AndroidUtilities.statusBarHeight;
+//                    height -= AndroidUtilities.statusBarHeight;
+//
+//                    if (fullHeight) {
+//                        if (top + backgroundPaddingTop < AndroidUtilities.statusBarHeight * 2) {
+//                            int diff = Math.min(AndroidUtilities.statusBarHeight, AndroidUtilities.statusBarHeight * 2 - top - backgroundPaddingTop);
+//                            top -= diff;
+//                            height += diff;
+//                            radProgress = 1.0f - Math.min(1.0f, (diff * 2) / (float) AndroidUtilities.statusBarHeight);
+//                        }
+//                        if (top + backgroundPaddingTop < AndroidUtilities.statusBarHeight) {
+//                            statusBarHeight = Math.min(AndroidUtilities.statusBarHeight, AndroidUtilities.statusBarHeight - top - backgroundPaddingTop);
+//                        }
+//                    }
                 }
 
                 shadowDrawable.setBounds(0, top, getMeasuredWidth(), height);
                 shadowDrawable.draw(canvas);
 
-                if (radProgress != 1.0f) {
-                    Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(darkTheme ? Theme.key_voipgroup_inviteMembersBackground : Theme.key_dialogBackground));
-                    rect1.set(backgroundPaddingLeft, backgroundPaddingTop + top, getMeasuredWidth() - backgroundPaddingLeft, backgroundPaddingTop + top + AndroidUtilities.dp(24));
-                    canvas.drawRoundRect(rect1, AndroidUtilities.dp(12) * radProgress, AndroidUtilities.dp(12) * radProgress, Theme.dialogs_onlineCirclePaint);
-                }
+//                if (radProgress != 1.0f) {
+//                    Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(darkTheme ? Theme.key_voipgroup_inviteMembersBackground : Theme.key_dialogBackground));
+//                    Theme.dialogs_onlineCirclePaint.setAlpha((int) (Theme.dialogs_onlineCirclePaint.getAlpha() * pinAlpha));
+//                    rect1.set(backgroundPaddingLeft, backgroundPaddingTop + top, getMeasuredWidth() - backgroundPaddingLeft, backgroundPaddingTop + top + AndroidUtilities.dp(24));
+//                    canvas.drawRoundRect(rect1, AndroidUtilities.dp(12) * radProgress, AndroidUtilities.dp(12) * radProgress, Theme.dialogs_onlineCirclePaint);
+//                }
 
-                int w = AndroidUtilities.dp(36);
-                rect1.set((getMeasuredWidth() - w) / 2, y, (getMeasuredWidth() + w) / 2, y + AndroidUtilities.dp(4));
-                Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(darkTheme ? Theme.key_voipgroup_scrollUp : Theme.key_sheet_scrollUp));
-                canvas.drawRoundRect(rect1, AndroidUtilities.dp(2), AndroidUtilities.dp(2), Theme.dialogs_onlineCirclePaint);
+                if (pinAlpha < 1) {
+                    int w = AndroidUtilities.dp(36);
+                    rect1.set((getMeasuredWidth() - w) / 2, y, (getMeasuredWidth() + w) / 2, y + AndroidUtilities.dp(4));
+                    Theme.dialogs_onlineCirclePaint.setColor(getThemedColor(darkTheme ? Theme.key_voipgroup_scrollUp : Theme.key_sheet_scrollUp));
+                    Theme.dialogs_onlineCirclePaint.setAlpha((int) (Theme.dialogs_onlineCirclePaint.getAlpha() * (1f - pinAlpha)));
+                    canvas.drawRoundRect(rect1, AndroidUtilities.dp(2), AndroidUtilities.dp(2), Theme.dialogs_onlineCirclePaint);
+                }
 
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                     int flags = getSystemUiVisibility();
@@ -1133,7 +1145,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             if (dialog == null) {
                 return;
             }
-            selectDialog((ShareDialogCell) view, dialog);
+            selectDialog(view, dialog);
         });
         gridView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
@@ -1183,7 +1195,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             if (dialog == null) {
                 return;
             }
-            selectDialog((ShareDialogCell) view, dialog);
+            selectDialog(view, dialog);
         });
         searchGridView.setHasFixedSize(true);
         searchGridView.setItemAnimator(null);
@@ -1201,11 +1213,15 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         searchGridView.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
             public void getItemOffsets(android.graphics.Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-                RecyclerListView.Holder holder = (RecyclerListView.Holder) parent.getChildViewHolder(view);
+                final RecyclerListView.Holder holder = (RecyclerListView.Holder) parent.getChildViewHolder(view);
                 if (holder != null) {
-                    int pos = holder.getAdapterPosition();
-                    outRect.left = pos % 4 == 0 ? 0 : AndroidUtilities.dp(4);
-                    outRect.right = pos % 4 == 3 ? 0 : AndroidUtilities.dp(4);
+                    if (holder.getItemViewType() != 5) {
+                        outRect.left = outRect.right = 0;
+                    } else {
+                        final int pos = holder.getAdapterPosition();
+                        outRect.left = pos % 4 == 0 ? 0 : AndroidUtilities.dp(4);
+                        outRect.right = pos % 4 == 3 ? 0 : AndroidUtilities.dp(4);
+                    }
                 } else {
                     outRect.left = AndroidUtilities.dp(4);
                     outRect.right = AndroidUtilities.dp(4);
@@ -1510,7 +1526,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 rect.set(cx - size / 2, 0, cx + size / 2, getMeasuredHeight());
                 canvas.drawRoundRect(rect, AndroidUtilities.dp(12), AndroidUtilities.dp(12), paint);
 
-                paint.setColor(getThemedColor(Theme.key_dialogRoundCheckBox));
+                paint.setColor(getThemedColor(Theme.key_dialogFloatingButton));
                 rect.set(cx - size / 2 + AndroidUtilities.dp(2), AndroidUtilities.dp(2), cx + size / 2 - AndroidUtilities.dp(2), getMeasuredHeight() - AndroidUtilities.dp(2));
                 canvas.drawRoundRect(rect, AndroidUtilities.dp(10), AndroidUtilities.dp(10), paint);
 
@@ -1532,6 +1548,15 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         DialogsSearchAdapter.loadRecentSearch(currentAccount, 0, new DialogsSearchAdapter.OnRecentSearchLoaded() {
             @Override
             public void setRecentSearch(ArrayList<DialogsSearchAdapter.RecentSearchObject> arrayList, LongSparseArray<DialogsSearchAdapter.RecentSearchObject> hashMap) {
+                if (arrayList != null) {
+                    for (int i = 0; i < arrayList.size(); ++i) {
+                        DialogsSearchAdapter.RecentSearchObject recentSearchObject = arrayList.get(i);
+                        if (recentSearchObject.object instanceof TLRPC.Chat && !ChatObject.canWriteToChat((TLRPC.Chat) recentSearchObject.object)) {
+                            arrayList.remove(i);
+                            i--;
+                        }
+                    }
+                }
                 recentSearchObjects = arrayList;
                 recentSearchObjectsById = hashMap;
                 for (int a = 0; a < recentSearchObjects.size(); a++) {
@@ -1553,7 +1578,13 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         AndroidUtilities.updateViewVisibilityAnimated(searchGridView, false, 1f, false);
     }
 
-    private void selectDialog(ShareDialogCell cell, TLRPC.Dialog dialog) {
+    private void selectDialog(View cell, TLRPC.Dialog dialog) {
+        if (dialog instanceof ShareDialogsAdapter.MyStoryDialog) {
+            LongSparseArray<TLRPC.Dialog> dids = new LongSparseArray<>();
+            dids.put(Long.MAX_VALUE, dialog);
+            onSend(dids, 1, null);
+            return;
+        }
         if (topicsGridView.getVisibility() != View.GONE || parentActivity == null) {
             return;
         }
@@ -1593,8 +1624,10 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         if (selectedDialogs.indexOfKey(dialog.id) >= 0) {
             selectedDialogs.remove(dialog.id);
             selectedDialogTopics.remove(dialog);
-            if (cell != null) {
-                cell.setChecked(false, true);
+            if (cell instanceof ProfileSearchCell) {
+                ((ProfileSearchCell) cell).setChecked(false, true);
+            } else if (cell instanceof ShareDialogCell) {
+                ((ShareDialogCell) cell).setChecked(false, true);
             }
             updateSelectedCount(1);
         } else {
@@ -1674,8 +1707,10 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             }
 
             selectedDialogs.put(dialog.id, dialog);
-            if (cell != null) {
-                cell.setChecked(true, true);
+            if (cell instanceof ProfileSearchCell) {
+                ((ProfileSearchCell) cell).setChecked(true, true);
+            } else if (cell instanceof ShareDialogCell) {
+                ((ShareDialogCell) cell).setChecked(true, true);
             }
             updateSelectedCount(2);
             long selfUserId = UserConfig.getInstance(currentAccount).clientUserId;
@@ -2239,6 +2274,10 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
     private class ShareDialogsAdapter extends RecyclerListView.SelectionAdapter {
 
+        private class MyStoryDialog extends TLRPC.Dialog {
+            { id = Long.MAX_VALUE; }
+        }
+
         private Context context;
         private int currentCount;
         private ArrayList<TLRPC.Dialog> dialogs = new ArrayList<>();
@@ -2253,6 +2292,11 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             dialogs.clear();
             dialogsMap.clear();
             long selfUserId = UserConfig.getInstance(currentAccount).clientUserId;
+            if (includeStory) {
+                MyStoryDialog d = new MyStoryDialog();
+                dialogs.add(d);
+                dialogsMap.put(d.id, d);
+            }
             if (!MessagesController.getInstance(currentAccount).dialogsForward.isEmpty()) {
                 TLRPC.Dialog dialog = MessagesController.getInstance(currentAccount).dialogsForward.get(0);
                 dialogs.add(dialog);
@@ -2467,7 +2511,12 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
         public ShareSearchAdapter(Context context) {
             this.context = context;
-            searchAdapterHelper = new SearchAdapterHelper(false);
+            searchAdapterHelper = new SearchAdapterHelper(false) {
+                @Override
+                protected boolean filter(TLObject obj) {
+                    return !(obj instanceof TLRPC.Chat) || ChatObject.canWriteToChat((TLRPC.Chat) obj);
+                }
+            };
             searchAdapterHelper.setDelegate(new SearchAdapterHelper.SearchAdapterHelperDelegate() {
                 @Override
                 public void onDataSetChanged(int searchId) {
@@ -2857,9 +2906,13 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view;
             switch (viewType) {
-                case 0: {
+                case 5: {
                     view = new ShareDialogCell(context, darkTheme ? ShareDialogCell.TYPE_CALL : ShareDialogCell.TYPE_SHARE, resourcesProvider);
                     view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, AndroidUtilities.dp(100)));
+                    break;
+                }
+                case 0: {
+                    view = new ProfileSearchCell(context, resourcesProvider).useCustomPaints();
                     break;
                 }
                 default:
@@ -2889,11 +2942,11 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     };
                     layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                     horizontalListView.setLayoutManager(layoutManager);
-                    horizontalListView.setAdapter(categoryAdapter = new DialogsSearchAdapter.CategoryAdapterRecycler(context, currentAccount, true) {
+                    horizontalListView.setAdapter(categoryAdapter = new DialogsSearchAdapter.CategoryAdapterRecycler(context, currentAccount, true, resourcesProvider) {
                         @Override
                         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
                             HintDialogCell cell = (HintDialogCell) holder.itemView;
-                            if (darkTheme) {
+                            if (darkTheme || forceDarkThemeForHint) {
                                 cell.setColors(Theme.key_voipgroup_nameText, Theme.key_voipgroup_inviteMembersBackground);
                             }
 
@@ -2967,16 +3020,19 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            if (holder.getItemViewType() == 0) {
-                ShareDialogCell cell = (ShareDialogCell) holder.itemView;
+            if (holder.getItemViewType() == 0 || holder.getItemViewType() == 5) {
+//                ShareDialogCell cell = (ShareDialogCell) holder.itemView;
+//                ProfileSearchCell cell = (ProfileSearchCell) holder.itemView;
                 CharSequence name = null;
+                TLObject object = null;
+                TLRPC.EncryptedChat ec = null;
                 long id = 0;
 
                 if (TextUtils.isEmpty(lastSearchText)) {
                     if (recentDialogsStartRow >= 0 && position >= recentDialogsStartRow) {
                         int p = position - recentDialogsStartRow;
                         DialogsSearchAdapter.RecentSearchObject recentSearchObject = recentSearchObjects.get(p);
-                        TLObject object = recentSearchObject.object;
+                        object = recentSearchObject.object;
                         if (object instanceof TLRPC.User) {
                             TLRPC.User user = (TLRPC.User) object;
                             id = user.id;
@@ -2987,6 +3043,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                             name = chat.title;
                         } else if (object instanceof TLRPC.TL_encryptedChat) {
                             TLRPC.TL_encryptedChat chat = (TLRPC.TL_encryptedChat) object;
+                            ec = chat;
                             TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(chat.user_id);
                             if (user != null) {
                                 id = user.id;
@@ -3002,9 +3059,13 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                                 name = spannableStringBuilder;
                             }
                         }
-
                     }
-                    cell.setDialog((int) id, selectedDialogs.indexOfKey(id) >= 0, name);
+                    if (holder.itemView instanceof ProfileSearchCell) {
+                        ((ProfileSearchCell) holder.itemView).setData(object, ec, name, null, false, false);
+                        ((ProfileSearchCell) holder.itemView).useSeparator = position < getItemCount() - 2;
+                    } else if (holder.itemView instanceof ShareDialogCell) {
+                        ((ShareDialogCell) holder.itemView).setDialog((int) id, selectedDialogs.indexOfKey(id) >= 0, name);
+                    }
                     return;
                 }
                 position--;
@@ -3015,7 +3076,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 } else {
                     position -= searchResult.size();
                     ArrayList<TLObject> arrayList = searchAdapterHelper.getLocalServerSearch();
-                    TLObject object = arrayList.get(position);
+                    object = arrayList.get(position);
                     if (object instanceof TLRPC.User) {
                         TLRPC.User user = (TLRPC.User) object;
                         id = user.id;
@@ -3035,7 +3096,12 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         }
                     }
                 }
-                cell.setDialog(id, selectedDialogs.indexOfKey(id) >= 0, name);
+                if (holder.itemView instanceof ProfileSearchCell) {
+                    ((ProfileSearchCell) holder.itemView).setData(object, ec, name, null, false, false);
+                    ((ProfileSearchCell) holder.itemView).useSeparator = position < getItemCount() - 2;
+                } else if (holder.itemView instanceof ShareDialogCell) {
+                    ((ShareDialogCell) holder.itemView).setDialog((int) id, selectedDialogs.indexOfKey(id) >= 0, name);
+                }
             } else if (holder.getItemViewType() == 2) {
                 ((RecyclerListView) holder.itemView).getAdapter().notifyDataSetChanged();
             }
@@ -3053,7 +3119,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             } else if (position == resentTitleCell) {
                 return 3;
             }
-            return 0;
+            return TextUtils.isEmpty(lastSearchText) ? 0 : 5;
         }
 
         public boolean isSearching() {
@@ -3062,6 +3128,10 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
         public int getSpanSize(int spanCount, int position) {
             if (position == hintsCell || position == resentTitleCell || position == firstEmptyViewCell || position == lastFilledItem) {
+                return spanCount;
+            }
+            final int viewType = getItemViewType(position);
+            if (viewType == 0) {
                 return spanCount;
             }
             return 1;

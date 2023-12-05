@@ -28,7 +28,7 @@ public interface ForwardContext {
     }
 
     default void openShareAlert(BaseFragment parentFragment, ChatActivity parentChatActivity, Runnable callback) {
-        parentFragment.showDialog(new ShareAlert(parentFragment.getParentActivity(), parentChatActivity, getForwardingMessages(), null, null, false, null, null, false, false, forwardParams.noQuote, forwardParams.noCaption, parentFragment.getResourceProvider()) {
+        parentFragment.showDialog(new ShareAlert(parentFragment.getParentActivity(), parentChatActivity, getForwardingMessages(), null, null, false, null, null, false, false, false, forwardParams.noQuote, forwardParams.noCaption, parentFragment.getResourceProvider()) {
             @Override
             public void dismissInternal() {
                 super.dismissInternal();

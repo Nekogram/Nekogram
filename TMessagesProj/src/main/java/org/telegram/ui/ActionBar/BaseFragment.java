@@ -22,6 +22,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MotionEvent;
 import android.view.View;
@@ -85,7 +86,7 @@ public abstract class BaseFragment {
     protected boolean fragmentBeginToShow;
     private boolean removingFromStack;
     private PreviewDelegate previewDelegate;
-    private Theme.ResourcesProvider resourceProvider;
+    protected Theme.ResourcesProvider resourceProvider;
     public StoryViewer storyViewer;
     public StoryViewer overlayStoryViewer;
 
@@ -841,7 +842,8 @@ public abstract class BaseFragment {
         fragment.onTransitionAnimationStart(true, false);
         bottomSheet[0] = new BottomSheet(getParentActivity(), true, fragment.getResourceProvider()) {
             {
-                drawNavigationBar = true;
+                occupyNavigationBar = params != null && params.occupyNavigationBar;
+                drawNavigationBar = !occupyNavigationBar;
                 actionBarLayout[0].setFragmentStack(new ArrayList<>());
                 actionBarLayout[0].addFragmentToStack(fragment);
                 actionBarLayout[0].showLastFragment();
@@ -862,8 +864,13 @@ public abstract class BaseFragment {
             protected void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
                 actionBarLayout[0].setWindow(bottomSheet[0].getWindow());
-                fixNavigationBar(Theme.getColor(Theme.key_dialogBackgroundGray, fragment.getResourceProvider()));
+                if (params == null || !params.occupyNavigationBar) {
+                    fixNavigationBar(Theme.getColor(Theme.key_dialogBackgroundGray, fragment.getResourceProvider()));
+                } else {
+                    AndroidUtilities.setLightNavigationBar(bottomSheet[0].getWindow(), true);
+                }
                 AndroidUtilities.setLightStatusBar(getWindow(), fragment.isLightStatusBar());
+                fragment.onBottomSheetCreated();
             }
 
             @Override
@@ -872,8 +879,17 @@ public abstract class BaseFragment {
             }
 
             @Override
-            protected boolean canSwipeToBack() {
-                return params != null && params.transitionFromLeft && actionBarLayout[0] != null && actionBarLayout[0].getFragmentStack().size() <= 1;
+            protected boolean canSwipeToBack(MotionEvent event) {
+                if (params != null && params.transitionFromLeft && actionBarLayout[0] != null && actionBarLayout[0].getFragmentStack().size() <= 1) {
+                    if (actionBarLayout[0].getFragmentStack().size() == 1) {
+                        BaseFragment lastFragment = actionBarLayout[0].getFragmentStack().get(0);
+                        if (!lastFragment.isSwipeBackEnabled(event)) {
+                            return false;
+                        }
+                    }
+                    return true;
+                }
+                return false;
             }
 
             @Override
@@ -921,6 +937,7 @@ public abstract class BaseFragment {
             bottomSheet[0].transitionFromRight(params.transitionFromLeft);
         }
         fragment.setParentDialog(bottomSheet[0]);
+        bottomSheet[0].setOpenNoDelay(true);
         bottomSheet[0].show();
 
         return actionBarLayout;
@@ -947,7 +964,7 @@ public abstract class BaseFragment {
     }
 
     public int getNavigationBarColor() {
-        int color = Theme.getColor(Theme.key_windowBackgroundGray, resourceProvider);
+        int color = Theme.getColor(Theme.key_windowBackgroundGray, getResourceProvider());
         if (storyViewer != null && storyViewer.attachedToParent()) {
             return storyViewer.getNavigationBarColor(color);
         }
@@ -1116,12 +1133,17 @@ public abstract class BaseFragment {
         return overlayStoryViewer;
     }
 
+    public void onBottomSheetCreated() {
+
+    }
+
     public static class BottomSheetParams {
         public boolean transitionFromLeft;
         public boolean allowNestedScroll;
         public Runnable onDismiss;
         public Runnable onOpenAnimationFinished;
         public Runnable onPreFinished;
+        public boolean occupyNavigationBar;
     }
 
 }

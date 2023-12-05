@@ -2079,6 +2079,7 @@ public class MessagesStorage extends BaseController {
                 dialog.unread_mentions_count = cursor.intValue(15);
                 int dialog_flags = cursor.intValue(16);
                 dialog.unread_mark = (dialog_flags & 1) != 0;
+                dialog.view_forum_as_messages = (dialog_flags & 64) != 0;
                 long flags = cursor.longValue(8);
                 int low_flags = (int) flags;
                 dialog.notify_settings = new TLRPC.TL_peerNotifySettings();
@@ -8421,6 +8422,9 @@ public class MessagesStorage extends BaseController {
                                         data = cursor.byteBufferValue(6);
                                         if (data != null) {
                                             message.replyStory = TL_stories.StoryItem.TLdeserialize(data, data.readInt32(false), false);
+                                            if (message.replyStory != null && message.replyStory.fwd_from != null) {
+                                                addLoadPeerInfo(message.replyStory.fwd_from.from, usersToLoad, chatsToLoad);
+                                            }
                                             data.reuse();
                                         }
                                     }
@@ -11285,7 +11289,7 @@ public class MessagesStorage extends BaseController {
 
                     dids.add(key);
                     if (exists) {
-                        if (messageId >= last_mid || DialogObject.isEncryptedDialog(key)) {
+                        if (message == null || message.date > dialog_date || DialogObject.isEncryptedDialog(key)) {
                             state_dialogs_update.requery();
                             state_dialogs_update.bindInteger(1, message != null && (!doNotUpdateDialogDate || dialog_date == 0) ? message.date : dialog_date);
                             state_dialogs_update.bindInteger(2, old_unread_count + unread_count);
@@ -12785,6 +12789,7 @@ public class MessagesStorage extends BaseController {
                 dialog.pinned = dialog.pinnedNum != 0;
                 int dialog_flags = cursor.intValue(14);
                 dialog.unread_mark = (dialog_flags & 1) != 0;
+                dialog.view_forum_as_messages = (dialog_flags & 64) != 0;
                 dialog.folder_id = cursor.intValue(15);
                 dialog.unread_reactions_count = cursor.intValue(17);
                 long groupMessagesId = cursor.longValue(18);
@@ -14184,6 +14189,19 @@ public class MessagesStorage extends BaseController {
                     }
                 }
             }
+            if (message.media instanceof TLRPC.TL_messageMediaStory && message.media.storyItem != null && message.media.storyItem.fwd_from != null) {
+                addLoadPeerInfo(message.media.storyItem.fwd_from.from, usersToLoad, chatsToLoad);
+            }
+            if (message.media instanceof TLRPC.TL_messageMediaWebPage && message.media.webpage != null && message.media.webpage.attributes != null) {
+                for (int i = 0; i < message.media.webpage.attributes.size(); ++i) {
+                    if (message.media.webpage.attributes.get(i) instanceof TLRPC.TL_webPageAttributeStory) {
+                        TLRPC.TL_webPageAttributeStory attr = (TLRPC.TL_webPageAttributeStory) message.media.webpage.attributes.get(i);
+                        if (attr.storyItem != null && attr.storyItem.fwd_from != null) {
+                            addLoadPeerInfo(attr.storyItem.fwd_from.from, usersToLoad, chatsToLoad);
+                        }
+                    }
+                }
+            }
             if (message.media.peer != null) {
                 addLoadPeerInfo(message.media.peer, usersToLoad, chatsToLoad);
             }
@@ -14216,7 +14234,7 @@ public class MessagesStorage extends BaseController {
         }
     }
 
-    private static void addLoadPeerInfo(TLRPC.Peer peer, ArrayList<Long> usersToLoad, ArrayList<Long> chatsToLoad) {
+    public static void addLoadPeerInfo(TLRPC.Peer peer, ArrayList<Long> usersToLoad, ArrayList<Long> chatsToLoad) {
         if (peer instanceof TLRPC.TL_peerUser) {
             if (!usersToLoad.contains(peer.user_id)) {
                 usersToLoad.add(peer.user_id);
@@ -14317,6 +14335,7 @@ public class MessagesStorage extends BaseController {
                         dialog.unread_mentions_count = cursor.intValue(15);
                         int dialog_flags = cursor.intValue(16);
                         dialog.unread_mark = (dialog_flags & 1) != 0;
+                        dialog.view_forum_as_messages = (dialog_flags & 64) != 0;
                         long flags = cursor.longValue(8);
                         int low_flags = (int) flags;
                         dialog.notify_settings = new TLRPC.TL_peerNotifySettings();
@@ -14825,6 +14844,9 @@ public class MessagesStorage extends BaseController {
                     if (dialog.unread_mark) {
                         flags |= 1;
                     }
+                    if (dialog.view_forum_as_messages) {
+                        flags |= 64;
+                    }
                     state_dialogs.bindInteger(12, flags);
                     state_dialogs.bindInteger(13, dialog.folder_id);
                     NativeByteBuffer data;
@@ -15124,6 +15146,46 @@ public class MessagesStorage extends BaseController {
                 state.step();
                 state.dispose();
                 resetAllUnreadCounters(false);
+            } catch (Exception e) {
+                checkSQLException(e);
+            } finally {
+                if (state != null) {
+                    state.dispose();
+                }
+            }
+        });
+    }
+
+    public void setDialogViewThreadAsMessages(long did, boolean enabled) {
+        storageQueue.postRunnable(() -> {
+            SQLitePreparedStatement state = null;
+            try {
+                int flags = 0;
+                SQLiteCursor cursor = null;
+                try {
+                    cursor = database.queryFinalized("SELECT flags FROM dialogs WHERE did = " + did);
+                    if (cursor.next()) {
+                        flags = cursor.intValue(0);
+                    }
+                } catch (Exception e) {
+                    checkSQLException(e);
+                } finally {
+                    if (cursor != null) {
+                        cursor.dispose();
+                    }
+                }
+
+                if (enabled) {
+                    flags |= 64;
+                } else {
+                    flags &= ~64;
+                }
+
+                state = database.executeFast("UPDATE dialogs SET flags = ? WHERE did = ?");
+                state.bindInteger(1, flags);
+                state.bindLong(2, did);
+                state.step();
+                state.dispose();
             } catch (Exception e) {
                 checkSQLException(e);
             } finally {

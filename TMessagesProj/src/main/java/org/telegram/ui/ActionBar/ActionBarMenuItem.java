@@ -1871,6 +1871,17 @@ public class ActionBarMenuItem extends FrameLayout {
         }
     }
 
+    public boolean hasSubItem(int id) {
+        Item lazyItem = findLazyItem(id);
+        if (lazyItem != null) {
+            return true;
+        }
+        if (popupLayout == null) {
+            return false;
+        }
+        return popupLayout.findViewWithTag(id) != null;
+    }
+
     /**
      * Hides this menu item if no subitems are available
      */

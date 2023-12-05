@@ -7,7 +7,6 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -39,10 +38,12 @@ public class ButtonWithCounterView extends FrameLayout {
 
     private final Paint paint;
     public final AnimatedTextView.AnimatedTextDrawable text;
+    public final AnimatedTextView.AnimatedTextDrawable subText;
     private final AnimatedTextView.AnimatedTextDrawable countText;
     private float countAlpha;
     private final AnimatedFloat countAlphaAnimated = new AnimatedFloat(350, CubicBezierInterpolator.EASE_OUT_QUINT);
     private final View rippleView;
+    private final boolean filled;
 
     public ButtonWithCounterView(Context context, Theme.ResourcesProvider resourcesProvider) {
         this(context, true, resourcesProvider);
@@ -51,15 +52,16 @@ public class ButtonWithCounterView extends FrameLayout {
     public ButtonWithCounterView(Context context, boolean filled, Theme.ResourcesProvider resourcesProvider) {
         super(context);
 
+        this.filled = filled;
         this.resourcesProvider = resourcesProvider;
 
         ScaleStateListAnimator.apply(this, .02f, 1.2f);
 
         rippleView = new View(context);
         if (filled) {
-            rippleView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider), 120)));
+            rippleView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8), Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider), 120)));
         } else {
-            rippleView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Color.TRANSPARENT, ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), 120)));
+            rippleView.setBackground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(8), 0, ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), 120)));
         }
         addView(rippleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
@@ -80,6 +82,13 @@ public class ButtonWithCounterView extends FrameLayout {
         text.setTextColor(Theme.getColor(filled ? Theme.key_featuredStickers_buttonText : Theme.key_featuredStickers_addButton, resourcesProvider));
         text.setGravity(Gravity.CENTER_HORIZONTAL);
 
+        subText = new AnimatedTextView.AnimatedTextDrawable(true, true, false);
+        subText.setAnimationProperties(.3f, 0, 250, CubicBezierInterpolator.EASE_OUT_QUINT);
+        subText.setCallback(this);
+        subText.setTextSize(dp(12));
+        subText.setTextColor(Theme.getColor(filled ? Theme.key_featuredStickers_buttonText : Theme.key_featuredStickers_addButton, resourcesProvider));
+        subText.setGravity(Gravity.CENTER_HORIZONTAL);
+
         countText = new AnimatedTextView.AnimatedTextDrawable(false, false, true);
         countText.setAnimationProperties(.3f, 0, 250, CubicBezierInterpolator.EASE_OUT_QUINT);
         countText.setCallback(this);
@@ -90,6 +99,13 @@ public class ButtonWithCounterView extends FrameLayout {
         countText.setGravity(Gravity.CENTER_HORIZONTAL);
 
         setWillNotDraw(false);
+    }
+
+    public void updateColors() {
+        rippleView.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), 8, 8));
+        text.setTextColor(Theme.getColor(filled ? Theme.key_featuredStickers_buttonText : Theme.key_featuredStickers_addButton, resourcesProvider));
+        subText.setTextColor(Theme.getColor(filled ? Theme.key_featuredStickers_buttonText : Theme.key_featuredStickers_addButton, resourcesProvider));
+        countText.setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider));
     }
 
     public void setCounterColor(int color) {
@@ -140,6 +156,64 @@ public class ButtonWithCounterView extends FrameLayout {
         text.setText(newText, animated);
         setContentDescription(newText);
         invalidate();
+    }
+
+    private float subTextT = 0f;
+    private ValueAnimator subTextVisibleAnimator;
+    private boolean subTextVisible;
+
+    public boolean isSubTextVisible() {
+        return subTextVisible;
+    }
+
+    private void cleanSubTextVisibleAnimator(){
+        if (subTextVisibleAnimator != null) {
+            subTextVisibleAnimator.cancel();
+            subTextVisibleAnimator = null;
+        }
+    }
+
+    public void setSubText(CharSequence newText, boolean animated) {
+        boolean isNewTextVisible = newText != null;
+        if (animated) {
+            subText.cancelAnimation();
+        }
+
+        setContentDescription(newText);
+        invalidate();
+        if (subTextVisible && !isNewTextVisible) {
+            cleanSubTextVisibleAnimator();
+            subTextVisibleAnimator = ValueAnimator.ofFloat(subTextT, 0f);
+            subTextVisibleAnimator.addUpdateListener(anm -> {
+                subTextT = (float) anm.getAnimatedValue();
+                invalidate();
+            });
+            subTextVisibleAnimator.addListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    subTextVisible = false;
+                    subText.setText(null, false);
+                }
+            });
+            subTextVisibleAnimator.setDuration(200);
+            subTextVisibleAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
+            subTextVisibleAnimator.start();
+        } else {
+            subText.setText(newText, animated);
+        }
+
+        if (!subTextVisible && isNewTextVisible) {
+            subTextVisible = true;
+            cleanSubTextVisibleAnimator();
+            subTextVisibleAnimator = ValueAnimator.ofFloat(subTextT, 1f);
+            subTextVisibleAnimator.addUpdateListener(anm -> {
+                subTextT = (float) anm.getAnimatedValue();
+                invalidate();
+            });
+            subTextVisibleAnimator.setDuration(200);
+            subTextVisibleAnimator.setInterpolator(CubicBezierInterpolator.DEFAULT);
+            subTextVisibleAnimator.start();
+        }
     }
 
     private float loadingT = 0;
@@ -261,7 +335,7 @@ public class ButtonWithCounterView extends FrameLayout {
 
     @Override
     protected boolean verifyDrawable(@NonNull Drawable who) {
-        return text == who || countText == who || super.verifyDrawable(who);
+        return text == who || subText == who || countText == who || super.verifyDrawable(who);
     }
 
     @Override
@@ -272,6 +346,7 @@ public class ButtonWithCounterView extends FrameLayout {
     private CircularProgressDrawable loadingDrawable;
 
     private int globalAlpha = 255;
+    private final int subTextAlpha = 200;
 
     @Override
     protected void onDraw(Canvas canvas) {
@@ -307,9 +382,29 @@ public class ButtonWithCounterView extends FrameLayout {
                     (int) ((getMeasuredWidth() - width + getWidth()) / 2f + textWidth),
                     (int) ((getMeasuredHeight() + text.getHeight()) / 2f - dp(1))
             );
+            AndroidUtilities.rectTmp2.offset(0, (int) (-dp(7) * subTextT));
             text.setAlpha((int) (globalAlpha * (1f - loadingT) * AndroidUtilities.lerp(.5f, 1f, enabledT)));
             text.setBounds(AndroidUtilities.rectTmp2);
             text.draw(canvas);
+
+            if (subTextVisible) {
+                float subTextWidth = subText.getCurrentWidth();
+                width = subTextWidth;
+                AndroidUtilities.rectTmp2.set(
+                        (int) ((getMeasuredWidth() - width - getWidth()) / 2f),
+                        (int) ((getMeasuredHeight() - subText.getHeight()) / 2f - dp(1)),
+                        (int) ((getMeasuredWidth() - width + getWidth()) / 2f + subTextWidth),
+                        (int) ((getMeasuredHeight() + subText.getHeight()) / 2f - dp(1))
+                );
+                AndroidUtilities.rectTmp2.offset(0, dp(11));
+                canvas.save();
+                float scale = AndroidUtilities.lerp(.1f, 1f, subTextT);
+                canvas.scale(scale, scale, AndroidUtilities.rectTmp2.centerX(), AndroidUtilities.rectTmp2.bottom);
+                subText.setAlpha((int) (subTextAlpha * (1f - loadingT) * subTextT * AndroidUtilities.lerp(.5f, 1f, enabledT)));
+                subText.setBounds(AndroidUtilities.rectTmp2);
+                subText.draw(canvas);
+                canvas.restore();
+            }
 
             AndroidUtilities.rectTmp2.set(
                     (int) ((getMeasuredWidth() - width) / 2f + textWidth + dp(countFilled ? 5 : 2)),
