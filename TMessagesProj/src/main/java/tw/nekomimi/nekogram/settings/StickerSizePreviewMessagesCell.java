@@ -19,7 +19,6 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
-import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.BackgroundGradientDrawable;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
@@ -33,16 +32,6 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
     private final ChatMessageCell[] cells = new ChatMessageCell[2];
     private final MessageObject[] messageObjects = new MessageObject[2];
     private final Drawable shadowDrawable;
-
-    private int progress = -1;
-    private final Runnable cancelProgress = () -> {
-        progress = -1;
-        for (int i = 0; i < cells.length; ++i) {
-            if (cells[i] != null) {
-                cells[i].invalidate();
-            }
-        }
-    };
 
     public StickerSizePreviewMessagesCell(Context context, BaseFragment fragment) {
         super(context);
@@ -125,20 +114,6 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
                 @Override
                 public void didPressImage(ChatMessageCell cell, float x, float y) {
                     BulletinFactory.of(fragment).createErrorBulletin(LocaleController.getString("Nya", R.string.Nya), resourcesProvider).show();
-                }
-
-                @Override
-                public void didPressReplyMessage(ChatMessageCell cell, int id) {
-                    progress = ChatActivity.PROGRESS_REPLY;
-                    cell.invalidate();
-
-                    AndroidUtilities.cancelRunOnUIThread(cancelProgress);
-                    AndroidUtilities.runOnUIThread(cancelProgress, 5000);
-                }
-
-                @Override
-                public boolean isProgressLoading(ChatMessageCell cell, int type) {
-                    return type == progress;
                 }
             });
             cells[a].isChat = false;
