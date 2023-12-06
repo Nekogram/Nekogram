@@ -4799,7 +4799,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             canStreamVideo = false;
             animatingNoSound = 0;
             if (messageObject.isSponsored()) {
-                drawSideButton = 4;
+                drawSideButton = 0;
             } else if (MessagesController.getInstance(currentAccount).isChatNoForwards(messageObject.getChatId()) || (messageObject.messageOwner != null && messageObject.messageOwner.noforwards)) {
                 drawSideButton = 0;
             } else {
