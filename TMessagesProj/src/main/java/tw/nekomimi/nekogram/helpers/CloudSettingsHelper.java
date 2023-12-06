@@ -3,7 +3,6 @@ package tw.nekomimi.nekogram.helpers;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Base64;
@@ -291,7 +290,7 @@ public class CloudSettingsHelper {
 
             ScaleStateListAnimator.apply(this, .02f, 1.2f);
 
-            setForeground(Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(6), Color.TRANSPARENT, ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), 120)));
+            setForeground(Theme.createRadSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), 120), 8, 8));
 
             LinearLayout linearLayout = new LinearLayout(context);
             linearLayout.setOrientation(LinearLayout.VERTICAL);
