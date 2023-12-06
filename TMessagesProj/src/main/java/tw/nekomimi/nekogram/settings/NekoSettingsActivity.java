@@ -90,7 +90,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
         } else if (position == accessibilityRow) {
             presentFragment(new AccessibilitySettingsActivity());
         } else if (position == channelRow) {
-            getMessagesController().openByUserName(LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), this, 1);
+            getMessagesController().openByUserName(LocaleController.getString(R.string.OfficialChannelUsername), this, 1);
         } else if (position == donateRow) {
             presentFragment(new NekoDonateActivity());
         } else if (position == translationRow) {
@@ -116,7 +116,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
 
     @Override
     protected String getActionBarTitle() {
-        return LocaleController.getString("NekoSettings", R.string.NekoSettings);
+        return LocaleController.getString(R.string.NekoSettings);
     }
 
     @Override
@@ -192,20 +192,20 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     if (position == channelRow) {
-                        textCell.setTextAndValue(LocaleController.getString("OfficialChannel", R.string.OfficialChannel), "@" + LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername), true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.OfficialChannel), "@" + LocaleController.getString(R.string.OfficialChannelUsername), true);
                     } else if (position == websiteRow) {
-                        textCell.setTextAndValue(LocaleController.getString("OfficialSite", R.string.OfficialSite), "nekogram.app", true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.OfficialSite), "nekogram.app", true);
                     } else if (position == sourceCodeRow) {
-                        textCell.setTextAndValue(LocaleController.getString("ViewSourceCode", R.string.ViewSourceCode), "GitHub", true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.ViewSourceCode), "GitHub", true);
                     }
                     break;
                 }
                 case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == categoriesRow) {
-                        headerCell.setText(LocaleController.getString("Categories", R.string.Categories));
+                        headerCell.setText(LocaleController.getString(R.string.Categories));
                     } else if (position == aboutRow) {
-                        headerCell.setText(LocaleController.getString("About", R.string.About));
+                        headerCell.setText(LocaleController.getString(R.string.About));
                     }
                     break;
                 }
@@ -213,12 +213,12 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
                     textCell.setMultilineDetail(true);
                     if (position == translationRow) {
-                        textCell.setTextAndValue(LocaleController.getString("Translation", R.string.Translation), LocaleController.getString("TranslationAbout", R.string.TranslationAbout), true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.Translation), LocaleController.getString(R.string.TranslationAbout), true);
                     } else if (position == donateRow) {
-                        textCell.setTextAndValue(LocaleController.getString("Donate", R.string.Donate), LocaleController.getString("DonateAbout", R.string.DonateAbout), position + 1 != about2Row);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.Donate), LocaleController.getString(R.string.DonateAbout), position + 1 != about2Row);
                     } else if (position == checkUpdateRow) {
-                        textCell.setTextAndValue(LocaleController.getString("CheckUpdate", R.string.CheckUpdate),
-                                checkingUpdate ? LocaleController.getString("CheckingUpdate", R.string.CheckingUpdate) :
+                        textCell.setTextAndValue(LocaleController.getString(R.string.CheckUpdate),
+                                checkingUpdate ? LocaleController.getString(R.string.CheckingUpdate) :
                                         UpdateHelper.formatDateUpdate(SharedConfig.lastUpdateCheckTime), position + 1 != about2Row);
                     } else if (position >= sponsorRow && position < sponsor2Row) {
                         ConfigHelper.News item = news.get(position - sponsorRow);
@@ -229,17 +229,17 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
                 case TYPE_TEXT: {
                     TextCell textCell = (TextCell) holder.itemView;
                     if (position == chatRow) {
-                        textCell.setTextAndIcon(LocaleController.getString("Chat", R.string.Chat), R.drawable.msg_discussion, true);
+                        textCell.setTextAndIcon(LocaleController.getString(R.string.Chat), R.drawable.msg_discussion, true);
                     } else if (position == generalRow) {
-                        textCell.setTextAndIcon(LocaleController.getString("General", R.string.General), R.drawable.msg_media, true);
+                        textCell.setTextAndIcon(LocaleController.getString(R.string.General), R.drawable.msg_media, true);
                     } else if (position == appearanceRow) {
-                        textCell.setTextAndIcon(LocaleController.getString("Appearance", R.string.Appearance), R.drawable.msg_theme, true);
+                        textCell.setTextAndIcon(LocaleController.getString(R.string.Appearance), R.drawable.msg_theme, true);
                     } else if (position == passcodeRow) {
-                        textCell.setTextAndIcon(LocaleController.getString("PasscodeNeko", R.string.PasscodeNeko), R.drawable.msg_permissions, true);
+                        textCell.setTextAndIcon(LocaleController.getString(R.string.PasscodeNeko), R.drawable.msg_permissions, true);
                     } else if (position == experimentRow) {
-                        textCell.setTextAndIcon(LocaleController.getString("NotificationsOther", R.string.NotificationsOther), R.drawable.msg_fave, accessibilityRow != -1);
+                        textCell.setTextAndIcon(LocaleController.getString(R.string.NotificationsOther), R.drawable.msg_fave, accessibilityRow != -1);
                     } else if (position == accessibilityRow) {
-                        textCell.setText(LocaleController.getString("AccessibilitySettings", R.string.AccessibilitySettings), false);
+                        textCell.setText(LocaleController.getString(R.string.AccessibilitySettings), false);
                     }
                     break;
                 }

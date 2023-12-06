@@ -18,16 +18,16 @@ public class TranslatorSettingsPopupWrapper {
         windowLayout.setFitItems(true);
 
         if (swipeBackLayout != null) {
-            var backItem = ActionBarMenuItem.addItem(windowLayout, R.drawable.msg_arrow_back, LocaleController.getString("Back", R.string.Back), false, resourcesProvider);
+            var backItem = ActionBarMenuItem.addItem(windowLayout, R.drawable.msg_arrow_back, LocaleController.getString(R.string.Back), false, resourcesProvider);
             backItem.setOnClickListener(view -> swipeBackLayout.closeForeground());
 
             ActionBarMenuItem.addColoredGap(windowLayout, resourcesProvider);
         }
 
         var items = new String[]{
-                LocaleController.getString("TranslatorType", R.string.TranslatorType),
-                LocaleController.getString("TranslationTarget", R.string.TranslationTarget),
-                LocaleController.getString("TranslationProvider", R.string.TranslationProvider),
+                LocaleController.getString(R.string.TranslatorType),
+                LocaleController.getString(R.string.TranslationTarget),
+                LocaleController.getString(R.string.TranslationProvider),
         };
         for (int i = 0; i < items.length; i++) {
             var item = ActionBarMenuItem.addItem(windowLayout, 0, items[i], false, resourcesProvider);

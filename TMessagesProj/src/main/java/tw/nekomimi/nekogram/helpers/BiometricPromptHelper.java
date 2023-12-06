@@ -65,8 +65,8 @@ public class BiometricPromptHelper {
         if (Build.VERSION.SDK_INT >= 28) {
             cancellationSignal = new CancellationSignal();
             BiometricPrompt.Builder builder = new BiometricPrompt.Builder(activity);
-            builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), activity.getMainExecutor(), (dialog, which) -> {
+            builder.setTitle(LocaleController.getString(R.string.AppName));
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), activity.getMainExecutor(), (dialog, which) -> {
             });
             if (Build.VERSION.SDK_INT >= 29) {
                 builder.setConfirmationRequired(false);
@@ -95,14 +95,14 @@ public class BiometricPromptHelper {
             titleTextView.setGravity(Gravity.CENTER_HORIZONTAL);
             titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             titleTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-            titleTextView.setText(LocaleController.getString("AppName", R.string.AppName));
+            titleTextView.setText(LocaleController.getString(R.string.AppName));
             linearLayout.addView(titleTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 24, 24, 24, 0));
 
             TextView descriptionTextView = new TextView(activity);
             descriptionTextView.setGravity(Gravity.CENTER_HORIZONTAL);
             descriptionTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             descriptionTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-            descriptionTextView.setText(LocaleController.getString("FingerprintInfo", R.string.FingerprintInfo));
+            descriptionTextView.setText(LocaleController.getString(R.string.FingerprintInfo));
             descriptionTextView.setPadding(0, AndroidUtilities.dp(8), 0, 0);
             linearLayout.addView(descriptionTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 24, 0, 24, 0));
 
@@ -114,13 +114,13 @@ public class BiometricPromptHelper {
             errorTextView.setGravity(Gravity.CENTER_HORIZONTAL);
             errorTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
             errorTextView.setTextColor(Theme.getColor(Theme.key_dialogTextGray2));
-            errorTextView.setText(LocaleController.getString("AppName", R.string.AppName));
+            errorTextView.setText(LocaleController.getString(R.string.AppName));
             errorTextView.setPadding(0, AndroidUtilities.dp(16), 0, AndroidUtilities.dp(24));
             linearLayout.addView(errorTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 24, 0, 24, 0));
 
             AlertDialog.Builder builder = new AlertDialog.Builder(activity);
             builder.setView(linearLayout);
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             builder.setOnDismissListener(dialog -> {
                 if (cancellationSignal != null) {
                     selfCancelled = true;
@@ -172,12 +172,12 @@ public class BiometricPromptHelper {
                 @Override
                 public void onAuthenticationFailed() {
                     updateState(STATE_ERROR);
-                    showTemporaryMessage(LocaleController.getString("FingerprintNotRecognized", R.string.FingerprintNotRecognized));
+                    showTemporaryMessage(LocaleController.getString(R.string.FingerprintNotRecognized));
                 }
             }, null);
 
             updateState(STATE_AUTHENTICATING);
-            errorTextView.setText(LocaleController.getString("FingerprintHelp", R.string.FingerprintHelp));
+            errorTextView.setText(LocaleController.getString(R.string.FingerprintHelp));
             errorTextView.setVisibility(View.VISIBLE);
         }
     }
@@ -212,7 +212,7 @@ public class BiometricPromptHelper {
             return;
         }
         updateState(STATE_AUTHENTICATING);
-        errorTextView.setText(LocaleController.getString("FingerprintHelp", R.string.FingerprintHelp));
+        errorTextView.setText(LocaleController.getString(R.string.FingerprintHelp));
         errorTextView.setTextColor(Theme.getColor(Theme.key_dialogButton));
     }
 

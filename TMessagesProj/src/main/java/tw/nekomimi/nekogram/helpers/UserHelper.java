@@ -327,11 +327,11 @@ public class UserHelper extends BaseController {
         if (regDate.error == null) {
             switch (regDate.type) {
                 case 0:
-                    return LocaleController.formatString("RegistrationDateApproximately", R.string.RegistrationDateApproximately, regDate.date);
+                    return LocaleController.formatString(R.string.RegistrationDateApproximately, regDate.date);
                 case 2:
-                    return LocaleController.formatString("RegistrationDateNewer", R.string.RegistrationDateNewer, regDate.date);
+                    return LocaleController.formatString(R.string.RegistrationDateNewer, regDate.date);
                 case 3:
-                    return LocaleController.formatString("RegistrationDateOlder", R.string.RegistrationDateOlder, regDate.date);
+                    return LocaleController.formatString(R.string.RegistrationDateOlder, regDate.date);
                 default:
                     return regDate.date;
             }

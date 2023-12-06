@@ -94,7 +94,7 @@ public class SendOptionsMenuLayout extends LinearLayout {
                 showSendersNameView.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
             }
             sendPopupLayout1.addView(showSendersNameView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
-            showSendersNameView.setTextAndIcon(LocaleController.getString("ShowSendersName", R.string.ShowSendersName), 0);
+            showSendersNameView.setTextAndIcon(LocaleController.getString(R.string.ShowSendersName), 0);
             showSendersNameView.setChecked(!forwardParams.noQuote);
 
             ActionBarMenuSubItem hideSendersNameView = new ActionBarMenuSubItem(getContext(), true, false, true, resourcesProvider);
@@ -102,7 +102,7 @@ public class SendOptionsMenuLayout extends LinearLayout {
                 hideSendersNameView.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
             }
             sendPopupLayout1.addView(hideSendersNameView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
-            hideSendersNameView.setTextAndIcon(LocaleController.getString("HideSendersName", R.string.HideSendersName), 0);
+            hideSendersNameView.setTextAndIcon(LocaleController.getString(R.string.HideSendersName), 0);
             hideSendersNameView.setChecked(forwardParams.noQuote);
             showSendersNameView.setOnClickListener(e -> {
                 if (forwardParams.noQuote) {
@@ -136,7 +136,7 @@ public class SendOptionsMenuLayout extends LinearLayout {
                     showCaptionView.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
                 }
                 sendPopupLayout1.addView(showCaptionView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
-                showCaptionView.setTextAndIcon(LocaleController.getString("ShowCaption", R.string.ShowCaption), 0);
+                showCaptionView.setTextAndIcon(LocaleController.getString(R.string.ShowCaption), 0);
                 showCaptionView.setChecked(!forwardParams.noCaption);
 
                 hideCaptionView = new ActionBarMenuSubItem(getContext(), true, false, true, resourcesProvider);
@@ -144,7 +144,7 @@ public class SendOptionsMenuLayout extends LinearLayout {
                     hideCaptionView.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
                 }
                 sendPopupLayout1.addView(hideCaptionView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
-                hideCaptionView.setTextAndIcon(LocaleController.getString("HideCaption", R.string.HideCaption), 0);
+                hideCaptionView.setTextAndIcon(LocaleController.getString(R.string.HideCaption), 0);
                 hideCaptionView.setChecked(forwardParams.noCaption);
                 showCaptionView.setOnClickListener(e -> {
                     if (forwardParams.noCaption) {
@@ -213,7 +213,7 @@ public class SendOptionsMenuLayout extends LinearLayout {
                 scheduleButton.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
                 scheduleButton.setIconColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
             }
-            scheduleButton.setTextAndIcon(LocaleController.getString("ScheduleMessage", R.string.ScheduleMessage), R.drawable.msg_calendar2);
+            scheduleButton.setTextAndIcon(LocaleController.getString(R.string.ScheduleMessage), R.drawable.msg_calendar2);
             scheduleButton.setMinimumWidth(AndroidUtilities.dp(196));
             scheduleButton.setOnClickListener(v -> {
                 if (sendPopupWindow != null && sendPopupWindow.isShowing()) {
@@ -233,7 +233,7 @@ public class SendOptionsMenuLayout extends LinearLayout {
                 sendWithoutSoundButton.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
                 sendWithoutSoundButton.setIconColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
             }
-            sendWithoutSoundButton.setTextAndIcon(LocaleController.getString("SendWithoutSound", R.string.SendWithoutSound), R.drawable.input_notify_off);
+            sendWithoutSoundButton.setTextAndIcon(LocaleController.getString(R.string.SendWithoutSound), R.drawable.input_notify_off);
             sendWithoutSoundButton.setMinimumWidth(AndroidUtilities.dp(196));
             sendWithoutSoundButton.setOnClickListener(v -> {
                 if (sendPopupWindow != null && sendPopupWindow.isShowing()) {
@@ -249,7 +249,7 @@ public class SendOptionsMenuLayout extends LinearLayout {
             sendMessage.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
             sendMessage.setIconColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
         }
-        sendMessage.setTextAndIcon(LocaleController.getString("SendMessage", R.string.SendMessage), R.drawable.msg_send);
+        sendMessage.setTextAndIcon(LocaleController.getString(R.string.SendMessage), R.drawable.msg_send);
         sendMessage.setMinimumWidth(AndroidUtilities.dp(196));
         sendPopupLayout2.addView(sendMessage, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
         sendMessage.setOnClickListener(v -> {

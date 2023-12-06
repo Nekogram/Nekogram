@@ -64,7 +64,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         if (false) {
             var builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
             var message = new TextView(getParentActivity());
-            message.setText(getSpannedString("SoonRemovedOption", R.string.SoonRemovedOption, "https://t.me/" + LocaleController.getString("OfficialChannelUsername", R.string.OfficialChannelUsername)));
+            message.setText(getSpannedString(R.string.SoonRemovedOption, "https://t.me/" + LocaleController.getString(R.string.OfficialChannelUsername)));
             message.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             message.setLinkTextColor(getThemedColor(Theme.key_dialogTextLink));
             message.setHighlightColor(getThemedColor(Theme.key_dialogLinkSelection));
@@ -72,14 +72,14 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             message.setMovementMethod(new AndroidUtilities.LinkMovementMethodMy());
             message.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
             builder.setView(message);
-            builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+            builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
             showDialog(builder.create());
         }
         if (position == deleteAccountRow) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-            builder.setMessage(LocaleController.getString("TosDeclineDeleteAccount", R.string.TosDeclineDeleteAccount));
-            builder.setTitle(LocaleController.getString("DeleteAccount", R.string.DeleteAccount));
-            builder.setPositiveButton(LocaleController.getString("Deactivate", R.string.Deactivate), (dialog, which) -> {
+            builder.setMessage(LocaleController.getString(R.string.TosDeclineDeleteAccount));
+            builder.setTitle(LocaleController.getString(R.string.DeleteAccount));
+            builder.setPositiveButton(LocaleController.getString(R.string.Deactivate), (dialog, which) -> {
                 if (BuildConfig.DEBUG) return;
                 final AlertDialog progressDialog = new AlertDialog(getParentActivity(), AlertDialog.ALERT_TYPE_SPINNER);
                 progressDialog.setCanCancel(false);
@@ -113,21 +113,21 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         if (response instanceof TLRPC.TL_boolTrue) {
                             getMessagesController().performLogout(0);
                         } else if (error == null || error.code != -1000) {
-                            String errorText = LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred);
+                            String errorText = LocaleController.getString(R.string.ErrorOccurred);
                             if (error != null) {
                                 errorText += "\n" + error.text;
                             }
                             AlertDialog.Builder builder1 = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-                            builder1.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                            builder1.setTitle(LocaleController.getString(R.string.AppName));
                             builder1.setMessage(errorText);
-                            builder1.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                            builder1.setPositiveButton(LocaleController.getString(R.string.OK), null);
                             builder1.show();
                         }
                     }));
                 }, 20000);
                 progressDialog.show();
             });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             AlertDialog dialog = builder.create();
             dialog.setOnShowListener(dialog1 -> {
                 var button = (TextView) dialog.getButton(AlertDialog.BUTTON_POSITIVE);
@@ -166,13 +166,13 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         } else if (position == downloadSpeedBoostRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
-            arrayList.add(LocaleController.getString("DownloadSpeedBoostNone", R.string.DownloadSpeedBoostNone));
+            arrayList.add(LocaleController.getString(R.string.DownloadSpeedBoostNone));
             types.add(NekoConfig.BOOST_NONE);
-            arrayList.add(LocaleController.getString("DownloadSpeedBoostAverage", R.string.DownloadSpeedBoostAverage));
+            arrayList.add(LocaleController.getString(R.string.DownloadSpeedBoostAverage));
             types.add(NekoConfig.BOOST_AVERAGE);
-            arrayList.add(LocaleController.getString("DownloadSpeedBoostExtreme", R.string.DownloadSpeedBoostExtreme));
+            arrayList.add(LocaleController.getString(R.string.DownloadSpeedBoostExtreme));
             types.add(NekoConfig.BOOST_EXTREME);
-            PopupHelper.show(arrayList, LocaleController.getString("DownloadSpeedBoost", R.string.DownloadSpeedBoost), types.indexOf(NekoConfig.downloadSpeedBoost), getParentActivity(), view, i -> {
+            PopupHelper.show(arrayList, LocaleController.getString(R.string.DownloadSpeedBoost), types.indexOf(NekoConfig.downloadSpeedBoost), getParentActivity(), view, i -> {
                 NekoConfig.setDownloadSpeedBoost(types.get(i));
                 listAdapter.notifyItemChanged(downloadSpeedBoostRow, PARTIAL);
             }, resourcesProvider);
@@ -189,13 +189,13 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 return;
             }
             AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-            builder.setTitle(LocaleController.getString("AnonymousDataDelete", R.string.AnonymousDataDelete));
-            builder.setMessage(LocaleController.getString("AnonymousDataDeleteDesc", R.string.AnonymousDataDeleteDesc));
-            builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), (dialog, which) -> {
+            builder.setTitle(LocaleController.getString(R.string.AnonymousDataDelete));
+            builder.setMessage(LocaleController.getString(R.string.AnonymousDataDeleteDesc));
+            builder.setPositiveButton(LocaleController.getString(R.string.Delete), (dialog, which) -> {
                 AnalyticsHelper.setAnalyticsDisabled();
                 listAdapter.notifyItemRangeChanged(sendBugReportRow, 2);
             });
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             AlertDialog dialog = builder.create();
             showDialog(dialog);
             dialog.redPositive();
@@ -206,10 +206,10 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             }
         } else if (position == springAnimationRow) {
             ArrayList<String> arrayList = new ArrayList<>();
-            arrayList.add(LocaleController.getString("NavigationAnimationSpring", R.string.NavigationAnimationSpring));
-            arrayList.add(LocaleController.getString("NavigationAnimationBezier", R.string.NavigationAnimationBezier));
+            arrayList.add(LocaleController.getString(R.string.NavigationAnimationSpring));
+            arrayList.add(LocaleController.getString(R.string.NavigationAnimationBezier));
             boolean oldAnimation = NekoConfig.springAnimation;
-            PopupHelper.show(arrayList, LocaleController.getString("NavigationAnimation", R.string.NavigationAnimation), NekoConfig.springAnimation ? 0 : 1, getParentActivity(), view, i -> {
+            PopupHelper.show(arrayList, LocaleController.getString(R.string.NavigationAnimation), NekoConfig.springAnimation ? 0 : 1, getParentActivity(), view, i -> {
                 NekoConfig.setSpringAnimation(i == 0);
                 listAdapter.notifyItemChanged(springAnimationRow, PARTIAL);
                 if (oldAnimation != NekoConfig.springAnimation) {
@@ -257,7 +257,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
     @Override
     protected String getActionBarTitle() {
-        return LocaleController.getString("NotificationsOther", R.string.NotificationsOther);
+        return LocaleController.getString(R.string.NotificationsOther);
     }
 
     @Override
@@ -304,31 +304,31 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == deleteAccountRow) {
-                        textCell.setText(LocaleController.getString("DeleteAccount", R.string.DeleteAccount), false);
+                        textCell.setText(LocaleController.getString(R.string.DeleteAccount), false);
                         textCell.setTextColor(getThemedColor(Theme.key_text_RedRegular));
                     } else if (position == downloadSpeedBoostRow) {
                         String value;
                         switch (NekoConfig.downloadSpeedBoost) {
                             case NekoConfig.BOOST_NONE:
-                                value = LocaleController.getString("DownloadSpeedBoostNone", R.string.DownloadSpeedBoostNone);
+                                value = LocaleController.getString(R.string.DownloadSpeedBoostNone);
                                 break;
                             case NekoConfig.BOOST_EXTREME:
-                                value = LocaleController.getString("DownloadSpeedBoostExtreme", R.string.DownloadSpeedBoostExtreme);
+                                value = LocaleController.getString(R.string.DownloadSpeedBoostExtreme);
                                 break;
                             default:
                             case NekoConfig.BOOST_AVERAGE:
-                                value = LocaleController.getString("DownloadSpeedBoostAverage", R.string.DownloadSpeedBoostAverage);
+                                value = LocaleController.getString(R.string.DownloadSpeedBoostAverage);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("DownloadSpeedBoost", R.string.DownloadSpeedBoost), value, partial, true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.DownloadSpeedBoost), value, partial, true);
                     } else if (position == springAnimationRow) {
                         String value;
                         if (NekoConfig.springAnimation) {
-                            value = LocaleController.getString("NavigationAnimationSpring", R.string.NavigationAnimationSpring);
+                            value = LocaleController.getString(R.string.NavigationAnimationSpring);
                         } else {
-                            value = LocaleController.getString("NavigationAnimationBezier", R.string.NavigationAnimationBezier);
+                            value = LocaleController.getString(R.string.NavigationAnimationBezier);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("NavigationAnimation", R.string.NavigationAnimation), value, partial, true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.NavigationAnimation), value, partial, true);
                     }
                     break;
                 }
@@ -336,29 +336,29 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
                     if (position == mapDriftingFixRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("MapDriftingFix", R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
                     } else if (position == showRPCErrorRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("ShowRPCError", R.string.ShowRPCError), LocaleController.formatString("ShowRPCErrorException", R.string.ShowRPCErrorException, "FILE_REFERENCE_EXPIRED"), NekoConfig.showRPCError, true, false);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.ShowRPCError), LocaleController.formatString(R.string.ShowRPCErrorException, "FILE_REFERENCE_EXPIRED"), NekoConfig.showRPCError, true, false);
                     } else if (position == uploadSpeedBoostRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("UploadloadSpeedBoost", R.string.UploadloadSpeedBoost), NekoConfig.uploadSpeedBoost, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.UploadloadSpeedBoost), NekoConfig.uploadSpeedBoost, true);
                     } else if (position == sendBugReportRow) {
                         textCell.setEnabled(!AnalyticsHelper.analyticsDisabled, null);
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("SendBugReport", R.string.SendBugReport), LocaleController.getString("SendBugReportDesc", R.string.SendBugReportDesc), !AnalyticsHelper.analyticsDisabled && AnalyticsHelper.sendBugReport, true, true);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.SendBugReport), LocaleController.getString(R.string.SendBugReportDesc), !AnalyticsHelper.analyticsDisabled && AnalyticsHelper.sendBugReport, true, true);
                     } else if (position == sendLargePhotosRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("SendLargePhotos", R.string.SendLargePhotos), LocaleController.getString("SendLargePhotosAbout", R.string.SendLargePhotosAbout), NekoConfig.sendLargePhotos, true, true);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.SendLargePhotos), LocaleController.getString(R.string.SendLargePhotosAbout), NekoConfig.sendLargePhotos, true, true);
                     } else if (position == actionbarCrossfadeRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("NavigationAnimationCrossfading", R.string.NavigationAnimationCrossfading), NekoConfig.actionbarCrossfade, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.NavigationAnimationCrossfading), NekoConfig.actionbarCrossfade, true);
                     } else if (position == contentRestrictionRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("IgnoreContentRestriction", R.string.IgnoreContentRestriction), NekoConfig.ignoreContentRestriction, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.IgnoreContentRestriction), NekoConfig.ignoreContentRestriction, true);
                     }
                     break;
                 }
                 case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == experimentRow) {
-                        headerCell.setText(LocaleController.getString("Experiment", R.string.Experiment));
+                        headerCell.setText(LocaleController.getString(R.string.Experiment));
                     } else if (position == dataRow) {
-                        headerCell.setText(LocaleController.getString("SendAnonymousData", R.string.SendAnonymousData));
+                        headerCell.setText(LocaleController.getString(R.string.SendAnonymousData));
                     }
                     break;
                 }
@@ -368,14 +368,14 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     if (position == deleteDataRow) {
                         cell.setEnabled(!AnalyticsHelper.analyticsDisabled);
                         cell.setMultilineDetail(true);
-                        cell.setTextAndValue(LocaleController.getString("AnonymousDataDelete", R.string.AnonymousDataDelete), LocaleController.getString("AnonymousDataDeleteDesc", R.string.AnonymousDataDeleteDesc), false);
+                        cell.setTextAndValue(LocaleController.getString(R.string.AnonymousDataDelete), LocaleController.getString(R.string.AnonymousDataDeleteDesc), false);
                     }
                     break;
                 }
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     if (position == data2Row) {
-                        cell.setText(LocaleController.formatString("SendAnonymousDataDesc", R.string.SendAnonymousDataDesc, "Firebase Crashlytics", "Google"));
+                        cell.setText(LocaleController.formatString(R.string.SendAnonymousDataDesc, "Firebase Crashlytics", "Google"));
                     }
                     break;
                 }

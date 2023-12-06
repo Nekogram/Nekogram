@@ -53,7 +53,7 @@ public class PopupHelper {
                     listener.onClick(which);
                 });
             }
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
             builder.show();
         } else {
             View container = (View) itemView.getParent();
@@ -96,29 +96,29 @@ public class PopupHelper {
         popupLayout.setFitItems(true);
         ActionBarPopupWindow popupWindow = AlertsCreator.createSimplePopup(fragment, popupLayout, anchorView, x, y);
         if (id != 0) {
-            ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_copy, LocaleController.getString("CopyID", R.string.CopyID), false, fragment.getResourceProvider()).setOnClickListener(v -> {
+            ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_copy, LocaleController.getString(R.string.CopyID), false, fragment.getResourceProvider()).setOnClickListener(v -> {
                 popupWindow.dismiss();
                 AndroidUtilities.addToClipboard(String.valueOf(id));
-                BulletinFactory.of(fragment).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                BulletinFactory.of(fragment).createCopyBulletin(LocaleController.formatString(R.string.TextCopied)).show();
             });
         }
         if (dc != 0) {
             var dcPopupWrapper = new DatacenterPopupWrapper(fragment, popupLayout.getSwipeBack(), fragment.getResourceProvider());
             int swipeBackIndex = popupLayout.addViewToSwipeBack(dcPopupWrapper.windowLayout);
-            ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_satellite, LocaleController.getString("DatacenterStatusShort", R.string.DatacenterStatusShort), false, fragment.getResourceProvider());
+            ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_satellite, LocaleController.getString(R.string.DatacenterStatusShort), false, fragment.getResourceProvider());
             subItem.setSubtext(UserHelper.formatDCString(dc));
             subItem.setOnClickListener(v -> popupLayout.getSwipeBack().openForeground(swipeBackIndex));
         }
         if (id != 0 && user) {
-            ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_calendar, LocaleController.getString("RegistrationDate", R.string.RegistrationDate), false, fragment.getResourceProvider());
+            ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_calendar, LocaleController.getString(R.string.RegistrationDate), false, fragment.getResourceProvider());
             UserHelper.RegDate regDate = UserHelper.getRegDate(id);
-            subItem.setSubtext(regDate != null ? UserHelper.formatRegDate(regDate) : LocaleController.getString("Loading", R.string.Loading));
+            subItem.setSubtext(regDate != null ? UserHelper.formatRegDate(regDate) : LocaleController.getString(R.string.Loading));
             if (regDate == null) {
                 UserHelper.getRegDate(id, arg -> {
                     if (arg != null) {
                         subItem.setSubtext(UserHelper.formatRegDate(arg), true);
                     } else {
-                        subItem.setSubtext(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred), true);
+                        subItem.setSubtext(LocaleController.getString(R.string.ErrorOccurred), true);
                     }
                 });
             }

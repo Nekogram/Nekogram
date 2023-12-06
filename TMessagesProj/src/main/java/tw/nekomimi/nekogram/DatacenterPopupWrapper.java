@@ -38,7 +38,7 @@ public class DatacenterPopupWrapper {
         windowLayout.setFitItems(true);
 
         if (swipeBackLayout != null) {
-            var backItem = ActionBarMenuItem.addItem(windowLayout, R.drawable.msg_arrow_back, LocaleController.getString("Back", R.string.Back), false, resourcesProvider);
+            var backItem = ActionBarMenuItem.addItem(windowLayout, R.drawable.msg_arrow_back, LocaleController.getString(R.string.Back), false, resourcesProvider);
             backItem.setOnClickListener(view -> swipeBackLayout.closeForeground());
 
             ActionBarMenuItem.addColoredGap(windowLayout, resourcesProvider);
@@ -65,7 +65,7 @@ public class DatacenterPopupWrapper {
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         textView.setTextColor(Theme.getColor(Theme.key_actionBarDefaultSubmenuItem));
         textView.setLinkTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteLinkText));
-        textView.setText(BaseNekoSettingsActivity.getSpannedString("DatacenterStatusAbout", R.string.DatacenterStatusAbout, "https://core.telegram.org/api/datacenter"));
+        textView.setText(BaseNekoSettingsActivity.getSpannedString(R.string.DatacenterStatusAbout, "https://core.telegram.org/api/datacenter"));
         windowLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 8, 0, 0));
     }
 
@@ -97,21 +97,21 @@ public class DatacenterPopupWrapper {
         var datacenterInfo = (DatacenterInfo) item.getTag();
         int colorKey;
         if (datacenterInfo.checking) {
-            item.setSubtext(LocaleController.getString("Checking", R.string.Checking), animated);
+            item.setSubtext(LocaleController.getString(R.string.Checking), animated);
             colorKey = Theme.key_windowBackgroundWhiteGrayText2;
         } else if (datacenterInfo.available) {
             if (datacenterInfo.ping >= 1000) {
-                item.setSubtext(LocaleController.formatString("Ping", R.string.Ping, datacenterInfo.ping), animated);
+                item.setSubtext(LocaleController.formatString(R.string.Ping, datacenterInfo.ping), animated);
                 colorKey = Theme.key_text_RedRegular;
             } else if (datacenterInfo.ping != 0) {
-                item.setSubtext(LocaleController.formatString("Ping", R.string.Ping, datacenterInfo.ping), animated);
+                item.setSubtext(LocaleController.formatString(R.string.Ping, datacenterInfo.ping), animated);
                 colorKey = Theme.key_windowBackgroundWhiteGreenText;
             } else {
-                item.setSubtext(LocaleController.getString("Available", R.string.Available), animated);
+                item.setSubtext(LocaleController.getString(R.string.Available), animated);
                 colorKey = Theme.key_windowBackgroundWhiteGreenText;
             }
         } else {
-            item.setSubtext(LocaleController.getString("Unavailable", R.string.Unavailable), animated);
+            item.setSubtext(LocaleController.getString(R.string.Unavailable), animated);
             colorKey = Theme.key_text_RedRegular;
         }
         item.setSubtextColor(Theme.getColor(colorKey, resourcesProvider));

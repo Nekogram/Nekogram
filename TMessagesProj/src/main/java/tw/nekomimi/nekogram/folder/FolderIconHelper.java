@@ -60,46 +60,46 @@ public class FolderIconHelper {
         String newEmoticon = "";
         if ((flags & MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS) == MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS) {
             if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ) != 0) {
-                newName = LocaleController.getString("FilterNameUnread", R.string.FilterNameUnread);
+                newName = LocaleController.getString(R.string.FilterNameUnread);
                 newEmoticon = "\u2705";
             } else if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED) != 0) {
-                newName = LocaleController.getString("FilterNameNonMuted", R.string.FilterNameNonMuted);
+                newName = LocaleController.getString(R.string.FilterNameNonMuted);
                 newEmoticon = "\uD83D\uDD14";
             }
         } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_CONTACTS) != 0) {
             flags &= ~MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
             if (flags == 0) {
-                newName = LocaleController.getString("FilterContacts", R.string.FilterContacts);
+                newName = LocaleController.getString(R.string.FilterContacts);
                 newEmoticon = "\uD83D\uDC64";
             } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS) != 0) {
                 flags &= ~MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
                 if (flags == 0) {
-                    newName = LocaleController.getString("FilterContacts", R.string.FilterContacts);
+                    newName = LocaleController.getString(R.string.FilterContacts);
                     newEmoticon = "\uD83D\uDC64";
                 }
             }
         } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS) != 0) {
             flags &= ~MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
             if (flags == 0) {
-                newName = LocaleController.getString("FilterNonContacts", R.string.FilterNonContacts);
+                newName = LocaleController.getString(R.string.FilterNonContacts);
                 newEmoticon = "\uD83D\uDC64";
             }
         } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_GROUPS) != 0) {
             flags &= ~MessagesController.DIALOG_FILTER_FLAG_GROUPS;
             if (flags == 0) {
-                newName = LocaleController.getString("FilterGroups", R.string.FilterGroups);
+                newName = LocaleController.getString(R.string.FilterGroups);
                 newEmoticon = "\uD83D\uDC65";
             }
         } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_BOTS) != 0) {
             flags &= ~MessagesController.DIALOG_FILTER_FLAG_BOTS;
             if (flags == 0) {
-                newName = LocaleController.getString("FilterBots", R.string.FilterBots);
+                newName = LocaleController.getString(R.string.FilterBots);
                 newEmoticon = "\uD83E\uDD16";
             }
         } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_CHANNELS) != 0) {
             flags &= ~MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
             if (flags == 0) {
-                newName = LocaleController.getString("FilterChannels", R.string.FilterChannels);
+                newName = LocaleController.getString(R.string.FilterChannels);
                 newEmoticon = "\uD83D\uDCE2";
             }
         }

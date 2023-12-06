@@ -628,8 +628,8 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
         }
         EmojiSetBulletinLayout bulletinLayout = new EmojiSetBulletinLayout(
                 fragment.getParentActivity(),
-                LocaleController.getString("EmojiSetRemoved", R.string.EmojiSetRemoved),
-                LocaleController.formatString("EmojiSetRemovedInfo", R.string.EmojiSetRemovedInfo, emojiPackBase.getPackName()),
+                LocaleController.getString(R.string.EmojiSetRemoved),
+                LocaleController.formatString(R.string.EmojiSetRemovedInfo, emojiPackBase.getPackName()),
                 emojiPackBase,
                 null
         );

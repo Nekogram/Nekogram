@@ -110,18 +110,18 @@ public class AppLinkVerifyBottomSheet extends BottomSheet {
         title.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
         title.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        title.setText(LocaleController.getString("AppLinkNotVerifiedTitle", R.string.AppLinkNotVerifiedTitle));
+        title.setText(LocaleController.getString(R.string.AppLinkNotVerifiedTitle));
         linearLayout.addView(title, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 21, 30, 21, 0));
 
         TextView description = new TextView(context);
         description.setGravity(Gravity.START);
         description.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         description.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-        description.setText(AndroidUtilities.replaceTags(LocaleController.getString("AppLinkNotVerifiedMessage", R.string.AppLinkNotVerifiedMessage)));
+        description.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.AppLinkNotVerifiedMessage)));
         linearLayout.addView(description, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 21, 15, 21, 16));
 
         ButtonWithCounterView buttonTextView = new ButtonWithCounterView(context, true, null);
-        buttonTextView.setText(LocaleController.getString("GoToSettings", R.string.GoToSettings), false);
+        buttonTextView.setText(LocaleController.getString(R.string.GoToSettings), false);
         linearLayout.addView(buttonTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, 0, 14, 14, 14, 0));
 
         buttonTextView.setOnClickListener(view -> {
@@ -143,7 +143,7 @@ public class AppLinkVerifyBottomSheet extends BottomSheet {
         });
 
         ButtonWithCounterView textView = new ButtonWithCounterView(context, false, null);
-        textView.setText(LocaleController.getString("DontAskAgain", R.string.DontAskAgain), false);
+        textView.setText(LocaleController.getString(R.string.DontAskAgain), false);
         linearLayout.addView(textView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, 0, 14, 14, 14, 0));
 
         textView.setOnClickListener(view -> {

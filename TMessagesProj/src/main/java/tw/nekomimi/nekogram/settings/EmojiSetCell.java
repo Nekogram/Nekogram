@@ -137,22 +137,22 @@ public class EmojiSetCell extends FrameLayout {
                 installed = true;
             }
             if ("default".equals(pack.getPackId())) {
-                valueTextView.setText(LocaleController.getString("Default", R.string.Default), animated);
+                valueTextView.setText(LocaleController.getString(R.string.Default), animated);
             } else if (installed || version == -1) {
-                valueTextView.setText(LocaleController.getString("InstalledEmojiSet", R.string.InstalledEmojiSet), animated);
+                valueTextView.setText(LocaleController.getString(R.string.InstalledEmojiSet), animated);
             } else {
                 String status;
                 if (EmojiHelper.getInstance().isInstalledOldVersion(pack.getPackId(), version)) {
-                    status = LocaleController.formatString("UpdateEmojiSet", R.string.UpdateEmojiSet, AndroidUtilities.formatFileSize(pack.getFileSize()));
+                    status = LocaleController.formatString(R.string.UpdateEmojiSet, AndroidUtilities.formatFileSize(pack.getFileSize()));
                 } else {
-                    status = LocaleController.formatString("DownloadEmojiSet", R.string.DownloadEmojiSet, AndroidUtilities.formatFileSize(pack.getFileSize()));
+                    status = LocaleController.formatString(R.string.DownloadEmojiSet, AndroidUtilities.formatFileSize(pack.getFileSize()));
                 }
                 valueTextView.setText(status, animated);
             }
             setPackPreview(pack);
             if (!animated) checkDownloaded(false);
         } else {
-            textView.setText(LocaleController.getString("EmojiSets", R.string.EmojiSets));
+            textView.setText(LocaleController.getString(R.string.EmojiSets));
             if (NekoConfig.useSystemEmoji) {
                 valueTextView.setText(EmojiHelper.getInstance().getSelectedPackName(), animated);
                 imageView.setImageBitmap(EmojiHelper.getInstance().getSystemEmojiPreview());
@@ -275,9 +275,9 @@ public class EmojiSetCell extends FrameLayout {
             if (EmojiHelper.getInstance().isPackDownloaded(packInfo)) {
                 setProgress(false, animated);
                 if (EmojiHelper.getInstance().isPackInstalled(packInfo)) {
-                    valueTextView.setText(LocaleController.getString("InstalledEmojiSet", R.string.InstalledEmojiSet), animated);
+                    valueTextView.setText(LocaleController.getString(R.string.InstalledEmojiSet), animated);
                 } else {
-                    valueTextView.setText(LocaleController.getString("InstallingEmojiSet", R.string.InstallingEmojiSet), animated);
+                    valueTextView.setText(LocaleController.getString(R.string.InstallingEmojiSet), animated);
                 }
             } else if (EmojiHelper.getInstance().isEmojiPackDownloading(packInfo)) {
                 setProgress(true, animated);
@@ -287,9 +287,9 @@ public class EmojiSetCell extends FrameLayout {
                 setChecked(false, animated);
                 String status;
                 if (EmojiHelper.getInstance().isInstalledOldVersion(packInfo.getPackId(), packInfo.getPackVersion())) {
-                    status = LocaleController.formatString("UpdateEmojiSet", R.string.UpdateEmojiSet, AndroidUtilities.formatFileSize(packInfo.getFileSize()));
+                    status = LocaleController.formatString(R.string.UpdateEmojiSet, AndroidUtilities.formatFileSize(packInfo.getFileSize()));
                 } else {
-                    status = LocaleController.formatString("DownloadEmojiSet", R.string.DownloadEmojiSet, AndroidUtilities.formatFileSize(packInfo.getFileSize()));
+                    status = LocaleController.formatString(R.string.DownloadEmojiSet, AndroidUtilities.formatFileSize(packInfo.getFileSize()));
                 }
                 valueTextView.setText(status, animated);
             }

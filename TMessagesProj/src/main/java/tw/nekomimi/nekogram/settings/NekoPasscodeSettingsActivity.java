@@ -83,7 +83,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
 
             if (PasscodeHelper.hasPasscodeForAccount(account)) {
                 TextCheckCell hideAccount = new TextCheckCell(getParentActivity(), 23, true, resourcesProvider);
-                hideAccount.setTextAndCheck(LocaleController.getString("PasscodeHideAccount", R.string.PasscodeHideAccount), PasscodeHelper.isAccountHidden(account), false);
+                hideAccount.setTextAndCheck(LocaleController.getString(R.string.PasscodeHideAccount), PasscodeHelper.isAccountHidden(account), false);
                 hideAccount.setOnClickListener(view13 -> {
                     boolean hide = !hideAccount.isChecked();
                     PasscodeHelper.setHideAccount(account, hide);
@@ -95,7 +95,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
             }
 
             TextCheckCell allowPanic = new TextCheckCell(getParentActivity(), 23, true, resourcesProvider);
-            allowPanic.setTextAndCheck(LocaleController.getString("PasscodeAllowPanic", R.string.PasscodeAllowPanic), PasscodeHelper.isAccountAllowPanic(account), false);
+            allowPanic.setTextAndCheck(LocaleController.getString(R.string.PasscodeAllowPanic), PasscodeHelper.isAccountAllowPanic(account), false);
             allowPanic.setOnClickListener(view13 -> {
                 boolean hide = !allowPanic.isChecked();
                 PasscodeHelper.setAccountAllowPanic(account, hide);
@@ -105,7 +105,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
             linearLayout.addView(allowPanic, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
             AlertDialog.AlertDialogCell editPasscode = new AlertDialog.AlertDialogCell(getParentActivity(), resourcesProvider);
-            editPasscode.setTextAndIcon(PasscodeHelper.hasPasscodeForAccount(account) ? LocaleController.getString("PasscodeEdit", R.string.PasscodeEdit) : LocaleController.getString("PasscodeSet", R.string.PasscodeSet), 0);
+            editPasscode.setTextAndIcon(PasscodeHelper.hasPasscodeForAccount(account) ? LocaleController.getString(R.string.PasscodeEdit) : LocaleController.getString(R.string.PasscodeSet), 0);
             editPasscode.setOnClickListener(view1 -> {
                 builder.getDismissRunnable().run();
                 presentFragment(new PasscodeActivity(PasscodeActivity.TYPE_SETUP_CODE, account));
@@ -115,7 +115,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
 
             if (PasscodeHelper.hasPasscodeForAccount(account)) {
                 AlertDialog.AlertDialogCell removePasscode = new AlertDialog.AlertDialogCell(getParentActivity(), resourcesProvider);
-                removePasscode.setTextAndIcon(LocaleController.getString("PasscodeRemove", R.string.PasscodeRemove), 0);
+                removePasscode.setTextAndIcon(LocaleController.getString(R.string.PasscodeRemove), 0);
                 removePasscode.setOnClickListener(view12 -> {
                     AlertDialog alertDialog = new AlertDialog.Builder(getParentActivity(), resourcesProvider)
                             .setTitle(LocaleController.getString(R.string.PasscodeRemove))
@@ -171,7 +171,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
 
     @Override
     protected String getActionBarTitle() {
-        return LocaleController.getString("PasscodeNeko", R.string.PasscodeNeko);
+        return LocaleController.getString(R.string.PasscodeNeko);
     }
 
     @Override
@@ -190,7 +190,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
     }
 
     private void makePasscodeBulletin() {
-        BulletinFactory.of(this).createSimpleBulletin(R.raw.info, LocaleController.getString("PasscodeNeeded", R.string.PasscodeNeeded), LocaleController.getString("Passcode", R.string.Passcode), () -> presentFragment(PasscodeActivity.determineOpenFragment())).show();
+        BulletinFactory.of(this).createSimpleBulletin(R.raw.info, LocaleController.getString(R.string.PasscodeNeeded), LocaleController.getString(R.string.Passcode), () -> presentFragment(PasscodeActivity.determineOpenFragment())).show();
     }
 
     @Override
@@ -236,13 +236,13 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                     textCell.setCanDisable(true);
                     textCell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == setPanicCodeRow) {
-                        textCell.setText(PasscodeHelper.hasPanicCode() ? LocaleController.getString("PasscodePanicCodeEdit", R.string.PasscodePanicCodeEdit) : LocaleController.getString("PasscodePanicCodeSet", R.string.PasscodePanicCodeSet), removePanicCodeRow != -1);
+                        textCell.setText(PasscodeHelper.hasPanicCode() ? LocaleController.getString(R.string.PasscodePanicCodeEdit) : LocaleController.getString(R.string.PasscodePanicCodeSet), removePanicCodeRow != -1);
                     } else if (position == clearPasscodesRow) {
                         textCell.setTextColor(getThemedColor(Theme.key_text_RedRegular));
                         textCell.setText("Clear passcodes", false);
                     } else if (position == removePanicCodeRow) {
                         textCell.setTextColor(getThemedColor(Theme.key_text_RedRegular));
-                        textCell.setText(LocaleController.getString("PasscodePanicCodeRemove", R.string.PasscodePanicCodeRemove), false);
+                        textCell.setText(LocaleController.getString(R.string.PasscodePanicCodeRemove), false);
                     }
                     break;
                 }
@@ -250,7 +250,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(passcodeSet, null);
                     if (position == showInSettingsRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("PasscodeShowInSettings", R.string.PasscodeShowInSettings), !PasscodeHelper.isSettingsHidden(), false);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.PasscodeShowInSettings), !PasscodeHelper.isSettingsHidden(), false);
                     }
                     break;
                 }
@@ -258,9 +258,9 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                     HeaderCell cell = (HeaderCell) holder.itemView;
                     cell.setEnabled(passcodeSet, null);
                     if (position == accountsStartRow) {
-                        cell.setText(LocaleController.getString("Account", R.string.Account));
+                        cell.setText(LocaleController.getString(R.string.Account));
                     } else if (position == panicCodeRow) {
-                        cell.setText(LocaleController.getString("PasscodePanicCode", R.string.PasscodePanicCode));
+                        cell.setText(LocaleController.getString(R.string.PasscodePanicCode));
                     }
                     break;
                 }
@@ -268,12 +268,12 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     cell.setEnabled(passcodeSet, null);
                     if (position == accountsEndRow) {
-                        cell.setText(LocaleController.getString("PasscodeAbout", R.string.PasscodeAbout));
+                        cell.setText(LocaleController.getString(R.string.PasscodeAbout));
                     } else if (position == panicCode2Row) {
-                        cell.setText(LocaleController.getString("PasscodePanicCodeAbout", R.string.PasscodePanicCodeAbout));
+                        cell.setText(LocaleController.getString(R.string.PasscodePanicCodeAbout));
                     } else if (position == showInSettings2Row) {
                         var link = String.format(Locale.ENGLISH, "https://t.me/nekosettings/%s", PasscodeHelper.getSettingsKey());
-                        var stringBuilder = new SpannableStringBuilder(AndroidUtilities.replaceTags(LocaleController.getString("PasscodeShowInSettingsAbout", R.string.PasscodeShowInSettingsAbout)));
+                        var stringBuilder = new SpannableStringBuilder(AndroidUtilities.replaceTags(LocaleController.getString(R.string.PasscodeShowInSettingsAbout)));
                         stringBuilder.append("\n").append(link);
                         stringBuilder.setSpan(new URLSpanNoUnderline(null) {
                             @Override

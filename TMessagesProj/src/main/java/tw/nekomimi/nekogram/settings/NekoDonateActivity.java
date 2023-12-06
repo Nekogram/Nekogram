@@ -69,12 +69,12 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
         }
         AndroidUtilities.runOnUIThread(() -> {
             if (TextUtils.isEmpty(result.getDebugMessage())) {
-                BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + ": " + result.getResponseCode()).show();
+                BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.ErrorOccurred) + ": " + result.getResponseCode()).show();
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-                builder.setTitle(LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred));
+                builder.setTitle(LocaleController.getString(R.string.ErrorOccurred));
                 builder.setMessage(result.getDebugMessage());
-                builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
                 showDialog(builder.create());
             }
         });
@@ -143,7 +143,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
 
     @Override
     protected String getActionBarTitle() {
-        return LocaleController.getString("Donate", R.string.Donate);
+        return LocaleController.getString(R.string.Donate);
     }
 
     @Override
@@ -186,7 +186,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                     billingClient.consumeAsync(params, (billingResult1, s) -> {
                         if (billingResult1.getResponseCode() == BillingClient.BillingResponseCode.OK) {
                             AndroidUtilities.runOnUIThread(() -> {
-                                BulletinFactory.of(this).createErrorBulletin(LocaleController.getString("DonateThankYou", R.string.DonateThankYou)).show();
+                                BulletinFactory.of(this).createErrorBulletin(LocaleController.getString(R.string.DonateThankYou)).show();
                                 try {
                                     fragmentView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                                 } catch (Exception ignored) {
@@ -223,7 +223,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                                 textCell.setText(skuDetails.get(position - donateRow - 1).getPrice(), position + 1 != donate2Row);
                             }
                         } else {
-                            textCell.setText(LocaleController.getString("Loading", R.string.Loading), position + 1 != donate2Row);
+                            textCell.setText(LocaleController.getString(R.string.Loading), position + 1 != donate2Row);
                         }
                     }
                     break;
@@ -231,14 +231,14 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                 case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == donateRow) {
-                        headerCell.setText(LocaleController.getString("GooglePlay", R.string.GooglePlay));
+                        headerCell.setText(LocaleController.getString(R.string.GooglePlay));
                     }
                     break;
                 }
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     if (position == donate2Row) {
-                        cell.setText(LocaleController.getString("DonateEvilGoogle", R.string.DonateEvilGoogle));
+                        cell.setText(LocaleController.getString(R.string.DonateEvilGoogle));
                     }
                     break;
                 }

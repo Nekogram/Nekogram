@@ -186,7 +186,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
 
     @Override
     protected String getActionBarTitle() {
-        return LocaleController.getString("EmojiSets", R.string.EmojiSets);
+        return LocaleController.getString(R.string.EmojiSets);
     }
 
     @Override
@@ -430,7 +430,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                         if (partial) {
                             textCheckCell.setChecked(NekoConfig.useSystemEmoji);
                         } else {
-                            textCheckCell.setTextAndCheck(LocaleController.getString("EmojiUseDefault", R.string.EmojiUseDefault), NekoConfig.useSystemEmoji, false);
+                            textCheckCell.setTextAndCheck(LocaleController.getString(R.string.EmojiUseDefault), NekoConfig.useSystemEmoji, false);
                         }
                     }
                     break;
@@ -438,20 +438,20 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                 case TYPE_HEADER: {
                     HeaderCell headerViewHolder = (HeaderCell) holder.itemView;
                     if (position == emojiPackRow) {
-                        headerViewHolder.setText(LocaleController.getString("EmojiSets", R.string.EmojiSets));
+                        headerViewHolder.setText(LocaleController.getString(R.string.EmojiSets));
                     } else if (position == generalRow) {
-                        headerViewHolder.setText(LocaleController.getString("General", R.string.General));
+                        headerViewHolder.setText(LocaleController.getString(R.string.General));
                     } else if (position == useCustomEmojiRow) {
-                        headerViewHolder.setText(LocaleController.getString("MyEmojiSets", R.string.MyEmojiSets));
+                        headerViewHolder.setText(LocaleController.getString(R.string.MyEmojiSets));
                     }
                     break;
                 }
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     if (position == emojiPack2Row) {
-                        cell.setText(LocaleController.getString("EmojiSetHint", R.string.EmojiSetHint));
+                        cell.setText(LocaleController.getString(R.string.EmojiSetHint));
                     } else if (position == useSystemEmoji2Row) {
-                        cell.setText(LocaleController.getString("CustomEmojiSetHint", R.string.CustomEmojiSetHint));
+                        cell.setText(LocaleController.getString(R.string.CustomEmojiSetHint));
                     }
                     break;
                 }
@@ -478,7 +478,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                         drawable1.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
                         drawable2.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_checkboxCheck), PorterDuff.Mode.MULTIPLY));
                         CombinedDrawable combinedDrawable = new CombinedDrawable(drawable1, drawable2);
-                        creationTextCell.setTextAndIcon(LocaleController.getString("AddEmojiSet", R.string.AddEmojiSet), combinedDrawable, false);
+                        creationTextCell.setTextAndIcon(LocaleController.getString(R.string.AddEmojiSet), combinedDrawable, false);
                     }
                     break;
                 }
@@ -575,12 +575,12 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                         uriList.add(FileProvider.getUriForFile(mContext, ApplicationLoader.getApplicationId() + ".provider", new File(packTmp.getFileLocation())));
                     }
                     intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uriList);
-                    mContext.startActivity(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)));
+                    mContext.startActivity(Intent.createChooser(intent, LocaleController.getString(R.string.ShareFile)));
                 } else {
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity(), resourcesProvider);
-                    builder.setTitle(LocaleController.formatString("DeleteStickerSetsAlertTitle", R.string.DeleteStickerSetsAlertTitle, LocaleController.formatString("DeleteEmojiSets", R.string.DeleteEmojiSets, count)));
-                    builder.setMessage(LocaleController.getString("DeleteEmojiSetsMessage", R.string.DeleteEmojiSetsMessage));
-                    builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), (dialog, which1) -> {
+                    builder.setTitle(LocaleController.formatString(R.string.DeleteStickerSetsAlertTitle, LocaleController.formatString(R.string.DeleteEmojiSets, count)));
+                    builder.setMessage(LocaleController.getString(R.string.DeleteEmojiSetsMessage));
+                    builder.setPositiveButton(LocaleController.getString(R.string.Delete), (dialog, which1) -> {
                         AlertDialog progressDialog = new AlertDialog(getParentActivity(), 3);
                         Utilities.globalQueue.postRunnable(() -> {
                             for (int i = 0, size = stickerSetList.size(); i < size; i++) {
@@ -596,7 +596,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                         progressDialog.setCanCancel(false);
                         progressDialog.showDelayed(300);
                     });
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                     AlertDialog dialog = builder.create();
                     showDialog(dialog);
                     dialog.redPositive();
@@ -609,7 +609,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                     intent.setType("font/ttf");
                     Uri uri = FileProvider.getUriForFile(mContext, ApplicationLoader.getApplicationId() + ".provider", new File(pack.getFileLocation()));
                     intent.putExtra(Intent.EXTRA_STREAM, uri);
-                    mContext.startActivity(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)));
+                    mContext.startActivity(Intent.createChooser(intent, LocaleController.getString(R.string.ShareFile)));
                     clearSelected();
                 } else {
                     EmojiHelper.getInstance().cancelableDelete(NekoEmojiSettingsActivity.this, pack, new EmojiHelper.OnBulletinAction() {

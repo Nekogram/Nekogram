@@ -74,7 +74,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         messageObjects[0].useCustomPhoto = true;
 
         message = new TLRPC.TL_message();
-        message.message = LocaleController.getString("StickerSizeDialogMessageReplyTo", R.string.StickerSizeDialogMessageReplyTo);
+        message.message = LocaleController.getString(R.string.StickerSizeDialogMessageReplyTo);
         message.date = date + 1270;
         message.dialog_id = -1;
         message.flags = 259;
@@ -87,7 +87,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         messageObjects[0].replyMessageObject = new MessageObject(UserConfig.selectedAccount, message, true, false);
 
         message = new TLRPC.TL_message();
-        message.message = LocaleController.getString("StickerSizeDialogMessage", R.string.StickerSizeDialogMessage);
+        message.message = LocaleController.getString(R.string.StickerSizeDialogMessage);
         message.date = date + 1270;
         message.dialog_id = -1;
         message.flags = 259;
@@ -113,7 +113,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
 
                 @Override
                 public void didPressImage(ChatMessageCell cell, float x, float y) {
-                    BulletinFactory.of(fragment).createErrorBulletin(LocaleController.getString("Nya", R.string.Nya), resourcesProvider).show();
+                    BulletinFactory.of(fragment).createErrorBulletin(LocaleController.getString(R.string.Nya), resourcesProvider).show();
                 }
             });
             cells[a].isChat = false;

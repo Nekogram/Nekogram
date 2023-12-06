@@ -31,14 +31,14 @@ public class ForwardItem {
             ID_FORWARD_NOCAPTION,
     };
     static final HashMap<Integer, String> ITEM_TITLES = new HashMap<>() {{
-        put(ID_FORWARD, LocaleController.getString("Forward", R.string.Forward));
-        put(ID_FORWARD_NOQUOTE, LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
-        put(ID_FORWARD_NOCAPTION, LocaleController.getString("NoCaptionForward", R.string.NoCaptionForward));
+        put(ID_FORWARD, LocaleController.getString(R.string.Forward));
+        put(ID_FORWARD_NOQUOTE, LocaleController.getString(R.string.NoQuoteForward));
+        put(ID_FORWARD_NOCAPTION, LocaleController.getString(R.string.NoCaptionForward));
     }};
     static final HashMap<Integer, String> ITEM_TITLES_SHORT = new HashMap<>() {{
-        put(ID_FORWARD, LocaleController.getString("Forward", R.string.Forward));
-        put(ID_FORWARD_NOQUOTE, LocaleController.getString("NoQuoteForwardShort", R.string.NoQuoteForwardShort));
-        put(ID_FORWARD_NOCAPTION, LocaleController.getString("NoCaptionForwardShort", R.string.NoCaptionForwardShort));
+        put(ID_FORWARD, LocaleController.getString(R.string.Forward));
+        put(ID_FORWARD_NOQUOTE, LocaleController.getString(R.string.NoQuoteForwardShort));
+        put(ID_FORWARD_NOCAPTION, LocaleController.getString(R.string.NoCaptionForwardShort));
     }};
 
     public static void setLastForwardOption(int option) {

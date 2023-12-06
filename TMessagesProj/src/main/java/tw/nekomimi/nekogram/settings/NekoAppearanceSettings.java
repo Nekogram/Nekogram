@@ -87,13 +87,13 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
         } else if (position == tabletModeRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
-            arrayList.add(LocaleController.getString("TabletModeAuto", R.string.TabletModeAuto));
+            arrayList.add(LocaleController.getString(R.string.TabletModeAuto));
             types.add(NekoConfig.TABLET_AUTO);
-            arrayList.add(LocaleController.getString("Enable", R.string.Enable));
+            arrayList.add(LocaleController.getString(R.string.Enable));
             types.add(NekoConfig.TABLET_ENABLE);
-            arrayList.add(LocaleController.getString("Disable", R.string.Disable));
+            arrayList.add(LocaleController.getString(R.string.Disable));
             types.add(NekoConfig.TABLET_DISABLE);
-            PopupHelper.show(arrayList, LocaleController.getString("TabletMode", R.string.TabletMode), types.indexOf(NekoConfig.tabletMode), getParentActivity(), view, i -> {
+            PopupHelper.show(arrayList, LocaleController.getString(R.string.TabletMode), types.indexOf(NekoConfig.tabletMode), getParentActivity(), view, i -> {
                 NekoConfig.setTabletMode(types.get(i));
                 listAdapter.notifyItemChanged(tabletModeRow, PARTIAL);
                 AndroidUtilities.resetTabletFlag();
@@ -119,11 +119,11 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
             presentFragment(new NekoEmojiSettingsActivity());
         } else if (position == eventTypeRow) {
             ArrayList<String> arrayList = new ArrayList<>();
-            arrayList.add(LocaleController.getString("DependsOnDate", R.string.DependsOnDate));
-            arrayList.add(LocaleController.getString("Christmas", R.string.Christmas));
-            arrayList.add(LocaleController.getString("Valentine", R.string.Valentine));
-            arrayList.add(LocaleController.getString("Halloween", R.string.Halloween));
-            PopupHelper.show(arrayList, LocaleController.getString("EventType", R.string.EventType), NekoConfig.eventType, getParentActivity(), view, i -> {
+            arrayList.add(LocaleController.getString(R.string.DependsOnDate));
+            arrayList.add(LocaleController.getString(R.string.Christmas));
+            arrayList.add(LocaleController.getString(R.string.Valentine));
+            arrayList.add(LocaleController.getString(R.string.Halloween));
+            PopupHelper.show(arrayList, LocaleController.getString(R.string.EventType), NekoConfig.eventType, getParentActivity(), view, i -> {
                 NekoConfig.setEventType(i);
                 listAdapter.notifyItemChanged(eventTypeRow, PARTIAL);
                 getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
@@ -197,13 +197,13 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
         } else if (position == tabsTitleTypeRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
-            arrayList.add(LocaleController.getString("TabTitleTypeText", R.string.TabTitleTypeText));
+            arrayList.add(LocaleController.getString(R.string.TabTitleTypeText));
             types.add(NekoConfig.TITLE_TYPE_TEXT);
-            arrayList.add(LocaleController.getString("TabTitleTypeIcon", R.string.TabTitleTypeIcon));
+            arrayList.add(LocaleController.getString(R.string.TabTitleTypeIcon));
             types.add(NekoConfig.TITLE_TYPE_ICON);
-            arrayList.add(LocaleController.getString("TabTitleTypeMix", R.string.TabTitleTypeMix));
+            arrayList.add(LocaleController.getString(R.string.TabTitleTypeMix));
             types.add(NekoConfig.TITLE_TYPE_MIX);
-            PopupHelper.show(arrayList, LocaleController.getString("TabTitleType", R.string.TabTitleType), types.indexOf(NekoConfig.tabsTitleType), getParentActivity(), view, i -> {
+            PopupHelper.show(arrayList, LocaleController.getString(R.string.TabTitleType), types.indexOf(NekoConfig.tabsTitleType), getParentActivity(), view, i -> {
                 NekoConfig.setTabsTitleType(types.get(i));
                 listAdapter.notifyItemChanged(tabsTitleTypeRow, PARTIAL);
                 getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
@@ -218,7 +218,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
 
     @Override
     protected String getActionBarTitle() {
-        return LocaleController.getString("Appearance", R.string.Appearance);
+        return LocaleController.getString(R.string.Appearance);
     }
 
     @Override
@@ -289,47 +289,47 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                         String value;
                         switch (NekoConfig.eventType) {
                             case 1:
-                                value = LocaleController.getString("Christmas", R.string.Christmas);
+                                value = LocaleController.getString(R.string.Christmas);
                                 break;
                             case 2:
-                                value = LocaleController.getString("Valentine", R.string.Valentine);
+                                value = LocaleController.getString(R.string.Valentine);
                                 break;
                             case 3:
-                                value = LocaleController.getString("Halloween", R.string.Halloween);
+                                value = LocaleController.getString(R.string.Halloween);
                                 break;
                             case 0:
                             default:
-                                value = LocaleController.getString("DependsOnDate", R.string.DependsOnDate);
+                                value = LocaleController.getString(R.string.DependsOnDate);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("EventType", R.string.EventType), value, partial, true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.EventType), value, partial, true);
                     } else if (position == tabsTitleTypeRow) {
                         String value;
                         switch (NekoConfig.tabsTitleType) {
                             case NekoConfig.TITLE_TYPE_TEXT:
-                                value = LocaleController.getString("TabTitleTypeText", R.string.TabTitleTypeText);
+                                value = LocaleController.getString(R.string.TabTitleTypeText);
                                 break;
                             case NekoConfig.TITLE_TYPE_ICON:
-                                value = LocaleController.getString("TabTitleTypeIcon", R.string.TabTitleTypeIcon);
+                                value = LocaleController.getString(R.string.TabTitleTypeIcon);
                                 break;
                             case NekoConfig.TITLE_TYPE_MIX:
                             default:
-                                value = LocaleController.getString("TabTitleTypeMix", R.string.TabTitleTypeMix);
+                                value = LocaleController.getString(R.string.TabTitleTypeMix);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TabTitleType", R.string.TabTitleType), value, partial, false);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.TabTitleType), value, partial, false);
                     } else if (position == tabletModeRow) {
                         String value;
                         switch (NekoConfig.tabletMode) {
                             case NekoConfig.TABLET_AUTO:
-                                value = LocaleController.getString("TabletModeAuto", R.string.TabletModeAuto);
+                                value = LocaleController.getString(R.string.TabletModeAuto);
                                 break;
                             case NekoConfig.TABLET_ENABLE:
-                                value = LocaleController.getString("Enable", R.string.Enable);
+                                value = LocaleController.getString(R.string.Enable);
                                 break;
                             case NekoConfig.TABLET_DISABLE:
                             default:
-                                value = LocaleController.getString("Disable", R.string.Disable);
+                                value = LocaleController.getString(R.string.Disable);
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TabletMode", R.string.TabletMode), value, partial, false);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.TabletMode), value, partial, false);
                     }
                     break;
                 }
@@ -337,43 +337,43 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
                     if (position == hidePhoneRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("HidePhone", R.string.HidePhone), NekoConfig.hidePhone, false);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.HidePhone), NekoConfig.hidePhone, false);
                     } else if (position == transparentStatusBarRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("TransparentStatusBar", R.string.TransparentStatusBar), SharedConfig.noStatusBar, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.TransparentStatusBar), SharedConfig.noStatusBar, true);
                     } else if (position == newYearRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("ChristmasHat", R.string.ChristmasHat), NekoConfig.newYear, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.ChristmasHat), NekoConfig.newYear, true);
                     } else if (position == avatarAsDrawerBackgroundRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("AvatarAsBackground", R.string.AvatarAsBackground), NekoConfig.avatarAsDrawerBackground, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.AvatarAsBackground), NekoConfig.avatarAsDrawerBackground, true);
                     } else if (position == disableNumberRoundingRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("DisableNumberRounding", R.string.DisableNumberRounding), "4.8K -> 4777", NekoConfig.disableNumberRounding, true, true);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.DisableNumberRounding), "4.8K -> 4777", NekoConfig.disableNumberRounding, true, true);
                     } else if (position == appBarShadowRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("DisableAppBarShadow", R.string.DisableAppBarShadow), NekoConfig.disableAppBarShadow, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.DisableAppBarShadow), NekoConfig.disableAppBarShadow, true);
                     } else if (position == mediaPreviewRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("MediaPreview", R.string.MediaPreview), NekoConfig.mediaPreview, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.MediaPreview), NekoConfig.mediaPreview, true);
                     } else if (position == formatTimeWithSecondsRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("FormatWithSeconds", R.string.FormatWithSeconds), NekoConfig.formatTimeWithSeconds, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.FormatWithSeconds), NekoConfig.formatTimeWithSeconds, true);
                     } else if (position == avatarBackgroundBlurRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("BlurAvatarBackground", R.string.BlurAvatarBackground), NekoConfig.avatarBackgroundBlur, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.BlurAvatarBackground), NekoConfig.avatarBackgroundBlur, true);
                     } else if (position == avatarBackgroundDarkenRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("DarkenAvatarBackground", R.string.DarkenAvatarBackground), NekoConfig.avatarBackgroundDarken, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.DarkenAvatarBackground), NekoConfig.avatarBackgroundDarken, true);
                     } else if (position == hideAllTabRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("HideAllTab", R.string.HideAllTab), NekoConfig.hideAllTab, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.HideAllTab), NekoConfig.hideAllTab, true);
                     }
                     break;
                 }
                 case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == appearanceRow) {
-                        headerCell.setText(LocaleController.getString("Appearance", R.string.Appearance));
+                        headerCell.setText(LocaleController.getString(R.string.Appearance));
                     } else if (position == foldersRow) {
-                        headerCell.setText(LocaleController.getString("Filters", R.string.Filters));
+                        headerCell.setText(LocaleController.getString(R.string.Filters));
                     }
                     break;
                 }
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     if (position == folders2Row) {
-                        cell.setText(LocaleController.getString("TabTitleTypeTip", R.string.TabTitleTypeTip));
+                        cell.setText(LocaleController.getString(R.string.TabTitleTypeTip));
                     }
                     break;
                 }

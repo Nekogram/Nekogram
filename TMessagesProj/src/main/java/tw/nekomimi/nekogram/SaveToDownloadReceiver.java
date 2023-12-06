@@ -59,7 +59,7 @@ public class SaveToDownloadReceiver extends BroadcastReceiver {
         var pendingIntent = PendingIntent.getBroadcast(context, notificationId, intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
 
         var builder = new NotificationCompat.Builder(context, NotificationsController.OTHER_NOTIFICATIONS_CHANNEL)
-                .setContentTitle(LocaleController.getString("AppName", R.string.AppName))
+                .setContentTitle(LocaleController.getString(R.string.AppName))
                 .setTicker(LocaleController.formatPluralString("SaveToDownloadCount", count))
                 .setContentText(LocaleController.formatPluralString("SaveToDownloadCount", count))
                 .setCategory(NotificationCompat.CATEGORY_STATUS)
@@ -70,7 +70,7 @@ public class SaveToDownloadReceiver extends BroadcastReceiver {
                 .setOngoing(true)
                 .setCategory(NotificationCompat.CATEGORY_PROGRESS)
                 .setOnlyAlertOnce(true)
-                .addAction(R.drawable.ic_close_white, LocaleController.getString("Cancel", R.string.Cancel), pendingIntent);
+                .addAction(R.drawable.ic_close_white, LocaleController.getString(R.string.Cancel), pendingIntent);
         callbacks.put(notificationId, callback);
         builders.put(notificationId, builder);
         getNotificationManager().notify(NOTIFICATION_TAG, notificationId, builder.build());

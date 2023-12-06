@@ -54,9 +54,9 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
             showRestartBulletin();
         } else if (position == providerRow) {
             ArrayList<String> arrayList = new ArrayList<>();
-            arrayList.add(LocaleController.getString("Nekogram", R.string.Nekogram));
-            arrayList.add(LocaleController.getString("AutoDownloadCustom", R.string.AutoDownloadCustom));
-            PopupHelper.show(arrayList, LocaleController.getString("WsProvider", R.string.WsProvider), TextUtils.isEmpty(NekoConfig.wsDomain) ? 0 : 1, getParentActivity(), view, i -> {
+            arrayList.add(LocaleController.getString(R.string.Nekogram));
+            arrayList.add(LocaleController.getString(R.string.AutoDownloadCustom));
+            PopupHelper.show(arrayList, LocaleController.getString(R.string.WsProvider), TextUtils.isEmpty(NekoConfig.wsDomain) ? 0 : 1, getParentActivity(), view, i -> {
                 if (i == 0) {
                     NekoConfig.setWsDomain("");
                     listAdapter.notifyItemChanged(providerRow, PARTIAL);
@@ -64,7 +64,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                 } else {
                     Context context = getParentActivity();
                     AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
-                    builder.setTitle(LocaleController.getString("WsProvider", R.string.WsProvider));
+                    builder.setTitle(LocaleController.getString(R.string.WsProvider));
 
                     LinearLayout ll = new LinearLayout(context);
                     ll.setOrientation(LinearLayout.VERTICAL);
@@ -78,7 +78,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
                     editText.setText("");
                     editText.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
-                    editText.setHintText(LocaleController.getString("WsProvider", R.string.WsProvider));
+                    editText.setHintText(LocaleController.getString(R.string.WsProvider));
                     editText.setHeaderHintColor(getThemedColor(Theme.key_windowBackgroundWhiteBlueHeader));
                     editText.setSingleLine(true);
                     editText.setFocusable(true);
@@ -91,12 +91,12 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     ll.addView(editText, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 36, 0, 24, 0, 24, 0));
 
                     builder.setView(ll);
-                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i2) -> {
+                    builder.setPositiveButton(LocaleController.getString(R.string.OK), (dialogInterface, i2) -> {
                         NekoConfig.setWsDomain(editText.getText().toString());
                         listAdapter.notifyItemChanged(providerRow, PARTIAL);
                         showRestartBulletin();
                     });
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
 
                     AlertDialog alertDialog = builder.create();
                     alertDialog.setOnShowListener(dialog -> {
@@ -167,25 +167,25 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     if (position == providerRow) {
                         String value;
                         if (TextUtils.isEmpty(NekoConfig.wsDomain)) {
-                            value = LocaleController.getString("Nekogram", R.string.Nekogram);
+                            value = LocaleController.getString(R.string.Nekogram);
                         } else {
                             value = NekoConfig.wsDomain;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("WsProvider", R.string.WsProvider), value, partial, true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.WsProvider), value, partial, true);
                     }
                     break;
                 }
                 case TYPE_CHECK: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     if (position == enableTLSRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("WsEnableTls", R.string.WsEnableTls), NekoConfig.wsEnableTLS, false);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.WsEnableTls), NekoConfig.wsEnableTLS, false);
                     }
                     break;
                 }
                 case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == settingsRow) {
-                        headerCell.setText(LocaleController.getString("Settings", R.string.Settings));
+                        headerCell.setText(LocaleController.getString(R.string.Settings));
                     }
                     break;
                 }
@@ -194,7 +194,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     if (position == helpRow) {
                         Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_psa);
                         drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
-                        creationTextCell.setTextAndIcon(LocaleController.getString("BotHelp", R.string.BotHelp), drawable, false);
+                        creationTextCell.setTextAndIcon(LocaleController.getString(R.string.BotHelp), drawable, false);
                     }
                     break;
                 }
@@ -202,7 +202,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
                     textCell.setMultilineDetail(true);
                     if (position == donateRow) {
-                        textCell.setTextAndValue(LocaleController.getString("Donate", R.string.Donate), LocaleController.getString("DonateAbout", R.string.DonateAbout), false);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.Donate), LocaleController.getString(R.string.DonateAbout), false);
                     }
                     break;
                 }

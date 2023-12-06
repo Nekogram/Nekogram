@@ -123,13 +123,13 @@ public class QrHelper {
                 textView.setText(text);
                 textView.setOnClickListener(v1 -> {
                     AndroidUtilities.addToClipboard(text);
-                    BulletinFactory.of(Bulletin.BulletinWindow.make(context), resourcesProvider).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
+                    BulletinFactory.of(Bulletin.BulletinWindow.make(context), resourcesProvider).createCopyBulletin(LocaleController.getString(R.string.TextCopied)).show();
                 });
             }
             textView.setOnLongClickListener(v -> {
                 BottomSheet.Builder builder = new BottomSheet.Builder(context, false, resourcesProvider);
                 builder.setTitle(username != null ? "@" + username : text);
-                builder.setItems(linkOrUsername ? new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("ShareFile", R.string.ShareFile), LocaleController.getString("Copy", R.string.Copy)} : new CharSequence[]{null, null, null, LocaleController.getString("Copy", R.string.Copy)}, (d, which) -> {
+                builder.setItems(linkOrUsername ? new CharSequence[]{LocaleController.getString(R.string.Open), LocaleController.getString(R.string.ShareFile), LocaleController.getString(R.string.Copy)} : new CharSequence[]{null, null, null, LocaleController.getString(R.string.Copy)}, (d, which) -> {
                     if (which == 0) {
                         AlertsCreator.showOpenUrlAlert(fragment, text, true, false, dark ? null : resourcesProvider);
                     } else if (which == 1 || which == 2) {
@@ -145,13 +145,13 @@ public class QrHelper {
                             AndroidUtilities.addToClipboard(url1);
                             String bulletinMessage;
                             if (tel) {
-                                bulletinMessage = LocaleController.getString("PhoneCopied", R.string.PhoneCopied);
+                                bulletinMessage = LocaleController.getString(R.string.PhoneCopied);
                             } else if (url1.startsWith("#")) {
-                                bulletinMessage = LocaleController.getString("HashtagCopied", R.string.HashtagCopied);
+                                bulletinMessage = LocaleController.getString(R.string.HashtagCopied);
                             } else if (url1.startsWith("@")) {
-                                bulletinMessage = LocaleController.getString("UsernameCopied", R.string.UsernameCopied);
+                                bulletinMessage = LocaleController.getString(R.string.UsernameCopied);
                             } else {
-                                bulletinMessage = LocaleController.getString("LinkCopied", R.string.LinkCopied);
+                                bulletinMessage = LocaleController.getString(R.string.LinkCopied);
                             }
                             if (AndroidUtilities.shouldShowClipboardToast()) {
                                 BulletinFactory.of(Bulletin.BulletinWindow.make(context), resourcesProvider).createSimpleBulletin(R.raw.voip_invite, bulletinMessage).show();
@@ -160,12 +160,12 @@ public class QrHelper {
                             Intent shareIntent = new Intent(Intent.ACTION_SEND);
                             shareIntent.setType("text/plain");
                             shareIntent.putExtra(Intent.EXTRA_TEXT, url1);
-                            Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+                            Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString(R.string.ShareFile));
                             chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             ApplicationLoader.applicationContext.startActivity(chooserIntent);
                         }
                     } else {
-                        BulletinFactory.of(Bulletin.BulletinWindow.make(context), resourcesProvider).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
+                        BulletinFactory.of(Bulletin.BulletinWindow.make(context), resourcesProvider).createCopyBulletin(LocaleController.getString(R.string.TextCopied)).show();
                     }
                 });
                 BottomSheet bottomSheet = builder.create();

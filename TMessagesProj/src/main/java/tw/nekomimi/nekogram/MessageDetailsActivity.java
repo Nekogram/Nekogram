@@ -303,12 +303,12 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     private void showNoForwards() {
         if (getMessagesController().isChatNoForwards(toChat)) {
             BulletinFactory.of(this).createErrorBulletin(toChat.broadcast ?
-                    LocaleController.getString("ForwardsRestrictedInfoChannel", R.string.ForwardsRestrictedInfoChannel) :
-                    LocaleController.getString("ForwardsRestrictedInfoGroup", R.string.ForwardsRestrictedInfoGroup)
+                    LocaleController.getString(R.string.ForwardsRestrictedInfoChannel) :
+                    LocaleController.getString(R.string.ForwardsRestrictedInfoGroup)
             ).show();
         } else {
             BulletinFactory.of(this).createErrorBulletin(
-                    LocaleController.getString("ForwardsRestrictedInfoBot", R.string.ForwardsRestrictedInfoBot)).show();
+                    LocaleController.getString(R.string.ForwardsRestrictedInfoBot)).show();
         }
     }
 
@@ -332,7 +332,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
                 intent.putExtra(Intent.EXTRA_STREAM, uri);
                 intent.setDataAndType(uri, messageObject.getMimeType());
-                startActivityForResult(Intent.createChooser(intent, LocaleController.getString("ShareFile", R.string.ShareFile)), 500);
+                startActivityForResult(Intent.createChooser(intent, LocaleController.getString(R.string.ShareFile)), 500);
             } else {
                 showNoForwards();
             }
@@ -379,7 +379,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 cell.setOnClickListener(v1 -> {
                     dialog.dismiss();
                     AndroidUtilities.addToClipboard(cell.getValueTextView().getText());
-                    BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                    BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString(R.string.TextCopied)).show();
                 });
                 cell.setTextAndValue(reason.reason + "-" + reason.platform, reason.text, false);
 
@@ -439,7 +439,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             showDialog(dialog);
         } else if (position == exportRow) {
             AndroidUtilities.addToClipboard(gson.toJson(messageObject.messageOwner));
-            BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+            BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString(R.string.TextCopied)).show();
         }
     }
 
@@ -456,7 +456,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     text = textCell.getValueTextView().getText();
                 }
                 AndroidUtilities.addToClipboard(text);
-                BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString(R.string.TextCopied)).show();
                 return true;
             } else {
                 showNoForwards();
@@ -473,7 +473,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
 
     @Override
     protected String getActionBarTitle() {
-        return LocaleController.getString("MessageDetails", R.string.MessageDetails);
+        return LocaleController.getString(R.string.MessageDetails);
     }
 
     @Override
@@ -654,7 +654,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     if (position == exportRow) {
                         Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_copy);
                         drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
-                        creationTextCell.setTextAndIcon(LocaleController.getString("ExportAsJson", R.string.ExportAsJson), drawable, false);
+                        creationTextCell.setTextAndIcon(LocaleController.getString(R.string.ExportAsJson), drawable, false);
                     }
                     break;
                 }
@@ -706,7 +706,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             if (timestamp == 0x7ffffffe) {
                 return "When online";
             } else {
-                return timestamp + "\n" + LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(timestamp * 1000L)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(timestamp * 1000L)));
+                return timestamp + "\n" + LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(timestamp * 1000L)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(timestamp * 1000L)));
             }
         }
     }

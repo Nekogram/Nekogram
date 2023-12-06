@@ -79,8 +79,8 @@ public class Translator {
                 context.startActivity(intent);
             } catch (ActivityNotFoundException e) {
                 new AlertDialog.Builder(context, resourcesProvider)
-                        .setTitle(LocaleController.getString("AppName", R.string.AppName))
-                        .setMessage(LocaleController.getString("NoTranslatorAppInstalled", R.string.NoTranslatorAppInstalled))
+                        .setTitle(LocaleController.getString(R.string.AppName))
+                        .setMessage(LocaleController.getString(R.string.NoTranslatorAppInstalled))
                         .show();
             }
         } else {
@@ -94,24 +94,24 @@ public class Translator {
         }
         AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
         if (t instanceof UnsupportedTargetLanguageException) {
-            builder.setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
-            builder.setPositiveButton(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(context, null, null, resourcesProvider));
+            builder.setMessage(LocaleController.getString(R.string.TranslateApiUnsupported));
+            builder.setPositiveButton(LocaleController.getString(R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(context, null, null, resourcesProvider));
         } else {
             if (t instanceof Http429Exception) {
-                builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
-                builder.setMessage(LocaleController.getString("FloodWait", R.string.FloodWait));
+                builder.setTitle(LocaleController.getString(R.string.TranslateFailed));
+                builder.setMessage(LocaleController.getString(R.string.FloodWait));
             } else if (t != null && t.getLocalizedMessage() != null) {
-                builder.setTitle(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                builder.setTitle(LocaleController.getString(R.string.TranslateFailed));
                 builder.setMessage(t.getLocalizedMessage());
             } else {
-                builder.setMessage(LocaleController.getString("TranslateFailed", R.string.TranslateFailed));
+                builder.setMessage(LocaleController.getString(R.string.TranslateFailed));
             }
             if (onRetry != null) {
-                builder.setPositiveButton(LocaleController.getString("Retry", R.string.Retry), (dialog, which) -> onRetry.run());
+                builder.setPositiveButton(LocaleController.getString(R.string.Retry), (dialog, which) -> onRetry.run());
             }
-            builder.setNeutralButton(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(context, null, null, resourcesProvider));
+            builder.setNeutralButton(LocaleController.getString(R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(context, null, null, resourcesProvider));
         }
-        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
         builder.show();
     }
 
@@ -147,23 +147,23 @@ public class Translator {
     public static Pair<ArrayList<String>, ArrayList<String>> getProviders() {
         ArrayList<String> names = new ArrayList<>();
         ArrayList<String> types = new ArrayList<>();
-        names.add(LocaleController.getString("ProviderGoogleTranslate", R.string.ProviderGoogleTranslate));
+        names.add(LocaleController.getString(R.string.ProviderGoogleTranslate));
         types.add(PROVIDER_GOOGLE);
-        names.add(LocaleController.getString("ProviderYandex", R.string.ProviderYandex));
+        names.add(LocaleController.getString(R.string.ProviderYandex));
         types.add(PROVIDER_YANDEX);
-        names.add(LocaleController.getString("ProviderMicrosoftTranslator", R.string.ProviderMicrosoftTranslator));
+        names.add(LocaleController.getString(R.string.ProviderMicrosoftTranslator));
         types.add(PROVIDER_MICROSOFT);
-        names.add(LocaleController.getString("ProviderDeepLTranslate", R.string.ProviderDeepLTranslate));
+        names.add(LocaleController.getString(R.string.ProviderDeepLTranslate));
         types.add(PROVIDER_DEEPL);
-        names.add(LocaleController.getString("ProviderLingocloud", R.string.ProviderLingocloud));
+        names.add(LocaleController.getString(R.string.ProviderLingocloud));
         types.add(PROVIDER_LINGO);
-        names.add(LocaleController.getString("ProviderYouDaoTranslate", R.string.ProviderYouDaoTranslate));
+        names.add(LocaleController.getString(R.string.ProviderYouDaoTranslate));
         types.add(PROVIDER_YOUDAO);
-        names.add(LocaleController.getString("ProviderBaiduTranslate", R.string.ProviderBaiduTranslate));
+        names.add(LocaleController.getString(R.string.ProviderBaiduTranslate));
         types.add(PROVIDER_BAIDU);
-        names.add(LocaleController.getString("ProviderSogouTranslate", R.string.ProviderSogouTranslate));
+        names.add(LocaleController.getString(R.string.ProviderSogouTranslate));
         types.add(PROVIDER_SOGOU);
-        names.add(LocaleController.getString("ProviderTencentTranslator", R.string.ProviderTencentTranslator));
+        names.add(LocaleController.getString(R.string.ProviderTencentTranslator));
         types.add(PROVIDER_TENCENT);
         return new Pair<>(names, types);
     }
@@ -181,9 +181,9 @@ public class Translator {
                 }
             }
             targetLanguages.add(0, "app");
-            names.add(0, LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp));
+            names.add(0, LocaleController.getString(R.string.TranslationTargetApp));
 
-            PopupHelper.show(names, LocaleController.getString("TranslationTarget", R.string.TranslationTarget), targetLanguages.indexOf(NekoConfig.translationTarget), fragment.getParentActivity(), view, i -> {
+            PopupHelper.show(names, LocaleController.getString(R.string.TranslationTarget), targetLanguages.indexOf(NekoConfig.translationTarget), fragment.getParentActivity(), view, i -> {
                 NekoConfig.setTranslationTarget(targetLanguages.get(i));
                 if (callback != null) callback.run();
             }, resourcesProvider);
@@ -195,13 +195,13 @@ public class Translator {
     public static void showTranslatorTypeSelector(Context context, View view, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
         ArrayList<String> arrayList = new ArrayList<>();
         ArrayList<Integer> types = new ArrayList<>();
-        arrayList.add(LocaleController.getString("TranslatorTypeNeko", R.string.TranslatorTypeNeko));
+        arrayList.add(LocaleController.getString(R.string.TranslatorTypeNeko));
         types.add(NekoConfig.TRANS_TYPE_NEKO);
-        arrayList.add(LocaleController.getString("TranslatorTypeTG", R.string.TranslatorTypeTG));
+        arrayList.add(LocaleController.getString(R.string.TranslatorTypeTG));
         types.add(NekoConfig.TRANS_TYPE_TG);
-        arrayList.add(LocaleController.getString("TranslatorTypeExternal", R.string.TranslatorTypeExternal));
+        arrayList.add(LocaleController.getString(R.string.TranslatorTypeExternal));
         types.add(NekoConfig.TRANS_TYPE_EXTERNAL);
-        PopupHelper.show(arrayList, LocaleController.getString("TranslatorType", R.string.TranslatorType), types.indexOf(NekoConfig.transType), context, view, i -> {
+        PopupHelper.show(arrayList, LocaleController.getString(R.string.TranslatorType), types.indexOf(NekoConfig.transType), context, view, i -> {
             NekoConfig.setTransType(types.get(i));
             if (callback != null) callback.run();
         }, resourcesProvider);
@@ -214,7 +214,7 @@ public class Translator {
         if (names == null || types == null) {
             return;
         }
-        PopupHelper.show(names, LocaleController.getString("TranslationProvider", R.string.TranslationProvider), types.indexOf(NekoConfig.translationProvider), context, view, i -> {
+        PopupHelper.show(names, LocaleController.getString(R.string.TranslationProvider), types.indexOf(NekoConfig.translationProvider), context, view, i -> {
             BaseTranslator translator = getTranslator(types.get(i));
             String targetLanguage = getTargetLanguage(translator, NekoConfig.translationTarget);
 
@@ -223,22 +223,22 @@ public class Translator {
                 if (callback != null) callback.run(true);
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider)
-                        .setMessage(LocaleController.getString("TranslateApiUnsupported", R.string.TranslateApiUnsupported));
+                        .setMessage(LocaleController.getString(R.string.TranslateApiUnsupported));
                 if ("app".equals(NekoConfig.translationTarget)) {
-                    builder.setPositiveButton(LocaleController.getString("UseGoogleTranslate", R.string.UseGoogleTranslate), (dialog, which) -> {
+                    builder.setPositiveButton(LocaleController.getString(R.string.UseGoogleTranslate), (dialog, which) -> {
                         NekoConfig.setTranslationProvider(PROVIDER_GOOGLE);
                         if (callback != null) callback.run(true);
                     });
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                 } else if (translator.supportLanguage(getCurrentAppLanguage(translator))) {
-                    builder.setPositiveButton(LocaleController.getString("ResetLanguage", R.string.ResetLanguage), (dialog, which) -> {
+                    builder.setPositiveButton(LocaleController.getString(R.string.ResetLanguage), (dialog, which) -> {
                         NekoConfig.setTranslationProvider(types.get(i));
                         NekoConfig.setTranslationTarget("app");
                         if (callback != null) callback.run(false);
                     });
-                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                    builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                 } else {
-                    builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                    builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
                 }
                 builder.show();
             }
@@ -322,7 +322,7 @@ public class Translator {
         Locale locale = LocaleController.getInstance().getCurrentLocale();
         toLang = translator.convertLanguageCode(locale.getLanguage(), locale.getCountry());
         if (!translator.supportLanguage(toLang)) {
-            toLang = translator.convertLanguageCode(LocaleController.getString("LanguageCode", R.string.LanguageCode), null);
+            toLang = translator.convertLanguageCode(LocaleController.getString(R.string.LanguageCode), null);
         }
         return toLang;
     }

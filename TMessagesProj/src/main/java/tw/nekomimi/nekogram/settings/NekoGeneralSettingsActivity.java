@@ -85,11 +85,11 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         } else if (position == nameOrderRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
-            arrayList.add(LocaleController.getString("FirstLast", R.string.FirstLast));
+            arrayList.add(LocaleController.getString(R.string.FirstLast));
             types.add(1);
-            arrayList.add(LocaleController.getString("LastFirst", R.string.LastFirst));
+            arrayList.add(LocaleController.getString(R.string.LastFirst));
             types.add(2);
-            PopupHelper.show(arrayList, LocaleController.getString("NameOrder", R.string.NameOrder), types.indexOf(NekoConfig.nameOrder), getParentActivity(), view, i -> {
+            PopupHelper.show(arrayList, LocaleController.getString(R.string.NameOrder), types.indexOf(NekoConfig.nameOrder), getParentActivity(), view, i -> {
                 NekoConfig.setNameOrder(types.get(i));
                 listAdapter.notifyItemChanged(nameOrderRow, PARTIAL);
                 parentLayout.rebuildAllFragmentViews(false, false);
@@ -123,13 +123,13 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         } else if (position == deepLFormalityRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
-            arrayList.add(LocaleController.getString("DeepLFormalityDefault", R.string.DeepLFormalityDefault));
+            arrayList.add(LocaleController.getString(R.string.DeepLFormalityDefault));
             types.add(DeepLTranslator.FORMALITY_DEFAULT);
-            arrayList.add(LocaleController.getString("DeepLFormalityMore", R.string.DeepLFormalityMore));
+            arrayList.add(LocaleController.getString(R.string.DeepLFormalityMore));
             types.add(DeepLTranslator.FORMALITY_MORE);
-            arrayList.add(LocaleController.getString("DeepLFormalityLess", R.string.DeepLFormalityLess));
+            arrayList.add(LocaleController.getString(R.string.DeepLFormalityLess));
             types.add(DeepLTranslator.FORMALITY_LESS);
-            PopupHelper.show(arrayList, LocaleController.getString("DeepLFormality", R.string.DeepLFormality), types.indexOf(NekoConfig.deepLFormality), getParentActivity(), view, i -> {
+            PopupHelper.show(arrayList, LocaleController.getString(R.string.DeepLFormality), types.indexOf(NekoConfig.deepLFormality), getParentActivity(), view, i -> {
                 NekoConfig.setDeepLFormality(types.get(i));
                 listAdapter.notifyItemChanged(deepLFormalityRow, PARTIAL);
             }, resourcesProvider);
@@ -146,13 +146,13 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         } else if (position == idTypeRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
-            arrayList.add(LocaleController.getString("IdTypeHidden", R.string.IdTypeHidden));
+            arrayList.add(LocaleController.getString(R.string.IdTypeHidden));
             types.add(NekoConfig.ID_TYPE_HIDDEN);
-            arrayList.add(LocaleController.getString("IdTypeAPI", R.string.IdTypeAPI));
+            arrayList.add(LocaleController.getString(R.string.IdTypeAPI));
             types.add(NekoConfig.ID_TYPE_API);
-            arrayList.add(LocaleController.getString("IdTypeBOTAPI", R.string.IdTypeBOTAPI));
+            arrayList.add(LocaleController.getString(R.string.IdTypeBOTAPI));
             types.add(NekoConfig.ID_TYPE_BOTAPI);
-            PopupHelper.show(arrayList, LocaleController.getString("IdType", R.string.IdType), types.indexOf(NekoConfig.idType), getParentActivity(), view, i -> {
+            PopupHelper.show(arrayList, LocaleController.getString(R.string.IdType), types.indexOf(NekoConfig.idType), getParentActivity(), view, i -> {
                 NekoConfig.setIdType(types.get(i));
                 listAdapter.notifyItemChanged(idTypeRow, PARTIAL);
                 parentLayout.rebuildAllFragmentViews(false, false);
@@ -197,13 +197,13 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             }, resourcesProvider);
         } else if (position == doNotTranslateRow) {
             if (!supportLanguageDetector) {
-                BulletinFactory.of(this).createErrorBulletinSubtitle(LocaleController.getString("BrokenMLKit", R.string.BrokenMLKit), LocaleController.getString("BrokenMLKitDetail", R.string.BrokenMLKitDetail), null).show();
+                BulletinFactory.of(this).createErrorBulletinSubtitle(LocaleController.getString(R.string.BrokenMLKit), LocaleController.getString(R.string.BrokenMLKitDetail), null).show();
                 return;
             }
             presentFragment(new NekoLanguagesSelectActivity(NekoLanguagesSelectActivity.TYPE_RESTRICTED, true));
         } else if (position == autoTranslateRow) {
             if (!supportLanguageDetector) {
-                BulletinFactory.of(this).createErrorBulletinSubtitle(LocaleController.getString("BrokenMLKit", R.string.BrokenMLKit), LocaleController.getString("BrokenMLKitDetail", R.string.BrokenMLKitDetail), null).show();
+                BulletinFactory.of(this).createErrorBulletinSubtitle(LocaleController.getString(R.string.BrokenMLKit), LocaleController.getString(R.string.BrokenMLKitDetail), null).show();
                 return;
             }
             NekoConfig.toggleAutoTranslate();
@@ -231,7 +231,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
 
     @Override
     protected String getActionBarTitle() {
-        return LocaleController.getString("General", R.string.General);
+        return LocaleController.getString(R.string.General);
     }
 
     @Override
@@ -306,14 +306,14 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         String value;
                         switch (NekoConfig.nameOrder) {
                             case 2:
-                                value = LocaleController.getString("LastFirst", R.string.LastFirst);
+                                value = LocaleController.getString(R.string.LastFirst);
                                 break;
                             case 1:
                             default:
-                                value = LocaleController.getString("FirstLast", R.string.FirstLast);
+                                value = LocaleController.getString(R.string.FirstLast);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("NameOrder", R.string.NameOrder), value, partial, true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.NameOrder), value, partial, true);
                     } else if (position == translationProviderRow) {
                         Pair<ArrayList<String>, ArrayList<String>> providers = Translator.getProviders();
                         ArrayList<String> names = providers.first;
@@ -323,16 +323,16 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         }
                         int index = types.indexOf(NekoConfig.translationProvider);
                         if (index < 0) {
-                            textCell.setTextAndValue(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), "", partial, true);
+                            textCell.setTextAndValue(LocaleController.getString(R.string.TranslationProviderShort), "", partial, true);
                         } else {
                             String value = names.get(index);
-                            textCell.setTextAndValue(LocaleController.getString("TranslationProviderShort", R.string.TranslationProviderShort), value, partial, true);
+                            textCell.setTextAndValue(LocaleController.getString(R.string.TranslationProviderShort), value, partial, true);
                         }
                     } else if (position == translationTargetRow) {
                         String language = NekoConfig.translationTarget;
                         CharSequence value;
                         if (language.equals("app")) {
-                            value = LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp);
+                            value = LocaleController.getString(R.string.TranslationTargetApp);
                         } else {
                             Locale locale = Locale.forLanguageTag(language);
                             if (!TextUtils.isEmpty(locale.getScript())) {
@@ -341,52 +341,52 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                                 value = locale.getDisplayName();
                             }
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TranslationTarget", R.string.TranslationTarget), value, partial, true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.TranslationTarget), value, partial, true);
                     } else if (position == deepLFormalityRow) {
                         String value;
                         switch (NekoConfig.deepLFormality) {
                             case DeepLTranslator.FORMALITY_DEFAULT:
-                                value = LocaleController.getString("DeepLFormalityDefault", R.string.DeepLFormalityDefault);
+                                value = LocaleController.getString(R.string.DeepLFormalityDefault);
                                 break;
                             case DeepLTranslator.FORMALITY_MORE:
-                                value = LocaleController.getString("DeepLFormalityMore", R.string.DeepLFormalityMore);
+                                value = LocaleController.getString(R.string.DeepLFormalityMore);
                                 break;
                             case DeepLTranslator.FORMALITY_LESS:
                             default:
-                                value = LocaleController.getString("DeepLFormalityLess", R.string.DeepLFormalityLess);
+                                value = LocaleController.getString(R.string.DeepLFormalityLess);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("DeepLFormality", R.string.DeepLFormality), value, partial, true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.DeepLFormality), value, partial, true);
                     } else if (position == idTypeRow) {
                         String value;
                         switch (NekoConfig.idType) {
                             case NekoConfig.ID_TYPE_HIDDEN:
-                                value = LocaleController.getString("IdTypeHidden", R.string.IdTypeHidden);
+                                value = LocaleController.getString(R.string.IdTypeHidden);
                                 break;
                             case NekoConfig.ID_TYPE_BOTAPI:
-                                value = LocaleController.getString("IdTypeBOTAPI", R.string.IdTypeBOTAPI);
+                                value = LocaleController.getString(R.string.IdTypeBOTAPI);
                                 break;
                             case NekoConfig.ID_TYPE_API:
                             default:
-                                value = LocaleController.getString("IdTypeAPI", R.string.IdTypeAPI);
+                                value = LocaleController.getString(R.string.IdTypeAPI);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("IdType", R.string.IdType), value, partial, false);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.IdType), value, partial, false);
                     } else if (position == translatorTypeRow) {
                         String value;
                         switch (NekoConfig.transType) {
                             case NekoConfig.TRANS_TYPE_TG:
-                                value = LocaleController.getString("TranslatorTypeTG", R.string.TranslatorTypeTG);
+                                value = LocaleController.getString(R.string.TranslatorTypeTG);
                                 break;
                             case NekoConfig.TRANS_TYPE_EXTERNAL:
-                                value = LocaleController.getString("TranslatorTypeExternal", R.string.TranslatorTypeExternal);
+                                value = LocaleController.getString(R.string.TranslatorTypeExternal);
                                 break;
                             case NekoConfig.TRANS_TYPE_NEKO:
                             default:
-                                value = LocaleController.getString("TranslatorTypeNeko", R.string.TranslatorTypeNeko);
+                                value = LocaleController.getString(R.string.TranslatorTypeNeko);
                                 break;
                         }
-                        textCell.setTextAndValue(LocaleController.getString("TranslatorType", R.string.TranslatorType), value, partial, position + 1 != translator2Row);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.TranslatorType), value, partial, position + 1 != translator2Row);
                     } else if (position == doNotTranslateRow) {
                         ArrayList<String> langCodes = getRestrictedLanguages();
                         CharSequence value;
@@ -400,7 +400,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         } else {
                             value = LocaleController.formatPluralString("Languages", langCodes.size());
                         }
-                        textCell.setTextAndValue(LocaleController.getString("DoNotTranslate", R.string.DoNotTranslate), value, partial, true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.DoNotTranslate), value, partial, true);
                     }
                     break;
                 }
@@ -408,48 +408,48 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
                     if (position == ipv6Row) {
-                        textCell.setTextAndCheck(LocaleController.getString("IPv6", R.string.IPv6), NekoConfig.useIPv6, false);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.IPv6), NekoConfig.useIPv6, false);
                     } else if (position == disabledInstantCameraRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("DisableInstantCamera", R.string.DisableInstantCamera), NekoConfig.disableInstantCamera, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.DisableInstantCamera), NekoConfig.disableInstantCamera, true);
                     } else if (position == openArchiveOnPullRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("OpenArchiveOnPull", R.string.OpenArchiveOnPull), NekoConfig.openArchiveOnPull, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.OpenArchiveOnPull), NekoConfig.openArchiveOnPull, true);
                     } else if (position == askBeforeCallRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("AskBeforeCalling", R.string.AskBeforeCalling), NekoConfig.askBeforeCall, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.AskBeforeCalling), NekoConfig.askBeforeCall, true);
                     } else if (position == accentAsNotificationColorRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("AccentAsNotificationColor", R.string.AccentAsNotificationColor), NekoConfig.accentAsNotificationColor, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.AccentAsNotificationColor), NekoConfig.accentAsNotificationColor, true);
                     } else if (position == silenceNonContactsRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("SilenceNonContacts", R.string.SilenceNonContacts), NekoConfig.silenceNonContacts, false);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.SilenceNonContacts), NekoConfig.silenceNonContacts, false);
                     } else if (position == autoTranslateRow) {
                         textCell.setEnabled(supportLanguageDetector, null);
-                        textCell.setTextAndValueAndCheck(LocaleController.getString("AutoTranslate", R.string.AutoTranslate), LocaleController.getString("AutoTranslateAbout", R.string.AutoTranslateAbout), NekoConfig.autoTranslate, true, false);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.AutoTranslate), LocaleController.getString(R.string.AutoTranslateAbout), NekoConfig.autoTranslate, true, false);
                     } else if (position == showOriginalRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("TranslatorShowOriginal", R.string.TranslatorShowOriginal), NekoConfig.showOriginal, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.TranslatorShowOriginal), NekoConfig.showOriginal, true);
                     } else if (position == hideStoriesRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("HideStories", R.string.HideStories), NekoConfig.hideStories, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.HideStories), NekoConfig.hideStories, true);
                     }
                     break;
                 }
                 case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == generalRow) {
-                        headerCell.setText(LocaleController.getString("General", R.string.General));
+                        headerCell.setText(LocaleController.getString(R.string.General));
                     } else if (position == connectionRow) {
-                        headerCell.setText(LocaleController.getString("Connection", R.string.Connection));
+                        headerCell.setText(LocaleController.getString(R.string.Connection));
                     } else if (position == notificationRow) {
-                        headerCell.setText(LocaleController.getString("Notifications", R.string.Notifications));
+                        headerCell.setText(LocaleController.getString(R.string.Notifications));
                     } else if (position == translatorRow) {
-                        headerCell.setText(LocaleController.getString("Translator", R.string.Translator));
+                        headerCell.setText(LocaleController.getString(R.string.Translator));
                     }
                     break;
                 }
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     if (position == general2Row) {
-                        cell.setText(LocaleController.getString("IdTypeAbout", R.string.IdTypeAbout));
+                        cell.setText(LocaleController.getString(R.string.IdTypeAbout));
                     } else if (position == notification2Row) {
-                        cell.setText(LocaleController.getString("SilenceNonContactsAbout", R.string.SilenceNonContactsAbout));
+                        cell.setText(LocaleController.getString(R.string.SilenceNonContactsAbout));
                     } else if (position == translator2Row) {
-                        cell.setText(LocaleController.getString("TranslateMessagesInfo1", R.string.TranslateMessagesInfo1));
+                        cell.setText(LocaleController.getString(R.string.TranslateMessagesInfo1));
                     }
                     break;
                 }

@@ -134,7 +134,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             if (key != null && holder != null && listAdapter.isEnabled(holder) && rowMapReverse.containsKey(position)) {
                 ItemOptions.makeOptions(this, view)
                         .setScrimViewBackground(new ColorDrawable(getThemedColor(Theme.key_windowBackgroundWhite)))
-                        .add(R.drawable.msg_copy, LocaleController.getString("CopyLink", R.string.CopyLink), () -> {
+                        .add(R.drawable.msg_copy, LocaleController.getString(R.string.CopyLink), () -> {
                             AndroidUtilities.addToClipboard(String.format(Locale.getDefault(), "https://%s/nekosettings/%s?r=%s", getMessagesController().linkPrefix, getKey(), rowMapReverse.get(position)));
                             BulletinFactory.of(BaseNekoSettingsActivity.this).createCopyLinkBulletin().show();
                         })
@@ -205,7 +205,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     }
 
     protected void showRestartBulletin() {
-        BulletinFactory.of(this).createErrorBulletin(LocaleController.formatString("RestartAppToTakeEffect", R.string.RestartAppToTakeEffect)).show();
+        BulletinFactory.of(this).createErrorBulletin(LocaleController.formatString(R.string.RestartAppToTakeEffect)).show();
     }
 
     private class BlurContentView extends SizeNotifierFrameLayout {
@@ -256,8 +256,8 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         return true;
     }
 
-    public static CharSequence getSpannedString(String key, int id, String url) {
-        var text = LocaleController.getString(key, id);
+    public static CharSequence getSpannedString(int id, String url) {
+        var text = LocaleController.getString(id);
         var builder = new SpannableStringBuilder(text);
         int index1 = text.indexOf("**");
         int index2 = text.lastIndexOf("**");

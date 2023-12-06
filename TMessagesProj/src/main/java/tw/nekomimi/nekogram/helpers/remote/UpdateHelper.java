@@ -75,7 +75,7 @@ public class UpdateHelper extends BaseRemoteHelper {
             epoch = 0;
         }
         if (date <= epoch) {
-            return LocaleController.formatString("LastUpdateNever", R.string.LastUpdateNever);
+            return LocaleController.formatString(R.string.LastUpdateNever);
         }
         try {
             Calendar rightNow = Calendar.getInstance();
@@ -87,23 +87,23 @@ public class UpdateHelper extends BaseRemoteHelper {
 
             if (dateDay == day && year == dateYear) {
                 if (Math.abs(System.currentTimeMillis() - date) < 60000L) {
-                    return LocaleController.formatString("LastUpdateRecently", R.string.LastUpdateRecently);
+                    return LocaleController.formatString(R.string.LastUpdateRecently);
                 }
-                return LocaleController.formatString("LastUpdateFormatted", R.string.LastUpdateFormatted, LocaleController.formatString("TodayAtFormatted", R.string.TodayAtFormatted,
+                return LocaleController.formatString(R.string.LastUpdateFormatted, LocaleController.formatString(R.string.TodayAtFormatted,
                         LocaleController.getInstance().formatterDay.format(new Date(date))));
             } else if (dateDay + 1 == day && year == dateYear) {
-                return LocaleController.formatString("LastUpdateFormatted", R.string.LastUpdateFormatted, LocaleController.formatString("YesterdayAtFormatted", R.string.YesterdayAtFormatted,
+                return LocaleController.formatString(R.string.LastUpdateFormatted, LocaleController.formatString(R.string.YesterdayAtFormatted,
                         LocaleController.getInstance().formatterDay.format(new Date(date))));
             } else if (Math.abs(System.currentTimeMillis() - date) < 31536000000L) {
-                String format = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime,
+                String format = LocaleController.formatString(R.string.formatDateAtTime,
                         LocaleController.getInstance().formatterDayMonth.format(new Date(date)),
                         LocaleController.getInstance().formatterDay.format(new Date(date)));
-                return LocaleController.formatString("LastUpdateDateFormatted", R.string.LastUpdateDateFormatted, format);
+                return LocaleController.formatString(R.string.LastUpdateDateFormatted, format);
             } else {
-                String format = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime,
+                String format = LocaleController.formatString(R.string.formatDateAtTime,
                         LocaleController.getInstance().formatterYear.format(new Date(date)),
                         LocaleController.getInstance().formatterDay.format(new Date(date)));
-                return LocaleController.formatString("LastUpdateDateFormatted", R.string.LastUpdateDateFormatted, format);
+                return LocaleController.formatString(R.string.LastUpdateDateFormatted, format);
             }
         } catch (Exception e) {
             FileLog.e(e);

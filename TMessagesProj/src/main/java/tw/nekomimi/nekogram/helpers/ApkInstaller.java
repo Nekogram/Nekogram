@@ -78,7 +78,7 @@ public final class ApkInstaller {
                 dialog.dismiss();
                 dialog = null;
             }
-            AlertsCreator.createSimpleAlert(context, LocaleController.getString("ErrorOccurred", R.string.ErrorOccurred) + "\n" + e.getLocalizedMessage()).show();
+            AlertsCreator.createSimpleAlert(context, LocaleController.getString(R.string.ErrorOccurred) + "\n" + e.getLocalizedMessage()).show();
             AndroidUtilities.openForView(apk, "install.apk", "application/vnd.android.package-archive", context, null);
         }
     }
@@ -123,15 +123,15 @@ public final class ApkInstaller {
         textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
         textView.setSingleLine(true);
         textView.setEllipsize(TextUtils.TruncateAt.END);
-        textView.setText(LocaleController.getString("UpdateInstalling", R.string.UpdateInstalling));
+        textView.setText(LocaleController.getString(R.string.UpdateInstalling));
         linearLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 20, 17, 0));
 
         TextView textView2 = new TextView(context);
         textView2.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
         textView2.setTextColor(Theme.getColor(Theme.key_dialogTextGray));
         textView2.setText(Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || Settings.canDrawOverlays(context) ?
-                LocaleController.getString("UpdateInstallingRelaunch", R.string.UpdateInstallingRelaunch) :
-                LocaleController.getString("UpdateInstallingNotification", R.string.UpdateInstallingNotification));
+                LocaleController.getString(R.string.UpdateInstallingRelaunch) :
+                LocaleController.getString(R.string.UpdateInstallingNotification));
         linearLayout.addView(textView2, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 17, 4, 17, 24));
 
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
@@ -209,7 +209,7 @@ public final class ApkInstaller {
                         }
                     }
                     if (context instanceof LaunchActivity) {
-                        ((LaunchActivity) context).showBulletin(factory -> factory.createErrorBulletin(LocaleController.formatString("UpdateFailedToInstall", R.string.UpdateFailedToInstall, status)));
+                        ((LaunchActivity) context).showBulletin(factory -> factory.createErrorBulletin(LocaleController.formatString(R.string.UpdateFailedToInstall, status)));
                     }
                 case PackageInstaller.STATUS_FAILURE_ABORTED:
                 case PackageInstaller.STATUS_SUCCESS:
@@ -246,7 +246,7 @@ public final class ApkInstaller {
                 context.startActivity(startIntent);
             } else {
                 var channel = new NotificationChannelCompat.Builder("updated", NotificationManagerCompat.IMPORTANCE_HIGH)
-                        .setName(LocaleController.getString("UpdateApp", R.string.UpdateApp))
+                        .setName(LocaleController.getString(R.string.UpdateApp))
                         .setLightsEnabled(false)
                         .setVibrationEnabled(false)
                         .setSound(null, null)
@@ -259,7 +259,7 @@ public final class ApkInstaller {
                                 .setSmallIcon(R.drawable.notification)
                                 .setColor(NekoConfig.getNotificationColor())
                                 .setShowWhen(false)
-                                .setContentText(LocaleController.getString("UpdateInstalledNotification", R.string.UpdateInstalledNotification))
+                                .setContentText(LocaleController.getString(R.string.UpdateInstalledNotification))
                                 .setCategory(NotificationCompat.CATEGORY_STATUS)
                                 .setContentIntent(pendingIntent)
                                 .build());
