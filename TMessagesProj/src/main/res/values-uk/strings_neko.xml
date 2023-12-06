@@ -308,6 +308,7 @@
     <string name="MonoCode">Код</string>
     <string name="CreateCode">Створити код</string>
     <string name="CreateCodeLanguage">Мова</string>
+    <string name="IgnoreContentRestriction">Ігнорувати обмеження вмісту</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccSeekbarHeading">Налаштування панелі повзунка</string>

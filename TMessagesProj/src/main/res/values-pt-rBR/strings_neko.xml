@@ -309,6 +309,7 @@
     <string name="MonoCode">Código</string>
     <string name="CreateCode">Criar Código</string>
     <string name="CreateCodeLanguage">Idioma</string>
+    <string name="IgnoreContentRestriction">Ignorar restrição de conteúdo</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>

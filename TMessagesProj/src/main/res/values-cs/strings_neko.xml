@@ -132,6 +132,7 @@
     <string name="WsProvider">Провайдер</string>
     <string name="WsNotWorking">Proxy nefunguje!</string>
     <string name="WsUseMyOwnDomain">Jak nastavit vlastního poskytovatele</string>
+    <string name="WsStandaloneApp">Používat proxy v jiných aplikacích</string>
     <string name="UpdateNekogram">Оновити некограм</string>
     <string name="TranslationTarget">Цільова мова</string>
     <string name="TranslationTargetApp">Підписатись на програму</string>
@@ -169,5 +170,30 @@
     <string name="UpdateFailedToInstall">AktualizaciSeNepodařilNainstalovat</string>
     <string name="QRLoginMessage">QR PřihlašovacíZpráva.</string>
     <string name="QRLoginTitle">QR PřihlašovacíTitulek</string>
+    <string name="NoTranslatorAppInstalled">Nemáte aplikace, které by mohly zpracovat záměr překladu, nainstalujte si prosím nějakou pro pokračování</string>
+    <string name="DisableVoiceMessagesAutoPlay">Zakázat automatické přehrávání hlasových zpráv</string>
+    <string name="TranslatorType">Typ</string>
+    <string name="TranslatorTypeNeko">Ve zprávě</string>
+    <string name="TranslatorTypeTG">Vyskakovací okno</string>
+    <string name="TranslatorTypeExternal">Externí aplikace</string>
+    <string name="CopyPhoto">Kopírovat fotografii</string>
+    <string name="PhotoCopied">Fotka byla zkopírována do schránky</string>
+    <string name="SaveToDownloadCount_zero">Ukládání %1$d souborů ke stažení</string>
+    <string name="SaveToDownloadCount_one">Ukládání %1$d souborů ke stažení</string>
+    <string name="SaveToDownloadCount_two">Ukládání %1$d souborů ke stažení</string>
+    <string name="SaveToDownloadCount_few">Ukládání %1$d souborů ke stažení</string>
+    <string name="SaveToDownloadCount_many">Ukládání %1$d souborů ke stažení</string>
+    <string name="SaveToDownloadCount_other">Ukládání %1$d souborů ke stažení</string>
+    <string name="ThemesChannel">Kanál motivů</string>
+    <string name="AppLinkNotVerifiedMessage">Pro Android 12 a novější musíte ručně přidat odkaz na ověřené odkazy, abyste mohli otevřít odkazy t.me v Nekogramu.</string>
+    <string name="AppLinkNotVerifiedTitle">Odkazy na aplikace nebyly ověřeny</string>
+    <string name="AutoTranslate">Automatický překlad</string>
+    <string name="AutoTranslateAbout">Automaticky překládat zprávy, které jsou v jiném jazyce.</string>
+    <string name="DoubleTapAction">Akce dvojím poklepáním</string>
+    <string name="BlockedUserIgnored">blokováno</string>
+    <string name="EditUndo">Zpět</string>
+    <string name="EditRedo">Znovu</string>
+    <string name="EditEnableMarkdown">Povolit značkování</string>
+    <string name="EditDisableMarkdown">Zakázat značkování</string>
     <!-- Accessibility -->
 </resources>

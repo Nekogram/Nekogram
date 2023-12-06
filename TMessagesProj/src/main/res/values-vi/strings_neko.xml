@@ -308,6 +308,7 @@
     <string name="MonoCode">Mã</string>
     <string name="CreateCode">Tạo mã</string>
     <string name="CreateCodeLanguage">Ngôn ngữ</string>
+    <string name="IgnoreContentRestriction">Bỏ qua hạn chế nội dung</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>

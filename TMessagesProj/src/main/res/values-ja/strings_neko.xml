@@ -300,6 +300,7 @@
     <string name="MonoCode">コード</string>
     <string name="CreateCode">コードを作成</string>
     <string name="CreateCodeLanguage">言語</string>
+    <string name="IgnoreContentRestriction">コンテンツ制限を無視する</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">アクセシビリティの設定</string>
 </resources>

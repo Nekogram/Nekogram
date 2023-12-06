@@ -6,6 +6,7 @@
     <string name="HidePhone">Meine Telefonnummer ausblenden</string>
     <string name="DeleteAllFromSelf">Eigene Nachrichten löschen</string>
     <string name="DeleteAllFromSelfAlert">Achtung! Dies wird **alle Nachrichten von dir** für **alle** Teilnehmer in diesem Chat **löschen**.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Warning! This will **delete all messages from you before %s** in this chat for **all** participants.</string>
     <string name="BotLogin">Bot-Anmeldung</string>
     <string name="BotLoginMessage">Gib das Bot-Token ein, welches du von **@BotFather** erhalten hast.</string>
     <string name="InvalidAccessToken">Ungültiger Zugriffstoken</string>

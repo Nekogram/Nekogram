@@ -308,6 +308,7 @@
     <string name="MonoCode">Kod</string>
     <string name="CreateCode">Kod yaratish</string>
     <string name="CreateCodeLanguage">Til</string>
+    <string name="IgnoreContentRestriction">Kontent cheklovlarini olib tashlash</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Maxsus imkoniyatlar sozlamalari</string>
 </resources>

@@ -308,6 +308,7 @@
     <string name="MonoCode">Κωδικός</string>
     <string name="CreateCode">Δημιουργία Κωδικού</string>
     <string name="CreateCodeLanguage">Γλώσσα</string>
+    <string name="IgnoreContentRestriction">Αγνόηση περιορισμού περιεχομένου</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>
