@@ -252,7 +252,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         continue;
                     }
                     long owner = Extra.getOwnerFromStickerSetId(stickerSet.id);
-                    if (!emojiSetOwners.contains(owner)) {
+                    if (owner != 0 && !emojiSetOwners.contains(owner)) {
                         emojiSetOwners.add(owner);
                     }
                 }
@@ -494,7 +494,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         fileSizeRow = messageObject.getSize() != 0 ? rowCount++ : -1;
         fileMimeTypeRow = !TextUtils.isEmpty(messageObject.getMimeType()) ? rowCount++ : -1;
         stickerSetRow = stickerSetOwner == 0 ? -1 : rowCount++;
-        emojiSetRow = emojiSetOwners.size() == 0 ? -1 : rowCount++;
+        emojiSetRow = emojiSetOwners.isEmpty() ? -1 : rowCount++;
         dcRow = dc != 0 ? rowCount++ : -1;
         restrictionReasonRow = messageObject.messageOwner.restriction_reason.isEmpty() ? -1 : rowCount++;
         forwardsRow = messageObject.messageOwner.forwards > 0 ? rowCount++ : -1;

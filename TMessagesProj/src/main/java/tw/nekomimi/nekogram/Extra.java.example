@@ -16,9 +16,6 @@ public class Extra {
 
     public static final String PLAYSTORE_APP_URL = "";
 
-    public static final String USER_INFO_BOT = "";
-    public static final long USER_INFO_BOT_ID = 0;
-
     public static String WS_USER_AGENT = "";
     public static String WS_CONN_HASH = "";
     public static String WS_DEFAULT_DOMAIN = "";
@@ -27,11 +24,11 @@ public class Extra {
     public static long WEBVIEW_BOT_ID = 0;
 
     public static long getOwnerFromStickerSetId(long id) {
-        throw new RuntimeException("Apparently not possible");
+        return 0;
     }
 
     public static void getRegDate(long userId, Utilities.Callback<UserHelper.RegDate> callback) {
-        throw new RuntimeException("Apparently not possible");
+
     }
 
     abstract public static class UserInfoBot {
@@ -45,7 +42,7 @@ public class Extra {
     }
 
     public static UserInfoBot getUserInfoBot(boolean fallback) {
-        throw new RuntimeException("TODO");
+        return null;
     }
 
     public static boolean isTrustedBot(long id) {

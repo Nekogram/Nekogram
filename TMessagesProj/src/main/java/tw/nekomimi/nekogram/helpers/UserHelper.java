@@ -228,6 +228,9 @@ public class UserHelper extends BaseController {
     }
 
     private void searchPeer(Extra.UserInfoBot botInfo, long id, boolean searchUser, boolean cache, Utilities.Callback<String[]> callback) {
+        if (botInfo == null) {
+            return;
+        }
         var bot = getMessagesController().getUser(botInfo.getId());
         if (bot == null) {
             if (searchUser) {
