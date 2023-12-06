@@ -92,6 +92,7 @@ import org.telegram.ui.Components.LinkPath;
 import org.telegram.ui.Components.LinkSpanDrawable;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Components.URLSpanNoUnderline;
+import org.telegram.ui.Stories.DarkThemeResourceProvider;
 
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
@@ -666,35 +667,43 @@ public class CameraScanActivity extends BaseFragment {
                             return;
                         }
                     }
-                    ChatAttachAlert chatAttachAlert = new ChatAttachAlert(getParentActivity(), this, true, false, false, null);
+                    ChatAttachAlert chatAttachAlert = new ChatAttachAlert(getParentActivity(), this, true, false, false, new DarkThemeResourceProvider());
                     chatAttachAlert.drawNavigationBar = true;
                     chatAttachAlert.setupPhotoPicker(LocaleController.getString("ChoosePhoto", R.string.ChoosePhoto));
-                    chatAttachAlert.setDelegate((button, arg, notify, scheduleDate, forceDocument) -> {
-                        try {
-                            HashMap<Object, Object> photos = chatAttachAlert.getPhotoLayout().getSelectedPhotos();
-                            if (!photos.isEmpty()) {
-                                MediaController.PhotoEntry entry = (MediaController.PhotoEntry) photos.values().iterator().next();
-                                String path;
-                                if (entry.imagePath != null) {
-                                    path = entry.imagePath;
-                                } else {
-                                    path = entry.path;
-                                }
-                                if (path != null) {
-                                    Point screenSize = AndroidUtilities.getRealScreenSize();
-                                    Bitmap bitmap = ImageLoader.loadBitmap(path, null, screenSize.x, screenSize.y, true);
-                                    QrResult res = tryReadQr(null, null, 0, 0, 0, bitmap);
-                                    if (res != null) {
-                                        if (delegate != null) {
-                                            delegate.didFindQr(res.text);
+                    chatAttachAlert.setDelegate(new ChatAttachAlert.ChatAttachViewDelegate() {
+                        @Override
+                        public void didPressedButton(int button, boolean arg, boolean notify, int scheduleDate, boolean forceDocument) {
+                            try {
+                                HashMap<Object, Object> photos = chatAttachAlert.getPhotoLayout().getSelectedPhotos();
+                                if (!photos.isEmpty()) {
+                                    MediaController.PhotoEntry entry = (MediaController.PhotoEntry) photos.values().iterator().next();
+                                    String path;
+                                    if (entry.imagePath != null) {
+                                        path = entry.imagePath;
+                                    } else {
+                                        path = entry.path;
+                                    }
+                                    if (path != null) {
+                                        Point screenSize = AndroidUtilities.getRealScreenSize();
+                                        Bitmap bitmap = ImageLoader.loadBitmap(path, null, screenSize.x, screenSize.y, true);
+                                        QrResult res = tryReadQr(null, null, 0, 0, 0, bitmap);
+                                        if (res != null) {
+                                            if (delegate != null) {
+                                                delegate.didFindQr(res.text);
+                                            }
+                                            removeSelfFromStack();
+                                            chatAttachAlert.dismissInternal();
                                         }
-                                        removeSelfFromStack();
-                                        chatAttachAlert.dismissInternal();
                                     }
                                 }
+                            } catch (Throwable e) {
+                                FileLog.e(e);
                             }
-                        } catch (Throwable e) {
-                            FileLog.e(e);
+                        }
+
+                        @Override
+                        public boolean selectItemOnClicking() {
+                            return true;
                         }
                     });
                     chatAttachAlert.setMaxSelectedPhotos(1, false);
