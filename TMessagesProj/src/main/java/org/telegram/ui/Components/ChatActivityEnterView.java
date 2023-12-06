@@ -8833,7 +8833,7 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
         if (emojiView != null) {
             return;
         }
-        emojiView = new EmojiView(parentFragment, allowAnimatedEmoji, true, true, getContext(), true, info, sizeNotifierLayout, shouldDrawBackground, resourcesProvider, emojiViewFrozen) {
+        emojiView = new EmojiView(parentFragment, allowAnimatedEmoji, dialog_id == UserConfig.getInstance(currentAccount).getClientUserId(), true, true, getContext(), true, info, sizeNotifierLayout, shouldDrawBackground, resourcesProvider, emojiViewFrozen) {
             @Override
             public void setTranslationY(float translationY) {
                 super.setTranslationY(translationY);

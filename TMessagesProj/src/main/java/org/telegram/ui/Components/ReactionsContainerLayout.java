@@ -116,6 +116,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
     private int currentAccount;
     private long waitingLoadingChatId;
     private boolean isTop;
+    private final boolean premium;
 
     private boolean mirrorX;
     private boolean isFlippedVertically;
@@ -191,6 +192,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
         this.resourcesProvider = resourcesProvider;
         this.currentAccount = currentAccount;
         this.fragment = fragment;
+        this.premium = UserConfig.getInstance(currentAccount).isPremium();
 
         nextRecentReaction = new ReactionHolderView(context, false);
         nextRecentReaction.setVisibility(View.GONE);
@@ -1085,7 +1087,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
             fillRecentReactionsList(visibleReactions);
         }
         filterReactions(visibleReactions);
-        showExpandableReactions = !allReactionsAvailable && visibleReactions.size() > 16;
+        showExpandableReactions = (!premium || !allReactionsAvailable) && visibleReactions.size() > 16;
         setVisibleReactionsList(visibleReactions);
 
         if (message != null && message.messageOwner.reactions != null && message.messageOwner.reactions.results != null) {
