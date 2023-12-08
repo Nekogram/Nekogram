@@ -28,13 +28,11 @@ import tw.nekomimi.nekogram.NekoConfig;
 public class UpdateHelper extends BaseRemoteHelper {
     public static final String UPDATE_TAG = BuildConfig.DEBUG ? "updatetest" : NekoConfig.isDirectApp() ? "updatev3" : ("update" + BuildConfig.BUILD_TYPE + "v3");
 
-    private int installedVersion;
     private String installedAbi;
 
     UpdateHelper() {
         try {
             var pInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
-            installedVersion = pInfo.versionCode / 10;
             switch (pInfo.versionCode % 10) {
                 case 1:
                 case 3:
@@ -58,7 +56,6 @@ public class UpdateHelper extends BaseRemoteHelper {
                     break;
             }
         } catch (Exception ignore) {
-            installedVersion = -1;
             installedAbi = "universal";
         }
     }
@@ -144,7 +141,7 @@ public class UpdateHelper extends BaseRemoteHelper {
     }
 
     private Update getShouldUpdateVersion(List<String> responses) {
-        int maxVersion = installedVersion;
+        long maxVersion = BuildConfig.VERSION_CODE;
         Update ref = null;
         for (var string : responses) {
             try {
