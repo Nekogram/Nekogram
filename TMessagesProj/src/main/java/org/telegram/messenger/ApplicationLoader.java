@@ -47,6 +47,7 @@ import java.util.concurrent.CountDownLatch;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
+import tw.nekomimi.nekogram.helpers.ComponentsHelper;
 
 public class ApplicationLoader extends Application {
 
@@ -258,6 +259,7 @@ public class ApplicationLoader extends Application {
 
         AnalyticsHelper.start(this);
         AnalyticsHelper.trackEvent("app_start");
+        ComponentsHelper.fixComponents(this);
 
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("app start time = " + (startTime = SystemClock.elapsedRealtime()));
