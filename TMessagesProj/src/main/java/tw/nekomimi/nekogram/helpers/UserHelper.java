@@ -12,8 +12,6 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
-import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -175,8 +173,8 @@ public class UserHelper extends BaseController {
         }));
     }
 
-    private void searchUser(Extra.UserInfoBot botInfo, long userId, Utilities.Callback<TLRPC.User> callback) {
-        searchPeer(botInfo, userId, true, true, lines -> {
+    private void searchUser(UserInfoBot botInfo, long userId, Utilities.Callback<TLRPC.User> callback) {
+        searchPeer(botInfo, userId, lines -> {
             if (lines == null) {
                 callback.run(null);
                 return;
@@ -201,8 +199,8 @@ public class UserHelper extends BaseController {
         });
     }
 
-    private void searchChat(Extra.UserInfoBot botInfo, long chatId, Utilities.Callback<TLRPC.Chat> callback) {
-        searchPeer(botInfo, -1000000000000L - chatId, true, true, lines -> {
+    private void searchChat(UserInfoBot botInfo, long chatId, Utilities.Callback<TLRPC.Chat> callback) {
+        searchPeer(botInfo, -1000000000000L - chatId, lines -> {
             if (lines == null) {
                 callback.run(null);
                 return;
@@ -227,62 +225,31 @@ public class UserHelper extends BaseController {
         });
     }
 
-    private void searchPeer(Extra.UserInfoBot botInfo, long id, boolean searchUser, boolean cache, Utilities.Callback<String[]> callback) {
+    private void searchPeer(UserInfoBot botInfo, long id, Utilities.Callback<String[]> callback) {
         if (botInfo == null) {
             return;
         }
-        var bot = getMessagesController().getUser(botInfo.getId());
-        if (bot == null) {
-            if (searchUser) {
-                resolveUser(botInfo.getUsername(), botInfo.getId(), user -> searchPeer(botInfo, id, false, false, callback));
-            } else {
+        getInlineBotHelper().query(botInfo, String.valueOf(id), results -> {
+            if (results == null) {
                 callback.run(null);
-            }
-            return;
-        }
-
-        var key = "peer_search_" + id + "_" + botInfo.getId();
-        RequestDelegate requestDelegate = (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-            if (cache && (!(response instanceof TLRPC.messages_BotResults) || ((TLRPC.messages_BotResults) response).results.isEmpty())) {
-                searchPeer(botInfo, id, searchUser, false, callback);
                 return;
             }
-
-            if (response instanceof TLRPC.messages_BotResults) {
-                TLRPC.messages_BotResults res = (TLRPC.messages_BotResults) response;
-                if (!cache && res.cache_time != 0) {
-                    getMessagesStorage().saveBotCache(key, res);
-                }
-                if (res.results.isEmpty()) {
-                    callback.run(null);
-                    return;
-                }
-                var result = res.results.get(0);
-                if (result.send_message == null || TextUtils.isEmpty(result.send_message.message)) {
-                    callback.run(null);
-                    return;
-                }
-                var lines = result.send_message.message.split("\n");
-                if (lines.length < 3) {
-                    callback.run(null);
-                    return;
-                }
-                callback.run(lines);
-            } else {
+            if (results.isEmpty()) {
                 callback.run(null);
+                return;
             }
+            var result = results.get(0);
+            if (result.send_message == null || TextUtils.isEmpty(result.send_message.message)) {
+                callback.run(null);
+                return;
+            }
+            var lines = result.send_message.message.split("\n");
+            if (lines.length < 3) {
+                callback.run(null);
+                return;
+            }
+            callback.run(lines);
         });
-
-        if (cache) {
-            getMessagesStorage().getBotCache(key, requestDelegate);
-        } else {
-            TLRPC.TL_messages_getInlineBotResults req = new TLRPC.TL_messages_getInlineBotResults();
-            req.query = String.valueOf(id);
-            req.bot = getMessagesController().getInputUser(bot);
-            req.offset = "";
-            req.peer = new TLRPC.TL_inputPeerEmpty();
-            getConnectionsManager().sendRequest(req, requestDelegate, ConnectionsManager.RequestFlagFailOnServerErrors);
-        }
     }
 
     private static String getDCLocation(int dc) {
@@ -356,6 +323,18 @@ public class UserHelper extends BaseController {
             }
             callback.run(arg);
         });
+    }
+
+    public interface BotInfo {
+        long getId();
+
+        String getUsername();
+    }
+
+    abstract public static class UserInfoBot implements BotInfo {
+        abstract public TLRPC.TL_user parseUser(String[] lines);
+
+        abstract public TLRPC.TL_chat parseChat(String[] lines);
     }
 
     public static class RegDate {

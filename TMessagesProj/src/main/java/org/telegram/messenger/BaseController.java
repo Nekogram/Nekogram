@@ -3,6 +3,10 @@ package org.telegram.messenger;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.Components.Paint.PersistColorPalette;
 
+import tw.nekomimi.nekogram.helpers.InlineBotHelper;
+import tw.nekomimi.nekogram.helpers.MessageHelper;
+import tw.nekomimi.nekogram.helpers.UserHelper;
+
 public class BaseController {
 
     protected final int currentAccount;
@@ -83,5 +87,17 @@ public class BaseController {
 
     protected final MemberRequestsController getMemberRequestsController() {
         return parentAccountInstance.getMemberRequestsController();
+    }
+
+    protected final MessageHelper getMessageHelper() {
+        return parentAccountInstance.getMessageHelper();
+    }
+
+    protected final UserHelper getUserHelper() {
+        return parentAccountInstance.getUserHelper();
+    }
+
+    protected final InlineBotHelper getInlineBotHelper() {
+        return parentAccountInstance.getInlineBotHelper();
     }
 }
