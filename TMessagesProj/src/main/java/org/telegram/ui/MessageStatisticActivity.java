@@ -163,7 +163,7 @@ public class MessageStatisticActivity extends BaseFragment implements Notificati
 
     public MessageStatisticActivity(MessageObject message, long chatId, boolean needActionbarMenu) {
         messageObject = message;
-        messageId = 0;
+        messageId = messageObject.getId();
         this.chatId = chatId;
         this.chat = getMessagesController().getChatFull(chatId);
         this.needActionbarMenu = needActionbarMenu;
