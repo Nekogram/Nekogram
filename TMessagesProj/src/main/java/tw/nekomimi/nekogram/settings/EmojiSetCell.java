@@ -270,8 +270,7 @@ public class EmojiSetCell extends FrameLayout {
 
     public void checkDownloaded(boolean animated) {
         if ("default".equals(pack.getPackId())) return;
-        if (pack instanceof EmojiHelper.EmojiPackInfo) {
-            EmojiHelper.EmojiPackInfo packInfo = (EmojiHelper.EmojiPackInfo) pack;
+        if (pack instanceof EmojiHelper.EmojiPackInfo packInfo) {
             if (EmojiHelper.getInstance().isPackDownloaded(packInfo)) {
                 setProgress(false, animated);
                 if (EmojiHelper.getInstance().isPackInstalled(packInfo)) {

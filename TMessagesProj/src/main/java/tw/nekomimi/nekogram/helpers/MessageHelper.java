@@ -394,8 +394,7 @@ public class MessageHelper extends BaseController {
             }
             for (int i = 0; i < viewGroup.getChildCount(); i++) {
                 View child = viewGroup.getChildAt(i);
-                if (child instanceof ChatMessageCell) {
-                    var cell = (ChatMessageCell) child;
+                if (child instanceof ChatMessageCell cell) {
                     if (messageObjects.contains(cell.getMessageObject())) {
                         qrResults.addAll(QrHelper.readQr(cell.getPhotoImage().getBitmap()));
                     }
@@ -683,8 +682,7 @@ public class MessageHelper extends BaseController {
         }
         req.hash = hash;
         getConnectionsManager().sendRequest(req, (response, error) -> {
-            if (response instanceof TLRPC.messages_Messages) {
-                var res = (TLRPC.messages_Messages) response;
+            if (response instanceof TLRPC.messages_Messages res) {
                 if (response instanceof TLRPC.TL_messages_messagesNotModified || res.messages.isEmpty()) {
                     latch.countDown();
                     return;

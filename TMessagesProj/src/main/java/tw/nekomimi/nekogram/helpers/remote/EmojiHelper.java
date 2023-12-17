@@ -840,8 +840,7 @@ public class EmojiHelper extends BaseRemoteHelper implements NotificationCenter.
                 return;
             }
             for (EmojiPackBase emojiPackBase : emojiPacksInfo) {
-                if (emojiPackBase instanceof EmojiPackInfo) {
-                    EmojiPackInfo emojiPackInfo = (EmojiPackInfo) emojiPackBase;
+                if (emojiPackBase instanceof EmojiPackInfo emojiPackInfo) {
                     boolean update = isInstalledOldVersion(emojiPackInfo.packId, emojiPackInfo.packVersion);
                     if (emojiPack.equals(emojiPackInfo.packId)) {
                         if (!isPackInstalled(emojiPackInfo)) {

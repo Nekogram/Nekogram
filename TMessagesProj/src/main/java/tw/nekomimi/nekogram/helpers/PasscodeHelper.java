@@ -36,8 +36,7 @@ public class PasscodeHelper {
                 String passcodeHash = preferences.getString("passcodeHash" + a, "");
                 String passcodeSaltString = preferences.getString("passcodeSalt" + a, "");
                 if (checkPasscodeHash(passcode, passcodeHash, passcodeSaltString)) {
-                    if (activity instanceof LaunchActivity) {
-                        LaunchActivity launchActivity = (LaunchActivity) activity;
+                    if (activity instanceof LaunchActivity launchActivity) {
                         launchActivity.switchToAccount(a, true);
                         return true;
                     }

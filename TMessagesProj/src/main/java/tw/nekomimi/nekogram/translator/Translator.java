@@ -250,28 +250,20 @@ public class Translator {
     }
 
     private static BaseTranslator getTranslator(String type) {
-        switch (type) {
-            case PROVIDER_YANDEX:
-                return YandexTranslator.getInstance();
-            case PROVIDER_LINGO:
-                return LingoTranslator.getInstance();
-            case PROVIDER_DEEPL:
+        return switch (type) {
+            case PROVIDER_YANDEX -> YandexTranslator.getInstance();
+            case PROVIDER_LINGO -> LingoTranslator.getInstance();
+            case PROVIDER_DEEPL -> {
                 DeepLTranslator.setFormality(NekoConfig.deepLFormality);
-                return DeepLTranslator.getInstance();
-            case PROVIDER_MICROSOFT:
-                return MicrosoftTranslator.getInstance();
-            case PROVIDER_YOUDAO:
-                return YouDaoTranslator.getInstance();
-            case PROVIDER_BAIDU:
-                return BaiduTranslator.getInstance();
-            case PROVIDER_SOGOU:
-                return SogouTranslator.getInstance();
-            case PROVIDER_TENCENT:
-                return TencentTranslatorNewLine.getInstance();
-            case PROVIDER_GOOGLE:
-            default:
-                return GoogleAppTranslator.getInstance();
-        }
+                yield DeepLTranslator.getInstance();
+            }
+            case PROVIDER_MICROSOFT -> MicrosoftTranslator.getInstance();
+            case PROVIDER_YOUDAO -> YouDaoTranslator.getInstance();
+            case PROVIDER_BAIDU -> BaiduTranslator.getInstance();
+            case PROVIDER_SOGOU -> SogouTranslator.getInstance();
+            case PROVIDER_TENCENT -> TencentTranslatorNewLine.getInstance();
+            default -> GoogleAppTranslator.getInstance();
+        };
     }
 
     public static void translate(String query, String fl, String tl, TranslateCallBack translateCallBack) {

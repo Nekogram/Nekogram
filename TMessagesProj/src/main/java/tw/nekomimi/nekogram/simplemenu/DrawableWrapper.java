@@ -31,7 +31,7 @@ class DrawableWrapper extends Drawable implements Drawable.Callback {
     }
 
     @Override
-    protected void onBoundsChange(Rect bounds) {
+    protected void onBoundsChange(@NonNull Rect bounds) {
         mDrawable.setBounds(bounds);
     }
 

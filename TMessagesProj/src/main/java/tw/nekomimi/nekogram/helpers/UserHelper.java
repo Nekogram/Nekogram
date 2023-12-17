@@ -253,35 +253,23 @@ public class UserHelper extends BaseController {
     }
 
     private static String getDCLocation(int dc) {
-        switch (dc) {
-            case 1:
-            case 3:
-                return "Miami";
-            case 2:
-            case 4:
-                return "Amsterdam";
-            case 5:
-                return "Singapore";
-            default:
-                return "Unknown";
-        }
+        return switch (dc) {
+            case 1, 3 -> "Miami";
+            case 2, 4 -> "Amsterdam";
+            case 5 -> "Singapore";
+            default -> "Unknown";
+        };
     }
 
     private static String getDCName(int dc) {
-        switch (dc) {
-            case 1:
-                return "Pluto";
-            case 2:
-                return "Venus";
-            case 3:
-                return "Aurora";
-            case 4:
-                return "Vesta";
-            case 5:
-                return "Flora";
-            default:
-                return "Unknown";
-        }
+        return switch (dc) {
+            case 1 -> "Pluto";
+            case 2 -> "Venus";
+            case 3 -> "Aurora";
+            case 4 -> "Vesta";
+            case 5 -> "Flora";
+            default -> "Unknown";
+        };
     }
 
     public static String formatDCString(int dc) {
@@ -292,16 +280,15 @@ public class UserHelper extends BaseController {
 
     public static String formatRegDate(RegDate regDate) {
         if (regDate.error == null) {
-            switch (regDate.type) {
-                case 0:
-                    return LocaleController.formatString(R.string.RegistrationDateApproximately, regDate.date);
-                case 2:
-                    return LocaleController.formatString(R.string.RegistrationDateNewer, regDate.date);
-                case 3:
-                    return LocaleController.formatString(R.string.RegistrationDateOlder, regDate.date);
-                default:
-                    return regDate.date;
-            }
+            return switch (regDate.type) {
+                case 0 ->
+                        LocaleController.formatString(R.string.RegistrationDateApproximately, regDate.date);
+                case 2 ->
+                        LocaleController.formatString(R.string.RegistrationDateNewer, regDate.date);
+                case 3 ->
+                        LocaleController.formatString(R.string.RegistrationDateOlder, regDate.date);
+                default -> regDate.date;
+            };
         } else {
             return regDate.error;
         }

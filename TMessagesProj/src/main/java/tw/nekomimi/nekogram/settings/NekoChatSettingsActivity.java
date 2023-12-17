@@ -477,20 +477,12 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
 
             seekBarView = new SeekBarView(context, true, resourcesProvider);
             seekBarView.setReportChanges(true);
-            seekBarView.setDelegate(new SeekBarView.SeekBarViewDelegate() {
-                @Override
-                public void onSeekBarDrag(boolean stop, float progress) {
-                    currentValue = min + (max - min) * progress;
-                    onDrag.run(currentValue);
-                    if (Math.round(currentValue) != roundedValue) {
-                        roundedValue = Math.round(currentValue);
-                        updateText();
-                    }
-                }
-
-                @Override
-                public void onSeekBarPressed(boolean pressed) {
-
+            seekBarView.setDelegate((stop, progress) -> {
+                currentValue = min + (max - min) * progress;
+                onDrag.run(currentValue);
+                if (Math.round(currentValue) != roundedValue) {
+                    roundedValue = Math.round(currentValue);
+                    updateText();
                 }
             });
             addView(seekBarView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38 + 6, Gravity.TOP, 6, 68, 6, 0));
@@ -584,30 +576,21 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     if (position == doubleTapActionRow) {
-                        String value;
-                        switch (NekoConfig.doubleTapAction) {
-                            case NekoConfig.DOUBLE_TAP_ACTION_REACTION:
-                                value = LocaleController.getString(R.string.Reactions);
-                                break;
-                            case NekoConfig.DOUBLE_TAP_ACTION_TRANSLATE:
-                                value = LocaleController.getString(R.string.TranslateMessage);
-                                break;
-                            case NekoConfig.DOUBLE_TAP_ACTION_REPLY:
-                                value = LocaleController.getString(R.string.Reply);
-                                break;
-                            case NekoConfig.DOUBLE_TAP_ACTION_SAVE:
-                                value = LocaleController.getString(R.string.AddToSavedMessages);
-                                break;
-                            case NekoConfig.DOUBLE_TAP_ACTION_REPEAT:
-                                value = LocaleController.getString(R.string.Repeat);
-                                break;
-                            case NekoConfig.DOUBLE_TAP_ACTION_EDIT:
-                                value = LocaleController.getString(R.string.Edit);
-                                break;
-                            case NekoConfig.DOUBLE_TAP_ACTION_NONE:
-                            default:
-                                value = LocaleController.getString(R.string.Disable);
-                        }
+                        String value = switch (NekoConfig.doubleTapAction) {
+                            case NekoConfig.DOUBLE_TAP_ACTION_REACTION ->
+                                    LocaleController.getString(R.string.Reactions);
+                            case NekoConfig.DOUBLE_TAP_ACTION_TRANSLATE ->
+                                    LocaleController.getString(R.string.TranslateMessage);
+                            case NekoConfig.DOUBLE_TAP_ACTION_REPLY ->
+                                    LocaleController.getString(R.string.Reply);
+                            case NekoConfig.DOUBLE_TAP_ACTION_SAVE ->
+                                    LocaleController.getString(R.string.AddToSavedMessages);
+                            case NekoConfig.DOUBLE_TAP_ACTION_REPEAT ->
+                                    LocaleController.getString(R.string.Repeat);
+                            case NekoConfig.DOUBLE_TAP_ACTION_EDIT ->
+                                    LocaleController.getString(R.string.Edit);
+                            default -> LocaleController.getString(R.string.Disable);
+                        };
                         textCell.setTextAndValue(LocaleController.getString(R.string.DoubleTapAction), value, partial, true);
                     } else if (position == maxRecentStickersRow) {
                         textCell.setTextAndValue(LocaleController.getString(R.string.MaxRecentStickers), String.valueOf(NekoConfig.maxRecentStickers), partial, false);

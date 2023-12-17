@@ -56,8 +56,7 @@ public class InlineBotHelper extends BaseController {
                 return;
             }
 
-            if (response instanceof TLRPC.messages_BotResults) {
-                TLRPC.messages_BotResults res = (TLRPC.messages_BotResults) response;
+            if (response instanceof TLRPC.messages_BotResults res) {
                 if (!cache && res.cache_time != 0) {
                     getMessagesStorage().saveBotCache(key, res);
                 }

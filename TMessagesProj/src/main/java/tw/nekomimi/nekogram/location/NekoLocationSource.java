@@ -21,6 +21,7 @@ import com.google.android.gms.maps.LocationSource;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 
+import java.io.Serial;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Locale;
@@ -70,9 +71,8 @@ public class NekoLocationSource implements LocationSource {
     @Override
     public void activate(@NonNull OnLocationChangedListener onLocationChangedListener) {
         if (checkPermission && Build.VERSION.SDK_INT >= 23) {
-            if (context instanceof Activity) {
+            if (context instanceof Activity activity) {
                 checkPermission = false;
-                Activity activity = (Activity) context;
                 if (activity.checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
                     activity.requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION}, 2);
                     return;
@@ -92,6 +92,7 @@ public class NekoLocationSource implements LocationSource {
     static class Cache<K, V> extends LinkedHashMap<K, V> {
 
         private static final int KMaxEntries = 128;
+        @Serial
         private static final long serialVersionUID = 1L;
 
         @Override

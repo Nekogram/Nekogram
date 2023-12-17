@@ -141,14 +141,12 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
         drawable.setAlpha(255);
         if (drawable instanceof ColorDrawable || drawable instanceof GradientDrawable || drawable instanceof MotionBackgroundDrawable) {
             drawable.setBounds(0, 0, getMeasuredWidth(), getMeasuredHeight());
-            if (drawable instanceof BackgroundGradientDrawable) {
-                final BackgroundGradientDrawable backgroundGradientDrawable = (BackgroundGradientDrawable) drawable;
+            if (drawable instanceof BackgroundGradientDrawable backgroundGradientDrawable) {
                 backgroundGradientDisposable = backgroundGradientDrawable.drawExactBoundsSize(canvas, this);
             } else {
                 drawable.draw(canvas);
             }
-        } else if (drawable instanceof BitmapDrawable) {
-            BitmapDrawable bitmapDrawable = (BitmapDrawable) drawable;
+        } else if (drawable instanceof BitmapDrawable bitmapDrawable) {
             if (bitmapDrawable.getTileModeX() == Shader.TileMode.REPEAT) {
                 canvas.save();
                 float scale = 2.0f / AndroidUtilities.density;

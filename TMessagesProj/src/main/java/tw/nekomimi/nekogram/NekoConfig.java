@@ -71,7 +71,6 @@ public class NekoConfig {
 
     private static final Object sync = new Object();
     public static boolean useIPv6 = false;
-    public static boolean showHiddenFeature = BuildConfig.DEBUG;
 
     public static boolean useSystemEmoji = false;
     public static boolean ignoreBlocked = false;

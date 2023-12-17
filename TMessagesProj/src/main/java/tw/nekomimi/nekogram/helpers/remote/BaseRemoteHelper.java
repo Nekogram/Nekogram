@@ -108,10 +108,9 @@ public abstract class BaseRemoteHelper {
                 if (error1 != null) {
                     return;
                 }
-                if (!(response1 instanceof TLRPC.TL_contacts_resolvedPeer)) {
+                if (!(response1 instanceof TLRPC.TL_contacts_resolvedPeer resolvedPeer)) {
                     return;
                 }
-                TLRPC.TL_contacts_resolvedPeer resolvedPeer = (TLRPC.TL_contacts_resolvedPeer) response1;
                 getMessagesController().putUsers(resolvedPeer.users, false);
                 getMessagesController().putChats(resolvedPeer.chats, false);
                 getMessagesStorage().putUsersAndChats(resolvedPeer.users, resolvedPeer.chats, false, true);

@@ -501,7 +501,8 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         sponsoredRow = messageObject.isSponsored() ? rowCount++ : -1;
         shouldBlockMessageRow = messageObject.shouldBlockMessage() ? rowCount++ : -1;
         languageRow = TextUtils.isEmpty(getMessageHelper().getMessagePlainText(messageObject)) ? -1 : rowCount++;
-        linkOrEmojiOnlyRow = !TextUtils.isEmpty(messageObject.messageOwner.message) && getMessageHelper().isLinkOrEmojiOnlyMessage(messageObject) ? rowCount++ : -1;
+        getMessageHelper();
+        linkOrEmojiOnlyRow = !TextUtils.isEmpty(messageObject.messageOwner.message) && MessageHelper.isLinkOrEmojiOnlyMessage(messageObject) ? rowCount++ : -1;
         buttonsRow = TextUtils.isEmpty(buttons) ? -1 : rowCount++;
         emptyRow = rowCount++;
 
@@ -712,8 +713,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     }
 
     private void appendUserOrChat(TLObject object, StringBuilder builder) {
-        if (object instanceof TLRPC.User) {
-            TLRPC.User user = (TLRPC.User) object;
+        if (object instanceof TLRPC.User user) {
             builder.append(ContactsController.formatName(user.first_name, user.last_name));
             builder.append("\n");
             var username = UserObject.getPublicUsername(user);
@@ -791,7 +791,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         }
 
         @Override
-        protected void onDraw(Canvas canvas) {
+        protected void onDraw(@NonNull Canvas canvas) {
             if (needDivider && Theme.dividerPaint != null) {
                 canvas.drawLine(LocaleController.isRTL ? 0 : AndroidUtilities.dp(20), getMeasuredHeight() - 1, getMeasuredWidth() - (LocaleController.isRTL ? AndroidUtilities.dp(20) : 0), getMeasuredHeight() - 1, Theme.dividerPaint);
             }

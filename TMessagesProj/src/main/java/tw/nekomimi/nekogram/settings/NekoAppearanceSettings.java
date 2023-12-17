@@ -286,49 +286,30 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     if (position == eventTypeRow) {
-                        String value;
-                        switch (NekoConfig.eventType) {
-                            case 1:
-                                value = LocaleController.getString(R.string.Christmas);
-                                break;
-                            case 2:
-                                value = LocaleController.getString(R.string.Valentine);
-                                break;
-                            case 3:
-                                value = LocaleController.getString(R.string.Halloween);
-                                break;
-                            case 0:
-                            default:
-                                value = LocaleController.getString(R.string.DependsOnDate);
-                        }
+                        String value = switch (NekoConfig.eventType) {
+                            case 1 -> LocaleController.getString(R.string.Christmas);
+                            case 2 -> LocaleController.getString(R.string.Valentine);
+                            case 3 -> LocaleController.getString(R.string.Halloween);
+                            default -> LocaleController.getString(R.string.DependsOnDate);
+                        };
                         textCell.setTextAndValue(LocaleController.getString(R.string.EventType), value, partial, true);
                     } else if (position == tabsTitleTypeRow) {
-                        String value;
-                        switch (NekoConfig.tabsTitleType) {
-                            case NekoConfig.TITLE_TYPE_TEXT:
-                                value = LocaleController.getString(R.string.TabTitleTypeText);
-                                break;
-                            case NekoConfig.TITLE_TYPE_ICON:
-                                value = LocaleController.getString(R.string.TabTitleTypeIcon);
-                                break;
-                            case NekoConfig.TITLE_TYPE_MIX:
-                            default:
-                                value = LocaleController.getString(R.string.TabTitleTypeMix);
-                        }
+                        String value = switch (NekoConfig.tabsTitleType) {
+                            case NekoConfig.TITLE_TYPE_TEXT ->
+                                    LocaleController.getString(R.string.TabTitleTypeText);
+                            case NekoConfig.TITLE_TYPE_ICON ->
+                                    LocaleController.getString(R.string.TabTitleTypeIcon);
+                            default -> LocaleController.getString(R.string.TabTitleTypeMix);
+                        };
                         textCell.setTextAndValue(LocaleController.getString(R.string.TabTitleType), value, partial, false);
                     } else if (position == tabletModeRow) {
-                        String value;
-                        switch (NekoConfig.tabletMode) {
-                            case NekoConfig.TABLET_AUTO:
-                                value = LocaleController.getString(R.string.TabletModeAuto);
-                                break;
-                            case NekoConfig.TABLET_ENABLE:
-                                value = LocaleController.getString(R.string.Enable);
-                                break;
-                            case NekoConfig.TABLET_DISABLE:
-                            default:
-                                value = LocaleController.getString(R.string.Disable);
-                        }
+                        String value = switch (NekoConfig.tabletMode) {
+                            case NekoConfig.TABLET_AUTO ->
+                                    LocaleController.getString(R.string.TabletModeAuto);
+                            case NekoConfig.TABLET_ENABLE ->
+                                    LocaleController.getString(R.string.Enable);
+                            default -> LocaleController.getString(R.string.Disable);
+                        };
                         textCell.setTextAndValue(LocaleController.getString(R.string.TabletMode), value, partial, false);
                     }
                     break;
@@ -434,8 +415,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
             if (listView != null) {
                 for (int i = 0; i < listView.getChildCount(); i++) {
                     View child = listView.getChildAt(i);
-                    if (child instanceof DrawerProfileCell) {
-                        DrawerProfileCell profileCell = (DrawerProfileCell) child;
+                    if (child instanceof DrawerProfileCell profileCell) {
                         profileCell.applyBackground(true);
                         profileCell.updateColors();
                     }

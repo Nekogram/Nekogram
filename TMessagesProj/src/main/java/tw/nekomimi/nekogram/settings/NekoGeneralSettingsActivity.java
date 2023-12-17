@@ -9,7 +9,6 @@ import androidx.core.text.HtmlCompat;
 import androidx.core.util.Pair;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -19,7 +18,6 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
-import org.telegram.ui.Components.BulletinFactory;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -30,8 +28,6 @@ import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
-
-    private final boolean supportLanguageDetector;
 
     private int connectionRow;
     private int ipv6Row;
@@ -60,10 +56,6 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
     private int nameOrderRow;
     private int idTypeRow;
     private int general2Row;
-
-    public NekoGeneralSettingsActivity() {
-        supportLanguageDetector = LanguageDetector.hasSupport();
-    }
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
@@ -196,16 +188,8 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 }
             }, resourcesProvider);
         } else if (position == doNotTranslateRow) {
-            if (!supportLanguageDetector) {
-                BulletinFactory.of(this).createErrorBulletinSubtitle(LocaleController.getString(R.string.BrokenMLKit), LocaleController.getString(R.string.BrokenMLKitDetail), null).show();
-                return;
-            }
             presentFragment(new NekoLanguagesSelectActivity(NekoLanguagesSelectActivity.TYPE_RESTRICTED, true));
         } else if (position == autoTranslateRow) {
-            if (!supportLanguageDetector) {
-                BulletinFactory.of(this).createErrorBulletinSubtitle(LocaleController.getString(R.string.BrokenMLKit), LocaleController.getString(R.string.BrokenMLKitDetail), null).show();
-                return;
-            }
             NekoConfig.toggleAutoTranslate();
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.autoTranslate);
@@ -303,16 +287,10 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setCanDisable(true);
                     if (position == nameOrderRow) {
-                        String value;
-                        switch (NekoConfig.nameOrder) {
-                            case 2:
-                                value = LocaleController.getString(R.string.LastFirst);
-                                break;
-                            case 1:
-                            default:
-                                value = LocaleController.getString(R.string.FirstLast);
-                                break;
-                        }
+                        String value = switch (NekoConfig.nameOrder) {
+                            case 2 -> LocaleController.getString(R.string.LastFirst);
+                            default -> LocaleController.getString(R.string.FirstLast);
+                        };
                         textCell.setTextAndValue(LocaleController.getString(R.string.NameOrder), value, partial, true);
                     } else if (position == translationProviderRow) {
                         Pair<ArrayList<String>, ArrayList<String>> providers = Translator.getProviders();
@@ -343,49 +321,31 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         }
                         textCell.setTextAndValue(LocaleController.getString(R.string.TranslationTarget), value, partial, true);
                     } else if (position == deepLFormalityRow) {
-                        String value;
-                        switch (NekoConfig.deepLFormality) {
-                            case DeepLTranslator.FORMALITY_DEFAULT:
-                                value = LocaleController.getString(R.string.DeepLFormalityDefault);
-                                break;
-                            case DeepLTranslator.FORMALITY_MORE:
-                                value = LocaleController.getString(R.string.DeepLFormalityMore);
-                                break;
-                            case DeepLTranslator.FORMALITY_LESS:
-                            default:
-                                value = LocaleController.getString(R.string.DeepLFormalityLess);
-                                break;
-                        }
+                        String value = switch (NekoConfig.deepLFormality) {
+                            case DeepLTranslator.FORMALITY_DEFAULT ->
+                                    LocaleController.getString(R.string.DeepLFormalityDefault);
+                            case DeepLTranslator.FORMALITY_MORE ->
+                                    LocaleController.getString(R.string.DeepLFormalityMore);
+                            default -> LocaleController.getString(R.string.DeepLFormalityLess);
+                        };
                         textCell.setTextAndValue(LocaleController.getString(R.string.DeepLFormality), value, partial, true);
                     } else if (position == idTypeRow) {
-                        String value;
-                        switch (NekoConfig.idType) {
-                            case NekoConfig.ID_TYPE_HIDDEN:
-                                value = LocaleController.getString(R.string.IdTypeHidden);
-                                break;
-                            case NekoConfig.ID_TYPE_BOTAPI:
-                                value = LocaleController.getString(R.string.IdTypeBOTAPI);
-                                break;
-                            case NekoConfig.ID_TYPE_API:
-                            default:
-                                value = LocaleController.getString(R.string.IdTypeAPI);
-                                break;
-                        }
+                        String value = switch (NekoConfig.idType) {
+                            case NekoConfig.ID_TYPE_HIDDEN ->
+                                    LocaleController.getString(R.string.IdTypeHidden);
+                            case NekoConfig.ID_TYPE_BOTAPI ->
+                                    LocaleController.getString(R.string.IdTypeBOTAPI);
+                            default -> LocaleController.getString(R.string.IdTypeAPI);
+                        };
                         textCell.setTextAndValue(LocaleController.getString(R.string.IdType), value, partial, false);
                     } else if (position == translatorTypeRow) {
-                        String value;
-                        switch (NekoConfig.transType) {
-                            case NekoConfig.TRANS_TYPE_TG:
-                                value = LocaleController.getString(R.string.TranslatorTypeTG);
-                                break;
-                            case NekoConfig.TRANS_TYPE_EXTERNAL:
-                                value = LocaleController.getString(R.string.TranslatorTypeExternal);
-                                break;
-                            case NekoConfig.TRANS_TYPE_NEKO:
-                            default:
-                                value = LocaleController.getString(R.string.TranslatorTypeNeko);
-                                break;
-                        }
+                        String value = switch (NekoConfig.transType) {
+                            case NekoConfig.TRANS_TYPE_TG ->
+                                    LocaleController.getString(R.string.TranslatorTypeTG);
+                            case NekoConfig.TRANS_TYPE_EXTERNAL ->
+                                    LocaleController.getString(R.string.TranslatorTypeExternal);
+                            default -> LocaleController.getString(R.string.TranslatorTypeNeko);
+                        };
                         textCell.setTextAndValue(LocaleController.getString(R.string.TranslatorType), value, partial, position + 1 != translator2Row);
                     } else if (position == doNotTranslateRow) {
                         ArrayList<String> langCodes = getRestrictedLanguages();
@@ -420,7 +380,6 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                     } else if (position == silenceNonContactsRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.SilenceNonContacts), NekoConfig.silenceNonContacts, false);
                     } else if (position == autoTranslateRow) {
-                        textCell.setEnabled(supportLanguageDetector, null);
                         textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.AutoTranslate), LocaleController.getString(R.string.AutoTranslateAbout), NekoConfig.autoTranslate, true, false);
                     } else if (position == showOriginalRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.TranslatorShowOriginal), NekoConfig.showOriginal, true);
@@ -454,15 +413,6 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                     break;
                 }
             }
-        }
-
-        @Override
-        public boolean isEnabled(RecyclerView.ViewHolder holder) {
-            int position = holder.getAdapterPosition();
-            if (position == autoTranslateRow || position == doNotTranslateRow) {
-                return supportLanguageDetector;
-            }
-            return super.isEnabled(holder);
         }
 
         @Override

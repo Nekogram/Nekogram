@@ -33,7 +33,6 @@ import java.util.Arrays;
  * in Material Design.
  */
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class SimpleMenuPopupWindow extends PopupWindow {
 
     public static final int POPUP_MENU = 0;

@@ -4,19 +4,16 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.widget.CheckedTextView;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 /**
  * Extension of {@link CheckedTextView} that adds a Foreground drawable.
  */
 
-@RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
 public class ForegroundCheckTextView extends CheckedTextView {
 
     private final Rect mSelfBounds = new Rect();
@@ -192,9 +189,7 @@ public class ForegroundCheckTextView extends CheckedTextView {
     public void drawableHotspotChanged(float x, float y) {
         super.drawableHotspotChanged(x, y);
         if (mForeground != null) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mForeground.setHotspot(x, y);
-            }
+            mForeground.setHotspot(x, y);
         }
     }
 }

@@ -66,10 +66,6 @@ android {
 
     sourceSets.main.jniLibs.srcDirs = ['./jni/']
 
-    buildFeatures {
-        prefab true
-    }
-
     externalNativeBuild {
         cmake {
             path 'jni/CMakeLists.txt'

@@ -307,19 +307,14 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setText(LocaleController.getString(R.string.DeleteAccount), false);
                         textCell.setTextColor(getThemedColor(Theme.key_text_RedRegular));
                     } else if (position == downloadSpeedBoostRow) {
-                        String value;
-                        switch (NekoConfig.downloadSpeedBoost) {
-                            case NekoConfig.BOOST_NONE:
-                                value = LocaleController.getString(R.string.DownloadSpeedBoostNone);
-                                break;
-                            case NekoConfig.BOOST_EXTREME:
-                                value = LocaleController.getString(R.string.DownloadSpeedBoostExtreme);
-                                break;
-                            default:
-                            case NekoConfig.BOOST_AVERAGE:
-                                value = LocaleController.getString(R.string.DownloadSpeedBoostAverage);
-                                break;
-                        }
+                        String value = switch (NekoConfig.downloadSpeedBoost) {
+                            case NekoConfig.BOOST_NONE ->
+                                    LocaleController.getString(R.string.DownloadSpeedBoostNone);
+                            case NekoConfig.BOOST_EXTREME ->
+                                    LocaleController.getString(R.string.DownloadSpeedBoostExtreme);
+                            default ->
+                                    LocaleController.getString(R.string.DownloadSpeedBoostAverage);
+                        };
                         textCell.setTextAndValue(LocaleController.getString(R.string.DownloadSpeedBoost), value, partial, true);
                     } else if (position == springAnimationRow) {
                         String value;
