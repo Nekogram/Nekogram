@@ -1505,7 +1505,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                     }
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("text/plain");
-                    shareIntent.putExtra(Intent.EXTRA_TEXT, str);
+                    shareIntent.putExtra(Intent.EXTRA_TEXT, str.toString());
                     Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
                     chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     ApplicationLoader.applicationContext.startActivity(chooserIntent);
