@@ -12285,7 +12285,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
                 ImageLocation imageLocation = imagesArrLocations.get(index);
                 if (imageLocation != null && imageLocation.photo != null) {
-                    actionBarContainer.setSubtitle(LocaleController.formatDateTime(imageLocation.photo.date), animated);
+                    actionBarContainer.setSubtitle(String.format(Locale.US, "%s, DC%d", LocaleController.formatDateTime(imageLocation.photo.date), imageLocation.dc_id), animated);
+                    if (imageLocation.photo.video_sizes.isEmpty()) {
+                        menuItem.showSubItem(gallery_menu_copy);
+                    } else {
+                        menuItem.hideSubItem(gallery_menu_copy);
+                    }
                 } else {
                     actionBarContainer.setSubtitle("", animated);
                 }
@@ -12302,34 +12307,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 title = customTitle;
             } else if (isEvent) {
                 title = LocaleController.getString("AttachPhoto", R.string.AttachPhoto);
-            } else if (avatarsDialogId < 0) {
-                TLRPC.Chat chat = MessagesController.getInstance(currentAccount).getChat(-avatarsDialogId);
-                if (chat != null) {
-                    title = chat.title;
-                }
-            } else {
-                TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(avatarsDialogId);
-                if (user != null) {
-                    title = UserObject.getUserName(user);
-                }
             }
-            CharSequence subtitle = null;
-            TLRPC.Photo avatar = avatarsArr.get(switchingToIndex);
-            if (avatar.date != 0) {
-                subtitle = LocaleController.formatDateAudio(avatar.date, false);
-                subtitle = String.format(Locale.US, "%s, DC%d", subtitle, avatar.dc_id);
-            }
-            actionBarContainer.setSubtitle(subtitle, animated);
-            boolean noforwards = avatarsDialogId != 0 && MessagesController.getInstance(currentAccount).isChatNoForwards(-avatarsDialogId);
+            boolean noforwards = false && avatarsDialogId != 0 && MessagesController.getInstance(currentAccount).isChatNoForwards(-avatarsDialogId);
             if (noforwards) {
                 menuItem.hideSubItem(gallery_menu_save);
             } else {
                 menuItem.showSubItem(gallery_menu_save);
-            }
-            if (!noforwards && avatar.video_sizes.isEmpty()) {
-                menuItem.showSubItem(gallery_menu_copy);
-            } else {
-                menuItem.hideSubItem(gallery_menu_copy);
             }
             allowShare = !noforwards;
             menuItem.showSubItem(gallery_menu_share);
