@@ -2127,6 +2127,8 @@ public class NotificationsController extends BaseController {
                         }
                     } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGiveaway) {
                         return LocaleController.getString("BoostingGiveaway", R.string.BoostingGiveaway);
+                    } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGiveawayResults) {
+                        return LocaleController.getString("BoostingGiveawayResults", R.string.BoostingGiveawayResults);
                     } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGeo || messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaVenue) {
                         return LocaleController.getString("AttachLocation", R.string.AttachLocation);
                     } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGeoLive) {
@@ -2377,6 +2379,8 @@ public class NotificationsController extends BaseController {
                         } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGiveaway) {
                             TLRPC.TL_messageMediaGiveaway giveaway = (TLRPC.TL_messageMediaGiveaway) messageObject.messageOwner.media;
                             msg = LocaleController.formatString("NotificationMessageChannelGiveaway", R.string.NotificationMessageChannelGiveaway, name, giveaway.quantity, giveaway.months);
+                        } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGiveawayResults) {
+                            msg = LocaleController.formatString("BoostingGiveawayResults", R.string.BoostingGiveawayResults);
                         } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaPoll) {
                             TLRPC.TL_messageMediaPoll mediaPoll = (TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media;
                             if (mediaPoll.poll.quiz) {
@@ -2831,6 +2835,8 @@ public class NotificationsController extends BaseController {
                         } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGiveaway) {
                             TLRPC.TL_messageMediaGiveaway giveaway = (TLRPC.TL_messageMediaGiveaway) messageObject.messageOwner.media;
                             msg = LocaleController.formatString("NotificationMessageChannelGiveaway", R.string.NotificationMessageChannelGiveaway, chat.title, giveaway.quantity, giveaway.months);
+                        } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGiveawayResults) {
+                            msg = LocaleController.formatString("BoostingGiveawayResults", R.string.BoostingGiveawayResults);
                         } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGeo || messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaVenue) {
                             msg = LocaleController.formatString("NotificationMessageGroupMap", R.string.NotificationMessageGroupMap, name, chat.title);
                         } else if (messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaGeoLive) {
