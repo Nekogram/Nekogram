@@ -5473,9 +5473,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public boolean isPremiumChristmasHintVisible() {
-        if (!MessagesController.getInstance(currentAccount).premiumFeaturesBlocked() && folderId == 0) {
+        /*if (!MessagesController.getInstance(currentAccount).premiumFeaturesBlocked() && folderId == 0) {
             return MessagesController.getInstance(currentAccount).pendingSuggestions.contains("PREMIUM_CHRISTMAS");
-        }
+        }*/
         return false;
     }
 
