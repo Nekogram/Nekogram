@@ -266,7 +266,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             arrayList.add("Nekogram");
             arrayList.add("Telegram");
             boolean oldParser = NekoConfig.newMarkdownParser;
-            PopupHelper.show(arrayList, LocaleController.getString(R.string.DoubleTapAction), NekoConfig.newMarkdownParser ? 0 : 1, getParentActivity(), view, i -> {
+            PopupHelper.show(arrayList, LocaleController.getString(R.string.MarkdownParser), NekoConfig.newMarkdownParser ? 0 : 1, getParentActivity(), view, i -> {
                 NekoConfig.setNewMarkdownParser(i == 0);
                 listAdapter.notifyItemChanged(markdownParserRow, PARTIAL);
                 if (oldParser != NekoConfig.newMarkdownParser) {
