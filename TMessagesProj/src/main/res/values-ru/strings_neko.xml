@@ -120,7 +120,7 @@
     <string name="BlurAvatarBackground">Размытие фотографии профиля</string>
     <string name="DarkenAvatarBackground">Затемнение фотографии профиля</string>
     <string name="AccentAsNotificationColor">Цвет акцента как цвет уведомления</string>
-    <string name="SilenceNonContacts">Беззвучные уведомления от контактов которых нет в записной книжке</string>
+    <string name="SilenceNonContacts">Беззвучные уведомления от неконтактов</string>
     <string name="SilenceNonContactsAbout">Уведомления от людей не из ваших контактов будут приходить без звука. Вы можете добавить пользователей в контакты не зная их номера.</string>
     <string name="SelectBetween">Выбрать между</string>
     <string name="StickerSavedHint">Стикер сохранен в галерею</string>
@@ -309,6 +309,7 @@
     <string name="MonoCode">Код</string>
     <string name="CreateCode">Создать код</string>
     <string name="CreateCodeLanguage">Язык</string>
+    <string name="IgnoreContentRestriction">Игнорировать ограничение контента</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>

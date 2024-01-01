@@ -104,7 +104,7 @@
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Sürelerde saniyeyi de göster</string>
     <string name="JumpToBeginning">Başlangıca atla</string>
-    <string name="ProviderDeepLTranslate">DeepL Çeviri</string>
+    <string name="ProviderDeepLTranslate">DeepL Çeviri*</string>
     <string name="Halloween">Cadılar bayramı</string>
     <string name="CheckUpdate">Güncellemeleri denetle</string>
     <string name="LastUpdateFormatted">Son başarılı denetleme %1$s.</string>
@@ -304,8 +304,11 @@
     <string name="CloudConfigAutoSyncDesc">Neko Ayarlarında değişiklik yaptıktan sonra otomatik olarak buluta senkronize et.</string>
     <string name="CloudConfigSyncFailed">Ayarlar buluta senkronize edilemedi.</string>
     <string name="CloudConfigRestoreFailed">Buluttan ayarlar geri yüklenemedi.</string>
+    <string name="ReducedColors">Renkleri azaltın</string>
     <string name="MonoCode">Kod</string>
     <string name="CreateCode">Kod Oluştur</string>
+    <string name="CreateCodeLanguage">Dil</string>
+    <string name="IgnoreContentRestriction">İçerik kısıtlamasını yok say</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Erişilebilirlik ayarları</string>
     <string name="AccSeekbarHeading">Arama çubuğu ayarları</string>

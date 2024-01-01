@@ -304,8 +304,11 @@
     <string name="CloudConfigAutoSyncDesc">Otomatis sinkronkan ke cloud setelah membuat perubahan pada pengaturan Neko.</string>
     <string name="CloudConfigSyncFailed">Gagal menyinkronkan pengaturan ke cloud.</string>
     <string name="CloudConfigRestoreFailed">Gagal memulihkan pengaturan dari cloud.</string>
+    <string name="ReducedColors"></string>
     <string name="MonoCode">Kode</string>
     <string name="CreateCode">Buat Kode</string>
+    <string name="CreateCodeLanguage"></string>
+    <string name="IgnoreContentRestriction">Kontol</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Setelan Aksesibilitas</string>
 </resources>
