@@ -28,12 +28,8 @@ import tw.nekomimi.nekogram.simplemenu.SimpleMenuPopupWindow;
 public class PopupHelper {
     private static SimpleMenuPopupWindow mPopupWindow;
 
-    public static void show(ArrayList<? extends CharSequence> entries, String title, int checkedIndex, Context context, View itemView, SimpleMenuPopupWindow.OnItemClickListener listener) {
-        show(entries, title, checkedIndex, context, itemView, listener, null);
-    }
-
     public static void show(ArrayList<? extends CharSequence> entries, String title, int checkedIndex, Context context, View itemView, SimpleMenuPopupWindow.OnItemClickListener listener, Theme.ResourcesProvider resourcesProvider) {
-        if (itemView == null) {
+        if (true) {
             AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
             builder.setTitle(title);
             final LinearLayout linearLayout = new LinearLayout(context);

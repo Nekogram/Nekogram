@@ -88,7 +88,7 @@ public class AccessibilitySettingsActivity extends BaseFragment {
 
                             AccConfig.setDelayBetweenAnnouncingOfChangingOfSeekbarValue(i * 50);
                             listAdapter.notifyItemChanged(position);
-                        });
+                        }, null);
             } else if (position == showNumbersOfItemsRow || position == showIndexOfItemRow || position == showValueChangesRow) {
                 TextCheckCell cell = (TextCheckCell) view;
                 if (position == showNumbersOfItemsRow) {
