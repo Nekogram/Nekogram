@@ -7471,7 +7471,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         subtitleColor = getThemedColor(Theme.key_actionBarDefaultSubtitle);
 
         if (idTextView != null && playProfileAnimation != 2) {
-            idTextView.setTextColor(ColorUtils.blendARGB(applyPeerColor(subtitleColor, true, false), color, progress));
+            idTextView.setTextColor(ColorUtils.blendARGB(applyPeerColor(subtitleColor, true, false), applyPeerColor(color, true, false), progress));
         }
 
         extraHeight = initialAnimationExtraHeight * progress;
