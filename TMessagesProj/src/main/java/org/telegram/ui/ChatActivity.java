@@ -961,8 +961,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int OPTION_CLEAR_FILE = 92;
     private final static int OPTION_SAVE_MESSAGE = 93;
     private final static int OPTION_REPEAT = 94;
-    private final static int OPTION_ADMIN_RIGHTS = 97;
-    private final static int OPTION_PERMISSIONS = 98;
     private final static int OPTION_SEND_NOW = 100;
     private final static int OPTION_EDIT_SCHEDULE_TIME = 102;
     private final static int OPTION_SPEED_PROMO = 103;
@@ -25616,51 +25614,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         options.add(OPTION_DELETE);
                         icons.add(selectedObject.messageOwner.ttl_period != 0 ? R.drawable.msg_delete_auto : R.drawable.msg_delete);
                     }
-                    if ((NekoConfig.showAdminActions || NekoConfig.showChangePermissions) && chatInfo != null && chatInfo.participants != null && chatInfo.participants.participants != null && selectedObject.messageOwner.from_id != null) {
-                        selectedParticipant = null;
-                        long user_id = selectedObject.messageOwner.from_id.user_id;
-                        for (int a = 0; a < chatInfo.participants.participants.size(); a++) {
-                            TLRPC.ChatParticipant participant = chatInfo.participants.participants.get(a);
-                            if (participant.user_id != user_id || participant.user_id == getUserConfig().getCurrentUser().id) {
-                                continue;
-                            }
-
-                            boolean canEditAdmin;
-                            boolean canRestrict;
-                            boolean editingAdmin;
-                            final TLRPC.ChannelParticipant channelParticipant;
-
-                            if (ChatObject.isChannel(currentChat)) {
-                                channelParticipant = ((TLRPC.TL_chatChannelParticipant) participant).channelParticipant;
-                                canEditAdmin = ChatObject.canAddAdmins(currentChat);
-                                if (canEditAdmin && (channelParticipant instanceof TLRPC.TL_channelParticipantCreator || channelParticipant instanceof TLRPC.TL_channelParticipantAdmin && !channelParticipant.can_edit)) {
-                                    canEditAdmin = false;
-                                }
-                                canRestrict = ChatObject.canBlockUsers(currentChat) && (!(channelParticipant instanceof TLRPC.TL_channelParticipantAdmin || channelParticipant instanceof TLRPC.TL_channelParticipantCreator) || channelParticipant.can_edit);
-                                if (currentChat.gigagroup) {
-                                    canRestrict = false;
-                                }
-                                editingAdmin = channelParticipant instanceof TLRPC.TL_channelParticipantAdmin;
-                            } else {
-                                canEditAdmin = currentChat.creator;
-                                canRestrict = currentChat.creator;
-                                editingAdmin = participant instanceof TLRPC.TL_chatParticipantAdmin;
-                            }
-
-                            if (canEditAdmin && NekoConfig.showAdminActions) {
-                                items.add(editingAdmin ? LocaleController.getString("EditAdminRights", R.string.EditAdminRights) : LocaleController.getString("SetAsAdmin", R.string.SetAsAdmin));
-                                icons.add(R.drawable.msg_admins);
-                                options.add(OPTION_ADMIN_RIGHTS);
-                                selectedParticipant = participant;
-                            }
-                            if (canRestrict && NekoConfig.showChangePermissions) {
-                                items.add(LocaleController.getString("ChangePermissions", R.string.ChangePermissions));
-                                icons.add(R.drawable.msg_permissions);
-                                options.add(OPTION_PERMISSIONS);
-                                selectedParticipant = participant;
-                            }
-                        }
-                    }
                 }
 
                 if (NekoConfig.showMessageDetails) {
@@ -28126,18 +28079,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     return;
                 }
                 processRepeatMessage(false);
-                break;
-            } case OPTION_ADMIN_RIGHTS: {
-                if (selectedParticipant == null) {
-                    break;
-                }
-                doAdminActions(0);
-                break;
-            } case OPTION_PERMISSIONS: {
-                if (selectedParticipant == null) {
-                    break;
-                }
-                doAdminActions(1);
                 break;
             }
             case OPTION_VIEW_REPLIES_OR_THREAD: {
@@ -35119,44 +35060,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         });
         presentFragment(fragment);
-    }
-
-    private void doAdminActions(int action) {
-        if (selectedParticipant == null) {
-            return;
-        }
-        TLRPC.ChatParticipant participant = selectedParticipant;
-
-        final TLRPC.ChannelParticipant channelParticipant;
-        TLRPC.User user = getMessagesController().getUser(participant.user_id);
-        boolean editingAdmin;
-        if (ChatObject.isChannel(currentChat)) {
-            channelParticipant = ((TLRPC.TL_chatChannelParticipant) participant).channelParticipant;
-            editingAdmin = channelParticipant instanceof TLRPC.TL_channelParticipantAdmin;
-        } else {
-            channelParticipant = null;
-            editingAdmin = participant instanceof TLRPC.TL_chatParticipantAdmin;
-        }
-        if (action == 1 && (channelParticipant instanceof TLRPC.TL_channelParticipantAdmin || participant instanceof TLRPC.TL_chatParticipantAdmin)) {
-            AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity(), themeDelegate);
-            builder2.setTitle(LocaleController.getString("AppName", R.string.AppName));
-            builder2.setMessage(LocaleController.formatString("AdminWillBeRemoved", R.string.AdminWillBeRemoved, ContactsController.formatName(user.first_name, user.last_name)));
-            builder2.setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialog, which) -> {
-                if (channelParticipant != null) {
-                    openRightsEdit(action, user, participant, channelParticipant.admin_rights, channelParticipant.banned_rights, channelParticipant.rank, editingAdmin);
-                } else {
-                    openRightsEdit(action, user, participant, null, null, "", editingAdmin);
-                }
-            });
-            builder2.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
-            showDialog(builder2.create());
-        } else {
-            if (channelParticipant != null) {
-                openRightsEdit(action, user, participant, channelParticipant.admin_rights, channelParticipant.banned_rights, channelParticipant.rank, editingAdmin);
-            } else {
-                openRightsEdit(action, user, participant, null, null, "", editingAdmin);
-            }
-        }
     }
 
     @Override

@@ -220,21 +220,15 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                 NekoConfig.toggleShowReport();
                 cell.setChecked(NekoConfig.showReport);
             } else if (menuPosition == 8) {
-                NekoConfig.toggleShowAdminActions();
-                cell.setChecked(NekoConfig.showAdminActions);
-            } else if (menuPosition == 9) {
-                NekoConfig.toggleShowChangePermissions();
-                cell.setChecked(NekoConfig.showChangePermissions);
-            } else if (menuPosition == 10) {
                 NekoConfig.toggleShowMessageDetails();
                 cell.setChecked(NekoConfig.showMessageDetails);
-            } else if (menuPosition == 11) {
+            } else if (menuPosition == 9) {
                 NekoConfig.toggleShowCopyPhoto();
                 cell.setChecked(NekoConfig.showCopyPhoto);
-            } else if (menuPosition == 12) {
+            } else if (menuPosition == 10) {
                 NekoConfig.toggleShowSetReminder();
                 cell.setChecked(NekoConfig.showSetReminder);
-            } else if (menuPosition == 13) {
+            } else if (menuPosition == 11) {
                 NekoConfig.toggleShowQrCode();
                 cell.setChecked(NekoConfig.showQrCode);
             }
@@ -354,8 +348,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         addRow("showViewHistory");
         addRow("showTranslate");
         addRow("showReport");
-        addRow("showAdminActions");
-        addRow("showChangePermissions");
         addRow("showMessageDetails");
         addRow("showCopyPhoto");
         addRow("showSetReminder");
@@ -678,16 +670,12 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     } else if (menuPosition == 7) {
                         cell.setTextAndCheck(LocaleController.getString(R.string.ReportChat), NekoConfig.showReport, true);
                     } else if (menuPosition == 8) {
-                        cell.setTextAndCheck(LocaleController.getString(R.string.EditAdminRights), NekoConfig.showAdminActions, true);
-                    } else if (menuPosition == 9) {
-                        cell.setTextAndCheck(LocaleController.getString(R.string.ChangePermissions), NekoConfig.showChangePermissions, true);
-                    } else if (menuPosition == 10) {
                         cell.setTextAndCheck(LocaleController.getString(R.string.MessageDetails), NekoConfig.showMessageDetails, true);
-                    } else if (menuPosition == 11) {
+                    } else if (menuPosition == 9) {
                         cell.setTextAndCheck(LocaleController.getString(R.string.CopyPhoto), NekoConfig.showCopyPhoto, true);
-                    } else if (menuPosition == 12) {
+                    } else if (menuPosition == 10) {
                         cell.setTextAndCheck(LocaleController.getString(R.string.SetReminder), NekoConfig.showSetReminder, true);
-                    } else if (menuPosition == 13) {
+                    } else if (menuPosition == 11) {
                         cell.setTextAndCheck(LocaleController.getString(R.string.QrCode), NekoConfig.showQrCode, false);
                     }
                     break;

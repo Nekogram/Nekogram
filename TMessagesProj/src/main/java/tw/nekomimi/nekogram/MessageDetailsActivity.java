@@ -723,8 +723,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 builder.append("\n");
             }
             builder.append(user.id);
-        } else if (object instanceof TLRPC.Chat) {
-            TLRPC.Chat chat = (TLRPC.Chat) object;
+        } else if (object instanceof TLRPC.Chat chat) {
             builder.append(chat.title);
             builder.append("\n");
             var username = ChatObject.getPublicUsername(chat);

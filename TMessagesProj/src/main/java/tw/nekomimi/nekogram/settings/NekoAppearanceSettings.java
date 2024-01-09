@@ -1,6 +1,5 @@
 package tw.nekomimi.nekogram.settings;
 
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.os.Build;
 import android.transition.TransitionManager;
@@ -8,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
-import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -23,7 +21,6 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
-import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
 
@@ -36,7 +33,6 @@ import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
 public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate, EmojiHelper.EmojiPacksLoadedListener {
 
     private DrawerProfilePreviewCell profilePreviewCell;
-    private ValueAnimator statusBarColorAnimator;
 
     private int drawerRow;
     private int avatarAsDrawerBackgroundRow;
@@ -52,7 +48,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
     private int appBarShadowRow;
     private int formatTimeWithSecondsRow;
     private int disableNumberRoundingRow;
-    private int newYearRow;
     private int tabletModeRow;
     private int eventTypeRow;
     private int appearance2Row;
@@ -101,20 +96,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                     ((LaunchActivity) getParentActivity()).invalidateTabletMode();
                 }
             }, resourcesProvider);
-        } else if (position == transparentStatusBarRow) {
-            SharedConfig.toggleNoStatusBar();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(SharedConfig.noStatusBar);
-            }
-            int alpha = isLightStatusBar() ? 0x0f : 0x33;
-            if (statusBarColorAnimator != null && statusBarColorAnimator.isRunning()) {
-                statusBarColorAnimator.end();
-            }
-            statusBarColorAnimator = SharedConfig.noStatusBar ? ValueAnimator.ofInt(alpha, 0) : ValueAnimator.ofInt(0, alpha);
-            statusBarColorAnimator.setDuration(300);
-            statusBarColorAnimator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-            statusBarColorAnimator.addUpdateListener(animation -> getParentActivity().getWindow().setStatusBarColor(ColorUtils.setAlphaComponent(0, (int) animation.getAnimatedValue())));
-            statusBarColorAnimator.start();
         } else if (position == emojiSetsRow) {
             presentFragment(new NekoEmojiSettingsActivity());
         } else if (position == eventTypeRow) {
@@ -128,12 +109,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 listAdapter.notifyItemChanged(eventTypeRow, PARTIAL);
                 getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
             }, resourcesProvider);
-        } else if (position == newYearRow) {
-            NekoConfig.toggleNewYear();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.newYear);
-            }
-            showRestartBulletin();
         } else if (position == avatarAsDrawerBackgroundRow) {
             NekoConfig.toggleAvatarAsDrawerBackground();
             if (view instanceof TextCheckCell) {
@@ -249,7 +224,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
         appBarShadowRow = addRow("appBarShadow");
         formatTimeWithSecondsRow = addRow("formatTimeWithSeconds");
         disableNumberRoundingRow = addRow("disableNumberRounding");
-        newYearRow = -1;
         eventTypeRow = addRow("eventType");
         tabletModeRow = addRow("tabletMode");
         appearance2Row = addRow();
@@ -321,8 +295,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                         textCell.setTextAndCheck(LocaleController.getString(R.string.HidePhone), NekoConfig.hidePhone, false);
                     } else if (position == transparentStatusBarRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.TransparentStatusBar), SharedConfig.noStatusBar, true);
-                    } else if (position == newYearRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.ChristmasHat), NekoConfig.newYear, true);
                     } else if (position == avatarAsDrawerBackgroundRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.AvatarAsBackground), NekoConfig.avatarAsDrawerBackground, true);
                     } else if (position == disableNumberRoundingRow) {
@@ -392,7 +364,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 return TYPE_SHADOW;
             } else if (position == eventTypeRow || position == tabsTitleTypeRow || position == tabletModeRow) {
                 return TYPE_SETTINGS;
-            } else if (position == newYearRow || position == hideAllTabRow ||
+            } else if (position == hideAllTabRow ||
                     (position > emojiSetsRow && position <= disableNumberRoundingRow) ||
                     (position > drawerRow && position < drawer2Row)) {
                 return TYPE_CHECK;

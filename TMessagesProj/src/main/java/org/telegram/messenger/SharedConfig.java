@@ -292,7 +292,7 @@ public class SharedConfig {
     public static boolean pauseMusicOnRecord = false;
     public static boolean pauseMusicOnMedia = false;
     public static boolean noiseSupression;
-    public static boolean noStatusBar = true;
+    public static final boolean noStatusBar = true;
     public static boolean debugWebView;
     public static boolean sortContactsByName;
     public static boolean sortFilesByName;
@@ -567,7 +567,6 @@ public class SharedConfig {
                     ///    updateVersionString = BuildVars.BUILD_VERSION_STRING;
                     ///}
                     if (pendingAppUpdateBuildVersion != updateVersion || pendingAppUpdate.version == null/* || updateVersionString.compareTo(pendingAppUpdate.version) >= 0*/ || BuildVars.DEBUG_PRIVATE_VERSION) {
-                        NekoConfig.buildAppChangelog(pendingAppUpdate);
                         pendingAppUpdate = null;
                         AndroidUtilities.runOnUIThread(SharedConfig::saveConfig);
                     }
@@ -616,7 +615,6 @@ public class SharedConfig {
             archiveHidden = preferences.getBoolean("archiveHidden", false);
             distanceSystemType = preferences.getInt("distanceSystemType", 0);
             keepMedia = preferences.getInt("keep_media", CacheByChatsController.KEEP_MEDIA_ONE_MONTH);
-            noStatusBar = preferences.getBoolean("noStatusBar", true);
             debugWebView = preferences.getBoolean("debugWebView", false);
             lastKeepMediaCheckTime = preferences.getInt("lastKeepMediaCheckTime", 0);
             lastLogsCheckTime = preferences.getInt("lastLogsCheckTime", 0);
@@ -1081,13 +1079,6 @@ public class SharedConfig {
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("debugWebView", debugWebView);
         editor.apply();
-    }
-
-    public static void toggleNoStatusBar() {
-        noStatusBar = !noStatusBar;
-        SharedPreferences preferences = MessagesController.getGlobalMainSettings();
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("noStatusBar", noStatusBar);
     }
 
     public static void incrementCallEncryptionHintDisplayed(int count) {

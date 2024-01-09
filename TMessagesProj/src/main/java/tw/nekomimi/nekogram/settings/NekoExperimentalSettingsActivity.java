@@ -38,7 +38,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
     private int experimentRow;
     private int springAnimationRow;
-    private int actionbarCrossfadeRow;
     private int downloadSpeedBoostRow;
     private int uploadSpeedBoostRow;
     private int mapDriftingFixRow;
@@ -213,22 +212,9 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 NekoConfig.setSpringAnimation(i == 0);
                 listAdapter.notifyItemChanged(springAnimationRow, PARTIAL);
                 if (oldAnimation != NekoConfig.springAnimation) {
-                    if (oldAnimation) {
-                        listAdapter.notifyItemRemoved(actionbarCrossfadeRow);
-                        updateRows();
-                    } else {
-                        updateRows();
-                        listAdapter.notifyItemInserted(actionbarCrossfadeRow);
-                    }
                     showRestartBulletin();
                 }
             }, resourcesProvider);
-        } else if (position == actionbarCrossfadeRow) {
-            NekoConfig.toggleActionbarCrossfade();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.actionbarCrossfade);
-            }
-            showRestartBulletin();
         } else if (position == contentRestrictionRow) {
             NekoConfig.toggleIgnoreContentRestriction();
             if (view instanceof TextCheckCell) {
@@ -266,7 +252,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
         experimentRow = addRow("experiment");
         springAnimationRow = addRow("springAnimation");
-        actionbarCrossfadeRow = NekoConfig.springAnimation ? addRow("actionbarCrossfade") : -1;
         downloadSpeedBoostRow = MessagesController.getInstance(currentAccount).getfileExperimentalParams ? -1 : addRow("downloadSpeedBoost");
         uploadSpeedBoostRow = addRow("uploadSpeedBoost");
         mapDriftingFixRow = addRow("mapDriftingFix");
@@ -341,8 +326,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.SendBugReport), LocaleController.getString(R.string.SendBugReportDesc), !AnalyticsHelper.analyticsDisabled && AnalyticsHelper.sendBugReport, true, true);
                     } else if (position == sendLargePhotosRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.SendLargePhotos), LocaleController.getString(R.string.SendLargePhotosAbout), NekoConfig.sendLargePhotos, true, true);
-                    } else if (position == actionbarCrossfadeRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.NavigationAnimationCrossfading), NekoConfig.actionbarCrossfade, true);
                     } else if (position == contentRestrictionRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.IgnoreContentRestriction), NekoConfig.ignoreContentRestriction, true);
                     }

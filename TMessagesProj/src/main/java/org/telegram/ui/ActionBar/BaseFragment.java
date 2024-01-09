@@ -166,10 +166,7 @@ public abstract class BaseFragment {
     }
 
     public boolean isActionBarCrossfadeEnabled() {
-        if (storyViewer != null && storyViewer.attachedToParent()) {
-            return false;
-        }
-        return actionBar != null && !actionBar.isActionModeShowed();
+        return actionBar != null;
     }
 
     public INavigationLayout.BackButtonState getBackButtonState() {
@@ -798,7 +795,7 @@ public abstract class BaseFragment {
 
     public void setFragmentPanTranslationOffset(int offset) {
         if (parentLayout != null) {
-            parentLayout.setFragmentPanTranslationOffset(offset, this);
+            parentLayout.setFragmentPanTranslationOffset(offset);
         }
     }
 

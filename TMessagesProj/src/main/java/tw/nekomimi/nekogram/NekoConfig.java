@@ -21,7 +21,6 @@ import org.telegram.messenger.NotificationsService;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 
 import java.io.File;
@@ -100,8 +99,6 @@ public class NekoConfig {
     public static boolean showReport = false;
     public static boolean showPrPr = false;
     public static boolean showViewHistory = false;
-    public static boolean showAdminActions = false;
-    public static boolean showChangePermissions = false;
     public static boolean showDeleteDownloadedFile = false;
     public static boolean showMessageDetails = false;
     public static boolean showTranslate = true;
@@ -111,7 +108,6 @@ public class NekoConfig {
     public static boolean showQrCode = true;
 
     public static boolean hidePhone = true;
-    public static boolean transparentStatusBar = false;
     public static int tabletMode = TABLET_AUTO;
     public static boolean openArchiveOnPull = false;
     public static boolean avatarAsDrawerBackground = false;
@@ -119,7 +115,6 @@ public class NekoConfig {
     public static boolean avatarBackgroundDarken = true;
     public static int nameOrder = 1;
     public static int eventType = 0;
-    public static boolean newYear = false;
     public static boolean disableAppBarShadow = false;
     public static boolean mediaPreview = true;
     public static boolean autoPauseVideo = true;
@@ -146,7 +141,6 @@ public class NekoConfig {
     public static boolean ignoreContentRestriction = false;
 
     public static boolean springAnimation = false;
-    public static boolean actionbarCrossfade = false;
 
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
@@ -159,8 +153,6 @@ public class NekoConfig {
 
     public static boolean shouldNOTTrustMe = false;
     public static boolean blockSponsoredMessage = false;
-
-    public static ArrayList<TLRPC.Update> pendingChangelog;
 
     public static boolean isChineseUser = false;
 
@@ -175,19 +167,6 @@ public class NekoConfig {
 
     static {
         loadConfig(false);
-    }
-
-    public static void buildAppChangelog(TLRPC.TL_help_appUpdate appUpdate) {
-        if (!BuildConfig.VERSION_NAME.equals(appUpdate.version) || appUpdate.text == null) {
-            return;
-        }
-        var update = new TLRPC.TL_updateServiceNotification();
-        update.flags = 2;
-        update.message = appUpdate.text;
-        update.entities = appUpdate.entities;
-        ArrayList<TLRPC.Update> updates = new ArrayList<>();
-        updates.add(update);
-        NekoConfig.pendingChangelog = updates;
     }
 
     public static int getSocksPort(int port) {
@@ -264,21 +243,17 @@ public class NekoConfig {
             ignoreBlocked = preferences.getBoolean("ignoreBlocked2", false);
             tabletMode = preferences.getInt("tabletMode", TABLET_AUTO);
             nameOrder = preferences.getInt("nameOrder", 1);
-            transparentStatusBar = preferences.getBoolean("transparentStatusBar", false);
             residentNotification = preferences.getBoolean("residentNotification", false);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showSetReminder = preferences.getBoolean("showSetReminder", false);
             showReport = preferences.getBoolean("showReport", false);
             showPrPr = preferences.getBoolean("showPrPr", isChineseUser);
             showViewHistory = preferences.getBoolean("showViewHistory", false);
-            showAdminActions = preferences.getBoolean("showAdminActions", false);
-            showChangePermissions = preferences.getBoolean("showChangePermissions", false);
             showDeleteDownloadedFile = preferences.getBoolean("showDeleteDownloadedFile", false);
             showMessageDetails = preferences.getBoolean("showMessageDetails", false);
             showTranslate = preferences.getBoolean("showTranslate", true);
             showRepeat = preferences.getBoolean("showRepeat", true);
             eventType = preferences.getInt("eventType", 0);
-            newYear = preferences.getBoolean("newYear", false);
             stickerSize = preferences.getFloat("stickerSize", 14.0f);
             translationProvider = preferences.getString("translationProvider2", isChineseUser ? Translator.PROVIDER_LINGO : Translator.PROVIDER_GOOGLE);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
@@ -333,7 +308,6 @@ public class NekoConfig {
             hideStories = preferences.getBoolean("hideStories", false);
             quickForward = preferences.getBoolean("quickForward", false);
             springAnimation = preferences.getBoolean("springAnimation", false);
-            actionbarCrossfade = preferences.getBoolean("actionbarCrossfade", false);
             reducedColors = preferences.getBoolean("reducedColors", false);
             ignoreContentRestriction = preferences.getBoolean("ignoreContentRestriction", false);
 
@@ -500,14 +474,6 @@ public class NekoConfig {
         editor.apply();
     }
 
-    public static void toggleActionbarCrossfade() {
-        actionbarCrossfade = !actionbarCrossfade;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("actionbarCrossfade", actionbarCrossfade);
-        editor.apply();
-    }
-
     public static void toggleSendLargePhotos() {
         sendLargePhotos = !sendLargePhotos;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
@@ -613,22 +579,6 @@ public class NekoConfig {
         editor.apply();
     }
 
-    public static void toggleShowAdminActions() {
-        showAdminActions = !showAdminActions;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("showAdminActions", showAdminActions);
-        editor.apply();
-    }
-
-    public static void toggleShowChangePermissions() {
-        showChangePermissions = !showChangePermissions;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("showChangePermissions", showChangePermissions);
-        editor.apply();
-    }
-
     public static void toggleShowDeleteDownloadedFile() {
         showDeleteDownloadedFile = !showDeleteDownloadedFile;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
@@ -708,14 +658,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("eventType", eventType);
-        editor.apply();
-    }
-
-    public static void toggleNewYear() {
-        newYear = !newYear;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("newYear", newYear);
         editor.apply();
     }
 
