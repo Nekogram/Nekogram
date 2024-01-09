@@ -330,21 +330,6 @@ public class ConnectionsManager extends BaseController {
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d("send request " + object + " with token = " + requestToken);
         }
-        var user = getUserConfig().getCurrentUser();
-        if (user != null && user.bot && ErrorDatabase.isUserOnlyMethod(object)) {
-            FileLog.d("skip send request " + object + " user only method");
-            Utilities.stageQueue.postRunnable(() -> {
-                var error = new TLRPC.TL_error();
-                error.code = 400;
-                error.text = "BOT_METHOD_INVALID";
-                if (onComplete != null) {
-                    onComplete.run(null, error);
-                } else if (onCompleteTimestamp != null) {
-                    onCompleteTimestamp.run(null, error, getCurrentTime());
-                }
-            });
-            return;
-        }
         try {
             NativeByteBuffer buffer = new NativeByteBuffer(object.getObjectSize());
             object.serializeToStream(buffer);

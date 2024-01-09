@@ -2010,7 +2010,7 @@ public class MediaDataController extends BaseController {
     }
 
     public void loadFeaturedStickers(boolean emoji, boolean cache, boolean force) {
-        if (loadingFeaturedStickers[emoji ? 1 : 0] || (getUserConfig().getCurrentUser() != null && getUserConfig().getCurrentUser().bot)) {
+        if (loadingFeaturedStickers[emoji ? 1 : 0]) {
             return;
         }
         loadingFeaturedStickers[emoji ? 1 : 0] = true;
@@ -2332,7 +2332,7 @@ public class MediaDataController extends BaseController {
                 archivedStickersCount[type] = count;
                 getNotificationCenter().postNotificationName(NotificationCenter.archivedStickersCountDidLoad, type);
             }
-        } else if (getUserConfig().getCurrentUser() == null || !getUserConfig().getCurrentUser().bot) {
+        } else {
             TLRPC.TL_messages_getArchivedStickers req = new TLRPC.TL_messages_getArchivedStickers();
             req.limit = 0;
             req.masks = type == TYPE_MASK;
@@ -2702,7 +2702,7 @@ public class MediaDataController extends BaseController {
                     }
                 });
             });
-        } else if (getUserConfig().getCurrentUser() == null || !getUserConfig().getCurrentUser().bot) {
+        } else {
             if (type == TYPE_FEATURED || type == TYPE_FEATURED_EMOJIPACKS) {
                 final boolean emoji = type == TYPE_FEATURED_EMOJIPACKS;
                 TLRPC.TL_messages_allStickers response = new TLRPC.TL_messages_allStickers();

@@ -219,8 +219,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             VIEW_CODE_EMAIL_SETUP = 13,
             VIEW_CODE_EMAIL = 14,
             VIEW_CODE_FRAGMENT_SMS = 15,
-            VIEW_QR_LOGIN = 16,
-            VIEW_BOT_LOGIN = 17;
+            VIEW_QR_LOGIN = 16;
 
     public final static int COUNTRY_STATE_NOT_SET_OR_VALID = 0,
             COUNTRY_STATE_EMPTY = 1,
@@ -264,8 +263,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             VIEW_CODE_EMAIL_SETUP,
             VIEW_CODE_EMAIL,
             VIEW_CODE_FRAGMENT_SMS,
-            VIEW_QR_LOGIN,
-            VIEW_BOT_LOGIN
+            VIEW_QR_LOGIN
     })
     private @interface ViewNumber {}
 
@@ -278,7 +276,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
     @ViewNumber
     private int currentViewNum;
-    private SlideView[] views = new SlideView[18];
+    private SlideView[] views = new SlideView[17];
     private CustomPhoneKeyboardView keyboardView;
     private ValueAnimator keyboardAnimator;
 
@@ -614,7 +612,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         views[VIEW_CODE_EMAIL] = new LoginActivityEmailCodeView(context, false);
         views[VIEW_CODE_FRAGMENT_SMS] = new LoginActivitySmsView(context, AUTH_TYPE_FRAGMENT_SMS);
         views[VIEW_QR_LOGIN] = new LoginActivityQrView(context);
-        views[VIEW_BOT_LOGIN] = new LoginActivityBotView(context);
 
         for (int a = 0; a < views.length; a++) {
             views[a].setVisibility(a == 0 ? View.VISIBLE : View.GONE);
@@ -646,7 +643,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     savedInstanceState = null;
                     clearCurrentState();
                 }
-            } else if (currentViewNum == VIEW_QR_LOGIN) {
+            } else if (currentViewNum == VIEW_QR_LOGIN || currentViewNum > VIEW_QR_LOGIN) {
                 currentViewNum = VIEW_PHONE_INPUT;
                 savedInstanceState = null;
                 clearCurrentState();
@@ -692,14 +689,11 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         moreButtonView = new ActionBarMenuItem(context, null, 0, Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         moreButtonView.setIcon(R.drawable.ic_ab_other);
         moreButtonView.addSubItem(0, LocaleController.getString("ProxySettings", R.string.ProxySettings));
-        moreButtonView.addSubItem(1, LocaleController.getString("BotLogin", R.string.BotLogin));
-        moreButtonView.addSubItem(2, LocaleController.getString("QRLoginTitle", R.string.QRLoginTitle));
+        moreButtonView.addSubItem(1, LocaleController.getString("QRLoginTitle", R.string.QRLoginTitle));
         moreButtonView.setDelegate(id -> {
             if (id == 0) {
                 presentFragment(new ProxyListActivity());
             } else if (id == 1) {
-                setPage(VIEW_BOT_LOGIN, true, null, false);
-            } else if (id == 2) {
                 setPage(VIEW_QR_LOGIN, true, null, false);
             }
         });
@@ -755,7 +749,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 currentDoneType = DONE_TYPE_FLOATING;
                 boolean needFloatingButton = a == VIEW_PHONE_INPUT || a == VIEW_REGISTER ||
                         a == VIEW_PASSWORD || a == VIEW_NEW_PASSWORD_STAGE_1 || a == VIEW_NEW_PASSWORD_STAGE_2 ||
-                        a == VIEW_ADD_EMAIL || a == VIEW_BOT_LOGIN;
+                        a == VIEW_ADD_EMAIL;
                 showDoneButton(needFloatingButton, false);
                 if (a == VIEW_CODE_MESSAGE || a == VIEW_CODE_SMS || a == VIEW_CODE_FLASH_CALL || a == VIEW_CODE_CALL) {
                     currentDoneType = DONE_TYPE_ACTION;
@@ -1501,7 +1495,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
     public void setPage(@ViewNumber int page, boolean animated, Bundle params, boolean back) {
         boolean needFloatingButton = page == VIEW_PHONE_INPUT || page == VIEW_REGISTER || page == VIEW_PASSWORD ||
-                page == VIEW_NEW_PASSWORD_STAGE_1 || page == VIEW_NEW_PASSWORD_STAGE_2 || page == VIEW_ADD_EMAIL || page == VIEW_BOT_LOGIN;
+                page == VIEW_NEW_PASSWORD_STAGE_1 || page == VIEW_NEW_PASSWORD_STAGE_2 || page == VIEW_ADD_EMAIL;
         if (page == currentViewNum) {
             animated = false;
         }
@@ -8050,189 +8044,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         public void didReceivedNotification(int id, int account, Object... args) {
             if (id == NotificationCenter.onUpdateLoginToken) {
                 exportLoginToken(false);
-            }
-        }
-    }
-
-    public class LoginActivityBotView extends SlideView {
-
-        private final EditTextBoldCursor codeField;
-        private final TextView titleView;
-        private final TextView confirmTextView;
-        private final RLottieImageView lockImageView;
-
-        private boolean nextPressed;
-        private final OutlineTextContainerView outlineCodeField;
-
-        public LoginActivityBotView(Context context) {
-            super(context);
-
-            setOrientation(VERTICAL);
-
-            FrameLayout lockFrameLayout = new FrameLayout(context);
-            lockImageView = new RLottieImageView(context);
-            lockImageView.setAnimation(R.raw.bot, 120, 120);
-            lockImageView.setAutoRepeat(false);
-            lockFrameLayout.addView(lockImageView, LayoutHelper.createFrame(120, 120, Gravity.CENTER_HORIZONTAL));
-            lockFrameLayout.setVisibility(AndroidUtilities.isSmallScreen() || (AndroidUtilities.displaySize.x > AndroidUtilities.displaySize.y && !AndroidUtilities.isTablet()) ? GONE : VISIBLE);
-            addView(lockFrameLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL));
-
-            titleView = new TextView(context);
-            titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-            titleView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-            titleView.setText(LocaleController.getString(R.string.BotLogin));
-            titleView.setGravity(Gravity.CENTER);
-            titleView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
-            addView(titleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 32, 16, 32, 0));
-
-            String text = LocaleController.getString("BotLoginMessage", R.string.BotLoginMessage);
-            SpannableStringBuilder spanned = new SpannableStringBuilder(text);
-            int startIndex = text.indexOf("**");
-            int lastIndex = text.lastIndexOf("**");
-            if (startIndex != -1 && lastIndex != -1 && startIndex != lastIndex) {
-                spanned.replace(lastIndex, lastIndex + 2, "");
-                spanned.replace(startIndex, startIndex + 2, "");
-                spanned.setSpan(new URLSpanNoUnderline("https://core.telegram.org/bots/#how-do-i-create-a-bot"), startIndex, lastIndex - 2, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-            }
-            confirmTextView = new LinkSpanDrawable.LinksTextView(context);
-            confirmTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            confirmTextView.setGravity(Gravity.CENTER_HORIZONTAL);
-            confirmTextView.setLineSpacing(AndroidUtilities.dp(2), 1.0f);
-            confirmTextView.setText(spanned);
-            addView(confirmTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 12, 8, 12, 0));
-
-            outlineCodeField = new OutlineTextContainerView(context);
-            outlineCodeField.setText(LocaleController.getString(R.string.BotToken));
-            codeField = new EditTextBoldCursor(context);
-            codeField.setCursorSize(AndroidUtilities.dp(20));
-            codeField.setCursorWidth(1.5f);
-            codeField.setBackground(null);
-            codeField.setImeOptions(EditorInfo.IME_ACTION_NEXT | EditorInfo.IME_FLAG_NO_EXTRACT_UI);
-            codeField.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 17);
-            codeField.setMaxLines(1);
-            codeField.setSingleLine(true);
-            int padding = AndroidUtilities.dp(16);
-            codeField.setPadding(padding, padding, padding, padding);
-            codeField.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
-            codeField.setOnFocusChangeListener((v, hasFocus) -> outlineCodeField.animateSelection(hasFocus ? 1f : 0f));
-            outlineCodeField.attachEditText(codeField);
-            outlineCodeField.addView(codeField, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP));
-            codeField.setOnEditorActionListener((textView, i, keyEvent) -> {
-                if (i == EditorInfo.IME_ACTION_NEXT) {
-                    onNextPressed(null);
-                    return true;
-                }
-                return false;
-            });
-            addView(outlineCodeField, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 16, 32, 16, 0));
-        }
-
-        @Override
-        public void updateColors() {
-            titleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-            confirmTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText6));
-            confirmTextView.setLinkTextColor(Theme.getColor(Theme.key_chats_actionBackground));
-            codeField.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-            codeField.setCursorColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
-            codeField.setHintTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteHintText));
-            outlineCodeField.updateColor();
-        }
-
-        @Override
-        public String getHeaderName() {
-            return LocaleController.getString("BotLogin", R.string.BotLogin);
-        }
-
-        @Override
-        public void onCancelPressed() {
-            nextPressed = false;
-        }
-
-        @Override
-        public void onNextPressed(String code) {
-            if (nextPressed) {
-                return;
-            }
-            String token = codeField.getText().toString();
-
-            if (token.length() == 0) {
-                onFieldError(outlineCodeField, false);
-                return;
-            }
-            if (!token.matches("\\d+:[a-zA-Z\\d_-]{35}")) {
-                onFieldError(outlineCodeField, true);
-                return;
-            }
-            nextPressed = true;
-
-            ConnectionsManager.getInstance(currentAccount).cleanup(false);
-            final TLRPC.TL_auth_importBotAuthorization req = new TLRPC.TL_auth_importBotAuthorization();
-
-            req.api_hash = BuildVars.APP_HASH;
-            req.api_id = BuildVars.APP_ID;
-            req.bot_auth_token = token;
-            int reqId = ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-                nextPressed = false;
-                if (error == null) {
-                    showDoneButton(false, true);
-                    postDelayed(() -> {
-                        needHideProgress(false, false);
-                        AndroidUtilities.hideKeyboard(codeField);
-                        onAuthSuccess((TLRPC.TL_auth_authorization) response);
-                    }, 150);
-                } else {
-                    needHideProgress(false);
-                    if (error.text.equals("ACCESS_TOKEN_INVALID")) {
-                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("InvalidAccessToken", R.string.InvalidAccessToken));
-                    } else if (error.text.startsWith("FLOOD_WAIT")) {
-                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("FloodWait", R.string.FloodWait));
-                    } else if (error.code != -1000) {
-                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
-                    }
-                }
-            }), ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagWithoutLogin | ConnectionsManager.RequestFlagTryDifferentDc | ConnectionsManager.RequestFlagEnableUnauthorized);
-            needShowProgress(reqId);
-        }
-
-        @Override
-        public boolean needBackButton() {
-            return true;
-        }
-
-        @Override
-        public boolean onBackPressed(boolean force) {
-            nextPressed = false;
-            needHideProgress(true);
-            return true;
-        }
-
-        @Override
-        public void onShow() {
-            super.onShow();
-            AndroidUtilities.runOnUIThread(() -> {
-                if (codeField != null) {
-                    codeField.requestFocus();
-                    codeField.setSelection(codeField.length());
-                    AndroidUtilities.showKeyboard(codeField);
-                    lockImageView.getAnimatedDrawable().setCurrentFrame(0, false);
-                    lockImageView.playAnimation();
-                }
-            }, SHOW_DELAY);
-        }
-
-        @Override
-        public void saveStateParams(Bundle bundle) {
-            String code = codeField.getText().toString();
-            if (code.length() != 0) {
-                bundle.putString("botview_code", code);
-            }
-        }
-
-        @Override
-        public void restoreStateParams(Bundle bundle) {
-            String code = bundle.getString("botview_code");
-            if (code != null) {
-                codeField.setText(code);
             }
         }
     }
