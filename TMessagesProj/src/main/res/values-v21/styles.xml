@@ -235,9 +235,4 @@
         <item name="android:windowTranslucentStatus">true</item>
     </style>
 
-    <style name="Animation.Preference.SimpleMenuCenter" parent="android:Animation">
-        <item name="android:windowEnterAnimation">@null</item>
-        <item name="android:windowExitAnimation">@anim/shrink_fade_out_center</item>
-    </style>
-
 </resources>
