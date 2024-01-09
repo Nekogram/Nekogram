@@ -23,7 +23,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.messenger.browser.Browser;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
@@ -35,14 +34,9 @@ import org.telegram.ui.LaunchActivity;
 import java.util.Arrays;
 import java.util.List;
 
-import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
-
 @SuppressWarnings("deprecation")
 public class NekoDonateActivity extends BaseNekoSettingsActivity implements PurchasesUpdatedListener {
     private static final List<String> SKUS = Arrays.asList("donate001", "donate002", "donate005", "donate010", "donate020", "donate050", "donate100");
-
-    private int buyMeACoffeeRow;
-    private int buyMeACoffee2Row;
 
     private int donateRow;
     private int placeHolderRow;
@@ -131,8 +125,6 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                         .build();
                 billingClient.launchBillingFlow(getParentActivity(), flowParams);
             }
-        } else if (position == buyMeACoffeeRow) {
-            Browser.openUrl(getParentActivity(), "https://www.buymeacoffee.com/nekogram");
         }
     }
 
@@ -156,14 +148,6 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
     @Override
     protected void updateRows() {
         rowCount = 0;
-
-        if (ConfigHelper.getCoffee()) {
-            buyMeACoffeeRow = rowCount++;
-            buyMeACoffee2Row = rowCount++;
-        } else {
-            buyMeACoffeeRow = -1;
-            buyMeACoffee2Row = -1;
-        }
 
         donateRow = rowCount++;
         if (skuDetails == null || skuDetails.isEmpty()) {
@@ -263,14 +247,10 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
 
         @Override
         public int getItemViewType(int position) {
-            if (position == buyMeACoffee2Row) {
-                return TYPE_SHADOW;
-            } else if (position == donateRow) {
+            if (position == donateRow) {
                 return TYPE_HEADER;
             } else if (position == donate2Row) {
                 return TYPE_INFO_PRIVACY;
-            } else if (position == buyMeACoffeeRow) {
-                return TYPE_BUYMEACOFFEE;
             } else if (position == placeHolderRow) {
                 return TYPE_FLICKER;
             }

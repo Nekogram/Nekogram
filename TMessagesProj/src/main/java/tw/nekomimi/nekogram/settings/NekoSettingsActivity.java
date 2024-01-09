@@ -249,12 +249,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
         @Override
         public int getItemViewType(int position) {
             if (position >= sponsorRow && position < sponsor2Row) {
-                ConfigHelper.News item = news.get(position - sponsorRow);
-                if (item.type == 1) {
-                    return TYPE_BUYMEACOFFEE;
-                } else {
-                    return TYPE_DETAIL_SETTINGS;
-                }
+                return TYPE_DETAIL_SETTINGS;
             } else if (position == categories2Row || position == about2Row || position == sponsor2Row) {
                 return TYPE_SHADOW;
             } else if (position >= channelRow && position < translationRow) {
