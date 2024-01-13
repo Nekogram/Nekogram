@@ -3,7 +3,6 @@ package tw.nekomimi.nekogram;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.text.TextUtils;
 
 import com.google.gson.Gson;
@@ -19,11 +18,9 @@ import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.NotificationsService;
 import org.telegram.messenger.R;
-import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 
-import java.io.File;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -989,27 +986,5 @@ public class NekoConfig {
         } else {
             return 0xff11acfa;
         }
-    }
-
-    public static File getTelegramPath() {
-        File path = null;
-        if (!TextUtils.isEmpty(SharedConfig.storageCacheDir)) {
-            if (!Environment.getExternalStorageDirectory().getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
-                File[] dirs = ApplicationLoader.applicationContext.getExternalFilesDirs(null);
-                for (File dir : dirs) {
-                    if (dir.getAbsolutePath().startsWith(SharedConfig.storageCacheDir)) {
-                        path = dir;
-                        break;
-                    }
-                }
-            }
-        }
-        if (path == null) {
-            path = ApplicationLoader.applicationContext.getExternalFilesDir(null);
-        }
-        File telegramPath = new File(path, "Telegram");
-        //noinspection ResultOfMethodCallIgnored
-        telegramPath.mkdirs();
-        return telegramPath;
     }
 }

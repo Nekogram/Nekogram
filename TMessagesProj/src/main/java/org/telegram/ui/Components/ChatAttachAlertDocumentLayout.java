@@ -90,7 +90,6 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.StringTokenizer;
 
-import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
 
 public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLayout {
@@ -1349,7 +1348,7 @@ public class ChatAttachAlertDocumentLayout extends ChatAttachAlert.AttachAlertLa
 
         ListItem fs;
         try {
-            File telegramPath = NekoConfig.getTelegramPath();
+            File telegramPath = SharedConfig.getTelegramPath();
             if (telegramPath.exists()) {
                 fs = new ListItem();
                 fs.title = "Telegram";

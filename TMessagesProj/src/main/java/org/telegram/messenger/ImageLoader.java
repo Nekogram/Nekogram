@@ -88,8 +88,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
 
-import tw.nekomimi.nekogram.NekoConfig;
-
 /**
  * image filter types
  * suffixes:
@@ -2423,7 +2421,7 @@ public class ImageLoader {
 
         try {
             if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
-                telegramPath = NekoConfig.getTelegramPath();
+                telegramPath = SharedConfig.getTelegramPath();
 
                 File publicMediaDir = null;
                 if (Build.VERSION.SDK_INT >= 30) {
