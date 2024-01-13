@@ -69,7 +69,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.WsHelper;
 import tw.nekomimi.nekogram.settings.WsSettingsActivity;
 
 public class ProxyListActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
@@ -156,7 +156,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             checkImageView.setContentDescription(LocaleController.getString("Edit", R.string.Edit));
             addView(checkImageView, LayoutHelper.createFrame(48, 48, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP, 8, 8, 8, 0));
             checkImageView.setOnClickListener(v -> {
-                if (NekoConfig.WS_ADDRESS.equals(currentInfo.address)) {
+                if (WsHelper.WS_ADDRESS.equals(currentInfo.address)) {
                     presentFragment(new WsSettingsActivity());
                 } else {
                     presentFragment(new ProxySettingsActivity(currentInfo));
@@ -227,7 +227,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             if (isSelectionEnabled == enabled && animated) {
                 return;
             }
-            if (NekoConfig.WS_ADDRESS.equals(currentInfo.address)) {
+            if (WsHelper.WS_ADDRESS.equals(currentInfo.address)) {
                 return;
             }
             isSelectionEnabled = enabled;
@@ -513,7 +513,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 builder.setTitle(LocaleController.getString(R.string.DeleteProxyTitle));
                 builder.setPositiveButton(LocaleController.getString(R.string.Delete), (dialog, which) -> {
                     for (SharedConfig.ProxyInfo info : proxyList) {
-                        if (NekoConfig.WS_ADDRESS.equals(info.address)) continue;
+                        if (WsHelper.WS_ADDRESS.equals(info.address)) continue;
                         SharedConfig.deleteProxy(info);
                     }
                     useProxyForCalls = false;
@@ -676,9 +676,9 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
 
             boolean isChecking = checking;
             Collections.sort(proxyList, (o1, o2) -> {
-                if (NekoConfig.WS_ADDRESS.equals(o1.address)) {
+                if (WsHelper.WS_ADDRESS.equals(o1.address)) {
                     return -1;
-                } else if (NekoConfig.WS_ADDRESS.equals(o2.address)) {
+                } else if (WsHelper.WS_ADDRESS.equals(o2.address)) {
                     return 1;
                 }
                 long bias1 = SharedConfig.currentProxy == o1 ? -200000 : 0;
@@ -858,7 +858,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 return false;
             }
             SharedConfig.ProxyInfo info = proxyList.get(position - proxyStartRow);
-            if (info.address.equals(NekoConfig.WS_ADDRESS)) {
+            if (info.address.equals(WsHelper.WS_ADDRESS)) {
                 return false;
             }
             if (selectedItems.contains(info)) {

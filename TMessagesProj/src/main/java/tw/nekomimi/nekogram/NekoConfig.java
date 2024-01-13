@@ -3,11 +3,9 @@ package tw.nekomimi.nekogram;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.text.TextUtils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonParser;
 import com.google.gson.ToNumberPolicy;
 
 import org.json.JSONException;
@@ -21,14 +19,12 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.Theme;
 
-import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.function.BiConsumer;
 
-import app.nekogram.tcp2ws.Tcp2WsServer;
 import app.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.CloudSettingsHelper;
@@ -139,10 +135,6 @@ public class NekoConfig {
 
     public static boolean springAnimation = false;
 
-    public static final String WS_ADDRESS = "ws.neko";
-    private static int socksPort = -1;
-    private static boolean tcp2wsStarted = false;
-    private static Tcp2WsServer tcp2wsServer;
     public static boolean wsEnableTLS = true;
     public static String wsDomain;
 
@@ -164,63 +156,6 @@ public class NekoConfig {
 
     static {
         loadConfig(false);
-    }
-
-    public static int getSocksPort(int port) {
-        if (tcp2wsStarted && socksPort != -1) {
-            return socksPort;
-        }
-        try {
-            if (port != -1) {
-                socksPort = port;
-            } else {
-                ServerSocket socket = new ServerSocket(0);
-                socksPort = socket.getLocalPort();
-                socket.close();
-            }
-            if (!tcp2wsStarted) {
-                Tcp2WsServer.setUserAgent(Extra.WS_USER_AGENT);
-                Tcp2WsServer.setConnHash(Extra.WS_CONN_HASH);
-                Tcp2WsServer.setCdnDomain(getWsDomain());
-                Tcp2WsServer.setTls(wsEnableTLS);
-                tcp2wsServer = new Tcp2WsServer();
-                tcp2wsServer.start(socksPort);
-                tcp2wsStarted = true;
-                var map = new HashMap<String, String>();
-                map.put("buildType", BuildConfig.BUILD_TYPE);
-                map.put("isChineseUser", String.valueOf(isChineseUser));
-                AnalyticsHelper.trackEvent("tcp2ws_started", map);
-            }
-            return socksPort;
-        } catch (Exception e) {
-            FileLog.e(e);
-            if (port != -1) {
-                return getSocksPort(-1);
-            } else {
-                return -1;
-            }
-        }
-    }
-
-    public static String getWsDomain() {
-        if (!TextUtils.isEmpty(NekoConfig.wsDomain)) {
-            return NekoConfig.wsDomain;
-        }
-        var preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoremoteconfig", Activity.MODE_PRIVATE);
-        var json = preferences.getString("config", "");
-        if (TextUtils.isEmpty(json)) {
-            return Extra.WS_DEFAULT_DOMAIN;
-        }
-        try {
-            return JsonParser.parseString(json).getAsJsonObject().get("wsdomainv2").getAsString();
-        } catch (Exception e) {
-            FileLog.e(e);
-            return Extra.WS_DEFAULT_DOMAIN;
-        }
-    }
-
-    public static int getSocksPort() {
-        return getSocksPort(6356);
     }
 
     public static boolean isDirectApp() {

@@ -30,6 +30,7 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
+import tw.nekomimi.nekogram.helpers.WsHelper;
 
 public class WsSettingsActivity extends BaseNekoSettingsActivity {
 
@@ -121,7 +122,7 @@ public class WsSettingsActivity extends BaseNekoSettingsActivity {
 
     @Override
     protected String getActionBarTitle() {
-        return NekoConfig.WS_ADDRESS;
+        return WsHelper.WS_ADDRESS;
     }
 
     @Override
