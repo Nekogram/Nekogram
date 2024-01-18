@@ -309,6 +309,7 @@
     <string name="CreateCode">Tạo mã</string>
     <string name="CreateCodeLanguage">Ngôn ngữ</string>
     <string name="IgnoreContentRestriction">Bỏ qua hạn chế nội dung</string>
+    <string name="DeprecatedFeature">Tính năng này không được dùng nữa và sẽ sớm bị loại bỏ.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>

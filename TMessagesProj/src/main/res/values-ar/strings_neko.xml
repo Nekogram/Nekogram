@@ -311,6 +311,7 @@
     <string name="CreateCode">إنشاء رمز</string>
     <string name="CreateCodeLanguage">اللغة</string>
     <string name="IgnoreContentRestriction">تجاهل تقييد المحتوى</string>
+    <string name="DeprecatedFeature">هذه الميزة مهملة، وسيتم إزالتها قريباً.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

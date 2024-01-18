@@ -19,7 +19,7 @@
     <string name="LastFirst">Фамилия Имя</string>
     <string name="NoQuoteForward">Переслать без автора</string>
     <string name="NoCaptionForward">Переслать без текста</string>
-    <string name="NoQuoteForwardShort">Без автора</string>
+    <string name="NoQuoteForwardShort">Без текста</string>
     <string name="NoCaptionForwardShort">Без подписи</string>
     <string name="Repeat">Повторить</string>
     <string name="AddToSavedMessages">Сохранить сообщение</string>
@@ -310,6 +310,7 @@
     <string name="CreateCode">Создать код</string>
     <string name="CreateCodeLanguage">Язык</string>
     <string name="IgnoreContentRestriction">Игнорировать ограничение контента</string>
+    <string name="DeprecatedFeature">Эта функция устарела, и будет удалена в ближайшее время.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>

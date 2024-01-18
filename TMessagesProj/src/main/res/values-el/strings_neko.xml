@@ -309,6 +309,7 @@
     <string name="CreateCode">Δημιουργία Κωδικού</string>
     <string name="CreateCodeLanguage">Γλώσσα</string>
     <string name="IgnoreContentRestriction">Αγνόηση περιορισμού περιεχομένου</string>
+    <string name="DeprecatedFeature">Αυτή η λειτουργία έχει ξεπεραστεί και θα καταργηθεί σύντομα.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>

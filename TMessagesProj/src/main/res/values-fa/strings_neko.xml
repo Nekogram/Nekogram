@@ -6,6 +6,7 @@
     <string name="HidePhone">شماره تلفن من را پنهان کن</string>
     <string name="DeleteAllFromSelf">حذف پیام های خود</string>
     <string name="DeleteAllFromSelfAlert">هشدار! با این کار **همه پیام های شما** در این چت برای **همه** شرکت کنندگان حذف می شود.</string>
+    <string name="DeleteAllFromSelfAlertBefore">هشدار! این کار ** همه پیام‌های شما را قبل از %s** در این گپ برای **همه** شرکت‌کنندگان حذف می‌کند.</string>
     <string name="DeleteAllFromSelfBefore">قبل از...</string>
     <string name="BotLogin">ورود از طریق روبات</string>
     <string name="BotLoginMessage">توکن دریافت شده توسط **@BotFather** را وارد کنید.</string>
@@ -279,13 +280,16 @@
     <string name="SendBugReportDesc">این به ما کمک میکنه که مشکلات رو سریع‌تر پیدا کنیم.</string>
     <string name="AnonymousDataDelete">پاک کردن اطلاعات </string>
     <string name="AnonymousDataDeleteDesc">داده های خروجی را برای همیشه از این نمونه مسدود کن و داده های جمع آوری شده را حذف کن.</string>
+    <string name="SendAnonymousDataDesc">ویژگی های بالا از %1$s ارائه شده توسط %2$s استفاده می کنند. اطلاعات جمع‌آوری‌شده ناشناس است و ما نمی‌توانیم آن را به یک دستگاه یا کاربر مستقل ردیابی کنیم.</string>
     <string name="SendLargePhotos">ارسال عکس بزرگ</string>
     <string name="SendLargePhotosAbout">محدودیت جانبی در تصاویر فشرده شده را به 2560 پیکسل افزایش بده.</string>
     <string name="ExportAsJson">کپی به عنوان JSON</string>
     <string name="HideStories">مخفی کردن استوری ها</string>
     <string name="QuickForward">استفاده از منوی هدایت سریع</string>
+    <string name="DidNotGetTheCodeBlameDurov">اگر کد را در دستگاه دیگری دریافت نکردید یا تلگرام را در دستگاه دیگری وارد نکرده اید، لطفاً از برنامه رسمی تلگرام برای دریافت کد استفاده کنید.\n\nتلگرام **قابلیت ورود با پیامک را غیرفعال کرده است. ** در برنامه های شخص ثالث. کاربرانی که وارد برنامه‌های شخص ثالث می‌شوند فقط می‌توانند کدهای ورود را از طریق تلگرام دریافت کنند.\n\nما نمی‌توانیم در این مورد به شما کمک کنیم، اگر مشکلی در ورود به سیستم دارید، لطفاً با پشتیبانی تلگرام تماس بگیرید.</string>
     <string name="NavigationAnimation">انیمیشن ناوبری</string>
     <string name="NavigationAnimationBezier">کلاسیک</string>
+    <string name="NavigationAnimationSpring">عادی</string>
     <string name="NavigationAnimationCrossfading">افکت متقاطع</string>
     <string name="CloudConfig">تنظیمات ابری</string>
     <string name="CloudConfigDesc">تنظیمات Neko خود را در ابر تلگرام ذخیره کنید.</string>
@@ -303,6 +307,8 @@
     <string name="ReducedColors">رنگ ها را کاهش دهید</string>
     <string name="MonoCode">کد</string>
     <string name="CreateCode">ساخت کد</string>
+    <string name="CreateCodeLanguage">زبان</string>
+    <string name="IgnoreContentRestriction">محدودیت محتوا را نادیده بگیرید</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
 </resources>

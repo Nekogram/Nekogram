@@ -309,6 +309,7 @@
     <string name="CreateCode">Utwórz kod</string>
     <string name="CreateCodeLanguage">Język</string>
     <string name="IgnoreContentRestriction">Ignoruj ograniczenie treści</string>
+    <string name="DeprecatedFeature">Ta funkcja jest przestarzała i wkrótce zostanie usunięta.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>
