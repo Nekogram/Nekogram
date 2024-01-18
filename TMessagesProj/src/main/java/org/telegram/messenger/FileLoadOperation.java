@@ -31,7 +31,6 @@ import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.WsHelper;
 
 public class FileLoadOperation {
 
@@ -805,9 +804,6 @@ public class FileLoadOperation {
                 boolean bigChunk = totalBytesCount >= bigFileSizeFrom;
                 currentDownloadChunkSize = bigChunk ? downloadChunkSizeBig : downloadChunkSize;
                 currentMaxDownloadRequests = bigChunk ? maxDownloadRequestsBig : maxDownloadRequests;
-            }
-            if (WsHelper.isWsEnabled()) {
-                currentMaxDownloadRequests = 1;
             }
         }
         final boolean alreadyStarted = state != stateIdle;

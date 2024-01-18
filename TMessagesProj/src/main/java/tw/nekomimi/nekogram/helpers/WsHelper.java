@@ -1,7 +1,6 @@
 package tw.nekomimi.nekogram.helpers;
 
 import android.app.Activity;
-import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.google.gson.JsonParser;
@@ -22,12 +21,6 @@ public class WsHelper {
     public static final String WS_ADDRESS = "ws.neko";
     private static int socksPort = -1;
     private static boolean tcp2wsStarted = false;
-
-    public static boolean isWsEnabled() {
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
-        String proxyAddress = preferences.getString("proxy_ip", "");
-        return preferences.getBoolean("proxy_enabled", false) && WS_ADDRESS.equals(proxyAddress);
-    }
 
     public static int getSocksPort() {
         return getSocksPort(6356);

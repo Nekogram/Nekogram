@@ -66,6 +66,7 @@ import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
@@ -92,6 +93,7 @@ import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
 import org.telegram.ui.ActionBar.AdjustPanLayoutHelper;
 import org.telegram.ui.ActionBar.AlertDialog;
+import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
 import org.telegram.ui.ActionBar.SimpleTextView;
 import org.telegram.ui.ActionBar.Theme;
@@ -106,6 +108,7 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.MessageStatisticActivity;
+import org.telegram.ui.PremiumPreviewFragment;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -126,6 +129,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     private FrameLayout writeButtonContainer;
     private View selectedCountView;
     private TextView pickerBottomLayout;
+    private FrameLayout bulletinContainer;
     private LinearLayout sharesCountLayout;
     private AnimatorSet animatorSet;
     private RecyclerListView topicsGridView;
@@ -607,7 +611,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     protected void onPanTranslationUpdate(float y, float progress, boolean keyboardVisible) {
                         super.onPanTranslationUpdate(y, progress, keyboardVisible);
                         for (int i = 0; i < containerView.getChildCount(); i++) {
-                            if (containerView.getChildAt(i) != pickerBottomLayout && containerView.getChildAt(i) != shadow[1] && containerView.getChildAt(i) != sharesCountLayout
+                            if (containerView.getChildAt(i) != pickerBottomLayout && containerView.getChildAt(i) != bulletinContainer && containerView.getChildAt(i) != shadow[1] && containerView.getChildAt(i) != sharesCountLayout
                                     && containerView.getChildAt(i) != frameLayout2 && containerView.getChildAt(i) != writeButtonContainer && containerView.getChildAt(i) != selectedCountView) {
                                 containerView.getChildAt(i).setTranslationY(y);
                             }
@@ -1323,6 +1327,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             shadow[1].setAlpha(0.0f);
         }
 
+        bulletinContainer = new FrameLayout(context);
+        containerView.addView(bulletinContainer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 100, Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 0, 0, 0, pickerBottomLayout != null ? 48 : 0));
+
         frameLayout2 = new FrameLayout(context) {
 
             private final Paint p = new Paint();
@@ -1582,10 +1589,49 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
     protected void onShareStory(View cell) {
 
     }
+    
+    private void showPremiumBlockedToast(View view, long dialogId) {
+        AndroidUtilities.shakeViewSpring(view, shiftDp = -shiftDp);
+        BotWebViewVibrationEffect.APP_ERROR.vibrate();
+        String username = "";
+        if (dialogId >= 0) {
+            username = UserObject.getUserName(MessagesController.getInstance(currentAccount).getUser(dialogId));
+        }
+        Bulletin bulletin;
+        if (MessagesController.getInstance(currentAccount).premiumFeaturesBlocked()) {
+            bulletin = BulletinFactory.of(bulletinContainer, resourcesProvider).createSimpleBulletin(R.raw.star_premium_2, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.UserBlockedNonPremium, username)));
+        } else {
+            bulletin = BulletinFactory.of(bulletinContainer, resourcesProvider).createSimpleBulletin(R.raw.star_premium_2, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.UserBlockedNonPremium, username)), LocaleController.getString(R.string.UserBlockedNonPremiumButton), () -> {
+                Runnable openPremium = () -> {
+                    BaseFragment lastFragment = LaunchActivity.getLastFragment();
+                    if (lastFragment != null) {
+                        BaseFragment.BottomSheetParams params = new BaseFragment.BottomSheetParams();
+                        params.transitionFromLeft = true;
+                        params.allowNestedScroll = false;
+                        lastFragment.showAsSheet(new PremiumPreviewFragment("noncontacts"), params);
+                    }
+                };
+                if (isKeyboardVisible()) {
+                    if (searchView != null) {
+                        AndroidUtilities.hideKeyboard(searchView.searchEditText);
+                    }
+                    AndroidUtilities.runOnUIThread(openPremium, 300);
+                } else {
+                    openPremium.run();
+                }
+            });
+        }
+        bulletin.show();
+    }
 
+    private int shiftDp = 4;
     private void selectDialog(View cell, TLRPC.Dialog dialog) {
         if (dialog instanceof ShareDialogsAdapter.MyStoryDialog) {
             onShareStory(cell);
+            return;
+        }
+        if (dialog != null && (cell instanceof ShareDialogCell && ((ShareDialogCell) cell).isBlocked() || cell instanceof ProfileSearchCell && ((ProfileSearchCell) cell).isBlocked())) {
+            showPremiumBlockedToast(cell, dialog.id);
             return;
         }
         if (topicsGridView.getVisibility() != View.GONE || parentActivity == null) {
@@ -2924,7 +2970,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     break;
                 }
                 case 0: {
-                    view = new ProfileSearchCell(context, resourcesProvider).useCustomPaints();
+                    view = new ProfileSearchCell(context, resourcesProvider).useCustomPaints().showPremiumBlock(true);
                     break;
                 }
                 default:
@@ -2954,7 +3000,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     };
                     layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
                     horizontalListView.setLayoutManager(layoutManager);
-                    horizontalListView.setAdapter(categoryAdapter = new DialogsSearchAdapter.CategoryAdapterRecycler(context, currentAccount, true, resourcesProvider) {
+                    horizontalListView.setAdapter(categoryAdapter = new DialogsSearchAdapter.CategoryAdapterRecycler(context, currentAccount, true, true, resourcesProvider) {
                         @Override
                         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
                             HintDialogCell cell = (HintDialogCell) holder.itemView;
@@ -2989,6 +3035,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         }
                     });
                     horizontalListView.setOnItemClickListener((view1, position) -> {
+                        HintDialogCell cell = (HintDialogCell) view1;
                         TLRPC.TL_topPeer peer = MediaDataController.getInstance(currentAccount).hints.get(position);
                         TLRPC.Dialog dialog = new TLRPC.TL_dialog();
                         TLRPC.Chat chat = null;
@@ -3001,9 +3048,12 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         } else if (peer.peer.chat_id != 0) {
                             did = -peer.peer.chat_id;
                         }
+                        if (cell.isBlocked()) {
+                            showPremiumBlockedToast(cell, did);
+                            return;
+                        }
                         dialog.id = did;
                         selectDialog(null, dialog);
-                        HintDialogCell cell = (HintDialogCell) view1;
                         cell.setChecked(selectedDialogs.indexOfKey(did) >= 0, true);
                     });
                     view = horizontalListView;
@@ -3112,7 +3162,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                     ((ProfileSearchCell) holder.itemView).setData(object, ec, name, null, false, false);
                     ((ProfileSearchCell) holder.itemView).useSeparator = position < getItemCount() - 2;
                 } else if (holder.itemView instanceof ShareDialogCell) {
-                    ((ShareDialogCell) holder.itemView).setDialog((int) id, selectedDialogs.indexOfKey(id) >= 0, name);
+                    ((ShareDialogCell) holder.itemView).setDialog(id, selectedDialogs.indexOfKey(id) >= 0, name);
                 }
             } else if (holder.getItemViewType() == 2) {
                 ((RecyclerListView) holder.itemView).getAdapter().notifyDataSetChanged();

@@ -40,7 +40,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
         }
         long dialogId = intent.getLongExtra("dialog_id", 0);
         int maxId = intent.getIntExtra("max_id", 0);
-        int topicId = intent.getIntExtra("topic_id", 0);
+        long topicId = intent.getLongExtra("topic_id", 0);
         int currentAccount = intent.getIntExtra("currentAccount", 0);
         if (dialogId == 0 || maxId == 0 || !UserConfig.isValidAccount(currentAccount)) {
             return;
@@ -74,16 +74,24 @@ public class WearReplyReceiver extends BroadcastReceiver {
         sendMessage(accountInstance, text, images, dialogId, topicId, maxId);
     }
 
-    private void sendMessage(AccountInstance accountInstance, CharSequence text, ArrayList<Uri> images, long dialog_id, int topicId, int max_id) {
+    private void sendMessage(AccountInstance accountInstance, CharSequence text, ArrayList<Uri> images, long dialog_id, long topicId, int max_id) {
         MessageObject replyToMsgId = null;
+        MessageObject replyToTopMsgId = null;
+        if (max_id != 0) {
+            TLRPC.TL_message replyMessage = new TLRPC.TL_message();
+            replyMessage.message = "";
+            replyMessage.id = max_id;
+            replyMessage.peer_id = accountInstance.getMessagesController().getPeer(dialog_id);
+            replyToMsgId = new MessageObject(accountInstance.getCurrentAccount(), replyMessage, false, false);
+        }
         if (topicId != 0) {
             TLRPC.TL_message topicStartMessage = new TLRPC.TL_message();
             topicStartMessage.message = "";
-            topicStartMessage.id = topicId;
+            topicStartMessage.id = (int) topicId;
             topicStartMessage.peer_id = accountInstance.getMessagesController().getPeer(dialog_id);
             topicStartMessage.action = new TLRPC.TL_messageActionTopicCreate();
             topicStartMessage.action.title = "";
-            replyToMsgId = new MessageObject(accountInstance.getCurrentAccount(), topicStartMessage, false, false);
+            replyToTopMsgId = new MessageObject(accountInstance.getCurrentAccount(), topicStartMessage, false, false);
         }
 
         if (images.isEmpty()) {
@@ -98,7 +106,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
                 }
                 infos.add(info);
             }
-            SendMessagesHelper.prepareSendingMedia(accountInstance, infos, dialog_id, replyToMsgId, null, null, null, false, images.size() > 1, null, true, 0, false, null);
+            SendMessagesHelper.prepareSendingMedia(accountInstance, infos, dialog_id, replyToMsgId, replyToTopMsgId, null, null, false, images.size() > 1, null, true, 0, false, null);
         }
         //TODO handle topics
         if (topicId == 0) {
