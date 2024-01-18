@@ -125,7 +125,7 @@ public class ChatGreetingsView extends LinearLayout {
                 }
             }
             String text;
-            if (MessagesController.getInstance(currentAccount).premiumFeaturesBlocked()) {
+            if (true || MessagesController.getInstance(currentAccount).premiumFeaturesBlocked()) {
                 text = LocaleController.formatString(R.string.MessageLockedPremiumLocked, username);
             } else {
                 text = LocaleController.formatString(R.string.MessageLockedPremium, username);
@@ -203,7 +203,7 @@ public class ChatGreetingsView extends LinearLayout {
         removeAllViews();
         if (premiumLock) {
             addView(premiumIconView, LayoutHelper.createLinear(78, 78, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 20, 17, 20, 9));
-            final boolean premiumLocked = MessagesController.getInstance(currentAccount).premiumFeaturesBlocked();
+            final boolean premiumLocked = true || MessagesController.getInstance(currentAccount).premiumFeaturesBlocked();
             addView(premiumTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 20, 0, 20, premiumLocked ? 13 : 9));
             if (!premiumLocked) {
                 addView(premiumButtonView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 30, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 20, 2, 20, 13));
@@ -360,7 +360,7 @@ public class ChatGreetingsView extends LinearLayout {
         imageView.setBackground(Theme.createCircleDrawable(dp(80), Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider)));
         layout.addView(imageView, LayoutHelper.createLinear(80, 80, Gravity.CENTER_HORIZONTAL, 0, 16, 0, 16));
 
-        final boolean premiumLocked = MessagesController.getInstance(currentAccount).premiumFeaturesBlocked();
+        final boolean premiumLocked = true || MessagesController.getInstance(currentAccount).premiumFeaturesBlocked();
 
         TextView headerView = new TextView(context);
         headerView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
