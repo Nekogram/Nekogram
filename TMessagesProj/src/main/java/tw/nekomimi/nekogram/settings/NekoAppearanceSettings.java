@@ -43,7 +43,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
 
     private int appearanceRow;
     private int emojiSetsRow;
-    private int transparentStatusBarRow;
     private int mediaPreviewRow;
     private int appBarShadowRow;
     private int formatTimeWithSecondsRow;
@@ -219,7 +218,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
 
         appearanceRow = addRow("appearance");
         emojiSetsRow = addRow("emojiSets");
-        transparentStatusBarRow = Build.VERSION.SDK_INT >= Build.VERSION_CODES.M ? addRow("transparentStatusBar") : -1;
         mediaPreviewRow = addRow("mediaPreview");
         appBarShadowRow = addRow("appBarShadow");
         formatTimeWithSecondsRow = addRow("formatTimeWithSeconds");
@@ -293,8 +291,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                     textCell.setEnabled(true, null);
                     if (position == hidePhoneRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.HidePhone), NekoConfig.hidePhone, false);
-                    } else if (position == transparentStatusBarRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.TransparentStatusBar), SharedConfig.noStatusBar, true);
                     } else if (position == avatarAsDrawerBackgroundRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.AvatarAsBackground), NekoConfig.avatarAsDrawerBackground, true);
                     } else if (position == disableNumberRoundingRow) {

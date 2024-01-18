@@ -7725,10 +7725,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     TLRPC.TL_dialogFolder dialogFolder = (TLRPC.TL_dialogFolder) dialog;
                     Bundle args = new Bundle();
                     args.putInt("folderId", dialogFolder.folder.id);
-                    args.putBoolean("onlySelect", onlySelect);
-                    DialogsActivity dialogsActivity = new DialogsActivity(args);
-                    dialogsActivity.setDelegate(delegate);
-                    presentFragment(dialogsActivity, onlySelect);
+                    presentFragment(new DialogsActivity(args));
                     return;
                 }
                 dialogId = dialog.id;
@@ -12176,7 +12173,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override
     public INavigationLayout.BackButtonState getBackButtonState() {
-        return isArchive() || searching || searchString != null || onlySelect || rightSlidingDialogContainer.isOpenned ? INavigationLayout.BackButtonState.BACK : INavigationLayout.BackButtonState.MENU;
+        return isArchive() || rightSlidingDialogContainer.isOpenned ? INavigationLayout.BackButtonState.BACK : INavigationLayout.BackButtonState.MENU;
     }
 
     @Override
@@ -12271,11 +12268,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             return filterTabsView.isFirstTab();
         }
         return true;
-    }
-
-    @Override
-    public boolean isActionBarCrossfadeEnabled() {
-        return super.isActionBarCrossfadeEnabled() && actionBar.getTranslationY() == 0 && !rightSlidingDialogContainer.isOpenned;
     }
 
     public void updateStoriesVisibility(boolean animated) {
