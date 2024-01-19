@@ -1005,7 +1005,7 @@ public class ActionBar extends FrameLayout {
     }
 
     public int getBackgroundColor() {
-        return actionBarColor;
+        return isActionModeShowed() ? actionModeColor : actionBarColor;
     }
 
     public boolean isActionModeShowed() {

@@ -1924,7 +1924,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         fragment.setInMenuMode(false);
 
         try {
-            AndroidUtilities.setLightStatusBar(parentActivity.getWindow(), Theme.getColor(Theme.key_actionBarDefault) == Color.WHITE || (fragment.hasForceLightStatusBar() && !Theme.getCurrentTheme().isDark()), fragment.hasForceLightStatusBar());
+            AndroidUtilities.setLightStatusBar(parentActivity.getWindow(), fragment.isLightStatusBar(), fragment.hasForceLightStatusBar());
         } catch (Exception ignore) {}
     }
 
