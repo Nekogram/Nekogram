@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.SharedConfig;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.INavigationLayout;
@@ -228,16 +229,31 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             }
         }
 
-        public Paint blurScrimPaint = new Paint();
+        boolean divider = false;
+        Paint paint = new Paint();
         Rect rectTmp = new Rect();
 
         @Override
         protected void dispatchDraw(Canvas canvas) {
             super.dispatchDraw(canvas);
-            if (hasWhiteActionBar() && listView.canScrollVertically(-1)) {
+            if (divider) {
                 rectTmp.set(0, 0, getMeasuredWidth(), 1);
-                blurScrimPaint.setColor(getThemedColor(Theme.key_divider));
-                drawBlurRect(canvas, getY(), rectTmp, blurScrimPaint, true);
+                paint.setColor(getThemedColor(Theme.key_divider));
+                drawBlurRect(canvas, getY(), rectTmp, paint, true);
+            }
+        }
+
+        @Override
+        public void invalidateBlur() {
+            if (hasWhiteActionBar()) {
+                boolean divider = listView.canScrollVertically(-1);
+                if (divider != this.divider) {
+                    this.divider = divider;
+                    if (!SharedConfig.chatBlurEnabled()) {
+                        invalidate();
+                    }
+                }
+                super.invalidateBlur();
             }
         }
     }
