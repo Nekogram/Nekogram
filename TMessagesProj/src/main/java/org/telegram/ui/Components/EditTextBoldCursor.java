@@ -1289,7 +1289,7 @@ public class EditTextBoldCursor extends EditTextEffects {
     }
 
     public void setHandlesColor(int color) {
-        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q/* || XiaomiUtilities.isMIUI()*/) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q || (XiaomiUtilities.isMIUI() && Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU)) {
             return;
         }
         try {

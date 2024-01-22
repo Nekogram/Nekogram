@@ -150,7 +150,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         textView.setHighlightColor(getThemedColor(Theme.key_chat_inTextSelectionHighlight));
         int handleColor = getThemedColor(Theme.key_chat_TextSelectionCursor);
         try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q/* && !XiaomiUtilities.isMIUI()*/) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && (!XiaomiUtilities.isMIUI() || Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU)) {
                 Drawable left = textView.getTextSelectHandleLeft();
                 left.setColorFilter(handleColor, PorterDuff.Mode.SRC_IN);
                 textView.setTextSelectHandleLeft(left);
