@@ -740,7 +740,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
             if (currentViewNum == a) {
                 backButtonView.setVisibility(v.needBackButton() || newAccount || activityMode == MODE_CHANGE_PHONE_NUMBER ? View.VISIBLE : View.GONE);
-                moreButtonView.setVisibility(currentViewNum == VIEW_PHONE_INPUT ? View.VISIBLE : View.GONE);
+                moreButtonView.setVisibility(activityMode == MODE_LOGIN && currentViewNum == VIEW_PHONE_INPUT ? View.VISIBLE : View.GONE);
                 v.setVisibility(View.VISIBLE);
                 v.onShow();
 
@@ -1527,7 +1527,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             final SlideView newView = views[page];
             currentViewNum = page;
             backButtonView.setVisibility(newView.needBackButton() || newAccount ? View.VISIBLE : View.GONE);
-            moreButtonView.setVisibility(currentViewNum == VIEW_PHONE_INPUT ? View.VISIBLE : View.GONE);
+            moreButtonView.setVisibility(activityMode == MODE_LOGIN && currentViewNum == VIEW_PHONE_INPUT ? View.VISIBLE : View.GONE);
 
             newView.setParams(params, false);
             setParentActivityTitle(newView.getHeaderName());
@@ -1557,7 +1557,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             setCustomKeyboardVisible(newView.hasCustomKeyboard(), true);
         } else {
             backButtonView.setVisibility(views[page].needBackButton() || newAccount ? View.VISIBLE : View.GONE);
-            moreButtonView.setVisibility(currentViewNum == VIEW_PHONE_INPUT ? View.VISIBLE : View.GONE);
+            moreButtonView.setVisibility(activityMode == MODE_LOGIN && currentViewNum == VIEW_PHONE_INPUT ? View.VISIBLE : View.GONE);
             views[currentViewNum].setVisibility(View.GONE);
             views[currentViewNum].onHide();
             currentViewNum = page;
