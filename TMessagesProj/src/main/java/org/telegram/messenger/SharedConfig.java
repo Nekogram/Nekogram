@@ -50,6 +50,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.WsHelper;
 
 public class SharedConfig {
@@ -1406,11 +1407,11 @@ public class SharedConfig {
             }
             data.cleanup();
         }
-        if (currentProxy == null && !TextUtils.isEmpty(proxyAddress)) {
+        if (currentProxy == null && !TextUtils.isEmpty(proxyAddress) && !WsHelper.WS_ADDRESS.equals(proxyAddress)) {
             ProxyInfo info = currentProxy = new ProxyInfo(proxyAddress, proxyPort, proxyUsername, proxyPassword, proxySecret);
             proxyList.add(0, info);
         }
-        if (!WsHelper.WS_ADDRESS.equals(proxyAddress)) {
+        if (!NekoConfig.isChineseUser || !TextUtils.isEmpty(NekoConfig.wsDomain)) {
             ProxyInfo info = new ProxyInfo(WsHelper.WS_ADDRESS, 6356, "", "", "");
             proxyList.add(0, info);
         }
