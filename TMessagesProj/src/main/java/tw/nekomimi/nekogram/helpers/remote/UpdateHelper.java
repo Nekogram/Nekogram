@@ -26,7 +26,7 @@ import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class UpdateHelper extends BaseRemoteHelper {
-    public static final String UPDATE_TAG = BuildConfig.DEBUG ? "updatetest" : NekoConfig.isDirectApp() ? "updatev3" : ("update" + BuildConfig.BUILD_TYPE + "v3");
+    public static final String UPDATE_TAG = BuildConfig.DEBUG ? "updatetest" : NekoConfig.isDirectApp() ? "updatev4" : ("update" + BuildConfig.BUILD_TYPE + "v4");
 
     private String installedAbi;
 

@@ -61,10 +61,10 @@ public class ConfigHelper extends BaseRemoteHelper {
             if (news.source != null && news.source.equals(BuildConfig.BUILD_TYPE)) {
                 return;
             }
-            if (news.maxVersion != null && news.maxVersion > BuildConfig.VERSION_CODE) {
+            if (news.maxVersion != null && news.maxVersion < BuildConfig.VERSION_CODE) {
                 return;
             }
-            if (news.minVersion != null && news.minVersion < BuildConfig.VERSION_CODE) {
+            if (news.minVersion != null && news.minVersion > BuildConfig.VERSION_CODE) {
                 return;
             }
             newsItems.add(news);
@@ -130,7 +130,7 @@ public class ConfigHelper extends BaseRemoteHelper {
         @SerializedName("verify")
         @Expose
         public List<Long> verify;
-        @SerializedName("newsv2")
+        @SerializedName("newsv3")
         @Expose
         public List<News> news;
         @SerializedName("coffee")
