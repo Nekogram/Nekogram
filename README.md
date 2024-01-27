@@ -20,6 +20,7 @@ MTProto protocol manuals: https://core.telegram.org/mtproto
 1. Go to https://console.firebase.google.com/, create two android apps with application IDs tw.nekomimi.nekogram and tw.nekomimi.nekogram.beta, turn on firebase messaging and download `google-services.json`, which should be copied into `TMessagesProj` folder.
 1. Open the project in the Studio (note that it should be opened, NOT imported).
 1. Fill out values in `TMessagesProj/src/main/java/tw/nekomimi/nekogram/Extra.java` – there’s a link for each of the variables showing where and which data to obtain.
+1. Generate values in `TMessagesProj/jni/integrity/genuine.h` - https://github.com/brevent/genuine
 1. You are ready to compile Nekogram.
 
 ## Localization
