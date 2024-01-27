@@ -341,59 +341,6 @@ public class LocaleController {
         languagesDict.put(localeInfo.shortName, localeInfo);
 
         localeInfo = new LocaleInfo();
-        localeInfo.name = "瓜体中文 \uD83D\uDE36";
-        localeInfo.nameEnglish = "Duangified Chinese (Simplified)";
-        localeInfo.shortName = "duang_zh_hans";
-        localeInfo.baseLangCode = "zh_hans_raw";
-        localeInfo.isRtl = false;
-        localeInfo.pathToFile = "unofficial";
-        localeInfo.pluralLangCode = "zh_dg";
-        localeInfo.builtIn = true;
-        languages.add(localeInfo);
-        languagesDict.put(localeInfo.getKey(), localeInfo);
-        languagesDict.put("zh_cn", localeInfo);
-        languagesDict.put("zh_sg", localeInfo);
-
-        localeInfo = new LocaleInfo();
-        localeInfo.name = "简体中文 @cnmoe";
-        localeInfo.nameEnglish = "Chinese Simplified (@cnmoe)";
-        localeInfo.shortName = "moecn";
-        localeInfo.baseLangCode = "zh_hans_raw";
-        localeInfo.isRtl = false;
-        localeInfo.pathToFile = "unofficial";
-        localeInfo.pluralLangCode = "zh_cn";
-        localeInfo.builtIn = true;
-        languages.add(localeInfo);
-        languagesDict.put(localeInfo.getKey(), localeInfo);
-
-        localeInfo = new LocaleInfo();
-        localeInfo.name = "瓜體中文";
-        localeInfo.nameEnglish = "Duangified Chinese (Traditional)";
-        localeInfo.shortName = "duang_zh_hant";
-        localeInfo.baseLangCode = "zh_hant_raw";
-        localeInfo.isRtl = false;
-        localeInfo.pathToFile = "unofficial";
-        localeInfo.pluralLangCode = "zh_tw";
-        localeInfo.builtIn = true;
-        languages.add(localeInfo);
-        languagesDict.put(localeInfo.getKey(), localeInfo);
-        languagesDict.put("zh_tw", localeInfo);
-        languagesDict.put("zh_hk", localeInfo);
-        languagesDict.put("zh_mo", localeInfo);
-
-        localeInfo = new LocaleInfo();
-        localeInfo.name = "正體中文";
-        localeInfo.nameEnglish = "Chinese (zh-Hant-TW)";
-        localeInfo.shortName = "taiwan";
-        localeInfo.baseLangCode = "zh_hant_raw";
-        localeInfo.isRtl = false;
-        localeInfo.pathToFile = "unofficial";
-        localeInfo.pluralLangCode = "zh_tw";
-        localeInfo.builtIn = true;
-        languages.add(localeInfo);
-        languagesDict.put(localeInfo.getKey(), localeInfo);
-
-        localeInfo = new LocaleInfo();
         localeInfo.name = "日本語";
         localeInfo.nameEnglish = "Japanese";
         localeInfo.shortName = "ja_raw";
