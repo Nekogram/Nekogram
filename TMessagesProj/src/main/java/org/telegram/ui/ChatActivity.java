@@ -15813,6 +15813,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         openForward(true);
                     });
                 }
+                if (forwardNoQuoteItem != null) {
+                    forwardNoQuoteItem.setIcon(new ForwardDrawable(ForwardItem.ID_FORWARD_NOQUOTE, false));
+                }
 
                 createBottomMessagesActionButtons();
                 boolean noforwards = getMessagesController().isChatNoForwards(currentChat) || hasSelectedNoforwardsMessage();
@@ -26793,6 +26796,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             popupLayout.getSwipeBack().openForeground(swipeBackIndex);
                             return true;
                         });
+                    } else if (option == OPTION_FORWARD_NOQUOTE) {
+                        cell.setIcon(new ForwardDrawable(option, false));
                     }
                     if (option == OPTION_TRANSLATE) {
                         MessageObject messageObject = getMessageHelper().getMessageForTranslate(selectedObject, selectedObjectGroup);

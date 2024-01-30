@@ -66,6 +66,7 @@ import java.util.Set;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.forward.ForwardContext;
+import tw.nekomimi.nekogram.forward.ForwardDrawable;
 import tw.nekomimi.nekogram.forward.ForwardItem;
 
 public class SearchViewPager extends ViewPagerFixed implements FilteredSearchView.UiCallback {
@@ -453,6 +454,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             forwardItem.setVisibility(View.VISIBLE);
             ForwardItem.setupForwardItem(forwardItem, ForwardItem.hasCaption(selectedFiles.values()), null, this::onActionBarItemClick);
             forwardNoQuoteItem.setVisibility(NekoConfig.showNoQuoteForward ? View.VISIBLE : View.GONE);
+            forwardNoQuoteItem.setIcon(new ForwardDrawable(ForwardItem.ID_FORWARD_NOQUOTE, false));
             deleteItem.setVisibility(View.VISIBLE);
         } else {
             parent.getActionBar().hideActionMode();
