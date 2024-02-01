@@ -3740,11 +3740,10 @@ public class AndroidUtilities {
                     }
                 }
             }
-            /*
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && realMimeType != null && realMimeType.equals("application/vnd.android.package-archive") && !ApplicationLoader.applicationContext.getPackageManager().canRequestPackageInstalls()) {
                 AlertsCreator.createApkRestrictedDialog(activity, resourcesProvider).show();
                 return true;
-            }*/
+            }
             //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", f), realMimeType != null ? realMimeType : "text/plain");
             //} else {
@@ -3896,7 +3895,7 @@ public class AndroidUtilities {
                     //if (Build.VERSION.SDK_INT >= 24) {
                         intent.setDataAndType(FileProvider.getUriForFile(activity, ApplicationLoader.getApplicationId() + ".provider", f), "text/plain");
                     //} else {
-                        intent.setDataAndType(Uri.fromFile(f), "text/plain");
+                    //    intent.setDataAndType(Uri.fromFile(f), "text/plain");
                     //}
                     activity.startActivityForResult(intent, 500);
                 }
