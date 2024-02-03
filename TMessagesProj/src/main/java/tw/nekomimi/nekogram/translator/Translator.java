@@ -46,6 +46,7 @@ import app.nekogram.translator.LingoTranslator;
 import app.nekogram.translator.MicrosoftTranslator;
 import app.nekogram.translator.Result;
 import app.nekogram.translator.SogouTranslator;
+import app.nekogram.translator.TranSmartTranslator;
 import app.nekogram.translator.YandexTranslator;
 import app.nekogram.translator.YouDaoTranslator;
 import tw.nekomimi.nekogram.NekoConfig;
@@ -261,7 +262,7 @@ public class Translator {
             case PROVIDER_YOUDAO -> YouDaoTranslator.getInstance();
             case PROVIDER_BAIDU -> BaiduTranslator.getInstance();
             case PROVIDER_SOGOU -> SogouTranslator.getInstance();
-            case PROVIDER_TENCENT -> TencentTranslatorNewLine.getInstance();
+            case PROVIDER_TENCENT -> TranSmartTranslator.getInstance();
             default -> GoogleAppTranslator.getInstance();
         };
     }

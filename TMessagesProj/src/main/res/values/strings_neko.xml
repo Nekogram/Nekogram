@@ -156,7 +156,7 @@
     <string name="SendWebFileInvalid">Invalid file, make sure file is meeting requirements.</string>
     <string name="AutoLockInstant">Instant</string>
     <string name="RestrictionReason">Restriction reason</string>
-    <string name="ProviderTencentTranslator">Mr. Translator</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">Max recent stickers</string>
     <string name="DisableJumpToNextChannel">Disable \"Jump to Next Channel\"</string>
     <string name="DisableGreetingSticker">Disable greeting sticker</string>
