@@ -17,10 +17,6 @@
     <string name="NameOrder">Порядок імен</string>
     <string name="FirstLast">Перший Останній</string>
     <string name="LastFirst">Останній Перший</string>
-    <string name="NoQuoteForward">Переслати без цитат</string>
-    <string name="NoCaptionForward">NoCaption dopředu</string>
-    <string name="NoQuoteForwardShort">NoQuote</string>
-    <string name="NoCaptionForwardShort">NoCaption</string>
     <string name="Repeat">Повтор</string>
     <string name="AddToSavedMessages">Зберегти повідомлення</string>
     <string name="CreateMention">Відредагувати коментар</string>
@@ -151,7 +147,6 @@
     <string name="SendWebFileInvalid">Недійсний файл впевніться що файл відповідає вимогам.</string>
     <string name="AutoLockInstant">Миттєво</string>
     <string name="RestrictionReason">Причина обмежень</string>
-    <string name="ProviderTencentTranslator">Містер перекладач</string>
     <string name="MaxRecentStickers">Максимум недавніх наліпок</string>
     <string name="DisableJumpToNextChannel">Vypnutí \"Přejít na další kanál\"</string>
     <string name="DisableGreetingSticker">Vypnout uvítací nálepku</string>

@@ -19,8 +19,8 @@
     <string name="LastFirst">Фамилия Имя</string>
     <string name="NoQuoteForward">Переслать без автора</string>
     <string name="NoCaptionForward">Переслать без текста</string>
-    <string name="NoQuoteForwardShort">Без текста</string>
-    <string name="NoCaptionForwardShort">Без подписи</string>
+    <string name="NoQuoteForwardShort">Без автора</string>
+    <string name="NoCaptionForwardShort">Без текста</string>
     <string name="Repeat">Повторить</string>
     <string name="AddToSavedMessages">Сохранить сообщение</string>
     <string name="CreateMention">Создать упоминание</string>
@@ -152,7 +152,7 @@
     <string name="SendWebFileInvalid">Недопустимый файл, убедитесь что файл соответствует требованиям.</string>
     <string name="AutoLockInstant">Мгновенно</string>
     <string name="RestrictionReason">Причина ограничения</string>
-    <string name="ProviderTencentTranslator">Mr. Translator</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">Максимальное количество недавних стикеров</string>
     <string name="DisableJumpToNextChannel">Выключить \"Перейти на следующий канал\"</string>
     <string name="DisableGreetingSticker">Отключить приветственный стикер</string>
@@ -310,7 +310,6 @@
     <string name="CreateCode">Создать код</string>
     <string name="CreateCodeLanguage">Язык</string>
     <string name="IgnoreContentRestriction">Игнорировать ограничение контента</string>
-    <string name="DeprecatedFeature">Эта функция устарела, и будет удалена в ближайшее время.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>

@@ -17,10 +17,6 @@
     <string name="NameOrder">Urutan nama</string>
     <string name="FirstLast">Nama Belakang</string>
     <string name="LastFirst">Nama Depan</string>
-    <string name="NoQuoteForward">Teruskan Tanpa Kutip</string>
-    <string name="NoCaptionForward">Teruskan Tanpa Keterangan</string>
-    <string name="NoQuoteForwardShort">Tanpa Kutipan</string>
-    <string name="NoCaptionForwardShort">Tanpa Keterangan</string>
     <string name="Repeat">Ulangi</string>
     <string name="AddToSavedMessages">Simpan pesan</string>
     <string name="CreateMention">Buat sebutan</string>
@@ -151,7 +147,6 @@
     <string name="SendWebFileInvalid">Berkas tidak valid. Pastikan berkas memenuhi persyaratan.</string>
     <string name="AutoLockInstant">Langsung</string>
     <string name="RestrictionReason">Alasan pembatasan</string>
-    <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">Maksimum stiker terakhir digunakan</string>
     <string name="DisableJumpToNextChannel">Matikan \"Jump to Next Channel\"</string>
     <string name="DisableGreetingSticker">Matikan stiker menyapa</string>

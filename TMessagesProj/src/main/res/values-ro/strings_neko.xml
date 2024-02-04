@@ -17,10 +17,6 @@
     <string name="NameOrder">Ordine nume</string>
     <string name="FirstLast">Nume</string>
     <string name="LastFirst">Prenume</string>
-    <string name="NoQuoteForward">NoProformă înainte</string>
-    <string name="NoCaptionForward">Нет перехода вперед</string>
-    <string name="NoQuoteForwardShort">Без цитаты</string>
-    <string name="NoCaptionForwardShort">Отсутствие захвата</string>
     <string name="Repeat">Repetă</string>
     <string name="AddToSavedMessages">Salvează mesaj</string>
     <string name="CreateMention">Creează mențiune</string>
@@ -151,7 +147,6 @@
     <string name="SendWebFileInvalid">Fișier invalid, asigurați-vă că fișierul îndeplinește cerințele.</string>
     <string name="AutoLockInstant">Imediat</string>
     <string name="RestrictionReason">Motivul restricției</string>
-    <string name="ProviderTencentTranslator">М-р. Переводчик</string>
     <string name="MaxRecentStickers">Număr maxim de stickere recente</string>
     <string name="DisableJumpToNextChannel">Dezactivează \"Sari către următorul canal\"</string>
     <string name="DisableGreetingSticker">Dezactivează sticker-ul de întâmpinare</string>

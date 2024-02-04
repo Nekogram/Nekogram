@@ -14,7 +14,6 @@
     <string name="NameOrder">Namnordning</string>
     <string name="FirstLast">Första Sista</string>
     <string name="LastFirst">Sista Första</string>
-    <string name="NoQuoteForward">Vidarebefordra utan citering</string>
     <string name="Repeat">Upprepa</string>
     <string name="AddToSavedMessages">Spara meddelande</string>
     <string name="CreateMention">Skapa omnämning</string>
@@ -137,7 +136,6 @@
     <string name="SendWebFileInvalid">Ogiltig fil, kontrollera att filen uppfyller kraven.</string>
     <string name="AutoLockInstant">Direkt</string>
     <string name="RestrictionReason">Orsak till restriktioner</string>
-    <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">Maximalt antal senaste klistermärken</string>
     <string name="DisableJumpToNextChannel">Inaktivera \"Hoppa till nästa kanal\"</string>
     <string name="DisableGreetingSticker">Inaktivera hälsningsklistermärke</string>

@@ -17,10 +17,6 @@
     <string name="NameOrder">Ordem do nome</string>
     <string name="FirstLast">Primeiro Último</string>
     <string name="LastFirst">Último Primeiro</string>
-    <string name="NoQuoteForward">Encaminhar sem citar</string>
-    <string name="NoCaptionForward">Encaminhar sem legenda</string>
-    <string name="NoQuoteForwardShort">SemCitar</string>
-    <string name="NoCaptionForwardShort">SemLegenda</string>
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Salvar mensagem</string>
     <string name="CreateMention">Criar Menção</string>
@@ -152,7 +148,6 @@
     <string name="SendWebFileInvalid">Arquivo inválido, certifique-se de que o arquivo está cumprindo os requisitos.</string>
     <string name="AutoLockInstant">Instantâneo</string>
     <string name="RestrictionReason">Motivo de restrição</string>
-    <string name="ProviderTencentTranslator">Sr. Tradutor</string>
     <string name="MaxRecentStickers">Máximo de adesivos recentes</string>
     <string name="DisableJumpToNextChannel">Desativar \"Pular para o Próximo Canal\"</string>
     <string name="DisableGreetingSticker">Desativar sticker de saudação</string>

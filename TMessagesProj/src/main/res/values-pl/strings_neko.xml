@@ -17,10 +17,6 @@
     <string name="NameOrder">Format nazwy</string>
     <string name="FirstLast">Imię, Nazwisko</string>
     <string name="LastFirst">Nazwisko, Imię</string>
-    <string name="NoQuoteForward">Przekaż bez cytowania</string>
-    <string name="NoCaptionForward">Polecenie \"Przekierowanie\"</string>
-    <string name="NoQuoteForwardShort">Bez cytowania</string>
-    <string name="NoCaptionForwardShort">Bez podpisu</string>
     <string name="Repeat">Powtórz</string>
     <string name="AddToSavedMessages">Zapisz wiadomość</string>
     <string name="CreateMention">Utwórz wzmiankę</string>
@@ -151,7 +147,6 @@
     <string name="SendWebFileInvalid">Nieprawidłowy plik, upewnij się, że plik spełnia wymagania.</string>
     <string name="AutoLockInstant">Natychmiast</string>
     <string name="RestrictionReason">Powód ograniczenia</string>
-    <string name="ProviderTencentTranslator">Tłumacz</string>
     <string name="MaxRecentStickers">Maksymalna liczba ostatnio używanych naklejek</string>
     <string name="DisableJumpToNextChannel">Wyłącz \"Przejdź do następnego kanału\"</string>
     <string name="DisableGreetingSticker">Wyłącz naklejkę powitalną</string>
@@ -309,7 +304,6 @@
     <string name="CreateCode">Utwórz kod</string>
     <string name="CreateCodeLanguage">Język</string>
     <string name="IgnoreContentRestriction">Ignoruj ograniczenie treści</string>
-    <string name="DeprecatedFeature">Ta funkcja jest przestarzała i wkrótce zostanie usunięta.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>

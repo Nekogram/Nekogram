@@ -15,10 +15,6 @@
     <string name="NameOrder">नाम क्रम</string>
     <string name="FirstLast">नाम उपनाम</string>
     <string name="LastFirst">उपनाम नाम</string>
-    <string name="NoQuoteForward">बिना कोट के फॉरवर्ड करें</string>
-    <string name="NoCaptionForward">बिनाकैप्शन अग्रषित करे</string>
-    <string name="NoQuoteForwardShort">कोई उद्धरण नहीं</string>
-    <string name="NoCaptionForwardShort">कोई शीर्षक नहीं</string>
     <string name="Repeat">दोहराएं</string>
     <string name="AddToSavedMessages">संदेश सेव करो</string>
     <string name="CreateMention">उल्लेख बनाएं</string>
@@ -149,7 +145,6 @@
     <string name="SendWebFileInvalid">अमान्य फ़ाइल, सुनिश्चित करें कि फ़ाइल आवश्यकताओं को पूरा कर रही है।</string>
     <string name="AutoLockInstant">हाथोंहाथ</string>
     <string name="RestrictionReason">प्रतिबंध का कारण</string>
-    <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">पिछले स्टीकरों की अधिकतम संख्या</string>
     <string name="DisableJumpToNextChannel">\"Jump to Next Channel\" को डिसेबल करें</string>
     <string name="DisableGreetingSticker">ग्रीटिंग स्टिकर को डिसेबल करें</string>

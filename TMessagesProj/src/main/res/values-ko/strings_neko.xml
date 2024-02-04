@@ -17,10 +17,6 @@
     <string name="NameOrder">성 / 이름 표시 순서</string>
     <string name="FirstLast">이름</string>
     <string name="LastFirst">성</string>
-    <string name="NoQuoteForward">인용 없이 전달</string>
-    <string name="NoCaptionForward">캡션 없음 앞으로</string>
-    <string name="NoQuoteForwardShort">NoQuote</string>
-    <string name="NoCaptionForwardShort">NoCaption</string>
     <string name="Repeat">반복</string>
     <string name="AddToSavedMessages">메세지 저장</string>
     <string name="CreateMention">멘션 만들기</string>
@@ -152,7 +148,6 @@
     <string name="SendWebFileInvalid">잘못된 파일입니다. 파일이 요구 사항을 충족하는지 확인하세요.</string>
     <string name="AutoLockInstant">즉시</string>
     <string name="RestrictionReason">제한 사유</string>
-    <string name="ProviderTencentTranslator">미스터 번역기</string>
     <string name="MaxRecentStickers">최근 사용 스티커 최대 개수 도달</string>
     <string name="DisableJumpToNextChannel">\"다음 채널로 이동\" 비활성화</string>
     <string name="DisableGreetingSticker">인사말 스티커 사용 안함</string>

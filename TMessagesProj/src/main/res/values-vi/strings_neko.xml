@@ -17,10 +17,6 @@
     <string name="NameOrder">Thứ tự tên</string>
     <string name="FirstLast">Tên đứng cuối</string>
     <string name="LastFirst">Tên đứng đầu</string>
-    <string name="NoQuoteForward">Chuyển tiếp không trích dẫn</string>
-    <string name="NoCaptionForward">Không có phụ đề phía trước</string>
-    <string name="NoQuoteForwardShort">Không trích dẫn</string>
-    <string name="NoCaptionForwardShort">Không có chú thích</string>
     <string name="Repeat">Lặp lại</string>
     <string name="AddToSavedMessages">Lưu tin nhắn</string>
     <string name="CreateMention">Tạo đề cập đến</string>
@@ -151,7 +147,6 @@
     <string name="SendWebFileInvalid">Tập tin không hợp lệ, hãy đảm bảo tệp tin đáp ứng yêu cầu.</string>
     <string name="AutoLockInstant">Ngay lập tức</string>
     <string name="RestrictionReason">Lý do hạn chế</string>
-    <string name="ProviderTencentTranslator">Công cụ dịch</string>
     <string name="MaxRecentStickers">Nhãn dán tối đa hiện tại</string>
     <string name="DisableJumpToNextChannel">Vô hiệu \"Nhảy tới kênh tiếp theo\"</string>
     <string name="DisableGreetingSticker">Vô hiệu nhãn dán chào hỏi</string>
@@ -309,7 +304,6 @@
     <string name="CreateCode">Tạo mã</string>
     <string name="CreateCodeLanguage">Ngôn ngữ</string>
     <string name="IgnoreContentRestriction">Bỏ qua hạn chế nội dung</string>
-    <string name="DeprecatedFeature">Tính năng này không được dùng nữa và sẽ sớm bị loại bỏ.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>

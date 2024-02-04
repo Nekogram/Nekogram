@@ -6,6 +6,7 @@
     <string name="HidePhone">あなたの携帯電話番号を隠す</string>
     <string name="DeleteAllFromSelf">自分のメッセージを削除</string>
     <string name="DeleteAllFromSelfAlert">警告！これはこのチャットの **すべての人** が **あなたが送った全部のメッセージ** を削除します。</string>
+    <string name="DeleteAllFromSelfBefore">以前...</string>
     <string name="BotLogin">ボットログイン</string>
     <string name="BotLoginMessage">**@BotFather** から取得したボットトークンを入力してください。</string>
     <string name="InvalidAccessToken">無効なアクセストークン</string>
@@ -15,9 +16,9 @@
     <string name="NameOrder">名前の順序</string>
     <string name="FirstLast">名前 姓氏</string>
     <string name="LastFirst">姓氏 名前</string>
-    <string name="NoQuoteForward">見積もりなしで転送</string>
-    <string name="NoCaptionForward">キャプションなしを転送</string>
-    <string name="NoQuoteForwardShort">引用なし</string>
+    <string name="NoQuoteForward">送信者なしで転送</string>
+    <string name="NoCaptionForward">キャプションなしで転送</string>
+    <string name="NoQuoteForwardShort">送信者なし</string>
     <string name="NoCaptionForwardShort">キャプションなし</string>
     <string name="Repeat">繰り返す</string>
     <string name="AddToSavedMessages">保存用メッセージに追加</string>
@@ -105,9 +106,9 @@
     <string name="ProviderDeepLTranslate">DeepL 翻訳</string>
     <string name="Halloween">ハロウィン</string>
     <string name="CheckUpdate">アップデートを確認</string>
-    <string name="LastUpdateFormatted">最終確認に成功しました %1$s。</string>
+    <string name="LastUpdateFormatted">アップデートの確認に成功しました %1$s。</string>
     <string name="LastUpdateDateFormatted">最後に %1$sを確認しました。</string>
-    <string name="LastUpdateRecently">先ほど最終確認に成功しました。</string>
+    <string name="LastUpdateRecently">先ほどアップデートの確認に成功しました。</string>
     <string name="LastUpdateNever">インストール後、一度も確認していない。</string>
     <string name="CheckingUpdate">アップデートを確認中...</string>
     <string name="ProviderMicrosoftTranslator">Microsoft 翻訳</string>
@@ -122,6 +123,9 @@
     <string name="SelectBetween">選択範囲：</string>
     <string name="StickerSavedHint">ステッカーをギャラリーに保存しました</string>
     <string name="RegistrationDate">アカウントの登録日</string>
+    <string name="RegistrationDateNewer">%s より新しい</string>
+    <string name="RegistrationDateOlder">%s より古い</string>
+    <string name="RegistrationDateApproximately">約 %s</string>
     <string name="WsDescription">Cloudflare経由のWebSocketでTelegramに接続します。**詳細はこちら**</string>
     <string name="WsEnableTls">TLS を有効化</string>
     <string name="WsProvider">プロバイダー</string>
@@ -146,7 +150,7 @@
     <string name="SendWebFileInvalid">無効なファイルです。ファイルが要件を満たしているか確認してください。</string>
     <string name="AutoLockInstant">インスタント</string>
     <string name="RestrictionReason">制限の理由</string>
-    <string name="ProviderTencentTranslator">翻訳者</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">最近のステッカーの最大数</string>
     <string name="DisableJumpToNextChannel">「次のチャンネルにジャンプ」を無効にする</string>
     <string name="DisableGreetingSticker">挨拶ステッカーを無効にする</string>
@@ -279,6 +283,7 @@
     <string name="SendLargePhotosAbout">圧縮画像の横幅制限を2560pxにする。</string>
     <string name="ExportAsJson">JSON でコピー</string>
     <string name="HideStories">ストーリーを隠す</string>
+    <string name="QuickForward">クイック転送メニューを使用する</string>
     <string name="NavigationAnimation">ナビゲーションアニメーション</string>
     <string name="NavigationAnimationBezier">クラシック</string>
     <string name="NavigationAnimationSpring">ナチュラル</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">Neko Ayarları</string>
+    <string name="NekoSettings">Nekogram Ayarları</string>
     <string name="IPv6">IPv6 aracılığıyla bağlanmayı dene</string>
     <string name="MessageMenu">Mesaj Menüsü</string>
     <string name="HidePhone">Telefon numaramı gizle</string>
@@ -9,7 +9,7 @@
     <string name="DeleteAllFromSelfAlertBefore">Uyarı! Bu **tüm** katılımcılar için bu sohbetteki **%s\'dan önce sizden gelen tüm mesajları silecek**.</string>
     <string name="DeleteAllFromSelfBefore">Önce...</string>
     <string name="BotLogin">Bot Girişi</string>
-    <string name="BotLoginMessage">**@BotFather** aracılığıyla alınan bot token\'ini girin.</string>
+    <string name="BotLoginMessage">**@BotFather** adresinden alınan bot token\'ini girin.</string>
     <string name="InvalidAccessToken">Erişim anahtarı geçersiz</string>
     <string name="IgnoreBlocked">Engellenen kullanıcıdan gelen mesajları gizle</string>
     <string name="Connection">Bağlantı</string>
@@ -17,10 +17,6 @@
     <string name="NameOrder">İsim sırası</string>
     <string name="FirstLast">Ad Soyad</string>
     <string name="LastFirst">Soyad Ad</string>
-    <string name="NoQuoteForward">Anonim ilet</string>
-    <string name="NoCaptionForward">Başlıksız İlet</string>
-    <string name="NoQuoteForwardShort">Alıntı Olmadan</string>
-    <string name="NoCaptionForwardShort">Başlıksız</string>
     <string name="Repeat">Tekrarla</string>
     <string name="AddToSavedMessages">Mesajı kaydet</string>
     <string name="CreateMention">Bahset</string>
@@ -151,7 +147,6 @@
     <string name="SendWebFileInvalid">Geçersiz dosya, dosyanın gereksinimleri karşıladığınızdan emin olun.</string>
     <string name="AutoLockInstant">Ani</string>
     <string name="RestrictionReason">Kısıtlama nedeni</string>
-    <string name="ProviderTencentTranslator">Mr. Translator</string>
     <string name="MaxRecentStickers">Maksimum son çıkartmalar</string>
     <string name="DisableJumpToNextChannel">\"Sonraki Kanala Atla\"yı devre dışı bırak</string>
     <string name="DisableGreetingSticker">Selamlama çıkartmasını devre dışı bırak</string>

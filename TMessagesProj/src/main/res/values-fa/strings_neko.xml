@@ -17,10 +17,6 @@
     <string name="NameOrder">ترتیب نام</string>
     <string name="FirstLast">نام و نام خانوادگی</string>
     <string name="LastFirst">نام خانوادگی و نام</string>
-    <string name="NoQuoteForward">هدایت بدون نقل قول</string>
-    <string name="NoCaptionForward">هدایت بدون عنوان</string>
-    <string name="NoQuoteForwardShort">بدون نقل قول</string>
-    <string name="NoCaptionForwardShort">بدون توضیحات</string>
     <string name="Repeat">تکرار</string>
     <string name="AddToSavedMessages">ذخیره پیام</string>
     <string name="CreateMention">ایجاد منشن</string>
@@ -151,7 +147,6 @@
     <string name="SendWebFileInvalid">فایل نامعتبر است، مطمئن شوید فایل الزامات را برآورده می کند.</string>
     <string name="AutoLockInstant">فوری</string>
     <string name="RestrictionReason">دلیل محدودیت</string>
-    <string name="ProviderTencentTranslator">آقای مترجم</string>
     <string name="MaxRecentStickers">حداکثر استیکر های اخیر</string>
     <string name="DisableJumpToNextChannel">غیر فعال کردن \"پرش به کانال بعدی\"</string>
     <string name="DisableGreetingSticker">غیر فعال کردن استیکر سلام</string>

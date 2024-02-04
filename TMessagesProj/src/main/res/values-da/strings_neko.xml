@@ -14,7 +14,6 @@
     <string name="NameOrder">Navnerækkefølge</string>
     <string name="FirstLast">Første Sidst</string>
     <string name="LastFirst">Sidste Først</string>
-    <string name="NoQuoteForward">Ingen citat fremadrettet</string>
     <string name="Repeat">Gentag</string>
     <string name="AddToSavedMessages">Gem besked</string>
     <string name="CreateMention">Opret Omtale</string>
@@ -137,7 +136,6 @@
     <string name="SendWebFileInvalid">Ugyldig fil, sørg for at filen opfylder kravene.</string>
     <string name="AutoLockInstant">Omgående</string>
     <string name="RestrictionReason">Årsag til begrænsning</string>
-    <string name="ProviderTencentTranslator">Hr. Oversætter</string>
     <string name="MaxRecentStickers">Max seneste klistermærker</string>
     <string name="DisableJumpToNextChannel">Deaktivér \"Hop til næste kanal\"</string>
     <string name="DisableGreetingSticker">Deaktivér klistermærke til hilsen</string>

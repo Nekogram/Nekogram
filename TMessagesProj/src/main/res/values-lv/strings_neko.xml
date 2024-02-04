@@ -15,10 +15,6 @@
     <string name="NameOrder">Vārda secība</string>
     <string name="FirstLast">Pirmais Pēdējais</string>
     <string name="LastFirst">Pēdējais Pirmais</string>
-    <string name="NoQuoteForward">NēCitāte uz priekšu</string>
-    <string name="NoCaptionForward">Nav parakstu priekšā</string>
-    <string name="NoQuoteForwardShort">Nav citāts</string>
-    <string name="NoCaptionForwardShort">Nav parakstu</string>
     <string name="Repeat">Atkārtojiet</string>
     <string name="AddToSavedMessages">Saglabāt ziņojumu</string>
     <string name="CreateMention">Izveidot pieminēšanu</string>
@@ -149,7 +145,6 @@
     <string name="SendWebFileInvalid">Nederīgs fails, pārliecinieties, ka fails atbilst prasībām.</string>
     <string name="AutoLockInstant">Tūlītējs</string>
     <string name="RestrictionReason">Ierobežojuma iemesls</string>
-    <string name="ProviderTencentTranslator">Tulkotāja kungs</string>
     <string name="MaxRecentStickers">Maksimālais nesen uzlīmēto uzlīmju skaits</string>
     <string name="DisableJumpToNextChannel">\"Pāriet uz nākamo kanālu\" atspējošana</string>
     <string name="DisableGreetingSticker">Izslēgt apsveikuma uzlīmi</string>

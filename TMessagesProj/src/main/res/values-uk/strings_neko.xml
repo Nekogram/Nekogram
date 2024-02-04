@@ -17,10 +17,6 @@
     <string name="NameOrder">Порядок йменування</string>
     <string name="FirstLast">Спочатку ім\'я</string>
     <string name="LastFirst">Спочатку прізвище</string>
-    <string name="NoQuoteForward">Переслати без цитування</string>
-    <string name="NoCaptionForward">Переслати без цитування</string>
-    <string name="NoQuoteForwardShort">Без Цитування</string>
-    <string name="NoCaptionForwardShort">Без заголовка</string>
     <string name="Repeat">Повторити</string>
     <string name="AddToSavedMessages">Зберегти повідомлення</string>
     <string name="CreateMention">Створити згадку</string>
@@ -151,7 +147,6 @@
     <string name="SendWebFileInvalid">Неправильний файл, переконайтеся, що файл відповідає вимогам.</string>
     <string name="AutoLockInstant">Миттєво</string>
     <string name="RestrictionReason">Причина обмеження</string>
-    <string name="ProviderTencentTranslator">Містер Перекладач</string>
     <string name="MaxRecentStickers">Макс. кількість наліпок</string>
     <string name="DisableJumpToNextChannel">Вимкнути функцію переходу до наступного каналу</string>
     <string name="DisableGreetingSticker">Вимкнути вітальну наліпку</string>
@@ -309,7 +304,6 @@
     <string name="CreateCode">Створити код</string>
     <string name="CreateCodeLanguage">Мова</string>
     <string name="IgnoreContentRestriction">Ігнорувати обмеження вмісту</string>
-    <string name="DeprecatedFeature">Ця функція більше не підтримується і невдовзі буде вилучена.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccSeekbarHeading">Налаштування панелі повзунка</string>

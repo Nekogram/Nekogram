@@ -17,10 +17,6 @@
     <string name="NameOrder">Сартаванне імён</string>
     <string name="FirstLast">Імя Прозвішча</string>
     <string name="LastFirst">Прозвішча Імя</string>
-    <string name="NoQuoteForward">Пераслаць без аўтара</string>
-    <string name="NoCaptionForward">Пераслаць без цытавання</string>
-    <string name="NoQuoteForwardShort">Без аўтара</string>
-    <string name="NoCaptionForwardShort">Без подпісу</string>
     <string name="Repeat">Паўтарыць</string>
     <string name="AddToSavedMessages">Захаваць паведамленне</string>
     <string name="CreateMention">Стварыць згадванне</string>
@@ -151,7 +147,6 @@
     <string name="SendWebFileInvalid">Няправільны файл, пераканайцеся, што файл адпавядае патрабаванням.</string>
     <string name="AutoLockInstant">Імгненна</string>
     <string name="RestrictionReason">Прычына абмежавання</string>
-    <string name="ProviderTencentTranslator">Mр. Перакладчык</string>
     <string name="MaxRecentStickers">Макс. апошніх стыкераў</string>
     <string name="DisableJumpToNextChannel">Адключыць \"Пераход да наступнага каналу\"</string>
     <string name="DisableGreetingSticker">Адключыць прывітальны стыкер</string>

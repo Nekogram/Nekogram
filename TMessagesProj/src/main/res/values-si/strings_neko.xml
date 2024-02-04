@@ -12,7 +12,6 @@
     <string name="NameOrder">නම් අනුපිළිවෙල</string>
     <string name="FirstLast">මුල සිට අගට</string>
     <string name="LastFirst">අග සිට මුලට</string>
-    <string name="NoQuoteForward">අන්තර්ගතය පමණක් ආපසු යවන්න</string>
     <string name="Repeat">නැවත</string>
     <string name="AddToSavedMessages">පණිවිඩය සුරකින්න</string>
     <string name="CreateMention">සඳහන් කිරීමක් කරන්න</string>

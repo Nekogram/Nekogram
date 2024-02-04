@@ -17,9 +17,9 @@
     <string name="NameOrder">Névsorrend</string>
     <string name="FirstLast">Elsőtől Utolsóig</string>
     <string name="LastFirst">Utolsótól Elsőig</string>
-    <string name="NoQuoteForward">NoQuote továbbítása</string>
-    <string name="NoCaptionForward">NoCaption továbbítása</string>
-    <string name="NoQuoteForwardShort">Nincs Idézet</string>
+    <string name="NoQuoteForward">Továbbítás Nincs feladó</string>
+    <string name="NoCaptionForward">Továbbítás Nincs felirat</string>
+    <string name="NoQuoteForwardShort">Nincs feladó</string>
     <string name="NoCaptionForwardShort">Nincs felirat</string>
     <string name="Repeat">Ismétlés</string>
     <string name="AddToSavedMessages">Üzenet mentése</string>
@@ -151,7 +151,6 @@
     <string name="SendWebFileInvalid">Érvénytelen fájl, ellenőrizze, hogy a fájl megfelel-e a követelményeknek.</string>
     <string name="AutoLockInstant">Azonnali</string>
     <string name="RestrictionReason">Korlátozás oka</string>
-    <string name="ProviderTencentTranslator">Fordító úr</string>
     <string name="MaxRecentStickers">Legutóbbi matricák maximális száma</string>
     <string name="DisableJumpToNextChannel">Az „Ugrás a következő csatornára” letiltása</string>
     <string name="DisableGreetingSticker">Üdvözlő matrica letiltása</string>
@@ -309,7 +308,6 @@
     <string name="CreateCode">Kód létrehozása</string>
     <string name="CreateCodeLanguage">Nyelv</string>
     <string name="IgnoreContentRestriction">Tartalomkorlátozás figyelmen kívül hagyása</string>
-    <string name="DeprecatedFeature">Ez a funkció elavult, és hamarosan eltávolítjuk.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Kisegítő lehetőségek beállításai</string>
 </resources>

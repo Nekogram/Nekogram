@@ -14,7 +14,6 @@
     <string name="NameOrder">姓名順序</string>
     <string name="FirstLast">名字 姓氏</string>
     <string name="LastFirst">姓氏 名字</string>
-    <string name="NoQuoteForward">無引用轉發</string>
     <string name="Repeat">復讀</string>
     <string name="AddToSavedMessages">拿去自嗨</string>
     <string name="CreateMention">提及使用者</string>
@@ -132,7 +131,6 @@
     <string name="SendWebFileInvalid">無效文件，確保文件是對於格式的。</string>
     <string name="AutoLockInstant">即使</string>
     <string name="RestrictionReason">限制原因</string>
-    <string name="ProviderTencentTranslator">翻譯者先生</string>
     <string name="MaxRecentStickers">最多最近的貼紙</string>
     <string name="DisableJumpToNextChannel">禁用“轉跳到下一個頻道”</string>
     <string name="DisableGreetingSticker">禁用問候貼紙</string>

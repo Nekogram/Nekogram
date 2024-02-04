@@ -17,10 +17,10 @@
     <string name="NameOrder">Ταξινόμηση ονομάτων</string>
     <string name="FirstLast">Όνομα Επίθετο</string>
     <string name="LastFirst">Επίθετο Όνομα</string>
-    <string name="NoQuoteForward">Προώθ. χωρίς Πηγή</string>
-    <string name="NoCaptionForward">Προώθ. χωρίς Περιγραφή</string>
-    <string name="NoQuoteForwardShort">Χωρίς Παράθεση</string>
-    <string name="NoCaptionForwardShort">Χωρίς Τίτλο</string>
+    <string name="NoQuoteForward">Προώθ. Χωρίς Αποστολέα</string>
+    <string name="NoCaptionForward">Προώθ. Χωρίς Περιγραφή</string>
+    <string name="NoQuoteForwardShort">Χωρίς Αποστολέα</string>
+    <string name="NoCaptionForwardShort">Χωρίς Περιγραφή</string>
     <string name="Repeat">Επανάληψη</string>
     <string name="AddToSavedMessages">Αποθήκευση</string>
     <string name="CreateMention">Δημιουργία αναφοράς</string>
@@ -151,7 +151,7 @@
     <string name="SendWebFileInvalid">Άκυρο αρχείο, βεβαιωθείτε ότι το αρχείο πληροί τις απαιτήσεις.</string>
     <string name="AutoLockInstant">Άμεσα</string>
     <string name="RestrictionReason">Αιτία περιορισμού</string>
-    <string name="ProviderTencentTranslator">Mr. Translator</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">Σύνολο Πρόσφατων Αυτοκόλλητων</string>
     <string name="DisableJumpToNextChannel">Απενεργ. το \"Μετάβ. στο επόμ. κανάλι\"</string>
     <string name="DisableGreetingSticker">Απεν/ποίηση αυτοκόλ. χαιρετισμού</string>
@@ -309,7 +309,6 @@
     <string name="CreateCode">Δημιουργία Κωδικού</string>
     <string name="CreateCodeLanguage">Γλώσσα</string>
     <string name="IgnoreContentRestriction">Αγνόηση περιορισμού περιεχομένου</string>
-    <string name="DeprecatedFeature">Αυτή η λειτουργία έχει ξεπεραστεί και θα καταργηθεί σύντομα.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>

@@ -16,8 +16,6 @@
     <string name="NameOrder">Namensreihenfolge</string>
     <string name="FirstLast">Nachname zuerst</string>
     <string name="LastFirst">Vorname zuerst</string>
-    <string name="NoQuoteForward">Ohne Zitat weiterleiten</string>
-    <string name="NoCaptionForwardShort">Keine Űberschrift</string>
     <string name="Repeat">Wiederholen</string>
     <string name="AddToSavedMessages">Nachricht speichern</string>
     <string name="CreateMention">Erwähnung erstellen</string>
@@ -148,7 +146,6 @@
     <string name="SendWebFileInvalid">Ungültige Datei, sicherstellen, dass die Datei den Anforderungen entspricht.</string>
     <string name="AutoLockInstant">Sofort</string>
     <string name="RestrictionReason">Einschränkungsgrund</string>
-    <string name="ProviderTencentTranslator">Mr. Translator Übersetzer</string>
     <string name="MaxRecentStickers">Max. aktuelle Sticker</string>
     <string name="DisableJumpToNextChannel">Deaktiviere \"zum nächsten Kanal springen\"</string>
     <string name="DisableGreetingSticker">Begrüßungssticker deaktivieren</string>

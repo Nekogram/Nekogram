@@ -17,10 +17,10 @@
     <string name="NameOrder">ترتيبُ الاسمِ</string>
     <string name="FirstLast">الأول ثم الآخر</string>
     <string name="LastFirst">الآخر ثم الأول</string>
-    <string name="NoQuoteForward">توجيه دون اسم</string>
-    <string name="NoCaptionForward">إعادة تحويل دون تعليق</string>
-    <string name="NoQuoteForwardShort">دون اقتباس</string>
-    <string name="NoCaptionForwardShort">دون تعليق</string>
+    <string name="NoQuoteForward">إعادة توجيه بدون مرسل</string>
+    <string name="NoCaptionForward">إعادة توجيه بدون تعليق</string>
+    <string name="NoQuoteForwardShort">لا يوجد مُرسل</string>
+    <string name="NoCaptionForwardShort">لا يوجد تعليق</string>
     <string name="Repeat">كَرر</string>
     <string name="AddToSavedMessages">حفظُ الرسالة</string>
     <string name="CreateMention">صنع إشعار</string>
@@ -153,7 +153,7 @@
     <string name="SendWebFileInvalid">ملف غير صالح، تأكد من أن الملف يتوافق مع المتطلبات.</string>
     <string name="AutoLockInstant">فوري</string>
     <string name="RestrictionReason">سبب التقييد</string>
-    <string name="ProviderTencentTranslator">الأستاذ المترجم</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">الحد الأقصى للملصقات الأخيرة</string>
     <string name="DisableJumpToNextChannel">تعطيل \"الانتقال إلى القناة الاتية\"</string>
     <string name="DisableGreetingSticker">تعطيل ملصق الترحيب</string>
@@ -311,7 +311,6 @@
     <string name="CreateCode">إنشاء رمز</string>
     <string name="CreateCodeLanguage">اللغة</string>
     <string name="IgnoreContentRestriction">تجاهل تقييد المحتوى</string>
-    <string name="DeprecatedFeature">هذه الميزة مهملة، وسيتم إزالتها قريباً.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

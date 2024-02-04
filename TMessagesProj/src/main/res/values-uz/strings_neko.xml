@@ -17,10 +17,6 @@
     <string name="NameOrder">Ism tartibi</string>
     <string name="FirstLast">Ism - Familya</string>
     <string name="LastFirst">Familya - Ism</string>
-    <string name="NoQuoteForward">Izohsiz yuborish</string>
-    <string name="NoCaptionForward">Sarlavhasiz uzatish</string>
-    <string name="NoQuoteForwardShort">Iqtibossiz</string>
-    <string name="NoCaptionForwardShort">Sarlavhasiz</string>
     <string name="Repeat">Takrorlash</string>
     <string name="AddToSavedMessages">Xabarni saqlash</string>
     <string name="CreateMention">Eslatma yaratish</string>
@@ -151,7 +147,6 @@
     <string name="SendWebFileInvalid">Yaroqsiz fayl, fayl talablarga javob berishiga ishonch hosil qiling.</string>
     <string name="AutoLockInstant">Bir zumda</string>
     <string name="RestrictionReason">Cheklov sababi</string>
-    <string name="ProviderTencentTranslator">Janob Tarjimon</string>
     <string name="MaxRecentStickers">Oxirgi stikerlar to\'plami</string>
     <string name="DisableJumpToNextChannel">\"Keyingi kanalga o\'tish\" ni o\'chirish</string>
     <string name="DisableGreetingSticker">Salomlashuv stikerini o\'chirish</string>
