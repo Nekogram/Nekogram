@@ -7,10 +7,8 @@ import android.view.accessibility.AccessibilityManager;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.browser.Browser;
@@ -29,7 +27,7 @@ import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
-public class NekoSettingsActivity extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate {
+public class NekoSettingsActivity extends BaseNekoSettingsActivity {
 
     private final List<ConfigHelper.News> news = ConfigHelper.getNews();
     private boolean checkingUpdate = false;
@@ -54,15 +52,6 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
 
     private int sponsorRow;
     private int sponsor2Row;
-
-    @Override
-    public boolean onFragmentCreate() {
-        super.onFragmentCreate();
-
-        NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.appUpdateAvailable);
-
-        return true;
-    }
 
     @Override
     public View createView(Context context) {
@@ -100,7 +89,13 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
         } else if (position == sourceCodeRow) {
             Browser.openUrl(getParentActivity(), "https://github.com/Nekogram/Nekogram");
         } else if (position == checkUpdateRow) {
-            ((LaunchActivity) getParentActivity()).checkAppUpdate(true);
+            ((LaunchActivity) getParentActivity()).checkAppUpdate(true, new Browser.Progress() {
+                @Override
+                public void end() {
+                    checkingUpdate = false;
+                    listAdapter.notifyItemChanged(checkUpdateRow);
+                }
+            });
             checkingUpdate = true;
             listAdapter.notifyItemChanged(checkUpdateRow);
         } else if (position >= sponsorRow && position < sponsor2Row) {
@@ -163,21 +158,6 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity implements No
             sponsorRow = -1;
             sponsor2Row = -1;
         }
-    }
-
-    @Override
-    public void didReceivedNotification(int id, int account, Object... args) {
-        if (id == NotificationCenter.appUpdateAvailable) {
-            checkingUpdate = false;
-            AndroidUtilities.runOnUIThread(() -> listAdapter.notifyItemChanged(checkUpdateRow));
-        }
-    }
-
-    @Override
-    public void onFragmentDestroy() {
-        super.onFragmentDestroy();
-
-        NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.appUpdateAvailable);
     }
 
     private class ListAdapter extends BaseListAdapter {
