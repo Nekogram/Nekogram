@@ -9068,7 +9068,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         searchBeginningButton.setImageResource(R.drawable.ic_upward);
         searchBeginningButton.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_searchPanelIcons), PorterDuff.Mode.MULTIPLY));
         searchBeginningButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 1));
-        searchContainer.addView(searchBeginningButton, LayoutHelper.createFrame(48, 48, Gravity.LEFT | Gravity.TOP, 96 - 2.66f, 0, 0, 0));
+        searchContainer.addView(searchBeginningButton, LayoutHelper.createFrame(48, 48, Gravity.LEFT | Gravity.TOP, searchUserButton != null ? (96 - 2.66f) : 48, 0, 0, 0));
         searchBeginningButton.setOnClickListener(view -> jumpToDate(1375315200));
         searchBeginningButton.setContentDescription(LocaleController.getString("JumpToBeginning", R.string.JumpToBeginning));
     }
