@@ -7855,7 +7855,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }
         }
 
-        if (getDialogId() == getUserConfig().getClientUserId()) {
+        if (getDialogId() == getUserConfig().getClientUserId() && getUserConfig().isPremium()) {
             actionBarSearchTags = new SearchTagsList(context, ChatActivity.this, contentView, currentAccount, getSavedDialogId(), themeDelegate, true) {
                 @Override
                 protected boolean setFilter(ReactionsLayoutInBubble.VisibleReaction reaction) {
@@ -28005,7 +28005,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         sheet.show();
                     }));
                 }
-                if (isReactionsAvailable && (!tags || !getMessagesController().premiumFeaturesBlocked())) {
+                if (isReactionsAvailable && (!tags || (!getMessagesController().premiumFeaturesBlocked() && getUserConfig().isPremium()))) {
                     int pad = 22;
                     int sPad = 24;
                     reactionsLayout.setPadding(AndroidUtilities.dp(4) + (LocaleController.isRTL ? 0 : sPad), AndroidUtilities.dp(4), AndroidUtilities.dp(4) + (LocaleController.isRTL ? sPad : 0), AndroidUtilities.dp(pad));
