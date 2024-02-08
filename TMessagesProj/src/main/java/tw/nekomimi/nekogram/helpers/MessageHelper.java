@@ -191,7 +191,7 @@ public class MessageHelper extends BaseController {
     public void generateUpdateInfo(BaseFragment fragment, SparseArray<MessageObject>[] selectedMessagesIds, Runnable callback) {
         fragment.showDialog(new AlertDialog.Builder(fragment.getParentActivity())
                 .setItems(new CharSequence[]{"direct", "play"}, (dialog, which) -> {
-                    var tag = which == 0 ? "updatev3" : "updateplayv3";
+                    var tag = which == 0 ? "updatev4" : "updateplayv4";
                     ArrayList<MessageObject> messageObjects = new ArrayList<>();
                     for (int a = 1; a >= 0; a--) {
                         for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
