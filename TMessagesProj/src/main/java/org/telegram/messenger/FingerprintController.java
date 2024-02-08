@@ -89,7 +89,7 @@ public class FingerprintController {
         KeyStore keyStore = getKeyStore();
         try {
             keyStore.deleteEntry(KEY_ALIAS);
-        } catch (KeyStoreException e) {
+        } catch (Throwable e) {
             FileLog.e(e);
         }
         hasChangedFingerprints = null;
@@ -110,7 +110,7 @@ public class FingerprintController {
     public static boolean isKeyReady() {
         try {
             return getKeyStore().containsAlias(KEY_ALIAS);
-        } catch (KeyStoreException e) {
+        } catch (Throwable e) {
             FileLog.e(e);
         }
         return false;

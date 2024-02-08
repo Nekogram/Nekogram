@@ -648,9 +648,9 @@ public class AlertsCreator {
                         localeInfo.pluralLangCode = language.plural_code;
                         if (localeInfo.shortName.equals("duang_zh_hans")) {
                             localeInfo.pluralLangCode = "zh_dg";
-                        } else if (localeInfo.shortName.startsWith("zh_hans") || localeInfo.baseLangCode.startsWith("zh_hans")) {
+                        } else if (localeInfo.shortName.startsWith("zh_hans") || (localeInfo.baseLangCode != null && localeInfo.baseLangCode.startsWith("zh_hans"))) {
                             localeInfo.pluralLangCode = "zh_cn";
-                        } else if (localeInfo.shortName.startsWith("zh_hant") || localeInfo.baseLangCode.startsWith("zh_hant")) {
+                        } else if (localeInfo.shortName.startsWith("zh_hant") || (localeInfo.baseLangCode != null && localeInfo.baseLangCode.startsWith("zh_hant"))) {
                             localeInfo.pluralLangCode = "zh_tw";
                         }
                         localeInfo.isRtl = language.rtl;
