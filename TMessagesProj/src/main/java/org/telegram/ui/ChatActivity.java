@@ -3519,17 +3519,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 openSearchWithText(isSupportedTags() ? "" : null);
             }
         };
-        avatarContainer.setOnLongClickListener(v -> {
-            if (searchItem == null) {
-                return false;
-            }
-            if ((threadMessageId == 0 || isTopic) && !UserObject.isReplyUser(currentUser)) {
-                openSearchWithText(null);
-            } else {
-                searchItem.openSearch(true);
-            }
-            return true;
-        });
         avatarContainer.allowShorterStatus = true;
         avatarContainer.premiumIconHiddable = true;
         avatarContainer.allowDrawStories = dialog_id < 0;
