@@ -9,6 +9,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ChatActivity;
+import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ShareAlert;
 import org.telegram.ui.Components.UndoView;
 
@@ -49,11 +50,13 @@ public interface ForwardContext {
                             return;
                         }
                         if (dids.size() == 1) {
-                            undoView.showWithAction(dids.valueAt(0).id, UndoView.ACTION_FWD_MESSAGES, count, topic, null, null);
+                            if (dids.valueAt(0).id != parentFragment.getUserConfig().getClientUserId() || !BulletinFactory.of(parentFragment).showForwardedBulletinWithTag(dids.valueAt(0).id, count)) {
+                                undoView.showWithAction(dids.valueAt(0).id, UndoView.ACTION_FWD_MESSAGES, count, topic, null, null);
+                            }
                         } else {
                             undoView.showWithAction(0, UndoView.ACTION_FWD_MESSAGES, count, dids.size(), null, null);
                         }
-                    }, 250);
+                    }, 0);
                 }
                 callback.run();
             }
