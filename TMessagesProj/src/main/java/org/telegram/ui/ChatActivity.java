@@ -9021,6 +9021,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 searchCalendarButton.setVisibility(View.GONE);
                 searchUserButton.setVisibility(View.GONE);
+                searchBeginningButton.setVisibility(View.GONE);
                 searchingForUser = true;
                 searchingUserMessages = null;
                 searchingChatMessages = null;
@@ -32944,6 +32945,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (searchUserButton != null) {
                 searchUserButton.setVisibility(View.VISIBLE);
             }
+            if (searchBeginningButton != null) {
+                searchBeginningButton.setVisibility(View.VISIBLE);
+            }
             if (searchingForUser) {
                 mentionContainer.getAdapter().searchUsernameOrHashtag(null, 0, null, false, true);
                 searchingForUser = false;
@@ -33128,6 +33132,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 				searchItem.setSearchFieldHint(isSupportedTags() ? LocaleController.getString("SavedTagSearchHint", R.string.SavedTagSearchHint) : LocaleController.getString("Search", R.string.Search));
                 searchCalendarButton.setVisibility(View.VISIBLE);
                 searchUserButton.setVisibility(View.VISIBLE);
+                searchBeginningButton.setVisibility(View.VISIBLE);
                 searchingUserMessages = null;
                 searchingChatMessages = null;
             }
