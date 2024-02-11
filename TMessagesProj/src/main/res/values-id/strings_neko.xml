@@ -17,6 +17,8 @@
     <string name="NameOrder">Urutan nama</string>
     <string name="FirstLast">Nama Belakang</string>
     <string name="LastFirst">Nama Depan</string>
+    <string name="NoQuoteForward"></string>
+    <string name="NoCaptionForward">Teruskan Tanpa Keterangan</string>
     <string name="Repeat">Ulangi</string>
     <string name="AddToSavedMessages">Simpan pesan</string>
     <string name="CreateMention">Buat sebutan</string>

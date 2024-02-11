@@ -17,6 +17,10 @@
     <string name="NameOrder">Порядок йменування</string>
     <string name="FirstLast">Спочатку ім\'я</string>
     <string name="LastFirst">Спочатку прізвище</string>
+    <string name="NoQuoteForward">Переслати від свого імені</string>
+    <string name="NoCaptionForward">Переслати без опису</string>
+    <string name="NoQuoteForwardShort">Від свого імені</string>
+    <string name="NoCaptionForwardShort">Без опису</string>
     <string name="Repeat">Повторити</string>
     <string name="AddToSavedMessages">Зберегти повідомлення</string>
     <string name="CreateMention">Створити згадку</string>
@@ -147,6 +151,7 @@
     <string name="SendWebFileInvalid">Неправильний файл, переконайтеся, що файл відповідає вимогам.</string>
     <string name="AutoLockInstant">Миттєво</string>
     <string name="RestrictionReason">Причина обмеження</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">Макс. кількість наліпок</string>
     <string name="DisableJumpToNextChannel">Вимкнути функцію переходу до наступного каналу</string>
     <string name="DisableGreetingSticker">Вимкнути вітальну наліпку</string>

@@ -44,7 +44,7 @@
     <string name="StickerSize">貼圖大小</string>
     <string name="StickerSizeLeft">小</string>
     <string name="StickerSizeRight">大</string>
-    <string name="StickerSizeDialogMessage">好看到靠北ㄜ有沒有</string>
+    <string name="StickerSizeDialogMessage">好看到靠北ㄛ有沒有</string>
     <string name="StickerSizeDialogMessageReplyTo">喵</string>
     <string name="Experiment">實驗性</string>
     <string name="MessageDetails">資訊</string>
@@ -74,7 +74,7 @@
     <string name="Categories">類別</string>
     <string name="OfficialChannel">官方頻道</string>
     <string name="About">關於</string>
-    <string name="IgnoreBlockedAbout">不是真的隱藏啦！訊息仍然可見，但訊息會帶有 Spoiler，影片和圖片也不會自動下載。</string>
+    <string name="IgnoreBlockedAbout">不是真的隱藏啦！訊息仍然可見，但訊息會帶有劇透，影片和圖片也不會自動下載。</string>
     <string name="Donate">捐贈</string>
     <string name="DonateAbout">支援我們的開發。</string>
     <string name="TranslationAbout">幫助我們將 Nekogram 翻譯成您的語言。</string>
@@ -98,7 +98,7 @@
     <string name="VoiceEnhancements">語音增強功能</string>
     <string name="VoiceEnhancementsAbout">雜訊抑制和語音歸一化</string>
     <string name="DisableInstantCamera">禁用即時相機</string>
-    <string name="OpenAllLinksInInstantView">嘗試在 InstantView 中打開所有鏈接</string>
+    <string name="OpenAllLinksInInstantView">嘗試在即時瀏覽中打開所有鏈接</string>
     <string name="DonateThankYou">謝謝！</string>
     <string name="DonateEvilGoogle">Google 將收取您捐款的 30%。</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
@@ -148,7 +148,7 @@
     <string name="AttachWebFile">網路文件</string>
     <string name="WebFileInfo">使用URL發送文件</string>
     <string name="SendWebFile">發送網路文件</string>
-    <string name="SendWebFileInfo">Telegram 將下載併發送文件。照片最大尺寸為5MB，其他類型文件最大尺寸為20MB。</string>
+    <string name="SendWebFileInfo">Telegram 將下載並發送文件。照片最大尺寸為5MB，其他類型文件最大尺寸為20MB。</string>
     <string name="SendWebFileInvalid">文件無效，請確保其符合要求。</string>
     <string name="AutoLockInstant">即時</string>
     <string name="RestrictionReason">限制原因</string>
@@ -194,9 +194,9 @@
     <string name="BlockedUserIgnored">封鎖</string>
     <string name="EditUndo">還原</string>
     <string name="EditRedo">重做</string>
-    <string name="EditEnableMarkdown">開啟Markdown</string>
-    <string name="EditDisableMarkdown">關閉Markdown</string>
-    <string name="CopyCallback">複製回調數據</string>
+    <string name="EditEnableMarkdown">啟用 Markdown</string>
+    <string name="EditDisableMarkdown">停用 Markdown</string>
+    <string name="CopyCallback">複製回調資料</string>
     <string name="CopyInlineQuery">複製內嵌查詢</string>
     <string name="CopyID">複製 ID</string>
     <string name="ShowRPCError">顯示所有 RPC 錯誤</string>
@@ -235,7 +235,7 @@
     <string name="DatacenterStatusAbout">檢查 Telegram 的 **資料中心** 的狀態。</string>
     <string name="DatacenterStatus">資料中心狀態</string>
     <string name="DatacenterStatusShort">資料中心</string>
-    <string name="Markdown">標記</string>
+    <string name="Markdown">Markdown</string>
     <string name="MarkdownEnableByDefault">預設啟用</string>
     <string name="MarkdownParser">解析器</string>
     <string name="MarkdownParseLinks">解析連結</string>
@@ -246,7 +246,7 @@
     <string name="AppIconRainbow">彩虹貓</string>
     <string name="AppIconMusheen">牧神貓</string>
     <string name="AppIconSpace">太空貓</string>
-    <string name="AppIconCloud">雲雲貓</string>
+    <string name="AppIconCloud">雲朵貓</string>
     <string name="AppIconNeon">霓虹貓</string>
     <string name="AppIconMaterial">質感貓</string>
     <string name="RecentChats">最近聊天記錄</string>
