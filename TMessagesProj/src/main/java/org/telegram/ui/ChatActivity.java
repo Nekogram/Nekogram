@@ -8311,7 +8311,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     }
 
     private void createBottomMessagesActionButtons() {
-        if (replyButton != null || getContext() == null) {
+        if (forwardButton != null || getContext() == null) {
             return;
         }
 
@@ -8347,41 +8347,42 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 updateSelectedMessageReactions();
             });
             bottomMessagesActionContainer.addView(replyButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.LEFT | Gravity.TOP));
+
+            selectButton = new ImageView(getContext());
+            selectButton.setContentDescription(LocaleController.getString("SelectBetween", R.string.SelectBetween));
+            selectButton.setPadding(AndroidUtilities.dp(21), 0, AndroidUtilities.dp(21), 0);
+            selectButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 3));
+            image = getContext().getResources().getDrawable(R.drawable.ic_select_between).mutate();
+            image.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.MULTIPLY));
+            selectButton.setImageDrawable(image);
+            selectButton.setOnClickListener(v -> {
+                ArrayList<Integer> ids = new ArrayList<>();
+                for (int a = 1; a >= 0; a--) {
+                    for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
+                        ids.add(selectedMessagesIds[a].keyAt(b));
+                    }
+                }
+                Collections.sort(ids);
+                Integer begin = ids.get(0);
+                Integer end = ids.get(ids.size() - 1);
+                for (int i = 0; i < messages.size(); i++) {
+                    int msgId = messages.get(i).getId();
+                    if (msgId > begin && msgId < end && selectedMessagesIds[0].indexOfKey(msgId) < 0) {
+                        MessageObject message = messages.get(i);
+
+                        if (message.contentType != 0) {
+                            continue;
+                        }
+
+                        addToSelectedMessages(message, true);
+                    }
+                }
+                updateActionModeTitle();
+                updateVisibleRows();
+            });
+            bottomMessagesActionContainer.addView(selectButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP));
         }
 
-        selectButton = new ImageView(getContext());
-        selectButton.setContentDescription(LocaleController.getString("SelectBetween", R.string.SelectBetween));
-        selectButton.setPadding(AndroidUtilities.dp(21), 0, AndroidUtilities.dp(21), 0);
-        selectButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 3));
-        Drawable image = getContext().getResources().getDrawable(R.drawable.ic_select_between).mutate();
-        image.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.MULTIPLY));
-        selectButton.setImageDrawable(image);
-        selectButton.setOnClickListener(v -> {
-            ArrayList<Integer> ids = new ArrayList<>();
-            for (int a = 1; a >= 0; a--) {
-                for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
-                    ids.add(selectedMessagesIds[a].keyAt(b));
-                }
-            }
-            Collections.sort(ids);
-            Integer begin = ids.get(0);
-            Integer end = ids.get(ids.size() - 1);
-            for (int i = 0; i < messages.size(); i++) {
-                int msgId = messages.get(i).getId();
-                if (msgId > begin && msgId < end && selectedMessagesIds[0].indexOfKey(msgId) < 0) {
-                    MessageObject message = messages.get(i);
-
-                    if (message.contentType != 0) {
-                        continue;
-                    }
-
-                    addToSelectedMessages(message, true);
-                }
-            }
-            updateActionModeTitle();
-            updateVisibleRows();
-        });
-        bottomMessagesActionContainer.addView(selectButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.CENTER_HORIZONTAL | Gravity.TOP));
         forwardOptionsButton = new ActionBarMenuItem(getContext(), null, 0, 0);
         forwardOptionsButton.setSubMenuOpenSide(2);
         forwardOptionsButton.setAdditionalYOffset(-AndroidUtilities.dp(157));
@@ -8392,7 +8393,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         });
         bottomMessagesActionContainer.addView(forwardOptionsButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.RIGHT | Gravity.TOP));
         forwardButton = new TextView(getContext());
-        forwardButton.setText(LocaleController.getString("Forward", R.string.Forward));
         forwardButton.setGravity(Gravity.CENTER_VERTICAL);
         forwardButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         forwardButton.setPadding(AndroidUtilities.dp(21), 0, AndroidUtilities.dp(21), 0);
@@ -8400,9 +8400,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         forwardButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 3));
         forwardButton.setTextColor(getThemedColor(Theme.key_actionBarActionModeDefaultIcon));
         forwardButton.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
-        image = getContext().getResources().getDrawable(R.drawable.input_forward_quote).mutate();
-        image.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.MULTIPLY));
-        forwardButton.setCompoundDrawablesWithIntrinsicBounds(image, null, null, null);
         forwardOptionsButton.addView(forwardButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.RIGHT | Gravity.TOP));
     }
 
