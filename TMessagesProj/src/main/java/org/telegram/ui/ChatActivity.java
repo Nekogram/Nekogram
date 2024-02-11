@@ -26955,8 +26955,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (NekoConfig.showRepeat) {
                             if (!selectedObject.isSponsored() && chatMode != MODE_SCHEDULED && (!selectedObject.needDrawBluredPreview() || selectedObject.hasExtendedMediaPreview()) &&
                                     !selectedObject.isLiveLocation() && selectedObject.type != MessageObject.TYPE_PHONE_CALL &&
-                                    selectedObject.type != MessageObject.TYPE_GIFT_PREMIUM) {
-                                boolean allowRepeat = allowChatActions && (!(isThreadChat() && !isTopic) && !noforwards || getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup) != null);
+                                    selectedObject.type != MessageObject.TYPE_GIFT_PREMIUM && selectedObject.type != MessageObject.TYPE_GIFT_PREMIUM_CHANNEL && selectedObject.type != MessageObject.TYPE_SUGGEST_PHOTO && !selectedObject.isWallpaperAction()
+                                    && !message.isExpiredStory() && message.type != MessageObject.TYPE_STORY_MENTION) {
+                                boolean allowRepeat = !UserObject.isUserSelf(currentUser) && allowChatActions && (!(isThreadChat() && !isTopic) && !noforwards || getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup) != null);
                                 if (allowRepeat) {
                                     items.add(LocaleController.getString("Repeat", R.string.Repeat));
                                     options.add(OPTION_REPEAT);
@@ -26965,7 +26966,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                         }
                         if (chatMode != MODE_SCHEDULED) {
-                            if (NekoConfig.showPrPr && allowChatActions && selectedObject.isFromUser()) {
+                            if (NekoConfig.showPrPr && allowChatActions && selectedObject.isFromUser() && !UserObject.isUserSelf(currentUser)) {
                                 items.add(LocaleController.getString("Prpr", R.string.Prpr));
                                 options.add(OPTION_PRPR);
                                 icons.add(R.drawable.msg_prpr);
