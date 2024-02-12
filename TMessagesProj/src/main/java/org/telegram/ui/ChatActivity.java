@@ -1335,8 +1335,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int change_colors = 27;
     private final static int tag_message = 28;
 
-    private final static int show_pinned = 28;
-    private final static int delete_history = 29;
+    private final static int show_pinned = 90;
+    private final static int delete_history = 91;
 
     private final static int bot_help = 30;
     private final static int bot_settings = 31;
