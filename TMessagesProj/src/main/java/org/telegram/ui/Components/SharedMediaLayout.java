@@ -2737,10 +2737,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         } else {
                             i = position;
                         }
-                        participant = chatUsersAdapter.chatInfo.participants.participants.get(i);
                         if (i < 0 || i >= chatUsersAdapter.chatInfo.participants.participants.size()) {
                             return;
                         }
+                        participant = chatUsersAdapter.chatInfo.participants.participants.get(i);
                         onMemberClick(participant, false, view);
                     } else if (mediaPage.listView.getAdapter() == groupUsersSearchAdapter) {
                         long user_id;

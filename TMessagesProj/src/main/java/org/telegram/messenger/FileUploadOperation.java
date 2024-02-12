@@ -325,6 +325,9 @@ public class FileUploadOperation {
                     }
                 }
 
+                if (uploadChunkSize > 512) {
+                    uploadChunkSize = 512;
+                }
                 uploadChunkSize *= 1024;
                 calcTotalPartsCount();
                 readBuffer = new byte[uploadChunkSize];
