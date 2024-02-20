@@ -2295,7 +2295,8 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                             }
                             int width = getMeasuredWidth() - dp(60);
                             if (archivedHintLayout == null || archivedHintLayout.getWidth() != width) {
-                                archivedHintLayout = new StaticLayout(LocaleController.getString(isArchivedOnlyStoriesView() ? R.string.ProfileStoriesArchiveChannelHint : R.string.ProfileStoriesArchiveHint), archivedHintPaint, width, Layout.Alignment.ALIGN_CENTER, 1f, 0f, false);
+                                boolean isChannel = profileActivity != null && ChatObject.isChannelAndNotMegaGroup(profileActivity.getMessagesController().getChat(-dialog_id));
+                                archivedHintLayout = new StaticLayout(LocaleController.getString(isArchivedOnlyStoriesView() ? (isChannel ? R.string.ProfileStoriesArchiveChannelHint : R.string.ProfileStoriesArchiveGroupHint) : R.string.ProfileStoriesArchiveHint), archivedHintPaint, width, Layout.Alignment.ALIGN_CENTER, 1f, 0f, false);
                                 archivedHintLayoutWidth = 0;
                                 archivedHintLayoutLeft = width;
                                 for (int i = 0; i < archivedHintLayout.getLineCount(); ++i) {
@@ -4479,6 +4480,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         } else {
             searchAlpha = getSearchAlpha(0);
             updateSearchItemIcon(0);
+        }
+        if (searching && getSelectedTab() == TAB_SAVED_DIALOGS) {
+            return false;
         }
         updateOptionsSearch();
 

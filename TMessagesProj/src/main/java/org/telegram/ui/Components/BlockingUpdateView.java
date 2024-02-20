@@ -25,20 +25,24 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.browser.Browser;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 
+import java.io.File;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.TextViewEffects;
+import tw.nekomimi.nekogram.helpers.ApkInstaller;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
 public class BlockingUpdateView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
@@ -140,7 +144,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         addView(acceptButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 46, Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM, 0, 0, 0, 45));
         acceptButton.setOnClickListener(view1 -> {
             if (appUpdate.document instanceof TLRPC.TL_document) {
-                if (!ApplicationLoader.applicationLoaderInstance.openApkInstall((Activity) getContext(), appUpdate.document)) {
+                if (!openApkInstall((Activity) getContext(), appUpdate.document)) {
                     FileLoader.getInstance(accountNum).loadFile(appUpdate.document, "update", FileLoader.PRIORITY_HIGH, 1);
                     showProgress(true);
                 }
@@ -200,7 +204,7 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
             String location = (String) args[0];
             if (fileName != null && fileName.equals(location)) {
                 showProgress(false);
-                ApplicationLoader.applicationLoaderInstance.openApkInstall((Activity) getContext(), appUpdate.document);
+                openApkInstall((Activity) getContext(), appUpdate.document);
             }
         } else if (id == NotificationCenter.fileLoadFailed) {
             String location = (String) args[0];
@@ -218,7 +222,18 @@ public class BlockingUpdateView extends FrameLayout implements NotificationCente
         }
     }
 
-
+    public boolean openApkInstall(Activity activity, TLRPC.Document document) {
+        boolean exists = false;
+        try {
+            File f = FileLoader.getInstance(UserConfig.selectedAccount).getPathToAttach(document, true);
+            if (exists = f.exists()) {
+                ApkInstaller.installUpdate(activity, SharedConfig.pendingAppUpdate.document);
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return exists;
+    }
 
     private void showProgress(final boolean show) {
         if (progressAnimation != null) {
