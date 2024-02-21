@@ -1577,6 +1577,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 return false;
             }
             if (NekoConfig.doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_REACTION) {
+                if (getDialogId() == getUserConfig().getClientUserId() && !getUserConfig().isPremium()) {
+                    return false;
+                }
                 String reactionStringSetting = getMediaDataController().getDoubleTapReaction();
                 TLRPC.TL_availableReaction reaction = getMediaDataController().getReactionsMap().get(reactionStringSetting);
                 if (reaction == null && (reactionStringSetting == null || !reactionStringSetting.startsWith("animated_"))) {
