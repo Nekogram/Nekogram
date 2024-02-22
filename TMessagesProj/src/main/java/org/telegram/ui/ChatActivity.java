@@ -29802,7 +29802,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (undoView == null) {
                     return;
                 }
-                undoView.showWithAction(getUserConfig().getClientUserId(), UndoView.ACTION_FWD_MESSAGES, messages.size());
+                if (!BulletinFactory.of(ChatActivity.this).showForwardedBulletinWithTag(getUserConfig().getClientUserId(), messages.size())) {
+                    undoView.showWithAction(getUserConfig().getClientUserId(), UndoView.ACTION_FWD_MESSAGES, messages.size());
+                }
                 break;
             } case OPTION_REPEAT: {
                 if (checkSlowMode(chatActivityEnterView.getSendButton())) {
