@@ -126,7 +126,6 @@ public class NekoConfig {
     public static boolean showOriginal = true;
     public static boolean newMarkdownParser = true;
     public static boolean markdownParseLinks = true;
-    public static boolean uploadSpeedBoost = false;
     public static boolean sendLargePhotos = true;
     public static boolean hideStories = false;
     public static boolean quickForward = false;
@@ -233,7 +232,6 @@ public class NekoConfig {
             newMarkdownParser = preferences.getBoolean("newMarkdownParser", true);
             markdownParseLinks = preferences.getBoolean("markdownParseLinks", true);
             downloadSpeedBoost = preferences.getInt("downloadSpeedBoost2", BOOST_NONE);
-            uploadSpeedBoost = preferences.getBoolean("uploadSpeedBoost", false);
             sendLargePhotos = preferences.getBoolean("sendLargePhotos", true);
             showQrCode = preferences.getBoolean("showQrCode", true);
             wsDomain = preferences.getString("wsDomain", "");
@@ -411,14 +409,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("sendLargePhotos", sendLargePhotos);
-        editor.apply();
-    }
-
-    public static void toggleUploadSpeedBoost() {
-        uploadSpeedBoost = !uploadSpeedBoost;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("uploadSpeedBoost", uploadSpeedBoost);
         editor.apply();
     }
 

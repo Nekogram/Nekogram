@@ -39,7 +39,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int experimentRow;
     private int springAnimationRow;
     private int downloadSpeedBoostRow;
-    private int uploadSpeedBoostRow;
     private int mapDriftingFixRow;
     private int contentRestrictionRow;
     private int sendLargePhotosRow;
@@ -157,11 +156,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.showRPCError);
             }
-        } else if (position == uploadSpeedBoostRow) {
-            NekoConfig.toggleUploadSpeedBoost();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.uploadSpeedBoost);
-            }
         } else if (position == downloadSpeedBoostRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
@@ -253,7 +247,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         experimentRow = addRow("experiment");
         springAnimationRow = addRow("springAnimation");
         downloadSpeedBoostRow = MessagesController.getInstance(currentAccount).getfileExperimentalParams ? -1 : addRow("downloadSpeedBoost");
-        uploadSpeedBoostRow = addRow("uploadSpeedBoost");
         mapDriftingFixRow = addRow("mapDriftingFix");
         contentRestrictionRow = showContentRestrictionRow ? addRow("contentRestriction") : -1;
         sendLargePhotosRow = addRow("sendLargePhotosRow");
@@ -319,8 +312,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
                     } else if (position == showRPCErrorRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.ShowRPCError), LocaleController.formatString(R.string.ShowRPCErrorException, "FILE_REFERENCE_EXPIRED"), NekoConfig.showRPCError, true, false);
-                    } else if (position == uploadSpeedBoostRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.UploadloadSpeedBoost), NekoConfig.uploadSpeedBoost, true);
                     } else if (position == sendBugReportRow) {
                         textCell.setEnabled(!AnalyticsHelper.analyticsDisabled, null);
                         textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.SendBugReport), LocaleController.getString(R.string.SendBugReportDesc), !AnalyticsHelper.analyticsDisabled && AnalyticsHelper.sendBugReport, true, true);
