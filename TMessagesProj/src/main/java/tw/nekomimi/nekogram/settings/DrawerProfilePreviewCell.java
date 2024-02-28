@@ -11,6 +11,8 @@ public class DrawerProfilePreviewCell extends DrawerProfileCell {
     public DrawerProfilePreviewCell(Context context) {
         super(context, null);
         setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+        imageReceiver.setCrossfadeWithOldImage(true);
+        imageReceiver.setForceCrossfade(true);
     }
 
     @Override
