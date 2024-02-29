@@ -63,6 +63,10 @@ public class BiometricPromptHelper {
         }
         Activity activity = parentActivity;
         if (Build.VERSION.SDK_INT >= 28) {
+            if (cancellationSignal != null && !cancellationSignal.isCanceled()) {
+                cancellationSignal.cancel();
+                cancellationSignal = null;
+            }
             cancellationSignal = new CancellationSignal();
             BiometricPrompt.Builder builder = new BiometricPrompt.Builder(activity);
             builder.setTitle(LocaleController.getString(R.string.AppName));
