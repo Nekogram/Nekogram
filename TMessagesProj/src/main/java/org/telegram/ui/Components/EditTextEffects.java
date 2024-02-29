@@ -278,6 +278,7 @@ public class EditTextEffects extends AppCompatEditText {
         if (allowHackingTextCanvasCache == null) {
             allowHackingTextCanvasCache = Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH && (
                 Build.MANUFACTURER == null ||
+                !Build.MANUFACTURER.toLowerCase().contains("vivo") &&
                 !Build.MANUFACTURER.toLowerCase().contains("honor") &&
                 !Build.MANUFACTURER.toLowerCase().contains("huawei") &&
                 !Build.MANUFACTURER.toLowerCase().contains("alps")
