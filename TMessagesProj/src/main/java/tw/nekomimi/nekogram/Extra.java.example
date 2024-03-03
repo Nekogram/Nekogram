@@ -22,6 +22,8 @@ public class Extra {
     public static String WEBVIEW_BOT = "";
     public static long WEBVIEW_BOT_ID = 0;
 
+    public static boolean FORCE_ANALYTICS = false;
+
     public static long getOwnerFromStickerSetId(long id) {
         return 0;
     }

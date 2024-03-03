@@ -12,6 +12,8 @@ import org.telegram.messenger.BuildConfig;
 
 import java.util.HashMap;
 
+import tw.nekomimi.nekogram.Extra;
+
 public class AnalyticsHelper {
     private static SharedPreferences preferences;
 
@@ -21,7 +23,7 @@ public class AnalyticsHelper {
     public static boolean analyticsDisabled = false;
 
     public static void start(Application application) {
-        if ("play".equals(BuildConfig.BUILD_TYPE)) {
+        if (Extra.FORCE_ANALYTICS) {
             firebaseAnalytics = FirebaseAnalytics.getInstance(application);
             firebaseAnalytics.setAnalyticsCollectionEnabled(true);
             var crashlytics = FirebaseCrashlytics.getInstance();
@@ -59,7 +61,7 @@ public class AnalyticsHelper {
     }
 
     public static boolean isSettingsAvailable() {
-        return !"play".equals(BuildConfig.BUILD_TYPE);
+        return !Extra.FORCE_ANALYTICS;
     }
 
     public static void setAnalyticsDisabled() {
