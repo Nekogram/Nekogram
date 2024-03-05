@@ -17,6 +17,10 @@
     <string name="NameOrder">ترتیب نام</string>
     <string name="FirstLast">نام و نام خانوادگی</string>
     <string name="LastFirst">نام خانوادگی و نام</string>
+    <string name="NoQuoteForward">هدایت بدون فرستنده</string>
+    <string name="NoCaptionForward">هدایت بدون توضیحات</string>
+    <string name="NoQuoteForwardShort">بدون فرستنده</string>
+    <string name="NoCaptionForwardShort">بدون توضیحات</string>
     <string name="Repeat">تکرار</string>
     <string name="AddToSavedMessages">ذخیره پیام</string>
     <string name="CreateMention">ایجاد منشن</string>

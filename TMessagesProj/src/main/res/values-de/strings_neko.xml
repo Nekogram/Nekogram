@@ -279,6 +279,7 @@
     <string name="HideStories">Verberge Stories</string>
     <string name="MonoCode">Code</string>
     <string name="CreateCode">Code erstellen</string>
+    <string name="CreateCodeLanguage">Sprache</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Bedienungshilfen</string>
 </resources>

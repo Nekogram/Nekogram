@@ -19,8 +19,8 @@
     <string name="LastFirst">Nazwisko, Imię</string>
     <string name="NoQuoteForward">Przekaż dalej bez nadawcy</string>
     <string name="NoCaptionForward">Przekaż dalej bez podpisu</string>
-    <string name="NoQuoteForwardShort">Brak nadawcy</string>
-    <string name="NoCaptionForwardShort">Brak podpisu</string>
+    <string name="NoQuoteForwardShort">Bez nadawcy</string>
+    <string name="NoCaptionForwardShort">Bez podpisu</string>
     <string name="Repeat">Powtórz</string>
     <string name="AddToSavedMessages">Zapisz wiadomość</string>
     <string name="CreateMention">Utwórz wzmiankę</string>

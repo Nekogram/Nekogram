@@ -6,6 +6,8 @@
     <string name="HidePhone">Masquer mon numéro de téléphone</string>
     <string name="DeleteAllFromSelf">Supprimer ses propres messages</string>
     <string name="DeleteAllFromSelfAlert">Attention ! Cela **supprimera tous les messages de votre part** dans cet échange pour **tous** les participants.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Attention ! Ceci va **supprimer tous les messages que vous avez envoyés avant %s** dans ce chat pour **tous les participants** .</string>
+    <string name="DeleteAllFromSelfBefore">Avant...</string>
     <string name="BotLogin">Connexion au bot</string>
     <string name="BotLoginMessage">Entrez le jeton de robot obtenu de **@BotFather**.</string>
     <string name="InvalidAccessToken">Token d\'accès invalide</string>
@@ -15,6 +17,10 @@
     <string name="NameOrder">Ordre des noms</string>
     <string name="FirstLast">Prénom Nom</string>
     <string name="LastFirst">Nom Prénom</string>
+    <string name="NoQuoteForward">Transférer sans expéditeur</string>
+    <string name="NoCaptionForward">Transférer sans légende</string>
+    <string name="NoQuoteForwardShort">Pas d\'expéditeur</string>
+    <string name="NoCaptionForwardShort">Pas de légende</string>
     <string name="Repeat">Répéter</string>
     <string name="AddToSavedMessages">Sauvegarder le message</string>
     <string name="CreateMention">Créer une mention</string>
@@ -36,6 +42,8 @@
     <string name="SensitiveDisableFiltering">Désactiver le filtrage des contenus sensibles</string>
     <string name="SensitiveAbout">Afficher les médias sensibles dans les chaînes publiques sur tous vos appareils.</string>
     <string name="StickerSize">Taille des autocollants</string>
+    <string name="StickerSizeLeft">Petit</string>
+    <string name="StickerSizeRight">Grand</string>
     <string name="StickerSizeDialogMessage">Oh trop mignon ! Un chat noir !</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
     <string name="Experiment">Expérimental</string>
@@ -122,6 +130,9 @@
     <string name="WsDescription">Connectez-vous à Telegram avec WebSocket via Cloudflare. ** En savoir plus**</string>
     <string name="WsEnableTls">Activer le TLS</string>
     <string name="WsProvider">Fournisseur</string>
+    <string name="WsNotWorking">Le proxy ne fonctionne pas !</string>
+    <string name="WsUseMyOwnDomain">Comment configurer un fournisseur personnalisé</string>
+    <string name="WsStandaloneApp">Utiliser le proxy dans d\'autres applications</string>
     <string name="UpdateNekogram">Mettre à jour Nekogram</string>
     <string name="TranslationTarget">Langue cible</string>
     <string name="TranslationTargetApp">Comme l\'application</string>
@@ -140,6 +151,7 @@
     <string name="SendWebFileInvalid">Fichier non valide, assurez-vous que le fichier est conforme aux exigences.</string>
     <string name="AutoLockInstant">Instantané</string>
     <string name="RestrictionReason">Motif de la restriction</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">Nombre maximum d\'autocollants récents</string>
     <string name="DisableJumpToNextChannel">Désactiver \"Passer au canal suivant\"</string>
     <string name="DisableGreetingSticker">Désactiver l\'autocollant de salutation</string>
@@ -199,6 +211,7 @@
     <string name="Translating">traduction en cours</string>
     <string name="Translated">traduit</string>
     <string name="BrokenMLKit">Option indisponible</string>
+    <string name="BrokenMLKitDetail">L\'identifiant du langage MLKit est défaillant sur cet appareil.</string>
     <string name="PasscodeNeeded">Vous devez d\'abord activer le verrouillage par code d\'accès</string>
     <string name="PasscodeNeko">Code d\'accès</string>
     <string name="PasscodeShowInSettings">Afficher dans les paramètres de Neko</string>
@@ -268,9 +281,35 @@
     <string name="SendBugReportDesc">Cela nous aidera à trouver les problèmes plus rapidement.</string>
     <string name="AnonymousDataDelete">Supprimer les données</string>
     <string name="AnonymousDataDeleteDesc">Bloquer de façon permanente les données sortantes de cette instance et supprimer les données collectées.</string>
+    <string name="SendAnonymousDataDesc">Les fonctions ci-dessus utilisent le site %1$s fourni par %2$s. Les informations collectées sont anonymes et nous ne pouvons pas les relier à un appareil ou à un utilisateur indépendant.</string>
     <string name="SendLargePhotos">Envoyer des photos de grande taille</string>
     <string name="SendLargePhotosAbout">Augmenter la limite de taille des images compressées à 2560px.</string>
     <string name="ExportAsJson">Copier en JSON</string>
+    <string name="HideStories">Cacher les stories</string>
+    <string name="QuickForward">Utiliser le menu d\'avance rapide</string>
+    <string name="DidNotGetTheCodeBlameDurov">Si vous n\'avez pas reçu le code sur un autre appareil ou si vous n\'êtes pas connecté à Telegram sur un autre appareil, veuillez utiliser l\'application officielle de Telegram pour recevoir le code.\n\nTelegram a désactivé sur **la possibilité de se connecter par SMS** sur des applications tierces. Les utilisateurs qui se connectent à des applications tierces ne peuvent recevoir des codes de connexion que via Telegram.\n\nNous ne pouvons pas vous aider à cet égard. Si vous avez des problèmes de connexion, veuillez contacter le service d\'assistance de Telegram.</string>
+    <string name="NavigationAnimation">Animation de navigation</string>
+    <string name="NavigationAnimationBezier">Classique</string>
+    <string name="NavigationAnimationSpring">Naturel</string>
+    <string name="NavigationAnimationCrossfading">Effet de fondu enchaîné</string>
+    <string name="CloudConfig">Paramètres du Cloud</string>
+    <string name="CloudConfigDesc">Enregistrez vos paramètres Neko sur le cloud de Telegram.</string>
+    <string name="CloudConfigSyncDate">Dernière synchronisation : %s, cloud : %s</string>
+    <string name="CloudConfigSyncDateNever">jamais</string>
+    <string name="CloudConfigSync">Synchroniser vers le cloud</string>
+    <string name="CloudConfigSyncShort">Synchronisation</string>
+    <string name="CloudConfigRestore">Restaurer depuis le cloud</string>
+    <string name="CloudConfigRestoreShort">Restaurer</string>
+    <string name="CloudConfigSyncing">Synchronisation...</string>
+    <string name="CloudConfigAutoSync">Synchro automatique</string>
+    <string name="CloudConfigAutoSyncDesc">Synchroniser automatiquement vers le cloud après modifications des paramètres de Neko.</string>
+    <string name="CloudConfigSyncFailed">Échec de la synchronisation des paramètres vers le cloud.</string>
+    <string name="CloudConfigRestoreFailed">Impossible de restaurer les paramètres depuis le cloud.</string>
+    <string name="ReducedColors">Réduire les couleurs</string>
+    <string name="MonoCode">Code</string>
+    <string name="CreateCode">Créer un code</string>
+    <string name="CreateCodeLanguage">Langue</string>
+    <string name="IgnoreContentRestriction">Ignorer la restriction de contenu</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Paramètres d\'accessibilité</string>
 </resources>

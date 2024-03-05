@@ -153,7 +153,7 @@
     <string name="SendWebFileInvalid">ملف غير صالح، تأكد من أن الملف يتوافق مع المتطلبات.</string>
     <string name="AutoLockInstant">فوري</string>
     <string name="RestrictionReason">سبب التقييد</string>
-    <string name="ProviderTencentTranslator">TranSmart</string>
+    <string name="ProviderTencentTranslator">مستودع بيانات</string>
     <string name="MaxRecentStickers">الحد الأقصى للملصقات الأخيرة</string>
     <string name="DisableJumpToNextChannel">تعطيل \"الانتقال إلى القناة الاتية\"</string>
     <string name="DisableGreetingSticker">تعطيل ملصق الترحيب</string>
