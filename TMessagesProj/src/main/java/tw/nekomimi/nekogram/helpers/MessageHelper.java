@@ -652,7 +652,7 @@ public class MessageHelper extends BaseController {
                 }
                 Runnable deleteAction = () -> {
                     for (ArrayList<Integer> list : lists) {
-                        getMessagesController().deleteMessages(list, null, null, dialogId, true, false);
+                        getMessagesController().deleteMessages(list, null, null, dialogId, replyMessageId, true, 0);
                     }
                 };
                 AndroidUtilities.runOnUIThread(callback != null ? () -> callback.run(messageIds.size(), deleteAction) : deleteAction);
@@ -716,7 +716,7 @@ public class MessageHelper extends BaseController {
         return acc;
     }
 
-    public void sendWebFile(BaseFragment fragment, int did, MessageObject thread, MessageObject reply_to, ChatActivity.ReplyQuote replyQuote, String url, boolean isPhoto, Theme.ResourcesProvider resourcesProvider) {
+    public void sendWebFile(BaseFragment fragment, int did, MessageObject thread, MessageObject reply_to, ChatActivity.ReplyQuote replyQuote, String quickReplyShortcut, int quickReplyId, String url, boolean isPhoto, Theme.ResourcesProvider resourcesProvider) {
         TLRPC.TL_messages_sendMedia req = new TLRPC.TL_messages_sendMedia();
         TLRPC.InputMedia media;
         if (isPhoto) {
@@ -743,6 +743,18 @@ public class MessageHelper extends BaseController {
         if (reply_to != null) {
             req.reply_to = getSendMessagesHelper().createReplyInput(null, reply_to.getId(), thread.getId(), replyQuote);
             req.flags |= 1;
+        }
+        if (quickReplyShortcut != null || quickReplyId != 0) {
+            if (quickReplyId != 0) {
+                TLRPC.TL_inputQuickReplyShortcutId shortcut = new TLRPC.TL_inputQuickReplyShortcutId();
+                shortcut.shortcut_id = quickReplyId;
+                req.quick_reply_shortcut = shortcut;
+            } else {
+                TLRPC.TL_inputQuickReplyShortcut shortcut = new TLRPC.TL_inputQuickReplyShortcut();
+                shortcut.shortcut = quickReplyShortcut;
+                req.quick_reply_shortcut = shortcut;
+            }
+            req.flags |= 131072;
         }
         getConnectionsManager().sendRequest(req, (response, error) -> {
             if (error == null) {
@@ -808,7 +820,7 @@ public class MessageHelper extends BaseController {
         });
 
         builder.setView(ll);
-        builder.setPositiveButton(LocaleController.getString(R.string.OK), (dialogInterface, i) -> sendWebFile(fragment, (int) fragment.getDialogId(), fragment.getThreadMessage(), fragment.getReplyMessage(), fragment.getReplyQuote(), editText.getText().toString(), !cell.isChecked(), resourcesProvider));
+        builder.setPositiveButton(LocaleController.getString(R.string.OK), (dialogInterface, i) -> sendWebFile(fragment, (int) fragment.getDialogId(), fragment.getThreadMessage(), fragment.getReplyMessage(), fragment.getReplyQuote(), fragment.quickReplyShortcut, fragment.getQuickReplyId(), editText.getText().toString(), !cell.isChecked(), resourcesProvider));
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
 
         AlertDialog alertDialog = builder.create();

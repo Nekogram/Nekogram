@@ -8,6 +8,8 @@
 
 package org.telegram.messenger;
 
+import android.util.Log;
+
 import org.telegram.messenger.utils.ImmutableByteArrayOutputStream;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.NativeByteBuffer;
@@ -50,6 +52,7 @@ public class FileLoadOperation {
     public boolean isStory;
 
     public void setStream(FileLoadOperationStream stream, boolean streamPriority, long streamOffset) {
+        FileLog.e("FileLoadOperation " + getFileName() + " setStream(" + stream + ")");
         this.stream = stream;
         this.streamOffset = streamOffset;
         this.streamPriority = streamPriority;
@@ -103,6 +106,8 @@ public class FileLoadOperation {
         private TLRPC.TL_upload_webFile responseWeb;
         private TLRPC.TL_upload_cdnFile responseCdn;
         private boolean forceSmallChunk;
+        public boolean cancelling, cancelled;
+        public Runnable whenCancelled;
     }
 
     public static class Range {
@@ -142,6 +147,7 @@ public class FileLoadOperation {
     private final static int stateFailed = 2;
     private final static int stateFinished = 3;
     private final static int stateCanceled = 4;
+    private final static int stateCancelling = 5;
 
     private int downloadChunkSize = 1024 * 32;
     private int downloadChunkSizeBig = 1024 * 128;
@@ -236,6 +242,7 @@ public class FileLoadOperation {
     private boolean requestingCdnOffsets;
 
     private ArrayList<RequestInfo> requestInfos;
+    private ArrayList<RequestInfo> cancelledRequestInfos;
     private ArrayList<RequestInfo> delayedRequestInfos;
 
     private File cacheFileTemp;
@@ -766,6 +773,7 @@ public class FileLoadOperation {
             if (streamListeners == null) {
                 return;
             }
+            FileLog.e("FileLoadOperation " + getFileName() + " removing stream listener " + stream);
             streamListeners.remove(operation);
         });
     }
@@ -787,7 +795,7 @@ public class FileLoadOperation {
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("debug_loading:" + cacheFileFinal.getName() + " pause operation, clear requests");
                 }
-                clearOperaion(null, false);
+                clearOperation(null, false, true);
             } else {
                 for (int i = 0; i < requestInfos.size(); i++) {
                     ConnectionsManager.getInstance(currentAccount).failNotRunningRequest(requestInfos.get(i).requestToken);
@@ -851,9 +859,10 @@ public class FileLoadOperation {
                 } else {
                     streamStartOffset = streamOffset / currentDownloadChunkSize * currentDownloadChunkSize;
                 }
-//                if (!streamListeners.contains(stream)) {
-//                    streamListeners.add(stream);
-//                }
+                if (!streamListeners.contains(stream)) {
+                    streamListeners.add(stream);
+                    FileLog.e("FileLoadOperation " + getFileName() + " start, adding stream " + stream);
+                }
                 if (alreadyStarted) {
                     if (preloadedBytesRanges != null && getDownloadedLengthFromOffsetInternal(notLoadedBytesRanges, streamStartOffset, 1) == 0) {
                         if (preloadedBytesRanges.get(streamStartOffset) != null) {
@@ -954,6 +963,7 @@ public class FileLoadOperation {
         }
 
         requestInfos = new ArrayList<>(currentMaxDownloadRequests);
+        cancelledRequestInfos = new ArrayList<>();
         delayedRequestInfos = new ArrayList<>(currentMaxDownloadRequests - 1);
         state = stateDownloading;
 
@@ -1270,6 +1280,7 @@ public class FileLoadOperation {
         if (isPreloadVideoOperation == value || value && totalBytesCount <= preloadMaxBytes) {
             return;
         }
+        FileLog.e("setIsPreloadVideoOperation " + value + " file=" + fileName);
         if (!value && isPreloadVideoOperation) {
             if (state == stateFinished) {
                 isPreloadVideoOperation = value;
@@ -1279,7 +1290,7 @@ public class FileLoadOperation {
             } else if (state == stateDownloading) {
                 Utilities.stageQueue.postRunnable(() -> {
                     requestedBytesCount = 0;
-                    clearOperaion(null, true);
+                    clearOperation(null, true, true);
                     isPreloadVideoOperation = value;
                     startDownloadRequest(-1);
                 });
@@ -1306,8 +1317,12 @@ public class FileLoadOperation {
     private void cancel(boolean deleteFiles) {
         Utilities.stageQueue.postRunnable(() -> {
             if (state != stateFinished && state != stateFailed) {
-                cancelRequests();
-                onFail(false, 1);
+                state = stateCancelling;
+                cancelRequests(() -> {
+                    if (state == stateCancelling) {
+                        onFail(false, 1);
+                    }
+                });
             }
             if (deleteFiles) {
                 if (cacheFileFinal != null) {
@@ -1359,13 +1374,36 @@ public class FileLoadOperation {
         });
     }
 
-    private void cancelRequests() {
+    private void cancelRequests(Runnable fullyCancelled) {
+        FileLog.d("cancelRequests" + (fullyCancelled != null ? " with callback" : ""));
         if (requestInfos != null) {
+            int[] waitingForCancelledCount = new int[1];
             int[] waitingDownloadSize = new int[2];
             for (int a = 0; a < requestInfos.size(); a++) {
                 RequestInfo requestInfo = requestInfos.get(a);
                 if (requestInfo.requestToken != 0) {
-                    ConnectionsManager.getInstance(currentAccount).cancelRequest(requestInfo.requestToken, true);
+                    requestInfo.cancelling = true;
+                    if (fullyCancelled == null) {
+                        requestInfo.cancelled = true;
+                        FileLog.d("cancelRequests cancel " + requestInfo.requestToken);
+                        ConnectionsManager.getInstance(currentAccount).cancelRequest(requestInfo.requestToken, true);
+                    } else {
+                        requestInfo.whenCancelled = () -> {
+                            requestInfo.whenCancelled = null;
+                            requestInfo.cancelled = true;
+                            waitingForCancelledCount[0]--;
+                            if (waitingForCancelledCount[0] == 0) {
+                                fullyCancelled.run();
+                            }
+                        };
+                        waitingForCancelledCount[0]++;
+                        FileLog.d("cancelRequests cancel " + requestInfo.requestToken + " with callback");
+                        ConnectionsManager.getInstance(currentAccount).cancelRequest(requestInfo.requestToken, true, () -> {
+                            if (requestInfo.whenCancelled != null) {
+                                requestInfo.whenCancelled.run();
+                            }
+                        });
+                    }
                     int index = requestInfo.connectionType == ConnectionsManager.ConnectionTypeDownload ? 0 : 1;
                     waitingDownloadSize[index] += requestInfo.chunkSize;
                 }
@@ -1377,7 +1415,6 @@ public class FileLoadOperation {
                     ConnectionsManager.getInstance(currentAccount).discardConnection(datacenterId, connectionType);
                 }
             }
-
         }
     }
 
@@ -1468,7 +1505,7 @@ public class FileLoadOperation {
     }
 
     private void onFinishLoadingFile(final boolean increment, int finishCode, boolean preload) {
-        if (state != stateDownloading) {
+        if (state != stateDownloading && state != stateCancelling) {
             return;
         }
         state = stateFinished;
@@ -1735,9 +1772,9 @@ public class FileLoadOperation {
     }
 
     protected boolean processRequestResult(RequestInfo requestInfo, TLRPC.TL_error error) {
-        if (state != stateDownloading) {
+        if (state != stateDownloading && state != stateCancelling) {
             if (BuildVars.DEBUG_VERSION && state == stateFinished) {
-                FileLog.e(new FileLog.IgnoreSentException("trying to write to finished file " + fileName + " offset " + requestInfo.offset + " " + totalBytesCount));
+                FileLog.e(new FileLog.IgnoreSentException("trying to write to finished file " + fileName + " offset " + requestInfo.offset + " " + totalBytesCount + " reqToken="+requestInfo.requestToken+" (state=" + state + ")"));
             }
             return false;
         }
@@ -1963,7 +2000,7 @@ public class FileLoadOperation {
 
                 if (finishedDownloading) {
                     onFinishLoadingFile(true, FINISH_CODE_DEFAULT, finishPreload);
-                } else if (state != stateCanceled) {
+                } else if (state != stateCanceled && state != stateCancelling) {
                     startDownloadRequest(requestInfo.connectionType);
                 }
             } catch (Exception e) {
@@ -1979,6 +2016,9 @@ public class FileLoadOperation {
             }
         } else {
             if (error.text.contains("LIMIT_INVALID") && !requestInfo.forceSmallChunk) {
+                if (requestInfo.whenCancelled != null) {
+                    requestInfo.whenCancelled.run();
+                }
                 removePart(notRequestedBytesRanges, requestInfo.offset, requestInfo.offset + requestInfo.chunkSize);
                 if (!forceSmallChunk) {
                     forceSmallChunk = true;
@@ -2066,7 +2106,7 @@ public class FileLoadOperation {
         }
     }
 
-    private void clearOperaion(RequestInfo currentInfo, boolean preloadChanged) {
+    private void clearOperation(RequestInfo currentInfo, boolean preloadChanged, boolean acceptChunksAfterCancel) {
         long minOffset = Long.MAX_VALUE;
         int[] waitingDownloadSize = new int[2];
         for (int a = 0; a < requestInfos.size(); a++) {
@@ -2081,7 +2121,23 @@ public class FileLoadOperation {
                 continue;
             }
             if (info.requestToken != 0) {
-                ConnectionsManager.getInstance(currentAccount).cancelRequest(info.requestToken, true);
+                info.cancelling = true;
+                if (acceptChunksAfterCancel) {
+                    cancelledRequestInfos.add(info);
+                    info.whenCancelled = () -> {
+                        info.whenCancelled = null;
+                        cancelledRequestInfos.remove(info);
+                        info.cancelled = true;
+                    };
+                    ConnectionsManager.getInstance(currentAccount).cancelRequest(info.requestToken, true, () -> {
+                        if (info.whenCancelled != null) {
+                            info.whenCancelled.run();
+                        }
+                    });
+                } else {
+                    ConnectionsManager.getInstance(currentAccount).cancelRequest(info.requestToken, true);
+                    info.cancelled = true;
+                }
             }
         }
         for (int i = 0; i < 2; i++) {
@@ -2124,7 +2180,7 @@ public class FileLoadOperation {
         if (requestingReference) {
             return;
         }
-        clearOperaion(null, false);
+        clearOperation(null, false, false);
         requestingReference = true;
         if (parentObject instanceof MessageObject) {
             MessageObject messageObject = (MessageObject) parentObject;
@@ -2147,6 +2203,9 @@ public class FileLoadOperation {
         }
         if (BuildVars.LOGS_ENABLED && FULL_LOGS) {
             FileLog.d(fileName + " startDownloadRequest");
+        }
+        if (state == stateCancelling) {
+            state = stateDownloading;
         }
         if (paused || reuploadingCdn || state != stateDownloading || requestingReference ||
                 (!isStory && streamPriorityStartOffset == 0 && (!nextPartWasPreloaded && (requestInfos.size() + delayedRequestInfos.size() >= currentMaxDownloadRequests))) ||
@@ -2344,11 +2403,45 @@ public class FileLoadOperation {
             if (BuildVars.LOGS_ENABLED) {
                 requestInfo.requestStartTime = System.currentTimeMillis();
             }
+            flags |= ConnectionsManager.RequestFlagListenAfterCancel;
             int datacenterId = isCdn ? cdnDatacenterId : this.datacenterId;
             requestInfo.requestToken = ConnectionsManager.getInstance(currentAccount).sendRequestSync(request, (response, error) -> {
-                if (!requestInfos.contains(requestInfo)) {
+                if (requestInfo.cancelled) {
+                    FileLog.e("received chunk but definitely cancelled offset=" + requestInfo.offset + " size=" + requestInfo.chunkSize + " token=" + requestInfo.requestToken);
                     return;
                 }
+                if (requestInfo.cancelling) {
+                    FileLog.e("received cancelled chunk after cancelRequests! offset=" + requestInfo.offset + " size=" + requestInfo.chunkSize + " token=" + requestInfo.requestToken);
+                }
+                if (!requestInfos.contains(requestInfo)) {
+                    if (!cancelledRequestInfos.contains(requestInfo)) {
+                        return;
+                    }
+
+                    boolean replaced = false;
+                    for (int i = 0; i < requestInfos.size(); ++i) {
+                        RequestInfo r = requestInfos.get(i);
+                        if (r != null && r != requestInfo && r.offset == requestInfo.offset && r.chunkSize == requestInfo.chunkSize) {
+                            FileLog.e("received cancelled chunk faster than new one! received=" + requestInfo.requestToken + " new=" + r.requestToken);
+                            if (!replaced) {
+                                requestInfos.set(i, requestInfo);
+                                replaced = true;
+                            } else {
+                                requestInfos.remove(i);
+                                i--;
+                            }
+                        }
+                    }
+                }
+                for (int i = 0; i < cancelledRequestInfos.size(); ++i) {
+                    RequestInfo r = cancelledRequestInfos.get(i);
+                    if (r != null && r != requestInfo && r.offset == requestInfo.offset && r.chunkSize == requestInfo.chunkSize) {
+                        FileLog.e("received new chunk faster than cancelled one! received=" + requestInfo.requestToken + " cancelled=" + r.requestToken);
+                        cancelledRequestInfos.remove(i);
+                        i--;
+                    }
+                }
+
                 if (BuildVars.LOGS_ENABLED) {
                     FileLog.d("debug_loading: " + cacheFileFinal.getName() + " time=" + (System.currentTimeMillis() - requestInfo.requestStartTime) + " dcId=" + datacenterId + " cdn=" + isCdn + " conType=" + connectionType + " reqId" + requestInfo.requestToken);
                 }
@@ -2359,6 +2452,9 @@ public class FileLoadOperation {
                     priorityRequestInfo = null;
                 }
                 if (error != null) {
+                    if (requestInfo.whenCancelled != null) {
+                        requestInfo.whenCancelled.run();
+                    }
                     if (error.code == -2000) {
                         requestInfos.remove(requestInfo);
                         requestedBytesCount -= requestInfo.chunkSize;
@@ -2370,7 +2466,7 @@ public class FileLoadOperation {
                     } else if (request instanceof TLRPC.TL_upload_getCdnFile) {
                         if (error.text.equals("FILE_TOKEN_INVALID")) {
                             isCdn = false;
-                            clearOperaion(requestInfo, false);
+                            clearOperation(requestInfo, false, false);
                             startDownloadRequest(connectionType);
                             return;
                         }
@@ -2388,6 +2484,9 @@ public class FileLoadOperation {
                         }
                     }
                     if (res.encryption_iv == null || res.encryption_key == null || res.encryption_iv.length != 16 || res.encryption_key.length != 32) {
+                        if (requestInfo.whenCancelled != null) {
+                            requestInfo.whenCancelled.run();
+                        }
                         error = new TLRPC.TL_error();
                         error.text = "bad redirect response";
                         error.code = 400;
@@ -2402,12 +2501,12 @@ public class FileLoadOperation {
                         cdnIv = res.encryption_iv;
                         cdnKey = res.encryption_key;
                         cdnToken = res.file_token;
-                        clearOperaion(requestInfo, false);
+                        clearOperation(requestInfo, false, false);
                         startDownloadRequest(connectionType);
                     }
                 } else if (response instanceof TLRPC.TL_upload_cdnFileReuploadNeeded) {
                     if (!reuploadingCdn) {
-                        clearOperaion(requestInfo, false);
+                        clearOperation(requestInfo, false, false);
                         reuploadingCdn = true;
                         TLRPC.TL_upload_cdnFileReuploadNeeded res = (TLRPC.TL_upload_cdnFileReuploadNeeded) response;
                         TLRPC.TL_upload_reuploadCdnFile req = new TLRPC.TL_upload_reuploadCdnFile();
@@ -2430,7 +2529,7 @@ public class FileLoadOperation {
                             } else {
                                 if (error1.text.equals("FILE_TOKEN_INVALID") || error1.text.equals("REQUEST_TOKEN_INVALID")) {
                                     isCdn = false;
-                                    clearOperaion(requestInfo, false);
+                                    clearOperation(requestInfo, false, false);
                                     startDownloadRequest(connectionType);
                                 } else {
                                     onFail(false, 0);
@@ -2465,6 +2564,9 @@ public class FileLoadOperation {
                         }
                     }
                     processRequestResult(requestInfo, error);
+                    if (requestInfo.whenCancelled != null) {
+                        requestInfo.whenCancelled.run();
+                    }
                 }
             }, null, null, flags, datacenterId, connectionType, isLast);
             if (BuildVars.LOGS_ENABLED) {
