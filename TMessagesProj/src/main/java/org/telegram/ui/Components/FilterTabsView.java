@@ -1551,8 +1551,14 @@ public class FilterTabsView extends FrameLayout {
         invalidate();
         scrollToChild(position);
 
+        if (manualScrollingToPosition != currentPosition) {
+            if (progress > 0.7f) {
+                delegate.onTabSelected(tabs.get(position), currentPosition < position, true);
+            } else if (progress < 0.3f) {
+                delegate.onTabSelected(tabs.get(currentPosition), currentPosition > position, true);
+            }
+        }
         if (progress >= 1.0f) {
-            if (manualScrollingToPosition != currentPosition) delegate.onTabSelected(tabs.get(position), currentPosition < position, true);
             manualScrollingToPosition = -1;
             manualScrollingToId = -1;
             currentPosition = position;

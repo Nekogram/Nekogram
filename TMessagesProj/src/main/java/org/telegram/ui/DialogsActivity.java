@@ -3533,6 +3533,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
 
                 private int lastTitleType = NekoConfig.tabsTitleType;
+                private int selectedTabId = -1;
 
                 @Override
                 public void onTabSelected(FilterTabsView.Tab tab, boolean forward, boolean animated) {
@@ -3543,7 +3544,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         }
                         return;
                     }
-                    if (!selectedDialogs.isEmpty()) {
+                    if (!selectedDialogs.isEmpty() || tab.id == selectedTabId) {
                         return;
                     }
                     if (animated) {
@@ -3551,6 +3552,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     } else {
                         actionBar.setTitle(tab.isDefault ? actionBarDefaultTitle : tab.realTitle, tab.isDefault ? statusDrawable : null);
                     }
+                    selectedTabId = tab.id;
                 }
             });
         }
