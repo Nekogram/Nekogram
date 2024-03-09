@@ -1102,7 +1102,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 logCell.setOnClickListener(v -> presentFragment(new ChannelAdminLogActivity(currentChat)));
             }
 
-            if (ChatObject.isBoostSupported(currentChat)) {
+            if (ChatObject.isBoostSupported(currentChat) && ChatObject.hasAdminRights(currentChat)) {
                 statsAndBoosts = new TextCell(context);
                 statsAndBoosts.setTextAndIcon(LocaleController.getString("StatisticsAndBoosts", R.string.StatisticsAndBoosts), R.drawable.msg_stats, true);
                 statsAndBoosts.setBackground(Theme.getSelectorDrawable(false));
