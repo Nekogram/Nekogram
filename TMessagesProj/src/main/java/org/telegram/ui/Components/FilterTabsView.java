@@ -151,12 +151,11 @@ public class FilterTabsView extends FrameLayout {
         }
 
         public boolean setTitle(String newTitle) {
-            newTitle = NekoConfig.tabsTitleType != NekoConfig.TITLE_TYPE_ICON ? newTitle : "";
             realTitle = newTitle;
-            if (TextUtils.equals(title, newTitle)) {
+            if (TextUtils.equals(realTitle, newTitle)) {
                 return false;
             }
-            title = newTitle;
+            title = NekoConfig.tabsTitleType != NekoConfig.TITLE_TYPE_ICON ? newTitle : "";
             return true;
         }
     }
