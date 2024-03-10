@@ -17,6 +17,10 @@
     <string name="NameOrder">Orden de nombres</string>
     <string name="FirstLast">Nombre Apellido</string>
     <string name="LastFirst">Apellido Nombre</string>
+    <string name="NoQuoteForward">Reenviar sin remitente</string>
+    <string name="NoCaptionForward">Reenviar sin texto</string>
+    <string name="NoQuoteForwardShort">Sin remitente</string>
+    <string name="NoCaptionForwardShort">Sin texto</string>
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Guardar mensaje</string>
     <string name="CreateMention">Crear mención</string>
