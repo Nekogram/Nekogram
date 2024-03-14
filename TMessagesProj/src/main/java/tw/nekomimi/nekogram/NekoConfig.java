@@ -140,7 +140,6 @@ public class NekoConfig {
     public static boolean residentNotification = false;
 
     public static boolean shouldNOTTrustMe = false;
-    public static boolean blockSponsoredMessage = false;
 
     public static boolean isChineseUser = false;
 
@@ -199,7 +198,6 @@ public class NekoConfig {
             confirmAVMessage = preferences.getBoolean("confirmAVMessage", false);
             askBeforeCall = preferences.getBoolean("askBeforeCall", true);
             shouldNOTTrustMe = preferences.getBoolean("shouldNOTTrustMe", false);
-            blockSponsoredMessage = preferences.getBoolean("blockSponsoredMessage", false);
             disableNumberRounding = preferences.getBoolean("disableNumberRounding", false);
             disableAppBarShadow = preferences.getBoolean("disableAppBarShadow", false);
             mediaPreview = preferences.getBoolean("mediaPreview", true);
@@ -874,8 +872,7 @@ public class NekoConfig {
     public static void processBotEvents(String eventType, String eventData, Utilities.Callback<JSONObject> setConfig) throws JSONException {
         if (eventType.equals("neko_get_config")) {
             setConfig.run(new JSONObject()
-                    .put("trust", !shouldNOTTrustMe)
-                    .put("ad_blocker", blockSponsoredMessage));
+                    .put("trust", !shouldNOTTrustMe));
         } else if (eventType.equals("neko_set_config")) {
             JSONObject jsonObject = new JSONObject(eventData);
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
@@ -884,10 +881,6 @@ public class NekoConfig {
                 case "trust":
                     shouldNOTTrustMe = !jsonObject.getBoolean("value");
                     editor.putBoolean("shouldNOTTrustMe", shouldNOTTrustMe);
-                    break;
-                case "ad_blocker":
-                    blockSponsoredMessage = jsonObject.getBoolean("value");
-                    editor.putBoolean("blockSponsoredMessage", blockSponsoredMessage);
                     break;
             }
             editor.apply();
