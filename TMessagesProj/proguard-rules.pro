@@ -102,15 +102,15 @@
 -keep class org.telegram.SQLite.SQLiteException { <methods>; }
 -keep class org.telegram.tgnet.ConnectionsManager { <methods>; }
 -keep class org.telegram.tgnet.NativeByteBuffer { <methods>; }
--keep class org.telegram.tgnet.TLRPC* { *; }
--keepclassmembernames,allowshrinking,allowoptimization class org.telegram.ui.* { <fields>; }
--keepclassmembernames,allowshrinking,allowoptimization class org.telegram.ui.Cells.* { <fields>; }
--keepclassmembernames,allowshrinking,allowoptimization class org.telegram.ui.Components.* { <fields>; }
+-keepnames class org.telegram.tgnet.** extends org.telegram.tgnet.TLObject
+-keepclassmembernames,allowshrinking class org.telegram.ui.* { <fields>; }
+-keepclassmembernames,allowshrinking class org.telegram.ui.Cells.* { <fields>; }
+-keepclassmembernames,allowshrinking class org.telegram.ui.Components.* { <fields>; }
 -keep class org.telegram.ui.Components.RLottieDrawable$LottieMetadata { <fields>; }
--keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.MessageDetailsActivity$TextDetailSimpleCell { <fields>; }
--keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.settings.AccountCell { <fields>; }
--keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.settings.EmojiSetCell { <fields>; }
--keepclassmembernames,allowshrinking,allowoptimization class tw.nekomimi.nekogram.settings.NekoChatSettingsActivity$StickerSizeCell { <fields>; }
+-keepclassmembernames,allowshrinking class tw.nekomimi.nekogram.MessageDetailsActivity$TextDetailSimpleCell { <fields>; }
+-keepclassmembernames,allowshrinking class tw.nekomimi.nekogram.settings.AccountCell { <fields>; }
+-keepclassmembernames,allowshrinking class tw.nekomimi.nekogram.settings.EmojiSetCell { <fields>; }
+-keepclassmembernames,allowshrinking class tw.nekomimi.nekogram.settings.NekoChatSettingsActivity$StickerSizeCell { <fields>; }
 
 -keepclassmembernames class androidx.core.widget.NestedScrollView {
     private android.widget.OverScroller mScroller;
@@ -147,7 +147,6 @@
 
 -repackageclasses
 -allowaccessmodification
--overloadaggressively
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 -dontoptimize
