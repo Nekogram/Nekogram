@@ -1023,8 +1023,8 @@ public class ConnectionsManager extends BaseController {
                     }
                 }
             }
-            if (NekoConfig.useIPv6 && hasIpv6) {
-                if (forceTryIpV6) {
+            if (hasIpv6) {
+                if (NekoConfig.preferIPv6 || forceTryIpV6) {
                     return USE_IPV6_ONLY;
                 }
                 if (hasStrangeIpv4) {

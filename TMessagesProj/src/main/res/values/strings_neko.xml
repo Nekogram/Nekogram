@@ -4,7 +4,7 @@
     <string name="Nekogram" translatable="false">Nekogram</string>
     <string name="NekogramBeta" translatable="false">Nekogram Beta</string>
     <string name="NekoSettings">Neko Settings</string>
-    <string name="IPv6">Try connecting through IPv6</string>
+    <string name="PreferIPv6">Prefer connecting through IPv6</string>
     <string name="MessageMenu">Message menu</string>
     <string name="HidePhone">Hide my phone number</string>
     <string name="DeleteAllFromSelf">Delete own messages</string>

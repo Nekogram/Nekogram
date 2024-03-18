@@ -62,7 +62,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         if (position == ipv6Row) {
             NekoConfig.toggleIPv6();
             if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.useIPv6);
+                ((TextCheckCell) view).setChecked(NekoConfig.preferIPv6);
             }
             for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
                 if (UserConfig.getInstance(a).isClientActivated()) {
@@ -368,7 +368,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
                     if (position == ipv6Row) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.IPv6), NekoConfig.useIPv6, false);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.PreferIPv6), NekoConfig.preferIPv6, false);
                     } else if (position == disabledInstantCameraRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.DisableInstantCamera), NekoConfig.disableInstantCamera, true);
                     } else if (position == openArchiveOnPullRow) {

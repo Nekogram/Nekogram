@@ -62,7 +62,7 @@ public class NekoConfig {
     public static final int BOOST_EXTREME = 2;
 
     private static final Object sync = new Object();
-    public static boolean useIPv6 = false;
+    public static boolean preferIPv6 = false;
 
     public static boolean useSystemEmoji = false;
     public static boolean ignoreBlocked = false;
@@ -168,7 +168,7 @@ public class NekoConfig {
             isChineseUser = ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isChineseUser);
 
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-            useIPv6 = preferences.getBoolean("useIPv6", false);
+            preferIPv6 = preferences.getBoolean("preferIPv6", false);
             hidePhone = preferences.getBoolean("hidePhone", true);
             ignoreBlocked = preferences.getBoolean("ignoreBlocked2", false);
             tabletMode = preferences.getInt("tabletMode", TABLET_AUTO);
@@ -524,10 +524,10 @@ public class NekoConfig {
     }
 
     public static void toggleIPv6() {
-        useIPv6 = !useIPv6;
+        preferIPv6 = !preferIPv6;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("useIPv6", useIPv6);
+        editor.putBoolean("preferIPv6", preferIPv6);
         editor.apply();
     }
 
