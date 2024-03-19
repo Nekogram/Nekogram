@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Настройки Neko</string>
-    <string name="IPv6">Încercați conectarea prin IPv6</string>
     <string name="MessageMenu">Meniu mesaj</string>
     <string name="HidePhone">Ascunde numărul de telefon</string>
     <string name="DeleteAllFromSelf">Șterge mesajele proprii</string>
     <string name="DeleteAllFromSelfAlert">Atenție! Acest lucru va **șterge toate mesajele de la tine** în acest chat pentru **toți** participanții.</string>
     <string name="DeleteAllFromSelfAlertBefore">Предупреждение! Это приведет к **удалению всех сообщений от вас %s** в этом чате для **всех** участников.</string>
     <string name="DeleteAllFromSelfBefore">До...</string>
-    <string name="BotLogin">Logare Bot</string>
-    <string name="BotLoginMessage">Introduceți token-ul bot obținut de la **@BotFather**.</string>
-    <string name="InvalidAccessToken">Cod de acces invalid</string>
     <string name="IgnoreBlocked">Скрывать сообщения блок. пользователя</string>
     <string name="Connection">Conexiune</string>
     <string name="Chat">Conversație</string>
@@ -25,12 +21,10 @@
     <string name="AddToSavedMessages">Salvează mesaj</string>
     <string name="CreateMention">Creează mențiune</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Bară de stare transparentă</string>
     <string name="EnableResidentNotification">Afișează o notificare rezidentă</string>
     <string name="DisableResidentNotification">Dezactivează notificarea rezidentă</string>
     <string name="NekogramRunning">Nekogram rulează</string>
     <string name="EventType">Set pictograme bară laterală</string>
-    <string name="ChristmasHat">Arată pălăria de Crăciun zilnic</string>
     <string name="DependsOnDate">În funcție de dată</string>
     <string name="Christmas">Crăciun</string>
     <string name="Valentine">Ziua Îndrăgostiților</string>
@@ -39,8 +33,6 @@
     <string name="TestBackendOff">Acest cont se va conecta la sistemul backend de producție.</string>
     <string name="ViewHistory">Vizualizare istoric</string>
     <string name="Nya">Meow!</string>
-    <string name="SensitiveDisableFiltering">Dezactivează filtrarea conținutului sensibil</string>
-    <string name="SensitiveAbout">Afișează fișierele media sensibile în canalele publice pe toate dispozitivele tale.</string>
     <string name="StickerSize">Dimensiune sticker</string>
     <string name="StickerSizeLeft">Mic</string>
     <string name="StickerSizeRight">Mare</string>
@@ -55,11 +47,8 @@
     <string name="TranslateApiUnsupported">Furnizorul de traduceri selectat nu acceptă limba dvs.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Anulați traducere</string>
-    <string name="DisablePhotoViewerSideAction">Dezactivați rotirea fotografiilor prin apăsare</string>
-    <string name="BotToken">Cod</string>
     <string name="OpenArchiveOnPull">Deschideți arhiva la tragere</string>
     <string name="HideKeyboardOnChatScroll">Ascundeți tastatura pe derularea conversațiilor</string>
-    <string name="ShowTabsOnForward">Afișați filele pe înainte</string>
     <string name="CheckAllAdministrated">Adăugați administrator</string>
     <string name="RearVideoMessages">Camera din spate în mesajele video</string>
     <string name="HideAllTab">Ascundeți fila \"Toate Conversațiile\"</string>
@@ -127,12 +116,8 @@
     <string name="RegistrationDateNewer">Mai nou decât %s</string>
     <string name="RegistrationDateOlder">Старше, чем %s</string>
     <string name="RegistrationDateApproximately">Aproximativ %s</string>
-    <string name="WsDescription">Conectează-te la Telegram prin WebSocket prin Cloudflare. **Află mai multe**</string>
     <string name="WsEnableTls">Activați TLS</string>
     <string name="WsProvider">Furnizor</string>
-    <string name="WsNotWorking">Proxy-ul nu funcționează!</string>
-    <string name="WsUseMyOwnDomain">Cum să configurezi un furnizor personalizat</string>
-    <string name="WsStandaloneApp">Utilizați proxy-ul in alte aplicații</string>
     <string name="UpdateNekogram">Actualizați Nekogram</string>
     <string name="TranslationTarget">Limbă țintă</string>
     <string name="TranslationTargetApp">Urmăriți aplicația</string>
@@ -159,7 +144,6 @@
     <string name="OfficialSite">Site oficial</string>
     <string name="MutualContact">Contacte în comun</string>
     <string name="MutualContactDescription">Acest contact este un contact comun.</string>
-    <string name="NoUpdateAvailable">Обновлений нет.</string>
     <string name="InviteTextNeko">Эй, Я использую Nekogram. присоединяйся! Скачай его здесь: %1$s</string>
     <string name="ShareNekogram">Поделиться Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBazat pe Telegram %2$s\nProiectat de %3$s</string>
@@ -184,13 +168,11 @@
     <string name="SaveToDownloadCount_few">Se salvează %1$d fișiere in descărcări</string>
     <string name="SaveToDownloadCount_many">Se salvează %1$d fișiere in descărcări</string>
     <string name="SaveToDownloadCount_other">Se salvează %1$d fișiere in descărcări</string>
-    <string name="ThemesChannel">Canal pentru teme</string>
     <string name="AppLinkNotVerifiedMessage">Pentru Android 12 și versiunile mai noi, trebuie să adăugați manual link-ul la linkurile verificate pentru a deschide linkurile de tip \"t.me\" în Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Link-urile aplicației nu sunt verificate</string>
     <string name="AutoTranslate">Traducere automată</string>
     <string name="AutoTranslateAbout">Traduceți automat mesajele în altă limbă.</string>
     <string name="DoubleTapAction">Действие двойным касанием</string>
-    <string name="BlockedUserIgnored">заблокированный</string>
     <string name="EditUndo">Отменить</string>
     <string name="EditRedo">Переделывать</string>
     <string name="EditEnableMarkdown">Включить форматирование Markdown</string>
@@ -208,10 +190,7 @@
     <string name="ProviderYouDaoTranslate">Traducător YouDao</string>
     <string name="ProviderBaiduTranslate">Traducător Baidu</string>
     <string name="ProviderSogouTranslate">Не переводить текст</string>
-    <string name="Translating">перевод</string>
     <string name="Translated">переведено</string>
-    <string name="BrokenMLKit">Опция недоступна</string>
-    <string name="BrokenMLKitDetail">Identificatorul de limbă MLKit este defect pe acest dispozitiv.</string>
     <string name="PasscodeNeeded">Mai întâi trebuie să activați blocarea codului de acces</string>
     <string name="PasscodeNeko">Пароль</string>
     <string name="PasscodeShowInSettings">Открыть в настройках Neko</string>
@@ -255,7 +234,6 @@
     <string name="DownloadSpeedBoostNone">Dezactivat</string>
     <string name="DownloadSpeedBoostAverage">Activat</string>
     <string name="DownloadSpeedBoostExtreme">Extrem</string>
-    <string name="UploadloadSpeedBoost">Creșterea vitezei de încărcare</string>
     <string name="NoUpdateAvailablePlay">Vă rugăm să verificați dacă există actualizări în Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">Actualizarea în Play Store vine, de obicei, mai lent decât APK-urile directe din cauza revizuirii Google.</string>
     <string name="DownloadEmojiSet">Descărcați %s</string>

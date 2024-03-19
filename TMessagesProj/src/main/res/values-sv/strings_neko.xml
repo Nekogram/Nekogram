@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Neko-inställningar</string>
-    <string name="IPv6">Försök ansluta via IPv6</string>
     <string name="MessageMenu">Meddelandemeny</string>
     <string name="HidePhone">Dölj mitt telefonnummer</string>
     <string name="DeleteAllFromSelf">Radera egna meddelanden</string>
     <string name="DeleteAllFromSelfAlert">Varning! Detta tar **bort alla meddelanden från dig** i den här chatten för **alla** deltagare.</string>
-    <string name="BotLogin">Botinloggning</string>
-    <string name="InvalidAccessToken">Ogiltig åtkomsttoken</string>
     <string name="IgnoreBlocked">Dölj meddelanden från blockerade användare</string>
     <string name="Connection">Anslutning</string>
     <string name="Chat">Chatt</string>
@@ -18,12 +15,10 @@
     <string name="AddToSavedMessages">Spara meddelande</string>
     <string name="CreateMention">Skapa omnämning</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Genomskinligt statusfält</string>
     <string name="EnableResidentNotification">Visa en inhemsk notifikation</string>
     <string name="DisableResidentNotification">Inaktivera inhemska notifikationer</string>
     <string name="NekogramRunning">Nekogram är igång</string>
     <string name="EventType">Ikonuppsättning för sidofält</string>
-    <string name="ChristmasHat">Visa tomteluva varje dag</string>
     <string name="DependsOnDate">Beror på datum</string>
     <string name="Christmas">Jul</string>
     <string name="Valentine">Alla hjärtans dag</string>
@@ -32,8 +27,6 @@
     <string name="TestBackendOff">Detta konto kommer att ansluta till produktionsbackend.</string>
     <string name="ViewHistory">Visa historik</string>
     <string name="Nya">Mjau!</string>
-    <string name="SensitiveDisableFiltering">Avaktivera filtrering av känsligt innehåll</string>
-    <string name="SensitiveAbout">Visa känsliga media i offentliga kanaler på alla dina enheter.</string>
     <string name="StickerSize">Storlek på klistermärken</string>
     <string name="StickerSizeDialogMessage">Åh så söt! En svart katt!</string>
     <string name="StickerSizeDialogMessageReplyTo">Mjau</string>
@@ -46,11 +39,8 @@
     <string name="TranslateApiUnsupported">Översättningsleverantören du valde stödjer inte ditt språk.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Ångra översättning</string>
-    <string name="DisablePhotoViewerSideAction">Inaktivera \"Vänd foton genom att trycka\"</string>
-    <string name="BotToken">Token</string>
     <string name="OpenArchiveOnPull">Öppna arkiv vid neddragning</string>
     <string name="HideKeyboardOnChatScroll">Dölj tangentbord vid chatt scrollning</string>
-    <string name="ShowTabsOnForward">Visa flikar vid vidarebefordring</string>
     <string name="CheckAllAdministrated">Lägg till administrerade</string>
     <string name="RearVideoMessages">Bakre kameran i videomeddelanden</string>
     <string name="HideAllTab">Dölj fliken \"Alla chattar\"</string>
@@ -115,7 +105,6 @@
     <string name="SelectBetween">Välj mellan</string>
     <string name="StickerSavedHint">Klistermärke sparat i galleriet</string>
     <string name="RegistrationDate">Registreringsdatum</string>
-    <string name="WsDescription">Anslut till Telegram genom WebSocket via Cloudflare. **Läs mer**</string>
     <string name="WsEnableTls">Aktivera TLS</string>
     <string name="WsProvider">Leverantör</string>
     <string name="UpdateNekogram">Uppdatera Nekogram</string>
@@ -143,7 +132,6 @@
     <string name="OfficialSite">Officiell webbplats</string>
     <string name="MutualContact">Ömsesidig kontakt</string>
     <string name="MutualContactDescription">Denna kontakt är ömsesidig.</string>
-    <string name="NoUpdateAvailable">Ingen uppdatering tillgänglig.</string>
     <string name="InviteTextNeko">Hej, jag använder Nekogram för att chatta. Gå med! Ladda ner den här: %1$s</string>
     <string name="ShareNekogram">Dela Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBaserat på Telegram %2$s\nDesignad av %3$s</string>
@@ -167,13 +155,11 @@
     <string name="SaveToDownloadCount_few">Sparar %1$d filer till nedladdningar</string>
     <string name="SaveToDownloadCount_many">Sparar %1$d filer till nedladdningar</string>
     <string name="SaveToDownloadCount_other">Spara %1$d filer till nedladdningar</string>
-    <string name="ThemesChannel">Temakanal</string>
     <string name="AppLinkNotVerifiedMessage">För Android 12 och senare måste du manuellt lägga till länken till verifierade länkar för att öppna t.me-länkar i Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">App-länkar inte verifierade</string>
     <string name="AutoTranslate">Automatisk översättning</string>
     <string name="AutoTranslateAbout">Översätt automatiskt meddelanden som är på ett annat språk.</string>
     <string name="DoubleTapAction">Åtgärd vid dubbeltryck</string>
-    <string name="BlockedUserIgnored">blockerad</string>
     <string name="EditUndo">Ångra</string>
     <string name="EditRedo">Gör om</string>
     <string name="EditEnableMarkdown">Aktivera markdown-kod</string>
@@ -188,9 +174,7 @@
     <string name="ProviderYouDaoTranslate">YouDao Översättare</string>
     <string name="ProviderBaiduTranslate">Baidu Översätt</string>
     <string name="ProviderSogouTranslate">Sogou Översätt</string>
-    <string name="Translating">översätter</string>
     <string name="Translated">översatt</string>
-    <string name="BrokenMLKit">Alternativ ej tillgängligt</string>
     <string name="PasscodeNeeded">Du måste först aktivera lösenordslåset</string>
     <string name="PasscodeNeko">Lösenord</string>
     <string name="PasscodeShowInSettings">Visa i Neko-inställningar</string>

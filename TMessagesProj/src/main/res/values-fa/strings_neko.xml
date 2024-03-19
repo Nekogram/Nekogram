@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">تنظیمات نکوگرام</string>
-    <string name="IPv6">تلاش برای برقراری اتصال از طریق IPv6</string>
     <string name="MessageMenu">منوی پیام</string>
     <string name="HidePhone">شماره تلفن من را پنهان کن</string>
     <string name="DeleteAllFromSelf">حذف پیام های خود</string>
     <string name="DeleteAllFromSelfAlert">هشدار! با این کار **همه پیام های شما** در این چت برای **همه** شرکت کنندگان حذف می شود.</string>
     <string name="DeleteAllFromSelfAlertBefore">هشدار! این کار ** همه پیام‌های شما را قبل از %s** در این گپ برای **همه** شرکت‌کنندگان حذف می‌کند.</string>
     <string name="DeleteAllFromSelfBefore">قبل از...</string>
-    <string name="BotLogin">ورود از طریق روبات</string>
-    <string name="BotLoginMessage">توکن دریافت شده توسط **@BotFather** را وارد کنید.</string>
-    <string name="InvalidAccessToken">توکن دسترسی نامعتبر</string>
     <string name="IgnoreBlocked">پنهان‌سازی پیام‌های کاربر مسدود شده</string>
-    <string name="Connection">اتصال</string>
+    <string name="Connection">ارتباط</string>
     <string name="Chat">گفتگو</string>
     <string name="NameOrder">ترتیب نام</string>
     <string name="FirstLast">نام و نام خانوادگی</string>
@@ -25,12 +21,10 @@
     <string name="AddToSavedMessages">ذخیره پیام</string>
     <string name="CreateMention">ایجاد منشن</string>
     <string name="Prpr">پروپرو</string>
-    <string name="TransparentStatusBar">نوار وضعیت شفاف</string>
     <string name="EnableResidentNotification">نمایش یک اعلان ساکن</string>
     <string name="DisableResidentNotification">اعلان ساکن را غیرفعال کنید</string>
     <string name="NekogramRunning">نکوگرام در حال اجراعه</string>
     <string name="EventType">مجموعه آیکون نوار کناری</string>
-    <string name="ChristmasHat">نمایش کلاه کریسمس هر روز</string>
     <string name="DependsOnDate">بستگی به تاریخ</string>
     <string name="Christmas">کریسمس</string>
     <string name="Valentine">روز ولنتاین</string>
@@ -39,8 +33,6 @@
     <string name="TestBackendOff">این حساب به باطن تولید متصل می شود.</string>
     <string name="ViewHistory">مشاهده تاریخچه</string>
     <string name="Nya">میو!</string>
-    <string name="SensitiveDisableFiltering">غیرفعال کردن فیلتر محتوای حساس</string>
-    <string name="SensitiveAbout">رسانه های حساس را در کانال های عمومی در همه دستگاه های خود نمایش دهید.</string>
     <string name="StickerSize">اندازه استیکر</string>
     <string name="StickerSizeLeft">کوچک</string>
     <string name="StickerSizeRight">بزرگ</string>
@@ -48,18 +40,15 @@
     <string name="StickerSizeDialogMessageReplyTo">میو</string>
     <string name="Experiment">آزمایشی</string>
     <string name="MessageDetails">جزئیات</string>
-    <string name="DeleteAccount">حذف اکانت تلگرام</string>
+    <string name="DeleteAccount">حذف حساب کاربری تلگرام</string>
     <string name="TranslateFailed">خطای سرور در هنگام ترجمه</string>
     <string name="TranslationProvider">ارائه دهنده ترجمه</string>
     <string name="ProviderGoogleTranslate">مترجم گوگل</string>
     <string name="TranslateApiUnsupported">مترجمی که انتخاب کرده اید از زبان شما پشتیبانی نمی کند.</string>
     <string name="ProviderLingocloud">لینگوکلود</string>
     <string name="UndoTranslate">لغو ترجمه</string>
-    <string name="DisablePhotoViewerSideAction">غیرفعال کردن «برگرداندن عکس‌ها با ضربه زدن»</string>
-    <string name="BotToken">توکن</string>
     <string name="OpenArchiveOnPull">باز کردن بایگانی در حالت کشیدن</string>
     <string name="HideKeyboardOnChatScroll">پنهان کردن صفحه کلید در اسکرول چت</string>
-    <string name="ShowTabsOnForward">نمایش برگه ها در جلو</string>
     <string name="CheckAllAdministrated">اضافه کردن administrated</string>
     <string name="RearVideoMessages">استفاده از دوربین اصلی در پیام های ویدیویی</string>
     <string name="HideAllTab">تب \"همه چت ها\" را پنهان کنید</string>
@@ -127,12 +116,8 @@
     <string name="RegistrationDateNewer">جدیدتر از %s</string>
     <string name="RegistrationDateOlder">قدیمی تر از %s</string>
     <string name="RegistrationDateApproximately">تقریبا %s</string>
-    <string name="WsDescription">اتصال به تلگرام از طریق WebSocket از طریق Cloudflare. در این مورد بیشتر بیاید</string>
     <string name="WsEnableTls">فعال کردن TLS</string>
     <string name="WsProvider">ارائه دهنده</string>
-    <string name="WsNotWorking">پروکسی کار نمی کند!</string>
-    <string name="WsUseMyOwnDomain">چگونه یک ارائه دهنده سفارشی را راه‌اندازی کنیم</string>
-    <string name="WsStandaloneApp">استفاده از پروکسی در برنامه های دیگر</string>
     <string name="UpdateNekogram">بروز رسانی نکوگرام</string>
     <string name="TranslationTarget">زبان مقصد</string>
     <string name="TranslationTargetApp">مانند برنامه</string>
@@ -158,7 +143,6 @@
     <string name="OfficialSite">سایت رسمی</string>
     <string name="MutualContact">مخاطب دو طرفه</string>
     <string name="MutualContactDescription">این مخاطب یک مخاطب دو طرفه است.</string>
-    <string name="NoUpdateAvailable">هیچ بروز رسانی در دسترس نیست.</string>
     <string name="InviteTextNeko">سلام، من از Nekogram برای چت استفاده می کنم. به من ملحق شو! Nekogram را از اینجا دانلود کن: %1$s</string>
     <string name="ShareNekogram">اشتراکگذاری نکوگرام...</string>
     <string name="NekogramVersion">نکوگرام %1$s\nبر اساس تلگرام %2$s\nطراحی شده %3$s</string>
@@ -183,13 +167,11 @@
     <string name="SaveToDownloadCount_few">در حال ذخیره %1$d فایل در دانلودها</string>
     <string name="SaveToDownloadCount_many">در حال ذخیره %1$d فایل در دانلودها</string>
     <string name="SaveToDownloadCount_other">در حال ذخیره %1$d فایل در دانلودها</string>
-    <string name="ThemesChannel">کانال تم ها</string>
     <string name="AppLinkNotVerifiedMessage">برای اندروید 12 و جدیدتر، برای باز کردن پیوندهای t.me در نکوگرام، باید به صورت دستی پیوند را به پیوندهای تأیید شده اضافه کنید.</string>
     <string name="AppLinkNotVerifiedTitle">پیوندهای برنامه تأیید نشده است</string>
     <string name="AutoTranslate">ترجمه خودکار</string>
     <string name="AutoTranslateAbout">ترجمه خودکار پیام هایی که به زبان دیگری هستند.</string>
     <string name="DoubleTapAction">عملکرد دو ضربه ای</string>
-    <string name="BlockedUserIgnored">مسدود شده</string>
     <string name="EditUndo">واگرد</string>
     <string name="EditRedo">انجام دوباره</string>
     <string name="EditEnableMarkdown">فعال کردن علامت گذاری</string>
@@ -207,10 +189,7 @@
     <string name="ProviderYouDaoTranslate">مترجم YouDao</string>
     <string name="ProviderBaiduTranslate">مترجم Baidu</string>
     <string name="ProviderSogouTranslate">مترجم Sogou</string>
-    <string name="Translating">درحال ترجمه</string>
     <string name="Translated">ترجمه شده</string>
-    <string name="BrokenMLKit">گزینه وجود ندارد</string>
-    <string name="BrokenMLKitDetail">شناسه زبان MLKit در این دستگاه شکسته شده است.</string>
     <string name="PasscodeNeeded">ابتدا رمز عبور را فعال کنید</string>
     <string name="PasscodeNeko">رمز عبور</string>
     <string name="PasscodeShowInSettings">نمایش در تنظیمات نکو</string>
@@ -254,7 +233,6 @@
     <string name="DownloadSpeedBoostNone">خاموش</string>
     <string name="DownloadSpeedBoostAverage">روشن</string>
     <string name="DownloadSpeedBoostExtreme">فوق‌العاده</string>
-    <string name="UploadloadSpeedBoost">افزایش سرعت آپلود</string>
     <string name="NoUpdateAvailablePlay">لطفاً به‌روزرسانی را در فروشگاه Play بررسی کنید.</string>
     <string name="NoUpdateAvailablePlayDelay">به‌روزرسانی در فروشگاه Play معمولاً به دلیل بررسی Google، دیرتر از فایل های APK مستقیم انجام می‌شود.</string>
     <string name="DownloadEmojiSet">دانلود %s</string>
@@ -289,7 +267,6 @@
     <string name="NavigationAnimation">انیمیشن ناوبری</string>
     <string name="NavigationAnimationBezier">کلاسیک</string>
     <string name="NavigationAnimationSpring">عادی</string>
-    <string name="NavigationAnimationCrossfading">افکت متقاطع</string>
     <string name="CloudConfig">تنظیمات ابری</string>
     <string name="CloudConfigDesc">تنظیمات Neko خود را در ابر تلگرام ذخیره کنید.</string>
     <string name="CloudConfigSyncDate">آخرین همگام سازی: %s، ابر: %s</string>

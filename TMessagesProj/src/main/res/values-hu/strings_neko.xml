@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Beállítások</string>
-    <string name="IPv6">Próbáljon meg, IPv6-on keresztül csatlakozni</string>
+    <string name="PreferIPv6">IPv6-on keresztül történő csatlakozás előnyben részesítése</string>
     <string name="MessageMenu">Üzenet menü</string>
     <string name="HidePhone">Saját telefonszám elrejtése</string>
     <string name="DeleteAllFromSelf">Saját üzenetek törlése</string>
     <string name="DeleteAllFromSelfAlert">Figyelem! Ez **törölni fogja az összes üzenetedet** ebben a csevegésben **minden** résztvevő számára.</string>
     <string name="DeleteAllFromSelfAlertBefore">Figyelem! Ez a **törli az összes üzenetedet, mielőtt %s** ebben a csevegésben **minden** résztvevő számára.</string>
     <string name="DeleteAllFromSelfBefore">Mielőtt...</string>
-    <string name="BotLogin">Bot Login</string>
-    <string name="BotLoginMessage">Adja meg a bot tokent amit a **@BotFather** adott.</string>
-    <string name="InvalidAccessToken">Érvénytelen hozzáférési token</string>
     <string name="IgnoreBlocked">Blokkolt felhasználó üzeneteinek elrejtése</string>
     <string name="Connection">Kapcsolat</string>
     <string name="Chat">Chat</string>
@@ -25,12 +22,10 @@
     <string name="AddToSavedMessages">Üzenet mentése</string>
     <string name="CreateMention">Említés létrehozása</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Átlátszó állapotsor</string>
     <string name="EnableResidentNotification">Rezidens értesítés megjelenítése</string>
     <string name="DisableResidentNotification">Lakossági értesítés letiltása</string>
     <string name="NekogramRunning">Nekogram fut</string>
     <string name="EventType">Oldalsáv ikonkészlet</string>
-    <string name="ChristmasHat">A karácsonyi sapka mutatása, mindennap</string>
     <string name="DependsOnDate">Dátumtól függ</string>
     <string name="Christmas">Karácsony</string>
     <string name="Valentine">Valentin-nap</string>
@@ -39,8 +34,6 @@
     <string name="TestBackendOff">Ez a fiók csatlakozni fog az éles háttérrendszerhez.</string>
     <string name="ViewHistory">Előzmények megtekintése</string>
     <string name="Nya">Miau!</string>
-    <string name="SensitiveDisableFiltering">Érzékeny tartalom szűrésének kikapcsolása</string>
-    <string name="SensitiveAbout">Mutassa meg az érzékeny médiát nyilvános csatornákon az összes eszközén.</string>
     <string name="StickerSize">Matrica mérete</string>
     <string name="StickerSizeLeft">Kicsi</string>
     <string name="StickerSizeRight">Nagy</string>
@@ -55,11 +48,8 @@
     <string name="TranslateApiUnsupported">A kiválasztott fordítási szolgáltató nem támogatja az Ön nyelvét.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Fordítás visszavonása</string>
-    <string name="DisablePhotoViewerSideAction">A \"Fényképek megfordítása koppintással\" kikapcsolása</string>
-    <string name="BotToken">Token</string>
     <string name="OpenArchiveOnPull">Archívum megnyitása a lehúzható menüben</string>
     <string name="HideKeyboardOnChatScroll">Billentyűzet elrejtése a chat görgetésénél</string>
-    <string name="ShowTabsOnForward">Lapok megjelenítése a továbbításnál</string>
     <string name="CheckAllAdministrated">Adminisztrált hozzáadása</string>
     <string name="RearVideoMessages">Hátsó kamera a videóüzenetekben</string>
     <string name="HideAllTab">\"Minden csevegés\" fül elrejtése</string>
@@ -127,12 +117,8 @@
     <string name="RegistrationDateNewer">Újabb, mint a %s</string>
     <string name="RegistrationDateOlder">Régebbi, mint a %s</string>
     <string name="RegistrationDateApproximately">Körülbelül %s</string>
-    <string name="WsDescription">Csatlakozás a Telegramhoz WebSocket segítségével a Cloudflare-en keresztül. **További információ**</string>
     <string name="WsEnableTls">TLS engedélyezése</string>
     <string name="WsProvider">Szolgáltató</string>
-    <string name="WsNotWorking">A proxy nem működik!</string>
-    <string name="WsUseMyOwnDomain">Egyéni szolgáltató beállítása</string>
-    <string name="WsStandaloneApp">Proxy használata más alkalmazásokban</string>
     <string name="UpdateNekogram">Nekogram frissítése</string>
     <string name="TranslationTarget">Célnyelv</string>
     <string name="TranslationTargetApp">Alkalmazás követése</string>
@@ -158,7 +144,6 @@
     <string name="OfficialSite">Hivatalos oldal</string>
     <string name="MutualContact">Kölcsönös kapcsolat</string>
     <string name="MutualContactDescription">Ez a kapcsolat kölcsönös kapcsolat.</string>
-    <string name="NoUpdateAvailable">Nincs frissítés.</string>
     <string name="InviteTextNeko">Szia, a Nekogramot használom a csevegéshez. Csatlakozz hozzám! Töltsd le itt: %1$s</string>
     <string name="ShareNekogram">Nekogram megosztása...</string>
     <string name="NekogramVersion">Nekogram %1$s\nTelegram alapján %2$s\nTervező %3$s</string>
@@ -183,13 +168,11 @@
     <string name="SaveToDownloadCount_few">A %1$d fájlok mentése a letöltésekhez</string>
     <string name="SaveToDownloadCount_many">A %1$d fájlok mentése a letöltésekhez</string>
     <string name="SaveToDownloadCount_other">A %1$d fájlok mentése a letöltésekhez</string>
-    <string name="ThemesChannel">Témák csatorna</string>
     <string name="AppLinkNotVerifiedMessage">Android 12 és újabb verziók esetén manuálisan kell hozzáadnia az ellenőrzött linkekre mutató hivatkozást, hogy a t.me linkeket meg tudja nyitni a Nekogramban.</string>
     <string name="AppLinkNotVerifiedTitle">Az alkalmazáshivatkozások nincsenek ellenőrizve</string>
     <string name="AutoTranslate">Automatikus fordítás</string>
     <string name="AutoTranslateAbout">Más nyelvű üzenetek automatikus fordítása.</string>
     <string name="DoubleTapAction">Dupla koppintás művelet</string>
-    <string name="BlockedUserIgnored">blokkolt</string>
     <string name="EditUndo">Visszavonás</string>
     <string name="EditRedo">Újra</string>
     <string name="EditEnableMarkdown">Markdown engedélyezése</string>
@@ -207,10 +190,7 @@
     <string name="ProviderYouDaoTranslate">YouDao fordító</string>
     <string name="ProviderBaiduTranslate">Baidu fordító</string>
     <string name="ProviderSogouTranslate">Sogou Fordító</string>
-    <string name="Translating">fordítás</string>
     <string name="Translated">lefordítva</string>
-    <string name="BrokenMLKit">Opció nem elérhető</string>
-    <string name="BrokenMLKitDetail">Az MLKit nyelvi azonosítója nem működik ezen az eszközön.</string>
     <string name="PasscodeNeeded">Először engedélyeznie kell a jelszó zárolását</string>
     <string name="PasscodeNeko">Jelszó</string>
     <string name="PasscodeShowInSettings">Megjelenítés a Neko beállításaiban</string>
@@ -254,7 +234,6 @@
     <string name="DownloadSpeedBoostNone">Ki</string>
     <string name="DownloadSpeedBoostAverage">Be</string>
     <string name="DownloadSpeedBoostExtreme">Extrém</string>
-    <string name="UploadloadSpeedBoost">A feltöltési sebesség növelése</string>
     <string name="NoUpdateAvailablePlay">Kérjük, ellenőrizze a frissítést a Play Áruházban.</string>
     <string name="NoUpdateAvailablePlayDelay">A Google felülvizsgálata miatt a Play Áruház frissítése általában lassabban érkezik, mint a közvetlen APK-k.</string>
     <string name="DownloadEmojiSet">Letöltés %s</string>
@@ -289,7 +268,6 @@
     <string name="NavigationAnimation">Navigációs animáció</string>
     <string name="NavigationAnimationBezier">Klasszikus</string>
     <string name="NavigationAnimationSpring">Természetes</string>
-    <string name="NavigationAnimationCrossfading">Crossfading hatás</string>
     <string name="CloudConfig">Felhő beállítások</string>
     <string name="CloudConfigDesc">A Neko beállításainak elmentése, a Telegram felhőbe.</string>
     <string name="CloudConfigSyncDate">Utoljára szinkronizálva: %s, felhő: %s</string>

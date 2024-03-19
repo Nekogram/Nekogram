@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Nastavení Neko</string>
-    <string name="IPv6">Спробуйте підключитися через ipv6</string>
     <string name="MessageMenu">Меню повідомлень</string>
     <string name="HidePhone">Приховати мій номер телефону</string>
     <string name="DeleteAllFromSelf">Видалити власні повідомлення</string>
     <string name="DeleteAllFromSelfAlert">Увага! Це ** видалить усі ваші повідомлення ** у цьому чаті для ** всіх ** учасників.</string>
     <string name="DeleteAllFromSelfAlertBefore">Pozor!** Tímto **smažete všechny zprávy, které jste předtím %s** v tomto chatu napsali všem **účastníkům.</string>
     <string name="DeleteAllFromSelfBefore">Před...</string>
-    <string name="BotLogin">Вхід у бот</string>
-    <string name="BotLoginMessage">Zadejte token bota získaný z **@BotFather**.</string>
-    <string name="InvalidAccessToken">Недійсний маркер доступу</string>
     <string name="IgnoreBlocked">Приховати повідомлення від заблокованих користувачів</string>
     <string name="Connection">Підключення</string>
     <string name="Chat">Чат</string>
@@ -21,12 +17,10 @@
     <string name="AddToSavedMessages">Зберегти повідомлення</string>
     <string name="CreateMention">Відредагувати коментар</string>
     <string name="Prpr">ПероПеро</string>
-    <string name="TransparentStatusBar">Прозорий рядок стану</string>
     <string name="EnableResidentNotification">Показати сповіщення мешканця</string>
     <string name="DisableResidentNotification">Вимкнути сповіщення мешканця</string>
     <string name="NekogramRunning">Некограм працює</string>
     <string name="EventType">Набір іконок бокової панелі</string>
-    <string name="ChristmasHat">Щодня показувати різдвяний капелюх</string>
     <string name="DependsOnDate">Залежить від дати</string>
     <string name="Christmas">Різдво</string>
     <string name="Valentine">День закоханих</string>
@@ -35,8 +29,6 @@
     <string name="TestBackendOff">Цей обліковий запис буде підключено до робочого сервера.</string>
     <string name="ViewHistory">Подивитись історію</string>
     <string name="Nya">Мяу!</string>
-    <string name="SensitiveDisableFiltering">Вимкнути фільтрацію шокуючого контенту</string>
-    <string name="SensitiveAbout">Показуйте конфіденційні медіа в загальнодоступних каналах на всіх ваших пристроях.</string>
     <string name="StickerSize">Розмір наліпки</string>
     <string name="StickerSizeLeft">Malá</string>
     <string name="StickerSizeRight">Velká</string>
@@ -51,11 +43,8 @@
     <string name="TranslateApiUnsupported">Постачальник перекладу який ви вибрали не підтримує вашу мову.</string>
     <string name="ProviderLingocloud">Жаргонна хмара</string>
     <string name="UndoTranslate">Скасувати переклад</string>
-    <string name="DisablePhotoViewerSideAction">Вимкнути «Поворот фото натиснувши»</string>
-    <string name="BotToken">Токен</string>
     <string name="OpenArchiveOnPull">Відкрийте архів у спадному меню</string>
     <string name="HideKeyboardOnChatScroll">Сховати клавіатуру при скроллінгу чата</string>
-    <string name="ShowTabsOnForward">Показати вкладки пересланих</string>
     <string name="CheckAllAdministrated">Додати адміністратора</string>
     <string name="RearVideoMessages">Фронтальна камера у відеоповідомленнях</string>
     <string name="HideAllTab">Приховати вкладку «Усі чати»</string>
@@ -123,12 +112,8 @@
     <string name="RegistrationDateNewer">Novější než %s</string>
     <string name="RegistrationDateOlder">Novější než %s</string>
     <string name="RegistrationDateApproximately">Přibližně %s</string>
-    <string name="WsDescription">Підключіться до Telegram через WebSocket через Cloudflare. **Вчи більше**</string>
     <string name="WsEnableTls">Увімкнути TLS</string>
     <string name="WsProvider">Провайдер</string>
-    <string name="WsNotWorking">Proxy nefunguje!</string>
-    <string name="WsUseMyOwnDomain">Jak nastavit vlastního poskytovatele</string>
-    <string name="WsStandaloneApp">Používat proxy v jiných aplikacích</string>
     <string name="UpdateNekogram">Оновити некограм</string>
     <string name="TranslationTarget">Цільова мова</string>
     <string name="TranslationTargetApp">Підписатись на програму</string>
@@ -154,7 +139,6 @@
     <string name="OfficialSite">Oficiální web stránky</string>
     <string name="MutualContact">Vzájemný kontakt</string>
     <string name="MutualContactDescription">Tento kontakt je vzájemný.</string>
-    <string name="NoUpdateAvailable">Update nebylo nalezeno.</string>
     <string name="InviteTextNeko">TextPozvánkyNeko</string>
     <string name="ShareNekogram">PodílNekoGram...</string>
     <string name="NekogramVersion">VerzeNekogram</string>
@@ -179,13 +163,11 @@
     <string name="SaveToDownloadCount_few">Ukládání %1$d souborů ke stažení</string>
     <string name="SaveToDownloadCount_many">Ukládání %1$d souborů ke stažení</string>
     <string name="SaveToDownloadCount_other">Ukládání %1$d souborů ke stažení</string>
-    <string name="ThemesChannel">Kanál motivů</string>
     <string name="AppLinkNotVerifiedMessage">Pro Android 12 a novější musíte ručně přidat odkaz na ověřené odkazy, abyste mohli otevřít odkazy t.me v Nekogramu.</string>
     <string name="AppLinkNotVerifiedTitle">Odkazy na aplikace nebyly ověřeny</string>
     <string name="AutoTranslate">Automatický překlad</string>
     <string name="AutoTranslateAbout">Automaticky překládat zprávy, které jsou v jiném jazyce.</string>
     <string name="DoubleTapAction">Akce dvojím poklepáním</string>
-    <string name="BlockedUserIgnored">blokováno</string>
     <string name="EditUndo">Zpět</string>
     <string name="EditRedo">Znovu</string>
     <string name="EditEnableMarkdown">Povolit značkování</string>

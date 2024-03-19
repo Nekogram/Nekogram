@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">إعدادات نيكو</string>
-    <string name="IPv6">مُحاولة الاتصال عبر IPv6</string>
     <string name="MessageMenu">اختيارات ضغطة الرسائل</string>
     <string name="HidePhone">إخفاء رقم هاتفي</string>
     <string name="DeleteAllFromSelf">حذف الرسائل الخاصة بي</string>
     <string name="DeleteAllFromSelfAlert">تحذير! سيؤدي هذا إلى **حذفَ جميع الرسائل منكَ** في هذه المحادثة لـ **جميع** المشاركين.</string>
     <string name="DeleteAllFromSelfAlertBefore">تحذير! سيؤدي هذا إلى حذف **جميع الرسائل منك قبل %s** في هذه المحادثة لـ **جميع المشاركين**.</string>
     <string name="DeleteAllFromSelfBefore">قبل...</string>
-    <string name="BotLogin">تسجيل الدخول کبوت</string>
-    <string name="BotLoginMessage">أدخل رمز البوت الذي تم الحصول عليه من **@BotFather**.</string>
-    <string name="InvalidAccessToken">مفتاح التوكن غيرُ صالح</string>
     <string name="IgnoreBlocked">إخفاء الرسائل من المستخدم المحظور</string>
     <string name="Connection">اتصال</string>
     <string name="Chat">مُحادثة</string>
@@ -25,12 +21,10 @@
     <string name="AddToSavedMessages">حفظُ الرسالة</string>
     <string name="CreateMention">صنع إشعار</string>
     <string name="Prpr">إعادة تدوير</string>
-    <string name="TransparentStatusBar">شريط الحالة الشفاف</string>
     <string name="EnableResidentNotification">إظهار إشعارٌ دائمُ</string>
     <string name="DisableResidentNotification">تعطيل الإشعارات</string>
     <string name="NekogramRunning">نيكوغرام قيدُ التشغيل</string>
     <string name="EventType">مجموعة أيقونات الشريط الجانبي</string>
-    <string name="ChristmasHat">إظهار قبعة عيد الميلاد يومياً</string>
     <string name="DependsOnDate">يعتمد علىٰ التاريخ</string>
     <string name="Christmas">عيدُ الميلاد</string>
     <string name="Valentine">عيد الحب</string>
@@ -39,8 +33,6 @@
     <string name="TestBackendOff">سيتصل هذا الحساب بالخوادم العادية.</string>
     <string name="ViewHistory">عرض الرسائل</string>
     <string name="Nya">مياو3:!</string>
-    <string name="SensitiveDisableFiltering">تعطيل حظر المحتويات الحساسة</string>
-    <string name="SensitiveAbout">عرض المحتويات الحساسة في القنوات العامة على جميع أجهزتك.</string>
     <string name="StickerSize">حجم الملصقات</string>
     <string name="StickerSizeLeft">ملصق صغير</string>
     <string name="StickerSizeRight">ملصق كبير</string>
@@ -55,11 +47,8 @@
     <string name="TranslateApiUnsupported">مّوفر الترجمة الذي اخترته لا يدعم لغتك.</string>
     <string name="ProviderLingocloud">مزود لغة السحابة</string>
     <string name="UndoTranslate">النص الأصلي</string>
-    <string name="DisablePhotoViewerSideAction">تعطيل الانتقال بين الصور عند الضغط على حواف الشاشة</string>
-    <string name="BotToken">رمز بوت</string>
     <string name="OpenArchiveOnPull">فتح الأرشيف عند السحب للأسفل</string>
     <string name="HideKeyboardOnChatScroll">إخفاء لوحة المفاتيح عند التمرير في المحادثة</string>
-    <string name="ShowTabsOnForward">إظهار التبويبات عند إعادة التوجيه</string>
     <string name="CheckAllAdministrated">إضافة ادارة</string>
     <string name="RearVideoMessages">افتح الكاميرا الخلفية افتراضيا في رسائل الفيديو</string>
     <string name="HideAllTab">إخفاء تبويب \"كل المحادثات\"</string>
@@ -102,7 +91,7 @@
     <string name="DonateThankYou">شكرا لك!</string>
     <string name="DonateEvilGoogle">سوف تأخذ جوجل ثلاثون بالمئة من تبرعك.</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
-    <string name="formatterDay12HSec">س:د‌د:ثث وh:mm:ss a</string>
+    <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">جعل الوقت مع الثواني</string>
     <string name="JumpToBeginning">الانتقال إلى البداية</string>
     <string name="ProviderDeepLTranslate">ترجمة الذكاء الاصطناعي</string>
@@ -128,12 +117,8 @@
     <string name="RegistrationDateNewer">أحدث من %s</string>
     <string name="RegistrationDateOlder">أقدم من %s</string>
     <string name="RegistrationDateApproximately">%s تقريبا</string>
-    <string name="WsDescription">اتصل بـ Telegram من خلال مقبس الويب عبر Cloudflare.  **يتعلم أكثر**</string>
     <string name="WsEnableTls">تمكين TLS</string>
     <string name="WsProvider">مزود الخدمة</string>
-    <string name="WsNotWorking">البروكسي لا يعمل!</string>
-    <string name="WsUseMyOwnDomain">كيفية إعداد مزود مخصص</string>
-    <string name="WsStandaloneApp">استخدام البروكسي في تطبيقات أخرى</string>
     <string name="UpdateNekogram">تحديث نيكوغرام</string>
     <string name="TranslationTarget">اللغة المراد الترجمة إليها</string>
     <string name="TranslationTargetApp">لغة التطبيق</string>
@@ -161,7 +146,6 @@
     <string name="OfficialSite">الموقع الرسمي</string>
     <string name="MutualContact">جهة اتصال مشتركة</string>
     <string name="MutualContactDescription">جهة الاتصال هذه هي جهة اتصال مشتركة.</string>
-    <string name="NoUpdateAvailable">لا تحديثات متاحة.</string>
     <string name="InviteTextNeko">مرحبا، أنا أستخدم نيكوغرام للمحادثة. انضم إليّ! قم بتنزيله هنا: %1$s</string>
     <string name="ShareNekogram">مشاركة نيكوغرام...</string>
     <string name="NekogramVersion">نيكوغرام %1$s\nمبنية على تيليجرام %2$s\nمصمم من قبل %3$s</string>
@@ -186,13 +170,11 @@
     <string name="SaveToDownloadCount_few">حفظ %1$d ملفات للتنزيلات</string>
     <string name="SaveToDownloadCount_many">حفظ %1$d ملفات للتنزيلات</string>
     <string name="SaveToDownloadCount_other">حفظ الملفات للتنزيلات</string>
-    <string name="ThemesChannel">قناة السمات</string>
     <string name="AppLinkNotVerifiedMessage">لنظام Android 12 والإصدارات الأحدث ، تحتاج إلى إضافة رابط يدويًا إلى الروابط التي تم التحقق منها لفتح روابط t.me في Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">لم يتم التحقق من روابط التطبيق</string>
     <string name="AutoTranslate">ترجمة تلقائية</string>
     <string name="AutoTranslateAbout">يمكنك ترجمة الرسائل المكتوبة بلغة أخرى تلقائيًا.</string>
     <string name="DoubleTapAction">انقر نقرًا مزدوجًا</string>
-    <string name="BlockedUserIgnored">تجاهل المستخدم المحظور</string>
     <string name="EditUndo">تراجع</string>
     <string name="EditRedo">إعادة</string>
     <string name="EditEnableMarkdown">تمكين وضع علامة</string>
@@ -210,10 +192,7 @@
     <string name="ProviderYouDaoTranslate">مترجم يودوا 🇨🇳</string>
     <string name="ProviderBaiduTranslate">تَرْجَمَة بادو</string>
     <string name="ProviderSogouTranslate">مترجم سجوي 🇨🇳</string>
-    <string name="Translating">جار التَّرْجَمَة</string>
     <string name="Translated">تمت التَّرْجَمَة</string>
-    <string name="BrokenMLKit">الخِيار غير متاح</string>
-    <string name="BrokenMLKitDetail">معرف لغة MLKit معطل على هذا الجهاز.</string>
     <string name="PasscodeNeeded">يجب عليك تفعيل قُفْل رمز المرور أولاً</string>
     <string name="PasscodeNeko">رمز الدخول</string>
     <string name="PasscodeShowInSettings">إظهار رمز المرور في الإعدادات ناكو</string>
@@ -257,7 +236,6 @@
     <string name="DownloadSpeedBoostNone">إيقاف</string>
     <string name="DownloadSpeedBoostAverage">تشغيل</string>
     <string name="DownloadSpeedBoostExtreme">غير محدود</string>
-    <string name="UploadloadSpeedBoost">زيادة سرعة الرفع</string>
     <string name="NoUpdateAvailablePlay">يرجى التحقق من التحديث في متجر Play.</string>
     <string name="NoUpdateAvailablePlayDelay">عادةً ما يأتي التحديث في متجر Play أبطأ من ملفات APK المباشرة بسبب مراجعة Google.</string>
     <string name="DownloadEmojiSet">تحميل %s</string>
@@ -292,7 +270,6 @@
     <string name="NavigationAnimation">تأثير حركة التنقل</string>
     <string name="NavigationAnimationBezier">كلاسيكي</string>
     <string name="NavigationAnimationSpring">طبيعي</string>
-    <string name="NavigationAnimationCrossfading">تأثير التداخل</string>
     <string name="CloudConfig">إعدادات السحابة</string>
     <string name="CloudConfigDesc">حفظ إعدادات نيكو الخاصة بك إلى سحابة تيليجرام.</string>
     <string name="CloudConfigSyncDate">آخر مزامنة: %s، السحابة: %s</string>

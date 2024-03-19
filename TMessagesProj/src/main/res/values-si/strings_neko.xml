@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="IPv6">IPv6 හරහා සම්බන්ධ වීමට උත්සාහ කරන්න</string>
     <string name="MessageMenu">පණිවිඩ මෙනුව</string>
     <string name="HidePhone">මගේ දුරකථන අංකය හංගන්න</string>
     <string name="DeleteAllFromSelf">තමන්ගේ පණිවිඩ මකන්න</string>
     <string name="DeleteAllFromSelfAlert">අවවාදයයි! මෙහිදී මෙම කතාබහෙහි **ඔබගේ සියලූම පණිවිඩ** **සියලුම සාමාජිකයන්ගෙන්** මකා දමයි.</string>
-    <string name="BotLogin">බොට් මගින්</string>
-    <string name="InvalidAccessToken">වැරදි ටෝකනයක්</string>
     <string name="Connection">සම්බන්ධතාවය</string>
     <string name="Chat">කතාබහ</string>
     <string name="NameOrder">නම් අනුපිළිවෙල</string>
@@ -16,12 +13,10 @@
     <string name="AddToSavedMessages">පණිවිඩය සුරකින්න</string>
     <string name="CreateMention">සඳහන් කිරීමක් කරන්න</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">විනිවිද පෙනෙන තත්ව තීරුව</string>
     <string name="EnableResidentNotification">Show a resident notification</string>
     <string name="DisableResidentNotification">Disable resident notification</string>
     <string name="NekogramRunning">නෙකෝග්‍රෑම් වැඩ කරමින්</string>
     <string name="EventType">පැති තීරුවෙහි නිරූපක කට්ටලය</string>
-    <string name="ChristmasHat">සෑම දිනකම නත්තල් තොප්පිය පෙන්වන්න</string>
     <string name="DependsOnDate">දිනය මත රදා පවතී</string>
     <string name="Christmas">නත්තල්</string>
     <string name="Valentine">ආදරන්තයන්ගේ දිනය</string>
@@ -30,8 +25,6 @@
     <string name="TestBackendOff">මෙම ගිණුම පරීක්ෂණ පසුබිම සදහා සම්බන්ධ වේවි.</string>
     <string name="ViewHistory">පසුගිය මැසේජ පෙන්වන්න</string>
     <string name="Nya">ඤාව්!</string>
-    <string name="SensitiveDisableFiltering">සංවේදී අන්තර්ගත ඉවත් කිරීම අක්‍රීය කරන්න</string>
-    <string name="SensitiveAbout">ඔබේ උපාංගයේ පොදු නාලිකාවල ඇති සංවේදී දර්ශන පෙන්වීම.</string>
     <string name="StickerSize">ස්ටිකර් වල විශාලත්වය</string>
     <string name="StickerSizeDialogMessageReplyTo">ඤාව්</string>
     <string name="Experiment">පර්යේෂණාත්මක</string>
@@ -43,10 +36,8 @@
     <string name="TranslateApiUnsupported">ඔබ තෝරාගත් පරිවර්තන සැපයුම්කරු ඔබේ භාෂාව සමග ක්‍රියා නොකරයි.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">පරිවර්තනය ආපසු හරවන්න</string>
-    <string name="BotToken">ටෝකනය</string>
     <string name="OpenArchiveOnPull">සංරක්ෂිතය විවෘත කිරීමට පහළට අදින්න</string>
     <string name="HideKeyboardOnChatScroll">කතාබස නරඹන විටදී යතුරු පුවරුව සඟවන්න</string>
-    <string name="ShowTabsOnForward">Show tabs on forward</string>
     <string name="CheckAllAdministrated">පරිපාලනයට යොදවන්න</string>
     <string name="RearVideoMessages">විඩීයෝ මැසේජ සදහා පසුපස කැමරාව භාවිතා කරන්න</string>
     <string name="HideAllTab">සියලුම කතාබස් සඟවන්න</string>

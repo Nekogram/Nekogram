@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Configurações Neko</string>
-    <string name="IPv6">Tente conectar-se através do IPv6</string>
     <string name="MessageMenu">Menu de mensagens</string>
     <string name="HidePhone">Ocultar meu número de telefone</string>
     <string name="DeleteAllFromSelf">Excluir suas próprias mensagens</string>
     <string name="DeleteAllFromSelfAlert">Cuidado! Isto irá **excluir todas as suas mensagens** nesse chat para **todos** os participantes.</string>
     <string name="DeleteAllFromSelfAlertBefore">Cuidado! Isso irá **deletar todas as suas mensagens antes de %s** nesse chat para **todos** os participantes.</string>
     <string name="DeleteAllFromSelfBefore">Antes...</string>
-    <string name="BotLogin">Entrar por Bot</string>
-    <string name="BotLoginMessage">Introduzir o token de bot obtido de **@BotFather**.</string>
-    <string name="InvalidAccessToken">Token de acesso inválido</string>
     <string name="IgnoreBlocked">Oculta mensagens de usuários bloqueados</string>
     <string name="Connection">Conexão</string>
     <string name="Chat">Conversa</string>
@@ -21,12 +17,10 @@
     <string name="AddToSavedMessages">Mensagens salvas</string>
     <string name="CreateMention">Criar menção</string>
     <string name="Prpr">Perópero</string>
-    <string name="TransparentStatusBar">Barra de status transparente</string>
     <string name="EnableResidentNotification">Ativar notificação overlay</string>
     <string name="DisableResidentNotification">Desabilitar notificação overlay</string>
     <string name="NekogramRunning">Nekogram está funcionando</string>
     <string name="EventType">Ícones do menu lateral</string>
-    <string name="ChristmasHat">Mostrar gorro de Natal o ano todo</string>
     <string name="DependsOnDate">Seguindo o calendário</string>
     <string name="Christmas">Natal</string>
     <string name="Valentine">Dia dos Namorados</string>
@@ -35,8 +29,6 @@
     <string name="TestBackendOff">Esta conta conectará ao backend de produção.</string>
     <string name="ViewHistory">Ver Histórico</string>
     <string name="Nya">Miau!</string>
-    <string name="SensitiveDisableFiltering">Desativar o filtro de conteúdo sensível</string>
-    <string name="SensitiveAbout">Exiba mídia sensível de canais públicos em todos os seus dispositivos.</string>
     <string name="StickerSize">Tamanho da figurinha</string>
     <string name="StickerSizeLeft">Pequeno</string>
     <string name="StickerSizeRight">Grande</string>
@@ -51,11 +43,8 @@
     <string name="TranslateApiUnsupported">O provedor de tradução que você selecionou não oferece suporte ao seu idioma.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Desfazer tradução</string>
-    <string name="DisablePhotoViewerSideAction">Desativar \"Ver outra foto ao tocar no canto\"</string>
-    <string name="BotToken">Token</string>
     <string name="OpenArchiveOnPull">Mensagens Arquivadas ao arrastar para baixo</string>
     <string name="HideKeyboardOnChatScroll">Ocultar o teclado ao rolar o chat</string>
-    <string name="ShowTabsOnForward">Mostrar guias ao encaminhar</string>
     <string name="CheckAllAdministrated">Adicionar meus administrados</string>
     <string name="RearVideoMessages">Câmera traseira em Mensagem de Vídeo</string>
     <string name="HideAllTab">Ocultar aba \"Todos os Chats\"</string>
@@ -123,12 +112,8 @@
     <string name="RegistrationDateNewer">Mais recente que %s</string>
     <string name="RegistrationDateOlder">Mais antigo do que %s</string>
     <string name="RegistrationDateApproximately">Aproximadamente %s</string>
-    <string name="WsDescription">Conecte o Telegram através da Cloudfare. **Saiba mais**</string>
     <string name="WsEnableTls">Ativar o TLS</string>
     <string name="WsProvider">Fornecedor</string>
-    <string name="WsNotWorking">O proxy não está a funcionar!</string>
-    <string name="WsUseMyOwnDomain">Como configurar um fornecedor personalizado</string>
-    <string name="WsStandaloneApp">Utilizar o proxy noutras aplicações</string>
     <string name="UpdateNekogram">Atualizar Nekogram</string>
     <string name="TranslationTarget">Idioma de destino</string>
     <string name="TranslationTargetApp">Seguir app</string>
@@ -154,7 +139,6 @@
     <string name="OfficialSite">Site oficial</string>
     <string name="MutualContact">Contato mútuo</string>
     <string name="MutualContactDescription">Este contato é um contato mútuo.</string>
-    <string name="NoUpdateAvailable">Não há actualizações disponíveis.</string>
     <string name="InviteTextNeko">Estou a usar o Nekogram para conversar. Junta-te a mim! Faz o Download aqui: %1$s</string>
     <string name="ShareNekogram">Compartilhar Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBaseado no Telegram %2$s\nProjetado por %3$s</string>
@@ -179,13 +163,11 @@
     <string name="SaveToDownloadCount_few">Salvando arquivos %1$d em downloads</string>
     <string name="SaveToDownloadCount_many">Salvando arquivos %1$d em downloads</string>
     <string name="SaveToDownloadCount_other">Salvando arquivos %1$d em downloads</string>
-    <string name="ThemesChannel">Canal de Temas</string>
     <string name="AppLinkNotVerifiedMessage">Para o Android 12 e mais recentes, é necessário adicionar manualmente ligações verificadas para abrir as ligações t.me no Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Links de aplicativos não verificados</string>
     <string name="AutoTranslate">Tradução automática</string>
     <string name="AutoTranslateAbout">Traduzir automaticamente mensagens que estejam noutra língua.</string>
     <string name="DoubleTapAction">Ação de toque duplo</string>
-    <string name="BlockedUserIgnored">bloqueado</string>
     <string name="EditUndo">Desfazer</string>
     <string name="EditRedo">Refazer</string>
     <string name="EditEnableMarkdown">Ativar Remarcação</string>
@@ -203,10 +185,7 @@
     <string name="ProviderYouDaoTranslate">Tradutor YouDao</string>
     <string name="ProviderBaiduTranslate">Tradutor Baidu</string>
     <string name="ProviderSogouTranslate">Tradutor Sogou</string>
-    <string name="Translating">traduzindo</string>
     <string name="Translated">traduzido</string>
-    <string name="BrokenMLKit">Opção indisponível</string>
-    <string name="BrokenMLKitDetail">O identificador de idioma MLKit está quebrado neste dispositivo.</string>
     <string name="PasscodeNeeded">Tem de activar primeiro o bloqueio do código de acesso</string>
     <string name="PasscodeNeko">Código de acesso</string>
     <string name="PasscodeShowInSettings">Mostrar nas Configurações Neko</string>
@@ -250,7 +229,6 @@
     <string name="DownloadSpeedBoostNone">Desligado</string>
     <string name="DownloadSpeedBoostAverage">Ligado</string>
     <string name="DownloadSpeedBoostExtreme">Extremo</string>
-    <string name="UploadloadSpeedBoost">Otimizar velocidade de download</string>
     <string name="NoUpdateAvailablePlay">Verifique por favor para actualização na Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">A actualização na Play Store costuma ser mais lenta do que os APKs directos devido à revisão do Google.</string>
     <string name="DownloadEmojiSet">Baixar %s</string>

@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="IPv6">Prøv å koble til via IPv6</string>
     <string name="MessageMenu">Meldingsmeny</string>
     <string name="HidePhone">Skjul mitt telefonnummer</string>
     <string name="DeleteAllFromSelfAlert">Advarsel! Dette vil **slette alle meldinger fra deg** i denne chatten for **alle** deltakere.</string>
-    <string name="BotLogin">Bot innlogging</string>
-    <string name="InvalidAccessToken">Ugyldig tilgangstoken</string>
     <string name="Connection">Forbindelse</string>
     <string name="Chat">Chate</string>
     <string name="NameOrder">Navn på ordre</string>
@@ -15,12 +12,10 @@
     <string name="AddToSavedMessages">Lagre melding</string>
     <string name="CreateMention">Opprett Omtale</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Gjennomsiktig statuslinje</string>
     <string name="EnableResidentNotification">Vis en stedlig varsling</string>
     <string name="DisableResidentNotification">Deaktiver varsling om beboere</string>
     <string name="NekogramRunning">Nekogram kjører</string>
     <string name="EventType">Sidefelt ikon sett</string>
-    <string name="ChristmasHat">Vis julehatt hver dag</string>
     <string name="DependsOnDate">Avhenger av dato</string>
     <string name="Christmas">Jul</string>
     <string name="Valentine">Valentinsdag</string>
@@ -29,8 +24,6 @@
     <string name="TestBackendOff">Denne kontoen kobles til test-backend.</string>
     <string name="ViewHistory">Vis historikk</string>
     <string name="Nya">Mjau!</string>
-    <string name="SensitiveDisableFiltering">Deaktiver filtrering av sensitivt innhold</string>
-    <string name="SensitiveAbout">Vis sensitiv media i offentlige kanaler på alle enhetene dine.</string>
     <string name="StickerSize">Klistremerke størrelse</string>
     <string name="StickerSizeDialogMessageReplyTo">Mjau</string>
     <string name="Experiment">Eksperimentell</string>
@@ -42,10 +35,8 @@
     <string name="TranslateApiUnsupported">Oversettelsesleverandøren du valgte støtter ikke språket ditt.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Angre oversettelsen</string>
-    <string name="BotToken">Token</string>
     <string name="OpenArchiveOnPull">Åpne arkivet på nedtrappingen</string>
     <string name="HideKeyboardOnChatScroll">Skjul tastaturet ditt på chatterullingen</string>
-    <string name="ShowTabsOnForward">Vis faner fremover</string>
     <string name="CheckAllAdministrated">Legg til administrert</string>
     <string name="RearVideoMessages">Bakre kamera i videomeldinger</string>
     <string name="HideAllTab">Skjul fanen \"Alle samtaler\"</string>

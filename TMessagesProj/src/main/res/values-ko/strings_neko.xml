@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">네코그램 설정</string>
-    <string name="IPv6">IPv6 를 통한 접속</string>
     <string name="MessageMenu">메세지 메뉴</string>
     <string name="HidePhone">내 번호 숨기기</string>
     <string name="DeleteAllFromSelf">본인 메시지 삭제하기</string>
     <string name="DeleteAllFromSelfAlert">정말 이 채팅방에서 \"내가 쓴 모든 대화 내용\"을 삭제하시겠습니까?</string>
     <string name="DeleteAllFromSelfAlertBefore">경고! **그러면 **모든** 참가자를 위해 이 채팅에서 %s** 이전에 보낸 모든 메시지가 삭제됩니다.</string>
     <string name="DeleteAllFromSelfBefore">전에...</string>
-    <string name="BotLogin">봇 로그인</string>
-    <string name="BotLoginMessage">**@BotFather**에서 얻은 봇 토큰을 입력합니다.</string>
-    <string name="InvalidAccessToken">잘못된 액세스 토큰</string>
     <string name="IgnoreBlocked">차단된 사용자의 메시지 숨기기</string>
     <string name="Connection">연결</string>
     <string name="Chat">채팅</string>
@@ -21,12 +17,10 @@
     <string name="AddToSavedMessages">메세지 저장</string>
     <string name="CreateMention">멘션 만들기</string>
     <string name="Prpr">페로페로</string>
-    <string name="TransparentStatusBar">투명 상태 표시줄</string>
     <string name="EnableResidentNotification">참가자 알림 표시</string>
     <string name="DisableResidentNotification">참가자 알림 중지</string>
     <string name="NekogramRunning">네코그램이 실행 중 입니다</string>
     <string name="EventType">사이드바 아이콘 세트</string>
-    <string name="ChristmasHat">크리스마스 모자 매일 보여주기</string>
     <string name="DependsOnDate">날짜에 따라</string>
     <string name="Christmas">크리스마스</string>
     <string name="Valentine">발렌타인 데이</string>
@@ -35,8 +29,6 @@
     <string name="TestBackendOff">이 계정은 프로덕션 백엔드에 연결됩니다.</string>
     <string name="ViewHistory">이전 기록 보기</string>
     <string name="Nya">야옹!</string>
-    <string name="SensitiveDisableFiltering">민감한 콘텐츠 필터링 비활성화</string>
-    <string name="SensitiveAbout">모든 장치에서 민감한 채널을 공개 채널로 표시합니다.</string>
     <string name="StickerSize">스티커 크기</string>
     <string name="StickerSizeLeft">작게</string>
     <string name="StickerSizeRight">크게</string>
@@ -51,11 +43,8 @@
     <string name="TranslateApiUnsupported">선택한 번역 공급자가 사용자의 언어를 지원하지 않습니다.</string>
     <string name="ProviderLingocloud">링고 클라우드</string>
     <string name="UndoTranslate">번역 취소</string>
-    <string name="DisablePhotoViewerSideAction">\"탭하여 사진 넘기기\" 비활성화</string>
-    <string name="BotToken">토큰</string>
     <string name="OpenArchiveOnPull">화면 아래로 당길시 아카이브 열기</string>
     <string name="HideKeyboardOnChatScroll">대화창 스크롤시 키보드 숨기기</string>
-    <string name="ShowTabsOnForward">전달에서 탭 표시</string>
     <string name="CheckAllAdministrated">관리 추가</string>
     <string name="RearVideoMessages">비디오 메세지에 후면 카메라 사용</string>
     <string name="HideAllTab">\"모든 채팅\" 탭 숨기기</string>
@@ -124,12 +113,8 @@
     <string name="RegistrationDateNewer">%s 이후</string>
     <string name="RegistrationDateOlder">%s 이전</string>
     <string name="RegistrationDateApproximately">대략 %s</string>
-    <string name="WsDescription">텔레그램을 웹소켓을 통해 Cloudflare 로 연결하기 **더 알아보기**</string>
     <string name="WsEnableTls">TLS 활성화</string>
     <string name="WsProvider">제공자</string>
-    <string name="WsNotWorking">프록시가 작동하지 않습니다!</string>
-    <string name="WsUseMyOwnDomain">사용자 지정 공급업체를 설정하는 방법</string>
-    <string name="WsStandaloneApp">다른 앱에서 프록시 사용</string>
     <string name="UpdateNekogram">네코그램 업데이트</string>
     <string name="TranslationTarget">번역 언어</string>
     <string name="TranslationTargetApp">기기 언어 따라가기</string>
@@ -155,7 +140,6 @@
     <string name="OfficialSite">공식 사이트</string>
     <string name="MutualContact">공통 연락처</string>
     <string name="MutualContactDescription">이 연락처는 공통 연락처 입니다.</string>
-    <string name="NoUpdateAvailable">사용할 수 있는 업데이트가 없습니다.</string>
     <string name="InviteTextNeko">안녕, 나는 네코그램을 사용하고 있어요. 한번 사용해 보실래요? 여기에서 다운로드 하세요: %1$s</string>
     <string name="ShareNekogram">네코그램 공유하기</string>
     <string name="NekogramVersion">네코그램 %1$s 은 텔레그램 %2$s 기반으로 %3$s 이 제작 하였습니다</string>
@@ -180,13 +164,11 @@
     <string name="SaveToDownloadCount_few">%1$d 파일을 다운로드에 저장</string>
     <string name="SaveToDownloadCount_many">%1$d 파일을 다운로드에 저장</string>
     <string name="SaveToDownloadCount_other">%1$d 파일을 다운로드에 저장</string>
-    <string name="ThemesChannel">테마 채널</string>
     <string name="AppLinkNotVerifiedMessage">Android 12 및 최신의 경우 Nekogram에서 t.me 링크를 열기 위해 검증된 링크에 수동으로 링크를 추가해야 합니다.</string>
     <string name="AppLinkNotVerifiedTitle">앱 링크가 확인되지 않음</string>
     <string name="AutoTranslate">자동 번역</string>
     <string name="AutoTranslateAbout">다른 언어로 된 메시지를 자동으로 번역합니다.</string>
     <string name="DoubleTapAction">더블 탭 동작</string>
-    <string name="BlockedUserIgnored">차단함</string>
     <string name="EditUndo">실행 취소</string>
     <string name="EditRedo">재실행</string>
     <string name="EditEnableMarkdown">마크다운 활성화</string>
@@ -204,10 +186,7 @@
     <string name="ProviderYouDaoTranslate">유다오 번역</string>
     <string name="ProviderBaiduTranslate">바이두 번역</string>
     <string name="ProviderSogouTranslate">소고우 번역</string>
-    <string name="Translating">번역</string>
     <string name="Translated">번역</string>
-    <string name="BrokenMLKit">옵션을 사용할 수 없음</string>
-    <string name="BrokenMLKitDetail">이 기기에서 Google MLKit 언어 식별자가 손상되었습니다.</string>
     <string name="PasscodeNeeded">먼저 암호 잠금을 활성화해야 합니다.</string>
     <string name="PasscodeNeko">암호</string>
     <string name="PasscodeShowInSettings">네코 세팅에서 보기</string>
@@ -251,7 +230,6 @@
     <string name="DownloadSpeedBoostNone">끄기</string>
     <string name="DownloadSpeedBoostAverage">켜기</string>
     <string name="DownloadSpeedBoostExtreme">최고</string>
-    <string name="UploadloadSpeedBoost">업로드 속도 향상</string>
     <string name="NoUpdateAvailablePlay">플레이 스토어 에서 업데이트를 확인하세요.</string>
     <string name="NoUpdateAvailablePlayDelay">플레이 스토어의 업데이트는 Google의 검토로 인해 일반적으로 APK 직접 다운로드 보다 느립니다.</string>
     <string name="DownloadEmojiSet">%s 다운로드</string>
@@ -286,7 +264,6 @@
     <string name="NavigationAnimation">내비게이션 애니메이션</string>
     <string name="NavigationAnimationBezier">클래식</string>
     <string name="NavigationAnimationSpring">Natural</string>
-    <string name="NavigationAnimationCrossfading">크로스페이딩 효과</string>
     <string name="CloudConfig">클라우드 설정</string>
     <string name="CloudConfigDesc">네코 설정을 텔레그램 클라우드에 저장합니다.</string>
     <string name="CloudConfigSyncDate">마지막 동기화: %s, 클라우드: %s</string>

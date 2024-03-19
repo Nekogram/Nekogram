@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Nekogram Ayarları</string>
-    <string name="IPv6">IPv6 aracılığıyla bağlanmayı dene</string>
     <string name="MessageMenu">Mesaj Menüsü</string>
     <string name="HidePhone">Telefon numaramı gizle</string>
     <string name="DeleteAllFromSelf">Kendi mesajlarını sil</string>
     <string name="DeleteAllFromSelfAlert">Uyarı! Bu, **tüm** katılımcılar için bu sohbetteki **sizden gelen tüm mesajları siler**.</string>
     <string name="DeleteAllFromSelfAlertBefore">Uyarı! Bu **tüm** katılımcılar için bu sohbetteki **%s\'dan önce sizden gelen tüm mesajları silecek**.</string>
     <string name="DeleteAllFromSelfBefore">Önce...</string>
-    <string name="BotLogin">Bot Girişi</string>
-    <string name="BotLoginMessage">**@BotFather** adresinden alınan bot token\'ini girin.</string>
-    <string name="InvalidAccessToken">Erişim anahtarı geçersiz</string>
     <string name="IgnoreBlocked">Engellenen kullanıcıdan gelen mesajları gizle</string>
     <string name="Connection">Bağlantı</string>
     <string name="Chat">Sohbet</string>
@@ -21,12 +17,10 @@
     <string name="AddToSavedMessages">Mesajı kaydet</string>
     <string name="CreateMention">Bahset</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Saydam durum çubuğu</string>
     <string name="EnableResidentNotification">Kalıcı bildirim göster</string>
     <string name="DisableResidentNotification">Kalıcı bildirimi devre dışı bırak</string>
     <string name="NekogramRunning">Nekogram çalışıyor</string>
     <string name="EventType">Kenar çubuğu simgeleri</string>
-    <string name="ChristmasHat">Her gün Yılbaşı şapkasını göster</string>
     <string name="DependsOnDate">Tarihe bağlı</string>
     <string name="Christmas">Yılbaşı</string>
     <string name="Valentine">Sevgililer günü</string>
@@ -35,8 +29,6 @@
     <string name="TestBackendOff">Bu hesap ürün arka ucuna bağlanacak.</string>
     <string name="ViewHistory">Geçmişi görüntüle</string>
     <string name="Nya">Miyav!</string>
-    <string name="SensitiveDisableFiltering">Hassas içerik filtrelemeyi devre dışı bırak</string>
-    <string name="SensitiveAbout">Hassas medyayı tüm cihazlarınızdaki herkese açık kanallarda görüntüleyin.</string>
     <string name="StickerSize">Çıkartma boyutu</string>
     <string name="StickerSizeLeft">Küçük</string>
     <string name="StickerSizeRight">Büyük</string>
@@ -51,11 +43,8 @@
     <string name="TranslateApiUnsupported">Seçtiğiniz çeviri sağlayıcısı dilinizi desteklemiyor.</string>
     <string name="ProviderLingocloud">Lingocloud Çeviri</string>
     <string name="UndoTranslate">Çeviriyi geri al</string>
-    <string name="DisablePhotoViewerSideAction">\"Dokunarak Fotoğraf Geç\"i devre dışı bırak</string>
-    <string name="BotToken">Anahtar</string>
     <string name="OpenArchiveOnPull">Aşağı çekince arşivi aç</string>
     <string name="HideKeyboardOnChatScroll">Sohbeti kaydırırken klavyeyi gizle</string>
-    <string name="ShowTabsOnForward">İletirken klasörleri göster</string>
     <string name="CheckAllAdministrated">Yönetilen grup ve kanalları ekle</string>
     <string name="RearVideoMessages">Video mesajlarda arka kamera</string>
     <string name="HideAllTab">\"Tüm Sohbetler\" sekmesini gizle</string>
@@ -123,12 +112,8 @@
     <string name="RegistrationDateNewer">%s tarihinden sonra</string>
     <string name="RegistrationDateOlder">%s tarihinden önce</string>
     <string name="RegistrationDateApproximately">Yaklaşık olarak %s</string>
-    <string name="WsDescription">Cloudflare tarafından sunulan WebSocket aracılığıyla Telegram\'a bağlanın. **Daha fazla**</string>
     <string name="WsEnableTls">TLS\'yi etkinleştir</string>
     <string name="WsProvider">Sağlayıcı</string>
-    <string name="WsNotWorking">Vekil sunucu çalışmıyor!</string>
-    <string name="WsUseMyOwnDomain">Özel sağlayıcı nasıl kurulur</string>
-    <string name="WsStandaloneApp">Vekil sunucuyu diğer uygulamalarda kullan</string>
     <string name="UpdateNekogram">Nekogram\'ı Güncelle</string>
     <string name="TranslationTarget">Hedef dil</string>
     <string name="TranslationTargetApp">Uygulamayı takip et</string>
@@ -154,7 +139,6 @@
     <string name="OfficialSite">Resmi site</string>
     <string name="MutualContact">Karşılıklı kişi</string>
     <string name="MutualContactDescription">Bu kişi de sizi kişilerine kaydetti.</string>
-    <string name="NoUpdateAvailable">Güncelleme mevcut değil.</string>
     <string name="InviteTextNeko">Hey, sohbet etmek için Nekogram kullanıyorum. Bana katıl! Buradan indirilebilirsin: %1$s</string>
     <string name="ShareNekogram">Nekogram\'ı paylaş...</string>
     <string name="NekogramVersion">Telegram %2$s tabanlı\nNekogram %1$s\n%3$s tarafından tasarlandı</string>
@@ -179,13 +163,11 @@
     <string name="SaveToDownloadCount_few">%1$d dosya indirilenlere kaydediliyor</string>
     <string name="SaveToDownloadCount_many">%1$d dosya indirilenlere kaydediliyor</string>
     <string name="SaveToDownloadCount_other">%1$d dosya indirilenlere kaydediliyor</string>
-    <string name="ThemesChannel">Tema kanalı</string>
     <string name="AppLinkNotVerifiedMessage">Android 12 ve üstü sürümlerde, t.me bağlantılarını Nekogram\'da açmak için doğrulanmış bağlantılara elle bağlantı eklemelisiniz.</string>
     <string name="AppLinkNotVerifiedTitle">Uygulama bağlantıları doğrulanmamış</string>
     <string name="AutoTranslate">Otomatik çeviri</string>
     <string name="AutoTranslateAbout">Başka bir dilde olan mesajları otomatik olarak çevirin.</string>
     <string name="DoubleTapAction">Çift dokunma eylemi</string>
-    <string name="BlockedUserIgnored">engellendi</string>
     <string name="EditUndo">Geri al</string>
     <string name="EditRedo">Yinele</string>
     <string name="EditEnableMarkdown">Biçimlendirmeyi Etkinleştir</string>
@@ -203,10 +185,7 @@
     <string name="ProviderYouDaoTranslate">YouDao Çeviri</string>
     <string name="ProviderBaiduTranslate">Baidu Çeviri</string>
     <string name="ProviderSogouTranslate">Sogou Çeviri</string>
-    <string name="Translating">çevriliyor</string>
     <string name="Translated">çevrildi</string>
-    <string name="BrokenMLKit">Seçenek kullanılamıyor</string>
-    <string name="BrokenMLKitDetail">MLKit dil tanımlayıcısı bu cihazda bozuk.</string>
     <string name="PasscodeNeeded">Önce uygulama kilidini etkinleştirmelisiniz</string>
     <string name="PasscodeNeko">Parola</string>
     <string name="PasscodeShowInSettings">Neko Ayarlarında Göster</string>
@@ -250,7 +229,6 @@
     <string name="DownloadSpeedBoostNone">Kapalı</string>
     <string name="DownloadSpeedBoostAverage">Açık</string>
     <string name="DownloadSpeedBoostExtreme">Aşırı Hızlı</string>
-    <string name="UploadloadSpeedBoost">Yükleme hızını arttır</string>
     <string name="NoUpdateAvailablePlay">Lütfen Play Store\'da güncellemeyi kontrol edin.</string>
     <string name="NoUpdateAvailablePlayDelay">Play Store\'daki güncelleme, Google\'ın incelemesi nedeniyle doğrudan indirilebilen APK sürümlerinden genellikle daha yavaş gelir.</string>
     <string name="DownloadEmojiSet">%s Paketini İndir</string>
@@ -285,7 +263,6 @@
     <string name="NavigationAnimation">Gezinme animasyonu</string>
     <string name="NavigationAnimationBezier">Klasik</string>
     <string name="NavigationAnimationSpring">Doğal</string>
-    <string name="NavigationAnimationCrossfading">Çapraz geçiş efekti</string>
     <string name="CloudConfig">Bulut Ayarları</string>
     <string name="CloudConfigDesc">Neko Ayarlarınızı Telegram bulutuna kaydedin.</string>
     <string name="CloudConfigSyncDate">Son senkronize edillme: %s, bulut: %s</string>

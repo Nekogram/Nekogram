@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Neko Instellingen</string>
-    <string name="IPv6">Probeer verbinding te maken via IPv6</string>
     <string name="MessageMenu">Menu berichten</string>
     <string name="HidePhone">Mijn telefoonnummer verbergen</string>
     <string name="DeleteAllFromSelf">Eigen berichten verwijderen</string>
     <string name="DeleteAllFromSelfAlert">Waarschuwing! Dit verwijdert **alle berichten van jou** in deze chat voor **alle** deelnemers.</string>
     <string name="DeleteAllFromSelfAlertBefore">Waarschuwing! Dit verwijdert **alle berichten van jou voor %s** in deze chat voor **alle** deelnemers.</string>
     <string name="DeleteAllFromSelfBefore">Voor...</string>
-    <string name="BotLogin">Bot login</string>
-    <string name="BotLoginMessage">Voer de bot token in welke is verkregen van **@BotFather**.</string>
-    <string name="InvalidAccessToken">Ongeldige toegangstoken</string>
     <string name="IgnoreBlocked">Verberg berichten van geblokkeerde gebruikers</string>
     <string name="Connection">Verbinding</string>
     <string name="Chat">Chat</string>
@@ -25,12 +21,10 @@
     <string name="AddToSavedMessages">Bewaar bericht</string>
     <string name="CreateMention">Maak vermelding</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Doorzichtige statusbalk</string>
     <string name="EnableResidentNotification">Toon permanente melding</string>
     <string name="DisableResidentNotification">Schakel permanente melding uit</string>
     <string name="NekogramRunning">Nekogram wordt uitgevoerd</string>
     <string name="EventType">Zijbalk pictogrammen set</string>
-    <string name="ChristmasHat">Laat kerstmuts elke dag zien</string>
     <string name="DependsOnDate">Afhankelijk van datum</string>
     <string name="Christmas">Kerst</string>
     <string name="Valentine">Valentijnsdag</string>
@@ -39,8 +33,6 @@
     <string name="TestBackendOff">Dit account zal verbinding maken met de productie backend.</string>
     <string name="ViewHistory">Geschiedenis bekijken</string>
     <string name="Nya">Miauw!</string>
-    <string name="SensitiveDisableFiltering">Filtering van gevoelige inhoud uitschakelen</string>
-    <string name="SensitiveAbout">Gevoelige media weergeven in openbare kanalen op al uw apparaten.</string>
     <string name="StickerSize">Sticker grootte</string>
     <string name="StickerSizeLeft">Klein</string>
     <string name="StickerSizeRight">Groot</string>
@@ -55,11 +47,8 @@
     <string name="TranslateApiUnsupported">De vertaler aanbieder die u heeft geselecteerd ondersteunt uw taal niet.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Vertalen ongedaan maken</string>
-    <string name="DisablePhotoViewerSideAction">Schakel \"Foto\'s omdraaien door te tikken\" uit</string>
-    <string name="BotToken">Token</string>
     <string name="OpenArchiveOnPull">Open archief door omlaag te trekken</string>
     <string name="HideKeyboardOnChatScroll">Toetsenbord verbergen bij chat scrollen</string>
-    <string name="ShowTabsOnForward">Tabbladen tonen bij doorsturen</string>
     <string name="CheckAllAdministrated">Beheerde groepen/kanalen toevoegen</string>
     <string name="RearVideoMessages">Camera achter in videoberichten</string>
     <string name="HideAllTab">Tabblad \"Alle chats\" verbergen</string>
@@ -127,12 +116,8 @@
     <string name="RegistrationDateNewer">Nieuwer dan %s</string>
     <string name="RegistrationDateOlder">Ouder dan %s</string>
     <string name="RegistrationDateApproximately">Ongeveer %s</string>
-    <string name="WsDescription">Maak verbinding met Telegram via WebSocket via Cloudflare. **Meer informatie**</string>
     <string name="WsEnableTls">TLS inschakelen</string>
     <string name="WsProvider">Aanbieder</string>
-    <string name="WsNotWorking">De proxy werkt niet!</string>
-    <string name="WsUseMyOwnDomain">Hoe een aangepaste provider instellen</string>
-    <string name="WsStandaloneApp">Proxy gebruiken in andere apps</string>
     <string name="UpdateNekogram">Nekogram bijwerken</string>
     <string name="TranslationTarget">Doeltaal</string>
     <string name="TranslationTargetApp">Systeem volgen</string>
@@ -157,10 +142,7 @@
     <string name="ProviderYouDaoTranslate">YouDao Vertaler</string>
     <string name="ProviderBaiduTranslate">Baidu Vertaler</string>
     <string name="ProviderSogouTranslate">Sogou Vertaler</string>
-    <string name="Translating">vertalen</string>
     <string name="Translated">vertaald</string>
-    <string name="BrokenMLKit">Optie is niet beschikbaar</string>
-    <string name="BrokenMLKitDetail">De MLKit-taalidentificatie is defect op dit apparaat.</string>
     <string name="PasscodeNeeded">Je moet eerst de toegangscode vergrendeling inschakelen</string>
     <string name="PasscodeNeko">Toegangscode</string>
     <string name="PasscodeShowInSettings">Weergeven in Neko-instellingen</string>

@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Налады</string>
-    <string name="IPv6">Паспрабаваць падключыцца праз IPv6</string>
     <string name="MessageMenu">Чат</string>
     <string name="HidePhone">Схаваць мой нумар тэлефона</string>
     <string name="DeleteAllFromSelf">Выдаліць мае паведамленні</string>
     <string name="DeleteAllFromSelfAlert">Увага! Гэта ** выдаліць усе вашыя паведамленні ** у гэтым чаце **для** ўсіх.</string>
     <string name="DeleteAllFromSelfAlertBefore">Папярэджанне! Гэта прывядзе да **выдаленні ўсіх паведамленняў ад вас да %s** у гэтым чаце для **усіх** удзельнікаў.</string>
     <string name="DeleteAllFromSelfBefore">Раней...</string>
-    <string name="BotLogin">Логін бота</string>
-    <string name="BotLoginMessage">Увядзіце токен бота, атрыманы ад **@BotFather**.</string>
-    <string name="InvalidAccessToken">Няправільны маркер доступу</string>
     <string name="IgnoreBlocked">Схаваць паведамленні ад заблакіраваных карыстальнікаў</string>
     <string name="Connection">Злучэнне</string>
     <string name="Chat">Чат</string>
@@ -21,12 +17,10 @@
     <string name="AddToSavedMessages">Захаваць паведамленне</string>
     <string name="CreateMention">Стварыць згадванне</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Празрысты радок стану</string>
     <string name="EnableResidentNotification">Паказаць пастаяннае апавяшчэнне</string>
     <string name="DisableResidentNotification">Адключыць пастаяннае апавяшчэнне</string>
     <string name="NekogramRunning">Nekogram запушчаны</string>
     <string name="EventType">Абразкі бакавога меню</string>
-    <string name="ChristmasHat">Паказваць калядны капялюш кожны дзень</string>
     <string name="DependsOnDate">Залежыць ад даты</string>
     <string name="Christmas">Каляды</string>
     <string name="Valentine">Дзень Святога Валянціна</string>
@@ -35,8 +29,6 @@
     <string name="TestBackendOff">Гэты ўліковы запіс падключыцца да вытворчага серверу.</string>
     <string name="ViewHistory">Праглядзець гісторыю</string>
     <string name="Nya">Мяў!</string>
-    <string name="SensitiveDisableFiltering">Паказваць далікатны кантэнт</string>
-    <string name="SensitiveAbout">Адлюстроўваць далікатны кантэнт у публічных каналах на ўсіх вашых прыладах.</string>
     <string name="StickerSize">Памер стыкераў</string>
     <string name="StickerSizeLeft">Маленькі</string>
     <string name="StickerSizeRight">Вялікі</string>
@@ -51,11 +43,8 @@
     <string name="TranslateApiUnsupported">Выбраны вамі пастаўшчык перакладу не падтрымлівае вашу мову.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Адмяніць пераклад</string>
-    <string name="DisablePhotoViewerSideAction">Адключыць «Пераварочваць фатаграфіі націскам»</string>
-    <string name="BotToken">Токен</string>
     <string name="OpenArchiveOnPull">Адкрыць архіў у расчыняемым меню</string>
     <string name="HideKeyboardOnChatScroll">Схаваць клавіятуру пры пракрутцы</string>
-    <string name="ShowTabsOnForward">Паказваць укладкі пры перасылцы</string>
     <string name="CheckAllAdministrated">Дадаць адміністратараў</string>
     <string name="RearVideoMessages">Задняя камера ў відэапаведамленнях</string>
     <string name="HideAllTab">Схавайце ўкладку «Усе чаты»</string>
@@ -123,12 +112,8 @@
     <string name="RegistrationDateNewer">Навейшы за %s</string>
     <string name="RegistrationDateOlder">Старэй за %s</string>
     <string name="RegistrationDateApproximately">Прыблізна %s</string>
-    <string name="WsDescription">Падключыцеся да Telegram праз WebSocket праз Cloudflare. **Даведацца больш**</string>
     <string name="WsEnableTls">Уключыць TLS</string>
     <string name="WsProvider">Пастаўшчык</string>
-    <string name="WsNotWorking">Проксі не працуе!</string>
-    <string name="WsUseMyOwnDomain">Як наладзіць карыстацкага пастаўшчыка</string>
-    <string name="WsStandaloneApp">Выкарыстоўваць проксі ў іншых прыкладаннях</string>
     <string name="UpdateNekogram">Абнавіць Nekogram</string>
     <string name="TranslationTarget">Мова перакладу</string>
     <string name="TranslationTargetApp">Як у дадатку</string>
@@ -154,7 +139,6 @@
     <string name="OfficialSite">Афіцыйны сайт</string>
     <string name="MutualContact">Агульны кантакт</string>
     <string name="MutualContactDescription">Гэты кантакт з\'яўляецца агульным кантактам</string>
-    <string name="NoUpdateAvailable">Няма абнаўленняў</string>
     <string name="InviteTextNeko">Прывітанне, я выкарыстоўваю Nekogram для размоў. Яднайся да мяне! Спампаваць Яго можна тут: %1$s</string>
     <string name="ShareNekogram">Падзяліцца Nekogram...</string>
     <string name="NekogramVersion">Nekogram%1$s\nАснованы на Telegram
@@ -180,13 +164,11 @@
     <string name="SaveToDownloadCount_few">Захаванне %1$d файлаў да спампоўкі</string>
     <string name="SaveToDownloadCount_many">Захаванне %1$d файлаў да спампоўкі</string>
     <string name="SaveToDownloadCount_other">Захаванне %1$d файлаў да спампоўкі</string>
-    <string name="ThemesChannel">Канал тэм</string>
     <string name="AppLinkNotVerifiedMessage">Для Android 12 і болей пазнейшых версій вам неабходна ўручную дадаць спасылку к пацверджаным спасылкам, каб адкрываць спасылкі t.me у Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Спасылкі дадатку не пацверджаны</string>
     <string name="AutoTranslate">Аўта пераклад</string>
     <string name="AutoTranslateAbout">Аўтаматычна перакладаць паведамленне іншамоўны паведамлення.</string>
     <string name="DoubleTapAction">Дзеянне падвойным дотыкам</string>
-    <string name="BlockedUserIgnored">заблакаваны</string>
     <string name="EditUndo">Адмяніць</string>
     <string name="EditRedo">Вярнуць</string>
     <string name="EditEnableMarkdown">Уключыць Markdown</string>
@@ -204,10 +186,7 @@
     <string name="ProviderYouDaoTranslate">YouDao перакладач</string>
     <string name="ProviderBaiduTranslate">Baidu перакладач</string>
     <string name="ProviderSogouTranslate">Sogou перакладач</string>
-    <string name="Translating">пераклад</string>
     <string name="Translated">перакладзена</string>
-    <string name="BrokenMLKit">Опцыя недаступна</string>
-    <string name="BrokenMLKitDetail">Вызначальнік моў MLKit не працуе на гэтай прыладзе.</string>
     <string name="PasscodeNeeded">Спачатку неабходна ўключыць блакіроўку паролям</string>
     <string name="PasscodeNeko">Пароль</string>
     <string name="PasscodeShowInSettings">Паказаць у наладах Neko</string>
@@ -251,7 +230,6 @@
     <string name="DownloadSpeedBoostNone">Выкл</string>
     <string name="DownloadSpeedBoostAverage">Укл</string>
     <string name="DownloadSpeedBoostExtreme">Экстра</string>
-    <string name="UploadloadSpeedBoost">Павелічэнне хуткасці аддачы</string>
     <string name="NoUpdateAvailablePlay">Калі ласка, праверце наяўнасць абнаўленняў у Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">Абнаўленне ў Play Store звычайна адбываецца павольней, чым простыя APK з-за праверкі Google.</string>
     <string name="DownloadEmojiSet">Спампаваць %s</string>
@@ -286,7 +264,6 @@
     <string name="NavigationAnimation">Анімацыя навігацыі</string>
     <string name="NavigationAnimationBezier">Класічна</string>
     <string name="NavigationAnimationSpring">Натуральны</string>
-    <string name="NavigationAnimationCrossfading">Эфект згасання</string>
     <string name="CloudConfig">Налады хмарнага сховішча</string>
     <string name="CloudConfigDesc">Захаваць вашы налады Neko у хмарным сховішчы Telegram.</string>
     <string name="CloudConfigSyncDate">Апошняя сінхранізацыя: %s, у воблаку: %s</string>

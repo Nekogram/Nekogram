@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Pengaturan Neko</string>
-    <string name="IPv6">Coba sambungan melalui IPv6</string>
+    <string name="PreferIPv6">Prefer connecting through IPv6</string>
     <string name="MessageMenu">Menu pesan</string>
     <string name="HidePhone">Sembunyikan nomor telepon saya</string>
     <string name="DeleteAllFromSelf">Hapus pesan dari saya</string>
     <string name="DeleteAllFromSelfAlert">Perhatian! Ini akan **menghapus semua pesan dari Anda** di obrolan ini untuk **semua** orang.</string>
     <string name="DeleteAllFromSelfAlertBefore">Peringatan! Ini akan **menghapus semua pesan sebelum anda %s** di percakapan ini untuk **semua **partisipan.</string>
     <string name="DeleteAllFromSelfBefore">Sebelum...</string>
-    <string name="BotLogin">Login Bot</string>
-    <string name="BotLoginMessage">Masukkan token bot yang diperoleh dari **@BotFather**.</string>
-    <string name="InvalidAccessToken">Token akses tidak valid</string>
     <string name="IgnoreBlocked">Sembunyikan pesan dari pengguna yang diblokir</string>
     <string name="Connection">Sambungan</string>
     <string name="Chat">Obrolan</string>
@@ -19,16 +16,16 @@
     <string name="LastFirst">Nama Depan</string>
     <string name="NoQuoteForward"></string>
     <string name="NoCaptionForward">Teruskan Tanpa Keterangan</string>
+    <string name="NoQuoteForwardShort">Tidak Ada Pengirim</string>
+    <string name="NoCaptionForwardShort">Tidak ada keterangan</string>
     <string name="Repeat">Ulangi</string>
     <string name="AddToSavedMessages">Simpan pesan</string>
     <string name="CreateMention">Buat sebutan</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Bilah status transparan</string>
     <string name="EnableResidentNotification">Tampilkan pemberitahuan tetap</string>
     <string name="DisableResidentNotification">Matikan pemberitahuan tetap</string>
     <string name="NekogramRunning">Nekogram sedang berjalan</string>
     <string name="EventType">Set ikon bilah sisi</string>
-    <string name="ChristmasHat">Tampilkan topi Natal setiap hari</string>
     <string name="DependsOnDate">Berdasarkan tanggal</string>
     <string name="Christmas">Natal</string>
     <string name="Valentine">Hari Valentine</string>
@@ -37,8 +34,6 @@
     <string name="TestBackendOff">Akun ini akan terhubung ke produksi backend.</string>
     <string name="ViewHistory">Lihat riwayat</string>
     <string name="Nya">Meow!</string>
-    <string name="SensitiveDisableFiltering">Nonaktifkan filter konten sensitif</string>
-    <string name="SensitiveAbout">Tampilkan media sensitif di channel publik di semua perangkat Anda.</string>
     <string name="StickerSize">Ukuran stiker</string>
     <string name="StickerSizeLeft">Kecil</string>
     <string name="StickerSizeRight">Besar</string>
@@ -53,11 +48,8 @@
     <string name="TranslateApiUnsupported">Penyedia terjemahan yang Anda pilih tidak mendukung bahasa Anda.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Batal menerjemahkan</string>
-    <string name="DisablePhotoViewerSideAction">Nonaktifkan \"Ketuk untuk membalik foto\"</string>
-    <string name="BotToken">Token</string>
     <string name="OpenArchiveOnPull">Buka Arsip dengan menarik ke bawah</string>
     <string name="HideKeyboardOnChatScroll">Sembunyikan keyboard saat menggulirkan pesan</string>
-    <string name="ShowTabsOnForward">Tampilkan tab saat meneruskan</string>
     <string name="CheckAllAdministrated">Tambahkan seorang admin</string>
     <string name="RearVideoMessages">Kamera belakang saat Pesan Video</string>
     <string name="HideAllTab">Sembunyikan folder \"Semua Obrolan\"</string>
@@ -125,12 +117,8 @@
     <string name="RegistrationDateNewer">Lebih baru dari %s</string>
     <string name="RegistrationDateOlder">Lebih tua dari %s</string>
     <string name="RegistrationDateApproximately">Sekitar %s</string>
-    <string name="WsDescription">Terhubung ke Telegram melalui WebSocket melalui Cloudflare. **Pelajari lebih lanjut**</string>
     <string name="WsEnableTls">Nyalakan TLS</string>
     <string name="WsProvider">Penyedia</string>
-    <string name="WsNotWorking">Proxy tidak berfungsi!</string>
-    <string name="WsUseMyOwnDomain">Cara menyiapkan penyedia layanan khusus</string>
-    <string name="WsStandaloneApp">Gunakan proxy di aplikasi lain</string>
     <string name="UpdateNekogram">Perbarui Nekogram</string>
     <string name="TranslationTarget">Bahasa tujuan</string>
     <string name="TranslationTargetApp">Mengikuti aplikasi</string>
@@ -149,6 +137,7 @@
     <string name="SendWebFileInvalid">Berkas tidak valid. Pastikan berkas memenuhi persyaratan.</string>
     <string name="AutoLockInstant">Langsung</string>
     <string name="RestrictionReason">Alasan pembatasan</string>
+    <string name="ProviderTencentTranslator"></string>
     <string name="MaxRecentStickers">Maksimum stiker terakhir digunakan</string>
     <string name="DisableJumpToNextChannel">Matikan \"Jump to Next Channel\"</string>
     <string name="DisableGreetingSticker">Matikan stiker menyapa</string>
@@ -156,7 +145,6 @@
     <string name="OfficialSite">Situs resmi</string>
     <string name="MutualContact">Kontak timbal balik</string>
     <string name="MutualContactDescription">Anda saling menyimpan nomor dengan kontak ini.</string>
-    <string name="NoUpdateAvailable">Tidak ada pembaruan tersedia.</string>
     <string name="InviteTextNeko">Hai, saya menggunakan Nekogram untuk mengobrol. Ayo ikut! Unduh di sini: %1$s</string>
     <string name="ShareNekogram">Bagikan Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBerdasarkan Telegram %2$s\nDibuat oleh %3$s</string>
@@ -181,13 +169,11 @@
     <string name="SaveToDownloadCount_few">Menyimpan berkas %1$d ke Unduhan</string>
     <string name="SaveToDownloadCount_many">Menyimpan berkas %1$d ke Unduhan</string>
     <string name="SaveToDownloadCount_other">Menyimpan berkas %1$d ke Unduhan</string>
-    <string name="ThemesChannel">Saluran tema</string>
     <string name="AppLinkNotVerifiedMessage">Untuk Android 12 dan lebih baru, Anda perlu menambahkan tautan secara manual ke tautan terverifikasi untuk membuka tautan t.me di Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Tautan aplikasi tidak terverifikasi</string>
     <string name="AutoTranslate">Terjemahkan otomatis</string>
     <string name="AutoTranslateAbout">Terjemahkan pesan bahasa lain secara otomatis.</string>
     <string name="DoubleTapAction">Aksi ketuk ganda</string>
-    <string name="BlockedUserIgnored">diblokir</string>
     <string name="EditUndo">Batal</string>
     <string name="EditRedo">Ulang</string>
     <string name="EditEnableMarkdown">Aktifkan Markdown</string>
@@ -205,10 +191,7 @@
     <string name="ProviderYouDaoTranslate">Penerjemah YouDao</string>
     <string name="ProviderBaiduTranslate">Penerjemah Baidu</string>
     <string name="ProviderSogouTranslate">Penerjemah Sogou</string>
-    <string name="Translating">menerjemahkan</string>
     <string name="Translated">diterjemahkan</string>
-    <string name="BrokenMLKit">Pengaturan tidak tersedia</string>
-    <string name="BrokenMLKitDetail">Pengidentifikasi bahasa MLKit rusak pada perangkat ini.</string>
     <string name="PasscodeNeeded">Anda harus mengaktifkan sandi terlebih dahulu</string>
     <string name="PasscodeNeko">Sandi</string>
     <string name="PasscodeShowInSettings">Tampilkan di Pengaturan Neko</string>
@@ -252,7 +235,6 @@
     <string name="DownloadSpeedBoostNone">Mati</string>
     <string name="DownloadSpeedBoostAverage">Nyala</string>
     <string name="DownloadSpeedBoostExtreme">Ekstrim</string>
-    <string name="UploadloadSpeedBoost">Peningkatan kecepatan upload</string>
     <string name="NoUpdateAvailablePlay">Silakan periksa pembaruan di Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">Pembaruan di Play Store biasanya tersedia lebih lambat daripada pengunduhan APK langsung karena tinjauan Google.</string>
     <string name="DownloadEmojiSet">Unduh %s</string>
@@ -287,7 +269,6 @@
     <string name="NavigationAnimation">Animasi navigasi</string>
     <string name="NavigationAnimationBezier">Klasik</string>
     <string name="NavigationAnimationSpring">Natural</string>
-    <string name="NavigationAnimationCrossfading">Efek memudar</string>
     <string name="CloudConfig">Pengaturan cloud</string>
     <string name="CloudConfigDesc">Simpan pengaturan Neko anda ke Telegram cloud.</string>
     <string name="CloudConfigSyncDate">Terakhir disinkronkan: %s, cloud: %s</string>

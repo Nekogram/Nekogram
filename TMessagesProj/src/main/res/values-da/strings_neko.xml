@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Neko Indstillinger</string>
-    <string name="IPv6">Prøv at oprette forbindelse via IPv6</string>
     <string name="MessageMenu">Meddelelse menu</string>
     <string name="HidePhone">Skjul mit telefonnummer</string>
     <string name="DeleteAllFromSelf">Slet egne beskeder</string>
     <string name="DeleteAllFromSelfAlert">Advarsel! Dette vil ** slette alle beskeder fra dig** i denne chat for **alle** deltagere.</string>
-    <string name="BotLogin">Bot Login</string>
-    <string name="InvalidAccessToken">Ugyldig adgangstoken</string>
     <string name="IgnoreBlocked">Skjul beskeder fra blokeret bruger</string>
     <string name="Connection">Forbindelse</string>
     <string name="Chat">Chat</string>
@@ -18,12 +15,10 @@
     <string name="AddToSavedMessages">Gem besked</string>
     <string name="CreateMention">Opret Omtale</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Gennemsigtig statuslinje</string>
     <string name="EnableResidentNotification">Vis en resident underretning</string>
     <string name="DisableResidentNotification">Deaktiver residente notifikationer</string>
     <string name="NekogramRunning">Nekogram kører</string>
     <string name="EventType">Sidebar ikon sæt</string>
-    <string name="ChristmasHat">Vis nissehue hver dag</string>
     <string name="DependsOnDate">Afhænger af dato</string>
     <string name="Christmas">Jul</string>
     <string name="Valentine">Valentinsdag</string>
@@ -32,8 +27,6 @@
     <string name="TestBackendOff">Denne konto vil oprette forbindelse til produktionsbackend.</string>
     <string name="ViewHistory">Se historik</string>
     <string name="Nya">Meow!</string>
-    <string name="SensitiveDisableFiltering">Deaktivér filtrering af følsomt indhold</string>
-    <string name="SensitiveAbout">Vis følsomme medier i offentlige kanaler på alle dine enheder.</string>
     <string name="StickerSize">Klistermærke størrelse</string>
     <string name="StickerSizeDialogMessage">Åh så sød! En sort kat!</string>
     <string name="StickerSizeDialogMessageReplyTo">Meow</string>
@@ -46,11 +39,8 @@
     <string name="TranslateApiUnsupported">Den valgte oversættelsesudbyder understøtter ikke dit sprog.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Fortryd oversættelse</string>
-    <string name="DisablePhotoViewerSideAction">Deaktiver \"Spejlvend billeder ved at trykke\"</string>
-    <string name="BotToken">Token</string>
     <string name="OpenArchiveOnPull">Åbn arkiv ved at trække ned</string>
     <string name="HideKeyboardOnChatScroll">Skjul tastatur ved chat scroll</string>
-    <string name="ShowTabsOnForward">Vis faneblade fremad</string>
     <string name="CheckAllAdministrated">Tilføj administreret</string>
     <string name="RearVideoMessages">Bageste kamera i videobeskeder</string>
     <string name="HideAllTab">Skjul fanen \"Alle Chats\"</string>
@@ -115,7 +105,6 @@
     <string name="SelectBetween">Vælg mellem</string>
     <string name="StickerSavedHint">Klistermærke gemt i galleri</string>
     <string name="RegistrationDate">Registreringsdato</string>
-    <string name="WsDescription">Opret forbindelse til Telegram via WebSocket via Cloudflare. **Lær mere**</string>
     <string name="WsEnableTls">Aktiver TLS</string>
     <string name="WsProvider">Udbyder</string>
     <string name="UpdateNekogram">Opdater Nekogram</string>
@@ -143,7 +132,6 @@
     <string name="OfficialSite">Officiel hjemmeside</string>
     <string name="MutualContact">Gensidig kontakt</string>
     <string name="MutualContactDescription">Denne kontakt er en gensidig kontakt.</string>
-    <string name="NoUpdateAvailable">Der er ingen tilgængelig opdatering.</string>
     <string name="InviteTextNeko">Hej, jeg bruger Nekogram til at chatte med. Tilmeld dig mig! Download det her: %1$s</string>
     <string name="ShareNekogram">Del Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBaseret på Telegram %2$s\nDesignet af %3$s</string>
@@ -168,13 +156,11 @@
     <string name="SaveToDownloadCount_few">Gemmer %1$d filer til downloads</string>
     <string name="SaveToDownloadCount_many">Gemmer %1$d filer til downloads</string>
     <string name="SaveToDownloadCount_other">Gemmer %1$d filer til downloads</string>
-    <string name="ThemesChannel">Tema kanal</string>
     <string name="AppLinkNotVerifiedMessage">For Android 12 og nyere, skal du manuelt tilføje link til bekræftede links for at åbne t.me links i Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">App-links ikke verificeret</string>
     <string name="AutoTranslate">Automatisk oversættelse</string>
     <string name="AutoTranslateAbout">Oversæt automatisk meddelelser, der er på et andet sprog.</string>
     <string name="DoubleTapAction">Handling ved dobbelttryk</string>
-    <string name="BlockedUserIgnored">blokeret</string>
     <string name="EditUndo">Fortryd</string>
     <string name="EditRedo">Gendan</string>
     <string name="EditEnableMarkdown">Aktivér Markering</string>
@@ -192,9 +178,7 @@
     <string name="ProviderYouDaoTranslate">YouDao oversætter</string>
     <string name="ProviderBaiduTranslate">Baidu Oversætter</string>
     <string name="ProviderSogouTranslate">Sogou Oversætter</string>
-    <string name="Translating">oversæt</string>
     <string name="Translated">oversat</string>
-    <string name="BrokenMLKit">Mulighed ikke tilgængelig</string>
     <string name="PasscodeNeeded">Du er nødt til at aktivere adgangskode lås først</string>
     <string name="PasscodeNeko">Adgangskode</string>
     <string name="PasscodeShowInSettings">Vis i Neko-indstillinger</string>

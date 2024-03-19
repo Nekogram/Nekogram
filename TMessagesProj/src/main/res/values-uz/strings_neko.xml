@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Neko sozlamalari</string>
-    <string name="IPv6">IPv6 orqali ulanishga urining</string>
     <string name="MessageMenu">Xabarlar menyusi</string>
     <string name="HidePhone">Telefon raqamimni yashirish</string>
     <string name="DeleteAllFromSelf">Shaxsiy xabarlarni o\'chirish</string>
     <string name="DeleteAllFromSelfAlert">Ogohlantirish! Bu **barcha** ishtirokchilar uchun ushbu chatdagi **sizdan kelgan barcha xabarlarni** o‘chirib tashlaydi.</string>
     <string name="DeleteAllFromSelfAlertBefore">Ogohlantirish! Bu **barcha %s** ishtirokchilar uchun ushbu chatdagi **sizdan kelgan barcha xabarlarni** o‘chirib tashlaydi.</string>
     <string name="DeleteAllFromSelfBefore">Oldin...</string>
-    <string name="BotLogin">Bot bo\'lib kirish</string>
-    <string name="BotLoginMessage">**@BotFather** dan olingan tokeningizni kiriting.</string>
-    <string name="InvalidAccessToken">Kirish tokeni noto\'g\'ri</string>
     <string name="IgnoreBlocked">Bloklangan foydalanuvchilardan kelgan xabarlarni yashirish</string>
     <string name="Connection">Ulanish</string>
     <string name="Chat">Chat</string>
@@ -21,12 +17,10 @@
     <string name="AddToSavedMessages">Xabarni saqlash</string>
     <string name="CreateMention">Eslatma yaratish</string>
     <string name="Prpr">Biroq</string>
-    <string name="TransparentStatusBar">Shaffof panel</string>
     <string name="EnableResidentNotification">Rezident bildirishnomasini ko\'rsatish</string>
     <string name="DisableResidentNotification">Rezident bildirishnomasini o\'chirib qo\'yish</string>
     <string name="NekogramRunning">Nekogram ishlamoqda</string>
     <string name="EventType">Yon panel piktogramma to\'plami</string>
-    <string name="ChristmasHat">Har kuni Yangi yil shlyapasini ko\'rsatish</string>
     <string name="DependsOnDate">Sanaga bog\'liq</string>
     <string name="Christmas">Yangi yil</string>
     <string name="Valentine">Sevishganlar kuni</string>
@@ -35,8 +29,6 @@
     <string name="TestBackendOff">Bu hisob ishlab chiqarish serveriga ulanadi.</string>
     <string name="ViewHistory">Tarixni ko\'rish</string>
     <string name="Nya">Myau!</string>
-    <string name="SensitiveDisableFiltering">Nozik kontentni filtrlashni o\'chirib qo\'ying</string>
-    <string name="SensitiveAbout">Barcha qurilmalaringizdagi ommaviy kanallarda nozik mediani ko‘rsatish.</string>
     <string name="StickerSize">Stiker hajmi</string>
     <string name="StickerSizeLeft">Kichik</string>
     <string name="StickerSizeRight">Katta</string>
@@ -51,11 +43,8 @@
     <string name="TranslateApiUnsupported">Siz tanlagan tarjimon provayderi tilingizni qo‘llab-quvvatlamaydi.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Tarjimani bekor qilish</string>
-    <string name="DisablePhotoViewerSideAction">“Suratlarni bosish orqali aylantirish” funksiyasini o‘chirib qo‘ying.</string>
-    <string name="BotToken">Token</string>
     <string name="OpenArchiveOnPull">Arxivni pastga tortib oching</string>
     <string name="HideKeyboardOnChatScroll">Chatda harakatlanganda klaviaturani yashirish</string>
-    <string name="ShowTabsOnForward">Bosh yorliqlarni ko\'rsatish</string>
     <string name="CheckAllAdministrated">Boshqaruvchi qo\'shish</string>
     <string name="RearVideoMessages">Video xabarni orqa kamera bilan boshlash</string>
     <string name="HideAllTab">\"Barcha chatlar\"ni yashirish</string>
@@ -123,12 +112,8 @@
     <string name="RegistrationDateNewer">%s dan yangiroq</string>
     <string name="RegistrationDateOlder">%s dan eskiroq</string>
     <string name="RegistrationDateApproximately">Taxminan %s</string>
-    <string name="WsDescription">Cloudflare bilan WebSocket orqali Telegramga ulaning. **Batafsil ma\'lumot**</string>
     <string name="WsEnableTls">TLSni yoqish</string>
     <string name="WsProvider">Provayder</string>
-    <string name="WsNotWorking">Proksi ishlamayapti!</string>
-    <string name="WsUseMyOwnDomain">Shaxsiy provayderni qanday sozlash kerak</string>
-    <string name="WsStandaloneApp">Boshqa dasturlardagi proksidan foydalaning</string>
     <string name="UpdateNekogram">Nekogramni yangilash</string>
     <string name="TranslationTarget">Maqsadli til</string>
     <string name="TranslationTargetApp">Tarjima tili</string>
@@ -154,7 +139,6 @@
     <string name="OfficialSite">Rasmiy sayt</string>
     <string name="MutualContact">O\'zaro kantaktlar</string>
     <string name="MutualContactDescription">Ushbu kantakt o\'zaro kantakt.</string>
-    <string name="NoUpdateAvailable">Yangilanish mavjud emas.</string>
     <string name="InviteTextNeko">Salom, Men chat uchun Nekogramdan foydalanayapman. Menga qo\'shil! Bu yerdan yuklab ol: %1$s</string>
     <string name="ShareNekogram">Nekogramni yuborish...</string>
     <string name="NekogramVersion">Nekogram %1$s\nTelegram %2$s asosida\nDizayner %3$s</string>
@@ -179,13 +163,11 @@
     <string name="SaveToDownloadCount_few">%1$d fayllari saqlanmoqda</string>
     <string name="SaveToDownloadCount_many">%1$d fayllari saqlanmoqda</string>
     <string name="SaveToDownloadCount_other">%1$d fayllari saqlanmoqda</string>
-    <string name="ThemesChannel">Mavzular kanali</string>
     <string name="AppLinkNotVerifiedMessage">Android 12 va undan yangiroq versiyalar uchun Nekogram\'da t.me havolalarini ochish uchun tasdiqlangan havolalarga havolani qo\'lda qo\'shishingiz kerak.</string>
     <string name="AppLinkNotVerifiedTitle">Dastur havolalari tasdiqlanmagan</string>
     <string name="AutoTranslate">Avtomatik tarjima</string>
     <string name="AutoTranslateAbout">Boshqa tildagi xabarlarni avtomatik tarjima qilish.</string>
     <string name="DoubleTapAction">Ikki marta bosish buyrug\'i</string>
-    <string name="BlockedUserIgnored">bloklangan</string>
     <string name="EditUndo">Bekor qilish</string>
     <string name="EditRedo">Qayta bajarish</string>
     <string name="EditEnableMarkdown">Markdownni yoqish</string>
@@ -203,10 +185,7 @@
     <string name="ProviderYouDaoTranslate">YouDao Tarjimon</string>
     <string name="ProviderBaiduTranslate">Baidu Tarjimon</string>
     <string name="ProviderSogouTranslate">Sogou Tarjimon</string>
-    <string name="Translating">tarjima qilinmoqda</string>
     <string name="Translated">tarjima qilindi</string>
-    <string name="BrokenMLKit">Tanlov mavjud emas</string>
-    <string name="BrokenMLKitDetail">Ushbu qurilmada MLKit til identifikatori buzilgan.</string>
     <string name="PasscodeNeeded">Avval parolli qulflashni yoqishingiz kerak</string>
     <string name="PasscodeNeko">Parol</string>
     <string name="PasscodeShowInSettings">Neko sozlamalarida ko\'rsatish</string>
@@ -250,7 +229,6 @@
     <string name="DownloadSpeedBoostNone">O\'chik</string>
     <string name="DownloadSpeedBoostAverage">Yoniq</string>
     <string name="DownloadSpeedBoostExtreme">Ekstrimal</string>
-    <string name="UploadloadSpeedBoost">Yuklash tezligini oshuruvchi</string>
     <string name="NoUpdateAvailablePlay">Play Storedan yangilanishni tekshiring.</string>
     <string name="NoUpdateAvailablePlayDelay">Google tekshiruvi tufayli Play Store-dagi yangilanish odatda to\'g\'ridan-to\'g\'ri APK\'larga qaraganda sekinroq keladi.</string>
     <string name="DownloadEmojiSet">Yuklammoqda %s</string>
@@ -285,7 +263,6 @@
     <string name="NavigationAnimation">Navigatsiya animatsiyasi</string>
     <string name="NavigationAnimationBezier">Klassik</string>
     <string name="NavigationAnimationSpring">Tabiiy</string>
-    <string name="NavigationAnimationCrossfading">Crossfade</string>
     <string name="CloudConfig">Bulut Sozlamalari</string>
     <string name="CloudConfigDesc">Neko sozlamalarini Telegram bulutga saqlash.</string>
     <string name="CloudConfigSyncDate">Sinxronlandi: %s, bulutga: %s</string>

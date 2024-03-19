@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">喵設定</string>
-    <string name="IPv6">IPv6 で接続することを優先する</string>
     <string name="MessageMenu">メッセージメニュー</string>
     <string name="HidePhone">あなたの携帯電話番号を隠す</string>
     <string name="DeleteAllFromSelf">自分のメッセージを削除</string>
     <string name="DeleteAllFromSelfAlert">警告！これはこのチャットの **すべての人** が **あなたが送った全部のメッセージ** を削除します。</string>
     <string name="DeleteAllFromSelfBefore">以前...</string>
-    <string name="BotLogin">ボットログイン</string>
-    <string name="BotLoginMessage">**@BotFather** から取得したボットトークンを入力してください。</string>
-    <string name="InvalidAccessToken">無効なアクセストークン</string>
     <string name="IgnoreBlocked">ブロックしたユーザーからのメッセージを隠す</string>
     <string name="Connection">接続</string>
     <string name="Chat">チャット</string>
@@ -24,12 +20,10 @@
     <string name="AddToSavedMessages">保存用メッセージに追加</string>
     <string name="CreateMention">アットユーザー</string>
     <string name="Prpr">ペロペロ</string>
-    <string name="TransparentStatusBar">完全に透明なステータスバーを使う</string>
     <string name="EnableResidentNotification">常駐通知を表示する</string>
     <string name="DisableResidentNotification">常駐通知を無効にする</string>
     <string name="NekogramRunning">Nekogram ランニング</string>
     <string name="EventType">サイドバーアイコンの設定</string>
-    <string name="ChristmasHat">クリスマスの帽子を毎日表示</string>
     <string name="DependsOnDate">日付に依存</string>
     <string name="Christmas">クリスマス</string>
     <string name="Valentine">バレンタイン</string>
@@ -38,8 +32,6 @@
     <string name="TestBackendOff">このアカウントは、本番バックエンドに接続します。</string>
     <string name="ViewHistory">履歴を見る</string>
     <string name="Nya">にゃ!</string>
-    <string name="SensitiveDisableFiltering">Sensitiveな内容のfilteringを無効にする</string>
-    <string name="SensitiveAbout">公開チャンネルに投稿されたセンシティブな内容をすべてあなたの端末に表示します。</string>
     <string name="StickerSize">ステッカーのサイズ</string>
     <string name="StickerSizeLeft">小さい</string>
     <string name="StickerSizeRight">大きい</string>
@@ -54,11 +46,8 @@
     <string name="TranslateApiUnsupported">選択した翻訳プロバイダーはあなたの言語をサポートしていません.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">翻訳を取り消す</string>
-    <string name="DisablePhotoViewerSideAction">\"タップで写真を反転\" を無効にする</string>
-    <string name="BotToken">トークン</string>
     <string name="OpenArchiveOnPull">保管したチャットをプルダウンで開く</string>
     <string name="HideKeyboardOnChatScroll">チャットスクロールでキーボードを非表示にする</string>
-    <string name="ShowTabsOnForward">前方にタブを表示</string>
     <string name="CheckAllAdministrated">管理対象を追加</string>
     <string name="RearVideoMessages">ビデオメッセージでリアカメラを使用する</string>
     <string name="HideAllTab">「すべてのチャット」タブを非表示にする</string>
@@ -126,12 +115,8 @@
     <string name="RegistrationDateNewer">%s より新しい</string>
     <string name="RegistrationDateOlder">%s より古い</string>
     <string name="RegistrationDateApproximately">約 %s</string>
-    <string name="WsDescription">Cloudflare経由のWebSocketでTelegramに接続します。**詳細はこちら**</string>
     <string name="WsEnableTls">TLS を有効化</string>
     <string name="WsProvider">プロバイダー</string>
-    <string name="WsNotWorking">プロキシが動作していません!</string>
-    <string name="WsUseMyOwnDomain">カスタムプロバイダーの設定方法</string>
-    <string name="WsStandaloneApp">他のアプリでプロキシを使用する</string>
     <string name="UpdateNekogram">Nekogramを更新</string>
     <string name="TranslationTarget">訳文の言語</string>
     <string name="TranslationTargetApp">自動</string>
@@ -158,7 +143,6 @@
     <string name="OfficialSite">公式サイト</string>
     <string name="MutualContact">お互いの連絡先</string>
     <string name="MutualContactDescription">この接触は相互接触である。</string>
-    <string name="NoUpdateAvailable">利用可能な更新はありません。</string>
     <string name="InviteTextNeko">こんにちは、Nekogramを使ってチャットをしています。参加してください！ダウンロードはこちらから： %1$s</string>
     <string name="ShareNekogram">Nekogramを共有...</string>
     <string name="NekogramVersion">Nekogram %1$s\nTelegramをベースにしたもの %2$s\nDesigned by %3$s</string>
@@ -183,13 +167,11 @@
     <string name="SaveToDownloadCount_few">%1$d ファイルをダウンロードに保存しています</string>
     <string name="SaveToDownloadCount_many">%1$d ファイルをダウンロードに保存しています</string>
     <string name="SaveToDownloadCount_other">%1$d ファイルをダウンロードに保存しています</string>
-    <string name="ThemesChannel">テーマのチャンネル</string>
     <string name="AppLinkNotVerifiedMessage">Android 12以降では、Nekogramでt.meのリンクを開くには、検証済みリンクにリンクを手動で追加する必要があります。</string>
     <string name="AppLinkNotVerifiedTitle">アプリのリンクが確認されていません</string>
     <string name="AutoTranslate">自動翻訳</string>
     <string name="AutoTranslateAbout">他の言語のメッセージを自動的に翻訳します。</string>
     <string name="DoubleTapAction">ダブルタップ時の動作</string>
-    <string name="BlockedUserIgnored">ブロック済み</string>
     <string name="EditUndo">元に戻す</string>
     <string name="EditRedo">やり直し</string>
     <string name="EditEnableMarkdown">マークダウンを有効にする</string>
@@ -207,10 +189,7 @@
     <string name="ProviderYouDaoTranslate">YouDao 翻訳</string>
     <string name="ProviderBaiduTranslate">Baidu 翻訳</string>
     <string name="ProviderSogouTranslate">Sogou 翻訳</string>
-    <string name="Translating">翻訳中</string>
     <string name="Translated">翻訳済み</string>
-    <string name="BrokenMLKit">オプションは使用不可</string>
-    <string name="BrokenMLKitDetail">このデバイスでは MLKit の言語識別子が破損しています。</string>
     <string name="PasscodeNeeded">最初にパスコードロックを有効にする必要があります</string>
     <string name="PasscodeNeko">パスコード</string>
     <string name="PasscodeShowInSettings">Nekoの設定で表示</string>
@@ -254,7 +233,6 @@
     <string name="DownloadSpeedBoostNone">OFF</string>
     <string name="DownloadSpeedBoostAverage">ON</string>
     <string name="DownloadSpeedBoostExtreme">エクストリーム</string>
-    <string name="UploadloadSpeedBoost">アップロード速度を向上</string>
     <string name="NoUpdateAvailablePlay">Playストアでアップデートを確認してください。</string>
     <string name="NoUpdateAvailablePlayDelay">Playストアでの更新は、Googleの審査により.apkでのアップデートより遅れます。</string>
     <string name="DownloadEmojiSet">ダウンロード %s</string>
@@ -287,7 +265,6 @@
     <string name="NavigationAnimation">ナビゲーションアニメーション</string>
     <string name="NavigationAnimationBezier">クラシック</string>
     <string name="NavigationAnimationSpring">ナチュラル</string>
-    <string name="NavigationAnimationCrossfading">クロスフェード効果</string>
     <string name="CloudConfig">クラウドの設定</string>
     <string name="CloudConfigDesc">Neko の設定を Telegram Cloud に保存します。</string>
     <string name="CloudConfigSyncDate">最終同期: %s クラウド: %s</string>

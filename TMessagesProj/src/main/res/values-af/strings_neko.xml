@@ -1,26 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="NekoSettings">afrah&lt;/3</string>
-    <string name="IPv6">saya </string>
-    <string name="MessageMenu">suka</string>
-    <string name="HidePhone">naqi&lt;\3</string>
-    <string name="DeleteAllFromSelf">dia wibu:(</string>
-    <string name="DeleteAllFromSelfAlert">NAQI&lt;\3</string>
-    <string name="BotLogin">Blubbby</string>
-    <string name="InvalidAccessToken">Wibu</string>
-    <string name="Connection">Lagi nyari naqi:(</string>
-    <string name="Chat">Mau confes ke naqi</string>
-    <string name="NameOrder">Emg naqi suka kmu</string>
-    <string name="FirstLast">Naqi 24/7</string>
-    <string name="LastFirst">Naqii💘</string>
-    <string name="Repeat">Wibu 24/7</string>
-    <string name="AddToSavedMessages">Afrah cantikk</string>
-    <string name="CreateMention">Create mention</string>
-    <string name="EnableResidentNotification">naqi ngechat </string>
-    <string name="DisableResidentNotification">naqi ngechat </string>
-    <string name="ChristmasHat">Show christmas hat everyday</string>
-    <string name="TestBackendOn">mau naqi.</string>
-    <string name="TestBackendOff">This account will connect to the production backend.</string>
-    <string name="IdTypeHidden">walau</string>
     <!-- Accessibility -->
 </resources>

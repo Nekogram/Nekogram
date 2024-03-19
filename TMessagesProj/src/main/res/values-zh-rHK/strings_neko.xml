@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">喵設置</string>
-    <string name="IPv6">優先嚐試使用 IPv6 連接</string>
     <string name="MessageMenu">消息菜單</string>
     <string name="HidePhone">隱藏咱的手機號</string>
     <string name="DeleteAllFromSelf">刪除自己的訊息</string>
     <string name="DeleteAllFromSelfAlert">警告！這將為此會話中的 **所有人** 刪除 **全部你發出的消息**。</string>
-    <string name="BotLogin">機器人登錄</string>
-    <string name="InvalidAccessToken">無效的訪問令牌</string>
     <string name="IgnoreBlocked">隱藏來自封鎖用戶的訊息</string>
     <string name="Connection">連接</string>
     <string name="Chat">聊天</string>
@@ -18,12 +15,10 @@
     <string name="AddToSavedMessages">拿去自嗨</string>
     <string name="CreateMention">提及使用者</string>
     <string name="Prpr">ペロペロ</string>
-    <string name="TransparentStatusBar">使用完全透明的狀態欄</string>
     <string name="EnableResidentNotification">請讓貓咪住在通知欄裏吧</string>
     <string name="DisableResidentNotification">果然通知欄還是太擠了</string>
     <string name="NekogramRunning">貓貓奔跑中</string>
     <string name="EventType">抽屜圖示集</string>
-    <string name="ChristmasHat">每天顯示聖誕帽</string>
     <string name="DependsOnDate">基於日期</string>
     <string name="Christmas">聖誕節</string>
     <string name="Valentine">情人節</string>
@@ -32,8 +27,6 @@
     <string name="TestBackendOff">此賬户將連接至生產後端服務器。</string>
     <string name="ViewHistory">顯示歷史消息</string>
     <string name="Nya">喵！</string>
-    <string name="SensitiveDisableFiltering">禁用敏感內容過濾</string>
-    <string name="SensitiveAbout">在您所有設備上顯示公共頻道中的敏感媒體內容。</string>
     <string name="StickerSize">貼圖大小</string>
     <string name="StickerSizeDialogMessage">嘩! 係一隻好得意嘅黑貓!</string>
     <string name="StickerSizeDialogMessageReplyTo">喵</string>
@@ -46,22 +39,15 @@
     <string name="TranslateApiUnsupported">您選擇的翻譯源不支持您的語言.</string>
     <string name="ProviderLingocloud">彩雲小譯</string>
     <string name="UndoTranslate">撤銷翻譯</string>
-    <string name="DisablePhotoViewerSideAction">禁止 “輕按以旋轉圖片”</string>
-    <string name="BotToken">令牌</string>
     <string name="OpenArchiveOnPull">下拉開啟已封存對話</string>
     <string name="HideKeyboardOnChatScroll">當滾動瀏覽對話時隱藏鍵盤</string>
-    <string name="ShowTabsOnForward">在轉傳的頁面中顯示標籤</string>
     <string name="CheckAllAdministrated">新增管理員</string>
     <string name="RearVideoMessages">視頻消息中使用後置攝像頭</string>
     <string name="HideAllTab">隱藏“所有聊天”標籤</string>
     <string name="TabTitleType">在標籤欄上顯示</string>
     <string name="TabTitleTypeText">標題</string>
-    <string name="ConfirmAVMessage">Dari naqii</string>
     <string name="AskBeforeCalling">打電話前詢問</string>
-    <string name="DisableNumberRounding">Nomor naqi!</string>
     <string name="Categories">類別</string>
-    <string name="OfficialChannel">Naqi 💘💫</string>
-    <string name="About">About</string>
     <string name="IgnoreBlockedAbout">不是真正的隱藏！訊息仍然可以查看，但文本將被轉換為劇透，媒體不會自動下載。</string>
     <string name="Donate">捐款</string>
     <string name="DonateAbout">支持一下我哋嘅開發</string>
@@ -80,7 +66,6 @@
     <string name="IdTypeBOTAPI">id類機器人API</string>
     <string name="AutoPauseVideo">自動暫停影像</string>
     <string name="AutoPauseVideoAbout">關於自動暫停視頻</string>
-    <string name="DisableProximityEvents">禁用接近時間？</string>
     <string name="Page1Message2">Nekogram 是使用 Telegram API\n的**非官方**應用</string>
     <string name="MapDriftingFix">世界大地測量系統 ==&gt; 火星大地測量系統</string>
     <string name="DisableInstantCamera">禁用即使相機</string>
@@ -137,11 +122,8 @@
     <string name="DeleteAllFromSelfAdmin">擁有管理員權限</string>
     <string name="OfficialSite">官方網站</string>
     <string name="MutualContact">相互聯繫</string>
-    <string name="MutualContactDescription">此聯繫人是互相聯係的？</string>
-    <string name="NoUpdateAvailable">沒有可用的更新。</string>
     <string name="InviteTextNeko">嘿，我而家用紧Nekogram倾解，屌你老母快Qd同我下載Nekogram，下載鏈接：%1$s</string>
     <string name="ShareNekogram">分享Nekogram...</string>
-    <string name="NekogramVersion">Nekogram%1$s\n基於Telegram%2$s\n由%3$s設計 （SISUBENY參與翻譯工作awa）</string>
     <string name="UpdateInstalling">下載更新...</string>
     <string name="UpdateFailedToInstall">下載更新時發生錯誤：%d</string>
     <string name="QRLoginMessage">用其他設備掃描QRCode登錄。</string>
@@ -159,13 +141,10 @@
     <string name="SaveToDownloadCount_few">正在保存 %1$d 個文件以供下載</string>
     <string name="SaveToDownloadCount_many">正在保存 %1$d 文件以供下載</string>
     <string name="SaveToDownloadCount_other">正在保存 %1$d 文件以供下載</string>
-    <string name="ThemesChannel">主題頻道</string>
     <string name="AppLinkNotVerifiedMessage">對於 Android 12 及更高版本，您需要手動添加鏈接到經過驗證的鏈接才能在 Nekogram 中打開 t.me 鏈接。</string>
     <string name="AppLinkNotVerifiedTitle">鏈接沒有經過驗證</string>
     <string name="AutoTranslate">自動翻譯</string>
     <string name="AutoTranslateAbout">自動翻譯其他語言的訊息。</string>
-    <string name="DoubleTapAction">雙擊事件？</string>
-    <string name="BlockedUserIgnored">封鎖</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">輔助功能設置</string>
 </resources>

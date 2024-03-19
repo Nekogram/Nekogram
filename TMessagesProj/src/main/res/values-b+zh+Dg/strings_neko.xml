@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">喵设置</string>
-    <string name="IPv6">优先尝试使用 IPv6 连接</string>
+    <string name="PreferIPv6">优先尝试使用 IPv6 连接</string>
     <string name="MessageMenu">消息菜单</string>
     <string name="HidePhone">隐藏咱的手机号</string>
     <string name="DeleteAllFromSelf">自闭</string>
     <string name="DeleteAllFromSelfAlert">警告！这将为此会话中的 **所有人** 删除 **全部您发出的消息**。</string>
     <string name="DeleteAllFromSelfAlertBefore">警告！这将为此会话中的 **所有人** 删除 **全部您在%s前发出的消息**。</string>
     <string name="DeleteAllFromSelfBefore">早于...</string>
-    <string name="BotLogin">机器人登录</string>
-    <string name="BotLoginMessage">输入从 **@BotFather** 获得的机器人令牌。</string>
-    <string name="InvalidAccessToken">无效的访问令牌</string>
     <string name="IgnoreBlocked">隐藏来自坏东西的消息</string>
     <string name="Connection">连接</string>
     <string name="Chat">聊天</string>
@@ -25,12 +22,10 @@
     <string name="AddToSavedMessages">拿去自嗨</string>
     <string name="CreateMention">创建\@</string>
     <string name="Prpr">ペロペロ</string>
-    <string name="TransparentStatusBar">使用完全透明的状态栏</string>
     <string name="EnableResidentNotification">请让猫咪住在通知栏里吧</string>
     <string name="DisableResidentNotification">果然通知栏还是太挤了</string>
     <string name="NekogramRunning">猫猫奔跑中</string>
     <string name="EventType">抽屉图标集</string>
-    <string name="ChristmasHat">每天显示圣诞帽</string>
     <string name="DependsOnDate">基于日期</string>
     <string name="Christmas">圣诞节</string>
     <string name="Valentine">情人节</string>
@@ -39,8 +34,6 @@
     <string name="TestBackendOff">此账户将连接至生产后端服务器。</string>
     <string name="ViewHistory">显示历史消息</string>
     <string name="Nya">喵！</string>
-    <string name="SensitiveDisableFiltering">禁用敏感内容过滤</string>
-    <string name="SensitiveAbout">在您所有设备上显示公共频道中的敏感媒体内容。</string>
     <string name="StickerSize">贴纸大小</string>
     <string name="StickerSizeLeft">小</string>
     <string name="StickerSizeRight">大</string>
@@ -55,11 +48,8 @@
     <string name="TranslateApiUnsupported">您选择的翻译源不支持您的语言.</string>
     <string name="ProviderLingocloud">彩云小译</string>
     <string name="UndoTranslate">撤销翻译</string>
-    <string name="DisablePhotoViewerSideAction">禁用“点按切换图片”</string>
-    <string name="BotToken">令牌</string>
     <string name="OpenArchiveOnPull">下拉打开里世界</string>
     <string name="HideKeyboardOnChatScroll">当滚动浏览对话时隐藏键盘</string>
-    <string name="ShowTabsOnForward">在转发页面显示对话分组</string>
     <string name="CheckAllAdministrated">添加管理的群组与频道</string>
     <string name="RearVideoMessages">视频留言默认使用后置摄像头</string>
     <string name="HideAllTab">隐藏“全部对话”</string>
@@ -128,12 +118,8 @@
     <string name="RegistrationDateNewer">晚于 %s</string>
     <string name="RegistrationDateOlder">早于 %s</string>
     <string name="RegistrationDateApproximately">大约 %s</string>
-    <string name="WsDescription">通过 WebSocket 从 Cloudflare 连接到 Telegram。**了解更多 **</string>
     <string name="WsEnableTls">启用 TLS</string>
     <string name="WsProvider">提供者</string>
-    <string name="WsNotWorking">代理不可用！</string>
-    <string name="WsUseMyOwnDomain">如何建立自定义提供者</string>
-    <string name="WsStandaloneApp">在其他应用程序中使用代理</string>
     <string name="UpdateNekogram">更新 Nekogram</string>
     <string name="TranslationTarget">目标语言</string>
     <string name="TranslationTargetApp">跟随应用</string>
@@ -160,7 +146,6 @@
     <string name="OfficialSite">官方网站</string>
     <string name="MutualContact">双向联系人</string>
     <string name="MutualContactDescription">此联系人是一个双向联系人。</string>
-    <string name="NoUpdateAvailable">没有可用的更新。</string>
     <string name="InviteTextNeko">嗨，我在使用 Nekogram 聊天。加入我们吧！从这里下载：%1$s</string>
     <string name="ShareNekogram">分享 Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\n基于 Telegram %2$s\n由 %3$s 设计</string>
@@ -185,13 +170,11 @@
     <string name="SaveToDownloadCount_few">正在保存 %1$d 个文件到下载</string>
     <string name="SaveToDownloadCount_many">正在保存 %1$d 个文件到下载</string>
     <string name="SaveToDownloadCount_other">正在保存 %1$d 个文件到下载</string>
-    <string name="ThemesChannel">主题频道</string>
     <string name="AppLinkNotVerifiedMessage">对于 Android 12 及更新的版本，您需要手动添加链接到已验证链接才能在 Nekogram 中打开 t.me 链接。</string>
     <string name="AppLinkNotVerifiedTitle">应用链接未验证</string>
     <string name="AutoTranslate">自动翻译</string>
     <string name="AutoTranslateAbout">自动翻译其他语言的消息。</string>
     <string name="DoubleTapAction">双击操作</string>
-    <string name="BlockedUserIgnored">已屏蔽</string>
     <string name="EditUndo">撤销</string>
     <string name="EditRedo">重做</string>
     <string name="EditEnableMarkdown">启用 Markdown</string>
@@ -209,10 +192,7 @@
     <string name="ProviderYouDaoTranslate">有道翻译</string>
     <string name="ProviderBaiduTranslate">百度翻译</string>
     <string name="ProviderSogouTranslate">搜狗翻译</string>
-    <string name="Translating">翻译中</string>
     <string name="Translated">已翻译</string>
-    <string name="BrokenMLKit">选项不可用</string>
-    <string name="BrokenMLKitDetail">MLKit 语言识别器在此设备上被损坏。</string>
     <string name="PasscodeNeeded">您必须先启用锁定码</string>
     <string name="PasscodeNeko">锁定码</string>
     <string name="PasscodeShowInSettings">在喵设置中显示</string>
@@ -256,7 +236,6 @@
     <string name="DownloadSpeedBoostNone">关闭</string>
     <string name="DownloadSpeedBoostAverage">开启</string>
     <string name="DownloadSpeedBoostExtreme">极高</string>
-    <string name="UploadloadSpeedBoost">上传速度提升</string>
     <string name="NoUpdateAvailablePlay">请在 Play 商店检查更新。</string>
     <string name="NoUpdateAvailablePlayDelay">由于谷歌的审核，Play 商店中的更新通常比直接的 APK 来得慢。</string>
     <string name="DownloadEmojiSet">下载 %s</string>
@@ -291,7 +270,6 @@
     <string name="NavigationAnimation">导航动画</string>
     <string name="NavigationAnimationBezier">经典</string>
     <string name="NavigationAnimationSpring">自然</string>
-    <string name="NavigationAnimationCrossfading">淡入淡出效果</string>
     <string name="CloudConfig">云设置</string>
     <string name="CloudConfigDesc">保存喵设置到 Telegram 云。</string>
     <string name="CloudConfigSyncDate">最后同步：%s，云端：%s</string>

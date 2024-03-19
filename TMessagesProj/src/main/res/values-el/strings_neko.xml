@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Ρυθμίσεις Nekogram</string>
-    <string name="IPv6">Προσπάθεια σύνδεσης μέσω IPv6</string>
     <string name="MessageMenu">Μενού μηνυμάτων</string>
     <string name="HidePhone">Απόκρυψη του αριθμού μου</string>
     <string name="DeleteAllFromSelf">Διαγραφή των μηνυμ. μου</string>
     <string name="DeleteAllFromSelfAlert">Προειδοποίηση! Αυτό θα **διαγράψει ΌΛΑ τα μηνύματά σας** σε αυτή τη συνομιλία για **ΌΛΟΥΣ** τους συμμετέχοντες.</string>
     <string name="DeleteAllFromSelfAlertBefore">Προειδοποίηση! Αυτό θα **διαγράψει όλα τα μηνύματά σας πριν την %s** σε αυτή τη συνομιλία για **όλους** τους συμμετέχοντες.</string>
     <string name="DeleteAllFromSelfBefore">Πριν...</string>
-    <string name="BotLogin">Σύνδεση Bot</string>
-    <string name="BotLoginMessage">Εισάγετε το διακριτικό του bot που ελήφθη από **@BotFather**.</string>
-    <string name="InvalidAccessToken">Άκυρο διακριτικό πρόσβασης</string>
     <string name="IgnoreBlocked">Απόκρυψη μηνυμ. αποκλεισμ. χρήστη</string>
     <string name="Connection">Σύνδεση</string>
     <string name="Chat">Συνομιλία</string>
@@ -25,12 +21,10 @@
     <string name="AddToSavedMessages">Αποθήκευση</string>
     <string name="CreateMention">Δημιουργία αναφοράς</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Διαφανής γραμμή κατάστασης</string>
     <string name="EnableResidentNotification">Ενεργ/ση μόνιμης ειδοποίησης</string>
     <string name="DisableResidentNotification">Απενεργ/ση μόνιμης ειδοποίησης</string>
     <string name="NekogramRunning">Το Nekogram εκτελείται</string>
     <string name="EventType">Εικονιδ πλευρικ μπάρας Αρχικής</string>
-    <string name="ChristmasHat">Προβολή καπέλου Άι Βασίλη κάθε μέρα</string>
     <string name="DependsOnDate">Βάσει ημ/νίας</string>
     <string name="Christmas">Χριστούγεννα</string>
     <string name="Valentine">Ημέρα Αγ. Βαλεντίνου</string>
@@ -39,8 +33,6 @@
     <string name="TestBackendOff">Αυτός ο λογαριασμός θα συνδεθεί με το παραγωγικό backend.</string>
     <string name="ViewHistory">Προβολή ιστορικού</string>
     <string name="Nya">Μιάου!</string>
-    <string name="SensitiveDisableFiltering">Απεν/ση φίλτρου ευαίσθ. περιεχ/νου</string>
-    <string name="SensitiveAbout">Εμφάνιση ευαίσθητων πολυμέσων στα δημόσια κανάλια σε όλες τις συσκευές σας.</string>
     <string name="StickerSize">Μέγεθος αυτοκόλλητου</string>
     <string name="StickerSizeLeft">Μικρό</string>
     <string name="StickerSizeRight">Μεγάλο</string>
@@ -55,11 +47,8 @@
     <string name="TranslateApiUnsupported">Ο πάροχος μετάφρασης που επιλέξατε δεν υποστηρίζει τη γλώσσα σας.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Αναίρεση μετάφρασης</string>
-    <string name="DisablePhotoViewerSideAction">Απενεργ. \"Αναστροφής φωτό με πάτημα\"</string>
-    <string name="BotToken">Διακριτικό</string>
     <string name="OpenArchiveOnPull">Άνοιγμα Αρχ/θέτησης με κάτω σάρωση</string>
     <string name="HideKeyboardOnChatScroll">Απόκρ. πληκ/γίου σε κύλιση συνομιλ.</string>
-    <string name="ShowTabsOnForward">Εμφάνιση καρτελών στην προώθηση</string>
     <string name="CheckAllAdministrated">Προσθήκη διαχειριζόμενων</string>
     <string name="RearVideoMessages">Πίσω κάμερα σε Βίντεο Μηνύματα</string>
     <string name="HideAllTab">Απόκρυψη καρτέλας \"Όλες\"</string>
@@ -127,12 +116,8 @@
     <string name="RegistrationDateNewer">Νεότερο από %s</string>
     <string name="RegistrationDateOlder">Παλαιότερο από %s</string>
     <string name="RegistrationDateApproximately">Περίπου %s</string>
-    <string name="WsDescription">Συνδεθείτε στο Telegram μέσω WebSocket μέσω Cloudflare. **Μάθετε περισσότερα**</string>
     <string name="WsEnableTls">Ενεργοποίηση TLS</string>
     <string name="WsProvider">Πάροχος Μετάφρασης</string>
-    <string name="WsNotWorking">Ο διακομιστής μεσολάβησης δε λειτουργεί!</string>
-    <string name="WsUseMyOwnDomain">Οδηγός ρύθμισης προσαρμοσμένου παρόχου</string>
-    <string name="WsStandaloneApp">Χρήση διακομιστή μεσολάβησης σε άλλες εφαρμογές</string>
     <string name="UpdateNekogram">Ενημέρωση Nekogram</string>
     <string name="TranslationTarget">Μετάφραση σε</string>
     <string name="TranslationTargetApp">Γλώσσα εφαρμογής</string>
@@ -159,7 +144,6 @@
     <string name="OfficialSite">Επίσημη ιστοσελίδα</string>
     <string name="MutualContact">Παρόμοια επαφή</string>
     <string name="MutualContactDescription">Αυτή είναι μια παρόμοια επαφή.</string>
-    <string name="NoUpdateAvailable">Δεν υπάρχει διαθέσιμη ενημέρωση.</string>
     <string name="InviteTextNeko">Γεια σας, χρησιμοποιώ το Nekogram για συνομιλία. Ελάτε μαζί μου! Κατεβάστε το εδώ: %1$s</string>
     <string name="ShareNekogram">Κοινοποίηση Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nΒασισμένο στο Telegram %2$s\nΣχεδιάστηκε από %3$s</string>
@@ -184,13 +168,11 @@
     <string name="SaveToDownloadCount_few">Αποθήκ. %1$d αρχείων στις λήψεις</string>
     <string name="SaveToDownloadCount_many">Αποθήκ. %1$d αρχείων στις λήψεις</string>
     <string name="SaveToDownloadCount_other">Αποθήκ. %1$d αρχείων στις λήψεις</string>
-    <string name="ThemesChannel">Κανάλι Θεμάτων</string>
     <string name="AppLinkNotVerifiedMessage">Για το Android 12 και νεότερων, πρέπει να προσθέσετε χειροκίνητα το σύνδεσμο στους επαληθευμένους συνδέσμους για άνοιγμα του t.me στο Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Μη επαληθευμένοι σύνδεσμοι εφαρμογών</string>
     <string name="AutoTranslate">Αυτόματη Μετάφραση</string>
     <string name="AutoTranslateAbout">Αυτόματη μετάφραση μηνυμάτων άλλης γλώσσας χωρίς την παρέμβαση σας.</string>
     <string name="DoubleTapAction">Με 2πλό άγγιγμα στο μήνυμα</string>
-    <string name="BlockedUserIgnored">αποκλεισμένος</string>
     <string name="EditUndo">Αναίρεση</string>
     <string name="EditRedo">Επανάληψη</string>
     <string name="EditEnableMarkdown">Ενεργοποίηση Markdown</string>
@@ -208,10 +190,7 @@
     <string name="ProviderYouDaoTranslate">YouDao</string>
     <string name="ProviderBaiduTranslate">Baidu</string>
     <string name="ProviderSogouTranslate">Sogou</string>
-    <string name="Translating">...μεταφράζεται</string>
     <string name="Translated">μεταφράστηκε</string>
-    <string name="BrokenMLKit">Μη διαθέσιμη επιλογή</string>
-    <string name="BrokenMLKitDetail">Το αναγνωριστικό γλώσσας MLKit είναι κατεστραμμένο σε αυτήν τη συσκευή.</string>
     <string name="PasscodeNeeded">Πρώτα ενεργοποιήστε το κλείδωμα με κωδικό</string>
     <string name="PasscodeNeko">Κωδικός</string>
     <string name="PasscodeShowInSettings">Εμφάνιση στις ρυθμίσεις Neko</string>
@@ -255,7 +234,6 @@
     <string name="DownloadSpeedBoostNone">Off</string>
     <string name="DownloadSpeedBoostAverage">On</string>
     <string name="DownloadSpeedBoostExtreme">Μέγιστη</string>
-    <string name="UploadloadSpeedBoost">Αύξηση ταχύτητας μεταφόρτωσης</string>
     <string name="NoUpdateAvailablePlay">Παρακαλώ ελέγξτε για ενημέρωση στο Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">Η ενημέρωση στο Play Store έρχεται συνήθως πιο αργά από τα άμεσα APK λόγω της αναθεώρησης της Google.</string>
     <string name="DownloadEmojiSet">Λήψη %s</string>
@@ -290,7 +268,6 @@
     <string name="NavigationAnimation">Εφέ κίνησης πλοήγησης</string>
     <string name="NavigationAnimationBezier">Κλασική</string>
     <string name="NavigationAnimationSpring">Φυσική</string>
-    <string name="NavigationAnimationCrossfading">Εφέ σταδιακής εξασθένισης</string>
     <string name="CloudConfig">Ρυθμίσεις Cloud</string>
     <string name="CloudConfigDesc">Αποθήκευση ρυθμίσεων Neko στο Telegram cloud.</string>
     <string name="CloudConfigSyncDate">Τελευταίος συγχρονισμός: %s, cloud: %s</string>

@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">नेको सेटिंग्स</string>
-    <string name="IPv6">IPv6 से जोड़ने का प्रयास करें</string>
     <string name="MessageMenu">संदेश मेनू</string>
     <string name="HidePhone">मेरा फोन नंबर छिपाएं</string>
     <string name="DeleteAllFromSelf">खुद के संदेश मिटाएं</string>
     <string name="DeleteAllFromSelfAlert">चेतावनी! यह इस चैट में **सभी** प्रतिभागियों के लिए **आपके सभी संदेशों को ** हटा देगा।</string>
-    <string name="BotLogin">बॉट लॉगिन</string>
-    <string name="BotLoginMessage">**@BotFather** से जो टोकन मिला है उसे दर्ज करे।</string>
-    <string name="InvalidAccessToken">एक्सेस टोकन गलत है</string>
     <string name="IgnoreBlocked">अवरोधित उपयोगकर्ता से संदेश छुपाएँ</string>
     <string name="Connection">कनेक्शन</string>
     <string name="Chat">चैट</string>
@@ -19,12 +15,10 @@
     <string name="AddToSavedMessages">संदेश सेव करो</string>
     <string name="CreateMention">उल्लेख बनाएं</string>
     <string name="Prpr">पेरोपेरो</string>
-    <string name="TransparentStatusBar">स्टेटस बार को पारदर्शी बनाए</string>
     <string name="EnableResidentNotification">कोई निवासी सूचना दिखाएँ</string>
     <string name="DisableResidentNotification">निवासी अधिसूचना अक्षम करें</string>
     <string name="NekogramRunning">नेकोग्राम चल रहा है</string>
     <string name="EventType">साइडबार आइकन सेट</string>
-    <string name="ChristmasHat">हर रोज क्रिसमस टोपी दिखाएं</string>
     <string name="DependsOnDate">तारीख पर निर्भर करता है</string>
     <string name="Christmas">क्रिसमस</string>
     <string name="Valentine">वेलेंटाइन डे</string>
@@ -33,8 +27,6 @@
     <string name="TestBackendOff">यह खाता प्रोडक्शन बैकएंड से कनेक्ट करेगा।</string>
     <string name="ViewHistory">इतिहास देखें</string>
     <string name="Nya">म्याऊँ!</string>
-    <string name="SensitiveDisableFiltering">सेंसिटिव कॉन्टेंट फिल्टरिंग को डिसेबल करें</string>
-    <string name="SensitiveAbout">अपने सभी उपकरणों पर सार्वजनिक चैनलों में संवेदनशील मीडिया प्रदर्शित करें।</string>
     <string name="StickerSize">चैट में स्टीकर का साइज</string>
     <string name="StickerSizeLeft">छोटा</string>
     <string name="StickerSizeRight">बड़ा</string>
@@ -49,11 +41,8 @@
     <string name="TranslateApiUnsupported">आपके द्वारा चुना गया अनुवाद प्रदाता आपकी भाषा का समर्थन नहीं करता है।</string>
     <string name="ProviderLingocloud">लिंगक्लाऊड</string>
     <string name="UndoTranslate">किए गए अनुवाद को वापस मूल भाषा में लाएं</string>
-    <string name="DisablePhotoViewerSideAction">टैप करके फोटो को घुमाना बंद करें</string>
-    <string name="BotToken">टोकन</string>
     <string name="OpenArchiveOnPull">नीचे खींचने पर आर्काइव चैट खोले</string>
     <string name="HideKeyboardOnChatScroll">चैट स्क्रॉल करने पर कीबोर्ड को छुपाएं</string>
-    <string name="ShowTabsOnForward">फ़ौरवार्ड करने पर टैब दिखाएं</string>
     <string name="CheckAllAdministrated">व्यवस्थापक जोड़ें</string>
     <string name="RearVideoMessages">वीडियो कॉल्स में पिछला कैमरा</string>
     <string name="HideAllTab">\"सभी संदेशों\" टैब को छिपाए</string>
@@ -121,12 +110,8 @@
     <string name="RegistrationDateNewer">%s से नया</string>
     <string name="RegistrationDateOlder">%s से पुराना</string>
     <string name="RegistrationDateApproximately">लगभग %s</string>
-    <string name="WsDescription">Cloudflare के माध्यम से WebSocket के माध्यम से टेलीग्राम से कनेक्ट करें। **अधिक जानें**</string>
     <string name="WsEnableTls">TLS लागू करें</string>
     <string name="WsProvider">प्रदाता</string>
-    <string name="WsNotWorking">प्रॉक्सी काम नहीं कर रहा है!</string>
-    <string name="WsUseMyOwnDomain">कैसे एक कस्टम प्रदाता स्थापित कर सकते है</string>
-    <string name="WsStandaloneApp">दूसरे ऐप्स में प्रॉक्सी का उपयोग करे</string>
     <string name="UpdateNekogram">Nekogram को अपडेट करें</string>
     <string name="TranslationTarget">चाही गई भाषा</string>
     <string name="TranslationTargetApp">App को फॉलो करें</string>
@@ -152,7 +137,6 @@
     <string name="OfficialSite">ऑफिशियल साइट</string>
     <string name="MutualContact">परस्पर संपर्क</string>
     <string name="MutualContactDescription">यह एक परस्पर कॉन्टैक्ट है।</string>
-    <string name="NoUpdateAvailable">कोई अपडेट अवेलबल नहीं हैं।</string>
     <string name="InviteTextNeko">हैलो, मैं चैट करने के लिए नेकोग्राम का उपयोग कर रहा हूं। मुझे जुड़ें! यहाँ पर डाउनलोड करो: %1$s</string>
     <string name="ShareNekogram">Nekogram को साझा करें</string>
     <string name="NekogramVersion">Nekogram %1$s\n टेलीग्राम पर आधारित है। %2$s\n %3$s के द्वारा डिज़ाइन किया गया है।</string>
@@ -177,13 +161,11 @@
     <string name="SaveToDownloadCount_few">डॉउनलोड में %1$d फाइल्स सहेजी जा रही है।</string>
     <string name="SaveToDownloadCount_many">कुल %1$d फाइलों को डाउनलोड में सहेजा जा रहा है</string>
     <string name="SaveToDownloadCount_other">कुल %1$d फाइलों को डाउनलोड में सहेजा जा रहा है</string>
-    <string name="ThemesChannel">थीम चैनल</string>
     <string name="AppLinkNotVerifiedMessage">एंड्रॉइड 12 और उससे ऊपर के वर्जन के लिए, आपको नेकोग्राम में t.me लिंक खोलने के लिए इसे सेटिंग में जाकर सत्यापित लिंक में मैन्युअल रूप से लिंक जोड़ने की आवश्यकता है।</string>
     <string name="AppLinkNotVerifiedTitle">एप्प लिंक्स वेरिफाई नहीं हो सकी।</string>
     <string name="AutoTranslate">ऑटोमैटिक अनुवाद</string>
     <string name="AutoTranslateAbout">उन संदेशों का स्वचालित रूप से अनुवाद करें जो दूसरी भाषा में हैं।</string>
     <string name="DoubleTapAction">Double टैप ऐक्शन</string>
-    <string name="BlockedUserIgnored">ब्लॉक किए गए</string>
     <string name="EditUndo">अन डू</string>
     <string name="EditRedo">री डू</string>
     <string name="EditEnableMarkdown">मार्कडाउन को चालू करें</string>
@@ -201,10 +183,7 @@
     <string name="ProviderYouDaoTranslate">YouDao अनुवादक</string>
     <string name="ProviderBaiduTranslate">Baidu अनुवादक</string>
     <string name="ProviderSogouTranslate">Sogou अनुवादक</string>
-    <string name="Translating">अनुवाद किया जा रहा है</string>
     <string name="Translated">अनुवाद किया जा चुका है</string>
-    <string name="BrokenMLKit">विकल्प मौजूद नहीं है</string>
-    <string name="BrokenMLKitDetail">इस डिवाइस पर MLKIT भाषा पहचानकर्ता टूटा हुआ हैइस डिवाइस पर MLKIT भाषा पहचानकर्ता टूटा हुआ है</string>
     <string name="PasscodeNeeded">आपको पहले पासकोड लॉक सक्षम करना होगा</string>
     <string name="PasscodeNeko">पासकोड </string>
     <string name="PasscodeShowInSettings">Neko सेटिंग में दिखाएं</string>
@@ -248,7 +227,6 @@
     <string name="DownloadSpeedBoostNone">बंद करें</string>
     <string name="DownloadSpeedBoostAverage">चालू करें</string>
     <string name="DownloadSpeedBoostExtreme">चरम</string>
-    <string name="UploadloadSpeedBoost">अपलोड की स्पीड बूस्ट करें</string>
     <string name="NoUpdateAvailablePlay">कृपया Play Store में अपडेट की जांच करें।
  संदर्भ:</string>
     <string name="NoUpdateAvailablePlayDelay">Google की समीक्षा के कारण Play Store में अपडेट आमतौर पर सीधे APK की तुलना में धीमा आता है</string>

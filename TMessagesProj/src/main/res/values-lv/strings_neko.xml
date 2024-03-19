@@ -1,14 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Neko iestatījumi</string>
-    <string name="IPv6">Mēģiniet izveidot savienojumu, izmantojot IPv6</string>
     <string name="MessageMenu">Ziņu izvēlne</string>
     <string name="HidePhone">Paslēpt manu tālruņa numuru</string>
     <string name="DeleteAllFromSelf">Dzēst savus ziņojumus</string>
     <string name="DeleteAllFromSelfAlert">Uzmanību! Tas **izdzēsīs visus jūsu** ziņojumus šajā tērzēšanā **visiem** dalībniekiem.</string>
-    <string name="BotLogin">Botu pieteikšanās</string>
-    <string name="BotLoginMessage">Ievadi bota tokenu no **@BotFather**.</string>
-    <string name="InvalidAccessToken">Nederīgs piekļuves tokens</string>
     <string name="IgnoreBlocked">Slēpt ziņojumus no bloķēta lietotāja</string>
     <string name="Connection">Savienojums</string>
     <string name="Chat">Čats</string>
@@ -19,12 +15,10 @@
     <string name="AddToSavedMessages">Saglabāt ziņojumu</string>
     <string name="CreateMention">Izveidot pieminēšanu</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Caurspīdīga statusa josla</string>
     <string name="EnableResidentNotification">Rādīt rezidenta paziņojumu</string>
     <string name="DisableResidentNotification">Rādīt rezidenta paziņojumu</string>
     <string name="NekogramRunning">Nekogram darbojas</string>
     <string name="EventType">Sānu joslas ikonu komplekts</string>
-    <string name="ChristmasHat">Rādīt Ziemassvētku cepure katru dienu</string>
     <string name="DependsOnDate">Atkarībā no datuma</string>
     <string name="Christmas">Ziemassvētki</string>
     <string name="Valentine">Valentīna diena</string>
@@ -33,8 +27,6 @@
     <string name="TestBackendOff">Šis konts tiks savienots ar testa backend.</string>
     <string name="ViewHistory">Skatīt vēsturi</string>
     <string name="Nya">Mjau!</string>
-    <string name="SensitiveDisableFiltering">Izslēgt sensitīva satura filtrēšanu</string>
-    <string name="SensitiveAbout">Rādiet sensitīvus multivides failus publiskajos kanālos visās ierīcēs.</string>
     <string name="StickerSize">Uzlīmes izmērs</string>
     <string name="StickerSizeLeft">Mazs</string>
     <string name="StickerSizeRight">Liels</string>
@@ -49,11 +41,8 @@
     <string name="TranslateApiUnsupported">Jūsu izvēlētais tulkošanas pakalpojumu sniedzējs neatbalsta jūsu valodu.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Atcelt tulkot</string>
-    <string name="DisablePhotoViewerSideAction">Izslēgt funkciju \"Pārvērtīt fotoattēlus, pieskaroties\"</string>
-    <string name="BotToken">Tokens</string>
     <string name="OpenArchiveOnPull">Atvērt arhīvu izvelkamajā sadaļā</string>
     <string name="HideKeyboardOnChatScroll">Slēpt tastatūru tērzēšanas ritināšanā</string>
-    <string name="ShowTabsOnForward">Rādīt cilnes uz priekšu</string>
     <string name="CheckAllAdministrated">Pievienot administratoru</string>
     <string name="RearVideoMessages">Aizmugurējā kamera videoziņojumos</string>
     <string name="HideAllTab">Paslēpt cilni \"Visas tērzēšanas\"</string>
@@ -121,12 +110,8 @@
     <string name="RegistrationDateNewer">Jaunāks nekā %s</string>
     <string name="RegistrationDateOlder">Vecāks par %s</string>
     <string name="RegistrationDateApproximately">Aptuveni %s</string>
-    <string name="WsDescription">Savienojums ar Telegram, izmantojot WebSocket, izmantojot Cloudflare. **Uzzināt vairāk**</string>
     <string name="WsEnableTls">TLS iespējošana</string>
     <string name="WsProvider">Nodrošinātājs</string>
-    <string name="WsNotWorking">Proxy nedarbojas!</string>
-    <string name="WsUseMyOwnDomain">Kā iestatīt pielāgotu pakalpojumu sniedzēju</string>
-    <string name="WsStandaloneApp">Proxy izmantošana citās aplikācijās</string>
     <string name="UpdateNekogram">Nekogrammas atjaunināšana</string>
     <string name="TranslationTarget">Mērķa valoda</string>
     <string name="TranslationTargetApp">Sekojiet lietotnei</string>
@@ -152,7 +137,6 @@
     <string name="OfficialSite">Oficiālā vietne</string>
     <string name="MutualContact">Savstarpējs kontakts</string>
     <string name="MutualContactDescription">Šis kontakts ir savstarpējs kontakts.</string>
-    <string name="NoUpdateAvailable">Nav pieejami atjauninājumi.</string>
     <string name="InviteTextNeko">Hei, es izmantoju Nekogram, lai tērzētu. Pievienojies man! Lejupielādējiet to šeit: %1$s</string>
     <string name="ShareNekogram">Kopīgojiet Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nPamatojoties uz Telegram %2$s\n\n Izstrādāts %3$s</string>
@@ -177,13 +161,11 @@
     <string name="SaveToDownloadCount_few">%1$d failu saglabāšana lejupielādēs</string>
     <string name="SaveToDownloadCount_many">%1$d failu saglabāšana lejupielādēs</string>
     <string name="SaveToDownloadCount_other">%1$d failu saglabāšana lejupielādēs</string>
-    <string name="ThemesChannel">Tēmas kanāls</string>
     <string name="AppLinkNotVerifiedMessage">Lai atvērtu t.me saites programmā Nekogram, operētājsistēmā Android 12 un jaunākās versijās ir manuāli jāpievieno saite pārbaudītajām saitēm.</string>
     <string name="AppLinkNotVerifiedTitle">Programmu saites nav pārbaudītas</string>
     <string name="AutoTranslate">Automātiskais tulkojums</string>
     <string name="AutoTranslateAbout">Automātiski tulkot ziņojumus citā valodā.</string>
     <string name="DoubleTapAction">Dubultā pieskaršanās darbība</string>
-    <string name="BlockedUserIgnored">bloķēts</string>
     <string name="EditUndo">Atcelt</string>
     <string name="EditRedo">Pārtaisīt</string>
     <string name="EditEnableMarkdown">Iespējot Markdown</string>
@@ -201,10 +183,7 @@
     <string name="ProviderYouDaoTranslate">YouDao tulkotājs</string>
     <string name="ProviderBaiduTranslate">Baidu tulkotājs</string>
     <string name="ProviderSogouTranslate">Sogou tulkot</string>
-    <string name="Translating">tulkojums</string>
     <string name="Translated">tulkojums</string>
-    <string name="BrokenMLKit">Iespēja nav pieejama</string>
-    <string name="BrokenMLKitDetail">Šajā ierīcē ir bojāts MLKit valodas identifikators.</string>
     <string name="PasscodeNeeded">Vispirms jāaktivizē piekļuves koda bloķēšana</string>
     <string name="PasscodeNeko">Pieejas kods</string>
     <string name="PasscodeShowInSettings">Rādīt Neko iestatījumos</string>
@@ -248,7 +227,6 @@
     <string name="DownloadSpeedBoostNone">Izslēgts</string>
     <string name="DownloadSpeedBoostAverage">Ieslēgts</string>
     <string name="DownloadSpeedBoostExtreme">Ekstrēms</string>
-    <string name="UploadloadSpeedBoost">Augšupielādes ātruma palielināšana</string>
     <string name="NoUpdateAvailablePlay">Lūdzu, pārbaudiet atjauninājumu Play veikalā.</string>
     <string name="NoUpdateAvailablePlayDelay">Google pārskatīšanas dēļ Play veikalā atjauninājumi parasti tiek veikti lēnāk nekā tiešos APK.</string>
     <string name="DownloadEmojiSet">Lejupielādēt %s</string>

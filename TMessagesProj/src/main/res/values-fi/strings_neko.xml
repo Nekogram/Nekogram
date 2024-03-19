@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Neko Asetukset</string>
-    <string name="IPv6">Yritä muodostaa yhteys IPv6:n kautta</string>
     <string name="MessageMenu">Viestivalikko</string>
     <string name="HidePhone">Piilota puhelinnumeroni</string>
     <string name="DeleteAllFromSelf">Poista myös viestini</string>
     <string name="DeleteAllFromSelfAlert">Varoitus! Tämä **poistaa kaikki viestit sinulta** tässä keskustelussa **kaikille** osallistujille.</string>
-    <string name="BotLogin">Bot Kirjautuminen</string>
-    <string name="InvalidAccessToken">Virheellinen käyttötunnus</string>
     <string name="Connection">Yhteys</string>
     <string name="Chat">Chatti</string>
     <string name="NameOrder">Nimijärjestys</string>
@@ -17,7 +14,6 @@
     <string name="AddToSavedMessages">Tallenna viesti</string>
     <string name="CreateMention">Luo Maininta</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Läpinäkyvä tilapalkki</string>
     <string name="EnableResidentNotification">Näytä asukasilmoitus</string>
     <string name="DisableResidentNotification">Poista asukasilmoitus käytöstä</string>
     <string name="IdTypeHidden">Piilota</string>

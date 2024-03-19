@@ -1,16 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Cài đặt Neko</string>
-    <string name="IPv6">Thử kết nối qua IPv6</string>
     <string name="MessageMenu">Menu tin nhắn</string>
     <string name="HidePhone">Ẩn số điện thoại của tôi</string>
     <string name="DeleteAllFromSelf">Xóa tin nhắn của chính bạn</string>
     <string name="DeleteAllFromSelfAlert">Cảnh báo! Việc này sẽ **xóa tất cả các tin nhắn từ bạn** trong cuộc trò chuyện này với **tất cả** những người tham gia.</string>
     <string name="DeleteAllFromSelfAlertBefore">Cảnh báo! Việc này sẽ **xóa tất cả các tin nhắn của bạn trước đây %s** trong cuộc trò chuyện này với **tất cả** những người tham gia.</string>
     <string name="DeleteAllFromSelfBefore">Trước...</string>
-    <string name="BotLogin">Đăng nhập Bot</string>
-    <string name="BotLoginMessage">Nhập mã thông báo bot nhận được từ **@BotFather**.</string>
-    <string name="InvalidAccessToken">Mã truy cập không hợp lệ</string>
     <string name="IgnoreBlocked">Ẩn tin nhắn từ người dùng bị chặn</string>
     <string name="Connection">Kết nối</string>
     <string name="Chat">Trò chuyện</string>
@@ -21,12 +17,10 @@
     <string name="AddToSavedMessages">Lưu tin nhắn</string>
     <string name="CreateMention">Tạo đề cập đến</string>
     <string name="Prpr">Biểu cảm dễ thương</string>
-    <string name="TransparentStatusBar">Thanh trạng thái trong suốt</string>
     <string name="EnableResidentNotification">Hiển thị thông báo cư dân</string>
     <string name="DisableResidentNotification">Vô hiệu hóa thông báo cư dân</string>
     <string name="NekogramRunning">Nekogram đang chạy</string>
     <string name="EventType">Bộ biểu tượng thanh bên</string>
-    <string name="ChristmasHat">Hiển thị mũ Giáng sinh mỗi ngày</string>
     <string name="DependsOnDate">Phụ thuộc từng ngày</string>
     <string name="Christmas">Giáng sinh</string>
     <string name="Valentine">Ngày lễ tình nhân</string>
@@ -35,8 +29,6 @@
     <string name="TestBackendOff">Tài khoản này sẽ kết nối với phụ trợ sản xuất.</string>
     <string name="ViewHistory">Xem lịch sử</string>
     <string name="Nya">Meow!</string>
-    <string name="SensitiveDisableFiltering">Vô hiệu hóa bộ lọc nội dung nhạy cảm</string>
-    <string name="SensitiveAbout">Hiển thị phương tiện nhạy cảm trong các kênh công cộng trên tất cả các thiết bị của bạn.</string>
     <string name="StickerSize">Kích thước nhãn dán</string>
     <string name="StickerSizeLeft">Nhỏ</string>
     <string name="StickerSizeRight">Lớn</string>
@@ -51,11 +43,8 @@
     <string name="TranslateApiUnsupported">Nhà cung cấp dịch thuật mà bạn đã chọn không hỗ trợ ngôn ngữ của bạn.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Hoàn tác dịch</string>
-    <string name="DisablePhotoViewerSideAction">Vô hiệu \"lật ảnh bằng cách nhấn\"</string>
-    <string name="BotToken">Token</string>
     <string name="OpenArchiveOnPull">Kéo xuống để mở Lưu trữ </string>
     <string name="HideKeyboardOnChatScroll">Ẩn bàn phím khi cuộn trò chuyện</string>
-    <string name="ShowTabsOnForward">Hiển thị các thẻ ở trước</string>
     <string name="CheckAllAdministrated">Thêm quản trị viên</string>
     <string name="RearVideoMessages">Camera sau trong Tin nhắn Video</string>
     <string name="HideAllTab">Ẩn thẻ \"Tất cả cuộc trò chuyện\"</string>
@@ -123,12 +112,8 @@
     <string name="RegistrationDateNewer">Mới hơn %s</string>
     <string name="RegistrationDateOlder">Cũ hơn %s</string>
     <string name="RegistrationDateApproximately">Khoảng %s</string>
-    <string name="WsDescription">Kết nối với Telegram thông qua WebSocket qua Cloudflare. **Tìm hiểu thêm**</string>
     <string name="WsEnableTls">Kích hoạt TLS</string>
     <string name="WsProvider">Nhà cung cấp</string>
-    <string name="WsNotWorking">Proxy không hoạt động!</string>
-    <string name="WsUseMyOwnDomain">Cách thiết lập nhà cung cấp tùy chỉnh</string>
-    <string name="WsStandaloneApp">Sử dụng proxy trong các ứng dụng khác</string>
     <string name="UpdateNekogram">Cập nhật Nekogram</string>
     <string name="TranslationTarget">Ngôn ngữ chỉ định</string>
     <string name="TranslationTargetApp">Dựa theo ứng dụng</string>
@@ -154,7 +139,6 @@
     <string name="OfficialSite">Trang web chính thức</string>
     <string name="MutualContact">Liên hệ lẫn nhau</string>
     <string name="MutualContactDescription">Liên hệ này là liên hệ lẫn nhau.</string>
-    <string name="NoUpdateAvailable">Không có bản cập nhật nào.</string>
     <string name="InviteTextNeko">Này, tôi đang dùng Nekogram để trò chuyện. Tham gia cùng tôi! Tải xuống tại đây: %1$s</string>
     <string name="ShareNekogram">Chia sẻ Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nDựa trên Telegram%2$s\n Được thiết kế bởi %3$s</string>
@@ -179,13 +163,11 @@
     <string name="SaveToDownloadCount_few">Đang lưu %1$d tệp để tải xuống</string>
     <string name="SaveToDownloadCount_many">Đang lưu %1$d tệp để tải xuống</string>
     <string name="SaveToDownloadCount_other">Đang lưu %1$d tệp để tải xuống</string>
-    <string name="ThemesChannel">Chủ đề kênh</string>
     <string name="AppLinkNotVerifiedMessage">Đối với Android 12 trở lên, bạn cần thêm liên kết vào các liên kết đã xác minh theo cách thủ công để mở liên kết t.me trong Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">Liên kết ứng dụng chưa được xác minh</string>
     <string name="AutoTranslate">Tự động dịch</string>
     <string name="AutoTranslateAbout">Tự động dịch các tin nhắn bằng ngôn ngữ khác.</string>
     <string name="DoubleTapAction">Hành động nhấn đúp</string>
-    <string name="BlockedUserIgnored">bị chặn</string>
     <string name="EditUndo">Hoàn tác</string>
     <string name="EditRedo">Làm lại</string>
     <string name="EditEnableMarkdown">Bật Đánh dấu</string>
@@ -203,10 +185,7 @@
     <string name="ProviderYouDaoTranslate">Trình dịch YouDao</string>
     <string name="ProviderBaiduTranslate">Baidu Dịch</string>
     <string name="ProviderSogouTranslate">Sogou Dịch</string>
-    <string name="Translating">đang dịch</string>
     <string name="Translated">đã dịch</string>
-    <string name="BrokenMLKit">Không có tùy chọn</string>
-    <string name="BrokenMLKitDetail">Mã định danh ngôn ngữ Malkit bị hỏng trên thiết bị này.</string>
     <string name="PasscodeNeeded">Bạn phải bật khóa mật mã trước tiên</string>
     <string name="PasscodeNeko">Mật mã</string>
     <string name="PasscodeShowInSettings">Hiện trong Cài đặt Neko</string>
@@ -250,7 +229,6 @@
     <string name="DownloadSpeedBoostNone">Tắt</string>
     <string name="DownloadSpeedBoostAverage">Bật</string>
     <string name="DownloadSpeedBoostExtreme">Tăng tốc tải lên</string>
-    <string name="UploadloadSpeedBoost">Tăng tốc tải lên</string>
     <string name="NoUpdateAvailablePlay">Vui lòng kiểm tra cập nhật trong Cửa hàng Play.</string>
     <string name="NoUpdateAvailablePlayDelay">Quá trình cập nhật trong Cửa hàng Play thường chậm hơn APK trực tiếp do quá trình xem xét của Google.</string>
     <string name="DownloadEmojiSet">Tải xuống%s</string>
@@ -285,7 +263,6 @@
     <string name="NavigationAnimation">Hoạt ảnh điều hướng</string>
     <string name="NavigationAnimationBezier">Cổ điển</string>
     <string name="NavigationAnimationSpring">Tự nhiên</string>
-    <string name="NavigationAnimationCrossfading">Hiệu ứng chuyển tiếp</string>
     <string name="CloudConfig">Cài đặt đám mây</string>
     <string name="CloudConfigDesc">Lưu Cài đặt Neko của bạn vào đám mây Telegram.</string>
     <string name="CloudConfigSyncDate">Lần cuối đồng bộ: %s, đám mây: %s</string>
