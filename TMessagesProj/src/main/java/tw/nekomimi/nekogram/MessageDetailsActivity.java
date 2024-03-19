@@ -544,12 +544,11 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial, boolean divider) {
             switch (holder.getItemViewType()) {
                 case TYPE_DETAIL_SETTINGS: {
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
                     textCell.setMultilineDetail(true);
-                    boolean divider = position + 1 != emptyRow;
                     if (position == idRow) {
                         textCell.setTextAndValue("ID", String.valueOf(messageObject.messageOwner.id), divider);
                     } else if (position == channelRow || position == groupRow) {
@@ -655,13 +654,12 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     if (position == exportRow) {
                         Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_copy);
                         drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
-                        creationTextCell.setTextAndIcon(LocaleController.getString(R.string.ExportAsJson), drawable, false);
+                        creationTextCell.setTextAndIcon(LocaleController.getString(R.string.ExportAsJson), drawable, divider);
                     }
                     break;
                 }
                 case Integer.MAX_VALUE: {
                     TextDetailSimpleCell textCell = (TextDetailSimpleCell) holder.itemView;
-                    boolean divider = position + 1 != endRow;
                     if (position == messageRow) {
                         textCell.setTextAndValue("Message", AnimatedEmojiSpan.cloneSpans(messageObject.messageText), messageObject.getEmojiOnlyCount(), divider);
                     } else if (position == captionRow) {

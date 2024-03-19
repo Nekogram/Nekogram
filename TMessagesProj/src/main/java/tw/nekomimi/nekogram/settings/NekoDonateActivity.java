@@ -197,17 +197,17 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial, boolean divider) {
             switch (holder.getItemViewType()) {
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     if (position > donateRow && position < donate2Row) {
                         if (skuDetails != null) {
                             if (skuDetails.size() > position - donateRow - 1) {
-                                textCell.setText(skuDetails.get(position - donateRow - 1).getPrice(), position + 1 != donate2Row);
+                                textCell.setText(skuDetails.get(position - donateRow - 1).getPrice(), divider);
                             }
                         } else {
-                            textCell.setText(LocaleController.getString(R.string.Loading), position + 1 != donate2Row);
+                            textCell.setText(LocaleController.getString(R.string.Loading), divider);
                         }
                     }
                     break;

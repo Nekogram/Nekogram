@@ -276,13 +276,13 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial, boolean divider) {
             switch (holder.getItemViewType()) {
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     textCell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
                     if (position == deleteAccountRow) {
-                        textCell.setText(LocaleController.getString(R.string.DeleteAccount), false);
+                        textCell.setText(LocaleController.getString(R.string.DeleteAccount), divider);
                         textCell.setTextColor(getThemedColor(Theme.key_text_RedRegular));
                     } else if (position == downloadSpeedBoostRow) {
                         String value = switch (NekoConfig.downloadSpeedBoost) {
@@ -293,7 +293,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                             default ->
                                     LocaleController.getString(R.string.DownloadSpeedBoostAverage);
                         };
-                        textCell.setTextAndValue(LocaleController.getString(R.string.DownloadSpeedBoost), value, partial, true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.DownloadSpeedBoost), value, partial, divider);
                     } else if (position == springAnimationRow) {
                         String value;
                         if (NekoConfig.springAnimation) {
@@ -301,7 +301,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         } else {
                             value = LocaleController.getString(R.string.NavigationAnimationBezier);
                         }
-                        textCell.setTextAndValue(LocaleController.getString(R.string.NavigationAnimation), value, partial, true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.NavigationAnimation), value, partial, divider);
                     }
                     break;
                 }
@@ -309,16 +309,16 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
                     if (position == mapDriftingFixRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.MapDriftingFix), NekoConfig.mapDriftingFix, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.MapDriftingFix), NekoConfig.mapDriftingFix, divider);
                     } else if (position == showRPCErrorRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.ShowRPCError), LocaleController.formatString(R.string.ShowRPCErrorException, "FILE_REFERENCE_EXPIRED"), NekoConfig.showRPCError, true, false);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.ShowRPCError), LocaleController.formatString(R.string.ShowRPCErrorException, "FILE_REFERENCE_EXPIRED"), NekoConfig.showRPCError, true, divider);
                     } else if (position == sendBugReportRow) {
                         textCell.setEnabled(!AnalyticsHelper.analyticsDisabled, null);
-                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.SendBugReport), LocaleController.getString(R.string.SendBugReportDesc), !AnalyticsHelper.analyticsDisabled && AnalyticsHelper.sendBugReport, true, true);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.SendBugReport), LocaleController.getString(R.string.SendBugReportDesc), !AnalyticsHelper.analyticsDisabled && AnalyticsHelper.sendBugReport, true, divider);
                     } else if (position == sendLargePhotosRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.SendLargePhotos), LocaleController.getString(R.string.SendLargePhotosAbout), NekoConfig.sendLargePhotos, true, true);
+                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.SendLargePhotos), LocaleController.getString(R.string.SendLargePhotosAbout), NekoConfig.sendLargePhotos, true, divider);
                     } else if (position == contentRestrictionRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.IgnoreContentRestriction), NekoConfig.ignoreContentRestriction, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.IgnoreContentRestriction), NekoConfig.ignoreContentRestriction, divider);
                     }
                     break;
                 }
@@ -337,7 +337,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     if (position == deleteDataRow) {
                         cell.setEnabled(!AnalyticsHelper.analyticsDisabled);
                         cell.setMultilineDetail(true);
-                        cell.setTextAndValue(LocaleController.getString(R.string.AnonymousDataDelete), LocaleController.getString(R.string.AnonymousDataDeleteDesc), false);
+                        cell.setTextAndValue(LocaleController.getString(R.string.AnonymousDataDelete), LocaleController.getString(R.string.AnonymousDataDeleteDesc), divider);
                     }
                     break;
                 }

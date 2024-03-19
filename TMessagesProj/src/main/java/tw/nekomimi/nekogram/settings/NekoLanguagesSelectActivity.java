@@ -336,7 +336,7 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial, boolean divider) {
             switch (holder.getItemViewType()) {
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
@@ -346,25 +346,17 @@ public class NekoLanguagesSelectActivity extends BaseNekoSettingsActivity {
                 }
                 case TYPE_CHECKBOX:
                 case TYPE_RADIO: {
-                    LocaleInfo localeInfo;
-                    boolean noDivider;
-                    if (search) {
-                        localeInfo = searchResult.get(position);
-                        noDivider = position == searchResult.size() - 1;
-                    } else {
-                        localeInfo = sortedLanguages.get(position);
-                        noDivider = position == sortedLanguages.size() - 1 || sortedLanguages.get(position + 1).langCode.equals("shadow");
-                    }
-                    boolean checked = NekoConfig.restrictedLanguages.contains(localeInfo.langCode) || localeInfo.langCode.equals(getCurrentTargetLanguage());
+                    var localeInfo = search ? searchResult.get(position) : sortedLanguages.get(position);
+                    var checked = NekoConfig.restrictedLanguages.contains(localeInfo.langCode) || localeInfo.langCode.equals(getCurrentTargetLanguage());
                     if (holder.getItemViewType() == TYPE_CHECKBOX) {
                         TextCheckbox2Cell cell = (TextCheckbox2Cell) holder.itemView;
-                        cell.setTextAndValueAndCheck(localeInfo.name, localeInfo.nameLocalized, checked, false, !noDivider);
+                        cell.setTextAndValueAndCheck(localeInfo.name, localeInfo.nameLocalized, checked, false, divider);
                     } else {
                         TextRadioCell cell = (TextRadioCell) holder.itemView;
                         if (localeInfo.langCode.equals("app")) {
-                            cell.setTextAndCheck(LocaleController.getString(R.string.TranslationTargetApp), NekoConfig.translationTarget.equals(localeInfo.langCode), !noDivider);
+                            cell.setTextAndCheck(LocaleController.getString(R.string.TranslationTargetApp), NekoConfig.translationTarget.equals(localeInfo.langCode), divider);
                         } else {
-                            cell.setTextAndValueAndCheck(localeInfo.name, localeInfo.nameLocalized, NekoConfig.translationTarget.equals(localeInfo.langCode), false, !noDivider);
+                            cell.setTextAndValueAndCheck(localeInfo.name, localeInfo.nameLocalized, NekoConfig.translationTarget.equals(localeInfo.langCode), false, divider);
                         }
                     }
                     break;

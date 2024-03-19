@@ -229,7 +229,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial, boolean divider) {
             switch (holder.getItemViewType()) {
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
@@ -239,10 +239,10 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setText(PasscodeHelper.hasPanicCode() ? LocaleController.getString(R.string.PasscodePanicCodeEdit) : LocaleController.getString(R.string.PasscodePanicCodeSet), removePanicCodeRow != -1);
                     } else if (position == clearPasscodesRow) {
                         textCell.setTextColor(getThemedColor(Theme.key_text_RedRegular));
-                        textCell.setText("Clear passcodes", false);
+                        textCell.setText("Clear passcodes", divider);
                     } else if (position == removePanicCodeRow) {
                         textCell.setTextColor(getThemedColor(Theme.key_text_RedRegular));
-                        textCell.setText(LocaleController.getString(R.string.PasscodePanicCodeRemove), false);
+                        textCell.setText(LocaleController.getString(R.string.PasscodePanicCodeRemove), divider);
                     }
                     break;
                 }
@@ -250,7 +250,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(passcodeSet, null);
                     if (position == showInSettingsRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.PasscodeShowInSettings), !PasscodeHelper.isSettingsHidden(), false);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.PasscodeShowInSettings), !PasscodeHelper.isSettingsHidden(), divider);
                     }
                     break;
                 }
@@ -292,7 +292,7 @@ public class NekoPasscodeSettingsActivity extends BaseNekoSettingsActivity {
                     AccountCell cell = (AccountCell) holder.itemView;
                     cell.setEnabled(passcodeSet);
                     int account = accounts.get(position - accountsStartRow - 1);
-                    cell.setAccount(account, PasscodeHelper.hasPasscodeForAccount(account), position + 1 != accountsEndRow);
+                    cell.setAccount(account, PasscodeHelper.hasPasscodeForAccount(account), divider);
                     break;
                 }
             }

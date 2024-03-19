@@ -167,16 +167,16 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity {
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial, boolean divider) {
             switch (holder.getItemViewType()) {
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     if (position == channelRow) {
-                        textCell.setTextAndValue(LocaleController.getString(R.string.OfficialChannel), "@" + LocaleController.getString(R.string.OfficialChannelUsername), true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.OfficialChannel), "@" + LocaleController.getString(R.string.OfficialChannelUsername), divider);
                     } else if (position == websiteRow) {
-                        textCell.setTextAndValue(LocaleController.getString(R.string.OfficialSite), "nekogram.app", true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.OfficialSite), "nekogram.app", divider);
                     } else if (position == sourceCodeRow) {
-                        textCell.setTextAndValue(LocaleController.getString(R.string.ViewSourceCode), "GitHub", true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.ViewSourceCode), "GitHub", divider);
                     }
                     break;
                 }
@@ -193,33 +193,33 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity {
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
                     textCell.setMultilineDetail(true);
                     if (position == translationRow) {
-                        textCell.setTextAndValue(LocaleController.getString(R.string.Translation), LocaleController.getString(R.string.TranslationAbout), true);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.Translation), LocaleController.getString(R.string.TranslationAbout), divider);
                     } else if (position == donateRow) {
-                        textCell.setTextAndValue(LocaleController.getString(R.string.Donate), LocaleController.getString(R.string.DonateAbout), position + 1 != about2Row);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.Donate), LocaleController.getString(R.string.DonateAbout), divider);
                     } else if (position == checkUpdateRow) {
                         textCell.setTextAndValue(LocaleController.getString(R.string.CheckUpdate),
                                 checkingUpdate ? LocaleController.getString(R.string.CheckingUpdate) :
-                                        UpdateHelper.formatDateUpdate(SharedConfig.lastUpdateCheckTime), position + 1 != about2Row);
+                                        UpdateHelper.formatDateUpdate(SharedConfig.lastUpdateCheckTime), divider);
                     } else if (position >= sponsorRow && position < sponsor2Row) {
                         ConfigHelper.News item = news.get(position - sponsorRow);
-                        textCell.setTextAndValue(item.title, item.summary, position + 1 != sponsor2Row);
+                        textCell.setTextAndValue(item.title, item.summary, divider);
                     }
                     break;
                 }
                 case TYPE_TEXT: {
                     TextCell textCell = (TextCell) holder.itemView;
                     if (position == chatRow) {
-                        textCell.setTextAndIcon(LocaleController.getString(R.string.Chat), R.drawable.msg_discussion, true);
+                        textCell.setTextAndIcon(LocaleController.getString(R.string.Chat), R.drawable.msg_discussion, divider);
                     } else if (position == generalRow) {
-                        textCell.setTextAndIcon(LocaleController.getString(R.string.General), R.drawable.msg_media, true);
+                        textCell.setTextAndIcon(LocaleController.getString(R.string.General), R.drawable.msg_media, divider);
                     } else if (position == appearanceRow) {
-                        textCell.setTextAndIcon(LocaleController.getString(R.string.Appearance), R.drawable.msg_theme, true);
+                        textCell.setTextAndIcon(LocaleController.getString(R.string.Appearance), R.drawable.msg_theme, divider);
                     } else if (position == passcodeRow) {
-                        textCell.setTextAndIcon(LocaleController.getString(R.string.PasscodeNeko), R.drawable.msg_permissions, true);
+                        textCell.setTextAndIcon(LocaleController.getString(R.string.PasscodeNeko), R.drawable.msg_permissions, divider);
                     } else if (position == experimentRow) {
-                        textCell.setTextAndIcon(LocaleController.getString(R.string.NotificationsOther), R.drawable.msg_fave, accessibilityRow != -1);
+                        textCell.setTextAndIcon(LocaleController.getString(R.string.NotificationsOther), R.drawable.msg_fave, divider);
                     } else if (position == accessibilityRow) {
-                        textCell.setText(LocaleController.getString(R.string.AccessibilitySettings), false);
+                        textCell.setText(LocaleController.getString(R.string.AccessibilitySettings), divider);
                     }
                     break;
                 }

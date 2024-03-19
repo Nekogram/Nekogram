@@ -422,7 +422,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
         }
 
         @Override
-        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial, boolean divider) {
             switch (holder.getItemViewType()) {
                 case TYPE_CHECK: {
                     TextCheckCell textCheckCell = (TextCheckCell) holder.itemView;
@@ -430,7 +430,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                         if (partial) {
                             textCheckCell.setChecked(NekoConfig.useSystemEmoji);
                         } else {
-                            textCheckCell.setTextAndCheck(LocaleController.getString(R.string.EmojiUseDefault), NekoConfig.useSystemEmoji, false);
+                            textCheckCell.setTextAndCheck(LocaleController.getString(R.string.EmojiUseDefault), NekoConfig.useSystemEmoji, divider);
                         }
                     }
                     break;
@@ -478,7 +478,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                         drawable1.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
                         drawable2.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_checkboxCheck), PorterDuff.Mode.MULTIPLY));
                         CombinedDrawable combinedDrawable = new CombinedDrawable(drawable1, drawable2);
-                        creationTextCell.setTextAndIcon(LocaleController.getString(R.string.AddEmojiSet), combinedDrawable, false);
+                        creationTextCell.setTextAndIcon(LocaleController.getString(R.string.AddEmojiSet), combinedDrawable, divider);
                     }
                     break;
                 }
