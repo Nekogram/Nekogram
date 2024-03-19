@@ -7,37 +7,29 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.BitmapDrawable;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.Emoji;
-import org.telegram.messenger.FileLoader;
-import org.telegram.messenger.ImageLoader;
-import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.RadialProgressView;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
+import tw.nekomimi.nekogram.helpers.EmojiHelper;
 
 @SuppressLint("ViewConstructor")
 public class EmojiSetCell extends FrameLayout {
@@ -46,10 +38,9 @@ public class EmojiSetCell extends FrameLayout {
     private final BackupImageView imageView;
 
     private ImageView optionsButton;
-    private RadialProgressView radialProgress;
     private CheckBox2 checkBox;
 
-    private EmojiHelper.EmojiPackBase pack;
+    private EmojiHelper.EmojiPack pack;
     private boolean needDivider;
     private final boolean selection;
 
@@ -72,15 +63,6 @@ public class EmojiSetCell extends FrameLayout {
             optionsButton.setImageResource(R.drawable.floating_check);
             optionsButton.setVisibility(GONE);
             addView(optionsButton, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP, (LocaleController.isRTL ? 10 : 0), 9, (LocaleController.isRTL ? 0 : 10), 0));
-
-            radialProgress = new RadialProgressView(context);
-            radialProgress.setNoProgress(false);
-            radialProgress.setProgressColor(Theme.getColor(Theme.key_featuredStickers_addedIcon, resourcesProvider));
-            radialProgress.setStrokeWidth(2.8F);
-            radialProgress.setSize(AndroidUtilities.dp(30));
-            radialProgress.setLayoutParams(new LinearLayout.LayoutParams(AndroidUtilities.dp(40), AndroidUtilities.dp(40)));
-            radialProgress.setVisibility(INVISIBLE);
-            addView(radialProgress, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP, (LocaleController.isRTL ? 10 : 0), 9, (LocaleController.isRTL ? 0 : 10), 0));
         }
 
         textView = new TextView(context) {
@@ -119,38 +101,17 @@ public class EmojiSetCell extends FrameLayout {
         }
     }
 
-    public void setData(EmojiHelper.EmojiPackBase emojiPackInfo, boolean animated, boolean divider) {
+    public void setData(EmojiHelper.EmojiPack emojiPackInfo, boolean animated, boolean divider) {
         needDivider = divider;
         if (selection) {
             textView.setText(emojiPackInfo.getPackName());
             pack = emojiPackInfo;
-            int version;
-            if (emojiPackInfo instanceof EmojiHelper.EmojiPackInfo) {
-                version = ((EmojiHelper.EmojiPackInfo) emojiPackInfo).getPackVersion();
-            } else {
-                version = -1;
-            }
-            boolean installed;
-            if (emojiPackInfo instanceof EmojiHelper.EmojiPackInfo) {
-                installed = EmojiHelper.getInstance().isPackInstalled((EmojiHelper.EmojiPackInfo) pack);
-            } else {
-                installed = true;
-            }
             if ("default".equals(pack.getPackId())) {
                 valueTextView.setText(LocaleController.getString(R.string.Default), animated);
-            } else if (installed || version == -1) {
-                valueTextView.setText(LocaleController.getString(R.string.InstalledEmojiSet), animated);
             } else {
-                String status;
-                if (EmojiHelper.getInstance().isInstalledOldVersion(pack.getPackId(), version)) {
-                    status = LocaleController.formatString(R.string.UpdateEmojiSet, AndroidUtilities.formatFileSize(pack.getFileSize()));
-                } else {
-                    status = LocaleController.formatString(R.string.DownloadEmojiSet, AndroidUtilities.formatFileSize(pack.getFileSize()));
-                }
-                valueTextView.setText(status, animated);
+                valueTextView.setText(LocaleController.getString(R.string.InstalledEmojiSet), animated);
             }
             setPackPreview(pack);
-            if (!animated) checkDownloaded(false);
         } else {
             textView.setText(LocaleController.getString(R.string.EmojiSets));
             if (NekoConfig.useSystemEmoji) {
@@ -166,24 +127,9 @@ public class EmojiSetCell extends FrameLayout {
         }
     }
 
-    private void setPackPreview(EmojiHelper.EmojiPackBase pack) {
-        if (pack instanceof EmojiHelper.EmojiPackInfo) {
-            var document = ((EmojiHelper.EmojiPackInfo) pack).getPreviewDocument();
-            var thumbs = document.thumbs;
-            BitmapDrawable strippedThumb = null;
-            for (int a = 0, N = thumbs.size(); a < N; a++) {
-                TLRPC.PhotoSize photoSize = thumbs.get(a);
-                if (photoSize instanceof TLRPC.TL_photoStrippedSize) {
-                    strippedThumb = new BitmapDrawable(ApplicationLoader.applicationContext.getResources(), ImageLoader.getStrippedPhotoBitmap(photoSize.bytes, "b"));
-                    break;
-                }
-            }
-            if (strippedThumb != null) {
-                imageView.setImage(ImageLocation.getForDocument(document), "146_146", strippedThumb, pack);
-            } else {
-                TLRPC.PhotoSize thumb = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, 146);
-                imageView.setImage(ImageLocation.getForDocument(document), "146_146", ImageLocation.getForDocument(thumb, document), "146_146_B", thumb.size, pack);
-            }
+    private void setPackPreview(EmojiHelper.EmojiPack pack) {
+        if ("default".equals(pack.getPackId())) {
+            imageView.setImageDrawable(getContext().getDrawable(R.drawable.apple));
         } else {
             imageView.setImage(pack.getPreview(), null, null);
         }
@@ -235,67 +181,7 @@ public class EmojiSetCell extends FrameLayout {
         super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(58) + (needDivider ? 1 : 0), MeasureSpec.EXACTLY));
     }
 
-    public void setProgress(boolean visible, boolean animated) {
-        if (animated) {
-            radialProgress.animate().cancel();
-            radialProgress.animate().setListener(new AnimatorListenerAdapter() {
-                @Override
-                public void onAnimationEnd(Animator animation) {
-                    if (!visible) {
-                        radialProgress.setVisibility(INVISIBLE);
-                    }
-                }
-
-                @Override
-                public void onAnimationStart(Animator animation) {
-                    if (visible) {
-                        radialProgress.setVisibility(VISIBLE);
-                    }
-                }
-            }).alpha(visible ? 1 : 0).setDuration(150).start();
-        } else {
-            radialProgress.setVisibility(visible ? VISIBLE : INVISIBLE);
-        }
-    }
-
-    public void setProgress(float percentage, long downBytes, boolean animated) {
-        radialProgress.setProgress(percentage);
-        valueTextView.setText(LocaleController.formatString(
-                "AccDescrDownloadProgress",
-                R.string.AccDescrDownloadProgress,
-                AndroidUtilities.formatFileSize(downBytes),
-                AndroidUtilities.formatFileSize(pack.getFileSize())
-        ), animated);
-    }
-
-    public void checkDownloaded(boolean animated) {
-        if ("default".equals(pack.getPackId())) return;
-        if (pack instanceof EmojiHelper.EmojiPackInfo packInfo) {
-            if (EmojiHelper.getInstance().isPackDownloaded(packInfo)) {
-                setProgress(false, animated);
-                if (EmojiHelper.getInstance().isPackInstalled(packInfo)) {
-                    valueTextView.setText(LocaleController.getString(R.string.InstalledEmojiSet), animated);
-                } else {
-                    valueTextView.setText(LocaleController.getString(R.string.InstallingEmojiSet), animated);
-                }
-            } else if (EmojiHelper.getInstance().isEmojiPackDownloading(packInfo)) {
-                setProgress(true, animated);
-                setChecked(false, animated);
-            } else {
-                setProgress(false, animated);
-                setChecked(false, animated);
-                String status;
-                if (EmojiHelper.getInstance().isInstalledOldVersion(packInfo.getPackId(), packInfo.getPackVersion())) {
-                    status = LocaleController.formatString(R.string.UpdateEmojiSet, AndroidUtilities.formatFileSize(packInfo.getFileSize()));
-                } else {
-                    status = LocaleController.formatString(R.string.DownloadEmojiSet, AndroidUtilities.formatFileSize(packInfo.getFileSize()));
-                }
-                valueTextView.setText(status, animated);
-            }
-        }
-    }
-
-    public EmojiHelper.EmojiPackBase getPack() {
+    public EmojiHelper.EmojiPack getPack() {
         return pack;
     }
 }

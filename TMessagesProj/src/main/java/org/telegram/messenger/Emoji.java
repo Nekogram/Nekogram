@@ -30,7 +30,6 @@ import android.widget.TextView;
 
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 
-import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
@@ -39,7 +38,7 @@ import java.util.HashMap;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
+import tw.nekomimi.nekogram.helpers.EmojiHelper;
 
 public class Emoji {
 
@@ -80,18 +79,10 @@ public class Emoji {
 
     private final static int MAX_RECENT_EMOJI_COUNT = 48;
 
-    private static boolean isSelectedCustomEmojiPack;
-    private static File emojiFile;
-    private static boolean isSelectedEmojiPack;
+    public static boolean isSelectedEmojiPack;
 
     private static void reloadCache() {
-        isSelectedCustomEmojiPack = EmojiHelper.getInstance().isSelectedCustomEmojiPack();
-        emojiFile = EmojiHelper.getInstance().getCurrentEmojiPackOffline();
-        isSelectedEmojiPack = !EmojiHelper.getInstance().getEmojiPack().equals("default") && emojiFile != null && emojiFile.exists();
-    }
-
-    public static boolean isSelectedCustomPack() {
-        return isSelectedCustomEmojiPack || isSelectedEmojiPack || NekoConfig.useSystemEmoji;
+        isSelectedEmojiPack = EmojiHelper.getInstance().isSelectedEmojiPack() || NekoConfig.useSystemEmoji;
     }
 
     public static void reloadEmoji() {
@@ -141,7 +132,7 @@ public class Emoji {
             loadingEmoji[page][page2] = true;
             Utilities.globalQueue.postRunnable(() -> {
                 final Bitmap bitmap;
-                if (NekoConfig.useSystemEmoji || isSelectedCustomEmojiPack) {
+                if (isSelectedEmojiPack) {
                     int emojiSize = 66;
                     bitmap = Bitmap.createBitmap(emojiSize, emojiSize, Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(bitmap);
@@ -154,11 +145,7 @@ public class Emoji {
                             emojiSize
                     );
                 } else {
-                    if (isSelectedEmojiPack) {
-                        bitmap = loadBitmap(emojiFile.getAbsolutePath() + "/" + String.format(Locale.US, "%d_%d.png", page, page2), false);
-                    } else {
-                        bitmap = loadBitmap("emoji/" + String.format(Locale.US, "%d_%d.png", page, page2));
-                    }
+                    bitmap = loadBitmap("emoji/" + String.format(Locale.US, "%d_%d.png", page, page2));
                 }
                 if (bitmap != null) {
                     emojiBmp[page][page2] = bitmap;

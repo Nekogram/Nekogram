@@ -217,7 +217,6 @@ import tw.nekomimi.nekogram.helpers.ApkInstaller;
 import tw.nekomimi.nekogram.helpers.MonetHelper;
 import tw.nekomimi.nekogram.helpers.SettingsHelper;
 import tw.nekomimi.nekogram.helpers.UserHelper;
-import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 import tw.nekomimi.nekogram.settings.NekoDonateActivity;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
@@ -986,7 +985,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         }
                     });
         }
-        EmojiHelper.getInstance().checkEmojiPacks();
         BackupAgent.requestBackup(this);
         //RestrictedLanguagesSelectActivity.checkRestrictedLanguages(false);
     }

@@ -34,11 +34,9 @@ import org.telegram.ui.Cells.CreationTextCell;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
-import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ChatAttachAlertDocumentLayout;
 import org.telegram.ui.Components.CombinedDrawable;
-import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.NumberTextView;
 
@@ -49,15 +47,14 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
+import tw.nekomimi.nekogram.helpers.EmojiHelper;
 
-public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implements EmojiHelper.EmojiPackLoadListener, EmojiHelper.EmojiPacksLoadedListener, ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate {
+public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implements ChatAttachAlertDocumentLayout.DocumentSelectActivityDelegate {
 
     private static final int menu_delete = 0;
     private static final int menu_share = 1;
 
-    private final ArrayList<EmojiHelper.EmojiPackInfo> emojiPacks = new ArrayList<>();
-    private final ArrayList<EmojiHelper.EmojiPackBase> customEmojiPacks = new ArrayList<>();
+    private final ArrayList<EmojiHelper.EmojiPack> emojiPacks = new ArrayList<>();
 
     private ListAdapter listAdapter;
 
@@ -65,17 +62,12 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
     private int useSystemEmojiRow;
     private int general2Row;
 
-    private int useCustomEmojiRow;
-    private int customEmojiStartRow;
-    private int customEmojiEndRow;
-    private int customEmojiAddRow;
-    private int useSystemEmoji2Row;
-
-    private int emojiPackRow;
-    private int emojiPacksStartRow;
-    private int emojiPacksEndRow;
-    private int placeHolderRow;
-    private int emojiPack2Row;
+    private int useEmojiRow;
+    private int appleRow;
+    private int emojiStartRow;
+    private int emojiEndRow;
+    private int emojiAddRow;
+    private int useEmoji2Row;
 
     private ChatAttachAlert chatAttachAlert;
     private NumberTextView selectedCountTextView;
@@ -111,7 +103,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
 
     @Override
     protected boolean onItemLongClick(View view, int position, float x, float y) {
-        if (position >= customEmojiStartRow && position < customEmojiEndRow) {
+        if (position >= emojiStartRow && position < emojiEndRow) {
             listAdapter.toggleSelected(position);
             return true;
         }
@@ -120,40 +112,21 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
-        if (position >= emojiPacksStartRow && position < emojiPacksEndRow) {
-            EmojiSetCell cell = (EmojiSetCell) view;
-            if (cell.isChecked() || listAdapter.hasSelected()) return;
-            EmojiHelper.EmojiPackInfo pack = (EmojiHelper.EmojiPackInfo) cell.getPack();
-            boolean downloading = EmojiHelper.getInstance().isEmojiPackDownloading(pack);
-            boolean downloaded = EmojiHelper.getInstance().isPackDownloaded(pack);
-            boolean installed = EmojiHelper.getInstance().isPackInstalled(pack);
-            if (downloading || (downloaded && !installed)) return;
-
-            if (installed || pack.getPackId().equals("default")) {
-                EmojiHelper.getInstance().setEmojiPack(pack.getPackId());
-                cell.setChecked(true, true);
-                EmojiHelper.reloadEmoji();
-                listAdapter.notifyItemChanged(useSystemEmojiRow, PARTIAL);
-            } else {
-                cell.setProgress(true, true);
-                EmojiHelper.getInstance().downloadPack(pack, false, false);
-            }
-            listAdapter.notifyEmojiSetsChanged();
-        } else if (position == useSystemEmojiRow) {
+        if (position == useSystemEmojiRow) {
             NekoConfig.toggleUseSystemEmoji();
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.useSystemEmoji);
             }
             EmojiHelper.reloadEmoji();
             listAdapter.notifyEmojiSetsChanged();
-        } else if (position == customEmojiAddRow) {
+        } else if (position == emojiAddRow) {
             chatAttachAlert = new ChatAttachAlert(getParentActivity(), NekoEmojiSettingsActivity.this, false, false);
             chatAttachAlert.setEmojiPicker();
             chatAttachAlert.init();
             chatAttachAlert.show();
-        } else if (position >= customEmojiStartRow && position < customEmojiEndRow) {
+        } else if (position == appleRow || position >= emojiStartRow && position < emojiEndRow) {
             EmojiSetCell cell = (EmojiSetCell) view;
-            if (listAdapter.hasSelected()) {
+            if (position != appleRow && listAdapter.hasSelected()) {
                 listAdapter.toggleSelected(position);
             } else {
                 if (cell.isChecked()) return;
@@ -172,19 +145,6 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
     }
 
     @Override
-    public boolean onFragmentCreate() {
-        EmojiHelper.getInstance().loadEmojisInfo(this);
-        EmojiHelper.getInstance().addListener(this);
-        return super.onFragmentCreate();
-    }
-
-    @Override
-    public void onFragmentDestroy() {
-        EmojiHelper.getInstance().removeListener(this);
-        super.onFragmentDestroy();
-    }
-
-    @Override
     protected String getActionBarTitle() {
         return LocaleController.getString(R.string.EmojiSets);
     }
@@ -199,34 +159,18 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
         useSystemEmojiRow = addRow("useSystemEmoji");
         general2Row = addRow();
 
-        useCustomEmojiRow = addRow();
-        customEmojiStartRow = rowCount;
-        rowCount += customEmojiPacks.size();
-        customEmojiEndRow = rowCount;
-        customEmojiAddRow = addRow("customEmojiAdd");
-        useSystemEmoji2Row = addRow();
-
-        emojiPackRow = addRow();
-        if (!emojiPacks.isEmpty()) {
-            emojiPacksStartRow = rowCount;
-            for (var pack : emojiPacks) {
-                addRow(pack.getPackId());
-            }
-            emojiPacksEndRow = rowCount;
-            placeHolderRow = -1;
-        } else {
-            emojiPacksStartRow = -1;
-            emojiPacksEndRow = -1;
-            placeHolderRow = addRow();
-        }
-        emojiPack2Row = addRow();
+        useEmojiRow = addRow();
+        appleRow = addRow();
+        emojiStartRow = rowCount;
+        rowCount += emojiPacks.size();
+        emojiEndRow = rowCount;
+        emojiAddRow = addRow("emojiAdd");
+        useEmoji2Row = addRow();
     }
 
     public void updatePacks() {
         emojiPacks.clear();
-        customEmojiPacks.clear();
         emojiPacks.addAll(EmojiHelper.getInstance().getEmojiPacksInfo());
-        customEmojiPacks.addAll(EmojiHelper.getInstance().getEmojiCustomPacksInfo());
     }
 
     @Override
@@ -236,7 +180,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
 
     @Override
     public Integer getSelectorColor(int position) {
-        if (position == customEmojiAddRow) {
+        if (position == emojiAddRow) {
             return Theme.multAlpha(getThemedColor(Theme.key_switchTrackChecked), .1f);
         }
         return super.getSelectorColor(position);
@@ -252,49 +196,6 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
             }
         }
         processFiles(filesToUpload);
-    }
-
-    @Override
-    public void emojiPacksLoaded(String error) {
-        if (error != null) {
-            if (BulletinFactory.canShowBulletin(this)) {
-                BulletinFactory.of(this).createErrorBulletin(error);
-            }
-        } else {
-            updateListAnimated();
-        }
-    }
-
-    @Override
-    public void progressChanged(EmojiHelper.EmojiPackInfo pack, boolean finished, float progress, long bytesLoaded) {
-        if (listView == null || listAdapter == null) {
-            return;
-        }
-        EmojiSetCell cell = null;
-        for (int i = 0; i < listView.getChildCount(); i++) {
-            View view = listView.getChildAt(i);
-            if (view instanceof EmojiSetCell) {
-                if (((EmojiSetCell) view).getPack().getPackId().equals(pack.getPackId())) {
-                    cell = (EmojiSetCell) view;
-                    break;
-                }
-            }
-        }
-        if (cell == null) {
-            return;
-        }
-
-        if (!finished) {
-            if (progress == 100f) {
-                cell.checkDownloaded(true);
-            } else {
-                cell.setProgress(progress, bytesLoaded, true);
-            }
-        } else {
-            listAdapter.notifyEmojiSetsChanged();
-            listAdapter.notifyItemChanged(useSystemEmojiRow, PARTIAL);
-            cell.checkDownloaded(true);
-        }
     }
 
     @Override
@@ -399,7 +300,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                     progressDialog.dismiss();
                     progressDialog = null;
                 }
-                listAdapter.notifyItemRangeInserted(customEmojiEndRow, finalCount);
+                listAdapter.notifyItemRangeInserted(emojiEndRow, finalCount);
                 updateRows();
             });
         });
@@ -437,42 +338,38 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                 }
                 case TYPE_HEADER: {
                     HeaderCell headerViewHolder = (HeaderCell) holder.itemView;
-                    if (position == emojiPackRow) {
-                        headerViewHolder.setText(LocaleController.getString(R.string.EmojiSets));
-                    } else if (position == generalRow) {
+                    if (position == generalRow) {
                         headerViewHolder.setText(LocaleController.getString(R.string.General));
-                    } else if (position == useCustomEmojiRow) {
-                        headerViewHolder.setText(LocaleController.getString(R.string.MyEmojiSets));
+                    } else if (position == useEmojiRow) {
+                        headerViewHolder.setText(LocaleController.getString(R.string.EmojiSets));
                     }
                     break;
                 }
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                    if (position == emojiPack2Row) {
+                    if (position == useEmoji2Row) {
                         cell.setText(LocaleController.getString(R.string.EmojiSetHint));
-                    } else if (position == useSystemEmoji2Row) {
-                        cell.setText(LocaleController.getString(R.string.CustomEmojiSetHint));
                     }
                     break;
                 }
                 case TYPE_EMOJI_SELECTION: {
                     EmojiSetCell emojiPackSetCell = (EmojiSetCell) holder.itemView;
-                    EmojiHelper.EmojiPackBase emojiPackInfo = null;
-                    if (position >= emojiPacksStartRow && position < emojiPacksEndRow) {
-                        emojiPackInfo = emojiPacks.get(position - emojiPacksStartRow);
-                    } else if (position >= customEmojiStartRow && position < customEmojiEndRow) {
-                        emojiPackInfo = customEmojiPacks.get(position - customEmojiStartRow);
+                    EmojiHelper.EmojiPack emojiPackInfo;
+                    if (position >= emojiStartRow && position < emojiEndRow) {
+                        emojiPackInfo = emojiPacks.get(position - emojiStartRow);
+                    } else {
+                        emojiPackInfo = EmojiHelper.DEFAULT_PACK;
                     }
                     emojiPackSetCell.setSelected(selectedItems.get(position, false), partial);
                     if (emojiPackInfo != null) {
                         emojiPackSetCell.setChecked(!hasSelected() && emojiPackInfo.getPackId().equals(EmojiHelper.getInstance().getSelectedEmojiPackId()) && !NekoConfig.useSystemEmoji, partial);
-                        emojiPackSetCell.setData(emojiPackInfo, partial, position != emojiPacksEndRow - 1);
+                        emojiPackSetCell.setData(emojiPackInfo, partial, divider);
                     }
                     break;
                 }
                 case TYPE_CREATION: {
                     CreationTextCell creationTextCell = (CreationTextCell) holder.itemView;
-                    if (position == customEmojiAddRow) {
+                    if (position == emojiAddRow) {
                         Drawable drawable1 = creationTextCell.getContext().getResources().getDrawable(R.drawable.poll_add_circle);
                         Drawable drawable2 = creationTextCell.getContext().getResources().getDrawable(R.drawable.poll_add_plus);
                         drawable1.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
@@ -480,12 +377,6 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                         CombinedDrawable combinedDrawable = new CombinedDrawable(drawable1, drawable2);
                         creationTextCell.setTextAndIcon(LocaleController.getString(R.string.AddEmojiSet), combinedDrawable, divider);
                     }
-                    break;
-                }
-                case TYPE_FLICKER: {
-                    FlickerLoadingView flickerLoadingView = (FlickerLoadingView) holder.itemView;
-                    flickerLoadingView.setViewType(FlickerLoadingView.STICKERS_TYPE);
-                    flickerLoadingView.setIsSingleCell(true);
                     break;
                 }
             }
@@ -497,16 +388,14 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                 return TYPE_SHADOW;
             } else if (position == useSystemEmojiRow) {
                 return TYPE_CHECK;
-            } else if (position == emojiPackRow || position == generalRow || position == useCustomEmojiRow) {
+            } else if (position == generalRow || position == useEmojiRow) {
                 return TYPE_HEADER;
-            } else if (position == emojiPack2Row || position == useSystemEmoji2Row) {
+            } else if (position == useEmoji2Row) {
                 return TYPE_INFO_PRIVACY;
-            } else if ((position >= emojiPacksStartRow && position < emojiPacksEndRow) || (position >= customEmojiStartRow && position < customEmojiEndRow)) {
+            } else if (position == appleRow || position >= emojiStartRow && position < emojiEndRow) {
                 return TYPE_EMOJI_SELECTION;
-            } else if (position == customEmojiAddRow) {
+            } else if (position == emojiAddRow) {
                 return TYPE_CREATION;
-            } else if (position == placeHolderRow) {
-                return TYPE_FLICKER;
             } else {
                 return TYPE_TEXT;
             }
@@ -539,8 +428,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
         }
 
         private void notifyEmojiSetsChanged() {
-            notifyItemRangeChanged(customEmojiStartRow, customEmojiEndRow - customEmojiStartRow, PARTIAL);
-            notifyItemRangeChanged(emojiPacksStartRow, emojiPacksEndRow - emojiPacksStartRow, PARTIAL);
+            notifyItemRangeChanged(appleRow, 1 + emojiEndRow - emojiStartRow, PARTIAL);
         }
 
         private void checkActionMode() {
@@ -557,10 +445,10 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
         }
 
         private void processSelectionMenu(int which) {
-            ArrayList<EmojiHelper.EmojiPackBase> stickerSetList = new ArrayList<>(selectedItems.size());
-            for (int i = 0, size = customEmojiPacks.size(); i < size; i++) {
-                EmojiHelper.EmojiPackBase pack = customEmojiPacks.get(i);
-                if (selectedItems.get(customEmojiStartRow + i, false)) {
+            ArrayList<EmojiHelper.EmojiPack> stickerSetList = new ArrayList<>(selectedItems.size());
+            for (int i = 0, size = emojiPacks.size(); i < size; i++) {
+                EmojiHelper.EmojiPack pack = emojiPacks.get(i);
+                if (selectedItems.get(emojiStartRow + i, false)) {
                     stickerSetList.add(pack);
                 }
             }
@@ -571,7 +459,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                     intent.setAction(Intent.ACTION_SEND_MULTIPLE);
                     intent.setType("font/ttf");
                     ArrayList<Uri> uriList = new ArrayList<>();
-                    for (EmojiHelper.EmojiPackBase packTmp : stickerSetList) {
+                    for (EmojiHelper.EmojiPack packTmp : stickerSetList) {
                         uriList.add(FileProvider.getUriForFile(mContext, ApplicationLoader.getApplicationId() + ".provider", new File(packTmp.getFileLocation())));
                     }
                     intent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, uriList);
@@ -602,7 +490,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                     dialog.redPositive();
                 }
             } else {
-                EmojiHelper.EmojiPackBase pack = stickerSetList.get(0);
+                EmojiHelper.EmojiPack pack = stickerSetList.get(0);
                 if (which == menu_share) {
                     Intent intent = new Intent();
                     intent.setAction(Intent.ACTION_SEND);
@@ -615,7 +503,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
                     EmojiHelper.getInstance().cancelableDelete(NekoEmojiSettingsActivity.this, pack, new EmojiHelper.OnBulletinAction() {
                         @Override
                         public void onPreStart() {
-                            notifyItemRemoved(customEmojiStartRow + customEmojiPacks.indexOf(pack));
+                            notifyItemRemoved(emojiStartRow + emojiPacks.indexOf(pack));
                             notifyEmojiSetsChanged();
                             updateRows();
                             clearSelected();
@@ -623,7 +511,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
 
                         @Override
                         public void onUndo() {
-                            notifyItemInserted(customEmojiStartRow + EmojiHelper.getInstance().getEmojiCustomPacksInfo().indexOf(pack));
+                            notifyItemInserted(emojiStartRow + EmojiHelper.getInstance().getEmojiPacksInfo().indexOf(pack));
                             updateRows();
                             notifyEmojiSetsChanged();
                         }
@@ -642,14 +530,10 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
         DiffCallback diffCallback = new DiffCallback();
         diffCallback.oldRowCount = rowCount;
         diffCallback.fillPositions(diffCallback.oldPositionToItem);
-        diffCallback.oldEmojiPacks.clear();
-        diffCallback.oldCustomPacks.clear();
-        diffCallback.oldEmojiPacks.addAll(emojiPacks);
-        diffCallback.oldCustomPacks.addAll(customEmojiPacks);
-        diffCallback.oldEmojiPacksStartRow = emojiPacksStartRow;
-        diffCallback.oldEmojiPacksEndRow = emojiPacksEndRow;
-        diffCallback.oldCustomEmojiStartRow = customEmojiStartRow;
-        diffCallback.oldCustomEmojiEndRow = customEmojiEndRow;
+        diffCallback.oldPacks.clear();
+        diffCallback.oldPacks.addAll(emojiPacks);
+        diffCallback.oldEmojiStartRow = emojiStartRow;
+        diffCallback.oldEmojiEndRow = emojiEndRow;
         updateRows();
         diffCallback.fillPositions(diffCallback.newPositionToItem);
         try {
@@ -666,12 +550,9 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
 
         SparseIntArray oldPositionToItem = new SparseIntArray();
         SparseIntArray newPositionToItem = new SparseIntArray();
-        ArrayList<EmojiHelper.EmojiPackBase> oldEmojiPacks = new ArrayList<>();
-        ArrayList<EmojiHelper.EmojiPackBase> oldCustomPacks = new ArrayList<>();
-        int oldEmojiPacksStartRow;
-        int oldEmojiPacksEndRow;
-        int oldCustomEmojiStartRow;
-        int oldCustomEmojiEndRow;
+        ArrayList<EmojiHelper.EmojiPack> oldPacks = new ArrayList<>();
+        int oldEmojiStartRow;
+        int oldEmojiEndRow;
 
         @Override
         public int getOldListSize() {
@@ -685,17 +566,10 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
 
         @Override
         public boolean areItemsTheSame(int oldItemPosition, int newItemPosition) {
-            if (newItemPosition >= emojiPacksStartRow && newItemPosition < emojiPacksEndRow) {
-                if (oldItemPosition >= oldEmojiPacksStartRow && oldItemPosition < oldEmojiPacksEndRow) {
-                    EmojiHelper.EmojiPackBase oldItem = oldEmojiPacks.get(oldItemPosition - oldEmojiPacksStartRow);
-                    EmojiHelper.EmojiPackBase newItem = emojiPacks.get(newItemPosition - emojiPacksStartRow);
-                    return Objects.equals(oldItem.getPackId(), newItem.getPackId());
-                }
-            }
-            if (newItemPosition >= customEmojiStartRow && newItemPosition < customEmojiEndRow) {
-                if (oldItemPosition >= oldCustomEmojiStartRow && oldItemPosition < oldCustomEmojiEndRow) {
-                    EmojiHelper.EmojiPackBase oldItem = oldCustomPacks.get(oldItemPosition - oldCustomEmojiStartRow);
-                    EmojiHelper.EmojiPackBase newItem = customEmojiPacks.get(newItemPosition - customEmojiStartRow);
+            if (newItemPosition >= emojiStartRow && newItemPosition < emojiEndRow) {
+                if (oldItemPosition >= oldEmojiStartRow && oldItemPosition < oldEmojiEndRow) {
+                    EmojiHelper.EmojiPack oldItem = oldPacks.get(oldItemPosition - oldEmojiStartRow);
+                    EmojiHelper.EmojiPack newItem = emojiPacks.get(newItemPosition - emojiStartRow);
                     return Objects.equals(oldItem.getPackId(), newItem.getPackId());
                 }
             }
@@ -716,12 +590,10 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
             put(++pointer, generalRow, sparseIntArray);
             put(++pointer, useSystemEmojiRow, sparseIntArray);
             put(++pointer, general2Row, sparseIntArray);
-            put(++pointer, useCustomEmojiRow, sparseIntArray);
-            put(++pointer, customEmojiAddRow, sparseIntArray);
-            put(++pointer, useSystemEmoji2Row, sparseIntArray);
-            put(++pointer, emojiPackRow, sparseIntArray);
-            put(++pointer, placeHolderRow, sparseIntArray);
-            put(++pointer, emojiPack2Row, sparseIntArray);
+            put(++pointer, useEmojiRow, sparseIntArray);
+            put(++pointer, appleRow, sparseIntArray);
+            put(++pointer, emojiAddRow, sparseIntArray);
+            put(++pointer, useEmoji2Row, sparseIntArray);
         }
 
         private void put(int id, int position, SparseIntArray sparseIntArray) {

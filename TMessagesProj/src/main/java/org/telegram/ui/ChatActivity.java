@@ -246,7 +246,7 @@ import tw.nekomimi.nekogram.MessageDetailsActivity;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.QrHelper;
-import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
+import tw.nekomimi.nekogram.helpers.EmojiHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.TranslatorSettingsPopupWrapper;
 
@@ -29383,30 +29383,30 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         File finalLocFile = locFile;
                         Utilities.globalQueue.postRunnable(() -> {
                             boolean success = true;
-                            EmojiHelper.EmojiPackBase emojiPackBase = null;
+                            EmojiHelper.EmojiPack emojiPack = null;
                             try {
-                                emojiPackBase = EmojiHelper.getInstance().installEmoji(finalLocFile, false);
+                                emojiPack = EmojiHelper.getInstance().installEmoji(finalLocFile, false);
                             } catch (Exception e) {
                                 FileLog.e("Emoji Font install failed", e);
                                 success = false;
                             }
                             boolean finalSuccess = success;
-                            EmojiHelper.EmojiPackBase finalEmojiPackBase = emojiPackBase;
+                            EmojiHelper.EmojiPack finalEmojiPack = emojiPack;
                             AndroidUtilities.runOnUIThread(() -> {
                                 progressDialog.dismiss();
-                                if (finalSuccess && finalEmojiPackBase != null) {
-                                    if (finalEmojiPackBase.getPackId().equals(EmojiHelper.getInstance().getEmojiPack())) {
+                                if (finalSuccess && finalEmojiPack != null) {
+                                    if (finalEmojiPack.getPackId().equals(EmojiHelper.getInstance().getEmojiPack())) {
                                         BulletinFactory.of(ChatActivity.this).createErrorBulletin(LocaleController.getString("EmojiSetAlreadyApplied", R.string.EmojiSetAlreadyApplied), themeDelegate).show();
                                     } else {
                                         EmojiHelper.EmojiSetBulletinLayout bulletinLayout = new EmojiHelper.EmojiSetBulletinLayout(
                                                 getParentActivity(),
                                                 LocaleController.getString("EmojiSetApplied", R.string.EmojiSetApplied),
-                                                LocaleController.formatString("EmojiSetAppliedInfo", R.string.EmojiSetAppliedInfo, finalEmojiPackBase.getPackName()),
-                                                finalEmojiPackBase,
+                                                LocaleController.formatString("EmojiSetAppliedInfo", R.string.EmojiSetAppliedInfo, finalEmojiPack.getPackName()),
+                                                finalEmojiPack,
                                                 themeDelegate
                                         );
                                         Bulletin.make(ChatActivity.this, bulletinLayout, Bulletin.DURATION_LONG).show();
-                                        EmojiHelper.getInstance().setEmojiPack(finalEmojiPackBase.getPackId());
+                                        EmojiHelper.getInstance().setEmojiPack(finalEmojiPack.getPackId());
                                         EmojiHelper.reloadEmoji();
                                     }
                                 } else {

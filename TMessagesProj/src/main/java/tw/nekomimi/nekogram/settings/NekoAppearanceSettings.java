@@ -25,10 +25,10 @@ import org.telegram.ui.LaunchActivity;
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.EmojiHelper;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
-import tw.nekomimi.nekogram.helpers.remote.EmojiHelper;
 
-public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate, EmojiHelper.EmojiPacksLoadedListener {
+public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate {
 
     private DrawerProfilePreviewCell profilePreviewCell;
 
@@ -56,7 +56,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
 
     @Override
     public boolean onFragmentCreate() {
-        EmojiHelper.getInstance().loadEmojisInfo(this);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         return super.onFragmentCreate();
     }
@@ -228,13 +227,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
         hideAllTabRow = addRow("hideAllTab");
         tabsTitleTypeRow = addRow("tabsTitleType");
         folders2Row = addRow();
-    }
-
-    @Override
-    public void emojiPacksLoaded(String error) {
-        if (listAdapter != null) {
-            listAdapter.notifyItemChanged(emojiSetsRow, PARTIAL);
-        }
     }
 
     @Override
