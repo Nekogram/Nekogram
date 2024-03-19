@@ -847,7 +847,7 @@ public class ContentPreviewViewer {
                                 stickerEmojiCell.setScaled(true);
                             } else if (currentPreviewCell instanceof StickerCell) {
                                 StickerCell stickerCell = (StickerCell) currentPreviewCell;
-                                open(stickerCell.getSticker(), null, null, delegate != null ? delegate.getQuery(false) : null, null, contentType, false, stickerCell.getParentObject(), resourcesProvider);
+                                open(stickerCell.getSticker(), null, MessageObject.findAnimatedEmojiEmoticon(stickerCell.getSticker(), null, currentAccount), delegate != null ? delegate.getQuery(false) : null, null, contentType, false, stickerCell.getParentObject(), resourcesProvider);
                                 stickerCell.setScaled(true);
                                 clearsInputField = stickerCell.isClearsInputField();
                             } else if (currentPreviewCell instanceof ContextLinkCell) {
@@ -1013,7 +1013,7 @@ public class ContentPreviewViewer {
                         stickerEmojiCell.setScaled(true);
                     } else if (currentPreviewCell instanceof StickerCell) {
                         StickerCell stickerCell = (StickerCell) currentPreviewCell;
-                        open(stickerCell.getSticker(), null, null, delegate != null ? delegate.getQuery(false) : null, null, contentTypeFinal, false, stickerCell.getParentObject(), resourcesProvider);
+                        open(stickerCell.getSticker(), null, MessageObject.findAnimatedEmojiEmoticon(stickerCell.getSticker(), null, currentAccount), delegate != null ? delegate.getQuery(false) : null, null, contentTypeFinal, false, stickerCell.getParentObject(), resourcesProvider);
                         opened = true;
                         stickerCell.setScaled(true);
                         clearsInputField = stickerCell.isClearsInputField();
@@ -1185,7 +1185,7 @@ public class ContentPreviewViewer {
                         break;
                     }
                 }
-                if (contentType == CONTENT_TYPE_EMOJI && emojiPath != null) {
+                if (emojiPath != null) {
                     CharSequence emoji = Emoji.replaceEmoji(emojiPath, textPaint.getFontMetricsInt(), AndroidUtilities.dp(24), false);
                     stickerEmojiLayout = new StaticLayout(emoji, textPaint, AndroidUtilities.dp(500), Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, false);
                 }
