@@ -72,6 +72,45 @@ public class ConfigHelper extends BaseRemoteHelper {
         return newsItems;
     }
 
+    public static void overrideChat(TLRPC.Chat chat) {
+        Config config = getInstance().getConfig();
+        if (config == null || config.chatOverrides == null) {
+            return;
+        }
+        config.chatOverrides.forEach(chatOverride -> {
+            if (chatOverride.id == chat.id) {
+                if (chatOverride.statusEmojiId != null) {
+                    var status = new TLRPC.TL_emojiStatus();
+                    status.document_id = chatOverride.statusEmojiId;
+                    chat.flags |= 512;
+                    chat.emoji_status = status;
+                }
+                if (chatOverride.colorId != null) {
+                    var color = new TLRPC.TL_peerColor();
+                    color.flags |= 1;
+                    color.color = chatOverride.colorId;
+                    if (chatOverride.backgroundEmojiId != null) {
+                        color.flags |= 2;
+                        color.background_emoji_id = chatOverride.backgroundEmojiId;
+                    }
+                    chat.flags |= 128;
+                    chat.color = color;
+                }
+                if (chatOverride.profileColorId != null) {
+                    var color = new TLRPC.TL_peerColor();
+                    color.flags |= 1;
+                    color.color = chatOverride.profileColorId;
+                    if (chatOverride.profileBackgroundEmojiId != null) {
+                        color.flags |= 2;
+                        color.background_emoji_id = chatOverride.profileBackgroundEmojiId;
+                    }
+                    chat.flags |= 256;
+                    chat.profile_color = color;
+                }
+            }
+        });
+    }
+
     private Config getConfig() {
         String string = getInstance().getJSON();
         try {
@@ -126,6 +165,27 @@ public class ConfigHelper extends BaseRemoteHelper {
         public Integer minVersion;
     }
 
+    public static class ChatOverride {
+        @SerializedName("id")
+        @Expose
+        public long id;
+        @SerializedName("status_emoji_id")
+        @Expose
+        public Long statusEmojiId;
+        @SerializedName("color_id")
+        @Expose
+        public Integer colorId;
+        @SerializedName("background_emoji_id")
+        @Expose
+        public Long backgroundEmojiId;
+        @SerializedName("profile_color_id")
+        @Expose
+        public Integer profileColorId;
+        @SerializedName("profile_background_emoji_id")
+        @Expose
+        public Long profileBackgroundEmojiId;
+    }
+
     public static class Config {
         @SerializedName("verify")
         @Expose
@@ -133,8 +193,8 @@ public class ConfigHelper extends BaseRemoteHelper {
         @SerializedName("newsv3")
         @Expose
         public List<News> news;
-        @SerializedName("coffee")
+        @SerializedName("chat_overrides")
         @Expose
-        public Boolean coffee;
+        public List<ChatOverride> chatOverrides;
     }
 }
