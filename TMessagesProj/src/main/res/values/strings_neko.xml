@@ -11,9 +11,6 @@
     <string name="DeleteAllFromSelfAlert">Warning! This will **delete all messages from you** in this chat for **all** participants.</string>
     <string name="DeleteAllFromSelfAlertBefore">Warning! This will **delete all messages from you before %s** in this chat for **all** participants.</string>
     <string name="DeleteAllFromSelfBefore">Before...</string>
-    <string name="BotLogin">Bot Login</string>
-    <string name="BotLoginMessage">Enter the bot token obtained from **@BotFather**.</string>
-    <string name="InvalidAccessToken">Invalid access token</string>
     <string name="IgnoreBlocked">Hide messages from blocked user</string>
     <string name="Connection">Connection</string>
     <string name="Chat">Chat</string>
@@ -28,12 +25,10 @@
     <string name="AddToSavedMessages">Save message</string>
     <string name="CreateMention">Create Mention</string>
     <string name="Prpr">Peropero</string>
-    <string name="TransparentStatusBar">Transparent status bar</string>
     <string name="EnableResidentNotification">Show a resident notification</string>
     <string name="DisableResidentNotification">Disable resident notification</string>
     <string name="NekogramRunning">Nekogram is running</string>
     <string name="EventType">Sidebar icon set</string>
-    <string name="ChristmasHat">Show christmas hat everyday</string>
     <string name="DependsOnDate">Depends on date</string>
     <string name="Christmas">Christmas</string>
     <string name="Valentine">Valentine\'s day</string>
@@ -42,8 +37,6 @@
     <string name="TestBackendOff">This account will connect to the production backend.</string>
     <string name="ViewHistory">View history</string>
     <string name="Nya">Meow!</string>
-    <string name="SensitiveDisableFiltering">Disable sensitive content filtering</string>
-    <string name="SensitiveAbout">Display sensitive media in public channels on all your devices.</string>
     <string name="StickerSize">Sticker size</string>
     <string name="StickerSizeLeft">Small</string>
     <string name="StickerSizeRight">Big</string>
@@ -58,11 +51,8 @@
     <string name="TranslateApiUnsupported">The translation provider you selected don\'t support your language.</string>
     <string name="ProviderLingocloud">Lingocloud</string>
     <string name="UndoTranslate">Undo translate</string>
-    <string name="DisablePhotoViewerSideAction">Disable \"Flip Photos by tapping\"</string>
-    <string name="BotToken">Token</string>
     <string name="OpenArchiveOnPull">Open Archive on pulldown</string>
     <string name="HideKeyboardOnChatScroll">Hide keyboard on chat scroll</string>
-    <string name="ShowTabsOnForward">Show tabs on forward</string>
     <string name="CheckAllAdministrated">Add administrated</string>
     <string name="RearVideoMessages">Rear camera in Video Messages</string>
     <string name="HideAllTab">Hide \"All Chats\" tab</string>
@@ -132,12 +122,8 @@
     <string name="RegistrationDateNewer">Newer than %s</string>
     <string name="RegistrationDateOlder">Older than %s</string>
     <string name="RegistrationDateApproximately">Approximately %s</string>
-    <string name="WsDescription">Connect to Telegram through WebSocket via Cloudflare. **Learn more**</string>
     <string name="WsEnableTls">Enable TLS</string>
     <string name="WsProvider">Provider</string>
-    <string name="WsNotWorking">Proxy isn\'t working!</string>
-    <string name="WsUseMyOwnDomain">How to set-up a custom provider</string>
-    <string name="WsStandaloneApp">Use proxy in other apps</string>
     <string name="UpdateNekogram">Update Nekogram</string>
     <string name="TranslationTarget">Target language</string>
     <string name="TranslationTargetApp">Follow app</string>
@@ -164,7 +150,6 @@
     <string name="OfficialSite">Official site</string>
     <string name="MutualContact">Mutual contact</string>
     <string name="MutualContactDescription">This contact is a mutual contact.</string>
-    <string name="NoUpdateAvailable">No update available.</string>
     <string name="InviteTextNeko">Hey, I\'m using Nekogram to chat. Join me! Download it here: %1$s</string>
     <string name="ShareNekogram">Share Nekogram...</string>
     <string name="NekogramVersion">Nekogram %1$s\nBased on Telegram %2$s\nDesigned by %3$s</string>
@@ -189,13 +174,11 @@
     <string name="SaveToDownloadCount_few">Saving %1$d files to downloads</string>
     <string name="SaveToDownloadCount_many">Saving %1$d files to downloads</string>
     <string name="SaveToDownloadCount_other">Saving %1$d files to downloads</string>
-    <string name="ThemesChannel">Themes channel</string>
     <string name="AppLinkNotVerifiedMessage">For Android 12 and newer, you need to manually add link to verified links in order to open t.me links in Nekogram.</string>
     <string name="AppLinkNotVerifiedTitle">App links not verified</string>
     <string name="AutoTranslate">Auto translate</string>
     <string name="AutoTranslateAbout">Automatically translate messages that are in another language.</string>
     <string name="DoubleTapAction">Double tap action</string>
-    <string name="BlockedUserIgnored">blocked</string>
     <string name="EditUndo">Undo</string>
     <string name="EditRedo">Redo</string>
     <string name="EditEnableMarkdown">Enable Markdown</string>
@@ -213,10 +196,7 @@
     <string name="ProviderYouDaoTranslate">YouDao Translator</string>
     <string name="ProviderBaiduTranslate">Baidu Translate</string>
     <string name="ProviderSogouTranslate">Sogou Translate</string>
-    <string name="Translating">translating</string>
     <string name="Translated">translated</string>
-    <string name="BrokenMLKit">Option unavailable</string>
-    <string name="BrokenMLKitDetail">MLKit language identifier is broken on this device.</string>
     <string name="PasscodeNeeded">You have to enable passcode lock first</string>
     <string name="PasscodeNeko">Passcode</string>
     <string name="PasscodeShowInSettings">Show in Neko Settings</string>
@@ -260,7 +240,6 @@
     <string name="DownloadSpeedBoostNone">Off</string>
     <string name="DownloadSpeedBoostAverage">On</string>
     <string name="DownloadSpeedBoostExtreme">Extreme</string>
-    <string name="UploadloadSpeedBoost">Upload speed boost</string>
     <string name="NoUpdateAvailablePlay">Please check for update in Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">Update in Play Store usually comes slower than direct APKs due to Google\'s review.</string>
     <string name="DownloadEmojiSet">Download %s</string>
@@ -295,7 +274,6 @@
     <string name="NavigationAnimation">Navigation animation</string>
     <string name="NavigationAnimationBezier">Classic</string>
     <string name="NavigationAnimationSpring">Natural</string>
-    <string name="NavigationAnimationCrossfading">Crossfading effect</string>
     <string name="CloudConfig">Cloud Settings</string>
     <string name="CloudConfigDesc">Save your Neko Settings to Telegram cloud.</string>
     <string name="CloudConfigSyncDate">Last synced: %s, cloud: %s</string>
