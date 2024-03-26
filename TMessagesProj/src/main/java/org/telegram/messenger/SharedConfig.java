@@ -1334,6 +1334,8 @@ public class SharedConfig {
         LocaleController.resetImperialSystemType();
     }
 
+    private static boolean hasWsNeko = !NekoConfig.isChineseUser || !TextUtils.isEmpty(NekoConfig.wsDomain);
+
     public static void loadProxyList() {
         if (proxyListLoaded) {
             return;
@@ -1402,7 +1404,7 @@ public class SharedConfig {
             ProxyInfo info = currentProxy = new ProxyInfo(proxyAddress, proxyPort, proxyUsername, proxyPassword, proxySecret);
             proxyList.add(0, info);
         }
-        if (!NekoConfig.isChineseUser || !TextUtils.isEmpty(NekoConfig.wsDomain)) {
+        if (hasWsNeko) {
             ProxyInfo info = new ProxyInfo(WsHelper.WS_ADDRESS, 6356, "", "", "");
             proxyList.add(0, info);
         }
@@ -1425,7 +1427,7 @@ public class SharedConfig {
         serializedData.writeInt32(-1);
         serializedData.writeByte(PROXY_CURRENT_SCHEMA_VERSION);
         int count = infoToSerialize.size();
-        serializedData.writeInt32(count - 1);
+        serializedData.writeInt32(hasWsNeko ? count - 1 : count);
         for (int a = count - 1; a >= 0; a--) {
             ProxyInfo info = infoToSerialize.get(a);
             if (WsHelper.WS_ADDRESS.equals(info.address)) {
