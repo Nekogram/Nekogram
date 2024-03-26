@@ -485,7 +485,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private BlurredFrameLayout searchContainer;
     private ImageView searchCalendarButton;
     private ImageView searchUserButton;
-    private ImageView searchBeginningButton;
     private AnimatedTextView searchCountText;
     private AnimatedTextView searchExpandList;
     private AnimatedTextView searchOtherButton;
@@ -6302,6 +6301,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             getMediaDataController().searchMessagesInChat(null, dialog_id, mergeDialogId, classGuid, reversed ? 2 : 1, threadMessageId, searchingUserMessages, searchingChatMessages, searchingReaction);
             showMessagesSearchListView(false);
         });
+        searchUpButton.setOnLongClickListener(view -> {
+            jumpToDate(1375315200);
+            return true;
+        });
         searchDownButton.setOnClickListener(view -> {
             getMediaDataController().searchMessagesInChat(null, dialog_id, mergeDialogId, classGuid, reversed ? 1 : 2, threadMessageId, searchingUserMessages, searchingChatMessages, searchingReaction);
             showMessagesSearchListView(false);
@@ -9052,9 +9055,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     if (searchUserButton != null && searchUserButton.getVisibility() != GONE) {
                         leftMargin += 48;
                     }
-                    if (searchBeginningButton != null && searchBeginningButton.getVisibility() != GONE) {
-                        leftMargin += 48;
-                    }
                     ((MarginLayoutParams) child.getLayoutParams()).leftMargin = AndroidUtilities.dp(leftMargin);
                 }
                 super.measureChildWithMargins(child, parentWidthMeasureSpec, widthUsed, parentHeightMeasureSpec, heightUsed);
@@ -9131,7 +9131,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 searchCalendarButton.setVisibility(View.GONE);
                 searchUserButton.setVisibility(View.GONE);
-                searchBeginningButton.setVisibility(View.GONE);
                 searchingForUser = true;
                 searchingUserMessages = null;
                 searchingChatMessages = null;
@@ -9162,15 +9161,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             }, themeDelegate).create());
         });
         searchCalendarButton.setContentDescription(LocaleController.getString("JumpToDate", R.string.JumpToDate));
-
-        searchBeginningButton = new ImageView(getContext());
-        searchBeginningButton.setScaleType(ImageView.ScaleType.CENTER);
-        searchBeginningButton.setImageResource(R.drawable.ic_upward);
-        searchBeginningButton.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_searchPanelIcons), PorterDuff.Mode.MULTIPLY));
-        searchBeginningButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_actionBarActionModeDefaultSelector), 1));
-        searchContainer.addView(searchBeginningButton, LayoutHelper.createFrame(48, 48, Gravity.LEFT | Gravity.TOP, searchUserButton != null ? (96 - 2.66f) : 48, 0, 0, 0));
-        searchBeginningButton.setOnClickListener(view -> jumpToDate(1375315200));
-        searchBeginningButton.setContentDescription(LocaleController.getString("JumpToBeginning", R.string.JumpToBeginning));
     }
 
     private void showSearchShowOther(boolean show) {
@@ -33340,9 +33330,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (searchUserButton != null) {
                 searchUserButton.setVisibility(View.VISIBLE);
             }
-            if (searchBeginningButton != null) {
-                searchBeginningButton.setVisibility(View.VISIBLE);
-            }
             if (searchingForUser) {
                 mentionContainer.getAdapter().searchUsernameOrHashtag(null, 0, null, false, true);
                 searchingForUser = false;
@@ -33529,7 +33516,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 				searchItem.setSearchFieldHint(isSupportedTags() ? LocaleController.getString("SavedTagSearchHint", R.string.SavedTagSearchHint) : LocaleController.getString("Search", R.string.Search));
                 searchCalendarButton.setVisibility(View.VISIBLE);
                 searchUserButton.setVisibility(View.VISIBLE);
-                searchBeginningButton.setVisibility(View.VISIBLE);
                 searchingUserMessages = null;
                 searchingChatMessages = null;
             }
@@ -36137,8 +36123,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         themeDescriptions.add(new ThemeDescription(replyCloseImageView, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_chat_replyPanelClose));
         themeDescriptions.add(new ThemeDescription(null, 0, null, null, null, selectedBackgroundDelegate, Theme.key_chat_replyPanelName));
 
-        themeDescriptions.add(new ThemeDescription(searchBeginningButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_chat_searchPanelIcons));
-        themeDescriptions.add(new ThemeDescription(searchBeginningButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_actionBarActionModeDefaultSelector));
         themeDescriptions.add(new ThemeDescription(searchCalendarButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_chat_searchPanelIcons));
         themeDescriptions.add(new ThemeDescription(searchCalendarButton, ThemeDescription.FLAG_BACKGROUNDFILTER | ThemeDescription.FLAG_DRAWABLESELECTEDSTATE, null, null, null, null, Theme.key_actionBarActionModeDefaultSelector));
         themeDescriptions.add(new ThemeDescription(searchUserButton, ThemeDescription.FLAG_IMAGECOLOR, null, null, null, null, Theme.key_chat_searchPanelIcons));
