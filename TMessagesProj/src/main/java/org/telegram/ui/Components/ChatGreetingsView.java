@@ -45,6 +45,8 @@ import org.telegram.ui.Stories.recorder.HintView2;
 
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class ChatGreetingsView extends LinearLayout {
 
     private TLRPC.Document preloadedGreetingsSticker;
@@ -57,6 +59,7 @@ public class ChatGreetingsView extends LinearLayout {
     public BackupImageView stickerToSendView;
     private final Theme.ResourcesProvider resourcesProvider;
     boolean wasDraw;
+    boolean showGreetings = !NekoConfig.disableGreetingSticker;
 
     public ChatGreetingsView(Context context, TLRPC.User user, int distance, int currentAccount, TLRPC.Document sticker, Theme.ResourcesProvider resourcesProvider) {
         super(context);
@@ -216,7 +219,7 @@ public class ChatGreetingsView extends LinearLayout {
                 addView(premiumButtonView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 30, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 20, 2, 20, 13));
             }
         } else {
-            addView(titleView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 20, 14, 20, 6));
+            addView(titleView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 20, showGreetings ? 14 : 6, 20, 6));
             addView(descriptionView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 20, 6, 20, 0));
             addView(stickerToSendView, LayoutHelper.createLinear(112, 112, Gravity.CENTER_HORIZONTAL, 0, 16, 0, 16));
         }
@@ -299,7 +302,7 @@ public class ChatGreetingsView extends LinearLayout {
         descriptionView.setVisibility(View.VISIBLE);
         stickerToSendView.setVisibility(View.VISIBLE);
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        if (getMeasuredHeight() > MeasureSpec.getSize(heightMeasureSpec)) {
+        if (!showGreetings || getMeasuredHeight() > MeasureSpec.getSize(heightMeasureSpec)) {
             descriptionView.setVisibility(View.GONE);
             stickerToSendView.setVisibility(View.GONE);
         } else {
