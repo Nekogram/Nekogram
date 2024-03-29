@@ -254,7 +254,7 @@ public class ItemOptions {
         }
         ActionBarMenuSubItem lastSubItem = (ActionBarMenuSubItem) lastChild;
         lastSubItem.setRightIcon(R.drawable.msg_text_check);
-        lastSubItem.getRightIcon().setColorFilter(0xffffffff, PorterDuff.Mode.MULTIPLY);
+        lastSubItem.getRightIcon().setColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlueIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY);
         lastSubItem.getRightIcon().setScaleX(.85f);
         lastSubItem.getRightIcon().setScaleY(.85f);
         return this;
