@@ -51,6 +51,13 @@ public class Browser {
     public static void unbindCustomTabsService(Activity activity) {
     }
 
+    private static List<String> TWITTER_FIXES = List.of(
+            "fxtwitter.com",
+            "fixupx.com",
+            "twittpr.com",
+            "vxtwitter.com"
+    );
+
     public static void openUrl(Context context, String url) {
         if (url == null) {
             return;
@@ -234,6 +241,9 @@ public class Browser {
                     finalPath += "#" + fragment;
                 }
                 uri = Uri.parse("https://" + finalPath);
+            }
+            if (host != null && TWITTER_FIXES.stream().anyMatch(host::endsWith)) {
+                uri = uri.buildUpon().authority("twitter.com").build();
             }
             if (allowCustom && SharedConfig.customTabs && !internalUri && !scheme.equals("tel")) {
                 if (MessagesController.getInstance(currentAccount).authDomains.contains(host)) {
