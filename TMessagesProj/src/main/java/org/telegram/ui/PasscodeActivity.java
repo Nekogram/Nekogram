@@ -59,6 +59,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
+import org.telegram.messenger.support.fingerprint.FingerprintManagerCompat;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -92,7 +93,6 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import tw.nekomimi.nekogram.helpers.BiometricPromptHelper;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 
 public class PasscodeActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
@@ -892,7 +892,8 @@ public class PasscodeActivity extends BaseFragment implements NotificationCenter
         changePasscodeRow = rowCount++;
         try {
             if (Build.VERSION.SDK_INT >= 23) {
-                if (BiometricPromptHelper.hasBiometricEnrolled()) {
+                FingerprintManagerCompat fingerprintManager = FingerprintManagerCompat.from(ApplicationLoader.applicationContext);
+                if (fingerprintManager.isHardwareDetected() && AndroidUtilities.isKeyguardSecure()) {
                     fingerprintRow = rowCount++;
                 } else {
                     fingerprintRow = -1;

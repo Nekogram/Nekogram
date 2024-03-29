@@ -45,9 +45,11 @@ import android.view.animation.DecelerateInterpolator;
 import android.view.inputmethod.EditorInfo;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.IdRes;
+import androidx.core.os.CancellationSignal;
 import androidx.dynamicanimation.animation.FloatValueHolder;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
@@ -60,6 +62,8 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.support.fingerprint.FingerprintManagerCompat;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.LaunchActivity;
 
@@ -69,7 +73,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
-import tw.nekomimi.nekogram.helpers.BiometricPromptHelper;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 
 public class PasscodeView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
@@ -86,8 +89,8 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             if (args[0] != this) {
                 setVisibility(GONE);
 
-                if (biometricPromptHelper != null) {
-                    biometricPromptHelper.dismiss();
+                if (fingerprintDialog != null) {
+                    fingerprintDialog.dismiss();
                 }
             }
         }
@@ -436,7 +439,11 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     private ImageView fingerprintImage;
     private int keyboardHeight = 0;
 
-    private BiometricPromptHelper biometricPromptHelper;
+    private CancellationSignal cancellationSignal;
+    private ImageView fingerprintImageView;
+    private TextView fingerprintStatusTextView;
+    private boolean selfCancelled;
+    private AlertDialog fingerprintDialog;
 
     private int imageY;
 
@@ -445,6 +452,9 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
     private Rect rect = new Rect();
 
     private PasscodeViewDelegate delegate;
+
+    private final static int id_fingerprint_textview = 1000;
+    private final static int id_fingerprint_imageview = 1001;
 
     private SpringAnimation backgroundAnimationSpring;
     private LinkedList<Runnable> backgroundSpringQueue = new LinkedList<>();
@@ -881,10 +891,6 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
             FrameLayout frameLayout = numberFrameLayouts.get(a);
             numbersFrameLayout.addView(frameLayout, LayoutHelper.createFrame(100, 100, Gravity.TOP | Gravity.LEFT));
         }
-
-        if (Build.VERSION.SDK_INT >= 23) {
-            biometricPromptHelper = new BiometricPromptHelper((Activity) context);
-        }
     }
 
     private void animateBackground(MotionBackgroundDrawable motionBackgroundDrawable) {
@@ -1087,8 +1093,23 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
 
     public void onPause() {
         AndroidUtilities.cancelRunOnUIThread(checkRunnable);
-        if (Build.VERSION.SDK_INT >= 23) {
-            biometricPromptHelper.dismiss();
+        if (fingerprintDialog != null) {
+            try {
+                if (fingerprintDialog.isShowing()) {
+                    fingerprintDialog.dismiss();
+                }
+                fingerprintDialog = null;
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+        }
+        try {
+            if (Build.VERSION.SDK_INT >= 23 && cancellationSignal != null) {
+                cancellationSignal.cancel();
+                cancellationSignal = null;
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
         }
     }
 
@@ -1114,7 +1135,120 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         }
         Activity parentActivity = (Activity) getContext();
         if (parentActivity != null && fingerprintView.getVisibility() == VISIBLE && !ApplicationLoader.mainInterfacePaused && (!(parentActivity instanceof LaunchActivity) || ((LaunchActivity) parentActivity).allowShowFingerprintDialog(this))) {
-            biometricPromptHelper.prompt(() -> processDone(true));
+            try {
+                if (fingerprintDialog != null && fingerprintDialog.isShowing()) {
+                    return;
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+            try {
+                FingerprintManagerCompat fingerprintManager = FingerprintManagerCompat.from(ApplicationLoader.applicationContext);
+                if (fingerprintManager.isHardwareDetected() && fingerprintManager.hasEnrolledFingerprints() && FingerprintController.isKeyReady() && !FingerprintController.checkDeviceFingerprintsChanged()) {
+                    RelativeLayout relativeLayout = new RelativeLayout(getContext());
+                    relativeLayout.setPadding(AndroidUtilities.dp(24), 0, AndroidUtilities.dp(24), 0);
+
+                    TextView fingerprintTextView = new TextView(getContext());
+                    fingerprintTextView.setId(id_fingerprint_textview);
+                    fingerprintTextView.setTextAppearance(android.R.style.TextAppearance_Material_Subhead);
+                    fingerprintTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
+                    fingerprintTextView.setText(LocaleController.getString("FingerprintInfo", R.string.FingerprintInfo));
+                    relativeLayout.addView(fingerprintTextView);
+                    RelativeLayout.LayoutParams layoutParams = LayoutHelper.createRelative(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT);
+                    layoutParams.addRule(RelativeLayout.ALIGN_PARENT_TOP);
+                    layoutParams.addRule(RelativeLayout.ALIGN_PARENT_START);
+                    fingerprintTextView.setLayoutParams(layoutParams);
+
+                    fingerprintImageView = new ImageView(getContext());
+                    fingerprintImageView.setImageResource(R.drawable.ic_fp_40px);
+                    fingerprintImageView.setId(id_fingerprint_imageview);
+                    relativeLayout.addView(fingerprintImageView, LayoutHelper.createRelative(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 20, 0, 0, RelativeLayout.ALIGN_PARENT_START, RelativeLayout.BELOW, id_fingerprint_textview));
+
+                    fingerprintStatusTextView = new TextView(getContext());
+                    fingerprintStatusTextView.setGravity(Gravity.CENTER_VERTICAL);
+                    fingerprintStatusTextView.setText(LocaleController.getString("FingerprintHelp", R.string.FingerprintHelp));
+                    fingerprintStatusTextView.setTextAppearance(android.R.style.TextAppearance_Material_Body1);
+                    fingerprintStatusTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack) & 0x42ffffff);
+                    relativeLayout.addView(fingerprintStatusTextView);
+                    layoutParams = LayoutHelper.createRelative(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT);
+                    layoutParams.setMarginStart(AndroidUtilities.dp(16));
+                    layoutParams.addRule(RelativeLayout.ALIGN_BOTTOM, id_fingerprint_imageview);
+                    layoutParams.addRule(RelativeLayout.ALIGN_TOP, id_fingerprint_imageview);
+                    layoutParams.addRule(RelativeLayout.END_OF, id_fingerprint_imageview);
+                    fingerprintStatusTextView.setLayoutParams(layoutParams);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                    builder.setTitle(LocaleController.getString("AppName", R.string.AppName));
+                    builder.setView(relativeLayout);
+                    builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                    builder.setOnDismissListener(dialog -> {
+                        if (cancellationSignal != null) {
+                            selfCancelled = true;
+                            try {
+                                cancellationSignal.cancel();
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
+                            cancellationSignal = null;
+                        }
+                    });
+                    if (fingerprintDialog != null) {
+                        try {
+                            if (fingerprintDialog.isShowing()) {
+                                fingerprintDialog.dismiss();
+                            }
+                        } catch (Exception e) {
+                            FileLog.e(e);
+                        }
+                    }
+                    fingerprintDialog = builder.show();
+
+                    cancellationSignal = new CancellationSignal();
+                    selfCancelled = false;
+                    fingerprintManager.authenticate(null, 0, cancellationSignal, new FingerprintManagerCompat.AuthenticationCallback() {
+                        @Override
+                        public void onAuthenticationError(int errMsgId, CharSequence errString) {
+                            if (errMsgId == 10) {
+                                try {
+                                    if (fingerprintDialog.isShowing()) {
+                                        fingerprintDialog.dismiss();
+                                    }
+                                } catch (Exception e) {
+                                    FileLog.e(e);
+                                }
+                                fingerprintDialog = null;
+                            } else if (!selfCancelled && errMsgId != 5) {
+                                showFingerprintError(errString);
+                            }
+                        }
+
+                        @Override
+                        public void onAuthenticationHelp(int helpMsgId, CharSequence helpString) {
+                            showFingerprintError(helpString);
+                        }
+
+                        @Override
+                        public void onAuthenticationFailed() {
+                            showFingerprintError(LocaleController.getString("FingerprintNotRecognized", R.string.FingerprintNotRecognized));
+                        }
+
+                        @Override
+                        public void onAuthenticationSucceeded(FingerprintManagerCompat.AuthenticationResult result) {
+                            try {
+                                if (fingerprintDialog.isShowing()) {
+                                    fingerprintDialog.dismiss();
+                                }
+                            } catch (Exception e) {
+                                FileLog.e(e);
+                            }
+                            fingerprintDialog = null;
+                            processDone(true);
+                        }
+                    }, null);
+                }
+            } catch (Throwable e) {
+                //ignore
+            }
         }
     }
 
@@ -1126,7 +1260,15 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         Activity parentActivity = (Activity) getContext();
         if (Build.VERSION.SDK_INT >= 23 && parentActivity != null && SharedConfig.useFingerprint) {
             try {
-                if (BiometricPromptHelper.hasBiometricEnrolled() && FingerprintController.isKeyReady() && !FingerprintController.checkDeviceFingerprintsChanged()) {
+                if (fingerprintDialog != null && fingerprintDialog.isShowing()) {
+                    return;
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+            try {
+                FingerprintManagerCompat fingerprintManager = FingerprintManagerCompat.from(ApplicationLoader.applicationContext);
+                if (fingerprintManager.isHardwareDetected() && fingerprintManager.hasEnrolledFingerprints() && FingerprintController.isKeyReady() && !FingerprintController.checkDeviceFingerprintsChanged()) {
                     fingerprintView.setVisibility(VISIBLE);
                 } else {
                     fingerprintView.setVisibility(GONE);
@@ -1377,6 +1519,17 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
         }
 
         setOnTouchListener((v, event) -> true);
+    }
+
+    private void showFingerprintError(CharSequence error) {
+        fingerprintImageView.setImageResource(R.drawable.ic_fingerprint_error);
+        fingerprintStatusTextView.setText(error);
+        fingerprintStatusTextView.setTextColor(0xfff4511e);
+        Vibrator v = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
+        if (v != null) {
+            v.vibrate(200);
+        }
+        AndroidUtilities.shakeView(fingerprintStatusTextView);
     }
 
     @Override
