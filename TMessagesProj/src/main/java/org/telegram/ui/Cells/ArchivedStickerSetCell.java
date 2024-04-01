@@ -208,8 +208,6 @@ public class ArchivedStickerSetCell extends FrameLayout implements Checkable {
                 }
             } else if (imageLocation != null && imageLocation.imageType == FileLoader.IMAGE_TYPE_LOTTIE) {
                 imageView.setImage(imageLocation, "50_50", "tgs", svgThumb, set);
-            } else if (imageLocation != null && imageLocation.imageType == FileLoader.IMAGE_TYPE_ANIMATION) {
-                imageView.setImage(imageLocation, "50_50", "webm", svgThumb, set);
             } else {
                 imageView.setImage(imageLocation, "50_50", "webp", svgThumb, set);
             }

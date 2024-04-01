@@ -243,7 +243,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
                     LineViewData line = lines.get(k);
                     if (!line.enabled && line.alpha == 0) continue;
 
-                    int[] y = line.line.y;
+                    final long[] y = line.line.y;
 
                     float yPercentage;
                     if (drawingLinesCount == 1) {
@@ -384,15 +384,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
 
             pieLegendView.setTranslationX(xl);
             pieLegendView.setTranslationY(yl);
-
-            boolean v = false;
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                v = performHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
-            }
-            if (!v) {
-                performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
-            }
-
+            AndroidUtilities.vibrateCursor(this);
         }
         moveLegend();
     }

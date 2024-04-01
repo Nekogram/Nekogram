@@ -695,6 +695,9 @@ public class NumberPicker extends LinearLayout {
         updateInputTextView();
         tryComputeMaxWidth();
         invalidate();
+        if (mScrollState == OnScrollListener.SCROLL_STATE_IDLE && mOnScrollListener != null) {
+            mOnScrollListener.onScrollStateChange(this, OnScrollListener.SCROLL_STATE_IDLE);
+        }
     }
 
     public int getMaxValue() {
@@ -722,6 +725,9 @@ public class NumberPicker extends LinearLayout {
         updateInputTextView();
         tryComputeMaxWidth();
         invalidate();
+        if (mScrollState == OnScrollListener.SCROLL_STATE_IDLE && mOnScrollListener != null) {
+            mOnScrollListener.onScrollStateChange(this, OnScrollListener.SCROLL_STATE_IDLE);
+        }
     }
 
     public String[] getDisplayedValues() {
@@ -914,16 +920,17 @@ public class NumberPicker extends LinearLayout {
         int previous = mValue;
         mValue = mFantomValue = current;
         updateInputTextView();
-        if (Math.abs(previous - current) > 0.9f && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-            try {
-                performHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-            } catch (Exception ignore) {}
+        if (Math.abs(previous - current) > 0.9f) {
+            AndroidUtilities.vibrateCursor(this);
         }
         if (notifyChange) {
             notifyChange(previous, current);
         }
         initializeSelectorWheelIndices();
         invalidate();
+        if (mScrollState == OnScrollListener.SCROLL_STATE_IDLE && mOnScrollListener != null) {
+            mOnScrollListener.onScrollStateChange(this, OnScrollListener.SCROLL_STATE_IDLE);
+        }
     }
 
     protected void changeValueByOne(boolean increment) {

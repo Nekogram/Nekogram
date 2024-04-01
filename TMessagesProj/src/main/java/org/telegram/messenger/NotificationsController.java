@@ -5766,10 +5766,10 @@ public class NotificationsController extends BaseController {
                 minChangeTime = Math.min(minChangeTime, d.second);
             }
         }
-        AndroidUtilities.cancelRunOnUIThread(checkStoryPushesRunnable);
+        notificationsQueue.cancelRunnable(checkStoryPushesRunnable);
         long delay = minChangeTime - System.currentTimeMillis();
         if (minChangeTime != Long.MAX_VALUE) {
-            AndroidUtilities.runOnUIThread(checkStoryPushesRunnable, Math.max(0, delay));
+            notificationsQueue.postRunnable(checkStoryPushesRunnable, Math.max(0, delay));
         }
     }
 }

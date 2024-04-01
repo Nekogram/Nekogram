@@ -5,6 +5,11 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.TextPaint;
+import android.text.TextUtils;
+import android.text.style.CharacterStyle;
 import android.transition.ChangeBounds;
 import android.transition.Fade;
 import android.transition.TransitionManager;
@@ -18,13 +23,19 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.BillingController;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.ChannelMonetizationLayout;
 import org.telegram.ui.Charts.data.ChartData;
+import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.CombinedDrawable;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RadialProgressView;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -34,7 +45,7 @@ public class LegendSignatureView extends FrameLayout {
 
     public boolean isTopHourChart;
     LinearLayout content;
-    Holder[] holdes;
+    Holder[] holders;
     TextView time;
     TextView hourTime;
     Drawable background;
@@ -122,16 +133,23 @@ public class LegendSignatureView extends FrameLayout {
 
     public void setSize(int n) {
         content.removeAllViews();
-        holdes = new Holder[n];
+        holders = new Holder[n];
         for (int i = 0; i < n; i++) {
-            holdes[i] = new Holder();
-            content.addView(holdes[i].root);
+            holders[i] = new Holder();
+            content.addView(holders[i].root);
         }
     }
 
 
-    public void setData(int index, long date, ArrayList<LineViewData> lines, boolean animateChanges) {
-        int n = holdes.length;
+    public void setData(
+        int index,
+        long date,
+        ArrayList<LineViewData> lines,
+        boolean animateChanges,
+        int formatter,
+        float k
+    ) {
+        int n = holders.length;
         if (animateChanges) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
                 TransitionSet transition = new TransitionSet();
@@ -155,29 +173,34 @@ public class LegendSignatureView extends FrameLayout {
             if (useHour) hourTime.setText(hourFormat.format(date));
         }
 
-        int sum = 0;
+        long sum = 0;
 
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < lines.size(); i++) {
             if (lines.get(i).enabled) sum += lines.get(i).line.y[index];
         }
 
         for (int i = 0; i < n; i++) {
-            Holder h = holdes[i];
+            Holder h = holders[i];
+            int formatterIndex = i % 2;
+            LineViewData l = lines.get(formatter == ChartData.FORMATTER_TON ? i / 2 : i);
 
-            if (!lines.get(i).enabled) {
+            if (!l.enabled) {
                 h.root.setVisibility(View.GONE);
             } else {
-                ChartData.Line l = lines.get(i).line;
                 if (h.root.getMeasuredHeight() == 0) {
                     h.root.requestLayout();
                 }
                 h.root.setVisibility(View.VISIBLE);
-                h.value.setText(formatWholeNumber(l.y[index]));
-                h.signature.setText(l.name);
-                if (l.colorKey >= 0 && Theme.hasThemeKey(l.colorKey)) {
-                    h.value.setTextColor(Theme.getColor(l.colorKey, resourcesProvider));
+                h.value.setText(formatWholeNumber(l.line.y[index], formatter, formatterIndex, h.value, k));
+                if (formatter == ChartData.FORMATTER_TON) {
+                    h.signature.setText(LocaleController.formatString(formatterIndex == 0 ? R.string.MonetizationChartInTON : R.string.MonetizationChartInUSD, l.line.name));
                 } else {
-                    h.value.setTextColor(Theme.getCurrentTheme().isDark() ? l.colorDark : l.color);
+                    h.signature.setText(l.line.name);
+                }
+                if (l.line.colorKey >= 0 && Theme.hasThemeKey(l.line.colorKey)) {
+                    h.value.setTextColor(Theme.getColor(l.line.colorKey, resourcesProvider));
+                } else {
+                    h.value.setTextColor(Theme.getCurrentTheme().isDark() ? l.line.colorDark : l.line.color);
                 }
                 h.signature.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
 
@@ -214,14 +237,30 @@ public class LegendSignatureView extends FrameLayout {
         return s;
     }
 
-
-    public String formatWholeNumber(int v) {
+    private DecimalFormat formatterTON;
+    public CharSequence formatWholeNumber(long v, int formatter, int formatterIndex, TextView textView, float k) {
+        if (formatter == ChartData.FORMATTER_TON) {
+            if (formatterIndex == 0) {
+                if (formatterTON == null) {
+                    DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
+                    symbols.setDecimalSeparator('.');
+                    formatterTON = new DecimalFormat("#.##", symbols);
+                    formatterTON.setMinimumFractionDigits(2);
+                    formatterTON.setMaximumFractionDigits(6);
+                    formatterTON.setGroupingUsed(false);
+                }
+                formatterTON.setMaximumFractionDigits(v > 1_000_000_000 ? 2 : 6);
+                return ChannelMonetizationLayout.replaceTON("TON " + formatterTON.format(v / 1_000_000_000.), textView.getPaint(), .82f, false);
+            } else {
+                return "~" + BillingController.getInstance().formatCurrency((long) (v / k), "USD");
+            }
+        }
         float num_ = v;
         int count = 0;
         if (v < 10_000) {
             return String.format("%d", v);
         }
-        while (num_ >= 10_000 && count < AndroidUtilities.numbersSignatureArray.length - 1) {
+        while (num_ >= 1_000 && count < AndroidUtilities.numbersSignatureArray.length - 1) {
             num_ /= 1000;
             count++;
         }
@@ -255,7 +294,7 @@ public class LegendSignatureView extends FrameLayout {
     }
 
     class Holder {
-        final TextView value;
+        final AnimatedEmojiSpan.TextViewEmojis value;
         final TextView signature;
         TextView percentage;
         final LinearLayout root;
@@ -268,21 +307,21 @@ public class LegendSignatureView extends FrameLayout {
                 root.addView(percentage = new TextView(getContext()));
                 percentage.getLayoutParams().width = AndroidUtilities.dp(36);
                 percentage.setVisibility(GONE);
-                percentage.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+                percentage.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
                 percentage.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
             }
 
-            root.addView(signature = new TextView(getContext()));
-            signature.getLayoutParams().width = showPercentage ? AndroidUtilities.dp(80) : AndroidUtilities.dp(96);
-            root.addView(value = new TextView(getContext()), LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+            root.addView(signature = new TextView(getContext()), LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 0, 20, 0));
+//            signature.getLayoutParams().width = showPercentage ? AndroidUtilities.dp(80) : AndroidUtilities.dp(96);
+            root.addView(value = new AnimatedEmojiSpan.TextViewEmojis(getContext()), LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
             signature.setGravity(Gravity.START);
             value.setGravity(Gravity.END);
 
-            value.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            value.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
             value.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
-            value.setMinEms(4);
-            value.setMaxEms(4);
+//            value.setMinEms(4);
+//            value.setMaxEms(4);
             signature.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
         }
     }

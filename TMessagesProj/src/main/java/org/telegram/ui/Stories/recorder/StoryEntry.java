@@ -7,6 +7,7 @@ import android.graphics.Canvas;
 import android.graphics.LinearGradient;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Rect;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -212,6 +213,9 @@ public class StoryEntry {
         if (drawable == null) {
             return;
         }
+        Rect rect = new Rect(drawable.getBounds());
+        Drawable.Callback callback = drawable.getCallback();
+        drawable.setCallback(null);
         if (drawable instanceof BitmapDrawable) {
             BitmapDrawable bd = (BitmapDrawable) drawable;
             int bw = bd.getBitmap().getWidth();
@@ -223,6 +227,8 @@ public class StoryEntry {
             drawable.setBounds(0, 0, w, h);
             drawable.draw(canvas);
         }
+        drawable.setBounds(rect);
+        drawable.setCallback(callback);
     }
 
     public Bitmap buildBitmap(float scale, Bitmap mainFileBitmap) {
@@ -1033,6 +1039,7 @@ public class StoryEntry {
                 info.startTime = (long) (left * duration) * 1000L;
                 info.endTime = (long) (right * duration) * 1000L;
                 info.estimatedDuration = info.endTime - info.startTime;
+                info.volume = videoVolume;
                 info.muted = muted;
                 info.estimatedSize = (long) (params[AnimatedFileDrawable.PARAM_NUM_AUDIO_FRAME_SIZE] + params[AnimatedFileDrawable.PARAM_NUM_DURATION] / 1000.0f * encoderBitrate / 8);
                 info.estimatedSize = Math.max(file.length(), info.estimatedSize);
@@ -1056,6 +1063,7 @@ public class StoryEntry {
                 info.endTime = -1;
                 info.muted = true;
                 info.originalBitrate = -1;
+                info.volume = 1f;
                 info.bitrate = -1;
                 info.framerate = 30;
                 info.estimatedSize = (long) (duration / 1000.0f * encoderBitrate / 8);
@@ -1128,7 +1136,7 @@ public class StoryEntry {
         location.file_reference = new byte[0];
 
         TLObject object;
-        if ("mp4".equals(ext)) {
+        if ("mp4".equals(ext) || "webm".equals(ext)) {
             TLRPC.VideoSize videoSize = new TLRPC.TL_videoSize_layer127();
             videoSize.location = location;
             object = videoSize;

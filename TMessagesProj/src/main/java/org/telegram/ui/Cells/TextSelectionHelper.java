@@ -936,9 +936,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
 
                                     if (viewChanged || layoutOld != layoutNew || newSelectionLine != layoutNew.getLineForOffset(selectionStart) && newSelectionLine == nextWhitespaceLine) {
                                         jumpToLine(newSelection, nextWhitespace, viewChanged, layoutBlock.yOffset, oldYoffset, oldSelectedView);
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                                            textSelectionOverlay.performHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-                                        }
+                                        AndroidUtilities.vibrateCursor(textSelectionOverlay);
                                         TextSelectionHelper.this.invalidate();
                                     } else if (Layout.DIR_RIGHT_TO_LEFT == layoutNew.getParagraphDirection(layoutNew.getLineForOffset(newSelection)) || layoutNew.isRtlCharAt(newSelection) || nextWhitespaceLine != currentLine || newSelectionLine != nextWhitespaceLine) {
                                         selectionStart = newSelection;
@@ -948,9 +946,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                                             selectionStart = k;
                                             movingHandleStart = false;
                                         }
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                                            textSelectionOverlay.performHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-                                        }
+                                        AndroidUtilities.vibrateCursor(textSelectionOverlay);
                                         TextSelectionHelper.this.invalidate();
                                     } else {
                                         int previousWhitespace = newSelection;
@@ -999,9 +995,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                                                 selectionStart = k;
                                                 movingHandleStart = false;
                                             }
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                                                textSelectionOverlay.performHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-                                            }
+                                            AndroidUtilities.vibrateCursor(textSelectionOverlay);
                                             TextSelectionHelper.this.invalidate();
                                         }
                                     }
@@ -1037,9 +1031,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
 
                                     if (viewChanged || layoutOld != layoutNew || newSelectionLine != layoutNew.getLineForOffset(selectionEnd) && newSelectionLine == nextWhitespaceLine) {
                                         jumpToLine(newSelection, nextWhitespace, viewChanged, layoutBlock.yOffset, oldYoffset, oldSelectedView);
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                                            textSelectionOverlay.performHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-                                        }
+                                        AndroidUtilities.vibrateCursor(textSelectionOverlay);
                                         TextSelectionHelper.this.invalidate();
                                     } else if (Layout.DIR_RIGHT_TO_LEFT == layoutNew.getParagraphDirection(layoutNew.getLineForOffset(newSelection)) || layoutNew.isRtlCharAt(newSelection) || currentLine != nextWhitespaceLine || newSelectionLine != nextWhitespaceLine) {
                                         selectionEnd = newSelection;
@@ -1049,9 +1041,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                                             selectionStart = k;
                                             movingHandleStart = true;
                                         }
-                                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                                            textSelectionOverlay.performHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-                                        }
+                                        AndroidUtilities.vibrateCursor(textSelectionOverlay);
                                         TextSelectionHelper.this.invalidate();
                                     } else {
                                         int previousWhitespace = newSelection;
@@ -1081,9 +1071,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                                                 selectionStart = k;
                                                 movingHandleStart = true;
                                             }
-                                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O_MR1) {
-                                                textSelectionOverlay.performHapticFeedback(HapticFeedbackConstants.TEXT_HANDLE_MOVE, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
-                                            }
+                                            AndroidUtilities.vibrateCursor(textSelectionOverlay);
                                             TextSelectionHelper.this.invalidate();
                                         }
                                     }

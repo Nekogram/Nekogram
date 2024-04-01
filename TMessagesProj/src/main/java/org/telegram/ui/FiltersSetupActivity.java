@@ -11,7 +11,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.HapticFeedbackConstants;
@@ -31,7 +30,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -51,7 +49,6 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
-import org.telegram.ui.Components.BotWebViewContainer;
 import org.telegram.ui.Components.Bulletin;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.CombinedDrawable;
@@ -84,7 +81,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
     private boolean ignoreUpdates;
 
     private boolean highlightTags;
-    private boolean scrollingToBottom;
     public FiltersSetupActivity highlightTags() {
         this.highlightTags = true;
         return this;
@@ -582,9 +578,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             presentFragment(new PremiumPreviewFragment("settings"));
         }) : LocaleController.getString(R.string.FolderShowTagsInfo)));
 
-        if (scrollingToBottom) {
-            animated = false;
-        }
         if (adapter != null) {
             if (animated) {
                 adapter.setItems(oldItems, items);
@@ -612,20 +605,6 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             });
         }
         super.onFragmentDestroy();
-    }
-
-    @Override
-    public void onBecomeFullyVisible() {
-        super.onBecomeFullyVisible();
-        if (highlightTags) {
-            highlightTags = false;
-            scrollingToBottom = true;
-            listView.smoothScrollToPosition(adapter.getItemCount() - 1);
-            AndroidUtilities.runOnUIThread(() -> {
-                scrollingToBottom = false;
-                listView.highlightRow(() -> folderTagsPosition);
-            }, 200);
-        }
     }
 
     @Override
@@ -724,6 +703,15 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             }
         });
 
+        if (highlightTags) {
+            updateRows(false);
+            highlightTags = false;
+            listView.scrollToPosition(adapter.getItemCount() - 1);
+            AndroidUtilities.runOnUIThread(() -> {
+                listView.highlightRow(() -> folderTagsPosition);
+            }, 200);
+        }
+
         return fragmentView;
     }
 
@@ -756,11 +744,7 @@ public class FiltersSetupActivity extends BaseFragment implements NotificationCe
             }
             updateRows(true);
         } else if (id == NotificationCenter.suggestedFiltersLoaded) {
-            if (scrollingToBottom) {
-                AndroidUtilities.runOnUIThread(() -> updateRows(true), 900);
-            } else {
-                updateRows(true);
-            }
+            updateRows(true);
         }
     }
 

@@ -3,6 +3,7 @@ package org.telegram.ui.Stories;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.webkit.MimeTypeMap;
 
@@ -1697,8 +1698,19 @@ public class StoriesController {
             return;
         }
         FileLog.d("StoriesController update stories from full peer " + dialogId);
-        peerStories.stories.clear();
-        peerStories.stories.addAll(stories.stories);
+//        peerStories.stories.clear();
+//        peerStories.stories.addAll(stories.stories);
+        for (int i = 0; i < peerStories.stories.size(); ++i) {
+            if (peerStories.stories.get(i) instanceof TL_stories.TL_storyItemSkipped) {
+                int storyId = peerStories.stories.get(i).id;
+                for (int j = 0; j < stories.stories.size(); ++j) {
+                    if (stories.stories.get(j).id == storyId && stories.stories.get(j) instanceof TL_stories.TL_storyItem) {
+                        peerStories.stories.set(i, stories.stories.get(j));
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public class UploadingStory implements NotificationCenter.NotificationCenterDelegate {
@@ -2369,6 +2381,7 @@ public class StoriesController {
 
         private final SortedSet<Integer> cachedObjects = new TreeSet<>(Comparator.reverseOrder());
         private final SortedSet<Integer> loadedObjects = new TreeSet<>(Comparator.reverseOrder());
+        public final HashSet<Integer> seenStories = new HashSet<>();
 
         private boolean showPhotos = true;
         private boolean showVideos = true;
@@ -2464,6 +2477,7 @@ public class StoriesController {
             final MessagesStorage storage = MessagesStorage.getInstance(currentAccount);
             storage.getStorageQueue().postRunnable(() -> {
                 SQLiteCursor cursor = null;
+                HashSet<Integer> seen = new HashSet<>();
                 HashSet<Long> loadUserIds = new HashSet<>();
                 HashSet<Long> loadChatIds = new HashSet<>();
                 ArrayList<MessageObject> cacheResult = new ArrayList<>();
@@ -2471,7 +2485,7 @@ public class StoriesController {
                 final ArrayList<TLRPC.Chat> loadedChats = new ArrayList<>();
                 try {
                     SQLiteDatabase database = storage.getDatabase();
-                    cursor = database.queryFinalized(String.format(Locale.US, "SELECT data FROM profile_stories WHERE dialog_id = %d AND type = %d ORDER BY story_id DESC", dialogId, type));
+                    cursor = database.queryFinalized(String.format(Locale.US, "SELECT data, seen FROM profile_stories WHERE dialog_id = %d AND type = %d ORDER BY story_id DESC", dialogId, type));
                     while (cursor.next()) {
                         NativeByteBuffer data = cursor.byteBufferValue(0);
                         if (data != null) {
@@ -2511,6 +2525,10 @@ public class StoriesController {
                             msg.generateThumbs(false);
                             cacheResult.add(msg);
                             data.reuse();
+
+                            if (cursor.intValue(1) == 1) {
+                                seen.add(storyItem.id);
+                            }
                         }
                     }
                     cursor.dispose();
@@ -2542,6 +2560,7 @@ public class StoriesController {
                         return;
                     }
 
+                    seenStories.addAll(seen);
                     cachedObjects.clear();
                     for (int i = 0; i < cacheResult.size(); ++i) {
                         pushObject(cacheResult.get(i), true);
@@ -2665,7 +2684,7 @@ public class StoriesController {
                 try {
                     SQLiteDatabase database = storage.getDatabase();
                     database.executeFast(String.format(Locale.US, "DELETE FROM profile_stories WHERE dialog_id = %d AND type = %d", dialogId, type)).stepThis().dispose();
-                    state = database.executeFast("REPLACE INTO profile_stories VALUES(?, ?, ?, ?)");
+                    state = database.executeFast("REPLACE INTO profile_stories VALUES(?, ?, ?, ?, ?)");
 
                     for (int i = 0; i < toSave.size(); ++i) {
                         MessageObject messageObject = toSave.get(i);
@@ -2682,6 +2701,7 @@ public class StoriesController {
                         state.bindInteger(2, storyItem.id);
                         state.bindByteBuffer(3, data);
                         state.bindInteger(4, type);
+                        state.bindInteger(5, seenStories.contains(storyItem.id) ? 1 : 0);
                         state.step();
                         data.reuse();
                     }
@@ -2698,6 +2718,18 @@ public class StoriesController {
                     saving = false;
                 });
             });
+        }
+
+        public boolean markAsRead(int storyId) {
+            if (seenStories.contains(storyId)) return false;
+            seenStories.add(storyId);
+            saveCache();
+            TL_stories.TL_stories_incrementStoryViews req = new TL_stories.TL_stories_incrementStoryViews();
+            req.peer = MessagesController.getInstance(currentAccount).getInputPeer(dialogId);
+            req.id.add(storyId);
+            ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> {});
+            NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.storiesReadUpdated);
+            return true;
         }
 
         private boolean canLoad() {

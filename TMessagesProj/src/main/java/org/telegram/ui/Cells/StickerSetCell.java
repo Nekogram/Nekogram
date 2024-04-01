@@ -360,8 +360,6 @@ public class StickerSetCell extends FrameLayout {
                 }
             } else if (imageLocation != null && imageLocation.imageType == FileLoader.IMAGE_TYPE_LOTTIE) {
                 imageView.setImage(imageLocation, filter, "tgs", svgThumb, set);
-            } else if (imageLocation != null && imageLocation.imageType == FileLoader.IMAGE_TYPE_ANIMATION) {
-                imageView.setImage(imageLocation, filter, "webm", svgThumb, set);
             } else {
                 imageView.setImage(imageLocation, filter, "webp", svgThumb, set);
             }

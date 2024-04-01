@@ -4,6 +4,13 @@ build/
 obj/
 *.iml
 local.properties
-.cxx
-.DS_Store
+TMessagesProj/.cxx/
+TMessagesProj/jniLibs/
+TMessagesProj/jniRes/
+**/.DS_Store
+TMessagesProj/afat/
+TMessagesProj_App/afat/
+TMessagesProj_AppHockeyApp/afat/
+TMessagesProj_AppStandalone/afat/
+TMessagesProj_AppHuawei/afat/
 /TMessagesProj/src/main/java/tw/nekomimi/nekogram/Extra.java

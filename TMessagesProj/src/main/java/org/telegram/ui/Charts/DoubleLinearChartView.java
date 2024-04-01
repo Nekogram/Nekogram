@@ -63,7 +63,7 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
 
                 int j = 0;
 
-                int[] y = line.line.y;
+                final long[] y = line.line.y;
 
                 line.chartPath.reset();
                 boolean first = true;
@@ -137,7 +137,7 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
                 int n = chartData.xPercentage.length;
                 int j = 0;
 
-                int[] y = line.line.y;
+                final long[] y = line.line.y;
 
                 line.chartPath.reset();
                 for (int i = 0; i < n; i++) {
@@ -251,42 +251,42 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
                     signaturePaint.setAlpha((int) (a.alpha * lines.get(leftIndex).alpha * transitionAlpha * additionalOutAlpha));
                 }
 
-                canvas.drawText(a.valuesStr[i], HORIZONTAL_PADDING, y - textOffset, signaturePaint);
+                a.drawText(canvas, 0, i, HORIZONTAL_PADDING, y - textOffset, signaturePaint);
             }
             if (a.valuesStr2 != null && lines.size() > 1) {
                 signaturePaint2.setColor(lines.get(rightIndex).lineColor);
                 signaturePaint2.setAlpha((int) (a.alpha * lines.get(rightIndex).alpha * transitionAlpha * additionalOutAlpha));
-                canvas.drawText(a.valuesStr2[i], getMeasuredWidth() - HORIZONTAL_PADDING, y - textOffset, signaturePaint2);
+                a.drawText(canvas, 1, i, getMeasuredWidth() - HORIZONTAL_PADDING, y - textOffset, signaturePaint2);
             }
         }
     }
 
     @Override
     public LineViewData createLineViewData(ChartData.Line line) {
-        return new LineViewData(line, resourcesProvider);
+        return new LineViewData(line, false, resourcesProvider);
     }
 
-    public int findMaxValue(int startXIndex, int endXIndex) {
+    public long findMaxValue(int startXIndex, int endXIndex) {
         if (lines.isEmpty()) {
             return 0;
         }
-        int n = lines.size();
-        int max = 0;
+        final int n = lines.size();
+        long max = 0;
         for (int i = 0; i < n; i++) {
-            int localMax = lines.get(i).enabled ? (int) (chartData.lines.get(i).segmentTree.rMaxQ(startXIndex, endXIndex) * chartData.linesK[i]) : 0;
+            long localMax = lines.get(i).enabled ? (long) (chartData.lines.get(i).segmentTree.rMaxQ(startXIndex, endXIndex) * chartData.linesK[i]) : 0;
             if (localMax > max) max = localMax;
         }
         return max;
     }
 
-    public int findMinValue(int startXIndex, int endXIndex) {
+    public long findMinValue(int startXIndex, int endXIndex) {
         if (lines.isEmpty()) {
             return 0;
         }
-        int n = lines.size();
-        int min = Integer.MAX_VALUE;
+        final int n = lines.size();
+        long min = Long.MAX_VALUE;
         for (int i = 0; i < n; i++) {
-            int localMin = lines.get(i).enabled ? (int) (chartData.lines.get(i).segmentTree.rMinQ(startXIndex, endXIndex) * chartData.linesK[i]) : Integer.MAX_VALUE;
+            long localMin = lines.get(i).enabled ? (int) (chartData.lines.get(i).segmentTree.rMinQ(startXIndex, endXIndex) * chartData.linesK[i]) : Integer.MAX_VALUE;
             if (localMin < min) min = localMin;
         }
         return min;
@@ -299,12 +299,12 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
             return;
         }
 
-        int max = 0;
+        long max = 0;
         for (LineViewData l : lines) {
             if (l.enabled && l.line.maxValue > max) max = l.line.maxValue;
         }
         if (lines.size() > 1) {
-            max = (int) (max * chartData.linesK[1]);
+            max = (long) (max * chartData.linesK[1]);
         }
 
         if (max > 0 && max != animatedToPickerMaxHeight) {
@@ -323,7 +323,8 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
         }
     }
 
-    protected ChartHorizontalLinesData createHorizontalLinesData(int newMaxHeight, int newMinHeight) {
+    @Override
+    protected ChartHorizontalLinesData createHorizontalLinesData(long newMaxHeight, long newMinHeight, int formatter) {
         float k;
         if (chartData.linesK.length < 2) {
             k = 1;
@@ -331,6 +332,6 @@ public class DoubleLinearChartView extends BaseChartView<DoubleLinearChartData, 
             int rightIndex = chartData.linesK[0] == 1 ? 1 : 0;
             k = chartData.linesK[rightIndex];
         }
-        return new ChartHorizontalLinesData(newMaxHeight, newMinHeight, useMinHeight, k);
+        return new ChartHorizontalLinesData(newMaxHeight, newMinHeight, useMinHeight, k, formatter, signaturePaint, signaturePaint2);
     }
 }

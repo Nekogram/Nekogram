@@ -7,6 +7,7 @@ import android.graphics.ColorMatrix;
 import android.graphics.ColorMatrixColorFilter;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.PointF;
 import android.graphics.RectF;
 import android.text.SpannableStringBuilder;
 import android.text.style.ClickableSpan;
@@ -217,6 +218,17 @@ public class QrHelper {
         return results;
     }
 
+    private static PointF[] toPointF(Point[] points, int w, int h) {
+        PointF[] out = new PointF[points.length];
+        for (int i = 0; i < points.length; ++i) {
+            out[i] = new PointF(
+                    points[i].x / (float) w,
+                    points[i].y / (float) h
+            );
+        }
+        return out;
+    }
+
     private static QRCodeMultiReader qrReader;
     private static BarcodeDetector visionQrReader;
 
@@ -235,7 +247,10 @@ public class QrHelper {
                     Barcode code = codes.valueAt(i);
                     String text = code.rawValue;
                     RectF bounds = new RectF();
-                    if (code.cornerPoints.length > 0) {
+                    var cornerPoints = toPointF(code.cornerPoints, width, height);
+                    if (code.cornerPoints.length == 0) {
+                        bounds = null;
+                    } else {
                         float minX = Float.MAX_VALUE,
                                 maxX = Float.MIN_VALUE,
                                 minY = Float.MAX_VALUE,
@@ -248,7 +263,7 @@ public class QrHelper {
                         }
                         bounds.set(minX, minY, maxX, maxY);
                     }
-                    results.add(buildResult(text, bounds, width, height));
+                    results.add(buildResult(text, bounds, cornerPoints, width, height));
                 }
             } else {
                 if (qrReader == null) {
@@ -286,7 +301,7 @@ public class QrHelper {
                             bounds = new RectF();
                             bounds.set(minX, minY, maxX, maxY);
                         }
-                        results.add(buildResult(text, bounds, width, height));
+                        results.add(buildResult(text, bounds, null, width, height));
                     }
                 }
 
@@ -297,9 +312,9 @@ public class QrHelper {
         return results;
     }
 
-    private static QrResult buildResult(String text, RectF bounds, int width, int height) {
+    private static QrResult buildResult(String text, RectF bounds, PointF[] cornerPoints, int width, int height) {
         QrResult result = new QrResult();
-        if (!bounds.isEmpty()) {
+        if (bounds != null) {
             int paddingX = AndroidUtilities.dp(25), paddingY = AndroidUtilities.dp(15);
             bounds.set(bounds.left - paddingX, bounds.top - paddingY, bounds.right + paddingX, bounds.bottom + paddingY);
             bounds.set(
@@ -308,6 +323,7 @@ public class QrHelper {
             );
         }
         result.bounds = bounds;
+        result.cornerPoints = cornerPoints;
         result.text = text;
         return result;
     }
@@ -361,5 +377,6 @@ public class QrHelper {
     public static class QrResult {
         public String text;
         public RectF bounds;
+        public PointF[] cornerPoints;
     }
 }
