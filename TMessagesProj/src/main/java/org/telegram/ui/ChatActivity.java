@@ -29418,9 +29418,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
             };
             ScaleStateListAnimator.apply(greetingsInfo, .02f, 1.2f);
-            greetingsInfo.setOnClickListener(v -> {
-                showDialog(new PremiumFeatureBottomSheet(this, PremiumPreviewFragment.PREMIUM_FEATURE_BUSINESS, true));
-            });
+            //greetingsInfo.setOnClickListener(v -> {
+            //    showDialog(new PremiumFeatureBottomSheet(this, PremiumPreviewFragment.PREMIUM_FEATURE_BUSINESS, true));
+            //});
         }
         if (greetingsInfo == null) return;
         if (!show) {
@@ -29436,16 +29436,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             string = string.substring(0, fromIndex) + string.substring(fromIndex + 2);
             toIndex = string.indexOf("**");
             if (toIndex > 0) {
-                string = string.substring(0, toIndex) + string.substring(toIndex + 2);
+                string = string.substring(0, fromIndex) + string.substring(toIndex + 2);
+                /*string = string.substring(0, toIndex) + string.substring(toIndex + 2);
                 ssb = new SpannableStringBuilder(string);
                 ProfileActivity.ShowDrawable drawable = new ProfileActivity.ShowDrawable(string.substring(fromIndex, toIndex));
                 drawable.setTextColor(Color.WHITE);
                 drawable.setBackgroundColor(0x1e000000);
                 drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
-                ssb.setSpan(new ImageSpan(drawable), fromIndex, toIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                ssb.setSpan(new ImageSpan(drawable), fromIndex, toIndex, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);*/
             }
         }
-        greetingsInfo.setCustomText(ssb);
+        greetingsInfo.setCustomText(string);
         greetingsInfo.setOverrideTextMaxWidth(HintView2.cutInFancyHalf(string, (TextPaint) getThemedPaint(Theme.key_paint_chatActionText)));
         if (greetingsInfo.getParent() != null && (!show || greetingsInfo.getParent() != emptyViewContent)) {
             ((ViewGroup) greetingsInfo.getParent()).removeView(greetingsInfo);

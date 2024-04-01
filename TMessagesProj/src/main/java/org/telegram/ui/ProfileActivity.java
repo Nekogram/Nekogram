@@ -10779,7 +10779,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                 isTopic || bizHoursRow != -1 || bizLocationRow != -1
                             );
 
-                            containsGift = today && !getMessagesController().premiumPurchaseBlocked();
+                            //containsGift = today && !getMessagesController().premiumPurchaseBlocked();
                         }
                     } else if (position == phoneRow) {
                         String text;
