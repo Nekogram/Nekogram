@@ -9490,12 +9490,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             filterPopup.setDimAlpha(0);
             for (var filter : searchFilters) {
                 filterPopup.add(0, filter.first, () -> {
+                    if (searchingType == filter.second) {
+                        return;
+                    }
+                    searchingType = filter.second;
                     getMediaDataController().clearFoundMessageObjects();
                     updateSearchButtons(0, 0, -1);
                     updateSearchUpDownButtonVisibility(true);
                     updatePagedownButtonVisibility(true);
                     searchingQuery = searchItem.getSearchField().getText().toString();
-                    getMediaDataController().searchMessagesInChat(searchingQuery, dialog_id, mergeDialogId, classGuid, 0, threadMessageId, false, searchingUserMessages, searchingChatMessages, !TextUtils.isEmpty(searchingQuery) || searchingType != null, searchingReaction, searchingType = filter.second);
+                    getMediaDataController().searchMessagesInChat(searchingQuery, dialog_id, mergeDialogId, classGuid, 0, threadMessageId, searchingUserMessages, searchingChatMessages, searchingReaction, searchingType);
                 });
                 if (searchingType == filter.second) {
                     filterPopup.putCheck();
