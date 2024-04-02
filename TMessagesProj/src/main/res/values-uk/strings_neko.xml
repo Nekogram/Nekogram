@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Налаштування Neko</string>
-    <string name="PreferIPv6">Віддавати перевагу підключення через IPv6</string>
+    <string name="PreferIPv6">Віддавати перевагу підключенню через IPv6</string>
     <string name="MessageMenu">Меню повідомлення</string>
     <string name="HidePhone">Приховати мій номер телефону</string>
     <string name="DeleteAllFromSelf">Видалити свої повідомлення</string>
