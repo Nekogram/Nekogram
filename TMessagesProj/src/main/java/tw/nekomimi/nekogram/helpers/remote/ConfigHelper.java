@@ -85,10 +85,12 @@ public class ConfigHelper extends BaseRemoteHelper {
                     chat.flags |= 512;
                     chat.emoji_status = status;
                 }
-                if (chatOverride.colorId != null) {
+                if (chatOverride.colorId != null || chatOverride.backgroundEmojiId != null) {
                     var color = new TLRPC.TL_peerColor();
-                    color.flags |= 1;
-                    color.color = chatOverride.colorId;
+                    if (chatOverride.colorId != null) {
+                        color.flags |= 1;
+                        color.color = chatOverride.colorId;
+                    }
                     if (chatOverride.backgroundEmojiId != null) {
                         color.flags |= 2;
                         color.background_emoji_id = chatOverride.backgroundEmojiId;
@@ -96,10 +98,12 @@ public class ConfigHelper extends BaseRemoteHelper {
                     chat.flags |= 128;
                     chat.color = color;
                 }
-                if (chatOverride.profileColorId != null) {
+                if (chatOverride.profileColorId != null || chatOverride.profileBackgroundEmojiId != null) {
                     var color = new TLRPC.TL_peerColor();
-                    color.flags |= 1;
-                    color.color = chatOverride.profileColorId;
+                    if (chatOverride.profileColorId != null) {
+                        color.flags |= 1;
+                        color.color = chatOverride.profileColorId;
+                    }
                     if (chatOverride.profileBackgroundEmojiId != null) {
                         color.flags |= 2;
                         color.background_emoji_id = chatOverride.profileBackgroundEmojiId;
