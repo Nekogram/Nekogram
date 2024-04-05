@@ -24,7 +24,6 @@ import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
-import org.telegram.ui.Components.BulletinFactory;
 
 import java.util.ArrayList;
 import java.util.Locale;
@@ -32,6 +31,7 @@ import java.util.Locale;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
+import tw.nekomimi.nekogram.helpers.SettingsHelper;
 
 public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
@@ -221,8 +221,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             if (AnalyticsHelper.analyticsDisabled || !AnalyticsHelper.sendBugReport) {
                 return;
             }
-            AndroidUtilities.addToClipboard(AnalyticsHelper.userId);
-            BulletinFactory.of(this).createCopyBulletin(LocaleController.getString(R.string.TextCopied)).show();
+            SettingsHelper.copyReportId();
         }
     }
 

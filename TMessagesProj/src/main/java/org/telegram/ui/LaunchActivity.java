@@ -2234,7 +2234,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                                     } else {
                                                         drawerLayoutContainer.setAllowOpenDrawer(true, false);
                                                     }
-                                                }, () -> showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("UnknownNekoSettingsOption", R.string.UnknownNekoSettingsOption))));
+                                                }, () -> showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("UnknownNekoSettingsOption", R.string.UnknownNekoSettingsOption))), null);
                                             } else if (path.startsWith("msg/") || path.startsWith("share/")) {
                                                 message = data.getQueryParameter("url");
                                                 if (message == null) {
@@ -2676,8 +2676,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             open_settings = 4;
                                         } else if (url.contains("change_number")) {
                                             open_settings = 5;
-                                        } else if (url.contains("neko")) {
-                                            open_settings = 100;
                                         } else if (url.contains("language")) {
                                             open_settings = 10;
                                         } else if (url.contains("auto_delete")) {
@@ -2695,14 +2693,11 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                         } else {
                                             open_settings = 1;
                                         }
-                                    } else if (url.startsWith("tg:meow") || url.startsWith("tg://meow") || url.startsWith("tg:nya") || url.startsWith("tg://nya")) {
-                                        showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("Nya", R.string.Nya)));
-                                    } else if (url.startsWith("tg:upgrade") || url.startsWith("tg://upgrade") || url.startsWith("tg:update") || url.startsWith("tg://update")) {
-                                        checkAppUpdate(true, progress);
-                                    } else if (url.startsWith("tg:donate") || url.startsWith("tg://donate")) {
-                                        open_settings = 101;
-                                    } else if (url.startsWith("tg:neko") || url.startsWith("tg://neko")) {
-                                        url = url.replace("tg:neko", "tg://t.me/nekosettings").replace("tg://neko", "tg://t.me/nekosettings");
+                                    } else if (
+                                            url.startsWith("tg:meow") || url.startsWith("tg://meow") || url.startsWith("tg:nya") || url.startsWith("tg://nya") ||
+                                            url.startsWith("tg:upgrade") || url.startsWith("tg://upgrade") || url.startsWith("tg:update") || url.startsWith("tg://update")
+                                    ) {
+                                        url = url.replace("tg://", "//t.me/").replace("tg:", "//t.me/");
                                         data = Uri.parse(url);
                                         SettingsHelper.processDeepLink(data, fragment -> {
                                             AndroidUtilities.runOnUIThread(() -> presentFragment(fragment, false, false));
@@ -2713,7 +2708,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             } else {
                                                 drawerLayoutContainer.setAllowOpenDrawer(true, false);
                                             }
-                                        }, () -> showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("UnknownNekoSettingsOption", R.string.UnknownNekoSettingsOption))));
+                                        }, () -> showBulletin(factory -> factory.createErrorBulletin(LocaleController.getString("UnknownNekoSettingsOption", R.string.UnknownNekoSettingsOption))), progress);
                                     } else if ((url.startsWith("tg:search") || url.startsWith("tg://search"))) {
                                         url = url.replace("tg:search", "tg://telegram.org").replace("tg://search", "tg://telegram.org");
                                         data = Uri.parse(url);

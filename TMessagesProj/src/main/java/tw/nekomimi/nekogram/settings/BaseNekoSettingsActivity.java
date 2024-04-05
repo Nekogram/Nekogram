@@ -135,7 +135,14 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
                 ItemOptions.makeOptions(this, view)
                         .setScrimViewBackground(new ColorDrawable(getThemedColor(Theme.key_windowBackgroundWhite)))
                         .add(R.drawable.msg_copy, LocaleController.getString(R.string.CopyLink), () -> {
-                            AndroidUtilities.addToClipboard(String.format(Locale.getDefault(), "https://%s/nekosettings/%s?r=%s", getMessagesController().linkPrefix, getKey(), rowMapReverse.get(position)));
+                            var rowKey = rowMapReverse.get(position);
+                            if ("copyReportId".equals(rowKey)) {
+                                AndroidUtilities.addToClipboard(String.format(Locale.getDefault(), "https://%s/nekosettings/%s", getMessagesController().linkPrefix, "reportId"));
+                            } else if ("checkUpdate".equals(rowKey)) {
+                                AndroidUtilities.addToClipboard(String.format(Locale.getDefault(), "https://%s/nekosettings/%s", getMessagesController().linkPrefix, "update"));
+                            } else {
+                                AndroidUtilities.addToClipboard(String.format(Locale.getDefault(), "https://%s/nekosettings/%s?r=%s", getMessagesController().linkPrefix, getKey(), rowKey));
+                            }
                             BulletinFactory.of(BaseNekoSettingsActivity.this).createCopyLinkBulletin().show();
                         })
                         .setMinWidth(190)
