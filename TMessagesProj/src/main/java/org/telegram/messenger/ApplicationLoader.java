@@ -264,7 +264,6 @@ public class ApplicationLoader extends Application {
         super.onCreate();
 
         AnalyticsHelper.start(this);
-        AnalyticsHelper.trackEvent("app_start");
         ComponentsHelper.fixComponents(this);
 
         if (BuildVars.LOGS_ENABLED) {

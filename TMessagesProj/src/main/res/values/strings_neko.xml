@@ -262,6 +262,8 @@
     <string name="SendAnonymousData">Send anonymous data</string>
     <string name="SendBugReport">Send bug report</string>
     <string name="SendBugReportDesc">This will help us find problems faster.</string>
+    <string name="CopyReportId">Copy Report ID</string>
+    <string name="CopyReportIdDescription">Attach Report ID when reporting crash issues.</string>
     <string name="AnonymousDataDelete">Delete data</string>
     <string name="AnonymousDataDeleteDesc">Permanently block outgoing data from this instance and delete collected data.</string>
     <string name="SendAnonymousDataDesc">The above features use the %1$s provided by %2$s. The information collected is anonymous and we cannot trace it back to an independent device or user.</string>

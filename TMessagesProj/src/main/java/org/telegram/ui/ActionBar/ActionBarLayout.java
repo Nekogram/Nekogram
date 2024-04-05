@@ -1713,7 +1713,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             fragment.onTransitionAnimationEnd(true, false);
             fragment.onBecomeFullyVisible();
         }
-        AnalyticsHelper.trackEvent("present_fragment");
+        AnalyticsHelper.trackScreenView();
         return true;
     }
 
