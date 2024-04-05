@@ -155,6 +155,8 @@ public class ColoredImageSpan extends ReplacementSpan {
             }
             if (alpha != 1f || paint.getAlpha() != 0xFF) {
                 drawable.setAlpha((int) (alpha * paint.getAlpha()));
+            } else {
+                drawable.setAlpha(255);
             }
             drawable.draw(canvas);
         }
