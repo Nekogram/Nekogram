@@ -403,6 +403,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private FrameLayout searchDownButton;
     private ImageView searchDownButtonArrow;
 
+    private HintView2 timeHint;
     private HintView2 savedMessagesHint;
 	private HintView2 savedMessagesSearchHint;
     private HintView2 savedMessagesTagHint;
@@ -6194,6 +6195,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     AndroidUtilities.cancelRunOnUIThread(ChatActivity.this::checkBotMessageHint);
                     AndroidUtilities.runOnUIThread(ChatActivity.this::checkBotMessageHint, 2000);
                 }
+                if (timeHint != null && timeHint.shown()) {
+                    timeHint.hide();
+                }
                 if (chatActivityEnterView != null) {
                     chatActivityEnterView.hideHints();
                 }
@@ -8260,6 +8264,36 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             botMessageHint.setTranslationY(loc[1] - botMessageHint.getTop() - dp(120) + cell.getTimeY());
             botMessageHint.setJointPx(0, -dp(16) + loc[0] + cell.timeX + cell.timeWidth - cell.signWidth / 2f);
             botMessageHint.show();
+        });
+    }
+
+    private void showTimeHint(ChatMessageCell cell) {
+        if (cell == null || cell.timeLayout == null || cell.getMessageObject() == null ||
+                cell.getMessageObject().messageOwner == null ||
+                (chatMode != MODE_DEFAULT && chatMode != MODE_PINNED && chatMode != MODE_SAVED) ||
+                (NekoConfig.hideTimeOnSticker && cell.getMessageObject().isAnyKindOfSticker())
+        ) {
+            return;
+        }
+        if (timeHint != null) {
+            var hint = timeHint;
+            hint.setOnHiddenListener(() -> contentView.removeView(hint));
+            hint.hide();
+            timeHint = null;
+        }
+        timeHint = new HintView2(getContext(), HintView2.DIRECTION_BOTTOM)
+                .setMultilineText(true)
+                .setDuration(2000);
+
+        timeHint.setText(MessageHelper.getTimeHintText(cell.getMessageObject()));
+        timeHint.setMaxWidthPx(contentView.getMeasuredWidth());
+        contentView.addView(timeHint, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 120, Gravity.TOP | Gravity.FILL_HORIZONTAL, 16, 0, 16, 0));
+        contentView.post(() -> {
+            var loc = new int[2];
+            cell.getLocationInWindow(loc);
+            timeHint.setTranslationY(loc[1] - timeHint.getTop() - dp(120) + cell.getTimeY());
+            timeHint.setJointPx(0, -dp(16) + loc[0] + cell.timeX + cell.timeWidth - cell.timeTextWidth / 2f + cell.signWidth / 2f);
+            timeHint.show();
         });
     }
     
@@ -34596,6 +34630,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override
         public void didPressTime(ChatMessageCell cell) {
+            if (!cell.getMessageObject().isImportedForward()) {
+                showTimeHint(cell);
+                return;
+            }
             createUndoView();
             if (undoView == null) {
                 return;

@@ -3346,6 +3346,9 @@ public class Theme {
     public static Drawable chat_editDrawable;
     public static Drawable chat_blockDrawable;
 
+    public static Drawable chat_timeHintSentDrawable;
+    public static Drawable chat_timeHintForwardDrawable;
+
     public static Drawable chat_msgCallUpGreenDrawable;
     public static Drawable chat_msgCallDownRedDrawable;
     public static Drawable chat_msgCallDownGreenDrawable;
@@ -8781,6 +8784,9 @@ public class Theme {
             chat_arrowDrawable = resources.getDrawable(R.drawable.search_arrow).mutate();
             chat_editDrawable = resources.getDrawable(R.drawable.edit_pencil).mutate();
             chat_blockDrawable = resources.getDrawable(R.drawable.block_msg).mutate();
+
+            chat_timeHintSentDrawable = resources.getDrawable(R.drawable.msg_check_s).mutate();
+            chat_timeHintForwardDrawable = resources.getDrawable(R.drawable.mini_forwarded).mutate();
 
             calllog_msgCallUpRedDrawable = resources.getDrawable(R.drawable.ic_call_made_green_18dp).mutate();
             calllog_msgCallUpGreenDrawable = resources.getDrawable(R.drawable.ic_call_made_green_18dp).mutate();

@@ -72,6 +72,7 @@ import java.nio.charset.CharsetDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
@@ -87,10 +88,48 @@ public class MessageHelper extends BaseController {
 
     private static final MessageHelper[] Instance = new MessageHelper[UserConfig.MAX_ACCOUNT_COUNT];
     private static final CharsetDecoder utf8Decoder = StandardCharsets.UTF_8.newDecoder();
-    private static final SpannableStringBuilder[] spannedStrings = new SpannableStringBuilder[3];
+    private static final SpannableStringBuilder[] spannedStrings = new SpannableStringBuilder[5];
 
     public MessageHelper(int num) {
         super(num);
+    }
+
+    private static String formatTime(int timestamp) {
+        return LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(timestamp * 1000L)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(timestamp * 1000L)));
+    }
+
+    public static CharSequence getTimeHintText(MessageObject messageObject) {
+        var text = new SpannableStringBuilder();
+        if (spannedStrings[3] == null) {
+            spannedStrings[3] = new SpannableStringBuilder("\u200B");
+            spannedStrings[3].setSpan(new ColoredImageSpan(Theme.chat_timeHintSentDrawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        text.append(spannedStrings[3]);
+        text.append(' ');
+        text.append(formatTime(messageObject.messageOwner.date));
+        if (messageObject.messageOwner.edit_date != 0) {
+            text.append("\n");
+            if (spannedStrings[1] == null) {
+                spannedStrings[1] = new SpannableStringBuilder("\u200B");
+                spannedStrings[1].setSpan(new ColoredImageSpan(Theme.chat_editDrawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            text.append(spannedStrings[1]);
+            text.append(' ');
+            text.append(formatTime(messageObject.messageOwner.edit_date));
+        }
+        if (messageObject.messageOwner.fwd_from != null && messageObject.messageOwner.fwd_from.date != 0) {
+            text.append("\n");
+            if (spannedStrings[4] == null) {
+                spannedStrings[4] = new SpannableStringBuilder("\u200B");
+                var span = new ColoredImageSpan(Theme.chat_timeHintForwardDrawable);
+                span.setSize(AndroidUtilities.dp(12));
+                spannedStrings[4].setSpan(span, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            text.append(spannedStrings[4]);
+            text.append(' ');
+            text.append(formatTime(messageObject.messageOwner.fwd_from.date));
+        }
+        return text;
     }
 
     public static CharSequence createBlockedString(MessageObject messageObject) {
