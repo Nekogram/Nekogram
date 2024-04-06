@@ -258,6 +258,8 @@
     <string name="SendAnonymousData">发送匿名数据</string>
     <string name="SendBugReport">发送错误报告</string>
     <string name="SendBugReportDesc">这将帮助我们更快地发现问题。</string>
+    <string name="CopyReportId">复制报告 ID</string>
+    <string name="CopyReportIdDescription">报告崩溃问题时附上报告 ID。</string>
     <string name="AnonymousDataDelete">删除数据</string>
     <string name="AnonymousDataDeleteDesc">永久阻止从此实例传出数据，并删除已收集的数据。</string>
     <string name="SendAnonymousDataDesc">上述功能使用 %2$s 提供的 %1$s。收集的信息是匿名的，我们无法追溯到独立的设备或用户。</string>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Ρυθμίσεις Nekogram</string>
+    <string name="PreferIPv6">Προτίμηση σύνδεσης μέσω IPv6</string>
     <string name="MessageMenu">Μενού μηνυμάτων</string>
     <string name="HidePhone">Απόκρυψη του αριθμού μου</string>
     <string name="DeleteAllFromSelf">Διαγραφή των μηνυμ. μου</string>
@@ -256,6 +257,8 @@
     <string name="SendAnonymousData">Αποστολή ανώνυμων δεδομένων</string>
     <string name="SendBugReport">Αποστολή αναφοράς σφαλμάτων</string>
     <string name="SendBugReportDesc">Αυτό θα μας βοηθήσει να εντοπίσουμε τα προβλήματα γρηγορότερα.</string>
+    <string name="CopyReportId">Αντιγραφή ID Αναφοράς</string>
+    <string name="CopyReportIdDescription">Επισύναψη Αναφοράς ID όταν αναφέρετε προβλήματα κατάρρευσης.</string>
     <string name="AnonymousDataDelete">Διαγραφή δεδομένων</string>
     <string name="AnonymousDataDeleteDesc">Μόνιμη φραγή εξερχόμενων δεδομένων από αυτήν την περίπτωση και διαγραφή συλλεγμένων δεδομένων.</string>
     <string name="SendAnonymousDataDesc">Οι παραπάνω λειτουργίες χρησιμοποιούν το %1$s που παρέχεται από τη %2$s. Οι πληροφορίες που συλλέγονται είναι ανώνυμες και δεν μπορούμε να τις εντοπίσουμε σε ανεξάρτητη συσκευή ή χρήστη.</string>

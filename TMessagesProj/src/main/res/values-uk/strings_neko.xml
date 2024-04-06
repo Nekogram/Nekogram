@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Налаштування Neko</string>
-    <string name="PreferIPv6">Віддавати перевагу підключенню через IPv6</string>
+    <string name="PreferIPv6">Надавати перевагу підключенню через IPv6</string>
     <string name="MessageMenu">Меню повідомлення</string>
     <string name="HidePhone">Приховати мій номер телефону</string>
     <string name="DeleteAllFromSelf">Видалити свої повідомлення</string>
@@ -257,6 +257,8 @@
     <string name="SendAnonymousData">Відправляти анонімні дані</string>
     <string name="SendBugReport">Відправити повідомлення про помилку</string>
     <string name="SendBugReportDesc">Це допоможе нам швидше виявити проблему.</string>
+    <string name="CopyReportId">Копіювати ID повідомлення</string>
+    <string name="CopyReportIdDescription">Додавати ідентифікатор повідомлення про помилку.</string>
     <string name="AnonymousDataDelete">Видалити дані</string>
     <string name="AnonymousDataDeleteDesc">Повністю блокувати надсилання даних з цього пристрою та видалити зібрані дані.</string>
     <string name="SendAnonymousDataDesc">Зазначена вище функція використовує %1$s від %2$s. Зібрана інформація анонімна, і ми ніяк не можемо пов\'язати її з конкретним користувачем або пристроєм.</string>

@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">喵設定</string>
+    <string name="PreferIPv6">是否優先使用IPv6進行接駁</string>
     <string name="MessageMenu">訊息選單</string>
     <string name="HidePhone">隱藏您的手機號碼</string>
     <string name="DeleteAllFromSelf">刪除自己的訊息</string>
@@ -28,7 +29,7 @@
     <string name="DependsOnDate">基於日期</string>
     <string name="Christmas">聖誕節</string>
     <string name="Valentine">聖誕節</string>
-    <string name="DeleteDownloadedFile">刪除快取的檔案</string>
+    <string name="DeleteDownloadedFile">刪除快取文件</string>
     <string name="TestBackendOn">此賬戶將連線至測試後端伺服器。</string>
     <string name="TestBackendOff">此賬戶將連線至生產後端伺服器。</string>
     <string name="ViewHistory">顯示歷史訊息</string>
@@ -36,7 +37,7 @@
     <string name="StickerSize">貼圖大小</string>
     <string name="StickerSizeLeft">小</string>
     <string name="StickerSizeRight">大</string>
-    <string name="StickerSizeDialogMessage">好看到靠北ㄛ有沒有</string>
+    <string name="StickerSizeDialogMessage">哇，是一隻黑貓！卡哇伊！</string>
     <string name="StickerSizeDialogMessageReplyTo">喵</string>
     <string name="Experiment">實驗性</string>
     <string name="MessageDetails">資訊</string>
@@ -257,6 +258,8 @@
     <string name="SendAnonymousData">發送匿名數據</string>
     <string name="SendBugReport">發送錯誤報告</string>
     <string name="SendBugReportDesc">這將幫助我們更快地發現問題。</string>
+    <string name="CopyReportId">複製報告標識符</string>
+    <string name="CopyReportIdDescription">在報告問題時加入標識符</string>
     <string name="AnonymousDataDelete">刪除數據</string>
     <string name="AnonymousDataDeleteDesc">永久阻止從此實例傳出資料並刪除收集的資料。</string>
     <string name="SendAnonymousDataDesc">上述功能使用%2$s提供的%1$s。 收集的資訊是匿名的，我們無法追溯到獨立的設備或用戶。</string>

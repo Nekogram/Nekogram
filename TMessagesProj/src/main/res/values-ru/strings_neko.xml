@@ -258,6 +258,8 @@
     <string name="SendAnonymousData">Отправка анонимных данных</string>
     <string name="SendBugReport">Сообщить об ошибке</string>
     <string name="SendBugReportDesc">Это позволит нам быстрее находить проблемы.</string>
+    <string name="CopyReportId">Копирование ID отчета</string>
+    <string name="CopyReportIdDescription">Прикрепляйте идентификатор отчета при сообщении о проблемах со сбоями.</string>
     <string name="AnonymousDataDelete">Удалить данные</string>
     <string name="AnonymousDataDeleteDesc">Навсегда заблокировать исходящие данные этого устройства и удалить собранные данные.</string>
     <string name="SendAnonymousDataDesc">Функции выше используют %1$s предоставленный %2$s. Собранная информация является анонимной и мы не можем отследить её до независимого устройства или пользователя.</string>

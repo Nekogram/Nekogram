@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">إعدادات نيكو</string>
+    <string name="PreferIPv6">تفضيل الاتصال عبر IPv6</string>
     <string name="MessageMenu">اختيارات ضغطة الرسائل</string>
     <string name="HidePhone">إخفاء رقم هاتفي</string>
     <string name="DeleteAllFromSelf">حذف الرسائل الخاصة بي</string>
@@ -258,6 +259,8 @@
     <string name="SendAnonymousData">إرسال بيانات مجهولة الهوية</string>
     <string name="SendBugReport">إرسال تقرير الأخطاء</string>
     <string name="SendBugReportDesc">وهذا سيساعدنا في العثور على المشاكل بشكل أسرع.</string>
+    <string name="CopyReportId">نسخ معرّف التقرير</string>
+    <string name="CopyReportIdDescription">إرفاق معرف التقرير عند الإبلاغ عن مشكلات التعطل.</string>
     <string name="AnonymousDataDelete">حذف البيانات</string>
     <string name="AnonymousDataDeleteDesc">حظر البيانات الصادرة من هذا المثيل بشكل دائم وحذف البيانات التي تم جمعها.</string>
     <string name="SendAnonymousDataDesc">تستخدم الميزات المذكورة أعلاه %1$s المقدمة من %2$s. المعلومات التي تم جمعها مجهولة المصدر ولا يمكننا تتبعها إلى جهاز أو مستخدم مستقل.</string>

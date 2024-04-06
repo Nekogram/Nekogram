@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Impostazioni Neko</string>
+    <string name="PreferIPv6">Prova a connetterti via IPv6</string>
     <string name="MessageMenu">Menu messaggio</string>
     <string name="HidePhone">Nascondi il mio numero</string>
     <string name="DeleteAllFromSelf">Elimina tutti i miei messaggi</string>
@@ -13,6 +14,10 @@
     <string name="NameOrder">Ordinamento dei nomi</string>
     <string name="FirstLast">Dal primo all\'ultimo</string>
     <string name="LastFirst">Dall\'ultimo al primo</string>
+    <string name="NoQuoteForward">Inoltra senza mittente</string>
+    <string name="NoCaptionForward">Inoltra senza didascalia</string>
+    <string name="NoQuoteForwardShort">Nessun mittente</string>
+    <string name="NoCaptionForwardShort">Nessuna didascalia</string>
     <string name="Repeat">Ripeti</string>
     <string name="AddToSavedMessages">Salva messaggio</string>
     <string name="CreateMention">Crea menzione</string>
@@ -132,6 +137,7 @@
     <string name="SendWebFileInvalid">File non valido, assicurati che soddisfi i requisiti.</string>
     <string name="AutoLockInstant">Immediatamente</string>
     <string name="RestrictionReason">Motivo della restrizione</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">Max adesivi recenti</string>
     <string name="DisableJumpToNextChannel">Disattiva \"Passa al canale successivo\"</string>
     <string name="DisableGreetingSticker">Disattiva lo sticker di benvenuto</string>
@@ -251,6 +257,8 @@
     <string name="SendAnonymousData">Invia dati anonimi</string>
     <string name="SendBugReport">Invia segnalazione di bug</string>
     <string name="SendBugReportDesc">Questo ci aiuterà a trovare i problemi più velocemente.</string>
+    <string name="CopyReportId">Copia ID Report</string>
+    <string name="CopyReportIdDescription">Allega l\'ID del report quando si segnalano problemi di crash.</string>
     <string name="AnonymousDataDelete">Elimina i dati</string>
     <string name="AnonymousDataDeleteDesc">Blocca definitivamente i dati in uscita da questa istanza ed elimina i dati raccolti.</string>
     <string name="SendAnonymousDataDesc">Le caratteristiche sopra menzionate utilizzano il %1$s fornito da %2$s. Le informazioni raccolte sono anonime e non ci è possibile associarle a un dispositivo o utente specifico.</string>
@@ -280,6 +288,7 @@
     <string name="MonoCode">Codice</string>
     <string name="CreateCode">Crea un codice</string>
     <string name="CreateCodeLanguage">Lingua</string>
+    <string name="IgnoreContentRestriction">Ignora le restrizioni del contenuto</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>
