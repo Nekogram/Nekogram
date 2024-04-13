@@ -1625,10 +1625,16 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         @Override
         public boolean hasDoubleTap(View view, int position) {
             if (chatMode == MODE_QUICK_REPLIES) return false;
-            if (NekoConfig.doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_NONE || !(view instanceof ChatMessageCell)) {
+            if (!(view instanceof ChatMessageCell)) {
                 return false;
             }
-            if (NekoConfig.doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_REACTION) {
+            var cell = (ChatMessageCell) view;
+            var message = cell.getMessageObject();
+            var doubleTapAction = message.isOut() ? NekoConfig.doubleTapOutAction : NekoConfig.doubleTapInAction;
+            if (doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_NONE) {
+                return false;
+            }
+            if (doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_REACTION) {
                 if (getDialogId() == getUserConfig().getClientUserId() && !getUserConfig().isPremium()) {
                     return false;
                 }
@@ -1644,11 +1650,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 if (!available || !(view instanceof ChatMessageCell)) {
                     return false;
                 }
-                ChatMessageCell cell = (ChatMessageCell) view;
                 return !cell.getMessageObject().isSending() && !cell.getMessageObject().isEditing() && cell.getMessageObject().type != MessageObject.TYPE_PHONE_CALL && !actionBar.isActionModeShowed() && !isSecretChat() && !isInScheduleMode() && !cell.getMessageObject().isSponsored();
             } else {
-                var cell = (ChatMessageCell) view;
-                var message = cell.getMessageObject();
                 var messageGroup = getValidGroupedMessage(message);
                 var noforwards = getMessagesController().isChatNoForwards(currentChat) || message.messageOwner.noforwards;
                 boolean allowChatActions = chatMode != MODE_SCHEDULED && (threadMessageObjects == null || !threadMessageObjects.contains(message)) &&
@@ -1671,7 +1674,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     }
                     allowEdit = captionsCount < 2;
                 }
-                switch (NekoConfig.doubleTapAction) {
+                switch (doubleTapAction) {
                     case NekoConfig.DOUBLE_TAP_ACTION_TRANSLATE:
                         if (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL || !noforwards) {
                             MessageObject messageObject = getMessageHelper().getMessageForTranslate(message, messageGroup);
@@ -1695,14 +1698,20 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
         @Override
         public void onDoubleTap(View view, int position, float x, float y) {
-            if (NekoConfig.doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_NONE || !(view instanceof ChatMessageCell) || getParentActivity() == null || isSecretChat() || isInScheduleMode() || isInPreviewMode() || chatMode == MODE_QUICK_REPLIES) {
+            if (!(view instanceof ChatMessageCell) || getParentActivity() == null || isSecretChat() || isInScheduleMode() || isInPreviewMode() || chatMode == MODE_QUICK_REPLIES) {
                 return;
             }
-            if (NekoConfig.doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_REACTION) {
+
+            var cell = (ChatMessageCell) view;
+            var message = cell.getMessageObject();
+            var doubleTapAction = message.isOut() ? NekoConfig.doubleTapOutAction : NekoConfig.doubleTapInAction;
+            if (doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_NONE) {
+                return;
+            }
+            if (doubleTapAction == NekoConfig.DOUBLE_TAP_ACTION_REACTION) {
                 if (isSecretChat() || isInScheduleMode()) {
                     return;
                 }
-                ChatMessageCell cell = (ChatMessageCell) view;
                 MessageObject primaryMessage = cell.getPrimaryMessageObject();
                 if (primaryMessage.isSecretMedia() || primaryMessage.isExpiredStory() || primaryMessage.type == MessageObject.TYPE_JOINED_CHANNEL) {
                     return;
@@ -1733,11 +1742,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     selectReaction(primaryMessage, null, null, x, y, ReactionsLayoutInBubble.VisibleReaction.fromEmojicon(reaction), true, false, false, false);
                 }
             } else {
-                var cell = (ChatMessageCell) view;
-                var message = cell.getMessageObject();
                 selectedObject = message;
                 selectedObjectGroup = getValidGroupedMessage(message);
-                switch (NekoConfig.doubleTapAction) {
+                switch (doubleTapAction) {
                     case NekoConfig.DOUBLE_TAP_ACTION_TRANSLATE:
                         var messageObject = getMessageHelper().getMessageForTranslate(selectedObject, selectedObjectGroup);
                         if (messageObject == null) {

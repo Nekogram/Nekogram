@@ -83,7 +83,8 @@ public class NekoConfig {
     public static int idType = ID_TYPE_API;
     public static int maxRecentStickers = 20;
     public static int transType = TRANS_TYPE_NEKO;
-    public static int doubleTapAction = DOUBLE_TAP_ACTION_REACTION;
+    public static int doubleTapInAction = DOUBLE_TAP_ACTION_REACTION;
+    public static int doubleTapOutAction = DOUBLE_TAP_ACTION_REACTION;
     public static int downloadSpeedBoost = BOOST_NONE;
     public static HashSet<String> restrictedLanguages = new HashSet<>();
 
@@ -221,7 +222,8 @@ public class NekoConfig {
             disableVoiceMessageAutoPlay = preferences.getBoolean("disableVoiceMessageAutoPlay", false);
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
-            doubleTapAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
+            doubleTapInAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
+            doubleTapOutAction = preferences.getInt("doubleTapOutAction", doubleTapInAction);
             restrictedLanguages = new HashSet<>(preferences.getStringSet("restrictedLanguages", new HashSet<>()));
             disableMarkdownByDefault = preferences.getBoolean("disableMarkdownByDefault", false);
             showRPCError = preferences.getBoolean("showRPCError", false);
@@ -330,11 +332,19 @@ public class NekoConfig {
         editor.apply();
     }
 
-    public static void setDoubleTapAction(int action) {
-        doubleTapAction = action;
+    public static void setDoubleTapInAction(int action) {
+        doubleTapInAction = action;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putInt("doubleTapAction", doubleTapAction);
+        editor.putInt("doubleTapAction", doubleTapInAction);
+        editor.apply();
+    }
+
+    public static void setDoubleTapOutAction(int action) {
+        doubleTapOutAction = action;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putInt("doubleTapOutAction", doubleTapOutAction);
         editor.apply();
     }
 

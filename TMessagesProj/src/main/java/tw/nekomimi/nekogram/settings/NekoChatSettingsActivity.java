@@ -24,13 +24,16 @@ import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBarMenu;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
+import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
 import org.telegram.ui.Cells.HeaderCell;
+import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextCheckbox2Cell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
+import org.telegram.ui.Cells.ThemePreviewMessagesCell;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
@@ -183,10 +186,59 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             types.add(NekoConfig.DOUBLE_TAP_ACTION_REPEAT);
             arrayList.add(LocaleController.getString(R.string.Edit));
             types.add(NekoConfig.DOUBLE_TAP_ACTION_EDIT);
-            PopupHelper.show(arrayList, LocaleController.getString(R.string.DoubleTapAction), types.indexOf(NekoConfig.doubleTapAction), getParentActivity(), view, i -> {
-                NekoConfig.setDoubleTapAction(types.get(i));
-                listAdapter.notifyItemChanged(doubleTapActionRow, PARTIAL);
-            }, resourcesProvider);
+
+            var context = getParentActivity();
+            var builder = new AlertDialog.Builder(context, resourcesProvider);
+            builder.setTitle(LocaleController.getString(R.string.DoubleTapAction));
+
+            var linearLayout = new LinearLayout(context);
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            builder.setView(linearLayout);
+
+            var messagesCell = new ThemePreviewMessagesCell(context, parentLayout, 0);
+            messagesCell.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+            linearLayout.addView(messagesCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+
+            var hLayout = new LinearLayout(context);
+            hLayout.setOrientation(LinearLayout.HORIZONTAL);
+            hLayout.setPadding(0, AndroidUtilities.dp(8), 0, 0);
+            linearLayout.addView(hLayout);
+
+            for (int i = 0; i < 2; i++) {
+                var out = i == 1;
+                var layout = new LinearLayout(context);
+                layout.setOrientation(LinearLayout.VERTICAL);
+                hLayout.addView(layout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, .5f));
+
+                for (int a = 0; a < arrayList.size(); a++) {
+
+                    var cell = new RadioColorCell(context, resourcesProvider);
+                    cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+                    cell.setTag(a);
+                    cell.setTextAndValue(arrayList.get(a), a == types.indexOf(out ? NekoConfig.doubleTapOutAction : NekoConfig.doubleTapInAction));
+                    cell.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), out ? AndroidUtilities.dp(6) : 0, out ? 0 : AndroidUtilities.dp(6), out ? 0 : AndroidUtilities.dp(6), out ? AndroidUtilities.dp(6) : 0));
+                    layout.addView(cell);
+                    cell.setOnClickListener(v -> {
+                        var which = (Integer) v.getTag();
+                        var old = out ? NekoConfig.doubleTapOutAction : NekoConfig.doubleTapInAction;
+                        if (types.get(which) == old) {
+                            return;
+                        }
+                        if (out) {
+                            NekoConfig.setDoubleTapOutAction(types.get(which));
+                        } else {
+                            NekoConfig.setDoubleTapInAction(types.get(which));
+                        }
+                        ((RadioColorCell) layout.getChildAt(types.indexOf(old))).setChecked(false, true);
+                        cell.setChecked(true, true);
+                        listAdapter.notifyItemChanged(doubleTapActionRow, PARTIAL);
+                    });
+                }
+            }
+
+            builder.setOnPreDismissListener(dialog -> listAdapter.notifyItemChanged(doubleTapActionRow, PARTIAL));
+            builder.setNegativeButton(LocaleController.getString(R.string.OK), null);
+            builder.show();
         } else if (position == markdownEnableRow) {
             NekoConfig.toggleDisableMarkdownByDefault();
             if (view instanceof TextCheckCell) {
@@ -562,27 +614,32 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             super(context);
         }
 
+        public String getDoubleTapActionText(int action) {
+            return switch (action) {
+                case NekoConfig.DOUBLE_TAP_ACTION_REACTION ->
+                        LocaleController.getString(R.string.Reactions);
+                case NekoConfig.DOUBLE_TAP_ACTION_TRANSLATE ->
+                        LocaleController.getString(R.string.TranslateMessage);
+                case NekoConfig.DOUBLE_TAP_ACTION_REPLY ->
+                        LocaleController.getString(R.string.Reply);
+                case NekoConfig.DOUBLE_TAP_ACTION_SAVE ->
+                        LocaleController.getString(R.string.AddToSavedMessages);
+                case NekoConfig.DOUBLE_TAP_ACTION_REPEAT ->
+                        LocaleController.getString(R.string.Repeat);
+                case NekoConfig.DOUBLE_TAP_ACTION_EDIT -> LocaleController.getString(R.string.Edit);
+                default -> LocaleController.getString(R.string.Disable);
+            };
+        }
+
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial, boolean divider) {
             switch (holder.getItemViewType()) {
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     if (position == doubleTapActionRow) {
-                        String value = switch (NekoConfig.doubleTapAction) {
-                            case NekoConfig.DOUBLE_TAP_ACTION_REACTION ->
-                                    LocaleController.getString(R.string.Reactions);
-                            case NekoConfig.DOUBLE_TAP_ACTION_TRANSLATE ->
-                                    LocaleController.getString(R.string.TranslateMessage);
-                            case NekoConfig.DOUBLE_TAP_ACTION_REPLY ->
-                                    LocaleController.getString(R.string.Reply);
-                            case NekoConfig.DOUBLE_TAP_ACTION_SAVE ->
-                                    LocaleController.getString(R.string.AddToSavedMessages);
-                            case NekoConfig.DOUBLE_TAP_ACTION_REPEAT ->
-                                    LocaleController.getString(R.string.Repeat);
-                            case NekoConfig.DOUBLE_TAP_ACTION_EDIT ->
-                                    LocaleController.getString(R.string.Edit);
-                            default -> LocaleController.getString(R.string.Disable);
-                        };
+                        var value = NekoConfig.doubleTapInAction == NekoConfig.doubleTapOutAction ?
+                                getDoubleTapActionText(NekoConfig.doubleTapInAction) :
+                                getDoubleTapActionText(NekoConfig.doubleTapInAction) + ", " + getDoubleTapActionText(NekoConfig.doubleTapOutAction);
                         textCell.setTextAndValue(LocaleController.getString(R.string.DoubleTapAction), value, partial, divider);
                     } else if (position == maxRecentStickersRow) {
                         textCell.setTextAndValue(LocaleController.getString(R.string.MaxRecentStickers), String.valueOf(NekoConfig.maxRecentStickers), partial, divider);
