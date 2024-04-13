@@ -3,7 +3,9 @@ package tw.nekomimi.nekogram.helpers;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Path;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -19,6 +21,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.BulletinFactory;
+import org.telegram.ui.Components.ItemOptions;
 
 import java.util.ArrayList;
 
@@ -27,27 +30,44 @@ import tw.nekomimi.nekogram.DatacenterPopupWrapper;
 public class PopupHelper {
 
     public static void show(ArrayList<? extends CharSequence> entries, String title, int checkedIndex, Context context, View itemView, Utilities.Callback<Integer> listener, Theme.ResourcesProvider resourcesProvider) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
-        builder.setTitle(title);
-        final LinearLayout linearLayout = new LinearLayout(context);
-        linearLayout.setOrientation(LinearLayout.VERTICAL);
-        builder.setView(linearLayout);
+        if (itemView == null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
+            builder.setTitle(title);
+            final LinearLayout linearLayout = new LinearLayout(context);
+            linearLayout.setOrientation(LinearLayout.VERTICAL);
+            builder.setView(linearLayout);
 
-        for (int a = 0; a < entries.size(); a++) {
-            RadioColorCell cell = new RadioColorCell(context, resourcesProvider);
-            cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
-            cell.setTag(a);
-            cell.setTextAndValue(entries.get(a), checkedIndex == a);
-            cell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), Theme.RIPPLE_MASK_ALL));
-            linearLayout.addView(cell);
-            cell.setOnClickListener(v -> {
-                Integer which = (Integer) v.getTag();
-                builder.getDismissRunnable().run();
-                listener.run(which);
-            });
+            for (int a = 0; a < entries.size(); a++) {
+                RadioColorCell cell = new RadioColorCell(context, resourcesProvider);
+                cell.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
+                cell.setTag(a);
+                cell.setTextAndValue(entries.get(a), checkedIndex == a);
+                cell.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), Theme.RIPPLE_MASK_ALL));
+                linearLayout.addView(cell);
+                cell.setOnClickListener(v -> {
+                    Integer which = (Integer) v.getTag();
+                    builder.getDismissRunnable().run();
+                    listener.run(which);
+                });
+            }
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+            builder.show();
+        } else {
+            ViewGroup container = (ViewGroup) itemView.getRootView();
+            if (container == null) {
+                return;
+            }
+            var popup = ItemOptions.makeOptions(container, resourcesProvider, itemView);
+            popup.setGravity(LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT);
+            for (var entry : entries) {
+                var i = entries.indexOf(entry);
+                popup.add(0, entry, () -> listener.run(i));
+                if (checkedIndex == i) {
+                    popup.putCheck();
+                }
+            }
+            popup.show();
         }
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-        builder.show();
     }
 
     public static void showIdPopup(BaseFragment fragment, View anchorView, long id, int dc, boolean user, float x, float y) {
