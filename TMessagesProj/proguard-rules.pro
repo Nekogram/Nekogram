@@ -150,3 +150,7 @@
 -keepattributes SourceFile,LineNumberTable
 -renamesourcefileattribute SourceFile
 -dontoptimize
+
+-dontwarn com.google.j2objc.annotations.ReflectionSupport
+-dontwarn com.google.j2objc.annotations.RetainedWith
+-dontwarn com.google.j2objc.annotations.Weak
