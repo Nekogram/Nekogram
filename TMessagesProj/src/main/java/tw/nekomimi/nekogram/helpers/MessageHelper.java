@@ -291,10 +291,10 @@ public class MessageHelper extends BaseController {
         String message;
         if (messageObject.isPoll()) {
             TLRPC.Poll poll = ((TLRPC.TL_messageMediaPoll) messageObject.messageOwner.media).poll;
-            StringBuilder pollText = new StringBuilder(poll.question).append("\n");
-            for (TLRPC.TL_pollAnswer answer : poll.answers) {
+            StringBuilder pollText = new StringBuilder(poll.question.text).append("\n");
+            for (TLRPC.PollAnswer answer : poll.answers) {
                 pollText.append("\n\uD83D\uDD18 ");
-                pollText.append(answer.text);
+                pollText.append(answer.text.text);
             }
             message = pollText.toString();
         } else if (messageObject.isVoiceTranscriptionOpen()) {

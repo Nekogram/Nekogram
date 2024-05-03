@@ -21,7 +21,6 @@ import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
-import androidx.core.graphics.ColorUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.R;
@@ -61,11 +60,6 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         ScaleStateListAnimator.apply(this, .02f, 1.2f);
 
         rippleView = new View(context);
-        if (filled) {
-            rippleView.setBackground(Theme.createRadSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider), 120), 8, 8));
-        } else {
-            rippleView.setBackground(Theme.createRadSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), 120), 8, 8));
-        }
         addView(rippleView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
         if (filled) {
@@ -79,17 +73,15 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         text.setAnimationProperties(.3f, 0, 250, CubicBezierInterpolator.EASE_OUT_QUINT);
         text.setCallback(this);
         text.setTextSize(dp(14));
-        //if (filled) {
+        if (filled) {
             text.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        //}
-        text.setTextColor(Theme.getColor(filled ? Theme.key_featuredStickers_buttonText : Theme.key_featuredStickers_addButton, resourcesProvider));
+        }
         text.setGravity(Gravity.CENTER_HORIZONTAL);
 
         subText = new AnimatedTextView.AnimatedTextDrawable(true, true, false);
         subText.setAnimationProperties(.3f, 0, 250, CubicBezierInterpolator.EASE_OUT_QUINT);
         subText.setCallback(this);
         subText.setTextSize(dp(12));
-        subText.setTextColor(Theme.getColor(filled ? Theme.key_featuredStickers_buttonText : Theme.key_featuredStickers_addButton, resourcesProvider));
         subText.setGravity(Gravity.CENTER_HORIZONTAL);
 
         countText = new AnimatedTextView.AnimatedTextDrawable(false, false, true);
@@ -97,11 +89,15 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
         countText.setCallback(this);
         countText.setTextSize(dp(12));
         countText.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        countText.setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider));
         countText.setText("");
         countText.setGravity(Gravity.CENTER_HORIZONTAL);
 
         setWillNotDraw(false);
+        updateColors();
+    }
+
+    public void disableRippleView() {
+        removeView(rippleView);
     }
 
     public void setColor(int color) {
@@ -111,7 +107,11 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
     }
 
     public void updateColors() {
-        rippleView.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), 8, 8));
+        if (filled) {
+            rippleView.setBackground(Theme.createRadSelectorDrawable(Theme.getColor(Theme.key_listSelector, resourcesProvider), 8, 8));
+        } else {
+            rippleView.setBackground(Theme.createRadSelectorDrawable(Theme.multAlpha(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), .10f), 8, 8));
+        }
         text.setTextColor(Theme.getColor(filled ? Theme.key_featuredStickers_buttonText : Theme.key_featuredStickers_addButton, resourcesProvider));
         subText.setTextColor(Theme.getColor(filled ? Theme.key_featuredStickers_buttonText : Theme.key_featuredStickers_addButton, resourcesProvider));
         countText.setTextColor(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider));
@@ -527,5 +527,10 @@ public class ButtonWithCounterView extends FrameLayout implements Loadable {
 
     public void setGlobalAlpha(float v) {
         globalAlpha = ((int) (v * 255));
+    }
+
+    public boolean wrapContentDynamic;
+    public void wrapContentDynamic() {
+        wrapContentDynamic = true;
     }
 }

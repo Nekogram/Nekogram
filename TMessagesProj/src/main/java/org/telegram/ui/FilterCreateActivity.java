@@ -1294,7 +1294,7 @@ public class FilterCreateActivity extends BaseFragment {
                     break;
                 }
                 case VIEW_TYPE_EDIT: {
-                    PollEditTextCell cell = new PollEditTextCell(mContext, false, null, view1 -> IconSelectorAlert.show(FilterCreateActivity.this, view1, newFilterEmoticon == null ? "\uD83D\uDCC1" : newFilterEmoticon, (emoticon) -> {
+                    PollEditTextCell cell = new PollEditTextCell(mContext, false, PollEditTextCell.TYPE_DEFAULT, null, view1 -> IconSelectorAlert.show(FilterCreateActivity.this, view1, newFilterEmoticon == null ? "\uD83D\uDCC1" : newFilterEmoticon, (emoticon) -> {
                         newFilterEmoticon = emoticon;
                         ((PollEditTextCell) view1.getParent()).setIcon(FolderIconHelper.getTabIcon(newFilterEmoticon), true);
                         checkDoneButton(true);

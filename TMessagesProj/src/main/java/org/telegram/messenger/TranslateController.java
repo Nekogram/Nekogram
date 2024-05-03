@@ -106,6 +106,7 @@ public class TranslateController extends BaseController {
         return (
             messageObject != null && messageObject.messageOwner != null &&
             (!messageObject.isOutOwner() || manually) &&
+            !messageObject.isSponsored() &&
             (
                 messageObject.type == MessageObject.TYPE_TEXT ||
                 messageObject.type == MessageObject.TYPE_VIDEO ||
@@ -727,7 +728,7 @@ public class TranslateController extends BaseController {
         Runnable runnable;
         ArrayList<Integer> messageIds = new ArrayList<>();
         ArrayList<TLRPC.TL_textWithEntities> messageTexts = new ArrayList<>();
-        ArrayList<Utilities.Callback2<TLRPC.TL_textWithEntities, String>> callbacks = new ArrayList<>();
+        ArrayList<Utilities.Callback3<Integer, TLRPC.TL_textWithEntities, String>> callbacks = new ArrayList<>();
         String language;
 
         int delay = GROUPING_TRANSLATIONS_TIMEOUT;
@@ -741,7 +742,7 @@ public class TranslateController extends BaseController {
         String language,
         Utilities.Callback3<TLRPC.TL_textWithEntities, String, String> callback
     ) {
-        if (message == null || callback == null) {
+        if (message == null || message.getId() < 0 || callback == null) {
             return;
         }
 
@@ -757,7 +758,6 @@ public class TranslateController extends BaseController {
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_ERROR, LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2));
             }
         });
-
     }
 
     public boolean isTranslating(MessageObject messageObject) {
