@@ -1974,14 +1974,6 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
         if (!DialogObject.isEncryptedDialog(dialog_id)) {
             if (!isStoriesView()) {
-                gotoItem = new ActionBarMenuItem(context, null, getThemedColor(Theme.key_actionBarActionModeDefaultSelector), getThemedColor(Theme.key_actionBarActionModeDefaultIcon), false);
-                gotoItem.setIcon(R.drawable.msg_message);
-                gotoItem.setContentDescription(getString("AccDescrGoToMessage", R.string.AccDescrGoToMessage));
-                gotoItem.setDuplicateParentStateEnabled(false);
-                actionModeLayout.addView(gotoItem, new LinearLayout.LayoutParams(dp(54), ViewGroup.LayoutParams.MATCH_PARENT));
-                actionModeViews.add(gotoItem);
-                gotoItem.setOnClickListener(v -> onActionBarItemClick(v, gotochat));
-
                 forwardItem = new ActionBarMenuItem(context, null, getThemedColor(Theme.key_actionBarActionModeDefaultSelector), getThemedColor(Theme.key_actionBarActionModeDefaultIcon), false);
                 forwardItem.setIcon(R.drawable.msg_forward);
                 forwardItem.setContentDescription(getString("Forward", R.string.Forward));
