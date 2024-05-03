@@ -1091,6 +1091,20 @@ public class MessagePreviewView extends FrameLayout {
                 applyChanges.setOnClickListener(v -> dismiss(true));
                 menu.addView(applyChanges, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
 
+                ActionBarMenuSubItem sendMessagesView = new ActionBarMenuSubItem(context, false, false, resourcesProvider);
+                sendMessagesView.setTextAndIcon(LocaleController.getString(messagePreviewParams.webpage.document != null ? messagePreviewParams.isVideo ? R.string.PreviewSendVideo : R.string.PreviewSendFile : R.string.PreviewSendPhoto), R.drawable.msg_send);
+                menu.addView(sendMessagesView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
+                sendMessagesView.setOnClickListener(v -> {
+                    if (chatActivity.isInScheduleMode()) {
+                        AlertsCreator.createScheduleDatePickerDialog(
+                                chatActivity.getParentActivity(),
+                                chatActivity.getDialogId(),
+                                MessagePreviewView.this::sendWebpageMedia);
+                    } else {
+                        sendWebpageMedia(true, 0);
+                    }
+                });
+
                 ActionBarMenuSubItem deleteLink = new ActionBarMenuSubItem(context, true, false, true, resourcesProvider);
                 deleteLink.setTextAndIcon(LocaleController.getString(R.string.DoNotLinkPreview), R.drawable.msg_delete);
                 deleteLink.setColors(getThemedColor(Theme.key_text_RedBold), getThemedColor(Theme.key_text_RedRegular));
@@ -1932,6 +1946,10 @@ public class MessagePreviewView extends FrameLayout {
     }
 
     protected void didSendPressed() {
+
+    }
+
+    protected void sendWebpageMedia(boolean notify, int scheduleDate) {
 
     }
 

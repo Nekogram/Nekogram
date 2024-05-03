@@ -294,6 +294,9 @@
     <string name="CreateCode">Create Code</string>
     <string name="CreateCodeLanguage">Language</string>
     <string name="IgnoreContentRestriction">Ignore content restriction</string>
+    <string name="PreviewSendPhoto">Send Photo</string>
+    <string name="PreviewSendVideo">Send Video</string>
+    <string name="PreviewSendFile">Send File</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
