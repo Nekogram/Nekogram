@@ -291,6 +291,9 @@
     <string name="CreateCode">إنشاء رمز</string>
     <string name="CreateCodeLanguage">اللغة</string>
     <string name="IgnoreContentRestriction">تجاهل تقييد المحتوى</string>
+    <string name="PreviewSendPhoto">إرسال صورة</string>
+    <string name="PreviewSendVideo">إرسال فيديو</string>
+    <string name="PreviewSendFile">إرسال ملف</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

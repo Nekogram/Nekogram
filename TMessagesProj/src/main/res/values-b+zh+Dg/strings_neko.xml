@@ -290,6 +290,9 @@
     <string name="CreateCode">创建代码</string>
     <string name="CreateCodeLanguage">语言</string>
     <string name="IgnoreContentRestriction">忽略内容限制</string>
+    <string name="PreviewSendPhoto">发送图片</string>
+    <string name="PreviewSendVideo">发送视频</string>
+    <string name="PreviewSendFile">发送文件</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

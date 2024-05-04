@@ -289,6 +289,9 @@
     <string name="CreateCode">Створити код</string>
     <string name="CreateCodeLanguage">Мова</string>
     <string name="IgnoreContentRestriction">Ігнорувати обмеження вмісту</string>
+    <string name="PreviewSendPhoto">Надіслати фото</string>
+    <string name="PreviewSendVideo">Надіслати відео</string>
+    <string name="PreviewSendFile">Надіслати файл</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccSeekbarHeading">Налаштування панелі повзунка</string>
