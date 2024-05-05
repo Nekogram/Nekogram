@@ -74,6 +74,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -902,6 +903,36 @@ public class MessageHelper extends BaseController {
             FileLog.e(e);
         }
         return url;
+    }
+
+    private static final List<String> TWITTER_FIXES = List.of(
+            "fxtwitter.com",
+            "fixupx.com",
+            "twittpr.com",
+            "vxtwitter.com"
+    );
+
+    public static Uri toNormalUrl(String host, Uri uri) {
+        if (host == null) {
+            return uri;
+        }
+        String targetAuthority;
+        if (TWITTER_FIXES.stream().anyMatch(host::endsWith)) {
+            targetAuthority = "twitter.com";
+        } else if (host.endsWith("vxtiktok.com")) {
+            targetAuthority = host.replace("vxtiktok.com", "tiktok.com");
+        } else if (host.endsWith("vxreddit.com")) {
+            targetAuthority = "www.reddit.com";
+        } else if (host.endsWith("ddinstagram.com")) {
+            targetAuthority = "www.instagram.com";
+        } else if (host.endsWith("miyoushe.pp.ua")) {
+            targetAuthority = "www.miyoushe.com";
+        } else if (host.endsWith("hoyolab.pp.ua")) {
+            targetAuthority = "www.hoyolab.com";
+        } else {
+            return uri;
+        }
+        return uri.buildUpon().authority(targetAuthority).build();
     }
 
 }
