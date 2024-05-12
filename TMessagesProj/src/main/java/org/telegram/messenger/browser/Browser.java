@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
+import tw.nekomimi.nekogram.helpers.WebpageHelper;
 
 public class Browser {
 
@@ -236,7 +236,7 @@ public class Browser {
                 }
                 uri = Uri.parse("https://" + finalPath);
             }
-            uri = MessageHelper.toNormalUrl(host, uri);
+            uri = WebpageHelper.toNormalUrl(host, uri);
             if (allowCustom && SharedConfig.customTabs && !internalUri && !scheme.equals("tel")) {
                 if (MessagesController.getInstance(currentAccount).authDomains.contains(host)) {
                     Intent intent = new Intent(Intent.ACTION_VIEW, uri);

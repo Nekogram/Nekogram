@@ -257,6 +257,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.QrHelper;
 import tw.nekomimi.nekogram.helpers.EmojiHelper;
+import tw.nekomimi.nekogram.helpers.WebpageHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.TranslatorSettingsPopupWrapper;
 
@@ -13045,7 +13046,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 if (NekoConfig.fixLinkPreview) {
                     for (int i = 0; i < urls.size(); i++) {
-                        urls.set(i, MessageHelper.toFixUrl(urls.get(i).toString()));
+                        urls.set(i, WebpageHelper.toFixUrl(urls.get(i).toString()));
                     }
                 }
                 textToCheck = TextUtils.join(" ", urls);
