@@ -55,11 +55,11 @@ public class SettingsHelper {
                 }
             }
         } else {
-            var segment = segments.get(1).toLowerCase(Locale.US);
+            var segment = segments.get(1);
             if (PasscodeHelper.getSettingsKey().equals(segment)) {
                 fragment = new NekoPasscodeSettingsActivity();
             } else {
-                switch (segment) {
+                switch (segment.toLowerCase(Locale.US)) {
                     case "appearance":
                     case "a":
                         fragment = new NekoAppearanceSettings();
