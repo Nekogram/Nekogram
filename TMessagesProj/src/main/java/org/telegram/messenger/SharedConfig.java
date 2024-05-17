@@ -1780,7 +1780,7 @@ public class SharedConfig {
     public static void toggleUseCamera2(int currentAccount) {
         ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE)
                 .edit()
-                .putBoolean("useCamera2", useCamera2Force = !isUsingCamera2(currentAccount))
+                .putBoolean("useCamera2Force", useCamera2Force = !isUsingCamera2(currentAccount))
                 .apply();
     }
 
