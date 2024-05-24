@@ -15,7 +15,6 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.SparseArray;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -73,16 +72,10 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import tw.nekomimi.nekogram.helpers.remote.BaseRemoteHelper;
-import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
 public class MessageHelper extends BaseController {
 
@@ -225,51 +218,6 @@ public class MessageHelper extends BaseController {
         if (!TextUtils.isEmpty(path)) {
             addFileToClipboard(new File(path), callback);
         }
-    }
-
-    public void generateUpdateInfo(BaseFragment fragment, SparseArray<MessageObject>[] selectedMessagesIds, Runnable callback) {
-        fragment.showDialog(new AlertDialog.Builder(fragment.getParentActivity())
-                .setItems(new CharSequence[]{"direct", "play"}, (dialog, which) -> {
-                    var tag = which == 0 ? "updatev4" : "updateplayv4";
-                    ArrayList<MessageObject> messageObjects = new ArrayList<>();
-                    for (int a = 1; a >= 0; a--) {
-                        for (int b = 0; b < selectedMessagesIds[a].size(); b++) {
-                            messageObjects.add(selectedMessagesIds[a].valueAt(b));
-                        }
-                    }
-                    var update = new UpdateHelper.Update();
-                    update.canNotSkip = false;
-                    Pattern regex = Pattern.compile("Nekogram-(.*)-(\\d+)-(.*)\\.apk");
-                    for (MessageObject messageObject : messageObjects) {
-                        if (messageObject.isAnyKindOfSticker()) {
-                            update.sticker = messageObject.getId();
-                        } else if (messageObject.getDocument() != null) {
-                            Matcher m = regex.matcher(messageObject.getDocumentName());
-                            if (m.find()) {
-                                if (update.version == null) {
-                                    update.version = m.group(1);
-                                    //noinspection ConstantConditions
-                                    update.versionCode = Integer.valueOf(m.group(2));
-                                }
-                                if (which == 0) {
-                                    String abi = m.group(3);
-                                    if (abi != null) {
-                                        if (update.files == null) {
-                                            update.files = new HashMap<>();
-                                        }
-                                        update.files.put(abi, messageObject.getId());
-                                    }
-                                } else if (update.url == null) {
-                                    update.url = "https://play.google.com/store/apps/details?id=tw.nekomimi.nekogram";
-                                }
-                            }
-                        } else {
-                            update.message = messageObject.getId();
-                        }
-                    }
-                    AndroidUtilities.addToClipboard("#" + tag + BaseRemoteHelper.GSON.toJson(update));
-                    callback.run();
-                }).create());
     }
 
     private MessageObject getTargetMessageObjectFromGroup(MessageObject.GroupedMessages selectedObjectGroup) {

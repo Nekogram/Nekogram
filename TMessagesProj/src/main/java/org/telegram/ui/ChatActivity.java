@@ -3314,15 +3314,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             finishFragment();
                         }
                     }
-                } else if (id == 6536) {
-                    getMessageHelper().generateUpdateInfo(ChatActivity.this, selectedMessagesIds, () -> {
-                        UndoView undoView = getUndoView();
-                        if (undoView == null) {
-                            return;
-                        }
-                        undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
-                        clearSelectionMode();
-                    });
                 } else if (id == view_as_topics) {
                     if (getUserConfig().getClientUserId() == dialog_id) {
                         getMessagesController().setSavedViewAs(true);
@@ -9195,9 +9186,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         actionMode.addView(selectedMessagesCountTextView, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1.0f, 65, 0, 0, 0));
 
         if (currentEncryptedChat == null) {
-            if (dialog_id == Extra.UPDATE_CHANNEL_ID) {
-                actionModeViews.add(actionMode.addItemWithWidth(6536, R.drawable.msg_cancel, AndroidUtilities.dp(54)));
-            }
+            final boolean isSavedMessages = getDialogId() == getUserConfig().getClientUserId() && (chatMode == 0 || chatMode == MODE_SAVED);
             actionModeViews.add(actionMode.addItemWithWidth(save_to, R.drawable.msg_download, AndroidUtilities.dp(54), LocaleController.getString(R.string.SaveToMusic)));
             actionModeViews.add(actionMode.addItemWithWidth(edit, R.drawable.msg_edit, AndroidUtilities.dp(54), LocaleController.getString(R.string.Edit)));
             if (getDialogId() == getUserConfig().getClientUserId() && (chatMode == 0 || chatMode == MODE_SAVED)) {

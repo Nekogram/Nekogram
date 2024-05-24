@@ -2,8 +2,8 @@ package tw.nekomimi.nekogram.helpers.remote;
 
 import android.content.pm.PackageInfo;
 import android.os.Build;
+import android.text.TextUtils;
 
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -12,53 +12,16 @@ import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import tw.nekomimi.nekogram.Extra;
-import tw.nekomimi.nekogram.NekoConfig;
+import java.util.stream.Collectors;
 
 public class UpdateHelper extends BaseRemoteHelper {
-    public static final String UPDATE_TAG = BuildConfig.DEBUG ? "updatetest" : NekoConfig.isDirectApp() ? "updatev4" : ("update" + BuildConfig.BUILD_TYPE + "v4");
-
-    private String installedAbi;
-
-    UpdateHelper() {
-        try {
-            var pInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
-            switch (pInfo.versionCode % 10) {
-                case 1:
-                case 3:
-                    installedAbi = "arm-v7a";
-                    break;
-                case 2:
-                case 4:
-                    installedAbi = "x86";
-                    break;
-                case 5:
-                case 7:
-                    installedAbi = "arm64-v8a";
-                    break;
-                case 6:
-                case 8:
-                    installedAbi = "x86_64";
-                    break;
-                case 0:
-                case 9:
-                    installedAbi = "universal";
-                    break;
-            }
-        } catch (Exception ignore) {
-            installedAbi = "universal";
-        }
-    }
+    public static final String UPDATE_METHOD = "check_for_updates";
 
     /**
      * @param date {long} - date in milliseconds
@@ -122,117 +85,66 @@ public class UpdateHelper extends BaseRemoteHelper {
     }
 
     @Override
-    protected String getTag() {
-        return UPDATE_TAG;
+    protected String getRequestMethod() {
+        return UPDATE_METHOD;
     }
 
-    @SuppressWarnings("ConstantConditions")
-    private int getPreferredAbiFile(Map<String, Integer> files) {
-        for (String abi : Build.SUPPORTED_ABIS) {
-            if (files.containsKey(abi)) {
-                return files.get(abi);
-            }
-        }
-        if (files.containsKey(installedAbi)) {
-            return files.get(installedAbi);
-        } else {
-            return files.get("universal");
-        }
+    @Override
+    protected String getRequestParams() {
+        return " " + TextUtils.join(",", Build.SUPPORTED_ABIS);
     }
 
-    private Update getShouldUpdateVersion(List<String> responses) {
-        long maxVersion = BuildConfig.VERSION_CODE;
-        Update ref = null;
-        for (var string : responses) {
-            try {
-                var update = GSON.fromJson(string, Update.class);
-                int version_code = update.versionCode;
-                if (version_code > maxVersion) {
-                    maxVersion = version_code;
-                    ref = update;
-                }
-            } catch (JsonSyntaxException e) {
-                FileLog.e(e);
-            }
+    @Override
+    protected void onLoadSuccess(ArrayList<TLRPC.BotInlineResult> results, Delegate delegate) {
+        var map = results.stream()
+                .collect(Collectors.toMap(result -> result.id, result -> result));
+        var update_info = map.get("update_info");
+        if (update_info == null) {
+            delegate.onTLResponse(null, null);
+            return;
         }
-        return ref;
-    }
-
-    private void getNewVersionMessagesCallback(Delegate delegate, Update json,
-                                               HashMap<String, Integer> ids, TLObject response) {
         var update = new TLRPC.TL_help_appUpdate();
+        var json = GSON.fromJson(getTextFromInlineResult(update_info), Update.class);
+        if (json == null || json.versionCode < BuildConfig.VERSION_CODE) {
+            delegate.onTLResponse(null, null);
+            return;
+        }
         update.version = json.version;
         update.can_not_skip = json.canNotSkip;
         if (json.url != null) {
             update.url = json.url;
             update.flags |= 4;
         }
-        if (response != null) {
-            var res = (TLRPC.messages_Messages) response;
-            getMessagesController().removeDeletedMessagesFromArray(Extra.UPDATE_CHANNEL_ID, res.messages);
-            var messages = new HashMap<Integer, TLRPC.Message>();
-            for (var message : res.messages) {
-                messages.put(message.id, message);
+        var document = map.get("document");
+        if (document != null && document.document != null) {
+            update.document = document.document;
+            update.flags |= 2;
+        }
+        var message = map.get("message");
+        if (message != null && message.send_message != null) {
+            update.text = message.send_message.message;
+            update.entities = message.send_message.entities;
+            var entities = map.get("entities");
+            if (entities != null) {
+                var entities_json = GSON.fromJson(getTextFromInlineResult(entities), Entity[].class);
+                Arrays.stream(entities_json)
+                        .filter(e -> e.customEmojiId != null)
+                        .map(e -> {
+                            var entity = new TLRPC.TL_messageEntityCustomEmoji();
+                            entity.document_id = e.customEmojiId;
+                            entity.offset = e.offset;
+                            entity.length = e.length;
+                            return entity;
+                        })
+                        .forEach(e -> update.entities.add(e));
             }
-
-            if (ids.containsKey("file")) {
-                var file = messages.get(ids.get("file"));
-                if (file != null && file.media != null) {
-                    update.document = file.media.document;
-                    update.flags |= 2;
-                }
-            }
-            if (ids.containsKey("message")) {
-                var message = messages.get(ids.get("message"));
-                if (message != null) {
-                    update.text = message.message;
-                    update.entities = message.entities;
-                }
-            }
-            if (ids.containsKey("sticker")) {
-                var sticker = messages.get(ids.get("sticker"));
-                if (sticker != null && sticker.media != null) {
-                    update.sticker = sticker.media.document;
-                    update.flags |= 8;
-                }
-            }
+        }
+        var sticker = map.get("sticker");
+        if (sticker != null && sticker.document != null) {
+            update.sticker = sticker.document;
+            update.flags |= 8;
         }
         delegate.onTLResponse(update, null);
-    }
-
-    @Override
-    protected void onLoadSuccess(ArrayList<String> responses, Delegate delegate) {
-        var update = getShouldUpdateVersion(responses);
-        if (update == null) {
-            delegate.onTLResponse(null, null);
-            return;
-        }
-
-        var ids = new HashMap<String, Integer>();
-        if (update.message != null) {
-            ids.put("message", update.message);
-        }
-        if (update.sticker != null) {
-            ids.put("sticker", update.sticker);
-        }
-        if (update.files != null) {
-            ids.put("file", getPreferredAbiFile(update.files));
-        }
-
-        if (ids.isEmpty()) {
-            getNewVersionMessagesCallback(delegate, update, null, null);
-        } else {
-            var req = new TLRPC.TL_channels_getMessages();
-            req.channel = getMessagesController().getInputChannel(-Extra.UPDATE_CHANNEL_ID);
-            req.id = new ArrayList<>(ids.values());
-            getConnectionsManager().sendRequest(req, (response1, error1) -> {
-                if (error1 == null) {
-                    getNewVersionMessagesCallback(delegate, update, ids, response1);
-                } else {
-                    delegate.onTLResponse(null, error1.text);
-                }
-            });
-        }
     }
 
     public void checkNewVersionAvailable(Delegate delegate) {
@@ -250,17 +162,20 @@ public class UpdateHelper extends BaseRemoteHelper {
         @SerializedName("version_code")
         @Expose
         public Integer versionCode;
-        @SerializedName("sticker")
-        @Expose
-        public Integer sticker;
-        @SerializedName("message")
-        @Expose
-        public Integer message;
-        @SerializedName("files")
-        @Expose
-        public Map<String, Integer> files;
         @SerializedName("url")
         @Expose
         public String url;
+    }
+
+    public static class Entity {
+        @SerializedName("custom_emoji_id")
+        @Expose
+        public Long customEmojiId;
+        @SerializedName("length")
+        @Expose
+        public Integer length;
+        @SerializedName("offset")
+        @Expose
+        public Integer offset;
     }
 }

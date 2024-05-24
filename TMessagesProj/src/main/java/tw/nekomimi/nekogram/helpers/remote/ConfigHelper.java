@@ -16,7 +16,7 @@ import java.util.List;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class ConfigHelper extends BaseRemoteHelper {
-    private static final String NEWS_TAG = "config";
+    private static final String NEWS_METHOD = "get_config";
 
     private static final List<Long> DEFAULT_VERIFY_LIST = Arrays.asList(
             1349472891L,
@@ -139,8 +139,13 @@ public class ConfigHelper extends BaseRemoteHelper {
     }
 
     @Override
-    protected String getTag() {
-        return NEWS_TAG;
+    protected String getRequestMethod() {
+        return NEWS_METHOD;
+    }
+
+    @Override
+    protected String getRequestParams() {
+        return "";
     }
 
     public static class News {

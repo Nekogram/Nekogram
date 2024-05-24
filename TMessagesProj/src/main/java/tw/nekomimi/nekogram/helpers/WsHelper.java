@@ -67,7 +67,7 @@ public class WsHelper {
             return NekoConfig.wsDomain;
         }
         var preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoremoteconfig", Activity.MODE_PRIVATE);
-        var json = preferences.getString("config", "");
+        var json = preferences.getString("get_config", "");
         if (TextUtils.isEmpty(json)) {
             return Extra.WS_DEFAULT_DOMAIN;
         }

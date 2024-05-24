@@ -5,10 +5,6 @@ import org.telegram.messenger.Utilities;
 import tw.nekomimi.nekogram.helpers.UserHelper;
 
 public class Extra {
-    // See UpdateHelper.java
-    public static final int UPDATE_CHANNEL_ID = 0;
-    public static final String UPDATE_CHANNEL = "";
-
     // https://core.telegram.org/api/obtaining_api_id
     public static final int APP_ID = 0;
     public static final String APP_HASH = "";

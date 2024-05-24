@@ -8,17 +8,20 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.telegram.messenger.ApplicationLoader;
+import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
-import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.Extra;
+import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.InlineBotHelper;
 
 public abstract class BaseRemoteHelper {
     protected static final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoremoteconfig", Activity.MODE_PRIVATE);
@@ -40,12 +43,29 @@ public abstract class BaseRemoteHelper {
         return FileLoader.getInstance(UserConfig.selectedAccount);
     }
 
+    protected InlineBotHelper getInlineBotHelper() {
+        return InlineBotHelper.getInstance(UserConfig.selectedAccount);
+    }
+
     abstract protected void onError(String text, Delegate delegate);
 
-    abstract protected String getTag();
+    abstract protected String getRequestMethod();
+
+    abstract protected String getRequestParams();
+
+    private String getRequestExtra() {
+        return " " +
+                BuildConfig.VERSION_CODE +
+                " " +
+                BuildConfig.BUILD_TYPE +
+                " " +
+                LocaleController.getSystemLocaleStringIso639() +
+                " " +
+                NekoConfig.isChineseUser;
+    }
 
     protected String getJSON() {
-        var tag = getTag();
+        var tag = getRequestMethod();
         var json = preferences.getString(tag, "");
         if (TextUtils.isEmpty(json)) {
             load();
@@ -54,15 +74,20 @@ public abstract class BaseRemoteHelper {
         return json;
     }
 
-    protected void onLoadSuccess(ArrayList<String> responses, Delegate delegate) {
-        var tag = getTag();
-        var json = !responses.isEmpty() ? responses.get(0) : null;
-        if (json == null) {
+    protected String getTextFromInlineResult(TLRPC.BotInlineResult result) {
+        return result.send_message != null ? result.send_message.message : result.description;
+    }
+
+    protected void onLoadSuccess(ArrayList<TLRPC.BotInlineResult> results, Delegate delegate) {
+        var tag = getRequestMethod();
+        var result = !results.isEmpty() ? results.get(0) : null;
+        if (result == null) {
             preferences.edit()
                     .remove(tag + "_update_time")
                     .remove(tag)
                     .apply();
         } else {
+            var json = getTextFromInlineResult(result);
             preferences.edit()
                     .putLong(tag + "_update_time", System.currentTimeMillis())
                     .putString(tag, json)
@@ -70,73 +95,24 @@ public abstract class BaseRemoteHelper {
         }
     }
 
-    private void onGetMessageSuccess(TLObject response, Delegate delegate) {
-        var tag = "#" + getTag();
-        final var res = (TLRPC.messages_Messages) response;
-        getMessagesController().removeDeletedMessagesFromArray(Extra.UPDATE_CHANNEL_ID, res.messages);
-        ArrayList<String> responses = new ArrayList<>();
-        for (var message : res.messages) {
-            if (TextUtils.isEmpty(message.message) || !message.message.startsWith(tag)) {
-                continue;
-            }
-            responses.add(message.message.substring(tag.length()).trim());
-        }
-        onLoadSuccess(responses, delegate);
-    }
-
     public void load() {
-        load(false, null);
+        load(null);
     }
 
     public void load(Delegate delegate) {
-        load(false, delegate);
-    }
-
-    private void load(boolean forceRefreshAccessHash, Delegate delegate) {
-        var tag = "#" + getTag();
-        int dialog_id = Extra.UPDATE_CHANNEL_ID;
-        TLRPC.TL_messages_search req = new TLRPC.TL_messages_search();
-        req.limit = 10;
-        req.offset_id = 0;
-        req.filter = new TLRPC.TL_inputMessagesFilterEmpty();
-        req.q = tag;
-        req.peer = getMessagesController().getInputPeer(dialog_id);
-        if (req.peer == null || req.peer.access_hash == 0 || forceRefreshAccessHash) {
-            TLRPC.TL_contacts_resolveUsername req1 = new TLRPC.TL_contacts_resolveUsername();
-            req1.username = Extra.UPDATE_CHANNEL;
-            getConnectionsManager().sendRequest(req1, (response1, error1) -> {
-                if (error1 != null) {
-                    return;
-                }
-                if (!(response1 instanceof TLRPC.TL_contacts_resolvedPeer resolvedPeer)) {
-                    return;
-                }
-                getMessagesController().putUsers(resolvedPeer.users, false);
-                getMessagesController().putChats(resolvedPeer.chats, false);
-                getMessagesStorage().putUsersAndChats(resolvedPeer.users, resolvedPeer.chats, false, true);
-                if ((resolvedPeer.chats == null || resolvedPeer.chats.isEmpty())) {
-                    return;
-                }
-                req.peer = new TLRPC.TL_inputPeerChannel();
-                req.peer.channel_id = resolvedPeer.chats.get(0).id;
-                req.peer.access_hash = resolvedPeer.chats.get(0).access_hash;
-                getConnectionsManager().sendRequest(req, (response, error) -> {
+        var botInfo = Extra.getHelperBot();
+        if (botInfo == null) {
+            return;
+        }
+        getInlineBotHelper().query(botInfo,
+                getRequestMethod() + getRequestParams() + getRequestExtra(),
+                (results, error) -> {
                     if (error == null) {
-                        onGetMessageSuccess(response, delegate);
+                        onLoadSuccess(results, delegate);
                     } else {
-                        onError(error.text, delegate);
+                        onError(error, delegate);
                     }
                 });
-            });
-        } else {
-            getConnectionsManager().sendRequest(req, (response, error) -> {
-                if (error == null) {
-                    onGetMessageSuccess(response, delegate);
-                } else {
-                    load(true, delegate);
-                }
-            });
-        }
     }
 
     public interface Delegate {
