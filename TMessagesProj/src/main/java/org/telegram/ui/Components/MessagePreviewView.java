@@ -1093,6 +1093,7 @@ public class MessagePreviewView extends FrameLayout {
 
                 ActionBarMenuSubItem sendMessagesView = new ActionBarMenuSubItem(context, false, false, resourcesProvider);
                 sendMessagesView.setTextAndIcon(LocaleController.getString(messagePreviewParams.webpage.document != null ? messagePreviewParams.isVideo ? R.string.PreviewSendVideo : R.string.PreviewSendFile : R.string.PreviewSendPhoto), R.drawable.msg_send);
+                sendMessagesView.setVisibility(messagePreviewParams.webpage.document != null || messagePreviewParams.webpage.photo != null ? View.VISIBLE : View.GONE);
                 menu.addView(sendMessagesView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
                 sendMessagesView.setOnClickListener(v -> {
                     if (chatActivity.isInScheduleMode()) {

@@ -39,7 +39,7 @@ public class ConfigHelper extends BaseRemoteHelper {
 
     public static List<Long> getVerify() {
         Config config = getInstance().getConfig();
-        if (config == null) {
+        if (config == null || config.verify == null) {
             return DEFAULT_VERIFY_LIST;
         }
         return config.verify;
