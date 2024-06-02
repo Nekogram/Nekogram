@@ -240,7 +240,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import tw.nekomimi.nekogram.BackButtonMenuRecent;
 import tw.nekomimi.nekogram.forward.ForwardContext;
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.AppLinkVerifyBottomSheet;
 import tw.nekomimi.nekogram.forward.SendOptionsMenuLayout;
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
@@ -5292,10 +5291,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             FilesMigrationService.checkBottomSheet(this);
-        }
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-            AppLinkVerifyBottomSheet.checkBottomSheet(this);
         }
 
         updateMenuButton(false);
