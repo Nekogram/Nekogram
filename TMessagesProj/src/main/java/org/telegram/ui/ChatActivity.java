@@ -13043,6 +13043,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     });
                     return;
                 }
+                if (NekoConfig.fixLinkPreview) {
+                    for (int i = 0; i < urls.size(); i++) {
+                        urls.set(i, MessageHelper.toFixUrl(urls.get(i).toString()));
+                    }
+                }
                 textToCheck = TextUtils.join(" ", urls);
             } catch (Exception e) {
                 FileLog.e(e);

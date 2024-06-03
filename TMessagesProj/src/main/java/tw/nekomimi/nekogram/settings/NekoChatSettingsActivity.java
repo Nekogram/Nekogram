@@ -64,6 +64,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
     private int tryToOpenAllLinksInIVRow;
     private int disableJumpToNextRow;
     private int disableGreetingStickerRow;
+    private int fixLinkPreviewRow;
     private int doubleTapActionRow;
     private int maxRecentStickersRow;
     private int chat2Row;
@@ -343,6 +344,11 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                 ((TextCheckCell) view).setChecked(NekoConfig.reducedColors);
             }
             stickerSizeCell.invalidate();
+        } else if (position == fixLinkPreviewRow) {
+            NekoConfig.toggleFixLinkPreview();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.fixLinkPreview);
+            }
         }
     }
 
@@ -372,6 +378,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         tryToOpenAllLinksInIVRow = addRow("tryToOpenAllLinksInIV");
         disableJumpToNextRow = addRow("disableJumpToNext");
         disableGreetingStickerRow = addRow("disableGreetingSticker");
+        fixLinkPreviewRow = addRow("fixLinkPreview");
         doubleTapActionRow = addRow("doubleTapAction");
         maxRecentStickersRow = addRow("maxRecentStickers");
         chat2Row = addRow();
@@ -683,6 +690,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         textCell.setTextAndCheck(LocaleController.getString(R.string.QuickForward), NekoConfig.quickForward, divider);
                     } else if (position == reducedColorsRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.ReducedColors), NekoConfig.reducedColors, divider);
+                    } else if (position == fixLinkPreviewRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.FixLinkPreview), LocaleController.getString(R.string.FixLinkPreviewDesc), NekoConfig.fixLinkPreview, true, divider);
                     }
                     break;
                 }

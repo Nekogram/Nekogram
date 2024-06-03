@@ -297,6 +297,8 @@
     <string name="PreviewSendPhoto">Send Photo</string>
     <string name="PreviewSendVideo">Send Video</string>
     <string name="PreviewSendFile">Send File</string>
+    <string name="FixLinkPreview">Fix link preview</string>
+    <string name="FixLinkPreviewDesc">Send links of other social media with link preview fixed automatically.</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
