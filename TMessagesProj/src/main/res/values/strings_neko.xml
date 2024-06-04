@@ -299,6 +299,8 @@
     <string name="PreviewSendFile">Send File</string>
     <string name="FixLinkPreview">Fix link preview</string>
     <string name="FixLinkPreviewDesc">Send links of other social media with link preview fixed automatically.</string>
+    <string name="ShowTimeHint">Show time hint</string>
+    <string name="ShowTimeHintDesc">Show detailed sent date by tapping on time.</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

@@ -2946,6 +2946,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     private boolean checkDateMotionEvent(MotionEvent event) {
+        if (!currentMessageObject.isImportedForward() && !NekoConfig.showTimeHint) {
+            return false;
+        }
         int x = (int) event.getX();
         int y = (int) event.getY();
 
