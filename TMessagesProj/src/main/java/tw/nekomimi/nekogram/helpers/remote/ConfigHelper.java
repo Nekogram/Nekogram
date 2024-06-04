@@ -10,6 +10,7 @@ import org.telegram.tgnet.TLRPC;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import tw.nekomimi.nekogram.NekoConfig;
@@ -17,7 +18,6 @@ import tw.nekomimi.nekogram.NekoConfig;
 public class ConfigHelper extends BaseRemoteHelper {
     private static final String NEWS_TAG = "config";
 
-    private static final List<News> DEFAULT_NEWS_LIST = new ArrayList<>();
     private static final List<Long> DEFAULT_VERIFY_LIST = Arrays.asList(
             1349472891L,
             1339737452L,
@@ -44,11 +44,18 @@ public class ConfigHelper extends BaseRemoteHelper {
         }
         return config.verify;
     }
+    public static List<Crypto> getCryptos() {
+        Config config = getInstance().getConfig();
+        if (config == null || config.cryptos == null) {
+            return Collections.emptyList();
+        }
+        return config.cryptos;
+    }
 
     public static List<News> getNews() {
         Config config = getInstance().getConfig();
         if (config == null || config.news == null) {
-            return DEFAULT_NEWS_LIST;
+            return Collections.emptyList();
         }
         ArrayList<News> newsItems = new ArrayList<>();
         config.news.forEach(news -> {
@@ -190,6 +197,18 @@ public class ConfigHelper extends BaseRemoteHelper {
         public Long profileBackgroundEmojiId;
     }
 
+    public static class Crypto {
+        @SerializedName("currency")
+        @Expose
+        public String currency;
+        @SerializedName("chain")
+        @Expose
+        public String chain;
+        @SerializedName("address")
+        @Expose
+        public String address;
+    }
+
     public static class Config {
         @SerializedName("verify")
         @Expose
@@ -200,5 +219,8 @@ public class ConfigHelper extends BaseRemoteHelper {
         @SerializedName("chat_overrides")
         @Expose
         public List<ChatOverride> chatOverrides;
+        @SerializedName("cryptos")
+        @Expose
+        public List<Crypto> cryptos;
     }
 }
