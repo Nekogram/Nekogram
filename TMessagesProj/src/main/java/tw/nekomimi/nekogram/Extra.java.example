@@ -19,9 +19,6 @@ public class Extra {
     public static String WS_CONN_HASH = "";
     public static String WS_DEFAULT_DOMAIN = "";
 
-    public static String WEBVIEW_BOT = "";
-    public static long WEBVIEW_BOT_ID = 0;
-
     public static boolean FORCE_ANALYTICS = false;
 
     public static long getOwnerFromStickerSetId(long id) {
@@ -30,6 +27,10 @@ public class Extra {
 
     public static void getRegDate(long userId, Utilities.Callback<UserHelper.RegDate> callback) {
 
+    }
+
+    public static BotInfo getHelperBot() {
+        return null;
     }
 
     public static UserInfoBot getUserInfoBot(boolean fallback) {
