@@ -55,7 +55,7 @@
     <string name="HideAllTab">Сакриј картицу „Сва ћаскања”</string>
     <string name="TabTitleType">Прикажи на картицама</string>
     <string name="TabTitleTypeTip">Иконе су синхронизоване са Telegram-ом.</string>
-    <string name="TabTitleTypeText">Наслови</string>
+    <string name="TabTitleTypeText">Наслове</string>
     <string name="TabTitleTypeIcon">Иконе</string>
     <string name="TabTitleTypeMix">Иконе са насловима</string>
     <string name="ConfirmAVMessage">Потврди слање видео/гласовне поруке</string>
@@ -86,7 +86,7 @@
     <string name="MapDriftingFix">Поправка мапе за Кину</string>
     <string name="VoiceEnhancements">Побољшања гласа</string>
     <string name="VoiceEnhancementsAbout">Сузбијање шума и нормализација гласа</string>
-    <string name="DisableInstantCamera">Онемогући аутоматско покретање камере</string>
+    <string name="DisableInstantCamera">Онемогући инстант камеру</string>
     <string name="OpenAllLinksInInstantView">Отварање свих линкова у InstantView</string>
     <string name="DonateThankYou">Хвала вам!</string>
     <string name="DonateEvilGoogle">Google ће узети 30 одсто ваше донације.</string>
@@ -292,8 +292,8 @@
     <string name="PreviewSendPhoto">Пошаљи слику</string>
     <string name="PreviewSendVideo">Пошаљи видео</string>
     <string name="PreviewSendFile">Пошаљи датотеку</string>
-    <string name="FixLinkPreview">Фиксирај преглед линка</string>
-    <string name="FixLinkPreviewDesc">Шаљите линкове других друштвених медија фиксираним прегледом линкова.</string>
+    <string name="FixLinkPreview">Поправи преглед линка</string>
+    <string name="FixLinkPreviewDesc">Аутоматски шаљите линкове других друштвених медија с поправљеним прегледом линкова.</string>
     <string name="ShowTimeHint">Прикажи наговештај о времену</string>
     <string name="ShowTimeHintDesc">Прикажите детаљан датум слања додиром на време.</string>
     <string name="Cryptocurrency">Криптовалута</string>

@@ -6,7 +6,7 @@
     <string name="HidePhone">Скрыть мой номер телефона</string>
     <string name="DeleteAllFromSelf">Удалить мои сообщения</string>
     <string name="DeleteAllFromSelfAlert">Внимание! Это **удалит все ваши сообщения** в этом чате для **всех**.</string>
-    <string name="DeleteAllFromSelfAlertBefore">Осторожно! Это **удалит все ваши сообщения от вас до %s** в этом чате для **всех** участников.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Осторожно! Это **удалит все ваши послания от вас до %s** в этом чате для **всех** участников.</string>
     <string name="DeleteAllFromSelfBefore">Раньше...</string>
     <string name="IgnoreBlocked">Скрывать сообщения от заблокированных пользователей</string>
     <string name="Connection">Соединение</string>
@@ -14,9 +14,9 @@
     <string name="NameOrder">Сортировка имён</string>
     <string name="FirstLast">Имя Фамилия</string>
     <string name="LastFirst">Фамилия Имя</string>
-    <string name="NoQuoteForward">Переслать без автора</string>
+    <string name="NoQuoteForward">Стырить у автора</string>
     <string name="NoCaptionForward">Переслать без текста</string>
-    <string name="NoQuoteForwardShort">Без автора</string>
+    <string name="NoQuoteForwardShort">Стыбзено</string>
     <string name="NoCaptionForwardShort">Без текста</string>
     <string name="Repeat">Повторить</string>
     <string name="AddToSavedMessages">Сохранить сообщение</string>
@@ -35,11 +35,11 @@
     <string name="ViewHistory">Посмотреть историю</string>
     <string name="Nya">Мяу!</string>
     <string name="StickerSize">Размер стикеров</string>
-    <string name="StickerSizeLeft">Маленькие</string>
-    <string name="StickerSizeRight">Большие</string>
+    <string name="StickerSizeLeft">Маленький</string>
+    <string name="StickerSizeRight">Большой</string>
     <string name="StickerSizeDialogMessage">Ооо так мило! Черная кошка!</string>
     <string name="StickerSizeDialogMessageReplyTo">Мяу</string>
-    <string name="Experiment">Экспериментальные</string>
+    <string name="Experiment">Экспериментальные настройки</string>
     <string name="MessageDetails">Подробности</string>
     <string name="DeleteAccount">Удалить Telegram аккаунт</string>
     <string name="TranslateFailed">Ошибка сервера переводчика</string>
@@ -114,7 +114,7 @@
     <string name="SilenceNonContactsAbout">Уведомления от людей не из ваших контактов будут приходить без звука. Вы можете добавить пользователей в контакты не зная их номера.</string>
     <string name="SelectBetween">Выбрать между</string>
     <string name="StickerSavedHint">Стикер сохранен в галерею</string>
-    <string name="RegistrationDate">Дата регистрации</string>
+    <string name="RegistrationDate">Дата вступления в организацию</string>
     <string name="RegistrationDateNewer">Новее %s</string>
     <string name="RegistrationDateOlder">Старше %s</string>
     <string name="RegistrationDateApproximately">Приблизительно %s</string>
@@ -127,7 +127,7 @@
     <string name="ResetLanguage">Сбросить язык</string>
     <string name="UseGoogleTranslate">Использовать Google</string>
     <string name="DeepLFormality">Формальность</string>
-    <string name="DeepLFormalityDefault">По умолчанию</string>
+    <string name="DeepLFormalityDefault">Как было </string>
     <string name="DeepLFormalityMore">Больше</string>
     <string name="DeepLFormalityLess">Меньше</string>
     <string name="InvalidCustomEmojiTypeface">Недопустимый формат шрифта.</string>
@@ -162,8 +162,8 @@
     <string name="TranslatorTypeNeko">В сообщении</string>
     <string name="TranslatorTypeTG">Всплывающее окно</string>
     <string name="TranslatorTypeExternal">Внешнее приложение</string>
-    <string name="CopyPhoto">Копировать изображение</string>
-    <string name="PhotoCopied">Фото скопировано в буфер обмена</string>
+    <string name="CopyPhoto">Копировать фото-отчет</string>
+    <string name="PhotoCopied">Запомнили фото-отчет</string>
     <string name="SaveToDownloadCount_zero">Сохранение %1$d файлов в загрузки</string>
     <string name="SaveToDownloadCount_one">Сохранение %1$d файла в загрузки</string>
     <string name="SaveToDownloadCount_two">Сохранение %1$d файлов в загрузки</string>
@@ -211,7 +211,7 @@
     <string name="PasscodeRemoveConfirmMessage">Вы уверены, что хотите удалить пароль для этой учетной записи?</string>
     <string name="PasscodePanicCodeAbout">Используйте тревожный код для выхода из всех учетных записей, если что-то пойдет не так.</string>
     <string name="HideTimeOnSticker">Скрывать время отправки на стикерах</string>
-    <string name="TranslatorShowOriginal">С исходным текстом</string>
+    <string name="TranslatorShowOriginal">Отображать исходный текст</string>
     <string name="DatacenterStatusAbout">Проверка состояния **дата-центров** Telegram.</string>
     <string name="DatacenterStatus">Состояние дата-центра</string>
     <string name="DatacenterStatusShort">Дата-центр</string>
@@ -232,10 +232,10 @@
     <string name="RecentChats">Недавно просмотренные</string>
     <string name="ClearRecentChats">Очистить недавно просмотренные</string>
     <string name="ClearRecentChatAlert">Вы хотите очистить список недавно просмотренных?</string>
-    <string name="DownloadSpeedBoost">Увеличение скорости загрузки</string>
-    <string name="DownloadSpeedBoostNone">Выкл.</string>
-    <string name="DownloadSpeedBoostAverage">Вкл.</string>
-    <string name="DownloadSpeedBoostExtreme">Экстра</string>
+    <string name="DownloadSpeedBoost">Ускорение загрузки</string>
+    <string name="DownloadSpeedBoostNone">Выключено</string>
+    <string name="DownloadSpeedBoostAverage">Включено</string>
+    <string name="DownloadSpeedBoostExtreme">Экстремальное</string>
     <string name="NoUpdateAvailablePlay">Пожалуйста, проверьте наличие обновлений в Play Store.</string>
     <string name="NoUpdateAvailablePlayDelay">Обновление в Play Store обычно происходит медленнее, чем прямые APK из-за проверки Google.</string>
     <string name="DownloadEmojiSet">Скачать %s</string>
@@ -290,6 +290,14 @@
     <string name="CreateCode">Создать код</string>
     <string name="CreateCodeLanguage">Язык</string>
     <string name="IgnoreContentRestriction">Игнорировать ограничение контента</string>
+    <string name="PreviewSendPhoto">Отправить фото</string>
+    <string name="PreviewSendVideo">Отправить видео</string>
+    <string name="PreviewSendFile">Отправить видео</string>
+    <string name="FixLinkPreview">Исправить предпросмотр ссылки</string>
+    <string name="FixLinkPreviewDesc">Отправить ссылки из других социальных сетей с исправленным предпросмотром ссылки.</string>
+    <string name="ShowTimeHint">Показать подсказку по времени</string>
+    <string name="ShowTimeHintDesc">Показать детальную дату отправки нажатием на время.</string>
+    <string name="Cryptocurrency">Криптовалюта</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>
