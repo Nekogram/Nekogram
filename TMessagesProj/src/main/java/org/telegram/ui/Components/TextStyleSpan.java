@@ -91,7 +91,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
             } else if ((flags & FLAG_STYLE_BOLD) != 0 && (flags & FLAG_STYLE_ITALIC) != 0 && TypefaceHelper.isMediumWeightSupported() && TypefaceHelper.isItalicSupported()) {
                 return AndroidUtilities.getTypeface("fonts/rmediumitalic.ttf");
             } else if ((flags & FLAG_STYLE_BOLD) != 0 && TypefaceHelper.isMediumWeightSupported()) {
-                return AndroidUtilities.getTypeface("fonts/rmedium.ttf");
+                return AndroidUtilities.bold();
             } else if ((flags & FLAG_STYLE_ITALIC) != 0 && TypefaceHelper.isItalicSupported()) {
                 return AndroidUtilities.getTypeface("fonts/ritalic.ttf");
             } else {
@@ -165,7 +165,7 @@ public class TextStyleSpan extends MetricAffectingSpan {
     }
 
     public boolean isBold() {
-        return style.getTypeface() == AndroidUtilities.getTypeface("fonts/rmedium.ttf");
+        return style.getTypeface() == AndroidUtilities.bold();
     }
 
     public boolean isItalic() {

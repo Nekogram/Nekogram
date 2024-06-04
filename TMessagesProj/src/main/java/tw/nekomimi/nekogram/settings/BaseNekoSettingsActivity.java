@@ -224,13 +224,17 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         }
 
         @Override
-        protected void drawList(Canvas blurCanvas, boolean top) {
+        protected void drawList(Canvas blurCanvas, boolean top, ArrayList<IViewWithInvalidateCallback> views) {
+            super.drawList(blurCanvas, top, views);
             for (int j = 0; j < listView.getChildCount(); j++) {
                 View child = listView.getChildAt(j);
                 if (child.getY() < listView.blurTopPadding + AndroidUtilities.dp(100)) {
                     int restore = blurCanvas.save();
                     blurCanvas.translate(getX() + child.getX(), getY() + listView.getY() + child.getY());
                     child.draw(blurCanvas);
+                    if (views != null && child instanceof SizeNotifierFrameLayout.IViewWithInvalidateCallback) {
+                        views.add((SizeNotifierFrameLayout.IViewWithInvalidateCallback) child);
+                    }
                     blurCanvas.restoreToCount(restore);
                 }
             }

@@ -33,7 +33,6 @@ import android.transition.TransitionManager;
 import android.transition.TransitionSet;
 import android.transition.TransitionValues;
 import android.transition.Visibility;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.ActionMode;
 import android.view.Gravity;
@@ -53,7 +52,6 @@ import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -63,7 +61,6 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
@@ -127,11 +124,19 @@ public class ActionBarMenuItem extends FrameLayout {
         public void onSearchPressed(EditText editText) {
         }
 
+        public boolean canClearCaption() {
+            return true;
+        }
+
         public void onCaptionCleared() {
         }
 
         public boolean forceShowClear() {
             return false;
+        }
+
+        public boolean showClearForCaption() {
+            return true;
         }
 
         public Animator getCustomToggleTransition() {
@@ -239,7 +244,7 @@ public class ActionBarMenuItem extends FrameLayout {
         if (text) {
             textView = new TextView(context);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-            textView.setTypeface(AndroidUtilities.getTypeface("fonts/rmedium.ttf"));
+            textView.setTypeface(AndroidUtilities.bold());
             textView.setGravity(Gravity.CENTER);
             textView.setPadding(AndroidUtilities.dp(4), 0, AndroidUtilities.dp(4), 0);
             textView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
@@ -598,7 +603,30 @@ public class ActionBarMenuItem extends FrameLayout {
         return cell;
     }
 
-    public ActionBarMenuSubItem addSwipeBackItem(int icon, Drawable iconDrawable, String text, View viewToSwipeBack) {
+    public View addSubItem(int id, View cell) {
+        createPopupLayout();
+
+        cell.setMinimumWidth(AndroidUtilities.dp(196));
+        cell.setTag(id);
+        popupLayout.addView(cell);
+        LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) cell.getLayoutParams();
+        if (LocaleController.isRTL) {
+            layoutParams.gravity = Gravity.RIGHT;
+        }
+        layoutParams.width = LayoutHelper.MATCH_PARENT;
+        layoutParams.height = AndroidUtilities.dp(48);
+        cell.setLayoutParams(layoutParams);
+        cell.setOnClickListener(view -> {
+            if (parentMenu != null) {
+                parentMenu.onItemClick((Integer) view.getTag());
+            } else if (delegate != null) {
+                delegate.onItemClick((Integer) view.getTag());
+            }
+        });
+        return cell;
+    }
+
+   public ActionBarMenuSubItem addSwipeBackItem(int icon, Drawable iconDrawable, String text, View viewToSwipeBack) {
         createPopupLayout();
 
         ActionBarMenuSubItem cell = new ActionBarMenuSubItem(getContext(), false, false, false, resourcesProvider);
@@ -1587,7 +1615,7 @@ public class ActionBarMenuItem extends FrameLayout {
                         }
                     }
                     clearSearchFilters();
-                } else if (searchFieldCaption != null && searchFieldCaption.getVisibility() == VISIBLE) {
+                } else if (searchFieldCaption != null && searchFieldCaption.getVisibility() == VISIBLE && (listener == null || listener.canClearCaption())) {
                     searchFieldCaption.setVisibility(GONE);
                     if (listener != null) {
                         listener.onCaptionCleared();
@@ -1618,7 +1646,7 @@ public class ActionBarMenuItem extends FrameLayout {
         if (clearButton != null) {
             if (!hasRemovableFilters() && TextUtils.isEmpty(searchField.getText()) &&
                     (listener == null || !listener.forceShowClear()) &&
-                    (searchFieldCaption == null || searchFieldCaption.getVisibility() != VISIBLE)) {
+                    (searchFieldCaption == null || searchFieldCaption.getVisibility() != VISIBLE || listener != null && !listener.showClearForCaption())) {
                 if (clearButton.getTag() != null) {
                     clearButton.setTag(null);
                     if (clearButtonAnimator != null) {

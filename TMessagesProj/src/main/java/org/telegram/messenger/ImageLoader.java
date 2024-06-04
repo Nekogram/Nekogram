@@ -81,6 +81,7 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
@@ -102,6 +103,7 @@ import java.util.zip.GZIPInputStream;
  * firstframe - return firstframe for Lottie or Video animation
  * ignoreOrientation - do not extract EXIF orientation and do not apply it to an imagereceiver
  * exif — check exif contents of invert/orientation
+ * bnb — airbnb canvas lottie impl
  */
 public class ImageLoader {
 
@@ -119,7 +121,8 @@ public class ImageLoader {
     ArrayList<AnimatedFileDrawable> cachedAnimatedFileDrawables = new ArrayList<>();
     private HashMap<String, CacheImage> imageLoadingByUrl = new HashMap<>();
     private HashMap<String, CacheImage> imageLoadingByUrlPframe = new HashMap<>();
-    private HashMap<String, CacheImage> imageLoadingByKeys = new HashMap<>();
+    public ConcurrentHashMap<String, CacheImage> imageLoadingByKeys = new ConcurrentHashMap<>();
+    public HashSet<String> imageLoadingKeys = new HashSet<>();
     private SparseArray<CacheImage> imageLoadingByTag = new SparseArray<>();
     private HashMap<String, ThumbGenerateInfo> waitingForQualityThumb = new HashMap<>();
     private SparseArray<String> waitingForQualityThumbByTag = new SparseArray<>();
@@ -1021,10 +1024,11 @@ public class ImageLoader {
                             cacheOptions.firstFrame = true;
                         }
                     }
+                    final boolean airbnb = cacheImage.filter != null && cacheImage.filter.contains("bnb");
                     if (compressed) {
-                        lottieDrawable = new RLottieDrawable(cacheImage.finalFilePath, decompressGzip(cacheImage.finalFilePath), w, h, cacheOptions, limitFps, null, fitzModifier);
+                        lottieDrawable = new RLottieDrawable(cacheImage.finalFilePath, decompressGzip(cacheImage.finalFilePath), w, h, cacheOptions, limitFps, null, fitzModifier, airbnb);
                     } else {
-                        lottieDrawable = new RLottieDrawable(cacheImage.finalFilePath, w, h, cacheOptions, limitFps, null, fitzModifier);
+                        lottieDrawable = new RLottieDrawable(cacheImage.finalFilePath, w, h, cacheOptions, limitFps, null, fitzModifier, airbnb);
                     }
                 }
                 if (lastFrameBitmap || firstFrameBitmap) {
@@ -2026,6 +2030,7 @@ public class ImageLoader {
                 }
                 if (key != null) {
                     imageLoadingByKeys.remove(key);
+                    imageLoadingKeys.remove(cutFilter(key));
                 }
             }
         }
@@ -2100,6 +2105,7 @@ public class ImageLoader {
             }
             if (key != null) {
                 imageLoadingByKeys.remove(key);
+                imageLoadingKeys.remove(cutFilter(key));
             }
         }
     }
@@ -2337,6 +2343,7 @@ public class ImageLoader {
                                     cacheImage.imageType = img.imageType;
                                     cacheImage.cacheType = img.cacheType;
                                     imageLoadingByKeys.put(key, cacheImage);
+                                    imageLoadingKeys.add(cutFilter(key));
                                     tasks.add(cacheImage.cacheTask);
                                 }
                                 cacheImage.addImageReceiver(imageReceiver, key, filter, type, guid);
@@ -2918,6 +2925,14 @@ public class ImageLoader {
         }
     }
 
+    private static String cutFilter(String key) {
+        if (key == null) return null;
+        int index = key.indexOf('@');
+        if (index >= 0)
+            return key.substring(0, index);
+        return key;
+    }
+
     public void replaceImageInCache(final String oldKey, final String newKey, final ImageLocation newLocation, boolean post) {
         if (post) {
             AndroidUtilities.runOnUIThread(() -> replaceImageInCacheInternal(oldKey, newKey, newLocation));
@@ -3242,6 +3257,7 @@ public class ImageLoader {
                         img.cacheTask = new CacheOutTask(img);
 
                         imageLoadingByKeys.put(key, img);
+                        imageLoadingKeys.add(cutFilter(key));
                         if (thumb != 0) {
                             cacheThumbOutQueue.postRunnable(img.cacheTask);
                         } else {
@@ -3749,6 +3765,7 @@ public class ImageLoader {
                     cacheImage.filter = filter;
                     cacheImage.imageType = img.imageType;
                     imageLoadingByKeys.put(key, cacheImage);
+                    imageLoadingKeys.add(cutFilter(key));
                     tasks.add(cacheImage.cacheTask);
                 }
                 cacheImage.addImageReceiver(imageReceiver, key, filter, type, guid);

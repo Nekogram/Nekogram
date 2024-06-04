@@ -32,6 +32,7 @@ import org.checkerframework.checker.units.qual.A;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
+import org.telegram.ui.Components.ColoredImageSpan;
 
 import java.io.FileInputStream;
 import java.io.InputStream;
@@ -630,13 +631,14 @@ public class Emoji {
         }
 
         AnimatedEmojiSpan[] animatedEmojiSpans = s.getSpans(0, s.length(), AnimatedEmojiSpan.class);
+        ColoredImageSpan[] imageSpans = s.getSpans(0, s.length(), ColoredImageSpan.class);
         EmojiSpan span;
         Drawable drawable;
         int limitCount = SharedConfig.getDevicePerformanceClass() >= SharedConfig.PERFORMANCE_CLASS_HIGH ? 100 : 50;
         for (int i = 0; i < emojis.size(); ++i) {
             try {
                 EmojiSpanRange emojiRange = emojis.get(i);
-                if (animatedEmojiSpans != null) {
+                if (animatedEmojiSpans != null && animatedEmojiSpans.length > 0) {
                     boolean hasAnimated = false;
                     for (int j = 0; j < animatedEmojiSpans.length; ++j) {
                         AnimatedEmojiSpan animatedSpan = animatedEmojiSpans[j];
@@ -646,6 +648,19 @@ public class Emoji {
                         }
                     }
                     if (hasAnimated) {
+                        continue;
+                    }
+                }
+                if (imageSpans != null && imageSpans.length > 0) {
+                    boolean hasImage = false;
+                    for (int j = 0; j < imageSpans.length; ++j) {
+                        ColoredImageSpan imageSpan = imageSpans[j];
+                        if (imageSpan != null && s.getSpanStart(imageSpan) == emojiRange.start && s.getSpanEnd(imageSpan) == emojiRange.end) {
+                            hasImage = true;
+                            break;
+                        }
+                    }
+                    if (hasImage) {
                         continue;
                     }
                 }
