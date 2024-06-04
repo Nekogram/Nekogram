@@ -294,6 +294,11 @@
     <string name="PreviewSendPhoto">إرسال صورة</string>
     <string name="PreviewSendVideo">إرسال فيديو</string>
     <string name="PreviewSendFile">إرسال ملف</string>
+    <string name="FixLinkPreview">إصلاح معاينة الروابط</string>
+    <string name="FixLinkPreviewDesc">إرسال روابط من وسائل التواصل الاجتماعي الأخرى مع إصلاح معاينة الرابط.</string>
+    <string name="ShowTimeHint">إظهار التلميح الزمني</string>
+    <string name="ShowTimeHintDesc">إظهار تاريخ الإرسال التفصيلي بالنقر على الوقت.</string>
+    <string name="Cryptocurrency">العملات الرقمية المشفرة</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

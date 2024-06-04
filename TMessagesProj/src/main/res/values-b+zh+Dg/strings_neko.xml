@@ -293,6 +293,11 @@
     <string name="PreviewSendPhoto">发送图片</string>
     <string name="PreviewSendVideo">发送视频</string>
     <string name="PreviewSendFile">发送文件</string>
+    <string name="FixLinkPreview">修复链接预览</string>
+    <string name="FixLinkPreviewDesc">发送其他社交媒体的链接时修复链接预览。</string>
+    <string name="ShowTimeHint">显示时间提示</string>
+    <string name="ShowTimeHintDesc">点击时间显示详细的发送日期。</string>
+    <string name="Cryptocurrency">加密货币</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>
