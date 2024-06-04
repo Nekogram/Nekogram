@@ -29,6 +29,7 @@ import app.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.CloudSettingsHelper;
 import tw.nekomimi.nekogram.translator.Translator;
+import tw.nekomimi.nekogram.translator.TranslatorApps;
 
 public class NekoConfig {
     //TODO: refactor
@@ -87,6 +88,7 @@ public class NekoConfig {
     public static int doubleTapOutAction = DOUBLE_TAP_ACTION_REACTION;
     public static int downloadSpeedBoost = BOOST_NONE;
     public static HashSet<String> restrictedLanguages = new HashSet<>();
+    public static String externalTranslationProvider;
 
     public static boolean showAddToSavedMessages = true;
     public static boolean showSetReminder = false;
@@ -242,6 +244,8 @@ public class NekoConfig {
             reducedColors = preferences.getBoolean("reducedColors", false);
             ignoreContentRestriction = preferences.getBoolean("ignoreContentRestriction", false);
             fixLinkPreview = preferences.getBoolean("fixLinkPreview", false);
+            externalTranslationProvider = preferences.getString("externalTranslationProvider", "");
+            TranslatorApps.loadTranslatorAppsAsync();
 
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
@@ -309,6 +313,14 @@ public class NekoConfig {
         });
         editor.apply();
         loadConfig(true);
+    }
+
+    public static void setExternalTranslationProvider(String provider) {
+        externalTranslationProvider = provider;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("externalTranslationProvider", externalTranslationProvider);
+        editor.apply();
     }
 
     public static void setWsDomain(String domain) {

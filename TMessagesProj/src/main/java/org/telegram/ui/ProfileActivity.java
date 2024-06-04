@@ -6400,7 +6400,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                                         return true;
                                     }
                                     return false;
-                                }, fromLanguage[0], resourcesProvider);
+                                }, fromLanguage[0], view, resourcesProvider);
                             }
                         } catch (Exception e) {
                             FileLog.e(e);

@@ -90,6 +90,10 @@
             <action android:name="android.intent.action.VIEW"/>
             <data android:scheme="ton"/>
         </intent>
+        <intent>
+            <action android:name="android.intent.action.TRANSLATE"/>
+        </intent>
+        <package android:name="com.xiaomi.aiasst.vision"/>
     </queries>
 
     <application

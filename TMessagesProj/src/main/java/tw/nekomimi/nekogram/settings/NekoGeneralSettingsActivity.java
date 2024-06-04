@@ -26,6 +26,7 @@ import app.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.translator.Translator;
+import tw.nekomimi.nekogram.translator.TranslatorApps;
 
 public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
 
@@ -36,6 +37,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
     private int translatorRow;
     private int showOriginalRow;
     private int translatorTypeRow;
+    private int translatorExternalAppRow;
     private int deepLFormalityRow;
     private int translationProviderRow;
     private int translationTargetRow;
@@ -173,11 +175,13 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         count++;
                     }
                     if (oldType == NekoConfig.TRANS_TYPE_EXTERNAL) {
+                        listAdapter.notifyItemRemoved(translatorExternalAppRow);
                         updateRows();
                         listAdapter.notifyItemRangeInserted(translationProviderRow, count);
                     } else if (newType == NekoConfig.TRANS_TYPE_EXTERNAL) {
                         listAdapter.notifyItemRangeRemoved(translationProviderRow, count);
                         updateRows();
+                        listAdapter.notifyItemInserted(translatorExternalAppRow);
                     } else if (oldType == NekoConfig.TRANS_TYPE_NEKO) {
                         listAdapter.notifyItemRemoved(showOriginalRow);
                         updateRows();
@@ -205,6 +209,10 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 ((TextCheckCell) view).setChecked(NekoConfig.hideStories);
             }
             getNotificationCenter().postNotificationName(NotificationCenter.storiesEnabledUpdate);
+        } else if (position == translatorExternalAppRow) {
+            Translator.showTranslationProviderSelector(getParentActivity(), view, param -> {
+                listAdapter.notifyItemChanged(translatorExternalAppRow, PARTIAL);
+            }, resourcesProvider);
         }
     }
 
@@ -229,6 +237,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         translatorRow = addRow("translator");
         translatorTypeRow = addRow("translatorType");
         if (NekoConfig.transType != NekoConfig.TRANS_TYPE_EXTERNAL) {
+            translatorExternalAppRow = -1;
             showOriginalRow = NekoConfig.transType == NekoConfig.TRANS_TYPE_NEKO ? addRow("showOriginalRow") : -1;
             translationProviderRow = addRow("translationProvider");
             deepLFormalityRow = NekoConfig.translationProvider.equals(Translator.PROVIDER_DEEPL) ? addRow("deepLFormality") : -1;
@@ -236,6 +245,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             doNotTranslateRow = addRow("doNotTranslate");
             autoTranslateRow = addRow("autoTranslate");
         } else {
+            translatorExternalAppRow = addRow("translatorExternalApp");
             showOriginalRow = -1;
             translationProviderRow = -1;
             deepLFormalityRow = -1;
@@ -361,6 +371,13 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                             value = LocaleController.formatPluralString("Languages", langCodes.size());
                         }
                         textCell.setTextAndValue(LocaleController.getString(R.string.DoNotTranslate), value, partial, divider);
+                    } else if (position == translatorExternalAppRow) {
+                        var app = TranslatorApps.getTranslatorApp();
+                        if (app != null) {
+                            textCell.setTextAndValue(LocaleController.getString(R.string.TranslationProviderShort), app.title, partial, divider);
+                        } else {
+                            textCell.setTextAndValue(LocaleController.getString(R.string.TranslationProviderShort), "", partial, divider);
+                        }
                     }
                     break;
                 }
@@ -420,6 +437,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             if (position == connection2Row) {
                 return TYPE_SHADOW;
             } else if (position == nameOrderRow || position == idTypeRow || position == translatorTypeRow ||
+                    position == translatorExternalAppRow ||
                     (position >= translationProviderRow && position <= doNotTranslateRow)) {
                 return TYPE_SETTINGS;
             } else if (position == ipv6Row || position == autoTranslateRow ||

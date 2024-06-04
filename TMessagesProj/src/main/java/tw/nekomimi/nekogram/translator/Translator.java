@@ -1,9 +1,6 @@
 package tw.nekomimi.nekogram.translator;
 
-import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
-import android.content.Intent;
 import android.text.TextUtils;
 import android.text.style.URLSpan;
 import android.view.View;
@@ -36,6 +33,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
+import java.util.stream.Collectors;
 
 import app.nekogram.translator.BaiduTranslator;
 import app.nekogram.translator.BaseTranslator;
@@ -72,18 +70,9 @@ public class Translator {
         return executorService;
     }
 
-    public static void showTranslateDialog(Context context, String query, boolean noforwards, BaseFragment fragment, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, String sourceLanguage, Theme.ResourcesProvider resourcesProvider) {
+    public static void showTranslateDialog(Context context, String query, boolean noforwards, BaseFragment fragment, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, String sourceLanguage, View anchorView, Theme.ResourcesProvider resourcesProvider) {
         if (NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL) {
-            @SuppressLint("InlinedApi") var intent = new Intent(Intent.ACTION_TRANSLATE);
-            intent.putExtra(Intent.EXTRA_TEXT, query);
-            try {
-                context.startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-                new AlertDialog.Builder(context, resourcesProvider)
-                        .setTitle(LocaleController.getString(R.string.AppName))
-                        .setMessage(LocaleController.getString(R.string.NoTranslatorAppInstalled))
-                        .show();
-            }
+            TranslatorApps.showExternalTranslateDialog(context, query, sourceLanguage, anchorView, resourcesProvider);
         } else {
             TranslateAlert2.showAlert(context, fragment, UserConfig.selectedAccount, sourceLanguage, NekoConfig.translationTarget, query, null, noforwards, onLinkPress, null, resourcesProvider);
         }
@@ -209,6 +198,19 @@ public class Translator {
     }
 
     public static void showTranslationProviderSelector(Context context, View view, MessagesStorage.BooleanCallback callback, Theme.ResourcesProvider resourcesProvider) {
+        if (NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL) {
+            var app = TranslatorApps.getTranslatorApp();
+            var apps = TranslatorApps.getTranslatorApps();
+            if (apps.isEmpty()) {
+                return;
+            }
+            var list = apps.stream().map(a -> a.title).collect(Collectors.toList());
+            PopupHelper.show(list, LocaleController.getString(R.string.TranslationProvider), apps.indexOf(app), context, view, i -> {
+                TranslatorApps.setTranslatorApp(apps.get(i));
+                if (callback != null) callback.run(true);
+            }, resourcesProvider);
+            return;
+        }
         Pair<ArrayList<String>, ArrayList<String>> providers = getProviders();
         ArrayList<String> names = providers.first;
         ArrayList<String> types = providers.second;

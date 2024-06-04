@@ -1754,7 +1754,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         if (messageObject == null) {
                             return;
                         }
-                        translateOrResetMessage(messageObject, null);
+                        translateOrResetMessage(messageObject, cell, null);
                         break;
                     case NekoConfig.DOUBLE_TAP_ACTION_REPLY:
                         processSelectedOption(OPTION_REPLY);
@@ -29014,7 +29014,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (selectedObject == null || i >= options.size() || getParentActivity() == null) {
                                 return;
                             }
-                            translateOrResetMessage(messageObject, fromLang[0]);
+                            translateOrResetMessage(messageObject, v, fromLang[0]);
                             closeMenu();
                         });
                     }
@@ -30010,15 +30010,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         MediaController.saveFile(path, getParentActivity(), messageObject.isVideo() ? 1 : 0, null, null);
     }
 
-    private void translateOrResetMessage(MessageObject messageObject, String sourceLanguage) {
+    private void translateOrResetMessage(MessageObject messageObject, View cell, String sourceLanguage) {
         if (!messageObject.isVoiceTranscriptionOpen() && messageObject.translated) {
             getMessageHelper().resetMessageContent(dialog_id, messageObject, false);
         } else {
-            translateMessage(messageObject, sourceLanguage);
+            translateMessage(messageObject, cell, sourceLanguage);
         }
     }
 
-    private void translateMessage(MessageObject messageObject, String sourceLanguage) {
+    private void translateMessage(MessageObject messageObject, View cell, String sourceLanguage) {
         if (messageObject == null || messageObject.translating) {
             return;
         }
@@ -30027,7 +30027,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             Translator.showTranslateDialog(getParentActivity(), message, getMessagesController().isChatNoForwards(currentChat) || messageObject.messageOwner.noforwards, this, link -> {
                 didPressMessageUrl(link, false, selectedObject, null);
                 return true;
-            }, sourceLanguage, themeDelegate);
+            }, sourceLanguage, cell, themeDelegate);
             return;
         }
         getMessageHelper().resetMessageContent(dialog_id, messageObject, false, true);
@@ -30044,7 +30044,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 
             @Override
             public void onError(Throwable t) {
-                Translator.handleTranslationError(getParentActivity(), t, () -> translateMessage(messageObject, sourceLanguage), themeDelegate);
+                Translator.handleTranslationError(getParentActivity(), t, () -> translateMessage(messageObject, cell, sourceLanguage), themeDelegate);
                 getMessageHelper().resetMessageContent(dialog_id, messageObject, false, false);
             }
         });
@@ -38400,7 +38400,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         ActionBarMenuSubItem translateButton = new ActionBarMenuSubItem(getContext(), true, true);
                         translateButton.setTextAndIcon(LocaleController.getString("TranslateMessage", R.string.TranslateMessage), R.drawable.msg_translate);
                         translateButton.setOnClickListener(e2 -> {
-                            Translator.showTranslateDialog(getParentActivity(), text.toString(), false, this, null, lang, themeDelegate);
+                            Translator.showTranslateDialog(getParentActivity(), text.toString(), false, this, null, lang, cell, themeDelegate);
                             if (dismiss[0] != null) {
                                 dismiss[0].run();
                             }
