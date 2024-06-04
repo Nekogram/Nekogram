@@ -31,11 +31,11 @@ public class InlineBotHelper extends BaseController {
         return localInstance;
     }
 
-    public void query(UserHelper.BotInfo botInfo, String query, Utilities.Callback<ArrayList<TLRPC.BotInlineResult>> callback) {
+    public void query(UserHelper.BotInfo botInfo, String query, Utilities.Callback2<ArrayList<TLRPC.BotInlineResult>, String> callback) {
         query(botInfo, query, true, true, callback);
     }
 
-    public void query(UserHelper.BotInfo botInfo, String query, boolean searchUser, boolean cache, Utilities.Callback<ArrayList<TLRPC.BotInlineResult>> callback) {
+    public void query(UserHelper.BotInfo botInfo, String query, boolean searchUser, boolean cache, Utilities.Callback2<ArrayList<TLRPC.BotInlineResult>, String> callback) {
         if (botInfo == null) {
             return;
         }
@@ -44,7 +44,7 @@ public class InlineBotHelper extends BaseController {
             if (searchUser) {
                 getUserHelper().resolveUser(botInfo.getUsername(), botInfo.getId(), user -> query(botInfo, query, false, cache, callback));
             } else {
-                callback.run(null);
+                callback.run(null, "USER_NOT_FOUND");
             }
             return;
         }
@@ -56,13 +56,15 @@ public class InlineBotHelper extends BaseController {
                 return;
             }
 
-            if (response instanceof TLRPC.messages_BotResults res) {
+            if (error != null) {
+                callback.run(null, error.text);
+            } else if (response instanceof TLRPC.messages_BotResults res) {
                 if (!cache && res.cache_time != 0) {
                     getMessagesStorage().saveBotCache(key, res);
                 }
-                callback.run(res.results);
+                callback.run(res.results, null);
             } else {
-                callback.run(null);
+                callback.run(null, null);
             }
         });
 

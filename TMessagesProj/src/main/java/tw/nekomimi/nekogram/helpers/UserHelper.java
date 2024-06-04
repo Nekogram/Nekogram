@@ -229,7 +229,7 @@ public class UserHelper extends BaseController {
         if (botInfo == null) {
             return;
         }
-        getInlineBotHelper().query(botInfo, String.valueOf(id), results -> {
+        getInlineBotHelper().query(botInfo, String.valueOf(id), (results, error) -> {
             if (results == null) {
                 callback.run(null);
                 return;
