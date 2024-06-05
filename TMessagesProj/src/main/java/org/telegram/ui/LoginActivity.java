@@ -99,12 +99,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.zxing.common.detector.MathUtils;
-import com.google.android.gms.safetynet.SafetyNet;
-import com.google.android.gms.tasks.Task;
-import com.google.android.play.core.integrity.IntegrityManager;
-import com.google.android.play.core.integrity.IntegrityManagerFactory;
-import com.google.android.play.core.integrity.IntegrityTokenRequest;
-import com.google.android.play.core.integrity.IntegrityTokenResponse;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -1737,7 +1731,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     private void fillNextCodeParams(Bundle params, TLRPC.auth_SentCode res) {
         fillNextCodeParams(params, res, true);
     }
-
+/*
     private void resendCodeFromSafetyNet(Bundle params, TLRPC.auth_SentCode res, String reason) {
         if (!isRequestingFirebaseSms) {
             return;
@@ -1773,7 +1767,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 });
             }
         }, ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagWithoutLogin);
-    }
+    }*/
 
     public static String errorString(Throwable e) {
         if (e == null) return "NULL";
