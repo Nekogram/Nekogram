@@ -59,8 +59,8 @@ dependencies {
     }
 
     implementation 'androidx.browser:browser:1.8.0'
-    implementation 'app.nekogram.tcp2ws:tcp2ws:2.0.3'
-    implementation 'app.nekogram.translator:translator:1.3.5'
+    implementation 'app.nekogram.tcp2ws:tcp2ws:2.0.4'
+    implementation 'app.nekogram.translator:translator:1.3.6'
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
     implementation 'com.squareup.okhttp3:okhttp:4.12.0'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
