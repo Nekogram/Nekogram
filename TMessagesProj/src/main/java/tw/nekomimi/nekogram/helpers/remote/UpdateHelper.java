@@ -105,7 +105,7 @@ public class UpdateHelper extends BaseRemoteHelper {
         }
         var update = new TLRPC.TL_help_appUpdate();
         var json = GSON.fromJson(getTextFromInlineResult(update_info), Update.class);
-        if (json == null || json.versionCode < BuildConfig.VERSION_CODE) {
+        if (json == null || json.versionCode <= BuildConfig.VERSION_CODE) {
             delegate.onTLResponse(null, null);
             return;
         }
