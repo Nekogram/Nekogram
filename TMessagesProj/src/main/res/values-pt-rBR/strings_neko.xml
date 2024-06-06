@@ -258,6 +258,8 @@
     <string name="SendAnonymousData">Enviar dados anônimos</string>
     <string name="SendBugReport">Enviar relatório de erros</string>
     <string name="SendBugReportDesc">Isso nos ajudará a resolver problemas mais rapidamente.</string>
+    <string name="CopyReportId">Copiar ID do relatório</string>
+    <string name="CopyReportIdDescription">Anexar ID do relatório ao relatar problemas de crash.</string>
     <string name="AnonymousDataDelete">Excluir dados</string>
     <string name="AnonymousDataDeleteDesc">Bloqueia permanentemente dados em curso dessa instância e exclui dados coletados.</string>
     <string name="SendAnonymousDataDesc">As funções acima usam o %1$s fornecido pela %2$s. A informação coletada é anônima e não podemos usá-la para identificar um usuário ou dispositivo específico.</string>
@@ -288,6 +290,14 @@
     <string name="CreateCode">Criar Código</string>
     <string name="CreateCodeLanguage">Idioma</string>
     <string name="IgnoreContentRestriction">Ignorar restrição de conteúdo</string>
+    <string name="PreviewSendPhoto">Enviar Foto</string>
+    <string name="PreviewSendVideo">Enviar Vídeo</string>
+    <string name="PreviewSendFile">Enviar Arquivo</string>
+    <string name="FixLinkPreview">Corrigir pré-visualização de link</string>
+    <string name="FixLinkPreviewDesc">Envia links de outras mídias sociais com a pré-visualização de links corrigida automaticamente.</string>
+    <string name="ShowTimeHint">Mostrar tempo detalhado</string>
+    <string name="ShowTimeHintDesc">Mostrar detalhes da data de envio ao tocar no horário.</string>
+    <string name="Cryptocurrency">Criptomoeda</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>
