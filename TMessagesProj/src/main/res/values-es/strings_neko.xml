@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Ajustes de Neko</string>
+    <string name="PreferIPv6">Preferir conectarse a través de IPv6</string>
     <string name="MessageMenu">Menú contextual</string>
     <string name="HidePhone">Ocultar mi número de teléfono</string>
     <string name="DeleteAllFromSelf">Eliminar mis mensajes</string>
@@ -136,6 +137,7 @@
     <string name="SendWebFileInvalid">Archivo inválido, asegúrate de que el archivo cumple con los requisitos.</string>
     <string name="AutoLockInstant">Instantáneo</string>
     <string name="RestrictionReason">Razón de restricción</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">Máximo de stickers recientes</string>
     <string name="DisableJumpToNextChannel">Desactivar \"Saltar al siguiente canal\"</string>
     <string name="DisableGreetingSticker">Desactivar sticker de saludo</string>
@@ -255,6 +257,8 @@
     <string name="SendAnonymousData">Enviar datos anónimos</string>
     <string name="SendBugReport">Enviar informe de error</string>
     <string name="SendBugReportDesc">Esto nos ayudará a encontrar los problemas más rápidamente.</string>
+    <string name="CopyReportId">Copiar ID de Reporte</string>
+    <string name="CopyReportIdDescription">Adjuntar el ID del informe al reportar problemas de error.</string>
     <string name="AnonymousDataDelete">Borrar datos</string>
     <string name="AnonymousDataDeleteDesc">Bloquear permanentemente los datos salientes de esta instancia y eliminar los datos recolectados.</string>
     <string name="SendAnonymousDataDesc">Las características anteriores usan el %1$s proporcionado por %2$s. La información recopilada es anónima y no podemos rastrearla hasta un dispositivo o usuario independiente.</string>
@@ -285,6 +289,14 @@
     <string name="CreateCode">Crear código</string>
     <string name="CreateCodeLanguage">Idioma</string>
     <string name="IgnoreContentRestriction">Ignorar la restricción de contenido</string>
+    <string name="PreviewSendPhoto">Enviar foto</string>
+    <string name="PreviewSendVideo">Enviar vídeo</string>
+    <string name="PreviewSendFile">Enviar archivo</string>
+    <string name="FixLinkPreview">Corregir la vista previa del enlace</string>
+    <string name="FixLinkPreviewDesc">Enviar enlaces de otras redes sociales con la vista previa del enlace arreglado automáticamente.</string>
+    <string name="ShowTimeHint">Mostrar pista de tiempo</string>
+    <string name="ShowTimeHintDesc">Muestra la fecha de envío detallada pulsando sobre la hora.</string>
+    <string name="Cryptocurrency">Criptomoneda</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccSeekbarHeading">Configuración de la barra de búsqueda</string>

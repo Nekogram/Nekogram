@@ -271,7 +271,7 @@
     <string name="QuickForward">إستخدام قائمة التقدم السريع</string>
     <string name="DidNotGetTheCodeBlameDurov">إذا لم تحصل على الرمز على جهاز آخر أو لم تقم بتسجيل الدخول إلى Telegram على جهاز آخر، فيرجى استخدام تطبيق Telegram الرسمي لتلقي الرمز.\n\n**لقد عطل Telegram القدرة على تسجيل الدخول باستخدام الرسائل القصيرة ** على تطبيقات الطرف الثالث. لا يتمكن المستخدمون الذين يقومون بتسجيل الدخول إلى تطبيقات الطرف الثالث من تلقي رموز تسجيل الدخول إلا عبر Telegram.\n\nلا يمكننا مساعدتك في هذا الأمر، إذا كانت لديك أية مشكلات في تسجيل الدخول، فيرجى الاتصال بدعم Telegram.</string>
     <string name="NavigationAnimation">تأثير حركة التنقل</string>
-    <string name="NavigationAnimationBezier">كلاسيكي</string>
+    <string name="NavigationAnimationBezier">عَتِيق</string>
     <string name="NavigationAnimationSpring">طبيعي</string>
     <string name="CloudConfig">إعدادات السحابة</string>
     <string name="CloudConfigDesc">حفظ إعدادات نيكو الخاصة بك إلى سحابة تيليجرام.</string>
@@ -280,7 +280,7 @@
     <string name="CloudConfigSync">المزامنة مع السحابة</string>
     <string name="CloudConfigSyncShort">مزامنة</string>
     <string name="CloudConfigRestore">الإستعادة من السحابة</string>
-    <string name="CloudConfigRestoreShort">إستعادة</string>
+    <string name="CloudConfigRestoreShort">استعادة</string>
     <string name="CloudConfigSyncing">مزامنة...</string>
     <string name="CloudConfigAutoSync">المزامنة التلقائية</string>
     <string name="CloudConfigAutoSyncDesc">مزامنة إلى السحابة تلقائيًا بعد إجراء تغييرات على إعدادات نيكو.</string>
@@ -295,7 +295,7 @@
     <string name="PreviewSendVideo">إرسال فيديو</string>
     <string name="PreviewSendFile">إرسال ملف</string>
     <string name="FixLinkPreview">إصلاح معاينة الروابط</string>
-    <string name="FixLinkPreviewDesc">إرسال روابط من وسائل التواصل الاجتماعي الأخرى مع إصلاح معاينة الرابط.</string>
+    <string name="FixLinkPreviewDesc">إرسال روابط وسائل التواصل الاجتماعي الأخرى مع معاينة الرابط ثابته تِلْقائيًا.</string>
     <string name="ShowTimeHint">إظهار التلميح الزمني</string>
     <string name="ShowTimeHintDesc">إظهار تاريخ الإرسال التفصيلي بالنقر على الوقت.</string>
     <string name="Cryptocurrency">العملات الرقمية المشفرة</string>
