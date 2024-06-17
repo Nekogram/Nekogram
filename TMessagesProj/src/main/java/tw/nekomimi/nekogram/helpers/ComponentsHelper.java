@@ -12,6 +12,7 @@ public class ComponentsHelper {
             "com.google.android.gms.measurement.AppMeasurementService",
             "com.google.android.gms.measurement.AppMeasurementReceiver",
             "com.android.billingclient.api.ProxyBillingActivity",
+            "com.android.billingclient.api.ProxyBillingActivityV2",
             "com.google.mlkit.common.internal.MlKitComponentDiscoveryService",
             "com.google.mlkit.common.internal.MlKitInitProvider"
     };
