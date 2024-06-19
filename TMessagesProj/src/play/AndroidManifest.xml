@@ -4,7 +4,6 @@
     android:installLocation="auto">
 
     <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" tools:node="remove" />
-    <uses-permission android:name="android.permission.READ_CALL_LOG" tools:node="remove" />
 
     <application>
         <meta-data android:name="com.google.android.gms.car.notification.SmallIcon" tools:node="remove" />
