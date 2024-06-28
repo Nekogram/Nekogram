@@ -7711,6 +7711,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (sharedMediaLayout != null) {
                     sharedMediaLayout.setChatInfo(chatInfo);
                 }
+                if (chatFull.stats_dc != 0) {
+                    updateIdText(false, true, true);
+                }
             }
         } else if (id == NotificationCenter.closeChats) {
             removeSelfFromStack(true);
@@ -13088,10 +13091,14 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void updateIdText(boolean showDate, boolean animated) {
+        updateIdText(showDate, animated, false);
+    }
+
+    private void updateIdText(boolean showDate, boolean animated, boolean chatFull) {
         if (NekoConfig.idType == NekoConfig.ID_TYPE_HIDDEN) {
             return;
         }
-        if (!showDate && isPulledDown && !animated) {
+        if (!showDate && isPulledDown && (!animated || chatFull)) {
             return;
         }
         idTextView.setTag(R.id.id_dc, null);
@@ -13119,7 +13126,13 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 } else {
                     id = chatId;
                 }
-                idTextView.setText("ID: " + id, animated);
+                int dc = chatInfo != null ? chatInfo.stats_dc != 0 ? chatInfo.stats_dc : 0 : 0;
+                if (dc != 0) {
+                    idTextView.setText("ID: " + id + ", DC: " + dc, animated);
+                    idTextView.setTag(R.id.id_dc, dc);
+                } else {
+                    idTextView.setText("ID: " + id, animated);
+                }
             } else {
                 id = 0;
             }
