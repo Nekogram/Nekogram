@@ -1441,7 +1441,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             lastSaveTime = SystemClock.elapsedRealtime();
                             Utilities.globalQueue.postRunnable(() -> {
                                 SharedPreferences.Editor editor = ApplicationLoader.applicationContext.getSharedPreferences("media_saved_pos", Activity.MODE_PRIVATE).edit();
-                                editor.putFloat(saveFor, value).commit();
+                                editor.putFloat(shouldSavePositionForCurrentVideo, value).commit();
                             });
                         }
                     }
@@ -2787,6 +2787,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             return true;
         }
         default void onReleasePlayerBeforeClose(int currentIndex) {};
+
+        default boolean forceAllInGroup() {
+            return false;
+        }
     }
 
     private class FrameLayoutDrawer extends SizeNotifierFrameLayoutPhoto {
@@ -5671,6 +5675,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     return placeProvider.validateGroupId(groupId);
                 }
                 return true;
+            }
+
+            @Override
+            public boolean forceAll() {
+                return placeProvider != null && placeProvider.forceAllInGroup();
             }
         });
 
@@ -12905,7 +12914,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                     }
                     isFirstLoading = false;
-                } else if (MediaDataController.getMediaType(currentMessageObject.messageOwner) == sharedMediaType) {
+                } else if (MediaDataController.getMediaType(currentMessageObject.messageOwner) == sharedMediaType && (placeProvider == null || !placeProvider.forceAllInGroup())) {
                     MediaDataController.getInstance(currentAccount).getMediaCount(currentDialogId, topicId, sharedMediaType, classGuid, true);
                     if (mergeDialogId != 0) {
                         MediaDataController.getInstance(currentAccount).getMediaCount(mergeDialogId, topicId, sharedMediaType, classGuid, true);
@@ -13092,7 +13101,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     if (masksItemVisible) {
                         setItemVisible(masksItem, false, false);
                     }
-                    if (!pipAvailable) {
+                    if (noforwards) {
+                        setItemVisible(pipItem, false, true);
+                    } else if (!pipAvailable) {
                         pipItem.setEnabled(false);
                         setItemVisible(pipItem, true, !masksItemVisible && editItem.getAlpha() <= 0, 0.5f);
                     } else {

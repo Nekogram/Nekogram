@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.icu.text.Collator;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.inputmethod.InputMethodInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.view.inputmethod.InputMethodSubtype;
@@ -30,6 +31,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.Set;
 
+import app.nekogram.translator.Http429Exception;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.translator.Translator;
@@ -248,6 +250,7 @@ public class TranslateController extends BaseController {
         synchronized (this) {
             if (hidden) {
                 hideTranslateDialogs.add(dialogId);
+                translatingDialogs.remove(dialogId);
             } else {
                 hideTranslateDialogs.remove(dialogId);
             }
@@ -283,6 +286,7 @@ public class TranslateController extends BaseController {
         synchronized (this) {
             if (hide) {
                 hideTranslateDialogs.add(dialogId);
+                translatingDialogs.remove(dialogId);
             } else {
                 hideTranslateDialogs.remove(dialogId);
             }
@@ -746,6 +750,8 @@ public class TranslateController extends BaseController {
             return;
         }
 
+        long dialogId = message.getDialogId();
+
         Translator.translate(message.messageOwner.message, message.messageOwner.originalLanguage, language, new Translator.TranslateCallBack() {
             @Override
             public void onSuccess(String translation, String sourceLanguage, String targetLanguage) {
@@ -755,7 +761,8 @@ public class TranslateController extends BaseController {
 
             @Override
             public void onError(Throwable t) {
-                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_ERROR, LocaleController.getString("TranslationFailedAlert2", R.string.TranslationFailedAlert2));
+                toggleTranslatingDialog(dialogId, false);
+                NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_ERROR, LocaleController.getString(t instanceof Http429Exception ? R.string.TranslationFailedAlert1 : R.string.TranslationFailedAlert2));
             }
         });
     }

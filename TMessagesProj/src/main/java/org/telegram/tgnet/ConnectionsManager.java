@@ -1471,10 +1471,10 @@ public class ConnectionsManager extends BaseController {
         });
     }
 
-    public static void onIntegrityCheckClassic(final int currentAccount, final int requestToken, final String nonce) {
+    public static void onIntegrityCheckClassic(final int currentAccount, final int requestToken, final String project, final String nonce) {
         AndroidUtilities.runOnUIThread(() -> {
             long start = System.currentTimeMillis();
-            FileLog.d("account"+currentAccount+": server requests integrity classic check with nonce = " + nonce);
+            FileLog.d("account"+currentAccount+": server requests integrity classic check with project = "+project+" nonce = " + nonce);
             native_receivedIntegrityCheckClassic(currentAccount, requestToken, nonce, "PLAYINTEGRITY_FAILED_EXCEPTION_NULL");
         });
     }
