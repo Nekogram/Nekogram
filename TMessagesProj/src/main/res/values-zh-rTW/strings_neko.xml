@@ -4,7 +4,7 @@
     <string name="PreferIPv6">是否優先使用IPv6進行接駁</string>
     <string name="MessageMenu">訊息選單</string>
     <string name="HidePhone">隱藏您的手機號碼</string>
-    <string name="DeleteAllFromSelf">刪除自己的訊息</string>
+    <string name="DeleteAllFromSelf">删除自己的消息</string>
     <string name="DeleteAllFromSelfAlert">警告！ 這將為此對話中的**所有人**刪除**所有您發送的訊息**。</string>
     <string name="DeleteAllFromSelfAlertBefore">警告！ 這將為此對話中的 **所有人** 刪除 **全部您在%s前發出的訊息**。</string>
     <string name="DeleteAllFromSelfBefore">早於...</string>
@@ -293,6 +293,11 @@
     <string name="PreviewSendPhoto">傳送照片</string>
     <string name="PreviewSendVideo">傳送影片</string>
     <string name="PreviewSendFile">傳送文件</string>
+    <string name="FixLinkPreview">修復連結預覽</string>
+    <string name="FixLinkPreviewDesc">發送其他社交媒體的連結時自動修復連結預覽。</string>
+    <string name="ShowTimeHint">顯示時間提示</string>
+    <string name="ShowTimeHintDesc">點擊時間顯示詳細的發送日期。</string>
+    <string name="Cryptocurrency">加密貨幣</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">可訪問性設置</string>
 </resources>

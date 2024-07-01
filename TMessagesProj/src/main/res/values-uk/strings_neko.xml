@@ -220,7 +220,7 @@
     <string name="MarkdownParseLinks">Аналізувати посилання</string>
     <string name="MarkdownAbout">Редагуйте текст у повідомленні, використовуючи markdown: ^1**жирний**^1, ^2__курсив__^2, ^3~~закреслений~~^3, ^4`моноширинний`^4, ^5||прихований||^5, ^6текст^7url^8.</string>
     <string name="MarkdownAbout2">Редагуйте текст у повідомленні, використовуючи markdown: ^1**жирний**^1, ^2__курсив__^2, ^3~~закреслений~~^3, ^4`моноширинний`^4, ^5||прихований||^5.</string>
-    <string name="AppIconOldSchool">Як Раніше </string>
+    <string name="AppIconOldSchool">Як Раніше</string>
     <string name="AppIconMerio">Меріо</string>
     <string name="AppIconRainbow">Веселкова</string>
     <string name="AppIconMusheen">Мушин</string>
@@ -292,6 +292,11 @@
     <string name="PreviewSendPhoto">Надіслати фото</string>
     <string name="PreviewSendVideo">Надіслати відео</string>
     <string name="PreviewSendFile">Надіслати файл</string>
+    <string name="FixLinkPreview">Виправити попередній перегляд посилань</string>
+    <string name="FixLinkPreviewDesc">Надсилати посилання з інших соціальних мереж з попереднім переглядом посилань виправлених автоматично.</string>
+    <string name="ShowTimeHint">Показувати підказку часу</string>
+    <string name="ShowTimeHintDesc">Показати детальну дату надсилання по натисканню на час.</string>
+    <string name="Cryptocurrency">Криптовалюта</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccSeekbarHeading">Налаштування панелі повзунка</string>
