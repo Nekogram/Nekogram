@@ -13098,7 +13098,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void updateIdText(boolean showDate, boolean animated, boolean chatFull) {
-        if (NekoConfig.idType == NekoConfig.ID_TYPE_HIDDEN) {
+        if (idTextView == null || NekoConfig.idType == NekoConfig.ID_TYPE_HIDDEN) {
             return;
         }
         if (!showDate && isPulledDown && (!animated || chatFull)) {
@@ -13110,7 +13110,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             long id;
             if (userId != 0) {
                 id = userId;
-                TLRPC.User user = getMessagesController().getUser(userId);
+                var user = getMessagesController().getUser(userId);
+                if (user == null) return;
                 int dc = user.photo != null && user.photo.dc_id != 0 ? user.photo.dc_id : UserObject.isUserSelf(user) ? getConnectionsManager().getCurrentDatacenterId() : 0;
                 if (dc != 0) {
                     idTextView.setText("ID: " + id + ", DC: " + dc, animated);
@@ -13119,7 +13120,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     idTextView.setText("ID: " + id, animated);
                 }
             } else if (chatId != 0) {
-                TLRPC.Chat chat = getMessagesController().getChat(chatId);
+                var chat = getMessagesController().getChat(chatId);
+                if (chat == null) return;
                 if (NekoConfig.idType == NekoConfig.ID_TYPE_BOTAPI) {
                     if (ChatObject.isChannel(chat)) {
                         id = -1000000000000L - chat.id;
