@@ -268,9 +268,9 @@ public class CloudSettingsHelper {
             int dateYear = rightNow.get(Calendar.YEAR);
 
             if (year == dateYear) {
-                return LocaleController.getInstance().formatterBannedUntilThisYear.format(new Date(date));
+                return LocaleController.getInstance().getFormatterBannedUntilThisYear().format(new Date(date));
             } else {
-                return LocaleController.getInstance().formatterBannedUntil.format(new Date(date));
+                return LocaleController.getInstance().getFormatterBannedUntil().format(new Date(date));
             }
         } catch (Exception e) {
             FileLog.e(e);

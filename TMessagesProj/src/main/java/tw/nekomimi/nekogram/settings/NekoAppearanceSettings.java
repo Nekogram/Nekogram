@@ -156,7 +156,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.formatTimeWithSeconds);
             }
-            LocaleController.getInstance().recreateFormatters();
             parentLayout.rebuildAllFragmentViews(false, false);
         } else if (position == hideAllTabRow) {
             NekoConfig.toggleHideAllTab();

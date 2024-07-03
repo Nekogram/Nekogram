@@ -88,7 +88,7 @@ public class MessageHelper extends BaseController {
     }
 
     private static String formatTime(int timestamp) {
-        return LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().formatterYear.format(new Date(timestamp * 1000L)), LocaleController.getInstance().formatterDayWithSeconds.format(new Date(timestamp * 1000L)));
+        return LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().getFormatterYear().format(new Date(timestamp * 1000L)), LocaleController.getInstance().getFormatterDayWithSeconds().format(new Date(timestamp * 1000L)));
     }
 
     public static CharSequence getTimeHintText(MessageObject messageObject) {
@@ -134,7 +134,7 @@ public class MessageHelper extends BaseController {
         spannableStringBuilder
                 .append(spannedStrings[2])
                 .append(' ')
-                .append(LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000));
+                .append(LocaleController.getInstance().getFormatterDay().format((long) (messageObject.messageOwner.date) * 1000));
         return spannableStringBuilder;
     }
 
@@ -147,7 +147,7 @@ public class MessageHelper extends BaseController {
         spannableStringBuilder
                 .append(spannedStrings[1])
                 .append(' ')
-                .append(LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000));
+                .append(LocaleController.getInstance().getFormatterDay().format((long) (messageObject.messageOwner.date) * 1000));
         return spannableStringBuilder;
     }
 
@@ -155,7 +155,7 @@ public class MessageHelper extends BaseController {
         var fromLanguage = messageObject.messageOwner.originalLanguage;
         var toLanguage = messageObject.messageOwner.translatedToLanguage;
         if ("und".equals(fromLanguage) || TextUtils.isEmpty(fromLanguage) || TextUtils.isEmpty(toLanguage)) {
-            return LocaleController.getString(R.string.Translated) + " " + LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000);
+            return LocaleController.getString(R.string.Translated) + " " + LocaleController.getInstance().getFormatterDay().format((long) (messageObject.messageOwner.date) * 1000);
         }
         if (spannedStrings[0] == null) {
             spannedStrings[0] = new SpannableStringBuilder("\u200B");
@@ -171,7 +171,7 @@ public class MessageHelper extends BaseController {
                 .append(' ')
                 .append(!TextUtils.isEmpty(to.getScript()) ? HtmlCompat.fromHtml(to.getDisplayScript(), HtmlCompat.FROM_HTML_MODE_LEGACY) : to.getDisplayName())
                 .append(' ')
-                .append(LocaleController.getInstance().formatterDay.format((long) (messageObject.messageOwner.date) * 1000));
+                .append(LocaleController.getInstance().getFormatterDay().format((long) (messageObject.messageOwner.date) * 1000));
         return spannableStringBuilder;
     }
 

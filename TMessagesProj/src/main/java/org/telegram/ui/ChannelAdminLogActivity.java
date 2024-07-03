@@ -2421,6 +2421,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     @Override
     public void onRemoveFromParent() {
         MediaController.getInstance().setTextureView(videoTextureView, null, null, false);
+        super.onRemoveFromParent();
     }
 
     private void hideFloatingDateView(boolean animated) {
@@ -2892,7 +2893,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     }
 
                     @Override
-                    public void didPressChannelAvatar(ChatMessageCell cell, TLRPC.Chat chat, int postId, float touchX, float touchY) {
+                    public void didPressChannelAvatar(ChatMessageCell cell, TLRPC.Chat chat, int postId, float touchX, float touchY, boolean asForward) {
                         if (chat != null && chat != currentChat) {
                             Bundle args = new Bundle();
                             args.putLong("chat_id", chat.id);
@@ -2911,7 +2912,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                     }
 
                     @Override
-                    public void didPressUserAvatar(ChatMessageCell cell, TLRPC.User user, float touchX, float touchY) {
+                    public void didPressUserAvatar(ChatMessageCell cell, TLRPC.User user, float touchX, float touchY, boolean asForward) {
                         if (user != null && user.id != UserConfig.getInstance(currentAccount).getClientUserId()) {
                             openProfile(user);
                         }

@@ -1210,7 +1210,7 @@ public class AlertsCreator {
         }
         long inlineReturn = (fragment instanceof ChatActivity) ? ((ChatActivity) fragment).getInlineReturn() : 0;
         if (Browser.isInternalUrl(url, null) || !ask) {
-            Browser.openUrl(fragment.getParentActivity(), Uri.parse(url), inlineReturn == 0, tryTelegraph, forceNotInternalForApps && checkInternalBotApp(url), progress);
+            Browser.openUrl(fragment.getParentActivity(), Uri.parse(url), inlineReturn == 0, tryTelegraph, forceNotInternalForApps && checkInternalBotApp(url), progress, null);
         } else {
             String urlFinal;
             if (punycode) {
@@ -3073,7 +3073,7 @@ public class AlertsCreator {
             } else if (type == 3) {
                 num += 9;
             }
-            button.setText(LocaleController.getInstance().formatterScheduleSend[num].format(time));
+            button.setText(LocaleController.getInstance().getFormatterScheduleSend(num).format(time));
         }
         if (infoText != null) {
             int diff = (int) ((time - systemTime) / 1000);
@@ -3321,12 +3321,12 @@ public class AlertsCreator {
                 int year = calendar.get(Calendar.YEAR);
                 if (year == currentYear) {
                     return (
-                        LocaleController.getInstance().formatterWeek.format(date) +
+                        LocaleController.getInstance().getFormatterWeek().format(date) +
                         ", " +
-                        LocaleController.getInstance().formatterScheduleDay.format(date)
+                        LocaleController.getInstance().getFormatterScheduleDay().format(date)
                     );
                 } else {
-                    return LocaleController.getInstance().formatterScheduleYear.format(date);
+                    return LocaleController.getInstance().getFormatterScheduleYear().format(date);
                 }
             }
         });
@@ -3505,9 +3505,9 @@ public class AlertsCreator {
                 calendar.setTimeInMillis(date);
                 int year = calendar.get(Calendar.YEAR);
                 if (year == currentYear) {
-                    return LocaleController.getInstance().formatterScheduleDay.format(date);
+                    return LocaleController.getInstance().getFormatterScheduleDay().format(date);
                 } else {
-                    return LocaleController.getInstance().formatterScheduleYear.format(date);
+                    return LocaleController.getInstance().getFormatterScheduleYear().format(date);
                 }
             }
         });
@@ -3935,11 +3935,11 @@ public class AlertsCreator {
                 int year = calendar.get(Calendar.YEAR);
                 int yearDay = calendar.get(Calendar.DAY_OF_YEAR);
                 if (year == currentYear && yearDay < currentDayYear + 7) {
-                    return LocaleController.getInstance().formatterWeek.format(date) + ", " + LocaleController.getInstance().formatterScheduleDay.format(date);
+                    return LocaleController.getInstance().getFormatterWeek().format(date) + ", " + LocaleController.getInstance().getFormatterScheduleDay().format(date);
                 } else if (year == currentYear) {
-                    return LocaleController.getInstance().formatterScheduleDay.format(date);
+                    return LocaleController.getInstance().getFormatterScheduleDay().format(date);
                 } else {
-                    return LocaleController.getInstance().formatterScheduleYear.format(date);
+                    return LocaleController.getInstance().getFormatterScheduleYear().format(date);
                 }
             }
         });
@@ -6384,7 +6384,7 @@ public class AlertsCreator {
             if (isActiveGiveawayAndOwner) {
                 TLRPC.TL_messageMediaGiveaway giveaway = (TLRPC.TL_messageMediaGiveaway) selectedMessage.messageOwner.media;
                 long untilDate = giveaway.until_date * 1000L;
-                giveawayEndDate = LocaleController.getInstance().formatterGiveawayMonthDayYear.format(new Date(untilDate));
+                giveawayEndDate = LocaleController.getInstance().getFormatterGiveawayMonthDayYear().format(new Date(untilDate));
                 isActiveGiveawayAndOwner = System.currentTimeMillis() < untilDate;
             }
         } else if (count == 1) {
@@ -6395,7 +6395,7 @@ public class AlertsCreator {
                     if (isActiveGiveawayAndOwner) {
                         TLRPC.TL_messageMediaGiveaway giveaway = (TLRPC.TL_messageMediaGiveaway) msg.messageOwner.media;
                         long untilDate = giveaway.until_date * 1000L;
-                        giveawayEndDate = LocaleController.getInstance().formatterGiveawayMonthDayYear.format(new Date(untilDate));
+                        giveawayEndDate = LocaleController.getInstance().getFormatterGiveawayMonthDayYear().format(new Date(untilDate));
                         isActiveGiveawayAndOwner = System.currentTimeMillis() < untilDate;
                     }
                 }
