@@ -1840,11 +1840,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         int id;
                         TLRPC.Chat chat = currentChat;
                         if (currentMessageObject.messageOwner.fwd_from != null) {
-                            if (chat == null && (currentMessageObject.messageOwner.fwd_from.flags & 16) != 0) {
+                            if (currentForwardChannel != null && currentForwardChannel.id == currentChat.id) {
+                                id = currentMessageObject.messageOwner.fwd_from.channel_post;
+                            } else if ((currentMessageObject.messageOwner.fwd_from.flags & 16) != 0) {
                                 id = currentMessageObject.messageOwner.fwd_from.saved_from_msg_id;
                             } else {
-                                id = currentMessageObject.messageOwner.fwd_from.channel_post;
-                                chat = currentForwardChannel;
+                                id = 0;
                             }
                         } else {
                             id = 0;
@@ -4147,11 +4148,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                                 int id;
                                 TLRPC.Chat chat = currentChat;
                                 if (currentMessageObject.messageOwner.fwd_from != null) {
-                                    if ((currentMessageObject.messageOwner.fwd_from.flags & 16) != 0) {
+                                    if (currentForwardChannel != null && currentForwardChannel.id == currentChat.id) {
+                                        id = currentMessageObject.messageOwner.fwd_from.channel_post;
+                                    } else if ((currentMessageObject.messageOwner.fwd_from.flags & 16) != 0) {
                                         id = currentMessageObject.messageOwner.fwd_from.saved_from_msg_id;
                                     } else {
-                                        id = currentMessageObject.messageOwner.fwd_from.channel_post;
-                                        chat = currentForwardChannel;
+                                        id = 0;
                                     }
                                 } else {
                                     id = 0;
