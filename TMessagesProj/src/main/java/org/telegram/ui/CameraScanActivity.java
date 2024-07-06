@@ -697,7 +697,7 @@ public class CameraScanActivity extends BaseFragment {
                             return;
                         }
                     }
-                    ChatAttachAlert chatAttachAlert = new ChatAttachAlert(getParentActivity(), this, true, false, false, new DarkThemeResourceProvider());
+                    ChatAttachAlert chatAttachAlert = new ChatAttachAlert(getParentActivity(), this, false, false, false, new DarkThemeResourceProvider());
                     chatAttachAlert.drawNavigationBar = true;
                     chatAttachAlert.setupPhotoPicker(LocaleController.getString("ChoosePhoto", R.string.ChoosePhoto));
                     chatAttachAlert.setDelegate(new ChatAttachAlert.ChatAttachViewDelegate() {
