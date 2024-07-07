@@ -236,7 +236,7 @@ public class NekoConfig {
             newMarkdownParser = preferences.getBoolean("newMarkdownParser", true);
             markdownParseLinks = preferences.getBoolean("markdownParseLinks", true);
             downloadSpeedBoost = preferences.getInt("downloadSpeedBoost2", BOOST_NONE);
-            sendLargePhotos = preferences.getBoolean("sendLargePhotos", true);
+            sendLargePhotos = preferences.getBoolean("sendLargePhotos", false);
             showQrCode = preferences.getBoolean("showQrCode", true);
             wsDomain = preferences.getString("wsDomain", "");
             hideStories = preferences.getBoolean("hideStories", false);

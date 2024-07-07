@@ -2732,7 +2732,7 @@ public class AndroidUtilities {
 
     public static int getPhotoSize() {
         if (photoSize == null) {
-            photoSize = 2560;
+            photoSize = SharedConfig.deviceIsHigh() || NekoConfig.sendLargePhotos ? 2560 : 1280;
         }
         return photoSize;
     }
