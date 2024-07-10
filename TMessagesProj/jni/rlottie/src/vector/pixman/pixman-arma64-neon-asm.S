@@ -46,13 +46,12 @@
 
 /* Supplementary macro for setting function attributes */
 .macro pixman_asm_function fname
-.func fname
-.global fname
+.global \fname
 #ifdef __ELF__
-.hidden fname
-.type fname, %function
+.hidden \fname
+.type \fname, %function
 #endif
-fname:
+\fname:
 .endm
 
 #include "pixman-arma64-neon-asm.h"
@@ -194,18 +193,18 @@ fname:
 .macro pixman_composite_over_8888_8888_process_pixblock_tail_head
      ld4        {v4.8b, v5.8b, v6.8b, v7.8b}, [DST_R], #32
         urshr       v14.8h, v8.8h, #8
-                                    PF add PF_X, PF_X, #8
-                                    PF tst PF_CTL, #0xF
+                                    PF add, PF_X, PF_X, #8
+                                    PF tst, PF_CTL, #0xF
         urshr       v15.8h, v9.8h, #8
         urshr       v16.8h, v10.8h, #8
         urshr       v17.8h, v11.8h, #8
-                                    PF beq 10f
-                                    PF add PF_X, PF_X, #8
-                                    PF sub PF_CTL, PF_CTL, #1
+                                    PF beq, 10f
+                                    PF add, PF_X, PF_X, #8
+                                    PF sub, PF_CTL, PF_CTL, #1
 10:
         raddhn      v28.8b, v14.8h, v8.8h
         raddhn      v29.8b, v15.8h, v9.8h
-                                    PF cmp PF_X, ORIG_W
+                                    PF cmp, PF_X, ORIG_W
         raddhn      v30.8b, v16.8h, v10.8h
         raddhn      v31.8b, v17.8h, v11.8h
         uqadd       v28.8b, v0.8b, v28.8b
@@ -213,30 +212,30 @@ fname:
         uqadd       v30.8b, v2.8b, v30.8b
         uqadd       v31.8b, v3.8b, v31.8b
     fetch_src_pixblock
-                                    PF lsl DUMMY, PF_X, #src_bpp_shift
-                                    PF prfm PREFETCH_MODE, [PF_SRC, DUMMY]
+                                    PF lsl, DUMMY, PF_X, #src_bpp_shift
+                                    PF prfm, PREFETCH_MODE, [PF_SRC, DUMMY]
     mvn        v22.8b, v3.8b
-                                    PF lsl DUMMY, PF_X, #dst_bpp_shift
-                                    PF prfm PREFETCH_MODE, [PF_DST, DUMMY]
+                                    PF lsl, DUMMY, PF_X, #dst_bpp_shift
+                                    PF prfm, PREFETCH_MODE, [PF_DST, DUMMY]
          st4        {v28.8b, v29.8b, v30.8b, v31.8b}, [DST_W], #32
-                                    PF ble 10f
-                                    PF sub PF_X, PF_X, ORIG_W
+                                    PF ble, 10f
+                                    PF sub, PF_X, PF_X, ORIG_W
 10:
     umull      v8.8h, v22.8b, v4.8b
-                                    PF ble 10f
-                                    PF subs PF_CTL, PF_CTL, #0x10
+                                    PF ble, 10f
+                                    PF subs, PF_CTL, PF_CTL, #0x10
 10:
     umull      v9.8h, v22.8b, v5.8b
-                                    PF ble 10f
-                                    PF lsl DUMMY, SRC_STRIDE, #src_bpp_shift
-                                    PF ldrsb DUMMY, [PF_SRC, DUMMY]
-                                    PF add PF_SRC, PF_SRC, #1
+                                    PF ble, 10f
+                                    PF lsl, DUMMY, SRC_STRIDE, #src_bpp_shift
+                                    PF ldrsb, DUMMY, [PF_SRC, DUMMY]
+                                    PF add, PF_SRC, PF_SRC, #1
 10:
     umull      v10.8h, v22.8b, v6.8b
-                                    PF ble 10f
-                                    PF lsl DUMMY, DST_STRIDE, #dst_bpp_shift
-                                    PF ldrsb DUMMY, [PF_DST, DUMMY]
-                                    PF add PF_DST, PF_DST, #1
+                                    PF ble, 10f
+                                    PF lsl, DUMMY, DST_STRIDE, #dst_bpp_shift
+                                    PF ldrsb, DUMMY, [PF_DST, DUMMY]
+                                    PF add, PF_DST, PF_DST, #1
 10:
     umull      v11.8h, v22.8b, v7.8b
 .endm
@@ -300,30 +299,30 @@ generate_composite_function_single_scanline \
         raddhn      v31.8b, v17.8h, v11.8h
     ld4         {v4.8b, v5.8b, v6.8b, v7.8b}, [DST_R], #32
         uqadd       v28.8b, v0.8b, v28.8b
-                                    PF add PF_X, PF_X, #8
-                                    PF tst PF_CTL, #0x0F
-                                    PF beq 10f
-                                    PF add PF_X, PF_X, #8
-                                    PF sub PF_CTL, PF_CTL, #1
+                                    PF add, PF_X, PF_X, #8
+                                    PF tst, PF_CTL, #0x0F
+                                    PF beq, 10f
+                                    PF add, PF_X, PF_X, #8
+                                    PF sub, PF_CTL, PF_CTL, #1
 10:
         uqadd       v29.8b, v1.8b, v29.8b
         uqadd       v30.8b, v2.8b, v30.8b
         uqadd       v31.8b, v3.8b, v31.8b
-                                    PF cmp PF_X, ORIG_W
+                                    PF cmp, PF_X, ORIG_W
     umull       v8.8h, v24.8b, v4.8b
-                                    PF lsl DUMMY, PF_X, #dst_bpp_shift
-                                    PF prfm PREFETCH_MODE, [PF_DST, DUMMY]
+                                    PF lsl, DUMMY, PF_X, #dst_bpp_shift
+                                    PF prfm, PREFETCH_MODE, [PF_DST, DUMMY]
     umull       v9.8h, v24.8b, v5.8b
-                                    PF ble 10f
-                                    PF sub PF_X, PF_X, ORIG_W
+                                    PF ble, 10f
+                                    PF sub, PF_X, PF_X, ORIG_W
 10:
     umull       v10.8h, v24.8b, v6.8b
-                                    PF subs PF_CTL, PF_CTL, #0x10
+                                    PF subs, PF_CTL, PF_CTL, #0x10
     umull       v11.8h, v24.8b, v7.8b
-                                    PF ble 10f
-                                    PF lsl DUMMY, DST_STRIDE, #dst_bpp_shift
-                                    PF ldrsb DUMMY, [PF_DST, DUMMY]
-                                    PF add PF_DST, PF_DST, #1
+                                    PF ble, 10f
+                                    PF lsl, DUMMY, DST_STRIDE, #dst_bpp_shift
+                                    PF ldrsb, DUMMY, [PF_DST, DUMMY]
+                                    PF add, PF_DST, PF_DST, #1
 10:
         st4         {v28.8b, v29.8b, v30.8b, v31.8b}, [DST_W], #32
 .endm
