@@ -19503,7 +19503,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 buttonX -= AndroidUtilities.dp(10);
             }
             commentButtonRect.set(
-                buttonX - AndroidUtilities.dp((currentMessageObject == null || !currentMessageObject.isOut()) && !drawPinnedBottom && currentPosition == null && (currentMessageObject == null || currentMessageObject.type != MessageObject.TYPE_POLL || pollInstantViewTouchesBottom) ? 6 : 0),
+                buttonX - AndroidUtilities.dp((currentMessageObject == null || !currentMessageObject.isOutOwner()) && !drawPinnedBottom && currentPosition == null && (currentMessageObject == null || currentMessageObject.type != MessageObject.TYPE_POLL || pollInstantViewTouchesBottom) ? 6 : 0),
                 (int) buttonY,
                 endX - AndroidUtilities.dp(14),
                 layoutHeight - AndroidUtilities.dp(h) + 1
