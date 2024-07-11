@@ -79,7 +79,7 @@ public final class ApkInstaller {
                 dialog = null;
             }
             AlertsCreator.createSimpleAlert(context, LocaleController.getString(R.string.ErrorOccurred) + "\n" + e.getLocalizedMessage()).show();
-            AndroidUtilities.openForView(apk, "install.apk", "application/vnd.android.package-archive", context, null);
+            AndroidUtilities.openForView(apk, "install.apk", "application/vnd.android.package-archive", context, null, false);
         }
     }
 
