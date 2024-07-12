@@ -797,6 +797,11 @@ public class EditTextBoldCursor extends EditTextEffects {
         return super.onTouchEvent(event);
     }
 
+    @Override
+    public void invalidate() {
+        super.invalidate();
+    }
+
     public void invalidateForce() {
         invalidate();
         if (!isHardwareAccelerated()) {
