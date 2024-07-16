@@ -112,6 +112,7 @@ import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.core.graphics.ColorUtils;
 import androidx.core.graphics.drawable.DrawableCompat;
+import androidx.core.util.Supplier;
 import androidx.dynamicanimation.animation.FloatValueHolder;
 import androidx.dynamicanimation.animation.SpringAnimation;
 import androidx.dynamicanimation.animation.SpringForce;
@@ -33654,7 +33655,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 }
                 final int finalTimestamp = timestamp;
                 boolean noforwards = getMessagesController().isChatNoForwards(currentChat) || (messageObject != null && messageObject.messageOwner != null && messageObject.messageOwner.noforwards);
-                builder.setItems(noforwards ? new CharSequence[] {LocaleController.getString("Open", R.string.Open)} : new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy)}, (dialog, which) -> {
+                builder.setItems(noforwards ? new CharSequence[] {LocaleController.getString("Open", R.string.Open)} : new CharSequence[]{LocaleController.getString("Open", R.string.Open), LocaleController.getString("Copy", R.string.Copy), LocaleController.getString("ShareFile", R.string.ShareFile)}, (dialog, which) -> {
                     if (which == 0) {
                         if (str.startsWith("video?")) {
                             didPressMessageUrl(url, false, messageObject, cell);
@@ -33662,7 +33663,8 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             logSponsoredClicked(messageObject);
                             openClickableLink(url, str, false, cell, messageObject, true);
                         }
-                    } else if (which == 1) {
+                    } else if (which == 1 || which == 2) {
+                        String link = null;
                         if (str.startsWith("video?") && messageObject != null && !messageObject.scheduled) {
                             MessageObject messageObject1 = messageObject;
                             boolean isMedia = messageObject.isVideo() || messageObject.isRoundVideo() || messageObject.isVoice() || messageObject.isMusic();
@@ -33671,7 +33673,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                             long dialogId = messageObject1.getDialogId();
                             int messageId = messageObject1.getId();
-                            String link = null;
 
                             if (messageObject1.messageOwner.fwd_from != null) {
                                 if (messageObject1.messageOwner.fwd_from.saved_from_peer != null) {
@@ -33699,9 +33700,17 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             if (link == null) {
                                 return;
                             }
-                            AndroidUtilities.addToClipboard(link);
                         } else {
-                            AndroidUtilities.addToClipboard(str);
+                            link = str;
+                        }
+                        if (which == 2) {
+                            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                            shareIntent.setType("text/plain");
+                            shareIntent.putExtra(Intent.EXTRA_TEXT, link);
+                            Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+                            chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                            ApplicationLoader.applicationContext.startActivity(chooserIntent);
+                            return;
                         }
                         createUndoView();
                         if (undoView == null) {
@@ -40393,7 +40402,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             });
         }
 
-        options.add(R.drawable.msg_copy, getString(R.string.CopyLink), () -> {
+        Supplier<String> callback = () -> {
             if (str.startsWith("video?") && messageObject != null && !messageObject.scheduled) {
                 MessageObject messageObject1 = messageObject;
                 boolean isMedia = messageObject.isVideo() || messageObject.isRoundVideo() || messageObject.isVoice() || messageObject.isMusic();
@@ -40430,13 +40439,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         link = "https://t.me/" + username + "/" + messageId + "?t=" + timestamp;
                     }
                 }
-                if (link == null) {
-                    return;
-                }
-                AndroidUtilities.addToClipboard(link);
+                return link;
             } else {
-                AndroidUtilities.addToClipboard(str);
+                return str;
             }
+        };
+
+        options.add(R.drawable.msg_copy, getString(R.string.CopyLink), () -> {
+            AndroidUtilities.addToClipboard(callback.get());
             createUndoView();
             if (undoView == null) {
                 return;
@@ -40448,6 +40458,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             } else {
                 undoView.showWithAction(0, UndoView.ACTION_LINK_COPIED, null);
             }
+        });
+
+        options.add(R.drawable.msg_shareout, getString(R.string.ShareFile), () -> {
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, callback.get());
+            Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+            chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            ApplicationLoader.applicationContext.startActivity(chooserIntent);
         });
 
         dialog.setItemOptions(options);
