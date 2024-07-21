@@ -70,7 +70,7 @@ public class PopupHelper {
         }
     }
 
-    public static void showIdPopup(BaseFragment fragment, View anchorView, long id, int dc, boolean user, float x, float y) {
+    public static void showIdPopup(BaseFragment fragment, View anchorView, long id, int dc, long userId, float x, float y) {
         Context context = fragment.getParentActivity();
         ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, R.drawable.popup_fixed_alert2, fragment.getResourceProvider(), ActionBarPopupWindow.ActionBarPopupWindowLayout.FLAG_USE_SWIPEBACK) {
             final Path path = new Path();
@@ -103,18 +103,12 @@ public class PopupHelper {
             subItem.setSubtext(UserHelper.formatDCString(dc));
             subItem.setOnClickListener(v -> popupLayout.getSwipeBack().openForeground(swipeBackIndex));
         }
-        if (id != 0 && user) {
+        if (userId != 0) {
             ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_calendar, LocaleController.getString(R.string.RegistrationDate), false, fragment.getResourceProvider());
-            UserHelper.RegDate regDate = UserHelper.getRegDate(id);
-            subItem.setSubtext(regDate != null ? UserHelper.formatRegDate(regDate) : LocaleController.getString(R.string.Loading));
+            var regDate = RegDateHelper.getRegDate(userId);
+            subItem.setSubtext(regDate != null ? RegDateHelper.formatRegDate(regDate, null) : LocaleController.getString(R.string.Loading));
             if (regDate == null) {
-                UserHelper.getRegDate(id, arg -> {
-                    if (arg != null) {
-                        subItem.setSubtext(UserHelper.formatRegDate(arg), true);
-                    } else {
-                        subItem.setSubtext(LocaleController.getString(R.string.ErrorOccurred), true);
-                    }
-                });
+                RegDateHelper.getRegDate(userId, (date, error) -> subItem.setSubtext(RegDateHelper.formatRegDate(date, error), true));
             }
         }
         popupLayout.setParentWindow(popupWindow);

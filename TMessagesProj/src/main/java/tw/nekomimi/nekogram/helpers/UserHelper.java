@@ -7,8 +7,6 @@ import android.text.TextUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BaseController;
 import org.telegram.messenger.ChatObject;
-import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.browser.Browser;
@@ -19,7 +17,6 @@ import org.telegram.ui.ChatActivity;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.TopicsFragment;
 
-import java.util.HashMap;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.Extra;
@@ -276,42 +273,6 @@ public class UserHelper extends BaseController {
         return String.format(Locale.US, "DC%d %s, %s", dc, UserHelper.getDCName(dc), UserHelper.getDCLocation(dc));
     }
 
-    private static final HashMap<Long, RegDate> regDates = new HashMap<>();
-
-    public static String formatRegDate(RegDate regDate) {
-        if (regDate.error == null) {
-            return switch (regDate.type) {
-                case 0 ->
-                        LocaleController.formatString(R.string.RegistrationDateApproximately, regDate.date);
-                case 2 ->
-                        LocaleController.formatString(R.string.RegistrationDateNewer, regDate.date);
-                case 3 ->
-                        LocaleController.formatString(R.string.RegistrationDateOlder, regDate.date);
-                default -> regDate.date;
-            };
-        } else {
-            return regDate.error;
-        }
-    }
-
-    public static RegDate getRegDate(long userId) {
-        return regDates.get(userId);
-    }
-
-    public static void getRegDate(long userId, Utilities.Callback<RegDate> callback) {
-        RegDate regDate = regDates.get(userId);
-        if (regDate != null) {
-            callback.run(regDate);
-            return;
-        }
-        Extra.getRegDate(userId, arg -> {
-            if (arg != null && arg.error == null) {
-                regDates.put(userId, arg);
-            }
-            callback.run(arg);
-        });
-    }
-
     public interface BotInfo {
         long getId();
 
@@ -322,11 +283,5 @@ public class UserHelper extends BaseController {
         abstract public TLRPC.TL_user parseUser(String[] lines);
 
         abstract public TLRPC.TL_chat parseChat(String[] lines);
-    }
-
-    public static class RegDate {
-        public int type;
-        public String date;
-        public String error;
     }
 }

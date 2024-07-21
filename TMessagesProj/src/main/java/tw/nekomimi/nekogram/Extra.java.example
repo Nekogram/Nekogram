@@ -1,6 +1,6 @@
 package tw.nekomimi.nekogram;
 
-import org.telegram.messenger.Utilities;
+import java.util.function.BiConsumer;
 
 import tw.nekomimi.nekogram.helpers.UserHelper;
 
@@ -21,15 +21,15 @@ public class Extra {
         return 0;
     }
 
-    public static void getRegDate(long userId, Utilities.Callback<UserHelper.RegDate> callback) {
+    public static void getRegDate(long userId, BiConsumer<Integer, String> callback) {
 
     }
 
-    public static BotInfo getHelperBot() {
+    public static UserHelper.BotInfo getHelperBot() {
         return null;
     }
 
-    public static UserInfoBot getUserInfoBot(boolean fallback) {
+    public static UserHelper.UserInfoBot getUserInfoBot(boolean fallback) {
         return null;
     }
 

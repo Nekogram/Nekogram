@@ -4797,7 +4797,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 long id = idTextView.getTag(R.id.id_copy) != null ? (long) idTextView.getTag(R.id.id_copy) : 0;
                 int dc = idTextView.getTag(R.id.id_dc) != null ? (int) idTextView.getTag(R.id.id_dc) : 0;
                 if (id != 0 || dc != 0) {
-                    PopupHelper.showIdPopup(ProfileActivity.this, idTextView, id, dc, userId != 0, x, y);
+                    PopupHelper.showIdPopup(ProfileActivity.this, idTextView, id, dc, userId, x, y);
                     performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                     return true;
                 }

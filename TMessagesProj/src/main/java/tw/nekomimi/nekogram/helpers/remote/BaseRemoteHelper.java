@@ -53,7 +53,7 @@ public abstract class BaseRemoteHelper {
 
     abstract protected String getRequestParams();
 
-    private String getRequestExtra() {
+    public static String getRequestExtra() {
         return " " +
                 BuildConfig.VERSION_CODE +
                 " " +
@@ -74,7 +74,7 @@ public abstract class BaseRemoteHelper {
         return json;
     }
 
-    protected String getTextFromInlineResult(TLRPC.BotInlineResult result) {
+    public static String getTextFromInlineResult(TLRPC.BotInlineResult result) {
         return result.send_message != null ? result.send_message.message : result.description;
     }
 
