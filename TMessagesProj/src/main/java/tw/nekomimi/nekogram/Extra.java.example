@@ -17,6 +17,8 @@ public class Extra {
 
     public static boolean FORCE_ANALYTICS = false;
 
+    public static String TLV_URL = "";
+
     public static long getOwnerFromStickerSetId(long id) {
         return 0;
     }

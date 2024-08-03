@@ -12,6 +12,7 @@ import org.telegram.tgnet.TLRPC;
 
 public class WebViewRequestProps {
 
+    public int internalType;
     public int currentAccount;
     public long peerId;
     public long botId;

@@ -99,6 +99,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.helpers.WebAppHelper;
+
 public class BotWebViewSheet extends Dialog implements NotificationCenter.NotificationCenterDelegate, BottomSheetTabsOverlay.Sheet {
     public final static int TYPE_WEB_VIEW_BUTTON = 0, TYPE_SIMPLE_WEB_VIEW_BUTTON = 1, TYPE_BOT_MENU_BUTTON = 2, TYPE_WEB_VIEW_BOT_APP = 3, TYPE_WEB_VIEW_BOT_MAIN = 4;
 
@@ -923,7 +925,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         this.currentWebApp = props.app;
 
         TLRPC.User userbot = MessagesController.getInstance(currentAccount).getUser(botId);
-        CharSequence title = UserObject.getUserName(userbot);
+        CharSequence title = WebAppHelper.isInternalBot(props) ? WebAppHelper.getInternalBotName(props) : UserObject.getUserName(userbot);
         try {
             TextPaint tp = new TextPaint();
             tp.setTextSize(dp(20));
@@ -991,6 +993,10 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         otherItem.addSubItem(R.id.menu_tos_bot, R.drawable.menu_intro, LocaleController.getString(R.string.BotWebViewToS));
         if (currentBot != null && (currentBot.show_in_side_menu || currentBot.show_in_attach_menu)) {
             otherItem.addSubItem(R.id.menu_delete_bot, R.drawable.msg_delete, LocaleController.getString(R.string.BotWebViewDeleteBot));
+        }
+        if (WebAppHelper.isInternalBot(props)) {
+            otherItem.hideSubItem(R.id.menu_open_bot);
+            otherItem.hideSubItem(R.id.menu_tos_bot);
         }
 
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {

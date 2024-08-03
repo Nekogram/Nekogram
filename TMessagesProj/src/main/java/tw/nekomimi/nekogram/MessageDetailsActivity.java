@@ -54,6 +54,7 @@ import java.util.Locale;
 
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.UserHelper;
+import tw.nekomimi.nekogram.helpers.WebAppHelper;
 import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
 
 @SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
@@ -349,17 +350,18 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             }
 
             showDialog(dialog);
+        } else if (position == exportRow) {
+            WebAppHelper.openTLViewer(this, messageObject);
         }
     }
 
     @Override
     protected boolean onItemLongClick(View view, int position, float x, float y) {
         var type = listAdapter.getItemViewType(position);
-        if (type != TYPE_SHADOW) {
+        if (type != TYPE_SHADOW && position != exportRow) {
             if (!noforwards || !(position == messageRow || position == captionRow || position == filePathRow)) {
                 CharSequence text;
-                if (view instanceof TextDetailSettingsCell) {
-                    TextDetailSettingsCell textCell = (TextDetailSettingsCell) view;
+                if (view instanceof TextDetailSettingsCell textCell) {
                     text = textCell.getValueTextView().getText();
                 } else {
                     TextDetailSimpleCell textCell = (TextDetailSimpleCell) view;
@@ -413,9 +415,9 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         languageRow = TextUtils.isEmpty(getMessageHelper().getMessagePlainText(messageObject)) ? -1 : rowCount++;
         getMessageHelper();
         linkOrEmojiOnlyRow = !TextUtils.isEmpty(messageObject.messageOwner.message) && MessageHelper.isLinkOrEmojiOnlyMessage(messageObject) ? rowCount++ : -1;
-        emptyRow = -1;//rowCount++;
+        emptyRow = rowCount++;
 
-        exportRow = -1;//rowCount++;
+        exportRow = rowCount++;
         endRow = rowCount++;
     }
 
@@ -559,9 +561,9 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 case TYPE_CREATION: {
                     CreationTextCell creationTextCell = (CreationTextCell) holder.itemView;
                     if (position == exportRow) {
-                        Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_copy);
+                        Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_search);
                         drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
-                        creationTextCell.setTextAndIcon(LocaleController.getString(R.string.ExportAsJson), drawable, divider);
+                        creationTextCell.setTextAndIcon(LocaleController.getString(R.string.ViewAsJson), drawable, divider);
                     }
                     break;
                 }

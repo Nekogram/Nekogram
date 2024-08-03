@@ -99,6 +99,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.util.List;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.helpers.WebAppHelper;
+
 public class BotWebViewAttachedSheet implements NotificationCenter.NotificationCenterDelegate, BaseFragment.AttachedSheet, BottomSheetTabsOverlay.Sheet {
     public final static int TYPE_WEB_VIEW_BUTTON = 0, TYPE_SIMPLE_WEB_VIEW_BUTTON = 1, TYPE_BOT_MENU_BUTTON = 2, TYPE_WEB_VIEW_BOT_APP = 3, TYPE_WEB_VIEW_BOT_MAIN = 4;
 
@@ -936,7 +938,7 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
         this.currentWebApp = props.app;
 
         TLRPC.User userbot = MessagesController.getInstance(currentAccount).getUser(botId);
-        CharSequence title = UserObject.getUserName(userbot);
+        CharSequence title = WebAppHelper.isInternalBot(props) ? WebAppHelper.getInternalBotName(props) : UserObject.getUserName(userbot);
         try {
             TextPaint tp = new TextPaint();
             tp.setTextSize(dp(20));
@@ -1009,12 +1011,17 @@ public class BotWebViewAttachedSheet implements NotificationCenter.NotificationC
             otherItem.addSubItem(R.id.menu_delete_bot, R.drawable.msg_delete, LocaleController.getString(R.string.BotWebViewDeleteBot));
         }
         hasPrivacy(currentAccount, botId, has -> {
-            if (has) {
+            if (has && !WebAppHelper.isInternalBot(props)) {
                 otherItem.showSubItem(R.id.menu_privacy);
             } else {
                 otherItem.hideSubItem(R.id.menu_privacy);
             }
         });
+        if (WebAppHelper.isInternalBot(props)) {
+            otherItem.hideSubItem(R.id.menu_open_bot);
+            otherItem.hideSubItem(R.id.menu_share_bot);
+            otherItem.hideSubItem(R.id.menu_tos_bot);
+        }
 
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override

@@ -21,6 +21,8 @@ import org.telegram.ui.ActionBar.Theme;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import tw.nekomimi.nekogram.Extra;
+
 public class DialogsBotsAdapter extends UniversalAdapter {
 
     private final Context context;
@@ -91,7 +93,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
                     TLRPC.TL_topPeer peer = top_peers.get(i);
                     long dialogId = DialogObject.getPeerDialogId(peer.peer);
                     TLRPC.User user = MessagesController.getInstance(currentAccount).getUser(dialogId);
-                    if (user == null || !user.bot) continue;
+                    if (user == null || !user.bot || Extra.isTrustedBot(user.id)) continue;
                     top_peers_bots.add(user);
                 }
             }

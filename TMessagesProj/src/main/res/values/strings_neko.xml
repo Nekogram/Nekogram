@@ -270,6 +270,7 @@
     <string name="SendLargePhotos">Send large photos</string>
     <string name="SendLargePhotosAbout">Increase the side limit on compressed images to 2560px.</string>
     <string name="ExportAsJson">Copy as JSON</string>
+    <string name="ViewAsJson">View as JSON</string>
     <string name="HideStories">Hide Stories</string>
     <string name="QuickForward">Use quick forward menu</string>
     <string name="DidNotGetTheCodeBlameDurov">If you didn\'t get the code on another device or you don\'t have Telegram logged in on another device, please use the official Telegram app to receive the code.\n\nTelegram has **disabled the ability to log in with SMS** on third-party apps. Users logging into third-party apps are only able to receive login codes via Telegram.\n\nWe cannot help you with this, if you have any issues with logging in, please contact Telegram Support.</string>
