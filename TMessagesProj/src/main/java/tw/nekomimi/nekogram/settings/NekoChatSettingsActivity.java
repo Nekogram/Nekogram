@@ -46,6 +46,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.EntitiesHelper;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.helpers.VoiceEnhancementsHelper;
+import tw.nekomimi.nekogram.helpers.WhisperHelper;
 
 public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate {
 
@@ -69,6 +70,11 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
     private int doubleTapActionRow;
     private int maxRecentStickersRow;
     private int chat2Row;
+
+    private int transcribeRow;
+    private int transcribeProviderRow;
+    private int cfCredentialsRow;
+    private int transcribe2Row;
 
     private int markdownRow;
     private int markdownEnableRow;
@@ -355,6 +361,21 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.showTimeHint);
             }
+        } else if (position == transcribeProviderRow) {
+            ArrayList<String> arrayList = new ArrayList<>();
+            ArrayList<Integer> types = new ArrayList<>();
+            arrayList.add(LocaleController.getString(R.string.TranscribeProviderAuto));
+            types.add(NekoConfig.TRANSCRIBE_AUTO);
+            arrayList.add(LocaleController.getString(R.string.TelegramPremium));
+            types.add(NekoConfig.TRANSCRIBE_PREMIUM);
+            arrayList.add(LocaleController.getString(R.string.TranscribeProviderWorkersAI));
+            types.add(NekoConfig.TRANSCRIBE_WORKERSAI);
+            PopupHelper.show(arrayList, LocaleController.getString(R.string.TranscribeProviderShort), types.indexOf(NekoConfig.transcribeProvider), getParentActivity(), view, i -> {
+                NekoConfig.setTranscribeProvider(types.get(i));
+                listAdapter.notifyItemChanged(transcribeProviderRow, PARTIAL);
+            }, resourcesProvider);
+        } else if (position == cfCredentialsRow) {
+            WhisperHelper.showCfCredentialsDialog(this);
         }
     }
 
@@ -389,6 +410,11 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         doubleTapActionRow = addRow("doubleTapAction");
         maxRecentStickersRow = addRow("maxRecentStickers");
         chat2Row = addRow();
+
+        transcribeRow = addRow("transcribe");
+        transcribeProviderRow = addRow("transcribeProvider");
+        cfCredentialsRow = addRow("cfCredentials");
+        transcribe2Row = addRow();
 
         markdownRow = addRow("markdown");
         markdownEnableRow = addRow("markdownEnableRow");
@@ -659,6 +685,17 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         textCell.setTextAndValue(LocaleController.getString(R.string.MaxRecentStickers), String.valueOf(NekoConfig.maxRecentStickers), partial, divider);
                     } else if (position == markdownParserRow) {
                         textCell.setTextAndValue(LocaleController.getString(R.string.MarkdownParser), NekoConfig.newMarkdownParser ? "Nekogram" : "Telegram", partial, divider);
+                    } else if (position == transcribeProviderRow) {
+                        String value = switch (NekoConfig.transcribeProvider) {
+                            case NekoConfig.TRANSCRIBE_AUTO ->
+                                    LocaleController.getString(R.string.TranscribeProviderAuto);
+                            case NekoConfig.TRANSCRIBE_WORKERSAI ->
+                                    LocaleController.getString(R.string.TranscribeProviderWorkersAI);
+                            default -> LocaleController.getString(R.string.TelegramPremium);
+                        };
+                        textCell.setTextAndValue(LocaleController.getString(R.string.TranscribeProviderShort), value, partial, divider);
+                    } else if (position == cfCredentialsRow) {
+                        textCell.setTextAndValue(LocaleController.getString(R.string.CloudflareCredentials), "", partial, divider);
                     }
                     break;
                 }
@@ -714,6 +751,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         headerCell.setText(LocaleController.getString(R.string.SharedMediaTab2));
                     } else if (position == markdownRow) {
                         headerCell.setText(LocaleController.getString(R.string.Markdown));
+                    } else if (position == transcribeRow) {
+                        headerCell.setText(LocaleController.getString(R.string.PremiumPreviewVoiceToText));
                     }
                     break;
                 }
@@ -722,6 +761,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     if (position == markdown2Row) {
                         cell.getTextView().setMovementMethod(null);
                         cell.setText(TextUtils.expandTemplate(EntitiesHelper.parseMarkdown(NekoConfig.newMarkdownParser && NekoConfig.markdownParseLinks ? LocaleController.getString(R.string.MarkdownAbout) : LocaleController.getString(R.string.MarkdownAbout2)), "**", "__", "~~", "`", "||", "[", "](", ")"));
+                    } else if (position == transcribe2Row) {
+                        cell.setText(LocaleController.formatString(R.string.TranscribeProviderDesc, LocaleController.getString(R.string.TranscribeProviderWorkersAI)));
                     }
                     break;
                 }
@@ -775,7 +816,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         public int getItemViewType(int position) {
             if (position == chat2Row || position == stickerSize2Row || position == messageMenu2Row || position == media2Row) {
                 return TYPE_SHADOW;
-            } else if (position == doubleTapActionRow || position == maxRecentStickersRow || position == markdownParserRow) {
+            } else if (position == doubleTapActionRow || position == maxRecentStickersRow || position == markdownParserRow ||
+                    position == transcribeProviderRow || position == cfCredentialsRow) {
                 return TYPE_SETTINGS;
             } else if ((position > chatRow && position < doubleTapActionRow) ||
                     (position > mediaRow && position < media2Row) ||
@@ -783,9 +825,10 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                     (position > stickerSizeRow && position < stickerSize2Row)
             ) {
                 return TYPE_CHECK;
-            } else if (position == chatRow || position == messageMenuRow || position == mediaRow || position == markdownRow) {
+            } else if (position == chatRow || position == messageMenuRow || position == mediaRow || position == markdownRow ||
+                    position == transcribeRow) {
                 return TYPE_HEADER;
-            } else if (position == markdown2Row) {
+            } else if (position == markdown2Row || position == transcribe2Row) {
                 return TYPE_INFO_PRIVACY;
             } else if (position > messageMenuRow && position < messageMenu2Row) {
                 return TYPE_CHECKBOX;

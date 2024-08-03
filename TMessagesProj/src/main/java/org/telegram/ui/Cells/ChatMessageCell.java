@@ -200,6 +200,7 @@ import org.telegram.ui.Stories.recorder.DominantColors;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
+import tw.nekomimi.nekogram.helpers.WhisperHelper;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -10404,6 +10405,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     ) ||
                     TranscribeButton.canTranscribeTrial(currentMessageObject) || true
                 )
+                || WhisperHelper.useWorkersAi(currentAccount)
                 /*||
                 MessagesController.getInstance(currentAccount).transcribeAudioTrialWeeklyNumber <= 0 &&
                 !MessagesController.getInstance(currentAccount).premiumFeaturesBlocked() &&
