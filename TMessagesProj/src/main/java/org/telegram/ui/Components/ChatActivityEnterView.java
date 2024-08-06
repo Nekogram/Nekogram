@@ -5985,9 +5985,9 @@ public class ChatActivityEnterView extends BlurredFrameLayout implements Notific
             sendRoundEnabled = ChatObject.canSendRoundVideo(chat);
             sendVoiceEnabled = ChatObject.canSendVoice(chat);
         }
-        if (!SharedConfig.inappCamera) {
-            hasRecordVideo = false;
-        }
+        //if (!SharedConfig.inappCamera) {
+        //    hasRecordVideo = false;
+        //}
         boolean currentModeVideo = false;
         if (hasRecordVideo) {
             if (SharedConfig.hasCameraCache) {
