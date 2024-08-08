@@ -13,8 +13,6 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.core.graphics.ColorUtils;
-
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
@@ -52,12 +50,10 @@ public class CloudSettingsHelper {
     private final Runnable cloudSyncRunnable = () -> CloudSettingsHelper.getInstance().syncToCloud((success, error) -> {
         if (!success) {
             var global = BulletinFactory.global();
-            if (global != null) {
-                if (error == null) {
-                    global.createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString(R.string.CloudConfigSyncFailed)).show();
-                } else {
-                    global.createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString(R.string.CloudConfigSyncFailed), error).show();
-                }
+            if (error == null) {
+                global.createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString(R.string.CloudConfigSyncFailed)).show();
+            } else {
+                global.createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString(R.string.CloudConfigSyncFailed), error).show();
             }
         }
     });
@@ -290,7 +286,7 @@ public class CloudSettingsHelper {
 
             ScaleStateListAnimator.apply(this, .02f, 1.2f);
 
-            setForeground(Theme.createRadSelectorDrawable(ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), 120), 8, 8));
+            setForeground(Theme.createRadSelectorDrawable(Theme.multAlpha(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider), .10f), 8, 8));
 
             LinearLayout linearLayout = new LinearLayout(context);
             linearLayout.setOrientation(LinearLayout.VERTICAL);
