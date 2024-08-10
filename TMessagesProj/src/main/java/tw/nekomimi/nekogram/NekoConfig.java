@@ -28,6 +28,7 @@ import java.util.function.BiConsumer;
 import app.nekogram.translator.DeepLTranslator;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.CloudSettingsHelper;
+import tw.nekomimi.nekogram.helpers.LensHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.TranslatorApps;
 
@@ -259,6 +260,7 @@ public class NekoConfig {
             cfAccountID = preferences.getString("cfAccountID", "");
             cfApiToken = preferences.getString("cfApiToken", "");
 
+            LensHelper.checkLensSupportAsync();
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
             if (!configLoaded) {

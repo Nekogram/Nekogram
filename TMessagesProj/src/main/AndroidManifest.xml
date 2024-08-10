@@ -92,6 +92,7 @@
             <action android:name="android.intent.action.TRANSLATE"/>
         </intent>
         <package android:name="com.xiaomi.aiasst.vision"/>
+        <package android:name="com.google.android.googlequicksearchbox"/>
     </queries>
 
     <application
