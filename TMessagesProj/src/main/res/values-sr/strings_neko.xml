@@ -265,6 +265,7 @@
     <string name="SendLargePhotos">Шаљи велике слике</string>
     <string name="SendLargePhotosAbout">Повећајте бочно ограничење за компримоване слике на 2560px.</string>
     <string name="ExportAsJson">Копирај као JSON</string>
+    <string name="ViewAsJson">Прикажи као JSON</string>
     <string name="HideStories">Сакриј приче</string>
     <string name="QuickForward">Користи мени за брзо прослеђивање</string>
     <string name="DidNotGetTheCodeBlameDurov">Ако нисте добили кôд на другом уређају или нисте пријављени на Telegram на другом уређају, користите званичну апликацију Telegram да бисте примили кôд.\n\nTelegram је **онемогућио могућност пријављивања путем SMS-а** у апликацијама трећих страна. Корисници који се пријављују у апликације трећих страна могу да примају кодове за пријаву само путем званичме апликације Telegram.\n\nНе можемо вам помоћи у овоме, ако имате проблема са пријављивањем, контактирајте подршку за Telegram.</string>
@@ -297,6 +298,15 @@
     <string name="ShowTimeHint">Прикажи наговештај о времену</string>
     <string name="ShowTimeHintDesc">Прикажите детаљан датум слања додиром на време.</string>
     <string name="Cryptocurrency">Криптовалута</string>
+    <string name="TranscribeProviderShort">Пружалац</string>
+    <string name="TranscribeProviderAuto">Аутоматски избор</string>
+    <string name="TranscribeProviderWorkersAI">Whisper (Workers AI)</string>
+    <string name="TranscribeProviderDesc">С опцијом аутоматског избора, %s ће се користити када Telegram Premium није доступан.</string>
+    <string name="CloudflareCredentials">Cloudflare акредитиви</string>
+    <string name="CloudflareCredentialsNotSet">Cloudflare акредитиви нису конфигурисани.</string>
+    <string name="CloudflareAccountID">ID налога</string>
+    <string name="CloudflareAPIToken">API токен</string>
+    <string name="CloudflareCredentialsDialog">Конфигуришите Cloudflare ID налога и API токен.\n**Како га добити?**</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Подешавања приступачности</string>
 </resources>

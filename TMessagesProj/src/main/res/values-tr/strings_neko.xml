@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Nekogram Ayarları</string>
+    <string name="PreferIPv6">IPv6 üzerinden bağlanmayı deneyin</string>
     <string name="MessageMenu">Mesaj Menüsü</string>
     <string name="HidePhone">Telefon numaramı gizle</string>
     <string name="DeleteAllFromSelf">Kendi mesajlarını sil</string>
@@ -13,6 +14,10 @@
     <string name="NameOrder">İsim sırası</string>
     <string name="FirstLast">Ad Soyad</string>
     <string name="LastFirst">Soyad Ad</string>
+    <string name="NoQuoteForward">Gönderici olmayan\'a İlet</string>
+    <string name="NoCaptionForward">İleri, Altyazı Yok</string>
+    <string name="NoQuoteForwardShort">Gönderen yok</string>
+    <string name="NoCaptionForwardShort">Başlık Yok(if Caption = Title mean) / Altyazı Yok (if Caption = subtitle mean) </string>
     <string name="Repeat">Tekrarla</string>
     <string name="AddToSavedMessages">Mesajı kaydet</string>
     <string name="CreateMention">Bahset</string>
@@ -132,6 +137,7 @@
     <string name="SendWebFileInvalid">Geçersiz dosya, dosyanın gereksinimleri karşıladığınızdan emin olun.</string>
     <string name="AutoLockInstant">Ani</string>
     <string name="RestrictionReason">Kısıtlama nedeni</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">Maksimum son çıkartmalar</string>
     <string name="DisableJumpToNextChannel">\"Sonraki Kanala Atla\"yı devre dışı bırak</string>
     <string name="DisableGreetingSticker">Selamlama çıkartmasını devre dışı bırak</string>
@@ -251,12 +257,15 @@
     <string name="SendAnonymousData">Anonim veri gönderme</string>
     <string name="SendBugReport">Hata raporlarını gönder</string>
     <string name="SendBugReportDesc">Bu, sorunları daha hızlı bulmamıza yardımcı olacaktır.</string>
+    <string name="CopyReportId">Rapor Kimliğini Kopyala</string>
+    <string name="CopyReportIdDescription">Kilitlenme sorunlarını bildirirken Rapor Kimliğini ekleyin.</string>
     <string name="AnonymousDataDelete">Verileri sil</string>
     <string name="AnonymousDataDeleteDesc">Bu istemciden veri gönderilmesini kalıcı olarak engelleyin ve toplanan verileri silin.</string>
     <string name="SendAnonymousDataDesc">Yukarıdaki özellikler %2$s\'a ait olan %1$s\'ı kullanır. Toplanan bilgiler anonimdir ve bunları, tek tek özel bir cihaz veya kullanıcı olarak izleyemeyiz.</string>
     <string name="SendLargePhotos">Büyük fotoğraflar gönder</string>
     <string name="SendLargePhotosAbout">Sıkıştırılmış görsellerde kenar sınırını 2560 piksele yükseltin.</string>
     <string name="ExportAsJson">JSON olarak kopyala</string>
+    <string name="ViewAsJson">JSON olarak görüntüle</string>
     <string name="HideStories">Hikayeleri Gizle</string>
     <string name="QuickForward">Hızlı yönlendirme menüsünü kullan</string>
     <string name="DidNotGetTheCodeBlameDurov">Kodu başka bir cihazda almadıysanız veya başka bir cihazda Telegram oturumunuz yoksa, kodu almak için lütfen resmi Telegram uygulamasını kullanın.\n\nTelegram, **üçüncü taraf uygulamalarda SMS** ile giriş yapma özelliğini devre dışı bırakmıştır. Üçüncü taraf uygulamalara giriş yapan kullanıcılar yalnızca Telegram aracılığıyla giriş kodlarını alabilirler.\n\nBu konuda size yardımcı olamayız, oturum açma ile ilgili herhangi bir sorununuz varsa, lütfen Telegram Destek ile iletişime geçin.</string>
@@ -281,6 +290,23 @@
     <string name="CreateCode">Kod Oluştur</string>
     <string name="CreateCodeLanguage">Dil</string>
     <string name="IgnoreContentRestriction">İçerik kısıtlamasını yok say</string>
+    <string name="PreviewSendPhoto">Fotoğraf Gönder</string>
+    <string name="PreviewSendVideo">Send Video</string>
+    <string name="PreviewSendFile">Dosya Gönder</string>
+    <string name="FixLinkPreview">Bağlantı önizlemesini düzelt</string>
+    <string name="FixLinkPreviewDesc">Çalışır hale getirilmiş link önizlemesiyle birlikte diğer sosyal medya linklerini gönder.</string>
+    <string name="ShowTimeHint">Zaman ipucunu göster</string>
+    <string name="ShowTimeHintDesc">Zamana dokunarak ayrıntılı gönderme tarihini göster.</string>
+    <string name="Cryptocurrency">Kripto Para</string>
+    <string name="TranscribeProviderShort">Sağlayıcı</string>
+    <string name="TranscribeProviderAuto">Otomatik seçim</string>
+    <string name="TranscribeProviderWorkersAI">Whisper (Workers AI)</string>
+    <string name="TranscribeProviderDesc">Otomatik seçim seçeneğiyle, Telegram Premium kullanılamadığında %s kullanılacaktır.</string>
+    <string name="CloudflareCredentials">Cloudflare kimlik bilgileri</string>
+    <string name="CloudflareCredentialsNotSet">Cloudflare kimlik bilgileri yapılandırılmamış.</string>
+    <string name="CloudflareAccountID">Hesap Kimliği</string>
+    <string name="CloudflareAPIToken">API Token</string>
+    <string name="CloudflareCredentialsDialog">Cloudflare Hesap Kimliğini ve API Belirtecini yapılandırın.\n**Nasıl elde edilir?**</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Erişilebilirlik ayarları</string>
     <string name="AccSeekbarHeading">Arama çubuğu ayarları</string>

@@ -266,9 +266,11 @@
     <string name="SendLargePhotos">发送大图片</string>
     <string name="SendLargePhotosAbout">将压缩图片的侧边限制增加到 2560px。</string>
     <string name="ExportAsJson">复制为 JSON</string>
+    <string name="ViewAsJson">以 JSON 格式查看</string>
     <string name="HideStories">隐藏动态</string>
     <string name="QuickForward">使用快速转发菜单</string>
     <string name="DidNotGetTheCodeBlameDurov">如果您没有在另一台设备上收到验证码，或者您没有在其他设备上登录 Telegram，请使用官方 Telegram 应用程序接收验证码。\n\nTelegram **已禁用在第三方应用使用短信登录**的能力。登录第三方应用的用户只能通过 Telegram 接收验证码。\n\n我们无法帮助您，如果登录有任何问题，请联系 Telegram 支持。</string>
+    <string name="ChangePhoneNumberBlameDurov">Telegram **已禁用在第三方应用更改电话号码**的能力。用户只能通过 Telegram 更改电话号码。</string>
     <string name="NavigationAnimation">导航动画</string>
     <string name="NavigationAnimationBezier">经典</string>
     <string name="NavigationAnimationSpring">自然</string>
@@ -298,6 +300,15 @@
     <string name="ShowTimeHint">显示时间提示</string>
     <string name="ShowTimeHintDesc">点击时间显示详细的发送日期。</string>
     <string name="Cryptocurrency">加密货币</string>
+    <string name="TranscribeProviderShort">提供者</string>
+    <string name="TranscribeProviderAuto">自动选择</string>
+    <string name="TranscribeProviderWorkersAI">Whisper (Workers AI)</string>
+    <string name="TranscribeProviderDesc">在 Telegram Premium 不可用时，将使用 %s 作为自动选择选项。</string>
+    <string name="CloudflareCredentials">Cloudflare 凭据</string>
+    <string name="CloudflareCredentialsNotSet">未配置 Cloudflare 凭据。</string>
+    <string name="CloudflareAccountID">账户 ID</string>
+    <string name="CloudflareAPIToken">API 令牌</string>
+    <string name="CloudflareCredentialsDialog">配置 Cloudflare 帐户 ID 和 API 令牌。\n**如何获取？**</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>
