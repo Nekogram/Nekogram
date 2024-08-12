@@ -1068,6 +1068,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 				return;
 			}
 		}
+		if (startRinging) {
+			startRinging();
+		}
 		TLRPC.TL_phone_receivedCall req = new TLRPC.TL_phone_receivedCall();
 		req.peer = new TLRPC.TL_inputPhoneCall();
 		req.peer.id = privateCall.id;
@@ -1091,9 +1094,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 					Bundle extras = new Bundle();
 					extras.putInt("call_type", 1);
 					tm.addNewIncomingCall(addAccountToTelecomManager(), extras);
-				}
-				if (startRinging) {
-					startRinging();
 				}
 			}
 		}), ConnectionsManager.RequestFlagFailOnServerErrors);
