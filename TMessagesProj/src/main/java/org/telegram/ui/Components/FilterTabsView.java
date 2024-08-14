@@ -1457,13 +1457,13 @@ public class FilterTabsView extends FrameLayout {
         if (!tabs.isEmpty()) {
             int width = MeasureSpec.getSize(widthMeasureSpec) - AndroidUtilities.dp(7) - AndroidUtilities.dp(7);
             Tab firstTab = findDefaultTab();
-            if (firstTab != null) {
+            if (firstTab != null || NekoConfig.hideAllTab) {
                 int trueTabsWidth;
                 if (!NekoConfig.hideAllTab)  {
-                    firstTab.setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
-                    int tabWith = firstTab.getWidth(false);
+                    firstTab.setTitle(LocaleController.getString(R.string.FilterAllChats));
+                    int tabWidth = firstTab.getWidth(false);
                     firstTab.setTitle(allTabsWidth > width ? LocaleController.getString("FilterAllChatsShort", R.string.FilterAllChatsShort) : LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
-                    trueTabsWidth = allTabsWidth - tabWith;
+                    trueTabsWidth = allTabsWidth - tabWidth;
                     trueTabsWidth += firstTab.getWidth(false);
                 } else {
                     trueTabsWidth = allTabsWidth;
