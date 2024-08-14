@@ -612,6 +612,11 @@ public class DownloadController extends BaseController implements NotificationCe
             }
             return true;
         }
+        if (messageObject.sponsoredMedia != null) {
+            return true;
+        }
+        if (messageObject.isHiddenSensitive())
+            return false;
         return canDownloadMedia(messageObject.messageOwner) == 1;
     }
 
@@ -807,7 +812,7 @@ public class DownloadController extends BaseController implements NotificationCe
         } else {
             maxSize = preset.sizes[typeToIndex(type)];
         }
-        long size = MessageObject.getMessageSize(message);
+        long size = MessageObject.getMediaSize(media);
         if (isVideo && preset.preloadVideo && size > maxSize && maxSize > 2 * 1024 * 1024) {
             return (mask & type) != 0 ? 2 : 0;
         } else {

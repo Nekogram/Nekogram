@@ -38,6 +38,7 @@ import org.telegram.tgnet.NativeByteBuffer;
 import org.telegram.tgnet.RequestDelegate;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_bots;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Adapters.DialogsSearchAdapter;
@@ -1404,6 +1405,7 @@ public class MessagesStorage extends BaseController {
                 database.executeFast("DELETE FROM business_replies").stepThis().dispose();
                 database.executeFast("DELETE FROM quick_replies_messages").stepThis().dispose();
                 database.executeFast("DELETE FROM effects").stepThis().dispose();
+                database.executeFast("DELETE FROM app_config").stepThis().dispose();
 
 
                 cursor = database.queryFinalized("SELECT did FROM dialogs WHERE 1");
@@ -2185,9 +2187,8 @@ public class MessagesStorage extends BaseController {
                         ReadDialog dialog = dialogs.valueAt(a);
                         if (getMessagesController().isForum(did)) {
                             getMessagesController().markAllTopicsAsRead(did);
-                        } else {
-                            getMessagesController().markDialogAsRead(did, dialog.lastMid, dialog.lastMid, dialog.date, false, 0, dialog.unreadCount, true, 0);
                         }
+                        getMessagesController().markDialogAsRead(did, dialog.lastMid, dialog.lastMid, dialog.date, false, 0, dialog.unreadCount, true, 0);
                     }
                 });
             } catch (Exception e) {
@@ -7469,7 +7470,7 @@ public class MessagesStorage extends BaseController {
                 cursor.dispose();
                 cursor = null;
                 for (int a = 0; a < info.bot_info.size(); a++) {
-                    TLRPC.BotInfo botInfo = info.bot_info.get(a);
+                    TL_bots.BotInfo botInfo = info.bot_info.get(a);
                     usersToLoad.add(botInfo.user_id);
                 }
             }
@@ -8298,7 +8299,7 @@ public class MessagesStorage extends BaseController {
         });
     }
 
-    public Runnable getMessagesInternal(long dialogId, long mergeDialogId, int count, int max_id, int offset_date, int minDate, int classGuid, int load_type, int mode, long threadMessageId, int loadIndex, boolean processMessages, boolean isTopic, MessageLoaderLogger loaderLogger) {
+    public Runnable getMessagesInternal(long dialogId, long mergeDialogId, int count, int max_id, int offset_date, int minDate, int classGuid, int load_type, int mode, long threadMessageId, int loadIndex, boolean processMessages, boolean isTopic, Timer loaderLogger) {
         TLRPC.TL_messages_messages res = new TLRPC.TL_messages_messages();
         long currentUserId = getUserConfig().clientUserId;
         int count_unread = 0;
@@ -9283,19 +9284,16 @@ public class MessagesStorage extends BaseController {
         }
     }
 
-    public void getMessages(long dialogId, long mergeDialogId, boolean loadInfo, int count, int max_id, int offset_date, int minDate, int classGuid, int load_type, int mode, long replyMessageId, int loadIndex, boolean processMessages, boolean isTopic, MessageLoaderLogger loaderLogger) {
+    public void getMessages(long dialogId, long mergeDialogId, boolean loadInfo, int count, int max_id, int offset_date, int minDate, int classGuid, int load_type, int mode, long replyMessageId, int loadIndex, boolean processMessages, boolean isTopic, Timer loaderLogger) {
+        Timer.Task t1 = Timer.start(loaderLogger, "MessagesStorage.getMessages: storageQueue.postRunnable");
         storageQueue.postRunnable(() -> {
-            if (loaderLogger != null) {
-                loaderLogger.logStorageQueuePost();
-            }
+            Timer.done(t1);
+            Timer.Task t2 = Timer.start(loaderLogger, "MessagesStorage.getMessages");
             Runnable processMessagesRunnable = getMessagesInternal(dialogId, mergeDialogId, count, max_id, offset_date, minDate, classGuid, load_type, mode, replyMessageId, loadIndex, processMessages, isTopic, loaderLogger);
-            if (loaderLogger != null) {
-                loaderLogger.logStorageProccessing();
-            }
+            Timer.done(t2);
+            Timer.Task t3 = Timer.start(loaderLogger, "MessagesStorage.getMessages: stageQueue.postRunnable");
             Utilities.stageQueue.postRunnable(() -> {
-                if (loaderLogger != null) {
-                    loaderLogger.logStageQueuePost();
-                }
+                Timer.done(t3);
                 processMessagesRunnable.run();
             });
         });
@@ -14835,6 +14833,9 @@ public class MessagesStorage extends BaseController {
                                     } else if (oldMessage.media instanceof TLRPC.TL_messageMediaDocument && message.media instanceof TLRPC.TL_messageMediaDocument && oldMessage.media.document != null && message.media.document != null) {
                                         sameMedia = oldMessage.media.document.id == message.media.document.id;
                                     }
+                                    if (oldMessage.out && !message.out) {
+                                        message.out = oldMessage.out;
+                                    }
                                     if (!sameMedia) {
                                         addFilesToDelete(oldMessage, filesToDelete, idsToDelete, namesToDelete, false);
                                     }
@@ -15375,6 +15376,14 @@ public class MessagesStorage extends BaseController {
                     if (!chatsToLoad.contains(-peerId)) {
                         chatsToLoad.add(-peerId);
                     }
+                }
+            }
+        }
+        if (message.reactions != null && message.reactions.top_reactors != null) {
+            for (int i = 0; i < message.reactions.top_reactors.size(); ++i) {
+                final TLRPC.MessageReactor reactor = message.reactions.top_reactors.get(i);
+                if (reactor != null && reactor.peer_id != null) {
+                    addLoadPeerInfo(reactor.peer_id, usersToLoad, chatsToLoad);
                 }
             }
         }

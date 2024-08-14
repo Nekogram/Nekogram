@@ -7,6 +7,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_bots;
 
 import java.util.HashMap;
 
@@ -53,7 +54,7 @@ public class CloudStorageHelper extends AccountInstance {
             }
             return;
         }
-        TLRPC.TL_bots_invokeWebViewCustomMethod req = new TLRPC.TL_bots_invokeWebViewCustomMethod();
+        TL_bots.invokeWebViewCustomMethod req = new TL_bots.invokeWebViewCustomMethod();
         req.bot = getMessagesController().getInputUser(user);
         req.custom_method = method;
         req.params = new TLRPC.TL_dataJSON();

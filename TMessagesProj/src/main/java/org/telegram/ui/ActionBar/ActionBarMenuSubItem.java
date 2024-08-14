@@ -30,7 +30,7 @@ import org.telegram.ui.Components.TextViewSwitcher;
 public class ActionBarMenuSubItem extends FrameLayout {
 
     private TextView textView;
-    private TextViewSwitcher subtextView;
+    public TextViewSwitcher subtextView;
     public RLottieImageView imageView;
     private boolean checkViewLeft;
     private CheckBox2 checkView;
@@ -251,7 +251,9 @@ public class ActionBarMenuSubItem extends FrameLayout {
     }
 
     public void setSubtextColor(int color) {
-        subtextView.setTextColor(color);
+        if (subtextView != null) {
+            subtextView.setTextColor(color);
+        }
     }
 
     public void setSubtext(String text) {

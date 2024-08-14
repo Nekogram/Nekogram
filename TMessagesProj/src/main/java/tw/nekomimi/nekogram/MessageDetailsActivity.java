@@ -276,7 +276,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                 presentFragment(fragment);
             }
         } else if (position == restrictionReasonRow) {
-            ArrayList<TLRPC.TL_restrictionReason> reasons = messageObject.messageOwner.restriction_reason;
+            ArrayList<TLRPC.RestrictionReason> reasons = messageObject.messageOwner.restriction_reason;
             LinearLayout ll = new LinearLayout(getParentActivity());
             ll.setOrientation(LinearLayout.VERTICAL);
 
@@ -284,7 +284,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     .setView(ll)
                     .create();
 
-            for (TLRPC.TL_restrictionReason reason : reasons) {
+            for (TLRPC.RestrictionReason reason : reasons) {
                 TextDetailSettingsCell cell = new TextDetailSettingsCell(getParentActivity(), resourcesProvider);
                 cell.setBackground(Theme.getSelectorDrawable(false));
                 cell.setMultilineDetail(true);
@@ -506,9 +506,9 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     } else if (position == dcRow) {
                         textCell.setTextAndValue("DC", UserHelper.formatDCString(dc), divider);
                     } else if (position == restrictionReasonRow) {
-                        ArrayList<TLRPC.TL_restrictionReason> reasons = messageObject.messageOwner.restriction_reason;
+                        ArrayList<TLRPC.RestrictionReason> reasons = messageObject.messageOwner.restriction_reason;
                         StringBuilder value = new StringBuilder();
-                        for (TLRPC.TL_restrictionReason reason : reasons) {
+                        for (TLRPC.RestrictionReason reason : reasons) {
                             value.append(reason.reason);
                             value.append("-");
                             value.append(reason.platform);

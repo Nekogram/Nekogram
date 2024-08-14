@@ -141,6 +141,7 @@ elseif(${ANDROID_ABI} STREQUAL "arm64-v8a")
             rlottie/src/vector/pixman/pixman-arma64-neon-asm.S)
 endif()
 
+
 #flac
 add_library(flac STATIC
         exoplayer/libFLAC/bitmath.c
@@ -216,7 +217,8 @@ add_library(${NATIVE_LIB} SHARED
         exoplayer/ffmpeg_jni.cc
         fast-edge.cpp
         genann.c
-        secureid_ocr.cpp)
+        secureid_ocr.cpp
+)
 
 target_compile_options(${NATIVE_LIB} PUBLIC
         -ffast-math -Os -funroll-loops -ffast-math -fno-strict-aliasing -fno-math-errno)

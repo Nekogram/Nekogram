@@ -1456,29 +1456,31 @@ public class FilterTabsView extends FrameLayout {
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         if (!tabs.isEmpty()) {
             int width = MeasureSpec.getSize(widthMeasureSpec) - AndroidUtilities.dp(7) - AndroidUtilities.dp(7);
-            int trueTabsWidth;
-            if (!NekoConfig.hideAllTab)  {
-                Tab firstTab = findDefaultTab();
-                firstTab.setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
-                int tabWith = firstTab.getWidth(false);
-                firstTab.setTitle(allTabsWidth > width ? LocaleController.getString("FilterAllChatsShort", R.string.FilterAllChatsShort) : LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
-                trueTabsWidth = allTabsWidth - tabWith;
-                trueTabsWidth += firstTab.getWidth(false);
-            } else {
-                trueTabsWidth = allTabsWidth;
+            Tab firstTab = findDefaultTab();
+            if (firstTab != null) {
+                int trueTabsWidth;
+                if (!NekoConfig.hideAllTab)  {
+                    firstTab.setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+                    int tabWith = firstTab.getWidth(false);
+                    firstTab.setTitle(allTabsWidth > width ? LocaleController.getString("FilterAllChatsShort", R.string.FilterAllChatsShort) : LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+                    trueTabsWidth = allTabsWidth - tabWith;
+                    trueTabsWidth += firstTab.getWidth(false);
+                } else {
+                    trueTabsWidth = allTabsWidth;
+                }
+                int prevWidth = additionalTabWidth;
+                additionalTabWidth = trueTabsWidth < width ? (width - trueTabsWidth) / tabs.size() : 0;
+                if (prevWidth != additionalTabWidth) {
+                    ignoreLayout = true;
+                    RecyclerView.ItemAnimator animator = listView.getItemAnimator();
+                    listView.setItemAnimator(null);
+                    adapter.notifyDataSetChanged();
+                    listView.setItemAnimator(animator);
+                    ignoreLayout = false;
+                }
+                updateTabsWidths();
+                invalidated = false;
             }
-            int prevWidth = additionalTabWidth;
-            additionalTabWidth = trueTabsWidth < width ? (width - trueTabsWidth) / tabs.size() : 0;
-            if (prevWidth != additionalTabWidth) {
-                ignoreLayout = true;
-                RecyclerView.ItemAnimator animator = listView.getItemAnimator();
-                listView.setItemAnimator(null);
-                adapter.notifyDataSetChanged();
-                listView.setItemAnimator(animator);
-                ignoreLayout = false;
-            }
-            updateTabsWidths();
-            invalidated = false;
         }
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
     }
