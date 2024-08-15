@@ -116,7 +116,11 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             ValueAnimator animator = ValueAnimator.ofFloat(NekoConfig.stickerSize, 14.0f);
             animator.setDuration(150);
             animator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-            animator.addUpdateListener(valueAnimator -> stickerSizeCell.setValue((float) valueAnimator.getAnimatedValue()));
+            animator.addUpdateListener(valueAnimator -> {
+                if (stickerSizeCell != null) {
+                    stickerSizeCell.setValue((float) valueAnimator.getAnimatedValue());
+                }
+            });
             animator.start();
         });
         AndroidUtilities.updateViewVisibilityAnimated(resetItem, NekoConfig.stickerSize != 14.0f, 1f, false);

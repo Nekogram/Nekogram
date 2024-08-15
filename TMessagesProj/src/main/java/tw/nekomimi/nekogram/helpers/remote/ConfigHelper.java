@@ -1,6 +1,5 @@
 package tw.nekomimi.nekogram.helpers.remote;
 
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -44,6 +43,7 @@ public class ConfigHelper extends BaseRemoteHelper {
         }
         return config.verify;
     }
+
     public static List<Crypto> getCryptos() {
         Config config = getInstance().getConfig();
         if (config == null || config.cryptos == null) {
@@ -126,8 +126,8 @@ public class ConfigHelper extends BaseRemoteHelper {
         String string = getInstance().getJSON();
         try {
             return GSON.fromJson(string, Config.class);
-        } catch (JsonSyntaxException e) {
-            FileLog.e(e);
+        } catch (Throwable t) {
+            FileLog.e(t);
             getInstance().load();
             return null;
         }

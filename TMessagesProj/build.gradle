@@ -116,8 +116,7 @@ android {
             }
         }
         vectorDrawables {
-            generatedDensities = []
-            useSupportLibrary = true
+            generatedDensities = ['mdpi', 'hdpi', 'xhdpi', 'xxhdpi']
         }
     }
 }
