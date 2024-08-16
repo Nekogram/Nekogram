@@ -35,7 +35,7 @@ dependencies {
     implementation 'com.googlecode.mp4parser:isoparser:1.0.6'
     implementation 'com.stripe:stripe-android:2.0.2'
     implementation 'com.google.mlkit:language-id:17.0.6'
-    implementation 'com.android.billingclient:billing:6.2.1'
+    implementation 'com.android.billingclient:billing:7.0.0'
     implementation 'com.google.code.gson:gson:2.11.0'
     implementation ('com.google.guava:guava:33.2.1-android') {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'

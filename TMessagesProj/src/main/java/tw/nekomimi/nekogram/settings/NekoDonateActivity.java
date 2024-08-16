@@ -30,10 +30,12 @@ import com.android.billingclient.api.BillingClientStateListener;
 import com.android.billingclient.api.BillingFlowParams;
 import com.android.billingclient.api.BillingResult;
 import com.android.billingclient.api.ConsumeParams;
+import com.android.billingclient.api.PendingPurchasesParams;
+import com.android.billingclient.api.ProductDetails;
 import com.android.billingclient.api.Purchase;
 import com.android.billingclient.api.PurchasesUpdatedListener;
-import com.android.billingclient.api.SkuDetails;
-import com.android.billingclient.api.SkuDetailsParams;
+import com.android.billingclient.api.QueryProductDetailsParams;
+import com.google.common.collect.ImmutableList;
 import com.google.zxing.EncodeHintType;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
@@ -62,10 +64,10 @@ import org.telegram.ui.LaunchActivity;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 
-@SuppressWarnings("deprecation")
 public class NekoDonateActivity extends BaseNekoSettingsActivity implements PurchasesUpdatedListener {
     private static final List<String> SKUS = Arrays.asList("donate001", "donate002", "donate005", "donate010", "donate020", "donate050", "donate100");
     private final List<ConfigHelper.Crypto> cryptos = ConfigHelper.getCryptos();
@@ -78,7 +80,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
     private int crypto2Row;
 
     private BillingClient billingClient;
-    private List<SkuDetails> skuDetails;
+    private List<ProductDetails> productDetails;
 
     @Override
     public boolean onFragmentCreate() {
@@ -86,7 +88,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
 
         billingClient = BillingClient.newBuilder(ApplicationLoader.applicationContext)
                 .setListener(this)
-                .enablePendingPurchases()
+                .enablePendingPurchases(PendingPurchasesParams.newBuilder().enableOneTimeProducts().build())
                 .build();
 
         return true;
@@ -122,19 +124,24 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
             @Override
             public void onBillingSetupFinished(@NonNull BillingResult billingResult) {
                 if (billingResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                    SkuDetailsParams params = SkuDetailsParams.newBuilder()
-                            .setSkusList(SKUS)
-                            .setType(BillingClient.SkuType.INAPP)
+                    var productList =
+                            SKUS.stream().map(s -> QueryProductDetailsParams.Product.newBuilder()
+                                            .setProductId(s)
+                                            .setProductType(BillingClient.ProductType.INAPP)
+                                            .build())
+                                    .collect(Collectors.toList());
+                    var params = QueryProductDetailsParams.newBuilder()
+                            .setProductList(productList)
                             .build();
-                    billingClient.querySkuDetailsAsync(params, (queryResult, list) -> {
+                    billingClient.queryProductDetailsAsync(params, (queryResult, list) -> {
                         if (queryResult.getResponseCode() == BillingClient.BillingResponseCode.OK) {
-                            if (list != null && !list.isEmpty()) {
+                            if (!list.isEmpty()) {
                                 AndroidUtilities.runOnUIThread(() -> {
                                     if (listAdapter != null) {
-                                        skuDetails = list;
+                                        productDetails = list;
                                         updateRows();
                                         listAdapter.notifyItemChanged(donateRow + 1);
-                                        listAdapter.notifyItemRangeInserted(donateRow + 2, skuDetails.size() - 1);
+                                        listAdapter.notifyItemRangeInserted(donateRow + 2, productDetails.size() - 1);
                                     }
                                 });
                             }
@@ -154,9 +161,15 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
         if (position > donateRow && position < donate2Row) {
-            if (skuDetails != null && skuDetails.size() > position - donateRow - 1) {
+            if (productDetails != null && productDetails.size() > position - donateRow - 1) {
+                var productDetailsParamsList =
+                        ImmutableList.of(
+                                BillingFlowParams.ProductDetailsParams.newBuilder()
+                                        .setProductDetails(productDetails.get(position - donateRow - 1))
+                                        .build()
+                        );
                 BillingFlowParams flowParams = BillingFlowParams.newBuilder()
-                        .setSkuDetails(skuDetails.get(position - donateRow - 1))
+                        .setProductDetailsParamsList(productDetailsParamsList)
                         .build();
                 billingClient.launchBillingFlow(getParentActivity(), flowParams);
             }
@@ -215,11 +228,11 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
         }
 
         donateRow = rowCount++;
-        if (skuDetails == null || skuDetails.isEmpty()) {
+        if (productDetails == null || productDetails.isEmpty()) {
             placeHolderRow = rowCount++;
         } else {
             placeHolderRow = -1;
-            rowCount += skuDetails.size();
+            rowCount += productDetails.size();
         }
         donate2Row = rowCount++;
     }
@@ -267,9 +280,11 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                 case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     if (position > donateRow && position < donate2Row) {
-                        if (skuDetails != null) {
-                            if (skuDetails.size() > position - donateRow - 1) {
-                                textCell.setText(skuDetails.get(position - donateRow - 1).getPrice(), divider);
+                        if (productDetails != null) {
+                            if (productDetails.size() > position - donateRow - 1) {
+                                var product = productDetails.get(position - donateRow - 1);
+                                var details = product.getOneTimePurchaseOfferDetails();
+                                textCell.setText(details != null ? details.getFormattedPrice() : product.getName(), divider);
                             }
                         } else {
                             textCell.setText(LocaleController.getString(R.string.Loading), divider);
@@ -314,7 +329,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
         public boolean isEnabled(RecyclerView.ViewHolder holder) {
             int type = holder.getItemViewType();
             if (type == 2) {
-                return skuDetails != null;
+                return productDetails != null;
             } else {
                 return super.isEnabled(holder);
             }
