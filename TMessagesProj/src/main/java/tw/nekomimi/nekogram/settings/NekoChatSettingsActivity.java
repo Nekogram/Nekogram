@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -37,7 +36,6 @@ import org.telegram.ui.Cells.ThemePreviewMessagesCell;
 import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.Components.SeekBarView;
 
 import java.util.ArrayList;
@@ -803,16 +801,12 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             }
         }
 
-        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public View createCustomView(int viewType) {
             if (viewType == Integer.MAX_VALUE) {
-                stickerSizeCell = new StickerSizeCell(mContext);
-                stickerSizeCell.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                stickerSizeCell.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-                return new RecyclerListView.Holder(stickerSizeCell);
+                return stickerSizeCell = new StickerSizeCell(mContext);
             } else {
-                return super.onCreateViewHolder(parent, viewType);
+                return super.createCustomView(viewType);
             }
         }
 

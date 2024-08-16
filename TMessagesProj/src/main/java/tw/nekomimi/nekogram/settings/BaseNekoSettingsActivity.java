@@ -386,66 +386,35 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             onBindViewHolder(holder, position, partial, divider);
         }
 
+        public View createCustomView(int viewType) {
+            return null;
+        }
+
         @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = null;
-            switch (viewType) {
-                case TYPE_SHADOW:
-                    view = new ShadowSectionCell(mContext, resourcesProvider);
-                    break;
-                case TYPE_SETTINGS:
-                    view = new TextSettingsCell(mContext, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case TYPE_CHECK:
-                    view = new TextCheckCell(mContext, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case TYPE_HEADER:
-                    view = new HeaderCell(mContext, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case TYPE_NOTIFICATION_CHECK:
-                    view = new NotificationsCheckCell(mContext, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case TYPE_DETAIL_SETTINGS:
-                    view = new TextDetailSettingsCell(mContext, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case TYPE_INFO_PRIVACY:
-                    view = new TextInfoPrivacyCell(mContext, resourcesProvider);
-                    break;
-                case TYPE_TEXT:
-                    view = new TextCell(mContext, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case TYPE_CHECKBOX:
-                    view = new TextCheckbox2Cell(mContext, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case TYPE_RADIO:
-                    view = new TextRadioCell(mContext, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case TYPE_ACCOUNT:
-                    view = new AccountCell(mContext, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case TYPE_EMOJI:
-                case TYPE_EMOJI_SELECTION:
-                    view = new EmojiSetCell(mContext, viewType == TYPE_EMOJI_SELECTION, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case TYPE_CREATION:
-                    view = new CreationTextCell(mContext, 71, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case TYPE_FLICKER:
-                    view = new FlickerLoadingView(mContext, resourcesProvider);
-                    view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                    break;
+        public final RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = switch (viewType) {
+                default -> createCustomView(viewType);
+                case TYPE_SHADOW -> new ShadowSectionCell(mContext, resourcesProvider);
+                case TYPE_SETTINGS -> new TextSettingsCell(mContext, resourcesProvider);
+                case TYPE_CHECK -> new TextCheckCell(mContext, resourcesProvider);
+                case TYPE_HEADER -> new HeaderCell(mContext, resourcesProvider);
+                case TYPE_NOTIFICATION_CHECK ->
+                        new NotificationsCheckCell(mContext, resourcesProvider);
+                case TYPE_DETAIL_SETTINGS ->
+                        new TextDetailSettingsCell(mContext, resourcesProvider);
+                case TYPE_INFO_PRIVACY -> new TextInfoPrivacyCell(mContext, resourcesProvider);
+                case TYPE_TEXT -> new TextCell(mContext, resourcesProvider);
+                case TYPE_CHECKBOX -> new TextCheckbox2Cell(mContext, resourcesProvider);
+                case TYPE_RADIO -> new TextRadioCell(mContext, resourcesProvider);
+                case TYPE_ACCOUNT -> new AccountCell(mContext, resourcesProvider);
+                case TYPE_EMOJI, TYPE_EMOJI_SELECTION ->
+                        new EmojiSetCell(mContext, viewType == TYPE_EMOJI_SELECTION, resourcesProvider);
+                case TYPE_CREATION -> new CreationTextCell(mContext, 71, resourcesProvider);
+                case TYPE_FLICKER -> new FlickerLoadingView(mContext, resourcesProvider);
+            };
+            if (viewType != TYPE_SHADOW && viewType != TYPE_INFO_PRIVACY) {
+                view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
             }
             //noinspection ConstantConditions
             view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));

@@ -5,33 +5,21 @@
 
 #include "colorado.h"
 #include "logging.h"
+#include "obfs-string.h"
 #include "utils.h"
 
-char *get_package_name() {
-    static unsigned int m = 0;
-    if (m == 0) {
-        m = 20;
-    } else if (m == 23) {
-        m = 29;
-    }
-    char name[] = PACKAGE_NAME;
-    unsigned int length = sizeof(name) - 1;
-    for (unsigned int i = 0; i < length; ++i) {
-        name[i] ^= ((i + length) % m);
-    }
-    name[length] = '\0';
-    return strdup(name);
+void kill_self() {
+    kill(getpid(), SIGKILL);
 }
 
 bool check_signature() {
     std::hash<std::string> hasher;
-    char *package_name = get_package_name();
-    DIR *dir = opendir("/proc/self/fd");
+    DIR *dir = opendir("/proc/self/fd"_iobfs.c_str());
     int dir_fd = dirfd(dir);
     struct dirent *ent;
     char buf[PATH_MAX];
     bool checked = false;
-    while ((ent = readdir(dir)) != NULL) {
+    while ((ent = readdir(dir)) != nullptr) {
         if (ent->d_name[0] == '.') continue;
 
         ssize_t len = readlinkat(dir_fd, ent->d_name, buf, PATH_MAX);
@@ -40,9 +28,9 @@ bool check_signature() {
         }
 
         std::string_view real_path(buf, len);
-        if (!starts_with(real_path, "/data/app/") ||
-            !ends_with(real_path, ".apk") ||
-            !contains(real_path, package_name)) {
+        if (!starts_with(real_path, "/data/app/"_iobfs.c_str()) ||
+            !ends_with(real_path, ".apk"_iobfs.c_str()) ||
+            !contains(real_path, PACKAGE_NAME)) {
             continue;
         }
 
@@ -62,9 +50,8 @@ bool check_signature() {
         }
     }
     closedir(dir);
-    free(package_name);
     if (!checked) {
-        kill(getpid(), SIGKILL);
+        kill_self();
     }
     return checked;
 }

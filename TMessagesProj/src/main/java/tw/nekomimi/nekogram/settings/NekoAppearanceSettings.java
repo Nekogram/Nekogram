@@ -3,7 +3,6 @@ package tw.nekomimi.nekogram.settings;
 import android.content.Context;
 import android.transition.TransitionManager;
 import android.view.View;
-import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -19,7 +18,6 @@ import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
-import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.LaunchActivity;
 
 import java.util.ArrayList;
@@ -330,16 +328,12 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
             }
         }
 
-        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public View createCustomView(int viewType) {
             if (viewType == Integer.MAX_VALUE) {
-                profilePreviewCell = new DrawerProfilePreviewCell(mContext);
-                profilePreviewCell.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                profilePreviewCell.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-                return new RecyclerListView.Holder(profilePreviewCell);
+                return profilePreviewCell = new DrawerProfilePreviewCell(mContext);
             } else {
-                return super.onCreateViewHolder(parent, viewType);
+                return super.createCustomView(viewType);
             }
         }
 

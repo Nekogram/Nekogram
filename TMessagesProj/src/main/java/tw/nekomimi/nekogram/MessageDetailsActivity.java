@@ -9,7 +9,6 @@ import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -41,7 +40,6 @@ import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
 import org.telegram.ui.Components.BulletinFactory;
 import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.RecyclerListView;
 import org.telegram.ui.ProfileActivity;
 
 import java.io.File;
@@ -579,16 +577,12 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             return super.isEnabled(holder) || holder.getItemViewType() == Integer.MAX_VALUE;
         }
 
-        @NonNull
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        public View createCustomView(int viewType) {
             if (viewType == Integer.MAX_VALUE) {
-                var view = new TextDetailSimpleCell(mContext, resourcesProvider);
-                view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
-                view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-                return new RecyclerListView.Holder(view);
+                return new TextDetailSimpleCell(mContext, resourcesProvider);
             } else {
-                return super.onCreateViewHolder(parent, viewType);
+                return super.createCustomView(viewType);
             }
         }
 
