@@ -33844,6 +33844,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             ApplicationLoader.applicationContext.startActivity(chooserIntent);
                             return;
                         }
+                        AndroidUtilities.addToClipboard(link);
                         createUndoView();
                         if (undoView == null) {
                             return;
