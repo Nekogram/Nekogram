@@ -439,7 +439,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case TYPE_CREATION:
-                    view = new CreationTextCell(mContext, 61, resourcesProvider);
+                    view = new CreationTextCell(mContext, 71, resourcesProvider);
                     view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
                     break;
                 case TYPE_FLICKER:

@@ -4,9 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Canvas;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.TypedValue;
@@ -37,8 +34,8 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ActionBar.ThemeDescription;
-import org.telegram.ui.Cells.CreationTextCell;
 import org.telegram.ui.Cells.TextDetailSettingsCell;
+import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
@@ -57,7 +54,6 @@ import tw.nekomimi.nekogram.helpers.UserHelper;
 import tw.nekomimi.nekogram.helpers.WebAppHelper;
 import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
 
-@SuppressLint({"RtlHardcoded", "NotifyDataSetChanged"})
 public class MessageDetailsActivity extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate {
 
     private final MessageObject messageObject;
@@ -457,6 +453,14 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial, boolean divider) {
             switch (holder.getItemViewType()) {
+                case TYPE_SETTINGS: {
+                    TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
+                    if (position == exportRow) {
+                        textCell.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlueText2));
+                        textCell.setTextAndValue(LocaleController.getString(R.string.ViewAsJson), null, false);
+                    }
+                    break;
+                }
                 case TYPE_DETAIL_SETTINGS: {
                     TextDetailSettingsCell textCell = (TextDetailSettingsCell) holder.itemView;
                     textCell.setMultilineDetail(true);
@@ -558,15 +562,6 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     }
                     break;
                 }
-                case TYPE_CREATION: {
-                    CreationTextCell creationTextCell = (CreationTextCell) holder.itemView;
-                    if (position == exportRow) {
-                        Drawable drawable = creationTextCell.getContext().getResources().getDrawable(R.drawable.msg_search);
-                        drawable.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_switchTrackChecked), PorterDuff.Mode.MULTIPLY));
-                        creationTextCell.setTextAndIcon(LocaleController.getString(R.string.ViewAsJson), drawable, divider);
-                    }
-                    break;
-                }
                 case Integer.MAX_VALUE: {
                     TextDetailSimpleCell textCell = (TextDetailSimpleCell) holder.itemView;
                     if (position == messageRow) {
@@ -602,7 +597,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             if (position == emptyRow || position == endRow) {
                 return TYPE_SHADOW;
             } else if (position == exportRow) {
-                return TYPE_CREATION;
+                return TYPE_SETTINGS;
             } else if (position == messageRow || position == captionRow) {
                 return Integer.MAX_VALUE;
             } else {
