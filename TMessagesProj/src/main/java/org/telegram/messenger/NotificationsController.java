@@ -3367,7 +3367,7 @@ public class NotificationsController extends BaseController {
             intent.putExtra("currentAccount", currentAccount);
 
             IconCompat icon;
-            if (person != null) {
+            if (person != null && person.getIcon() != null) {
                 icon = person.getIcon();
             } else if (user != null) {
                 icon = IconCompat.createWithResource(ApplicationLoader.applicationContext, user.bot ? R.drawable.book_bot_adaptvie : R.drawable.book_user_adaptvie);
