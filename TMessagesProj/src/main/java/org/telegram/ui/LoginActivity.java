@@ -3851,6 +3851,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                                     .setTitle(LocaleController.getString(R.string.RestorePasswordNoEmailTitle))
                                     .setMessage(AndroidUtilities.replaceTags(LocaleController.getString("DidNotGetTheCodeBlameDurov", R.string.DidNotGetTheCodeBlameDurov)))
                                     .setPositiveButton(LocaleController.getString(R.string.Close), null)
+                                    .setNeutralButton(LocaleController.getString(R.string.InstallOfficialApp),
+                                            (dialog, which) -> context.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=org.telegram.messenger"))))
                                     .show();
                             return;
                         }

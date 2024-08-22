@@ -657,6 +657,16 @@ public class ActionIntroActivity extends BaseFragment implements LocationControl
                     break;
                 }
                 case ACTION_TYPE_CHANGE_PHONE_NUMBER: {
+                    if (true) {
+                        var builder = new AlertDialog.Builder(getParentActivity());
+                        builder.setTitle(LocaleController.getString(R.string.RestorePasswordNoEmailTitle));
+                        builder.setMessage(AndroidUtilities.replaceTags(LocaleController.getString(R.string.ChangePhoneNumberBlameDurov)));
+                        builder.setPositiveButton(LocaleController.getString("OK", R.string.OK), null);
+                        builder.setNeutralButton(LocaleController.getString(R.string.InstallOfficialApp),
+                                (dialog, which) -> getParentActivity().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=org.telegram.messenger"))));
+                        showDialog(builder.create());
+                        return;
+                    }
                     AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());
                     builder.setTitle(LocaleController.getString("PhoneNumberChangeTitle", R.string.PhoneNumberChangeTitle));
                     builder.setMessage(LocaleController.getString("PhoneNumberAlert", R.string.PhoneNumberAlert));
