@@ -4080,18 +4080,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		} catch (Throwable e) {
 			FileLog.e(e);
 		}
-		if (bitmap == null) {
-			Theme.createDialogsResources(this);
-			AvatarDrawable placeholder;
-			if (userOrChat instanceof TLRPC.User) {
-				placeholder = new AvatarDrawable((TLRPC.User) userOrChat);
-			} else {
-				placeholder = new AvatarDrawable((TLRPC.Chat) userOrChat);
-			}
-			bitmap = Bitmap.createBitmap(AndroidUtilities.dp(42), AndroidUtilities.dp(42), Bitmap.Config.ARGB_8888);
-			placeholder.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
-			placeholder.draw(new Canvas(bitmap));
-		}
 		return bitmap;
 	}
 
