@@ -1763,7 +1763,7 @@ add_library(tgcalls STATIC
         voip/webrtc/third_party/crc32c/src/crc32c_portable.cc
         voip/webrtc/third_party/crc32c/src/crc32c.cc)
 target_compile_options(tgcalls PUBLIC
-        -Wall -finline-functions -ffast-math)
+        -Wall -finline-functions -ffast-math -Wno-error=c++11-narrowing-const-reference)
 set_target_properties(tgcalls PROPERTIES
         ANDROID_ARM_MODE arm)
 target_compile_definitions(tgcalls PUBLIC
