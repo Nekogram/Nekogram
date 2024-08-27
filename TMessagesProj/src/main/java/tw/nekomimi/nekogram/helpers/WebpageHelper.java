@@ -34,10 +34,6 @@ public class WebpageHelper {
                 targetAuthority = "vxreddit.com";
             } else if ("instagram.com".equals(host) || "www.instagram.com".equals(host)) {
                 targetAuthority = "ddinstagram.com";
-            } else if ("miyoushe.com".equals(host) || "www.miyoushe.com".equals(host) || "m.miyoushe.com".equals(host)) {
-                targetAuthority = "www.miyoushe.pp.ua";
-            } else if ("hoyolab.com".equals(host) || "www.hoyolab.com".equals(host)) {
-                targetAuthority = "www.hoyolab.pp.ua";
             } else {
                 return url;
             }
@@ -61,10 +57,6 @@ public class WebpageHelper {
             targetAuthority = "www.reddit.com";
         } else if (host.endsWith("ddinstagram.com")) {
             targetAuthority = "www.instagram.com";
-        } else if (host.endsWith("miyoushe.pp.ua")) {
-            targetAuthority = "www.miyoushe.com";
-        } else if (host.endsWith("hoyolab.pp.ua")) {
-            targetAuthority = "www.hoyolab.com";
         } else {
             return uri;
         }
