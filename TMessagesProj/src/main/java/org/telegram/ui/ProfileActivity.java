@@ -11127,33 +11127,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     try {
                         PackageInfo pInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
                         int code = pInfo.versionCode / 10;
-                        String abi = "";
-                        if (NekoConfig.isDirectApp()) {
-                            switch (pInfo.versionCode % 10) {
-                                case 1:
-                                case 3:
-                                    abi = "arm-v7a";
-                                    break;
-                                case 2:
-                                case 4:
-                                    abi = "x86";
-                                    break;
-                                case 5:
-                                case 7:
-                                    abi = "arm64-v8a";
-                                    break;
-                                case 6:
-                                case 8:
-                                    abi = "x86_64";
-                                    break;
-                                case 0:
-                                case 9:
-                                    abi = "universal " + Build.SUPPORTED_ABIS[0];
-                                    break;
-                            }
-                        } else {
-                            abi = BuildConfig.BUILD_TYPE + " " + Build.SUPPORTED_ABIS[0];
-                        }
+                        String abi = BuildConfig.BUILD_TYPE + " " + Build.SUPPORTED_ABIS[0];
                         cell.setText(formatString("NekogramVersion", R.string.NekogramVersion, String.format(Locale.US, "v%s (%d) %s", pInfo.versionName, code, abi), String.format(Locale.US, "v%s (%d)", BuildVars.BUILD_VERSION_STRING, BuildConfig.BUILD_VERSION), "@Duang"));
                     } catch (Exception e) {
                         FileLog.e(e);
