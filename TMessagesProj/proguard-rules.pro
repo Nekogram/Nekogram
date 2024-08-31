@@ -130,11 +130,6 @@
     public static void throw*(...);
 }
 
--assumenosideeffects class android.util.Log {
-    public static *** v(...);
-    public static *** d(...);
-}
-
 -keepclassmembers enum * {
      public static **[] values();
      public static ** valueOf(java.lang.String);

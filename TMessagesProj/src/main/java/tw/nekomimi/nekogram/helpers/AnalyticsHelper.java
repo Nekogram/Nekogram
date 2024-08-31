@@ -9,6 +9,7 @@ import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildConfig;
+import org.telegram.messenger.FileLog;
 import org.telegram.messenger.Utilities;
 
 import java.util.HashMap;
@@ -29,6 +30,7 @@ public class AnalyticsHelper {
         analyticsDisabled = preferences.getBoolean("analyticsDisabled", false) && !Extra.FORCE_ANALYTICS;
         sendBugReport = preferences.getBoolean("sendBugReport", true) && !Extra.FORCE_ANALYTICS;
         if (analyticsDisabled) {
+            FileLog.d("Analytics: userId = disabled");
             return;
         }
         userId = preferences.getString("userId", null);
@@ -43,6 +45,8 @@ public class AnalyticsHelper {
         crashlytics.setCustomKey("version_code", BuildConfig.VERSION_CODE);
         crashlytics.setCustomKey("build_type", BuildConfig.BUILD_TYPE);
         crashlytics.setCrashlyticsCollectionEnabled(true);
+
+        FileLog.d("Analytics: userId = " + userId);
     }
 
     private static String generateUserID() {
