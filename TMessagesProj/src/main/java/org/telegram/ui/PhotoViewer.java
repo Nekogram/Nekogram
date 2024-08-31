@@ -20047,6 +20047,20 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     private void drawCaptionBlur(Canvas canvas, BlurringShader.StoryBlurDrawer drawer, int bgColor, int overlayColor, boolean clip, boolean allowTransparent, boolean allowCrossfade) {
+        if (!LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR)) {
+            if (clip) return;
+            if (!allowTransparent) {
+                // text
+                canvas.drawColor(0xB2FFFFFF);
+            } else if (!allowCrossfade) {
+                // !caption
+                canvas.drawColor(bgColor);
+            } else {
+                // caption?
+                canvas.drawColor(ColorUtils.setAlphaComponent(bgColor, 153));
+            }
+            return;
+        }
         if (BLUR_RENDERNODE()) {
             if (renderNode != null) {
                 if (drawer.renderNode == null) {
