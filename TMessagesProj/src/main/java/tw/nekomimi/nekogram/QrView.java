@@ -83,7 +83,7 @@ public class QrView extends View {
         paint.setColor(Color.BLACK);
         QRCodeWriter.drawSideQuads(canvas, 0, 0, paint, 7, multiple, 16, size, .75f, radii, true);
         if (qrLogo == null) {
-            String svg = RLottieDrawable.readRes(null, R.raw.qr_logo);
+            String svg = AndroidUtilities.readRes(null, R.raw.qr_logo);
             qrLogo = SvgHelper.getBitmap(svg, imageSize, imageSize, false);
         }
         canvas.drawBitmap(qrLogo, imageX, imageX, null);

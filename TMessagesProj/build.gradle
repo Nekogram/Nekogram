@@ -74,8 +74,6 @@ lsparanoid {
 }
 
 android {
-    namespace 'org.telegram.messenger'
-
     sourceSets.main.jniLibs.srcDirs = ['./jni/']
 
     externalNativeBuild {
@@ -99,6 +97,7 @@ android {
             buildConfigField("String","BUILD_VERSION_STRING","\"${TG_APP_VERSION_NAME}\"")
         }
     }
+    namespace 'org.telegram.messenger'
 
     defaultConfig {
         externalNativeBuild {

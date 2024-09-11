@@ -67,7 +67,7 @@ public class ChatGreetingsView extends LinearLayout {
     boolean wasDraw;
     boolean showGreetings = !NekoConfig.disableGreetingSticker;
 
-    public ChatGreetingsView(Context context, TLRPC.User user, int distance, int currentAccount, TLRPC.Document sticker, Theme.ResourcesProvider resourcesProvider) {
+    public ChatGreetingsView(Context context, TLRPC.User user, int currentAccount, TLRPC.Document sticker, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         setOrientation(VERTICAL);
         this.currentAccount = currentAccount;
@@ -103,13 +103,8 @@ public class ChatGreetingsView extends LinearLayout {
 
         updateColors();
 
-        if (distance <= 0) {
-            titleView.setText(getString(R.string.NoMessages));
-            descriptionView.setText(getString(R.string.NoMessagesGreetingsDescription));
-        } else {
-            titleView.setText(formatString("NearbyPeopleGreetingsMessage", R.string.NearbyPeopleGreetingsMessage, user.first_name, LocaleController.formatDistance(distance, 1)));
-            descriptionView.setText(getString(R.string.NearbyPeopleGreetingsDescription));
-        }
+        titleView.setText(getString(R.string.NoMessages));
+        descriptionView.setText(getString(R.string.NoMessagesGreetingsDescription));
         descriptionView.setMaxWidth(HintView2.cutInFancyHalf(descriptionView.getText(), descriptionView.getPaint()));
         stickerToSendView.setContentDescription(descriptionView.getText());
 

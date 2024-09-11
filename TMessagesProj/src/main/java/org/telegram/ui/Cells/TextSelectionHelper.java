@@ -1408,8 +1408,8 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                 menu.add(Menu.NONE, android.R.id.copy, 0, android.R.string.copy);
                 menu.add(Menu.NONE, R.id.menu_quote, 1, LocaleController.getString(R.string.Quote));
                 menu.add(Menu.NONE, android.R.id.selectAll, 2, android.R.string.selectAll);
-                menu.add(Menu.NONE, android.R.id.shareText, 3, LocaleController.getString("ShareFile", R.string.ShareFile));
-                menu.add(Menu.NONE, android.R.id.textAssist, 4, LocaleController.getString("TranslateMessage", R.string.TranslateMessage));
+                menu.add(Menu.NONE, android.R.id.shareText, 3, LocaleController.getString(R.string.ShareFile));
+                menu.add(Menu.NONE, android.R.id.textAssist, 4, LocaleController.getString(R.string.TranslateMessage));
                 return true;
             }
 
@@ -1501,7 +1501,7 @@ public abstract class TextSelectionHelper<Cell extends TextSelectionHelper.Selec
                     Intent shareIntent = new Intent(Intent.ACTION_SEND);
                     shareIntent.setType("text/plain");
                     shareIntent.putExtra(Intent.EXTRA_TEXT, str.toString());
-                    Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString("ShareFile", R.string.ShareFile));
+                    Intent chooserIntent = Intent.createChooser(shareIntent, LocaleController.getString(R.string.ShareFile));
                     chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                     ApplicationLoader.applicationContext.startActivity(chooserIntent);
                     hideActions();

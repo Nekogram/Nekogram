@@ -258,7 +258,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                 super.setVisibility(visibility);
             }
         };
-        emptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
+        emptyView.title.setText(LocaleController.getString(R.string.NoResult));
         emptyView.subtitle.setVisibility(View.GONE);
         emptyView.setVisibility(View.GONE);
         emptyView.addView(loadingView, 0);
@@ -312,7 +312,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                 super.setVisibility(visibility);
             }
         };
-        channelsEmptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
+        channelsEmptyView.title.setText(LocaleController.getString(R.string.NoResult));
         channelsEmptyView.subtitle.setVisibility(View.GONE);
         channelsEmptyView.setVisibility(View.GONE);
         channelsEmptyView.addView(loadingView, 0);
@@ -330,7 +330,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                     channelsEmptyView.subtitle.setVisibility(View.VISIBLE);
                     channelsEmptyView.subtitle.setText(LocaleController.getString(R.string.NoChannelsMessage));
                 } else {
-                    channelsEmptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
+                    channelsEmptyView.title.setText(LocaleController.getString(R.string.NoResult));
                     channelsEmptyView.subtitle.setVisibility(View.GONE);
                 }
             }
@@ -389,7 +389,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
                 super.setVisibility(visibility);
             }
         };
-        botsEmptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
+        botsEmptyView.title.setText(LocaleController.getString(R.string.NoResult));
         botsEmptyView.subtitle.setVisibility(View.GONE);
         botsEmptyView.setVisibility(View.GONE);
         botsEmptyView.addView(loadingView, 0);
@@ -402,7 +402,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             public void update(boolean animated) {
                 super.update(animated);
                 botsEmptyView.showProgress(loadingMessages || loadingBots || searchMessages == null || !searchMessages.isEmpty(), animated);
-                botsEmptyView.title.setText(LocaleController.getString("NoResult", R.string.NoResult));
+                botsEmptyView.title.setText(LocaleController.getString(R.string.NoResult));
                 botsEmptyView.subtitle.setVisibility(View.GONE);
             }
 
@@ -492,6 +492,9 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
 //            MessagesController.getInstance(currentAccount).getChannelRecommendations(0);
             botsSearchAdapter.search(query);
             botsEmptyView.setKeyboardHeight(keyboardSize, false);
+            if (TextUtils.isEmpty(query)) {
+                botsSearchAdapter.checkBottom();
+            }
         } else if (view == searchContainer) {
             if (dialogId == 0 && minDate == 0 && maxDate == 0 || forumDialogId != 0) {
                 lastSearchScrolledToTop = false;
@@ -595,13 +598,13 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             actionMode.addView(selectedMessagesCountTextView, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1.0f, 72, 0, 0, 0));
             selectedMessagesCountTextView.setOnTouchListener((v, event) -> true);
 
-            speedItem = actionMode.addItemWithWidth(speedItemId, R.drawable.avd_speed, AndroidUtilities.dp(54), LocaleController.getString("AccDescrPremiumSpeed", R.string.AccDescrPremiumSpeed));
+            speedItem = actionMode.addItemWithWidth(speedItemId, R.drawable.avd_speed, AndroidUtilities.dp(54), LocaleController.getString(R.string.AccDescrPremiumSpeed));
             speedItem.getIconView().setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.SRC_IN));
-            gotoItem = actionMode.addItemWithWidth(gotoItemId, R.drawable.msg_message, AndroidUtilities.dp(54), LocaleController.getString("AccDescrGoToMessage", R.string.AccDescrGoToMessage));
-            forwardItem = actionMode.addItemWithWidth(forwardItemId, R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString("Forward", R.string.Forward));
-            forwardNoQuoteItem = actionMode.addItemWithWidth(forwardNoQuoteItemId, R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString("NoQuoteForward", R.string.NoQuoteForward));
-            saveItem = actionMode.addItemWithWidth(saveItemId, R.drawable.msg_download, AndroidUtilities.dp(54), LocaleController.getString("SaveToDownloads", R.string.SaveToDownloads));
-            deleteItem = actionMode.addItemWithWidth(deleteItemId, R.drawable.msg_delete, AndroidUtilities.dp(54), LocaleController.getString("Delete", R.string.Delete));
+            gotoItem = actionMode.addItemWithWidth(gotoItemId, R.drawable.msg_message, AndroidUtilities.dp(54), LocaleController.getString(R.string.AccDescrGoToMessage));
+            forwardItem = actionMode.addItemWithWidth(forwardItemId, R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString(R.string.Forward));
+            forwardNoQuoteItem = actionMode.addItemWithWidth(forwardNoQuoteItemId, R.drawable.msg_forward, AndroidUtilities.dp(54), LocaleController.getString(R.string.NoQuoteForward));
+            saveItem = actionMode.addItemWithWidth(saveItemId, R.drawable.msg_download, AndroidUtilities.dp(54), LocaleController.getString(R.string.SaveToDownloads));
+            deleteItem = actionMode.addItemWithWidth(deleteItemId, R.drawable.msg_delete, AndroidUtilities.dp(54), LocaleController.getString(R.string.Delete));
         }
         if (selectedMessagesCountTextView != null) {
             boolean isForumSearch = dialogsSearchAdapter != null && dialogsSearchAdapter.delegate != null && dialogsSearchAdapter.delegate.getSearchForumDialogId() != 0;
@@ -674,11 +677,11 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             spannableStringBuilder
                     .append(AndroidUtilities.replaceTags(LocaleController.formatPluralString("RemoveDocumentsMessage", selectedFiles.size())))
                     .append("\n\n")
-                    .append(LocaleController.getString("RemoveDocumentsAlertMessage", R.string.RemoveDocumentsAlertMessage));
+                    .append(LocaleController.getString(R.string.RemoveDocumentsAlertMessage));
 
             builder.setMessage(spannableStringBuilder);
-            builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), (dialogInterface, i) -> dialogInterface.dismiss());
-            builder.setPositiveButton(LocaleController.getString("Delete", R.string.Delete), (dialogInterface, i) -> {
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), (dialogInterface, i) -> dialogInterface.dismiss());
+            builder.setPositiveButton(LocaleController.getString(R.string.Delete), (dialogInterface, i) -> {
                 dialogInterface.dismiss();
                 parent.getDownloadController().deleteRecentFiles(messageObjects);
                 hideActionMode();
@@ -730,7 +733,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             DialogsActivity fragment = new DialogsActivity(args);
             fragment.forwardContext = forwardContext;
             var forwardParams = fragment.forwardContext.getForwardParams();
-            fragment.setDelegate((fragment1, dids, message, param, topicsFragment) -> {
+            fragment.setDelegate((fragment1, dids, message, param, notify, scheduleDate, topicsFragment) -> {
                 selectedFiles.clear();
 
                 showActionMode(false);

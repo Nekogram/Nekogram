@@ -751,7 +751,7 @@ public class FilterTabsView extends FrameLayout {
             info.setSelected(currentTab != null && selectedTabId != -1 && currentTab.id == selectedTabId);
             info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                info.addAction(new AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.ACTION_LONG_CLICK, LocaleController.getString("AccDescrOpenMenu2", R.string.AccDescrOpenMenu2)));
+                info.addAction(new AccessibilityNodeInfo.AccessibilityAction(AccessibilityNodeInfo.ACTION_LONG_CLICK, LocaleController.getString(R.string.AccDescrOpenMenu2)));
             } else {
                 info.addAction(AccessibilityNodeInfo.ACTION_LONG_CLICK);
             }
@@ -1462,7 +1462,7 @@ public class FilterTabsView extends FrameLayout {
                 if (!NekoConfig.hideAllTab)  {
                     firstTab.setTitle(LocaleController.getString(R.string.FilterAllChats));
                     int tabWidth = firstTab.getWidth(false);
-                    firstTab.setTitle(allTabsWidth > width ? LocaleController.getString("FilterAllChatsShort", R.string.FilterAllChatsShort) : LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+                    firstTab.setTitle(allTabsWidth > width ? LocaleController.getString(R.string.FilterAllChatsShort) : LocaleController.getString(R.string.FilterAllChats));
                     trueTabsWidth = allTabsWidth - tabWidth;
                     trueTabsWidth += firstTab.getWidth(false);
                 } else {
@@ -1637,7 +1637,7 @@ public class FilterTabsView extends FrameLayout {
                 invalidated = true;
                 requestLayout();
                 allTabsWidth = 0;
-                if (!NekoConfig.hideAllTab) findDefaultTab().setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+                if (!NekoConfig.hideAllTab) findDefaultTab().setTitle(LocaleController.getString(R.string.FilterAllChats));
                 for (int b = 0; b < N; b++) {
                     allTabsWidth += tabs.get(b).getWidth(true) + FolderIconHelper.getPaddingTab();
                 }
@@ -1668,7 +1668,7 @@ public class FilterTabsView extends FrameLayout {
             listView.setItemAnimator(itemAnimator);
             adapter.notifyDataSetChanged();
             allTabsWidth = 0;
-            if (!NekoConfig.hideAllTab) findDefaultTab().setTitle(LocaleController.getString("FilterAllChats", R.string.FilterAllChats));
+            if (!NekoConfig.hideAllTab) findDefaultTab().setTitle(LocaleController.getString(R.string.FilterAllChats));
             for (int b = 0, N = tabs.size(); b < N; b++) {
                 allTabsWidth += tabs.get(b).getWidth(true) + FolderIconHelper.getPaddingTab();
             }

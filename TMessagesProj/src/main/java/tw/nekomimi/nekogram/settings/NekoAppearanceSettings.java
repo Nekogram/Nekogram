@@ -186,7 +186,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
 
     @Override
     protected String getActionBarTitle() {
-        return LocaleController.getString(R.string.Appearance);
+        return LocaleController.getString(R.string.ChangeChannelNameColor2);
     }
 
     @Override
@@ -300,7 +300,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == appearanceRow) {
-                        headerCell.setText(LocaleController.getString(R.string.Appearance));
+                        headerCell.setText(LocaleController.getString(R.string.ChangeChannelNameColor2));
                     } else if (position == foldersRow) {
                         headerCell.setText(LocaleController.getString(R.string.Filters));
                     }

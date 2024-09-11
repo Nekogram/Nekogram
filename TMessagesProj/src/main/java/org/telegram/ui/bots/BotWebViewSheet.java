@@ -515,7 +515,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                     DialogsActivity dialogsActivity = new DialogsActivity(args);
                     AndroidUtilities.hideKeyboard(windowView);
                     OverlayActionBarLayoutDialog overlayActionBarLayoutDialog = new OverlayActionBarLayoutDialog(context, resourcesProvider);
-                    dialogsActivity.setDelegate((fragment, dids, message1, param, topicsFragment) -> {
+                    dialogsActivity.setDelegate((fragment, dids, message1, param, notify, scheduleDate, topicsFragment) -> {
                         long did = dids.get(0).dialogId;
 
                         Bundle args1 = new Bundle();
@@ -553,8 +553,13 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             }
 
             @Override
-            public void onSetupMainButton(boolean isVisible, boolean isActive, String text, int color, int textColor, boolean isProgressVisible) {
+            public void onSetupMainButton(boolean isVisible, boolean isActive, String text, int color, int textColor, boolean isProgressVisible, boolean hasShineEffect) {
                 setMainButton(BotWebViewAttachedSheet.MainButtonSettings.of(isVisible, isActive, text, color, textColor, isProgressVisible));
+            }
+
+            @Override
+            public void onSetupSecondaryButton(boolean isVisible, boolean isActive, String text, int color, int textColor, boolean isProgressVisible, boolean hasShineEffect, String position) {
+
             }
 
             @Override
@@ -876,6 +881,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             jsonObject.put("subtitle_text_color", Theme.blendOver(backgroundColor, Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider)));
             jsonObject.put("destructive_text_color", Theme.blendOver(backgroundColor, Theme.getColor(Theme.key_text_RedRegular, resourcesProvider)));
             jsonObject.put("section_separator_color", Theme.blendOver(backgroundColor, Theme.getColor(Theme.key_divider, resourcesProvider)));
+            jsonObject.put("bottom_bar_bg_color", Theme.getColor(Theme.key_windowBackgroundGray, resourcesProvider));
             return jsonObject;
         } catch (Exception e) {
             FileLog.e(e);
@@ -890,6 +896,12 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             if (swipeContainer != null) {
                 swipeContainer.setFullSize(isFullSize());
             }
+        }
+    }
+
+    public void setWasOpenedByBot(WebViewRequestProps props) {
+        if (webViewContainer != null) {
+            webViewContainer.setWasOpenedByBot(props);
         }
     }
 
@@ -1272,7 +1284,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         new AlertDialog.Builder(LaunchActivity.getLastFragment().getContext())
                 .setTitle(LocaleController.getString(R.string.BotRemoveFromMenuTitle))
                 .setMessage(AndroidUtilities.replaceTags(description))
-                .setPositiveButton(LocaleController.getString("OK", R.string.OK), (dialogInterface, i) -> {
+                .setPositiveButton(LocaleController.getString(R.string.OK), (dialogInterface, i) -> {
                     TLRPC.TL_messages_toggleBotInAttachMenu req = new TLRPC.TL_messages_toggleBotInAttachMenu();
                     req.bot = MessagesController.getInstance(currentAccount).getInputUser(botId);
                     req.enabled = false;
@@ -1286,7 +1298,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                         onDone.run();
                     }
                 })
-                .setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null)
+                .setNegativeButton(LocaleController.getString(R.string.Cancel), null)
                 .show();
     }
 

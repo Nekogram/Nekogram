@@ -28,7 +28,7 @@ subprojects {
 
                 defaultConfig {
                     minSdkVersion 21
-                    targetSdkVersion 33
+                    targetSdkVersion 34
                 }
 
                 buildTypes {

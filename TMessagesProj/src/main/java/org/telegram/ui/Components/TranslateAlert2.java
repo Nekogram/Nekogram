@@ -239,7 +239,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         buttonTextView.setTextColor(getThemedColor(Theme.key_featuredStickers_buttonText));
         buttonTextView.setTypeface(AndroidUtilities.bold());
         buttonTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-        buttonTextView.setText(LocaleController.getString("CloseTranslation", R.string.CloseTranslation));
+        buttonTextView.setText(LocaleController.getString(R.string.CloseTranslation));
         buttonTextView.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor(Theme.key_featuredStickers_addButton), 6));
         buttonTextView.setOnClickListener(e -> dismiss());
         buttonView.addView(buttonTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.BOTTOM | Gravity.FILL_HORIZONTAL, 16, 16, 16, 16));
@@ -668,7 +668,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             copyButton.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector)));
             copyButton.setOnClickListener(v -> {
                 AndroidUtilities.addToClipboard(textView.getText());
-                BulletinFactory.of((FrameLayout) containerView, resourcesProvider).createCopyBulletin(LocaleController.getString("TextCopied", R.string.TextCopied)).show();
+                BulletinFactory.of((FrameLayout) containerView, resourcesProvider).createCopyBulletin(LocaleController.getString(R.string.TextCopied)).show();
             });
             addView(copyButton, LayoutHelper.createFrame(54, 54, Gravity.TOP | Gravity.RIGHT, 1, 1, 16, 1));
 
@@ -684,7 +684,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             titleTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlack));
             titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 20);
             titleTextView.setTypeface(AndroidUtilities.bold());
-            titleTextView.setText(LocaleController.getString("AutomaticTranslation", R.string.AutomaticTranslation));
+            titleTextView.setText(LocaleController.getString(R.string.AutomaticTranslation));
             titleTextView.setPivotX(0);
             titleTextView.setPivotY(0);
             addView(titleTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.FILL_HORIZONTAL, 22, 20, 22, 0));
@@ -820,7 +820,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
             for (int i = 0; i < targetLanguages.size(); ++i) {
                 String language = targetLanguages.get(i);
                 ActionBarMenuSubItem button = new ActionBarMenuSubItem(getContext(), 2, first, i == targetLanguages.size() - 1, resourcesProvider);
-                button.setText(language.equals("app") ? LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp) : languageName(language));
+                button.setText(language.equals("app") ? LocaleController.getString(R.string.TranslationTargetApp) : languageName(language));
                 button.setChecked(i == checkedItem);
                 button.setOnClickListener(e -> {
                     if (dismiss[0] != null) {
@@ -1098,6 +1098,9 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     }
 
     public static TranslateAlert2 showAlert(Context context, BaseFragment fragment, int currentAccount, String fromLanguage, String toLanguage, CharSequence text, ArrayList<TLRPC.MessageEntity> entities, boolean noforwards, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, Runnable onDismiss, Theme.ResourcesProvider resourcesProvider) {
+        if (context == null) {
+            return null;
+        }
         TranslateAlert2 alert = new TranslateAlert2(context, fromLanguage, toLanguage, text, entities, resourcesProvider) {
             @Override
             public void dismiss() {

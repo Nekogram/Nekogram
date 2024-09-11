@@ -213,7 +213,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity {
                     } else if (position == generalRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.General), R.drawable.msg_media, divider);
                     } else if (position == appearanceRow) {
-                        textCell.setTextAndIcon(LocaleController.getString(R.string.Appearance), R.drawable.msg_theme, divider);
+                        textCell.setTextAndIcon(LocaleController.getString(R.string.ChangeChannelNameColor2), R.drawable.msg_theme, divider);
                     } else if (position == passcodeRow) {
                         textCell.setTextAndIcon(LocaleController.getString(R.string.PasscodeNeko), R.drawable.msg_permissions, divider);
                     } else if (position == experimentRow) {

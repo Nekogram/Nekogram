@@ -26,7 +26,6 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.style.RelativeSizeSpan;
 import android.util.Base64;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.MotionEvent;
@@ -52,7 +51,6 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
@@ -90,7 +88,6 @@ import org.telegram.ui.Components.UniversalRecyclerView;
 import org.telegram.ui.Components.ViewPagerFixed;
 import org.telegram.ui.Stars.BotStarsActivity;
 import org.telegram.ui.Stars.BotStarsController;
-import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 
@@ -132,6 +129,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     private final AnimatedTextView starsBalanceSubtitle;
     private final ButtonWithCounterView starsBalanceButton;
     private ColoredImageSpan[] starRef = new ColoredImageSpan[1];
+    private final LinearLayout starsBalanceButtonsLayout;
     private final ButtonWithCounterView starsAdsButton;
     private OutlineTextContainerView starsBalanceEditTextContainer;
     private boolean starsBalanceEditTextIgnore = false;
@@ -354,7 +352,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         starsBalanceEditTextContainer.addView(balanceEditTextLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP));
         starsBalanceLayout.addView(starsBalanceEditTextContainer, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_HORIZONTAL, 18, 14, 18, 2));
 
-        LinearLayout starsBalanceButtonsLayout = new LinearLayout(context);
+        starsBalanceButtonsLayout = new LinearLayout(context);
         starsBalanceButtonsLayout.setOrientation(LinearLayout.HORIZONTAL);
 
         starsBalanceButton = new ButtonWithCounterView(context, resourcesProvider) {
@@ -470,7 +468,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                 AndroidUtilities.runOnUIThread(this.setStarsBalanceButtonText, 1000);
             } else {
                 starsBalanceButton.setSubText(null, true);
-                starsBalanceButton.setText(StarsIntroActivity.replaceStars(starsBalanceEditTextAll ? getString(R.string.MonetizationStarsWithdrawAll) : LocaleController.formatPluralStringComma("MonetizationStarsWithdraw", (int) starsBalanceEditTextValue, ' '), starRef), true);
+                starsBalanceButton.setText(StarsIntroActivity.replaceStars(starsBalanceEditTextAll ? getString(R.string.MonetizationStarsWithdrawAll) : LocaleController.formatPluralStringSpaced("MonetizationStarsWithdraw", (int) starsBalanceEditTextValue), starRef), true);
             }
         };
 
@@ -537,7 +535,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                         passwordFragment.needHideProgress();
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(parentActivity);
-                    builder.setTitle(LocaleController.getString("EditAdminTransferAlertTitle", R.string.EditAdminTransferAlertTitle));
+                    builder.setTitle(LocaleController.getString(R.string.EditAdminTransferAlertTitle));
 
                     LinearLayout linearLayout = new LinearLayout(parentActivity);
                     linearLayout.setPadding(AndroidUtilities.dp(24), AndroidUtilities.dp(2), AndroidUtilities.dp(24), 0);
@@ -564,7 +562,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                     messageTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
                     messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                     messageTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
-                    messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("EditAdminTransferAlertText1", R.string.EditAdminTransferAlertText1)));
+                    messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.EditAdminTransferAlertText1)));
                     if (LocaleController.isRTL) {
                         linearLayout2.addView(messageTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
                         linearLayout2.addView(dotImageView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.RIGHT));
@@ -586,7 +584,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                     messageTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
                     messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                     messageTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
-                    messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString("EditAdminTransferAlertText2", R.string.EditAdminTransferAlertText2)));
+                    messageTextView.setText(AndroidUtilities.replaceTags(LocaleController.getString(R.string.EditAdminTransferAlertText2)));
                     if (LocaleController.isRTL) {
                         linearLayout2.addView(messageTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
                         linearLayout2.addView(dotImageView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.RIGHT));
@@ -596,17 +594,17 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
                     }
 
                     if ("PASSWORD_MISSING".equals(error.text)) {
-                        builder.setPositiveButton(LocaleController.getString("EditAdminTransferSetPassword", R.string.EditAdminTransferSetPassword), (dialogInterface, i) -> fragment.presentFragment(new TwoStepVerificationSetupActivity(TwoStepVerificationSetupActivity.TYPE_INTRO, null)));
-                        builder.setNegativeButton(LocaleController.getString("Cancel", R.string.Cancel), null);
+                        builder.setPositiveButton(LocaleController.getString(R.string.EditAdminTransferSetPassword), (dialogInterface, i) -> fragment.presentFragment(new TwoStepVerificationSetupActivity(TwoStepVerificationSetupActivity.TYPE_INTRO, null)));
+                        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                     } else {
                         messageTextView = new TextView(parentActivity);
                         messageTextView.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
                         messageTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                         messageTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
-                        messageTextView.setText(LocaleController.getString("EditAdminTransferAlertText3", R.string.EditAdminTransferAlertText3));
+                        messageTextView.setText(LocaleController.getString(R.string.EditAdminTransferAlertText3));
                         linearLayout.addView(messageTextView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 11, 0, 0));
 
-                        builder.setNegativeButton(LocaleController.getString("OK", R.string.OK), null);
+                        builder.setNegativeButton(LocaleController.getString(R.string.OK), null);
                     }
                     if (passwordFragment != null) {
                         passwordFragment.showDialog(builder.create());
@@ -800,7 +798,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         }
     }
 
-    public void setupBalances(TLRPC.TL_broadcastRevenueBalances balances) {
+    public void setupBalances(TLRPC.BroadcastRevenueBalances balances) {
         if (ton_rate == 0) {
             return;
         }
@@ -818,7 +816,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         lifetimeValue.amount = (long) (lifetimeValue.crypto_amount / 1_000_000_000.0 * ton_rate * 100.0);
         lifetimeValue.currency = "USD";
         proceedsAvailable = true;
-        balanceButton.setVisibility(balances.available_balance > 0 || BuildVars.DEBUG_PRIVATE_VERSION ? View.VISIBLE : View.GONE);
+        balanceButton.setVisibility(balances.available_balance > 0 && balances.withdrawal_enabled ? View.VISIBLE : View.GONE);
 
         if (listView != null && listView.adapter != null) {
             listView.adapter.update(true);
@@ -842,6 +840,9 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         lifetimeValue.amount2 = (long) (lifetimeValue.crypto_amount2 * stars_rate * 100.0);
         lifetimeValue.currency = "USD";
         proceedsAvailable = true;
+        if (starsBalanceButtonsLayout != null) {
+            starsBalanceButtonsLayout.setVisibility(balances.withdrawal_enabled ? View.VISIBLE : View.GONE);
+        }
         if (starsBalanceButton != null) {
             starsBalanceButton.setVisibility(balances.available_balance > 0 || BuildVars.DEBUG_PRIVATE_VERSION ? View.VISIBLE : View.GONE);
         }

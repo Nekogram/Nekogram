@@ -106,8 +106,6 @@
 -keepclassmembernames,allowshrinking class org.telegram.ui.* { <fields>; }
 -keepclassmembernames,allowshrinking class org.telegram.ui.Cells.* { <fields>; }
 -keepclassmembernames,allowshrinking class org.telegram.ui.Components.* { <fields>; }
--keep class * extends org.telegram.ui.Components.UItem$UItemFactory { public <init>(...); }
--keep class org.telegram.ui.Components.RLottieDrawable$LottieMetadata { <fields>; }
 -keepclassmembernames,allowshrinking class tw.nekomimi.nekogram.MessageDetailsActivity$TextDetailSimpleCell { <fields>; }
 -keepclassmembernames,allowshrinking class tw.nekomimi.nekogram.settings.AccountCell { <fields>; }
 -keepclassmembernames,allowshrinking class tw.nekomimi.nekogram.settings.EmojiSetCell { <fields>; }

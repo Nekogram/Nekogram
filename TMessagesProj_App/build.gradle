@@ -10,7 +10,6 @@ dependencies {
 }
 
 android {
-    namespace 'org.telegram.messenger.regular'
     defaultConfig.applicationId = APP_PACKAGE
 
     packagingOptions {
@@ -86,6 +85,7 @@ android {
         reset()
         include "armeabi-v7a", "arm64-v8a", "x86", "x86_64"
     }
+    namespace 'org.telegram.messenger.regular'
 
     dependenciesInfo.includeInApk false
 }

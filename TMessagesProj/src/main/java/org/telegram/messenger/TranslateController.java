@@ -395,7 +395,7 @@ public class TranslateController extends BaseController {
             }
             Language language = new Language();
             language.code = code;
-            language.displayName = code.equals("app") ? LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp) : TranslateAlert2.capitalFirst(TranslateAlert2.languageName(language.code));
+            language.displayName = code.equals("app") ? LocaleController.getString(R.string.TranslationTargetApp) : TranslateAlert2.capitalFirst(TranslateAlert2.languageName(language.code));
             if ("no".equals(language.code)) {
                 language.code = "nb";
             }
@@ -407,7 +407,7 @@ public class TranslateController extends BaseController {
         }
         Language language = new Language();
         language.code = "app";
-        language.displayName = LocaleController.getString("TranslationTargetApp", R.string.TranslationTargetApp);
+        language.displayName = LocaleController.getString(R.string.TranslationTargetApp);
         result.add(0, language);
         return result;
     }
