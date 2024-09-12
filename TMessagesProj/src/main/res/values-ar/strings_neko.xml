@@ -285,7 +285,7 @@
     <string name="CloudConfigRestoreShort">استعادة</string>
     <string name="CloudConfigSyncing">مزامنة...</string>
     <string name="CloudConfigAutoSync">المزامنة التلقائية</string>
-    <string name="CloudConfigAutoSyncDesc">مزامنة إلى السحابة تلقائيًا بعد إجراء تغييرات على إعدادات نيكو.</string>
+    <string name="CloudConfigAutoSyncDesc">مزامنة إلى السحابة تلقائيًا بعد إجراء تغييرات على إعدادات التطبيق.</string>
     <string name="CloudConfigSyncFailed">فشل مزامنة الإعدادات إلى السحابة.</string>
     <string name="CloudConfigRestoreFailed">فشل في استعادة الإعدادات من السحابة.</string>
     <string name="ReducedColors">تقليل الألوان</string>

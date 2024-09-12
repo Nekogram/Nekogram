@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Cài đặt Neko</string>
+    <string name="PreferIPv6">Ưu tiên nối qua IPv6</string>
     <string name="MessageMenu">Menu tin nhắn</string>
     <string name="HidePhone">Ẩn số điện thoại của tôi</string>
     <string name="DeleteAllFromSelf">Xóa tin nhắn của chính bạn</string>
@@ -11,8 +12,12 @@
     <string name="Connection">Kết nối</string>
     <string name="Chat">Trò chuyện</string>
     <string name="NameOrder">Thứ tự tên</string>
-    <string name="FirstLast">Tên đứng cuối</string>
-    <string name="LastFirst">Tên đứng đầu</string>
+    <string name="FirstLast">Họ -Tên</string>
+    <string name="LastFirst">Tên - Họ</string>
+    <string name="NoQuoteForward">Chuyển tiếp không kèm tên người gửi</string>
+    <string name="NoCaptionForward">Chuyển tiếp không có chú thích</string>
+    <string name="NoQuoteForwardShort">Không có người gửi</string>
+    <string name="NoCaptionForwardShort">Không có chú thích</string>
     <string name="Repeat">Lặp lại</string>
     <string name="AddToSavedMessages">Lưu tin nhắn</string>
     <string name="CreateMention">Tạo đề cập đến</string>
@@ -132,6 +137,7 @@
     <string name="SendWebFileInvalid">Tập tin không hợp lệ, hãy đảm bảo tệp tin đáp ứng yêu cầu.</string>
     <string name="AutoLockInstant">Ngay lập tức</string>
     <string name="RestrictionReason">Lý do hạn chế</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">Nhãn dán tối đa hiện tại</string>
     <string name="DisableJumpToNextChannel">Vô hiệu \"Nhảy tới kênh tiếp theo\"</string>
     <string name="DisableGreetingSticker">Vô hiệu nhãn dán chào hỏi</string>
@@ -251,15 +257,19 @@
     <string name="SendAnonymousData">Gửi dữ liệu ẩn danh</string>
     <string name="SendBugReport">Gửi báo cáo lỗi</string>
     <string name="SendBugReportDesc">Điều này sẽ giúp chúng tôi tìm ra vấn đề nhanh hơn.</string>
+    <string name="CopyReportId">Sao chép ID báo cáo</string>
+    <string name="CopyReportIdDescription">Đính kèm ID báo cáo khi báo cáo sự cố.</string>
     <string name="AnonymousDataDelete">Xoá dữ liệu</string>
     <string name="AnonymousDataDeleteDesc">Chặn vĩnh viễn dữ liệu gửi đi khỏi phiên bản này và xóa dữ liệu đã thu thập.</string>
     <string name="SendAnonymousDataDesc">Các tính năng trên sử dụng %1$s do %2$s cung cấp. Thông tin được thu thập là ẩn danh và chúng tôi không thể truy ngược thông tin đó đến một thiết bị hoặc người dùng độc lập.</string>
     <string name="SendLargePhotos">Gửi ảnh lớn</string>
     <string name="SendLargePhotosAbout">Tăng giới hạn bên trên hình ảnh nén lên 2560px.</string>
     <string name="ExportAsJson">Sao chép dưới dạng JSON</string>
+    <string name="ViewAsJson">Việt Nam</string>
     <string name="HideStories">Ẩn Câu Chuyện</string>
     <string name="QuickForward"></string>
     <string name="DidNotGetTheCodeBlameDurov">Nếu bạn không nhận được mã trên thiết bị khác hoặc bạn chưa đăng nhập Telegram trên thiết bị khác, vui lòng sử dụng ứng dụng Telegram chính thức để nhận mã.\n\nTelegram đã **tắt khả năng đăng nhập bằng SMS ** trên ứng dụng của bên thứ ba. Người dùng đăng nhập vào ứng dụng của bên thứ ba chỉ có thể nhận mã đăng nhập qua Telegram.\n\nChúng tôi không thể giúp bạn vấn đề này, nếu bạn gặp bất kỳ vấn đề nào khi đăng nhập, vui lòng liên hệ với Bộ phận hỗ trợ của Telegram.</string>
+    <string name="ChangePhoneNumberBlameDurov">Telegram đã ** loại bỏ tính năng thay đổi số điện thoại ** trên các ứng dụng thứ ba. Người dùng chỉ có thể thay đổi số điện thoại qua ứng dụng Telegram chính thức</string>
     <string name="NavigationAnimation">Hoạt ảnh điều hướng</string>
     <string name="NavigationAnimationBezier">Cổ điển</string>
     <string name="NavigationAnimationSpring">Tự nhiên</string>
@@ -281,6 +291,23 @@
     <string name="CreateCode">Tạo mã</string>
     <string name="CreateCodeLanguage">Ngôn ngữ</string>
     <string name="IgnoreContentRestriction">Bỏ qua hạn chế nội dung</string>
+    <string name="PreviewSendPhoto">Gửi ảnh</string>
+    <string name="PreviewSendVideo">Gửi video</string>
+    <string name="PreviewSendFile">Gửi tệp</string>
+    <string name="FixLinkPreview">Sửa lỗi xem trước liên kết</string>
+    <string name="FixLinkPreviewDesc">Đã tự động sửa lỗi gửi liên kết nền tảng khác với xem trước liên kết.</string>
+    <string name="ShowTimeHint">Hiển thị gợi ý thời gian</string>
+    <string name="ShowTimeHintDesc">Hiển thị chi tiết ngày gửi bằng cách chạm vào thời gian.</string>
+    <string name="Cryptocurrency">Đơn vị tiền tệ Crypto</string>
+    <string name="TranscribeProviderShort">Nhà cung cấp dịch vụ</string>
+    <string name="TranscribeProviderAuto">Tự động chọn</string>
+    <string name="TranscribeProviderWorkersAI">Thì thầm ( sử dụng AI )</string>
+    <string name="TranscribeProviderDesc">Với tính năng tự động chọn, %s sẽ được sử dụng khi không có Telegram Premium.</string>
+    <string name="CloudflareCredentials">Chứng nhận của Cloudflare</string>
+    <string name="CloudflareCredentialsNotSet">Chứng nhận của Cloudflare chưa được thiết lập</string>
+    <string name="CloudflareAccountID">ID tài khoản</string>
+    <string name="CloudflareAPIToken">Mã API</string>
+    <string name="CloudflareCredentialsDialog">ID tài khoản Cloudflare và mã API chưa được thiết lập. \n**Làm cách nào để thiết lập? **</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>

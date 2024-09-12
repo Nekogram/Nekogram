@@ -205,12 +205,12 @@
     <string name="PasscodePanicCode">パニックコード</string>
     <string name="PasscodePanicCodeSet">パニックコードを設定</string>
     <string name="PasscodePanicCodeEdit">パニックコードの変更</string>
-    <string name="PasscodePanicCodeRemove">パニックコードを OFF にする</string>
+    <string name="PasscodePanicCodeRemove">パニックコードをオフ</string>
     <string name="PasscodePanicCodeRemoveConfirmMessage">本当にパニックコードをオフにしますか？</string>
     <string name="PasscodeRemoveConfirmMessage">このアカウントのパスコードを本当に削除しますか？</string>
     <string name="PasscodePanicCodeAbout">何か問題が発生した場合は、パニックコードを使用してアカウントからログアウトします。</string>
     <string name="HideTimeOnSticker">ステッカーに時刻を表示しない</string>
-    <string name="TranslatorShowOriginal">オリジナルテキスト付き</string>
+    <string name="TranslatorShowOriginal">原文を表示</string>
     <string name="DatacenterStatusAbout">Telegram の**データセンター**の状況を確認</string>
     <string name="DatacenterStatus">データセンターの状況</string>
     <string name="DatacenterStatusShort">データセンター</string>
@@ -269,7 +269,7 @@
     <string name="HideStories">ストーリーを非表示</string>
     <string name="QuickForward">クイック転送メニューを使用</string>
     <string name="DidNotGetTheCodeBlameDurov">別のデバイスでコードを受け取っていない場合、または別のデバイスで Telegram にログインしていない場合は、公式の Telegram アプリを使用してコードを受け取ってください。\n\nTelegram は、サードパーティ アプリで **SMS によるログイン機能を無効にしました**。サードパーティアプリにログインしているユーザーは、Telegram 経由でのみログイン コードを受信できます。\n\nこれについては弊社ではサポートできません。ログインに関して問題がある場合は、Telegram サポートにお問い合わせください。</string>
-    <string name="ChangePhoneNumberBlameDurov">Telegram は、**サードパーティのアプリで電話番号**を変更する機能を無効にしました。ユーザーは Telegram でのみ電話番号を変更できます。</string>
+    <string name="ChangePhoneNumberBlameDurov">Telegram は、**サードパーティのアプリで電話番号を変更する機能を無効にしました。**ユーザーは Telegram でのみ電話番号を変更できます。</string>
     <string name="NavigationAnimation">ナビゲーションアニメーション</string>
     <string name="NavigationAnimationBezier">クラシック</string>
     <string name="NavigationAnimationSpring">ナチュラル</string>
@@ -302,7 +302,7 @@
     <string name="TranscribeProviderShort">プロバイダー</string>
     <string name="TranscribeProviderAuto">自動選択</string>
     <string name="TranscribeProviderWorkersAI">Whisper (Workers AI)</string>
-    <string name="TranscribeProviderDesc">自動選択オプションでは、Telegram Premium が利用できない場合、 %s が使用されます。</string>
+    <string name="TranscribeProviderDesc">自動選択オプションでは、Telegram プレミアムが利用できない場合、 %s が使用されます。</string>
     <string name="CloudflareCredentials">Cloudflare の認証情報</string>
     <string name="CloudflareCredentialsNotSet">Cloudflare の認証情報が設定されていません。</string>
     <string name="CloudflareAccountID">アカウント ID</string>
