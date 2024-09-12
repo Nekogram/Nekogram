@@ -1102,9 +1102,6 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 				return;
 			}
 		}
-		if (startRinging) {
-			startRinging();
-		}
 		TLRPC.TL_phone_receivedCall req = new TLRPC.TL_phone_receivedCall();
 		req.peer = new TLRPC.TL_inputPhoneCall();
 		req.peer.id = privateCall.id;
@@ -1128,6 +1125,9 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 					Bundle extras = new Bundle();
 					extras.putInt("call_type", 1);
 					tm.addNewIncomingCall(addAccountToTelecomManager(), extras);
+				}
+				if (startRinging) {
+					startRinging();
 				}
 			}
 		}), ConnectionsManager.RequestFlagFailOnServerErrors);
@@ -4150,6 +4150,19 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			}
 		} catch (Throwable e) {
 			FileLog.e(e);
+		}
+		if (bitmap == null) {
+			Theme.createDialogsResources(context);
+			AvatarDrawable placeholder;
+			if (userOrChat instanceof TLRPC.User) {
+				placeholder = new AvatarDrawable((TLRPC.User) userOrChat);
+			} else {
+				placeholder = new AvatarDrawable((TLRPC.Chat) userOrChat);
+			}
+			placeholder.setRoundRadius(0);
+			bitmap = Bitmap.createBitmap(AndroidUtilities.dp(42), AndroidUtilities.dp(42), Bitmap.Config.ARGB_8888);
+			placeholder.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
+			placeholder.draw(new Canvas(bitmap));
 		}
 		return bitmap;
 	}
