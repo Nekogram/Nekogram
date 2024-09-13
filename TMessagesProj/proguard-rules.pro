@@ -147,3 +147,10 @@
 -dontwarn com.google.j2objc.annotations.ReflectionSupport
 -dontwarn com.google.j2objc.annotations.RetainedWith
 -dontwarn com.google.j2objc.annotations.Weak
+-dontwarn android.support.annotation.IntRange
+-dontwarn android.support.annotation.NonNull
+-dontwarn android.support.annotation.Nullable
+-dontwarn android.support.annotation.RequiresApi
+-dontwarn android.support.annotation.Size
+-dontwarn android.support.annotation.VisibleForTesting
+-dontwarn android.support.v4.app.NotificationCompat$Builder
