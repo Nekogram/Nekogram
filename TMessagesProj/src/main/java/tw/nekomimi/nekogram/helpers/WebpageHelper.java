@@ -12,7 +12,8 @@ public class WebpageHelper {
             "fxtwitter.com",
             "fixupx.com",
             "twittpr.com",
-            "vxtwitter.com"
+            "vxtwitter.com",
+            "fixvx.com"
     );
 
     public static String toFixUrl(String url) {
