@@ -7456,7 +7456,7 @@ public class MessagesStorage extends BaseController {
                                 user.status.expires = cursor.intValue(1);
                             }
                             loadedUsers.add(user);
-                            participant.date = cursor.intValue(3);
+                            //participant.date = cursor.intValue(3);
                             TLRPC.TL_chatChannelParticipant chatChannelParticipant = new TLRPC.TL_chatChannelParticipant();
                             chatChannelParticipant.user_id = MessageObject.getPeerId(participant.peer);
                             chatChannelParticipant.date = participant.date;
