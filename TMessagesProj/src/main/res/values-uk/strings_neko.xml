@@ -265,9 +265,11 @@
     <string name="SendLargePhotos">Надсилати великі фото</string>
     <string name="SendLargePhotosAbout">Збільшити обмеження на розмір сторони для стиснених зображень до 2560 пікс.</string>
     <string name="ExportAsJson">Копіювати як JSON</string>
+    <string name="ViewAsJson">Переглянути як JSON</string>
     <string name="HideStories">Приховати Історії</string>
     <string name="QuickForward">Використовувати швидке меню пересилання</string>
     <string name="DidNotGetTheCodeBlameDurov">Якщо ви не отримали код на інший пристрій або ви не входили у Telegram на інших пристроях, будь ласка, скористайтеся офіційним клієнтом Telegram для отримання коду.\n\nTelegram **заблокував можливість входу через СМС** для сторонніх додатків. При вході через сторонні додатки користувачі можуть отримувати коди лише безпосередньо у Telegram.\n\nМи не можемо з цим нічого зробити, якщо у вас виникли будь-які складнощі зі входом, будь ласка, зверніться до служби підтримки Telegram.</string>
+    <string name="ChangePhoneNumberBlameDurov">Telegram **відключив можливість змінювати номер телефону** у сторонніх додатках. Користувачі можуть змінити номер телефону через Telegram.</string>
     <string name="NavigationAnimation">Анімація навігації</string>
     <string name="NavigationAnimationBezier">Класична</string>
     <string name="NavigationAnimationSpring">Природна</string>
@@ -297,6 +299,15 @@
     <string name="ShowTimeHint">Показувати підказку часу</string>
     <string name="ShowTimeHintDesc">Показати детальну дату надсилання по натисканню на час.</string>
     <string name="Cryptocurrency">Криптовалюта</string>
+    <string name="TranscribeProviderShort">Провайдер</string>
+    <string name="TranscribeProviderAuto">Авто-вибір</string>
+    <string name="TranscribeProviderWorkersAI">Whisper (Workers AI)</string>
+    <string name="TranscribeProviderDesc">З увімкненим авто-вибором, %s буде використовуватися, коли Telegram Premium недоступний.</string>
+    <string name="CloudflareCredentials">Облікові дані Cloudfare</string>
+    <string name="CloudflareCredentialsNotSet">Облікові дані Cloudflare не налаштовано.</string>
+    <string name="CloudflareAccountID">ID облікового запису</string>
+    <string name="CloudflareAPIToken">Токен API</string>
+    <string name="CloudflareCredentialsDialog">Налаштувати ID облікового запису та токен API\n**Як отримати?**</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
     <string name="AccSeekbarHeading">Налаштування панелі повзунка</string>

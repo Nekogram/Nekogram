@@ -265,9 +265,11 @@
     <string name="SendLargePhotos">Αποστολή μεγάλων φωτογραφιών</string>
     <string name="SendLargePhotosAbout">Αύξηση του πλαϊνού ορίου για τις συμπιεσμένες εικόνες στα 2560px.</string>
     <string name="ExportAsJson">Αντιγραφή ως JSON</string>
+    <string name="ViewAsJson">Προβολή ως JSON</string>
     <string name="HideStories">Απόκρυψη Ιστοριών</string>
     <string name="QuickForward">Χρήση μενού γρήγορης προώθησης</string>
     <string name="DidNotGetTheCodeBlameDurov">Εάν δεν έχετε λάβει τον κωδικό σε άλλη συσκευή ή δεν έχετε συνδεθεί στο Telegram σε άλλη συσκευή, παρακαλούμε χρησιμοποιήστε την επίσημη εφαρμογή Telegram για να λάβετε τον κωδικό.\n\nΤο Telegram έχει **απενεργοποιήσει τη δυνατότητα σύνδεσης με SMS** σε εφαρμογές τρίτων. Οι χρήστες που συνδέονται σε εφαρμογές τρίτων κατασκευαστών είναι σε θέση να λαμβάνουν κωδικούς σύνδεσης μόνο μέσω του Telegram.\n\n\Δεν μπορούμε να σας βοηθήσουμε με αυτό, αν έχετε οποιοδήποτε πρόβλημα με τη σύνδεση, παρακαλούμε επικοινωνήστε με την υποστήριξη του Telegram.</string>
+    <string name="ChangePhoneNumberBlameDurov">Το Telegram έχει **απενεργοποιήσει τη δυνατότητα αλλαγής του αριθμού τηλεφώνου** σε εφαρμογές τρίτων κατασκευαστών. Οι χρήστες μπορούν να αλλάξουν αριθμό τηλεφώνου μόνο μέσω του Telegram.</string>
     <string name="NavigationAnimation">Εφέ κίνησης πλοήγησης</string>
     <string name="NavigationAnimationBezier">Κλασική</string>
     <string name="NavigationAnimationSpring">Φυσική</string>
@@ -297,6 +299,15 @@
     <string name="ShowTimeHint">Υπόδειξη χρόνου εμφάνισης</string>
     <string name="ShowTimeHintDesc">Εμφάνιση αναλυτικής ημερομηνίας αποστολής πατώντας την ώρα.</string>
     <string name="Cryptocurrency">Κρυπτονόμισμα</string>
+    <string name="TranscribeProviderShort">Πάροχος</string>
+    <string name="TranscribeProviderAuto">Αυτόματη επιλογή</string>
+    <string name="TranscribeProviderWorkersAI">Whisper (Workers AI)</string>
+    <string name="TranscribeProviderDesc">Με την αυτόματη επιλογή, το %s θα χρησιμοποιείται όταν το Telegram Premium δεν είναι διαθέσιμο.</string>
+    <string name="CloudflareCredentials">Διαπιστευτήρια Cloudflare</string>
+    <string name="CloudflareCredentialsNotSet">Τα διαπιστευτήρια Cloudflare δεν έχουν ρυθμιστεί.</string>
+    <string name="CloudflareAccountID">Ταυτότητα Λογαριασμού</string>
+    <string name="CloudflareAPIToken">API Token</string>
+    <string name="CloudflareCredentialsDialog">Ρύθμιση αναγνωριστικό λογαριασμού Cloudflare και Token API.\n**Πώς αποκτώνται;**</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>

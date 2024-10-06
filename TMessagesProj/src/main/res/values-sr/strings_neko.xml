@@ -5,8 +5,8 @@
     <string name="MessageMenu">Мени порука</string>
     <string name="HidePhone">Сакриј мој број телефона</string>
     <string name="DeleteAllFromSelf">Избришите своје поруке</string>
-    <string name="DeleteAllFromSelfAlert">Упозорење! Ово ће **избрисати све ваше поруке** у овом ћаскању за **све ** учеснике.</string>
-    <string name="DeleteAllFromSelfAlertBefore">Упозорење! Ово ће **избрисати све ваше поруке пре %s** у овом ћаскању за **све ** учеснике.</string>
+    <string name="DeleteAllFromSelfAlert">Упозорење! Ово ће **избрисати све ваше поруке** у овом ћаскању за **све** учеснике.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Упозорење! Ово ће **избрисати све ваше поруке пре %s** у овом ћаскању за **све** учеснике.</string>
     <string name="DeleteAllFromSelfBefore">Пре...</string>
     <string name="IgnoreBlocked">Сакриј поруке од блокираног корисника</string>
     <string name="Connection">Веза</string>
@@ -20,7 +20,7 @@
     <string name="NoCaptionForwardShort">Без натписа</string>
     <string name="Repeat">Понови</string>
     <string name="AddToSavedMessages">Сачувај поруку</string>
-    <string name="CreateMention">Направи помињање</string>
+    <string name="CreateMention">Направи спомињање</string>
     <string name="Prpr">Пероперо</string>
     <string name="EnableResidentNotification">Омогући трајно обавештење</string>
     <string name="DisableResidentNotification">Онемогући трајно обавештење</string>
@@ -87,7 +87,7 @@
     <string name="VoiceEnhancements">Побољшања гласа</string>
     <string name="VoiceEnhancementsAbout">Сузбијање шума и нормализација гласа</string>
     <string name="DisableInstantCamera">Онемогући инстант камеру</string>
-    <string name="OpenAllLinksInInstantView">Отварање свих линкова у InstantView</string>
+    <string name="OpenAllLinksInInstantView">Отварање свих веза у InstantView</string>
     <string name="DonateThankYou">Хвала вам!</string>
     <string name="DonateEvilGoogle">Google ће узети 30 одсто ваше донације.</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
@@ -169,8 +169,8 @@
     <string name="SaveToDownloadCount_few">Чување %1$d датотека у преузимања</string>
     <string name="SaveToDownloadCount_many">Чување %1$d датотека у преузимања</string>
     <string name="SaveToDownloadCount_other">Чување %1$d датотека у преузимања</string>
-    <string name="AppLinkNotVerifiedMessage">За Android 12 и новије верзије, морате ручно да додате линк у верификоване линкове да бисте отварали t.me линкове у Nekogram-у.</string>
-    <string name="AppLinkNotVerifiedTitle">Линкови апликације нису верификовани</string>
+    <string name="AppLinkNotVerifiedMessage">За Android 12 и новије верзије, морате ручно да додате везу у верификоване везе да бисте отварали t.me везе у апликацији Nekogram.</string>
+    <string name="AppLinkNotVerifiedTitle">Везе апликације нису верификоване</string>
     <string name="AutoTranslate">Аутоматски преведи</string>
     <string name="AutoTranslateAbout">Аутоматско превођење порука које су на другом језику.</string>
     <string name="DoubleTapAction">Радња двоструким додиром</string>
@@ -195,7 +195,7 @@
     <string name="PasscodeNeeded">Прво морате да омогућите закључавање кодом</string>
     <string name="PasscodeNeko">Кôд</string>
     <string name="PasscodeShowInSettings">Прикажи у Neko подешавањима</string>
-    <string name="PasscodeShowInSettingsAbout">Након сакривања, можете отворити ову страницу **САМО** путем линка:</string>
+    <string name="PasscodeShowInSettingsAbout">Након сакривања, можете отворити ову страницу **САМО** путем везе:</string>
     <string name="PasscodeSet">Подеси кôд</string>
     <string name="PasscodeEdit">Промени кôд</string>
     <string name="PasscodeRemove">Уклони кôд</string>
@@ -217,9 +217,9 @@
     <string name="Markdown">Ознаке</string>
     <string name="MarkdownEnableByDefault">Подразумевано омогући</string>
     <string name="MarkdownParser">Рашчлањивач</string>
-    <string name="MarkdownParseLinks">Рашчлани линкове</string>
-    <string name="MarkdownAbout">Измените текст у порукама користећи означавање: ^1**подебљано**^1, ^2__курзив__^2, ^3~~прецртано~~^3, ^4`моноразмак`^4, ^5||спојлер||^5, ^6текст^7url^8.</string>
-    <string name="MarkdownAbout2">Измените текст у порукама користећи означавање: ^1**подебљано**^1, ^2__курзив__^2, ^3~~прецртано~~^3, ^4`моноразмак`^4, ^5||спојлер||^5.</string>
+    <string name="MarkdownParseLinks">Рашчлани везе</string>
+    <string name="MarkdownAbout">Уредите текст у порукама користећи означавање: ^1**подебљано**^1, ^2__курзив__^2, ^3~~прецртано~~^3, ^4`моноразмак`^4, ^5||спојлер||^5, ^6текст^7url^8.</string>
+    <string name="MarkdownAbout2">Уредите текст у порукама користећи означавање: ^1**подебљано**^1, ^2__курзив__^2, ^3~~прецртано~~^3, ^4`моноразмак`^4, ^5||спојлер||^5.</string>
     <string name="AppIconOldSchool">Старомодна</string>
     <string name="AppIconMerio">Мерио</string>
     <string name="AppIconRainbow">Дуга</string>
@@ -294,8 +294,8 @@
     <string name="PreviewSendPhoto">Пошаљи слику</string>
     <string name="PreviewSendVideo">Пошаљи видео</string>
     <string name="PreviewSendFile">Пошаљи датотеку</string>
-    <string name="FixLinkPreview">Поправи преглед линка</string>
-    <string name="FixLinkPreviewDesc">Аутоматски шаљите линкове других друштвених медија с поправљеним прегледом линкова.</string>
+    <string name="FixLinkPreview">Поправи преглед везе</string>
+    <string name="FixLinkPreviewDesc">Аутоматски шаљите везе других друштвених медија с поправљеним прегледом веза.</string>
     <string name="ShowTimeHint">Прикажи наговештај о времену</string>
     <string name="ShowTimeHintDesc">Прикажите детаљан датум слања додиром на време.</string>
     <string name="Cryptocurrency">Криптовалута</string>
