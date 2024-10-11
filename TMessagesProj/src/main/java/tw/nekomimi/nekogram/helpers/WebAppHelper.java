@@ -6,9 +6,9 @@ import android.util.Base64;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.SerializedData;
+import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.BaseFragment;
@@ -35,20 +35,20 @@ public class WebAppHelper {
         }
     }
 
-    public static void openTLViewer(BaseFragment fragment, MessageObject messageObject) {
-        var object = "";
+    public static void openTLViewer(BaseFragment fragment, TLObject object) {
+        var serialized = "";
         try {
-            var data = new SerializedData(messageObject.messageOwner.getObjectSize());
-            messageObject.messageOwner.serializeToStream(data);
-            object = Base64.encodeToString(data.toByteArray(), Base64.NO_PADDING | Base64.NO_WRAP | Base64.URL_SAFE);
+            var data = new SerializedData(object.getObjectSize());
+            object.serializeToStream(data);
+            serialized = Base64.encodeToString(data.toByteArray(), Base64.NO_PADDING | Base64.NO_WRAP | Base64.URL_SAFE);
             data.cleanup();
         } catch (Exception e) {
             FileLog.e(e);
         }
-        if (TextUtils.isEmpty(object)) {
+        if (TextUtils.isEmpty(serialized)) {
             return;
         }
-        var url = Extra.TLV_URL + "#m=" + object + "&l=" + TLRPC.LAYER;
+        var url = Extra.TLV_URL + "#m=" + serialized + "&l=" + TLRPC.LAYER;
         openInternalWebApp(fragment, url, INTERNAL_BOT_TLV, true);
     }
 

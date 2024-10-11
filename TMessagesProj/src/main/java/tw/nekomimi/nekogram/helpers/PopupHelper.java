@@ -12,6 +12,8 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
+import org.telegram.tgnet.AbstractSerializedData;
+import org.telegram.tgnet.TLObject;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
 import org.telegram.ui.ActionBar.ActionBarPopupWindow;
@@ -70,7 +72,7 @@ public class PopupHelper {
         }
     }
 
-    public static void showIdPopup(BaseFragment fragment, View anchorView, long id, int dc, long userId, float x, float y) {
+    public static void showIdPopup(BaseFragment fragment, View anchorView, long id, int dc, long did, long userId, float x, float y) {
         Context context = fragment.getParentActivity();
         ActionBarPopupWindow.ActionBarPopupWindowLayout popupLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, R.drawable.popup_fixed_alert2, fragment.getResourceProvider(), ActionBarPopupWindow.ActionBarPopupWindowLayout.FLAG_USE_SWIPEBACK) {
             final Path path = new Path();
@@ -111,8 +113,53 @@ public class PopupHelper {
                 RegDateHelper.getRegDate(userId, (date, error) -> subItem.setSubtext(RegDateHelper.formatRegDate(date, error), true));
             }
         }
+        if (did != 0) {
+            ActionBarMenuSubItem subItem = ActionBarMenuItem.addItem(popupLayout, R.drawable.msg_stories_caption, LocaleController.getString(R.string.ViewAsJson), false, fragment.getResourceProvider());
+            subItem.setOnClickListener(v -> {
+                popupWindow.dismiss();
+                WebAppHelper.openTLViewer(fragment, getPeerAndFull(fragment, did));
+            });
+        }
         popupLayout.setParentWindow(popupWindow);
     }
+
+    public static TLObject getPeerAndFull(BaseFragment fragment, long peerId) {
+        var messagesController = fragment.getMessagesController();
+        var mediaDataController = fragment.getMediaDataController();
+        TLObject peer;
+        TLObject peerFull;
+        TLObject info;
+        if (peerId > 0) {
+            peer = messagesController.getUser(peerId);
+            peerFull = messagesController.getUserFull(peerId);
+            info = mediaDataController.getBotInfoCached(peerId, peerId);
+        } else {
+            peer = messagesController.getChat(-peerId);
+            peerFull = messagesController.getChatFull(-peerId);
+            info = null;
+        }
+        if (peer == null) {
+            return null;
+        }
+        return new TLObject() {
+            @Override
+            public void serializeToStream(AbstractSerializedData stream) {
+                stream.writeInt32(0x1cb5c415);
+                var count = 1;
+                if (peerFull != null) count++;
+                if (info != null) count++;
+                stream.writeInt32(count);
+                peer.serializeToStream(stream);
+                if (peerFull != null) {
+                    peerFull.serializeToStream(stream);
+                }
+                if (info != null) {
+                    info.serializeToStream(stream);
+                }
+            }
+        };
+    }
+
 
     public static void showCopyPopup(BaseFragment fragment, CharSequence title, View anchorView, float x, float y, Runnable callback) {
         Context context = fragment.getParentActivity();
