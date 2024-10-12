@@ -35,6 +35,8 @@ public class WebpageHelper {
                 targetAuthority = "vxreddit.com";
             } else if ("instagram.com".equals(host) || "www.instagram.com".equals(host)) {
                 targetAuthority = "ddinstagram.com";
+            } else if ("pixiv.net".equals(host) || "www.pixiv.net".equals(host)) {
+                targetAuthority = "phixiv.net";
             } else {
                 return url;
             }
@@ -58,6 +60,8 @@ public class WebpageHelper {
             targetAuthority = "www.reddit.com";
         } else if (host.endsWith("ddinstagram.com")) {
             targetAuthority = "www.instagram.com";
+        } else if (host.endsWith("phixiv.net")) {
+            targetAuthority = "www.pixiv.net";
         } else {
             return uri;
         }
