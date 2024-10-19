@@ -684,11 +684,8 @@ public class FileLoader extends BaseController {
 
     public FileUploadOperation findUploadOperationByRequestToken(final int requestToken) {
         for (FileUploadOperation operation : uploadOperationPaths.values()) {
-            if (operation == null) continue;
-            for (int i = 0; i < operation.requestTokens.size(); ++i) {
-                if (operation.requestTokens.valueAt(i) == requestToken) {
-                    return operation;
-                }
+            if (operation != null && operation.uiRequestTokens.contains(requestToken)) {
+                return operation;
             }
         }
         return null;
@@ -706,11 +703,8 @@ public class FileLoader extends BaseController {
 
     public FileLoadOperation findLoadOperationByRequestToken(final int requestToken) {
         for (FileLoadOperation operation : loadOperationPaths.values()) {
-            if (operation == null || operation.requestInfos == null) continue;
-            for (FileLoadOperation.RequestInfo requestInfo : operation.requestInfos) {
-                if (requestInfo != null && requestInfo.requestToken == requestToken) {
-                    return operation;
-                }
+            if (operation != null && operation.uiRequestTokens.contains(requestToken)) {
+                return operation;
             }
         }
         return null;
@@ -823,7 +817,7 @@ public class FileLoader extends BaseController {
             if (priorityChanged) {
                 operation.getQueue().checkLoadingOperations();
             }
-            FileLog.d("load operation update position fileName=" + finalFileName + " position in queue " + operation.getPositionInQueue() + " preloadFinish " + operation.isPreloadFinished() + " priority=" + operation.getPriority());
+//            FileLog.d("load operation update position fileName=" + finalFileName + " position in queue " + operation.getPositionInQueue() + " preloadFinish " + operation.isPreloadFinished() + " priority=" + operation.getPriority());
             return operation;
         }
 

@@ -165,11 +165,16 @@ public class ActionBarMenuSubItem extends FrameLayout {
         }
         textView.setLayoutParams(layoutParams);
         setPadding(dp(LocaleController.isRTL ? listener != null ? 0 : 8 : 18), 0, dp(LocaleController.isRTL ? 18 : listener != null ? 0 : 8), 0);
-        rightIcon.setImageResource(icon);
-        if (listener != null) {
-            rightIcon.getLayoutParams().width = AndroidUtilities.dp(40);
-            rightIcon.setOnClickListener(listener);
-            rightIcon.setBackground(Theme.createRadSelectorDrawable(selectorColor, 6, 0, 0, 6));
+        if (icon == 0) {
+            rightIcon.setVisibility(View.GONE);
+        } else {
+            rightIcon.setVisibility(View.VISIBLE);
+            rightIcon.setImageResource(icon);
+            if (listener != null) {
+                rightIcon.getLayoutParams().width = AndroidUtilities.dp(40);
+                rightIcon.setOnClickListener(listener);
+                rightIcon.setBackground(Theme.createRadSelectorDrawable(selectorColor, 6, 0, 0, 6));
+            }
         }
     }
 
