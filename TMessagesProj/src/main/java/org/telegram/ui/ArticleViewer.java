@@ -114,6 +114,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.exoplayer2.ui.AspectRatioFrameLayout;
+import com.google.android.exoplayer2.util.Log;
 
 import org.json.JSONObject;
 import org.telegram.messenger.AndroidUtilities;
@@ -748,7 +749,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private final Paint blackPaint = new Paint();
 
         private Runnable attachRunnable;
-        private boolean selfLayout;
         private int startedTrackingPointerId;
         private boolean maybeStartTracking;
         private boolean startedTracking;
@@ -863,9 +863,6 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         @SuppressWarnings("DrawAllocation")
         @Override
         protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-            if (selfLayout) {
-                return;
-            }
             int width = right - left;
             if (anchorsOffsetMeasuredWidth != width) {
                 for (int i = 0; i < pages.length; i++) {
@@ -3387,7 +3384,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                     sheet.dismiss(true);
                 }
             }
-            Browser.openUrl(parentActivity, Uri.parse(url), true, true, false, progress, null, true, true);
+            Browser.openUrl(parentActivity, Uri.parse(url), true, true, false, progress, null, true, true, false);
             return true;
         };
 
@@ -3670,7 +3667,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.messagePlayingDidReset);
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.messagePlayingPlayStateChanged);
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.messagePlayingDidStart);
-        if (parentActivity == activity) {
+        if (parentActivity == activity || parentActivity != null && isSheet && sheet != null && sheet.dialog != null) {
             updatePaintColors();
             refreshThemeColors();
             return;
@@ -4006,8 +4003,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                             end = Math.max(sb.getSpanEnd(spans[i]), end);
                         }
                         Uri uri = Utilities.uriParseSafe(url);
+                        if (uri != null && TextUtils.equals(uri.getScheme(), "javascript")) return;
                         if (spans.length > 0 && start == 0 && end > 0 || uri != null && uri.getScheme() != null) {
-                            if (uri.getScheme() == null && uri.getHost() == null && uri.getPath() != null) {
+                            if (uri != null && uri.getScheme() == null && uri.getHost() == null && uri.getPath() != null) {
                                 url = Browser.replace(uri, "https", null, uri.getPath(), "/");
                             }
                             page.getWebView().loadUrl(url);
@@ -8245,6 +8243,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
     private class BlockEmbedCell extends FrameLayout implements TextSelectionHelper.ArticleSelectableView {
 
         private class TelegramWebviewProxy {
+            @Keep
             @JavascriptInterface
             public void postEvent(final String eventName, final String eventData) {
                 AndroidUtilities.runOnUIThread(() -> {
@@ -12903,10 +12902,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         public final BotWebViewContainer webViewContainer;
         private boolean swipeBack;
 
-        private int errorShownCode;
-        private String errorShownDescription;
         private boolean errorShown;
-        private boolean dangerousShown;
         public ErrorContainer errorContainer;
 
         public boolean backButton, forwardButton;
@@ -13011,9 +13007,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 }
 
                 @Override
-                public void onWebViewCreated() {
-                    super.onWebViewCreated();
-                    swipeContainer.setWebView(webViewContainer.getWebView());
+                public void onWebViewCreated(MyWebView webView) {
+                    super.onWebViewCreated(webView);
+                    swipeContainer.setWebView(webView);
                 }
 
                 @Override
@@ -13049,7 +13045,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
                 protected void onErrorShown(boolean shown, int errorCode, String description) {
                     if (shown) {
                         createErrorContainer();
-                        errorContainer.set(getWebView() != null ? getWebView().getUrl() : null, errorShownCode = errorCode, errorShownDescription = description);
+                        errorContainer.set(getWebView() != null ? getWebView().getUrl() : null, errorCode, description);
                         errorContainer.setDark(AndroidUtilities.computePerceivedBrightness(getThemedColor(Theme.key_iv_background)) <= .721f, false);
                         errorContainer.setBackgroundColor(getThemedColor(Theme.key_iv_background));
                     }
@@ -13165,7 +13161,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             });
             swipeContainer.addView(webViewContainer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
             swipeContainer.setScrollEndListener(() -> webViewContainer.invalidateViewPortHeight(true));
-            swipeContainer.setDelegate(() -> {
+            swipeContainer.setDelegate(byTap -> {
                 if (sheet != null) {
                     swipeBack = true;
                     sheet.dismiss(true);
@@ -13261,9 +13257,9 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         }
 
         public int getBackgroundColor() {
-            if (isWeb() && dangerousShown) {
-                return 0xFFB3261E;
-            }
+//            if (isWeb() && dangerousShown) {
+//                return 0xFFB3261E;
+//            }
             if (isWeb() && SharedConfig.adaptableColorInBrowser) {
                 if (errorShown) {
                     return getThemedColor(Theme.key_iv_background);
@@ -13644,7 +13640,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
             if (webView != null) {
                 webView.onResume();
-                pageLayout.webViewContainer.replaceWebView(webView, proxy);
+                pageLayout.webViewContainer.replaceWebView(UserConfig.selectedAccount, webView, proxy);
                 pageLayout.setWebBgColor(true, actionBarColor);
                 pageLayout.setWebBgColor(false, backgroundColor);
             } else if (lastUrl != null) {
@@ -13794,12 +13790,19 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         public boolean preserve;
 
-        private BottomSheetTabDialog dialog;
+        public BottomSheetTabDialog dialog;
+        private boolean hadDialog;
 
         @Override
         public boolean setDialog(BottomSheetTabDialog dialog) {
             this.dialog = dialog;
+            if (dialog != null) hadDialog = true;
             return true;
+        }
+
+        @Override
+        public boolean hadDialog() {
+            return hadDialog;
         }
 
         @Override
@@ -13832,10 +13835,11 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         @Override
         public boolean isShown() {
-            return !dismissing && openProgress > 0.5f && windowView != null && windowView.isAttachedToWindow() && windowView.isVisible() && backProgress < 1f;
+            return !dismissing && !released && openProgress > 0.5f && windowView != null && windowView.isAttachedToWindow() && windowView.isVisible() && backProgress < 1f;
         }
 
         public void attachInternal(BaseFragment fragment) {
+            this.released = false;
             this.fragment = fragment;
             this.resourcesProvider = fragment.getResourceProvider();
             if (fragment instanceof ChatActivity) {
@@ -13877,6 +13881,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         private boolean dismissing;
         private boolean dismissingIntoTabs;
+        private boolean released;
 
         @Override
         public void dismiss(boolean tabs) {
@@ -13897,6 +13902,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
 
         @Override
         public void release() {
+            released = true;
             if (pages[0] != null && pages[0].swipeBack) {
                 pages[0].swipeContainer.setSwipeOffsetY(-pages[0].swipeContainer.offsetY + pages[0].swipeContainer.topActionBarOffsetY);
                 pages[0].swipeBack = false;
@@ -14033,6 +14039,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             checkFullyVisible();
             updateTranslation();
             windowView.invalidate();
+            windowView.requestLayout();
         }
 
         private float openProgress;
@@ -14474,7 +14481,7 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
         private final TextView titleView;
         private final TextView descriptionView;
         private final TextView codeView;
-        private final ButtonWithCounterView buttonView;
+        public final ButtonWithCounterView buttonView;
 
         public ErrorContainer(Context context) {
             super(context);
@@ -14538,13 +14545,19 @@ public class ArticleViewer implements NotificationCenter.NotificationCenterDeleg
             }
         }
 
-        public void set(String url, int code, String descrpiption) {
+        public void set(String botName, String description) {
+            titleView.setText(getString(R.string.WebErrorTitle));
+            descriptionView.setText(AndroidUtilities.replaceTags(formatString(R.string.WebErrorInfoBot, botName)));
+            codeView.setText(description);
+        }
+
+        public void set(String url, int code, String description) {
             titleView.setText(getString(R.string.WebErrorTitle));
             url = BotWebViewContainer.magic2tonsite(url);
             CharSequence cs = AndroidUtilities.replaceTags(url == null || Uri.parse(url) == null || Uri.parse(url).getAuthority() == null ? getString(R.string.WebErrorInfo) : formatString(R.string.WebErrorInfoDomain, Uri.parse(url).getAuthority()));
             cs = Emoji.replaceEmoji(cs, descriptionView.getPaint().getFontMetricsInt(), false);
             descriptionView.setText(cs);
-            codeView.setText(descrpiption);
+            codeView.setText(description);
         }
 
         @Override

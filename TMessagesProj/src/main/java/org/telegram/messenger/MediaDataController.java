@@ -9,6 +9,7 @@
 package org.telegram.messenger;
 
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -1285,6 +1286,32 @@ public class MediaDataController extends BaseController {
         });
     }
 
+    public static String inputSetKey(TLRPC.InputStickerSet i) {
+        if (i instanceof TLRPC.TL_inputStickerSetID)
+            return "id" + i.id + "access_hash" + i.access_hash;
+        if (i instanceof TLRPC.TL_inputStickerSetShortName)
+            return "short" + i.short_name;
+        if (i instanceof TLRPC.TL_inputStickerSetEmpty)
+            return "empty";
+        if (i instanceof TLRPC.TL_inputStickerSetAnimatedEmoji)
+            return "animatedEmoji";
+        if (i instanceof TLRPC.TL_inputStickerSetEmojiGenericAnimations)
+            return "emojiGenericAnimations";
+        if (i instanceof TLRPC.TL_inputStickerSetEmojiChannelDefaultStatuses)
+            return "emojiChannelDefaultStatuses";
+        if (i instanceof TLRPC.TL_inputStickerSetDice)
+            return "dice" + ((TLRPC.TL_inputStickerSetDice) i).emoticon;
+        if (i instanceof TLRPC.TL_inputStickerSetPremiumGifts)
+            return "premiumGifts";
+        if (i instanceof TLRPC.TL_inputStickerSetEmojiDefaultTopicIcons)
+            return "defaultTopicIcons";
+        if (i instanceof TLRPC.TL_inputStickerSetEmojiDefaultStatuses)
+            return "emojiDefaultStatuses";
+        return "null";
+    }
+
+    private final HashSet<String> loadingStickerSetsKeys = new HashSet<>();
+
     public TLRPC.TL_messages_stickerSet getStickerSet(TLRPC.InputStickerSet inputStickerSet, boolean cacheOnly) {
         return getStickerSet(inputStickerSet, null, cacheOnly, null);
     }
@@ -1317,11 +1344,15 @@ public class MediaDataController extends BaseController {
             }
             return cacheSet;
         }
+        final String key = inputSetKey(inputStickerSet);
+        if (onResponse == null && loadingStickerSetsKeys.contains(key)) return null;
+        loadingStickerSetsKeys.add(key);
         if (inputStickerSet instanceof TLRPC.TL_inputStickerSetID) {
             getMessagesStorage().getStorageQueue().postRunnable(() -> {
                 TLRPC.TL_messages_stickerSet cachedSet = getCachedStickerSetInternal(inputStickerSet.id, hash);
                 AndroidUtilities.runOnUIThread(() -> {
                     if (cachedSet != null) {
+                        loadingStickerSetsKeys.remove(key);
                         if (onResponse != null) {
                             onResponse.run(cachedSet);
                         }
@@ -1330,8 +1361,9 @@ public class MediaDataController extends BaseController {
                             stickerSetsByName.put(cachedSet.set.short_name.toLowerCase(), cachedSet);
                         }
                         getNotificationCenter().postNotificationName(NotificationCenter.groupStickersDidLoad, cachedSet.set.id, cachedSet);
-                    } else {
+                    } else if (!cacheOnly) {
                         fetchStickerSetInternal(inputStickerSet, (ok, set) -> {
+                            loadingStickerSetsKeys.remove(key);
                             if (onResponse != null) {
                                 onResponse.run(set);
                             }
@@ -1342,6 +1374,8 @@ public class MediaDataController extends BaseController {
                                 getNotificationCenter().postNotificationName(NotificationCenter.groupStickersDidLoad, set.set.id, set);
                             }
                         });
+                    } else {
+                        loadingStickerSetsKeys.remove(key);
                     }
                 });
             });
@@ -1350,6 +1384,7 @@ public class MediaDataController extends BaseController {
                 TLRPC.TL_messages_stickerSet cachedSet = getCachedStickerSetInternal(inputStickerSet.short_name.toLowerCase(), hash);
                 AndroidUtilities.runOnUIThread(() -> {
                     if (cachedSet != null) {
+                        loadingStickerSetsKeys.remove(key);
                         if (onResponse != null) {
                             onResponse.run(cachedSet);
                         }
@@ -1358,8 +1393,9 @@ public class MediaDataController extends BaseController {
                             stickerSetsByName.put(cachedSet.set.short_name.toLowerCase(), cachedSet);
                         }
                         getNotificationCenter().postNotificationName(NotificationCenter.groupStickersDidLoad, cachedSet.set.id, cachedSet);
-                    } else {
+                    } else if (!cacheOnly) {
                         fetchStickerSetInternal(inputStickerSet, (ok, set) -> {
+                            loadingStickerSetsKeys.remove(key);
                             if (onResponse != null) {
                                 onResponse.run(set);
                             }
@@ -1370,11 +1406,14 @@ public class MediaDataController extends BaseController {
                                 getNotificationCenter().postNotificationName(NotificationCenter.groupStickersDidLoad, set.set.id, set);
                             }
                         });
+                    } else {
+                        loadingStickerSetsKeys.remove(key);
                     }
                 });
             });
         } else if (!cacheOnly) {
             fetchStickerSetInternal(inputStickerSet, (ok, set) -> {
+                loadingStickerSetsKeys.remove(key);
                 if (onResponse != null) {
                     onResponse.run(set);
                 }
@@ -1393,6 +1432,8 @@ public class MediaDataController extends BaseController {
                     getNotificationCenter().postNotificationName(NotificationCenter.groupStickersDidLoad, set.set.id, set);
                 }
             });
+        } else {
+            loadingStickerSetsKeys.remove(key);
         }
         return null;
     }
@@ -1533,26 +1574,27 @@ public class MediaDataController extends BaseController {
         return set;
     }
 
-    private final HashMap<TLRPC.InputStickerSet, ArrayList<Utilities.Callback2<Boolean, TLRPC.TL_messages_stickerSet>>> loadingStickerSets = new HashMap<>();
+    private final HashMap<String, ArrayList<Utilities.Callback2<Boolean, TLRPC.TL_messages_stickerSet>>> loadingStickerSets = new HashMap<>();
 
     private void fetchStickerSetInternal(TLRPC.InputStickerSet inputStickerSet, Utilities.Callback2<Boolean, TLRPC.TL_messages_stickerSet> onDone) {
         if (onDone == null) {
             return;
         }
-        ArrayList<Utilities.Callback2<Boolean, TLRPC.TL_messages_stickerSet>> loading = loadingStickerSets.get(inputStickerSet);
+        final String key = inputSetKey(inputStickerSet);
+        ArrayList<Utilities.Callback2<Boolean, TLRPC.TL_messages_stickerSet>> loading = loadingStickerSets.get(key);
         if (loading != null && loading.size() > 0) {
             loading.add(onDone);
             return;
         }
         if (loading == null) {
-            loadingStickerSets.put(inputStickerSet, loading = new ArrayList<>());
+            loadingStickerSets.put(key, loading = new ArrayList<>());
         }
         loading.add(onDone);
         TLRPC.TL_messages_getStickerSet req = new TLRPC.TL_messages_getStickerSet();
         req.stickerset = inputStickerSet;
         getConnectionsManager().sendRequest(req, (response, error) -> {
             AndroidUtilities.runOnUIThread(() -> {
-                ArrayList<Utilities.Callback2<Boolean, TLRPC.TL_messages_stickerSet>> loadingCallbacks = loadingStickerSets.get(inputStickerSet);
+                ArrayList<Utilities.Callback2<Boolean, TLRPC.TL_messages_stickerSet>> loadingCallbacks = loadingStickerSets.get(key);
                 if (loadingCallbacks != null) {
                     for (int i = 0; i < loadingCallbacks.size(); ++i) {
                         if (response != null) {
@@ -1562,7 +1604,7 @@ public class MediaDataController extends BaseController {
                         }
                     }
                 }
-                loadingStickerSets.remove(inputStickerSet);
+                loadingStickerSets.remove(key);
             });
         });
     }
@@ -3793,6 +3835,7 @@ public class MediaDataController extends BaseController {
             searchServerResultMessagesMap[1].clear();
             getNotificationCenter().postNotificationName(NotificationCenter.chatSearchResultsLoading, guid);
         }
+        final boolean isHashtag = query != null && (query.trim().startsWith("#") || query.trim().startsWith("$"));
         if (messagesSearchEndReached[0] && !messagesSearchEndReached[1] && mergeDialogId != 0) {
             queryWithDialog = mergeDialogId;
         }
@@ -3937,7 +3980,7 @@ public class MediaDataController extends BaseController {
                     if (messageObject.hasValidGroupId()) {
                         messageObject.isPrimaryGroupMessage = true;
                     }
-                    messageObject.setQuery(finalQuery);
+                    messageObject.setQuery(finalQuery, !isHashtag);
                     messageObjects.add(messageObject);
                 }
             }
@@ -5457,6 +5500,7 @@ public class MediaDataController extends BaseController {
 
     public static int SHORTCUT_TYPE_USER_OR_CHAT = 0;
     public static int SHORTCUT_TYPE_ATTACHED_BOT = 1;
+
     private Intent createIntrnalShortcutIntent(long dialogId) {
         Intent shortcutIntent = new Intent(ApplicationLoader.applicationContext, OpenChatReceiver.class);
 
@@ -5496,10 +5540,18 @@ public class MediaDataController extends BaseController {
         return shortcutIntent;
     }
 
+    public final HashMap<String, Utilities.Callback<Boolean>> shortcutCallbacks = new HashMap<>();
+
     public void installShortcut(long dialogId, int type) {
+        installShortcut(dialogId, type, null);
+    }
+    public void installShortcut(long dialogId, int type, Utilities.Callback<Boolean> callback) {
         try {
             Intent shortcutIntent = type == SHORTCUT_TYPE_USER_OR_CHAT ? createIntrnalShortcutIntent(dialogId) : createIntrnalAttachedBotShortcutIntent(dialogId);
             if (shortcutIntent == null) {
+                if (callback != null) {
+                    callback.run(false);
+                }
                 return;
             }
             TLRPC.User user = null;
@@ -5508,6 +5560,9 @@ public class MediaDataController extends BaseController {
                 int encryptedChatId = DialogObject.getEncryptedChatId(dialogId);
                 TLRPC.EncryptedChat encryptedChat = getMessagesController().getEncryptedChat(encryptedChatId);
                 if (encryptedChat == null) {
+                    if (callback != null) {
+                        callback.run(false);
+                    }
                     return;
                 }
                 user = getMessagesController().getUser(encryptedChat.user_id);
@@ -5516,9 +5571,15 @@ public class MediaDataController extends BaseController {
             } else if (DialogObject.isChatDialog(dialogId)) {
                 chat = getMessagesController().getChat(-dialogId);
             } else {
+                if (callback != null) {
+                    callback.run(false);
+                }
                 return;
             }
             if (user == null && chat == null) {
+                if (callback != null) {
+                    callback.run(false);
+                }
                 return;
             }
 
@@ -5601,7 +5662,21 @@ public class MediaDataController extends BaseController {
                 }
             }
 
-            ShortcutManagerCompat.requestPinShortcut(ApplicationLoader.applicationContext, pinShortcutInfo.build(), null);
+            PendingIntent callbackIntent = null;
+            if (callback != null) {
+                byte[] bytes = new byte[16];
+                Utilities.fastRandom.nextBytes(bytes);
+                final String req_id = Utilities.bytesToHex(bytes);
+
+                final Intent intent = new Intent(ApplicationLoader.applicationContext, ShortcutResultReceiver.class);
+                intent.putExtra("account", currentAccount);
+                intent.putExtra("req_id", req_id);
+                callbackIntent = PendingIntent.getBroadcast(ApplicationLoader.applicationContext, 0, intent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT);
+
+                shortcutCallbacks.put(req_id, callback);
+            }
+
+            ShortcutManagerCompat.requestPinShortcut(ApplicationLoader.applicationContext, pinShortcutInfo.build(), callbackIntent == null ? null : callbackIntent.getIntentSender());
         } catch (Exception e) {
             FileLog.e(e);
         }
@@ -5636,12 +5711,7 @@ public class MediaDataController extends BaseController {
     }
 
     public boolean canCreateAttachedMenuBotShortcut(long botId) {
-        for (int i = 0; i < attachMenuBots.bots.size(); i++) {
-            if (attachMenuBots.bots.get(i).bot_id == botId) {
-                return attachMenuBots.bots.get(i).show_in_side_menu && !isShortcutAdded(botId, MediaDataController.SHORTCUT_TYPE_ATTACHED_BOT);
-            }
-        }
-        return false;
+        return true;
     }
     //---------------- SEARCH END ----------------
 
@@ -7571,10 +7641,14 @@ public class MediaDataController extends BaseController {
             }
             threads.put(threadId, replyToMessage);
 
-            SerializedData serializedData = new SerializedData(replyToMessage.getObjectSize());
-            replyToMessage.serializeToStream(serializedData);
-            editor.putString(threadId == 0 ? ("r_" + dialogId) : ("rt_" + dialogId + "_" + threadId), Utilities.bytesToHex(serializedData.toByteArray()));
-            serializedData.cleanup();
+            try {
+                SerializedData serializedData = new SerializedData(replyToMessage.getObjectSize());
+                replyToMessage.serializeToStream(serializedData);
+                editor.putString(threadId == 0 ? ("r_" + dialogId) : ("rt_" + dialogId + "_" + threadId), Utilities.bytesToHex(serializedData.toByteArray()));
+                serializedData.cleanup();
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
         }
         editor.commit();
         if (fromServer && (threadId == 0 || getMessagesController().isForum(dialogId))) {

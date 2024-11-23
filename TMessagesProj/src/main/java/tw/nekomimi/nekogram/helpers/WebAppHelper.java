@@ -68,7 +68,7 @@ public class WebAppHelper {
                 null,
                 url,
                 BotWebViewAttachedSheet.TYPE_WEB_VIEW_BUTTON,
-                0, false, null, false, null, null, 0, false);
+                0, false, null, false, null, null, 0, false, false);
         props.internalType = type;
         var context = fragment.getParentActivity();
         if (context instanceof LaunchActivity activity) {
@@ -76,26 +76,11 @@ public class WebAppHelper {
                 return;
             }
         }
-        if (AndroidUtilities.isTablet()) {
-            var webViewSheet = new BotWebViewSheet(context, fragment.getResourceProvider());
-            webViewSheet.setDefaultFullsize(false);
-            webViewSheet.setNeedsContext(false);
-            webViewSheet.setParentActivity(context);
-            webViewSheet.requestWebView(null, props);
-            webViewSheet.show();
-        } else {
-            BaseFragment sheetFragment;
-            if (fragment.getParentLayout() instanceof ActionBarLayout actionBarLayout) {
-                sheetFragment = actionBarLayout.getSheetFragment();
-            } else {
-                sheetFragment = fragment;
-            }
-            var webViewSheet = sheetFragment.createBotViewer();
-            webViewSheet.setDefaultFullsize(false);
-            webViewSheet.setNeedsContext(false);
-            webViewSheet.setParentActivity(context);
-            webViewSheet.requestWebView(null, props);
-            webViewSheet.show();
-        }
+        var webViewSheet = new BotWebViewSheet(context, fragment.getResourceProvider());
+        webViewSheet.setDefaultFullsize(false);
+        webViewSheet.setNeedsContext(false);
+        webViewSheet.setParentActivity(context);
+        webViewSheet.requestWebView(null, props);
+        webViewSheet.show();
     }
 }

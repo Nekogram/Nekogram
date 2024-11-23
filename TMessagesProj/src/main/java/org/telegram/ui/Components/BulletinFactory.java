@@ -1,5 +1,7 @@
 package org.telegram.ui.Components;
 
+import static org.telegram.messenger.AndroidUtilities.dp;
+
 import android.app.DownloadManager;
 import android.content.Context;
 import android.content.Intent;
@@ -36,6 +38,8 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
+import org.telegram.messenger.FileLoader;
+import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
@@ -88,9 +92,22 @@ public final class BulletinFactory {
         return BulletinFactory.of(baseFragment);
     }
 
+    public Bulletin makeForError(TLRPC.TL_error error) {
+        if (!LaunchActivity.isActive) return new Bulletin.EmptyBulletin();
+        if (error == null) {
+            return createErrorBulletin(LocaleController.formatString(R.string.UnknownError));
+        } else {
+            return createErrorBulletin(LocaleController.formatString(R.string.UnknownErrorCode, error.text));
+        }
+    }
+
     public void showForError(TLRPC.TL_error error) {
         if (!LaunchActivity.isActive) return;
-        createErrorBulletin(LocaleController.formatString(R.string.UnknownErrorCode, error.text)).show();
+        if (error == null) {
+            createErrorBulletin(LocaleController.formatString(R.string.UnknownError)).show();
+        } else {
+            createErrorBulletin(LocaleController.formatString(R.string.UnknownErrorCode, error.text)).show();
+        }
     }
 
     public static void showError(TLRPC.TL_error error) {
@@ -198,6 +215,54 @@ public final class BulletinFactory {
         return createSimpleBulletinWithIconSize(iconRawId, text, 36);
     }
 
+    public Bulletin createSimpleBulletin(TLRPC.MessageMedia media, CharSequence text) {
+        if (media == null) return new Bulletin.EmptyBulletin();
+        if (media.document != null)
+            return createSimpleBulletin(media.document, text);
+        if (media.photo != null)
+            return createSimpleBulletin(media.photo, text);
+        return new Bulletin.EmptyBulletin();
+    }
+
+    public Bulletin createSimpleBulletin(TLRPC.Document document, CharSequence text) {
+        if (document == null) return new Bulletin.EmptyBulletin();
+        final Bulletin.TwoLineLayout layout = new Bulletin.TwoLineLayout(getContext(), resourcesProvider);
+        TLRPC.PhotoSize thumbSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, dp(28), true, null, false);
+        TLRPC.PhotoSize photoSize = FileLoader.getClosestPhotoSizeWithSize(document.thumbs, dp(28), true, thumbSize, true);
+        layout.imageView.setImage(
+            ImageLocation.getForDocument(photoSize, document), "28_28",
+            ImageLocation.getForDocument(thumbSize, document), "28_28",
+            null, 0, 0, null
+        );
+        layout.imageView.getImageReceiver().setRoundRadius(dp(5));
+        layout.titleTextView.setText(text);
+        layout.titleTextView.setSingleLine(true);
+        layout.titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+        layout.titleTextView.setMaxLines(1);
+        layout.titleTextView.setTypeface(null);
+        layout.subtitleTextView.setVisibility(View.GONE);
+        return create(layout, text.length() < 20 ? Bulletin.DURATION_SHORT : Bulletin.DURATION_LONG);
+    }
+
+    public Bulletin createSimpleBulletin(TLRPC.Photo photo, CharSequence text) {
+        if (photo == null) return new Bulletin.EmptyBulletin();
+        final Bulletin.TwoLineLayout layout = new Bulletin.TwoLineLayout(getContext(), resourcesProvider);
+        TLRPC.PhotoSize thumbSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, dp(28), true, null, false);
+        TLRPC.PhotoSize photoSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, dp(28), true, thumbSize, true);
+        layout.imageView.setImage(
+                ImageLocation.getForPhoto(photoSize, photo), "28_28",
+                ImageLocation.getForPhoto(thumbSize, photo), "28_28",
+                null, 0, 0, null
+        );
+        layout.imageView.getImageReceiver().setRoundRadius(dp(5));
+        layout.titleTextView.setText(text);
+        layout.titleTextView.setSingleLine(true);
+        layout.titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
+        layout.titleTextView.setMaxLines(1);
+        layout.subtitleTextView.setVisibility(View.GONE);
+        return create(layout, text.length() < 20 ? Bulletin.DURATION_SHORT : Bulletin.DURATION_LONG);
+    }
+
     public Bulletin createSimpleBulletinWithIconSize(int iconRawId, CharSequence text, int iconSize) {
         final Bulletin.LottieLayout layout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
         layout.setAnimation(iconRawId, iconSize, iconSize);
@@ -226,8 +291,8 @@ public final class BulletinFactory {
         layout.textView.setLines(2);
         layout.textView.setMaxLines(4);
         layout.textView.setMaxWidth(HintView2.cutInFancyHalf(layout.textView.getText(), layout.textView.getPaint()));
-        layout.textView.setLineSpacing(AndroidUtilities.dp(1.33f), 1f);
-        ((ViewGroup.MarginLayoutParams) layout.textView.getLayoutParams()).rightMargin = AndroidUtilities.dp(12);
+        layout.textView.setLineSpacing(dp(1.33f), 1f);
+        ((ViewGroup.MarginLayoutParams) layout.textView.getLayoutParams()).rightMargin = dp(12);
         layout.setWrapWidth();
         return create(layout, Bulletin.DURATION_PROLONG);
     }
@@ -309,7 +374,7 @@ public final class BulletinFactory {
             layout.setAnimation(iconRawId, 36, 36);
         } else {
             layout.imageView.setVisibility(View.INVISIBLE);
-            ((ViewGroup.MarginLayoutParams) layout.textView.getLayoutParams()).leftMargin = AndroidUtilities.dp(16);
+            ((ViewGroup.MarginLayoutParams) layout.textView.getLayoutParams()).leftMargin = dp(16);
         }
         layout.textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         layout.textView.setTextDirection(View.TEXT_DIRECTION_LOCALE);
@@ -426,7 +491,7 @@ public final class BulletinFactory {
                 }
             }
             if (users.size() == 1) {
-                layout.avatarsImageView.setTranslationX(AndroidUtilities.dp(4));
+                layout.avatarsImageView.setTranslationX(dp(4));
                 layout.avatarsImageView.setScaleX(1.2f);
                 layout.avatarsImageView.setScaleY(1.2f);
             } else {
@@ -445,9 +510,9 @@ public final class BulletinFactory {
             layout.subtitleView.setSingleLine(false);
             layout.subtitleView.setMaxLines(3);
             if (layout.linearLayout.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-                int margin = AndroidUtilities.dp(12 + 56 + 2 - (3 - count) * 12);
+                int margin = dp(12 + 56 + 2 - (3 - count) * 12);
                 if (count == 1) {
-                    margin += AndroidUtilities.dp(4);
+                    margin += dp(4);
                 }
                 if (LocaleController.isRTL) {
                     ((ViewGroup.MarginLayoutParams) layout.linearLayout.getLayoutParams()).rightMargin = margin;
@@ -460,10 +525,10 @@ public final class BulletinFactory {
             layout.textView.setMaxLines(2);
             layout.textView.setText(text);
             if (layout.textView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-                int margin = AndroidUtilities.dp(12 + 56 + 2 - (3 - count) * 12);
+                int margin = dp(12 + 56 + 2 - (3 - count) * 12);
                 if (count == 1) {
-                    layout.textView.setTranslationY(-AndroidUtilities.dp(1));
-                    margin += AndroidUtilities.dp(4);
+                    layout.textView.setTranslationY(-dp(1));
+                    margin += dp(4);
                 }
                 if (LocaleController.isRTL) {
                     ((ViewGroup.MarginLayoutParams) layout.textView.getLayoutParams()).rightMargin = margin;
@@ -494,7 +559,7 @@ public final class BulletinFactory {
                 }
             }
             if (objects.size() == 1) {
-                layout.avatarsImageView.setTranslationX(AndroidUtilities.dp(4));
+                layout.avatarsImageView.setTranslationX(dp(4));
                 layout.avatarsImageView.setScaleX(1.2f);
                 layout.avatarsImageView.setScaleY(1.2f);
             } else {
@@ -512,7 +577,7 @@ public final class BulletinFactory {
             layout.subtitleView.setSingleLine(true);
             layout.subtitleView.setMaxLines(1);
             if (layout.linearLayout.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-                int margin = AndroidUtilities.dp(12 + 56 + 6 - (3 - count) * 12);
+                int margin = dp(12 + 56 + 6 - (3 - count) * 12);
                 if (LocaleController.isRTL) {
                     ((ViewGroup.MarginLayoutParams) layout.linearLayout.getLayoutParams()).rightMargin = margin;
                 } else {
@@ -524,7 +589,7 @@ public final class BulletinFactory {
             layout.textView.setMaxLines(2);
             layout.textView.setText(text);
             if (layout.textView.getLayoutParams() instanceof ViewGroup.MarginLayoutParams) {
-                int margin = AndroidUtilities.dp(12 + 56 + 6 - (3 - count) * 12);
+                int margin = dp(12 + 56 + 6 - (3 - count) * 12);
                 if (LocaleController.isRTL) {
                     ((ViewGroup.MarginLayoutParams) layout.textView.getLayoutParams()).rightMargin = margin;
                 } else {
@@ -533,7 +598,7 @@ public final class BulletinFactory {
             }
         }
         if (LocaleController.isRTL) {
-            layout.avatarsImageView.setTranslationX(AndroidUtilities.dp(32 - (count - 1) * 12));
+            layout.avatarsImageView.setTranslationX(dp(32 - (count - 1) * 12));
         }
 
         return create(layout, Bulletin.DURATION_PROLONG);
@@ -629,7 +694,7 @@ public final class BulletinFactory {
         }
         layout.setAnimation(document, 36, 36);
         if (layout.imageView.getImageReceiver() != null) {
-            layout.imageView.getImageReceiver().setRoundRadius(AndroidUtilities.dp(4));
+            layout.imageView.getImageReceiver().setRoundRadius(dp(4));
         }
         layout.textView.setText(text);
         layout.textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
@@ -679,7 +744,7 @@ public final class BulletinFactory {
             LoadingSpan loadingSpan = null;
             int index;
             if ((index = stringBuilder.toString().indexOf(loadingPlaceholder)) >= 0) {
-                stringBuilder.setSpan(loadingSpan = new LoadingSpan(null, AndroidUtilities.dp(100), AndroidUtilities.dp(2), resourcesProvider), index, index + loadingPlaceholder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                stringBuilder.setSpan(loadingSpan = new LoadingSpan(null, dp(100), dp(2), resourcesProvider), index, index + loadingPlaceholder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 loadingSpan.setColors(
                     ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_undo_infoColor, resourcesProvider), 0x20),
                     ColorUtils.setAlphaComponent(Theme.getColor(Theme.key_undo_infoColor, resourcesProvider), 0x48)
@@ -1312,10 +1377,10 @@ public final class BulletinFactory {
         layout.textView.setTypeface(Typeface.SANS_SERIF);
         layout.textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         layout.textView.setEllipsize(TextUtils.TruncateAt.END);
-        layout.textView.setPadding(0, 0, 0, AndroidUtilities.dp(8));
+        layout.textView.setPadding(0, 0, 0, dp(8));
 
         TextPaint textPaint = new TextPaint();
-        textPaint.setTextSize(AndroidUtilities.dp(20));
+        textPaint.setTextSize(dp(20));
         SpannableString spannable = new SpannableString("d");
         spannable.setSpan(new AnimatedEmojiSpan(document, textPaint.getFontMetricsInt()), 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         layout.textView.setText(
