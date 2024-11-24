@@ -13,7 +13,7 @@ configurations.configureEach {
 }
 
 dependencies {
-    implementation 'androidx.fragment:fragment:1.8.4'
+    implementation 'androidx.fragment:fragment:1.8.5'
     implementation 'androidx.core:core:1.13.1'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.exifinterface:exifinterface:1.3.7'
@@ -25,12 +25,12 @@ dependencies {
     compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
     compileOnly 'org.checkerframework:checker-qual:2.5.2'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.0'
-    implementation 'com.google.firebase:firebase-messaging:24.0.3'
+    implementation 'com.google.firebase:firebase-messaging:24.1.0'
     implementation 'com.google.firebase:firebase-appindexing:20.0.0'
     implementation 'com.google.android.gms:play-services-maps:19.0.0'
     implementation 'com.google.android.gms:play-services-auth:21.2.0'
     implementation 'com.google.android.gms:play-services-vision:20.1.3'
-    implementation 'com.google.android.gms:play-services-wearable:18.2.0'
+    implementation 'com.google.android.gms:play-services-wearable:19.0.0'
     implementation 'com.google.android.gms:play-services-location:21.3.0'
     implementation 'com.googlecode.mp4parser:isoparser:1.0.6'
     implementation('com.stripe:stripe-android:2.0.2') {
