@@ -63,7 +63,7 @@
     <string name="DisableNumberRounding">四捨五入を無効化</string>
     <string name="Categories">カテゴリー</string>
     <string name="OfficialChannel">公式チャンネル</string>
-    <string name="About">概要</string>
+    <string name="About">このアプリについて</string>
     <string name="IgnoreBlockedAbout">非表示にはなりません！メッセージはまだ閲覧可能ですが、テキストはスポイラーに変換され、メディアは自動的にダウンロードされません。</string>
     <string name="Donate">寄付</string>
     <string name="DonateAbout">私たちの開発を支援してください。</string>
@@ -76,7 +76,7 @@
     <string name="MediaPreview">ダイアログリストのメディアプレビュー</string>
     <string name="ProviderYandex">Yandex翻訳</string>
     <string name="IdType">プロフィールのチャットID</string>
-    <string name="IdTypeAbout">Telegram APIはIDをそのまま使用しますが、Bot APIは最初のグループでマイナスを加算します。 チャネルとスーパーグループが1つのフィールドに収まるように -100</string>
+    <string name="IdTypeAbout">Telegram APIはIDをそのまま使用しますが、Bot APIはグループには先頭にマイナスを付け、チャンネルやスーパグループには「-100」を付けて1つのフィールドに収めます。</string>
     <string name="IdTypeHidden">非表示</string>
     <string name="IdTypeAPI">Telegram API</string>
     <string name="IdTypeBOTAPI">Bot API</string>

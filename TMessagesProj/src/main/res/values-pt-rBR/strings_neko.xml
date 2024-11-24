@@ -210,7 +210,7 @@
     <string name="PasscodePanicCodeRemoveConfirmMessage">Tem a certeza de que quer desligar o código de pânico?</string>
     <string name="PasscodeRemoveConfirmMessage">Tem a certeza que quer remover a senha para esta conta?</string>
     <string name="PasscodePanicCodeAbout">Use o código de pânico para registrar contas se algo der errado.</string>
-    <string name="HideTimeOnSticker">Ocultar o horário nos stickers</string>
+    <string name="HideTimeOnSticker">Ocultar a hora nos stickers</string>
     <string name="TranslatorShowOriginal">Com texto original</string>
     <string name="DatacenterStatusAbout">Verifique o status dos **datacenters** do Telegram.</string>
     <string name="DatacenterStatus">Status do datacenter</string>
@@ -266,9 +266,11 @@
     <string name="SendLargePhotos">Enviar fotos grandes</string>
     <string name="SendLargePhotosAbout">Aumenta o limite de imagens comprimidas para 2560px.</string>
     <string name="ExportAsJson">Copiar em JSON</string>
+    <string name="ViewAsJson">Ver como JSON</string>
     <string name="HideStories">Ocultar Stories</string>
     <string name="QuickForward">Usar o menu de encaminhamento rápido</string>
     <string name="DidNotGetTheCodeBlameDurov">Se você não recebeu o código em outro dispositivo ou não tem Telegram com sessão ativa em outro dispositivo, inicie sua sessão no client oficial do Telegram usando SMS para receber o código.\n\nO Telegram **desabilitou o login com SMS** em clients customizados. Usuários que usam clients de terceiros só podem receber códigos de login através do client oficial do Telegram. Não é mais possível solicitar SMS para iniciar a sua sessão.\n\nNão poderemos te ajudar com isso. Em caso de problemas ao iniciar a sua sessão, contate o Suporte do Telegram.</string>
+    <string name="ChangePhoneNumberBlameDurov">O Telegram **desativou a capacidade de alterar o número de telefone** em aplicativos de terceiros. Os usuários só podem alterar o número de telefone através do Telegram.</string>
     <string name="NavigationAnimation">Animação de navegação</string>
     <string name="NavigationAnimationBezier">Clássico</string>
     <string name="NavigationAnimationSpring">Natural</string>
@@ -298,6 +300,15 @@
     <string name="ShowTimeHint">Mostrar tempo detalhado</string>
     <string name="ShowTimeHintDesc">Mostrar detalhes da data de envio ao tocar no horário.</string>
     <string name="Cryptocurrency">Criptomoeda</string>
+    <string name="TranscribeProviderShort">Provedor</string>
+    <string name="TranscribeProviderAuto">Auto-selecionar</string>
+    <string name="TranscribeProviderWorkersAI">Whisper (Workers AI)</string>
+    <string name="TranscribeProviderDesc">Com a opção \"Auto-selecionar\", %s será usado quando Telegram Premium estiver indisponível.</string>
+    <string name="CloudflareCredentials">Credenciais do Cloudflare</string>
+    <string name="CloudflareCredentialsNotSet">Credenciais do Cloudflare não configurados.</string>
+    <string name="CloudflareAccountID">ID da Conta</string>
+    <string name="CloudflareAPIToken">Token do API</string>
+    <string name="CloudflareCredentialsDialog">Configurar o ID da conta do Cloudflare e o token do API.\n**Como obter?**</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>

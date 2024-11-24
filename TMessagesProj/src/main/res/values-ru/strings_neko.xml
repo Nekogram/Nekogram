@@ -8,7 +8,7 @@
     <string name="DeleteAllFromSelfAlert">Внимание! Это **удалит все ваши сообщения** в этом чате для **всех**.</string>
     <string name="DeleteAllFromSelfAlertBefore">Осторожно! Это **удалит все ваши сообщения от вас до %s** в этом чате для **всех** участников.</string>
     <string name="DeleteAllFromSelfBefore">Раньше...</string>
-    <string name="IgnoreBlocked">Скрывать сообщения от заблокированных пользователей</string>
+    <string name="IgnoreBlocked">Скрыть заблокированных пользователей</string>
     <string name="Connection">Соединение</string>
     <string name="Chat">Чат</string>
     <string name="NameOrder">Сортировка имён</string>
@@ -64,7 +64,7 @@
     <string name="Categories">Настройки</string>
     <string name="OfficialChannel">Официальный канал</string>
     <string name="About">О проекте</string>
-    <string name="IgnoreBlockedAbout">НА САМОМ ДЕЛЕ ЭТО НЕ СКРЫТИЕ! Сообщения по-прежнему доступны для просмотра, но текст будет преобразован в спойлер, а медиафайлы не будут загружаться автоматически.</string>
+    <string name="IgnoreBlockedAbout">Сообщения от пользователей из вашего чёрного списка будут отображаться со спойлером, а автоматическая загрузка их медиа будет отключена.</string>
     <string name="Donate">Поддержать Nekogram</string>
     <string name="DonateAbout">Поддержите разработку проекта.</string>
     <string name="TranslationAbout">Помогите перевести Nekogram на ваш язык.</string>
@@ -103,7 +103,7 @@
     <string name="LastUpdateRecently">Последняя успешная проверка была сейчас.</string>
     <string name="LastUpdateNever">Обновления ни разу не проверялись.</string>
     <string name="CheckingUpdate">Проверка обновлений…</string>
-    <string name="ProviderMicrosoftTranslator">Microsoft Translator</string>
+    <string name="ProviderMicrosoftTranslator">Переводчик Майкрософт</string>
     <string name="TranslationProviderShort">Поставщик</string>
     <string name="ViewSourceCode">Посмотреть исходный код</string>
     <string name="AvatarAsBackground">Фото профиля в качестве фона</string>
@@ -266,9 +266,11 @@
     <string name="SendLargePhotos">Отправка фотографии большого размера</string>
     <string name="SendLargePhotosAbout">Увеличить размер сторон на сжатых изображениях до 2560px.</string>
     <string name="ExportAsJson">Скопировать как JSON</string>
+    <string name="ViewAsJson"></string>
     <string name="HideStories">Скрыть истории</string>
     <string name="QuickForward">Использовать меню быстрой пересылки</string>
     <string name="DidNotGetTheCodeBlameDurov">Если вы не получили код или вы не входили в Telegram аккаунт на другом устройстве, воспользуйтесь официальным приложением Telegram, чтобы получить код.\n\nTelegram **отключил возможность авторизации через СМС** для альтернативных приложений. Согласно новым правилам, пользователи альтернативных клиентов больше не могут получить СМС-код для авторизации. Теперь для получения кода требуется использовать официальное приложение Telegram.\n\nЕсли у вас возникла проблема со входом в аккаунт, пожалуйста, обратитесь в службу поддержки Telegram.</string>
+    <string name="ChangePhoneNumberBlameDurov">Телеграм **отключил возможность изменения номера** в сторонних приложениях. Пользователи могут сменить номер только через Telegram.</string>
     <string name="NavigationAnimation">Анимация навигации</string>
     <string name="NavigationAnimationBezier">Стандартная</string>
     <string name="NavigationAnimationSpring">Обычная</string>
@@ -298,6 +300,15 @@
     <string name="ShowTimeHint">Показать подсказку по времени</string>
     <string name="ShowTimeHintDesc">Показать детальную дату отправки нажатием на время.</string>
     <string name="Cryptocurrency">Криптовалюта</string>
+    <string name="TranscribeProviderShort">Провайдер</string>
+    <string name="TranscribeProviderAuto">Автоматический выбор</string>
+    <string name="TranscribeProviderWorkersAI">Whisper (Workers AI)</string>
+    <string name="TranscribeProviderDesc">При опции автоматического выбора %s будет использоваться когда Telegram Premium недоступен.</string>
+    <string name="CloudflareCredentials">Учетные данные Cloudflare</string>
+    <string name="CloudflareCredentialsNotSet">Учетные данные Cloudflare не настроены.</string>
+    <string name="CloudflareAccountID">ID Аккаунта</string>
+    <string name="CloudflareAPIToken">API Token</string>
+    <string name="CloudflareCredentialsDialog">Конфигурация Cloudflare Account ID и API Token.\n**Как получить?**</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>

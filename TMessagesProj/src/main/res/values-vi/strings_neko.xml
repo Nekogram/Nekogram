@@ -89,11 +89,11 @@
     <string name="DisableInstantCamera">Vô hiệu máy ảnh tức thì</string>
     <string name="OpenAllLinksInInstantView">Cố gắng mở tất cả các liên kết trong xem tức thì</string>
     <string name="DonateThankYou">Cảm ơn! ♥️</string>
-    <string name="DonateEvilGoogle">Google sẽ nhận 30 phần trăm khoản đóng góp của bạn.</string>
+    <string name="DonateEvilGoogle">Google sẽ nhận 30% khoản đóng góp của bạn.</string>
     <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Định dạng thời gian bằng giây</string>
-    <string name="JumpToBeginning">Nhảy tới bắt đầu</string>
+    <string name="JumpToBeginning">Di chuyển đến đầu trang</string>
     <string name="ProviderDeepLTranslate">Dịch DeepL</string>
     <string name="Halloween">Halloween</string>
     <string name="CheckUpdate"> Kiểm tra cập nhật</string>
