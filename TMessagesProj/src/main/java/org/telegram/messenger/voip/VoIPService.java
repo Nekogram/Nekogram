@@ -89,8 +89,6 @@ import android.widget.RemoteViews;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
-import androidx.core.app.NotificationCompat;
-import androidx.core.graphics.drawable.IconCompat;
 
 import org.json.JSONObject;
 import org.telegram.messenger.AccountInstance;
@@ -104,7 +102,6 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
-import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
@@ -3017,7 +3014,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 		if (groupCall != null) {
 			intent.putExtra("currentAccount", currentAccount);
 		}
-		NotificationCompat.Builder builder = new NotificationCompat.Builder(this)
+		Notification.Builder builder = new Notification.Builder(this)
 				.setContentText(name)
 				.setContentIntent(PendingIntent.getActivity(this, 50, intent, PendingIntent.FLAG_MUTABLE));
 		if (groupCall != null) {
@@ -3028,23 +3025,24 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			builder.setSmallIcon(R.drawable.ic_call);
             builder.setOngoing(true);
 		}
-		builder.setPriority(Notification.PRIORITY_MAX);
-		builder.setShowWhen(false);
-		builder.setColor(0xff282e31);
-		builder.setColorized(true);
-		Intent endIntent = new Intent(this, VoIPActionsReceiver.class);
-		endIntent.setAction(getPackageName() + ".END_CALL");
-		androidx.core.app.Person caller = new androidx.core.app.Person.Builder()
-				.setIcon(IconCompat.createWithAdaptiveBitmap(MediaDataController.convertBitmapToAdaptive(photo)))
-				.setName(name)
-				.build();
-		NotificationCompat.CallStyle callStyle = NotificationCompat.CallStyle.forOngoingCall(caller, PendingIntent.getBroadcast(this, 0, endIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE));
-		callStyle.setIsVideo(videoCall);
-		builder.setStyle(callStyle);
-		if (groupCall != null) {
-			builder.setContentText(ChatObject.isChannelOrGiga(chat) ? LocaleController.getString(R.string.VoipLiveStream) : LocaleController.getString(R.string.VoipVoiceChat));
-		} else {
-			builder.setContentText(LocaleController.getString(R.string.VoipOutgoingCall));
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+			Intent endIntent = new Intent(this, VoIPActionsReceiver.class);
+			endIntent.setAction(getPackageName() + ".END_CALL");
+			if (groupCall != null) {
+				builder.addAction(R.drawable.ic_call_end_white_24dp, ChatObject.isChannelOrGiga(chat) ? LocaleController.getString(R.string.VoipChannelLeaveAlertTitle) : LocaleController.getString(R.string.VoipGroupLeaveAlertTitle), PendingIntent.getBroadcast(this, 0, endIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT));
+			} else {
+				builder.addAction(R.drawable.ic_call_end_white_24dp, LocaleController.getString(R.string.VoipEndCall), PendingIntent.getBroadcast(this, 0, endIntent, PendingIntent.FLAG_MUTABLE | PendingIntent.FLAG_UPDATE_CURRENT));
+			}
+			builder.setPriority(Notification.PRIORITY_MAX);
+		}
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+			builder.setShowWhen(false);
+		}
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+			builder.setColor(0xff282e31);
+			builder.setColorized(true);
+		} else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			builder.setColor(0xff2ca5e0);
 		}
 		if (Build.VERSION.SDK_INT >= 26) {
 			NotificationsController.checkOtherNotificationsChannel();
@@ -4165,11 +4163,18 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			} else {
 				placeholder = new AvatarDrawable((TLRPC.Chat) userOrChat);
 			}
-			placeholder.setRoundRadius(0);
 			bitmap = Bitmap.createBitmap(AndroidUtilities.dp(42), AndroidUtilities.dp(42), Bitmap.Config.ARGB_8888);
 			placeholder.setBounds(0, 0, bitmap.getWidth(), bitmap.getHeight());
 			placeholder.draw(new Canvas(bitmap));
 		}
+
+		Canvas canvas = new Canvas(bitmap);
+		Path circlePath = new Path();
+		circlePath.addCircle(bitmap.getWidth() / 2, bitmap.getHeight() / 2, bitmap.getWidth() / 2, Path.Direction.CW);
+		circlePath.toggleInverseFillType();
+		Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
+		canvas.drawPath(circlePath, paint);
 		return bitmap;
 	}
 
@@ -4279,7 +4284,7 @@ public class VoIPService extends Service implements SensorEventListener, AudioMa
 			}
 			Person person = new Person.Builder()
 					.setName(personName)
-					.setIcon(Icon.createWithAdaptiveBitmap(MediaDataController.convertBitmapToAdaptive(avatar))).build();
+					.setIcon(Icon.createWithAdaptiveBitmap(avatar)).build();
 			Notification.CallStyle notificationStyle = Notification.CallStyle.forIncomingCall(person, endPendingIntent, answerPendingIntent);
 
 			builder.setStyle(notificationStyle);
