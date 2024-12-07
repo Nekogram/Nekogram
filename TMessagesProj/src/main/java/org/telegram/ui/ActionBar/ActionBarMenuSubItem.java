@@ -35,11 +35,11 @@ import org.telegram.ui.Components.TextViewSwitcher;
 
 public class ActionBarMenuSubItem extends FrameLayout {
 
-    private TextView textView;
+    public TextView textView;
     public TextViewSwitcher subtextView;
     public RLottieImageView imageView;
-    private boolean checkViewLeft;
-    private CheckBox2 checkView;
+    public boolean checkViewLeft;
+    public CheckBox2 checkView;
     private ImageView rightIcon;
 
     private int textColor;
