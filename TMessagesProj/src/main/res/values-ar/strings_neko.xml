@@ -310,6 +310,8 @@
     <string name="CloudflareAccountID">معرّف الحساب</string>
     <string name="CloudflareAPIToken">عملة API</string>
     <string name="CloudflareCredentialsDialog">تكوين معرف حساب Cloudflare ورمز API.\n**كيفية الحصول عليه؟ **</string>
+    <string name="PreferOriginalQuality">تفضيل الجودة الأصلية</string>
+    <string name="PreferOriginalQualityDesc">عرض مقاطع الفيديو بالجودة الأصلية.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

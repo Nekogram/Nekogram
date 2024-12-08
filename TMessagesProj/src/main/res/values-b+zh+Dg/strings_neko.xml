@@ -309,6 +309,8 @@
     <string name="CloudflareAccountID">账户 ID</string>
     <string name="CloudflareAPIToken">API 令牌</string>
     <string name="CloudflareCredentialsDialog">配置 Cloudflare 帐户 ID 和 API 令牌。\n**如何获取？**</string>
+    <string name="PreferOriginalQuality">偏好原始画质</string>
+    <string name="PreferOriginalQualityDesc">观看原始画质的视频。</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

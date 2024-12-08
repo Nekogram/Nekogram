@@ -307,8 +307,10 @@
     <string name="CloudflareCredentials">Учетные данные Cloudflare</string>
     <string name="CloudflareCredentialsNotSet">Учетные данные Cloudflare не настроены.</string>
     <string name="CloudflareAccountID">ID Аккаунта</string>
-    <string name="CloudflareAPIToken">API Token</string>
+    <string name="CloudflareAPIToken">API-токен</string>
     <string name="CloudflareCredentialsDialog">Конфигурация Cloudflare Account ID и API Token.\n**Как получить?**</string>
+    <string name="PreferOriginalQuality">Предпочитать исходное качество видео</string>
+    <string name="PreferOriginalQualityDesc">Просмотр видео в максимально доступном разрешении.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>
