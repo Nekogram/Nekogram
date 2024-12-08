@@ -313,6 +313,8 @@
     <string name="CloudflareAccountID">Account ID</string>
     <string name="CloudflareAPIToken">API Token</string>
     <string name="CloudflareCredentialsDialog">Configure Cloudflare Account ID and API Token.\n**How to obtain?**</string>
+    <string name="PreferOriginalQuality">Prefer original quality</string>
+    <string name="PreferOriginalQualityDesc">View videos in original quality.</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

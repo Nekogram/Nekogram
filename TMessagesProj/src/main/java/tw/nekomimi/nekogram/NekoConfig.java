@@ -144,6 +144,7 @@ public class NekoConfig {
     public static boolean ignoreContentRestriction = false;
     public static boolean fixLinkPreview = false;
     public static boolean showTimeHint = false;
+    public static boolean preferOriginalQuality = false;
 
     public static boolean springAnimation = false;
 
@@ -259,6 +260,7 @@ public class NekoConfig {
             transcribeProvider = preferences.getInt("transcribeProvider", TRANSCRIBE_PREMIUM);
             cfAccountID = preferences.getString("cfAccountID", "");
             cfApiToken = preferences.getString("cfApiToken", "");
+            preferOriginalQuality = preferences.getBoolean("preferOriginalQuality", false);
 
             LensHelper.checkLensSupportAsync();
             preferences.registerOnSharedPreferenceChangeListener(listener);
@@ -413,6 +415,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("downloadSpeedBoost2", boost);
+        editor.apply();
+    }
+
+    public static void togglePreferOriginalQuality() {
+        preferOriginalQuality = !preferOriginalQuality;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("preferOriginalQuality", preferOriginalQuality);
         editor.apply();
     }
 

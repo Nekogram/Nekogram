@@ -87,6 +87,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
     private int disableProximityEventsRow;
     private int disableVoiceMessageAutoPlayRow;
     private int autoPauseVideoRow;
+    private int preferOriginalQualityRow;
     private int media2Row;
 
     private int messageMenuRow;
@@ -378,6 +379,11 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             }, resourcesProvider);
         } else if (position == cfCredentialsRow) {
             WhisperHelper.showCfCredentialsDialog(this);
+        } else if (position == preferOriginalQualityRow) {
+            NekoConfig.togglePreferOriginalQuality();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.preferOriginalQuality);
+            }
         }
     }
 
@@ -431,6 +437,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         disableProximityEventsRow = addRow("disableProximityEvents");
         disableVoiceMessageAutoPlayRow = addRow("disableVoiceMessageAutoPlay");
         autoPauseVideoRow = addRow("autoPauseVideo");
+        preferOriginalQualityRow = addRow("preferOriginalQuality");
         media2Row = addRow();
 
         messageMenuRow = addRow("messageMenu");
@@ -740,6 +747,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.FixLinkPreview), LocaleController.getString(R.string.FixLinkPreviewDesc), NekoConfig.fixLinkPreview, true, divider);
                     } else if (position == showTimeHintRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.ShowTimeHint), LocaleController.getString(R.string.ShowTimeHintDesc), NekoConfig.showTimeHint, true, divider);
+                    } else if (position == preferOriginalQualityRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.PreferOriginalQuality), LocaleController.getString(R.string.PreferOriginalQualityDesc), NekoConfig.preferOriginalQuality, true, divider);
                     }
                     break;
                 }

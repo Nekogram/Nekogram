@@ -102,6 +102,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.function.Consumer;
+
+import tw.nekomimi.nekogram.NekoConfig;
 
 @SuppressLint("NewApi")
 public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsListener, NotificationCenter.NotificationCenterDelegate {
@@ -420,6 +423,11 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     }
 
     public static Quality getSavedQuality(ArrayList<Quality> qualities, MessageObject messageObject) {
+        if (NekoConfig.preferOriginalQuality) {
+            for (Quality q : qualities) {
+                if (q.original) return q;
+            }
+        }
         if (messageObject == null) return null;
         return getSavedQuality(qualities, messageObject.getDialogId(), messageObject.getId());
     }
