@@ -13,7 +13,6 @@ import androidx.core.util.Pair;
 
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
-import com.google.common.util.concurrent.ListenableFuture;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
@@ -64,7 +63,7 @@ public class Translator {
     public static final String PROVIDER_TENCENT = "tencent";
 
     private static final ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
-    private static final LruCache<Pair<String, String>, Pair<String, String>> cache = new LruCache<>(200);
+    private static final LruCache<Pair<String, String>, Result> cache = new LruCache<>(200);
 
     public static ListeningExecutorService getExecutorService() {
         return executorService;
@@ -297,10 +296,10 @@ public class Translator {
     private static void startTask(BaseTranslator translator, String query, String fromLang, String toLang, TranslateCallBack translateCallBack) {
         var result = cache.get(Pair.create(query, toLang + "|" + NekoConfig.translationProvider));
         if (result != null) {
-            translateCallBack.onSuccess(result.first, result.second == null ? fromLang : translator.convertLanguageCode(result.second, true), toLang);
+            translateCallBack.onSuccess(result.translation, result.sourceLanguage == null ? fromLang : result.sourceLanguage, toLang);
         } else {
-            TranslateTask translateTask = new TranslateTask(translator, query, fromLang, toLang, translateCallBack);
-            ListenableFuture<Pair<String, String>> future = getExecutorService().submit(translateTask);
+            var translateTask = new TranslateTask(translator, query, fromLang, toLang, translateCallBack);
+            var future = getExecutorService().submit(translateTask);
             Futures.addCallback(future, translateTask, ContextCompat.getMainExecutor(ApplicationLoader.applicationContext));
         }
     }
@@ -340,7 +339,7 @@ public class Translator {
         return getTargetLanguage(getCurrentTranslator(), NekoConfig.translationTarget);
     }
 
-    private static class TranslateTask implements Callable<Pair<String, String>>, FutureCallback<Pair<String, String>> {
+    private static class TranslateTask implements Callable<Result>, FutureCallback<Result> {
         private final TranslateCallBack translateCallBack;
         private final BaseTranslator translator;
         private final String query;
@@ -356,16 +355,14 @@ public class Translator {
         }
 
         @Override
-        public Pair<String, String> call() throws Exception {
-            var from = "";//translator.convertLanguageCode(TextUtils.isEmpty(fl) || "und".equals(fl) ? "auto" : fl, false);
-            var to = translator.convertLanguageCode(tl, false);
-            Result result = translator.translate(query, from, to);
-            return Pair.create(result.translation, result.sourceLanguage);
+        public Result call() {
+            var from = "";//TextUtils.isEmpty(fl) || "und".equals(fl) ? "auto" : fl;
+            return translator.translate(query, from, tl);
         }
 
         @Override
-        public void onSuccess(Pair<String, String> result) {
-            translateCallBack.onSuccess(result.first, result.second == null ? fl : translator.convertLanguageCode(result.second, true), tl);
+        public void onSuccess(Result result) {
+            translateCallBack.onSuccess(result.translation, result.sourceLanguage == null ? fl : result.sourceLanguage, tl);
             cache.put(Pair.create(query, tl + "|" + NekoConfig.translationProvider), result);
         }
 
