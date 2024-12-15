@@ -60,13 +60,13 @@ dependencies {
     }
 
     implementation 'androidx.browser:browser:1.8.0'
-    implementation 'app.nekogram.translator:translator:1.4.0'
+    implementation 'app.nekogram.translator:translator:1.4.1'
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.14'
-    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:4.3'
+    implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:5.1'
 
-    implementation 'com.google.firebase:firebase-analytics:22.1.2'
-    implementation 'com.google.firebase:firebase-crashlytics:19.3.0'
+    implementation 'com.google.firebase:firebase-analytics:22.2.0'
+    implementation 'com.google.firebase:firebase-crashlytics:19.4.0'
 }
 
 lsparanoid {
