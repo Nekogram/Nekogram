@@ -69,9 +69,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import tw.nekomimi.nekogram.helpers.WsHelper;
-import tw.nekomimi.nekogram.settings.WsSettingsActivity;
-
 public class ProxyListActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private final static boolean IS_PROXY_ROTATION_AVAILABLE = true;
     private static final int MENU_DELETE = 0;
@@ -155,13 +152,7 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             checkImageView.setScaleType(ImageView.ScaleType.CENTER);
             checkImageView.setContentDescription(LocaleController.getString(R.string.Edit));
             addView(checkImageView, LayoutHelper.createFrame(48, 48, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.TOP, 8, 8, 8, 0));
-            checkImageView.setOnClickListener(v -> {
-                if (WsHelper.WS_ADDRESS.equals(currentInfo.address)) {
-                    presentFragment(new WsSettingsActivity());
-                } else {
-                    presentFragment(new ProxySettingsActivity(currentInfo));
-                }
-            });
+            checkImageView.setOnClickListener(v -> presentFragment(new ProxySettingsActivity(currentInfo)));
 
             checkBox = new CheckBox2(context, 21);
             checkBox.setColor(Theme.key_checkbox, Theme.key_radioBackground, Theme.key_checkboxCheck);
@@ -225,9 +216,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
 
         public void setSelectionEnabled(boolean enabled, boolean animated) {
             if (isSelectionEnabled == enabled && animated) {
-                return;
-            }
-            if (WsHelper.WS_ADDRESS.equals(currentInfo.address)) {
                 return;
             }
             isSelectionEnabled = enabled;
@@ -513,7 +501,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
                 builder.setTitle(LocaleController.getString(R.string.DeleteProxyTitle));
                 builder.setPositiveButton(LocaleController.getString(R.string.Delete), (dialog, which) -> {
                     for (SharedConfig.ProxyInfo info : proxyList) {
-                        if (WsHelper.WS_ADDRESS.equals(info.address)) continue;
                         SharedConfig.deleteProxy(info);
                     }
                     useProxyForCalls = false;
@@ -538,7 +525,8 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
         });
         listView.setOnItemLongClickListener((view, position) -> {
             if (position >= proxyStartRow && position < proxyEndRow) {
-                return listAdapter.toggleSelected(position);
+                listAdapter.toggleSelected(position);
+                return true;
             }
             return false;
         });
@@ -676,11 +664,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
 
             boolean isChecking = checking;
             Collections.sort(proxyList, (o1, o2) -> {
-                if (WsHelper.WS_ADDRESS.equals(o1.address)) {
-                    return -1;
-                } else if (WsHelper.WS_ADDRESS.equals(o2.address)) {
-                    return 1;
-                }
                 long bias1 = SharedConfig.currentProxy == o1 ? -200000 : 0;
                 if (!o1.available) {
                     bias1 += 100000;
@@ -853,14 +836,11 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             setHasStableIds(true);
         }
 
-        public boolean toggleSelected(int position) {
+        public void toggleSelected(int position) {
             if (position < proxyStartRow || position >= proxyEndRow) {
-                return false;
+                return;
             }
             SharedConfig.ProxyInfo info = proxyList.get(position - proxyStartRow);
-            if (info.address.equals(WsHelper.WS_ADDRESS)) {
-                return false;
-            }
             if (selectedItems.contains(info)) {
                 selectedItems.remove(info);
             } else {
@@ -868,7 +848,6 @@ public class ProxyListActivity extends BaseFragment implements NotificationCente
             }
             notifyItemChanged(position, PAYLOAD_SELECTION_CHANGED);
             checkActionMode();
-            return true;
         }
 
         public void clearSelected() {

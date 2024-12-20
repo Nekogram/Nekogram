@@ -122,8 +122,6 @@
     <string name="RegistrationDateNewer">Newer than %s</string>
     <string name="RegistrationDateOlder">Older than %s</string>
     <string name="RegistrationDateApproximately">Approximately %s</string>
-    <string name="WsEnableTls">Enable TLS</string>
-    <string name="WsProvider">Provider</string>
     <string name="UpdateNekogram">Update Nekogram</string>
     <string name="TranslationTarget">Target language</string>
     <string name="TranslationTargetApp">Follow app</string>

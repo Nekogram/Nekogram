@@ -27,7 +27,7 @@ public:
 
     void writeBuffer(uint8_t *data, uint32_t size);
     void writeBuffer(NativeByteBuffer *buffer);
-    void openConnection(std::string address, uint16_t port, std::string secret, bool ipv6, int32_t networkType, int32_t datacenterId);
+    void openConnection(std::string address, uint16_t port, std::string secret, bool ipv6, int32_t networkType);
     void setTimeout(time_t timeout);
     time_t getTimeout();
     bool isDisconnected();
@@ -66,7 +66,6 @@ private:
     bool isIpv6;
     std::string currentAddress;
     uint16_t currentPort;
-    int32_t currentDatacenterId;
 
     std::string waitingForHostResolve;
     bool adjustWriteOpAfterResolve;

@@ -22,7 +22,6 @@ import tw.nekomimi.nekogram.settings.NekoExperimentalSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoGeneralSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoPasscodeSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
-import tw.nekomimi.nekogram.settings.WsSettingsActivity;
 
 public class SettingsHelper {
 
@@ -83,10 +82,6 @@ public class SettingsHelper {
                     case "general":
                     case "g":
                         fragment = new NekoGeneralSettingsActivity();
-                        break;
-                    case "ws":
-                    case "w":
-                        fragment = new WsSettingsActivity();
                         break;
                     case "reportid":
                         SettingsHelper.copyReportId();

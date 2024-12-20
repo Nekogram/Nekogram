@@ -40,7 +40,6 @@ import org.telegram.ui.LoginActivity;
 
 import tw.nekomimi.nekogram.ErrorDatabase;
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.WsHelper;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -585,11 +584,7 @@ public class ConnectionsManager extends BaseController {
         int proxyPort = preferences.getInt("proxy_port", 1080);
 
         if (preferences.getBoolean("proxy_enabled", false) && !TextUtils.isEmpty(proxyAddress)) {
-            if (WsHelper.WS_ADDRESS.equals(proxyAddress)) {
-                native_setProxySettings(currentAccount, WsHelper.WS_ADDRESS, WsHelper.getSocksPort(), "", "", "");
-            } else {
-                native_setProxySettings(currentAccount, proxyAddress, proxyPort, proxyUsername, proxyPassword, proxySecret);
-            }
+            native_setProxySettings(currentAccount, proxyAddress, proxyPort, proxyUsername, proxyPassword, proxySecret);
         }
         String installer = "";
         try {
@@ -693,9 +688,6 @@ public class ConnectionsManager extends BaseController {
         }
         if (secret == null) {
             secret = "";
-        }
-        if (address.equals(WsHelper.WS_ADDRESS)) {
-            port = WsHelper.getSocksPort();
         }
         return native_checkProxy(currentAccount, address, port, username, password, secret, requestTimeDelegate);
     }
@@ -912,9 +904,6 @@ public class ConnectionsManager extends BaseController {
         }
         if (secret == null) {
             secret = "";
-        }
-        if (address.equals(WsHelper.WS_ADDRESS)) {
-            port = WsHelper.getSocksPort();
         }
 
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {

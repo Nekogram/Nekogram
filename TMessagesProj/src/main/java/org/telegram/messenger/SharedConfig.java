@@ -51,7 +51,6 @@ import java.util.List;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.WsHelper;
 
 public class SharedConfig {
     /**
@@ -1454,12 +1453,8 @@ public class SharedConfig {
             }
             data.cleanup();
         }
-        if (currentProxy == null && !TextUtils.isEmpty(proxyAddress) && !WsHelper.WS_ADDRESS.equals(proxyAddress)) {
+        if (currentProxy == null && !TextUtils.isEmpty(proxyAddress)) {
             ProxyInfo info = currentProxy = new ProxyInfo(proxyAddress, proxyPort, proxyUsername, proxyPassword, proxySecret);
-            proxyList.add(0, info);
-        }
-        if (hasWsNeko) {
-            ProxyInfo info = new ProxyInfo(WsHelper.WS_ADDRESS, 6356, "", "", "");
             proxyList.add(0, info);
         }
     }
@@ -1481,12 +1476,9 @@ public class SharedConfig {
         serializedData.writeInt32(-1);
         serializedData.writeByte(PROXY_CURRENT_SCHEMA_VERSION);
         int count = infoToSerialize.size();
-        serializedData.writeInt32(hasWsNeko ? count - 1 : count);
+        serializedData.writeInt32(count);
         for (int a = count - 1; a >= 0; a--) {
             ProxyInfo info = infoToSerialize.get(a);
-            if (WsHelper.WS_ADDRESS.equals(info.address)) {
-                continue;
-            }
             serializedData.writeString(info.address != null ? info.address : "");
             serializedData.writeInt32(info.port);
             serializedData.writeString(info.username != null ? info.username : "");

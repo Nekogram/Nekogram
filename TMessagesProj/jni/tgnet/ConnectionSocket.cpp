@@ -428,7 +428,7 @@ ConnectionSocket::~ConnectionSocket() {
     }
 }
 
-void ConnectionSocket::openConnection(std::string address, uint16_t port, std::string secret, bool ipv6, int32_t networkType, int32_t datacenterId) {
+void ConnectionSocket::openConnection(std::string address, uint16_t port, std::string secret, bool ipv6, int32_t networkType) {
     currentNetworkType = networkType;
     isIpv6 = ipv6;
     currentAddress = address;
@@ -448,13 +448,6 @@ void ConnectionSocket::openConnection(std::string address, uint16_t port, std::s
         proxyAddress = &ConnectionsManager::getInstance(instanceNum).proxyAddress;
         proxyPort = ConnectionsManager::getInstance(instanceNum).proxyPort;
         proxySecret = &ConnectionsManager::getInstance(instanceNum).proxySecret;
-    }
-    if (proxyAddress->compare("ws.neko") == 0) {
-        proxyAddress = new std::string("127.0.0.1");
-        currentDatacenterId = datacenterId;
-        isIpv6 = false;
-    } else {
-        currentDatacenterId = -1;
     }
 
     if (!proxyAddress->empty()) {
@@ -952,15 +945,7 @@ void ConnectionSocket::onEvent(uint32_t events) {
                         tempBuffer->bytes[2] = 0x00;
                         tempBuffer->bytes[3] = (uint8_t) (isIpv6 ? 0x04 : 0x01);
                         uint16_t networkPort = ntohs(currentPort);
-                        std::string address;
-                        if (currentDatacenterId > 0) {
-                            bool testBackend = ConnectionsManager::getInstance(instanceNum).isTestBackend();
-                            address = "192.63.56." + std::to_string(testBackend ? (currentDatacenterId + 16) : currentDatacenterId);
-                            if (LOGS_ENABLED) DEBUG_D("connection(%p) send to fake ip addr %s", this, address.c_str());
-                        } else {
-                            address = currentAddress;
-                        }
-                        inet_pton(isIpv6 ? AF_INET6 : AF_INET, address.c_str(), tempBuffer->bytes + 4);
+                        inet_pton(isIpv6 ? AF_INET6 : AF_INET, currentAddress.c_str(), tempBuffer->bytes + 4);
                         memcpy(tempBuffer->bytes + 4 + (isIpv6 ? 16 : 4), &networkPort, sizeof(uint16_t));
                         proxyAuthState = 6;
                         if (send(socketFd, tempBuffer->bytes, 4 + (isIpv6 ? 16 : 4) + 2, 0) < 0) {
