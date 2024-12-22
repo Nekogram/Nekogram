@@ -132,6 +132,7 @@ public class NekoConfig {
     public static boolean silenceNonContacts = false;
     public static boolean disableJumpToNextChannel = false;
     public static boolean disableVoiceMessageAutoPlay = false;
+    public static boolean unmuteVideosWithVolumeButtons = true;
     public static boolean disableMarkdownByDefault = false;
     public static boolean hideTimeOnSticker = false;
     public static boolean showOriginal = true;
@@ -233,6 +234,7 @@ public class NekoConfig {
             disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
             autoTranslate = preferences.getBoolean("autoTranslate", true);
             disableVoiceMessageAutoPlay = preferences.getBoolean("disableVoiceMessageAutoPlay", false);
+            unmuteVideosWithVolumeButtons = preferences.getBoolean("unmuteVideosWithVolumeButtons", true);
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
             doubleTapInAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
@@ -946,6 +948,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("disableVoiceMessageAutoPlay", disableVoiceMessageAutoPlay);
+        editor.apply();
+    }
+
+    public static void toggleUnmuteVideosWithVolumeButtons() {
+        unmuteVideosWithVolumeButtons = !unmuteVideosWithVolumeButtons;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("unmuteVideosWithVolumeButtons", unmuteVideosWithVolumeButtons);
         editor.apply();
     }
 
