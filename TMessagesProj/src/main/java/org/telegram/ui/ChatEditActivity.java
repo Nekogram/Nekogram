@@ -1181,7 +1181,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 infoContainer.addView(channelAffiliateProgramsCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
             }
 
-            if (channelAffiliateProgramsCell != null && getMessagesController().starrefConnectAllowed) {
+            if (channelAffiliateProgramsCell != null && ChatObject.hasAdminRights(currentChat) && getMessagesController().starrefConnectAllowed) {
                 channelAffiliateProgramsCell.setVisibility(View.VISIBLE);
             }
             if (logCell != null) {
