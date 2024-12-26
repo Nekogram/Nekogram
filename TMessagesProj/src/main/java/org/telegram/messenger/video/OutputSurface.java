@@ -50,7 +50,11 @@ public class OutputSurface implements SurfaceTexture.OnFrameAvailableListener {
         this.handler = handler;
         final CountDownLatch latch = new CountDownLatch(1);
         handler.post(() -> {
-            setupBackground(context);
+            try {
+                setupBackground(context);
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
             latch.countDown();
         });
         try {

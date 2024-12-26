@@ -41826,6 +41826,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         TLRPC.TL_payments_getBankCardData req = new TLRPC.TL_payments_getBankCardData();
         req.number = card;
         int reqId = getConnectionsManager().sendRequest(req, (res, err) -> AndroidUtilities.runOnUIThread(() -> {
+            if (getContext() == null) {
+                return;
+            }
             progress.end();
 
             final ItemOptions options = ItemOptions.makeOptions(ChatActivity.this, cell, true);
@@ -41861,6 +41864,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         final Browser.Progress progress = makeProgressForLink(cell, link);
         TLObject cachedObject = getMessagesController().getUserOrChat(username);
         Utilities.Callback2<TLObject, Boolean> open = (obj, selling) -> {
+            if (getContext() == null) {
+                return;
+            }
             progress.end();
 
             boolean isUser = false, isGroup = false, isChannel = false;
@@ -41985,6 +41991,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         final Browser.Progress progress = makeProgressForLink(cell, link);
         final TLRPC.TL_contact contact = getContactsController().contactsByPhone.get(PhoneFormat.stripExceptNumbers(phone));
         Utilities.Callback<TLRPC.User> open = user -> {
+            if (getContext() == null) {
+                return;
+            }
             TLRPC.UserFull userInfo = user != null ? getMessagesController().getUserFull(user.id) : null;
 
             final ItemOptions options = ItemOptions.makeOptions(ChatActivity.this, cell, true);
