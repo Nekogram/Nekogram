@@ -117,8 +117,6 @@
     <string name="RegistrationDateNewer">Nowszy niż %s</string>
     <string name="RegistrationDateOlder">Starsze niż %s</string>
     <string name="RegistrationDateApproximately">Około %s</string>
-    <string name="WsEnableTls">Włącz TLS</string>
-    <string name="WsProvider">Dostawca</string>
     <string name="UpdateNekogram">Zaktualizuj Nekogram</string>
     <string name="TranslationTarget">Docelowy język</string>
     <string name="TranslationTargetApp">Śledź aplikację</string>
@@ -157,6 +155,7 @@
     <string name="QRLoginTitle">Logowanie kodem QR</string>
     <string name="NoTranslatorAppInstalled">Nie masz aplikacji, które mogą obsłużyć intencję tłumaczenia, zainstaluj ją, aby kontynuować</string>
     <string name="DisableVoiceMessagesAutoPlay">Wyłącz automatyczne odtwarzanie wiadomości głosowych</string>
+    <string name="UnmuteVideosWithVolumeButtons">Włącz dźwięk filmów za pomocą przycisków głośności</string>
     <string name="TranslatorType">Rodzaj</string>
     <string name="TranslatorTypeNeko">W wiadomości</string>
     <string name="TranslatorTypeTG">Wyskakujące okno dialogowe</string>
