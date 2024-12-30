@@ -9369,7 +9369,13 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         int compressionsCount;
 
         float maxSize = Math.max(videoEditedInfo.originalWidth, videoEditedInfo.originalHeight);
-        if (maxSize > 1280) {
+        if (maxSize > 3840) {
+            compressionsCount = 7;
+        } else if (maxSize > 2560) {
+            compressionsCount = 6;
+        } else if (maxSize > 1920) {
+            compressionsCount = 5;
+        } else if (maxSize > 1280) {
             compressionsCount = 4;
         } else if (maxSize > 854) {
             compressionsCount = 3;
@@ -9390,16 +9396,23 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 needCompress = true;
                 switch (selectedCompression) {
                     case 1:
-                        maxSize = 432.0f;
+                        maxSize = 480.0f;
                         break;
                     case 2:
-                        maxSize = 640.0f;
+                        maxSize = 854.0f;
                         break;
                     case 3:
-                        maxSize = 848.0f;
-                        break;
-                    default:
                         maxSize = 1280.0f;
+                        break;
+                    case 4:
+                    default:
+                        maxSize = 1920.0f;
+                        break;
+                    case 5:
+                        maxSize = 2560.0f;
+                        break;
+                    case 6:
+                        maxSize = 3840.0f;
                         break;
                 }
                 float scale = videoEditedInfo.originalWidth > videoEditedInfo.originalHeight ? maxSize / videoEditedInfo.originalWidth : maxSize / videoEditedInfo.originalHeight;
