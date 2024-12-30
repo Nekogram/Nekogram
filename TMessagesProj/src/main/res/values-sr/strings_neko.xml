@@ -117,8 +117,6 @@
     <string name="RegistrationDateNewer">Новији од %s</string>
     <string name="RegistrationDateOlder">Старији од %s</string>
     <string name="RegistrationDateApproximately">Приближно %s</string>
-    <string name="WsEnableTls">Омогући TLS</string>
-    <string name="WsProvider">Пружалац</string>
     <string name="UpdateNekogram">Ажурирај Nekogram</string>
     <string name="TranslationTarget">Циљни језик</string>
     <string name="TranslationTargetApp">Прати апликацију</string>
@@ -157,6 +155,7 @@
     <string name="QRLoginTitle">QR пријава</string>
     <string name="NoTranslatorAppInstalled">Немате апликације које могу да обрађују превођење, инсталирајте је да бисте наставили</string>
     <string name="DisableVoiceMessagesAutoPlay">Онемогући аутоматско пуштање гласовних порука</string>
+    <string name="UnmuteVideosWithVolumeButtons">Укључи звук видеа помоћу дугмади за јачину звука</string>
     <string name="TranslatorType">Тип</string>
     <string name="TranslatorTypeNeko">У поруци</string>
     <string name="TranslatorTypeTG">Искачући дијалог</string>
@@ -290,7 +289,7 @@
     <string name="MonoCode">Кôд</string>
     <string name="CreateCode">Направи кôд</string>
     <string name="CreateCodeLanguage">Језик</string>
-    <string name="IgnoreContentRestriction">Игнориши ограничење садржаја</string>
+    <string name="IgnoreContentRestriction">Занемари ограничење садржаја</string>
     <string name="PreviewSendPhoto">Пошаљи слику</string>
     <string name="PreviewSendVideo">Пошаљи видео</string>
     <string name="PreviewSendFile">Пошаљи датотеку</string>
@@ -308,6 +307,8 @@
     <string name="CloudflareAccountID">ID налога</string>
     <string name="CloudflareAPIToken">API токен</string>
     <string name="CloudflareCredentialsDialog">Конфигуришите Cloudflare ID налога и API токен.\n**Како га добити?**</string>
+    <string name="PreferOriginalQuality">Преферирај оригинални квалитет</string>
+    <string name="PreferOriginalQualityDesc">Гледајте видее у оригиналном квалитету.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Подешавања приступачности</string>
 </resources>

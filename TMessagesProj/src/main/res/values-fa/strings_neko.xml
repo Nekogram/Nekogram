@@ -308,6 +308,8 @@
     <string name="CloudflareAccountID">شناسه حساب</string>
     <string name="CloudflareAPIToken">توکن API</string>
     <string name="CloudflareCredentialsDialog">شناسه حساب کلودفلر و توکن API را پیکربندی کنید.\n**چگونه به دست آوریم؟**</string>
+    <string name="PreferOriginalQuality">ترجیح دادن کیفیت اصلی</string>
+    <string name="PreferOriginalQualityDesc">مشاهده فیلم ها با کیفیت اصلی.</string>
     <!-- Accessibility -->
-    <string name="AccessibilitySettings">تنظیمات دسترسپذیری</string>
+    <string name="AccessibilitySettings">تنظیمات دسترسی پذیری</string>
 </resources>

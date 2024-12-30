@@ -118,8 +118,6 @@
     <string name="RegistrationDateNewer">أحدث من %s</string>
     <string name="RegistrationDateOlder">أقدم من %s</string>
     <string name="RegistrationDateApproximately">%s تقريبا</string>
-    <string name="WsEnableTls">تمكين TLS</string>
-    <string name="WsProvider">مزود الخدمة</string>
     <string name="UpdateNekogram">تحديث نيكوغرام</string>
     <string name="TranslationTarget">اللغة المراد الترجمة إليها</string>
     <string name="TranslationTargetApp">لغة التطبيق</string>
@@ -159,6 +157,7 @@
     <string name="QRLoginTitle">تسجيل دخول QR</string>
     <string name="NoTranslatorAppInstalled">ليس لديك تطبيقات يمكنها التعامل مع الترجمة، يرجى تثبيت واحد للاستمرار</string>
     <string name="DisableVoiceMessagesAutoPlay">تعطيل التشغيل التلقائي للرسائل الصوتية</string>
+    <string name="UnmuteVideosWithVolumeButtons">إلغاء كتم صوت مقاطع الفيديو باستخدام أزرار الصوت</string>
     <string name="TranslatorType">النوع</string>
     <string name="TranslatorTypeNeko">في الرسالة</string>
     <string name="TranslatorTypeTG">مربع حوار منبثق</string>

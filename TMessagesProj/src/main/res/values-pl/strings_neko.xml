@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Ustawienia Neko</string>
+    <string name="PreferIPv6">Preferuj połączenia przez IPv6</string>
     <string name="MessageMenu">Menu wiadomości</string>
     <string name="HidePhone">Ukryj mój numer telefonu</string>
     <string name="DeleteAllFromSelf">Usuń własne wiadomości</string>
@@ -26,7 +27,7 @@
     <string name="NekogramRunning">Nekogram jest uruchomiony</string>
     <string name="EventType">Zestaw ikon paska bocznego</string>
     <string name="DependsOnDate">Zależny od dnia</string>
-    <string name="Christmas">Boże narodzenie</string>
+    <string name="Christmas">Boże Narodzenie</string>
     <string name="Valentine">Walentynki</string>
     <string name="DeleteDownloadedFile">Usuń pobrany plik</string>
     <string name="TestBackendOn">To konto połączy się z backendem testowym.</string>
@@ -230,12 +231,12 @@
     <string name="RecentChats">Ostatnie czaty</string>
     <string name="ClearRecentChats">Wyczyść ostatnie czaty</string>
     <string name="ClearRecentChatAlert">Czy chcesz wyczyścić swoje ostatnie czaty?</string>
-    <string name="DownloadSpeedBoost">Zwiększenie szybkości wysyłania</string>
+    <string name="DownloadSpeedBoost">Zwiększenie szybkości pobierania</string>
     <string name="DownloadSpeedBoostNone">Wyłączone</string>
     <string name="DownloadSpeedBoostAverage">Włączone</string>
     <string name="DownloadSpeedBoostExtreme">Ekstremalne</string>
-    <string name="NoUpdateAvailablePlay">Sprawdź aktualizację w sklepie Play.</string>
-    <string name="NoUpdateAvailablePlayDelay">Aktualizacja w sklepie Play jest zwykle wolniejsza niż bezpośrednie APK ze względu na recenzję Google.</string>
+    <string name="NoUpdateAvailablePlay">Sprawdź aktualizację w Sklepie Play.</string>
+    <string name="NoUpdateAvailablePlayDelay">Aktualizacja w Sklepie Play jest zwykle wolniejsza niż bezpośrednie APK ze względu na recenzję Google.</string>
     <string name="DownloadEmojiSet">Pobierz %s</string>
     <string name="EmojiSets">Zestawy emotek</string>
     <string name="MyEmojiSets">Moje zestawy emotek</string>
@@ -256,15 +257,19 @@
     <string name="SendAnonymousData">Wysyłaj anonimowe dane</string>
     <string name="SendBugReport">Wyślij raport o błędach</string>
     <string name="SendBugReportDesc">To pomoże nam szybciej znaleźć problemy.</string>
+    <string name="CopyReportId">Kopiuj ID raportu</string>
+    <string name="CopyReportIdDescription">Dołącz ID raportu podczas zgłaszania problemów z awarią.</string>
     <string name="AnonymousDataDelete">Usuń dane</string>
     <string name="AnonymousDataDeleteDesc">Trwale zablokuj dane wychodzące z Neko i usuń zebrane dane.</string>
     <string name="SendAnonymousDataDesc">Powyższe funkcje wykorzystują %1$s dostarczone przez %2$s. Gromadzone informacje są anonimowe i nie możemy ich prześledzić do niezależnego urządzenia lub użytkownika.</string>
     <string name="SendLargePhotos">Wysyłanie dużych zdjęć</string>
     <string name="SendLargePhotosAbout">Zwiększ limit skompresowanych obrazów do 2560 pikseli.</string>
     <string name="ExportAsJson">Kopiuj jako JSON</string>
+    <string name="ViewAsJson">Wyświetl jako JSON</string>
     <string name="HideStories">Ukryj relacje</string>
     <string name="QuickForward">Użyj szybkiego menu przekazywania</string>
     <string name="DidNotGetTheCodeBlameDurov">Jeśli nie otrzymałeś kodu na innym urządzeniu lub nie masz zalogowanego Telegrama na innym urządzeniu, użyj oficjalnej aplikacji Telegram, aby otrzymać kod.\n\nTelegram **wyłączył możliwość logowania się za pomocą wiadomości SMS** w aplikacjach innych firm. Użytkownicy logujący się do aplikacji innych firm mogą otrzymywać kody logowania tylko za pośrednictwem Telegrama.\n\nNie możemy ci w tym pomóc, jeśli masz jakiekolwiek problemy z logowaniem, skontaktuj się z pomocą techniczną Telegrama.</string>
+    <string name="ChangePhoneNumberBlameDurov">Telegram **wyłączył możliwość zmiany numeru telefonu** w aplikacjach firm trzecich. Użytkownicy mogą zmienić numer telefonu tylko za pomocą Telegrama.</string>
     <string name="NavigationAnimation">Animacja nawigacji</string>
     <string name="NavigationAnimationBezier">Klasyczna</string>
     <string name="NavigationAnimationSpring">Naturalna</string>
@@ -280,12 +285,31 @@
     <string name="CloudConfigAutoSync">Automatyczna synchronizacja</string>
     <string name="CloudConfigAutoSyncDesc">Synchronizuj automatycznie z chmurą po wprowadzeniu zmian w ustawieniach Neko.</string>
     <string name="CloudConfigSyncFailed">Nie udało się zsynchronizować ustawień z chmurą.</string>
-    <string name="CloudConfigRestoreFailed">Nie udało się zsynchronizować ustawień z chmurą.</string>
+    <string name="CloudConfigRestoreFailed">Nie udało się przywrócić ustawień z chmury.</string>
     <string name="ReducedColors">Redukcja kolorów</string>
     <string name="MonoCode">Kod</string>
     <string name="CreateCode">Utwórz kod</string>
     <string name="CreateCodeLanguage">Język</string>
     <string name="IgnoreContentRestriction">Ignoruj ograniczenie treści</string>
+    <string name="PreviewSendPhoto">Wyślij zdjęcie</string>
+    <string name="PreviewSendVideo">Wyślij film</string>
+    <string name="PreviewSendFile">Wyślij plik</string>
+    <string name="FixLinkPreview">Napraw podgląd linku</string>
+    <string name="FixLinkPreviewDesc">Wysyłaj linki innych mediów społecznościowych z automatycznie naprawionym podglądem linków.</string>
+    <string name="ShowTimeHint">Pokaż wskazówkę czasu</string>
+    <string name="ShowTimeHintDesc">Wyświetl szczegółową datę wysłania, dotykając w godzinę.</string>
+    <string name="Cryptocurrency">Kryptowaluta</string>
+    <string name="TranscribeProviderShort">Dostawca</string>
+    <string name="TranscribeProviderAuto">Automatyczny wybór</string>
+    <string name="TranscribeProviderWorkersAI">Whisper (Workers AI)</string>
+    <string name="TranscribeProviderDesc">Przy opcji automatycznego wyboru używany będzie %s, gdy Telegram Premium będzie niedostępny.</string>
+    <string name="CloudflareCredentials">Dane logowania Cloudflare</string>
+    <string name="CloudflareCredentialsNotSet">Dane logowania Cloudflare nie są skonfigurowane.</string>
+    <string name="CloudflareAccountID">ID konta</string>
+    <string name="CloudflareAPIToken">Token API</string>
+    <string name="CloudflareCredentialsDialog">Skonfiguruj ID konta Cloudflare i token API.\n**Jak uzyskać?**</string>
+    <string name="PreferOriginalQuality">Preferuj oryginalną jakość</string>
+    <string name="PreferOriginalQualityDesc">Wyświetl filmy w oryginalnej jakości.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>

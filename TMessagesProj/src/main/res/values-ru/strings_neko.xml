@@ -118,8 +118,6 @@
     <string name="RegistrationDateNewer">Новее %s</string>
     <string name="RegistrationDateOlder">Старше %s</string>
     <string name="RegistrationDateApproximately">Приблизительно %s</string>
-    <string name="WsEnableTls">Включить TLS</string>
-    <string name="WsProvider">Поставщик</string>
     <string name="UpdateNekogram">Обновить Nekogram</string>
     <string name="TranslationTarget">Целевой язык</string>
     <string name="TranslationTargetApp">Язык приложения</string>
@@ -158,6 +156,7 @@
     <string name="QRLoginTitle">Вход при помощи QR кода</string>
     <string name="NoTranslatorAppInstalled">У вас нет приложений, которые могут обрабатывать интент перевода. Пожалуйста, установите приложение для перевода, чтобы продолжить</string>
     <string name="DisableVoiceMessagesAutoPlay">Отключить автовоспроизведение голосовых сообщений</string>
+    <string name="UnmuteVideosWithVolumeButtons">Включать звук видео кнопками громкости</string>
     <string name="TranslatorType">Тип</string>
     <string name="TranslatorTypeNeko">В сообщении</string>
     <string name="TranslatorTypeTG">Всплывающее окно</string>

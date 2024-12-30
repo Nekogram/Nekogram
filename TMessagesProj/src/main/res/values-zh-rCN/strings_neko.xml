@@ -118,8 +118,6 @@
     <string name="RegistrationDateNewer">晚于 %s</string>
     <string name="RegistrationDateOlder">早于 %s</string>
     <string name="RegistrationDateApproximately">大约 %s</string>
-    <string name="WsEnableTls">启用 TLS</string>
-    <string name="WsProvider">提供者</string>
     <string name="UpdateNekogram">更新 Nekogram</string>
     <string name="TranslationTarget">目标语言</string>
     <string name="TranslationTargetApp">跟随应用</string>
@@ -158,6 +156,7 @@
     <string name="QRLoginTitle">二维码登录</string>
     <string name="NoTranslatorAppInstalled">您没有安装可以处理翻译意图的应用，请先安装一个再继续</string>
     <string name="DisableVoiceMessagesAutoPlay">禁用语音留言自动播放</string>
+    <string name="UnmuteVideosWithVolumeButtons">按音量键解除视频静音</string>
     <string name="TranslatorType">类型</string>
     <string name="TranslatorTypeNeko">消息内</string>
     <string name="TranslatorTypeTG">弹出对话框</string>
