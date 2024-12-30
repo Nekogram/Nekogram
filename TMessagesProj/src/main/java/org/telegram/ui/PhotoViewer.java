@@ -20741,23 +20741,28 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             return;
         }
         if (BLUR_RENDERNODE()) {
+            var scale = AndroidUtilities.density;
             if (renderNode != null) {
                 if (drawer.renderNode == null) {
                     drawer.renderNode = new RenderNode("photoviewer blur");
                     drawer.renderNode.setRenderEffect(RenderEffect.createChainEffect(
                         RenderEffect.createColorFilterEffect(new ColorMatrixColorFilter(drawer.colorMatrix)),
-                        RenderEffect.createBlurEffect(dp(35), dp(35), Shader.TileMode.DECAL)
+                        RenderEffect.createBlurEffect(35, 35, Shader.TileMode.DECAL)
                     ));
                 }
-                drawer.renderNode.setPosition(0, 0, renderNode.getWidth(), renderNode.getHeight());
+                drawer.renderNode.setPosition(0, 0, (int) (renderNode.getWidth() / scale), (int) (renderNode.getHeight() / scale));
                 Canvas renderNodeCanvas = drawer.renderNode.beginRecording();
+                renderNodeCanvas.scale(1f / scale, 1f / scale);
                 renderNodeCanvas.drawColor(bgColor);
                 renderNodeCanvas.drawRenderNode(renderNode);
                 drawer.renderNode.endRecording();
             }
             if (drawer.renderNode != null && drawer.renderNode.hasDisplayList()) {
                 canvas.drawColor(bgColor);
+                canvas.save();
+                canvas.scale(scale, scale);
                 canvas.drawRenderNode(drawer.renderNode);
+                canvas.restore();
             }
             canvas.drawColor(overlayColor);
             return;
