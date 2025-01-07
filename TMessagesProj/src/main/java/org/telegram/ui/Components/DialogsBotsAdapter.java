@@ -530,7 +530,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
         }
 
         public void load() {
-            if (loading || endReached) return;
+            if (true || loading || endReached) return;
             loading = true;
 
             if (!cacheLoaded) {
