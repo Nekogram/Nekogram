@@ -443,7 +443,7 @@ public class DialogsBotsAdapter extends UniversalAdapter {
 
         public boolean loading;
         private boolean cacheLoaded;
-        private boolean endReached;
+        private boolean endReached = true;
 
         private long cacheTime;
         private String lastOffset;
