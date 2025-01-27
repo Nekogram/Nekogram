@@ -106,6 +106,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import tw.nekomimi.nekogram.folder.FolderIconHelper;
+import tw.nekomimi.nekogram.folder.IconSelectorAlert;
 
 public class FilterCreateActivity extends BaseFragment {
 
@@ -1471,6 +1472,12 @@ public class FilterCreateActivity extends BaseFragment {
                             return AnimatedEmojiDrawable.CACHE_TYPE_TOGGLEABLE_EDIT;
                         }
                     };
+                    cell.setOnChangeIconListener(v -> IconSelectorAlert.show(FilterCreateActivity.this, v, newFilterEmoticon == null ? "\uD83D\uDCC1" : newFilterEmoticon, (emoticon) -> {
+                        newFilterEmoticon = emoticon;
+                        nameEditTextCell.setIcon(FolderIconHelper.getTabIcon(newFilterEmoticon), true);
+                        checkDoneButton(true);
+                    }));
+                    cell.setIcon(FolderIconHelper.getTabIcon(newFilterEmoticon), false);
                     cell.setAllowEntities(false);
                     cell.editTextEmoji.getEditText().setEmojiColor(getThemedColor(Theme.key_featuredStickers_addButton));
                     cell.editTextEmoji.setEmojiViewCacheType(AnimatedEmojiDrawable.CACHE_TYPE_TOGGLEABLE_EDIT);

@@ -6,6 +6,8 @@ import static org.telegram.ui.Components.EditTextEmoji.STYLE_GIFT;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Editable;
@@ -47,6 +49,7 @@ public class EditEmojiTextCell extends FrameLayout {
     private boolean ignoreEditText;
     public final EditTextEmoji editTextEmoji;
     private int maxLength;
+    private ImageView[] iconImageView = new ImageView[2];
 
     private boolean showLimitWhenEmpty;
     private int showLimitWhenNear = -1;
@@ -267,6 +270,32 @@ public class EditEmojiTextCell extends FrameLayout {
         addView(editTextEmoji, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.TOP));
 
         updateLimitText();
+    }
+
+    public void setOnChangeIconListener(OnClickListener listener) {
+        editTextEmoji.setLayoutParams(LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.RIGHT | Gravity.TOP, 72 - 7 - 21, 0, 0, 0));
+        for (int i = 0; i < iconImageView.length; i++) {
+            iconImageView[i] = new ImageView(getContext());
+            iconImageView[i].setFocusable(true);
+            iconImageView[i].setVisibility(i == 0 ? VISIBLE : GONE);
+            iconImageView[i].setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_stickers_menuSelector)));
+            iconImageView[i].setScaleType(ImageView.ScaleType.CENTER);
+            iconImageView[i].setOnClickListener(listener);
+            iconImageView[i].setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon), PorterDuff.Mode.MULTIPLY));
+            iconImageView[i].setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
+            addView(iconImageView[i], LayoutHelper.createFrame(48, 48, Gravity.LEFT | Gravity.CENTER_VERTICAL, 12, 0, 8, 0));
+        }
+    }
+
+    public void setIcon(int icon, boolean animated) {
+        iconImageView[animated ? 1 : 0].setImageResource(icon);
+        if (animated) {
+            ImageView tmp = iconImageView[0];
+            iconImageView[0] = iconImageView[1];
+            iconImageView[1] = tmp;
+        }
+        AndroidUtilities.updateViewVisibilityAnimated(iconImageView[0], true, 0.5f, animated);
+        AndroidUtilities.updateViewVisibilityAnimated(iconImageView[1], false, 0.5f, animated);
     }
 
     public void setText(CharSequence text) {
