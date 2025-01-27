@@ -117,8 +117,6 @@
     <string name="RegistrationDateNewer">Più recente di %s</string>
     <string name="RegistrationDateOlder">Più vecchio di %s</string>
     <string name="RegistrationDateApproximately">Circa %s</string>
-    <string name="WsEnableTls">Abilita TLS</string>
-    <string name="WsProvider">Fornitore</string>
     <string name="UpdateNekogram">Aggiorna Nekogram</string>
     <string name="TranslationTarget">Lingua di destinazione</string>
     <string name="TranslationTargetApp">Segui l\'app</string>
@@ -157,6 +155,7 @@
     <string name="QRLoginTitle">QR Login</string>
     <string name="NoTranslatorAppInstalled">Non hai applicazioni in grado di gestire la traduzione, installane una per continuare</string>
     <string name="DisableVoiceMessagesAutoPlay">Disattiva la riproduzione automatica dei messaggi vocali</string>
+    <string name="UnmuteVideosWithVolumeButtons">Attiva l\'audio premendo il bilanciere del volume</string>
     <string name="TranslatorType">Tipo</string>
     <string name="TranslatorTypeNeko">Nel messaggio</string>
     <string name="TranslatorTypeTG">Popup a comparsa</string>
@@ -265,9 +264,11 @@
     <string name="SendLargePhotos">Invia foto di grandi dimensioni</string>
     <string name="SendLargePhotosAbout">Aumenta il limite laterale delle immagini compresse a 2560px.</string>
     <string name="ExportAsJson">Copia come JSON</string>
+    <string name="ViewAsJson">Visualizza in formato JSON</string>
     <string name="HideStories">Nascondi Stories</string>
     <string name="QuickForward">Utilizza il menu di inoltro rapido</string>
     <string name="DidNotGetTheCodeBlameDurov">Se non hai ricevuto il codice su un altro dispositivo o non hai l\'app Telegram collegata su un altro dispositivo, utilizza l\'app ufficiale di Telegram per ricevere il codice.\n\nTelegram ha **disabilitato la possibilità di accedere tramite SMS** su app di terze parti. Gli utenti che accedono a tali app possono ricevere i codici di accesso solo tramite Telegram.\n\nNon possiamo aiutarti in questo caso. Se incontri problemi con l\'accesso, ti preghiamo di contattare il supporto di Telegram.</string>
+    <string name="ChangePhoneNumberBlameDurov">Telegram ha ** disabilitato la possibilità di cambiare numero di telefono ** nelle app di terze parti. Gli utenti possono unicamente cambiarlo via Telegram.</string>
     <string name="NavigationAnimation">Animazione di navigazione</string>
     <string name="NavigationAnimationBezier">Classico</string>
     <string name="NavigationAnimationSpring">Naturale</string>
@@ -289,6 +290,25 @@
     <string name="CreateCode">Crea un codice</string>
     <string name="CreateCodeLanguage">Lingua</string>
     <string name="IgnoreContentRestriction">Ignora le restrizioni del contenuto</string>
+    <string name="PreviewSendPhoto">Invia Foto</string>
+    <string name="PreviewSendVideo">Invia Video</string>
+    <string name="PreviewSendFile">Invia File</string>
+    <string name="FixLinkPreview">Correggi anteprima link</string>
+    <string name="FixLinkPreviewDesc">Invia link di altri social media con anteprima link corretta automaticamente.</string>
+    <string name="ShowTimeHint">Mostra suggerimento orario</string>
+    <string name="ShowTimeHintDesc"></string>
+    <string name="Cryptocurrency">Cripto valute</string>
+    <string name="TranscribeProviderShort">Fornitore</string>
+    <string name="TranscribeProviderAuto">Selezione automatica</string>
+    <string name="TranscribeProviderWorkersAI">Sussurro (Workers AI)</string>
+    <string name="TranscribeProviderDesc">Attivando la selezione automatica, %s verrà utilizzato quando la versione Premium di Telegram non è disponibile.</string>
+    <string name="CloudflareCredentials">Credenziali di Cloudflare</string>
+    <string name="CloudflareCredentialsNotSet">Le credenziali di Cloudflare non sono configurate.</string>
+    <string name="CloudflareAccountID">ID Account</string>
+    <string name="CloudflareAPIToken">Token API</string>
+    <string name="CloudflareCredentialsDialog">Configura un account Cloudflare e un Token API. \n**Come ottenerlo?**</string>
+    <string name="PreferOriginalQuality">Mantieni la qualità originale</string>
+    <string name="PreferOriginalQualityDesc">Visualizza i video nella qualità originale.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>

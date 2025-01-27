@@ -30,8 +30,8 @@
     <string name="Christmas">Рождество</string>
     <string name="Valentine">День Св. Валентина</string>
     <string name="DeleteDownloadedFile">Удалить загруженный файл</string>
-    <string name="TestBackendOn">Эта учетная запись будет подключаться к тестовому серверу.</string>
-    <string name="TestBackendOff">Эта учетная запись будет подключаться к основному серверу.</string>
+    <string name="TestBackendOn">Этот аккаунт будет подключаться к тестовому серверу.</string>
+    <string name="TestBackendOff">Этот аккаунт будет подключаться к основному серверу.</string>
     <string name="ViewHistory">Посмотреть историю</string>
     <string name="Nya">Мяу!</string>
     <string name="StickerSize">Размер стикеров</string>
