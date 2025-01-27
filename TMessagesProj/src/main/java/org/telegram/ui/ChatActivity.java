@@ -704,7 +704,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private AnimatorSet runningAnimation;
     private int runningAnimationIndex = -1;
 
-    private ArrayList<QrHelper.QrResult> qrResults;
+    private ArrayList<String> qrResults;
     private MessageObject selectedObjectToEditCaption;
     private MessageObject selectedObject;
     private MessageObject.GroupedMessages selectedObjectGroup;
@@ -30865,12 +30865,12 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         MessageHelper.readQrFromMessage(cell, selectedObject, selectedObjectGroup, chatListView, results -> {
                             this.qrResults = results;
                             if (qrResults.size() == 1) {
-                                var text = qrResults.get(0).text;
+                                var text = qrResults.get(0);
                                 var username = Browser.extractUsername(text);
                                 if (username != null) {
                                     cell.setSubtext("@" + username);
                                 } else if (text.startsWith("http://") || text.startsWith("https://")) {
-                                    Uri uri = Uri.parse(qrResults.get(0).text);
+                                    Uri uri = Uri.parse(qrResults.get(0));
                                     cell.setSubtext(uri.getHost());
                                 } else {
                                     cell.setSubtext(null);

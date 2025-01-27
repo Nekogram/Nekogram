@@ -369,10 +369,10 @@ public class MessageHelper extends BaseController {
         });
     }
 
-    public static void readQrFromMessage(View parent, MessageObject selectedObject, MessageObject.GroupedMessages selectedObjectGroup, ViewGroup viewGroup, Utilities.Callback<ArrayList<QrHelper.QrResult>> callback, AtomicBoolean waitForQr, AtomicReference<Runnable> onQrDetectionDone) {
+    public static void readQrFromMessage(View parent, MessageObject selectedObject, MessageObject.GroupedMessages selectedObjectGroup, ViewGroup viewGroup, Utilities.Callback<ArrayList<String>> callback, AtomicBoolean waitForQr, AtomicReference<Runnable> onQrDetectionDone) {
         waitForQr.set(true);
         Utilities.globalQueue.postRunnable(() -> {
-            ArrayList<QrHelper.QrResult> qrResults = new ArrayList<>();
+            ArrayList<String> qrResults = new ArrayList<>();
             ArrayList<MessageObject> messageObjects = new ArrayList<>();
             if (selectedObjectGroup != null) {
                 messageObjects.addAll(selectedObjectGroup.messages);

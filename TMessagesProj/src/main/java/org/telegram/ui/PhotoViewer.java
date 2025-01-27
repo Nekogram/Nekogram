@@ -21114,7 +21114,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
-    ArrayList<QrHelper.QrResult> qrResults;
+    ArrayList<String> qrResults;
     private void detectQr() {
         menuItem.hideSubItem(gallery_menu_qr);
         Utilities.globalQueue.postRunnable(() -> {
@@ -21122,7 +21122,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             if (bitmap == null) {
                 return;
             }
-            ArrayList<QrHelper.QrResult> qrResults = new ArrayList<>(QrHelper.readQr(bitmap));
+            ArrayList<String> qrResults = new ArrayList<>(QrHelper.readQr(bitmap));
             AndroidUtilities.runOnUIThread(() -> {
                 if (menuItem == null || qrItem == null) {
                     return;
@@ -21130,12 +21130,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 PhotoViewer.this.qrResults = qrResults;
                 if (qrResults.size() == 1) {
                     menuItem.showSubItem(gallery_menu_qr);
-                    var text = qrResults.get(0).text;
+                    var text = qrResults.get(0);
                     var username = Browser.extractUsername(text);
                     if (username != null) {
                         qrItem.setSubtext("@" + username);
                     } else if (text.startsWith("http://") || text.startsWith("https://")) {
-                        Uri uri = Uri.parse(qrResults.get(0).text);
+                        Uri uri = Uri.parse(qrResults.get(0));
                         qrItem.setSubtext(uri.getHost());
                     } else {
                         qrItem.setSubtext(null);

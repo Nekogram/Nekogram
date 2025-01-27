@@ -109,7 +109,7 @@ public class NekoConfig {
     public static boolean showRepeat = true;
     public static boolean showNoQuoteForward = false;
     public static boolean showCopyPhoto = false;
-    public static boolean showQrCode = true;
+    public static boolean showQrCode = false;
 
     public static boolean hidePhone = true;
     public static int tabletMode = TABLET_AUTO;
@@ -248,7 +248,7 @@ public class NekoConfig {
             markdownParseLinks = preferences.getBoolean("markdownParseLinks", true);
             downloadSpeedBoost = preferences.getInt("downloadSpeedBoost2", BOOST_NONE);
             sendLargePhotos = preferences.getBoolean("sendLargePhotos", false);
-            showQrCode = preferences.getBoolean("showQrCode", true);
+            showQrCode = preferences.getBoolean("showQrCode", false);
             wsDomain = preferences.getString("wsDomain", "");
             hideStories = preferences.getBoolean("hideStories", false);
             quickForward = preferences.getBoolean("quickForward", false);

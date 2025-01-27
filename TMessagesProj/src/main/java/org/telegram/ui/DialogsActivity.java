@@ -251,9 +251,7 @@ import tw.nekomimi.nekogram.BackButtonMenuRecent;
 import tw.nekomimi.nekogram.forward.ForwardContext;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.forward.SendOptionsMenuLayout;
-import tw.nekomimi.nekogram.helpers.ApkInstaller;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
-import tw.nekomimi.nekogram.helpers.QrHelper;
 
 public class DialogsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, FloatingDebugProvider {
 
@@ -407,7 +405,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private FiltersView filtersView;
     private ActionBarMenuItem passcodeItem;
     private ActionBarMenuItem downloadsItem;
-    private ActionBarMenuItem qrItem;
     private boolean passcodeItemVisible;
     private boolean downloadsItemVisible;
     private ActionBarMenuItem proxyItem;
@@ -3107,23 +3104,25 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
             @Override
             public void onPreToggleSearch() {
-                if (!isSpeedItemCreated) {
+                /*if (!isSpeedItemCreated) {
                     isSpeedItemCreated = true;
                     FrameLayout searchContainer = (FrameLayout) searchItem.getSearchClearButton().getParent();
-                    qrItem = new ActionBarMenuItem(context, menu, Theme.getColor(Theme.key_actionBarDefaultSelector), Theme.getColor(Theme.key_actionBarDefaultIcon));
-                    qrItem.setIcon(R.drawable.ic_line_scan);
-                    qrItem.setTranslationX(dp(32));
-                    qrItem.setOnClickListener(v -> QrHelper.openCameraScanActivity(DialogsActivity.this));
-                    qrItem.setFixBackground(true);
-                    qrItem.setContentDescription(LocaleController.getString(R.string.AuthAnotherClientScan));
+                    speedItem = new ActionBarMenuItem(context, menu, Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
+                    speedItem.setIcon(R.drawable.avd_speed);
+                    speedItem.getIconView().setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon), PorterDuff.Mode.SRC_IN));
+                    speedItem.setTranslationX(dp(32));
+                    speedItem.setAlpha(0f);
+                    speedItem.setOnClickListener(v -> showDialog(new PremiumFeatureBottomSheet(DialogsActivity.this, PremiumPreviewFragment.PREMIUM_FEATURE_DOWNLOAD_SPEED, true)));
+                    speedItem.setClickable(false);
+                    speedItem.setFixBackground(true);
                     FrameLayout.LayoutParams speedParams = new FrameLayout.LayoutParams(dp(42), ViewGroup.LayoutParams.MATCH_PARENT);
                     speedParams.leftMargin = speedParams.rightMargin = dp(14 + 24);
                     speedParams.gravity = Gravity.RIGHT;
-                    searchContainer.addView(qrItem, speedParams);
-                    searchItem.setSearchAdditionalButton(qrItem);
+                    searchContainer.addView(speedItem, speedParams);
+                    searchItem.setSearchAdditionalButton(speedItem);
 
                     updateSpeedItem(searchViewPager != null && searchViewPager.getCurrentPosition() == 2);
-                }
+                }*/
             }
 
             @Override
@@ -5275,7 +5274,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
             FilesMigrationService.checkBottomSheet(this);
         }
-
         updateMenuButton(false);
         actionBar.setDrawBlurBackground(contentView);
 
@@ -7427,15 +7425,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     ((ViewGroup) parent).removeView(searchTabsView);
                 }
                 searchTabsView = null;
-            }
-            if (qrItem != null) {
-                if (whiteActionBar) {
-                    qrItem.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarActionModeDefaultSelector), 1));
-                    qrItem.setIconColor(Theme.getColor(Theme.key_actionBarActionModeDefaultIcon));
-                } else {
-                    qrItem.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_actionBarDefaultSelector), 1));
-                    qrItem.setIconColor(Theme.getColor(Theme.key_actionBarDefaultIcon));
-                }
             }
 
             EditTextBoldCursor editText = searchItem.getSearchField();
