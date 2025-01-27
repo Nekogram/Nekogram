@@ -33,7 +33,7 @@ public interface ForwardContext {
         if (context == null) {
             return;
         }
-        parentFragment.showDialog(new ShareAlert(context, parentChatActivity, getForwardingMessages(), null, null, false, null, null, false, false, false, forwardParams.noQuote, forwardParams.noCaption, parentFragment.getResourceProvider()) {
+        parentFragment.showDialog(new ShareAlert(context, parentChatActivity, getForwardingMessages(), null, null, false, null, null, false, false, false, forwardParams.noQuote, forwardParams.noCaption, null, parentFragment.getResourceProvider()) {
             @Override
             public void dismissInternal() {
                 super.dismissInternal();

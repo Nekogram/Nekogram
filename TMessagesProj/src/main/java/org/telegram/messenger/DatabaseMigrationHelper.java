@@ -1428,11 +1428,8 @@ public class DatabaseMigrationHelper {
         }
 
         if (version == 143) {
-            database.executeFast("DROP TABLE IF EXISTS dialog_filter_neko;").stepThis().dispose();
-            database.executeFast("DROP TABLE IF EXISTS dialog_filter;").stepThis().dispose();
-            database.executeFast("CREATE TABLE dialog_filter(id INTEGER PRIMARY KEY, ord INTEGER, unread_count INTEGER, flags INTEGER, title TEXT, color INTEGER DEFAULT -1, emoticon TEXT)").stepThis().dispose();
+            database.executeFast("ALTER TABLE dialog_filter ADD COLUMN color INTEGER default -1").stepThis().dispose();
             database.executeFast("PRAGMA user_version = 144").stepThis().dispose();
-            messagesStorage.getUserConfig().clearFilters();
             version = 144;
         }
 
@@ -1536,6 +1533,25 @@ public class DatabaseMigrationHelper {
             database.executeFast("ALTER TABLE star_gifts2 ADD COLUMN pos INTEGER default 0;").stepThis().dispose();
             database.executeFast("PRAGMA user_version = 159").stepThis().dispose();
             version = 159;
+        }
+
+        if (version == 159) {
+            database.executeFast("ALTER TABLE dialog_filter ADD COLUMN entities BLOB").stepThis().dispose();
+            database.executeFast("PRAGMA user_version = 160").stepThis().dispose();
+            version = 160;
+        }
+
+        if (version == 160) {
+            database.executeFast("ALTER TABLE dialog_filter ADD COLUMN noanimate INTEGER").stepThis().dispose();
+            database.executeFast("PRAGMA user_version = 161").stepThis().dispose();
+            version = 161;
+        }
+
+        if (version == 161) {
+            database.executeFast("DELETE FROM popular_bots").stepThis().dispose();
+            database.executeFast("ALTER TABLE popular_bots ADD COLUMN pos INTEGER").stepThis().dispose();
+            database.executeFast("PRAGMA user_version = 162").stepThis().dispose();
+            version = 162;
         }
 
         return version;

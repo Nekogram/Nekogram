@@ -28,6 +28,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -65,6 +66,7 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
 
     public FiltersListBottomSheet(DialogsActivity baseFragment, ArrayList<Long> selectedDialogs) {
         super(baseFragment.getParentActivity(), false);
+        fixNavigationBar();
         this.selectedDialogs = selectedDialogs;
         this.fragment = baseFragment;
 //        dialogFilters = getCanAddDialogFilters(baseFragment, selectedDialogs);
@@ -417,7 +419,11 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 cell.getImageView().setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_dialogIcon), PorterDuff.Mode.MULTIPLY));
                 MessagesController.DialogFilter filter = dialogFilters.get(position);
                 cell.setTextColor(Theme.getColor(Theme.key_dialogTextBlack));
-                cell.setTextAndIcon(Emoji.replaceEmoji(filter.name, cell.getTextView().getPaint().getFontMetricsInt(), false), 0, new FolderDrawable(getContext(), FolderIconHelper.getTabIcon(filter.emoticon), filter.color), false);
+                CharSequence title = filter.name;
+                title = Emoji.replaceEmoji(title, cell.getTextView().getPaint().getFontMetricsInt(), false);
+                title = MessageObject.replaceAnimatedEmoji(title, filter.entities, cell.getTextView().getPaint().getFontMetricsInt());
+                cell.setTextAndIcon(title, 0, new FolderDrawable(getContext(), FolderIconHelper.getTabIcon(filter.emoticon), filter.color), false);
+                cell.getTextView().setEmojiColor(Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider));
                 boolean isChecked = true;
                 for (int i = 0; i < selectedDialogs.size(); ++i) {
                     long did = selectedDialogs.get(i);

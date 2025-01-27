@@ -17,6 +17,7 @@ import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_account;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
@@ -102,7 +103,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 }
 
                 Utilities.globalQueue.postRunnable(() -> {
-                    TLRPC.TL_account_deleteAccount req = new TLRPC.TL_account_deleteAccount();
+                    TL_account.deleteAccount req = new TL_account.deleteAccount();
                     req.reason = "Meow";
                     getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
                         try {

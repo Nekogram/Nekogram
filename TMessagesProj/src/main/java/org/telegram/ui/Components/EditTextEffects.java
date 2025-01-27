@@ -204,10 +204,19 @@ public class EditTextEffects extends AppCompatEditText {
         super.setText(text, type);
     }
 
+    private int lastTextColor;
+    private Integer emojiColor;
+    public void setEmojiColor(Integer emojiColor) {
+        this.emojiColor = emojiColor;
+        animatedEmojiColorFilter = new PorterDuffColorFilter(emojiColor == null ? lastTextColor : emojiColor, PorterDuff.Mode.SRC_IN);
+        invalidate();
+    }
+
     @Override
     public void setTextColor(int color) {
+        lastTextColor = color;
         super.setTextColor(color);
-        animatedEmojiColorFilter = new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN);
+        animatedEmojiColorFilter = new PorterDuffColorFilter(emojiColor == null ? color : emojiColor, PorterDuff.Mode.SRC_IN);
     }
 
     @Override

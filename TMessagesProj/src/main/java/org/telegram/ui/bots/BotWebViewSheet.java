@@ -500,6 +500,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                     sensors.attachWebView(webView);
                 }
                 fullscreenButtons.setWebView(webView);
+                updateWebViewBackgroundColor();
             }
 
             @Override
@@ -2085,6 +2086,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                     errorContainer.setDark(AndroidUtilities.computePerceivedBrightness(backgroundPaint.getColor()) <= .721f, false);
                     errorContainer.setBackgroundColor(backgroundPaint.getColor());
                 }
+                updateWebViewBackgroundColor();
             });
             backgroundColorAnimator.addListener(new AnimatorListenerAdapter() {
                 @Override
@@ -2096,6 +2098,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                         errorContainer.setDark(AndroidUtilities.computePerceivedBrightness(backgroundPaint.getColor()) <= .721f, false);
                         errorContainer.setBackgroundColor(backgroundPaint.getColor());
                     }
+                    updateWebViewBackgroundColor();
                 }
             });
             backgroundColorAnimator.start();
@@ -2107,7 +2110,19 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                 errorContainer.setDark(AndroidUtilities.computePerceivedBrightness(backgroundPaint.getColor()) <= .721f, false);
                 errorContainer.setBackgroundColor(backgroundPaint.getColor());
             }
+            updateWebViewBackgroundColor();
         }
+    }
+
+    private void updateWebViewBackgroundColor() {
+        if (webViewContainer == null) {
+            return;
+        }
+        BotWebViewContainer.MyWebView webView = webViewContainer.getWebView();
+        if (webView == null) {
+            return;
+        }
+        webView.setBackgroundColor(backgroundPaint.getColor());
     }
 
     private boolean resetOffsetY = true;

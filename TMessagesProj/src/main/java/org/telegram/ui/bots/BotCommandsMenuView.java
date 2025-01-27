@@ -10,7 +10,6 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.text.Layout;
 import android.text.StaticLayout;
 import android.text.TextPaint;
@@ -29,7 +28,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
-import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.TLRPC;
@@ -141,8 +139,8 @@ public class BotCommandsMenuView extends View {
     @Override
     public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
         super.onInitializeAccessibilityNodeInfo(info);
-        info.addAction(isOpened()? AccessibilityNodeInfo.AccessibilityAction.ACTION_COLLAPSE : AccessibilityNodeInfo.AccessibilityAction.ACTION_EXPAND);
-        info.setContentDescription(LocaleController.getString("AccDescrBotCommands",R.string.AccDescrBotCommands));
+        info.addAction(isOpened() ? AccessibilityNodeInfo.AccessibilityAction.ACTION_COLLAPSE : AccessibilityNodeInfo.AccessibilityAction.ACTION_EXPAND);
+        info.setContentDescription(getString(R.string.AccDescrBotCommands));
     }
 
     @Override
@@ -350,7 +348,7 @@ public class BotCommandsMenuView extends View {
             description = new TextView(context) {
                 @Override
                 public void setText(CharSequence text, BufferType type) {
-                    text = Emoji.replaceEmoji(text, getPaint().getFontMetricsInt(), AndroidUtilities.dp(14), false);
+                    text = Emoji.replaceEmoji(text, getPaint().getFontMetricsInt(), false);
                     super.setText(text, type);
                 }
             };

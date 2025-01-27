@@ -13,6 +13,7 @@ import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.AbstractSerializedData;
+import org.telegram.tgnet.OutputSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -143,7 +144,7 @@ public class PopupHelper {
         }
         return new TLObject() {
             @Override
-            public void serializeToStream(AbstractSerializedData stream) {
+            public void serializeToStream(OutputSerializedData stream) {
                 stream.writeInt32(0x1cb5c415);
                 var count = 1;
                 if (peerFull != null) count++;
