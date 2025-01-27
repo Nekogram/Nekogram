@@ -2072,7 +2072,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             return false;
         }
 
-        SendOptionsMenuLayout layout = new SendOptionsMenuLayout(parentActivity, forwardContext, true, true, false, () -> {
+        SendOptionsMenuLayout layout = new SendOptionsMenuLayout(parentActivity, forwardContext, true, true, () -> {
             var params = forwardContext.getForwardParams();
             sendInternal(params.notify, params.scheduleDate);
         }, resourcesProvider);

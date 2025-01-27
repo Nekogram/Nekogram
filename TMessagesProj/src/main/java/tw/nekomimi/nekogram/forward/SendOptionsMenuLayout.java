@@ -3,14 +3,11 @@ package tw.nekomimi.nekogram.forward;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.LinearLayout;
-
-import androidx.core.graphics.ColorUtils;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
@@ -23,21 +20,19 @@ import org.telegram.ui.Components.LayoutHelper;
 
 @SuppressLint({"ClickableViewAccessibility", "ViewConstructor"})
 public class SendOptionsMenuLayout extends LinearLayout {
-    private final Theme.ResourcesProvider resourcesProvider;
     private ActionBarPopupWindow sendPopupWindow;
     private boolean returnSendersNames;
     private ActionBarMenuSubItem showCaptionView;
     private ActionBarMenuSubItem hideCaptionView;
 
-    public SendOptionsMenuLayout(Context parentActivity, ForwardContext forwardContext, boolean showSchedule, boolean showNotify, boolean darkTheme, Delegate delegate, Theme.ResourcesProvider resourcesProvider) {
+    public SendOptionsMenuLayout(Context parentActivity, ForwardContext forwardContext, boolean showSchedule, boolean showNotify, Delegate delegate, Theme.ResourcesProvider resourcesProvider) {
         super(parentActivity);
         setOrientation(VERTICAL);
 
-        this.resourcesProvider = resourcesProvider;
         var forwardParams = forwardContext.getForwardParams();
         if (forwardContext.getForwardingMessages() != null) {
             Paint paint = new Paint();
-            paint.setColor(darkTheme ? ColorUtils.blendARGB(Theme.getColor(Theme.key_voipgroup_actionBar), Color.BLACK, 0.3f) : Theme.getColor(Theme.key_divider));
+            paint.setColor(Theme.getColor(Theme.key_divider, resourcesProvider));
             View dividerView = new View(getContext()) {
 
                 @Override
@@ -62,9 +57,6 @@ public class SendOptionsMenuLayout extends LinearLayout {
                     super.onMeasure(widthMeasureSpec, heightMeasureSpec);
                 }
             };
-            if (darkTheme) {
-                sendPopupLayout1.setBackgroundColor(getThemedColor(Theme.key_voipgroup_inviteMembersBackground));
-            }
             sendPopupLayout1.setAnimationEnabled(false);
             sendPopupLayout1.setOnTouchListener(new View.OnTouchListener() {
                 private final android.graphics.Rect popupRect = new android.graphics.Rect();
@@ -90,17 +82,11 @@ public class SendOptionsMenuLayout extends LinearLayout {
             sendPopupLayout1.setShownFromBottom(false);
 
             ActionBarMenuSubItem showSendersNameView = new ActionBarMenuSubItem(getContext(), true, true, false, resourcesProvider);
-            if (darkTheme) {
-                showSendersNameView.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
-            }
             sendPopupLayout1.addView(showSendersNameView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
             showSendersNameView.setTextAndIcon(LocaleController.getString(R.string.ShowSendersName), 0);
             showSendersNameView.setChecked(!forwardParams.noQuote);
 
             ActionBarMenuSubItem hideSendersNameView = new ActionBarMenuSubItem(getContext(), true, false, true, resourcesProvider);
-            if (darkTheme) {
-                hideSendersNameView.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
-            }
             sendPopupLayout1.addView(hideSendersNameView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
             hideSendersNameView.setTextAndIcon(LocaleController.getString(R.string.HideSendersName), 0);
             hideSendersNameView.setChecked(forwardParams.noQuote);
@@ -132,17 +118,11 @@ public class SendOptionsMenuLayout extends LinearLayout {
                 sendPopupLayout1.addView(dividerView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
                 showCaptionView = new ActionBarMenuSubItem(getContext(), true, false, false, resourcesProvider);
-                if (darkTheme) {
-                    showCaptionView.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
-                }
                 sendPopupLayout1.addView(showCaptionView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
                 showCaptionView.setTextAndIcon(LocaleController.getString(R.string.ShowCaption), 0);
                 showCaptionView.setChecked(!forwardParams.noCaption);
 
                 hideCaptionView = new ActionBarMenuSubItem(getContext(), true, false, true, resourcesProvider);
-                if (darkTheme) {
-                    hideCaptionView.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
-                }
                 sendPopupLayout1.addView(hideCaptionView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
                 hideCaptionView.setTextAndIcon(LocaleController.getString(R.string.HideCaption), 0);
                 hideCaptionView.setChecked(forwardParams.noCaption);
@@ -173,15 +153,12 @@ public class SendOptionsMenuLayout extends LinearLayout {
                     }
                 });
             }
-            sendPopupLayout1.setupRadialSelectors(getThemedColor(darkTheme ? Theme.key_voipgroup_listSelector : Theme.key_dialogButtonSelector));
+            sendPopupLayout1.setupRadialSelectors(Theme.getColor(Theme.key_dialogButtonSelector, resourcesProvider));
 
             addView(sendPopupLayout1, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, -8));
         }
 
         ActionBarPopupWindow.ActionBarPopupWindowLayout sendPopupLayout2 = new ActionBarPopupWindow.ActionBarPopupWindowLayout(parentActivity, resourcesProvider);
-        if (darkTheme) {
-            sendPopupLayout2.setBackgroundColor(Theme.getColor(Theme.key_voipgroup_inviteMembersBackground));
-        }
         sendPopupLayout2.setAnimationEnabled(false);
         sendPopupLayout2.setOnTouchListener(new View.OnTouchListener() {
 
@@ -209,10 +186,6 @@ public class SendOptionsMenuLayout extends LinearLayout {
 
         if (showSchedule) {
             ActionBarMenuSubItem scheduleButton = new ActionBarMenuSubItem(getContext(), true, !showNotify, resourcesProvider);
-            if (darkTheme) {
-                scheduleButton.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
-                scheduleButton.setIconColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
-            }
             scheduleButton.setTextAndIcon(LocaleController.getString(R.string.ScheduleMessage), R.drawable.msg_calendar2);
             scheduleButton.setMinimumWidth(AndroidUtilities.dp(196));
             scheduleButton.setOnClickListener(v -> {
@@ -229,10 +202,6 @@ public class SendOptionsMenuLayout extends LinearLayout {
         }
         if (showNotify) {
             ActionBarMenuSubItem sendWithoutSoundButton = new ActionBarMenuSubItem(getContext(), !showSchedule, true, resourcesProvider);
-            if (darkTheme) {
-                sendWithoutSoundButton.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
-                sendWithoutSoundButton.setIconColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
-            }
             sendWithoutSoundButton.setTextAndIcon(LocaleController.getString(R.string.SendWithoutSound), R.drawable.input_notify_off);
             sendWithoutSoundButton.setMinimumWidth(AndroidUtilities.dp(196));
             sendWithoutSoundButton.setOnClickListener(v -> {
@@ -245,10 +214,6 @@ public class SendOptionsMenuLayout extends LinearLayout {
             sendPopupLayout2.addView(sendWithoutSoundButton, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
         }
         ActionBarMenuSubItem sendMessage = new ActionBarMenuSubItem(getContext(), true, true, resourcesProvider);
-        if (darkTheme) {
-            sendMessage.setTextColor(getThemedColor(Theme.key_voipgroup_nameText));
-            sendMessage.setIconColor(getThemedColor(Theme.key_windowBackgroundWhiteHintText));
-        }
         sendMessage.setTextAndIcon(LocaleController.getString(R.string.SendMessage), R.drawable.msg_send);
         sendMessage.setMinimumWidth(AndroidUtilities.dp(196));
         sendPopupLayout2.addView(sendMessage, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
@@ -258,7 +223,7 @@ public class SendOptionsMenuLayout extends LinearLayout {
             }
             delegate.sendMessage();
         });
-        sendPopupLayout2.setupRadialSelectors(getThemedColor(darkTheme ? Theme.key_voipgroup_listSelector : Theme.key_dialogButtonSelector));
+        sendPopupLayout2.setupRadialSelectors(Theme.getColor(Theme.key_dialogButtonSelector, resourcesProvider));
 
         addView(sendPopupLayout2, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
     }
@@ -269,10 +234,5 @@ public class SendOptionsMenuLayout extends LinearLayout {
 
     public interface Delegate {
         void sendMessage();
-    }
-
-    private int getThemedColor(int key) {
-        Integer color = resourcesProvider != null ? resourcesProvider.getColor(key) : null;
-        return color != null ? color : Theme.getColor(key);
     }
 }
