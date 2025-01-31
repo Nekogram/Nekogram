@@ -205,6 +205,7 @@ import org.telegram.ui.Stories.recorder.CaptionContainerView;
 import org.telegram.ui.Stories.recorder.DominantColors;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.MessageFilterHelper;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.WhisperHelper;
 
@@ -16909,7 +16910,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         }
                         stringFinalText = TextUtils.ellipsize(stringFinalText, textPaint, maxWidth, TextUtils.TruncateAt.END);
                         if (stringFinalText instanceof Spannable && messageObject.replyMessageObject.messageOwner != null) {
-                            MediaDataController.addTextStyleRuns(MessageHelper.checkBlockedUserEntities(messageObject.replyMessageObject), messageObject.replyMessageObject.caption, (Spannable) stringFinalText);
+                            MediaDataController.addTextStyleRuns(MessageFilterHelper.checkBlockedEntities(messageObject.replyMessageObject), messageObject.replyMessageObject.caption, (Spannable) stringFinalText);
                             stringFinalText = TextUtils.ellipsize(stringFinalText, textPaint, maxWidth, TextUtils.TruncateAt.END);
                         }
                     } else if (messageObject.replyMessageObject != null && messageObject.replyMessageObject.messageText != null && messageObject.replyMessageObject.messageText.length() > 0) {

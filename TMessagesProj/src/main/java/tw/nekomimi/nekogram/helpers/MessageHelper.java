@@ -175,23 +175,6 @@ public class MessageHelper extends BaseController {
         return spannableStringBuilder;
     }
 
-    public static ArrayList<TLRPC.MessageEntity> checkBlockedUserEntities(MessageObject messageObject, ArrayList<TLRPC.MessageEntity> original) {
-        if (messageObject.shouldBlockMessage() && messageObject.messageOwner.message != null) {
-            ArrayList<TLRPC.MessageEntity> entities = new ArrayList<>(original);
-            var spoiler = new TLRPC.TL_messageEntitySpoiler();
-            spoiler.offset = 0;
-            spoiler.length = messageObject.messageOwner.message.length();
-            entities.add(spoiler);
-            return entities;
-        } else {
-            return original;
-        }
-    }
-
-    public static ArrayList<TLRPC.MessageEntity> checkBlockedUserEntities(MessageObject messageObject) {
-        return checkBlockedUserEntities(messageObject, messageObject.messageOwner.entities);
-    }
-
     public static void addFileToClipboard(File file, Runnable callback) {
         try {
             var context = ApplicationLoader.applicationContext;
@@ -603,6 +586,7 @@ public class MessageHelper extends BaseController {
         TLRPC.Message message = messageObject.messageOwner;
 
         MessageObject obj = new MessageObject(currentAccount, message, true, true);
+        obj.messageBlocked = messageObject.messageBlocked;
         obj.translating = translating;
         obj.manually = translated;
 

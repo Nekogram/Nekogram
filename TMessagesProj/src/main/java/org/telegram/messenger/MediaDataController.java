@@ -106,7 +106,7 @@ import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.EntitiesHelper;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
+import tw.nekomimi.nekogram.helpers.MessageFilterHelper;
 
 @SuppressWarnings("unchecked")
 public class MediaDataController extends BaseController {
@@ -6735,7 +6735,7 @@ public class MediaDataController extends BaseController {
     }
 
     public static void addTextStyleRuns(MessageObject msg, Spannable text) {
-        addTextStyleRuns(MessageHelper.checkBlockedUserEntities(msg), msg.messageText, text, -1);
+        addTextStyleRuns(MessageFilterHelper.checkBlockedEntities(msg), msg.messageText, text, -1);
     }
 
     public static void addTextStyleRuns(TLRPC.DraftMessage msg, Spannable text, int allowedFlags) {
@@ -6743,7 +6743,7 @@ public class MediaDataController extends BaseController {
     }
 
     public static void addTextStyleRuns(MessageObject msg, Spannable text, int allowedFlags) {
-        addTextStyleRuns(MessageHelper.checkBlockedUserEntities(msg), msg.messageText, text, allowedFlags);
+        addTextStyleRuns(MessageFilterHelper.checkBlockedEntities(msg), msg.messageText, text, allowedFlags);
     }
 
     public static void addTextStyleRuns(ArrayList<TLRPC.MessageEntity> entities, CharSequence messageText, Spannable text) {

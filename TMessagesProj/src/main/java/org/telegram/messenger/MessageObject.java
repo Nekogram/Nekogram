@@ -24,6 +24,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
+import android.os.Looper;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -106,6 +107,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.MessageFilterHelper;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.syntaxhighlight.SyntaxHighlight;
 import tw.nekomimi.nekogram.translator.Translator;
@@ -1213,8 +1215,10 @@ public class MessageObject {
             boolean checkCaption = true;
 
             captionAbove = false;
+            boolean blocked = false;
             for (int a = (reversed ? count - 1 : 0); (reversed ? a >= 0 : a < count);) {
                 MessageObject messageObject = messages.get(a);
+                blocked = blocked || messageObject.shouldBlockMessage();
                 if (a == (reversed ? count - 1 : 0)) {
                     messageObject.isOutOwnerCached = null;
                     isOut = messageObject.isOutOwner();
@@ -1579,6 +1583,7 @@ public class MessageObject {
                     }
                 }
                 MessageObject messageObject = messages.get(a);
+                messageObject.messageBlocked = blocked;
                 if (!isOut && messageObject.needDrawAvatarInternal()) {
                     if (pos.edge) {
                         if (pos.spanSize != 1000) {
@@ -1786,6 +1791,10 @@ public class MessageObject {
         TLRPC.User fromUser = null;
         if (message.from_id instanceof TLRPC.TL_peerUser) {
             fromUser = getUser(users, sUsers, message.from_id.user_id);
+        }
+
+        if (Looper.myLooper() != Looper.getMainLooper()) {
+            messageBlocked = MessageFilterHelper.shouldBlockMessage(this);
         }
 
         updateMessageText(users, chats, sUsers, sChats);
@@ -6592,7 +6601,7 @@ public class MessageObject {
             entities.add(entityItalic);
             return addEntitiesToText(text, entities, isOutOwner(), true, photoViewer, useManualParse);
         } else {
-            return addEntitiesToText(text, MessageHelper.checkBlockedUserEntities(this, getCurrentEntities()), isOutOwner(), true, photoViewer, useManualParse);
+            return addEntitiesToText(text, MessageFilterHelper.checkBlockedEntities(this, getCurrentEntities()), isOutOwner(), true, photoViewer, useManualParse);
         }
     }
 
@@ -8584,23 +8593,13 @@ public class MessageObject {
         return message.dialog_id;
     }
 
-    public boolean shouldBlockMessage() {
-        if (!NekoConfig.ignoreBlocked) {
-            return false;
-        }
-        if (isUserBlocked(getFromChatId())) {
-            return true;
-        }
-        if (messageOwner.fwd_from == null || messageOwner.fwd_from.from_id == null) {
-            return false;
-        }
-        return isUserBlocked(MessageObject.getPeerId(messageOwner.fwd_from.from_id));
-    }
+    public Boolean messageBlocked;
 
-    public boolean isUserBlocked(long id) {
-        var messagesController = MessagesController.getInstance(UserConfig.selectedAccount);
-        var userFull = messagesController.getUserFull(id);
-        return (userFull != null && userFull.blocked) || messagesController.blockePeers.indexOfKey(id) >= 0;
+    public boolean shouldBlockMessage() {
+        if (messageBlocked == null) {
+            messageBlocked = MessageFilterHelper.shouldBlockMessage(this);
+        }
+        return messageBlocked;
     }
 
     public long getSavedDialogId() {

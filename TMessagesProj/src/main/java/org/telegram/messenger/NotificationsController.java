@@ -93,7 +93,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.MessageHelper;
+import tw.nekomimi.nekogram.helpers.MessageFilterHelper;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 
 public class NotificationsController extends BaseController {
@@ -2315,7 +2315,7 @@ public class NotificationsController extends BaseController {
         if (messageObject != null && messageObject.didSpoilLoginCode()) {
             return stringBuilder.toString();
         }
-        var entities = MessageHelper.checkBlockedUserEntities(messageObject);
+        var entities = MessageFilterHelper.checkBlockedEntities(messageObject);
         for (int i = 0; i < entities.size(); i++) {
             if (entities.get(i) instanceof TLRPC.TL_messageEntitySpoiler) {
                 TLRPC.TL_messageEntitySpoiler spoiler = (TLRPC.TL_messageEntitySpoiler) entities.get(i);
