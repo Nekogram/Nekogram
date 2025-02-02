@@ -191,34 +191,29 @@ public class EditTextBoldCursor extends EditTextEffects {
             }
             canUndoMethod.setAccessible(true);
             canRedoMethod.setAccessible(true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            FileLog.e(e);
+        } catch (Throwable t) {
+            FileLog.e(t);
             canUndoMethod = null;
             canRedoMethod = null;
         }
     }
 
     public final boolean canUndo() {
-        if (canUndoMethod == null) {
-            return false;
-        }
+        if (canUndoMethod == null) return false;
         try {
             return (boolean) canUndoMethod.invoke(this);
-        } catch (Exception e) {
-            FileLog.e(e);
+        } catch (Throwable t) {
+            FileLog.e(t);
         }
         return false;
     }
 
     public final boolean canRedo() {
-        if (canRedoMethod == null) {
-            return false;
-        }
+        if (canRedoMethod == null) return false;
         try {
             return (boolean) canRedoMethod.invoke(this);
-        } catch (Exception e) {
-            FileLog.e(e);
+        } catch (Throwable t) {
+            FileLog.e(t);
         }
         return false;
     }

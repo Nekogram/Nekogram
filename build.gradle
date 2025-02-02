@@ -1,7 +1,7 @@
 plugins {
-    id 'com.android.application' version '8.8.0' apply false
+    id 'com.android.application' version '8.9.0' apply false
     id 'com.google.gms.google-services' version '4.4.2' apply false
-    id 'com.google.firebase.crashlytics' version '3.0.2' apply false
+    id 'com.google.firebase.crashlytics' version '3.0.3' apply false
     id 'org.lsposed.lsparanoid' version '0.5.2'
 }
 
@@ -20,8 +20,8 @@ subprojects {
                 }
 
                 compileOptions {
-                    sourceCompatibility JavaVersion.VERSION_17
-                    targetCompatibility JavaVersion.VERSION_17
+                    sourceCompatibility JavaVersion.VERSION_21
+                    targetCompatibility JavaVersion.VERSION_21
 
                     coreLibraryDesugaringEnabled true
                 }
@@ -41,7 +41,7 @@ subprojects {
             }
 
             dependencies {
-                coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs_nio:2.1.4'
+                coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs_nio:2.1.5'
             }
         }
     }
