@@ -20861,8 +20861,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
         SharedPreferences preferences = MessagesController.getGlobalMainSettings();
         int compressionsCount = this.compressionsCount;
-        int maxCompression = 2;
-        while (compressionsCount < 5) {
+        int maxCompression = 5;
+        while (compressionsCount < 8) {
             int selectedCompression = preferences.getInt(String.format(Locale.US, "compress_video_%d", compressionsCount), -1);
             if (selectedCompression >= 0) {
                 return Math.min(selectedCompression, maxCompression);
