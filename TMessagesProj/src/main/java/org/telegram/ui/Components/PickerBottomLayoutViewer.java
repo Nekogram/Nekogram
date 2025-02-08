@@ -25,6 +25,7 @@ public class PickerBottomLayoutViewer extends FrameLayout {
     public TextView cancelButton;
     public TextView doneButton;
     public TextView doneButtonBadgeTextView;
+    public TextView originalButton;
 
     private boolean isDarkTheme;
 
@@ -33,6 +34,10 @@ public class PickerBottomLayoutViewer extends FrameLayout {
     }
 
     public PickerBottomLayoutViewer(Context context, boolean darkTheme) {
+        this(context, darkTheme, false);
+    }
+
+    public PickerBottomLayoutViewer(Context context, boolean darkTheme, boolean needOriginal) {
         super(context);
         isDarkTheme = darkTheme;
 
@@ -47,6 +52,18 @@ public class PickerBottomLayoutViewer extends FrameLayout {
         cancelButton.setText(LocaleController.getString(R.string.Cancel).toUpperCase());
         cancelButton.setTypeface(AndroidUtilities.bold());
         addView(cancelButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
+
+        if (needOriginal) {
+            originalButton = new TextView(context);
+            originalButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+            originalButton.setTextColor(isDarkTheme ? 0xffffffff : 0xff19a7e8);
+            originalButton.setGravity(Gravity.CENTER);
+            originalButton.setBackground(Theme.createSelectorDrawable(isDarkTheme ? Theme.ACTION_BAR_PICKER_SELECTOR_COLOR : Theme.ACTION_BAR_AUDIO_SELECTOR_COLOR, 0));
+            originalButton.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
+            originalButton.setText(LocaleController.getString(R.string.QualityOriginal).toUpperCase());
+            originalButton.setTypeface(AndroidUtilities.bold());
+            addView(originalButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.CENTER_HORIZONTAL));
+        }
 
         doneButton = new TextView(context);
         doneButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);

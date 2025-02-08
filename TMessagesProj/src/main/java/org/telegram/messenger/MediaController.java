@@ -510,6 +510,23 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             cropState = null;
         }
 
+        public void resetEdit() {
+            thumbPath = null;
+            filterPath = null;
+            imagePath = null;
+            paintPath = null;
+            croppedPaintPath = null;
+            isFiltered = false;
+            isPainted = false;
+            isCropped = false;
+            mediaEntities = null;
+            editedInfo = null;
+            entities = null;
+            savedFilterState = null;
+            stickers = null;
+            cropState = null;
+        }
+
         public void copyFrom(MediaEditState state) {
             caption = state.caption;
 

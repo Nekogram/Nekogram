@@ -712,6 +712,9 @@ public class VideoEditedInfo {
     }
 
     public boolean needConvert() {
+        if (bitrate == -2) {
+            return false;
+        }
         if (isStory) {
             if (!fromCamera) {
                 return true;
