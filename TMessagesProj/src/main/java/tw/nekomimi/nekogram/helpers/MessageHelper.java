@@ -196,6 +196,42 @@ public class MessageHelper extends BaseController {
         }
     }
 
+    public void clearMessageFiles(MessageObject messageObject, Runnable done) {
+        Utilities.globalQueue.postRunnable(() -> {
+            try {
+                var files = getFilesToMessage(messageObject);
+                for (File file : files) {
+                    if (file.exists() && !file.delete()) {
+                        file.deleteOnExit();
+                    }
+                }
+            } catch (Exception e) {
+                FileLog.e(e);
+            }
+            messageObject.checkMediaExistance();
+            AndroidUtilities.runOnUIThread(done);
+        });
+    }
+
+    public ArrayList<File> getFilesToMessage(MessageObject messageObject) {
+        ArrayList<File> files = new ArrayList<>();
+        files.add(new File(messageObject.messageOwner.attachPath));
+        files.add(getFileLoader().getPathToMessage(messageObject.messageOwner));
+        var document = messageObject.getDocument();
+        if (document != null) {
+            files.add(getFileLoader().getPathToAttach(document, false));
+            files.add(getFileLoader().getPathToAttach(document, true));
+        }
+        var media = messageObject.messageOwner.media;
+        if (media != null && !media.alt_documents.isEmpty()) {
+            media.alt_documents.forEach(doc -> {
+                files.add(getFileLoader().getPathToAttach(doc, false));
+                files.add(getFileLoader().getPathToAttach(doc, true));
+            });
+        }
+        return files;
+    }
+
     public void addMessageToClipboard(MessageObject selectedObject, Runnable callback) {
         var path = getPathToMessage(selectedObject);
         if (!TextUtils.isEmpty(path)) {

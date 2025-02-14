@@ -32901,38 +32901,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                     selectedObjectToEditCaption = null;
                     return;
                 }
-                ChatMessageCell messageCell = null;
-                int count = chatListView.getChildCount();
-                for (int a = 0; a < count; a++) {
-                    View child = chatListView.getChildAt(a);
-                    if (child instanceof ChatMessageCell) {
-                        ChatMessageCell cell = (ChatMessageCell) child;
-                        if (cell.getMessageObject() == selectedObject) {
-                            messageCell = cell;
-                            break;
+                var object = selectedObject;
+                getMessageHelper().clearMessageFiles(object, () -> {
+                    if (object != null) {
+                        var messageCell = (ChatMessageCell) findMessageCell(object.getId(), false);
+                        if (messageCell != null) {
+                            messageCell.updateButtonState(false, true, false);
                         }
                     }
-                }
-                String path = selectedObject.messageOwner.attachPath;
-                if (path != null && path.length() > 0) {
-                    File temp = new File(path);
-                    if (!temp.exists()) {
-                        path = null;
-                    }
-                }
-                if (path == null || path.length() == 0) {
-                    path = getFileLoader().getPathToMessage(selectedObject.messageOwner).toString();
-                }
-                File temp = new File(path);
-                try {
-                    temp.delete();
-                    selectedObject.mediaExists = false;
-                } catch (Exception ignore) {
-                    temp.deleteOnExit();
-                }
-                if (messageCell != null) {
-                    messageCell.updateButtonState(false, true, false);
-                }
+                });
                 break;
             } case OPTION_QR: {
                 QrHelper.showQrDialog(this, themeDelegate, qrResults);
