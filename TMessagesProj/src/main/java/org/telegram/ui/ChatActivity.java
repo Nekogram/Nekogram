@@ -274,6 +274,7 @@ import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.QrHelper;
 import tw.nekomimi.nekogram.helpers.EmojiHelper;
 import tw.nekomimi.nekogram.helpers.WebpageHelper;
+import tw.nekomimi.nekogram.streaming.MediaStreamingProvider;
 import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.TranslatorSettingsPopupWrapper;
 
@@ -1101,6 +1102,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
     private final static int OPTION_ABOUT_REVENUE_SHARING_ADS = 33;
     private final static int OPTION_REPORT_AD = 34;
     private final static int OPTION_REMOVE_ADS = 35;
+    private final static int OPTION_OPEN_IN = 83;
     private final static int OPTION_QR = 84;
     private final static int OPTION_SET_REMINDER = 85;
     private final static int OPTION_COPY_PHOTO = 86;
@@ -29725,6 +29727,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         options.add(OPTION_STOP_POLL_OR_QUIZ);
                                         icons.add(R.drawable.msg_pollstop);
                                     }
+                                } else if (NekoConfig.showOpenIn && selectedObject.isVideo() && !noforwardsOrPaidMedia && !selectedObject.hasRevealedExtendedMedia() && !selectedObject.needDrawBluredPreview()) {
+                                    items.add(LocaleController.getString(R.string.OpenInExternalApp));
+                                    options.add(OPTION_OPEN_IN);
+                                    icons.add(R.drawable.msg_openin);
                                 } else if (selectedObject.isMusic() && !noforwardsOrPaidMedia && !selectedObject.isVoiceOnce() && !selectedObject.isRoundOnce()) {
                                     items.add(LocaleController.getString(R.string.SaveToMusic));
                                     options.add(OPTION_SAVE_TO_DOWNLOADS_OR_MUSIC);
@@ -29756,6 +29762,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                         items.add(LocaleController.getString(R.string.ShareFile));
                                         options.add(OPTION_SHARE);
                                         icons.add(R.drawable.msg_shareout);
+                                        if (NekoConfig.showOpenIn) {
+                                            items.add(LocaleController.getString(R.string.OpenInExternalApp));
+                                            options.add(OPTION_OPEN_IN);
+                                            icons.add(R.drawable.msg_openin);
+                                        }
                                     }
                                 } else if (selectedObject.isMusic() && !selectedObject.isVoiceOnce() && !selectedObject.isRoundOnce()) {
                                     items.add(LocaleController.getString(R.string.SaveToMusic));
@@ -29841,6 +29852,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                 items.add(LocaleController.getString(R.string.ShareFile));
                                 options.add(OPTION_SHARE);
                                 icons.add(R.drawable.msg_shareout);
+                                if (NekoConfig.showOpenIn && selectedObject.isVideo()) {
+                                    items.add(LocaleController.getString(R.string.OpenInExternalApp));
+                                    options.add(OPTION_OPEN_IN);
+                                    icons.add(R.drawable.msg_openin);
+                                }
                             }
                         } else if (type == 7) {
                             if (selectedObject.isMask()) {
@@ -32811,6 +32827,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 });
                 builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                 showDialog(builder.create());
+                break;
+            } case OPTION_OPEN_IN: {
+                if (!AndroidUtilities.openForView(selectedObject, getParentActivity(), themeDelegate, true)) {
+                    MediaStreamingProvider.openForStreaming(getParentActivity(), currentAccount, selectedObject.getDocument(), selectedObject);
+                }
                 break;
             } case OPTION_COPY_PHOTO: {
                 getMessageHelper().addMessageToClipboard(selectedObject, () -> {

@@ -106,7 +106,7 @@ public class MediaStreamingProvider extends ContentProvider {
     private static Uri getStreamingUri(int currentAccount, TLRPC.Document document, Object parent) {
         var uri = FileStreamLoadOperation.prepareUri(currentAccount, document, parent);
         if (uri == null || !"tg".equals(uri.getScheme())) {
-            return uri;
+            return null;
         }
 
         var builder = uri.buildUpon();
@@ -128,7 +128,6 @@ public class MediaStreamingProvider extends ContentProvider {
         activity.startActivityForResult(intent, 500);
         return true;
     }
-
 
     private static class ProxyFileDescriptorCallback extends StorageManagerCompat.ProxyFileDescriptorCallbackCompat {
         private long size;

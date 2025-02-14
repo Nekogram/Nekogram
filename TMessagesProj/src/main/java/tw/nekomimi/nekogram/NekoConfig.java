@@ -110,6 +110,7 @@ public class NekoConfig {
     public static boolean showNoQuoteForward = false;
     public static boolean showCopyPhoto = false;
     public static boolean showQrCode = false;
+    public static boolean showOpenIn = false;
 
     public static boolean hidePhone = true;
     public static int tabletMode = TABLET_AUTO;
@@ -249,6 +250,7 @@ public class NekoConfig {
             downloadSpeedBoost = preferences.getInt("downloadSpeedBoost2", BOOST_NONE);
             sendLargePhotos = preferences.getBoolean("sendLargePhotos", false);
             showQrCode = preferences.getBoolean("showQrCode", false);
+            showOpenIn = preferences.getBoolean("showOpenIn", false);
             wsDomain = preferences.getString("wsDomain", "");
             hideStories = preferences.getBoolean("hideStories", false);
             quickForward = preferences.getBoolean("quickForward", false);
@@ -481,6 +483,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showQrCode", showQrCode);
+        editor.apply();
+    }
+
+    public static void toggleShowOpenIn() {
+        showOpenIn = !showOpenIn;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("showOpenIn", showOpenIn);
         editor.apply();
     }
 
