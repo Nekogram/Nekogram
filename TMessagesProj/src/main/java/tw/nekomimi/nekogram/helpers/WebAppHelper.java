@@ -38,7 +38,7 @@ public class WebAppHelper {
     public static void openTLViewer(BaseFragment fragment, TLObject object) {
         var serialized = "";
         try {
-            var data = new SerializedData(object.getObjectSize());
+            var data = new CleanSerializedData(object.getObjectSize());
             object.serializeToStream(data);
             serialized = Base64.encodeToString(data.toByteArray(), Base64.NO_PADDING | Base64.NO_WRAP | Base64.URL_SAFE);
             data.cleanup();
@@ -50,6 +50,13 @@ public class WebAppHelper {
         }
         var url = Extra.TLV_URL + "#m=" + serialized + "&l=" + TLRPC.LAYER;
         openInternalWebApp(fragment, url, INTERNAL_BOT_TLV, true);
+    }
+
+    // serialized message without attach path
+    public static class CleanSerializedData extends SerializedData {
+        public CleanSerializedData(int size) {
+            super(size);
+        }
     }
 
     private static void openInternalWebApp(BaseFragment fragment, String url, int type, boolean searchUser) {

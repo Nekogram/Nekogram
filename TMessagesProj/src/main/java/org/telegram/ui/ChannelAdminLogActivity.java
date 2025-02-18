@@ -154,6 +154,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import tw.nekomimi.nekogram.MessageDetailsActivity;
+import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.WebAppHelper;
+
 public class ChannelAdminLogActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
     protected TLRPC.Chat currentChat;
@@ -1576,6 +1580,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
     private final static int OPTION_RESTRICT = 33;
     private final static int OPTION_REPORT_FALSE_POSITIVE = 34;
     private final static int OPTION_BAN = 35;
+    private final static int OPTION_DETAILS = 89;
 
     private boolean createMenu(View v) {
         return createMenu(v, 0, 0);
@@ -1790,6 +1795,12 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             }
         }
 
+        if (NekoConfig.showMessageDetails && selectedObject.currentEvent != null) {
+            items.add(LocaleController.getString(R.string.MessageDetails));
+            options.add(OPTION_DETAILS);
+            icons.add(R.drawable.msg_info);
+        }
+
         boolean callbackSent = false;
 
         Runnable proceed = () -> {
@@ -1822,6 +1833,16 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                             return;
                         }
                         processSelectedOption(option);
+                    });
+                    cell.setOnLongClickListener(view -> {
+                        if (selectedObject == null || i >= options.size()) {
+                            return false;
+                        }
+                        if (processSelectedOptionLongClick(options.get(i))) {
+                            closeMenu();
+                            return true;
+                        }
+                        return false;
                     });
                 }
             }
@@ -2310,9 +2331,23 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
                 }
                 break;
             }
+            case OPTION_DETAILS: {
+                presentFragment(new MessageDetailsActivity(selectedObject));
+                break;
+            }
         }
         selectedObject = null;
         selectedParticipant = null;
+    }
+
+    private boolean processSelectedOptionLongClick(int option) {
+        switch (option) {
+            case OPTION_DETAILS: {
+                WebAppHelper.openTLViewer(this, selectedObject.currentEvent);
+                return true;
+            }
+        }
+        return false;
     }
 
     private int getMessageType(MessageObject messageObject) {

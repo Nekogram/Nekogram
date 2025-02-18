@@ -273,6 +273,7 @@ import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.QrHelper;
 import tw.nekomimi.nekogram.helpers.EmojiHelper;
+import tw.nekomimi.nekogram.helpers.WebAppHelper;
 import tw.nekomimi.nekogram.helpers.WebpageHelper;
 import tw.nekomimi.nekogram.streaming.MediaStreamingProvider;
 import tw.nekomimi.nekogram.translator.Translator;
@@ -33080,6 +33081,10 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         switch (option) {
             case OPTION_REPEAT: {
                 return processRepeatMessage(true);
+            }
+            case OPTION_DETAILS: {
+                WebAppHelper.openTLViewer(this, selectedObject.messageOwner);
+                return true;
             }
         }
         return false;

@@ -345,7 +345,8 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
 
             showDialog(dialog);
         } else if (position == exportRow) {
-            WebAppHelper.openTLViewer(this, messageObject.messageOwner);
+            WebAppHelper.openTLViewer(this,
+                    messageObject.currentEvent != null ? messageObject.currentEvent : messageObject.messageOwner);
         }
     }
 
