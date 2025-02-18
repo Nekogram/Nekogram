@@ -21,6 +21,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
+import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FlagSecureReason;
 import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
@@ -63,6 +64,9 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     private TLRPC.Peer forwardFromPeer;
     private String filePath;
     private String fileName;
+    private int width;
+    private int height;
+    private String video_codec;
     private int dc;
     private long stickerSetOwner;
     private final ArrayList<Long> emojiSetOwners = new ArrayList<>();
@@ -78,16 +82,18 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
     private int dateRow;
     private int editedRow;
     private int forwardRow;
+    private int restrictionReasonRow;
+    private int viewsAndForwardsRow;
+
     private int fileNameRow;
     private int filePathRow;
     private int fileSizeRow;
     private int fileMimeTypeRow;
+    private int mediaRow;
+    private int dcRow;
+
     private int stickerSetRow;
     private int emojiSetRow;
-    private int dcRow;
-    private int restrictionReasonRow;
-    private int forwardsRow;
-    private int sponsoredRow;
     private int shouldBlockMessageRow;
     private int languageRow;
     private int linkOrEmojiOnlyRow;
@@ -119,35 +125,32 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             }
         }
 
-        filePath = messageObject.messageOwner.attachPath;
-        if (!TextUtils.isEmpty(filePath)) {
-            File temp = new File(filePath);
-            if (!temp.exists()) {
-                filePath = null;
+        var media = MessageObject.getMedia(messageObject.messageOwner);
+        if (media != null) {
+            filePath = MessageHelper.getPathToMessage(messageObject);
+            var photo = media.webpage != null ? media.webpage.photo : media.photo;
+            if (photo != null) {
+                dc = photo.dc_id;
+                var photoSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, Integer.MAX_VALUE);
+                width = photoSize.w;
+                height = photoSize.h;
             }
-        }
-        if (TextUtils.isEmpty(filePath)) {
-            filePath = getFileLoader().getPathToMessage(messageObject.messageOwner).toString();
-            File temp = new File(filePath);
-            if (!temp.exists()) {
-                filePath = null;
-            }
-        }
-        if (TextUtils.isEmpty(filePath)) {
-            filePath = getFileLoader().getPathToAttach(messageObject.getDocument(), true).toString();
-            File temp = new File(filePath);
-            if (!temp.isFile()) {
-                filePath = null;
-            }
-        }
-
-        if (MessageObject.getMedia(messageObject.messageOwner) != null && MessageObject.getMedia(messageObject.messageOwner).document != null) {
-            for (var attribute : MessageObject.getMedia(messageObject.messageOwner).document.attributes) {
-                if (attribute instanceof TLRPC.TL_documentAttributeFilename) {
-                    fileName = attribute.file_name;
-                }
-                if (attribute instanceof TLRPC.TL_documentAttributeSticker) {
-                    stickerSetOwner = Extra.getOwnerFromStickerSetId(attribute.stickerset.id);
+            var document = media.webpage != null ? media.webpage.document : media.document;
+            if (document != null) {
+                dc = document.dc_id;
+                for (var attribute : document.attributes) {
+                    if (attribute instanceof TLRPC.TL_documentAttributeFilename) {
+                        fileName = attribute.file_name;
+                    }
+                    if (attribute instanceof TLRPC.TL_documentAttributeSticker) {
+                        stickerSetOwner = Extra.getOwnerFromStickerSetId(attribute.stickerset.id);
+                    }
+                    if (attribute instanceof TLRPC.TL_documentAttributeImageSize ||
+                            attribute instanceof TLRPC.TL_documentAttributeVideo) {
+                        width = attribute.w;
+                        height = attribute.h;
+                        video_codec = attribute.video_codec;
+                    }
                 }
             }
         }
@@ -168,21 +171,9 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             }
         }
 
-
-        var media = MessageObject.getMedia(messageObject.messageOwner);
-        if (media != null) {
-            if (media.photo != null && media.photo.dc_id > 0) {
-                dc = media.photo.dc_id;
-            } else if (media.document != null && media.document.dc_id > 0) {
-                dc = media.document.dc_id;
-            } else if (media.webpage != null && media.webpage.photo != null && media.webpage.photo.dc_id > 0) {
-                dc = media.webpage.photo.dc_id;
-            } else if (media.webpage != null && media.webpage.document != null && media.webpage.document.dc_id > 0) {
-                dc = media.webpage.document.dc_id;
-            }
-        }
-
-        noforwards = getMessagesController().isChatNoForwards(toChat) || messageObject.messageOwner.noforwards;
+        noforwards = getMessagesController().isChatNoForwards(toChat) ||
+                messageObject.messageOwner.noforwards ||
+                messageObject.type == MessageObject.TYPE_PAID_MEDIA;
     }
 
     @Override
@@ -396,19 +387,20 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
         dateRow = messageObject.messageOwner.date != 0 ? rowCount++ : -1;
         editedRow = messageObject.messageOwner.edit_date != 0 ? rowCount++ : -1;
         forwardRow = messageObject.isForwarded() ? rowCount++ : -1;
+        restrictionReasonRow = messageObject.messageOwner.restriction_reason.isEmpty() ? -1 : rowCount++;
+        viewsAndForwardsRow = messageObject.messageOwner.views > 0 || messageObject.messageOwner.forwards > 0 ? rowCount++ : -1;
+
         fileNameRow = TextUtils.isEmpty(fileName) ? -1 : rowCount++;
         filePathRow = TextUtils.isEmpty(filePath) ? -1 : rowCount++;
-        fileSizeRow = messageObject.getSize() != 0 ? rowCount++ : -1;
+        fileSizeRow = messageObject.getSize() > 0 ? rowCount++ : -1;
         fileMimeTypeRow = !TextUtils.isEmpty(messageObject.getMimeType()) ? rowCount++ : -1;
-        stickerSetRow = stickerSetOwner == 0 ? -1 : rowCount++;
-        emojiSetRow = emojiSetOwners.isEmpty() ? -1 : rowCount++;
+        mediaRow = width > 0 && height > 0 ? rowCount++ : -1;
         dcRow = dc != 0 ? rowCount++ : -1;
-        restrictionReasonRow = messageObject.messageOwner.restriction_reason.isEmpty() ? -1 : rowCount++;
-        forwardsRow = messageObject.messageOwner.forwards > 0 ? rowCount++ : -1;
-        sponsoredRow = messageObject.isSponsored() ? rowCount++ : -1;
+
+        stickerSetRow = stickerSetOwner > 0 ? rowCount++ : -1;
+        emojiSetRow = emojiSetOwners.isEmpty() ? -1 : rowCount++;
         shouldBlockMessageRow = messageObject.shouldBlockMessage() ? rowCount++ : -1;
         languageRow = TextUtils.isEmpty(getMessageHelper().getMessagePlainText(messageObject)) ? -1 : rowCount++;
-        getMessageHelper();
         linkOrEmojiOnlyRow = !TextUtils.isEmpty(messageObject.messageOwner.message) && MessageHelper.isLinkOrEmojiOnlyMessage(messageObject) ? rowCount++ : -1;
         emptyRow = rowCount++;
 
@@ -508,6 +500,9 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         textCell.setTextAndValue("File size", AndroidUtilities.formatFileSize(messageObject.getSize()), divider);
                     } else if (position == fileMimeTypeRow) {
                         textCell.setTextAndValue("Mime type", messageObject.getMimeType(), divider);
+                    } else if (position == mediaRow) {
+                        textCell.setTextAndValue("Media", String.format(Locale.US, "%dx%d", width, height) +
+                                (TextUtils.isEmpty(video_codec) ? "" : (", " + video_codec)), divider);
                     } else if (position == dcRow) {
                         textCell.setTextAndValue("DC", UserHelper.formatDCString(dc), divider);
                     } else if (position == restrictionReasonRow) {
@@ -522,10 +517,8 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                             }
                         }
                         textCell.setTextAndValue("Restriction reason", value, divider);
-                    } else if (position == forwardsRow) {
-                        textCell.setTextAndValue("Forwards", String.format(Locale.US, "%d", messageObject.messageOwner.forwards), divider);
-                    } else if (position == sponsoredRow) {
-                        textCell.setTextAndValue("Sponsored", "Yes", divider);
+                    } else if (position == viewsAndForwardsRow) {
+                        textCell.setTextAndValue("Views and forwards", String.format(Locale.US, "%d views, %d forwards", messageObject.messageOwner.views, messageObject.messageOwner.forwards), divider);
                     } else if (position == shouldBlockMessageRow) {
                         textCell.setTextAndValue("Blocked", "Yes", divider);
                     } else if (position == languageRow) {
