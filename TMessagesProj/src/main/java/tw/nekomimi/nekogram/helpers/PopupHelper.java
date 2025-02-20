@@ -12,7 +12,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
-import org.telegram.tgnet.AbstractSerializedData;
 import org.telegram.tgnet.OutputSerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
@@ -62,9 +61,10 @@ public class PopupHelper {
             }
             var popup = ItemOptions.makeOptions(container, resourcesProvider, itemView);
             popup.setGravity(LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT);
-            for (var entry : entries) {
-                var i = entries.indexOf(entry);
-                popup.add(0, entry, () -> listener.run(i));
+            for (int i = 0; i < entries.size(); i++) {
+                var entry = entries.get(i);
+                var finalI = i;
+                popup.add(0, entry, () -> listener.run(finalI));
                 if (checkedIndex == i) {
                     popup.putCheck();
                 }
