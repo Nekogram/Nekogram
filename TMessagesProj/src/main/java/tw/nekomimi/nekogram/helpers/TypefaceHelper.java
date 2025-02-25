@@ -14,9 +14,9 @@ import java.util.List;
 public class TypefaceHelper {
 
     private static final String TEST_TEXT;
-    private static final int CANVAS_SIZE = AndroidUtilities.dp(20);
+    private static final int CANVAS_SIZE = 40;
     private static final Paint PAINT = new Paint() {{
-        setTextSize(CANVAS_SIZE);
+        setTextSize(20);
         setAntiAlias(false);
         setSubpixelText(false);
         setFakeBoldText(false);
@@ -26,8 +26,19 @@ public class TypefaceHelper {
     private static Boolean italicSupported = null;
 
     static {
-        if (List.of("zh", "ja", "ko").contains(LocaleController.getInstance().getCurrentLocale().getLanguage())) {
-            TEST_TEXT = "好";
+        var lang = LocaleController.getInstance().getCurrentLocale().getLanguage();
+        if (List.of("zh", "ja", "ko").contains(lang)) {
+            TEST_TEXT = "你好";
+        } else if (List.of("ar", "fa").contains(lang)) {
+            TEST_TEXT = "مرحبا";
+        } else if ("iw".equals(lang)) {
+            TEST_TEXT = "שלום";
+        } else if ("th".equals(lang)) {
+            TEST_TEXT = "สวัสดี";
+        } else if ("hi".equals(lang)) {
+            TEST_TEXT = "नमस्ते";
+        } else if (List.of("ru", "uk", "ky", "be", "sr").contains(lang)) {
+            TEST_TEXT = "Привет";
         } else {
             TEST_TEXT = "R";
         }
@@ -52,12 +63,12 @@ public class TypefaceHelper {
     private static boolean testTypeface(Typeface typeface) {
         Canvas canvas = new Canvas();
 
-        Bitmap bitmap1 = Bitmap.createBitmap(CANVAS_SIZE, CANVAS_SIZE, Bitmap.Config.ALPHA_8);
+        Bitmap bitmap1 = Bitmap.createBitmap(CANVAS_SIZE * 2, CANVAS_SIZE, Bitmap.Config.ARGB_8888);
         canvas.setBitmap(bitmap1);
         PAINT.setTypeface(null);
         canvas.drawText(TEST_TEXT, 0, CANVAS_SIZE, PAINT);
 
-        Bitmap bitmap2 = Bitmap.createBitmap(CANVAS_SIZE, CANVAS_SIZE, Bitmap.Config.ALPHA_8);
+        Bitmap bitmap2 = Bitmap.createBitmap(CANVAS_SIZE * 2, CANVAS_SIZE, Bitmap.Config.ARGB_8888);
         canvas.setBitmap(bitmap2);
         PAINT.setTypeface(typeface);
         canvas.drawText(TEST_TEXT, 0, CANVAS_SIZE, PAINT);
