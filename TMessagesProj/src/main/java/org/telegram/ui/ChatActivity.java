@@ -32413,7 +32413,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (messageObject == null || messageObject.translating) {
             return;
         }
-        if (NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO || messageObject.isVoiceTranscriptionOpen() || messageObject.isPoll() || messageObject.isSponsored()) {
+        if (NekoConfig.transType != NekoConfig.TRANS_TYPE_NEKO || messageObject.isVoiceTranscriptionOpen() || messageObject.isSponsored()) {
             String message = getMessageHelper().getMessagePlainText(messageObject);
             Translator.showTranslateDialog(getParentActivity(), message, getMessagesController().isChatNoForwards(currentChat) || messageObject.messageOwner.noforwards, this, link -> {
                 didPressMessageUrl(link, false, selectedObject, null);
@@ -32422,13 +32422,15 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             return;
         }
         getMessageHelper().resetMessageContent(dialog_id, messageObject, false, true);
-        Translator.translate(messageObject.messageOwner.message, sourceLanguage, new Translator.TranslateCallBack() {
+        var pollText = messageObject.messageOwner.media instanceof TLRPC.TL_messageMediaPoll poll ? TranslateController.PollText.fromPoll(poll) : null;
+        Translator.translate(messageObject.messageOwner.message, pollText, sourceLanguage, null, new Translator.TranslateCallBack() {
             @Override
-            public void onSuccess(String translation, String sourceLanguageT, String targetLanguageT) {
-                TLRPC.TL_textWithEntities text = Translator.getTLResult(translation, messageObject.messageOwner.message, messageObject.messageOwner.entities);
+            public void onSuccess(String translation, TranslateController.PollText poll, String sourceLanguageT, String targetLanguageT) {
+                var text = translation != null ? Translator.getTLResult(translation, messageObject.messageOwner.message, messageObject.messageOwner.entities) : null;
                 messageObject.messageOwner.originalLanguage = sourceLanguageT;
                 messageObject.messageOwner.translatedToLanguage = targetLanguageT;
                 messageObject.messageOwner.translatedText = text;
+                messageObject.messageOwner.translatedPoll = poll;
                 getMessagesStorage().updateMessageCustomParams(messageObject.getDialogId(), messageObject.messageOwner);
                 getMessageHelper().resetMessageContent(dialog_id, messageObject, true);
             }

@@ -20,6 +20,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
+import org.telegram.messenger.TranslateController;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.TLRPC;
@@ -268,40 +269,41 @@ public class Translator {
         };
     }
 
-    public static void translate(String query, String fl, String tl, TranslateCallBack translateCallBack) {
-        BaseTranslator translator = getCurrentTranslator();
+    public static void translate(String query, TranslateController.PollText poll, String fl, String tl, TranslateCallBack translateCallBack) {
+        var translator = getCurrentTranslator();
 
-        String language = tl == null ? getCurrentTargetLanguage() : tl;
+        var language = tl == null ? getCurrentTargetLanguage() : tl;
 
         if (!translator.supportLanguage(language)) {
             translateCallBack.onError(new UnsupportedTargetLanguageException());
+        } else if (poll != null) {
+            var task = PollTranslateTask.obtain(translator, poll, fl, language, translateCallBack);
+            var future = getExecutorService().submit(task);
+            Futures.addCallback(future, task, ContextCompat.getMainExecutor(ApplicationLoader.applicationContext));
         } else {
-            startTask(translator, query, fl, language, translateCallBack);
+            var task = TranslateTask.obtain(translator, query, fl, language, translateCallBack);
+            var future = getExecutorService().submit(task);
+            Futures.addCallback(future, task, ContextCompat.getMainExecutor(ApplicationLoader.applicationContext));
         }
     }
 
     public static void translate(String query, String fl, TranslateCallBack translateCallBack) {
-        translate(query, fl, null, translateCallBack);
+        translate(query, null, fl, null, translateCallBack);
     }
 
     public interface TranslateCallBack {
-        void onSuccess(String translation, String sourceLanguage, String targetLanguage);
+        default void onSuccess(String translation, TranslateController.PollText poll, String sourceLanguage, String targetLanguage) {
+            onSuccess(translation, sourceLanguage, targetLanguage);
+        }
+
+        default void onSuccess(String translation, String sourceLanguage, String targetLanguage) {
+
+        }
 
         void onError(Throwable t);
     }
 
     private static class UnsupportedTargetLanguageException extends IllegalArgumentException {
-    }
-
-    private static void startTask(BaseTranslator translator, String query, String fromLang, String toLang, TranslateCallBack translateCallBack) {
-        var result = cache.get(Pair.create(query, toLang + "|" + NekoConfig.translationProvider));
-        if (result != null) {
-            translateCallBack.onSuccess(result.translation, result.sourceLanguage == null ? fromLang : result.sourceLanguage, toLang);
-        } else {
-            var translateTask = new TranslateTask(translator, query, fromLang, toLang, translateCallBack);
-            var future = getExecutorService().submit(translateTask);
-            Futures.addCallback(future, translateTask, ContextCompat.getMainExecutor(ApplicationLoader.applicationContext));
-        }
     }
 
     public static TLRPC.TL_textWithEntities getTLResult(String translation, String message, ArrayList<TLRPC.MessageEntity> entities) {
@@ -339,36 +341,80 @@ public class Translator {
         return getTargetLanguage(getCurrentTranslator(), NekoConfig.translationTarget);
     }
 
-    private static class TranslateTask implements Callable<Result>, FutureCallback<Result> {
-        private final TranslateCallBack translateCallBack;
-        private final BaseTranslator translator;
-        private final String query;
-        private final String fl;
-        private final String tl;
+    private record PollTranslateTask(BaseTranslator translator, TranslateController.PollText query,
+                                     String fl,
+                                     String tl,
+                                     TranslateCallBack translateCallBack) implements Callable<Pair<TranslateController.PollText, String>>,
+            FutureCallback<Pair<TranslateController.PollText, String>> {
 
-        public TranslateTask(BaseTranslator translator, String query, String fl, String tl, TranslateCallBack translateCallBack) {
-            this.translator = translator;
-            this.query = query;
-            this.fl = fl;
-            this.tl = tl;
-            this.translateCallBack = translateCallBack;
+        @Override
+        public Pair<TranslateController.PollText, String> call() {
+            var translated = new TranslateController.PollText();
+            String sourceLanguage = null;
+            if (query.question != null) {
+                var result = TranslateTask.obtain(translator, query.question.text, fl, tl, null).call();
+                translated.question = getTLResult(result.translation, query.question.text, query.question.entities);
+                sourceLanguage = result.sourceLanguage;
+            }
+            for (var answer : query.answers) {
+                var result = TranslateTask.obtain(translator, answer.text.text, fl, tl, null).call();
+                var resultAnswer = new TLRPC.TL_pollAnswer();
+                resultAnswer.text = getTLResult(result.translation, answer.text.text, answer.text.entities);
+                resultAnswer.option = answer.option;
+                translated.answers.add(resultAnswer);
+                if (sourceLanguage == null) sourceLanguage = result.sourceLanguage;
+            }
+            if (query.solution != null) {
+                var result = TranslateTask.obtain(translator, query.solution.text, fl, tl, null).call();
+                translated.solution = getTLResult(result.translation, query.question.text, query.question.entities);
+                if (sourceLanguage == null) sourceLanguage = result.sourceLanguage;
+            }
+            return Pair.create(translated, sourceLanguage);
+        }
+
+        public static PollTranslateTask obtain(BaseTranslator translator, TranslateController.PollText query, String fl, String tl, TranslateCallBack callback) {
+            return new PollTranslateTask(translator, query, fl, tl, callback);
         }
 
         @Override
-        public Result call() {
-            var from = "";//TextUtils.isEmpty(fl) || "und".equals(fl) ? "auto" : fl;
-            return translator.translate(query, from, tl);
-        }
-
-        @Override
-        public void onSuccess(Result result) {
-            translateCallBack.onSuccess(result.translation, result.sourceLanguage == null ? fl : result.sourceLanguage, tl);
-            cache.put(Pair.create(query, tl + "|" + NekoConfig.translationProvider), result);
+        public void onSuccess(Pair<TranslateController.PollText, String> result) {
+            translateCallBack.onSuccess(null, result.first, result.second == null ? fl : result.second, tl);
         }
 
         @Override
         public void onFailure(@NonNull Throwable t) {
             translateCallBack.onError(t);
+        }
+    }
+
+    private record TranslateTask(BaseTranslator translator, String query, String fl,
+                                 String tl,
+                                 TranslateCallBack translateCallBack) implements Callable<Result>, FutureCallback<Result> {
+
+        @Override
+        public Result call() {
+            var key = Pair.create(query, tl + "|" + NekoConfig.translationProvider);
+            var cached = cache.get(key);
+            if (cached != null) {
+                return cached;
+            }
+            var result = translator.translate(query, null, tl);
+            cache.put(key, result);
+            return result;
+        }
+
+        @Override
+        public void onSuccess(Result result) {
+            translateCallBack.onSuccess(result.translation, null, result.sourceLanguage == null ? fl : result.sourceLanguage, tl);
+        }
+
+        @Override
+        public void onFailure(@NonNull Throwable t) {
+            translateCallBack.onError(t);
+        }
+
+        public static TranslateTask obtain(BaseTranslator translator, String query, String fl, String tl, TranslateCallBack callback) {
+            return new TranslateTask(translator, query, fl, tl, callback);
         }
     }
 }
