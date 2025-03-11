@@ -132,8 +132,10 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
             if (photo != null) {
                 dc = photo.dc_id;
                 var photoSize = FileLoader.getClosestPhotoSizeWithSize(photo.sizes, Integer.MAX_VALUE);
-                width = photoSize.w;
-                height = photoSize.h;
+                if (photoSize != null) {
+                    width = photoSize.w;
+                    height = photoSize.h;
+                }
             }
             var document = media.webpage != null ? media.webpage.document : media.document;
             if (document != null) {

@@ -30255,6 +30255,11 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             options.add(OPTION_DELETE);
                             icons.add(selectedObject.messageOwner.ttl_period != 0 ? R.drawable.msg_delete_auto : R.drawable.msg_delete);
                         }
+                        if (!selectedObject.isSponsored() && chatMode != MODE_QUICK_REPLIES && chatMode != MODE_SCHEDULED && NekoConfig.showMessageDetails) {
+                            items.add(LocaleController.getString(R.string.MessageDetails));
+                            options.add(OPTION_DETAILS);
+                            icons.add(R.drawable.msg_info);
+                        }
                     } else {
                         if (allowChatActions && !isInsideContainer) {
                             items.add(LocaleController.getString(R.string.Reply));
@@ -30345,12 +30350,6 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                         options.add(OPTION_DELETE);
                         icons.add(selectedObject.messageOwner.ttl_period != 0 ? R.drawable.msg_delete_auto : R.drawable.msg_delete);
                     }
-                }
-
-                if (NekoConfig.showMessageDetails) {
-                    items.add(LocaleController.getString(R.string.MessageDetails));
-                    options.add(OPTION_DETAILS);
-                    icons.add(R.drawable.msg_info);
                 }
             }
 
