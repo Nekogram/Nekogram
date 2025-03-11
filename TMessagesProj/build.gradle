@@ -61,7 +61,6 @@ dependencies {
             because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
         }
     }
-    implementation 'com.google.android.recaptcha:recaptcha:18.4.0'
 
     implementation 'androidx.browser:browser:1.8.0'
     implementation 'app.nekogram.translator:translator:1.4.1'
