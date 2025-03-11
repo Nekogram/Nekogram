@@ -130,7 +130,7 @@ public class UserHelper extends BaseController {
     private void searchUser(long userId, Consumer<TLRPC.User> callback, ParsedPeer fallback) {
         searchPeer(Extra.getUserInfoBot(fallback != null), userId, fakeUser -> {
             if (fakeUser == null) {
-                callback.accept(null);
+                callback.accept(fallback != null ? fallback.toUser() : null);
                 return;
             }
             var user = getMessagesController().getUser(userId);
