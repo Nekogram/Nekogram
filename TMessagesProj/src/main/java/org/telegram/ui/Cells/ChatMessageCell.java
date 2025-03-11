@@ -4115,7 +4115,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         disallowLongPress = false;
         lastTouchX = getEventX(event);
         lastTouchY = getEventY(event);
-        backgroundDrawable.setTouchCoords(lastTouchX, lastTouchY);
+        backgroundDrawable.setTouchCoords(getLeft() + lastTouchX, getTop() + lastTouchY);
 
         boolean result = checkSpoilersMotionEvent(event, 0);
 
@@ -20116,7 +20116,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     public void setLastTouchCoords(float x, float y) {
         lastTouchX = x;
         lastTouchY = y;
-        backgroundDrawable.setTouchCoords(lastTouchX + getTranslationX(), lastTouchY);
+        backgroundDrawable.setTouchCoords(getLeft() + lastTouchX + getTranslationX(), getTop() + lastTouchY);
     }
 
     public MessageBackgroundDrawable getBackgroundDrawable() {

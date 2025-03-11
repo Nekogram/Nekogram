@@ -5395,14 +5395,14 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                                     height = Math.max(height, (int) innerCell.getY() + innerCell.getMeasuredHeight());
                                                     long touchTime = drawable.getLastTouchTime();
                                                     if (touchTime > time) {
-                                                        touchX = drawable.getTouchX() + innerCell.getX();
-                                                        touchY = drawable.getTouchY() + innerCell.getY();
+                                                        touchX = drawable.getTouchX();
+                                                        touchY = drawable.getTouchY();
                                                         time = touchTime;
                                                     }
                                                 }
                                             }
                                         }
-                                        backgroundDrawable.setTouchCoordsOverride(touchX, touchY - y);
+                                        backgroundDrawable.setTouchCoordsOverride(touchX, touchY);
                                         height -= y;
                                     }
                                     canvas.clipRect(0, y, getMeasuredWidth(), y + height);
