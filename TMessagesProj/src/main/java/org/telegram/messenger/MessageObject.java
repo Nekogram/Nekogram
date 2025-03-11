@@ -3463,18 +3463,20 @@ public class MessageObject {
             TranslateController.isTranslatable(this, manually) &&
             (translateController.isTranslatingDialog(getDialogId()) || manually) &&
             messageOwner != null &&
-            messageOwner.translatedText != null &&
+            (messageOwner.translatedText != null || messageOwner.translatedPoll != null) &&
             TextUtils.equals(manually ? Translator.getCurrentTargetLanguage() : Translator.getTargetLanguage(translateController.getDialogTranslateTo(getDialogId())), messageOwner.translatedToLanguage)
         ) {
             if (translated) {
                 return replyUpdated || false;
             }
             translated = true;
-            applyNewText(!NekoConfig.showOriginal ? messageOwner.translatedText.text : (messageOwner.message +
-                    "\n" +
-                    "--------" +
-                    "\n" + messageOwner.translatedText.text));
-            generateCaption();
+            if (messageOwner.translatedText != null) {
+                applyNewText(!NekoConfig.showOriginal ? messageOwner.translatedText.text : (messageOwner.message +
+                        "\n" +
+                        "--------" +
+                        "\n" + messageOwner.translatedText.text));
+                generateCaption();
+            }
             return replyUpdated || true;
         } else if (messageOwner != null && (force || translated)) {
             translated = false;
@@ -4600,6 +4602,7 @@ public class MessageObject {
                         }
                         messageText = sb.replace(i, i + 3, price);
                     }
+                    messageText = StarsIntroActivity.replaceStars(messageText);
                 } else if (messageOwner.action instanceof TLRPC.TL_messageActionSuggestProfilePhoto) {
                     if (messageOwner.action.photo != null && messageOwner.action.photo.video_sizes != null && !messageOwner.action.photo.video_sizes.isEmpty()) {
                         messageText = getString(R.string.ActionSuggestVideoShort);
@@ -5054,10 +5057,10 @@ public class MessageObject {
                     if (messageOwner.peer_id != null) {
                         user = getUser(users, sUsers, messageOwner.peer_id.user_id);
                     }
-                    messageText = formatString("ActionBotDocuments", R.string.ActionBotDocuments, UserObject.getFirstName(user), str.toString());
+                    messageText = formatString(R.string.ActionBotDocuments, UserObject.getFirstName(user), str.toString());
                 } else if (messageOwner.action instanceof TLRPC.TL_messageActionWebViewDataSent) {
                     TLRPC.TL_messageActionWebViewDataSent dataSent = (TLRPC.TL_messageActionWebViewDataSent) messageOwner.action;
-                    messageText = formatString("ActionBotWebViewData", R.string.ActionBotWebViewData, dataSent.text);
+                    messageText = formatString(R.string.ActionBotWebViewData, dataSent.text);
                 } else if (messageOwner.action instanceof TLRPC.TL_messageActionSetChatTheme) {
                     String emoticon = ((TLRPC.TL_messageActionSetChatTheme) messageOwner.action).emoticon;
                     String userName = UserObject.getFirstName(fromUser);
@@ -5068,11 +5071,11 @@ public class MessageObject {
                     boolean isUserSelf = UserObject.isUserSelf(fromUser);
                     if (TextUtils.isEmpty(emoticon)) {
                         messageText = isUserSelf
-                                ? formatString("ChatThemeDisabledYou", R.string.ChatThemeDisabledYou)
+                                ? formatString(R.string.ChatThemeDisabledYou)
                                 : formatString(isChannel ? R.string.ChannelThemeDisabled : R.string.ChatThemeDisabled, userName, emoticon);
                     } else {
                         messageText = isUserSelf
-                                ? formatString("ChatThemeChangedYou", R.string.ChatThemeChangedYou, emoticon)
+                                ? formatString(R.string.ChatThemeChangedYou, emoticon)
                                 : formatString(isChannel ? R.string.ChannelThemeChangedTo : R.string.ChatThemeChangedTo, userName, emoticon);
                     }
                 } else if (messageOwner.action instanceof TLRPC.TL_messageActionChatJoinedByRequest) {
@@ -5083,6 +5086,15 @@ public class MessageObject {
                                 : getString(R.string.RequestToJoinGroupApproved);
                     } else {
                         messageText = replaceWithLink(getString(R.string.UserAcceptedToGroupAction), "un1", fromObject);
+                    }
+                } else if (messageOwner.action instanceof TLRPC.TL_messageActionPaidMessage) {
+                    final TLRPC.TL_messageActionPaidMessage action = (TLRPC.TL_messageActionPaidMessage) messageOwner.action;
+                    if (isOutOwner()) {
+                        messageText = formatPluralStringComma("PaidMessageActionOut", (int) action.stars);
+                    } else if (getDialogId() > 0) {
+                        messageText = replaceWithLink(formatPluralStringComma("PaidMessageActionIn", (int) action.stars), "un1", fromObject);
+                    } else {
+                        messageText = replaceWithLink(formatPluralStringComma("PaidMessageAction", (int) action.stars), "un1", fromObject);
                     }
                 }
             }
@@ -5837,15 +5849,44 @@ public class MessageObject {
                 }
                 photoThumbsObject = getMedia(messageOwner).photo;
             } else if (getMedia(messageOwner) instanceof TLRPC.TL_messageMediaDocument) {
-                TLRPC.Document document = getDocument();
-                if (isDocumentHasThumb(document)) {
-                    if (!update || photoThumbs == null) {
-                        photoThumbs = new ArrayList<>();
-                        photoThumbs.addAll(document.thumbs);
-                    } else if (!photoThumbs.isEmpty()) {
-                        updatePhotoSizeLocations(photoThumbs, document.thumbs);
+                TLRPC.TL_messageMediaDocument mediaDocument = (TLRPC.TL_messageMediaDocument) getMedia(messageOwner);
+                if (mediaDocument.video_cover != null) {
+                    TLRPC.Photo photo = mediaDocument.video_cover;
+                    if (!update || photoThumbs != null && photoThumbs.size() != photo.sizes.size()) {
+                        photoThumbs = new ArrayList<>(photo.sizes);
+                    } else if (photoThumbs != null && !photoThumbs.isEmpty()) {
+                        for (int a = 0; a < photoThumbs.size(); a++) {
+                            TLRPC.PhotoSize photoObject = photoThumbs.get(a);
+                            if (photoObject == null) {
+                                continue;
+                            }
+                            for (int b = 0; b < photo.sizes.size(); b++) {
+                                TLRPC.PhotoSize size = photo.sizes.get(b);
+                                if (size == null || size instanceof TLRPC.TL_photoSizeEmpty) {
+                                    continue;
+                                }
+                                if (size.type.equals(photoObject.type)) {
+                                    photoObject.location = size.location;
+                                    break;
+                                } else if ("s".equals(photoObject.type) && size instanceof TLRPC.TL_photoStrippedSize) {
+                                    photoThumbs.set(a, size);
+                                    break;
+                                }
+                            }
+                        }
                     }
-                    photoThumbsObject = document;
+                    photoThumbsObject = photo;
+                } else {
+                    TLRPC.Document document = getDocument();
+                    if (isDocumentHasThumb(document)) {
+                        if (!update || photoThumbs == null) {
+                            photoThumbs = new ArrayList<>();
+                            photoThumbs.addAll(document.thumbs);
+                        } else if (!photoThumbs.isEmpty()) {
+                            updatePhotoSizeLocations(photoThumbs, document.thumbs);
+                        }
+                        photoThumbsObject = document;
+                    }
                 }
             } else if (getMedia(messageOwner) instanceof TLRPC.TL_messageMediaGame) {
                 TLRPC.Document document = getMedia(messageOwner).game.document;
@@ -6279,7 +6320,7 @@ public class MessageObject {
     private boolean captionTranslated;
 
     public void generateCaption() {
-        if (caption != null && translated == captionTranslated || isRoundVideo()) {
+        if (caption != null && (messageOwner.translatedText != null && translated) == captionTranslated || isRoundVideo()) {
             return;
         }
         String text = messageOwner.message;
@@ -6297,7 +6338,7 @@ public class MessageObject {
         } else if (hasExtendedMedia()) {
             text = messageOwner.message = messageOwner.media.description;
         }
-        if (captionTranslated = translated) {
+        if (messageOwner.translatedText != null && (captionTranslated = translated)) {
             text = !NekoConfig.showOriginal ? messageOwner.translatedText.text : (messageOwner.message +
                     "\n" +
                     "--------" +
@@ -6373,7 +6414,8 @@ public class MessageObject {
                 return;
             }
             Spannable spannable = (Spannable) charSequence;
-            while (matcher.find()) {
+            int totalCount = 0;
+            while (matcher.find() && totalCount < 100) {
                 int start = matcher.start();
                 int end = matcher.end();
                 URLSpanNoUnderline url = null;
@@ -6467,6 +6509,7 @@ public class MessageObject {
                         }
                     }
                     spannable.setSpan(url, start, end, 0);
+                    totalCount++;
                 }
             }
         } catch (Exception e) {
@@ -6895,6 +6938,7 @@ public class MessageObject {
         }
 
         final int count = Math.min(MediaDataController.MAX_STYLE_RUNS_COUNT, runs.size());
+        int linksCount = 0, spoilersCount = 0, codesCount = 0;
         for (int a = 0; a < count; a++) {
             TextStyleSpan.TextStyleRun run = runs.get(a);
 
@@ -6904,15 +6948,23 @@ public class MessageObject {
             boolean setRun = false;
             String url = run.urlEntity != null ? TextUtils.substring(text, run.urlEntity.offset, run.urlEntity.offset + run.urlEntity.length) : null;
             if (run.urlEntity instanceof TLRPC.TL_messageEntityBotCommand) {
+                if (linksCount >= MediaDataController.MAX_LINKS_COUNT) continue;
+                linksCount++;
                 spannable.setSpan(new URLSpanBotCommand(url, t, run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (run.urlEntity instanceof TLRPC.TL_messageEntityHashtag || run.urlEntity instanceof TLRPC.TL_messageEntityMention || run.urlEntity instanceof TLRPC.TL_messageEntityCashtag) {
+                if (linksCount >= MediaDataController.MAX_LINKS_COUNT) continue;
+                linksCount++;
                 spannable.setSpan(new URLSpanNoUnderline(url, run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 if (run.urlEntity instanceof TLRPC.TL_messageEntityHashtag) {
                     SyntaxHighlight.highlight(run, spannable);
                 }
             } else if (run.urlEntity instanceof TLRPC.TL_messageEntityEmail) {
+                if (linksCount >= MediaDataController.MAX_LINKS_COUNT) continue;
+                linksCount++;
                 spannable.setSpan(new URLSpanReplacement("mailto:" + url, run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (run.urlEntity instanceof TLRPC.TL_messageEntityUrl) {
+                if (linksCount >= MediaDataController.MAX_LINKS_COUNT) continue;
+                linksCount++;
                 hasUrls = true;
                 String lowerCase = url.toLowerCase();
                 url = !lowerCase.contains("://") ? (BotWebViewContainer.isTonsite(url) ? "tonsite://" : "http://") + url : url;
@@ -6932,6 +6984,8 @@ public class MessageObject {
                 }
                 spannable.setSpan(new URLSpanNoUnderline("tel:" + tel, run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             } else if (run.urlEntity instanceof TLRPC.TL_messageEntityTextUrl) {
+                if (linksCount >= MediaDataController.MAX_LINKS_COUNT) continue;
+                linksCount++;
                 url = run.urlEntity.url;
                 if (url != null) {
                     url = url.replaceAll("∕|⁄|%E2%81%84|%E2%88%95", "/");
@@ -6949,6 +7003,8 @@ public class MessageObject {
                 spannable.setSpan(new TextStyleSpan(run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
             if (!setRun && (run.flags & TextStyleSpan.FLAG_STYLE_SPOILER) != 0) {
+                if (spoilersCount >= SpoilerEffect.MAX_SPOILERS_COUNT) continue;
+                spoilersCount++;
                 spannable.setSpan(new TextStyleSpan(run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             }
         }
@@ -6963,10 +7019,11 @@ public class MessageObject {
             if (entity instanceof TLRPC.TL_messageEntityBlockquote) {
                 QuoteSpan.putQuote(spannable, entity.offset, entity.offset + entity.length, entity.collapsed);
             } else if (entity instanceof TLRPC.TL_messageEntityPre) {
+                if (codesCount >= 50) continue;
+                codesCount++;
                 final int start = entity.offset;
                 final int end = entity.offset + entity.length;
                 spannable.setSpan(new CodeHighlighting.Span(true, 0, null, entity.language, spannable.subSequence(start, end).toString()), start, end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                CodeHighlighting.highlight(spannable, entity.offset, entity.offset + entity.length, entity.language, t, null, true);
             }
         }
         return hasUrls;
@@ -8892,11 +8949,8 @@ public class MessageObject {
             int index = filename.lastIndexOf(".");
             if (index >= 0) {
                 String ext = filename.substring(index + 1);
-                switch (ext.toLowerCase().hashCode()) {
-                    case 0x17a1c: case 0x3107ab: case 0x19a1b:
-                    case 0xe55:   case 0x18417:  case 0x184fe:
-                    case 0x18181:
-                        return false;
+                if (isV(ext)) {
+                    return false;
                 }
             }
         }
@@ -8907,6 +8961,54 @@ public class MessageObject {
             isVideo = true;
         }
         return isVideo && !isAnimated;
+    }
+
+    public static boolean isV(String ext) {
+        if (ext == null) return true;
+        switch (ext.toLowerCase().hashCode()) {
+            case 0x17890: case 0x1794a: case 0x17a1c: case 0x17a21:
+            case 0x17af5: case 0x17c14: case 0x17c15: case 0x17d07:
+            case 0x18085: case 0x180a8: case 0x1813a: case 0x18181:
+            case 0x1819f: case 0x181e5: case 0x181f8: case 0x1840a:
+            case 0x184dc: case 0x184e4: case 0x184fe: case 0x185a8:
+            case 0x18770: case 0x1889f: case 0x188be: case 0x1897a:
+            case 0x18a12: case 0x18a5e: case 0x18c54: case 0x18d27:
+            case 0x18dde: case 0x1909c: case 0x190ac: case 0x193ec:
+            case 0x1940e: case 0x194d5: case 0x1968a: case 0x1974d:
+            case 0x197e1: case 0x197ee: case 0x197f3: case 0x1981a:
+            case 0x1981f: case 0x19886: case 0x1988b: case 0x19a1b:
+            case 0x19c3c: case 0x19c47: case 0x19c4f: case 0x19eda:
+            case 0x1a000: case 0x1a285: case 0x1a329: case 0x1a59c:
+            case 0x1a5d4: case 0x1a5d5: case 0x1a735: case 0x1a75e:
+            case 0x1a77d: case 0x1a783: case 0x1a78a: case 0x1a78e:
+            case 0x1a81a: case 0x1ad00: case 0x1ad24: case 0x1b0a2:
+            case 0x1b0d1: case 0x1b123: case 0x1b18d: case 0x1b1cc:
+            case 0x1b2a1: case 0x1b2a5: case 0x1b31e: case 0x1b33c:
+            case 0x1b37a: case 0x1b386: case 0x1b639: case 0x1b848:
+            case 0x1b894: case 0x1b8de: case 0x1b9db: case 0x1b9ec:
+            case 0x1bc22: case 0x1bc24: case 0x1bcad: case 0x1bcbe:
+            case 0x1bdb5: case 0x1becd: case 0x1c079: case 0x1c0ea:
+            case 0x1c11a: case 0x1bdd2: case 0x1c3b7: case 0x1c56f:
+            case 0x1c739: case 0x1c747: case 0x1c781: case 0x1c9e2:
+            case 0x1cb21: case 0x1cc50: case 0x1ccb2: case 0x1cd07:
+            case 0x1cd0a: case 0x1cd0c: case 0x1cea7: case 0x1d09b:
+            case 0x18538: case 0x18417: case 0x194e1: case 0x1b178:
+            case 0x17a7e: case 0x1b274: case 0x1c1d9: case 0x1d017:
+            case 0x1c270: case 0x1ba8b: case 0xe30: case 0x21bd7bf:
+            case 0x1d77f: case 0x333e3f: case 0x348d4c: case 0xe55:
+            case 0x349c84: case 0xc9e5d0cb: case 0xe09: case 0xda6:
+            case 0x2e06d4: case 0xa473e8a5: case 0xeac: case 0xd97:
+            case 0x2dd5ba: case 0x3498c3: case 0x1b0f2: case 0xd49:
+            case 0x35c854: case 0x35ce71: case 0xc70: case 0x18203:
+            case 0x2f2240: case 0x1cfff: case 0xdfc: case 0x35c681:
+            case 0x383059: case 0xdfd: case 0xd1075a44: case 0xc8f:
+            case 0x31ece8: case 0xc22: case 0xab2f7e36: case 0xedc:
+            case 0x3107ab: case 0xb549144c: case 0x1be64:
+            case 0xebd32e77: case 0x6cc0c23:
+                return true;
+            default:
+                return false;
+        }
     }
 
     public TLRPC.Document getDocument() {
@@ -10460,43 +10562,58 @@ public class MessageObject {
         return false;
     }
 
-    public void addPaidReactions(int amount, boolean chosen, boolean anonymous) {
+    public void addPaidReactions(int amount, boolean chosen, long peer) {
         if (messageOwner.reactions == null) {
             messageOwner.reactions = new TLRPC.TL_messageReactions();
             messageOwner.reactions.reactions_as_tags = MessageObject.getDialogId(messageOwner) == UserConfig.getInstance(currentAccount).getClientUserId();
             messageOwner.reactions.can_see_list = isFromGroup() || isFromUser();
         }
-        addPaidReactions(currentAccount, messageOwner.reactions, amount, anonymous, chosen);
+        addPaidReactions(currentAccount, messageOwner.reactions, amount, peer, chosen);
     }
 
-    public Boolean isMyPaidReactionAnonymous() {
+    public Long getMyPaidReactionPeer() {
         if (messageOwner == null || messageOwner.reactions == null) return null;
         if (messageOwner.reactions.top_reactors == null) return null;
         for (TLRPC.MessageReactor reactor : messageOwner.reactions.top_reactors) {
             if (reactor != null && reactor.my) {
-                return reactor.anonymous;
+                if (reactor.anonymous) {
+                    return UserObject.ANONYMOUS;
+                } else if (reactor.peer_id != null) {
+                    return DialogObject.getPeerDialogId(reactor.peer_id);
+                }
             }
         }
         return null;
     }
 
-    public static Boolean isMyPaidReactionAnonymous(TLRPC.MessageReactions reactions) {
+    public static Long getMyPaidReactionPeer(TLRPC.MessageReactions reactions) {
         if (reactions == null) return null;
         if (reactions.top_reactors == null) return null;
         for (TLRPC.MessageReactor reactor : reactions.top_reactors) {
             if (reactor != null && reactor.my) {
-                return reactor.anonymous;
+                if (reactor.anonymous) {
+                    return UserObject.ANONYMOUS;
+                } else if (reactor.peer_id != null) {
+                    return DialogObject.getPeerDialogId(reactor.peer_id);
+                }
             }
         }
         return null;
     }
 
-    public void setMyPaidReactionAnonymous(boolean value) {
+    public void setMyPaidReactionDialogId(long dialogId) {
         if (messageOwner == null || messageOwner.reactions == null) return;
         if (messageOwner.reactions.top_reactors == null) return;
-        for (TLRPC.MessageReactor reactor : messageOwner.reactions.top_reactors) {
+        for (final TLRPC.MessageReactor reactor : messageOwner.reactions.top_reactors) {
             if (reactor != null && reactor.my) {
-                reactor.anonymous = value;
+                reactor.anonymous = dialogId == UserObject.ANONYMOUS;
+                if (reactor.anonymous) {
+                    reactor.flags &=~ 8;
+                    reactor.peer_id = null;
+                } else {
+                    reactor.flags |= 8;
+                    reactor.peer_id = MessagesController.getInstance(currentAccount).getPeer(dialogId);
+                }
             }
         }
     }
@@ -10542,7 +10659,7 @@ public class MessageObject {
         int currentAccount,
         TLRPC.MessageReactions reactions,
         int amount,
-        boolean anonymous,
+        long peer,
         boolean chosen
     ) {
         TLRPC.ReactionCount reactionCount = null;
@@ -10573,12 +10690,16 @@ public class MessageObject {
         if (reactor == null && amount > 0) {
             reactor = new TLRPC.TL_messageReactor();
             reactor.my = true;
-            reactor.peer_id = MessagesController.getInstance(currentAccount).getPeer(UserConfig.getInstance(currentAccount).getClientUserId());
             reactions.top_reactors.add(reactor);
         }
         if (reactor != null) {
             reactor.count = Math.max(0, reactor.count + amount);
-            reactor.anonymous = anonymous;
+            reactor.anonymous = peer == UserObject.ANONYMOUS;
+            if (peer == 0 || peer == UserObject.ANONYMOUS) {
+                reactor.peer_id = MessagesController.getInstance(currentAccount).getPeer(UserConfig.getInstance(currentAccount).getClientUserId());
+            } else {
+                reactor.peer_id = MessagesController.getInstance(currentAccount).getPeer(peer);
+            }
             if (reactor.count <= 0) {
                 reactions.top_reactors.remove(reactor);
             }
@@ -11064,7 +11185,7 @@ public class MessageObject {
             if (index < 0 || index >= spanned.length()) continue;
             if (!cutToType.containsKey(index)) continue;
             final int type = cutToType.get(index);
-            if ((type & QUOTE_START) != 0 && (type & QUOTE_END) != 0) {
+            if ((type & (QUOTE_START | QUOTE_START_COLLAPSE)) != 0 && (type & QUOTE_END) != 0) {
                 if (spanned.charAt(index) == '\n') continue;
                 if (index - 1 > 0 && spanned.charAt(index - 1) == '\n') continue;
                 I.remove();
@@ -11377,6 +11498,25 @@ public class MessageObject {
 //        if (cachedSavedTimestamp != null) return cachedSavedTimestamp;
         if (cachedSavedTimestamp != null) return PhotoViewer.getSavedProgressFast(this);
         return cachedSavedTimestamp = PhotoViewer.getSavedProgress(this);
+    }
+
+    public TLRPC.Photo getVideoCover() {
+        TLRPC.MessageMedia media = getMedia(this);
+        if (media instanceof TLRPC.TL_messageMediaDocument) {
+            TLRPC.TL_messageMediaDocument mediaDocument = (TLRPC.TL_messageMediaDocument) media;
+            return mediaDocument.video_cover;
+        } else if (media != null && media.webpage != null && media.webpage.video_cover_photo) {
+            return media.webpage.photo;
+        }
+        return null;
+    }
+
+    public boolean hasVideoCover() {
+        return getVideoCover() != null;
+    }
+
+    public boolean isPaid() {
+        return messageOwner != null && messageOwner.paid_message_stars > 0;
     }
 
 }

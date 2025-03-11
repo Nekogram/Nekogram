@@ -22,7 +22,10 @@ dependencies {
     implementation 'androidx.interpolator:interpolator:1.0.0'
     implementation 'androidx.biometric:biometric:1.1.0'
 
-    compileOnly 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'com.google.android.gms:play-services-cast-framework:21.4.0'
+    implementation "androidx.mediarouter:mediarouter:1.7.0"
+    implementation 'org.nanohttpd:nanohttpd:2.3.1'
+
     compileOnly 'org.checkerframework:checker-qual:2.5.2'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.0'
     implementation 'com.google.firebase:firebase-messaging:24.1.0'
@@ -58,6 +61,7 @@ dependencies {
             because("kotlin-stdlib-jdk8 is now a part of kotlin-stdlib")
         }
     }
+    implementation 'com.google.android.recaptcha:recaptcha:18.4.0'
 
     implementation 'androidx.browser:browser:1.8.0'
     implementation 'app.nekogram.translator:translator:1.4.1'

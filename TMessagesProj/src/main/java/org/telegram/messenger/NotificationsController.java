@@ -2443,6 +2443,8 @@ public class NotificationsController extends BaseController {
                             msg = messageObject.messageText.toString();
                         } else if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionStarGift || messageObject.messageOwner.action instanceof TLRPC.TL_messageActionGiftPremium) {
                             msg = messageObject.messageText.toString();
+                        } else if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionStarGiftUnique) {
+                            msg = messageObject.messageText.toString();
                         } else if (messageObject.messageOwner.action instanceof TLRPC.TL_messageActionPhoneCall) {
                             if (messageObject.messageOwner.action.video) {
                                 msg = LocaleController.getString(R.string.CallMessageVideoIncomingMissed);
@@ -4094,10 +4096,8 @@ public class NotificationsController extends BaseController {
                 mBuilder.setContentText(message);
                 if (!allowSummary) {
                     detailText = message;
-                    mBuilder.setStyle(new NotificationCompat.BigTextStyle().setBigContentTitle(name).setSummaryText(message));
-                } else {
-                    mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));
                 }
+                mBuilder.setStyle(new NotificationCompat.BigTextStyle().bigText(message));
             } else {
                 mBuilder.setContentText(detailText);
                 NotificationCompat.InboxStyle inboxStyle = new NotificationCompat.InboxStyle();
@@ -4909,7 +4909,7 @@ public class NotificationsController extends BaseController {
 
             NotificationCompat.Action wearReplyAction = null;
 
-            if ((!isChannel || isSupergroup) && canReply && !SharedConfig.isWaitingForPasscodeEnter && selfUserId != dialogId && !UserObject.isReplyUser(dialogId)) {
+            if ((!isChannel || isSupergroup) && canReply && !SharedConfig.isWaitingForPasscodeEnter && selfUserId != dialogId && !UserObject.isReplyUser(dialogId) && MessagesController.getInstance(currentAccount).getSendPaidMessagesStars(dialogId) <= 0) {
                 Intent replyIntent = new Intent(ApplicationLoader.applicationContext, WearReplyReceiver.class);
                 replyIntent.putExtra("dialog_id", dialogId);
                 replyIntent.putExtra("max_id", maxId);

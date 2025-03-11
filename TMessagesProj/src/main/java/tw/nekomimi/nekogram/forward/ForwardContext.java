@@ -46,8 +46,8 @@ public interface ForwardContext {
             }
 
             @Override
-            protected void onSend(LongSparseArray<TLRPC.Dialog> dids, int count, TLRPC.TL_forumTopic topic) {
-                if (parentChatActivity != null) {
+            protected void onSend(LongSparseArray<TLRPC.Dialog> dids, int count, TLRPC.TL_forumTopic topic, boolean showToast) {
+                if (showToast && parentChatActivity != null) {
                     AndroidUtilities.runOnUIThread(() -> {
                         var undoView = parentChatActivity.getUndoView();
                         if (undoView == null) {

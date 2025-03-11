@@ -298,8 +298,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate() {
                 @Override
                 public void onSeekBarDrag(boolean stop, float progress) {
-                    sizeBar.getSeekBarAccessibilityDelegate().postAccessibilityEventRunnable(TextSizeCell.this);
-                    setFontSize(getValueUsingProgress(startFontSize, endFontSize, progress));
+                    setFontSize(Math.round(startFontSize + (endFontSize - startFontSize) * progress));
                 }
 
                 @Override
@@ -308,7 +307,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
 
                 @Override
                 public CharSequence getContentDescription() {
-                    return String.valueOf(getValueUsingProgress(startFontSize, endFontSize, sizeBar.getProgress()));
+                    return String.valueOf(Math.round(startFontSize + (endFontSize - startFontSize) * sizeBar.getProgress()));
                 }
 
                 @Override
@@ -389,8 +388,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
             sizeBar.setDelegate(new SeekBarView.SeekBarViewDelegate() {
                 @Override
                 public void onSeekBarDrag(boolean stop, float progress) {
-                    sizeBar.getSeekBarAccessibilityDelegate().postAccessibilityEventRunnable(BubbleRadiusCell.this);
-                    setBubbleRadius(getValueUsingProgress(startRadius,endRadius,progress), false);
+                    setBubbleRadius(Math.round(startRadius + (endRadius - startRadius) * progress), false);
                 }
 
                 @Override
@@ -399,7 +397,7 @@ public class ThemeActivity extends BaseFragment implements NotificationCenter.No
 
                 @Override
                 public CharSequence getContentDescription() {
-                    return String.valueOf(getValueUsingProgress(startRadius,endRadius,sizeBar.getProgress()));
+                    return String.valueOf(Math.round(startRadius + (endRadius - startRadius) * sizeBar.getProgress()));
                 }
 
                 @Override

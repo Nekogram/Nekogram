@@ -125,7 +125,7 @@ public class StickerSizePreviewMessagesCell extends LinearLayout {
                 }
 
                 @Override
-                public void didPressImage(ChatMessageCell cell, float x, float y) {
+                public void didPressImage(ChatMessageCell cell, float x, float y, boolean fullPreview) {
                     BulletinFactory.of(fragment).createErrorBulletin(LocaleController.getString(R.string.Nya), resourcesProvider).show();
                 }
 

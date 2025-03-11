@@ -187,7 +187,7 @@ public class NekoEmojiSettingsActivity extends BaseNekoSettingsActivity implemen
     }
 
     @Override
-    public void didSelectFiles(ArrayList<String> files, String caption, ArrayList<MessageObject> fmessages, boolean notify, int scheduleDate, long effectId, boolean invertMedia) {
+    public void didSelectFiles(ArrayList<String> files, String caption, ArrayList<MessageObject> fmessages, boolean notify, int scheduleDate, long effectId, boolean invertMedia, long payStars) {
         ArrayList<File> filesToUpload = new ArrayList<>();
         for (String file : files) {
             File f = new File(file);
