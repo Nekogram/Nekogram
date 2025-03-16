@@ -29528,6 +29528,9 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
         if (factCheckHint != null) {
             factCheckHint.hide(false);
         }
+        if (timeHint != null) {
+            timeHint.hide(false);
+        }
         FileLog.d("open menu msg_id=" + message.getId() + (message.getDocument() != null ? " doc_id=" + message.getDocument().id : ""));
         final int type = getMessageType(message);
         if (single) {
