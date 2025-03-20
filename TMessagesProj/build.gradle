@@ -22,13 +22,13 @@ dependencies {
     implementation 'androidx.interpolator:interpolator:1.0.0'
     implementation 'androidx.biometric:biometric:1.1.0'
 
-    implementation 'com.google.android.gms:play-services-cast-framework:21.4.0'
+    implementation 'com.google.android.gms:play-services-cast-framework:22.0.0'
     implementation "androidx.mediarouter:mediarouter:1.7.0"
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
 
     compileOnly 'org.checkerframework:checker-qual:2.5.2'
     compileOnly 'org.checkerframework:checker-compat-qual:2.5.0'
-    implementation 'com.google.firebase:firebase-messaging:24.1.0'
+    implementation 'com.google.firebase:firebase-messaging:24.1.1'
     implementation 'com.google.firebase:firebase-appindexing:20.0.0'
     implementation 'com.google.android.gms:play-services-maps:19.1.0'
     implementation 'com.google.android.gms:play-services-auth:21.3.0'
@@ -68,8 +68,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.14'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:6.1'
 
-    implementation 'com.google.firebase:firebase-analytics:22.3.0'
-    implementation 'com.google.firebase:firebase-crashlytics:19.4.1'
+    implementation 'com.google.firebase:firebase-analytics:22.4.0'
+    implementation 'com.google.firebase:firebase-crashlytics:19.4.2'
 }
 
 lsparanoid {

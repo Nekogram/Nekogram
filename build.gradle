@@ -1,5 +1,5 @@
 plugins {
-    id 'com.android.application' version '8.9.0' apply false
+    id 'com.android.application' version '8.9.1' apply false
     id 'com.google.gms.google-services' version '4.4.2' apply false
     id 'com.google.firebase.crashlytics' version '3.0.3' apply false
     id 'org.lsposed.lsparanoid' version '0.5.2'
@@ -10,8 +10,8 @@ subprojects {
         if (plugins.hasPlugin("com.android.library") ||
                 plugins.hasPlugin("com.android.application")) {
             android {
-                compileSdkVersion 35
-                buildToolsVersion "35.0.1"
+                compileSdkVersion 36
+                buildToolsVersion "36.0.0"
                 ndkVersion "27.2.12479018"
 
                 lint {
