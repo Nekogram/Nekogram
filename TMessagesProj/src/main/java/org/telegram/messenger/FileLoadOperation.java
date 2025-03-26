@@ -241,6 +241,7 @@ public class FileLoadOperation {
     private int cdnDatacenterId;
     private boolean reuploadingCdn;
     protected boolean requestingReference;
+    private boolean requestedReference;
     private RandomAccessFile fileReadStream;
     private byte[] cdnCheckBytes;
     private boolean requestingCdnOffsets;
@@ -2223,6 +2224,7 @@ public class FileLoadOperation {
         }
         clearOperation(null, false, false);
         requestingReference = true;
+        requestedReference = true;
         if (parentObject instanceof MessageObject) {
             MessageObject messageObject = (MessageObject) parentObject;
             if (messageObject.getId() < 0 && messageObject.messageOwner != null && messageObject.messageOwner.media != null && messageObject.messageOwner.media.webpage != null) {
@@ -2252,7 +2254,7 @@ public class FileLoadOperation {
                 (!isStory && streamPriorityStartOffset == 0 && (!nextPartWasPreloaded && (requestInfos.size() + delayedRequestInfos.size() >= currentMaxDownloadRequests))) ||
                 (isPreloadVideoOperation && (requestedBytesCount > preloadMaxBytes || moovFound != 0 && requestInfos.size() > 0))) {
             if (BuildVars.LOGS_ENABLED && FULL_LOGS) {
-                FileLog.d(fileName + "can't start request wrong state: paused=" + paused + " reuploadingCdn=" + reuploadingCdn + " state=" + state + " requestingReference=" + requestingReference);
+                FileLog.d(fileName + " can't start request wrong state: paused=" + paused + " reuploadingCdn=" + reuploadingCdn + " state=" + state + " requestingReference=" + requestingReference);
             }
             return;
         }
@@ -2262,6 +2264,12 @@ public class FileLoadOperation {
         } else {
             if (streamPriorityStartOffset == 0 && !nextPartWasPreloaded && (!isPreloadVideoOperation || moovFound != 0) && totalBytesCount > 0) {
                 count = Math.max(0, currentMaxDownloadRequests - requestInfos.size());
+            }
+        }
+
+        if (!requestedReference) {
+            if (FileRefController.getInstance(currentAccount).applyCachedFileReference(parentObject, location, this)) {
+                FileLog.d(fileName + " before download updated file ref from file ref cache!");
             }
         }
 

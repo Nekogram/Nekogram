@@ -5087,14 +5087,20 @@ public class MessageObject {
                     } else {
                         messageText = replaceWithLink(getString(R.string.UserAcceptedToGroupAction), "un1", fromObject);
                     }
-                } else if (messageOwner.action instanceof TLRPC.TL_messageActionPaidMessage) {
-                    final TLRPC.TL_messageActionPaidMessage action = (TLRPC.TL_messageActionPaidMessage) messageOwner.action;
+                } else if (messageOwner.action instanceof TLRPC.TL_messageActionPaidMessagesPrice) {
+                    final TLRPC.TL_messageActionPaidMessagesPrice action = (TLRPC.TL_messageActionPaidMessagesPrice) messageOwner.action;
                     if (isOutOwner()) {
-                        messageText = formatPluralStringComma("PaidMessageActionOut", (int) action.stars);
-                    } else if (getDialogId() > 0) {
-                        messageText = replaceWithLink(formatPluralStringComma("PaidMessageActionIn", (int) action.stars), "un1", fromObject);
+                        messageText = formatPluralStringComma("PaidMessagesPriceUpdatedOut", (int) action.stars);
                     } else {
-                        messageText = replaceWithLink(formatPluralStringComma("PaidMessageAction", (int) action.stars), "un1", fromObject);
+                        messageText = replaceWithLink(formatPluralStringComma("PaidMessagesPriceUpdated", (int) action.stars), "un1", fromObject);
+                    }
+                } else if (messageOwner.action instanceof TLRPC.TL_messageActionPaidMessagesRefunded) {
+                    final TLRPC.TL_messageActionPaidMessagesRefunded action = (TLRPC.TL_messageActionPaidMessagesRefunded) messageOwner.action;
+                    if (isOutOwner()) {
+                        final TLRPC.User user = getUser(users, sUsers, DialogObject.getPeerDialogId(messageOwner.peer_id));
+                        messageText = replaceWithLink(formatPluralStringComma("PaidMessagesRefundedOut", (int) action.stars), "un1", user);
+                    } else {
+                        messageText = replaceWithLink(formatPluralStringComma("PaidMessagesRefunded", (int) action.stars), "un1", fromObject);
                     }
                 }
             }
@@ -8342,6 +8348,13 @@ public class MessageObject {
         return 0;
     }
 
+    public TLRPC.Peer getFromPeer() {
+        if (messageOwner != null) {
+            return messageOwner.from_id;
+        }
+        return null;
+    }
+
     public TLObject getFromPeerObject() {
         if (messageOwner != null) {
             if (messageOwner.from_id instanceof TLRPC.TL_peerChannel_layer131 ||
@@ -11425,12 +11438,16 @@ public class MessageObject {
     public VideoPlayer.VideoUri highestQuality, thumbQuality, cachedQuality;
 
     public boolean hasVideoQualities() {
+        return hasVideoQualities(true);
+    }
+
+    public boolean hasVideoQualities(boolean useFileDatabaseQueue) {
         if (videoQualitiesCached == null) {
             try {
                 if (messageOwner == null || messageOwner.media == null || messageOwner.media.document == null || messageOwner.media.alt_documents.isEmpty()) {
                     return videoQualitiesCached = false;
                 }
-                videoQualities = VideoPlayer.getQualities(currentAccount, messageOwner != null ? messageOwner.media : null);
+                videoQualities = VideoPlayer.getQualities(currentAccount, messageOwner != null ? messageOwner.media : null, useFileDatabaseQueue);
                 videoQualitiesCached = videoQualities != null && videoQualities.size() > 1;
                 highestQuality = VideoPlayer.getQualityForPlayer(videoQualities);
                 thumbQuality = VideoPlayer.getQualityForThumb(videoQualities);
@@ -11457,6 +11474,7 @@ public class MessageObject {
     public void updateQualitiesCached(boolean useFileDatabaseQueue) {
         if (videoQualities == null) {
             cachedQuality = null;
+            hasVideoQualities(useFileDatabaseQueue);
             return;
         }
         for (VideoPlayer.Quality q : videoQualities) {

@@ -95,6 +95,7 @@ import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_account;
 import org.telegram.tgnet.tl.TL_stories;
+import org.telegram.ui.AccountFrozenAlert;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -2676,6 +2677,15 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
             public void extendActionMode(Menu menu) {
                 ChatActivity.fillActionModeMenu(menu, null, false);
             }
+
+            @Override
+            protected boolean sendMessageInternal(boolean notify, int scheduleDate, long payStars, boolean allowConfirm) {
+                if (MessagesController.getInstance(currentAccount).isFrozen()) {
+                    AccountFrozenAlert.show(currentAccount);
+                    return false;
+                }
+                return super.sendMessageInternal(notify, scheduleDate, payStars, allowConfirm);
+            }
         };
         chatActivityEnterView.getEditField().useAnimatedTextDrawable();
         chatActivityEnterView.setOverrideKeyboardAnimation(true);
@@ -2943,6 +2953,10 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
     }
 
     private boolean applyMessageToChat(Runnable runnable) {
+        if (MessagesController.getInstance(currentAccount).isFrozen()) {
+            AccountFrozenAlert.show(currentAccount);
+            return true;
+        }
         if (SharedConfig.stealthModeSendMessageConfirm > 0 && stealthModeIsActive) {
             SharedConfig.stealthModeSendMessageConfirm--;
             SharedConfig.updateStealthModeSendMessageConfirm(SharedConfig.stealthModeSendMessageConfirm);
@@ -7049,7 +7063,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                         storyItem.close_friends = privacy.type == StoryPrivacyBottomSheet.TYPE_CLOSE_FRIENDS;
                         storyItem.contacts = privacy.type == StoryPrivacyBottomSheet.TYPE_CONTACTS;
                         storyItem.selected_contacts = privacy.type == StoryPrivacyBottomSheet.TYPE_SELECTED_CONTACTS;
-                        MessagesController.getInstance(currentAccount).getStoriesController().updateStoryItem(storyItem.dialogId, storyItem);
+                        MessagesController.getInstance(currentAccount).getStoriesController().updateStoryItem(storyItem.dialogId, storyItem, true, true);
                         editedPrivacy = true;
 
                         if (privacy.type == StoryPrivacyBottomSheet.TYPE_EVERYONE) {

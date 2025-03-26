@@ -92,6 +92,7 @@ import org.telegram.ui.Components.TranscribeButton;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.EditWidgetActivity;
 import org.telegram.ui.LaunchActivity;
+import org.telegram.ui.LoginActivity;
 import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.SecretMediaViewer;
@@ -710,11 +711,13 @@ public class MessagesController extends BaseController implements NotificationCe
     public boolean videoIgnoreAltDocuments;
     public boolean disableBotFullscreenBlur;
     public String tonBlockchainExplorerUrl;
-
     public long starsPaidMessageAmountMax;
     public int starsPaidMessageCommissionPermille;
     public int stargiftsPinnedToTopLimit;
     public boolean starsPaidMessagesAvailable;
+    public long freezeSinceDate;
+    public long freezeUntilDate;
+    public String freezeAppealUrl;
 
     public boolean enableGiftsInProfile;
 
@@ -1581,6 +1584,9 @@ public class MessagesController extends BaseController implements NotificationCe
         starsPaidMessageCommissionPermille = mainPreferences.getInt("starsPaidMessageCommissionPermille", 850);
         stargiftsPinnedToTopLimit = mainPreferences.getInt("stargiftsPinnedToTopLimit", 6);
         starsPaidMessagesAvailable = mainPreferences.getBoolean("starsPaidMessagesAvailable", true);
+        freezeSinceDate = mainPreferences.getLong("freezeSinceDate", 0L);
+        freezeUntilDate = mainPreferences.getLong("freezeUntilDate", 0L);
+        freezeAppealUrl = mainPreferences.getString("freezeAppealUrl", "t.me/spambot");
         enableGiftsInProfile = mainPreferences.getBoolean("enableGiftsInProfile", true);
         storiesPosting = mainPreferences.getString("storiesPosting", "enabled");
         storiesEntities = mainPreferences.getString("storiesEntities", "premium");
@@ -4634,6 +4640,39 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     break;
                 }
+                case "freeze_since_date": {
+                    if (value.value instanceof TLRPC.TL_jsonNumber) {
+                        TLRPC.TL_jsonNumber num = (TLRPC.TL_jsonNumber) value.value;
+                        if (num.value != freezeSinceDate) {
+                            freezeSinceDate = (long) num.value;
+                            editor.putLong("freezeSinceDate", freezeSinceDate);
+                            changed = true;
+                        }
+                    }
+                    break;
+                }
+                case "freeze_until_date": {
+                    if (value.value instanceof TLRPC.TL_jsonNumber) {
+                        TLRPC.TL_jsonNumber num = (TLRPC.TL_jsonNumber) value.value;
+                        if (num.value != freezeUntilDate) {
+                            freezeUntilDate = (long) num.value;
+                            editor.putLong("freezeUntilDate", freezeUntilDate);
+                            changed = true;
+                        }
+                    }
+                    break;
+                }
+                case "freeze_appeal_url": {
+                    if (value.value instanceof TLRPC.TL_jsonString) {
+                        TLRPC.TL_jsonString num = (TLRPC.TL_jsonString) value.value;
+                        if (!TextUtils.equals(num.value, freezeAppealUrl)) {
+                            freezeAppealUrl = num.value;
+                            editor.putString("freezeAppealUrl", freezeAppealUrl);
+                            changed = true;
+                        }
+                    }
+                    break;
+                }
             }
         }
 
@@ -4658,6 +4697,9 @@ public class MessagesController extends BaseController implements NotificationCe
 
         if (changed) {
             editor.apply();
+            AndroidUtilities.runOnUIThread(() -> {
+                getNotificationCenter().postNotificationName(NotificationCenter.appConfigUpdated);
+            });
         }
         if (liteAppOptions != null) {
             LiteMode.updatePresets(liteAppOptions);
@@ -5190,7 +5232,22 @@ public class MessagesController extends BaseController implements NotificationCe
         starsLocked = true;
         factcheckLengthLimit = 1024;
         videoIgnoreAltDocuments = false;
-        mainPreferences.edit().remove("starsLocked").remove("getfileExperimentalParams").remove("smsjobsStickyNotificationEnabled").remove("channelRevenueWithdrawalEnabled").remove("showAnnualPerMonth").remove("canEditFactcheck").remove("factcheckLengthLimit").remove("videoIgnoreAltDocuments").apply();
+        freezeSinceDate = 0L;
+        freezeUntilDate = 0L;
+        freezeAppealUrl = "t.me/spambot";
+        mainPreferences.edit()
+            .remove("starsLocked")
+            .remove("getfileExperimentalParams")
+            .remove("smsjobsStickyNotificationEnabled")
+            .remove("channelRevenueWithdrawalEnabled")
+            .remove("showAnnualPerMonth")
+            .remove("canEditFactcheck")
+            .remove("factcheckLengthLimit")
+            .remove("videoIgnoreAltDocuments")
+            .remove("freezeSinceDate")
+            .remove("freezeUntilDate")
+            .remove("freezeAppealUrl")
+            .apply();
     }
 
     private boolean savePremiumFeaturesPreviewOrder(String key, SparseIntArray array, SharedPreferences.Editor editor, ArrayList<TLRPC.JSONValue> value) {
@@ -5601,13 +5658,13 @@ public class MessagesController extends BaseController implements NotificationCe
         if (dialogId >= 0) {
             TLRPC.User user = getUser(dialogId);
             if (firstName) {
-                return AndroidUtilities.removeDiacritics(UserObject.getFirstName(user, true));
+                return AndroidUtilities.removeRTL(AndroidUtilities.removeDiacritics(UserObject.getFirstName(user, true)));
             } else {
-                return AndroidUtilities.removeDiacritics(UserObject.getUserName(user));
+                return AndroidUtilities.removeRTL(AndroidUtilities.removeDiacritics(UserObject.getUserName(user)));
             }
         } else {
             TLRPC.Chat chat = getChat(-dialogId);
-            return AndroidUtilities.removeDiacritics(chat == null ? "" : chat.title);
+            return AndroidUtilities.removeRTL(AndroidUtilities.removeDiacritics(chat == null ? "" : chat.title));
         }
     }
 
@@ -7380,7 +7437,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (settings == null) {
             return;
         }
-        SharedPreferences.Editor editor = notificationsPreferences.edit();
+        final SharedPreferences.Editor editor = notificationsPreferences.edit();
         if (settings.business_bot_id != 0) {
             editor.putLong("dialog_botid" + dialogId, settings.business_bot_id);
             editor.putString("dialog_boturl" + dialogId, settings.business_bot_manage_url);
@@ -10665,7 +10722,9 @@ public class MessagesController extends BaseController implements NotificationCe
                         }
                         processLoadedMessages(res, res.messages.size(), dialogId, mergeDialogId, count, mid, offset_date, false, classGuid, fnid, last_message_id, unread_count, last_date, load_type, false, mode, threadMessageId, loadIndex, queryFromServer, mentionsCount, processMessages, isTopic, null);
                     } else {
-                        AndroidUtilities.runOnUIThread(() -> getNotificationCenter().postNotificationName(NotificationCenter.loadingMessagesFailed, classGuid, req, error));
+                        AndroidUtilities.runOnUIThread(() -> {
+                            getNotificationCenter().postNotificationName(NotificationCenter.loadingMessagesFailed, classGuid, req, error);
+                        });
                     }
                 });
                 getConnectionsManager().bindRequestToGuid(reqId, classGuid);
@@ -10721,7 +10780,9 @@ public class MessagesController extends BaseController implements NotificationCe
                                 loadMessagesInternal(dialogId, mergeDialogId, loadInfo, count, max_id, offset_date, false, minDate, classGuid, load_type, dialog.top_message, 0, threadMessageId, loadIndex, first_unread, dialog.unread_count, last_date, queryFromServer, dialog.unread_mentions_count, false, processMessages, isTopic, null, 0L);
                             }
                         } else {
-                            AndroidUtilities.runOnUIThread(() -> getNotificationCenter().postNotificationName(NotificationCenter.loadingMessagesFailed, classGuid, req, error));
+                            AndroidUtilities.runOnUIThread(() -> {
+                                getNotificationCenter().postNotificationName(NotificationCenter.loadingMessagesFailed, classGuid, req, error);
+                            });
                         }
                     });
                     return;
@@ -19018,6 +19079,17 @@ public class MessagesController extends BaseController implements NotificationCe
                             .putLong("paidReactionsDialogId", paidReactionsPrivacy = upd.privacy.getDialogId())
                             .apply();
                         loadingArePaidReactionsAnonymous = false;
+                    } else if (baseUpdate instanceof TLRPC.TL_updateSentPhoneCode) {
+                        final TLRPC.TL_updateSentPhoneCode upd = (TLRPC.TL_updateSentPhoneCode) baseUpdate;
+                        LoginActivity fragment = LaunchActivity.findFragment(LoginActivity.class);
+                        if (fragment == null) {
+                            fragment = new LoginActivity(currentAccount);
+                            BaseFragment lastFragment = LaunchActivity.getSafeLastFragment();
+                            if (lastFragment != null) {
+                                lastFragment.presentFragment(fragment);
+                            }
+                        }
+                        fragment.open(upd.sent_code);
                     } else if (ApplicationLoader.applicationLoaderInstance != null) {
                         ApplicationLoader.applicationLoaderInstance.processUpdate(currentAccount, baseUpdate);
                     }
@@ -22606,6 +22678,10 @@ public class MessagesController extends BaseController implements NotificationCe
         public int getCount() {
             return totalCount;
         }
+    }
+
+    public boolean isFrozen() {
+        return freezeSinceDate != 0 && freezeUntilDate != 0;
     }
 
 }

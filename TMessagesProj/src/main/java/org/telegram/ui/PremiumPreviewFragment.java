@@ -750,6 +750,9 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
         contentView.addView(backgroundView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
         listView.setOnItemClickListener((view, position) -> {
+            if (!getUserConfig().isClientActivated()) {
+                return;
+            }
             if (position == showAdsRow) {
                 TLRPC.UserFull userFull = getMessagesController().getUserFull(getUserConfig().getClientUserId());
                 if (userFull == null) return;
@@ -838,7 +841,9 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
 
         buttonContainer.addView(premiumButtonView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.CENTER_VERTICAL, 16, 0, 16, 0));
         buttonContainer.setBackgroundColor(getThemedColor(Theme.key_dialogBackground));
-        contentView.addView(buttonContainer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 68, Gravity.BOTTOM));
+        if (getUserConfig().isClientActivated()) {
+            contentView.addView(buttonContainer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 68, Gravity.BOTTOM));
+        }
 
         fragmentView = contentView;
         actionBar.setBackground(null);
@@ -1009,6 +1014,11 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
             fragment.showDialog(new PremiumNotAvailableBottomSheet(fragment));
             return;
         }
+        final int account = fragment == null ? UserConfig.selectedAccount : fragment.getCurrentAccount();
+        if (MessagesController.getInstance(account).isFrozen()) {
+            AccountFrozenAlert.show(account);
+            return;
+        }
 
         if (tier == null) {
             forcePremium = true;
@@ -1129,7 +1139,7 @@ public class PremiumPreviewFragment extends BaseFragment implements Notification
                     }
                 });
 
-                TLRPC.TL_payments_canPurchasePremium req = new TLRPC.TL_payments_canPurchasePremium();
+                TLRPC.TL_payments_canPurchaseStore req = new TLRPC.TL_payments_canPurchaseStore();
                 TLRPC.TL_inputStorePaymentPremiumSubscription purpose = new TLRPC.TL_inputStorePaymentPremiumSubscription();
                 if (updateParams != null) {
                     purpose.upgrade = true;

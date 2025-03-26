@@ -703,6 +703,10 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             return true;
         }
 
+        public boolean canDismissWithSwipe() {
+            return false;
+        }
+
         public void onDismissWithButtonClick(int item) {
 
         }
@@ -2367,6 +2371,8 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 currentAttachLayout.onButtonsTranslationYUpdated();
             }
         };
+        buttonsRecyclerView.setClipChildren(true);
+        buttonsRecyclerView.setClipToPadding(true);
         buttonsRecyclerView.setAdapter(buttonsAdapter = new ButtonsAdapter(context));
         buttonsRecyclerView.setLayoutManager(buttonsLayoutManager = new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
         buttonsRecyclerView.setVerticalScrollBarEnabled(false);

@@ -2426,10 +2426,6 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 for (int a1 = 0; a1 < updates.updates.size(); a1++) {
                                     TLRPC.Update update = updates.updates.get(a1);
                                     if (update instanceof TLRPC.TL_updateNewMessage || update instanceof TLRPC.TL_updateNewChannelMessage || update instanceof TLRPC.TL_updateNewScheduledMessage || update instanceof TLRPC.TL_updateQuickReplyMessage) {
-                                        if (getMessageFromUpdate(update) != null && getMessageFromUpdate(update).action instanceof TLRPC.TL_messageActionPaidMessage) {
-                                            continue;
-                                        }
-
                                         boolean currentSchedule = false;
                                         boolean scheduled = scheduleDate != 0;
 
@@ -5565,7 +5561,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     putToUploadingMessages(message.obj);
                 } else {
                     String location = FileLoader.getInstance(currentAccount).getPathToAttach(message.photoSize).toString();
-                    if (message.sendEncryptedRequest != null && message.photoSize.location.dc_id != 0) {
+                    if (message.sendEncryptedRequest != null && message.photoSize != null && message.photoSize.location.dc_id != 0) {
                         File file = new File(location);
                         if (!file.exists()) {
                             location = FileLoader.getInstance(currentAccount).getPathToAttach(message.photoSize, true).toString();
