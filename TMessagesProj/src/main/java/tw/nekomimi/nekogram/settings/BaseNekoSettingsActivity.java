@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.common.collect.HashBiMap;
+
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
@@ -51,7 +53,6 @@ import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Locale;
 
 public abstract class BaseNekoSettingsActivity extends BaseFragment {
@@ -80,8 +81,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
     protected Theme.ResourcesProvider resourcesProvider;
 
     protected int rowCount;
-    protected HashMap<String, Integer> rowMap = new HashMap<>(20);
-    protected HashMap<Integer, String> rowMapReverse = new HashMap<>(20);
+    protected HashBiMap<String, Integer> rowMap = HashBiMap.create(20);
 
     @Override
     public boolean onFragmentCreate() {
@@ -131,11 +131,11 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
             }
             var holder = listView.findViewHolderForAdapterPosition(position);
             var key = getKey();
-            if (key != null && holder != null && listAdapter.isEnabled(holder) && rowMapReverse.containsKey(position)) {
+            if (key != null && holder != null && listAdapter.isEnabled(holder) && rowMap.inverse().containsKey(position)) {
                 ItemOptions.makeOptions(this, view)
                         .setScrimViewBackground(new ColorDrawable(getThemedColor(Theme.key_windowBackgroundWhite)))
                         .add(R.drawable.msg_copy, LocaleController.getString(R.string.CopyLink), () -> {
-                            var rowKey = rowMapReverse.get(position);
+                            var rowKey = rowMap.inverse().get(position);
                             if ("copyReportId".equals(rowKey)) {
                                 AndroidUtilities.addToClipboard(String.format(Locale.getDefault(), "https://%s/nekosettings/%s", getMessagesController().linkPrefix, "reportId"));
                             } else if ("checkUpdate".equals(rowKey)) {
@@ -312,7 +312,6 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         for (var key : keys) {
             rowMap.put(key, row);
         }
-        rowMapReverse.put(row, keys[0]);
         return row;
     }
 
@@ -394,7 +393,6 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         @Override
         public final RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view = switch (viewType) {
-                default -> createCustomView(viewType);
                 case TYPE_SHADOW -> new ShadowSectionCell(mContext, resourcesProvider);
                 case TYPE_SETTINGS -> new TextSettingsCell(mContext, resourcesProvider);
                 case TYPE_CHECK -> new TextCheckCell(mContext, resourcesProvider);
@@ -412,6 +410,7 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
                         new EmojiSetCell(mContext, viewType == TYPE_EMOJI_SELECTION, resourcesProvider);
                 case TYPE_CREATION -> new CreationTextCell(mContext, 71, resourcesProvider);
                 case TYPE_FLICKER -> new FlickerLoadingView(mContext, resourcesProvider);
+                default -> createCustomView(viewType);
             };
             if (viewType != TYPE_SHADOW && viewType != TYPE_INFO_PRIVACY) {
                 view.setBackgroundColor(getThemedColor(Theme.key_windowBackgroundWhite));
