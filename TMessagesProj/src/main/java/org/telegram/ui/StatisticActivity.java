@@ -461,6 +461,7 @@ public class StatisticActivity extends BaseFragment implements NotificationCente
         if (storiesList != null) {
             storiesList.unlink(storiesListId);
         }
+        Bulletin.removeDelegate(this);
         super.onFragmentDestroy();
     }
 
