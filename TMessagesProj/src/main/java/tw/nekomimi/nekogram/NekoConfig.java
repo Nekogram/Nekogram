@@ -144,7 +144,6 @@ public class NekoConfig {
     public static boolean quickForward = false;
     public static boolean reducedColors = false;
     public static boolean ignoreContentRestriction = false;
-    public static boolean fixLinkPreview = false;
     public static boolean showTimeHint = false;
     public static boolean preferOriginalQuality = false;
 
@@ -257,7 +256,6 @@ public class NekoConfig {
             springAnimation = preferences.getBoolean("springAnimation", false);
             reducedColors = preferences.getBoolean("reducedColors", false);
             ignoreContentRestriction = preferences.getBoolean("ignoreContentRestriction", false);
-            fixLinkPreview = preferences.getBoolean("fixLinkPreview", false);
             externalTranslationProvider = preferences.getString("externalTranslationProvider", "");
             TranslatorApps.loadTranslatorAppsAsync();
             showTimeHint = preferences.getBoolean("showTimeHint", false);
@@ -435,14 +433,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("showTimeHint", showTimeHint);
-        editor.apply();
-    }
-
-    public static void toggleFixLinkPreview() {
-        fixLinkPreview = !fixLinkPreview;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("fixLinkPreview", fixLinkPreview);
         editor.apply();
     }
 
