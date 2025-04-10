@@ -146,6 +146,7 @@ public class NekoConfig {
     public static boolean ignoreContentRestriction = false;
     public static boolean showTimeHint = false;
     public static boolean preferOriginalQuality = false;
+    public static boolean autoInlineBot = false;
 
     public static boolean springAnimation = false;
 
@@ -263,6 +264,7 @@ public class NekoConfig {
             cfAccountID = preferences.getString("cfAccountID", "");
             cfApiToken = preferences.getString("cfApiToken", "");
             preferOriginalQuality = preferences.getBoolean("preferOriginalQuality", false);
+            autoInlineBot = preferences.getBoolean("autoInlineBot", false);
 
             LensHelper.checkLensSupportAsync();
             preferences.registerOnSharedPreferenceChangeListener(listener);
@@ -417,6 +419,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("downloadSpeedBoost2", boost);
+        editor.apply();
+    }
+
+    public static void toggleAutoInlineBot() {
+        autoInlineBot = !autoInlineBot;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("autoInlineBot", autoInlineBot);
         editor.apply();
     }
 

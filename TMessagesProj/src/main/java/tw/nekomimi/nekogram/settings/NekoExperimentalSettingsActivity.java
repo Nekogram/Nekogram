@@ -41,6 +41,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int experimentRow;
     private int springAnimationRow;
     private int downloadSpeedBoostRow;
+    private int autoInlineBotRow;
     private int mapDriftingFixRow;
     private int contentRestrictionRow;
     private int sendLargePhotosRow;
@@ -223,6 +224,11 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 return;
             }
             SettingsHelper.copyReportId();
+        } else if (position == autoInlineBotRow) {
+            NekoConfig.toggleAutoInlineBot();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.autoInlineBot);
+            }
         }
     }
 
@@ -256,6 +262,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         experimentRow = addRow("experiment");
         springAnimationRow = addRow("springAnimation");
         downloadSpeedBoostRow = MessagesController.getInstance(currentAccount).getfileExperimentalParams ? -1 : addRow("downloadSpeedBoost");
+        autoInlineBotRow = addRow("autoInlineBot");
         mapDriftingFixRow = addRow("mapDriftingFix");
         contentRestrictionRow = showContentRestrictionRow ? addRow("contentRestriction") : -1;
         sendLargePhotosRow = addRow("sendLargePhotosRow");
@@ -328,6 +335,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.SendLargePhotos), LocaleController.getString(R.string.SendLargePhotosAbout), NekoConfig.sendLargePhotos, true, divider);
                     } else if (position == contentRestrictionRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.IgnoreContentRestriction), NekoConfig.ignoreContentRestriction, divider);
+                    } else if (position == autoInlineBotRow) {
+                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.AutoInlineBot), LocaleController.getString(R.string.AutoInlineBotDesc), NekoConfig.autoInlineBot, true, divider);
                     }
                     break;
                 }
