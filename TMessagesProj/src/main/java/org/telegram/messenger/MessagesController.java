@@ -19839,11 +19839,8 @@ public class MessagesController extends BaseController implements NotificationCe
                 if (res.peers.isEmpty()) {
                     result = null;
                 } else {
-                    ListIterator<TLRPC.TL_sendAsPeer> iterator = res.peers.listIterator();
-                    while (iterator.hasNext()) {
-                        if (iterator.next().premium_required) {
-                            iterator.remove();
-                        }
+                    if (!getUserConfig().isPremium()) {
+                        res.peers.removeIf((peer) -> peer.premium_required);
                     }
                     result = res;
                     AndroidUtilities.runOnUIThread(() -> {
