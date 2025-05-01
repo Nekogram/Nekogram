@@ -26,6 +26,7 @@ import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
 
 import androidx.annotation.Keep;
+import androidx.annotation.Nullable;
 
 import com.google.common.collect.Lists;
 
@@ -61,8 +62,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-
-import javax.annotation.Nullable;
 
 public class WebInstantView {
 

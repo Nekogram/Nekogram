@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.Gravity;
 import android.view.WindowManager;
 
+import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 
 import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector;
@@ -18,8 +19,6 @@ import com.google.android.exoplayer2.ext.mediasession.MediaSessionConnector;
 import org.telegram.messenger.AndroidUtilities;
 
 import java.util.HashMap;
-
-import javax.annotation.Nullable;
 
 public class PipNativeApiController {
     public static final int PIP_DENIED_PIP = -2;
