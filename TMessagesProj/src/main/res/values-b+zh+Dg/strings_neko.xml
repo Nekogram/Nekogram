@@ -154,7 +154,7 @@
     <string name="UpdateFailedToInstall">无法安装更新：%d</string>
     <string name="QRLoginMessage">使用其他设备扫描二维码以登录。</string>
     <string name="QRLoginTitle">二维码登录</string>
-    <string name="NoTranslatorAppInstalled">您没有安装可以处理翻译意图的应用，请先安装一个再继续</string>
+    <string name="NoTranslatorAppInstalled">您没有安装可以进行翻译的应用，请先安装一个再继续</string>
     <string name="DisableVoiceMessagesAutoPlay">禁用语音留言自动播放</string>
     <string name="UnmuteVideosWithVolumeButtons">按音量键解除视频静音</string>
     <string name="TranslatorType">类型</string>
@@ -169,7 +169,7 @@
     <string name="SaveToDownloadCount_few">正在保存 %1$d 个文件到下载</string>
     <string name="SaveToDownloadCount_many">正在保存 %1$d 个文件到下载</string>
     <string name="SaveToDownloadCount_other">正在保存 %1$d 个文件到下载</string>
-    <string name="AppLinkNotVerifiedMessage">对于 Android 12 及更新的版本，您需要手动添加链接到已验证链接才能在 Nekogram 中打开 t.me 链接。</string>
+    <string name="AppLinkNotVerifiedMessage">对于 Android 12 及更高的版本，您需要手动添加链接到已验证链接才能在 Nekogram 中打开 t.me 链接。</string>
     <string name="AppLinkNotVerifiedTitle">应用链接未验证</string>
     <string name="AutoTranslate">自动翻译</string>
     <string name="AutoTranslateAbout">自动翻译其他语言的消息。</string>
@@ -243,7 +243,7 @@
     <string name="InstalledEmojiSet">已安装</string>
     <string name="InstallingEmojiSet">正在安装…</string>
     <string name="UpdateEmojiSet">更新 %s</string>
-    <string name="EmojiSetHint">这只对您影响 Emoji 的外观。其他人会根据自己的设置看到它们。</string>
+    <string name="EmojiSetHint">只影响您的 Emoji 外观。其他人会根据自己的设置看到它们。</string>
     <string name="CustomEmojiSetHint">从您的内部存储中导入和选择 Emoji 包。</string>
     <string name="AddEmojiSet">添加 Emoji 包</string>
     <string name="EmojiSetRemoved">Emoji 包已移除。</string>
@@ -310,6 +310,8 @@
     <string name="CloudflareCredentialsDialog">配置 Cloudflare 帐户 ID 和 API 令牌。\n**如何获取？**</string>
     <string name="PreferOriginalQuality">偏好原始画质</string>
     <string name="PreferOriginalQualityDesc">观看原始画质的视频。</string>
+    <string name="AutoInlineBot">自动 Inline 机器人</string>
+    <string name="AutoInlineBotDesc">根据消息文本自动查询 Inline 机器人。</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

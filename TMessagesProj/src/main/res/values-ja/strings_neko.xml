@@ -147,7 +147,7 @@
     <string name="MutualContactDescription">この連絡先は相互に交換されています。</string>
     <string name="InviteTextNeko">こんにちは！Nekogramを使ってチャットをしています。参加してください！ダウンロードはこちらから: %1$s</string>
     <string name="ShareNekogram">Nekogramを共有...</string>
-    <string name="NekogramVersion">Nekogram %1$s\n Nekogramのベースになったバージョン: Telegram %2$s\n デザイン: %3$s\n日本語訳 by りお (Telegram: @RioLovee)</string>
+    <string name="NekogramVersion">Nekogram %1$s\n Nekogramのベースになったバージョン: Telegram %2$s\n デザイン: %3$s\n日本語訳 by りお (Telegram: @RioLove2)</string>
     <string name="UpdateInstalling">アップデートをインストールしています...</string>
     <string name="UpdateInstallingNotification">更新が完了すると通知が表示されます。</string>
     <string name="UpdateInstallingRelaunch">更新が完了するとアプリが再起動します。</string>
@@ -249,8 +249,8 @@
     <string name="AddEmojiSet">絵文字セットを追加</string>
     <string name="EmojiSetRemoved">絵文字セットを削除しました。</string>
     <string name="EmojiSetRemovedInfo">「%1$s」は絵文字セットに含まれていません。</string>
-    <string name="DeleteEmojiSets">「%1$s」絵文字セット</string>
-    <string name="DeleteEmojiSetsMessage">選択した絵文字セットを削除してもよろしいですか？</string>
+    <string name="DeleteEmojiSets">絵文字セット: %1$s</string>
+    <string name="DeleteEmojiSetsMessage">選択した絵文字セットを削除しますか？</string>
     <string name="ApplyEmojiSet">絵文字セットを適用</string>
     <string name="EmojiSetApplied">絵文字セットを適用しました。</string>
     <string name="EmojiSetAppliedInfo">「%1$s」があなたの絵文字セットになりました。</string>
@@ -311,6 +311,8 @@
     <string name="CloudflareCredentialsDialog">CloudflareアカウントIDとAPIトークンを設定します。\n**取得方法は？**</string>
     <string name="PreferOriginalQuality">元の画質を優先</string>
     <string name="PreferOriginalQualityDesc">画質の劣化なく元の画質で動画を再生します。</string>
+    <string name="AutoInlineBot">自動インラインボット</string>
+    <string name="AutoInlineBotDesc">メッセージテキストに基づいてインラインボットを自動的に照会します。</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">ユーザー補助の設定</string>
     <string name="AccSeekbarHeading">シークバーの設定</string>

@@ -310,6 +310,8 @@
     <string name="CloudflareCredentialsDialog">配置 Cloudflare 帐户 ID 和 API 令牌。\n**如何获取？**</string>
     <string name="PreferOriginalQuality">偏好原始画质</string>
     <string name="PreferOriginalQualityDesc">观看原始画质的视频。</string>
+    <string name="AutoInlineBot">自动 Inline 机器人</string>
+    <string name="AutoInlineBotDesc">根据消息文本自动查询 Inline 机器人。</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

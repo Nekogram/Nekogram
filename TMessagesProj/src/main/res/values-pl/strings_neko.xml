@@ -309,6 +309,8 @@
     <string name="CloudflareCredentialsDialog">Skonfiguruj ID konta Cloudflare i token API.\n**Jak uzyskać?**</string>
     <string name="PreferOriginalQuality">Preferuj oryginalną jakość</string>
     <string name="PreferOriginalQualityDesc">Wyświetl filmy w oryginalnej jakości.</string>
+    <string name="AutoInlineBot">Automatyczny bot inline</string>
+    <string name="AutoInlineBotDesc">Automatyczne odpytywanie bota inline na podstawie tekstu wiadomości.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>

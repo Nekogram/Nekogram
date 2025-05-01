@@ -310,6 +310,8 @@
     <string name="CloudflareCredentialsDialog">Конфигурация Cloudflare Account ID и API Token.\n**Как получить?**</string>
     <string name="PreferOriginalQuality">Предпочитать исходное качество видео</string>
     <string name="PreferOriginalQualityDesc">Просмотр видео в максимально доступном разрешении.</string>
+    <string name="AutoInlineBot">Использовать inline бота</string>
+    <string name="AutoInlineBotDesc">Автоматически обращаться к функционалу inline бота в зависимости от содержания сообщения.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>

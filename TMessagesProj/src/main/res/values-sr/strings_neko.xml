@@ -309,6 +309,8 @@
     <string name="CloudflareCredentialsDialog">Конфигуришите Cloudflare ID налога и API токен.\n**Како га добити?**</string>
     <string name="PreferOriginalQuality">Преферирај оригинални квалитет</string>
     <string name="PreferOriginalQualityDesc">Гледајте видее у оригиналном квалитету.</string>
+    <string name="AutoInlineBot">Аутоматски усклађени бот</string>
+    <string name="AutoInlineBotDesc">Аутоматско постављање упита усклађеног бота на основу текста поруке.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Подешавања приступачности</string>
 </resources>
