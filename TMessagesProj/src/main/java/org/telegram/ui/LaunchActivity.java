@@ -8373,22 +8373,19 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     public boolean needCloseLastFragment(INavigationLayout layout) {
         if (AndroidUtilities.isTablet()) {
             if (layout == actionBarLayout && layout.getFragmentStack().size() <= 1 && !switchingAccount) {
-                onFinish();
-                finish();
+                super.onBackPressed();
                 return false;
             } else if (layout == rightActionBarLayout) {
                 if (!tabletFullSize) {
                     backgroundTablet.setVisibility(View.VISIBLE);
                 }
             } else if (layout == layersActionBarLayout && actionBarLayout.getFragmentStack().isEmpty() && layersActionBarLayout.getFragmentStack().size() == 1) {
-                onFinish();
-                finish();
+                super.onBackPressed();
                 return false;
             }
         } else {
             if (layout.getFragmentStack().size() <= 1) {
-                onFinish();
-                finish();
+                super.onBackPressed();
                 return false;
             }
             if (layout.getFragmentStack().size() >= 2 && !(layout.getFragmentStack().get(0) instanceof LoginActivity)) {
