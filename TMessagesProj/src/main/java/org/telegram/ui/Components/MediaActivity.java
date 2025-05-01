@@ -147,6 +147,7 @@ public class MediaActivity extends BaseFragment implements SharedMediaLayout.Sha
         getNotificationCenter().removeObserver(this, NotificationCenter.userInfoDidLoad);
         getNotificationCenter().removeObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
         getNotificationCenter().removeObserver(this, NotificationCenter.storiesEnabledUpdate);
+        Bulletin.removeDelegate(this);
         if (applyBulletin != null) {
             Runnable runnable = applyBulletin;
             applyBulletin = null;
