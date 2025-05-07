@@ -13,7 +13,7 @@ configurations.configureEach {
 }
 
 dependencies {
-    implementation 'androidx.fragment:fragment:1.8.6'
+    implementation 'androidx.fragment:fragment:1.8.8'
     implementation 'androidx.core:core:1.16.0'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.exifinterface:exifinterface:1.4.1'
@@ -22,8 +22,8 @@ dependencies {
     implementation 'androidx.interpolator:interpolator:1.0.0'
     implementation 'androidx.biometric:biometric:1.1.0'
 
-    implementation 'com.google.android.gms:play-services-cast-framework:22.0.0'
-    implementation "androidx.mediarouter:mediarouter:1.7.0"
+    implementation 'com.google.android.gms:play-services-cast-framework:22.1.0'
+    implementation 'androidx.mediarouter:mediarouter:1.8.0'
     implementation 'org.nanohttpd:nanohttpd:2.3.1'
 
     compileOnly 'org.checkerframework:checker-qual:2.5.2'
@@ -66,7 +66,7 @@ dependencies {
     implementation 'androidx.browser:browser:1.8.0'
     implementation 'app.nekogram.translator:translator:1.4.1'
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
-    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.14'
+    implementation 'com.squareup.okhttp3:okhttp:5.0.0-alpha.16'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:6.1'
 
     implementation 'com.google.firebase:firebase-analytics:22.4.0'
