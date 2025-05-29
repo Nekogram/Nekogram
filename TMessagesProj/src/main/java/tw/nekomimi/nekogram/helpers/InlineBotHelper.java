@@ -40,6 +40,7 @@ public class InlineBotHelper extends BaseController {
 
     public void query(UserHelper.BotInfo botInfo, String query, boolean searchUser, boolean cache, Utilities.Callback2<ArrayList<TLRPC.BotInlineResult>, String> callback) {
         if (botInfo == null) {
+            callback.run(null, "EMPTY_BOT_INFO");
             return;
         }
         var bot = getMessagesController().getUser(botInfo.getId());
