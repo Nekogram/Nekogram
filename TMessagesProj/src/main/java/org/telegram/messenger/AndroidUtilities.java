@@ -2950,7 +2950,7 @@ public class AndroidUtilities {
     public static int getPhotoSize(boolean highQuality) {
         if (highQuality) {
             if (highQualityPhotoSize == null) {
-                highQualityPhotoSize = 2048;
+                highQualityPhotoSize = 2560;
             }
             return highQualityPhotoSize;
         } else {

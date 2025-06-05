@@ -296,11 +296,11 @@ public class PhotoAttachPhotoCell extends FrameLayout {
                     videoPlayImageView.setVisibility(VISIBLE);
                     ((LayoutParams) videoTextView.getLayoutParams()).leftMargin = dp(13);
                     videoTextView.setText(AndroidUtilities.formatShortDuration(photoEntry.duration));
-                } else if (photoEntry.highQuality) {
+                } else if (!photoEntry.highQuality) {
                     videoInfoContainer.setVisibility(VISIBLE);
                     videoPlayImageView.setVisibility(GONE);
                     ((LayoutParams) videoTextView.getLayoutParams()).leftMargin = dp(0);
-                    videoTextView.setText(getString(R.string.ShortHighQuality));
+                    videoTextView.setText(getString(R.string.ShortStandardQuality));
                 } else {
                     videoPlayImageView.setVisibility(GONE);
                     videoInfoContainer.setVisibility(INVISIBLE);
@@ -481,11 +481,11 @@ public class PhotoAttachPhotoCell extends FrameLayout {
             videoPlayImageView.setVisibility(VISIBLE);
             ((LayoutParams) videoTextView.getLayoutParams()).leftMargin = dp(13);
             videoTextView.setText(AndroidUtilities.formatShortDuration(photoEntry.duration));
-        } else if (photoEntry.highQuality) {
+        } else if (!photoEntry.highQuality) {
             videoInfoContainer.setVisibility(VISIBLE);
             videoPlayImageView.setVisibility(GONE);
             ((LayoutParams) videoTextView.getLayoutParams()).leftMargin = dp(0);
-            videoTextView.setText(getString(R.string.ShortHighQuality));
+            videoTextView.setText(getString(R.string.ShortStandardQuality));
         } else {
             videoPlayImageView.setVisibility(GONE);
             videoInfoContainer.setVisibility(INVISIBLE);

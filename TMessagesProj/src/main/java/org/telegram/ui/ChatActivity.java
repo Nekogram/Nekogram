@@ -12985,7 +12985,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     info.updateStickersOrder = SendMessagesHelper.checkUpdateStickersOrder(photoEntry.caption);
                                     info.hasMediaSpoilers = photoEntry.hasSpoiler;
                                     info.stars = photoEntry.starsAmount;
-                                    info.highQuality = photoEntry.highQuality;
+                                    info.highQuality = photoEntry.editedInfo == null && photoEntry.highQuality;
                                     photos.add(info);
                                     photoEntry.reset();
                                 }

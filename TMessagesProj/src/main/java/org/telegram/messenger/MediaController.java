@@ -497,7 +497,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         public boolean isCropped;
         public int ttl;
         public long effectId;
-        public boolean highQuality;
+        public boolean highQuality = true;
 
         public CropState cropState;
 
@@ -526,7 +526,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             savedFilterState = null;
             stickers = null;
             cropState = null;
-            highQuality = false;
+            highQuality = true;
         }
 
         public void resetEdit() {

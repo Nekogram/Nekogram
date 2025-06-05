@@ -139,7 +139,6 @@ public class NekoConfig {
     public static boolean showOriginal = true;
     public static boolean newMarkdownParser = true;
     public static boolean markdownParseLinks = true;
-    public static boolean sendLargePhotos = true;
     public static boolean hideStories = false;
     public static boolean quickForward = false;
     public static boolean reducedColors = false;
@@ -248,7 +247,6 @@ public class NekoConfig {
             newMarkdownParser = preferences.getBoolean("newMarkdownParser", true);
             markdownParseLinks = preferences.getBoolean("markdownParseLinks", true);
             downloadSpeedBoost = preferences.getInt("downloadSpeedBoost2", BOOST_NONE);
-            sendLargePhotos = preferences.getBoolean("sendLargePhotos", false);
             showQrCode = preferences.getBoolean("showQrCode", false);
             showOpenIn = preferences.getBoolean("showOpenIn", false);
             wsDomain = preferences.getString("wsDomain", "");
@@ -499,14 +497,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("springAnimation", spring);
-        editor.apply();
-    }
-
-    public static void toggleSendLargePhotos() {
-        sendLargePhotos = !sendLargePhotos;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("sendLargePhotos", sendLargePhotos);
         editor.apply();
     }
 

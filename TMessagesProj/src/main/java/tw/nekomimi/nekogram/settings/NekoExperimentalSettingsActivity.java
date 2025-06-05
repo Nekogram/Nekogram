@@ -44,7 +44,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int autoInlineBotRow;
     private int mapDriftingFixRow;
     private int contentRestrictionRow;
-    private int sendLargePhotosRow;
     private int showRPCErrorRow;
     private int experiment2Row;
 
@@ -197,11 +196,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             AlertDialog dialog = builder.create();
             showDialog(dialog);
             dialog.redPositive();
-        } else if (position == sendLargePhotosRow) {
-            NekoConfig.toggleSendLargePhotos();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.sendLargePhotos);
-            }
         } else if (position == springAnimationRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             arrayList.add(LocaleController.getString(R.string.NavigationAnimationSpring));
@@ -265,7 +259,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         autoInlineBotRow = addRow("autoInlineBot");
         mapDriftingFixRow = addRow("mapDriftingFix");
         contentRestrictionRow = showContentRestrictionRow ? addRow("contentRestriction") : -1;
-        sendLargePhotosRow = addRow("sendLargePhotosRow");
         showRPCErrorRow = addRow("showRPCError");
         experiment2Row = addRow();
 
@@ -331,8 +324,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                     } else if (position == sendBugReportRow) {
                         textCell.setEnabled(!AnalyticsHelper.analyticsDisabled, null);
                         textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.SendBugReport), LocaleController.getString(R.string.SendBugReportDesc), !AnalyticsHelper.analyticsDisabled && AnalyticsHelper.sendBugReport, true, divider);
-                    } else if (position == sendLargePhotosRow) {
-                        textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.SendLargePhotos), LocaleController.getString(R.string.SendLargePhotosAbout), NekoConfig.sendLargePhotos, true, divider);
                     } else if (position == contentRestrictionRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.IgnoreContentRestriction), NekoConfig.ignoreContentRestriction, divider);
                     } else if (position == autoInlineBotRow) {
