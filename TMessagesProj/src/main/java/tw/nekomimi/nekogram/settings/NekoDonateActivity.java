@@ -309,13 +309,6 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                     }
                     break;
                 }
-                case TYPE_INFO_PRIVACY: {
-                    TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
-                    if (position == donate2Row) {
-                        cell.setText(LocaleController.getString(R.string.DonateEvilGoogle));
-                    }
-                    break;
-                }
                 case TYPE_FLICKER: {
                     FlickerLoadingView flickerLoadingView = (FlickerLoadingView) holder.itemView;
                     flickerLoadingView.setViewType(FlickerLoadingView.TEXT_SETTINGS_TYPE);
@@ -337,14 +330,12 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
 
         @Override
         public int getItemViewType(int position) {
-            if (position == crypto2Row) {
+            if (position == donate2Row || position == crypto2Row) {
                 return TYPE_SHADOW;
             } else if (position == donateRow || position == cryptoRow) {
                 return TYPE_HEADER;
             } else if (position > cryptoRow && position < crypto2Row) {
                 return TYPE_DETAIL_SETTINGS;
-            } else if (position == donate2Row) {
-                return TYPE_INFO_PRIVACY;
             } else if (position == placeHolderRow) {
                 return TYPE_FLICKER;
             }
