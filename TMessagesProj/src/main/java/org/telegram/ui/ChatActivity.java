@@ -4271,7 +4271,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             } else {
                 allowShowPinned = false;
             }
-            if (allowShowPinned) {
+            if (allowShowPinned && !ChatObject.isMonoForum(currentChat)) {
                 headerItem.lazilyAddSubItem(show_pinned, R.drawable.msg_pin, LocaleController.getString(R.string.PinnedMessage));
             }
             if (ChatObject.isBoostSupported(currentChat) && (getUserConfig().isPremium() || ChatObject.isBoosted(chatInfo) || ChatObject.hasAdminRights(currentChat))) {
@@ -4301,7 +4301,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
             if (!isTopic && !ChatObject.isMonoForum(currentChat)) {
                 clearHistoryItem = headerItem.lazilyAddSubItem(clear_history, R.drawable.msg_clear, LocaleController.getString(R.string.ClearHistory));
             }
-            if (currentChat != null && (ChatObject.isMegagroup(currentChat) || !ChatObject.isChannel(currentChat))) {
+            if (currentChat != null && ((ChatObject.isMegagroup(currentChat) && !ChatObject.isMonoForum(currentChat)) || !ChatObject.isChannel(currentChat))) {
                 headerItem.lazilyAddSubItem(delete_history, R.drawable.msg_delete, LocaleController.getString(R.string.DeleteAllFromSelf));
             }
             boolean addedSettings = false;
@@ -4316,7 +4316,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             headerItem.lazilyAddSubItem(delete_chat, R.drawable.msg_leave, LocaleController.getString(R.string.LeaveChannelMenu));
                         }
                     }
-                    if (ChatObject.hasAdminRights(currentChat)) {
+                    if (ChatObject.hasAdminRights(currentChat) && !ChatObject.isMonoForum(currentChat)) {
                         headerItem.lazilyAddColoredGap();
                         headerItem.lazilyAddSubItem(recent_actions, R.drawable.msg_log, LocaleController.getString(R.string.EventLog));
                     }
@@ -31323,7 +31323,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                                     !selectedObject.isLiveLocation() && selectedObject.type != MessageObject.TYPE_PHONE_CALL &&
                                     selectedObject.type != MessageObject.TYPE_GIFT_PREMIUM && selectedObject.type != MessageObject.TYPE_GIFT_PREMIUM_CHANNEL && selectedObject.type != MessageObject.TYPE_SUGGEST_PHOTO && !selectedObject.isWallpaperAction()
                                     && !message.isExpiredStory() && message.type != MessageObject.TYPE_STORY_MENTION) {
-                                boolean allowRepeat = !UserObject.isUserSelf(currentUser) && allowChatActions && (!(isThreadChat() && !isTopic) && !noforwards || getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup) != null);
+                                boolean allowRepeat = !UserObject.isUserSelf(currentUser) && !ChatObject.isMonoForum(currentChat) && allowChatActions && (!(isThreadChat() && !isTopic) && !noforwards || getMessageHelper().getMessageForRepeat(selectedObject, selectedObjectGroup) != null);
                                 if (allowRepeat) {
                                     items.add(LocaleController.getString(R.string.Repeat));
                                     options.add(OPTION_REPEAT);
@@ -31332,7 +31332,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                             }
                         }
                         if (chatMode != MODE_SCHEDULED) {
-                            if (NekoConfig.showPrPr && allowChatActions && selectedObject.isFromUser() && !UserObject.isUserSelf(currentUser)) {
+                            if (NekoConfig.showPrPr && allowChatActions && selectedObject.isFromUser() && !UserObject.isUserSelf(currentUser) && !ChatObject.isMonoForum(currentChat)) {
                                 items.add(LocaleController.getString(R.string.Prpr));
                                 options.add(OPTION_PRPR);
                                 icons.add(R.drawable.msg_prpr);
