@@ -84,14 +84,7 @@ public class TranslateController extends BaseController {
     }
 
     public boolean isFeatureAvailable(long dialogId) {
-        if (!isChatTranslateEnabled()) {
-            return false;
-        }
-        final TLRPC.Chat chat = getMessagesController().getChat(-dialogId);
-        return (
-            UserConfig.getInstance(currentAccount).isPremium() ||
-            chat != null && chat.autotranslation
-        );
+        return isFeatureAvailable();
     }
 
     private Boolean chatTranslateEnabled;
