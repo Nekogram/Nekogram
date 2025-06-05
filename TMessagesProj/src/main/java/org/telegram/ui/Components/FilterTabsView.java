@@ -1025,6 +1025,7 @@ public class FilterTabsView extends FrameLayout {
             }
         };
         listView.setClipChildren(false);
+        listView.setOverScrollMode(OVER_SCROLL_NEVER);
         itemAnimator = new DefaultItemAnimator() {
 
             @Override
