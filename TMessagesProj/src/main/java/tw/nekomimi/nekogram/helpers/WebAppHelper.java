@@ -75,7 +75,7 @@ public class WebAppHelper {
                 null,
                 url,
                 BotWebViewAttachedSheet.TYPE_WEB_VIEW_BUTTON,
-                0, false, null, false, null, null, 0, false, false);
+                0, 0, false, null, false, null, null, 0, false, false);
         props.internalType = type;
         var context = fragment.getParentActivity();
         if (context instanceof LaunchActivity activity) {
