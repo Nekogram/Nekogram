@@ -117,8 +117,6 @@
     <string name="RegistrationDateNewer">جدیدتر از %s</string>
     <string name="RegistrationDateOlder">قدیمی تر از %s</string>
     <string name="RegistrationDateApproximately">تقریبا %s</string>
-    <string name="WsEnableTls">فعال کردن TLS</string>
-    <string name="WsProvider">ارائه دهنده</string>
     <string name="UpdateNekogram">بروز رسانی نکوگرام</string>
     <string name="TranslationTarget">زبان مقصد</string>
     <string name="TranslationTargetApp">مانند برنامه</string>
@@ -157,6 +155,7 @@
     <string name="QRLoginTitle">ورود از طریق qr code</string>
     <string name="NoTranslatorAppInstalled">شما برنامه مترجمی نصب نکرده اید، لطفا برای ادامه یکی را نصب کنید</string>
     <string name="DisableVoiceMessagesAutoPlay">غیرفعال کردن پخش خودکار پیام های صوتی</string>
+    <string name="UnmuteVideosWithVolumeButtons">فعال کردن صدا در ویدیوها با دکمه‌های تنظیم صدا</string>
     <string name="TranslatorType">نوع</string>
     <string name="TranslatorTypeNeko">در پیام</string>
     <string name="TranslatorTypeTG">پنجره بازشو</string>
@@ -310,6 +309,8 @@
     <string name="CloudflareCredentialsDialog">شناسه حساب کلودفلر و توکن API را پیکربندی کنید.\n**چگونه به دست آوریم؟**</string>
     <string name="PreferOriginalQuality">ترجیح دادن کیفیت اصلی</string>
     <string name="PreferOriginalQualityDesc">مشاهده فیلم ها با کیفیت اصلی.</string>
+    <string name="AutoInlineBot">ربات درون‌خطی خودکار</string>
+    <string name="AutoInlineBotDesc">پرس‌وجوی خودکار ربات درون‌خطی بر اساس متن پیام.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسی پذیری</string>
 </resources>

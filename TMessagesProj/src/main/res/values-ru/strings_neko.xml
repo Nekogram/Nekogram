@@ -312,6 +312,7 @@
     <string name="PreferOriginalQualityDesc">Просмотр видео в максимально доступном разрешении.</string>
     <string name="AutoInlineBot">Использовать inline бота</string>
     <string name="AutoInlineBotDesc">Автоматически обращаться к функционалу inline бота в зависимости от содержания сообщения.</string>
+    <string name="ShortStandardQuality">SD</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>

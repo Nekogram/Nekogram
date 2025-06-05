@@ -5,7 +5,7 @@
     <string name="MessageMenu">メッセージメニュー</string>
     <string name="HidePhone">自分の電話番号を非表示</string>
     <string name="DeleteAllFromSelf">自分のメッセージを削除</string>
-    <string name="DeleteAllFromSelfAlert">警告！これにより**すべての参加者**の画面から**あなたが送信したすべてのメッセージが削除**されます。</string>
+    <string name="DeleteAllFromSelfAlert">警告: これにより**すべての参加者**の画面から**あなたが送信したすべてのメッセージが削除**されます。</string>
     <string name="DeleteAllFromSelfAlertBefore">警告！これにより、**すべての**参加者の画面から **%sより前にあなたから送信されたすべてのメッセージが削除**されます。</string>
     <string name="DeleteAllFromSelfBefore">以前...</string>
     <string name="IgnoreBlocked">ブロックしたユーザーからのメッセージを非表示</string>
@@ -58,7 +58,7 @@
     <string name="TabTitleTypeText">タイトル</string>
     <string name="TabTitleTypeIcon">アイコン</string>
     <string name="TabTitleTypeMix">タイトルとアイコン</string>
-    <string name="ConfirmAVMessage">動画/ボイスメッセージを送信する際に確認</string>
+    <string name="ConfirmAVMessage">ビデオ/ボイスメッセージを送信する際に確認</string>
     <string name="AskBeforeCalling">通話する前に確認</string>
     <string name="DisableNumberRounding">四捨五入を無効化</string>
     <string name="Categories">カテゴリー</string>
@@ -313,6 +313,7 @@
     <string name="PreferOriginalQualityDesc">画質の劣化なく元の画質で動画を再生します。</string>
     <string name="AutoInlineBot">自動インラインボット</string>
     <string name="AutoInlineBotDesc">メッセージテキストに基づいてインラインボットを自動的に照会します。</string>
+    <string name="ShortStandardQuality">SD</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">ユーザー補助の設定</string>
     <string name="AccSeekbarHeading">シークバーの設定</string>

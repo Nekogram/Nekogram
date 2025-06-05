@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Configurações Neko</string>
+    <string name="PreferIPv6">Conectar  de preferência no IPv6</string>
     <string name="MessageMenu">Menu de mensagens</string>
     <string name="HidePhone">Ocultar meu número de telefone</string>
     <string name="DeleteAllFromSelf">Excluir suas próprias mensagens</string>
@@ -13,6 +14,10 @@
     <string name="NameOrder">Ordem do Nome</string>
     <string name="FirstLast">Nome Sobrenome</string>
     <string name="LastFirst">Sobrenome Nome</string>
+    <string name="NoQuoteForward">Encaminhar sem autoria</string>
+    <string name="NoCaptionForward">Encaminhar sem legenda </string>
+    <string name="NoQuoteForwardShort">Sem remetente </string>
+    <string name="NoCaptionForwardShort">Sem legenda</string>
     <string name="Repeat">Repetir</string>
     <string name="AddToSavedMessages">Mensagens salvas</string>
     <string name="CreateMention">Criar menção</string>
@@ -112,8 +117,6 @@
     <string name="RegistrationDateNewer">Mais recente que %s</string>
     <string name="RegistrationDateOlder">Mais antigo do que %s</string>
     <string name="RegistrationDateApproximately">Aproximadamente %s</string>
-    <string name="WsEnableTls">Ativar o TLS</string>
-    <string name="WsProvider">Fornecedor</string>
     <string name="UpdateNekogram">Atualizar Nekogram</string>
     <string name="TranslationTarget">Idioma de destino</string>
     <string name="TranslationTargetApp">Seguir app</string>
@@ -132,6 +135,7 @@
     <string name="SendWebFileInvalid">Ficheiro inválido, certifique-se de que o ficheiro está a cumprir os requisitos.</string>
     <string name="AutoLockInstant">Instantâneo</string>
     <string name="RestrictionReason">Motivo de restrição</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">Máximo de adesivos recentes</string>
     <string name="DisableJumpToNextChannel">Desativar \"ir para o próximo canal\"</string>
     <string name="DisableGreetingSticker">Desactivar o autocolante de saudação</string>
@@ -151,6 +155,7 @@
     <string name="QRLoginTitle">QR Login</string>
     <string name="NoTranslatorAppInstalled">Não tem aplicações que possam tratar de intenções de tradução, por favor instale uma para continuar</string>
     <string name="DisableVoiceMessagesAutoPlay">Desativar a reprodução automática de mensagens de voz</string>
+    <string name="UnmuteVideosWithVolumeButtons">Desativar o som dos vídeos com os botões de volume</string>
     <string name="TranslatorType">Tipo</string>
     <string name="TranslatorTypeNeko">Na mensagem</string>
     <string name="TranslatorTypeTG">Janela pop-up</string>
@@ -251,15 +256,61 @@
     <string name="SendAnonymousData">Enviar dados anónimos</string>
     <string name="SendBugReport">Enviar relatório de erros</string>
     <string name="SendBugReportDesc">Isto ajudar-nos-á a encontrar problemas mais rapidamente.</string>
+    <string name="CopyReportId">Copiar ID do relatório</string>
+    <string name="CopyReportIdDescription">Anexar ID do relatório ao relatar problemas de erro.</string>
     <string name="AnonymousDataDelete">Eliminar dados</string>
     <string name="AnonymousDataDeleteDesc">Bloquear permanentemente os dados de saída desta instância e eliminar os dados recolhidos.</string>
+    <string name="SendAnonymousDataDesc">As funcionalidades acima utilizam o %1$s fornecido por %2$s. As informações coletadas são anônimas e não podemos rastreá-las até um dispositivo ou usuário específico.</string>
     <string name="SendLargePhotos">Enviar fotografias grandes</string>
     <string name="SendLargePhotosAbout">Aumentar o limite lateral das imagens comprimidas para 2560px.</string>
     <string name="ExportAsJson">Copiar como JSON</string>
+    <string name="ViewAsJson">Ver como JSON</string>
     <string name="HideStories">Ocultar histórias</string>
     <string name="QuickForward">Usar o encaminhamento rápido</string>
+    <string name="DidNotGetTheCodeBlameDurov">Se não recebeu o código noutro dispositivo ou não tem o Telegram iniciado sessão noutro dispositivo, por favor, use a aplicação oficial do Telegram para receber o código.\n\nO Telegram **desativou a capacidade de iniciar sessão com SMS** em aplicações de terceiros. Os utilizadores que acedem a aplicações de terceiros só conseguem receber códigos de login através do próprio Telegram.\n\nNão podemos ajudar com esta questão; se tiver algum problema ao iniciar sessão, por favor, entre em contacto com o Suporte do Telegram.</string>
+    <string name="ChangePhoneNumberBlameDurov">O Telegram **desativou a capacidade de alterar o número de telefone** em aplicativos de terceiros. Os usuários só podem alterar o número de telefone através do próprio Telegram.</string>
+    <string name="NavigationAnimation">Animação de navegação</string>
+    <string name="NavigationAnimationBezier">Clássica</string>
+    <string name="NavigationAnimationSpring">Natural</string>
+    <string name="CloudConfig">Configurações da Nuvem</string>
+    <string name="CloudConfigDesc">Salve suas configurações do Neko na nuvem do Telegram.</string>
+    <string name="CloudConfigSyncDate">Última sincronização: %s, nuvem: %s</string>
+    <string name="CloudConfigSyncDateNever">nunca</string>
+    <string name="CloudConfigSync">Sincronizar com a nuvem</string>
+    <string name="CloudConfigSyncShort">Sincronizar</string>
+    <string name="CloudConfigRestore">Restaurar a partir da nuvem</string>
+    <string name="CloudConfigRestoreShort">Restaurar</string>
+    <string name="CloudConfigSyncing">Sincronizando...</string>
+    <string name="CloudConfigAutoSync">Sincronização automática</string>
+    <string name="CloudConfigAutoSyncDesc">Sincronizar automaticamente com a nuvem após fazer alterações nas configurações do Neko.</string>
+    <string name="CloudConfigSyncFailed">Falha ao sincronizar as configurações com a nuvem.</string>
+    <string name="CloudConfigRestoreFailed">Falha ao restaurar as configurações da nuvem.</string>
+    <string name="ReducedColors">Reduzir cores</string>
     <string name="MonoCode">Código</string>
     <string name="CreateCode">Criar Código</string>
+    <string name="CreateCodeLanguage">Idioma</string>
+    <string name="IgnoreContentRestriction">Ignorar restrição de conteúdo</string>
+    <string name="PreviewSendPhoto">Enviar foto</string>
+    <string name="PreviewSendVideo">Enviar vídeo</string>
+    <string name="PreviewSendFile">Enviar arquivo</string>
+    <string name="FixLinkPreview">Corrigir pré-visualização de links</string>
+    <string name="FixLinkPreviewDesc">Enviar links de outras redes sociais com visualização do link corrigida automaticamente.</string>
+    <string name="ShowTimeHint">Mostrar dicas de tempo</string>
+    <string name="ShowTimeHintDesc">Mostrar data de envio detalhada ao tocar na hora.</string>
+    <string name="Cryptocurrency">Criptomoeda</string>
+    <string name="TranscribeProviderShort">Provedor</string>
+    <string name="TranscribeProviderAuto">Seleção automática</string>
+    <string name="TranscribeProviderWorkersAI">Whisper (Workers AI)</string>
+    <string name="TranscribeProviderDesc">Com a opção de seleção automática, %s será utilizado quando o Telegram Premium não estiver disponível.</string>
+    <string name="CloudflareCredentials">Credenciais do Cloudflare</string>
+    <string name="CloudflareCredentialsNotSet">As credenciais do Cloudflare não estão configuradas.</string>
+    <string name="CloudflareAccountID">ID da conta</string>
+    <string name="CloudflareAPIToken">Token API</string>
+    <string name="CloudflareCredentialsDialog">Configurar o ID da conta Cloudflare e o Token de API.\n**Como obter?**</string>
+    <string name="PreferOriginalQuality">Prefere qualidade original</string>
+    <string name="PreferOriginalQualityDesc">Ver vídeos com a qualidade original.</string>
+    <string name="AutoInlineBot">Bot inline automático</string>
+    <string name="AutoInlineBotDesc">Consultar automaticamente o bot inline baseado na mensagem de texto.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
 </resources>
