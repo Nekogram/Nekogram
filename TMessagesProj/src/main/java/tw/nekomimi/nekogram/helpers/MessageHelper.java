@@ -1,6 +1,5 @@
 package tw.nekomimi.nekogram.helpers;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
@@ -19,10 +18,8 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.core.content.FileProvider;
@@ -50,15 +47,11 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Cells.CheckBoxCell;
-import org.telegram.ui.ChatActivity;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.Bulletin;
-import org.telegram.ui.Components.BulletinFactory;
-import org.telegram.ui.Components.ChatAttachAlert;
 import org.telegram.ui.Components.ColoredImageSpan;
-import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.Forum.ForumUtilities;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.TranscribeButton;
@@ -721,122 +714,6 @@ public class MessageHelper extends BaseController {
             acc = MediaDataController.calcHash(acc, message.id);
         }
         return acc;
-    }
-
-    public void sendWebFile(BaseFragment fragment, int did, MessageObject thread, MessageObject reply_to, ChatActivity.ReplyQuote replyQuote, String quickReplyShortcut, int quickReplyId, String url, boolean isPhoto, Theme.ResourcesProvider resourcesProvider) {
-        TLRPC.TL_messages_sendMedia req = new TLRPC.TL_messages_sendMedia();
-        TLRPC.InputMedia media;
-        if (isPhoto) {
-            TLRPC.TL_inputMediaPhotoExternal photo = new TLRPC.TL_inputMediaPhotoExternal();
-            photo.url = url;
-            media = photo;
-        } else {
-            TLRPC.TL_inputMediaDocumentExternal document = new TLRPC.TL_inputMediaDocumentExternal();
-            document.url = url;
-            media = document;
-        }
-        req.media = media;
-        req.random_id = Utilities.random.nextLong();
-        var peer = getMessagesController().getInputPeer(did);
-        req.peer = peer;
-        if (peer instanceof TLRPC.TL_inputPeerChannel) {
-            req.silent = MessagesController.getNotificationsSettings(currentAccount).getBoolean("silent_" + -peer.channel_id, false);
-        } else if (peer instanceof TLRPC.TL_inputPeerChat) {
-            req.silent = MessagesController.getNotificationsSettings(currentAccount).getBoolean("silent_" + -peer.chat_id, false);
-        } else {
-            req.silent = MessagesController.getNotificationsSettings(currentAccount).getBoolean("silent_" + peer.user_id, false);
-        }
-        req.message = "";
-        if (reply_to != null) {
-            req.reply_to = getSendMessagesHelper().createReplyInput(null, reply_to.getId(), thread.getId(), replyQuote);
-            req.flags |= 1;
-        }
-        if (quickReplyShortcut != null || quickReplyId != 0) {
-            if (quickReplyId != 0) {
-                TLRPC.TL_inputQuickReplyShortcutId shortcut = new TLRPC.TL_inputQuickReplyShortcutId();
-                shortcut.shortcut_id = quickReplyId;
-                req.quick_reply_shortcut = shortcut;
-            } else {
-                TLRPC.TL_inputQuickReplyShortcut shortcut = new TLRPC.TL_inputQuickReplyShortcut();
-                shortcut.shortcut = quickReplyShortcut;
-                req.quick_reply_shortcut = shortcut;
-            }
-            req.flags |= 131072;
-        }
-        getConnectionsManager().sendRequest(req, (response, error) -> {
-            if (error == null) {
-                getMessagesController().processUpdates((TLRPC.Updates) response, false);
-            } else {
-                AndroidUtilities.runOnUIThread(() -> {
-                    if (BulletinFactory.canShowBulletin(fragment)) {
-                        if (error.text.equals("MEDIA_EMPTY")) {
-                            BulletinFactory.of(fragment).createErrorBulletin(LocaleController.getString(R.string.SendWebFileInvalid), resourcesProvider).show();
-                        } else {
-                            AlertsCreator.showSimpleAlert(fragment, LocaleController.getString(R.string.SendWebFile), LocaleController.getString(R.string.ErrorOccurred) + "\n" + error.text, resourcesProvider);
-                        }
-                    }
-                });
-            }
-        });
-    }
-
-    @SuppressLint("SetTextI18n")
-    public void showSendWebFileDialog(ChatAttachAlert parentAlert, Theme.ResourcesProvider resourcesProvider) {
-        ChatActivity fragment = (ChatActivity) parentAlert.getBaseFragment();
-        if (fragment == null) {
-            return;
-        }
-        Context context = fragment.getParentActivity();
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
-        builder.setTitle(LocaleController.getString(R.string.SendWebFile));
-        builder.setMessage(LocaleController.getString(R.string.SendWebFileInfo));
-        builder.setCustomViewOffset(0);
-
-        LinearLayout ll = new LinearLayout(context);
-        ll.setOrientation(LinearLayout.VERTICAL);
-
-        final EditTextBoldCursor editText = new EditTextBoldCursor(context) {
-            @Override
-            protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(64), MeasureSpec.EXACTLY));
-            }
-        };
-        editText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 18);
-        editText.setText("http://");
-        editText.setTextColor(Theme.getColor(Theme.key_dialogTextBlack, resourcesProvider));
-        editText.setHintText(LocaleController.getString(R.string.URL));
-        editText.setHeaderHintColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider));
-        editText.setSingleLine(true);
-        editText.setFocusable(true);
-        editText.setTransformHintToHeader(true);
-        editText.setLineColors(Theme.getColor(Theme.key_windowBackgroundWhiteInputField, resourcesProvider), Theme.getColor(Theme.key_windowBackgroundWhiteInputFieldActivated, resourcesProvider), Theme.getColor(Theme.key_text_RedRegular, resourcesProvider));
-        editText.setImeOptions(EditorInfo.IME_ACTION_DONE);
-        editText.setBackground(null);
-        editText.requestFocus();
-        editText.setPadding(0, 0, 0, 0);
-        ll.addView(editText, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 36, 0, 24, 0, 24, 0));
-
-        CheckBoxCell cell = new CheckBoxCell(context, 1, resourcesProvider);
-        cell.setBackground(Theme.getSelectorDrawable(false));
-        cell.setText(LocaleController.getString(R.string.SendWithoutCompression), "", false, false);
-        cell.setPadding(LocaleController.isRTL ? AndroidUtilities.dp(16) : AndroidUtilities.dp(8), 0, LocaleController.isRTL ? AndroidUtilities.dp(8) : AndroidUtilities.dp(16), 0);
-        ll.addView(cell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
-        cell.setOnClickListener(v -> {
-            CheckBoxCell cell12 = (CheckBoxCell) v;
-            cell12.setChecked(!cell12.isChecked(), true);
-        });
-
-        builder.setView(ll);
-        builder.setPositiveButton(LocaleController.getString(R.string.OK), (dialogInterface, i) -> sendWebFile(fragment, (int) fragment.getDialogId(), fragment.getThreadMessage(), fragment.getReplyMessage(), fragment.getReplyQuote(), fragment.quickReplyShortcut, fragment.getQuickReplyId(), editText.getText().toString(), !cell.isChecked(), resourcesProvider));
-        builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.setOnShowListener(dialog -> {
-            editText.requestFocus();
-            AndroidUtilities.showKeyboard(editText);
-        });
-        fragment.showDialog(alertDialog);
-        editText.setSelection(0, editText.getText().length());
     }
 
 }
