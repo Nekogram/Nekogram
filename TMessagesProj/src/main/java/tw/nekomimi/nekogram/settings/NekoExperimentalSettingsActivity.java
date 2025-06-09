@@ -29,14 +29,13 @@ import org.telegram.ui.Cells.TextSettingsCell;
 import java.util.ArrayList;
 import java.util.Locale;
 
+import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.helpers.SettingsHelper;
 
 public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
-
-    private final boolean showContentRestrictionRow;
 
     private int experimentRow;
     private int springAnimationRow;
@@ -55,10 +54,6 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
     private int deleteAccountRow;
     private int deleteAccount2Row;
-
-    public NekoExperimentalSettingsActivity(boolean showContentRestrictionRow) {
-        this.showContentRestrictionRow = showContentRestrictionRow;
-    }
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
@@ -258,7 +253,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         downloadSpeedBoostRow = MessagesController.getInstance(currentAccount).getfileExperimentalParams ? -1 : addRow("downloadSpeedBoost");
         autoInlineBotRow = addRow("autoInlineBot");
         mapDriftingFixRow = addRow("mapDriftingFix");
-        contentRestrictionRow = showContentRestrictionRow ? addRow("contentRestriction") : -1;
+        contentRestrictionRow = Extra.isDirectApp() ? addRow("contentRestriction") : -1;
         showRPCErrorRow = addRow("showRPCError");
         experiment2Row = addRow();
 

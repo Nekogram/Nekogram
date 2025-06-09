@@ -235,6 +235,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.forward.ForwardContext;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.ApkInstaller;
@@ -6006,7 +6007,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         BaseFragment fragment = getLastFragment();
                         if (fragment != null) {
                             if (error == null) {
-                                if (NekoConfig.isDirectApp()) {
+                                if (Extra.isDirectApp()) {
                                     BulletinFactory.of(fragment).createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString(R.string.YourVersionIsLatest)).show();
                                 } else {
                                     showBulletin(factory -> factory.createSimpleBulletin(R.raw.chats_infotip, LocaleController.getString(R.string.NoUpdateAvailablePlay), LocaleController.getString(R.string.NoUpdateAvailablePlayDelay)));

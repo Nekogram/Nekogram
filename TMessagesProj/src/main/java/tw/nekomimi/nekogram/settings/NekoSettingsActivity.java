@@ -20,7 +20,6 @@ import org.telegram.ui.LaunchActivity;
 
 import java.util.List;
 
-import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.accessibility.AccessibilitySettingsActivity;
 import tw.nekomimi.nekogram.helpers.CloudSettingsHelper;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
@@ -75,7 +74,7 @@ public class NekoSettingsActivity extends BaseNekoSettingsActivity {
         } else if (position == passcodeRow) {
             presentFragment(new NekoPasscodeSettingsActivity());
         } else if (position == experimentRow) {
-            presentFragment(new NekoExperimentalSettingsActivity(NekoConfig.isDirectApp()));
+            presentFragment(new NekoExperimentalSettingsActivity());
         } else if (position == accessibilityRow) {
             presentFragment(new AccessibilitySettingsActivity());
         } else if (position == channelRow) {

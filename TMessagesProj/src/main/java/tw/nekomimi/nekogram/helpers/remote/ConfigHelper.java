@@ -12,6 +12,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.NekoConfig;
 
 public class ConfigHelper extends BaseRemoteHelper {
@@ -62,7 +63,7 @@ public class ConfigHelper extends BaseRemoteHelper {
             if (news.chineseOnly != null && news.chineseOnly && !NekoConfig.isChineseUser) {
                 return;
             }
-            if (news.direct != null && news.direct && !NekoConfig.isDirectApp()) {
+            if (news.direct != null && news.direct && !Extra.isDirectApp()) {
                 return;
             }
             if (news.source != null && news.source.equals(BuildConfig.BUILD_TYPE)) {

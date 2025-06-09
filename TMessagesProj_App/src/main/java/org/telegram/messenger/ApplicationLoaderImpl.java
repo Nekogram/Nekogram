@@ -12,6 +12,8 @@ import org.telegram.ui.Components.UpdateLayout;
 import org.telegram.ui.IUpdateButton;
 import org.telegram.ui.IUpdateLayout;
 
+import tw.nekomimi.nekogram.Extra;
+
 public class ApplicationLoaderImpl extends ApplicationLoader {
     @Override
     protected String onGetApplicationId() {
@@ -20,7 +22,7 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
 
     @Override
     protected boolean isStandalone() {
-        return "release".equals(org.telegram.messenger.BuildConfig.BUILD_TYPE) || "debug".equals(org.telegram.messenger.BuildConfig.BUILD_TYPE);
+        return Extra.isDirectApp();
     }
 
     @Override

@@ -50,8 +50,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
-import tw.nekomimi.nekogram.NekoConfig;
-
 public class SharedConfig {
     /**
      * V2: Ping and check time serialized
@@ -1402,8 +1400,6 @@ public class SharedConfig {
         editor.apply();
         LocaleController.resetImperialSystemType();
     }
-
-    private static boolean hasWsNeko = !NekoConfig.isChineseUser || !TextUtils.isEmpty(NekoConfig.wsDomain);
 
     public static void loadProxyList() {
         if (proxyListLoaded) {

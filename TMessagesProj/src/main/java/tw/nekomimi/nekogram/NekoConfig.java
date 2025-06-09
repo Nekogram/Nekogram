@@ -171,10 +171,6 @@ public class NekoConfig {
         loadConfig(false);
     }
 
-    public static boolean isDirectApp() {
-        return "release".equals(BuildConfig.BUILD_TYPE) || "debug".equals(BuildConfig.BUILD_TYPE);
-    }
-
     public static void loadConfig(boolean force) {
         synchronized (sync) {
             if (configLoaded && !force) {

@@ -17,7 +17,6 @@ import com.android.billingclient.api.ProductDetails;
 import java.util.Objects;
 
 import tw.nekomimi.nekogram.Extra;
-import tw.nekomimi.nekogram.NekoConfig;
 
 public class BuildVars {
 
@@ -40,7 +39,7 @@ public class BuildVars {
     public static String HUAWEI_APP_ID = "101184875";
 
     // You can use this flag to disable Google Play Billing (If you're making fork and want it to be in Google Play)
-    public static boolean IS_BILLING_UNAVAILABLE = !NekoConfig.isDirectApp();
+    public static boolean IS_BILLING_UNAVAILABLE = !Extra.isDirectApp();
 
     static {
         APP_ID = Extra.APP_ID;
