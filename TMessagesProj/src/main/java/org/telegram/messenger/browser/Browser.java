@@ -308,7 +308,7 @@ public class Browser {
 
                     CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
 
-                    builder.addMenuItem(LocaleController.getString("CopyLink", R.string.CopyLink), copy);
+                    builder.addMenuItem(LocaleController.getString(R.string.CopyLink), copy);
 
                     builder.setColorScheme(Theme.getActiveTheme().isDark() ? CustomTabsIntent.COLOR_SCHEME_DARK : CustomTabsIntent.COLOR_SCHEME_LIGHT);
                     CustomTabColorSchemeParams params = new CustomTabColorSchemeParams.Builder()

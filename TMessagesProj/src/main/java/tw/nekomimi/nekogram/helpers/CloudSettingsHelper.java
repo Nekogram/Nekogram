@@ -213,7 +213,7 @@ public class CloudSettingsHelper {
 
     private String formatSyncedDate() {
         return LocaleController.formatString(
-                "CloudConfigSyncDate", R.string.CloudConfigSyncDate,
+                R.string.CloudConfigSyncDate,
                 localSyncedDate > 0 ? formatDateUntil(localSyncedDate) : LocaleController.getString(R.string.CloudConfigSyncDateNever),
                 cloudSyncedDate[UserConfig.selectedAccount] > 0 ? formatDateUntil(cloudSyncedDate[UserConfig.selectedAccount]) : LocaleController.getString(R.string.CloudConfigSyncDateNever));
     }

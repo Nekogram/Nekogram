@@ -236,8 +236,8 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             mutualView.setScaleType(ImageView.ScaleType.CENTER);
             mutualView.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteGrayIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY));
             mutualView.setVisibility(GONE);
-            mutualView.setContentDescription(LocaleController.getString("MutualContact", R.string.MutualContact));
-            mutualView.setOnClickListener(v -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_ERROR, LocaleController.getString("MutualContactDescription", R.string.MutualContactDescription)));
+            mutualView.setContentDescription(LocaleController.getString(R.string.MutualContact));
+            mutualView.setOnClickListener(v -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.showBulletin, Bulletin.TYPE_ERROR, LocaleController.getString(R.string.MutualContactDescription)));
             mutualView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
             addView(mutualView, LayoutHelper.createFrame(40, 40, (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT) | Gravity.CENTER_VERTICAL, LocaleController.isRTL ? 8 : 0, 0, LocaleController.isRTL ? 0 : 8, 0));
         }
@@ -681,7 +681,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         if (mutualView != null) {
             if (currentUser != null && currentUser.mutual_contact) {
                 mutualView.setVisibility(VISIBLE);
-                nameTextView.setContentDescription(nameTextView.getText() + " (" + LocaleController.getString("MutualContact", R.string.MutualContact) + ")");
+                nameTextView.setContentDescription(nameTextView.getText() + " (" + LocaleController.getString(R.string.MutualContact) + ")");
             } else {
                 mutualView.setVisibility(GONE);
                 nameTextView.setContentDescription(nameTextView.getText());

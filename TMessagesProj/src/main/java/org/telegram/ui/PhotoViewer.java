@@ -1332,7 +1332,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         builder.setTitle(url1);
         final boolean finalTel = tel;
         final String finalUrl1 = url1;
-        builder.setItems(new CharSequence[]{getString(R.string.Open), getString("ShareFile", R.string.ShareFile), getString(R.string.CopyLink)}, (dialog, which) -> {
+        builder.setItems(new CharSequence[]{getString(R.string.Open), getString(R.string.ShareFile), getString(R.string.CopyLink)}, (dialog, which) -> {
             if (which == 0) {
                 onLinkClick(link, widget);
             } else if (which == 2) {
@@ -1344,12 +1344,17 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     bulletinMessage = getString("HashtagCopied", R.string.HashtagCopied);
                 } else if (finalUrl1.startsWith("@")) {
                     bulletinMessage = getString("UsernameCopied", R.string.UsernameCopied);
+                } else {
+                    bulletinMessage = getString("LinkCopied", R.string.LinkCopied);
+                }
+                if (AndroidUtilities.shouldShowClipboardToast()) {
+                    BulletinFactory.of(containerView, resourcesProvider).createSimpleBulletin(R.raw.voip_invite, bulletinMessage).show();
                 }
             } else {
                 Intent shareIntent = new Intent(Intent.ACTION_SEND);
                 shareIntent.setType("text/plain");
                 shareIntent.putExtra(Intent.EXTRA_TEXT, finalUrl1);
-                Intent chooserIntent = Intent.createChooser(shareIntent, getString("ShareFile", R.string.ShareFile));
+                Intent chooserIntent = Intent.createChooser(shareIntent, getString(R.string.ShareFile));
                 chooserIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 ApplicationLoader.applicationContext.startActivity(chooserIntent);
             }

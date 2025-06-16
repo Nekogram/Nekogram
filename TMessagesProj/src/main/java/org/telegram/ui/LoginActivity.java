@@ -751,8 +751,8 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
         moreButtonView = new ActionBarMenuItem(context, null, 0, Theme.getColor(Theme.key_windowBackgroundWhiteBlackText));
         moreButtonView.setIcon(R.drawable.ic_ab_other);
-        moreButtonView.addSubItem(0, LocaleController.getString("ProxySettings", R.string.ProxySettings));
-        moreButtonView.addSubItem(1, LocaleController.getString("QRLoginTitle", R.string.QRLoginTitle));
+        moreButtonView.addSubItem(0, LocaleController.getString(R.string.ProxySettings));
+        moreButtonView.addSubItem(1, LocaleController.getString(R.string.QRLoginTitle));
         moreButtonView.setDelegate(id -> {
             if (id == 0) {
                 presentFragment(new ProxyListActivity());
@@ -762,7 +762,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         });
         moreButtonView.setSubMenuOpenSide(1);
         moreButtonView.setOnClickListener(view -> moreButtonView.toggleSubMenu());
-        moreButtonView.setContentDescription(LocaleController.getString("AccDescrMoreOptions", R.string.AccDescrMoreOptions));
+        moreButtonView.setContentDescription(LocaleController.getString(R.string.AccDescrMoreOptions));
         sizeNotifierFrameLayout.addView(moreButtonView, LayoutHelper.createFrame(32, 32, Gravity.RIGHT | Gravity.TOP, 16, 16, 16, 16));
 
         radialProgressView = new RadialProgressView(context);
@@ -8329,7 +8329,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
 
         @Override
         public String getHeaderName() {
-            return LocaleController.getString("QRLoginTitle", R.string.QRLoginTitle);
+            return LocaleController.getString(R.string.QRLoginTitle);
         }
 
         @Override
@@ -8442,7 +8442,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                     if (error == null) {
                         TL_account.Password password = (TL_account.Password) response;
                         if (!TwoStepVerificationActivity.canHandleCurrentPassword(password, true)) {
-                            AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString("UpdateAppAlert", R.string.UpdateAppAlert), true);
+                            AlertsCreator.showUpdateAppAlert(getParentActivity(), LocaleController.getString(R.string.UpdateAppAlert), true);
                             return;
                         }
                         Bundle bundle = new Bundle();
@@ -8451,13 +8451,13 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                         bundle.putString("password", Utilities.bytesToHex(data.toByteArray()));
                         setPage(VIEW_PASSWORD, true, bundle, false);
                     } else {
-                        needShowAlert(LocaleController.getString("AppName", R.string.AppName), error.text);
+                        needShowAlert(LocaleController.getString(R.string.AppName), error.text);
                     }
                 }), ConnectionsManager.RequestFlagFailOnServerErrors | ConnectionsManager.RequestFlagWithoutLogin);
             } else if (errorText.startsWith("FLOOD_WAIT")) {
-                needShowAlert(LocaleController.getString("AppName", R.string.AppName), LocaleController.getString("FloodWait", R.string.FloodWait));
+                needShowAlert(LocaleController.getString(R.string.AppName), LocaleController.getString(R.string.FloodWait));
             } else {
-                needShowAlert(LocaleController.getString("AppName", R.string.AppName), errorText);
+                needShowAlert(LocaleController.getString(R.string.AppName), errorText);
             }
         }
 

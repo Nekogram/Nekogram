@@ -45,9 +45,9 @@ public class AccessibilitySettingsActivity extends BaseFragment {
     private final int seekbarHeading2Row = rowCount++;
 
     static {
-        SEEKBAR_TIME_VALUES.add(LocaleController.getString("AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay", R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay));
+        SEEKBAR_TIME_VALUES.add(LocaleController.getString(R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay));
         for (int a = 1; a <= 4; a++) {
-            SEEKBAR_TIME_VALUES.add(LocaleController.formatString("AccTimeBeforeAnnouncingOfChangesOfSeekbarValue", R.string.AccTimeBeforeAnnouncingOfChangesOfSeekbarValue, 50 * a));
+            SEEKBAR_TIME_VALUES.add(LocaleController.formatString(R.string.AccTimeBeforeAnnouncingOfChangesOfSeekbarValue, 50 * a));
         }
     }
 
@@ -140,25 +140,25 @@ public class AccessibilitySettingsActivity extends BaseFragment {
                 case 2: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     if (position == timeBeforeAnnouncingOfSeekbarRow) {
-                        textCell.setTextAndValue(LocaleController.getString("AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar", R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar), AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE > 0 ? LocaleController.formatString("AccTimeBeforeAnnouncingOfChangesOfSeekbarValue", R.string.AccTimeBeforeAnnouncingOfChangesOfSeekbarValue, AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE) : LocaleController.getString("AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay", R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay), false);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar), AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE > 0 ? LocaleController.formatString("AccTimeBeforeAnnouncingOfChangesOfSeekbarValue", R.string.AccTimeBeforeAnnouncingOfChangesOfSeekbarValue, AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE) : LocaleController.getString(R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay), false);
                     }
                     break;
                 }
                 case 3: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     if (position == showNumbersOfItemsRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("AccNumberOfItems", R.string.AccNumberOfItems), AccConfig.SHOW_NUMBERS_OF_ITEMS, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.AccNumberOfItems), AccConfig.SHOW_NUMBERS_OF_ITEMS, true);
                     } else if (position == showIndexOfItemRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("AccIndexOfItem", R.string.AccIndexOfItem), AccConfig.SHOW_INDEX_OF_ITEM, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.AccIndexOfItem), AccConfig.SHOW_INDEX_OF_ITEM, true);
                     } else if (position == showValueChangesRow) {
-                        textCell.setTextAndCheck(LocaleController.getString("AccShowValueChanges", R.string.AccShowValueChanges), AccConfig.SHOW_SEEKBAR_VALUE_CHANGES, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.AccShowValueChanges), AccConfig.SHOW_SEEKBAR_VALUE_CHANGES, true);
                     }
                     break;
                 }
                 case 4: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == seekbarHeadingRow) {
-                        headerCell.setText(LocaleController.getString("AccSeekbarHeading", R.string.AccSeekbarHeading));
+                        headerCell.setText(LocaleController.getString(R.string.AccSeekbarHeading));
                     }
                     break;
                 }

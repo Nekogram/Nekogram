@@ -1228,14 +1228,14 @@ public class EditTextBoldCursor extends EditTextEffects {
     private void addUndoRedo(Menu menu) {
         if (menu.findItem(android.R.id.undo) == null && menu.findItem(android.R.id.redo) == null) {
             if (canUndo()) {
-                menu.add(R.id.menu_undoredo, android.R.id.undo, 2, LocaleController.getString("EditUndo", R.string.EditUndo));
+                menu.add(R.id.menu_undoredo, android.R.id.undo, 2, LocaleController.getString(R.string.EditUndo));
             }
             if (canRedo()) {
-                menu.add(R.id.menu_undoredo, android.R.id.redo, 3, LocaleController.getString("EditRedo", R.string.EditRedo));
+                menu.add(R.id.menu_undoredo, android.R.id.redo, 3, LocaleController.getString(R.string.EditRedo));
             }
         }
         if (showDisableMarkdown) {
-            menu.add(R.id.menu_groupbolditalic, R.id.menu_markdown, 20, disableMarkdown ? LocaleController.getString("EditEnableMarkdown", R.string.EditEnableMarkdown) : LocaleController.getString("EditDisableMarkdown", R.string.EditDisableMarkdown));
+            menu.add(R.id.menu_groupbolditalic, R.id.menu_markdown, 20, disableMarkdown ? LocaleController.getString(R.string.EditEnableMarkdown) : LocaleController.getString(R.string.EditDisableMarkdown));
         }
     }
 
