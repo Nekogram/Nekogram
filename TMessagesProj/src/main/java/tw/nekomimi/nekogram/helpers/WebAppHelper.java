@@ -1,23 +1,31 @@
 package tw.nekomimi.nekogram.helpers;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import org.telegram.messenger.AndroidUtilities;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
+import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.tgnet.SerializedData;
 import org.telegram.tgnet.TLObject;
 import org.telegram.tgnet.TLRPC;
-import org.telegram.ui.ActionBar.ActionBarLayout;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.LaunchActivity;
 import org.telegram.ui.bots.BotWebViewAttachedSheet;
 import org.telegram.ui.bots.BotWebViewSheet;
 import org.telegram.ui.bots.WebViewRequestProps;
+import org.telegram.ui.web.BotWebViewContainer;
+
+import java.util.function.Consumer;
 
 import tw.nekomimi.nekogram.Extra;
+import tw.nekomimi.nekogram.NekoConfig;
 
 public class WebAppHelper {
     public static final int INTERNAL_BOT_TLV = 1;
@@ -89,5 +97,46 @@ public class WebAppHelper {
         webViewSheet.setParentActivity(context);
         webViewSheet.requestWebView(null, props);
         webViewSheet.show();
+    }
+
+    private static JsonObject warpInEvent(String event, JsonObject data) {
+        var callback = new JsonObject();
+        callback.addProperty("event", event);
+        if (data != null) {
+            callback.add("data", data);
+        }
+        return callback;
+    }
+
+    public static void processBotEvents(BotWebViewContainer.Delegate delegate, String eventData, Consumer<String> eventCallback) {
+        var element = JsonParser.parseString(eventData);
+        if (!element.isJsonObject()) {
+            return;
+        }
+        var eventObject = element.getAsJsonObject();
+        if (!eventObject.has("event")) {
+            return;
+        }
+        var event = eventObject.get("event").getAsString();
+        if (event.equals("get_config")) {
+            var data = new JsonObject();
+            data.addProperty("trust", !NekoConfig.shouldNOTTrustMe);
+            eventCallback.accept(warpInEvent("config", data).toString());
+        } else if (event.equals("set_config")) {
+            var data = eventObject.get("data").getAsJsonObject();
+            SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+            SharedPreferences.Editor editor = preferences.edit();
+            switch (data.get("key").getAsString()) {
+                case "trust":
+                    NekoConfig.shouldNOTTrustMe = !data.get("value").getAsBoolean();
+                    editor.putBoolean("shouldNOTTrustMe", NekoConfig.shouldNOTTrustMe);
+                    break;
+            }
+            editor.apply();
+        } else if (delegate != null && event.equals("copy_text")) {
+            var data = eventObject.get("data").getAsJsonObject();
+            var json = data.get("text").getAsString();
+            delegate.onGetTextToCopy(json);
+        }
     }
 }

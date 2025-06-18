@@ -170,7 +170,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import tw.nekomimi.nekogram.Extra;
-import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.helpers.WebAppHelper;
 
 public abstract class BotWebViewContainer extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final static String DURGER_KING_USERNAME = "DurgerKingBot";
@@ -1265,14 +1265,9 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
         }
         d("onEventReceived " + eventType);
         switch (eventType) {
-            case "neko_get_config":
-            case "neko_set_config": {
+            case "neko_event":{
                 if (Extra.isTrustedBot(botUser.id)) {
-                    try {
-                        NekoConfig.processBotEvents(eventType, eventData, config -> notifyEvent("neko_config", config));
-                    } catch (JSONException e) {
-                        FileLog.e(e);
-                    }
+                    WebAppHelper.processBotEvents(delegate, eventData, data -> notifyEvent_fast("neko_event", data));
                 }
             }
             case "web_app_allow_scroll": {
@@ -3168,6 +3163,7 @@ public abstract class BotWebViewContainer extends FrameLayout implements Notific
     }
 
     public interface Delegate {
+        default void onGetTextToCopy(String json) {};
         /**
          * Called when WebView requests to close itself
          */

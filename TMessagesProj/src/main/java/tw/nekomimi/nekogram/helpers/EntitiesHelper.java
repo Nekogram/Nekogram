@@ -1,6 +1,7 @@
 package tw.nekomimi.nekogram.helpers;
 
 import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -109,5 +110,12 @@ public class EntitiesHelper {
             }
         }
         message[0] = spannable;
+    }
+
+    public static CharSequence warpInLanguageSpan(CharSequence text, String language) {
+        var spannable = new SpannableString(text);
+        var codeHighlightingSpan = new CodeHighlighting.Span(false, 0, null, language, null);
+        spannable.setSpan(codeHighlightingSpan, 0, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        return spannable;
     }
 }

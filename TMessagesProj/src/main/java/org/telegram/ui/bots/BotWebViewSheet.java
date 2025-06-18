@@ -126,6 +126,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
+import tw.nekomimi.nekogram.helpers.EntitiesHelper;
 import tw.nekomimi.nekogram.helpers.WebAppHelper;
 
 public class BotWebViewSheet extends Dialog implements NotificationCenter.NotificationCenterDelegate, BottomSheetTabsOverlay.Sheet {
@@ -208,6 +209,8 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
     private ChatAttachAlertBotWebViewLayout.WebProgressView progressView;
     private Theme.ResourcesProvider resourcesProvider;
     private boolean ignoreLayout;
+
+    private String textToCopy;
 
     private int currentAccount;
     private long botId;
@@ -536,6 +539,11 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         };
         webViewContainer.setDelegate(new BotWebViewContainer.Delegate() {
             private boolean sentWebViewData;
+
+            @Override
+            public void onGetTextToCopy(String text) {
+                textToCopy = text;
+            }
 
             @Override
             public void onCloseRequested(Runnable callback) {
@@ -1348,6 +1356,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         this.silent = props.silent;
         this.buttonText = props.buttonText;
         this.currentWebApp = props.app;
+        this.textToCopy = null;
 
         final TLRPC.User userbot = MessagesController.getInstance(currentAccount).getUser(botId);
         CharSequence title = WebAppHelper.isInternalBot(props) ? WebAppHelper.getInternalBotName(props) : UserObject.getUserName(userbot);
@@ -1686,6 +1695,12 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                 webViewContainer.setBotUser(MessagesController.getInstance(currentAccount).getUser(botId));
                 webViewContainer.loadFlickerAndSettingsItem(currentAccount, botId, null);
                 webViewContainer.reload();
+            })
+            .addIf(WebAppHelper.isInternalBot(requestProps) && !TextUtils.isEmpty(textToCopy), R.drawable.msg_copy, LocaleController.getString(R.string.Copy), () -> {
+                if (textToCopy != null) {
+                    AndroidUtilities.addToClipboard(requestProps.internalType == WebAppHelper.INTERNAL_BOT_TLV ? EntitiesHelper.warpInLanguageSpan(textToCopy, "json") : textToCopy);
+                    showBulletin(bulletinFactory -> bulletinFactory.createCopyBulletin(LocaleController.getString(R.string.TextCopied)));
+                }
             })
             .addIf(!WebAppHelper.isInternalBot(requestProps) && userbot != null && userbot.bot_has_main_app, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut), () -> {
                 MediaDataController.getInstance(currentAccount).installShortcut(botId, MediaDataController.SHORTCUT_TYPE_ATTACHED_BOT);
