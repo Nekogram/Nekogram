@@ -316,6 +316,7 @@ public class Browser {
                             .build();
                     builder.setDefaultColorSchemeParams(params);
                     builder.setShowTitle(true);
+                    builder.setShareIdentityEnabled(true);
                     builder.setShareState(CustomTabsIntent.SHARE_STATE_ON);
                     CustomTabsIntent intent = builder.build();
                     intent.intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
