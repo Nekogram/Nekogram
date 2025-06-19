@@ -43,7 +43,6 @@ import org.telegram.ui.PremiumPreviewFragment;
 import org.telegram.ui.Stories.StoryViewer;
 
 import java.io.File;
-import java.io.IOException;
 import java.net.URLEncoder;
 
 public class VideoScreenPreview extends FrameLayout implements PagerHeaderView, NotificationCenter.NotificationCenterDelegate {

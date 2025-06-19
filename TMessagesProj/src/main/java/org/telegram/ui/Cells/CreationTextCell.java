@@ -76,11 +76,6 @@ public class CreationTextCell extends FrameLayout {
         }
     }
 
-    public void setTextColor(int color) {
-        textView.setTextColor(Theme.getColor(color));
-        textView.setTag(color);
-    }
-
     public void setTextAndIcon(String text, Drawable icon, boolean divider) {
         textView.setText(text);
         imageView.setImageDrawable(icon);

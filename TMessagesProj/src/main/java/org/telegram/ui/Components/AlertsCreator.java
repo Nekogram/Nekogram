@@ -5023,7 +5023,7 @@ public class AlertsCreator {
 
         ActionBarMenuItem optionsButton = new ActionBarMenuItem(context, null, 0, Theme.getColor(Theme.key_sheet_other, resourcesProvider));
         optionsButton.setIcon(R.drawable.ic_upward);
-        optionsButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_player_actionBarSelector, resourcesProvider), 1));
+        optionsButton.setBackground(Theme.createSelectorDrawable(Theme.getColor(Theme.key_player_actionBarSelector, resourcesProvider), 1));
         titleLayout.addView(optionsButton, LayoutHelper.createFrame(40, 40, Gravity.TOP | Gravity.RIGHT, 0, 8, 5, 0));
         optionsButton.setOnClickListener(v -> {
             callback.run(1375315200);
@@ -6349,10 +6349,7 @@ public class AlertsCreator {
             }
         }
 
-        final boolean[] checks = new boolean[3];
         final boolean[] deleteForAll = {true};
-        TLRPC.User actionUser = null;
-        TLRPC.Chat actionChat = null;
         boolean canRevokeInbox = user != null && MessagesController.getInstance(currentAccount).canRevokePmInbox;
         int revokeTimeLimit;
         if (user != null) {

@@ -487,10 +487,6 @@ public class AboutLinkCell extends FrameLayout {
         return null;
     }
 
-    public void onLinkClick(ClickableSpan pressedLink) {
-        onLinkClick(pressedLink, null, 0);
-    }
-
     private void onLinkClick(ClickableSpan pressedLink, Layout layout, float yOffset) {
         if (currentProgress != null) {
             currentProgress.cancel();
