@@ -30,6 +30,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.TranslateAlert2;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
@@ -116,22 +117,33 @@ public class Translator {
         if (lang == null || lang.equals("und")) {
             return false;
         }
-        String toLang = stripLanguageCode(getCurrentTargetLanguage());
-        lang = stripLanguageCode(lang);
-        if (lang.equals(toLang)) {
-            return true;
-        }
-        boolean restricted = false;
-        for (String language : NekoConfig.restrictedLanguages) {
-            if (language.contains("_")) {
-                language = language.substring(0, language.indexOf("_"));
-            }
+        var restrictedLanguages = getRestrictedLanguages();
+        for (String language : restrictedLanguages) {
             if (language.equals(lang)) {
-                restricted = true;
-                break;
+                return true;
             }
         }
-        return restricted;
+        return false;
+    }
+
+    public static ArrayList<String> getRestrictedLanguages() {
+        var languages = new ArrayList<String>();
+        if (NekoConfig.restrictedLanguages == null) {
+            languages.add(stripLanguageCode(getCurrentTargetLanguage()));
+        } else {
+            languages.addAll(NekoConfig.restrictedLanguages);
+        }
+        return languages;
+    }
+
+    public static void saveRestrictedLanguages(List<String> restrictedLanguages) {
+        var currentTargetLanguage = getCurrentTargetLanguage();
+        var languages = restrictedLanguages.stream().filter(s -> !s.equals(currentTargetLanguage)).collect(Collectors.toSet());
+        if (!restrictedLanguages.isEmpty() && languages.isEmpty()) {
+            NekoConfig.saveRestrictedLanguages(null);
+            return;
+        }
+        NekoConfig.saveRestrictedLanguages(languages);
     }
 
     public static Pair<ArrayList<String>, ArrayList<String>> getProviders() {

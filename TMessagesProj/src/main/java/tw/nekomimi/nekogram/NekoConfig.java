@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import java.util.function.BiConsumer;
 
 import app.nekogram.translator.DeepLTranslator;
@@ -89,7 +90,7 @@ public class NekoConfig {
     public static int doubleTapInAction = DOUBLE_TAP_ACTION_REACTION;
     public static int doubleTapOutAction = DOUBLE_TAP_ACTION_REACTION;
     public static int downloadSpeedBoost = BOOST_NONE;
-    public static HashSet<String> restrictedLanguages = new HashSet<>();
+    public static Set<String> restrictedLanguages;
     public static String externalTranslationProvider;
     public static int transcribeProvider = TRANSCRIBE_PREMIUM;
     public static String cfAccountID = "";
@@ -232,7 +233,7 @@ public class NekoConfig {
             showCopyPhoto = preferences.getBoolean("showCopyPhoto", false);
             doubleTapInAction = preferences.getInt("doubleTapAction", DOUBLE_TAP_ACTION_REACTION);
             doubleTapOutAction = preferences.getInt("doubleTapOutAction", doubleTapInAction);
-            restrictedLanguages = new HashSet<>(preferences.getStringSet("restrictedLanguages", new HashSet<>()));
+            restrictedLanguages = preferences.getStringSet("restrictedLanguages", null);
             disableMarkdownByDefault = preferences.getBoolean("disableMarkdownByDefault", false);
             showRPCError = preferences.getBoolean("showRPCError", false);
             hideTimeOnSticker = preferences.getBoolean("hideTimeOnSticker", false);
@@ -374,10 +375,11 @@ public class NekoConfig {
         editor.apply();
     }
 
-    public static void saveRestrictedLanguages() {
+    public static void saveRestrictedLanguages(Set<String> languages) {
+        restrictedLanguages = languages;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
-        editor.putStringSet("restrictedLanguages", restrictedLanguages);
+        editor.putStringSet("restrictedLanguages", languages);
         editor.apply();
     }
 

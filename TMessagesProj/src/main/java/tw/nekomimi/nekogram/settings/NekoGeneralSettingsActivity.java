@@ -110,7 +110,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         } else if (position == translationTargetRow) {
             Translator.showTranslationTargetSelector(this, view, () -> {
                 listAdapter.notifyItemChanged(translationTargetRow, PARTIAL);
-                if (getRestrictedLanguages().size() == 1) {
+                if (Translator.getRestrictedLanguages().size() == 1) {
                     listAdapter.notifyItemChanged(doNotTranslateRow, PARTIAL);
                 }
             }, true, resourcesProvider);
@@ -275,15 +275,6 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         return "g";
     }
 
-    private ArrayList<String> getRestrictedLanguages() {
-        String currentLang = Translator.stripLanguageCode(Translator.getCurrentTargetLanguage());
-        ArrayList<String> langCodes = new ArrayList<>(NekoConfig.restrictedLanguages);
-        if (!langCodes.contains(currentLang)) {
-            langCodes.add(currentLang);
-        }
-        return langCodes;
-    }
-
     private class ListAdapter extends BaseListAdapter {
 
         public ListAdapter(Context context) {
@@ -358,7 +349,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         };
                         textCell.setTextAndValue(LocaleController.getString(R.string.TranslatorType), value, partial, divider);
                     } else if (position == doNotTranslateRow) {
-                        ArrayList<String> langCodes = getRestrictedLanguages();
+                        var langCodes = Translator.getRestrictedLanguages();
                         CharSequence value;
                         if (langCodes.size() == 1) {
                             Locale locale = Locale.forLanguageTag(langCodes.get(0));

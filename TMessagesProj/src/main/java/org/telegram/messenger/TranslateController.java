@@ -385,7 +385,7 @@ public class TranslateController extends BaseController {
             FileLog.e(e2);
         }
         try {
-            langs.addAll(NekoConfig.restrictedLanguages);
+            langs.addAll(Translator.getRestrictedLanguages());
         } catch (Exception e3) {
             FileLog.e(e3);
         }
