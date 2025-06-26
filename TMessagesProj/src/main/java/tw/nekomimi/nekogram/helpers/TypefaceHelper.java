@@ -11,6 +11,8 @@ import org.telegram.messenger.LocaleController;
 
 import java.util.List;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class TypefaceHelper {
 
     private static final String TEST_TEXT;
@@ -46,7 +48,7 @@ public class TypefaceHelper {
 
     public static boolean isMediumWeightSupported() {
         if (mediumWeightSupported == null) {
-            mediumWeightSupported = testTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+            mediumWeightSupported = !NekoConfig.forceFontWeightFallback && testTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
             FileLog.d("mediumWeightSupported = " + mediumWeightSupported);
         }
         return mediumWeightSupported;

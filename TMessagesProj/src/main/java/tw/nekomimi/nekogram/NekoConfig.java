@@ -144,6 +144,7 @@ public class NekoConfig {
     public static boolean showTimeHint = false;
     public static boolean preferOriginalQuality = false;
     public static boolean autoInlineBot = false;
+    public static boolean forceFontWeightFallback = false;
 
     public static boolean springAnimation = false;
 
@@ -257,6 +258,7 @@ public class NekoConfig {
             cfApiToken = preferences.getString("cfApiToken", "");
             preferOriginalQuality = preferences.getBoolean("preferOriginalQuality", false);
             autoInlineBot = preferences.getBoolean("autoInlineBot", false);
+            forceFontWeightFallback = preferences.getBoolean("forceFontWeightFallback", false);
 
             LensHelper.checkLensSupportAsync();
             preferences.registerOnSharedPreferenceChangeListener(listener);
@@ -412,6 +414,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("downloadSpeedBoost2", boost);
+        editor.apply();
+    }
+
+    public static void toggleForceFontWeightFallback() {
+        forceFontWeightFallback = !forceFontWeightFallback;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("forceFontWeightFallback", forceFontWeightFallback);
         editor.apply();
     }
 

@@ -317,6 +317,7 @@
     <string name="AutoInlineBot">Auto inline bot</string>
     <string name="AutoInlineBotDesc">Automatically querying inline bot based on message text.</string>
     <string name="ShortStandardQuality">SD</string>
+    <string name="ForceFontWeightFallback">Force font weight fallback</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

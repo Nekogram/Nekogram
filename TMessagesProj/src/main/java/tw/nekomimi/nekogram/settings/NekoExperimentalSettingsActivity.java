@@ -41,6 +41,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
     private int springAnimationRow;
     private int downloadSpeedBoostRow;
     private int autoInlineBotRow;
+    private int forceFontWeightFallbackRow;
     private int mapDriftingFixRow;
     private int contentRestrictionRow;
     private int showRPCErrorRow;
@@ -218,6 +219,12 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.autoInlineBot);
             }
+        } else if (position == forceFontWeightFallbackRow) {
+            NekoConfig.toggleForceFontWeightFallback();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.forceFontWeightFallback);
+            }
+            showRestartBulletin();
         }
     }
 
@@ -252,6 +259,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
         springAnimationRow = addRow("springAnimation");
         downloadSpeedBoostRow = MessagesController.getInstance(currentAccount).getfileExperimentalParams ? -1 : addRow("downloadSpeedBoost");
         autoInlineBotRow = addRow("autoInlineBot");
+        forceFontWeightFallbackRow = addRow("forceFontWeightFallback");
         mapDriftingFixRow = addRow("mapDriftingFix");
         contentRestrictionRow = Extra.isDirectApp() ? addRow("contentRestriction") : -1;
         showRPCErrorRow = addRow("showRPCError");
@@ -323,6 +331,8 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.IgnoreContentRestriction), NekoConfig.ignoreContentRestriction, divider);
                     } else if (position == autoInlineBotRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.AutoInlineBot), LocaleController.getString(R.string.AutoInlineBotDesc), NekoConfig.autoInlineBot, true, divider);
+                    } else if (position == forceFontWeightFallbackRow) {
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.ForceFontWeightFallback), NekoConfig.forceFontWeightFallback, divider);
                     }
                     break;
                 }
