@@ -325,12 +325,39 @@ public class Translator {
         return text;
     }
 
+    public static String normalizeLanguageCode(BaseTranslator translator, String language, String country) {
+        String languageLowerCase = language.toLowerCase();
+        String code;
+        if (!TextUtils.isEmpty(country)) {
+            String countryUpperCase = language.equals("zh") ? normalizeCountry(country) : country.toUpperCase();
+            if (translator.supportLanguage(languageLowerCase + "-" + countryUpperCase)) {
+                code = languageLowerCase + "-" + countryUpperCase;
+            } else {
+                code = languageLowerCase;
+            }
+        } else {
+            code = languageLowerCase;
+        }
+        return code;
+    }
+
+    private static String normalizeCountry(String country) {
+        var countryUpperCase = country.toUpperCase();
+        if (countryUpperCase.equals("DG")) {
+            return "CN";
+        } else if (countryUpperCase.equals("HK")) {
+            return "TW";
+        } else {
+            return countryUpperCase;
+        }
+    }
+
     private static String getCurrentAppLanguage(BaseTranslator translator) {
         String toLang;
         Locale locale = LocaleController.getInstance().getCurrentLocale();
-        toLang = translator.convertLanguageCode(locale.getLanguage(), locale.getCountry());
+        toLang = normalizeLanguageCode(translator, locale.getLanguage(), locale.getCountry());
         if (!translator.supportLanguage(toLang)) {
-            toLang = translator.convertLanguageCode(LocaleController.getString(R.string.LanguageCode), null);
+            toLang = normalizeLanguageCode(translator, LocaleController.getString(R.string.LanguageCode), null);
         }
         return toLang;
     }
