@@ -314,6 +314,7 @@
     <string name="AutoInlineBot">自動インラインボット</string>
     <string name="AutoInlineBotDesc">メッセージテキストに基づいてインラインボットを自動的に照会します。</string>
     <string name="ShortStandardQuality">SD</string>
+    <string name="ForceFontWeightFallback">フォントの太さのフォールバックを強制</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">ユーザー補助の設定</string>
     <string name="AccSeekbarHeading">シークバーの設定</string>

@@ -313,6 +313,7 @@
     <string name="AutoInlineBot">Использовать inline бота</string>
     <string name="AutoInlineBotDesc">Автоматически обращаться к функционалу inline бота в зависимости от содержания сообщения.</string>
     <string name="ShortStandardQuality">SD</string>
+    <string name="ForceFontWeightFallback">Принудительный откат веса шрифта</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>

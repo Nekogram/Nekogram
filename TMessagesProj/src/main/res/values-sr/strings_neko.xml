@@ -311,6 +311,7 @@
     <string name="PreferOriginalQualityDesc">Гледајте видее у оригиналном квалитету.</string>
     <string name="AutoInlineBot">Аутоматски усклађени бот</string>
     <string name="AutoInlineBotDesc">Аутоматско постављање упита усклађеног бота на основу текста поруке.</string>
+    <string name="ShortStandardQuality">SD</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Подешавања приступачности</string>
 </resources>
