@@ -144,6 +144,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class EmojiView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
 
     private final static int TAB_EMOJI = 0;
@@ -6519,6 +6521,11 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                             ((ChatActivity) fragment).openAttachMenuForCreatingSticker();
                         }
                     });
+                    btnView.setOnLongClickListener(v -> {
+                        NekoConfig.toggleMinimizedStickerCreator();
+                        checkDocuments(false);
+                        return true;
+                    });
                     ScaleStateListAnimator.apply(btnView);
                     containerLayout.addView(btnView, LayoutHelper.createFrame(56, 56, Gravity.CENTER));
                     view = containerLayout;
@@ -6600,6 +6607,17 @@ public class EmojiView extends FrameLayout implements NotificationCenter.Notific
                             }
                         } else if (object == recentStickers) {
                             cell.setText(LocaleController.getString(R.string.RecentStickers), R.drawable.msg_close, LocaleController.getString(R.string.ClearRecentStickersAlertTitle));
+                            if (NekoConfig.minimizedStickerCreator) {
+                                cell.setCreate(v -> {
+                                    if (fragment instanceof ChatActivity) {
+                                        ((ChatActivity) fragment).openAttachMenuForCreatingSticker();
+                                    }
+                                }, v -> {
+                                    NekoConfig.toggleMinimizedStickerCreator();
+                                    checkDocuments(false);
+                                    return true;
+                                });
+                            }
                         } else if (object == favouriteStickers) {
                             cell.setText(LocaleController.getString(R.string.FavoriteStickers), 0);
                         } else if (object == premiumStickers) {

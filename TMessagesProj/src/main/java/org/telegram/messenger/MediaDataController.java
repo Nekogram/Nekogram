@@ -906,7 +906,7 @@ public class MediaDataController extends BaseController {
             return new ArrayList<>(recentStickers[type]);
         }
         ArrayList<TLRPC.Document> result = new ArrayList<>(arrayList.subList(0, Math.min(arrayList.size(), NekoConfig.maxRecentStickers)));
-        if (firstEmpty && !result.isEmpty() && !StickersAlert.DISABLE_STICKER_EDITOR) {
+        if (firstEmpty && !result.isEmpty() && !StickersAlert.DISABLE_STICKER_EDITOR && !NekoConfig.minimizedStickerCreator) {
             result.add(0, new TLRPC.TL_documentEmpty());
         }
         return result;
