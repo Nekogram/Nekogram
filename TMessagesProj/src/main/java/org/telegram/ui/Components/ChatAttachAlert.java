@@ -5169,6 +5169,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 pollsEnabled = UserObject.isBot(user) || UserObject.isUserSelf(user);
                 todoEnabled = true;
             }
+            todoEnabled = todoEnabled && UserConfig.getInstance(currentAccount).isPremium();
         }
         if (!(baseFragment instanceof ChatActivity && avatarPicker != 2)) {
             commentTextView.setVisibility(allowEnterCaption ? View.VISIBLE : View.INVISIBLE);
