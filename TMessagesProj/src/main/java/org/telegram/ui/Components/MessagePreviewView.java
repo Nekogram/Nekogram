@@ -1762,7 +1762,7 @@ public class MessagePreviewView extends FrameLayout {
 
         viewPager = new ViewPagerFixed(context, resourcesProvider) {
             @Override
-            protected void onTabAnimationUpdate(boolean manual) {
+            public void onTabAnimationUpdate(boolean manual) {
                 MessagePreviewView.this.tabsView.setSelectedTab(viewPager.getPositionAnimated());
 
                 if (viewPages[0] instanceof Page) {
@@ -1950,7 +1950,7 @@ public class MessagePreviewView extends FrameLayout {
 
     }
 
-    private static class TabsView extends View {
+    public static class TabsView extends View {
         private static class Tab {
             final int id;
             final Text text;
@@ -1996,6 +1996,10 @@ public class MessagePreviewView extends FrameLayout {
                 selectedColor = Theme.adaptHue(0xe5434e3b, wallpaperColor);
                 bgPaint.setColor(Theme.adaptHue(0x30939C78, wallpaperColor));
             }
+        }
+
+        public int getColor() {
+            return color;
         }
 
         public boolean containsTab(int id) {

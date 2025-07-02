@@ -106,7 +106,7 @@ public class WearReplyReceiver extends BroadcastReceiver {
                 }
                 infos.add(info);
             }
-            SendMessagesHelper.prepareSendingMedia(accountInstance, infos, dialog_id, replyToMsgId, replyToTopMsgId, null, null, false, images.size() > 1, null, true, 0, 0, false, null, null, 0, 0, false, 0, 0);
+            SendMessagesHelper.prepareSendingMedia(accountInstance, infos, dialog_id, replyToMsgId, replyToTopMsgId, null, null, false, images.size() > 1, null, true, 0, 0, false, null, null, 0, 0, false, 0, 0, null);
         }
         //TODO handle topics
         if (topicId == 0) {
