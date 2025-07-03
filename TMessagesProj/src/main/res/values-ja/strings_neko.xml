@@ -30,8 +30,8 @@
     <string name="Christmas">クリスマス</string>
     <string name="Valentine">バレンタイン</string>
     <string name="DeleteDownloadedFile">ダウンロードしたファイルを削除</string>
-    <string name="TestBackendOn">このアカウントは、テストバックエンドに接続します。</string>
-    <string name="TestBackendOff">このアカウントは、本番バックエンドに接続します。</string>
+    <string name="TestBackendOn">このアカウントはテストバックエンドに接続します。</string>
+    <string name="TestBackendOff">このアカウントは本番バックエンドに接続します。</string>
     <string name="ViewHistory">履歴を表示</string>
     <string name="Nya">にゃ!</string>
     <string name="StickerSize">ステッカーのサイズ</string>
@@ -170,8 +170,8 @@
     <string name="SaveToDownloadCount_few">%1$d個のファイルを「ダウンロード」フォルダに保存しています</string>
     <string name="SaveToDownloadCount_many">%1$d個のファイルを「ダウンロード」フォルダに保存しています</string>
     <string name="SaveToDownloadCount_other">%1$d個のファイルを「ダウンロード」フォルダに保存しています</string>
-    <string name="AppLinkNotVerifiedMessage">Android 12以降では、Nekogramでt.meのリンクを開くには、確認済みリンクにリンクを手動で追加する必要があります。</string>
-    <string name="AppLinkNotVerifiedTitle">アプリのリンクが確認されていません</string>
+    <string name="AppLinkNotVerifiedMessage">Android 12以降では、Nekogramでt.meのリンクを開くには、[設定] → [アプリ] → [Nekogram] → [デフォルトで開く] → [リンクを追加] で手動でリンクを追加する必要があります。</string>
+    <string name="AppLinkNotVerifiedTitle">アプリのリンクが検証されていません</string>
     <string name="AutoTranslate">自動翻訳</string>
     <string name="AutoTranslateAbout">他の言語のメッセージを自動的に翻訳します。</string>
     <string name="DoubleTapAction">ダブルタップ時の動作</string>

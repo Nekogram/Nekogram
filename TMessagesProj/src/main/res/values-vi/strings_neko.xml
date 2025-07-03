@@ -94,7 +94,7 @@
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Định dạng thời gian bằng giây</string>
     <string name="JumpToBeginning">Di chuyển đến đầu trang</string>
-    <string name="ProviderDeepLTranslate">Dịch DeepL</string>
+    <string name="ProviderDeepLTranslate">DeepL Dịch</string>
     <string name="Halloween">Halloween</string>
     <string name="CheckUpdate"> Kiểm tra cập nhật</string>
     <string name="LastUpdateFormatted">Đã kiểm tra thành công lần cuối %1$s.</string>
@@ -117,8 +117,6 @@
     <string name="RegistrationDateNewer">Mới hơn %s</string>
     <string name="RegistrationDateOlder">Cũ hơn %s</string>
     <string name="RegistrationDateApproximately">Khoảng %s</string>
-    <string name="WsEnableTls">Kích hoạt TLS</string>
-    <string name="WsProvider">Nhà cung cấp</string>
     <string name="UpdateNekogram">Cập nhật Nekogram</string>
     <string name="TranslationTarget">Ngôn ngữ chỉ định</string>
     <string name="TranslationTargetApp">Dựa theo ứng dụng</string>
@@ -157,6 +155,7 @@
     <string name="QRLoginTitle">Đăng nhập QR</string>
     <string name="NoTranslatorAppInstalled">Bạn không có ứng dụng có thể xử lý ý định dịch, vui lòng cài đặt một ứng dụng để tiếp tục</string>
     <string name="DisableVoiceMessagesAutoPlay">Vô hiệu hóa tự động phát tin nhắn thoại</string>
+    <string name="UnmuteVideosWithVolumeButtons">Bỏ tắt tiếng video bằng nút âm lượng</string>
     <string name="TranslatorType">Kiểu</string>
     <string name="TranslatorTypeNeko">Trong tin nhắn</string>
     <string name="TranslatorTypeTG">Hộp thoại bật lên</string>
@@ -240,9 +239,9 @@
     <string name="DownloadEmojiSet">Tải xuống%s</string>
     <string name="EmojiSets">Bộ Emoji</string>
     <string name="MyEmojiSets">Bộ Emoji của tôi</string>
-    <string name="InstalledEmojiSet">Tải về</string>
-    <string name="InstallingEmojiSet">Đang tải…</string>
-    <string name="UpdateEmojiSet">Cập nhật%s</string>
+    <string name="InstalledEmojiSet">Đã cài đặt</string>
+    <string name="InstallingEmojiSet">Đang cài đặt…</string>
+    <string name="UpdateEmojiSet">Cập nhật %s</string>
     <string name="EmojiSetHint">Điều này ảnh hưởng đến sự xuất hiện biểu tượng cảm xúc chỉ dành cho bạn. Những người khác nhìn thấy chúng dựa trên sở thích của họ.</string>
     <string name="CustomEmojiSetHint">Nhập và chọn bộ biểu tượng cảm xúc từ bộ nhớ trong của bạn.</string>
     <string name="AddEmojiSet">Thêm bộ biểu tượng cảm xúc</string>
@@ -265,11 +264,11 @@
     <string name="SendLargePhotos">Gửi ảnh lớn</string>
     <string name="SendLargePhotosAbout">Tăng giới hạn bên trên hình ảnh nén lên 2560px.</string>
     <string name="ExportAsJson">Sao chép dưới dạng JSON</string>
-    <string name="ViewAsJson">Việt Nam</string>
+    <string name="ViewAsJson">Xem dưới dạng JSON</string>
     <string name="HideStories">Ẩn Câu Chuyện</string>
-    <string name="QuickForward"></string>
+    <string name="QuickForward">Sử dụng menu chuyển tiếp nhanh</string>
     <string name="DidNotGetTheCodeBlameDurov">Nếu bạn không nhận được mã trên thiết bị khác hoặc bạn chưa đăng nhập Telegram trên thiết bị khác, vui lòng sử dụng ứng dụng Telegram chính thức để nhận mã.\n\nTelegram đã **tắt khả năng đăng nhập bằng SMS ** trên ứng dụng của bên thứ ba. Người dùng đăng nhập vào ứng dụng của bên thứ ba chỉ có thể nhận mã đăng nhập qua Telegram.\n\nChúng tôi không thể giúp bạn vấn đề này, nếu bạn gặp bất kỳ vấn đề nào khi đăng nhập, vui lòng liên hệ với Bộ phận hỗ trợ của Telegram.</string>
-    <string name="ChangePhoneNumberBlameDurov">Telegram đã ** loại bỏ tính năng thay đổi số điện thoại ** trên các ứng dụng thứ ba. Người dùng chỉ có thể thay đổi số điện thoại qua ứng dụng Telegram chính thức</string>
+    <string name="ChangePhoneNumberBlameDurov">Telegram đã **vô hiệu hoá khả năng thay đổi số điện thoại** trên các ứng dụng thứ ba. Người dùng chỉ có thể thay đổi số điện thoại qua ứng dụng Telegram chính thức.</string>
     <string name="NavigationAnimation">Hoạt ảnh điều hướng</string>
     <string name="NavigationAnimationBezier">Cổ điển</string>
     <string name="NavigationAnimationSpring">Tự nhiên</string>
@@ -301,13 +300,19 @@
     <string name="Cryptocurrency">Đơn vị tiền tệ Crypto</string>
     <string name="TranscribeProviderShort">Nhà cung cấp dịch vụ</string>
     <string name="TranscribeProviderAuto">Tự động chọn</string>
-    <string name="TranscribeProviderWorkersAI">Thì thầm ( sử dụng AI )</string>
+    <string name="TranscribeProviderWorkersAI">Whisper (Workers AI)</string>
     <string name="TranscribeProviderDesc">Với tính năng tự động chọn, %s sẽ được sử dụng khi không có Telegram Premium.</string>
     <string name="CloudflareCredentials">Chứng nhận của Cloudflare</string>
     <string name="CloudflareCredentialsNotSet">Chứng nhận của Cloudflare chưa được thiết lập</string>
     <string name="CloudflareAccountID">ID tài khoản</string>
     <string name="CloudflareAPIToken">Mã API</string>
     <string name="CloudflareCredentialsDialog">ID tài khoản Cloudflare và mã API chưa được thiết lập. \n**Làm cách nào để thiết lập? **</string>
+    <string name="PreferOriginalQuality">Ưu tiên chất lượng gốc</string>
+    <string name="PreferOriginalQualityDesc">Xem video với chất lượng gốc.</string>
+    <string name="AutoInlineBot">Bot tự động nội tuyến</string>
+    <string name="AutoInlineBotDesc">Truy vấn bot bằng cách dựa trên cú pháp tin nhắn.</string>
+    <string name="ShortStandardQuality">Chất lượng cơ bản, ngắn gọn</string>
+    <string name="ForceFontWeightFallback">Buộc kiểu chữ sử dụng độ đậm mặc định</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Cài đặt trợ năng</string>
 </resources>
