@@ -30,6 +30,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.TranslateAlert2;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.concurrent.Callable;
@@ -137,13 +138,13 @@ public class Translator {
     }
 
     public static void saveRestrictedLanguages(List<String> restrictedLanguages) {
-        var currentTargetLanguage = getCurrentTargetLanguage();
+        var currentTargetLanguage = stripLanguageCode(getCurrentTargetLanguage());
         var languages = restrictedLanguages.stream().filter(s -> !s.equals(currentTargetLanguage)).collect(Collectors.toSet());
         if (!restrictedLanguages.isEmpty() && languages.isEmpty()) {
             NekoConfig.saveRestrictedLanguages(null);
             return;
         }
-        NekoConfig.saveRestrictedLanguages(languages);
+        NekoConfig.saveRestrictedLanguages(new HashSet<>(restrictedLanguages));
     }
 
     public static Pair<ArrayList<String>, ArrayList<String>> getProviders() {
