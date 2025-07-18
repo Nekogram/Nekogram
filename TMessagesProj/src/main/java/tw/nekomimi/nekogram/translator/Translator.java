@@ -388,7 +388,7 @@ public class Translator {
             FutureCallback<Pair<TranslateController.PollText, String>> {
 
         @Override
-        public Pair<TranslateController.PollText, String> call() {
+        public Pair<TranslateController.PollText, String> call() throws Exception {
             var translated = new TranslateController.PollText();
             String sourceLanguage = null;
             if (query.question != null) {
@@ -432,7 +432,7 @@ public class Translator {
                                  TranslateCallBack translateCallBack) implements Callable<Result>, FutureCallback<Result> {
 
         @Override
-        public Result call() {
+        public Result call() throws Exception {
             var key = Pair.create(query, tl + "|" + NekoConfig.translationProvider);
             var cached = cache.get(key);
             if (cached != null) {

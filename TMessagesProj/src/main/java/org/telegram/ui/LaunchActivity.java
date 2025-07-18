@@ -1256,14 +1256,6 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         FloatingDebugController.setActive(this, SharedConfig.isFloatingDebugActive, false);
     }
 
-    public void addOnUserLeaveHintListener(Runnable callback) {
-        onUserLeaveHintListeners.add(callback);
-    }
-
-    public void removeOnUserLeaveHintListener(Runnable callback) {
-        onUserLeaveHintListeners.remove(callback);
-    }
-
     private BaseFragment getClientNotActivatedFragment() {
         if (LoginActivity.loadCurrentState(false, currentAccount).getInt("currentViewNum", 0) != 0) {
             return new LoginActivity();
