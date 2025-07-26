@@ -214,6 +214,23 @@ public class UserHelper extends BaseController {
         return String.format(Locale.US, "DC%d %s, %s", dc, UserHelper.getDCName(dc), UserHelper.getDCLocation(dc));
     }
 
+    public static long getOwnerFromStickerSetId(long id) {
+        var ownerId = id >> 32;
+        //long seqByOwner = id & 0xffff;
+        var extByte = (id >> 24) & 0xff;
+        // (ownerId < int 32) => 0x00
+        // (ownerId > int 32) (int 64) => 0x7f (old) or 0x3f (current)
+        var sepByte = (id >> 16) & 0xff;
+        if (sepByte == 0x3f) { // elif sepByte == 0x7f nothing needs to be done here.
+            ownerId |= 0x80000000L;
+        }
+        if (extByte != 0) {
+            //seqByOwner = 0x10000 - seqByOwner;
+            ownerId += 0x100000000L;
+        }
+        return ownerId;
+    }
+
     public interface BotInfo {
         long getId();
 

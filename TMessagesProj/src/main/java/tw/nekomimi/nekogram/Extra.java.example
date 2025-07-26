@@ -2,8 +2,6 @@ package tw.nekomimi.nekogram;
 
 import org.telegram.messenger.BuildConfig;
 
-import java.util.function.BiConsumer;
-
 import tw.nekomimi.nekogram.helpers.UserHelper;
 
 public class Extra {
@@ -25,14 +23,6 @@ public class Extra {
 
     public static boolean isDirectApp() {
         return "release".equals(BuildConfig.BUILD_TYPE) || "debug".equals(BuildConfig.BUILD_TYPE);
-    }
-
-    public static long getOwnerFromStickerSetId(long id) {
-        return 0;
-    }
-
-    public static void getRegDate(long userId, BiConsumer<Integer, String> callback) {
-
     }
 
     public static UserHelper.BotInfo getHelperBot() {

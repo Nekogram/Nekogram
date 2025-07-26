@@ -145,7 +145,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                         fileName = attribute.file_name;
                     }
                     if (attribute instanceof TLRPC.TL_documentAttributeSticker) {
-                        stickerSetOwner = Extra.getOwnerFromStickerSetId(attribute.stickerset.id);
+                        stickerSetOwner = UserHelper.getOwnerFromStickerSetId(attribute.stickerset.id);
                     }
                     if (attribute instanceof TLRPC.TL_documentAttributeImageSize ||
                             attribute instanceof TLRPC.TL_documentAttributeVideo) {
@@ -165,7 +165,7 @@ public class MessageDetailsActivity extends BaseNekoSettingsActivity implements 
                     if (stickerSet == null) {
                         continue;
                     }
-                    long owner = Extra.getOwnerFromStickerSetId(stickerSet.id);
+                    long owner = UserHelper.getOwnerFromStickerSetId(stickerSet.id);
                     if (owner != 0 && !emojiSetOwners.contains(owner)) {
                         emojiSetOwners.add(owner);
                     }
