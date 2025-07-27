@@ -3163,6 +3163,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     final int top;
                     if (videoTimelineViewContainer != null && videoTimelineViewContainer.getVisibility() == VISIBLE) {
                         top = videoTimelineViewContainer.getTop();
+                    } else if (!captionAbove && captionEdit != null && captionEdit.getVisibility() == VISIBLE) {
+                        top = pickerView.getTop() - dp(56);
                     } else {
                         top = pickerView.getTop();
                     }
@@ -14838,7 +14840,17 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             mirrorItem.setVisibility(View.GONE);
                             mirrorItem.setTag(null);
                             AndroidUtilities.updateViewVisibilityAnimated(muteButton, false, 1f, animated);
-                            AndroidUtilities.updateViewVisibilityAnimated(editCoverButton, false, 1f, animated);
+                            if (isDocumentsPicker) {
+                                AndroidUtilities.updateViewVisibilityAnimated(editCoverButton, false, 1f, animated);
+                            } else {
+                                AndroidUtilities.updateViewVisibilityAnimated(muteButton, true, 1f, animated);
+                                AndroidUtilities.updateViewVisibilityAnimated(editCoverButton, parentChatActivity != null && (UserObject.isUserSelf(parentChatActivity.getCurrentUser()) || ChatObject.isChannelAndNotMegaGroup(parentChatActivity.getCurrentChat()) && (duration >= 20 || coverPhoto != null || coverPath != null)), 1f, animated);
+                                if (coverPhoto != null) {
+                                    editCoverButton.setImage(coverPhoto, coverPhotoObject);
+                                } else {
+                                    editCoverButton.setImage(coverPath);
+                                }
+                            }
                             compressItem.setVisibility(compressQuality == -2 ? View.VISIBLE : View.GONE);
                         } else {
                             showVideoTimeline(true, animated);
