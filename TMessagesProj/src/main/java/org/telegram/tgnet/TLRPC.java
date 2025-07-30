@@ -11477,6 +11477,7 @@ public class TLRPC {
                     }
                 }
             }
+            ConfigHelper.overrideChatFull(result);
             return result;
         }
     }

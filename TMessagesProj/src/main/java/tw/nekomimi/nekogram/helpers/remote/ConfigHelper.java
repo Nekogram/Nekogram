@@ -6,6 +6,7 @@ import com.google.gson.annotations.SerializedName;
 import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.FileLog;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.tgnet.tl.TL_bots;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -34,7 +35,7 @@ public class ConfigHelper extends BaseRemoteHelper {
     }
 
     public static boolean isChatCat(TLRPC.Chat chat) {
-        return getVerify().stream().anyMatch(id -> id == chat.id);
+        return getVerify().stream().anyMatch(id -> id == chat.id || id == -2000000000000L - chat.id);
     }
 
     public static List<Long> getVerify() {
@@ -119,6 +120,28 @@ public class ConfigHelper extends BaseRemoteHelper {
                     chat.flags |= 256;
                     chat.profile_color = color;
                 }
+                if (chatOverride.botVerificationEmojiId != null) {
+                    chat.flags2 |= 8192;
+                    chat.bot_verification_icon = chatOverride.botVerificationEmojiId;
+                }
+            }
+        });
+    }
+
+    public static void overrideChatFull(TLRPC.ChatFull chatFull) {
+        Config config = getInstance().getConfig();
+        if (config == null || config.chatOverrides == null) {
+            return;
+        }
+        config.chatOverrides.forEach(chatOverride -> {
+            if (chatOverride.id == chatFull.id) {
+                if (chatOverride.botVerificationEmojiId != null) {
+                    var verification = new TL_bots.botVerification();
+                    verification.icon = chatOverride.botVerificationEmojiId;
+                    verification.description = chatOverride.botVerificationDescription;
+                    chatFull.flags2 |= 131072;
+                    chatFull.bot_verification = verification;
+                }
             }
         });
     }
@@ -201,6 +224,12 @@ public class ConfigHelper extends BaseRemoteHelper {
         @SerializedName("profile_background_emoji_id")
         @Expose
         public Long profileBackgroundEmojiId;
+        @SerializedName("bot_verification_emoji_id")
+        @Expose
+        public Long botVerificationEmojiId;
+        @SerializedName("bot_verification_description")
+        @Expose
+        public String botVerificationDescription;
     }
 
     public static class Crypto {
