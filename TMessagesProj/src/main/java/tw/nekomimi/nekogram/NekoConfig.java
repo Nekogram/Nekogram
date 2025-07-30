@@ -3,6 +3,7 @@ package tw.nekomimi.nekogram;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -184,7 +185,7 @@ public class NekoConfig {
             ignoreBlocked = preferences.getBoolean("ignoreBlocked2", false);
             tabletMode = preferences.getInt("tabletMode", TABLET_AUTO);
             nameOrder = preferences.getInt("nameOrder", 1);
-            residentNotification = preferences.getBoolean("residentNotification", false);
+            residentNotification = Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM && preferences.getBoolean("residentNotification", false);
             showAddToSavedMessages = preferences.getBoolean("showAddToSavedMessages", true);
             showSetReminder = preferences.getBoolean("showSetReminder", false);
             showReport = preferences.getBoolean("showReport", false);
