@@ -80,7 +80,8 @@ android {
     }
 
     splits.abi {
-        enable true
+        var buildingBundle = gradle.startParameter.taskNames.any { it.startsWith("bundle") }
+        enable !buildingBundle
         universalApk true
 
         reset()
