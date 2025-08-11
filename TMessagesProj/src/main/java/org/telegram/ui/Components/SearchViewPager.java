@@ -1411,7 +1411,9 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             }
             items.add(new Item(CHANNELS_TYPE));
             items.add(new Item(BOTS_TYPE));
-            items.add(new Item(POSTS_TYPE));
+            if (UserConfig.getInstance(currentAccount).isPremium()) {
+                items.add(new Item(POSTS_TYPE));
+            }
             if (!showOnlyDialogsAdapter) {
                 Item item = new Item(FILTER_TYPE);
                 item.filterIndex = 0;
@@ -1520,7 +1522,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             if (items.get(position).type == POSTS_TYPE) {
                 return 6;
             }
-            return items.get(position).type + position;
+            return 10 + position;
         }
 
         @Override
