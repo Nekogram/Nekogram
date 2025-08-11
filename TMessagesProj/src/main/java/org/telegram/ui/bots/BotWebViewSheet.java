@@ -537,6 +537,7 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                 invalidate();
             }
         };
+        webViewContainer.setOnVerifiedAge(onVerifiedAge);
         webViewContainer.setDelegate(new BotWebViewContainer.Delegate() {
             private boolean sentWebViewData;
 
@@ -1344,6 +1345,14 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         return false;
     }
 
+    private Utilities.Callback4<Boolean, Double, String, Double> onVerifiedAge;
+    public void setOnVerifiedAge(Utilities.Callback4<Boolean, Double, String, Double> callback) {
+        onVerifiedAge = callback;
+        if (webViewContainer != null) {
+            webViewContainer.setOnVerifiedAge(onVerifiedAge);
+        }
+    }
+
     Drawable verifiedDrawable;
 
     public void requestWebView(BaseFragment fragment, WebViewRequestProps props) {
@@ -1437,7 +1446,9 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             }
         }
 
-        menu.addItem(R.id.menu_collapse_bot, R.drawable.arrow_more);
+        if (onVerifiedAge == null) {
+            menu.addItem(R.id.menu_collapse_bot, R.drawable.arrow_more);
+        }
         optionsItem = menu.addItem(0, optionsIcon = new BotFullscreenButtons.OptionsIcon(getContext()));
         optionsItem.setOnClickListener(v -> {
             openOptions();
@@ -1673,13 +1684,13 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
             o.addGap();
         }
         o
-            .addIf(!WebAppHelper.isInternalBot(requestProps), R.drawable.msg_bot, LocaleController.getString(R.string.BotWebViewOpenBot), () -> {
+            .addIf(onVerifiedAge == null && !WebAppHelper.isInternalBot(requestProps), R.drawable.msg_bot, LocaleController.getString(R.string.BotWebViewOpenBot), () -> {
                 if (parentActivity instanceof LaunchActivity) {
                     ((LaunchActivity) parentActivity).presentFragment(ChatActivity.of(botId));
                 }
                 dismiss(true);
             })
-            .addIf(hasSettings, R.drawable.msg_settings, LocaleController.getString(R.string.BotWebViewSettings), () -> {
+            .addIf(onVerifiedAge == null && hasSettings, R.drawable.msg_settings, LocaleController.getString(R.string.BotWebViewSettings), () -> {
                 webViewContainer.onSettingsButtonPressed();
             })
             .add(R.drawable.msg_retry, LocaleController.getString(R.string.BotWebViewReloadPage), () -> {
@@ -1702,13 +1713,13 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
                     showBulletin(bulletinFactory -> bulletinFactory.createCopyBulletin(LocaleController.getString(R.string.TextCopied)));
                 }
             })
-            .addIf(!WebAppHelper.isInternalBot(requestProps) && userbot != null && userbot.bot_has_main_app, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut), () -> {
+            .addIf(onVerifiedAge == null && !WebAppHelper.isInternalBot(requestProps) && userbot != null && userbot.bot_has_main_app, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut), () -> {
                 MediaDataController.getInstance(currentAccount).installShortcut(botId, MediaDataController.SHORTCUT_TYPE_ATTACHED_BOT);
             })
-            .addIf(!WebAppHelper.isInternalBot(requestProps), R.drawable.menu_intro, LocaleController.getString(R.string.BotWebViewToS), () -> {
+            .addIf(onVerifiedAge == null && !WebAppHelper.isInternalBot(requestProps), R.drawable.menu_intro, LocaleController.getString(R.string.BotWebViewToS), () -> {
                 Browser.openUrl(getContext(), LocaleController.getString(R.string.BotWebViewToSLink));
             })
-            .addIf(currentBot != null && (currentBot.show_in_side_menu || currentBot.show_in_attach_menu), R.drawable.msg_delete, LocaleController.getString(R.string.BotWebViewDeleteBot), () -> {
+            .addIf(onVerifiedAge == null && currentBot != null && (currentBot.show_in_side_menu || currentBot.show_in_attach_menu), R.drawable.msg_delete, LocaleController.getString(R.string.BotWebViewDeleteBot), () -> {
                 deleteBot(currentAccount, botId, () -> dismiss());
             });
 
@@ -2041,6 +2052,10 @@ public class BotWebViewSheet extends Dialog implements NotificationCenter.Notifi
         if (dismissed) {
             return;
         }
+        if (onVerifiedAge != null) {
+            intoTabs = false;
+        }
+
         dismissed = true;
         setOpen(false);
         AndroidUtilities.cancelRunOnUIThread(pollRunnable);

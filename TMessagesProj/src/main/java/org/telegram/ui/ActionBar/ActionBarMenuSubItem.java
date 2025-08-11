@@ -22,11 +22,11 @@ import android.widget.TextView;
 
 import androidx.core.graphics.ColorUtils;
 
-import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.ui.Components.AnimatedEmojiSpan;
-import org.telegram.ui.Components.AnimatedTextView;
+import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.CheckBox2;
 import org.telegram.ui.Components.Easings;
 import org.telegram.ui.Components.CubicBezierInterpolator;
@@ -42,6 +42,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
     public boolean checkViewLeft;
     public CheckBox2 checkView;
     private ImageView rightIcon;
+    private BackupImageView backupImageView;
 
     private int textColor;
     private int iconColor;
@@ -186,7 +187,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
             rightIcon.setVisibility(View.VISIBLE);
             rightIcon.setImageResource(icon);
             if (listener != null) {
-                rightIcon.getLayoutParams().width = AndroidUtilities.dp(40);
+                rightIcon.getLayoutParams().width = dp(40);
                 rightIcon.setOnClickListener(listener);
                 rightIcon.setBackground(Theme.createRadSelectorDrawable(selectorColor, 6, 0, 0, 6));
             }
@@ -231,6 +232,18 @@ public class ActionBarMenuSubItem extends FrameLayout {
             imageView.setVisibility(INVISIBLE);
             textView.setPadding(0, 0, 0, 0);
         }
+    }
+
+    public void setTextAndIcon(CharSequence text, ImageLocation imageLocation, String imageFilter, Drawable thumb, Object parentObject) {
+        textView.setText(text);
+        textView.setPadding(checkViewLeft ? (checkView != null ? dp(43) : 0) : dp(43), 0, checkViewLeft ? dp(43) : (checkView != null ? dp(43) : 0), 0);
+        if (backupImageView == null) {
+            backupImageView = new BackupImageView(getContext());
+            backupImageView.setRoundRadius(dp(5));
+            addView(backupImageView, LayoutHelper.createFrame(28, 28, Gravity.CENTER_VERTICAL | (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT)));
+        }
+        imageView.setVisibility(INVISIBLE);
+        backupImageView.setImage(imageLocation, imageFilter, thumb, parentObject);
     }
 
     public ActionBarMenuSubItem setColors(int textColor, int iconColor) {
@@ -343,7 +356,7 @@ public class ActionBarMenuSubItem extends FrameLayout {
             subtextView = new TextViewSwitcher(getContext()) {
                 @Override
                 protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-                    super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(AndroidUtilities.dp(100), MeasureSpec.AT_MOST));
+                    super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(dp(100), MeasureSpec.AT_MOST));
                 }
             };
             subtextView.setFactory(() -> {
