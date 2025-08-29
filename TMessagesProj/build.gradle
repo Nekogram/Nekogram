@@ -13,8 +13,8 @@ configurations.configureEach {
 }
 
 dependencies {
-    implementation 'androidx.fragment:fragment:1.8.8'
-    implementation 'androidx.core:core:1.16.0'
+    implementation 'androidx.fragment:fragment:1.8.9'
+    implementation 'androidx.core:core:1.17.0'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.exifinterface:exifinterface:1.4.1'
     implementation 'androidx.dynamicanimation:dynamicanimation:1.1.0'

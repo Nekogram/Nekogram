@@ -145,7 +145,7 @@ void custom_log(void *ptr, int level, const char* fmt, va_list vl){
     av_log_format_line(ptr, level, fmt, vl2, line, sizeof(line), &print_prefix);
     va_end(vl2);
 
-    LOGE(line);
+    LOGE("%s", line);
 }
 
 static enum AVPixelFormat get_format(AVCodecContext *ctx,
