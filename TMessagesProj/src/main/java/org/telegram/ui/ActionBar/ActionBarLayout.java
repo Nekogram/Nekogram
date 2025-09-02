@@ -2477,6 +2477,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         }
         previousFragment.attachSheets(containerView);
         previousFragment.onResume();
+        previousFragment.onBecomeFullyVisible();
         currentActionBar = previousFragment.actionBar;
         if (!previousFragment.hasOwnBackground && fragmentView.getBackground() == null) {
             fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
