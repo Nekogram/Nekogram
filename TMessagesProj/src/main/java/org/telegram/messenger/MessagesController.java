@@ -21139,13 +21139,13 @@ public class MessagesController extends BaseController implements NotificationCe
             reason = getRestrictionReason(chat.restriction_reason);
         } else {
             reason = getRestrictionReason(user.restriction_reason);
-            if (type != 3 && user.bot) {
+            /*if (type != 3 && user.bot) {
                 type = 1;
                 BaseFragment lastFragment = LaunchActivity.getLastFragment();
                 if (lastFragment.getLastStoryViewer() == null) {
                     closeLast = true;
                 }
-            }
+            }*/
         }
         boolean doNotCloseLast = false;
         if (LaunchActivity.getLastFragment() instanceof DialogsActivity) {

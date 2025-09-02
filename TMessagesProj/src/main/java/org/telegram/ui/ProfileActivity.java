@@ -6969,7 +6969,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (!getMessagesController().checkCanOpenChat(args, ProfileActivity.this)) {
                     return;
                 }
-                boolean removeFragment = arguments.getBoolean("removeFragmentOnChatOpen", true);
+                boolean removeFragment = arguments.getBoolean("removeFragmentOnChatOpen", false);
                 if (!AndroidUtilities.isTablet() && removeFragment) {
                     getNotificationCenter().removeObserver(ProfileActivity.this, NotificationCenter.closeChats);
                     getNotificationCenter().postNotificationName(NotificationCenter.closeChats);
