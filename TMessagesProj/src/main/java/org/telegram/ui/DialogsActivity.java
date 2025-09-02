@@ -3191,7 +3191,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 if (searchViewPager != null) {
                     searchViewPager.onShown();
                 }
-                if ((searchViewPager != null && searchViewPager.dialogsSearchAdapter != null && searchViewPager.dialogsSearchAdapter.hasRecentSearch()) || getMessagesController().getTotalDialogsCount() > 10 || searchFiltersWasShowed || hasStories) {
+                if (true || (searchViewPager != null && searchViewPager.dialogsSearchAdapter != null && searchViewPager.dialogsSearchAdapter.hasRecentSearch()) || getMessagesController().getTotalDialogsCount() > 10 || searchFiltersWasShowed || hasStories) {
                     searchWas = true;
                     if (!searchIsShowed) {
                         showSearch(true, false, true);
