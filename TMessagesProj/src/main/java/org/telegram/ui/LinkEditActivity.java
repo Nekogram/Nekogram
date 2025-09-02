@@ -52,6 +52,7 @@ import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.AlertsCreator;
 import org.telegram.ui.Components.CubicBezierInterpolator;
+import org.telegram.ui.Components.EditTextBoldCursor;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.SizeNotifierFrameLayout;
 import org.telegram.ui.Components.SlideChooseView;
@@ -500,7 +501,7 @@ public class LinkEditActivity extends BaseFragment {
         resetUses();
         linearLayout.addView(usesChooseView);
 
-        usesEditText = new EditText(context) {
+        usesEditText = new EditTextBoldCursor(context) {
             @Override
             public boolean onTouchEvent(MotionEvent event) {
                 if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -555,7 +556,7 @@ public class LinkEditActivity extends BaseFragment {
         dividerUses.setText(getString(R.string.UsesLimitHelp));
         linearLayout.addView(dividerUses);
 
-        nameEditText = new EditText(context) {
+        nameEditText = new EditTextBoldCursor(context) {
             @SuppressLint("ClickableViewAccessibility")
             @Override
             public boolean onTouchEvent(MotionEvent event) {

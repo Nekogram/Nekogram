@@ -61,4 +61,8 @@ public class SimpleTextViewSwitcher extends ViewSwitcher {
     public CharSequence getText() {
         return getCurrentView().getText();
     }
+
+    public float getExactWidth() {
+        return getCurrentView().getExactWidth();
+    }
 }

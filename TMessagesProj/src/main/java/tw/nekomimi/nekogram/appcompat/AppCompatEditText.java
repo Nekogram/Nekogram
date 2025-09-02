@@ -37,6 +37,8 @@ import androidx.core.view.inputmethod.EditorInfoCompat;
 import androidx.core.view.inputmethod.InputConnectionCompat;
 import androidx.core.widget.TextViewOnReceiveContentListener;
 
+import org.telegram.messenger.XiaomiUtilities;
+
 @SuppressLint("RestrictedApi")
 public class AppCompatEditText extends EditText implements OnReceiveContentViewBehavior {
 
@@ -45,6 +47,9 @@ public class AppCompatEditText extends EditText implements OnReceiveContentViewB
     public AppCompatEditText(@NonNull Context context) {
         super(context);
         mDefaultOnReceiveContentListener = new TextViewOnReceiveContentListener();
+        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.VANILLA_ICE_CREAM && XiaomiUtilities.isOS2()) {
+            setLocalePreferredLineHeightForMinimumUsed(false);
+        }
     }
 
     /**

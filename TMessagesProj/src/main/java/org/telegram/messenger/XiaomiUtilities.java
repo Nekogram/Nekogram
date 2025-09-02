@@ -39,6 +39,14 @@ public class XiaomiUtilities {
 		return !TextUtils.isEmpty(AndroidUtilities.getSystemProperty("ro.miui.ui.version.name"));
 	}
 
+	private static Boolean isOS2;
+	public static boolean isOS2() {
+		if (isOS2 == null) {
+			isOS2 = "2".equals(AndroidUtilities.getSystemProperty("ro.mi.os.version.code"));
+		}
+		return isOS2;
+	}
+
 	@SuppressWarnings("JavaReflectionMemberAccess")
 	@TargetApi(19)
 	public static boolean isCustomPermissionGranted(int permission) {
