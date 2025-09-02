@@ -2420,7 +2420,7 @@ public class MessageObject {
             }
             TLRPC.TL_chatBannedRights o = action.prev_participant.banned_rights;
             TLRPC.TL_chatBannedRights n = action.new_participant.banned_rights;
-            if (chat.megagroup && (n == null || !n.view_messages || o != null && n.until_date != o.until_date)) {
+            if (chat.megagroup && (o == null || n == null || !n.view_messages || o != null && n.until_date != o.until_date)) {
                 StringBuilder rights;
                 StringBuilder bannedDuration;
                 if (n != null && !AndroidUtilities.isBannedForever(n)) {
