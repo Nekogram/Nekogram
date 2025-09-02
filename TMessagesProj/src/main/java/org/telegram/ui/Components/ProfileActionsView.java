@@ -400,6 +400,7 @@ public class ProfileActionsView extends View {
             action.drawable.draw(canvas);
         }
 
+        drawRipple(canvas, action, alpha);
         canvas.restore();
         drawLoading(canvas, action, alpha);
     }
@@ -437,6 +438,13 @@ public class ProfileActionsView extends View {
         }
     }
 
+    private void drawRipple(Canvas canvas, Action action, float alpha) {
+        action.rect.round(AndroidUtilities.rectTmp2);
+        action.rippleDrawable.setBounds(AndroidUtilities.rectTmp2);
+        action.rippleDrawable.setAlpha((int) (0xFF * alpha));
+        action.rippleDrawable.draw(canvas);
+    }
+
     public float getRoundRadius() {
         return dp(8);
     }
@@ -466,6 +474,8 @@ public class ProfileActionsView extends View {
                     downY = y;
                     downTime = System.currentTimeMillis();
                     hit.bounce.setPressed(true);
+                    hit.rippleDrawable.setHotspot(x, y);
+                    hit.rippleDrawable.setState(new int[]{android.R.attr.state_enabled, android.R.attr.state_pressed});
 //                    try {
 //                        performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_VIEW_SETTING);
 //                    } catch (Exception ignore) {}
@@ -476,12 +486,14 @@ public class ProfileActionsView extends View {
             if (hit != null) {
                 if (Math.abs(x - downX) > 20 || Math.abs(y - downY) > 20) {
                     hit.bounce.setPressed(false);
+                    hit.rippleDrawable.setState(new int[]{});
                     hit = null;
                 }
             }
         } else if (eventAction == MotionEvent.ACTION_UP || eventAction == MotionEvent.ACTION_CANCEL) {
             if (hit != null) {
                 hit.bounce.setPressed(false);
+                hit.rippleDrawable.setState(new int[]{});
                 if (eventAction == MotionEvent.ACTION_UP && hit.rect.contains(x, y)) {
                     if (System.currentTimeMillis() - downTime > 250) {
                         try {
@@ -517,6 +529,11 @@ public class ProfileActionsView extends View {
 
     @Override
     protected boolean verifyDrawable(@NonNull Drawable who) {
+        for (var action : actions) {
+            if (action.rippleDrawable == who) {
+                return true;
+            }
+        }
         return super.verifyDrawable(who) || who instanceof LoadingDrawable;
     }
 
@@ -978,6 +995,7 @@ public class ProfileActionsView extends View {
         int iconTranslationY = 0;
         float iconScale = 1f;
 
+        Drawable rippleDrawable = Theme.AdaptiveRipple.createRect(0, Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhite), 0.45f), 8);
         LoadingDrawable loadingDrawable;
         boolean isLoading;
         boolean supportsLoading;
