@@ -569,7 +569,7 @@ public class ProfileGalleryBlurView extends View {
         blurNode.setAlpha(alpha.set(1f));
 
         canvas.save();
-        canvas.scale(scale, scale);
+        canvas.scale(width / blurNode.getWidth(), (float) (size + actionSize) / blurNode.getHeight());
         canvas.drawRenderNode(blurNode);
         canvas.restore();
 
@@ -659,6 +659,7 @@ public class ProfileGalleryBlurView extends View {
         actionsBlurNode.endRecording();
         actionsBlurNode.setAlpha(alpha.set(1f));
 
+        scale = width / actionsBlurNode.getWidth();
         if (actionsView != null) {
             if (avatarImageView != null) {
                 actionsView.drawingBlur(actionsBlurNode, avatarImageView, scale / openingScale, -size);
