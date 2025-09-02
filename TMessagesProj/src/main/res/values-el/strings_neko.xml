@@ -117,8 +117,6 @@
     <string name="RegistrationDateNewer">Νεότερο από %s</string>
     <string name="RegistrationDateOlder">Παλαιότερο από %s</string>
     <string name="RegistrationDateApproximately">Περίπου %s</string>
-    <string name="WsEnableTls">Ενεργοποίηση TLS</string>
-    <string name="WsProvider">Πάροχος Μετάφρασης</string>
     <string name="UpdateNekogram">Ενημέρωση Nekogram</string>
     <string name="TranslationTarget">Μετάφραση σε</string>
     <string name="TranslationTargetApp">Γλώσσα εφαρμογής</string>
@@ -157,6 +155,7 @@
     <string name="QRLoginTitle">Είσοδος με QR</string>
     <string name="NoTranslatorAppInstalled">Δεν έχετε εφαρμογές για χειρισμό μετάφρασης, εγκαταστήστε μία για να συνεχίσετε</string>
     <string name="DisableVoiceMessagesAutoPlay">Απενεργ. αυτόμ αναπαρ. φωνητ. μηνυμ.</string>
+    <string name="UnmuteVideosWithVolumeButtons">Απενεργοποιήστε τη σίγαση με τα κουμπιά ήχου</string>
     <string name="TranslatorType">Τύπος προβολής</string>
     <string name="TranslatorTypeNeko">Εντός μηνύματος</string>
     <string name="TranslatorTypeTG">Αναδυόμενο παράθυρο</string>
@@ -308,6 +307,12 @@
     <string name="CloudflareAccountID">Ταυτότητα Λογαριασμού</string>
     <string name="CloudflareAPIToken">API Token</string>
     <string name="CloudflareCredentialsDialog">Ρύθμιση αναγνωριστικό λογαριασμού Cloudflare και Token API.\n**Πώς αποκτώνται;**</string>
+    <string name="PreferOriginalQuality">Προτίμηση αρχικής ποιότητας</string>
+    <string name="PreferOriginalQualityDesc">Προβολή βίντεο σε αρχική ποιότητα.</string>
+    <string name="AutoInlineBot">Αυτόματο inline bot</string>
+    <string name="AutoInlineBotDesc">Αυτόματη αναζήτηση inline bot με βάση το κείμενο του μηνύματος.</string>
+    <string name="ShortStandardQuality">SD</string>
+    <string name="ForceFontWeightFallback">Εξαναγκασμός επιστροφής βάρους γραμ/σειράς</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>

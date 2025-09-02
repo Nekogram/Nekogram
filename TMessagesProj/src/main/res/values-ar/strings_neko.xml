@@ -302,15 +302,19 @@
     <string name="Cryptocurrency">العملات الرقمية المشفرة</string>
     <string name="TranscribeProviderShort">مزود الخدمة</string>
     <string name="TranscribeProviderAuto">التحديد التلقائي</string>
-    <string name="TranscribeProviderWorkersAI">الهمس (ذكاء اصطناعي للعمال)</string>
-    <string name="TranscribeProviderDesc">مع خيار التحديد التلقائي، سيتم استخدام %s عندما يكون تيليجرام بريميوم غير متاح.</string>
+    <string name="TranscribeProviderWorkersAI">ويسبر (عمال ذكاء اصطناعي)</string>
+    <string name="TranscribeProviderDesc">مع خِيار التحديد التلقائي، سيتم استخدام %s عندما يكون تيليغرام بريميوم غير متاح.</string>
     <string name="CloudflareCredentials">بيانات اعتماد Cloudflare</string>
     <string name="CloudflareCredentialsNotSet">لم يتم تكوين بيانات اعتماد Cloudflare.</string>
     <string name="CloudflareAccountID">معرّف الحساب</string>
-    <string name="CloudflareAPIToken">عملة API</string>
+    <string name="CloudflareAPIToken">رمز API</string>
     <string name="CloudflareCredentialsDialog">تكوين معرف حساب Cloudflare ورمز API.\n**كيفية الحصول عليه؟ **</string>
     <string name="PreferOriginalQuality">تفضيل الجودة الأصلية</string>
     <string name="PreferOriginalQualityDesc">عرض مقاطع الفيديو بالجودة الأصلية.</string>
+    <string name="AutoInlineBot">روبوت تلقائي مضمن</string>
+    <string name="AutoInlineBotDesc">الاستعلام التلقائي عن الروبوت المضمن استنادًا إلى نص الرسالة.</string>
+    <string name="ShortStandardQuality">دِقَّة متوسطة</string>
+    <string name="ForceFontWeightFallback">فرض تراجع وزن الخط</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">إمكانية الوصول</string>
 </resources>

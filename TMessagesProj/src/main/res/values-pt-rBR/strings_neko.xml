@@ -6,7 +6,7 @@
     <string name="HidePhone">Ocultar meu número de telefone</string>
     <string name="DeleteAllFromSelf">Apagar minhas mensagens</string>
     <string name="DeleteAllFromSelfAlert">Aviso! Isso irá **excluir todas as suas mensagens** nesse chat para **todos** os participantes.</string>
-    <string name="DeleteAllFromSelfAlertBefore">Atenção! Isso **excluirá todas suas mensagens antes de %s** nesse chat para **todos** os participantes.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Atenção! Isso **excluirá todas suas mensagens antes de %s** nessa conversa para **todos** os participantes.</string>
     <string name="DeleteAllFromSelfBefore">Antes de...</string>
     <string name="IgnoreBlocked">Ocultar mensagens de usuários bloqueados</string>
     <string name="Connection">Conexão</string>
@@ -118,8 +118,6 @@
     <string name="RegistrationDateNewer">Mais novo que %s</string>
     <string name="RegistrationDateOlder">Mais antigo que %s</string>
     <string name="RegistrationDateApproximately">Aproximadamente %s</string>
-    <string name="WsEnableTls">Habilitar TLS</string>
-    <string name="WsProvider">Provedor</string>
     <string name="UpdateNekogram">Atualizar Nekogram</string>
     <string name="TranslationTarget">Idioma de destino</string>
     <string name="TranslationTargetApp">Seguir o aplicativo</string>
@@ -158,6 +156,7 @@
     <string name="QRLoginTitle">QR Login</string>
     <string name="NoTranslatorAppInstalled">Você não possui aplicativos que lidam com intents de tradução, por favor instale um para continuar</string>
     <string name="DisableVoiceMessagesAutoPlay">Desativar reprodução automática das mensagens de voz</string>
+    <string name="UnmuteVideosWithVolumeButtons">Reativar vídeos com botões de volume</string>
     <string name="TranslatorType">Estilo</string>
     <string name="TranslatorTypeNeko">Na mensagem</string>
     <string name="TranslatorTypeTG">Diálogo popup</string>
@@ -309,6 +308,12 @@
     <string name="CloudflareAccountID">ID da Conta</string>
     <string name="CloudflareAPIToken">Token do API</string>
     <string name="CloudflareCredentialsDialog">Configurar o ID da conta do Cloudflare e o token do API.\n**Como obter?**</string>
+    <string name="PreferOriginalQuality">Prefere qualidade original</string>
+    <string name="PreferOriginalQualityDesc">Ver vídeos em qualidade original.</string>
+    <string name="AutoInlineBot">Bot Inline Automático</string>
+    <string name="AutoInlineBotDesc">Consulta automática do bot inline com base no texto da mensagem.</string>
+    <string name="ShortStandardQuality">SD</string>
+    <string name="ForceFontWeightFallback">Forçar substituição de espessura da fonte</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>

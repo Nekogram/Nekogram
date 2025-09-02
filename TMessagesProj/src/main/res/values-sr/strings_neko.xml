@@ -312,6 +312,7 @@
     <string name="AutoInlineBot">Аутоматски усклађени бот</string>
     <string name="AutoInlineBotDesc">Аутоматско постављање упита усклађеног бота на основу текста поруке.</string>
     <string name="ShortStandardQuality">SD</string>
+    <string name="ForceFontWeightFallback">Присили резервну дебљину фонта</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Подешавања приступачности</string>
 </resources>

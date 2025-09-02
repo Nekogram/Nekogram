@@ -312,7 +312,7 @@
     <string name="AutoInlineBot">Automatyczny bot inline</string>
     <string name="AutoInlineBotDesc">Automatyczne odpytywanie bota inline na podstawie tekstu wiadomości.</string>
     <string name="ShortStandardQuality">SD</string>
-    <string name="DeviceAttestationFailed">Ta funkcja nie jest obecnie dostępna na urządzeniach z odblokowanym bootloaderem. **Czytaj więcej**</string>
+    <string name="ForceFontWeightFallback">Wymuś przywrócenie wagi czcionki</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>
