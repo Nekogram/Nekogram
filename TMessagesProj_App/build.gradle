@@ -89,5 +89,8 @@ android {
     }
     namespace 'org.telegram.messenger.regular'
 
-    dependenciesInfo.includeInApk false
+    dependenciesInfo {
+        includeInApk false
+        includeInBundle false
+    }
 }
