@@ -1833,7 +1833,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 MediaController.AlbumEntry album = dropDownAlbums.get(a);
                 AlbumButton btn = new AlbumButton(getContext(), album.coverPhoto, album.bucketName, album.photos.size(), resourcesProvider);
                 dropDownContainer.getPopupLayout().addView(btn);
-                final int i = a + 10;
+                final int i = a + 20;
                 btn.setOnClickListener(v -> {
                     parentAlert.actionBar.getActionBarMenuOnItemClick().onItemClick(i);
                     dropDownContainer.toggleSubMenu();
@@ -3461,8 +3461,8 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 done.run();
                 setStarsPrice(price);
             }, resourcesProvider);
-        } else if (id >= 10) {
-            selectedAlbumEntry = dropDownAlbums.get(id - 10);
+        } else if (id >= 20) {
+            selectedAlbumEntry = dropDownAlbums.get(id - 20);
             if (selectedAlbumEntry == galleryAlbumEntry) {
                 dropDown.setText(LocaleController.getString(R.string.ChatGallery));
             } else {
