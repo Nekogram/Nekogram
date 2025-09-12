@@ -78,6 +78,7 @@ public class ProfileActionsView extends View {
     public static final int KEY_MESSAGE = 0;
     public static final int KEY_NOTIFICATION = 1;
     public static final int KEY_DISCUSS = 2;
+    public static final int KEY_CHANNEL = 102;
     public static final int KEY_GIFT = 3;
     public static final int KEY_SHARE = 4;
     public static final int KEY_CALL = 5;
@@ -549,6 +550,7 @@ public class ProfileActionsView extends View {
     }
 
     public void set(int key, boolean enabled) {
+        if (key == KEY_GIFT) return;
         boolean changed;
         if (enabled) {
             changed = allAvailableActions.add(key);
@@ -710,8 +712,8 @@ public class ProfileActionsView extends View {
                     insertIfNotAvailable(out, KEY_STREAM, KEY_VOICE_CHAT);
                 }
                 insertIfAvailable(out, KEY_NOTIFICATION);
+                insertIfAvailable(out, KEY_DISCUSS);
                 if (!join) {
-                    insertIfAvailable(out, KEY_DISCUSS);
                     insertIfNotAvailable2(out, KEY_GIFT, KEY_DISCUSS, KEY_STORY);
                 }
                 insertIfNotAvailable(out, KEY_SHARE, KEY_STORY);
@@ -730,6 +732,7 @@ public class ProfileActionsView extends View {
                     insertIfAvailable(out, KEY_MESSAGE);
                 }
                 insertIfAvailable(out, KEY_NOTIFICATION);
+                insertIfAvailable(out, KEY_CHANNEL);
                 if (join) {
                     out.add(getOrCreate(KEY_REPORT));
                 } else {
@@ -812,6 +815,9 @@ public class ProfileActionsView extends View {
                 break;
             case KEY_DISCUSS:
                 newAction = new Action(R.drawable.message, R.string.ProfileActionsDiscuss);
+                break;
+            case KEY_CHANNEL:
+                newAction = new Action(R.drawable.msg_folders_channels, R.string.ProfileChannel);
                 break;
             case KEY_GIFT:
                 newAction = new Action(R.drawable.gift, R.string.ProfileActionsGift);
