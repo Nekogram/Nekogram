@@ -20372,18 +20372,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
 //                path = AndroidUtilities.getPath(photoInfo.uri);
                 if (path == null) {
                     try {
-                        final File file = AndroidUtilities.generatePicturePath(isSecretChat, "");
-                        InputStream in = ApplicationLoader.applicationContext.getContentResolver().openInputStream(photoInfo.uri);
-                        FileOutputStream fos = new FileOutputStream(file);
-                        byte[] buffer = new byte[8 * 1024];
-                        int lengthRead;
-                        while ((lengthRead = in.read(buffer)) > 0) {
-                            fos.write(buffer, 0, lengthRead);
-                            fos.flush();
-                        }
-                        in.close();
-                        fos.close();
-                        path = file.getAbsolutePath();
+                        path = MediaController.copyFileToCache(photoInfo.uri, "jpg");
                     } catch (Exception e) {
                         FileLog.e(e);
                         continue;
