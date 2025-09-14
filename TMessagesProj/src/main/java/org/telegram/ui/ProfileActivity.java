@@ -5369,7 +5369,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (this.equals(nameTextView[1])) {
                         PopupHelper.showCopyPopup(ProfileActivity.this, LocaleController.getString(R.string.Copy), nameTextView[1], x, y, () -> {
                             AndroidUtilities.addToClipboard(nameTextView[1].getText());
-                            BulletinFactory.of(ProfileActivity.this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                            BulletinFactory.of(ProfileActivity.this).createCopyBulletin(LocaleController.formatString(R.string.TextCopied)).show();
                         });
                         performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         return true;
@@ -7357,7 +7357,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 cell.setOnClickListener(v1 -> {
                     dialog.dismiss();
                     AndroidUtilities.addToClipboard(cell.getValueTextView().getText());
-                    BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString("TextCopied", R.string.TextCopied)).show();
+                    BulletinFactory.of(this).createCopyBulletin(LocaleController.formatString(R.string.TextCopied)).show();
                 });
                 cell.setTextAndValue(reason.reason + "-" + reason.platform, reason.text, false);
 
@@ -13318,7 +13318,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         PackageInfo pInfo = ApplicationLoader.applicationContext.getPackageManager().getPackageInfo(ApplicationLoader.applicationContext.getPackageName(), 0);
                         int code = pInfo.versionCode / 10;
                         String abi = BuildConfig.BUILD_TYPE + " " + Build.SUPPORTED_ABIS[0];
-                        cell.setText(formatString("NekogramVersion", R.string.NekogramVersion, String.format(Locale.US, "v%s (%d) %s", pInfo.versionName, code, abi), String.format(Locale.US, "v%s (%d)", BuildVars.BUILD_VERSION_STRING, BuildConfig.BUILD_VERSION), "@Duang"));
+                        cell.setText(formatString(R.string.NekogramVersion, String.format(Locale.US, "v%s (%d) %s", pInfo.versionName, code, abi), String.format(Locale.US, "v%s (%d)", BuildVars.BUILD_VERSION_STRING, BuildConfig.BUILD_VERSION), "@Duang"));
                     } catch (Exception e) {
                         FileLog.e(e);
                     }
@@ -15737,7 +15737,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
             long date = (long) avatar.date * 1000;
             if (date != 0) {
-                String dateString = LocaleController.formatString("formatDateAtTime", R.string.formatDateAtTime, LocaleController.getInstance().getFormatterYear().format(new Date(date)), LocaleController.getInstance().getFormatterDay().format(new Date(date))) + ", DC: " + avatar.dc_id;
+                String dateString = LocaleController.formatString(R.string.formatDateAtTime, LocaleController.getInstance().getFormatterYear().format(new Date(date)), LocaleController.getInstance().getFormatterDay().format(new Date(date))) + ", DC: " + avatar.dc_id;
                 idTextView.setText(dateString, animated);
                 idTextView.setTag(R.id.id_dc, avatar.dc_id);
             } else {
