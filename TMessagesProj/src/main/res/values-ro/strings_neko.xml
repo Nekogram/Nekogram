@@ -6,7 +6,7 @@
     <string name="HidePhone">Ascunde numărul de telefon</string>
     <string name="DeleteAllFromSelf">Șterge mesajele proprii</string>
     <string name="DeleteAllFromSelfAlert">Atenție! Acest lucru va **șterge toate mesajele de la tine** în acest chat pentru **toți** participanții.</string>
-    <string name="DeleteAllFromSelfAlertBefore">Atenție! Acest lucru va **șterge toate mesajele de la tine înainte de data de %s** în acest chat pentru **toți** participanții.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Atenție! Acestă acțiune va **șterge toate mesajele trimise de tine înainte de data de %s** în acest chat pentru **toți** participanții.</string>
     <string name="DeleteAllFromSelfBefore">Înainte de...</string>
     <string name="IgnoreBlocked">Ascundeți mesajele de la utilizatorul blocat</string>
     <string name="Connection">Conexiune</string>
@@ -150,9 +150,9 @@
     <string name="UpdateInstallingNotification">O notificare va fi afișată când actualizarea este finalizată.</string>
     <string name="UpdateInstallingRelaunch">Aplicația se va relansa când actualizarea este finalizată.</string>
     <string name="UpdateInstalledNotification">Instalarea actualizării s-a încheiat, atingeți pentru a lansa aplicația.</string>
-    <string name="UpdateFailedToInstall">Instalarea actualizării: %d a eșuat.</string>
+    <string name="UpdateFailedToInstall">Instalarea actualizării a eșuat: %d</string>
     <string name="QRLoginMessage">Scanează codul QR cu un alt dispozitiv pentru a vă autentifica.</string>
-    <string name="QRLoginTitle">Autentificare prin cod QR.</string>
+    <string name="QRLoginTitle">Autentificare prin cod QR</string>
     <string name="NoTranslatorAppInstalled">Nu aveți aplicații care să poată gestiona intenția de a traduce, vă rugăm să instalați una pentru a continua</string>
     <string name="DisableVoiceMessagesAutoPlay">Dezactivează redarea automată a mesajelor vocale</string>
     <string name="UnmuteVideosWithVolumeButtons">Activați sunetul videoclipurilor cu butoanele de volum</string>
@@ -173,8 +173,8 @@
     <string name="AutoTranslate">Traducere automată</string>
     <string name="AutoTranslateAbout">Traduceți automat mesajele în altă limbă.</string>
     <string name="DoubleTapAction">Acțiune la apăsare dublă</string>
-    <string name="EditUndo">Anulare</string>
-    <string name="EditRedo">Refă</string>
+    <string name="EditUndo">Anulați</string>
+    <string name="EditRedo">Refaceți</string>
     <string name="EditEnableMarkdown">Activați Markdown</string>
     <string name="EditDisableMarkdown">Dezactivați Markdown</string>
     <string name="CopyCallback">Copierea datelor de apelare</string>
@@ -184,7 +184,7 @@
     <string name="ShowRPCErrorException">Erori: %s</string>
     <string name="SoonRemovedOption">Această opțiune experimentală va fi eliminată și activată implicit în curând, dacă aveți probleme cu această opțiune, vă rugăm **să ne-o raportați**.</string>
     <string name="TabletMode">Modul tabletă</string>
-    <string name="TabletModeAuto">Automat</string>
+    <string name="TabletModeAuto">Implicit</string>
     <string name="DeleteAllFromSelfDone">Toate mesajele dumneavoastră sunt șterse</string>
     <string name="UnknownNekoSettingsOption">Nu există o astfel de opţiune de Setări Neko.</string>
     <string name="ProviderYouDaoTranslate">Traducător YouDao</string>
@@ -273,7 +273,7 @@
     <string name="NavigationAnimationBezier">Clasic</string>
     <string name="NavigationAnimationSpring">Natural</string>
     <string name="CloudConfig">Setări Cloud</string>
-    <string name="CloudConfigDesc">Salvați setările Neko în Telegram Cloud</string>
+    <string name="CloudConfigDesc">Salvați setările Neko în Telegram Cloud.</string>
     <string name="CloudConfigSyncDate">Ultima sincronizare: %s, cloud: %s</string>
     <string name="CloudConfigSyncDateNever">niciodată</string>
     <string name="CloudConfigSync">Sincronizare în cloud</string>
@@ -303,7 +303,7 @@
     <string name="TranscribeProviderWorkersAI">Whisper (Servicii Worker AI)</string>
     <string name="TranscribeProviderDesc">Cu opțiunea de selectare automată, %s va fi utilizat atunci când Telegram Premium nu este disponibil.</string>
     <string name="CloudflareCredentials">Date de autentificare Cloudflare</string>
-    <string name="CloudflareCredentialsNotSet">Date de autentificare pentru Cloudflare nu sunt configurate</string>
+    <string name="CloudflareCredentialsNotSet">Datele de autentificare pentru Cloudflare nu sunt configurate</string>
     <string name="CloudflareAccountID">ID-ul contului</string>
     <string name="CloudflareAPIToken">Token API</string>
     <string name="CloudflareCredentialsDialog">Configurați ID-ul contului Cloudflare și Token-ul API.\n**Cum se pot obține?**</string>

@@ -117,8 +117,6 @@
     <string name="RegistrationDateNewer">ใหม่กว่า %s</string>
     <string name="RegistrationDateOlder">เก่ากว่า %s</string>
     <string name="RegistrationDateApproximately">ประมาณ %s</string>
-    <string name="WsEnableTls">เปิดใช้งาน TLS</string>
-    <string name="WsProvider">ผู้ให้บริการ</string>
     <string name="UpdateNekogram">อัพเดต Nekogram</string>
     <string name="TranslationTarget">ภาษาเป้าหมาย</string>
     <string name="TranslationTargetApp">ติดตามแอป</string>
@@ -157,6 +155,7 @@
     <string name="QRLoginTitle">คิวอาร์โค้ดเข้าสู่ระบบ</string>
     <string name="NoTranslatorAppInstalled">คุณไม่มีแอปพลิเคชันที่สามารถจัดการเจตนาในการแปลได้ โปรดติดตั้งแอปพลิเคชันหนึ่งตัวเพื่อดำเนินการต่อ</string>
     <string name="DisableVoiceMessagesAutoPlay">ปิดใช้งานการเล่นอัตโนมัติของข้อความเสียง</string>
+    <string name="UnmuteVideosWithVolumeButtons">Unmute videos with volume buttons</string>
     <string name="TranslatorType">พิมพ์</string>
     <string name="TranslatorTypeNeko">ในข้อความ</string>
     <string name="TranslatorTypeTG">กล่องโต้ตอบแบบป๊อปอัป</string>
@@ -308,6 +307,12 @@
     <string name="CloudflareAccountID">รหัสบัญชี</string>
     <string name="CloudflareAPIToken">โทเค็น API</string>
     <string name="CloudflareCredentialsDialog">กำหนดค่า ID บัญชี Cloudflare และโทเค็น API \n**จะรับได้อย่างไร**</string>
+    <string name="PreferOriginalQuality"></string>
+    <string name="PreferOriginalQualityDesc">ชมวีดีโอในคุณภาพต้นฉบับ</string>
+    <string name="AutoInlineBot">อินไลน์บอทอัตโนมัติ</string>
+    <string name="AutoInlineBotDesc">เรียกใช้อินไลน์บอทอัตโนมัติตามข้อความ</string>
+    <string name="ShortStandardQuality">คุณภาพมาตรฐาน</string>
+    <string name="ForceFontWeightFallback">บังคับใช้ความหนาฟอนต์แบบสำรอง</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">การตั้งค่าการเข้าถึง</string>
 </resources>

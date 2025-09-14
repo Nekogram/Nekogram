@@ -117,8 +117,6 @@
     <string name="RegistrationDateNewer">Más nuevo que %s</string>
     <string name="RegistrationDateOlder">Más viejo que %s</string>
     <string name="RegistrationDateApproximately">Aproximadamente %s</string>
-    <string name="WsEnableTls">Habilitar TLS</string>
-    <string name="WsProvider">Proveedor</string>
     <string name="UpdateNekogram">Actualizar Nekogram</string>
     <string name="TranslationTarget">Idioma de destino</string>
     <string name="TranslationTargetApp">Seguir app</string>
@@ -157,6 +155,7 @@
     <string name="QRLoginTitle">Inicio de sesión con QR</string>
     <string name="NoTranslatorAppInstalled">No tienes aplicaciones que puedan manejar la intención de traducir, por favor instala una para continuar</string>
     <string name="DisableVoiceMessagesAutoPlay">Desactivar la reproducción automática de mensajes de voz</string>
+    <string name="UnmuteVideosWithVolumeButtons"></string>
     <string name="TranslatorType">Estilo</string>
     <string name="TranslatorTypeNeko">En mensaje</string>
     <string name="TranslatorTypeTG">Diálogo emergente</string>
@@ -265,9 +264,11 @@
     <string name="SendLargePhotos">Enviar fotos grandes</string>
     <string name="SendLargePhotosAbout">Aumentar el límite lateral de las imágenes comprimidas a 2560px.</string>
     <string name="ExportAsJson">Copiar como JSON</string>
+    <string name="ViewAsJson">Ver como JSON</string>
     <string name="HideStories">Ocultar historias</string>
     <string name="QuickForward">Usar menú de reenvío rápido</string>
     <string name="DidNotGetTheCodeBlameDurov">Si no recibiste el código en otro dispositivo o no has iniciado sesión con Telegram en otro dispositivo, por favor usa la app oficial de Telegram para recibir el código.\n\nTelegram tiene **deshabilitada la posibilidad de iniciar sesión con SMS** en aplicaciones de terceros. Los usuarios que inicien sesión en aplicaciones de terceros sólo podrán recibir códigos de acceso a través de Telegram.\n\nNo podemos ayudarte con esto, si tienes algún problema para iniciar sesión, por favor contacta con el soporte de Telegram.</string>
+    <string name="ChangePhoneNumberBlameDurov">Telegram ha **deshabilitado la capacidad de cambiar el número de teléfono** en aplicaciones de terceros. Los usuarios solo pueden cambiar el número de teléfono vía Telegram.</string>
     <string name="NavigationAnimation">Animación de navegación</string>
     <string name="NavigationAnimationBezier">Clásica</string>
     <string name="NavigationAnimationSpring">Natural</string>
@@ -297,6 +298,21 @@
     <string name="ShowTimeHint">Mostrar pista de tiempo</string>
     <string name="ShowTimeHintDesc">Muestra la fecha de envío detallada pulsando sobre la hora.</string>
     <string name="Cryptocurrency">Criptomoneda</string>
+    <string name="TranscribeProviderShort">Proveedor</string>
+    <string name="TranscribeProviderAuto">Selección automática</string>
+    <string name="TranscribeProviderWorkersAI">Susurro (Workers AI)</string>
+    <string name="TranscribeProviderDesc">Con la opción de selección automática, se utilizará %s cuando Telegram Premium no esté disponible.</string>
+    <string name="CloudflareCredentials">Credenciales de Cloudflare</string>
+    <string name="CloudflareCredentialsNotSet">Las credenciales de Cloudflare no están configuradas.</string>
+    <string name="CloudflareAccountID">ID de cuenta</string>
+    <string name="CloudflareAPIToken">Token de API</string>
+    <string name="CloudflareCredentialsDialog">Configura la ID de cuenta Cloudflare y el Token de API.\n**¿Cómo obtenerla?**</string>
+    <string name="PreferOriginalQuality">Preferir calidad original</string>
+    <string name="PreferOriginalQualityDesc">Ver vídeos con calidad original.</string>
+    <string name="AutoInlineBot">Bot inline automático</string>
+    <string name="AutoInlineBotDesc">Consultando automáticamente el bot inline basado en el texto del mensaje.</string>
+    <string name="ShortStandardQuality">SD</string>
+    <string name="ForceFontWeightFallback">Forzar el peso de la fuente por omisión</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccSeekbarHeading">Configuración de la barra de búsqueda</string>

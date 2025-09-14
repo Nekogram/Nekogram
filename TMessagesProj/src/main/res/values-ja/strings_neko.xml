@@ -147,12 +147,12 @@
     <string name="MutualContactDescription">この連絡先は相互に交換されています。</string>
     <string name="InviteTextNeko">こんにちは！Nekogramを使ってチャットをしています。参加してください！ダウンロードはこちらから: %1$s</string>
     <string name="ShareNekogram">Nekogramを共有...</string>
-    <string name="NekogramVersion">Nekogram %1$s\n Nekogramのベースになったバージョン: Telegram %2$s\n デザイン: %3$s\n日本語訳 by りお (Telegram: @RioLove2)</string>
-    <string name="UpdateInstalling">アップデートをインストールしています...</string>
+    <string name="NekogramVersion">Nekogram %1$s\n Nekogramのベースになったバージョン: Telegram %2$s\n デザイン: %3$s\n日本語訳: りお (Telegram: @RioLovee)</string>
+    <string name="UpdateInstalling">更新をインストールしています…</string>
     <string name="UpdateInstallingNotification">更新が完了すると通知が表示されます。</string>
     <string name="UpdateInstallingRelaunch">更新が完了するとアプリが再起動します。</string>
     <string name="UpdateInstalledNotification">更新が完了しました。タップしてアプリを起動します。</string>
-    <string name="UpdateFailedToInstall">アップデートのインストールに失敗しました: %d</string>
+    <string name="UpdateFailedToInstall">更新のインストールに失敗しました: %d</string>
     <string name="QRLoginMessage">QRコードを別のデバイスでスキャンしてログインします。</string>
     <string name="QRLoginTitle">QRコードでログイン</string>
     <string name="NoTranslatorAppInstalled">翻訳インテントを処理できるアプリがありません。続行するにはインストールしてください。</string>
@@ -163,7 +163,7 @@
     <string name="TranslatorTypeTG">ポップアップダイアログ</string>
     <string name="TranslatorTypeExternal">外部アプリ</string>
     <string name="CopyPhoto">写真をコピー</string>
-    <string name="PhotoCopied">写真をクリップボードにコピーしました</string>
+    <string name="PhotoCopied">画像をクリップボードにコピーしました</string>
     <string name="SaveToDownloadCount_zero">%1$d個のファイルを「ダウンロード」フォルダに保存しています</string>
     <string name="SaveToDownloadCount_one">%1$d個のファイルを「ダウンロード」フォルダに保存しています</string>
     <string name="SaveToDownloadCount_two">%1$d個のファイルを「ダウンロード」フォルダに保存しています</string>
@@ -171,7 +171,7 @@
     <string name="SaveToDownloadCount_many">%1$d個のファイルを「ダウンロード」フォルダに保存しています</string>
     <string name="SaveToDownloadCount_other">%1$d個のファイルを「ダウンロード」フォルダに保存しています</string>
     <string name="AppLinkNotVerifiedMessage">Android 12以降では、Nekogramでt.meのリンクを開くには、[設定] → [アプリ] → [Nekogram] → [デフォルトで開く] → [リンクを追加] で手動でリンクを追加する必要があります。</string>
-    <string name="AppLinkNotVerifiedTitle">アプリのリンクが検証されていません</string>
+    <string name="AppLinkNotVerifiedTitle">アプリのリンクが認証されていません</string>
     <string name="AutoTranslate">自動翻訳</string>
     <string name="AutoTranslateAbout">他の言語のメッセージを自動的に翻訳します。</string>
     <string name="DoubleTapAction">ダブルタップ時の動作</string>
@@ -237,7 +237,7 @@
     <string name="DownloadSpeedBoostAverage">ON</string>
     <string name="DownloadSpeedBoostExtreme">極限</string>
     <string name="NoUpdateAvailablePlay">Playストアでアップデートを確認してください。</string>
-    <string name="NoUpdateAvailablePlayDelay">Playストアでの更新は、Googleの審査により.apkでのアップデートより遅れます。</string>
+    <string name="NoUpdateAvailablePlayDelay">Playストアでの更新は、Googleの審査によりapkでのアップデートより遅れます。</string>
     <string name="DownloadEmojiSet">%sをダウンロード</string>
     <string name="EmojiSets">絵文字セット</string>
     <string name="MyEmojiSets">自分の絵文字セット</string>

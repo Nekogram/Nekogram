@@ -64,7 +64,7 @@
     <string name="Categories">Настройки</string>
     <string name="OfficialChannel">Официальный канал</string>
     <string name="About">О проекте</string>
-    <string name="IgnoreBlockedAbout">Сообщения от пользователей из вашего чёрного списка будут отображаться со спойлером, а автоматическая загрузка их медиа будет отключена.</string>
+    <string name="IgnoreBlockedAbout">ОНИ НА САМОМ ДЕЛЕ НЕ СКРЫВАЮТСЯ! Сообщения будут доступны для просмотра, но текст будет скрыт под спойлер, а автозагрузка медиа будет отключена.</string>
     <string name="Donate">Поддержать Nekogram</string>
     <string name="DonateAbout">Поддержите разработку проекта.</string>
     <string name="TranslationAbout">Помогите перевести Nekogram на ваш язык.</string>
@@ -129,9 +129,9 @@
     <string name="DeepLFormalityMore">Больше</string>
     <string name="DeepLFormalityLess">Меньше</string>
     <string name="InvalidCustomEmojiTypeface">Недопустимый формат шрифта.</string>
-    <string name="AttachWebFile">Web-Файл</string>
-    <string name="WebFileInfo">Отправить файл ссылкой</string>
-    <string name="SendWebFile">Отправить Web-Файл</string>
+    <string name="AttachWebFile">web-файл</string>
+    <string name="WebFileInfo">Отправить файл с URL-адресом</string>
+    <string name="SendWebFile">Отправить web-файл</string>
     <string name="SendWebFileInfo">Telegram загрузит и отправит файл. Максимальный размер для отправки фотографий - 5 МБ, для других видов файлов - 20 МБ.</string>
     <string name="SendWebFileInvalid">Недопустимый файл, убедитесь что файл соответствует требованиям.</string>
     <string name="AutoLockInstant">Мгновенно</string>
@@ -257,15 +257,15 @@
     <string name="SendAnonymousData">Отправка анонимных данных</string>
     <string name="SendBugReport">Сообщить об ошибке</string>
     <string name="SendBugReportDesc">Это позволит нам быстрее находить проблемы.</string>
-    <string name="CopyReportId">Копирование ID отчета</string>
-    <string name="CopyReportIdDescription">Прикрепляйте идентификатор отчета при сообщении о проблемах со сбоями.</string>
+    <string name="CopyReportId">Копирование идентификатор отчета</string>
+    <string name="CopyReportIdDescription">Прикрепляйте идентификатор отчета в сообщения о проблемах со сбоями приложения.</string>
     <string name="AnonymousDataDelete">Удалить данные</string>
     <string name="AnonymousDataDeleteDesc">Навсегда заблокировать исходящие данные этого устройства и удалить собранные данные.</string>
     <string name="SendAnonymousDataDesc">Функции выше используют %1$s предоставленный %2$s. Собранная информация является анонимной и мы не можем отследить её до независимого устройства или пользователя.</string>
-    <string name="SendLargePhotos">Отправка фотографии большого размера</string>
-    <string name="SendLargePhotosAbout">Увеличить размер сторон на сжатых изображениях до 2560px.</string>
+    <string name="SendLargePhotos">Отправка фотографий большого размера</string>
+    <string name="SendLargePhotosAbout">Увеличить максимальный размер фотографий до 2560 пикселей.</string>
     <string name="ExportAsJson">Скопировать как JSON</string>
-    <string name="ViewAsJson"></string>
+    <string name="ViewAsJson">Просмотр JSON</string>
     <string name="HideStories">Скрыть истории</string>
     <string name="QuickForward">Использовать меню быстрой пересылки</string>
     <string name="DidNotGetTheCodeBlameDurov">Если вы не получили код или вы не входили в Telegram аккаунт на другом устройстве, воспользуйтесь официальным приложением Telegram, чтобы получить код.\n\nTelegram **отключил возможность авторизации через СМС** для альтернативных приложений. Согласно новым правилам, пользователи альтернативных клиентов больше не могут получить СМС-код для авторизации. Теперь для получения кода требуется использовать официальное приложение Telegram.\n\nЕсли у вас возникла проблема со входом в аккаунт, пожалуйста, обратитесь в службу поддержки Telegram.</string>
@@ -309,11 +309,11 @@
     <string name="CloudflareAPIToken">API-токен</string>
     <string name="CloudflareCredentialsDialog">Конфигурация Cloudflare Account ID и API Token.\n**Как получить?**</string>
     <string name="PreferOriginalQuality">Предпочитать исходное качество видео</string>
-    <string name="PreferOriginalQualityDesc">Просмотр видео в максимально доступном разрешении.</string>
+    <string name="PreferOriginalQualityDesc">Предпочитать максимальное качество видео.</string>
     <string name="AutoInlineBot">Использовать inline бота</string>
     <string name="AutoInlineBotDesc">Автоматически обращаться к функционалу inline бота в зависимости от содержания сообщения.</string>
     <string name="ShortStandardQuality">SD</string>
-    <string name="ForceFontWeightFallback">Принудительный откат веса шрифта</string>
+    <string name="ForceFontWeightFallback">Принудительное уменьшение размера текста</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Специальные возможности</string>
     <string name="AccSeekbarHeading">Настройки ползунков</string>

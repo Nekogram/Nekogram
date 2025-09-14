@@ -90,7 +90,7 @@
     <string name="OpenAllLinksInInstantView">Versuche alle Links in InstantView zu öffnen</string>
     <string name="DonateThankYou">Vielen Dank!</string>
     <string name="DonateEvilGoogle">Google nimmt 30 Prozent Ihrer Spende.</string>
-    <string name="formatterDay24HSec">SS:mm:ss</string>
+    <string name="formatterDay24HSec">HH:mm:ss</string>
     <string name="formatterDay12HSec">h:mm:ss a</string>
     <string name="FormatWithSeconds">Zeit mit Sekunden formatieren</string>
     <string name="JumpToBeginning">Zum Anfang springen</string>
@@ -311,6 +311,8 @@
     <string name="PreferOriginalQualityDesc">Videos in Originalqualität ansehen.</string>
     <string name="AutoInlineBot">Automatischer Inlinebot</string>
     <string name="AutoInlineBotDesc">Automatische Abfrage des Inlinebots, basierend auf dem Nachrichtentext.</string>
+    <string name="ShortStandardQuality">Standardauflösung</string>
+    <string name="ForceFontWeightFallback">Zurückschalten der Schriftgröße erzwingen</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Zugangseinstellungen</string>
 </resources>
