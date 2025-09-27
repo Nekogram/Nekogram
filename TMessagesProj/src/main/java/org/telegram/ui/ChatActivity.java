@@ -38836,7 +38836,7 @@ public class ChatActivity extends BaseFragment implements NotificationCenter.Not
                 hashtagSearchTabs.tabs.scrollToTab(defaultSearchPage, defaultSearchPage);
             }
 
-            getMediaDataController().searchMessagesInChat(searchingQuery = editText.getText().toString(), dialog_id, mergeDialogId, classGuid, 0, threadMessageId, searchingUserMessages, searchingChatMessages, searchingReaction, searchingType);
+            getMediaDataController().searchMessagesInChat(searchingQuery, dialog_id, mergeDialogId, classGuid, 0, threadMessageId, searchingUserMessages, searchingChatMessages, searchingReaction, searchingType);
         }
 
         @Override
