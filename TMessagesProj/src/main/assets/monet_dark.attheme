@@ -344,6 +344,7 @@ chat_outVoiceSeekbarSelected=n1_900
 chat_previewDurationText=n1_50
 chat_previewGameText=n1_50
 chat_recordedVoiceBackground=n2_800
+chat_recordedVoiceDarkerBackground=a1_600
 chat_recordedVoiceDot=a1_100
 chat_recordedVoicePlayPause=a1_100
 chat_recordedVoiceProgress=n2_100
