@@ -28,11 +28,9 @@ import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.Bulletin;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.security.MessageDigest;
@@ -40,6 +38,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -47,7 +46,6 @@ import tw.nekomimi.nekogram.NekoConfig;
 
 @SuppressWarnings("ResultOfMethodCallIgnored")
 public class EmojiHelper {
-    private static final String EMOJI_FONT_AOSP = "NotoColorEmoji.ttf";
     private static final String EMOJI_PACKS_FILE_DIR;
     public static EmojiPack DEFAULT_PACK = new EmojiPack("Apple", "default", "", "", 0);
     private static final Runnable invalidateUiRunnable = () -> NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.emojiLoaded);
@@ -64,9 +62,7 @@ public class EmojiHelper {
     private final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoemojis", Context.MODE_PRIVATE);
 
     private String emojiPack;
-    private Typeface systemEmojiTypeface;
     private Bitmap systemEmojiPreview;
-    private boolean loadSystemEmojiFailed = false;
     private String pendingDeleteEmojiPackId;
     private Bulletin emojiPackBulletin;
 
@@ -92,42 +88,6 @@ public class EmojiHelper {
         return InstanceHolder.instance;
     }
 
-    public static File getSystemEmojiFontPath() {
-        try (var br = new BufferedReader(new FileReader("/system/etc/fonts.xml"))) {
-            String line;
-            var ignored = false;
-            while ((line = br.readLine()) != null) {
-                var trimmed = line.trim();
-                if (trimmed.startsWith("<family") && trimmed.contains("ignore=\"true\"")) {
-                    ignored = true;
-                } else if (trimmed.startsWith("</family>")) {
-                    ignored = false;
-                } else if (trimmed.startsWith("<font") && !ignored) {
-                    var start = trimmed.indexOf(">");
-                    var end = trimmed.indexOf("<", 1);
-                    if (start > 0 && end > 0) {
-                        var font = trimmed.substring(start + 1, end);
-                        if (font.toLowerCase().contains("emoji")) {
-                            File file = new File("/system/fonts/" + font);
-                            if (file.exists()) {
-                                FileLog.d("emoji font file fonts.xml = " + font);
-                                return file;
-                            }
-                        }
-                    }
-                }
-            }
-            br.close();
-
-            var fileAOSP = new File("/system/fonts/" + EMOJI_FONT_AOSP);
-            if (fileAOSP.exists()) {
-                return fileAOSP;
-            }
-        } catch (Exception e) {
-            FileLog.e(e);
-        }
-        return null;
-    }
 
     private static ArrayList<File> getAllEmojis() {
         ArrayList<File> emojis = new ArrayList<>();
@@ -205,16 +165,18 @@ public class EmojiHelper {
 
     public static void drawEmojiFont(Canvas canvas, int x, int y, Typeface typeface, String emoji, int emojiSize) {
         int fontSize = (int) (emojiSize * 0.85f);
-        Rect areaRect = new Rect(0, 0, emojiSize, emojiSize);
         if (textPaint == null) {
             textPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
             textPaint.setTextAlign(Paint.Align.CENTER);
+            textPaint.setTextLocale(Locale.forLanguageTag("und-Zsye"));
         }
         textPaint.setTypeface(typeface);
         textPaint.setTextSize(fontSize);
-        Rect textRect = new Rect();
-        textPaint.getTextBounds(emoji, 0, emoji.length(), textRect);
-        canvas.drawText(emoji, areaRect.centerX() + x, -textRect.top + y, textPaint);
+        var fm = textPaint.getFontMetricsInt();
+        var textHeight = fm.descent - fm.ascent;
+        var baseline = y + (emojiSize - textHeight) / 2f - fm.ascent;
+        var centerX = x + emojiSize / 2f;
+        canvas.drawText(emoji, centerX, baseline, textPaint);
     }
 
     public Long getEmojiSize() {
@@ -257,16 +219,7 @@ public class EmojiHelper {
     }
 
     public Typeface getSystemEmojiTypeface() {
-        if (!loadSystemEmojiFailed && systemEmojiTypeface == null) {
-            var font = getSystemEmojiFontPath();
-            if (font != null) {
-                systemEmojiTypeface = Typeface.createFromFile(font);
-            }
-            if (systemEmojiTypeface == null) {
-                loadSystemEmojiFailed = true;
-            }
-        }
-        return systemEmojiTypeface;
+        return TypefaceHelper.getSystemEmojiTypeface();
     }
 
     private Typeface getSelectedTypeface() {

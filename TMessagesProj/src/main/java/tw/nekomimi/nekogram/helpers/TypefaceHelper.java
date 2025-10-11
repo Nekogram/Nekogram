@@ -4,11 +4,15 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Typeface;
+import android.os.Build;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.util.List;
 
 import tw.nekomimi.nekogram.NekoConfig;
@@ -23,9 +27,13 @@ public class TypefaceHelper {
         setSubpixelText(false);
         setFakeBoldText(false);
     }};
+    private static final String EMOJI_FONT_AOSP = "NotoColorEmoji.ttf";
 
     private static Boolean mediumWeightSupported = null;
     private static Boolean italicSupported = null;
+
+    private static Typeface systemEmojiTypeface;
+    private static boolean loadSystemEmojiFailed = false;
 
     static {
         var lang = LocaleController.getInstance().getCurrentLocale().getLanguage();
@@ -46,9 +54,69 @@ public class TypefaceHelper {
         }
     }
 
+    public static Typeface getSystemEmojiTypeface() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            return null;
+        }
+        if (!loadSystemEmojiFailed && systemEmojiTypeface == null) {
+            var font = getSystemEmojiFontPathLegacy();
+            if (font != null) {
+                systemEmojiTypeface = Typeface.createFromFile(font);
+            }
+            if (systemEmojiTypeface == null) {
+                loadSystemEmojiFailed = true;
+            }
+        }
+        return systemEmojiTypeface;
+    }
+
+    private static File getSystemEmojiFontPathLegacy() {
+        try (var br = new BufferedReader(new FileReader("/system/etc/fonts.xml"))) {
+            String line;
+            var ignored = false;
+            while ((line = br.readLine()) != null) {
+                var trimmed = line.trim();
+                if (trimmed.startsWith("<family") && trimmed.contains("ignore=\"true\"")) {
+                    ignored = true;
+                } else if (trimmed.startsWith("</family>")) {
+                    ignored = false;
+                } else if (trimmed.startsWith("<font") && !ignored) {
+                    var start = trimmed.indexOf(">");
+                    var end = trimmed.indexOf("<", 1);
+                    if (start > 0 && end > 0) {
+                        var font = trimmed.substring(start + 1, end);
+                        if (font.toLowerCase().contains("emoji")) {
+                            File file = new File("/system/fonts/" + font);
+                            if (file.exists()) {
+                                FileLog.d("emoji font file fonts.xml = " + font);
+                                return file;
+                            }
+                        }
+                    }
+                }
+            }
+            br.close();
+
+            var fileAOSP = new File("/system/fonts/" + EMOJI_FONT_AOSP);
+            if (fileAOSP.exists()) {
+                return fileAOSP;
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return null;
+    }
+
+    public static Typeface createTypeface(boolean bold, boolean italic) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+            return Typeface.create(null, bold ? 500 : 400, italic);
+        }
+        return Typeface.create(bold ? "sans-serif-medium" : "sans-serif", italic ? Typeface.ITALIC : Typeface.NORMAL);
+    }
+
     public static boolean isMediumWeightSupported() {
         if (mediumWeightSupported == null) {
-            mediumWeightSupported = !NekoConfig.forceFontWeightFallback && testTypeface(Typeface.create("sans-serif-medium", Typeface.NORMAL));
+            mediumWeightSupported = !NekoConfig.forceFontWeightFallback && testTypeface(createTypeface(true, false));
             FileLog.d("mediumWeightSupported = " + mediumWeightSupported);
         }
         return mediumWeightSupported;
@@ -56,7 +124,7 @@ public class TypefaceHelper {
 
     public static boolean isItalicSupported() {
         if (italicSupported == null) {
-            italicSupported = testTypeface(Typeface.create("sans-serif", Typeface.ITALIC));
+            italicSupported = testTypeface(createTypeface(false, true));
             FileLog.d("italicSupported = " + italicSupported);
         }
         return italicSupported;

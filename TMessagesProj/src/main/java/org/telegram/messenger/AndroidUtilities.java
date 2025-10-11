@@ -2308,17 +2308,17 @@ public class AndroidUtilities {
                     switch (assetPath) {
                         case TYPEFACE_ROBOTO_MEDIUM:
                             if (TypefaceHelper.isMediumWeightSupported()) {
-                                t = Typeface.create("sans-serif-medium", Typeface.NORMAL);
+                                t = TypefaceHelper.createTypeface(true, false);
                             } else {
                                 t = Typeface.create("sans-serif", Typeface.BOLD);
                             }
                             break;
                         case "fonts/ritalic.ttf":
-                            t = Typeface.create("sans-serif", Typeface.ITALIC);
+                            t = TypefaceHelper.createTypeface(false, true);
                             break;
                         case TYPEFACE_ROBOTO_MEDIUM_ITALIC:
                             if (TypefaceHelper.isMediumWeightSupported()) {
-                                t = Typeface.create("sans-serif-medium", Typeface.ITALIC);
+                                t = TypefaceHelper.createTypeface(true, true);
                             } else {
                                 t = Typeface.create("sans-serif", Typeface.BOLD_ITALIC);
                             }
