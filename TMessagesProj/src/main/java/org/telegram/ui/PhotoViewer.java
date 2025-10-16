@@ -14734,15 +14734,15 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 ImageLocation imageLocation = imagesArrLocations.get(index);
                 if (imageLocation != null && imageLocation.photo != null) {
                     actionBarContainer.setSubtitle(String.format(Locale.US, "%s, DC%d", LocaleController.formatDateTime(imageLocation.photo.date, true), imageLocation.dc_id), animated);
-                    if (imageLocation.photo.video_sizes.isEmpty()) {
-                        menuItem.showSubItem(gallery_menu_copy);
-                        if (hasLens) menuItem.showSubItem(gallery_menu_lens);
-                    } else {
-                        menuItem.hideSubItem(gallery_menu_copy);
-                        if (hasLens) menuItem.hideSubItem(gallery_menu_lens);
-                    }
                 } else {
                     actionBarContainer.setSubtitle("", animated);
+                }
+                if (imageLocation.photo == null || imageLocation.photo.video_sizes.isEmpty()) {
+                    menuItem.showSubItem(gallery_menu_copy);
+                    if (hasLens) menuItem.showSubItem(gallery_menu_lens);
+                } else {
+                    menuItem.hideSubItem(gallery_menu_copy);
+                    if (hasLens) menuItem.hideSubItem(gallery_menu_lens);
                 }
                 menuItem.showSubItem(gallery_menu_report);
             }
