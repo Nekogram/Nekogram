@@ -26,6 +26,7 @@ import android.app.Dialog;
 import android.app.PictureInPictureParams;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -145,6 +146,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.Vector;
 import org.telegram.tgnet.tl.TL_account;
 import org.telegram.tgnet.tl.TL_chatlists;
+import org.telegram.tgnet.tl.TL_forum;
 import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.tgnet.tl.TL_stories;
 import org.telegram.ui.ActionBar.ActionBarLayout;
@@ -381,6 +383,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     };
 
     private FlagSecureReason flagSecureReason;
+    private final LiteMode.BatteryReceiver batteryReceiver = new LiteMode.BatteryReceiver();
 
     public static LaunchActivity instance;
 
@@ -397,6 +400,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         ApplicationLoader.postInitApplication();
         AndroidUtilities.checkDisplaySize(this, getResources().getConfiguration());
         currentAccount = UserConfig.selectedAccount;
+        registerReceiver(batteryReceiver, new IntentFilter(Intent.ACTION_BATTERY_CHANGED));
         if (!UserConfig.getInstance(currentAccount).isClientActivated()) {
             Intent intent = getIntent();
             boolean isProxy = false;
@@ -877,7 +881,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.requestPermissions);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.billingConfirmPurchaseError);
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.currentUserPremiumStatusChanged);
-        LiteMode.addOnPowerSaverAppliedListener(this::onPowerSaver);
+        LiteMode.addOnPowerSaverAppliedListener(onPowerSaverCallback = this::onPowerSaver);
         if (actionBarLayout.getFragmentStack().isEmpty() && (layersActionBarLayout == null || layersActionBarLayout.getFragmentStack().isEmpty())) {
             if (!UserConfig.getInstance(currentAccount).isClientActivated()) {
                 actionBarLayout.addFragmentToStack(getClientNotActivatedFragment());
@@ -3875,8 +3879,8 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             forumTopic = MessagesController.getInstance(intentAccount).getTopicsController().findTopic(chat.id, topicId);
         }
         if (forumTopic == null) {
-            TLRPC.TL_channels_getForumTopicsByID getForumTopicsByID = new TLRPC.TL_channels_getForumTopicsByID();
-            getForumTopicsByID.channel = MessagesController.getInstance(currentAccount).getInputChannel(chat.id);
+            TL_forum.TL_messages_getForumTopicsByID getForumTopicsByID = new TL_forum.TL_messages_getForumTopicsByID();
+            getForumTopicsByID.peer = MessagesController.getInstance(currentAccount).getInputPeer(-chat.id);
             getForumTopicsByID.topics.add(topicId);
             ConnectionsManager.getInstance(intentAccount).sendRequest(getForumTopicsByID, (response2, error2) -> AndroidUtilities.runOnUIThread(() -> {
                 if (error2 == null) {
@@ -6652,8 +6656,12 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.requestPermissions);
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.billingConfirmPurchaseError);
 
-        LiteMode.removeOnPowerSaverAppliedListener(this::onPowerSaver);
+        if (onPowerSaverCallback != null) {
+            LiteMode.removeOnPowerSaverAppliedListener(onPowerSaverCallback);
+        }
     }
+
+    private Utilities.Callback<Boolean> onPowerSaverCallback;
 
     private void onPowerSaver(boolean applied) {
         if (actionBarLayout == null || !applied || LiteMode.getPowerSaverLevel() >= 100) {
@@ -6923,6 +6931,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             MonetHelper.unregisterReceiver(this);
         }
         isActive = false;
+        unregisterReceiver(batteryReceiver);
         if (PhotoViewer.getPipInstance() != null) {
             PhotoViewer.getPipInstance().destroyPhotoViewer();
         }
@@ -8793,12 +8802,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private @Nullable CustomNavigationBar customNavigationBar;
 
     public void requestCustomNavigationBar() {
-        if (Build.VERSION.SDK_INT < 35) {
-            return;
-        }
-
         if (customNavigationBar == null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             customNavigationBar = new CustomNavigationBar(this);
+            customNavigationBar.setActivityContentView(frameLayout);
             FrameLayout decorView = (FrameLayout) getWindow().getDecorView();
             decorView.addView(customNavigationBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM));
         }

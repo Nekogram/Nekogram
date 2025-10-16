@@ -95,6 +95,7 @@ android {
             buildConfigField("String","VERSION_NAME","\"${APP_VERSION_NAME}\"")
             buildConfigField("long", "BUILD_VERSION", "${TG_APP_VERSION_CODE}")
             buildConfigField("String","BUILD_VERSION_STRING","\"${TG_APP_VERSION_NAME}\"")
+            buildConfigField("boolean", "DEBUG_PRIVATE_VERSION", "false")
         }
 
         release {
@@ -102,6 +103,7 @@ android {
             buildConfigField("String","VERSION_NAME","\"${APP_VERSION_NAME}\"")
             buildConfigField("long", "BUILD_VERSION", "${TG_APP_VERSION_CODE}")
             buildConfigField("String","BUILD_VERSION_STRING","\"${TG_APP_VERSION_NAME}\"")
+            buildConfigField("boolean", "DEBUG_PRIVATE_VERSION", "false")
         }
     }
     namespace 'org.telegram.messenger'
