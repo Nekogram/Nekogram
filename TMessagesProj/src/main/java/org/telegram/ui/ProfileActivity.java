@@ -13473,7 +13473,50 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                     cell.setColor(peerColor);
                     if (userInfo != null && userInfo.saved_music != null) {
-                        cell.setMusicDocument(userInfo.saved_music);
+                        TLRPC.Document doc = userInfo.saved_music;
+
+                        cell.setMusicDocument(doc);
+
+                        String title = null, artist = null;
+                        for (int i = 0; i < doc.attributes.size(); i++) {
+                            TLRPC.DocumentAttribute attr = doc.attributes.get(i);
+                            if (attr instanceof TLRPC.TL_documentAttributeAudio) {
+                                TLRPC.TL_documentAttributeAudio audio = (TLRPC.TL_documentAttributeAudio) attr;
+                                if (!audio.voice) {
+                                    title = audio.title;
+                                    artist = audio.performer;
+                                }
+                            }
+                        }
+                        if (TextUtils.isEmpty(title)) {
+                            title = org.telegram.messenger.FileLoader.getDocumentFileName(doc);
+                        }
+
+                        String header = LocaleController.getString("Music", R.string.Music);
+
+                        String safeArtist = !TextUtils.isEmpty(artist)
+                                ? artist
+                                : LocaleController.getString("AudioUnknownArtist", R.string.AudioUnknownArtist);
+                        String safeTitle = !TextUtils.isEmpty(title)
+                                ? title
+                                : LocaleController.getString("AudioUnknownTitle", R.string.AudioUnknownTitle);
+
+                        String info = LocaleController.formatString(
+                                "AccDescrMusicInfo",
+                                R.string.AccDescrMusicInfo,
+                                safeArtist,
+                                safeTitle
+                        );
+
+                        String cd = header + "\n" + info;
+
+                        cell.setFocusable(true);
+                        cell.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+                        cell.setContentDescription(cd);
+
+                    } else {
+                        cell.setContentDescription(null);
+                        cell.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
                     }
                     view = cell;
                     break;
