@@ -47,6 +47,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
 
     private int notificationRow;
     private int accentAsNotificationColorRow;
+    private int disableNotificationSummaryRow;
     private int silenceNonContactsRow;
     private int notification2Row;
 
@@ -156,6 +157,11 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.accentAsNotificationColor);
             }
+        }  else if (position == disableNotificationSummaryRow) {
+            NekoConfig.toggleDisableNotificationSummary();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.disableNotificationSummary);
+            }
         } else if (position == silenceNonContactsRow) {
             NekoConfig.toggleSilenceNonContacts();
             if (view instanceof TextCheckCell) {
@@ -257,6 +263,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
 
         notificationRow = addRow("notification");
         accentAsNotificationColorRow = addRow("accentAsNotificationColor");
+        disableNotificationSummaryRow = addRow("disableNotificationSummary");
         silenceNonContactsRow = addRow("silenceNonContacts");
         notification2Row = addRow();
 
@@ -385,6 +392,8 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.AskBeforeCalling), NekoConfig.askBeforeCall, divider);
                     } else if (position == accentAsNotificationColorRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.AccentAsNotificationColor), NekoConfig.accentAsNotificationColor, divider);
+                    } else if (position == disableNotificationSummaryRow) {
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.DisableNotificationSummary), NekoConfig.disableNotificationSummary, divider);
                     } else if (position == silenceNonContactsRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.SilenceNonContacts), NekoConfig.silenceNonContacts, divider);
                     } else if (position == autoTranslateRow) {

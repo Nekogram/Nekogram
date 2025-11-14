@@ -129,6 +129,7 @@ public class NekoConfig {
     public static boolean tryToOpenAllLinksInIV = false;
     public static boolean formatTimeWithSeconds = false;
     public static boolean accentAsNotificationColor = false;
+    public static boolean disableNotificationSummary = false;
     public static boolean silenceNonContacts = false;
     public static boolean disableJumpToNextChannel = false;
     public static boolean disableVoiceMessageAutoPlay = false;
@@ -222,6 +223,7 @@ public class NekoConfig {
             tryToOpenAllLinksInIV = preferences.getBoolean("tryToOpenAllLinksInIV", false);
             formatTimeWithSeconds = preferences.getBoolean("formatTimeWithSeconds", false);
             accentAsNotificationColor = preferences.getBoolean("accentAsNotificationColor", false);
+            disableNotificationSummary = preferences.getBoolean("disableNotificationSummary", false);
             silenceNonContacts = preferences.getBoolean("silenceNonContacts", false);
             showNoQuoteForward = preferences.getBoolean("showNoQuoteForward", false);
             wsEnableTLS = preferences.getBoolean("wsEnableTLS", true);
@@ -916,6 +918,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("accentAsNotificationColor", accentAsNotificationColor);
+        editor.apply();
+    }
+
+    public static void toggleDisableNotificationSummary() {
+        disableNotificationSummary = !disableNotificationSummary;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("disableNotificationSummary", disableNotificationSummary);
         editor.apply();
     }
 
