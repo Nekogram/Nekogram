@@ -155,7 +155,7 @@
     <string name="QRLoginTitle">Inicio de sesión con QR</string>
     <string name="NoTranslatorAppInstalled">No tienes aplicaciones que puedan manejar la intención de traducir, por favor instala una para continuar</string>
     <string name="DisableVoiceMessagesAutoPlay">Desactivar la reproducción automática de mensajes de voz</string>
-    <string name="UnmuteVideosWithVolumeButtons"></string>
+    <string name="UnmuteVideosWithVolumeButtons">Silenciar videos con botones de volumen</string>
     <string name="TranslatorType">Estilo</string>
     <string name="TranslatorTypeNeko">En mensaje</string>
     <string name="TranslatorTypeTG">Diálogo emergente</string>
@@ -313,9 +313,15 @@
     <string name="AutoInlineBotDesc">Consultando automáticamente el bot inline basado en el texto del mensaje.</string>
     <string name="ShortStandardQuality">SD</string>
     <string name="ForceFontWeightFallback">Forzar el peso de la fuente por omisión</string>
+    <string name="HideChannelBottomButtons">Ocultar botones inferiores del canal</string>
+
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
     <string name="AccSeekbarHeading">Configuración de la barra de búsqueda</string>
+    <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading">Seleccione el tiempo en ms, después del cual se anunciará el cambio de valor de la barra de búsqueda, si seleccionó esta opción</string>
+    <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar">Retraso antes de anunciar el cambio de valor de la barra de búsqueda</string>
+    <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay">Sin retraso</string>
+    <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
     <string name="AccNumberOfItems">Mostrar número de elementos</string>
     <string name="AccIndexOfItem">Mostrar posición actual</string>
     <string name="AccShowValueChanges">Anunciar cambios de valor durante los cambios manuales</string>
