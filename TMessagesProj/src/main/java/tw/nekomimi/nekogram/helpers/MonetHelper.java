@@ -1,16 +1,12 @@
 package tw.nekomimi.nekogram.helpers;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Build;
-import android.os.PatternMatcher;
 
 import androidx.annotation.RequiresApi;
 
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.Theme;
 
@@ -89,8 +85,7 @@ public class MonetHelper {
         put("monetRedCall", R.color.monetRedCall);
         put("monetGreenCall", R.color.monetGreenCall);
     }};
-    private static final String ACTION_OVERLAY_CHANGED = "android.intent.action.OVERLAY_CHANGED";
-    private static final OverlayChangeReceiver overlayChangeReceiver = new OverlayChangeReceiver();
+    private static int lastMonetColor = 0;
 
     public static int getColor(String color) {
         return getColor(color, false);
@@ -107,38 +102,38 @@ public class MonetHelper {
         }
     }
 
-    private static class OverlayChangeReceiver extends BroadcastReceiver {
-
-        public void register(Context context) {
-            IntentFilter packageFilter = new IntentFilter(ACTION_OVERLAY_CHANGED);
-            packageFilter.addDataScheme("package");
-            packageFilter.addDataSchemeSpecificPart("android", PatternMatcher.PATTERN_LITERAL);
-            context.registerReceiver(this, packageFilter);
+    /**
+     * Refresh Monet theme if the system color has changed.
+     * Called in LaunchActivity.onResume()
+     */
+    public static void refreshMonetThemeIfChanged() {
+        // Quick check: if the current theme is not a Monet theme, return directly
+        Theme.ThemeInfo activeTheme = Theme.getActiveTheme();
+        if (activeTheme == null || !activeTheme.isMonet()) {
+            lastMonetColor = 0; // Reset to detect correctly when switching back to Monet theme
+            return;
         }
 
-        public void unregister(Context context) {
-            context.unregisterReceiver(this);
+        int currentColor = getColor("a1_600");
+
+        // Record the color only on the first call, do not trigger refresh
+        if (lastMonetColor == 0) {
+            lastMonetColor = currentColor;
+            return;
         }
 
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (ACTION_OVERLAY_CHANGED.equals(intent.getAction())) {
-                if (Theme.getActiveTheme().isMonet()) {
-                    Theme.applyTheme(Theme.getActiveTheme());
-                }
-            }
+        // Return directly if the color has not changed
+        if (lastMonetColor == currentColor) {
+            return;
         }
-    }
 
-    public static void registerReceiver(Context context) {
-        overlayChangeReceiver.register(context);
-    }
+        // Refresh theme
+        boolean isNight = Theme.isCurrentThemeNight();
+        Theme.applyTheme(activeTheme, isNight);
+        NotificationCenter.getGlobalInstance().postNotificationName(
+                NotificationCenter.needSetDayNightTheme, activeTheme, isNight, null, -1
+        );
 
-    public static void unregisterReceiver(Context context) {
-        try {
-            overlayChangeReceiver.unregister(context);
-        } catch (IllegalArgumentException e) {
-            FileLog.e(e);
-        }
+        lastMonetColor = currentColor;
     }
 }
