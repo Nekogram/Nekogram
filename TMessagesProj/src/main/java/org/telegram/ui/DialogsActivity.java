@@ -614,17 +614,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     private int folderId;
 
-    private final static int pin = 100;
-    private final static int read = 101;
-    private final static int delete = 102;
-    private final static int clear = 103;
-    private final static int mute = 104;
-    private final static int archive = 105;
-    private final static int block = 106;
-    private final static int archive2 = 107;
-    private final static int pin2 = 108;
-    private final static int add_to_folder = 109;
-    private final static int remove_from_folder = 110;
+    public final static int pin = 100;
+    public final static int read = 101;
+    public final static int delete = 102;
+    public final static int clear = 103;
+    public final static int mute = 104;
+    public final static int archive = 105;
+    public final static int block = 106;
+    public final static int archive2 = 107;
+    public final static int pin2 = 108;
+    public final static int add_to_folder = 109;
+    public final static int remove_from_folder = 110;
 
     private final static int ARCHIVE_ITEM_STATE_PINNED = 0;
     private final static int ARCHIVE_ITEM_STATE_SHOWED = 1;
@@ -9326,7 +9326,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         return dialog.pinned;
     }
 
-    private void performSelectedDialogsAction(ArrayList<Long> selectedDialogs, int action, boolean alert, boolean longPress) {
+    public void performSelectedDialogsAction(ArrayList<Long> selectedDialogs, int action, boolean alert, boolean longPress) {
         performSelectedDialogsAction(selectedDialogs, action, alert, longPress, null);
     }
 
@@ -9699,7 +9699,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         hideActionMode(action != pin2 && action != pin && action != delete);
     }
 
-    private void markAsRead(long did) {
+    public void markAsRead(long did) {
         TLRPC.Dialog dialog = getMessagesController().dialogs_dict.get(did);
         MessagesController.DialogFilter filter;
         boolean containsFilter = (viewPages[0].dialogsType == 7 || viewPages[0].dialogsType == 8) && (!actionBar.isActionModeShowed() || actionBar.isActionModeShowed(null));
@@ -9739,7 +9739,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    private void markAsUnread(long did) {
+    public void markAsUnread(long did) {
         getMessagesController().markDialogAsUnread(did, null, 0);
     }
 
@@ -9789,7 +9789,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    private void pinDialog(long selectedDialog, boolean pin, MessagesController.DialogFilter filter, int minPinnedNum, boolean animated) {
+    public void pinDialog(long selectedDialog, boolean pin, MessagesController.DialogFilter filter, int minPinnedNum, boolean animated) {
 
         int selectedDialogIndex = -1;
         int currentDialogIndex = -1;

@@ -514,6 +514,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             return false;
         }
 
+        default boolean didPressAccessibilityAction(ChatMessageCell cell, int action) {
+            return false;
+        }
+
         default void didPressExtendedMediaPreview(ChatMessageCell cell, TLRPC.KeyboardButton button) {
         }
 
@@ -25058,6 +25062,16 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     info.setCollectionItemInfo(AccessibilityNodeInfo.CollectionItemInfo.obtain(itemInfo.getRowIndex(), 1, 0, 1, false));
                 }
                 info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_msg_options, getString("AccActionMessageOptions", R.string.AccActionMessageOptions)));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_reply, LocaleController.getString(R.string.Reply)));
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_copy, LocaleController.getString(R.string.Copy)));
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_forward, LocaleController.getString(R.string.Forward)));
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_delete, LocaleController.getString(R.string.Delete)));
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_pin, LocaleController.getString(R.string.PinMessage)));
+                    if (currentMessageObject != null && (currentMessageObject.isPhoto() || currentMessageObject.isVideo())) {
+                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_save_to_gallery, LocaleController.getString(R.string.SaveToGallery)));
+                    }
+                }
                 int icon = getIconForCurrentState();
                 CharSequence actionLabel = null;
                 switch (icon) {
@@ -25511,6 +25525,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
         @Override
         public boolean performAction(int virtualViewId, int action, Bundle arguments) {
+            if (delegate != null && delegate.didPressAccessibilityAction(ChatMessageCell.this, action)) {
+                return true;
+            }
             if (virtualViewId == HOST_VIEW_ID) {
                 performAccessibilityAction(action, arguments);
             } else {

@@ -874,7 +874,7 @@ public abstract class BaseFragment {
         return getAccountInstance().getLocationController();
     }
 
-    protected NotificationsController getNotificationsController() {
+    public NotificationsController getNotificationsController() {
         return getAccountInstance().getNotificationsController();
     }
 

@@ -29,6 +29,24 @@
     <item name="acc_action_open_photo" type="id"/>
     <item name="acc_action_chat_preview" type="id"/>
     <item name="acc_action_open_forwarded_origin" type="id"/>
+    <item name="acc_action_pin" type="id"/>
+    <item name="acc_action_unpin" type="id"/>
+    <item name="acc_action_mute" type="id"/>
+    <item name="acc_action_unmute" type="id"/>
+    <item name="acc_action_read" type="id"/>
+    <item name="acc_action_unread" type="id"/>
+    <item name="acc_action_archive" type="id"/>
+    <item name="acc_action_unarchive" type="id"/>
+    <item name="acc_action_delete" type="id"/>
+    <item name="acc_action_clear_history" type="id"/>
+    <item name="acc_action_block" type="id"/>
+    <item name="acc_action_voice_call" type="id"/>
+    <item name="acc_action_video_call" type="id"/>
+    <item name="acc_action_folder" type="id"/>
+    <item name="acc_action_reply" type="id"/>
+    <item name="acc_action_copy" type="id"/>
+    <item name="acc_action_forward" type="id"/>
+    <item name="acc_action_save_to_gallery" type="id"/>
     <item name="shake_animation" type="id"/>
 
     <item name="timeout_callback" type="id"/>

@@ -38232,6 +38232,34 @@ public class ChatActivity extends BaseFragment implements
     }
     private class ChatMessageCellDelegate implements ChatMessageCell.ChatMessageCellDelegate {
         @Override
+        public boolean didPressAccessibilityAction(ChatMessageCell cell, int action) {
+            MessageObject messageObject = cell.getMessageObject();
+            if (messageObject == null) {
+                return false;
+            }
+            int option = -1;
+            if (action == R.id.acc_action_reply) {
+                option = OPTION_REPLY;
+            } else if (action == R.id.acc_action_copy) {
+                option = OPTION_COPY;
+            } else if (action == R.id.acc_action_forward) {
+                option = OPTION_FORWARD;
+            } else if (action == R.id.acc_action_delete) {
+                option = OPTION_DELETE;
+            } else if (action == R.id.acc_action_pin) {
+                option = OPTION_PIN;
+            } else if (action == R.id.acc_action_save_to_gallery) {
+                option = OPTION_SAVE_TO_GALLERY;
+            }
+
+            if (option != -1) {
+                processSelectedOption(option);
+                return true;
+            }
+            return false;
+        }
+
+        @Override
         public boolean isReplyOrSelf() {
             return UserObject.isReplyUser(currentUser) || UserObject.isUserSelf(currentUser);
         }

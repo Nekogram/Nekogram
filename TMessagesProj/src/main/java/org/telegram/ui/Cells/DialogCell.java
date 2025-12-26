@@ -75,6 +75,7 @@ import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.NotificationCenter;
+import org.telegram.messenger.NotificationsController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
@@ -120,6 +121,7 @@ import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.Components.URLSpanNoUnderlineBold;
 import org.telegram.ui.Components.VectorAvatarThumbDrawable;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
+import org.telegram.ui.Components.voip.VoIPHelper;
 import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.FilterCreateActivity;
 import org.telegram.ui.RightSlidingDialogContainer;
@@ -129,6 +131,7 @@ import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.Stories.StoryViewer;
 
 import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -137,6 +140,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Stack;
 
+import org.telegram.messenger.AccountInstance;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.MessageFilterHelper;
 
@@ -5051,6 +5055,76 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         if (action == R.id.acc_action_chat_preview && parentFragment != null) {
             parentFragment.showChatPreview(this);
             return true;
+        } else if (action == R.id.acc_action_voice_call) {
+            if (parentFragment != null && user != null) {
+                VoIPHelper.startCall(user, false, false, parentFragment.getParentActivity(), null, AccountInstance.getInstance(currentAccount));
+            }
+            return true;
+        } else if (action == R.id.acc_action_video_call) {
+            if (parentFragment != null && user != null) {
+                VoIPHelper.startCall(user, true, true, parentFragment.getParentActivity(), null, AccountInstance.getInstance(currentAccount));
+            }
+            return true;
+        } else if (action == R.id.acc_action_pin || action == R.id.acc_action_unpin) {
+            if (parentFragment != null) {
+                parentFragment.pinDialog(currentDialogId, action == R.id.acc_action_pin, null, 0, true);
+            }
+            return true;
+        } else if (action == R.id.acc_action_read) {
+            if (parentFragment != null) {
+                parentFragment.markAsRead(currentDialogId);
+            }
+            return true;
+        } else if (action == R.id.acc_action_unread) {
+            if (parentFragment != null) {
+                parentFragment.markAsUnread(currentDialogId);
+            }
+            return true;
+        } else if (action == R.id.acc_action_mute) {
+            if (parentFragment != null) {
+                parentFragment.getNotificationsController().setDialogNotificationsSettings(currentDialogId, 0, NotificationsController.SETTING_MUTE_FOREVER);
+            }
+            return true;
+        } else if (action == R.id.acc_action_unmute) {
+            if (parentFragment != null) {
+                parentFragment.getNotificationsController().setDialogNotificationsSettings(currentDialogId, 0, NotificationsController.SETTING_MUTE_UNMUTE);
+            }
+            return true;
+        } else if (action == R.id.acc_action_archive) {
+            if (parentFragment != null) {
+                ArrayList<Long> dialogs = new ArrayList<>();
+                dialogs.add(currentDialogId);
+                parentFragment.performSelectedDialogsAction(dialogs, DialogsActivity.archive, false, false);
+            }
+            return true;
+        } else if (action == R.id.acc_action_unarchive) {
+            if (parentFragment != null) {
+                ArrayList<Long> dialogs = new ArrayList<>();
+                dialogs.add(currentDialogId);
+                parentFragment.performSelectedDialogsAction(dialogs, DialogsActivity.archive, false, false);
+            }
+            return true;
+        } else if (action == R.id.acc_action_delete) {
+            if (parentFragment != null) {
+                ArrayList<Long> dialogs = new ArrayList<>();
+                dialogs.add(currentDialogId);
+                parentFragment.performSelectedDialogsAction(dialogs, DialogsActivity.delete, true, false);
+            }
+            return true;
+        } else if (action == R.id.acc_action_clear_history) {
+            if (parentFragment != null) {
+                ArrayList<Long> dialogs = new ArrayList<>();
+                dialogs.add(currentDialogId);
+                parentFragment.performSelectedDialogsAction(dialogs, DialogsActivity.clear, true, false);
+            }
+            return true;
+        } else if (action == R.id.acc_action_block) {
+            if (parentFragment != null) {
+                ArrayList<Long> dialogs = new ArrayList<>();
+                dialogs.add(currentDialogId);
+                parentFragment.performSelectedDialogsAction(dialogs, DialogsActivity.block, true, false);
+            }
+            return true;
         }
         return super.performAccessibilityAction(action, arguments);
     }
@@ -5064,7 +5138,43 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
             info.addAction(AccessibilityNodeInfo.ACTION_LONG_CLICK);
             if (!isFolderCell() && parentFragment != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_chat_preview, getString(R.string.AccActionChatPreview)));
+                info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_chat_preview, LocaleController.getString(R.string.AccActionChatPreview)));
+
+                if (!DialogObject.isEncryptedDialog(currentDialogId) && user != null && !user.bot && !user.self) {
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_voice_call, LocaleController.getString(R.string.Call)));
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_video_call, LocaleController.getString(R.string.VideoCall)));
+                }
+
+                if (getIsPinned()) {
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_unpin, LocaleController.getString(R.string.UnpinFromTop)));
+                } else {
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_pin, LocaleController.getString(R.string.PinToTop)));
+                }
+
+                if (!getIsMuted()) {
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_mute, LocaleController.getString(R.string.Mute)));
+                } else {
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_unmute, LocaleController.getString(R.string.Unmute)));
+                }
+
+                if (isUnread()) {
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_read, LocaleController.getString(R.string.MarkAsRead)));
+                } else {
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_unread, LocaleController.getString(R.string.MarkAsUnread)));
+                }
+
+                if (currentDialogFolderId == 0) {
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_archive, LocaleController.getString(R.string.Archive)));
+                } else if (currentDialogFolderId == 1) {
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_unarchive, LocaleController.getString(R.string.Unarchive)));
+                }
+
+                info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_delete, LocaleController.getString(R.string.Delete)));
+                info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_clear_history, LocaleController.getString(R.string.ClearHistory)));
+
+                if (user != null && !user.self) {
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_block, LocaleController.getString(R.string.Block)));
+                }
             }
         }
         if (checkBox != null && checkBox.isChecked()) {
