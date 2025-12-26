@@ -25063,12 +25063,23 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 }
                 info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_msg_options, getString("AccActionMessageOptions", R.string.AccActionMessageOptions)));
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_reply, LocaleController.getString(R.string.Reply)));
-                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_copy, LocaleController.getString(R.string.Copy)));
-                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_forward, LocaleController.getString(R.string.Forward)));
-                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_delete, LocaleController.getString(R.string.Delete)));
-                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_pin, LocaleController.getString(R.string.PinMessage)));
-                    if (currentMessageObject != null && (currentMessageObject.isPhoto() || currentMessageObject.isVideo())) {
+                    boolean isProtected = currentMessageObject != null && currentMessageObject.isNoforwards();
+                    if (delegate != null && delegate.canPerformReply()) {
+                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_reply, LocaleController.getString(R.string.Reply)));
+                    }
+                    if (!isProtected) {
+                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_copy, LocaleController.getString(R.string.Copy)));
+                    }
+                    if (currentMessageObject != null && currentMessageObject.canForwardMessage()) {
+                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_forward, LocaleController.getString(R.string.Forward)));
+                    }
+                    if (currentMessageObject != null && currentMessageObject.canDeleteMessage(false, currentChat)) {
+                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_delete, LocaleController.getString(R.string.Delete)));
+                    }
+                    if (ChatObject.canPinMessages(currentChat) && (currentMessageObject != null && currentMessageObject.messageOwner != null && !currentMessageObject.messageOwner.pinned)) {
+                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_pin, LocaleController.getString(R.string.PinMessage)));
+                    }
+                    if (!isProtected && currentMessageObject != null && (currentMessageObject.isPhoto() || currentMessageObject.isVideo())) {
                         info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_save_to_gallery, LocaleController.getString(R.string.SaveToGallery)));
                     }
                 }
