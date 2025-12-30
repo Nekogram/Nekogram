@@ -1453,6 +1453,10 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             if (isTransitionSupport) {
                 height += AndroidUtilities.dp(1000);
             }
+            // Add navigation bar height for edge-to-edge support
+            if (parentFragment.isSupportEdgeToEdge()) {
+                height += AndroidUtilities.navigationBarHeight;
+            }
             super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(height, MeasureSpec.EXACTLY));
         }
     }
