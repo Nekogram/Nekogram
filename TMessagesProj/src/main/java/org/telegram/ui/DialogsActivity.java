@@ -13688,4 +13688,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             getMessagesController().markEmailSuggestionAsShown();
         }
     }
+
+    @Override
+    public boolean isSupportEdgeToEdge() {
+        return true;
+    }
 }
