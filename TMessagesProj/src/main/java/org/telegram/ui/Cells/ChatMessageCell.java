@@ -514,6 +514,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             return false;
         }
 
+        default boolean didPressAccessibilityAction(ChatMessageCell cell, int action) {
+            return false;
+        }
+
         default void didPressExtendedMediaPreview(ChatMessageCell cell, TLRPC.KeyboardButton button) {
         }
 
@@ -695,6 +699,13 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
 
         default boolean onAccessibilityAction(ChatMessageCell cell, int action, Bundle arguments) {
+            return false;
+        }
+
+        default void fillMessageAccessibilityMenu(ChatMessageCell cell, ArrayList<Integer> icons, ArrayList<CharSequence> items, ArrayList<Integer> options) {
+        }
+
+        default boolean performMessageAction(ChatMessageCell cell, int action) {
             return false;
         }
 
@@ -25064,6 +25075,74 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 if (delegate != null) {
                     delegate.onInitializeAccessibilityNodeInfo(ChatMessageCell.this, info);
                 }
+
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && delegate != null) {
+                    ArrayList<Integer> icons = new ArrayList<>();
+                    ArrayList<CharSequence> items = new ArrayList<>();
+                    ArrayList<Integer> options = new ArrayList<>();
+                    delegate.fillMessageAccessibilityMenu(ChatMessageCell.this, icons, items, options);
+
+                    for (int i = 0; i < options.size(); i++) {
+                        int option = options.get(i);
+                        int actionId = 0;
+                        if (option == ChatActivity.OPTION_REPLY) actionId = R.id.acc_action_reply;
+                        else if (option == ChatActivity.OPTION_COPY) actionId = R.id.acc_action_copy;
+                        else if (option == ChatActivity.OPTION_FORWARD) actionId = R.id.acc_action_forward;
+                        else if (option == ChatActivity.OPTION_EDIT) actionId = R.id.acc_action_edit;
+                        else if (option == ChatActivity.OPTION_DELETE) actionId = R.id.acc_action_delete;
+                        else if (option == ChatActivity.OPTION_PIN) actionId = R.id.acc_action_pin;
+                        else if (option == ChatActivity.OPTION_SAVE_TO_GALLERY || option == ChatActivity.OPTION_SAVE_TO_GALLERY2 || option == ChatActivity.OPTION_SAVE_TO_GALLERY_STICKER) actionId = R.id.acc_action_save_to_gallery;
+                        else if (option == ChatActivity.OPTION_SAVE_TO_DOWNLOADS_OR_MUSIC) actionId = R.id.acc_action_save_to_downloads;
+                        else if (option == ChatActivity.OPTION_SHARE) actionId = R.id.acc_action_share;
+                        else if (option == ChatActivity.OPTION_OPEN_PROFILE) actionId = R.id.acc_action_open_profile;
+                        else if (option == ChatActivity.OPTION_HIDE_SPONSORED_MESSAGE) actionId = R.id.acc_action_hide_ad;
+                        else if (option == ChatActivity.OPTION_ABOUT_REVENUE_SHARING_ADS) actionId = R.id.acc_action_about_ads;
+                        else if (option == ChatActivity.OPTION_REPORT_AD) actionId = R.id.acc_action_report_ad;
+                        else if (option == ChatActivity.OPTION_REMOVE_ADS) actionId = R.id.acc_action_remove_ads;
+                        else if (option == ChatActivity.OPTION_CANCEL_SENDING) actionId = R.id.acc_action_cancel_sending;
+                        else if (option == ChatActivity.OPTION_RETRY) actionId = R.id.acc_action_retry;
+                        else if (option == ChatActivity.OPTION_VIEW_REPLIES_OR_THREAD) actionId = R.id.acc_action_view_replies;
+                        else if (option == ChatActivity.OPTION_VIEW_IN_TOPIC) actionId = R.id.acc_action_view_in_topic;
+                        else if (option == ChatActivity.OPTION_UNPIN) actionId = R.id.acc_action_unpin;
+                        else if (option == ChatActivity.OPTION_SUGGESTION_ADD_OFFER) actionId = R.id.acc_action_add_offer;
+                        else if (option == ChatActivity.OPTION_REPORT_CHAT) actionId = R.id.acc_action_report;
+                        else if (option == ChatActivity.OPTION_GIFT) actionId = R.id.acc_action_gift;
+                        else if (option == ChatActivity.OPTION_DETAILS) actionId = R.id.acc_action_details;
+                        else if (option == ChatActivity.OPTION_SEND_NOW) actionId = R.id.acc_action_send_now;
+                        else if (option == ChatActivity.OPTION_CALL_AGAIN) actionId = R.id.acc_action_call_again;
+                        else if (option == ChatActivity.OPTION_RATE_CALL) actionId = R.id.acc_action_rate_call;
+                        else if (option == ChatActivity.OPTION_COPY_LINK) actionId = R.id.acc_action_copy_link;
+                        else if (option == ChatActivity.OPTION_UNVOTE) actionId = R.id.acc_action_unvote;
+                        else if (option == ChatActivity.OPTION_STOP_POLL_OR_QUIZ) actionId = R.id.acc_action_stop_poll;
+                        else if (option == ChatActivity.OPTION_EDIT_TODO) actionId = R.id.acc_action_edit_todo;
+                        else if (option == ChatActivity.OPTION_ADD_TO_TODO) actionId = R.id.acc_action_add_to_todo;
+                        else if (option == ChatActivity.OPTION_OPEN_IN) actionId = R.id.acc_action_open_in;
+                        else if (option == ChatActivity.OPTION_ADD_TO_GIFS) actionId = R.id.acc_action_add_to_gifs;
+                        else if (option == ChatActivity.OPTION_CLEAR_FILE) actionId = R.id.acc_action_delete_downloaded_file;
+                        else if (option == ChatActivity.OPTION_COPY_PHOTO) actionId = R.id.acc_action_copy_photo;
+                        else if (option == ChatActivity.OPTION_APPLY_LOCALIZATION_OR_THEME) actionId = R.id.acc_action_apply_file;
+                        else if (option == ChatActivity.OPTION_ADD_TO_STICKERS_OR_MASKS) actionId = R.id.acc_action_add_to_stickers;
+                        else if (option == ChatActivity.OPTION_ADD_STICKER_TO_FAVORITES) actionId = R.id.acc_action_add_sticker_to_favorites;
+                        else if (option == ChatActivity.OPTION_DELETE_STICKER_FROM_FAVORITES) actionId = R.id.acc_action_remove_sticker_from_favorites;
+                        else if (option == ChatActivity.OPTION_ADD_CONTACT) actionId = R.id.acc_action_add_contact;
+                        else if (option == ChatActivity.OPTION_COPY_PHONE_NUMBER) actionId = R.id.acc_action_copy_phone;
+                        else if (option == ChatActivity.OPTION_CALL) actionId = R.id.acc_action_call;
+                        else if (option == ChatActivity.OPTION_FORWARD_NOQUOTE) actionId = R.id.acc_action_forward_no_quote;
+                        else if (option == ChatActivity.OPTION_SET_REMINDER) actionId = R.id.acc_action_set_reminder;
+                        else if (option == ChatActivity.OPTION_SAVE_MESSAGE) actionId = R.id.acc_action_save_message;
+                        else if (option == ChatActivity.OPTION_REPEAT) actionId = R.id.acc_action_repeat;
+                        else if (option == ChatActivity.OPTION_PRPR) actionId = R.id.acc_action_prpr;
+                        else if (option == ChatActivity.OPTION_QR) actionId = R.id.acc_action_qr;
+                        else if (option == ChatActivity.OPTION_STATISTICS) actionId = R.id.acc_action_statistics;
+                        else if (option == ChatActivity.OPTION_TRANSLATE) actionId = R.id.acc_action_translate;
+                        else if (option == ChatActivity.OPTION_EDIT_SCHEDULE_TIME) actionId = R.id.acc_action_edit_schedule_time;
+                        else if (option == ChatActivity.OPTION_FACT_CHECK) actionId = R.id.acc_action_fact_check;
+
+                        if (actionId != 0) {
+                            info.addAction(new AccessibilityNodeInfo.AccessibilityAction(actionId, items.get(i)));
+                        }
+                    }
+                }
                 int icon = getIconForCurrentState();
                 CharSequence actionLabel = null;
                 switch (icon) {
@@ -25517,6 +25596,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
         @Override
         public boolean performAction(int virtualViewId, int action, Bundle arguments) {
+            if (delegate != null && delegate.didPressAccessibilityAction(ChatMessageCell.this, action)) {
+                return true;
+            }
             if (virtualViewId == HOST_VIEW_ID) {
                 performAccessibilityAction(action, arguments);
             } else {

@@ -38245,6 +38245,151 @@ public class ChatActivity extends BaseFragment implements
     }
     private class ChatMessageCellDelegate implements ChatMessageCell.ChatMessageCellDelegate {
         @Override
+        public void fillMessageAccessibilityMenu(ChatMessageCell cell, ArrayList<Integer> icons, ArrayList<CharSequence> items, ArrayList<Integer> options) {
+            MessageObject oldSelected = selectedObject;
+            MessageObject.GroupedMessages oldSelectedGroup = selectedObjectGroup;
+            selectedObject = cell.getMessageObject();
+            selectedObjectGroup = cell.getCurrentMessagesGroup();
+            try {
+                ChatActivity.this.fillMessageMenu(cell.getPrimaryMessageObject(), icons, items, options);
+            } finally {
+                selectedObject = oldSelected;
+                selectedObjectGroup = oldSelectedGroup;
+            }
+        }
+
+        @Override
+        public boolean didPressAccessibilityAction(ChatMessageCell cell, int action) {
+            MessageObject messageObject = cell.getMessageObject();
+            if (messageObject == null) {
+                return false;
+            }
+            int option = -1;
+            if (action == R.id.acc_action_reply) {
+                option = OPTION_REPLY;
+            } else if (action == R.id.acc_action_copy) {
+                option = OPTION_COPY;
+            } else if (action == R.id.acc_action_forward) {
+                option = OPTION_FORWARD;
+            } else if (action == R.id.acc_action_edit) {
+                option = OPTION_EDIT;
+            } else if (action == R.id.acc_action_delete) {
+                option = OPTION_DELETE;
+            } else if (action == R.id.acc_action_pin) {
+                option = OPTION_PIN;
+            } else if (action == R.id.acc_action_save_to_gallery) {
+                option = OPTION_SAVE_TO_GALLERY;
+            } else if (action == R.id.acc_action_save_to_downloads) {
+                option = OPTION_SAVE_TO_DOWNLOADS_OR_MUSIC;
+            } else if (action == R.id.acc_action_share) {
+                option = OPTION_SHARE;
+            } else if (action == R.id.acc_action_open_profile) {
+                option = OPTION_OPEN_PROFILE;
+            } else if (action == R.id.acc_action_hide_ad) {
+                option = OPTION_HIDE_SPONSORED_MESSAGE;
+            } else if (action == R.id.acc_action_about_ads) {
+                option = OPTION_ABOUT_REVENUE_SHARING_ADS;
+            } else if (action == R.id.acc_action_report_ad) {
+                option = OPTION_REPORT_AD;
+            } else if (action == R.id.acc_action_remove_ads) {
+                option = OPTION_REMOVE_ADS;
+            } else if (action == R.id.acc_action_cancel_sending) {
+                option = OPTION_CANCEL_SENDING;
+            } else if (action == R.id.acc_action_retry) {
+                option = OPTION_RETRY;
+            } else if (action == R.id.acc_action_view_replies) {
+                option = OPTION_VIEW_REPLIES_OR_THREAD;
+            } else if (action == R.id.acc_action_view_in_topic) {
+                option = OPTION_VIEW_IN_TOPIC;
+            } else if (action == R.id.acc_action_unpin) {
+                option = OPTION_UNPIN;
+            } else if (action == R.id.acc_action_add_offer) {
+                option = OPTION_SUGGESTION_ADD_OFFER;
+            } else if (action == R.id.acc_action_report) {
+                option = OPTION_REPORT_CHAT;
+            } else if (action == R.id.acc_action_gift) {
+                option = OPTION_GIFT;
+            } else if (action == R.id.acc_action_details) {
+                option = OPTION_DETAILS;
+            } else if (action == R.id.acc_action_send_now) {
+                option = OPTION_SEND_NOW;
+            } else if (action == R.id.acc_action_call_again) {
+                option = OPTION_CALL_AGAIN;
+            } else if (action == R.id.acc_action_rate_call) {
+                option = OPTION_RATE_CALL;
+            } else if (action == R.id.acc_action_copy_link) {
+                option = OPTION_COPY_LINK;
+            } else if (action == R.id.acc_action_unvote) {
+                option = OPTION_UNVOTE;
+            } else if (action == R.id.acc_action_stop_poll) {
+                option = OPTION_STOP_POLL_OR_QUIZ;
+            } else if (action == R.id.acc_action_edit_todo) {
+                option = OPTION_EDIT_TODO;
+            } else if (action == R.id.acc_action_add_to_todo) {
+                option = OPTION_ADD_TO_TODO;
+            } else if (action == R.id.acc_action_open_in) {
+                option = OPTION_OPEN_IN;
+            } else if (action == R.id.acc_action_add_to_gifs) {
+                option = OPTION_ADD_TO_GIFS;
+            } else if (action == R.id.acc_action_delete_downloaded_file) {
+                option = OPTION_CLEAR_FILE;
+            } else if (action == R.id.acc_action_copy_photo) {
+                option = OPTION_COPY_PHOTO;
+            } else if (action == R.id.acc_action_apply_file) {
+                option = OPTION_APPLY_LOCALIZATION_OR_THEME;
+            } else if (action == R.id.acc_action_add_to_stickers) {
+                option = OPTION_ADD_TO_STICKERS_OR_MASKS;
+            } else if (action == R.id.acc_action_add_sticker_to_favorites) {
+                option = OPTION_ADD_STICKER_TO_FAVORITES;
+            } else if (action == R.id.acc_action_remove_sticker_from_favorites) {
+                option = OPTION_DELETE_STICKER_FROM_FAVORITES;
+            } else if (action == R.id.acc_action_add_contact) {
+                option = OPTION_ADD_CONTACT;
+            } else if (action == R.id.acc_action_copy_phone) {
+                option = OPTION_COPY_PHONE_NUMBER;
+            } else if (action == R.id.acc_action_call) {
+                option = OPTION_CALL;
+            } else if (action == R.id.acc_action_forward_no_quote) {
+                option = OPTION_FORWARD_NOQUOTE;
+            } else if (action == R.id.acc_action_set_reminder) {
+                option = OPTION_SET_REMINDER;
+            } else if (action == R.id.acc_action_save_message) {
+                option = OPTION_SAVE_MESSAGE;
+            } else if (action == R.id.acc_action_repeat) {
+                option = OPTION_REPEAT;
+            } else if (action == R.id.acc_action_prpr) {
+                option = OPTION_PRPR;
+            } else if (action == R.id.acc_action_qr) {
+                option = OPTION_QR;
+            } else if (action == R.id.acc_action_statistics) {
+                option = OPTION_STATISTICS;
+            } else if (action == R.id.acc_action_translate) {
+                option = OPTION_TRANSLATE;
+            } else if (action == R.id.acc_action_edit_schedule_time) {
+                option = OPTION_EDIT_SCHEDULE_TIME;
+            } else if (action == R.id.acc_action_fact_check) {
+                option = OPTION_FACT_CHECK;
+            } else if (action == R.id.acc_action_block_contact) {
+                option = OPTION_REPORT_CHAT;
+            } else if (action == R.id.acc_action_save_to_gallery) {
+                int type = getMessageType(messageObject);
+                if (type == 6) {
+                    option = OPTION_SAVE_TO_GALLERY2;
+                } else if (type == 7 || type == 9) {
+                    option = OPTION_SAVE_TO_GALLERY_STICKER;
+                } else {
+                    option = OPTION_SAVE_TO_GALLERY;
+                }
+            }
+
+            if (option != -1) {
+                processSelectedOption(option);
+                return true;
+            }
+            return false;
+        }
+
+        @Override
         public boolean isReplyOrSelf() {
             return UserObject.isReplyUser(currentUser) || UserObject.isUserSelf(currentUser);
         }

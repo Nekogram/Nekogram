@@ -43,10 +43,57 @@
     <item name="acc_action_voice_call" type="id"/>
     <item name="acc_action_video_call" type="id"/>
     <item name="acc_action_folder" type="id"/>
+    <item name="acc_action_add_to_folder" type="id"/>
+    <item name="acc_action_edit" type="id"/>
     <item name="acc_action_reply" type="id"/>
     <item name="acc_action_copy" type="id"/>
     <item name="acc_action_forward" type="id"/>
     <item name="acc_action_save_to_gallery" type="id"/>
+    <item name="acc_action_save_to_downloads" type="id"/>
+    <item name="acc_action_open_profile" type="id"/>
+    <item name="acc_action_hide_ad" type="id"/>
+    <item name="acc_action_about_ads" type="id"/>
+    <item name="acc_action_report_ad" type="id"/>
+    <item name="acc_action_remove_ads" type="id"/>
+    <item name="acc_action_cancel_sending" type="id"/>
+    <item name="acc_action_retry" type="id"/>
+    <item name="acc_action_view_replies" type="id"/>
+    <item name="acc_action_view_in_topic" type="id"/>
+    <item name="acc_action_add_offer" type="id"/>
+    <item name="acc_action_report" type="id"/>
+    <item name="acc_action_gift" type="id"/>
+    <item name="acc_action_details" type="id"/>
+    <item name="acc_action_send_now" type="id"/>
+    <item name="acc_action_call_again" type="id"/>
+    <item name="acc_action_rate_call" type="id"/>
+    <item name="acc_action_copy_link" type="id"/>
+    <item name="acc_action_unvote" type="id"/>
+    <item name="acc_action_stop_poll" type="id"/>
+    <item name="acc_action_edit_todo" type="id"/>
+    <item name="acc_action_add_to_todo" type="id"/>
+    <item name="acc_action_open_in" type="id"/>
+    <item name="acc_action_add_to_gifs" type="id"/>
+    <item name="acc_action_delete_downloaded_file" type="id"/>
+    <item name="acc_action_copy_photo" type="id"/>
+    <item name="acc_action_apply_file" type="id"/>
+    <item name="acc_action_add_to_stickers" type="id"/>
+    <item name="acc_action_add_sticker_to_favorites" type="id"/>
+    <item name="acc_action_remove_sticker_from_favorites" type="id"/>
+    <item name="acc_action_add_contact" type="id"/>
+    <item name="acc_action_copy_phone" type="id"/>
+    <item name="acc_action_call" type="id"/>
+    <item name="acc_action_forward_no_quote" type="id"/>
+    <item name="acc_action_set_reminder" type="id"/>
+    <item name="acc_action_save_message" type="id"/>
+    <item name="acc_action_repeat" type="id"/>
+    <item name="acc_action_prpr" type="id"/>
+    <item name="acc_action_qr" type="id"/>
+    <item name="acc_action_statistics" type="id"/>
+    <item name="acc_action_translate" type="id"/>
+    <item name="acc_action_edit_schedule_time" type="id"/>
+    <item name="acc_action_fact_check" type="id"/>
+    <item name="acc_action_block_contact" type="id"/>
+    <item name="acc_action_share" type="id"/>
     <item name="shake_animation" type="id"/>
 
     <item name="timeout_callback" type="id"/>
