@@ -38244,6 +38244,8 @@ public class ChatActivity extends BaseFragment implements
                 option = OPTION_COPY;
             } else if (action == R.id.acc_action_forward) {
                 option = OPTION_FORWARD;
+            } else if (action == R.id.acc_action_edit) {
+                option = OPTION_EDIT;
             } else if (action == R.id.acc_action_delete) {
                 option = OPTION_DELETE;
             } else if (action == R.id.acc_action_pin) {

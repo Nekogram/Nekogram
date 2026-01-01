@@ -25061,29 +25061,30 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 if (itemInfo != null) {
                     info.setCollectionItemInfo(AccessibilityNodeInfo.CollectionItemInfo.obtain(itemInfo.getRowIndex(), 1, 0, 1, false));
                 }
-                info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_msg_options, getString("AccActionMessageOptions", R.string.AccActionMessageOptions)));
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    boolean isProtected = currentMessageObject != null && currentMessageObject.isNoforwards();
-                    if (delegate != null && delegate.canPerformReply()) {
-                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_reply, LocaleController.getString(R.string.Reply)));
-                    }
-                    if (!isProtected) {
-                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_copy, LocaleController.getString(R.string.Copy)));
-                    }
-                    if (currentMessageObject != null && currentMessageObject.canForwardMessage()) {
-                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_forward, LocaleController.getString(R.string.Forward)));
-                    }
-                    if (currentMessageObject != null && currentMessageObject.canDeleteMessage(false, currentChat)) {
-                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_delete, LocaleController.getString(R.string.Delete)));
-                    }
-                    if (ChatObject.canPinMessages(currentChat) && (currentMessageObject != null && currentMessageObject.messageOwner != null && !currentMessageObject.messageOwner.pinned)) {
-                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_pin, LocaleController.getString(R.string.PinMessage)));
-                    }
-                    if (!isProtected && currentMessageObject != null && (currentMessageObject.isPhoto() || currentMessageObject.isVideo())) {
-                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_save_to_gallery, LocaleController.getString(R.string.SaveToGallery)));
-                    }
-                }
-                int icon = getIconForCurrentState();
+                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                    boolean isProtected = currentMessageObject != null && currentMessageObject.isNoforwards();
+                                    if (delegate != null && delegate.canPerformReply()) {
+                                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_reply, LocaleController.getString(R.string.Reply)));
+                                    }
+                                    if (!isProtected) {
+                                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_copy, LocaleController.getString(R.string.Copy)));
+                                    }
+                                                        if (currentMessageObject != null && currentMessageObject.canForwardMessage()) {      
+                                                            info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_forward, LocaleController.getString(R.string.Forward)));
+                                                        }
+                                                        if (currentMessageObject != null && currentMessageObject.canEditMessage(currentChat)) {
+                                                            info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_edit, LocaleController.getString(R.string.Edit)));
+                                                        }
+                                                        if (currentMessageObject != null && currentMessageObject.canDeleteMessage(false, currentChat)) {
+                                                            info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_delete, LocaleController.getString(R.string.Delete)));
+                                                        }                                    if (ChatObject.canPinMessages(currentChat) && (currentMessageObject != null && currentMessageObject.messageOwner != null && !currentMessageObject.messageOwner.pinned)) {
+                                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_pin, LocaleController.getString(R.string.PinMessage)));
+                                    }
+                                    if (!isProtected && currentMessageObject != null && (currentMessageObject.isPhoto() || currentMessageObject.isVideo())) {
+                                        info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_save_to_gallery, LocaleController.getString(R.string.SaveToGallery)));
+                                    }
+                                }
+                                info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_msg_options, getString("AccActionMessageOptions", R.string.AccActionMessageOptions)));                int icon = getIconForCurrentState();
                 CharSequence actionLabel = null;
                 switch (icon) {
                     case MediaActionDrawable.ICON_PLAY:

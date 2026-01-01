@@ -43,6 +43,8 @@
     <item name="acc_action_voice_call" type="id"/>
     <item name="acc_action_video_call" type="id"/>
     <item name="acc_action_folder" type="id"/>
+    <item name="acc_action_add_to_folder" type="id"/>
+    <item name="acc_action_edit" type="id"/>
     <item name="acc_action_reply" type="id"/>
     <item name="acc_action_copy" type="id"/>
     <item name="acc_action_forward" type="id"/>

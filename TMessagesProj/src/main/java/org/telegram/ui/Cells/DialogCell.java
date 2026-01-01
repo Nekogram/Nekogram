@@ -5104,6 +5104,11 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 parentFragment.performSelectedDialogsAction(dialogs, DialogsActivity.archive, false, false);
             }
             return true;
+        } else if (action == R.id.acc_action_add_to_folder) {
+            if (parentFragment != null) {
+                parentFragment.onAddToFolder(currentDialogId);
+            }
+            return true;
         } else if (action == R.id.acc_action_delete) {
             if (parentFragment != null) {
                 ArrayList<Long> dialogs = new ArrayList<>();
@@ -5138,8 +5143,6 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             info.addAction(AccessibilityNodeInfo.ACTION_CLICK);
             info.addAction(AccessibilityNodeInfo.ACTION_LONG_CLICK);
             if (!isFolderCell() && parentFragment != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_chat_preview, LocaleController.getString(R.string.AccActionChatPreview)));
-
                 if (!DialogObject.isEncryptedDialog(currentDialogId) && user != null && !user.bot && !user.self) {
                     info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_voice_call, LocaleController.getString(R.string.Call)));
                     info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_video_call, LocaleController.getString(R.string.VideoCall)));
@@ -5163,10 +5166,14 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_unread, LocaleController.getString(R.string.MarkAsUnread)));
                 }
 
-                if (currentDialogFolderId == 0) {
+                if (folderId == 0) {
                     info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_archive, LocaleController.getString(R.string.Archive)));
-                } else if (currentDialogFolderId == 1) {
+                } else if (folderId == 1) {
                     info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_unarchive, LocaleController.getString(R.string.Unarchive)));
+                }
+
+                if (!AccountInstance.getInstance(currentAccount).getMessagesController().getDialogFilters().isEmpty()) {
+                    info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_add_to_folder, LocaleController.getString(R.string.FilterAddTo)));
                 }
 
                 info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_delete, LocaleController.getString(R.string.Delete)));
@@ -5175,6 +5182,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 if (user != null && !user.self) {
                     info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_block, LocaleController.getString(R.string.Block)));
                 }
+
+                info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_chat_preview, LocaleController.getString(R.string.AccActionChatPreview)));
             }
         }
         if (checkBox != null && checkBox.isChecked()) {
