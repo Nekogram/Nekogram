@@ -150,6 +150,8 @@ public class NekoConfig {
 
     public static boolean isChineseUser = false;
 
+    public static boolean hideRepostToStory = false;
+
     private static final SharedPreferences.OnSharedPreferenceChangeListener listener = (preferences, key) -> {
         var map = new HashMap<String, String>(1);
         map.put("key", key);
@@ -250,6 +252,7 @@ public class NekoConfig {
             minimizedStickerCreator = preferences.getBoolean("minimizedStickerCreator", false);
             hideChannelBottomButtons = preferences.getBoolean("hideChannelBottomButtons", false);
             keepFormatting = preferences.getBoolean("keepFormatting", true);
+            hideRepostToStory = preferences.getBoolean("hideRepostToStory", false);
 
             LensHelper.checkLensSupportAsync();
             preferences.registerOnSharedPreferenceChangeListener(listener);
@@ -941,6 +944,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("maxRecentStickers", maxRecentStickers);
+        editor.apply();
+    }
+
+    public static void toggleHideRepostToStory() {
+        hideRepostToStory = !hideRepostToStory;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("hideRepostToStory", hideRepostToStory);
         editor.apply();
     }
 

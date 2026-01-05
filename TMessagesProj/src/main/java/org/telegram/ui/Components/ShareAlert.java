@@ -122,6 +122,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 
+import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.forward.ForwardContext;
 import tw.nekomimi.nekogram.forward.SendOptionsMenuLayout;
 
@@ -2696,7 +2697,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
             dialogs.clear();
             dialogsMap.clear();
             long selfUserId = UserConfig.getInstance(currentAccount).clientUserId;
-            if (includeStory) {
+            if (!NekoConfig.hideRepostToStory && includeStory) {
                 MyStoryDialog d = new MyStoryDialog();
                 dialogs.add(d);
                 dialogsMap.put(d.id, d);

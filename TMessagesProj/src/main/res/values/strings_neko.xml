@@ -317,6 +317,7 @@
     <string name="ForceFontWeightFallback">Force font weight fallback</string>
     <string name="HideChannelBottomButtons">Hide channel bottom buttons</string>
     <string name="TranslationKeepFormatting">Preserve text formatting in translation</string>
+    <string name="HideRepostToStoryRow">Hide \"Repost to Story\" from forward alert</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
