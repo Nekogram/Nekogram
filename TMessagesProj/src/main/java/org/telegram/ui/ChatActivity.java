@@ -40886,7 +40886,8 @@ public class ChatActivity extends BaseFragment implements
         }
 
         @Override
-        public void onInitializeAccessibilityNodeInfo(ChatMessageCell cell, AccessibilityNodeInfo info) {
+        public void onInitializeAccessibilityNodeInfo(ChatMessageCell cell) {
+            var info = AccessibilityNodeInfo.obtain(cell);
             var message = cell.getMessageObject();
             var groupedMessages = cell.getCurrentMessagesGroup();
             var primaryMessageObject = cell.getPrimaryMessageObject();

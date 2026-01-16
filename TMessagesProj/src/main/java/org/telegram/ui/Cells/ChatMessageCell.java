@@ -691,7 +691,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             return canPerformActions();
         }
 
-        default void onInitializeAccessibilityNodeInfo(ChatMessageCell cell, AccessibilityNodeInfo info) {
+        default void onInitializeAccessibilityNodeInfo(ChatMessageCell cell) {
         }
 
         default boolean onAccessibilityAction(ChatMessageCell cell, int action, Bundle arguments) {
@@ -25061,9 +25061,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     info.setCollectionItemInfo(AccessibilityNodeInfo.CollectionItemInfo.obtain(itemInfo.getRowIndex(), 1, 0, 1, false));
                 }
                 info.addAction(new AccessibilityNodeInfo.AccessibilityAction(R.id.acc_action_msg_options, getString("AccActionMessageOptions", R.string.AccActionMessageOptions)));
-                if (delegate != null) {
-                    delegate.onInitializeAccessibilityNodeInfo(ChatMessageCell.this, info);
-                }
                 int icon = getIconForCurrentState();
                 CharSequence actionLabel = null;
                 switch (icon) {
@@ -25523,6 +25520,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 if (action == AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS) {
                     sendAccessibilityEventForVirtualView(virtualViewId, AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
                 } else if (action == AccessibilityNodeInfo.ACTION_CLICK) {
+                    if (delegate != null) {
+                        delegate.onInitializeAccessibilityNodeInfo(ChatMessageCell.this);
+                    }
                     if (virtualViewId == PROFILE) {
                         if (delegate != null) {
                             delegate.didPressUserAvatar(ChatMessageCell.this, currentUser, 0, 0, false);
