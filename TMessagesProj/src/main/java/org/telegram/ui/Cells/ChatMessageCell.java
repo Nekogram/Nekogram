@@ -25514,15 +25514,15 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
         @Override
         public boolean performAction(int virtualViewId, int action, Bundle arguments) {
+            if (delegate != null) {
+                delegate.onInitializeAccessibilityNodeInfo(ChatMessageCell.this);
+            }
             if (virtualViewId == HOST_VIEW_ID) {
                 performAccessibilityAction(action, arguments);
             } else {
                 if (action == AccessibilityNodeInfo.ACTION_ACCESSIBILITY_FOCUS) {
                     sendAccessibilityEventForVirtualView(virtualViewId, AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
                 } else if (action == AccessibilityNodeInfo.ACTION_CLICK) {
-                    if (delegate != null) {
-                        delegate.onInitializeAccessibilityNodeInfo(ChatMessageCell.this);
-                    }
                     if (virtualViewId == PROFILE) {
                         if (delegate != null) {
                             delegate.didPressUserAvatar(ChatMessageCell.this, currentUser, 0, 0, false);
