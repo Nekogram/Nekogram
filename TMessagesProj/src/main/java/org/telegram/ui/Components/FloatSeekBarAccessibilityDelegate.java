@@ -66,8 +66,8 @@ public abstract class FloatSeekBarAccessibilityDelegate extends SeekBarAccessibi
     @Override
     public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(host, event);
-        if (AccConfig.SHOW_NUMBERS_OF_ITEMS || event.getEventType() == AccessibilityEvent.TYPE_ANNOUNCEMENT) event.setItemCount((int)((getMaxValue() - getMinValue()) * 100));
-        if (AccConfig.SHOW_INDEX_OF_ITEM || event.getEventType() == AccessibilityEvent.TYPE_ANNOUNCEMENT) event.setCurrentItemIndex((int) (getProgress() * 100));
+        if (AccConfig.showNumbersOfItems || event.getEventType() == AccessibilityEvent.TYPE_ANNOUNCEMENT) event.setItemCount((int)((getMaxValue() - getMinValue()) * 100));
+        if (AccConfig.showIndexOfItem || event.getEventType() == AccessibilityEvent.TYPE_ANNOUNCEMENT) event.setCurrentItemIndex((int) (getProgress() * 100));
     }
 
     protected abstract float getProgress();

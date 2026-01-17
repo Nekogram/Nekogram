@@ -19,7 +19,7 @@
     <string name="NoQuoteForwardShort">送信者なし</string>
     <string name="NoCaptionForwardShort">キャプションなし</string>
     <string name="Repeat">繰り返す</string>
-    <string name="AddToSavedMessages">「保存用メッセージ」に追加</string>
+    <string name="AddToSavedMessages">[保存用メッセージ] に追加</string>
     <string name="CreateMention">メンションを作成</string>
     <string name="Prpr">ペロペロ</string>
     <string name="NekogramRunning">Nekogramは実行中です</string>
@@ -45,7 +45,7 @@
     <string name="TranslateApiUnsupported">選択した翻訳プロバイダーはあなたの言語に対応していません。</string>
     <string name="ProviderLingocloud">Lingocloud翻訳</string>
     <string name="UndoTranslate">翻訳を取り消す</string>
-    <string name="OpenArchiveOnPull">「保存用メッセージ」をプルダウンで開く</string>
+    <string name="OpenArchiveOnPull">[収納したチャット] をプルダウンで開く</string>
     <string name="HideKeyboardOnChatScroll">チャットスクロールでキーボードを非表示</string>
     <string name="CheckAllAdministrated">管理者を追加</string>
     <string name="RearVideoMessages">ビデオメッセージでリアカメラを使用</string>
@@ -313,6 +313,7 @@
     <string name="ShortStandardQuality">SD</string>
     <string name="ForceFontWeightFallback">フォントの太さのフォールバックを強制</string>
     <string name="HideChannelBottomButtons">チャンネル内の下部のボタンを非表示</string>
+    <string name="TranslationKeepFormatting">翻訳時にテキストの書式を保持</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">ユーザー補助の設定</string>
     <string name="AccSeekbarHeading">シークバーの設定</string>

@@ -289,7 +289,7 @@ public class AndroidUtilities {
     public static boolean incorrectDisplaySizeFix;
     public static Integer photoSize = null, highQualityPhotoSize = null;
     public static DisplayMetrics displayMetrics = new DisplayMetrics();
-    public static int leftBaseline;
+    public static int leftBaseline = 72;
     public static boolean usingHardwareInput;
     public static boolean isInMultiwindow;
 
@@ -376,7 +376,6 @@ public class AndroidUtilities {
     }
 
     static {
-        leftBaseline = isTablet() ? 80 : 72;
         checkDisplaySize(ApplicationLoader.applicationContext, null);
     }
 
@@ -2897,6 +2896,7 @@ public class AndroidUtilities {
     public static boolean isTabletInternal() {
         if (isTablet == null) {
             isTablet = isTabletForce();
+            leftBaseline = isTablet ? 80 : 72;
         }
         return isTablet;
     }
@@ -5663,10 +5663,10 @@ public class AndroidUtilities {
     }
 
     public static void updateViewVisibilityAnimated(View view, boolean show, float scaleFactor, boolean goneOnHide, boolean animated) {
-        updateViewVisibilityAnimated(view, show, scaleFactor, goneOnHide, 1f, animated);
+        updateViewVisibilityAnimated(view, show, scaleFactor, goneOnHide, 1f, animated, null);
     }
 
-    public static void updateViewVisibilityAnimated(View view, boolean show, float scaleFactor, boolean goneOnHide, float maxAlpha, boolean animated) {
+    public static void updateViewVisibilityAnimated(View view, boolean show, float scaleFactor, boolean goneOnHide, float maxAlpha, boolean animated, ValueAnimator.AnimatorUpdateListener onUpdate) {
         if (view == null) {
             return;
         }
@@ -5689,11 +5689,11 @@ public class AndroidUtilities {
                 view.setScaleX(scaleFactor);
                 view.setScaleY(scaleFactor);
             }
-            view.animate().alpha(maxAlpha).scaleY(1f).scaleX(1f).setDuration(150).start();
+            view.animate().alpha(maxAlpha).scaleY(1f).scaleX(1f).setDuration(150).setUpdateListener(onUpdate).start();
             view.setTag(1);
         } else if (!show && view.getTag() != null) {
             view.animate().setListener(null).cancel();
-            view.animate().alpha(0).scaleY(scaleFactor).scaleX(scaleFactor).setListener(new HideViewAfterAnimation(view, goneOnHide)).setDuration(150).start();
+            view.animate().alpha(0).scaleY(scaleFactor).scaleX(scaleFactor).setListener(new HideViewAfterAnimation(view, goneOnHide)).setDuration(150).setUpdateListener(onUpdate).start();
             view.setTag(null);
         }
     }

@@ -43,7 +43,7 @@
     <string name="TranslationProvider">Dostawca tłumaczeń</string>
     <string name="ProviderGoogleTranslate">Tłumacz Google</string>
     <string name="TranslateApiUnsupported">Wybrany przez ciebie dostawca tłumaczeń nie obsługuje twojego języka.</string>
-    <string name="ProviderLingocloud">Lingocloud</string>
+    <string name="ProviderLingocloud">Chmura Lingo</string>
     <string name="UndoTranslate">Cofnij tłumaczenie</string>
     <string name="OpenArchiveOnPull">Otwórz archiwum gestem pociągnięcia w dół</string>
     <string name="HideKeyboardOnChatScroll">Ukryj klawiaturę podczas przewijania czatu</string>
@@ -311,6 +311,7 @@
     <string name="ShortStandardQuality">SD</string>
     <string name="ForceFontWeightFallback">Wymuś przywrócenie wagi czcionki</string>
     <string name="HideChannelBottomButtons">Ukryj dolne przyciski kanału</string>
+    <string name="TranslationKeepFormatting"></string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ustawienia ułatwień dostępu</string>
 </resources>

@@ -19,20 +19,17 @@
     <string name="NoQuoteForwardShort">Sem remetente</string>
     <string name="NoCaptionForwardShort">Sem legenda</string>
     <string name="Repeat">Repetir</string>
-    <string name="AddToSavedMessages">Salvar mensagem</string>
+    <string name="AddToSavedMessages">Salvar Mensagem</string>
     <string name="CreateMention">Criar Menção</string>
     <string name="Prpr">Peropero</string>
-    <string name="EnableResidentNotification">Mostrar notificação de residente</string>
-    <string name="DisableResidentNotification">Desativar notificação persistente</string>
     <string name="NekogramRunning">Nekogram está em execução</string>
     <string name="EventType">Conjunto de ícones da barra lateral</string>
     <string name="DependsOnDate">Depende da data</string>
     <string name="Christmas">Natal</string>
     <string name="Valentine">Dia dos Namorados</string>
-    <string name="DeleteDownloadedFile">Excluir arquivo baixado</string>
+    <string name="DeleteDownloadedFile">Excluir Arquivo Baixado</string>
     <string name="TestBackendOn">Esta conta se conectará ao servidor de testes do Telegram.</string>
     <string name="TestBackendOff">Esta conta se conectará ao back-end de produção.</string>
-    <string name="ViewHistory">Ver histórico</string>
     <string name="Nya">Miau!</string>
     <string name="StickerSize">Tamanho dos stickers</string>
     <string name="StickerSizeLeft">Pequeno</string>
@@ -262,7 +259,7 @@
     <string name="AnonymousDataDelete">Excluir dados</string>
     <string name="AnonymousDataDeleteDesc">Bloqueia permanentemente dados em curso dessa instância e exclui dados coletados.</string>
     <string name="SendAnonymousDataDesc">As funções acima usam o %1$s fornecido pela %2$s. A informação coletada é anônima e não podemos usá-la para identificar um usuário ou dispositivo específico.</string>
-    <string name="SendLargePhotos">Enviar fotos grandes</string>
+    <string name="SendLargePhotos">Enviar fotos grande</string>
     <string name="SendLargePhotosAbout">Aumenta o limite de imagens comprimidas para 2560px.</string>
     <string name="ExportAsJson">Copiar em JSON</string>
     <string name="ViewAsJson">Ver como JSON</string>
@@ -290,7 +287,7 @@
     <string name="MonoCode">Código</string>
     <string name="CreateCode">Criar Código</string>
     <string name="CreateCodeLanguage">Idioma</string>
-    <string name="IgnoreContentRestriction">Ignorar restrição de conteúdo</string>
+    <string name="IgnoreContentRestriction">Ignorar restrição de conteú</string>
     <string name="PreviewSendPhoto">Enviar Foto</string>
     <string name="PreviewSendVideo">Enviar Vídeo</string>
     <string name="PreviewSendFile">Enviar Arquivo</string>
@@ -314,6 +311,8 @@
     <string name="AutoInlineBotDesc">Consulta automática do bot inline com base no texto da mensagem.</string>
     <string name="ShortStandardQuality">SD</string>
     <string name="ForceFontWeightFallback">Forçar substituição de espessura da fonte</string>
+    <string name="HideChannelBottomButtons">Ocultar botões inferiores do canal</string>
+    <string name="TranslationKeepFormatting">Preservar a formatação do texto na tradução</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Configurações de acessibilidade</string>
     <string name="AccSeekbarHeading">Configurações da Seekbar</string>

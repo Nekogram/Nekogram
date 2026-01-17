@@ -2516,7 +2516,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
             };
 
-            storiesContainer = new ProfileStoriesCollectionTabs(context,
+            storiesContainer = new ProfileStoriesCollectionTabs(
+                context,
+                sizeNotifierFrameLayout,
                 getStoriesController().getStoryAlbumsList(dialog_id),
                 new ProfileStoriesCollectionTabs.Delegate() {
                     @Override
@@ -5082,7 +5084,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
             fragment.forwardContext = this;
             var forwardParams = getForwardParams();
             ArrayList<MessageObject> fmessages = getForwardingMessages();
-            fragment.setDelegate((fragment1, dids, message, param, notify, scheduleDate, topicsFragment) -> {
+            fragment.setDelegate((fragment1, dids, message, param, notify, scheduleDate, scheduleRepeatPeriod, topicsFragment) -> {
                 for (int a = 1; a >= 0; a--) {
                     selectedFiles[a].clear();
                 }
@@ -5922,7 +5924,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 if (adapter != null) {
                     RecyclerListView listView = null;
                     for (int a = 0; a < mediaPages.length; a++) {
-                        if (mediaPages[a].listView.getAdapter() == adapter) {
+                        if (mediaPages[a] != null && mediaPages[a].listView != null && mediaPages[a].listView.getAdapter() == adapter) {
                             listView = mediaPages[a].listView;
                             mediaPages[a].listView.stopScroll();
                         }
@@ -5989,7 +5991,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     }
                     if (adapter != null) {
                         for (int a = 0; a < mediaPages.length; a++) {
-                            if (mediaPages[a].listView.getAdapter() == adapter) {
+                            if (mediaPages[a] != null && mediaPages[a].listView != null && mediaPages[a].listView.getAdapter() == adapter) {
                                 mediaPages[a].listView.stopScroll();
                             }
                         }
@@ -6124,6 +6126,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         } else if (id == NotificationCenter.messagePlayingDidStart || id == NotificationCenter.messagePlayingPlayStateChanged || id == NotificationCenter.messagePlayingDidReset) {
             if (id == NotificationCenter.messagePlayingDidReset || id == NotificationCenter.messagePlayingPlayStateChanged) {
                 for (int b = 0; b < mediaPages.length; b++) {
+                    if (mediaPages[b] == null || mediaPages[b].listView == null) continue;
                     int count = mediaPages[b].listView.getChildCount();
                     for (int a = 0; a < count; a++) {
                         View view = mediaPages[b].listView.getChildAt(a);

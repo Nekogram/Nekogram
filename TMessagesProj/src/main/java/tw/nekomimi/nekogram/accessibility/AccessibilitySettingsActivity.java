@@ -2,47 +2,34 @@ package tw.nekomimi.nekogram.accessibility;
 
 import android.content.Context;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.FrameLayout;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.DefaultItemAnimator;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.ui.ActionBar.ActionBar;
-import org.telegram.ui.ActionBar.BaseFragment;
-import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
-import org.telegram.ui.Cells.NotificationsCheckCell;
-import org.telegram.ui.Cells.ShadowSectionCell;
 import org.telegram.ui.Cells.TextCheckCell;
-import org.telegram.ui.Cells.TextDetailSettingsCell;
-import org.telegram.ui.Cells.TextInfoPrivacyCell;
 import org.telegram.ui.Cells.TextSettingsCell;
-import org.telegram.ui.Components.LayoutHelper;
-import org.telegram.ui.Components.RecyclerListView;
 
 import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.helpers.PopupHelper;
+import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
 
-public class AccessibilitySettingsActivity extends BaseFragment {
+public class AccessibilitySettingsActivity extends BaseNekoSettingsActivity {
     private static final ArrayList<String> SEEKBAR_TIME_VALUES = new ArrayList<>();
 
-    private ListAdapter listAdapter;
+    private int seekbarHeadingRow;
+    private int showNumbersOfItemsRow;
+    private int showIndexOfItemRow;
+    private int showValueChangesRow;
+    private int timeBeforeAnnouncingOfSeekbarRow;
+    private int seekbarHeading2Row;
 
-    private int rowCount = 0;
-
-    private final int seekbarHeadingRow = rowCount++;
-    private final int showNumbersOfItemsRow = rowCount++;
-    private final int showIndexOfItemRow = rowCount++;
-    private final int showValueChangesRow = rowCount++;
-    private final int timeBeforeAnnouncingOfSeekbarRow = rowCount++;
-    private final int seekbarHeading2Row = rowCount++;
+    private int announceFileProgressRow;
+    private int showTranslatedLanguageRow;
+    private int endRow;
 
     static {
         SEEKBAR_TIME_VALUES.add(LocaleController.getString(R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay));
@@ -52,110 +39,98 @@ public class AccessibilitySettingsActivity extends BaseFragment {
     }
 
     @Override
-    public View createView(Context context) {
-        actionBar.setBackButtonImage(R.drawable.ic_ab_back);
-        actionBar.setTitle(LocaleController.getString("AccessibilitySettings", R.string.AccessibilitySettings));
+    protected void updateRows() {
+        super.updateRows();
 
-        if (AndroidUtilities.isTablet()) {
-            actionBar.setOccupyStatusBar(false);
-        }
-        actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
-            @Override
-            public void onItemClick(int id) {
-                if (id == -1) {
-                    finishFragment();
-                }
-            }
-        });
-        listAdapter = new ListAdapter(context);
+        seekbarHeadingRow = addRow();
+        showNumbersOfItemsRow = addRow("showNumbersOfItems");
+        showIndexOfItemRow = addRow("showIndexOfItem");
+        showValueChangesRow = addRow("showValueChanges");
+        timeBeforeAnnouncingOfSeekbarRow = addRow("timeBeforeAnnouncingOfSeekbar");
+        seekbarHeading2Row = addRow();
 
-        fragmentView = new FrameLayout(context);
-        fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));
-        FrameLayout frameLayout = (FrameLayout) fragmentView;
-
-        RecyclerListView listView = new RecyclerListView(context);
-        listView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false));
-        listView.setVerticalScrollBarEnabled(false);
-        listView.setAdapter(listAdapter);
-        ((DefaultItemAnimator) listView.getItemAnimator()).setDelayAnimations(false);
-        frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
-        listView.setOnItemClickListener((view, position, x, y) -> {
-            if (position == timeBeforeAnnouncingOfSeekbarRow) {
-                PopupHelper.show(SEEKBAR_TIME_VALUES, LocaleController.getString("AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading", R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading),
-
-                        AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE / 50,
-                        context, view, i -> {
-
-                            AccConfig.setDelayBetweenAnnouncingOfChangingOfSeekbarValue(i * 50);
-                            listAdapter.notifyItemChanged(position);
-                        }, null);
-            } else if (position == showNumbersOfItemsRow || position == showIndexOfItemRow || position == showValueChangesRow) {
-                TextCheckCell cell = (TextCheckCell) view;
-                if (position == showNumbersOfItemsRow) {
-                    AccConfig.saveShowNumbersOfItems();
-                    cell.setChecked(AccConfig.SHOW_NUMBERS_OF_ITEMS);
-                } else if (position == showIndexOfItemRow) {
-                    AccConfig.saveShowIndexOfItem();
-                    cell.setChecked(AccConfig.SHOW_INDEX_OF_ITEM);
-                } else if (position == showValueChangesRow) {
-                    AccConfig.saveShowSeekbarValueChanges();
-                    cell.setChecked(AccConfig.SHOW_SEEKBAR_VALUE_CHANGES);
-                }
-            }
-        });
-        return fragmentView;
+        announceFileProgressRow = addRow("announceFileProgress");
+        showTranslatedLanguageRow = addRow("showTranslatedLanguage");
+        endRow = addRow();
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        if (listAdapter != null) {
-            listAdapter.notifyDataSetChanged();
+    protected void onItemClick(View view, int position, float x, float y) {
+        if (position == timeBeforeAnnouncingOfSeekbarRow) {
+            PopupHelper.show(SEEKBAR_TIME_VALUES, LocaleController.getString("AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading", R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading),
+                    AccConfig.delayBetweenAnnouncingOfChangingOfSeekbarValue / 50,
+                    getParentActivity(), view, i -> {
+                        AccConfig.setDelayBetweenAnnouncingOfChangingOfSeekbarValue(i * 50);
+                        listAdapter.notifyItemChanged(position);
+                    }, resourcesProvider);
+        } else if (position == showNumbersOfItemsRow ||
+                position == showIndexOfItemRow ||
+                position == showValueChangesRow ||
+                position == announceFileProgressRow ||
+                position == showTranslatedLanguageRow
+        ) {
+            TextCheckCell cell = (TextCheckCell) view;
+            if (position == showNumbersOfItemsRow) {
+                AccConfig.saveShowNumbersOfItems();
+                cell.setChecked(AccConfig.showNumbersOfItems);
+            } else if (position == showIndexOfItemRow) {
+                AccConfig.saveShowIndexOfItem();
+                cell.setChecked(AccConfig.showIndexOfItem);
+            } else if (position == showValueChangesRow) {
+                AccConfig.saveShowSeekbarValueChanges();
+                cell.setChecked(AccConfig.showSeekbarValueChanges);
+            } else if (position == announceFileProgressRow) {
+                AccConfig.toggleAnnounceFileProgress();
+                cell.setChecked(AccConfig.announceFileProgress);
+            } else if (position == showTranslatedLanguageRow) {
+                AccConfig.toggleShowTranslatedLanguage();
+                cell.setChecked(AccConfig.showTranslatedLanguage);
+            }
         }
     }
 
-    private class ListAdapter extends RecyclerListView.SelectionAdapter {
-        private final Context mContext;
+    @Override
+    protected BaseListAdapter createAdapter(Context context) {
+        return new ListAdapter(context);
+    }
+
+    @Override
+    protected String getActionBarTitle() {
+        return LocaleController.getString(R.string.AccessibilitySettings);
+    }
+
+    private class ListAdapter extends BaseListAdapter {
 
         public ListAdapter(Context context) {
-            mContext = context;
+            super(context);
         }
 
         @Override
-        public int getItemCount() {
-            return rowCount;
-        }
-
-        @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position, boolean partial, boolean divider) {
             switch (holder.getItemViewType()) {
-                case 1: {
-                    if (position == seekbarHeading2Row) {
-                        holder.itemView.setBackground(Theme.getThemedDrawableByKey(mContext, R.drawable.greydivider_bottom, Theme.key_windowBackgroundGrayShadow));
-                    } else {
-                        holder.itemView.setBackground(Theme.getThemedDrawableByKey(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                    }
-                    break;
-                }
-                case 2: {
+                case TYPE_SETTINGS: {
                     TextSettingsCell textCell = (TextSettingsCell) holder.itemView;
                     if (position == timeBeforeAnnouncingOfSeekbarRow) {
-                        textCell.setTextAndValue(LocaleController.getString(R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar), AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE > 0 ? LocaleController.formatString("AccTimeBeforeAnnouncingOfChangesOfSeekbarValue", R.string.AccTimeBeforeAnnouncingOfChangesOfSeekbarValue, AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE) : LocaleController.getString(R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay), false);
+                        textCell.setTextAndValue(LocaleController.getString(R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar), AccConfig.delayBetweenAnnouncingOfChangingOfSeekbarValue > 0 ? LocaleController.formatString(R.string.AccTimeBeforeAnnouncingOfChangesOfSeekbarValue, AccConfig.delayBetweenAnnouncingOfChangingOfSeekbarValue) : LocaleController.getString(R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay), divider);
                     }
                     break;
                 }
-                case 3: {
+                case TYPE_CHECK: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     if (position == showNumbersOfItemsRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.AccNumberOfItems), AccConfig.SHOW_NUMBERS_OF_ITEMS, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.AccNumberOfItems), AccConfig.showNumbersOfItems, divider);
                     } else if (position == showIndexOfItemRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.AccIndexOfItem), AccConfig.SHOW_INDEX_OF_ITEM, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.AccIndexOfItem), AccConfig.showIndexOfItem, divider);
                     } else if (position == showValueChangesRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.AccShowValueChanges), AccConfig.SHOW_SEEKBAR_VALUE_CHANGES, true);
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.AccShowValueChanges), AccConfig.showSeekbarValueChanges, divider);
+                    } else if (position == announceFileProgressRow) {
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.AccAnnounceFileProgress), AccConfig.announceFileProgress, divider);
+                    } else if (position == showTranslatedLanguageRow) {
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.AccShowTranslatedLanguage), AccConfig.showTranslatedLanguage, divider);
                     }
                     break;
                 }
-                case 4: {
+                case TYPE_HEADER: {
                     HeaderCell headerCell = (HeaderCell) holder.itemView;
                     if (position == seekbarHeadingRow) {
                         headerCell.setText(LocaleController.getString(R.string.AccSeekbarHeading));
@@ -166,59 +141,15 @@ public class AccessibilitySettingsActivity extends BaseFragment {
         }
 
         @Override
-        public boolean isEnabled(RecyclerView.ViewHolder holder) {
-            int type = holder.getItemViewType();
-            return type == 2 || type == 3 || type == 6 || type == 5;
-        }
-
-        @NonNull
-        @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            View view = null;
-            switch (viewType) {
-                case 1:
-                    view = new ShadowSectionCell(mContext);
-                    break;
-                case 2:
-                    view = new TextSettingsCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case 3:
-                    view = new TextCheckCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case 4:
-                    view = new HeaderCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case 5:
-                    view = new NotificationsCheckCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case 6:
-                    view = new TextDetailSettingsCell(mContext);
-                    view.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundWhite));
-                    break;
-                case 7:
-                    view = new TextInfoPrivacyCell(mContext);
-                    view.setBackground(Theme.getThemedDrawableByKey(mContext, R.drawable.greydivider, Theme.key_windowBackgroundGrayShadow));
-                    break;
-            }
-            //noinspection ConstantConditions
-            view.setLayoutParams(new RecyclerView.LayoutParams(RecyclerView.LayoutParams.MATCH_PARENT, RecyclerView.LayoutParams.WRAP_CONTENT));
-            return new RecyclerListView.Holder(view);
-        }
-
-        @Override
         public int getItemViewType(int position) {
-            if (position == seekbarHeadingRow) {
-                return 4;
+            if (position == seekbarHeading2Row || position == endRow) {
+                return TYPE_SHADOW;
+            } else if (position == seekbarHeadingRow) {
+                return TYPE_HEADER;
             } else if (position == timeBeforeAnnouncingOfSeekbarRow) {
-                return 2;
-            } else if (position == seekbarHeading2Row) {
-                return 1;
+                return TYPE_SETTINGS;
             } else {
-                return 3;
+                return TYPE_CHECK;
             }
         }
     }

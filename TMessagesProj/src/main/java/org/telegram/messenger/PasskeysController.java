@@ -78,6 +78,11 @@ public class PasskeysController {
                                 done.run(null, "CANCELLED");
                             });
                             return;
+                        } else if (err2 instanceof CreateCredentialNoCreateOptionException) {
+                            AndroidUtilities.runOnUIThread(() -> {
+                                done.run(null, "EMPTY");
+                            });
+                            return;
                         } else if (err2 != null) {
                             FileLog.e(err2);
                             AndroidUtilities.runOnUIThread(() -> {

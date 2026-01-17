@@ -1,11 +1,21 @@
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
-    id 'com.google.firebase.crashlytics'
+    id 'io.sentry.android.gradle'
 }
 
 dependencies {
     implementation project(':TMessagesProj')
+}
+
+sentry {
+    uploadNativeSymbols = true
+    includeSourceContext = true
+    additionalSourceDirsForSourceContext = [ '../TMessagesProj/src/main/java' ]
+    autoInstallation {
+        enabled = false
+    }
+    ignoredBuildTypes = ["debug"]
 }
 
 android {

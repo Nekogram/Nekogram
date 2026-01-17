@@ -187,7 +187,7 @@ public class BackButtonMenuRecent {
                 if (delegate != null) {
                     ArrayList<MessagesStorage.TopicKey> keys = new ArrayList<>();
                     keys.add(MessagesStorage.TopicKey.of(dialogId, 0));
-                    delegate.didSelectDialogs(fragment, keys, null, false, true, 0, null);
+                    delegate.didSelectDialogs(fragment, keys, null, false, true, 0, 0, null);
                     return;
                 }
                 Bundle bundle = new Bundle();

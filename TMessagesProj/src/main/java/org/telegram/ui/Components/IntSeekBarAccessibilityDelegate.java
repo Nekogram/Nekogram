@@ -29,8 +29,8 @@ public abstract class IntSeekBarAccessibilityDelegate extends SeekBarAccessibili
     @Override
     public void onInitializeAccessibilityEvent(View host, AccessibilityEvent event) {
         super.onInitializeAccessibilityEvent(host, event);
-        if (AccConfig.SHOW_NUMBERS_OF_ITEMS || event.getEventType() == AccessibilityEvent.TYPE_ANNOUNCEMENT) event.setItemCount(getMaxValue() - getMinValue());
-        if (AccConfig.SHOW_INDEX_OF_ITEM || event.getEventType() == AccessibilityEvent.TYPE_ANNOUNCEMENT) event.setCurrentItemIndex(getProgress());
+        if (AccConfig.showNumbersOfItems || event.getEventType() == AccessibilityEvent.TYPE_ANNOUNCEMENT) event.setItemCount(getMaxValue() - getMinValue());
+        if (AccConfig.showIndexOfItem || event.getEventType() == AccessibilityEvent.TYPE_ANNOUNCEMENT) event.setCurrentItemIndex(getProgress());
     }
 
     protected abstract int getProgress();

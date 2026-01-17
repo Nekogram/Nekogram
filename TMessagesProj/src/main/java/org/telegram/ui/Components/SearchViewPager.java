@@ -949,7 +949,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
             DialogsActivity fragment = new DialogsActivity(args);
             fragment.forwardContext = forwardContext;
             var forwardParams = fragment.forwardContext.getForwardParams();
-            fragment.setDelegate((fragment1, dids, message, param, notify, scheduleDate, topicsFragment) -> {
+            fragment.setDelegate((fragment1, dids, message, param, notify, scheduleDate, scheduleRepeatPeriod, topicsFragment) -> {
                 selectedFiles.clear();
 
                 showActionMode(false);

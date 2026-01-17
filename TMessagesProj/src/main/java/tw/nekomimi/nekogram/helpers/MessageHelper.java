@@ -10,6 +10,7 @@ import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -134,7 +135,11 @@ public class MessageHelper extends BaseController {
     public static CharSequence createEditedString(MessageObject messageObject) {
         if (spannedStrings[1] == null) {
             spannedStrings[1] = new SpannableStringBuilder("\u200B");
-            spannedStrings[1].setSpan(new ColoredImageSpan(Theme.chat_editDrawable), 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            var span = new ColoredImageSpan(Theme.chat_editDrawable);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                span.setContentDescription(LocaleController.getString(R.string.EditedMessage));
+            }
+            spannedStrings[1].setSpan(span, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
         var spannableStringBuilder = new SpannableStringBuilder();
         spannableStringBuilder
@@ -617,7 +622,7 @@ public class MessageHelper extends BaseController {
         MessageObject obj = new MessageObject(currentAccount, message, true, true);
         obj.messageBlocked = messageObject.messageBlocked;
         obj.translating = translating;
-        obj.manually = translated;
+        obj.manually = translating || translated;
 
         replaceMessagesObject(dialogId, obj);
     }

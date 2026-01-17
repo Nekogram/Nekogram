@@ -55,10 +55,10 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
     }
 
     public void postAccessibilityEventRunnable(@NonNull View host) {
-        if (!ViewCompat.isAttachedToWindow(host) || !AccConfig.SHOW_SEEKBAR_VALUE_CHANGES) {
+        if (!ViewCompat.isAttachedToWindow(host) || !AccConfig.showSeekbarValueChanges) {
             return;
         }
-        if (AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE == 0) {
+        if (AccConfig.delayBetweenAnnouncingOfChangingOfSeekbarValue == 0) {
             sendAccessibilityEvent(host, AccessibilityEvent.TYPE_VIEW_SELECTED);
             return;
         }
@@ -70,7 +70,7 @@ public abstract class SeekBarAccessibilityDelegate extends View.AccessibilityDel
             host.removeCallbacks(runnable);
             host.removeOnAttachStateChangeListener(onAttachStateChangeListener);
         }
-        host.postDelayed(runnable, AccConfig.DELAY_BETWEEN_ANNOUNCING_OF_CHANGING_OF_SEEKBAR_VALUE);
+        host.postDelayed(runnable, AccConfig.delayBetweenAnnouncingOfChangingOfSeekbarValue);
     }
 
     @Override
