@@ -265,7 +265,6 @@
     <string name="SendLargePhotos">傳送大照片</string>
     <string name="SendLargePhotosAbout">將壓縮影像的邊距限制增加到 2560 像素。</string>
     <string name="ExportAsJson">複製為 JSON</string>
-    <string name="ViewAsJson"></string>
     <string name="HideStories">隱藏動態</string>
     <string name="QuickForward">使用快速轉發選單</string>
     <string name="DidNotGetTheCodeBlameDurov">如果您沒有在其他裝置上取得驗證碼，或者您沒有在其他裝置上登入 Telegram，請使用官方 Telegram 應用程式接收驗證碼。\n\nTelegram 已**停用透過簡訊登入的功能** 在第三方應用程序上。 登入第三方應用程式的使用者只能透過 Telegram 接收登入代碼。\n\n我們無法協助您解決此問題，如果您在登入時遇到任何問題，請聯絡 Telegram 支援。</string>

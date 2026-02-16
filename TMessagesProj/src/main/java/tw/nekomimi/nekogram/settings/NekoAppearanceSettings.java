@@ -1,7 +1,6 @@
 package tw.nekomimi.nekogram.settings;
 
 import android.content.Context;
-import android.transition.TransitionManager;
 import android.view.View;
 
 import androidx.annotation.NonNull;
@@ -11,9 +10,6 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
-import org.telegram.ui.ActionBar.Theme;
-import org.telegram.ui.ActionBar.ThemeDescription;
-import org.telegram.ui.Cells.DrawerProfileCell;
 import org.telegram.ui.Cells.HeaderCell;
 import org.telegram.ui.Cells.TextCheckCell;
 import org.telegram.ui.Cells.TextInfoPrivacyCell;
@@ -28,18 +24,10 @@ import tw.nekomimi.nekogram.helpers.PopupHelper;
 
 public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements NotificationCenter.NotificationCenterDelegate {
 
-    private DrawerProfilePreviewCell profilePreviewCell;
-
-    private int drawerRow;
-    private int avatarAsDrawerBackgroundRow;
-    private int avatarBackgroundBlurRow;
-    private int avatarBackgroundDarkenRow;
-    private int hidePhoneRow;
-    private int drawer2Row;
-
     private int appearanceRow;
     private int emojiSetsRow;
     private int mediaPreviewRow;
+    private int predictiveBackAnimationRow;
     private int appBarShadowRow;
     private int formatTimeWithSecondsRow;
     private int disableNumberRoundingRow;
@@ -66,14 +54,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
 
     @Override
     protected void onItemClick(View view, int position, float x, float y) {
-        if (position == hidePhoneRow) {
-            NekoConfig.toggleHidePhone();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.hidePhone);
-            }
-            getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-            listAdapter.notifyItemChanged(drawerRow, PARTIAL);
-        } else if (position == tabletModeRow) {
+        if (position == tabletModeRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             ArrayList<Integer> types = new ArrayList<>();
             arrayList.add(LocaleController.getString(R.string.TabletModeAuto));
@@ -103,35 +84,6 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 listAdapter.notifyItemChanged(eventTypeRow, PARTIAL);
                 getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
             }, resourcesProvider);
-        } else if (position == avatarAsDrawerBackgroundRow) {
-            NekoConfig.toggleAvatarAsDrawerBackground();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.avatarAsDrawerBackground);
-            }
-            getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-            TransitionManager.beginDelayedTransition(profilePreviewCell);
-            listAdapter.notifyItemChanged(drawerRow, PARTIAL);
-            if (NekoConfig.avatarAsDrawerBackground) {
-                updateRows();
-                listAdapter.notifyItemRangeInserted(avatarBackgroundBlurRow, 2);
-            } else {
-                listAdapter.notifyItemRangeRemoved(avatarBackgroundBlurRow, 2);
-                updateRows();
-            }
-        } else if (position == avatarBackgroundBlurRow) {
-            NekoConfig.toggleAvatarBackgroundBlur();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.avatarBackgroundBlur);
-            }
-            getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-            listAdapter.notifyItemChanged(drawerRow, PARTIAL);
-        } else if (position == avatarBackgroundDarkenRow) {
-            NekoConfig.toggleAvatarBackgroundDarken();
-            if (view instanceof TextCheckCell) {
-                ((TextCheckCell) view).setChecked(NekoConfig.avatarBackgroundDarken);
-            }
-            getNotificationCenter().postNotificationName(NotificationCenter.mainUserInfoChanged);
-            listAdapter.notifyItemChanged(drawerRow, PARTIAL);
         } else if (position == disableNumberRoundingRow) {
             NekoConfig.toggleDisableNumberRounding();
             if (view instanceof TextCheckCell) {
@@ -176,6 +128,12 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 listAdapter.notifyItemChanged(tabsTitleTypeRow, PARTIAL);
                 getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
             }, resourcesProvider);
+        } else if (position == predictiveBackAnimationRow) {
+            NekoConfig.togglePredictiveBackAnimation();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.predictiveBackAnimation);
+            }
+            showRestartBulletin();
         }
     }
 
@@ -198,21 +156,10 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
     protected void updateRows() {
         super.updateRows();
 
-        drawerRow = addRow("drawer");
-        avatarAsDrawerBackgroundRow = addRow("avatarAsDrawerBackground");
-        if (NekoConfig.avatarAsDrawerBackground) {
-            avatarBackgroundBlurRow = addRow("avatarBackgroundBlur");
-            avatarBackgroundDarkenRow = addRow("avatarBackgroundDarken");
-        } else {
-            avatarBackgroundBlurRow = -1;
-            avatarBackgroundDarkenRow = -1;
-        }
-        hidePhoneRow = addRow("hidePhone");
-        drawer2Row = addRow();
-
         appearanceRow = addRow("appearance");
         emojiSetsRow = addRow("emojiSets");
         mediaPreviewRow = addRow("mediaPreview");
+        predictiveBackAnimationRow = addRow("predictiveBackAnimation");
         appBarShadowRow = addRow("appBarShadow");
         formatTimeWithSecondsRow = addRow("formatTimeWithSeconds");
         disableNumberRoundingRow = addRow("disableNumberRounding");
@@ -276,11 +223,7 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 case TYPE_CHECK: {
                     TextCheckCell textCell = (TextCheckCell) holder.itemView;
                     textCell.setEnabled(true, null);
-                    if (position == hidePhoneRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.HidePhone), NekoConfig.hidePhone, divider);
-                    } else if (position == avatarAsDrawerBackgroundRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.AvatarAsBackground), NekoConfig.avatarAsDrawerBackground, divider);
-                    } else if (position == disableNumberRoundingRow) {
+                    if (position == disableNumberRoundingRow) {
                         textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.DisableNumberRounding), "4.8K -> 4777", NekoConfig.disableNumberRounding, divider, divider);
                     } else if (position == appBarShadowRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.DisableAppBarShadow), NekoConfig.disableAppBarShadow, divider);
@@ -288,12 +231,10 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                         textCell.setTextAndCheck(LocaleController.getString(R.string.MediaPreview), NekoConfig.mediaPreview, divider);
                     } else if (position == formatTimeWithSecondsRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.FormatWithSeconds), NekoConfig.formatTimeWithSeconds, divider);
-                    } else if (position == avatarBackgroundBlurRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.BlurAvatarBackground), NekoConfig.avatarBackgroundBlur, divider);
-                    } else if (position == avatarBackgroundDarkenRow) {
-                        textCell.setTextAndCheck(LocaleController.getString(R.string.DarkenAvatarBackground), NekoConfig.avatarBackgroundDarken, divider);
                     } else if (position == hideAllTabRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.HideAllTab), NekoConfig.hideAllTab, divider);
+                    } else if (position == predictiveBackAnimationRow) {
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.PredictiveBackAnimation), NekoConfig.predictiveBackAnimation, divider);
                     }
                     break;
                 }
@@ -320,32 +261,17 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                     }
                     break;
                 }
-                case Integer.MAX_VALUE: {
-                    DrawerProfilePreviewCell cell = (DrawerProfilePreviewCell) holder.itemView;
-                    cell.setUser(getUserConfig().getCurrentUser(), false);
-                    break;
-                }
-            }
-        }
-
-        @Override
-        public View createCustomView(int viewType) {
-            if (viewType == Integer.MAX_VALUE) {
-                return profilePreviewCell = new DrawerProfilePreviewCell(mContext);
-            } else {
-                return super.createCustomView(viewType);
             }
         }
 
         @Override
         public int getItemViewType(int position) {
-            if (position == appearance2Row || position == drawer2Row) {
+            if (position == appearance2Row) {
                 return TYPE_SHADOW;
             } else if (position == eventTypeRow || position == tabsTitleTypeRow || position == tabletModeRow) {
                 return TYPE_SETTINGS;
             } else if (position == hideAllTabRow ||
-                    (position > emojiSetsRow && position <= disableNumberRoundingRow) ||
-                    (position > drawerRow && position < drawer2Row)) {
+                    (position > emojiSetsRow && position <= disableNumberRoundingRow)) {
                 return TYPE_CHECK;
             } else if (position == appearanceRow || position == foldersRow) {
                 return TYPE_HEADER;
@@ -353,36 +279,8 @@ public class NekoAppearanceSettings extends BaseNekoSettingsActivity implements 
                 return TYPE_INFO_PRIVACY;
             } else if (position == emojiSetsRow) {
                 return TYPE_EMOJI;
-            } else if (position == drawerRow) {
-                return Integer.MAX_VALUE;
             }
             return TYPE_SETTINGS;
         }
-    }
-
-    @Override
-    public ArrayList<ThemeDescription> getThemeDescriptions() {
-        ThemeDescription.ThemeDescriptionDelegate cellDelegate = () -> {
-            if (listView != null) {
-                for (int i = 0; i < listView.getChildCount(); i++) {
-                    View child = listView.getChildAt(i);
-                    if (child instanceof DrawerProfileCell profileCell) {
-                        profileCell.applyBackground(true);
-                        profileCell.updateColors();
-                    }
-                }
-            }
-        };
-        ArrayList<ThemeDescription> themeDescriptions = super.getThemeDescriptions();
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chats_menuName));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chats_menuPhone));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chats_menuPhoneCats));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chat_serviceBackground));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chats_menuTopShadow));
-        themeDescriptions.add(new ThemeDescription(listView, 0, new Class[]{DrawerProfileCell.class}, null, null, null, Theme.key_chats_menuTopShadowCats));
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_IMAGECOLOR, new Class[]{DrawerProfileCell.class}, new String[]{"darkThemeView"}, null, null, null, Theme.key_chats_menuName));
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR | ThemeDescription.FLAG_CHECKTAG, new Class[]{DrawerProfileCell.class}, null, null, cellDelegate, Theme.key_chats_menuTopBackgroundCats));
-        themeDescriptions.add(new ThemeDescription(listView, ThemeDescription.FLAG_CELLBACKGROUNDCOLOR | ThemeDescription.FLAG_CHECKTAG, new Class[]{DrawerProfileCell.class}, null, null, cellDelegate, Theme.key_chats_menuTopBackground));
-        return themeDescriptions;
     }
 }

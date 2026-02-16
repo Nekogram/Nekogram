@@ -34,7 +34,7 @@ public class DatacenterPopupWrapper {
 
     public DatacenterPopupWrapper(BaseFragment fragment, PopupSwipeBackLayout swipeBackLayout, Theme.ResourcesProvider resourcesProvider) {
         var context = fragment.getParentActivity();
-        windowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, swipeBackLayout != null ? 0 : R.drawable.popup_fixed_alert2, resourcesProvider, ActionBarPopupWindow.ActionBarPopupWindowLayout.FLAG_USE_SWIPEBACK);
+        windowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, swipeBackLayout != null ? 0 : R.drawable.popup_fixed_alert4, resourcesProvider, ActionBarPopupWindow.ActionBarPopupWindowLayout.FLAG_USE_SWIPEBACK);
         windowLayout.setFitItems(true);
 
         if (swipeBackLayout != null) {

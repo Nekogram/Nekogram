@@ -599,6 +599,8 @@ public class BitmapsCache {
         void releaseForGenerateCache();
 
         Bitmap getFirstFrame(Bitmap bitmap);
+
+        int getFps();
     }
 
     public static class Metadata {

@@ -106,7 +106,7 @@
         android:allowBackup="true"
         android:restoreAnyVersion="true"
         android:backupAgent=".BackupAgent"
-        android:hardwareAccelerated="@bool/useHardwareAcceleration"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:roundIcon="@mipmap/ic_launcher"
         android:largeHeap="true"
@@ -120,7 +120,7 @@
         android:allowAudioPlaybackCapture="true"
         tools:replace="android:supportsRtl"
         android:usesCleartextTraffic="true"
-        android:enableOnBackInvokedCallback="false"
+        android:enableOnBackInvokedCallback="true"
     >
         <!-- usesCleartextTraffic for browser supporting opening http:// links -->
 
@@ -335,7 +335,7 @@
             android:theme="@style/Theme.TMessages.Start"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode|smallestScreenSize|screenLayout"
             android:supportsPictureInPicture="true"
-            android:hardwareAccelerated="@bool/useHardwareAcceleration"
+            android:hardwareAccelerated="true"
             android:launchMode="singleTask"
             android:windowSoftInputMode="adjustResize"
             android:exported="true">
@@ -426,7 +426,7 @@
         <activity
             android:name="org.telegram.ui.BubbleActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-            android:hardwareAccelerated="@bool/useHardwareAcceleration"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
             android:allowEmbedded="true"
             android:documentLaunchMode="always"
@@ -434,7 +434,7 @@
         <activity
             android:name="org.telegram.ui.ShareActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-            android:hardwareAccelerated="@bool/useHardwareAcceleration"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan"
             android:excludeFromRecents="true"
             android:stateNotNeeded="true"
@@ -450,7 +450,7 @@
         <activity
             android:name="org.telegram.ui.ExternalActionActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-            android:hardwareAccelerated="@bool/useHardwareAcceleration"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
             <intent-filter>
@@ -461,7 +461,7 @@
         <activity
             android:name="org.telegram.ui.ChatsWidgetConfigActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-            android:hardwareAccelerated="@bool/useHardwareAcceleration"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
             <intent-filter>
@@ -471,7 +471,7 @@
         <activity
             android:name="org.telegram.ui.ContactsWidgetConfigActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-            android:hardwareAccelerated="@bool/useHardwareAcceleration"
+            android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
             <intent-filter>
@@ -481,7 +481,7 @@
 <!--        <activity-->
 <!--            android:name="org.telegram.ui.FeedWidgetConfigActivity"-->
 <!--            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"-->
-<!--            android:hardwareAccelerated="@bool/useHardwareAcceleration"-->
+<!--            android:hardwareAccelerated="true"-->
 <!--            android:windowSoftInputMode="adjustPan">-->
 <!--            <intent-filter android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher">-->
 <!--                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>-->
@@ -836,6 +836,15 @@ e            <intent-filter>
             android:value="org.telegram.messenger.chromecast.ChromecastOptionsProvider" />
 
         <meta-data android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@drawable/notification" />
+
+        <provider
+            android:name="io.sentry.android.core.SentryInitProvider"
+            android:authorities="${applicationId}.SentryInitProvider"
+            tools:node="remove" />
+        <provider
+            android:name="io.sentry.android.core.SentryPerformanceProvider"
+            android:authorities="${applicationId}.SentryPerformanceProvider"
+            tools:node="remove" />
 
     </application>
 

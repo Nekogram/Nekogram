@@ -313,6 +313,7 @@
     <string name="ForceFontWeightFallback">强制字重回退</string>
     <string name="HideChannelBottomButtons">隐藏频道底部按钮</string>
     <string name="TranslationKeepFormatting">保留翻译文本格式</string>
+    <string name="PredictiveBackAnimation">预测性返回动画</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

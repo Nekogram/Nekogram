@@ -7,9 +7,7 @@ import android.view.ViewGroup;
 import org.telegram.messenger.regular.BuildConfig;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.Components.UpdateAppAlertDialog;
-import org.telegram.ui.Components.UpdateButton;
 import org.telegram.ui.Components.UpdateLayout;
-import org.telegram.ui.IUpdateButton;
 import org.telegram.ui.IUpdateLayout;
 
 import tw.nekomimi.nekogram.Extra;
@@ -36,12 +34,7 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
     }
 
     @Override
-    public IUpdateLayout takeUpdateLayout(Activity activity, ViewGroup sideMenu, ViewGroup sideMenuContainer) {
-        return new UpdateLayout(activity, sideMenu, sideMenuContainer);
-    }
-
-    @Override
-    public IUpdateButton takeUpdateButton(Context context) {
-        return new UpdateButton(context);
+    public IUpdateLayout takeUpdateLayout(Activity activity, ViewGroup sideMenuContainer) {
+        return new UpdateLayout(activity, sideMenuContainer);
     }
 }

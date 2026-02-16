@@ -1,11 +1,23 @@
+import com.android.build.api.variant.FilterConfiguration
+
 plugins {
     id 'com.android.application'
     id 'com.google.gms.google-services'
-    id 'com.google.firebase.crashlytics'
+    id 'io.sentry.android.gradle'
 }
 
 dependencies {
     implementation project(':TMessagesProj')
+}
+
+sentry {
+    uploadNativeSymbols = true
+    includeSourceContext = true
+    additionalSourceDirsForSourceContext = [ '../TMessagesProj/src/main/java' ]
+    autoInstallation {
+        enabled = false
+    }
+    ignoredBuildTypes = ["debug"]
 }
 
 android {
@@ -57,15 +69,6 @@ android {
 
     defaultConfig.versionCode = Integer.parseInt(APP_VERSION_CODE)
 
-    applicationVariants.configureEach { variant ->
-        variant.outputs.configureEach { output ->
-            def abi = output.getFilter('ABI')
-            if (abi == null) abi = 'universal'
-            outputFileName = "Nekogram-${defaultConfig.versionName}-${defaultConfig.versionCode}-${abi}.apk"
-            output.versionCodeOverride = defaultConfig.versionCode * 10
-        }
-    }
-
     defaultConfig {
         versionName APP_VERSION_NAME
 
@@ -91,5 +94,17 @@ android {
     dependenciesInfo {
         includeInApk false
         includeInBundle false
+    }
+}
+
+androidComponents {
+    onVariants(selector().all()) { variant ->
+        variant.outputs.each { output ->
+            def abi = output.filters.find { it.filterType == FilterConfiguration.FilterType.ABI }?.identifier
+            def abiName = abi ?: "universal"
+            def baseVersionCode = output.versionCode.get()
+            output.outputFileName.set("Nekogram-${output.versionName.get()}-${baseVersionCode}-${abiName}.apk")
+            output.versionCode.set(baseVersionCode * 10)
+        }
     }
 }

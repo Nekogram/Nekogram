@@ -307,7 +307,6 @@
     <string name="CloudflareAccountID">รหัสบัญชี</string>
     <string name="CloudflareAPIToken">โทเค็น API</string>
     <string name="CloudflareCredentialsDialog">กำหนดค่า ID บัญชี Cloudflare และโทเค็น API \n**จะรับได้อย่างไร**</string>
-    <string name="PreferOriginalQuality"></string>
     <string name="PreferOriginalQualityDesc">ชมวีดีโอในคุณภาพต้นฉบับ</string>
     <string name="AutoInlineBot">อินไลน์บอทอัตโนมัติ</string>
     <string name="AutoInlineBotDesc">เรียกใช้อินไลน์บอทอัตโนมัติตามข้อความ</string>

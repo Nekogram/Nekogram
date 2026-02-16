@@ -309,9 +309,10 @@
     <string name="AutoInlineBot">Αυτόματο inline bot</string>
     <string name="AutoInlineBotDesc">Αυτόματη αναζήτηση inline bot με βάση το κείμενο του μηνύματος.</string>
     <string name="ShortStandardQuality">SD</string>
-    <string name="ForceFontWeightFallback">Εξαναγκασμός επιστροφής βάρους γραμ/σειράς</string>
+    <string name="ForceFontWeightFallback">Επιβολή επιστροφής βάρους γραμ/σειράς</string>
     <string name="HideChannelBottomButtons">Απόκρυψη κάτω πλήκτρων καναλιού</string>
     <string name="TranslationKeepFormatting">Διατήρηση μορφοποίησης κειμένου στη μετάφραση</string>
+    <string name="PredictiveBackAnimation">Πρόβλεψη πίσω εφέ</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>

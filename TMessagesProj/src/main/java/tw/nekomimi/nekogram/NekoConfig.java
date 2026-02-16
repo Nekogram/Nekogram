@@ -107,12 +107,8 @@ public class NekoConfig {
     public static boolean showQrCode = false;
     public static boolean showOpenIn = false;
 
-    public static boolean hidePhone = true;
     public static int tabletMode = TABLET_AUTO;
     public static boolean openArchiveOnPull = false;
-    public static boolean avatarAsDrawerBackground = false;
-    public static boolean avatarBackgroundBlur = true;
-    public static boolean avatarBackgroundDarken = true;
     public static int nameOrder = 1;
     public static int eventType = 0;
     public static boolean disableAppBarShadow = false;
@@ -145,6 +141,7 @@ public class NekoConfig {
     public static boolean minimizedStickerCreator = false;
     public static boolean hideChannelBottomButtons = false;
     public static boolean keepFormatting = true;
+    public static boolean predictiveBackAnimation = false;
 
     public static boolean shouldNOTTrustMe = false;
 
@@ -174,7 +171,6 @@ public class NekoConfig {
 
             SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
             preferIPv6 = preferences.getBoolean("preferIPv6", false);
-            hidePhone = preferences.getBoolean("hidePhone", true);
             ignoreBlocked = preferences.getBoolean("ignoreBlocked2", false);
             tabletMode = preferences.getInt("tabletMode", TABLET_AUTO);
             nameOrder = preferences.getInt("nameOrder", 1);
@@ -191,9 +187,6 @@ public class NekoConfig {
             translationProvider = preferences.getString("translationProvider2", isChineseUser ? Translator.PROVIDER_LINGO : Translator.PROVIDER_GOOGLE);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
             hideKeyboardOnChatScroll = preferences.getBoolean("hideKeyboardOnChatScroll", false);
-            avatarAsDrawerBackground = preferences.getBoolean("avatarAsDrawerBackground", false);
-            avatarBackgroundBlur = preferences.getBoolean("avatarBackgroundBlur", false);
-            avatarBackgroundDarken = preferences.getBoolean("avatarBackgroundDarken", false);
             useSystemEmoji = preferences.getBoolean("useSystemEmoji", false);
             rearVideoMessages = preferences.getBoolean("rearVideoMessages", false);
             hideAllTab = preferences.getBoolean("hideAllTab", false);
@@ -252,6 +245,7 @@ public class NekoConfig {
             minimizedStickerCreator = preferences.getBoolean("minimizedStickerCreator", false);
             hideChannelBottomButtons = preferences.getBoolean("hideChannelBottomButtons", false);
             keepFormatting = preferences.getBoolean("keepFormatting", true);
+            predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", false);
             hideRepostToStory = preferences.getBoolean("hideRepostToStory", false);
 
             LensHelper.checkLensSupportAsync();
@@ -400,6 +394,14 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putInt("downloadSpeedBoost2", boost);
+        editor.apply();
+    }
+
+    public static void togglePredictiveBackAnimation() {
+        predictiveBackAnimation = !predictiveBackAnimation;
+        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putBoolean("predictiveBackAnimation", predictiveBackAnimation);
         editor.apply();
     }
 
@@ -611,14 +613,6 @@ public class NekoConfig {
         editor.apply();
     }
 
-    public static void toggleHidePhone() {
-        hidePhone = !hidePhone;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("hidePhone", hidePhone);
-        editor.apply();
-    }
-
     public static void toggleIgnoreBlocked() {
         ignoreBlocked = !ignoreBlocked;
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
@@ -704,30 +698,6 @@ public class NekoConfig {
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putBoolean("hideKeyboardOnChatScroll", hideKeyboardOnChatScroll);
-        editor.apply();
-    }
-
-    public static void toggleAvatarAsDrawerBackground() {
-        avatarAsDrawerBackground = !avatarAsDrawerBackground;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("avatarAsDrawerBackground", avatarAsDrawerBackground);
-        editor.apply();
-    }
-
-    public static void toggleAvatarBackgroundBlur() {
-        avatarBackgroundBlur = !avatarBackgroundBlur;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("avatarBackgroundBlur", avatarBackgroundBlur);
-        editor.apply();
-    }
-
-    public static void toggleAvatarBackgroundDarken() {
-        avatarBackgroundDarken = !avatarBackgroundDarken;
-        SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE);
-        SharedPreferences.Editor editor = preferences.edit();
-        editor.putBoolean("avatarBackgroundDarken", avatarBackgroundDarken);
         editor.apply();
     }
 

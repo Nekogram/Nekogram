@@ -152,7 +152,6 @@
     <string name="QRLoginTitle">Inicio de sesión con QR</string>
     <string name="NoTranslatorAppInstalled">No tienes aplicaciones que puedan manejar la intención de traducir, por favor instala una para continuar</string>
     <string name="DisableVoiceMessagesAutoPlay">Desactivar la reproducción automática de mensajes de voz</string>
-    <string name="UnmuteVideosWithVolumeButtons"></string>
     <string name="TranslatorType">Estilo</string>
     <string name="TranslatorTypeNeko">En mensaje</string>
     <string name="TranslatorTypeTG">Diálogo emergente</string>

@@ -53,7 +53,6 @@ import org.json.JSONArray;
 import org.json.JSONTokener;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
-import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LanguageDetector;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
@@ -94,6 +93,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
     private ArrayList<TLRPC.MessageEntity> reqMessageEntities;
     private TLRPC.InputPeer reqPeer;
     private int reqMessageId;
+    private boolean reqSum;
 
     private String fromLanguage, toLanguage;
     private String prevToLanguage;
@@ -122,13 +122,13 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         CharSequence text, ArrayList<TLRPC.MessageEntity> entities,
         Theme.ResourcesProvider resourcesProvider
     ) {
-        this(context, fromLanguage, toLanguage, text, entities, null, 0, resourcesProvider);
+        this(context, fromLanguage, toLanguage, text, entities, null, 0, false, resourcesProvider);
     }
 
     private TranslateAlert2(
         Context context,
         String fromLanguage, String toLanguage,
-        CharSequence text, ArrayList<TLRPC.MessageEntity> entities, TLRPC.InputPeer peer, int messageId,
+        CharSequence text, ArrayList<TLRPC.MessageEntity> entities, TLRPC.InputPeer peer, int messageId, boolean sum,
         Theme.ResourcesProvider resourcesProvider
     ) {
         super(context, false, resourcesProvider);
@@ -141,6 +141,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         this.reqMessageEntities = entities;
         this.reqPeer = peer;
         this.reqMessageId = messageId;
+        this.reqSum = sum;
 
         this.fromLanguage = fromLanguage;
         this.toLanguage = toLanguage;
@@ -261,7 +262,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         buttonTextView.setTypeface(AndroidUtilities.bold());
         buttonTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         buttonTextView.setText(LocaleController.getString(R.string.CloseTranslation));
-        buttonTextView.setBackground(Theme.AdaptiveRipple.filledRect(getThemedColor(Theme.key_featuredStickers_addButton), 6));
+        buttonTextView.setBackground(Theme.AdaptiveRipple.filledRect(Theme.getColor(Theme.key_featuredStickers_addButton), 24));
         buttonTextView.setOnClickListener(e -> dismiss());
         buttonView.addView(buttonTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.BOTTOM | Gravity.FILL_HORIZONTAL, 16, 16, 16, 16));
 
@@ -1565,8 +1566,8 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    public static TranslateAlert2 showAlert(Context context, BaseFragment fragment, int currentAccount, TLRPC.InputPeer peer, int msgId, String fromLanguage, String toLanguage, CharSequence text, ArrayList<TLRPC.MessageEntity> entities, boolean noforwards, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, Runnable onDismiss) {
-        TranslateAlert2 alert = new TranslateAlert2(context, fromLanguage, toLanguage, text, entities, peer, msgId, null) {
+    public static TranslateAlert2 showAlert(Context context, BaseFragment fragment, int currentAccount, TLRPC.InputPeer peer, int msgId, boolean sum, String fromLanguage, String toLanguage, CharSequence text, ArrayList<TLRPC.MessageEntity> entities, boolean noforwards, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, Runnable onDismiss) {
+        TranslateAlert2 alert = new TranslateAlert2(context, fromLanguage, toLanguage, text, entities, peer, msgId, sum, null) {
             @Override
             public void dismiss() {
                 super.dismiss();

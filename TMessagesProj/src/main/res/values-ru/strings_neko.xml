@@ -312,14 +312,8 @@
     <string name="ShortStandardQuality">SD</string>
     <string name="ForceFontWeightFallback">Принудительное уменьшение размера текста</string>
     <string name="HideChannelBottomButtons">Скрыть кнопки в каналах</string>
+    <string name="TranslationKeepFormatting">Сохранять форматирования текста при переводе</string>
+    <string name="PredictiveBackAnimation">Предиктивная обратная анимация</string>
     <!-- Accessibility -->
-    <string name="AccessibilitySettings">Специальные возможности</string>
-    <string name="AccSeekbarHeading">Настройки ползунков</string>
-    <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading">Выберите время в миллисекундах, через которое будет озвучиваться значение ползунка, если Вы выбрали эту настройку</string>
-    <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar">Задержка перед озвучиванием значения ползунка</string>
-    <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay">Без задержки</string>
-    <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
-    <string name="AccNumberOfItems">Показывать количество элементов</string>
-    <string name="AccIndexOfItem">Показывать текущую позицию</string>
-    <string name="AccShowValueChanges">Озвучивать изменений значения во время его ручного изменения</string>
+    <string name="AccessibilitySettings">Настройки доступности</string>
 </resources>

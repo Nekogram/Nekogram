@@ -47,7 +47,7 @@ public class AppCompatEditText extends EditText implements OnReceiveContentViewB
     public AppCompatEditText(@NonNull Context context) {
         super(context);
         mDefaultOnReceiveContentListener = new TextViewOnReceiveContentListener();
-        if (Build.VERSION.SDK_INT == Build.VERSION_CODES.VANILLA_ICE_CREAM && XiaomiUtilities.isOS2()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             setLocalePreferredLineHeightForMinimumUsed(false);
         }
     }

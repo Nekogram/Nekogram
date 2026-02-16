@@ -317,16 +317,9 @@
     <string name="ForceFontWeightFallback">Force font weight fallback</string>
     <string name="HideChannelBottomButtons">Hide channel bottom buttons</string>
     <string name="TranslationKeepFormatting">Preserve text formatting in translation</string>
+    <string name="PredictiveBackAnimation">Predictive back animation</string>
     <string name="HideRepostToStoryRow">Hide \"Repost to Story\" from forward alert</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
-    <string name="AccSeekbarHeading">Seekbar settings</string>
-    <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading">Select time in ms, after which changing of seekbar value will be announced, if you selected this option</string>
-    <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbar">Delay before announcing of changing of seekbar value</string>
-    <string name="AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarWithoutDelay">Without delay</string>
-    <string name="AccTimeBeforeAnnouncingOfChangesOfSeekbarValue">%s ms</string>
-    <string name="AccNumberOfItems">Show number of items</string>
-    <string name="AccIndexOfItem">Show current position</string>
-    <string name="AccShowValueChanges">Announce changes of value during manual changes</string>
 </resources>

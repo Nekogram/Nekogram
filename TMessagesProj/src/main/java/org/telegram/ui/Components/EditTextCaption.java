@@ -593,9 +593,9 @@ public class EditTextCaption extends EditTextBoldCursor {
         }
     }
 
-    public boolean closeCreationLinkDialog() {
+    public boolean closeCreationLinkDialog(boolean invoked) {
         if (creationLinkDialog != null && creationLinkDialog.isShowing()) {
-            creationLinkDialog.dismiss();
+            if (invoked) creationLinkDialog.dismiss();
             return true;
         }
         return false;
@@ -826,6 +826,13 @@ public class EditTextCaption extends EditTextBoldCursor {
                 }
             }
         }
+    }
+
+    public boolean isNearRightCaption(int rightMargin) {
+        final Layout layout = getLayout();
+        if (layout == null || layout.getLineCount() <= 0) return false;
+        if (layout.getLineCount() > 1) return true;
+        return layout.getLineRight(0) + rightMargin >= getWidth() - getPaddingLeft() - getPaddingRight();
     }
 
     public String getCaption() {

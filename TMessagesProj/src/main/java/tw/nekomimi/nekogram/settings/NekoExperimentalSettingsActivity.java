@@ -348,7 +348,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 case TYPE_INFO_PRIVACY: {
                     TextInfoPrivacyCell cell = (TextInfoPrivacyCell) holder.itemView;
                     if (position == data2Row) {
-                        cell.setText(LocaleController.formatString(R.string.SendAnonymousDataDesc, "Firebase Crashlytics", "Google"));
+                        cell.setText(LocaleController.formatString(R.string.SendAnonymousDataDesc, "Sentry", "Functional Software"));
                     }
                     break;
                 }

@@ -14,7 +14,6 @@
     <string name="NameOrder">Urutan nama</string>
     <string name="FirstLast">Nama Belakang</string>
     <string name="LastFirst">Nama Depan</string>
-    <string name="NoQuoteForward"></string>
     <string name="NoCaptionForward">Teruskan Tanpa Keterangan</string>
     <string name="NoQuoteForwardShort">Tidak Ada Pengirim</string>
     <string name="NoCaptionForwardShort">Tidak ada keterangan</string>
@@ -137,7 +136,6 @@
     <string name="SendWebFileInvalid">Berkas tidak valid. Pastikan berkas memenuhi persyaratan.</string>
     <string name="AutoLockInstant">Langsung</string>
     <string name="RestrictionReason">Alasan pembatasan</string>
-    <string name="ProviderTencentTranslator"></string>
     <string name="MaxRecentStickers">Maksimum stiker terakhir digunakan</string>
     <string name="DisableJumpToNextChannel">Matikan \"Jump to Next Channel\"</string>
     <string name="DisableGreetingSticker">Matikan stiker menyapa</string>
@@ -282,10 +280,8 @@
     <string name="CloudConfigAutoSyncDesc">Otomatis sinkronkan ke cloud setelah membuat perubahan pada pengaturan Neko.</string>
     <string name="CloudConfigSyncFailed">Gagal menyinkronkan pengaturan ke cloud.</string>
     <string name="CloudConfigRestoreFailed">Gagal memulihkan pengaturan dari cloud.</string>
-    <string name="ReducedColors"></string>
     <string name="MonoCode">Kode</string>
     <string name="CreateCode">Buat Kode</string>
-    <string name="CreateCodeLanguage"></string>
     <string name="IgnoreContentRestriction">Kontol</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Setelan Aksesibilitas</string>

@@ -522,7 +522,7 @@ public class ContentPreviewViewer {
                         icons.add(R.drawable.msg_delete);
                         actions.add(5);
                     }
-                    if (currentStickerSet != null && !MessageObject.isAnimatedStickerDocument(currentDocument, true)) {
+                    if (currentStickerSet != null) {
                         items.add(LocaleController.getString(R.string.SaveToGallery));
                         icons.add(R.drawable.msg_gallery);
                         actions.add(110);

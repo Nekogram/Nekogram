@@ -5,6 +5,7 @@ import android.media.MediaExtractor;
 import android.media.MediaFormat;
 import android.media.MediaMuxer;
 import android.text.TextUtils;
+import android.util.Base64;
 import android.util.TypedValue;
 import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
@@ -34,6 +35,7 @@ import org.telegram.ui.LaunchActivity;
 import java.io.File;
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -220,7 +222,7 @@ public class WhisperHelper {
             return;
         }
         executorService.submit(() -> {
-            String audioPath;
+            File audioPath;
             if (video) {
                 var audioFile = new File(path + ".m4a");
                 try {
@@ -228,15 +230,25 @@ public class WhisperHelper {
                 } catch (IOException e) {
                     FileLog.e(e);
                 }
-                audioPath = audioFile.exists() ? audioFile.getAbsolutePath() : path;
+                audioPath = audioFile.exists() ? audioFile : new File(path);
             } else {
-                audioPath = path;
+                audioPath = new File(path);
             }
+            byte[] audio;
+            try {
+                audio = Files.readAllBytes(audioPath.toPath());
+            } catch (IOException e) {
+                callback.accept(null, e);
+                return;
+            }
+            var payload = new WhisperRequest();
+            payload.audio = Base64.encodeToString(audio, Base64.NO_WRAP);
+            payload.vadFilter = false;
             var client = getOkHttpClient();
             var request = new Request.Builder()
-                    .url("https://api.cloudflare.com/client/v4/accounts/" + NekoConfig.cfAccountID + "/ai/run/@cf/openai/whisper")
+                    .url("https://api.cloudflare.com/client/v4/accounts/" + NekoConfig.cfAccountID + "/ai/run/@cf/openai/whisper-large-v3-turbo")
                     .header("Authorization", "Bearer " + NekoConfig.cfApiToken)
-                    .post(RequestBody.create(new File(audioPath), MediaType.get(video ? "video/mp4" : "audio/ogg")));
+                    .post(RequestBody.create(gson.toJson(payload), MediaType.get("application/json")));
             try (var response = client.newCall(request.build()).execute()) {
                 var body = response.body().string();
                 var whisperResponse = gson.fromJson(body, WhisperResponse.class);
@@ -250,6 +262,15 @@ public class WhisperHelper {
                 callback.accept(null, e);
             }
         });
+    }
+
+    public static class WhisperRequest {
+        @SerializedName("audio")
+        @Expose
+        public String audio;
+        @SerializedName("vad_filter")
+        @Expose
+        public Boolean vadFilter;
     }
 
     public static class Result {

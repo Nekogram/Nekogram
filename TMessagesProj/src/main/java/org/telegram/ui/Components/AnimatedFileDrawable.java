@@ -1223,7 +1223,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         bitmap.eraseColor(Color.TRANSPARENT);
         canvas.save();
         float s = (float) renderingWidth / generatingCacheBitmap.getWidth();
-        canvas.scale(s, s);
+        if (renderingWidth > 0) canvas.scale(s, s);
         canvas.drawBitmap(generatingCacheBitmap, 0, 0, null);
         canvas.restore();
         cacheGenerateTimestamp = metaData[3];
@@ -1327,6 +1327,7 @@ public class AnimatedFileDrawable extends BitmapDrawable implements Animatable, 
         }
     }
 
+    @Override
     public int getFps() {
         return metaData[5];
     }

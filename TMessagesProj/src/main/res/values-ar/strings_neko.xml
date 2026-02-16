@@ -6,7 +6,7 @@
     <string name="HidePhone">إخفاء رقم هاتفي</string>
     <string name="DeleteAllFromSelf">حذف الرسائل الخاصة بي</string>
     <string name="DeleteAllFromSelfAlert">تحذير! سيؤدي هذا إلى **حذفَ جميع الرسائل منكَ** في هذه المحادثة لـ **جميع** المشاركين.</string>
-    <string name="DeleteAllFromSelfAlertBefore">تحذير! سيؤدي هذا إلى حذف **جميع الرسائل منك قبل %s** في هذه المحادثة لـ **جميع المشاركين**.</string>
+    <string name="DeleteAllFromSelfAlertBefore">تحذير! هذا سيحذف **جميع الرسائل منك قبل %s** في هذه المحادثة ل **جميع المشاركين**.</string>
     <string name="DeleteAllFromSelfBefore">قبل...</string>
     <string name="IgnoreBlocked">إخفاء الرسائل من المستخدم المحظور</string>
     <string name="Connection">اتصال</string>
@@ -19,20 +19,17 @@
     <string name="NoQuoteForwardShort">لا يوجد مُرسل</string>
     <string name="NoCaptionForwardShort">لا يوجد تعليق</string>
     <string name="Repeat">كَرر</string>
-    <string name="AddToSavedMessages">حفظُ الرسالة</string>
+    <string name="AddToSavedMessages">حفظ الرسالة</string>
     <string name="CreateMention">صنع إشعار</string>
     <string name="Prpr">إعادة تدوير</string>
-    <string name="EnableResidentNotification">إظهار إشعارٌ دائمُ</string>
-    <string name="DisableResidentNotification">تعطيل الإشعارات</string>
     <string name="NekogramRunning">نيكوغرام قيدُ التشغيل</string>
     <string name="EventType">مجموعة أيقونات الشريط الجانبي</string>
     <string name="DependsOnDate">يعتمد علىٰ التاريخ</string>
     <string name="Christmas">عيدُ الميلاد</string>
     <string name="Valentine">عيد الحب</string>
-    <string name="DeleteDownloadedFile">حذف الملف المحمل</string>
+    <string name="DeleteDownloadedFile">حذف الملف الذي تم تنزيله</string>
     <string name="TestBackendOn">سيتصل هذا الحساب بالخادم التجريبي.</string>
     <string name="TestBackendOff">سيتصل هذا الحساب بالخوادم العادية.</string>
-    <string name="ViewHistory">عرض الرسائل</string>
     <string name="Nya">مياو3:!</string>
     <string name="StickerSize">حجم الملصقات</string>
     <string name="StickerSizeLeft">ملصق صغير</string>
@@ -307,7 +304,7 @@
     <string name="CloudflareCredentials">بيانات اعتماد Cloudflare</string>
     <string name="CloudflareCredentialsNotSet">لم يتم تكوين بيانات اعتماد Cloudflare.</string>
     <string name="CloudflareAccountID">معرّف الحساب</string>
-    <string name="CloudflareAPIToken">رمز واجهة برمجة التطبيقات (API Token)</string>
+    <string name="CloudflareAPIToken">API Token</string>
     <string name="CloudflareCredentialsDialog">تكوين معرف حساب Cloudflare ورمز API.\n**كيفية الحصول عليه؟ **</string>
     <string name="PreferOriginalQuality">تفضيل الجودة الأصلية</string>
     <string name="PreferOriginalQualityDesc">عرض مقاطع الفيديو بالجودة الأصلية.</string>
@@ -315,6 +312,9 @@
     <string name="AutoInlineBotDesc">الاستعلام التلقائي عن الروبوت المضمن استنادًا إلى نص الرسالة.</string>
     <string name="ShortStandardQuality">دِقَّة متوسطة</string>
     <string name="ForceFontWeightFallback">فرض تراجع وزن الخط</string>
+    <string name="HideChannelBottomButtons">إخفاء الأزرار السفلية للقناة</string>
+    <string name="TranslationKeepFormatting">الحفاظ على تنسيق النص في الترجمة</string>
+    <string name="PredictiveBackAnimation">ميزة تنقل بالإيماءات المتحركة</string>
     <!-- Accessibility -->
-    <string name="AccessibilitySettings">إمكانية الوصول</string>
+    <string name="AccessibilitySettings">إعدادات إمكانية الوصول</string>
 </resources>

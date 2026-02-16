@@ -40,14 +40,12 @@ import org.telegram.messenger.voip.VideoCapturerDevice;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.BaseFragment;
-import org.telegram.ui.Adapters.DrawerLayoutAdapter;
 import org.telegram.ui.Components.ForegroundDetector;
-import org.telegram.ui.IUpdateButton;
+import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.IUpdateLayout;
 import org.telegram.ui.LauncherIconController;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 
@@ -223,6 +221,7 @@ public class ApplicationLoader extends Application {
 
                     boolean isSlow = isConnectionSlow();
                     for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+                        if (!UserConfig.getInstance(a).isClientActivated()) continue;
                         ConnectionsManager.getInstance(a).checkConnection();
                         FileLoader.getInstance(a).onNetworkChanged(isSlow);
                     }
@@ -257,6 +256,7 @@ public class ApplicationLoader extends Application {
         SharedPrefsHelper.init(applicationContext);
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) { //TODO improve account
             UserConfig.getInstance(a).loadConfig();
+            if (!UserConfig.getInstance(a).isClientActivated()) continue;
             MessagesController.getInstance(a);
             if (a == 0) {
                 SharedConfig.pushStringStatus = "__FIREBASE_GENERATING_SINCE_" + ConnectionsManager.getInstance(a).getCurrentTime() + "__";
@@ -278,6 +278,7 @@ public class ApplicationLoader extends Application {
 
         MediaController.getInstance();
         for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) { //TODO improve account
+            if (!UserConfig.getInstance(a).isClientActivated()) continue;
             ContactsController.getInstance(a).checkAppAccount();
             DownloadController.getInstance(a);
         }
@@ -655,11 +656,7 @@ public class ApplicationLoader extends Application {
         return false;
     }
 
-    public IUpdateLayout takeUpdateLayout(Activity activity, ViewGroup sideMenu, ViewGroup sideMenuContainer) {
-        return null;
-    }
-
-    public IUpdateButton takeUpdateButton(Context context) {
+    public IUpdateLayout takeUpdateLayout(Activity activity, ViewGroup sideMenuContainer) {
         return null;
     }
 
@@ -679,8 +676,8 @@ public class ApplicationLoader extends Application {
         return false;
     }
 
-    public boolean extendDrawer(ArrayList<DrawerLayoutAdapter.Item> items) {
-        return false;
+    public void addItemOptions(ItemOptions itemOptions) {
+
     }
 
     public boolean checkRequestPermissionResult(int requestCode, String[] permissions, int[] grantResults) {

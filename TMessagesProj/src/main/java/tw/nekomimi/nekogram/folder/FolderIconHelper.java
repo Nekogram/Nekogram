@@ -125,11 +125,11 @@ public class FolderIconHelper {
         return result;
     }
 
-    public static int getPaddingTab() {
+    public static int getInternalPaddingTab() {
         if (NekoConfig.tabsTitleType != NekoConfig.TITLE_TYPE_ICON) {
-            return AndroidUtilities.dp(32);
+            return AndroidUtilities.dp(12.5f);
         }
-        return AndroidUtilities.dp(16);
+        return AndroidUtilities.dp(6.25f);
     }
 
     public static int getTabIcon(String emoji) {

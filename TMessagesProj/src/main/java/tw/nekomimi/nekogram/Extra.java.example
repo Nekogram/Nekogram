@@ -21,6 +21,8 @@ public class Extra {
 
     public static String TLV_URL = "";
 
+    public static String SENTRY_DSN = "";
+
     public static boolean isDirectApp() {
         return "release".equals(BuildConfig.BUILD_TYPE) || "debug".equals(BuildConfig.BUILD_TYPE);
     }
