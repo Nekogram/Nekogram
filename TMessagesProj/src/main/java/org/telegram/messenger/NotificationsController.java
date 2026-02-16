@@ -4216,7 +4216,7 @@ public class NotificationsController extends BaseController {
                 } else {
                     detailText = "";
                 }
-                if (pushDialogs.size() != 1 || Build.VERSION.SDK_INT < 23) {
+                if (!NekoConfig.disableNotificationSummary && (pushDialogs.size() != 1 || Build.VERSION.SDK_INT < 23)) {
                     if (pushDialogs.size() == 1) {
                         detailText += LocaleController.formatPluralString("NewMessages", total_unread_count);
                     } else {
