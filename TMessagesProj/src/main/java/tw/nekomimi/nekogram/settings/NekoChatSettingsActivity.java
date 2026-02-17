@@ -65,6 +65,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
     private int disableJumpToNextRow;
     private int disableGreetingStickerRow;
     private int hideChannelBottomButtonsRow;
+    private int hideRepostToStoryRow;
     private int doubleTapActionRow;
     private int maxRecentStickersRow;
     private int chat2Row;
@@ -390,6 +391,11 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.hideChannelBottomButtons);
             }
+        } else if (position == hideRepostToStoryRow) {
+            NekoConfig.toggleHideRepostToStory();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.hideRepostToStory);
+            }
         }
     }
 
@@ -421,6 +427,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
         disableJumpToNextRow = addRow("disableJumpToNext");
         disableGreetingStickerRow = addRow("disableGreetingSticker");
         hideChannelBottomButtonsRow = addRow("hideChannelBottomButtons");
+        hideRepostToStoryRow = addRow("hideRepostToStory");
         doubleTapActionRow = addRow("doubleTapAction");
         maxRecentStickersRow = addRow("maxRecentStickers");
         chat2Row = addRow();
@@ -758,6 +765,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity implement
                         textCell.setTextAndValueAndCheck(LocaleController.getString(R.string.PreferOriginalQuality), LocaleController.getString(R.string.PreferOriginalQualityDesc), NekoConfig.preferOriginalQuality, true, divider);
                     } else if (position == hideChannelBottomButtonsRow) {
                         textCell.setTextAndCheck(LocaleController.getString(R.string.HideChannelBottomButtons), NekoConfig.hideChannelBottomButtons, divider);
+                    } else if (position == hideRepostToStoryRow) {
+                        textCell.setTextAndCheck(LocaleController.getString(R.string.HideRepostToStoryRow), NekoConfig.hideRepostToStory, divider);
                     }
                     break;
                 }

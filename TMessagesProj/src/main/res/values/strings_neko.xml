@@ -318,6 +318,7 @@
     <string name="HideChannelBottomButtons">Hide channel bottom buttons</string>
     <string name="TranslationKeepFormatting">Preserve text formatting in translation</string>
     <string name="PredictiveBackAnimation">Predictive back animation</string>
+    <string name="HideRepostToStoryRow">Hide \"Repost to Story\" from forward alert</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
