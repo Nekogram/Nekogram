@@ -248,6 +248,9 @@ public class StoriesController {
     }
 
     public boolean hasStories(long dialogId) {
+        if (NekoConfig.hideStories) {
+            return false;
+        }
         if (dialogId == 0) {
             return false;
         }
@@ -1680,6 +1683,9 @@ public class StoriesController {
     }
 
     public ArrayList<TL_stories.PeerStories> getHiddenList() {
+        if (NekoConfig.hideStories) {
+            return new ArrayList<>();
+        }
         return hiddenListStories;
     }
 

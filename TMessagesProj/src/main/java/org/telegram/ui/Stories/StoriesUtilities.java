@@ -67,6 +67,8 @@ import org.telegram.ui.LaunchActivity;
 import java.io.File;
 import java.util.Collections;
 
+import tw.nekomimi.nekogram.NekoConfig;
+
 public class StoriesUtilities {
 
     private final static int ANIMATION_SEGMENT_COUNT = 16;
@@ -189,7 +191,7 @@ public class StoriesUtilities {
             params.inc = false;
         }
         params.showProgress = showProgress;
-        if (params.currentState == STATE_EMPTY && params.progressToSate == 1f) {
+        if (NekoConfig.hideStories || (params.currentState == STATE_EMPTY && params.progressToSate == 1f)) {
             avatarImage.setImageCoords(params.originalAvatarRect);
             avatarImage.draw(canvas);
             return;
@@ -1279,6 +1281,10 @@ public class StoriesUtilities {
         public View child;
 
         public boolean checkOnTouchEvent(MotionEvent event, View view) {
+            if (NekoConfig.hideStories) {
+                return false;
+            }
+
             child = view;
             StoriesController storiesController = MessagesController.getInstance(UserConfig.selectedAccount).getStoriesController();
             if (event.getAction() == MotionEvent.ACTION_DOWN && originalAvatarRect.contains(event.getX(), event.getY())) {
