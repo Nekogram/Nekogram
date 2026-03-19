@@ -75,6 +75,7 @@ public class NekoConfig {
     public static boolean disableNumberRounding = false;
     public static boolean disableGreetingSticker = false;
     public static boolean autoTranslate = true;
+    public static boolean translationConsentGiven = false;
     public static boolean showRPCError = false;
     public static float stickerSize = 14.0f;
     public static String translationProvider = Translator.PROVIDER_GOOGLE;
@@ -211,6 +212,7 @@ public class NekoConfig {
             disableJumpToNextChannel = preferences.getBoolean("disableJumpToNextChannel", false);
             disableGreetingSticker = preferences.getBoolean("disableGreetingSticker", false);
             autoTranslate = preferences.getBoolean("autoTranslate", true);
+            translationConsentGiven = preferences.getBoolean("translationConsentGiven", false);
             disableVoiceMessageAutoPlay = preferences.getBoolean("disableVoiceMessageAutoPlay", false);
             unmuteVideosWithVolumeButtons = preferences.getBoolean("unmuteVideosWithVolumeButtons", true);
             transType = preferences.getInt("transType", TRANS_TYPE_NEKO);

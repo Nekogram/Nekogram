@@ -1,5 +1,6 @@
 package tw.nekomimi.nekogram.translator;
 
+import android.app.Activity;
 import android.content.Context;
 import android.text.TextUtils;
 import android.text.style.URLSpan;
@@ -71,11 +72,43 @@ public class Translator {
     }
 
     public static void showTranslateDialog(Context context, String query, ArrayList<TLRPC.MessageEntity> entities, boolean noforwards, BaseFragment fragment, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, String sourceLanguage, View anchorView, Theme.ResourcesProvider resourcesProvider) {
+        if (!NekoConfig.translationConsentGiven) {
+            String providerName = getCurrentTranslatorName();
+            AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
+            builder.setTitle(LocaleController.getString(R.string.AppName));
+            builder.setMessage("Translation sends your message text to " + providerName + " servers. Continue?");
+            builder.setPositiveButton(LocaleController.getString(R.string.OK), (dialog, which) -> {
+                NekoConfig.translationConsentGiven = true;
+                ApplicationLoader.applicationContext.getSharedPreferences("nekoconfig", Activity.MODE_PRIVATE)
+                        .edit().putBoolean("translationConsentGiven", true).apply();
+                showTranslateDialogInternal(context, query, entities, noforwards, fragment, onLinkPress, sourceLanguage, anchorView, resourcesProvider);
+            });
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+            builder.show();
+            return;
+        }
+        showTranslateDialogInternal(context, query, entities, noforwards, fragment, onLinkPress, sourceLanguage, anchorView, resourcesProvider);
+    }
+
+    private static void showTranslateDialogInternal(Context context, String query, ArrayList<TLRPC.MessageEntity> entities, boolean noforwards, BaseFragment fragment, Utilities.CallbackReturn<URLSpan, Boolean> onLinkPress, String sourceLanguage, View anchorView, Theme.ResourcesProvider resourcesProvider) {
         if (NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL) {
             TranslatorApps.showExternalTranslateDialog(context, query, sourceLanguage, anchorView, resourcesProvider);
         } else {
             TranslateAlert2.showAlert(context, fragment, UserConfig.selectedAccount, sourceLanguage, NekoConfig.translationTarget, query, entities, noforwards, onLinkPress, null, resourcesProvider);
         }
+    }
+
+    private static String getCurrentTranslatorName() {
+        if (PROVIDER_DEEPL.equals(NekoConfig.translationProvider)) return "DeepL";
+        if (PROVIDER_YANDEX.equals(NekoConfig.translationProvider)) return "Yandex";
+        if (PROVIDER_MICROSOFT.equals(NekoConfig.translationProvider)) return "Microsoft";
+        if (PROVIDER_LINGO.equals(NekoConfig.translationProvider)) return "Lingo";
+        if (PROVIDER_YOUDAO.equals(NekoConfig.translationProvider)) return "YouDao";
+        if (PROVIDER_BAIDU.equals(NekoConfig.translationProvider)) return "Baidu";
+        if (PROVIDER_SOGOU.equals(NekoConfig.translationProvider)) return "Sogou";
+        if (PROVIDER_TENCENT.equals(NekoConfig.translationProvider)) return "Tencent";
+        if (PROVIDER_TELEGRAM.equals(NekoConfig.translationProvider)) return "Telegram";
+        return "Google";
     }
 
     public static void handleTranslationError(Context context, final Throwable t, final Runnable onRetry, Theme.ResourcesProvider resourcesProvider) {
