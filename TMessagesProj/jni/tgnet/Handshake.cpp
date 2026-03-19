@@ -406,7 +406,11 @@ void Handshake::processHandshakeResponse_resPQ(TLObject *message, int64_t messag
                 if (LOGS_ENABLED) DEBUG_D("account%u dc%u handshake: can't find valid cdn server public key, type = %d", currentDatacenter->instanceNum, currentDatacenter->datacenterId, handshakeType);
                 loadCdnConfig(currentDatacenter);
             } else {
-                if (LOGS_ENABLED) DEBUG_E("account%u dc%u handshake: can't find valid server public key, type = %d", currentDatacenter->instanceNum, currentDatacenter->datacenterId, handshakeType);
+                if (LOGS_ENABLED) DEBUG_E("account%u dc%u handshake: can't find valid server public key, type = %d, offered %u fingerprints", currentDatacenter->instanceNum, currentDatacenter->datacenterId, handshakeType, (unsigned int) count1);
+                for (uint32_t a = 0; a < count1; a++) {
+                    if (LOGS_ENABLED) DEBUG_E("  server offered fingerprint[%u]: 0x%llx", a, (unsigned long long) result->server_public_key_fingerprints[a]);
+                }
+                // do not retry immediately to avoid tight loops on key mismatch
                 beginHandshake(false);
             }
             return;
