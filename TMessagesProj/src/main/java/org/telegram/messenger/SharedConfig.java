@@ -39,6 +39,13 @@ import org.telegram.ui.LaunchActivity;
 import java.io.File;
 import java.io.RandomAccessFile;
 import java.io.UnsupportedEncodingException;
+import java.security.KeyStore;
+import javax.crypto.Cipher;
+import javax.crypto.KeyGenerator;
+import javax.crypto.SecretKey;
+import javax.crypto.spec.GCMParameterSpec;
+import android.security.keystore.KeyGenParameterSpec;
+import android.security.keystore.KeyProperties;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.net.URLEncoder;
@@ -1423,6 +1430,66 @@ public class SharedConfig {
         LocaleController.resetImperialSystemType();
     }
 
+    private static final String PROXY_KEY_ALIAS = "nekogram_proxy_key";
+
+    private static byte[] encryptProxyData(byte[] data) {
+        try {
+            if (Build.VERSION.SDK_INT >= 23) {
+                KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
+                keyStore.load(null);
+                if (!keyStore.containsAlias(PROXY_KEY_ALIAS)) {
+                    KeyGenerator keyGen = KeyGenerator.getInstance(
+                            KeyProperties.KEY_ALGORITHM_AES, "AndroidKeyStore");
+                    keyGen.init(new KeyGenParameterSpec.Builder(
+                            PROXY_KEY_ALIAS,
+                            KeyProperties.PURPOSE_ENCRYPT | KeyProperties.PURPOSE_DECRYPT)
+                            .setBlockModes(KeyProperties.BLOCK_MODE_GCM)
+                            .setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
+                            .build());
+                    keyGen.generateKey();
+                }
+                SecretKey key = (SecretKey) keyStore.getKey(PROXY_KEY_ALIAS, null);
+                Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+                cipher.init(Cipher.ENCRYPT_MODE, key);
+                byte[] iv = cipher.getIV();
+                byte[] encrypted = cipher.doFinal(data);
+                byte[] result = new byte[1 + iv.length + encrypted.length];
+                result[0] = (byte) iv.length;
+                System.arraycopy(iv, 0, result, 1, iv.length);
+                System.arraycopy(encrypted, 0, result, 1 + iv.length, encrypted.length);
+                return result;
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return data;
+    }
+
+    private static byte[] decryptProxyData(byte[] data) {
+        try {
+            if (Build.VERSION.SDK_INT >= 23 && data.length > 1) {
+                KeyStore keyStore = KeyStore.getInstance("AndroidKeyStore");
+                keyStore.load(null);
+                if (keyStore.containsAlias(PROXY_KEY_ALIAS)) {
+                    int ivLen = data[0] & 0xFF;
+                    if (ivLen > 0 && ivLen < data.length - 1) {
+                        byte[] iv = new byte[ivLen];
+                        System.arraycopy(data, 1, iv, 0, ivLen);
+                        byte[] encrypted = new byte[data.length - 1 - ivLen];
+                        System.arraycopy(data, 1 + ivLen, encrypted, 0, encrypted.length);
+                        SecretKey key = (SecretKey) keyStore.getKey(PROXY_KEY_ALIAS, null);
+                        Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
+                        cipher.init(Cipher.DECRYPT_MODE, key, new GCMParameterSpec(128, iv));
+                        return cipher.doFinal(encrypted);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            FileLog.e(e);
+        }
+        return data;
+    }
+
     public static void loadProxyList() {
         if (proxyListLoaded) {
             return;
@@ -1439,7 +1506,7 @@ public class SharedConfig {
         currentProxy = null;
         String list = preferences.getString("proxy_list", null);
         if (!TextUtils.isEmpty(list)) {
-            byte[] bytes = Base64.decode(list, Base64.DEFAULT);
+            byte[] bytes = decryptProxyData(Base64.decode(list, Base64.DEFAULT));
             SerializedData data = new SerializedData(bytes);
             int count = data.readInt32(false);
             if (count == -1) { // V2 or newer
@@ -1523,7 +1590,7 @@ public class SharedConfig {
             serializedData.writeInt64(info.availableCheckTime);
         }
         SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE);
-        preferences.edit().putString("proxy_list", Base64.encodeToString(serializedData.toByteArray(), Base64.NO_WRAP)).apply();
+        preferences.edit().putString("proxy_list", Base64.encodeToString(encryptProxyData(serializedData.toByteArray()), Base64.NO_WRAP)).apply();
         serializedData.cleanup();
     }
 
