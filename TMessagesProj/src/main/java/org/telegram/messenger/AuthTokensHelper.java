@@ -81,9 +81,6 @@ public class AuthTokensHelper {
     }
 
     public static void saveLogInToken(TLRPC.TL_auth_authorization token) {
-        if (BuildVars.DEBUG_VERSION) {
-            FileLog.d("saveLogInToken " + new String(token.future_auth_token, StandardCharsets.UTF_8));
-        }
         ArrayList<TLRPC.TL_auth_authorization> tokens = getSavedLogInTokens();
         if (tokens == null) {
             tokens = new ArrayList<>();
@@ -108,7 +105,7 @@ public class AuthTokensHelper {
                 editor.putString("log_in_token_" + i, Utilities.bytesToHex(data.toByteArray()));
             }
             editor.apply();
-            BackupAgent.requestBackup(ApplicationLoader.applicationContext);
+            // BackupAgent.requestBackup(ApplicationLoader.applicationContext);
         }
     }
 
@@ -118,7 +115,7 @@ public class AuthTokensHelper {
         SerializedData data = new SerializedData(response.getObjectSize());
         response.serializeToStream(data);
         preferences.edit().putString("log_out_token_" + count, Utilities.bytesToHex(data.toByteArray())).putInt("count", count + 1).apply();
-        BackupAgent.requestBackup(ApplicationLoader.applicationContext);
+        // BackupAgent.requestBackup(ApplicationLoader.applicationContext);
     }
 
     public static void clearLogInTokens() {
