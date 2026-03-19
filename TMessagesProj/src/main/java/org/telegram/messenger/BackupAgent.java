@@ -22,7 +22,7 @@ public class BackupAgent extends BackupAgentHelper {
 
     @Override
     public void onCreate() {
-        SharedPreferencesBackupHelper helper = new SharedPreferencesBackupHelper(this, "saved_tokens", "saved_tokens_login");
+        SharedPreferencesBackupHelper helper = new SharedPreferencesBackupHelper(this);
         addHelper("prefs", helper);
     }
 
