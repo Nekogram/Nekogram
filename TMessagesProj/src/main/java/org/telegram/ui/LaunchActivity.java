@@ -3161,21 +3161,28 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             } else if (scanQr) {
                 ActionIntroActivity fragment = new ActionIntroActivity(ActionIntroActivity.ACTION_TYPE_QR_LOGIN);
                 fragment.setQrLoginDelegate(code -> {
-                    AlertDialog progressDialog = new AlertDialog(LaunchActivity.this, AlertDialog.ALERT_TYPE_SPINNER);
-                    progressDialog.setCanCancel(false);
-                    progressDialog.show();
-                    byte[] token = Base64.decode(code.substring("tg://login?token=".length()), Base64.URL_SAFE);
-                    TLRPC.TL_auth_acceptLoginToken req = new TLRPC.TL_auth_acceptLoginToken();
-                    req.token = token;
-                    ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-                        try {
-                            progressDialog.dismiss();
-                        } catch (Exception ignore) {
-                        }
-                        if (!(response instanceof TLRPC.TL_authorization)) {
-                            AndroidUtilities.runOnUIThread(() -> AlertsCreator.showSimpleAlert(fragment, LocaleController.getString(R.string.AuthAnotherClient), LocaleController.getString(R.string.ErrorOccurred) + "\n" + error.text));
-                        }
-                    }));
+                    AlertDialog.Builder confirmBuilder = new AlertDialog.Builder(LaunchActivity.this);
+                    confirmBuilder.setTitle(LocaleController.getString(R.string.AuthAnotherClient));
+                    confirmBuilder.setMessage(LocaleController.getString(R.string.AuthAnotherClientInfo));
+                    confirmBuilder.setPositiveButton(LocaleController.getString(R.string.OK), (dlg, which) -> {
+                        AlertDialog progressDialog = new AlertDialog(LaunchActivity.this, AlertDialog.ALERT_TYPE_SPINNER);
+                        progressDialog.setCanCancel(false);
+                        progressDialog.show();
+                        byte[] token = Base64.decode(code.substring("tg://login?token=".length()), Base64.URL_SAFE);
+                        TLRPC.TL_auth_acceptLoginToken req = new TLRPC.TL_auth_acceptLoginToken();
+                        req.token = token;
+                        ConnectionsManager.getInstance(currentAccount).sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+                            try {
+                                progressDialog.dismiss();
+                            } catch (Exception ignore) {
+                            }
+                            if (!(response instanceof TLRPC.TL_authorization)) {
+                                AndroidUtilities.runOnUIThread(() -> AlertsCreator.showSimpleAlert(fragment, LocaleController.getString(R.string.AuthAnotherClient), LocaleController.getString(R.string.ErrorOccurred) + "\n" + error.text));
+                            }
+                        }));
+                    });
+                    confirmBuilder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+                    confirmBuilder.show();
                 });
                 getActionBarLayout().presentFragment(new INavigationLayout.NavigationParams(fragment).setNoAnimation(true));
                 if (AndroidUtilities.isTablet()) {

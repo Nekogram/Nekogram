@@ -1154,25 +1154,32 @@ public class SessionsActivity extends BaseFragment implements NotificationCenter
                 this.response = null;
                 this.error = null;
                 AndroidUtilities.runOnUIThread(() -> {
-                    try {
-                        String code = link.substring("tg://login?token=".length());
-                        code = code.replaceAll("\\/", "_");
-                        code = code.replaceAll("\\+", "-");
-                        byte[] token = Base64.decode(code, Base64.URL_SAFE);
-                        TLRPC.TL_auth_acceptLoginToken req = new TLRPC.TL_auth_acceptLoginToken();
-                        req.token = token;
-                        getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
-                            this.response = response;
-                            this.error = error;
+                    AlertDialog.Builder confirmBuilder = new AlertDialog.Builder(getParentActivity());
+                    confirmBuilder.setTitle(LocaleController.getString(R.string.AuthAnotherClient));
+                    confirmBuilder.setMessage(LocaleController.getString(R.string.AuthAnotherClientInfo));
+                    confirmBuilder.setPositiveButton(LocaleController.getString(R.string.OK), (dlg, which) -> {
+                        try {
+                            String code = link.substring("tg://login?token=".length());
+                            code = code.replaceAll("\\/", "_");
+                            code = code.replaceAll("\\+", "-");
+                            byte[] token = Base64.decode(code, Base64.URL_SAFE);
+                            TLRPC.TL_auth_acceptLoginToken req = new TLRPC.TL_auth_acceptLoginToken();
+                            req.token = token;
+                            getConnectionsManager().sendRequest(req, (response, error) -> AndroidUtilities.runOnUIThread(() -> {
+                                this.response = response;
+                                this.error = error;
+                                onLoadEnd.run();
+                            }));
+                        } catch (Exception e) {
+                            FileLog.e("Failed to pass qr code auth", e);
+                            AndroidUtilities.runOnUIThread(() -> {
+                                AlertsCreator.showSimpleAlert(SessionsActivity.this, LocaleController.getString(R.string.AuthAnotherClient), LocaleController.getString(R.string.ErrorOccurred));
+                            });
                             onLoadEnd.run();
-                        }));
-                    } catch (Exception e) {
-                        FileLog.e("Failed to pass qr code auth", e);
-                        AndroidUtilities.runOnUIThread(() -> {
-                            AlertsCreator.showSimpleAlert(SessionsActivity.this, LocaleController.getString(R.string.AuthAnotherClient), LocaleController.getString(R.string.ErrorOccurred));
-                        });
-                        onLoadEnd.run();
-                    }
+                        }
+                    });
+                    confirmBuilder.setNegativeButton(LocaleController.getString(R.string.Cancel), (dlg, which) -> onLoadEnd.run());
+                    confirmBuilder.show();
                 }, 750);
                 return true;
             }
