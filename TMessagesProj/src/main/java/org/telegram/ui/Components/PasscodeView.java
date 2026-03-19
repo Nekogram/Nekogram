@@ -1194,7 +1194,19 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                         @Override
                         public void onAuthenticationError(int errMsgId, @NonNull CharSequence errString) {
                             FileLog.d("PasscodeView onAuthenticationError " + errMsgId + " \"" + errString + "\"");
-                            showPin(true);
+                            if (errMsgId == BiometricPrompt.ERROR_NEGATIVE_BUTTON
+                                    || errMsgId == BiometricPrompt.ERROR_USER_CANCELED
+                                    || errMsgId == BiometricPrompt.ERROR_CANCELED) {
+                                // user chose PIN or cancelled, allow PIN entry
+                                showPin(true);
+                            } else if (errMsgId == BiometricPrompt.ERROR_LOCKOUT
+                                    || errMsgId == BiometricPrompt.ERROR_LOCKOUT_PERMANENT) {
+                                // too many failed attempts, force PIN with delay
+                                showPin(true);
+                            } else {
+                                // hardware/other error, try biometric again after a short delay
+                                AndroidUtilities.runOnUIThread(() -> checkFingerprint(), 1500);
+                            }
                         }
 
                         @Override
@@ -1206,7 +1218,8 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                         @Override
                         public void onAuthenticationFailed() {
                             FileLog.d("PasscodeView onAuthenticationFailed");
-                            showPin(true);
+                            // don't immediately show PIN on failed biometric attempt,
+                            // let the system handle retry within the biometric dialog
                         }
                     });
                     final BiometricPrompt.PromptInfo promptInfo = new BiometricPrompt.PromptInfo.Builder()
