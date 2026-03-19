@@ -6367,6 +6367,11 @@ public class Theme {
             if (!themeName.toLowerCase().endsWith(".attheme")) {
                 themeName += ".attheme";
             }
+            // strip directory separators to prevent path traversal
+            themeName = themeName.replace("/", "").replace("\\", "").replace("..", "");
+            if (themeName.isEmpty()) {
+                return null;
+            }
             if (temporary) {
                 NotificationCenter.getGlobalInstance().postNotificationName(NotificationCenter.goingToPreviewTheme);
                 ThemeInfo themeInfo = new ThemeInfo();
@@ -6385,6 +6390,12 @@ public class Theme {
                 } else {
                     key = themeName;
                     finalFile = new File(ApplicationLoader.getFilesDirFixed(), key);
+                    // validate the resolved path stays within the app directory
+                    String baseDir = ApplicationLoader.getFilesDirFixed().getCanonicalPath();
+                    if (!finalFile.getCanonicalPath().startsWith(baseDir)) {
+                        FileLog.e("theme file path escapes app directory: " + key);
+                        return null;
+                    }
                 }
                 if (!AndroidUtilities.copyFile(file, finalFile)) {
                     applyPreviousTheme();
