@@ -1,3 +1,0 @@
-<sync-adapter xmlns:android="http://schemas.android.com/apk/res/android"
-    android:contentAuthority="com.android.contacts"
-    android:accountType="tw.nekomimi.nekogram"/>
