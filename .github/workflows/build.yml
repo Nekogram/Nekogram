@@ -105,3 +105,33 @@ jobs:
         with:
           name: outputs
           path: TMessagesProj_App/build/outputs
+
+      - name: Upload arm64-v8a build apk
+        uses: actions/upload-artifact@v7
+        with:
+          path: TMessagesProj_App/build/outputs/apk/release/*-arm64-v8a.apk
+          archive: false
+
+      - name: Upload armeabi-v7a build apk
+        uses: actions/upload-artifact@v7
+        with:
+          path: TMessagesProj_App/build/outputs/apk/release/*-armeabi-v7a.apk
+          archive: false
+
+      - name: Upload universal build apk
+        uses: actions/upload-artifact@v7
+        with:
+          path: TMessagesProj_App/build/outputs/apk/release/*-universal.apk
+          archive: false
+
+      - name: Upload x86 build apk
+        uses: actions/upload-artifact@v7
+        with:
+          path: TMessagesProj_App/build/outputs/apk/release/*-x86.apk
+          archive: false
+
+      - name: Upload x86_64 build apk
+        uses: actions/upload-artifact@v7
+        with:
+          path: TMessagesProj_App/build/outputs/apk/release/*-x86_64.apk
+          archive: false

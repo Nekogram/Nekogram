@@ -22,6 +22,8 @@ jobs:
     steps:
       - name: Download artifacts
         uses: actions/download-artifact@v8
+        with:
+          name: outputs
 
       - name: Display downloaded files
         run: ls -R
