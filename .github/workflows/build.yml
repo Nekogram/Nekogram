@@ -140,3 +140,10 @@ jobs:
         with:
           path: TMessagesProj_App/build/outputs/apk/release/*-x86_64.apk
           archive: false
+
+      - name: Upload build bundle
+        if: github.event_name != 'pull_request'
+        uses: actions/upload-artifact@v7
+        with:
+          path: TMessagesProj_App/build/outputs/bundle/play/*-play.aab
+          archive: false
