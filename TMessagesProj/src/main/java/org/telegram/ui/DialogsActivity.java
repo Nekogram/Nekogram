@@ -3404,7 +3404,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         fragmentSearchFieldWatcher.setDoNotCloseAfterFieldEmpty();
 
         if (initialDialogsType == DIALOGS_TYPE_DEFAULT) {
-            optionsItem = menu.addItem(4, R.drawable.ic_ab_other);
+            if (NekoConfig.hideBottomNavigationBar) {
+                optionsItem = menu.addItem(4, new ColorDrawable(Color.TRANSPARENT));
+            } else {
+                optionsItem = menu.addItem(4, R.drawable.ic_ab_other);
+            }
             optionsItem.setContentDescription(LocaleController.getString(R.string.AccDescrMoreOptions));
             optionsItem.setOnClickListener(v -> {
                 getContactsController().loadGlobalPrivacySetting();
@@ -3415,6 +3419,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 showItemOptions();
                 return true;
             });
+            if (NekoConfig.hideBottomNavigationBar) {
+                setupTopMenuAvatar(context);
+            }
         }
 
         searchItem.setSearchFieldHint(getString(R.string.Search));
@@ -13415,6 +13422,93 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
+    private void setupTopMenuAvatar(Context context) {
+        if (optionsItem == null) {
+            return;
+        }
+        BackupImageView imageView = createCurrentAccountAvatarView(context, dp(18));
+        optionsItem.addView(imageView, LayoutHelper.createFrame(36, 36, Gravity.CENTER));
+
+        final int touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
+        optionsItem.setOnTouchListener(new View.OnTouchListener() {
+            private float startX;
+            private float startY;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        startX = event.getX();
+                        startY = event.getY();
+                        v.setPressed(true);
+                        return true;
+                    case MotionEvent.ACTION_UP:
+                        v.setPressed(false);
+                        float dx = event.getX() - startX;
+                        float dy = event.getY() - startY;
+                        if (dy > Math.max(touchSlop, dp(24)) && Math.abs(dx) < dp(48)) {
+                            if (switchToNextVisibleAccount()) {
+                                try {
+                                    v.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                                } catch (Exception ignore) {}
+                            }
+                            return true;
+                        }
+                        v.performClick();
+                        return true;
+                    case MotionEvent.ACTION_CANCEL:
+                        v.setPressed(false);
+                        return true;
+                }
+                return true;
+            }
+        });
+    }
+
+    private BackupImageView createCurrentAccountAvatarView(Context context, int radius) {
+        BackupImageView imageView = new BackupImageView(context);
+        imageView.setRoundRadius(radius);
+
+        TLRPC.User user = getUserConfig().getCurrentUser();
+        AvatarDrawable avatarDrawable = new AvatarDrawable();
+        avatarDrawable.setTextSize(dp(12));
+        avatarDrawable.setInfo(currentAccount, user);
+        imageView.getImageReceiver().setCurrentAccount(currentAccount);
+        Drawable thumb = user != null && user.photo != null && user.photo.strippedBitmap != null ? user.photo.strippedBitmap : avatarDrawable;
+        imageView.setImage(ImageLocation.getForUserOrChat(user, ImageLocation.TYPE_SMALL), "50_50", ImageLocation.getForUserOrChat(user, ImageLocation.TYPE_STRIPPED), "50_50", thumb, user);
+        return imageView;
+    }
+
+    private boolean switchToNextVisibleAccount() {
+        Activity activity = getParentActivity();
+        if (!(activity instanceof LaunchActivity)) {
+            return false;
+        }
+        ArrayList<Integer> accounts = new ArrayList<>();
+        for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
+            if (PasscodeHelper.isAccountHidden(a)) {
+                continue;
+            }
+            if (UserConfig.getInstance(a).isClientActivated()) {
+                accounts.add(a);
+            }
+        }
+        Collections.sort(accounts, (o1, o2) -> {
+            long l1 = UserConfig.getInstance(o1).loginTime;
+            long l2 = UserConfig.getInstance(o2).loginTime;
+            return Long.compare(l1, l2);
+        });
+        if (accounts.size() < 2) {
+            return false;
+        }
+        int index = accounts.indexOf(currentAccount);
+        int nextAccount = accounts.get(index < 0 || index + 1 >= accounts.size() ? 0 : index + 1);
+        if (nextAccount == currentAccount) {
+            return false;
+        }
+        ((LaunchActivity) activity).switchToAccount(nextAccount, true);
+        return true;
+    }
     @Override
     public boolean canParentTabsSlide(MotionEvent ev, boolean forward) {
         if (searchIsShowed || rightSlidingDialogContainer != null && rightSlidingDialogContainer.hasFragment()) {
