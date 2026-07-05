@@ -109,6 +109,7 @@ public class NekoConfig {
     public static boolean markdownParseLinks = true;
     public static boolean mediaPreview = true;
     public static boolean minimizedStickerCreator = false;
+    public static boolean miniSenderAvatar = false;
     public static boolean newMarkdownParser = true;
     public static boolean openArchiveOnPull = false;
     public static boolean predictiveBackAnimation = true;
@@ -214,6 +215,7 @@ public class NekoConfig {
             markdownParseLinks = preferences.getBoolean("markdownParseLinks", true);
             mediaPreview = preferences.getBoolean("mediaPreview", true);
             minimizedStickerCreator = preferences.getBoolean("minimizedStickerCreator", false);
+            miniSenderAvatar = preferences.getBoolean("miniSenderAvatar", false);
             newMarkdownParser = preferences.getBoolean("newMarkdownParser", true);
             openArchiveOnPull = preferences.getBoolean("openArchiveOnPull", false);
             predictiveBackAnimation = preferences.getBoolean("predictiveBackAnimation", true);
@@ -391,6 +393,9 @@ public class NekoConfig {
         }
         if (preferences.contains("minimizedStickerCreator")) {
             object.addProperty("minimizedStickerCreator", preferences.getBoolean("minimizedStickerCreator", false));
+        }
+        if (preferences.contains("miniSenderAvatar")) {
+            object.addProperty("miniSenderAvatar", preferences.getBoolean("miniSenderAvatar", false));
         }
         if (preferences.contains("newMarkdownParser")) {
             object.addProperty("newMarkdownParser", preferences.getBoolean("newMarkdownParser", true));
@@ -645,6 +650,9 @@ public class NekoConfig {
         }
         if (object.has("minimizedStickerCreator")) {
             editor.putBoolean("minimizedStickerCreator", object.get("minimizedStickerCreator").getAsBoolean());
+        }
+        if (object.has("miniSenderAvatar")) {
+            editor.putBoolean("miniSenderAvatar", object.get("miniSenderAvatar").getAsBoolean());
         }
         if (object.has("newMarkdownParser")) {
             editor.putBoolean("newMarkdownParser", object.get("newMarkdownParser").getAsBoolean());
@@ -979,6 +987,11 @@ public class NekoConfig {
     public static void toggleMinimizedStickerCreator() {
         minimizedStickerCreator = !minimizedStickerCreator;
         preferences.edit().putBoolean("minimizedStickerCreator", minimizedStickerCreator).apply();
+    }
+
+    public static void toggleMiniSenderAvatar() {
+        miniSenderAvatar = !miniSenderAvatar;
+        preferences.edit().putBoolean("miniSenderAvatar", miniSenderAvatar).apply();
     }
 
     public static void setNewMarkdownParser(boolean value) {

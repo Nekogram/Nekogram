@@ -33,6 +33,7 @@ public class NekoAppearanceSettingsActivity extends BaseNekoSettingsActivity {
 
     private final int hideStoriesRow = rowId++;
     private final int mediaPreviewRow = rowId++;
+    private final int miniSenderAvatarRow = rowId++;
 
     private final int hideAllTabRow = rowId++;
     private final int tabsTitleTypeRow = rowId++;
@@ -60,6 +61,7 @@ public class NekoAppearanceSettingsActivity extends BaseNekoSettingsActivity {
         items.add(UItem.asHeader(LocaleController.getString(R.string.SavedDialogsTab)));
         items.add(UItem.asCheck(hideStoriesRow, LocaleController.getString(R.string.HideStories)).slug("hideStories").setChecked(NekoConfig.hideStories));
         items.add(UItem.asCheck(mediaPreviewRow, LocaleController.getString(R.string.MediaPreview)).slug("mediaPreview").setChecked(NekoConfig.mediaPreview));
+        items.add(UItem.asCheck(miniSenderAvatarRow, LocaleController.getString(R.string.MiniSenderAvatar)).slug("miniSenderAvatar").setChecked(NekoConfig.miniSenderAvatar));
         items.add(UItem.asShadow(null));
 
         items.add(UItem.asHeader(LocaleController.getString(R.string.Filters)));
@@ -182,6 +184,11 @@ public class NekoAppearanceSettingsActivity extends BaseNekoSettingsActivity {
             NekoConfig.toggleGooeyAvatarAnimation();
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.gooeyAvatarAnimation);
+            }
+        } else if (id == miniSenderAvatarRow) {
+            NekoConfig.toggleMiniSenderAvatar();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.miniSenderAvatar);
             }
         }
     }
