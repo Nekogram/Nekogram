@@ -748,6 +748,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable statusDrawable;
     private AnimatedStatusView animatedStatusView;
     public RightSlidingDialogContainer rightSlidingDialogContainer;
+    // True while a forum topics panel is open.
+    private boolean forumTopicsOpen;
 
     public final Property<DialogsActivity, Float> SCROLL_Y = new AnimationProperties.FloatProperty<DialogsActivity>("animationValue") {
         @Override
@@ -3084,6 +3086,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             @Override
             protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
                 if (inPreviewMode && avatarContainer != null && child != avatarContainer) {
+                    return false;
+                }
+                // While a forum topics panel is open, don't paint the base dialogs title at all.
+                boolean forumOpen = forumTopicsOpen || (rightSlidingDialogContainer != null && rightSlidingDialogContainer.hasFragment());
+                if (forumOpen && getTitleTextView() != null && child == getTitleTextView().getParent()) {
                     return false;
                 }
                 return super.drawChild(canvas, child, drawingTime);
@@ -5520,11 +5527,15 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 transitionPage.listView.setAnimationSupportView(null, 0, hasFragment(), backward);
                 rightFragmentTransitionInProgress = false;
                 contentView.requestLayout();
+                forumTopicsOpen = hasFragment();
                 if (!hasFragment()) {
                     invalidateScrollY = true;
                     fixScrollYAfterArchiveOpened = true;
                     if (fragmentView != null) {
                         fragmentView.invalidate();
+                    }
+                    if (actionBar.getTitleTextView() != null) {
+                        actionBar.getTitleTextView().setAlpha(1f);
                     }
                 }
                 if (searchViewPager != null) {
@@ -8106,6 +8117,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                             }
                                         };
                                         topicsFragment.setParentDialogsActivity(this);
+                                        forumTopicsOpen = true;
                                         rightSlidingDialogContainer.presentFragment(getParentLayout(), topicsFragment);
                                     }
                                     if (searchViewPager != null) {
