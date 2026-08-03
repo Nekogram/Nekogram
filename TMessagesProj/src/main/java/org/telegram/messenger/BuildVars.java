@@ -45,8 +45,6 @@ public class BuildVars {
     // works only on official app ids, disable on your forks
     public static boolean SUPPORTS_PASSKEYS = false;
 
-    public static boolean USE_LEGACY_SYSTEM_INSETS = false;
-
     static {
         APP_ID = Extra.APP_ID;
         APP_HASH = Extra.APP_HASH;

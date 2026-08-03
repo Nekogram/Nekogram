@@ -21,7 +21,7 @@ public class StickerHelper {
         var resultPath = path + ".gif";
         var cacheOptions = new BitmapsCache.CacheOptions();
         var drawable = animated ?
-                new RLottieDrawable(new File(path), 512, 512, cacheOptions, false, null, 0) :
+                new RLottieDrawable(new File(path), null, 512, 512, cacheOptions, false, null, 0, false) :
                 new AnimatedFileDrawable(new File(path), true, 0, 0, null, null, null, 0, 0, false, 0, 0, cacheOptions);
         rendererExecutor.execute(() -> {
             var success = renderToGif(resultPath, drawable, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());

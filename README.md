@@ -15,7 +15,7 @@ MTProto protocol manuals: https://core.telegram.org/mtproto
 
 ## Compilation Guide
 
-1. Download the Nekogram source code ( `git clone https://github.com/Nekogram/Nekogram.git` )
+1. Download the Nekogram source code ( `git clone --recursive --shallow-submodules https://github.com/Nekogram/Nekogram.git` )
 1. Fill out storeFile, storePassword, keyAlias, keyPassword in local.properties to access your release.keystore
 1. Go to https://console.firebase.google.com/, create two android apps with application IDs tw.nekomimi.nekogram and tw.nekomimi.nekogram.beta, turn on firebase messaging and download `google-services.json`, which should be copied into `TMessagesProj` folder.
 1. Open the project in the Studio (note that it should be opened, NOT imported).

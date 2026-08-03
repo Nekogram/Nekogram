@@ -1614,12 +1614,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 if (draftVoice || draftMessage != null) {
                     checkMessage = false;
                     messageNameString = getString(R.string.Draft);
-                    if (draftMessage != null && draftMessage.rich_message != null) {
-                        SpannableStringBuilder stringBuilder = SpannableStringBuilder.valueOf(messageNameString).append(": ");
-                        stringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_draft, resourcesProvider), 0, messageNameString.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-                        stringBuilder.append(MessageObject.formatRichMessage(draftMessage.rich_message, false, false, 512));
-                        messageString = stringBuilder;
-                    } else if (draftMessage != null && TextUtils.isEmpty(draftMessage.message)) {
+                    if (draftMessage != null && TextUtils.isEmpty(draftMessage.message) && draftMessage.rich_message == null) {
                         if ((useForceThreeLines || SharedConfig.useThreeLinesLayout) && !hasTags()) {
                             messageString = "";
                         } else {
@@ -1628,13 +1623,15 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             messageString = stringBuilder;
                         }
                     } else {
-                        String mess;
-                        if (draftVoice) {
+                        CharSequence mess;
+                        if (draftMessage != null && draftMessage.rich_message != null) {
+                            mess = MessageObject.formatRichMessage(draftMessage.rich_message, false, false, 150);
+                        } else if (draftVoice) {
                             mess = getString(R.string.AttachAudio);
                         } else if (draftMessage != null) {
                             mess = draftMessage.message;
                             if (mess.length() > 150) {
-                                mess = mess.substring(0, 150);
+                                mess = mess.subSequence(0, 150);
                             }
                         } else {
                             mess = "";

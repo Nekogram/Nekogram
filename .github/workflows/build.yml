@@ -24,6 +24,8 @@ jobs:
       CCACHE_MAXSIZE: "10G"
     steps:
       - uses: actions/checkout@v7
+        with:
+          submodules: true
 
       - name: Set up JDK 21
         uses: actions/setup-java@v5
