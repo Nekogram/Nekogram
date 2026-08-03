@@ -116,6 +116,7 @@ public class MessagePreviewView extends FrameLayout {
         ActionBarMenuSubItem quoteButton, clearQuoteButton;
         ActionBarMenuSubItem replyAnotherChatButton, quoteAnotherChatButton;
         ActionBarMenuSubItem deleteReplyButton;
+        ActionBarMenuSubItem sendMediaButton;
         ToggleButton changePositionBtn;
         FrameLayout changeSizeBtnContainer;
         ToggleButton changeSizeBtn;
@@ -1160,11 +1161,11 @@ public class MessagePreviewView extends FrameLayout {
                 applyChanges.setOnClickListener(v -> dismiss(true));
                 menu.addView(applyChanges, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
 
-                ActionBarMenuSubItem sendMessagesView = new ActionBarMenuSubItem(context, false, false, resourcesProvider);
-                sendMessagesView.setTextAndIcon(LocaleController.getString(messagePreviewParams.webpage.document != null ? messagePreviewParams.isVideo ? R.string.PreviewSendVideo : R.string.PreviewSendFile : R.string.PreviewSendPhoto), R.drawable.msg_send);
-                sendMessagesView.setVisibility(messagePreviewParams.webpage.document != null || messagePreviewParams.webpage.photo != null ? View.VISIBLE : View.GONE);
-                menu.addView(sendMessagesView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
-                sendMessagesView.setOnClickListener(v -> {
+                sendMediaButton = new ActionBarMenuSubItem(context, false, false, resourcesProvider);
+                sendMediaButton.setTextAndIcon(LocaleController.getString(messagePreviewParams.webpage.document != null ? messagePreviewParams.isVideo ? R.string.PreviewSendVideo : R.string.PreviewSendFile : R.string.PreviewSendPhoto), R.drawable.msg_send);
+                sendMediaButton.setVisibility(messagePreviewParams.webpage.document != null || messagePreviewParams.webpage.photo != null ? View.VISIBLE : View.GONE);
+                menu.addView(sendMediaButton, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48));
+                sendMediaButton.setOnClickListener(v -> {
                     if (chatActivity.isInScheduleMode()) {
                         AlertsCreator.createScheduleDatePickerDialog(
                                 chatActivity.getParentActivity(),
@@ -2315,6 +2316,8 @@ public class MessagePreviewView extends FrameLayout {
                 page.changeSizeBtn.setState(messagePreviewParams.webpageSmall, true);
                 page.videoChangeSizeBtn.setState(messagePreviewParams.webpageSmall, true);
                 page.changePositionBtn.setState(!messagePreviewParams.webpageTop, true);
+                page.sendMediaButton.setTextAndIcon(LocaleController.getString(messagePreviewParams.webpage.document != null ? messagePreviewParams.isVideo ? R.string.PreviewSendVideo : R.string.PreviewSendFile : R.string.PreviewSendPhoto), R.drawable.msg_send);
+                page.sendMediaButton.setVisibility(messagePreviewParams.webpage.document != null || messagePreviewParams.webpage.photo != null ? View.VISIBLE : View.GONE);
                 page.updateMessages();
             }
         }
