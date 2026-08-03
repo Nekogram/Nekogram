@@ -323,7 +323,7 @@
     <string name="TabsPositionBottom">下部</string>
     <string name="StrokeOnViews">キラキラエフェクト</string>
     <string name="CameraInVideoMessages">ビデオメッセージの撮影に使用するカメラ</string>
-    <string name="AskCamera">毎回尋ねる</string>
+    <string name="AskCamera">毎回確認</string>
     <string name="FrontCamera">前面カメラ</string>
     <string name="RearCamera">背面カメラ</string>
     <string name="GooeyAvatarAnimation">「とろけるような」アバターアニメーション</string>
