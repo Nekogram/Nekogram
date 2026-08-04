@@ -13808,6 +13808,14 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 presentFragment(new ProfileActivity(args));
             });
         }
+        boolean hasArchive = NekoConfig.hideAllTab && getMessagesController().getDialogFilters().size() > 1 && getMessagesController().dialogs_dict.get(DialogObject.makeFolderDialogId(1)) != null;
+        if (hasArchive) {
+            io.add(R.drawable.msg_archive, getString(R.string.ArchivedChats), () -> {
+                Bundle args = new Bundle();
+                args.putInt("folderId", 1); // 1 is the ID of the archive folder.
+                presentFragment(new DialogsActivity(args));
+            });
+        }
         io.add(R.drawable.outline_groups_24, getString(R.string.NewGroup), () -> {
             Bundle args = new Bundle();
             presentFragment(new GroupCreateActivity(args));
