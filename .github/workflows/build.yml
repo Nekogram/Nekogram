@@ -12,7 +12,7 @@ on:
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: blacksmith-32vcpu-ubuntu-2404
     permissions:
       id-token: write
       attestations: write
@@ -34,7 +34,9 @@ jobs:
           distribution: 'temurin'
 
       - name: Set up ccache
-        uses: hendrikmuhs/ccache-action@v1.2.23
+        uses: Chocobo1/setup-ccache-action@v1
+        with:
+          remove_stale_cache: false
 
       - name: Setup Gradle
         uses: gradle/actions/setup-gradle@v6
@@ -51,7 +53,7 @@ jobs:
           mkdir -p ~/.gradle
           echo 'org.gradle.caching=true' >> ~/.gradle/gradle.properties
           echo 'org.gradle.parallel=true' >> ~/.gradle/gradle.properties
-          echo 'org.gradle.jvmargs=-Xmx8192m -Dfile.encoding=UTF-8 -XX:+UseParallelGC' >> ~/.gradle/gradle.properties
+          echo 'org.gradle.jvmargs=-Xmx56g -Dfile.encoding=UTF-8 -XX:+UseParallelGC' >> ~/.gradle/gradle.properties
           echo 'android.native.buildOutput=verbose' >> ~/.gradle/gradle.properties
 
       - name: Configure Signing
