@@ -7492,7 +7492,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
 
             Object currentObject = imagesArrLocals.get(currentIndex);
-            boolean canSpoiler = !parentChatActivity.isSecretChat() && currentObject instanceof MediaController.PhotoEntry;
+            boolean canSpoiler = parentChatActivity != null && !parentChatActivity.isSecretChat() && currentObject instanceof MediaController.PhotoEntry;
             boolean spoilerEnabled = false;
             if (canSpoiler) {
                 MediaController.PhotoEntry entry = (MediaController.PhotoEntry) currentObject;

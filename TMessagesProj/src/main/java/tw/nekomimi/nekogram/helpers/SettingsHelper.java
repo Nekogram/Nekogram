@@ -22,6 +22,7 @@ import tw.nekomimi.nekogram.settings.NekoEmojiSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoExperimentalSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoGeneralSettingsActivity;
 import tw.nekomimi.nekogram.settings.NekoPasscodeSettingsActivity;
+import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 
 public class SettingsHelper {
 
@@ -36,44 +37,48 @@ public class SettingsHelper {
             return;
         }
         BaseNekoSettingsActivity fragment;
-        var segment = segments.get(1);
-        if (PasscodeHelper.getSettingsKey().equals(segment)) {
-            fragment = new NekoPasscodeSettingsActivity();
+        if (segments.size() == 1) {
+            fragment = new NekoSettingsActivity();
         } else {
-            switch (segment.toLowerCase(Locale.US)) {
-                case "appearance":
-                case "a":
-                    fragment = new NekoAppearanceSettingsActivity();
-                    break;
-                case "chat":
-                case "chats":
-                case "c":
-                    fragment = new NekoChatSettingsActivity();
-                    break;
-                case "donate":
-                case "d":
-                    fragment = new NekoDonateActivity();
-                    break;
-                case "experimental":
-                case "e":
-                    fragment = new NekoExperimentalSettingsActivity();
-                    break;
-                case "emoji":
-                    fragment = new NekoEmojiSettingsActivity();
-                    break;
-                case "general":
-                case "g":
-                    fragment = new NekoGeneralSettingsActivity();
-                    break;
-                case "reportid":
-                    SettingsHelper.copyReportId();
-                    return;
-                case "update":
-                    LaunchActivity.instance.checkAppUpdate(true, progress);
-                    return;
-                default:
-                    unknown.run();
-                    return;
+            var segment = segments.get(1);
+            if (PasscodeHelper.getSettingsKey().equals(segment)) {
+                fragment = new NekoPasscodeSettingsActivity();
+            } else {
+                switch (segment.toLowerCase(Locale.US)) {
+                    case "appearance":
+                    case "a":
+                        fragment = new NekoAppearanceSettingsActivity();
+                        break;
+                    case "chat":
+                    case "chats":
+                    case "c":
+                        fragment = new NekoChatSettingsActivity();
+                        break;
+                    case "donate":
+                    case "d":
+                        fragment = new NekoDonateActivity();
+                        break;
+                    case "experimental":
+                    case "e":
+                        fragment = new NekoExperimentalSettingsActivity();
+                        break;
+                    case "emoji":
+                        fragment = new NekoEmojiSettingsActivity();
+                        break;
+                    case "general":
+                    case "g":
+                        fragment = new NekoGeneralSettingsActivity();
+                        break;
+                    case "reportid":
+                        SettingsHelper.copyReportId();
+                        return;
+                    case "update":
+                        LaunchActivity.instance.checkAppUpdate(true, progress);
+                        return;
+                    default:
+                        unknown.run();
+                        return;
+                }
             }
         }
         callback.accept(fragment);

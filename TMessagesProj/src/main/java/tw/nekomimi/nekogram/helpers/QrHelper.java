@@ -52,7 +52,7 @@ public class QrHelper {
     }
 
     public static void showQrDialog(BaseFragment fragment, Theme.ResourcesProvider resourcesProvider, ArrayList<String> qrResults, boolean dark) {
-        if (fragment == null || qrResults.isEmpty()) {
+        if (fragment == null || fragment.getParentActivity() == null || qrResults.isEmpty()) {
             return;
         }
         if (qrResults.size() == 1) {
