@@ -36,7 +36,7 @@ jobs:
             bundle/**/*.aab
 
       - name: Upload to Telegram
-        uses: nekogram/upload-with-mtcute@4ef471af101913322285bad4e391339428169291
+        uses: nekogram/upload-with-mtcute@e196262c35b722c4c8eac79c835ec6dbd109e4b8
         with:
           api-id: ${{ secrets.API_ID }}
           api-hash: ${{ secrets.API_HASH }}
