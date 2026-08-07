@@ -7762,11 +7762,7 @@ public class MessageObject {
                             }
                             url = new URLSpanNoUnderline(uri);
                             if (charSequence.charAt(start) == '#') {
-                                var run = new TextStyleSpan.TextStyleRun();
-                                run.start = start;
-                                run.end = end;
-                                run.urlEntity = new TLRPC.TL_messageEntityHashtag();
-                                SyntaxHighlight.highlight(run, spannable);
+                                SyntaxHighlight.highlightColor(spannable, start, end);
                             }
                         }
                     }
@@ -8279,7 +8275,7 @@ public class MessageObject {
                 linksCount++;
                 spannable.setSpan(new URLSpanNoUnderline(url, run), run.start, run.end, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                 if (run.urlEntity instanceof TLRPC.TL_messageEntityHashtag) {
-                    SyntaxHighlight.highlight(run, spannable);
+                    SyntaxHighlight.highlightColor(spannable, run.start, run.end);
                 }
             } else if (run.urlEntity instanceof TLRPC.TL_messageEntityEmail) {
                 if (linksCount >= MediaDataController.MAX_LINKS_COUNT) continue;
