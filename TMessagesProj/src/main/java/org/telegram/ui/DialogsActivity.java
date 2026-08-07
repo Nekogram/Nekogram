@@ -283,10 +283,10 @@ import tw.nekomimi.nekogram.BackButtonMenuRecent;
 import tw.nekomimi.nekogram.forward.ForwardContext;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.forward.SendItemOptions;
+import tw.nekomimi.nekogram.helpers.AccountsHelper;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
-import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.helpers.TypefaceHelper;
 import tw.nekomimi.nekogram.helpers.remote.ConfigHelper;
 import me.vkryl.android.util.ClickHelper;
@@ -13869,7 +13869,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             });
         }
         if (NekoConfig.hideBottomNavigationBar) {
-            PopupHelper.fillAccountSelectorMenu(io, currentAccount, getParentActivity(), resourceProvider);
+            AccountsHelper.fillAccountSelectorMenu(io, currentAccount, getParentActivity(), resourceProvider, true);
         }
 
         if (proxyMenuSubItem != null) {
