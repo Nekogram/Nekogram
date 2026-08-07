@@ -5405,6 +5405,9 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
                         mGapWorker.postFromTraversal(RecyclerView.this, consumedX, consumedY);
                     }
                 }
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
+                    setFrameContentVelocity(Math.abs(scroller.getCurrVelocity()));
+                }
             }
 
             isFlingerWorking = false;
