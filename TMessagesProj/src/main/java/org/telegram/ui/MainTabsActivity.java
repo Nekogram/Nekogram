@@ -467,14 +467,14 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         if (getContext() == null || getParentActivity() == null) return false;
         final ArrayList<MessagesController.DialogFilter> filters = getMessagesController().getDialogFilters();
         if (filters == null || filters.size() <= 1) {
-            BackButtonMenuRecent.show(currentAccount, this, anchor, null);
+            BackButtonMenuRecent.show(this, anchor, true, null);
             return true;
         }
 
         final ItemOptions o = ItemOptions.makeOptions(this, anchor);
         o.add(R.drawable.msg_recent, getString(R.string.RecentChats), () -> {
             o.dismiss();
-            BackButtonMenuRecent.show(currentAccount, this, anchor, null);
+            BackButtonMenuRecent.show(this, anchor, false, null);
         });
         o.addGap();
         for (int i = 0; i < filters.size(); i++) {

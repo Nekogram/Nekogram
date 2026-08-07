@@ -47,16 +47,18 @@ public class BackButtonMenuRecent {
     private static final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekorecentdialogs", Context.MODE_PRIVATE);
     private static final SparseArray<LinkedList<Long>> recentDialogs = new SparseArray<>();
 
-    public static void show(int currentAccount, BaseFragment fragment, View button, DialogsActivity.DialogsActivityDelegate delegate) {
+    public static void show(BaseFragment fragment, View button, boolean blur, DialogsActivity.DialogsActivityDelegate delegate) {
         var context = fragment.getParentActivity();
         if (context == null) {
             return;
         }
-        var dialogs = getRecentDialogs(fragment.getCurrentAccount());
+        var currentAccount = fragment.getCurrentAccount();
+        var dialogs = getRecentDialogs(currentAccount);
         if (dialogs.isEmpty()) {
             return;
         }
         var options = ItemOptions.makeOptions(fragment, button);
+        options.setLongPressSelectionEnabled(false);
         options.add(R.drawable.menu_clear_recent, LocaleController.getString(R.string.ClearButton), () -> {
             var builder = new AlertDialog.Builder(context);
             builder.setTitle(LocaleController.getString(R.string.ClearRecentChats));
@@ -161,7 +163,7 @@ public class BackButtonMenuRecent {
         }
 
         if (fragment instanceof MainTabsActivity) {
-            options.setBlur(true);
+            options.setBlur(blur);
             options.translate(0, -AndroidUtilities.dp(4));
             var bg = Theme.createRoundRectDrawable(AndroidUtilities.dp(28), Theme.getColor(Theme.key_windowBackgroundWhite));
             bg.getPaint().setShadowLayer(AndroidUtilities.dp(6), 0, AndroidUtilities.dp(1), Theme.multAlpha(0xFF000000, 0.15f));

@@ -5497,7 +5497,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             View backButton = actionBar.getBackButton();
             backButton.setOnLongClickListener(e -> {
                 if (searching || filterTabsView != null && filterTabsView.isEditing() || actionBar.isActionModeShowed()) return false;
-                BackButtonMenuRecent.show(currentAccount, this, backButton, delegate);
+                BackButtonMenuRecent.show(this, backButton, false, delegate);
                 return true;
             });
         }
