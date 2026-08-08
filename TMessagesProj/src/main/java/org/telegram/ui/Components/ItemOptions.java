@@ -2254,4 +2254,10 @@ public class ItemOptions {
             collectionsLayout.addView(subitem, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
         }
     }
+
+    public void bringDimViewToFront() {
+        if (dimView != null) {
+            dimView.bringToFront();
+        }
+    }
 }

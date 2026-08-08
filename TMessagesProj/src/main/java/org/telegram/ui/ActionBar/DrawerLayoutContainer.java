@@ -26,17 +26,43 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.FileLog;
 
+import tw.nekomimi.nekogram.GlobalFragmentPreview;
+
 public class DrawerLayoutContainer extends FrameLayout {
 
     private INavigationLayout parentActionBarLayout;
     private ActionBarLayout actionBarLayout;
     private boolean inLayout;
 
+    private final GlobalFragmentPreview globalFragmentPreview;
+
     public DrawerLayoutContainer(Context context) {
         super(context);
 
         ViewCompat.setOnApplyWindowInsetsListener(this, this::onApplyWindowInsets);
         setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_STABLE | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
+        globalFragmentPreview = new GlobalFragmentPreview(context){
+            @Override
+            public INavigationLayout getActionBarLayout() {
+                return parentActionBarLayout;
+            }
+
+            @Override
+            protected int getContainerWidth() {
+                return getMeasuredWidth();
+            }
+
+            @Override
+            protected int getContainerHeight() {
+                return getMeasuredHeight();
+            }
+
+            @Override
+            protected void drawContainer(Canvas canvas) {
+                draw(canvas);
+            }
+        };
     }
 
     public void setParentActionBarLayout(INavigationLayout layout) {
@@ -48,7 +74,11 @@ public class DrawerLayoutContainer extends FrameLayout {
     }
 
     public boolean isDrawCurrentPreviewFragmentAbove() {
-        return false;
+        return globalFragmentPreview.isVisible();
+    }
+
+    public GlobalFragmentPreview getGlobalFragmentPreview() {
+        return globalFragmentPreview;
     }
 
     public boolean onTouchEvent(MotionEvent ev) {
@@ -142,6 +172,7 @@ public class DrawerLayoutContainer extends FrameLayout {
         if (actionBarLayout != null && actionBarLayout.getParent() == this) {
             actionBarLayout.parentDraw(this, canvas);
         }
+        globalFragmentPreview.invalidate();
 
         super.dispatchDraw(canvas);
     }

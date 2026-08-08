@@ -10,6 +10,7 @@ import android.graphics.drawable.StateListDrawable;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
 import org.telegram.ui.ActionBar.Theme;
@@ -28,11 +30,14 @@ import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
+import org.telegram.ui.DialogsActivity;
 import org.telegram.ui.LaunchActivity;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
+
+import tw.nekomimi.nekogram.GlobalFragmentPreview;
 
 public class AccountsHelper {
 
@@ -54,14 +59,25 @@ public class AccountsHelper {
         }
         menu.addGap();
 
-        var recyclerView = new RecyclerView(context);
-        var adapter = new AccountSelectorAdapter(accountNumbers, currentAccount, adaptive, account -> {
-            if (currentAccount == account) return;
-            menu.dismiss();
-            if (LaunchActivity.instance != null) {
-                LaunchActivity.instance.switchToAccount(account, true);
+        LaunchActivity launchActivity;
+        GlobalFragmentPreview preview;
+        if (context instanceof LaunchActivity) {
+            launchActivity = (LaunchActivity) context;
+            preview = launchActivity.drawerLayoutContainer.getGlobalFragmentPreview();
+        } else {
+            launchActivity = null;
+            preview = null;
+        }
+        var recyclerView = new RecyclerView(context) {
+            @Override
+            public boolean dispatchTouchEvent(MotionEvent ev) {
+                if (preview != null && preview.dispatchTouchEvent(ev, super::dispatchTouchEvent)) {
+                    return true;
+                }
+                return super.dispatchTouchEvent(ev);
             }
-        }, resourcesProvider);
+        };
+        var adapter = new AccountSelectorAdapter(accountNumbers, currentAccount, adaptive, resourcesProvider);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setBackground(Theme.createRoundRectDrawable(0, dp(12), 0));
@@ -73,6 +89,11 @@ public class AccountsHelper {
             public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
                 adapter.swapElements(viewHolder.getAdapterPosition(), target.getAdapterPosition());
                 return true;
+            }
+
+            @Override
+            public boolean isLongPressDragEnabled() {
+                return false;
             }
 
             @Override
@@ -93,6 +114,46 @@ public class AccountsHelper {
                 viewHolder.itemView.setSelected(false);
             }
         });
+        adapter.setCallback((account, longPress) -> {
+            if (longPress) {
+                if (account == currentAccount || preview == null || AndroidUtilities.isTablet()) {
+                    var holder = recyclerView.findViewHolderForAdapterPosition(accountNumbers.indexOf(account));
+                    if (holder == null) return;
+                    touchHelper.startDrag(holder);
+                } else {
+                    var actionBarLayout = preview.getActionBarLayout();
+                    var fragment = new DialogsActivity(null) {
+                        @Override
+                        public void onTransitionAnimationEnd(boolean isOpen, boolean backward) {
+                            super.onTransitionAnimationEnd(isOpen, backward);
+                            if (!isOpen && backward) { // closed
+                                menu.bringDimViewToFront();
+                                preview.hide();
+                                actionBarLayout.getView().invalidate();
+                            }
+                        }
+
+                        @Override
+                        public void onPreviewOpenAnimationEnd() {
+                            super.onPreviewOpenAnimationEnd();
+                            menu.dismiss();
+                            launchActivity.switchToAccount(account, true);
+                            preview.hide();
+                            actionBarLayout.getView().invalidate();
+                        }
+                    };
+                    fragment.setCurrentAccount(account);
+                    actionBarLayout.presentFragmentAsPreview(fragment);
+                    preview.show();
+                }
+                return;
+            }
+            if (currentAccount == account) return;
+            menu.dismiss();
+            if (launchActivity != null) {
+                launchActivity.switchToAccount(account, true);
+            }
+        });
         touchHelper.attachToRecyclerView(recyclerView);
         menu.addView(recyclerView);
     }
@@ -102,21 +163,28 @@ public class AccountsHelper {
         private final int currentAccount;
         private final Theme.ResourcesProvider resourcesProvider;
         private final boolean adaptive;
-        private final Consumer<Integer> callback;
+        private BiConsumer<Integer, Boolean> callback;
 
-        public AccountSelectorAdapter(ArrayList<Integer> accountNumbers, int currentAccount, boolean adaptive, Consumer<Integer> callback, Theme.ResourcesProvider resourcesProvider) {
+        public AccountSelectorAdapter(ArrayList<Integer> accountNumbers, int currentAccount, boolean adaptive, Theme.ResourcesProvider resourcesProvider) {
             this.accountNumbers = accountNumbers;
             this.currentAccount = currentAccount;
             this.adaptive = adaptive;
-            this.callback = callback;
             this.resourcesProvider = resourcesProvider;
+        }
+
+        public void setCallback(BiConsumer<Integer, Boolean> callback) {
+            this.callback = callback;
         }
 
         @NonNull
         @Override
         public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             var accountView = new AccountView(parent.getContext(), resourcesProvider);
-            accountView.setOnClickListener(v -> callback.accept(accountView.account));
+            accountView.setOnClickListener(v -> callback.accept(accountView.account, false));
+            accountView.setOnLongClickListener(v -> {
+                callback.accept(accountView.account, true);
+                return true;
+            });
             accountView.setLayoutParams(new RecyclerView.LayoutParams(adaptive ? ViewGroup.LayoutParams.MATCH_PARENT : dp(230), dp(48)));
             return new ViewHolder(accountView);
         }
