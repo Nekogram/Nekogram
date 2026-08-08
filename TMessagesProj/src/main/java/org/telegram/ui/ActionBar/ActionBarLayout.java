@@ -92,6 +92,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import tw.nekomimi.nekogram.FragmentPreviewWindow;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 
@@ -571,6 +572,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     public LayoutContainer containerViewBack;
     public LayoutContainer sheetContainer;
     private DrawerLayoutContainer drawerLayoutContainer;
+    private FragmentPreviewWindow fragmentPreviewWindow;
     private ActionBar currentActionBar;
     private BottomSheetTabs bottomSheetTabs;
     private BottomSheetTabs.ClipTools bottomSheetTabsClip;
@@ -1092,10 +1094,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
-        if (drawerLayoutContainer != null && drawerLayoutContainer.isDrawCurrentPreviewFragmentAbove()) {
+        if (fragmentPreviewWindow != null && fragmentPreviewWindow.isVisible()) {
             if (inPreviewMode || transitionAnimationPreviewMode || previewOpenAnimationInProgress) {
                 if (child == (oldFragment != null && oldFragment.inPreviewMode ? containerViewBack : containerView)) {
-                    drawerLayoutContainer.invalidate();
+                    fragmentPreviewWindow.invalidate();
                     return false;
                 }
             }
@@ -1286,7 +1288,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             if (previewMenu == null) {
                 int width = dp(32), height = width / 2;
                 int x = (getMeasuredWidth() - width) / 2;
-                int y = (int) (view.getTop() + containerView.getTranslationY() - dp(12));
+                int y = (int) (view.getTop() + containerView.getTranslationY() - dp(24));
                 Theme.moveUpDrawable.setBounds(x, y, x + width, y + height);
                 Theme.moveUpDrawable.draw(canvas);
             }
@@ -3298,6 +3300,10 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
 
     public DrawerLayoutContainer getDrawerLayoutContainer() {
         return drawerLayoutContainer;
+    }
+
+    public void setFragmentPreviewWindow(FragmentPreviewWindow window) {
+        fragmentPreviewWindow = window;
     }
 
     public void setRemoveActionBarExtraHeight(boolean value) {

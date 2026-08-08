@@ -5453,7 +5453,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         actionBarDefaultPaint.setColor(getThemedColor(Theme.key_windowBackgroundWhite));
-        /*
+
         if (inPreviewMode) {
             final TLRPC.User currentUser = getUserConfig().getCurrentUser();
             avatarContainer = new ChatAvatarContainer(actionBar.getContext(), null, false, resourceProvider);
@@ -5473,7 +5473,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 AndroidUtilities.removeFromParent(fragmentLocationContextViewWrapper);
             }
         }
-        */
 
         searchIsShowed = false;
 

@@ -260,6 +260,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import tw.nekomimi.nekogram.Extra;
+import tw.nekomimi.nekogram.FragmentPreviewWindow;
 import tw.nekomimi.nekogram.forward.ForwardContext;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.MonetHelper;
@@ -319,6 +320,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private FireworksOverlay fireworksOverlay;
     private BottomSheetTabsOverlay bottomSheetTabsOverlay;
     public DrawerLayoutContainer drawerLayoutContainer;
+    public FragmentPreviewWindow fragmentPreviewWindow;
     private PasscodeViewDialog passcodeDialog;
     private List<PasscodeView> overlayPasscodeViews = new ArrayList<>();
     private TermsOfServiceView termsOfServiceView;
@@ -556,6 +558,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             }
         });
         actionBarLayout.setDelegate(this);
+        fragmentPreviewWindow = new FragmentPreviewWindow(this, actionBarLayout);
         Theme.loadWallpaper(true);
 
         checkCurrentAccount();

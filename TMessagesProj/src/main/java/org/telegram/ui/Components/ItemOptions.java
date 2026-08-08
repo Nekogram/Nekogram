@@ -1795,12 +1795,16 @@ public class ItemOptions {
     }
 
     public void dismiss() {
+        dismiss(true);
+    }
+
+    public void dismiss(boolean animated) {
         if (dontDismiss) {
             dontDismiss = false;
             return;
         }
         if (actionBarPopupWindow != null) {
-            actionBarPopupWindow.dismiss();
+            actionBarPopupWindow.dismiss(animated);
         } else if (dismissListener != null) {
             dismissListener.run();
         }
@@ -2252,6 +2256,12 @@ public class ItemOptions {
                 onChange.run(album);
             });
             collectionsLayout.addView(subitem, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
+        }
+    }
+
+    public void bringDimViewToFront() {
+        if (dimView != null) {
+            dimView.bringToFront();
         }
     }
 }
