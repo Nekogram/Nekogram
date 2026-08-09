@@ -1,16 +1,35 @@
 package tw.nekomimi.nekogram.folder;
 
+import static org.telegram.messenger.AndroidUtilities.dp;
+import static org.telegram.messenger.LocaleController.getString;
+import static org.telegram.messenger.MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS;
+import static org.telegram.messenger.MessagesController.DIALOG_FILTER_FLAG_BOTS;
+import static org.telegram.messenger.MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
+import static org.telegram.messenger.MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
+import static org.telegram.messenger.MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED;
+import static org.telegram.messenger.MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ;
+import static org.telegram.messenger.MessagesController.DIALOG_FILTER_FLAG_GROUPS;
+import static org.telegram.messenger.MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
+
 import androidx.core.util.Pair;
 
-import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.R;
 
 import java.util.LinkedHashMap;
 
+import me.vkryl.core.BitwiseUtils;
 
 public class FolderIconHelper {
+
+    public static final String EMOTICON_ALL = "\uD83D\uDCAC";
+    public static final String EMOTICON_CUSTOM = "\uD83D\uDCC1";
+    public static final String EMOTICON_UNREAD = "\u2705";
+    public static final String EMOTICON_UNMUTED = "\uD83D\uDD14";
+    public static final String EMOTICON_PRIVATE = "\uD83D\uDC64";
+    public static final String EMOTICON_GROUPS = "\uD83D\uDC65";
+    public static final String EMOTICON_CHANNELS = "\uD83D\uDCE2";
+    public static final String EMOTICON_BOTS = "\uD83E\uDD16";
+
     public static LinkedHashMap<String, Integer> folderIcons = new LinkedHashMap<>() {{
         put("\uD83D\uDC31", R.drawable.filter_cat);
         put("\uD83D\uDCD5", R.drawable.filter_book);
@@ -30,12 +49,12 @@ public class FolderIconHelper {
         put("\uD83D\uDEEB", R.drawable.filter_airplane);
         //put("\uD83E\uDDA0", R.drawable.filter_microbe);
         //put("\uD83D\uDC68\u200D\uD83D\uDCBC", R.drawable.filter_worker);
-        put("\uD83D\uDC64", R.drawable.filter_private);
-        put("\uD83D\uDC65", R.drawable.filter_group);
-        put("\uD83D\uDCAC", R.drawable.filter_all);
-        put("\u2705", R.drawable.filter_unread);
+        put(EMOTICON_PRIVATE, R.drawable.filter_private);
+        put(EMOTICON_GROUPS, R.drawable.filter_group);
+        put(EMOTICON_ALL, R.drawable.filter_all);
+        put(EMOTICON_UNREAD, R.drawable.filter_unread);
         //put("\u2611", R.drawable.filter_check);
-        put("\uD83E\uDD16", R.drawable.filter_bots);
+        put(EMOTICON_BOTS, R.drawable.filter_bots);
         //put("\uD83D\uDDC2", R.drawable.filter_folders);
         put("\uD83D\uDC51", R.drawable.filter_crown);
         put("\uD83C\uDF39", R.drawable.filter_flower);
@@ -45,67 +64,57 @@ public class FolderIconHelper {
         put("\uD83C\uDF78", R.drawable.filter_party);
         put("\uD83D\uDCC8", R.drawable.filter_trade);
         put("\uD83D\uDCBC", R.drawable.filter_work);
-        put("\uD83D\uDD14", R.drawable.filter_unmuted);
-        put("\uD83D\uDCE2", R.drawable.filter_channels);
-        put("\uD83D\uDCC1", R.drawable.filter_custom);
+        put(EMOTICON_UNMUTED, R.drawable.filter_unmuted);
+        put(EMOTICON_CHANNELS, R.drawable.filter_channels);
+        put(EMOTICON_CUSTOM, R.drawable.filter_custom);
         put("\uD83D\uDCCB", R.drawable.filter_setup);
         //put("\uD83D\uDCA9", R.drawable.filter_poo);
     }};
 
     public static Pair<String, String> getEmoticonFromFlags(int newFilterFlags) {
-        int flags = newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS;
-        String newName = "";
-        String newEmoticon = "";
-        if ((flags & MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS) == MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS) {
-            if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_READ) != 0) {
-                newName = LocaleController.getString(R.string.FilterNameUnread);
-                newEmoticon = "\u2705";
-            } else if ((newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_EXCLUDE_MUTED) != 0) {
-                newName = LocaleController.getString(R.string.FilterNameNonMuted);
-                newEmoticon = "\uD83D\uDD14";
+        var flags = newFilterFlags & DIALOG_FILTER_FLAG_ALL_CHATS;
+        if (BitwiseUtils.hasAllFlags(flags, DIALOG_FILTER_FLAG_ALL_CHATS)) {
+            if (BitwiseUtils.hasFlag(newFilterFlags, DIALOG_FILTER_FLAG_EXCLUDE_READ)) {
+                return Pair.create(getString(R.string.FilterNameUnread), EMOTICON_UNREAD);
+            } else if (BitwiseUtils.hasFlag(newFilterFlags, DIALOG_FILTER_FLAG_EXCLUDE_MUTED)) {
+                return Pair.create(getString(R.string.FilterNameNonMuted), EMOTICON_UNMUTED);
             }
-        } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_CONTACTS) != 0) {
-            flags &= ~MessagesController.DIALOG_FILTER_FLAG_CONTACTS;
+        } else if (BitwiseUtils.hasFlag(flags, DIALOG_FILTER_FLAG_CONTACTS)) {
+            flags = BitwiseUtils.setFlag(flags, DIALOG_FILTER_FLAG_CONTACTS, false);
             if (flags == 0) {
-                newName = LocaleController.getString(R.string.FilterContacts);
-                newEmoticon = "\uD83D\uDC64";
-            } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS) != 0) {
-                flags &= ~MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
+                return Pair.create(getString(R.string.FilterContacts), EMOTICON_PRIVATE);
+            } else if (BitwiseUtils.hasFlag(flags, DIALOG_FILTER_FLAG_NON_CONTACTS)) {
+                flags = BitwiseUtils.setFlag(flags, DIALOG_FILTER_FLAG_NON_CONTACTS, false);
                 if (flags == 0) {
-                    newName = LocaleController.getString(R.string.FilterContacts);
-                    newEmoticon = "\uD83D\uDC64";
+                    return Pair.create(getString(R.string.FilterContacts), EMOTICON_PRIVATE);
                 }
             }
-        } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS) != 0) {
-            flags &= ~MessagesController.DIALOG_FILTER_FLAG_NON_CONTACTS;
+        } else if (BitwiseUtils.hasFlag(flags, DIALOG_FILTER_FLAG_NON_CONTACTS)) {
+            flags = BitwiseUtils.setFlag(flags, DIALOG_FILTER_FLAG_NON_CONTACTS, false);
             if (flags == 0) {
-                newName = LocaleController.getString(R.string.FilterNonContacts);
-                newEmoticon = "\uD83D\uDC64";
+                return Pair.create(getString(R.string.FilterNonContacts), EMOTICON_PRIVATE);
             }
-        } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_GROUPS) != 0) {
-            flags &= ~MessagesController.DIALOG_FILTER_FLAG_GROUPS;
+        } else if (BitwiseUtils.hasFlag(flags, DIALOG_FILTER_FLAG_GROUPS)) {
+            flags = BitwiseUtils.setFlag(flags, DIALOG_FILTER_FLAG_GROUPS, false);
             if (flags == 0) {
-                newName = LocaleController.getString(R.string.FilterGroups);
-                newEmoticon = "\uD83D\uDC65";
+                return Pair.create(getString(R.string.FilterGroups), EMOTICON_GROUPS);
             }
-        } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_BOTS) != 0) {
-            flags &= ~MessagesController.DIALOG_FILTER_FLAG_BOTS;
+        } else if (BitwiseUtils.hasFlag(flags, DIALOG_FILTER_FLAG_BOTS)) {
+            flags = BitwiseUtils.setFlag(flags, DIALOG_FILTER_FLAG_BOTS, false);
             if (flags == 0) {
-                newName = LocaleController.getString(R.string.FilterBots);
-                newEmoticon = "\uD83E\uDD16";
+                return Pair.create(getString(R.string.FilterBots), EMOTICON_BOTS);
             }
-        } else if ((flags & MessagesController.DIALOG_FILTER_FLAG_CHANNELS) != 0) {
-            flags &= ~MessagesController.DIALOG_FILTER_FLAG_CHANNELS;
+        } else if (BitwiseUtils.hasFlag(flags, DIALOG_FILTER_FLAG_CHANNELS)) {
+            flags = BitwiseUtils.setFlag(flags, DIALOG_FILTER_FLAG_CHANNELS, false);
             if (flags == 0) {
-                newName = LocaleController.getString(R.string.FilterChannels);
-                newEmoticon = "\uD83D\uDCE2";
+                return Pair.create(getString(R.string.FilterChannels), EMOTICON_CHANNELS);
             }
         }
-        return Pair.create(newName, newEmoticon);
+        return Pair.create("", EMOTICON_CUSTOM);
     }
 
     public static int getIconWidth() {
-        return AndroidUtilities.dp(24);
+        return dp(24);
     }
 
     public static int getTabIcon(String emoji) {

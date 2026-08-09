@@ -935,8 +935,7 @@ public class FilterCreateActivity extends BaseFragment {
         if (!creatingNew || !TextUtils.isEmpty(newFilterName) && nameChangedManually) {
             return;
         }
-        int flags = newFilterFlags & MessagesController.DIALOG_FILTER_FLAG_ALL_CHATS;
-        var result = FolderIconHelper.getEmoticonFromFlags(flags);
+        var result = FolderIconHelper.getEmoticonFromFlags(newFilterFlags);
         String newName = result.first;
         String newEmoticon = result.second;
         if (newName != null && newName.length() > MAX_NAME_LENGTH) {
@@ -1475,7 +1474,7 @@ public class FilterCreateActivity extends BaseFragment {
                             return AnimatedEmojiDrawable.CACHE_TYPE_TOGGLEABLE_EDIT;
                         }
                     };
-                    cell.setOnChangeIconListener(v -> IconSelectorAlert.show(FilterCreateActivity.this, v, newFilterEmoticon == null ? "\uD83D\uDCC1" : newFilterEmoticon, (emoticon) -> {
+                    cell.setOnChangeIconListener(v -> IconSelectorAlert.show(FilterCreateActivity.this, v, newFilterEmoticon == null ? FolderIconHelper.EMOTICON_CUSTOM : newFilterEmoticon, (emoticon) -> {
                         newFilterEmoticon = emoticon;
                         nameEditTextCell.setIcon(FolderIconHelper.getTabIcon(newFilterEmoticon), true);
                         checkDoneButton(true);
