@@ -3,7 +3,6 @@ package tw.nekomimi.nekogram.helpers;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.text.TextUtils;
 import android.util.Base64;
 import android.util.TypedValue;
@@ -19,7 +18,6 @@ import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
-import org.telegram.messenger.Utilities;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
@@ -36,6 +34,7 @@ import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.function.BiConsumer;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
@@ -46,7 +45,6 @@ public class CloudSettingsHelper {
 
     private final SharedPreferences preferences = ApplicationLoader.applicationContext.getSharedPreferences("nekocloud", Context.MODE_PRIVATE);
     private final long[] cloudSyncedDate = new long[UserConfig.MAX_ACCOUNT_COUNT];
-    private final Handler handler = new Handler();
     private final Runnable cloudSyncRunnable = () -> CloudSettingsHelper.getInstance().syncToCloud((success, error) -> {
         if (!success) {
             var global = BulletinFactory.global();
@@ -161,48 +159,49 @@ public class CloudSettingsHelper {
         if (!autoSync) {
             return;
         }
-        handler.removeCallbacks(cloudSyncRunnable);
-        handler.postDelayed(cloudSyncRunnable, 1200);
+        AndroidUtilities.cancelRunOnUIThread(cloudSyncRunnable);
+        AndroidUtilities.runOnUIThread(cloudSyncRunnable, 1200);
     }
 
-    private void syncToCloud(Utilities.Callback2<Boolean, String> callback) {
+    private void syncToCloud(BiConsumer<Boolean, String> callback) {
         String rawConfig = NekoConfig.exportConfigs();
         String compressed = encodeConfig(rawConfig);
         getCloudStorageHelper().setItem("neko_settings", rawConfig.length() >= compressed.length() ? compressed : rawConfig, (res, error) -> {
             if (error == null) {
                 localSyncedDate = cloudSyncedDate[UserConfig.selectedAccount] = System.currentTimeMillis();
-                getCloudStorageHelper().setItem("neko_settings_updated_at", String.valueOf(localSyncedDate), null);
+                getCloudStorageHelper().setItem("neko_settings_updated_at", String.valueOf(localSyncedDate), (s, s2) -> {
+                });
                 preferences.edit().putLong("updated_at", localSyncedDate).apply();
-                callback.run(true, null);
+                callback.accept(true, null);
             } else {
-                callback.run(false, error);
+                callback.accept(false, error);
             }
         });
     }
 
-    private void restoreFromCloud(Utilities.Callback2<Boolean, String> callback) {
+    private void restoreFromCloud(BiConsumer<Boolean, String> callback) {
         getCloudStorageHelper().getItem("neko_settings", (res, error) -> {
             if (error == null) {
                 if (TextUtils.isEmpty(res)) {
-                    callback.run(false, "EMPTY_CONFIG");
+                    callback.accept(false, "EMPTY_CONFIG");
                 } else {
                     String config = decodeConfig(res);
                     if (config == null) {
-                        callback.run(false, "DECODE_FAILED");
+                        callback.accept(false, "DECODE_FAILED");
                     } else {
                         try {
                             NekoConfig.importConfigs(config);
                             localSyncedDate = System.currentTimeMillis();
                             preferences.edit().putLong("updated_at", localSyncedDate).apply();
-                            callback.run(true, null);
+                            callback.accept(true, null);
                         } catch (Exception e) {
                             FileLog.e(e);
-                            callback.run(false, e.getLocalizedMessage());
+                            callback.accept(false, e.getLocalizedMessage());
                         }
                     }
                 }
             } else {
-                callback.run(false, error);
+                callback.accept(false, error);
             }
         });
     }
@@ -220,12 +219,11 @@ public class CloudSettingsHelper {
 
     public static String encodeConfig(String string) {
         try {
-            ByteArrayOutputStream bos = new ByteArrayOutputStream(string.length());
-            GZIPOutputStream gzip = new GZIPOutputStream(bos);
-            gzip.write(string.getBytes());
-            gzip.close();
+            var bos = new ByteArrayOutputStream(string.length());
+            try (var gzip = new GZIPOutputStream(bos)) {
+                gzip.write(string.getBytes());
+            }
             byte[] compressed = bos.toByteArray();
-            bos.close();
             return CONFIG_VERSION + Base64.encodeToString(compressed, Base64.NO_PADDING | Base64.NO_WRAP);
         } catch (Exception e) {
             FileLog.e(e);
@@ -238,15 +236,12 @@ public class CloudSettingsHelper {
             return string;
         } else if (string.startsWith(String.valueOf(CONFIG_VERSION))) {
             try {
-                ByteArrayInputStream bis = new ByteArrayInputStream(Base64.decode(string.substring(1), Base64.DEFAULT));
-                GZIPInputStream gis = new GZIPInputStream(bis);
+                var bis = new ByteArrayInputStream(Base64.decode(string.substring(1), Base64.DEFAULT));
                 //noinspection CharsetObjectCanBeUsed
-                String config = new Scanner(gis, "UTF-8")
-                        .useDelimiter("\\A")
-                        .next();
-                gis.close();
-                bis.close();
-                return config;
+                try (var gis = new GZIPInputStream(bis);
+                     Scanner scanner = new Scanner(gis, "UTF-8")) {
+                    return scanner.useDelimiter("\\A").next();
+                }
             } catch (Exception e) {
                 FileLog.e(e);
                 return null;
