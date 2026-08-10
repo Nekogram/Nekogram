@@ -2316,8 +2316,12 @@ public class MessagePreviewView extends FrameLayout {
                 page.changeSizeBtn.setState(messagePreviewParams.webpageSmall, true);
                 page.videoChangeSizeBtn.setState(messagePreviewParams.webpageSmall, true);
                 page.changePositionBtn.setState(!messagePreviewParams.webpageTop, true);
-                page.sendMediaButton.setTextAndIcon(LocaleController.getString(messagePreviewParams.webpage.document != null ? messagePreviewParams.isVideo ? R.string.PreviewSendVideo : R.string.PreviewSendFile : R.string.PreviewSendPhoto), R.drawable.msg_send);
-                page.sendMediaButton.setVisibility(messagePreviewParams.webpage.document != null || messagePreviewParams.webpage.photo != null ? View.VISIBLE : View.GONE);
+                if (messagePreviewParams.webpage == null) {
+                    page.sendMediaButton.setVisibility(View.GONE);
+                } else {
+                    page.sendMediaButton.setTextAndIcon(LocaleController.getString(messagePreviewParams.webpage.document != null ? messagePreviewParams.isVideo ? R.string.PreviewSendVideo : R.string.PreviewSendFile : R.string.PreviewSendPhoto), R.drawable.msg_send);
+                    page.sendMediaButton.setVisibility(messagePreviewParams.webpage.document != null || messagePreviewParams.webpage.photo != null ? View.VISIBLE : View.GONE);
+                }
                 page.updateMessages();
             }
         }
