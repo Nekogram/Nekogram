@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 import app.nekogram.gifski.Gifski;
 
 public class StickerHelper {
-    private static final Executor rendererExecutor = Executors.newCachedThreadPool();
+    private static final Executor rendererExecutor = Executors.newSingleThreadExecutor();
 
     public static void convertStickerFormat(String path, boolean animated, Consumer<String> callback) {
         var resultPath = path + ".gif";
