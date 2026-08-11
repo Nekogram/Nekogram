@@ -7,15 +7,19 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.MatrixCursor;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.ParcelFileDescriptor;
+import android.os.ProxyFileDescriptorCallback;
+import android.os.storage.StorageManager;
 import android.provider.OpenableColumns;
 import android.system.ErrnoException;
 import android.system.OsConstants;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 
 import com.google.android.exoplayer2.upstream.DataSource;
 import com.google.android.exoplayer2.upstream.DataSpec;
@@ -33,9 +37,15 @@ public class MediaStreamingProvider extends ContentProvider {
 
     private HandlerThread callbackThread;
     private Handler callbackHandler;
+    private StorageManager storageManager;
 
     @Override
     public boolean onCreate() {
+        var context = getContext();
+        if (context == null) {
+            return false;
+        }
+        storageManager = context.getSystemService(StorageManager.class);
         callbackThread = new HandlerThread("MediaStreamingProvider");
         callbackThread.start();
         callbackHandler = new Handler(callbackThread.getLooper());
@@ -119,15 +129,13 @@ public class MediaStreamingProvider extends ContentProvider {
     @Nullable
     @Override
     public ParcelFileDescriptor openFile(@NonNull Uri uri, @NonNull String mode) throws FileNotFoundException {
-        var context = getContext();
-        if (context == null) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
             return null;
         }
         if (!"r".equals(mode)) {
             throw new SecurityException("Can only open files for read");
         }
-        var callback = new ProxyFileDescriptorCallback(uri);
-        var storageManager = StorageManagerCompat.from(getContext());
+        var callback = new StreamingProxyFileDescriptorCallback(uri);
         try {
             return storageManager.openProxyFileDescriptor(ParcelFileDescriptor.MODE_READ_ONLY, callback, callbackHandler);
         } catch (IOException e) {
@@ -151,6 +159,9 @@ public class MediaStreamingProvider extends ContentProvider {
     }
 
     public static boolean openForStreaming(Activity activity, int currentAccount, TLRPC.Document document, Object parent) {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.O) {
+            return false;
+        }
         var uri = getStreamingUri(currentAccount, document, parent);
         if (uri == null) {
             return false;
@@ -162,12 +173,13 @@ public class MediaStreamingProvider extends ContentProvider {
         return true;
     }
 
-    private static class ProxyFileDescriptorCallback extends StorageManagerCompat.ProxyFileDescriptorCallbackCompat {
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    private static class StreamingProxyFileDescriptorCallback extends ProxyFileDescriptorCallback {
         private long size;
         private final DataSource dataSource;
         private final DataSpec.Builder dataSpecBuilder;
 
-        public ProxyFileDescriptorCallback(Uri uri) {
+        public StreamingProxyFileDescriptorCallback(Uri uri) {
             var tgUri = uri.buildUpon().scheme("tg").build();
             dataSource = new FileStreamLoadOperation();
             dataSpecBuilder = new DataSpec.Builder().setUri(tgUri);
