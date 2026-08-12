@@ -9156,7 +9156,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             reasonsToHideDecorView += (increment ? 1 : -1);
         }
         if (frameLayout != null) {
-            frameLayout.setVisibility(reasonsToHideMainContent > 0 ? View.GONE : View.VISIBLE);
+            frameLayout.setVisibility(reasonsToHideMainContent > 0 ? View.INVISIBLE : View.VISIBLE);
         }
         checkDecorViewVisibility();
     }
