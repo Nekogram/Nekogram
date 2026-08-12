@@ -80,7 +80,7 @@ dependencies {
     }
 
     implementation 'androidx.browser:browser:1.10.0'
-    implementation 'app.nekogram.gifski:gifski:1.0.1'
+    implementation 'app.nekogram.gifski:gifski:1.0.2'
     implementation 'app.nekogram.translator:translator:1.6.1'
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
     implementation 'com.squareup.okhttp3:okhttp:5.4.0'
@@ -88,7 +88,7 @@ dependencies {
     implementation 'org.apache.commons:commons-text:1.15.0'
 
     implementation 'com.google.firebase:firebase-analytics:23.2.0'
-    implementation 'io.sentry:sentry-android:8.51.0'
+    implementation 'io.sentry:sentry-android:8.52.0'
 }
 
 android {
