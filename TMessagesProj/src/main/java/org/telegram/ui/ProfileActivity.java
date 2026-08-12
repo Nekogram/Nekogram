@@ -7644,9 +7644,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (LanguageDetector.hasSupport()) {
                     LanguageDetector.detectLanguage(finalText, (fromLang) -> {
                         fromLanguage[0] = fromLang;
-                        if (!Translator.isLanguageRestricted(fromLang) || (currentChat != null && (currentChat.has_link || ChatObject.isPublic(currentChat))) && ("uk".equals(fromLang) || "ru".equals(fromLang))) {
-                            withTranslate[0] = true;
-                        }
+                        withTranslate[0] = fromLang != null && (!fromLang.equals(toLang) || fromLang.equals("und")) && (
+                                !Translator.isLanguageRestricted(fromLang) ||
+                                        (currentChat != null && (currentChat.has_link || ChatObject.isPublic(currentChat))) && ("uk".equals(fromLang) || "ru".equals(fromLang)));
                         showMenu.run();
                     }, (error) -> {
                         FileLog.e("mlkit: failed to detect language in selection", error);
