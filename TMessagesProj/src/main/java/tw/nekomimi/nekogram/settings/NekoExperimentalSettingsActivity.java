@@ -35,6 +35,7 @@ import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
 
     private final int downloadSpeedBoostRow = rowId++;
+    private final int localCustomEmojiRow = rowId++;
     private final int keepFormattingRow = rowId++;
     private final int autoInlineBotRow = rowId++;
     private final int forceFontWeightFallbackRow = rowId++;
@@ -62,6 +63,7 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 default -> LocaleController.getString(R.string.DownloadSpeedBoostAverage);
             }).slug("downloadSpeedBoost"));
         }
+        items.add(UItem.asCheck(localCustomEmojiRow, LocaleController.getString(R.string.LocalCustomEmoji)).slug("localCustomEmoji").setChecked(NekoConfig.localCustomEmoji));
         items.add(UItem.asCheck(keepFormattingRow, LocaleController.getString(R.string.TranslationKeepFormatting)).slug("keepFormatting").setChecked(NekoConfig.keepFormatting));
         items.add(UItem.asCheck(autoInlineBotRow, LocaleController.getString(R.string.AutoInlineBot), LocaleController.getString(R.string.AutoInlineBotDesc)).slug("autoInlineBot").setChecked(NekoConfig.autoInlineBot));
         items.add(UItem.asCheck(forceFontWeightFallbackRow, LocaleController.getString(R.string.ForceFontWeightFallback)).slug("forceFontWeightFallback").setChecked(NekoConfig.forceFontWeightFallback));
@@ -265,6 +267,11 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
                 });
                 item.subtext = LocaleController.getString(R.string.CheckingUpdate);
                 listView.adapter.notifyItemChanged(position);
+            }
+        } else if (id == localCustomEmojiRow) {
+            NekoConfig.toggleLocalCustomEmoji();
+            if (view instanceof TextCheckCell) {
+                ((TextCheckCell) view).setChecked(NekoConfig.localCustomEmoji);
             }
         }
     }

@@ -332,6 +332,7 @@
     <string name="GooeyAvatarAnimation">\"Gooey\" avatar animation</string>
     <string name="JsonCopyKey">Copy Key</string>
     <string name="JsonCopyValue">Copy Value</string>
+    <string name="LocalCustomEmoji">Local custom emoji</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

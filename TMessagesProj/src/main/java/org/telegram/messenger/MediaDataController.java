@@ -116,6 +116,7 @@ import java.util.regex.Pattern;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.EntitiesHelper;
 import tw.nekomimi.nekogram.helpers.MessageFilterHelper;
+import tw.nekomimi.nekogram.helpers.MessageHelper;
 
 @SuppressWarnings("unchecked")
 public class MediaDataController extends BaseController {
@@ -6936,8 +6937,17 @@ public class MediaDataController extends BaseController {
         }
         for (int i = 0; i < entities.size(); ++i) {
             TLRPC.MessageEntity messageEntity = entities.get(i);
-            if (messageEntity instanceof TLRPC.TL_messageEntityCustomEmoji) {
-                TLRPC.TL_messageEntityCustomEmoji entity = (TLRPC.TL_messageEntityCustomEmoji) messageEntity;
+            if (messageEntity instanceof TLRPC.TL_messageEntityCustomEmoji || messageEntity instanceof TLRPC.TL_messageEntityTextUrl urlEntity) {
+                TLRPC.TL_messageEntityCustomEmoji entity;
+                if (messageEntity instanceof TLRPC.TL_messageEntityTextUrl urlEntity) {
+                    var parsed = MessageHelper.parseLocalCustomEmoji(spannable, urlEntity);
+                    if (parsed == null) {
+                        continue;
+                    }
+                    entity = parsed;
+                } else {
+                    entity = (TLRPC.TL_messageEntityCustomEmoji) messageEntity;
+                }
 
                 int start = messageEntity.offset;
                 int end = messageEntity.offset + messageEntity.length;
@@ -7714,7 +7724,7 @@ public class MediaDataController extends BaseController {
                 req.no_webpage = draftMessage.no_webpage;
                 req.reply_to = draftMessage.reply_to;
                 req.suggested_post = draftMessage.suggested_post;
-                req.entities = draftMessage.entities;
+                req.entities = getMessageHelper().replaceCustomEmojis(dialogId, draftMessage.entities);
                 if (draftMessage.rich_message != null) {
                     req.rich_message = toInputRichMessage(draftMessage.rich_message);
                 }

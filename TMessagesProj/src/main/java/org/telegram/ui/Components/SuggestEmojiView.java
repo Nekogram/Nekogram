@@ -49,6 +49,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import tw.nekomimi.nekogram.helpers.MessageHelper;
+
 public class SuggestEmojiView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
 
     public final static int DIRECTION_TO_BOTTOM = 0;
@@ -94,7 +96,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
                     BaseFragment fragment = enterView.getParentFragment();
                     if (fragment instanceof ChatActivity) {
                         ChatActivity chatActivity = (ChatActivity) fragment;
-                        return chatActivity.canSendMessage() && (UserConfig.getInstance(UserConfig.selectedAccount).isPremium() || chatActivity.getCurrentUser() != null && UserObject.isUserSelf(chatActivity.getCurrentUser()));
+                        return chatActivity.canSendMessage() && (UserConfig.getInstance(UserConfig.selectedAccount).isPremium() || MessageHelper.canUseLocalCustomEmojis(UserConfig.selectedAccount) || chatActivity.getCurrentUser() != null && UserObject.isUserSelf(chatActivity.getCurrentUser()));
                     }
                     return false;
                 }
@@ -117,7 +119,7 @@ public class SuggestEmojiView extends FrameLayout implements NotificationCenter.
                     if (isCopyForbidden) {
                         return false;
                     }
-                    return UserConfig.getInstance(UserConfig.selectedAccount).isPremium();
+                    return UserConfig.getInstance(UserConfig.selectedAccount).isPremium() || MessageHelper.canUseLocalCustomEmojis(UserConfig.selectedAccount);
                 }
 
                 @Override

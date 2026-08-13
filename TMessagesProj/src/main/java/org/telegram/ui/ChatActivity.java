@@ -30773,6 +30773,17 @@ public class ChatActivity extends BaseFragment implements
                             run.flags |= TextStyleSpan.FLAG_STYLE_UNDERLINE;
                             MediaDataController.addStyleToText(new TextStyleSpan(run), entity.offset, entity.offset + entity.length, stringBuilder, true);
                         } else if (entity instanceof TLRPC.TL_messageEntityTextUrl) {
+                            var customEmoji = MessageHelper.parseLocalCustomEmoji(stringBuilder, entity);
+                            if (customEmoji != null) {
+                                Paint.FontMetricsInt fontMetrics = null;
+                                try {
+                                    fontMetrics = chatActivityEnterView.getEditField().getPaint().getFontMetricsInt();
+                                } catch (Exception e) {
+                                    FileLog.e(e, false);
+                                }
+                                stringBuilder.setSpan(new AnimatedEmojiSpan(customEmoji.document_id, fontMetrics), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                                continue;
+                            }
                             stringBuilder.setSpan(new URLSpanReplacement(entity.url), entity.offset, entity.offset + entity.length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
                         } else if (entity instanceof TLRPC.TL_messageEntitySpoiler) {
                             TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();

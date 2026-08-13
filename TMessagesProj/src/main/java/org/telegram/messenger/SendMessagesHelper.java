@@ -3350,13 +3350,13 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         request.flags |= 2048;
                         request.no_webpage = !messageObject.editingMessageSearchWebPage;
                         if (messageObject.editingMessageEntities != null) {
-                            request.entities = messageObject.editingMessageEntities;
+                            request.entities = getMessageHelper().replaceCustomEmojis(messageObject.getDialogId(), messageObject.editingMessageEntities);
                             request.flags |= 8;
                         } else {
                             CharSequence[] message = new CharSequence[]{messageObject.editingMessage};
                             ArrayList<TLRPC.MessageEntity> entities = getMediaDataController().getEntities(message, supportsSendingNewEntities);
                             if (entities != null && !entities.isEmpty()) {
-                                request.entities = entities;
+                                request.entities = getMessageHelper().replaceCustomEmojis(messageObject.getDialogId(), entities);
                                 request.flags |= 8;
                             }
                         }
@@ -3436,7 +3436,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             req.flags |= 131072;
         }
         if (entities != null) {
-            req.entities = entities;
+            req.entities = getMessageHelper().replaceCustomEmojis(messageObject.getDialogId(), entities);
             req.flags |= 8;
         }
         if (scheduleDate != 0) {
@@ -5239,7 +5239,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             reqSend.send_as = getMessagesController().getInputPeer(newMsg.from_id);
                         }
                         if (entities != null && !entities.isEmpty()) {
-                            reqSend.entities = entities;
+                            reqSend.entities = getMessageHelper().replaceCustomEmojis(newMsg.dialog_id, entities);
                             reqSend.flags |= 8;
                         }
                         if (scheduleDate != 0) {
@@ -5306,7 +5306,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             reqSend.no_webpage = true;
                         }
                         if (entities != null && !entities.isEmpty()) {
-                            reqSend.entities = entities;
+                            reqSend.entities = getMessageHelper().replaceCustomEmojis(newMsg.dialog_id, entities);
                             reqSend.flags |= 8;
                         }
                         if (scheduleDate != 0) {
@@ -5341,7 +5341,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     reqSend = new TLRPC.TL_decryptedMessage();
                     reqSend.ttl = newMsg.ttl;
                     if (entities != null && !entities.isEmpty()) {
-                        reqSend.entities = entities;
+                        reqSend.entities = getMessageHelper().replaceCustomEmojis(newMsg.dialog_id, entities);
                         reqSend.flags |= TLRPC.MESSAGE_FLAG_HAS_ENTITIES;
                     }
                     if (newMsg.reply_to != null && newMsg.reply_to.reply_to_random_id != 0) {
@@ -5721,7 +5721,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             req.silent = newMsg.silent;
                             req.message = pollSendParams.caption;
                             if (pollSendParams.entities != null && !pollSendParams.entities.isEmpty()) {
-                                req.entities = pollSendParams.entities;
+                                req.entities = getMessageHelper().replaceCustomEmojis(newMsg.dialog_id, pollSendParams.entities);
                                 req.flags |= 8;
                             }
                             if (payStars > 0) {
@@ -5772,7 +5772,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             req.silent = newMsg.silent;
                             req.message = caption;
                             if (entities != null && !entities.isEmpty()) {
-                                req.entities = entities;
+                                req.entities = getMessageHelper().replaceCustomEmojis(newMsg.dialog_id, entities);
                                 req.flags |= 8;
                             }
                             if (payStars > 0) {
@@ -5888,7 +5888,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                             inputSingleMedia.media = inputMedia;
                             inputSingleMedia.message = caption;
                             if (entities != null && !entities.isEmpty()) {
-                                inputSingleMedia.entities = entities;
+                                inputSingleMedia.entities = getMessageHelper().replaceCustomEmojis(newMsg.dialog_id, entities);
                                 inputSingleMedia.flags |= 1;
                             }
                             ((TLRPC.TL_messages_sendMultiMedia) request).multi_media.add(inputSingleMedia);
@@ -5930,7 +5930,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         request.media = inputMedia;
                         request.message = caption;
                         if (entities != null && !entities.isEmpty()) {
-                            request.entities = entities;
+                            request.entities = getMessageHelper().replaceCustomEmojis(newMsg.dialog_id, entities);
                             request.flags |= 8;
                         }
                         if (scheduleDate != 0) {
@@ -6014,7 +6014,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     }
                     reqSend.ttl = newMsg.ttl;
                     if (entities != null && !entities.isEmpty()) {
-                        reqSend.entities = entities;
+                        reqSend.entities = getMessageHelper().replaceCustomEmojis(newMsg.dialog_id, entities);
                         reqSend.flags |= TLRPC.MESSAGE_FLAG_HAS_ENTITIES;
                     }
                     if (newMsg.reply_to != null && newMsg.reply_to.reply_to_random_id != 0) {

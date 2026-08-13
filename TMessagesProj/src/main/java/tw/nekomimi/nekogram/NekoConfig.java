@@ -104,6 +104,7 @@ public class NekoConfig {
     public static boolean ignoreBlocked = false;
     public static boolean ignoreContentRestriction = false;
     public static boolean keepFormatting = true;
+    public static boolean localCustomEmoji = false;
     public static boolean mapDriftingFix = false;
     public static boolean markdownParseLinks = true;
     public static boolean mediaPreview = true;
@@ -208,6 +209,7 @@ public class NekoConfig {
             ignoreBlocked = preferences.getBoolean("ignoreBlocked2", false);
             ignoreContentRestriction = preferences.getBoolean("ignoreContentRestriction", false);
             keepFormatting = preferences.getBoolean("keepFormatting", true);
+            localCustomEmoji = preferences.getBoolean("localCustomEmoji", false);
             mapDriftingFix = preferences.getBoolean("mapDriftingFix", userMcc == 460);
             markdownParseLinks = preferences.getBoolean("markdownParseLinks", true);
             mediaPreview = preferences.getBoolean("mediaPreview", true);
@@ -374,6 +376,9 @@ public class NekoConfig {
         }
         if (preferences.contains("keepFormatting")) {
             object.addProperty("keepFormatting", preferences.getBoolean("keepFormatting", true));
+        }
+        if (preferences.contains("localCustomEmoji")) {
+            object.addProperty("localCustomEmoji", preferences.getBoolean("localCustomEmoji", false));
         }
         if (preferences.contains("mapDriftingFix")) {
             object.addProperty("mapDriftingFix", preferences.getBoolean("mapDriftingFix", false));
@@ -625,6 +630,9 @@ public class NekoConfig {
         }
         if (object.has("keepFormatting")) {
             editor.putBoolean("keepFormatting", object.get("keepFormatting").getAsBoolean());
+        }
+        if (object.has("localCustomEmoji")) {
+            editor.putBoolean("localCustomEmoji", object.get("localCustomEmoji").getAsBoolean());
         }
         if (object.has("mapDriftingFix")) {
             editor.putBoolean("mapDriftingFix", object.get("mapDriftingFix").getAsBoolean());
@@ -946,6 +954,11 @@ public class NekoConfig {
     public static void toggleKeepFormatting() {
         keepFormatting = !keepFormatting;
         preferences.edit().putBoolean("keepFormatting", keepFormatting).apply();
+    }
+
+    public static void toggleLocalCustomEmoji() {
+        localCustomEmoji = !localCustomEmoji;
+        preferences.edit().putBoolean("localCustomEmoji", localCustomEmoji).apply();
     }
 
     public static void toggleMapDriftingFix() {

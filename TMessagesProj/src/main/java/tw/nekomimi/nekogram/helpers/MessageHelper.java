@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextUtils;
@@ -23,6 +24,8 @@ import android.widget.DatePicker;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import androidx.annotation.Nullable;
+import androidx.collection.MutableLongSet;
 import androidx.core.content.FileProvider;
 import androidx.core.text.HtmlCompat;
 
@@ -30,6 +33,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.BaseController;
 import org.telegram.messenger.ChatObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
@@ -49,6 +53,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.ChatMessageCell;
 import org.telegram.ui.Cells.CheckBoxCell;
 import org.telegram.ui.Components.AlertsCreator;
+import org.telegram.ui.Components.AnimatedEmojiDrawable;
 import org.telegram.ui.Components.AvatarDrawable;
 import org.telegram.ui.Components.BackupImageView;
 import org.telegram.ui.Components.Bulletin;
@@ -70,6 +75,8 @@ import java.util.Locale;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
+
+import tw.nekomimi.nekogram.NekoConfig;
 
 public class MessageHelper extends BaseController {
 
@@ -725,4 +732,85 @@ public class MessageHelper extends BaseController {
         return acc;
     }
 
+    public static boolean isLocalCustomEmoji(TLRPC.MessageEntity entity) {
+        var url = entity.url;
+        return url != null && url.length() > 14 && url.startsWith("tg://emoji?id=");
+    }
+
+    @Nullable
+    public static TLRPC.TL_messageEntityCustomEmoji parseLocalCustomEmoji(Spannable spannable, TLRPC.MessageEntity entity) {
+        if (!isLocalCustomEmoji(entity) || spannable.length() < entity.offset + entity.length) {
+            return null;
+        }
+        try {
+            var emojiOnly = new int[1];
+            var emojis = Emoji.parseEmojis(spannable.subSequence(entity.offset, entity.offset + entity.length), emojiOnly);
+            if (emojiOnly[0] > 0 && emojis.size() == 1) {
+                var documentId = Long.parseLong(entity.url.substring(14));
+                var customEmojiEntity = new TLRPC.TL_messageEntityCustomEmoji();
+                customEmojiEntity.offset = entity.offset;
+                customEmojiEntity.length = entity.length;
+                customEmojiEntity.document_id = documentId;
+                return customEmojiEntity;
+            }
+        } catch (Exception e) {
+            FileLog.e("Failed to parse custom emoji id: " + entity.url, e);
+        }
+        return null;
+    }
+
+    public static boolean canUseLocalCustomEmojis(int account) {
+        return NekoConfig.localCustomEmoji && !UserConfig.getInstance(account).isPremium();
+    }
+
+    public ArrayList<TLRPC.MessageEntity> replaceCustomEmojis(long dialogId, ArrayList<TLRPC.MessageEntity> entities) {
+        if (!canUseLocalCustomEmojis(currentAccount) || dialogId == getUserConfig().getClientUserId()) {
+            return entities;
+        }
+        var set = getGroupEmojis(dialogId);
+        var list = new ArrayList<TLRPC.MessageEntity>(entities.size());
+        for (var entity : entities) {
+            if (entity instanceof TLRPC.TL_messageEntityCustomEmoji customEmoji) {
+                if (set == null || !set.contains(customEmoji.document_id)) {
+                    var document = customEmoji.document == null ?
+                            AnimatedEmojiDrawable.findDocument(currentAccount, customEmoji.document_id) :
+                            customEmoji.document;
+                    if (!MessageObject.isFreeEmoji(document)) {
+                        list.add(toCustomEmojiLink(customEmoji));
+                        continue;
+                    }
+                }
+            }
+            list.add(entity);
+        }
+        return list;
+    }
+
+    private MutableLongSet getGroupEmojis(long dialogId) {
+        if (dialogId > 0) {
+            return null;
+        }
+        var chatFull = getMessagesController().getChatFull(-dialogId);
+        if (chatFull == null || chatFull.emojiset == null) {
+            return null;
+        }
+        var groupStickerSet = getMediaDataController().getGroupStickerSetById(chatFull.emojiset);
+        if (groupStickerSet == null || groupStickerSet.documents == null) {
+            return null;
+        }
+        var documents = groupStickerSet.documents;
+        var set = new MutableLongSet(documents.size());
+        for (var document : documents) {
+            set.add(document.id);
+        }
+        return set;
+    }
+
+    private static TLRPC.TL_messageEntityTextUrl toCustomEmojiLink(TLRPC.TL_messageEntityCustomEmoji entity) {
+        var newEntity = new TLRPC.TL_messageEntityTextUrl();
+        newEntity.offset = entity.offset;
+        newEntity.length = entity.length;
+        newEntity.url = "tg://emoji?id=" + entity.document_id;
+        return newEntity;
+    }
 }
