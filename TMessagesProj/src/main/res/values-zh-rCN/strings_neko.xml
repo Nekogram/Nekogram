@@ -328,6 +328,8 @@
     <string name="GooeyAvatarAnimation">头像吸附动画</string>
     <string name="JsonCopyKey">复制键</string>
     <string name="JsonCopyValue">复制值</string>
+    <string name="LocalCustomEmoji">本地自定义表情符号</string>
+    <string name="MiniSenderAvatar">发送者小头像</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

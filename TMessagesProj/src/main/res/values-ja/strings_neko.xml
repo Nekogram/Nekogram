@@ -329,6 +329,8 @@
     <string name="GooeyAvatarAnimation">「とろけるような」アバターアニメーション</string>
     <string name="JsonCopyKey">キーをコピー</string>
     <string name="JsonCopyValue">値をコピー</string>
+    <string name="LocalCustomEmoji">ローカルのカスタム絵文字</string>
+    <string name="MiniSenderAvatar">送信者のアイコンを縮小</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">ユーザー補助の設定</string>
 </resources>
