@@ -147,6 +147,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private GridLayoutManager layoutManager;
     private PhotoAttachAdapter adapter;
     private EmptyTextProgressView progressView;
+    private FragmentFloatingButton cameraFloatingButton;
     private RecyclerViewItemRangeSelector itemRangeSelector;
     private int gridExtraSpace;
     private boolean shouldSelect;
@@ -827,7 +828,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         gridView.getFastScroll().setAlpha(0f);
         gridView.getFastScroll().usePadding = false;
         gridView.getFastScroll().topOffset = ActionBar.getCurrentActionBarHeight(); // + AndroidUtilities.statusBarHeight;
-        gridView.setAdapter(adapter = new PhotoAttachAdapter(context, needCamera));
+        gridView.setAdapter(adapter = new PhotoAttachAdapter(context, !NekoConfig.disableInstantCamera && needCamera));
         gridView.addItemDecoration(cameraViewItemDecoration = new CameraViewItemDecoration(gridView));
         adapter.createCache();
         gridView.setClipToPadding(false);
@@ -901,10 +902,10 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         layoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
             public int getSpanSize(int position) {
-                if (position == adapter.itemsCount - 1 || (noGalleryPermissions || noCameraPermissions) && position == 0) {
+                if (position == adapter.itemsCount - 1 || (noGalleryPermissions || (adapter.needCamera && selectedAlbumEntry == galleryAlbumEntry && noCameraPermissions)) && position == 0) {
                     return layoutManager.getSpanCount();
                 }
-                if (noCameraPermissions) {
+                if (adapter.needCamera && selectedAlbumEntry == galleryAlbumEntry && noCameraPermissions) {
                     position--;
                 }
                 return itemSize + (position % itemsPerRow != itemsPerRow - 1 ? dp(GAP) : 0);
@@ -951,11 +952,11 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 return;
             }
 
-            if (position != 0 || !needCamera || selectedAlbumEntry != galleryAlbumEntry) {
+            if (position != 0 || !adapter.needCamera || selectedAlbumEntry != galleryAlbumEntry) {
                 if (adapter.hasCameraSpaceRow && position > itemsPerRow) {
                     position--;
                 }
-                if (selectedAlbumEntry == galleryAlbumEntry && needCamera) {
+                if (selectedAlbumEntry == galleryAlbumEntry && adapter.needCamera) {
                     position--;
                 }
                 if (showAvatarConstructor) {
@@ -1139,6 +1140,21 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             progressView.showProgress();
         } else {
             progressView.showTextView();
+        }
+
+        if (needCamera && NekoConfig.disableInstantCamera) {
+            cameraFloatingButton = new FragmentFloatingButton(getContext(), resourcesProvider);
+            cameraFloatingButton.setContentDescription(LocaleController.getString(R.string.AccDescrInstantCamera));
+            cameraFloatingButton.setImageResource(R.drawable.camera);
+            cameraFloatingButton.setOnClickListener(view -> openCameraWithPermissionCheck());
+            cameraFloatingButton.setOnLongClickListener(view -> {
+                if (parentAlert.delegate != null) {
+                    parentAlert.delegate.didPressedButton(0, false, true, 0, 0, 0, parentAlert.isCaptionAbove(), false, 0);
+                    return true;
+                }
+                return false;
+            });
+            addView(cameraFloatingButton, FragmentFloatingButton.createDefaultLayoutParams());
         }
 
         Paint recordPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -1546,6 +1562,21 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             if (parentAlert.delegate != null) {
                 parentAlert.delegate.didPressedButton(0, false, true, 0, 0, 0, parentAlert.isCaptionAbove(), false, 0);
             }
+        }
+    }
+
+    public void updateCameraButton() {
+        if (cameraFloatingButton == null) return;
+        var show = getSelectedItemsCount() == 0;
+        if (show) {
+            var typeButtons = parentAlert.buttonsRecyclerViewWrapper;
+            var progress = typeButtons.getVisibility() != VISIBLE ? 0f : typeButtons.getAlpha();
+            var offsetY = progress * parentAlert.getTypeButtonsHeight() + AndroidUtilities.navigationBarHeight;
+            cameraFloatingButton.setTranslationY(-offsetY);
+        }
+        var currentlyVisible = cameraFloatingButton.getButtonVisible();
+        if (currentlyVisible != show) {
+            cameraFloatingButton.setButtonVisible(show, true);
         }
     }
 
@@ -2492,14 +2523,18 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         AndroidUtilities.setLightNavigationBar(parentAlert, false);
         parentAlert.getWindow().addFlags(FLAG_KEEP_SCREEN_ON);
         if (animated) {
-            setCameraOpenProgress(0);
+            setCameraOpenProgress(NekoConfig.disableInstantCamera ? 1f : 0);
             cameraAnimationInProgress = true;
             if (gridView != null) {
                 gridView.invalidate();
             }
             notificationsLocker.lock();
             ArrayList<Animator> animators = new ArrayList<>();
-            animators.add(ObjectAnimator.ofFloat(this, "cameraOpenProgress", 0.0f, 1.0f));
+            if (!NekoConfig.disableInstantCamera) {
+                animators.add(ObjectAnimator.ofFloat(this, "cameraOpenProgress", 0.0f, 1.0f));
+            } else if (cameraView.isInited()) {
+                animators.add(ObjectAnimator.ofFloat(cameraView, View.ALPHA, 0.0f, 1.0f));
+            }
             animators.add(ObjectAnimator.ofFloat(cameraPanel, View.ALPHA, 1.0f));
             animators.add(ObjectAnimator.ofFloat(counterTextView, View.ALPHA, 1.0f));
             animators.add(ObjectAnimator.ofFloat(cameraPhotoRecyclerView, View.ALPHA, 1.0f));
@@ -2858,7 +2893,11 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 gridView.invalidate();
             }
             ArrayList<Animator> animators = new ArrayList<>();
-            animators.add(ObjectAnimator.ofFloat(this, "cameraOpenProgress", 0.0f));
+            if (!NekoConfig.disableInstantCamera) {
+                animators.add(ObjectAnimator.ofFloat(this, "cameraOpenProgress", 0.0f));
+            } else {
+                animators.add(ObjectAnimator.ofFloat(cameraView, View.ALPHA, 0.0f));
+            }
             animators.add(ObjectAnimator.ofFloat(cameraPanel, View.ALPHA, 0.0f));
             animators.add(ObjectAnimator.ofFloat(zoomControlView, View.ALPHA, 0.0f));
             animators.add(ObjectAnimator.ofFloat(counterTextView, View.ALPHA, 0.0f));
@@ -3560,6 +3599,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         } else {
             parentAlert.selectedMenuItem.hideSubItem(stars);
         }
+        updateCameraButton();
     }
 
     private void updateStarsItem() {
@@ -3792,6 +3832,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     @Override
     public void onButtonsTranslationYUpdated() {
         checkCameraViewPosition();
+        updateCameraButton();
         invalidate();
     }
 
@@ -4838,13 +4879,11 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
 
         public void updateBitmap() {
             Bitmap bitmap = null;
-            if (!NekoConfig.disableInstantCamera) {
-                try {
-                    File file = new File(ApplicationLoader.getFilesDirFixed(), "cthumb.jpg");
-                    bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
-                } catch (Throwable ignore) {
+            try {
+                File file = new File(ApplicationLoader.getFilesDirFixed(), "cthumb.jpg");
+                bitmap = BitmapFactory.decodeFile(file.getAbsolutePath());
+            } catch (Throwable ignore) {
 
-                }
             }
             if (bitmap != null) {
                 placeholderDrawable = new BitmapDrawable(getContext().getResources(), bitmap);
