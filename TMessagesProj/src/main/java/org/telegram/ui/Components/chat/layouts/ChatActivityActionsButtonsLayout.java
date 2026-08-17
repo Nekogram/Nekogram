@@ -153,7 +153,7 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
 
     public void setForwardButtonTextAndIcon(String text, Drawable icon) {
         forwardButton.textView.setText(text);
-        icon.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_glass_defaultIcon, resourcesProvider), PorterDuff.Mode.MULTIPLY));
+        icon.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_glass_defaultIcon, resourcesProvider), PorterDuff.Mode.SRC_IN));
         forwardButton.textView.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
     }
 
