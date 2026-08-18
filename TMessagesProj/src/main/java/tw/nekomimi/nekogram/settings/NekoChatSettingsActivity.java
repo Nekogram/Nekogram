@@ -39,7 +39,6 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.EntitiesHelper;
-import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.helpers.VoiceEnhancementsHelper;
 import tw.nekomimi.nekogram.helpers.WhisperHelper;
 
@@ -231,11 +230,10 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
             types.add(NekoConfig.CAMERA_REAR);
             arrayList.add(LocaleController.getString(R.string.FrontCamera));
             types.add(NekoConfig.CAMERA_FRONT);
-            PopupHelper.show(arrayList, LocaleController.getString(R.string.CameraInVideoMessages), types.indexOf(NekoConfig.cameraInVideoMessages), getParentActivity(), view, i -> {
+            showPopup(arrayList, types.indexOf(NekoConfig.cameraInVideoMessages), item, view, i -> {
                 NekoConfig.setCameraInVideoMessages(types.get(i));
-                item.textValue = arrayList.get(i);
                 listView.adapter.notifyItemChanged(position, PARTIAL);
-            }, resourcesProvider);
+            });
         } else if (id == confirmAVRow) {
             NekoConfig.toggleConfirmAVMessage();
             if (view instanceof TextCheckCell) {
@@ -408,11 +406,10 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
                     types.add(String.valueOf(count));
                 }
             }
-            PopupHelper.show(types, LocaleController.getString(R.string.MaxRecentStickers), types.indexOf(String.valueOf(NekoConfig.maxRecentStickers)), getParentActivity(), view, i -> {
+            showPopup(types, types.indexOf(String.valueOf(NekoConfig.maxRecentStickers)), item, view, i -> {
                 NekoConfig.setMaxRecentStickers(Integer.parseInt(types.get(i)));
-                item.textValue = String.valueOf(NekoConfig.maxRecentStickers);
                 listView.adapter.notifyItemChanged(position, PARTIAL);
-            }, resourcesProvider);
+            });
         } else if (id == hideTimeOnStickerRow) {
             NekoConfig.toggleHideTimeOnSticker();
             if (view instanceof TextCheckCell) {
@@ -425,9 +422,8 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
             arrayList.add("Nekogram");
             arrayList.add("Telegram");
             boolean oldParser = NekoConfig.newMarkdownParser;
-            PopupHelper.show(arrayList, LocaleController.getString(R.string.MarkdownParser), NekoConfig.newMarkdownParser ? 0 : 1, getParentActivity(), view, i -> {
+            showPopup(arrayList, NekoConfig.newMarkdownParser ? 0 : 1, item, view, i -> {
                 NekoConfig.setNewMarkdownParser(i == 0);
-                item.textValue = arrayList.get(i);
                 listView.adapter.notifyItemChanged(position, PARTIAL);
                 if (oldParser != NekoConfig.newMarkdownParser) {
                     if (oldParser) {
@@ -439,7 +435,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
                     }
                     notifyItemChanged(markdown2Row);
                 }
-            }, resourcesProvider);
+            });
         } else if (id == markdownParseLinksRow) {
             NekoConfig.toggleMarkdownParseLinks();
             if (view instanceof TextCheckCell) {
@@ -472,11 +468,10 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
             types.add(NekoConfig.TRANSCRIBE_PREMIUM);
             arrayList.add(LocaleController.getString(R.string.TranscribeProviderWorkersAI));
             types.add(NekoConfig.TRANSCRIBE_WORKERSAI);
-            PopupHelper.show(arrayList, LocaleController.getString(R.string.TranscribeProviderShort), types.indexOf(NekoConfig.transcribeProvider), getParentActivity(), view, i -> {
+            showPopup(arrayList, types.indexOf(NekoConfig.transcribeProvider), item, view, i -> {
                 NekoConfig.setTranscribeProvider(types.get(i));
-                item.textValue = arrayList.get(i);
                 listView.adapter.notifyItemChanged(position, PARTIAL);
-            }, resourcesProvider);
+            });
         } else if (id == cfCredentialsRow) {
             WhisperHelper.showCfCredentialsDialog(this);
         } else if (id == preferOriginalQualityRow) {

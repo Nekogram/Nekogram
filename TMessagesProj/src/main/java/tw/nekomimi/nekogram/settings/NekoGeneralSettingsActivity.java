@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import tw.nekomimi.nekogram.NekoConfig;
-import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.TranslatorApps;
 
@@ -174,30 +173,23 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             types.add(1);
             arrayList.add(LocaleController.getString(R.string.LastFirst));
             types.add(2);
-            PopupHelper.show(arrayList, LocaleController.getString(R.string.NameOrder), types.indexOf(NekoConfig.nameOrder), getParentActivity(), view, i -> {
+            showPopup(arrayList, types.indexOf(NekoConfig.nameOrder), item, view, i -> {
                 NekoConfig.setNameOrder(types.get(i));
-                item.textValue = arrayList.get(i);
                 listView.adapter.notifyItemChanged(position, PARTIAL);
                 parentLayout.rebuildAllFragmentViews(false, false);
-            }, resourcesProvider);
+            });
         } else if (id == translationProviderRow) {
-            Translator.showTranslationProviderSelector(getParentActivity(), view, param -> {
+            Translator.showTranslationProviderSelector(this, view, param -> {
                 item.textValue = getTranslationProvider();
                 if (param) {
                     listView.adapter.notifyItemChanged(position, PARTIAL);
                 } else {
                     listView.adapter.notifyItemChanged(position, PARTIAL);
-                    notifyItemChanged(translationTargetRow, PARTIAL);
+                    updateLanguageItems();
                 }
-            }, resourcesProvider);
+            });
         } else if (id == translationTargetRow) {
-            Translator.showTranslationTargetSelector(this, view, () -> {
-                item.textValue = getTranslationTarget();
-                listView.adapter.notifyItemChanged(position, PARTIAL);
-                if (Translator.getRestrictedLanguages().size() == 1) {
-                    notifyItemChanged(doNotTranslateRow, PARTIAL);
-                }
-            }, resourcesProvider);
+            Translator.showTranslationTargetSelector(this, view, this::updateLanguageItems);
         } else if (id == openArchiveOnPullRow) {
             NekoConfig.toggleOpenArchiveOnPull();
             if (view instanceof TextCheckCell) {
@@ -217,12 +209,11 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             types.add(NekoConfig.ID_TYPE_API);
             arrayList.add(LocaleController.getString(R.string.IdTypeBOTAPI));
             types.add(NekoConfig.ID_TYPE_BOTAPI);
-            PopupHelper.show(arrayList, LocaleController.getString(R.string.IdType), types.indexOf(NekoConfig.idType), getParentActivity(), view, i -> {
+            showPopup(arrayList, types.indexOf(NekoConfig.idType), item, view, i -> {
                 NekoConfig.setIdType(types.get(i));
-                item.textValue = arrayList.get(i);
                 listView.adapter.notifyItemChanged(position, PARTIAL);
                 parentLayout.rebuildAllFragmentViews(false, false);
-            }, resourcesProvider);
+            });
         } else if (id == accentAsNotificationColorRow) {
             NekoConfig.toggleAccentAsNotificationColor();
             if (view instanceof TextCheckCell) {
@@ -235,7 +226,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
             }
         } else if (id == translatorTypeRow) {
             int oldType = NekoConfig.transType;
-            Translator.showTranslatorTypeSelector(getParentActivity(), view, () -> {
+            Translator.showTranslatorTypeSelector(this, view, () -> {
                 int newType = NekoConfig.transType;
                 item.textValue = getTranslatorType();
                 listView.adapter.notifyItemChanged(position, PARTIAL);
@@ -260,7 +251,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                         notifyItemInserted(showOriginalRow);
                     }
                 }
-            }, resourcesProvider);
+            });
         } else if (id == doNotTranslateRow) {
             presentFragment(new NekoLanguagesSelectActivity(NekoLanguagesSelectActivity.TYPE_RESTRICTED));
         } else if (id == autoTranslateRow) {
@@ -274,10 +265,24 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 ((TextCheckCell) view).setChecked(NekoConfig.showOriginal);
             }
         } else if (id == translatorExternalAppRow) {
-            Translator.showTranslationProviderSelector(getParentActivity(), view, param -> {
+            Translator.showTranslationProviderSelector(this, view, param -> {
                 item.textValue = getTranslatorExternalApp();
                 listView.adapter.notifyItemChanged(position, PARTIAL);
-            }, resourcesProvider);
+            });
+        }
+    }
+
+    private void updateLanguageItems() {
+        if (listView == null) return;
+        var restrictedLanguageItem = listView.findItemByItemId(doNotTranslateRow);
+        if (restrictedLanguageItem != null) {
+            restrictedLanguageItem.textValue = getRestrictedLanguages();
+            notifyItemChanged(doNotTranslateRow, PARTIAL);
+        }
+        var translationTargetItem = listView.findItemByItemId(translationTargetRow);
+        if (translationTargetItem != null) {
+            translationTargetItem.textValue = getTranslationTarget();
+            notifyItemChanged(translationTargetRow, PARTIAL);
         }
     }
 
@@ -294,17 +299,6 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (listView != null) {
-            var restrictedLanguageItem = listView.findItemByItemId(doNotTranslateRow);
-            if (restrictedLanguageItem != null) {
-                restrictedLanguageItem.textValue = getRestrictedLanguages();
-                notifyItemChanged(doNotTranslateRow, PARTIAL);
-            }
-            var translationTargetItem = listView.findItemByItemId(translationTargetRow);
-            if (translationTargetItem != null) {
-                translationTargetItem.textValue = getTranslationTarget();
-                notifyItemChanged(translationTargetRow, PARTIAL);
-            }
-        }
+        updateLanguageItems();
     }
 }

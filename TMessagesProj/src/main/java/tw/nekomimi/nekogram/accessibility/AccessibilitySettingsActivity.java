@@ -10,7 +10,6 @@ import org.telegram.ui.Components.UniversalAdapter;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.settings.BaseNekoSettingsActivity;
 
 public class AccessibilitySettingsActivity extends BaseNekoSettingsActivity {
@@ -63,13 +62,12 @@ public class AccessibilitySettingsActivity extends BaseNekoSettingsActivity {
     protected void onItemClick(UItem item, View view, int position, float x, float y) {
         var id = item.id;
         if (id == timeBeforeAnnouncingOfSeekbarRow) {
-            PopupHelper.show(SEEKBAR_TIME_VALUES, LocaleController.getString(R.string.AccTimeBeforeAnnouncingOfChangingOfValueOfSeekbarHeading),
+            showPopup(SEEKBAR_TIME_VALUES,
                     AccConfig.delayBetweenAnnouncingOfChangingOfSeekbarValue / 50,
-                    getParentActivity(), view, i -> {
+                    item, view, i -> {
                         AccConfig.setDelayBetweenAnnouncingOfChangingOfSeekbarValue(i * 50);
-                        item.textValue = getTimeBeforeAnnouncingOfSeekbar();
                         listView.adapter.notifyItemChanged(position);
-                    }, resourcesProvider);
+                    });
         } else if (view instanceof TextCheckCell cell) {
             if (id == showNumbersOfItemsRow) {
                 AccConfig.saveShowNumbersOfItems();

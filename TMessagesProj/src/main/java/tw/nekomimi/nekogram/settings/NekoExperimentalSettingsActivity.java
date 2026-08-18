@@ -29,7 +29,6 @@ import java.util.Locale;
 import tw.nekomimi.nekogram.Extra;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
-import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.helpers.SettingsHelper;
 import tw.nekomimi.nekogram.helpers.remote.UpdateHelper;
 
@@ -199,11 +198,10 @@ public class NekoExperimentalSettingsActivity extends BaseNekoSettingsActivity {
             types.add(NekoConfig.BOOST_AVERAGE);
             arrayList.add(LocaleController.getString(R.string.DownloadSpeedBoostExtreme));
             types.add(NekoConfig.BOOST_EXTREME);
-            PopupHelper.show(arrayList, LocaleController.getString(R.string.DownloadSpeedBoost), types.indexOf(NekoConfig.downloadSpeedBoost), getParentActivity(), view, i -> {
+            showPopup(arrayList, types.indexOf(NekoConfig.downloadSpeedBoost), item, view, i -> {
                 NekoConfig.setDownloadSpeedBoost(types.get(i));
-                item.textValue = arrayList.get(i);
                 listView.adapter.notifyItemChanged(position, PARTIAL);
-            }, resourcesProvider);
+            });
         } else if (id == sendBugReportRow) {
             if (AnalyticsHelper.analyticsDisabled) {
                 return;

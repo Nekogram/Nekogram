@@ -12,7 +12,7 @@ public class TranslatorSettingsPopupWrapper {
 
     public ActionBarPopupWindow.ActionBarPopupWindowLayout windowLayout;
 
-    public TranslatorSettingsPopupWrapper(BaseFragment fragment, PopupSwipeBackLayout swipeBackLayout, long dialogId, long topicId, Theme.ResourcesProvider resourcesProvider) {
+    public TranslatorSettingsPopupWrapper(BaseFragment fragment, PopupSwipeBackLayout swipeBackLayout, Theme.ResourcesProvider resourcesProvider) {
         var context = fragment.getParentActivity();
         windowLayout = new ActionBarPopupWindow.ActionBarPopupWindowLayout(context, 0, resourcesProvider, ActionBarPopupWindow.ActionBarPopupWindowLayout.FLAG_USE_SWIPEBACK);
         windowLayout.setFitItems(true);
@@ -35,13 +35,13 @@ public class TranslatorSettingsPopupWrapper {
             item.setOnClickListener(view -> {
                 switch ((Integer) view.getTag()) {
                     case 0:
-                        Translator.showTranslatorTypeSelector(context, null, null, resourcesProvider);
+                        Translator.showTranslatorTypeSelector(fragment, null, null);
                         break;
                     case 1:
-                        Translator.showTranslationTargetSelector(fragment, null, null, resourcesProvider);
+                        Translator.showTranslationTargetSelector(fragment, null, null);
                         break;
                     case 2:
-                        Translator.showTranslationProviderSelector(context, null, null, resourcesProvider);
+                        Translator.showTranslationProviderSelector(fragment, null, null);
                         break;
                 }
             });

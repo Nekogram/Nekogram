@@ -16,9 +16,9 @@ import com.google.common.util.concurrent.Futures;
 import com.google.common.util.concurrent.ListeningExecutorService;
 import com.google.common.util.concurrent.MoreExecutors;
 
+import org.apache.commons.lang3.function.BooleanConsumer;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.LocaleController;
-import org.telegram.messenger.MessagesStorage;
 import org.telegram.messenger.R;
 import org.telegram.messenger.TranslateController;
 import org.telegram.messenger.UserConfig;
@@ -77,19 +77,19 @@ public class Translator {
         }
     }
 
-    public static void handleTranslationError(Context context, String t, final Runnable onRetry, Theme.ResourcesProvider resourcesProvider) {
+    public static void handleTranslationError(BaseFragment fragment, String t, final Runnable onRetry) {
         var exception = "QUOTA_EXCEEDED".equals(t) ? new Http429Exception() : new RuntimeException(t);
-        handleTranslationError(context, exception, onRetry, resourcesProvider);
+        handleTranslationError(fragment, exception, onRetry);
     }
 
-    public static void handleTranslationError(Context context, final Throwable t, final Runnable onRetry, Theme.ResourcesProvider resourcesProvider) {
-        if (context == null) {
-            return;
-        }
-        AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider);
+    public static void handleTranslationError(BaseFragment fragment, final Throwable t, final Runnable onRetry) {
+        var context = fragment.getParentActivity();
+        if (context == null) return;
+        var resourcesProvider = fragment.getResourceProvider();
+        var builder = new AlertDialog.Builder(context, resourcesProvider);
         if (t instanceof UnsupportedTargetLanguageException) {
             builder.setMessage(LocaleController.getString(R.string.TranslateApiUnsupported));
-            builder.setPositiveButton(LocaleController.getString(R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(context, null, null, resourcesProvider));
+            builder.setPositiveButton(LocaleController.getString(R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(fragment, null, null));
         } else {
             if (t instanceof Http429Exception) {
                 builder.setTitle(LocaleController.getString(R.string.TranslateFailed));
@@ -103,9 +103,33 @@ public class Translator {
             if (onRetry != null) {
                 builder.setPositiveButton(LocaleController.getString(R.string.Retry), (dialog, which) -> onRetry.run());
             }
-            builder.setNeutralButton(LocaleController.getString(R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(context, null, null, resourcesProvider));
+            builder.setNeutralButton(LocaleController.getString(R.string.TranslationProviderShort), (dialog, which) -> showTranslationProviderSelector(fragment, null, null));
         }
         builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+        fragment.showDialog(builder.create());
+    }
+
+    public static void handleTranslationError(Context context, final Throwable t, final Runnable onRetry, Theme.ResourcesProvider resourcesProvider) {
+        if (context == null) return;
+        var builder = new AlertDialog.Builder(context, resourcesProvider);
+        if (t instanceof UnsupportedTargetLanguageException) {
+            builder.setMessage(LocaleController.getString(R.string.TranslateApiUnsupported));
+            builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
+        } else {
+            if (t instanceof Http429Exception) {
+                builder.setTitle(LocaleController.getString(R.string.TranslateFailed));
+                builder.setMessage(LocaleController.getString(R.string.FloodWait));
+            } else if (t != null && t.getLocalizedMessage() != null) {
+                builder.setTitle(LocaleController.getString(R.string.TranslateFailed));
+                builder.setMessage(t.getLocalizedMessage());
+            } else {
+                builder.setMessage(LocaleController.getString(R.string.TranslateFailed));
+            }
+            if (onRetry != null) {
+                builder.setPositiveButton(LocaleController.getString(R.string.Retry), (dialog, which) -> onRetry.run());
+            }
+            builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
+        }
         builder.show();
     }
 
@@ -175,7 +199,7 @@ public class Translator {
         return new Pair<>(names, types);
     }
 
-    public static void showTranslationTargetSelector(BaseFragment fragment, View view, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
+    public static void showTranslationTargetSelector(BaseFragment fragment, View view, Runnable callback) {
         if (getCurrentTargetLanguages().size() <= 30) {
             ArrayList<String> targetLanguages = new ArrayList<>(getCurrentTargetLanguages());
             ArrayList<CharSequence> names = new ArrayList<>();
@@ -190,16 +214,16 @@ public class Translator {
             targetLanguages.add(0, "app");
             names.add(0, LocaleController.getString(R.string.TranslationTargetApp));
 
-            PopupHelper.show(names, LocaleController.getString(R.string.TranslationTarget), targetLanguages.indexOf(NekoConfig.translationTarget), fragment.getParentActivity(), view, i -> {
+            PopupHelper.show(names, LocaleController.getString(R.string.TranslationTarget), targetLanguages.indexOf(NekoConfig.translationTarget), fragment, view, i -> {
                 NekoConfig.setTranslationTarget(targetLanguages.get(i));
                 if (callback != null) callback.run();
-            }, resourcesProvider);
+            });
         } else {
             fragment.presentFragment(new NekoLanguagesSelectActivity(NekoLanguagesSelectActivity.TYPE_TARGET));
         }
     }
 
-    public static void showTranslatorTypeSelector(Context context, View view, Runnable callback, Theme.ResourcesProvider resourcesProvider) {
+    public static void showTranslatorTypeSelector(BaseFragment fragment, View view, Runnable callback) {
         ArrayList<String> arrayList = new ArrayList<>();
         ArrayList<Integer> types = new ArrayList<>();
         arrayList.add(LocaleController.getString(R.string.TranslatorTypeNeko));
@@ -208,13 +232,13 @@ public class Translator {
         types.add(NekoConfig.TRANS_TYPE_TG);
         arrayList.add(LocaleController.getString(R.string.TranslatorTypeExternal));
         types.add(NekoConfig.TRANS_TYPE_EXTERNAL);
-        PopupHelper.show(arrayList, LocaleController.getString(R.string.TranslatorType), types.indexOf(NekoConfig.transType), context, view, i -> {
+        PopupHelper.show(arrayList, LocaleController.getString(R.string.TranslatorType), types.indexOf(NekoConfig.transType), fragment, view, i -> {
             NekoConfig.setTransType(types.get(i));
             if (callback != null) callback.run();
-        }, resourcesProvider);
+        });
     }
 
-    public static void showTranslationProviderSelector(Context context, View view, MessagesStorage.BooleanCallback callback, Theme.ResourcesProvider resourcesProvider) {
+    public static void showTranslationProviderSelector(BaseFragment fragment, View view, BooleanConsumer callback) {
         if (NekoConfig.transType == NekoConfig.TRANS_TYPE_EXTERNAL) {
             var app = TranslatorApps.getTranslatorApp();
             var apps = TranslatorApps.getTranslatorApps();
@@ -222,47 +246,49 @@ public class Translator {
                 return;
             }
             var list = apps.stream().map(a -> a.title).collect(Collectors.toList());
-            PopupHelper.show(list, LocaleController.getString(R.string.TranslationProvider), apps.indexOf(app), context, view, i -> {
+            PopupHelper.show(list, LocaleController.getString(R.string.TranslationProvider), apps.indexOf(app), fragment, view, i -> {
                 TranslatorApps.setTranslatorApp(apps.get(i));
-                if (callback != null) callback.run(true);
-            }, resourcesProvider);
+                if (callback != null) callback.accept(true);
+            });
             return;
         }
-        Pair<ArrayList<String>, ArrayList<String>> providers = getProviders();
-        ArrayList<String> names = providers.first;
-        ArrayList<String> types = providers.second;
+        var providers = getProviders();
+        var names = providers.first;
+        var types = providers.second;
         if (names == null || types == null) {
             return;
         }
-        PopupHelper.show(names, LocaleController.getString(R.string.TranslationProvider), types.indexOf(NekoConfig.translationProvider), context, view, i -> {
+        PopupHelper.show(names, LocaleController.getString(R.string.TranslationProvider), types.indexOf(NekoConfig.translationProvider), fragment, view, i -> {
             var translator = getTranslator(types.get(i));
             String targetLanguage = getTargetLanguage(translator, NekoConfig.translationTarget);
 
             if (translator.supportLanguage(targetLanguage)) {
                 NekoConfig.setTranslationProvider(types.get(i));
-                if (callback != null) callback.run(true);
+                if (callback != null) callback.accept(true);
             } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(context, resourcesProvider)
+                var context = fragment.getParentActivity();
+                var resourcesProvider = fragment.getResourceProvider();
+                var builder = new AlertDialog.Builder(context, resourcesProvider)
                         .setMessage(LocaleController.getString(R.string.TranslateApiUnsupported));
                 if ("app".equals(NekoConfig.translationTarget)) {
                     builder.setPositiveButton(LocaleController.getString(R.string.UseGoogleTranslate), (dialog, which) -> {
                         NekoConfig.setTranslationProvider(PROVIDER_GOOGLE);
-                        if (callback != null) callback.run(true);
+                        if (callback != null) callback.accept(true);
                     });
                     builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                 } else if (translator.supportLanguage(getCurrentAppLanguage(translator))) {
                     builder.setPositiveButton(LocaleController.getString(R.string.ResetLanguage), (dialog, which) -> {
                         NekoConfig.setTranslationProvider(types.get(i));
                         NekoConfig.setTranslationTarget("app");
-                        if (callback != null) callback.run(false);
+                        if (callback != null) callback.accept(false);
                     });
                     builder.setNegativeButton(LocaleController.getString(R.string.Cancel), null);
                 } else {
                     builder.setPositiveButton(LocaleController.getString(R.string.OK), null);
                 }
-                builder.show();
+                fragment.showDialog(builder.create());
             }
-        }, resourcesProvider);
+        });
     }
 
     public static List<String> getCurrentTargetLanguages() {

@@ -51,7 +51,11 @@ import org.telegram.ui.Components.blur3.capture.IBlur3Capture;
 import org.telegram.ui.Components.blur3.source.BlurredBackgroundSourceRenderNode;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.function.IntConsumer;
+
+import tw.nekomimi.nekogram.helpers.PopupHelper;
 
 public abstract class BaseNekoSettingsActivity extends BaseFragment {
 
@@ -377,6 +381,13 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         } else {
             unknown.run();
         }
+    }
+
+    public void showPopup(List<? extends CharSequence> entries, int checkedIndex, UItem item, View itemView, IntConsumer listener) {
+        PopupHelper.show(entries, null, checkedIndex, this, itemView, i -> {
+            item.textValue = entries.get(i);
+            listener.accept(i);
+        });
     }
 
     @Override

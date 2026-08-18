@@ -19,7 +19,6 @@ import java.util.ArrayList;
 
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.EmojiHelper;
-import tw.nekomimi.nekogram.helpers.PopupHelper;
 
 public class NekoAppearanceSettingsActivity extends BaseNekoSettingsActivity {
 
@@ -93,15 +92,14 @@ public class NekoAppearanceSettingsActivity extends BaseNekoSettingsActivity {
             types.add(NekoConfig.TABLET_ENABLE);
             arrayList.add(LocaleController.getString(R.string.Disable));
             types.add(NekoConfig.TABLET_DISABLE);
-            PopupHelper.show(arrayList, LocaleController.getString(R.string.TabletMode), types.indexOf(NekoConfig.tabletMode), getParentActivity(), view, i -> {
+            showPopup(arrayList, types.indexOf(NekoConfig.tabletMode), item, view, i -> {
                 NekoConfig.setTabletMode(types.get(i));
-                item.textValue = arrayList.get(i);
                 listView.adapter.notifyItemChanged(position, PARTIAL);
                 AndroidUtilities.resetTabletFlag();
                 if (getParentActivity() instanceof LaunchActivity) {
                     ((LaunchActivity) getParentActivity()).invalidateTabletMode();
                 }
-            }, resourcesProvider);
+            });
         } else if (id == emojiSetsRow) {
             presentFragment(new NekoEmojiSettingsActivity());
         } else if (id == disableNumberRoundingRow) {
@@ -149,12 +147,11 @@ public class NekoAppearanceSettingsActivity extends BaseNekoSettingsActivity {
             types.add(NekoConfig.TITLE_TYPE_ICON);
             arrayList.add(LocaleController.getString(R.string.TabTitleTypeMix));
             types.add(NekoConfig.TITLE_TYPE_MIX);
-            PopupHelper.show(arrayList, LocaleController.getString(R.string.TabTitleType), types.indexOf(NekoConfig.tabsTitleType), getParentActivity(), view, i -> {
+            showPopup(arrayList, types.indexOf(NekoConfig.tabsTitleType), item, view, i -> {
                 NekoConfig.setTabsTitleType(types.get(i));
-                item.textValue = arrayList.get(i);
                 listView.adapter.notifyItemChanged(position, PARTIAL);
                 getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
-            }, resourcesProvider);
+            });
         } else if (id == predictiveBackAnimationRow) {
             NekoConfig.togglePredictiveBackAnimation();
             if (view instanceof TextCheckCell) {
@@ -171,12 +168,11 @@ public class NekoAppearanceSettingsActivity extends BaseNekoSettingsActivity {
             ArrayList<String> arrayList = new ArrayList<>();
             arrayList.add(LocaleController.getString(R.string.TabsPositionTop));
             arrayList.add(LocaleController.getString(R.string.TabsPositionBottom));
-            PopupHelper.show(arrayList, LocaleController.getString(R.string.TabsPosition), NekoConfig.bottomFilterTabs ? 1 : 0, getParentActivity(), view, i -> {
+            showPopup(arrayList, NekoConfig.bottomFilterTabs ? 1 : 0, item, view, i -> {
                 NekoConfig.setBottomFilterTabs(i == 1);
-                item.textValue = arrayList.get(i);
                 listView.adapter.notifyItemChanged(position, PARTIAL);
                 parentLayout.rebuildAllFragmentViews(false, false);
-            }, resourcesProvider);
+            });
         } else if (id == strokeOnViewsRow) {
             NekoConfig.toggleStrokeOnViews();
             if (view instanceof TextCheckCell) {

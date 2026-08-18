@@ -32208,7 +32208,7 @@ public class ChatActivity extends BaseFragment implements
                         if (messageObject == null) {
                             continue;
                         }
-                        var translatorSettingsPopupWrapper = new TranslatorSettingsPopupWrapper(this, popupLayout.getSwipeBack(), dialog_id, getTopicId(), getResourceProvider());
+                        var translatorSettingsPopupWrapper = new TranslatorSettingsPopupWrapper(this, popupLayout.getSwipeBack(), getResourceProvider());
                         int swipeBackIndex = popupLayout.addViewToSwipeBack(translatorSettingsPopupWrapper.windowLayout);
                         cell.setOnLongClickListener(view -> {
                             popupLayout.getSwipeBack().openForeground(swipeBackIndex);
@@ -33625,7 +33625,7 @@ public class ChatActivity extends BaseFragment implements
                     getMessagesStorage().updateMessageCustomParams(messageObject.getDialogId(), messageObject.messageOwner);
                     getMessageHelper().resetMessageContent(dialog_id, messageObject, true);
                 } else if (err != null) {
-                    Translator.handleTranslationError(getParentActivity(), err.text, () -> translateMessage(messageObject, cell, sourceLanguage), themeDelegate);
+                    Translator.handleTranslationError(this, err.text, () -> translateMessage(messageObject, cell, sourceLanguage));
                     getMessageHelper().resetMessageContent(dialog_id, messageObject, false, false);
                 }
             }));
@@ -33649,7 +33649,7 @@ public class ChatActivity extends BaseFragment implements
 
             @Override
             public void onError(Throwable t) {
-                Translator.handleTranslationError(getParentActivity(), t, () -> translateMessage(messageObject, cell, sourceLanguage), themeDelegate);
+                Translator.handleTranslationError(ChatActivity.this, t, () -> translateMessage(messageObject, cell, sourceLanguage));
                 getMessageHelper().resetMessageContent(dialog_id, messageObject, false, false);
             }
         });
