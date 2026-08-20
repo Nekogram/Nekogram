@@ -17,6 +17,7 @@ import app.nekogram.translator.TranSmartTranslator;
 import app.nekogram.translator.YandexTranslator;
 import app.nekogram.translator.YouDaoTranslator;
 import tw.nekomimi.nekogram.NekoConfig;
+import tw.nekomimi.nekogram.translator.deepl.DeepLOAuth;
 import tw.nekomimi.nekogram.translator.html.HTMLKeeper;
 
 public class TextWithEntitiesTranslator implements Translator.ITranslator {
@@ -48,6 +49,9 @@ public class TextWithEntitiesTranslator implements Translator.ITranslator {
 
     @Override
     public Translator.TranslationResult translate(TLRPC.TL_textWithEntities query, String fl, String tl) throws Exception {
+        if (translator instanceof DeepLTranslator) {
+            DeepLOAuth.configureAccessToken();
+        }
         if (NekoConfig.keepFormatting) {
             var html = HTMLKeeper.entitiesToHtml(query.text, query.entities, false);
             var result = translator.translate(html, null, tl);

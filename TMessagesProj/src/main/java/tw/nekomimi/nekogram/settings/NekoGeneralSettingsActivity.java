@@ -10,6 +10,7 @@ import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.Cells.TextCheckCell;
+import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
 
@@ -19,6 +20,7 @@ import java.util.Locale;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.translator.Translator;
 import tw.nekomimi.nekogram.translator.TranslatorApps;
+import tw.nekomimi.nekogram.translator.deepl.DeepLOAuth;
 
 public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
 
@@ -27,6 +29,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
     private final int showOriginalRow = rowId++;
     private final int translatorTypeRow = rowId++;
     private final int translatorExternalAppRow = rowId++;
+    private final int deeplAuthRow = rowId++;
     private final int translationProviderRow = rowId++;
     private final int translationTargetRow = rowId++;
     private final int doNotTranslateRow = rowId++;
@@ -103,6 +106,22 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
         return app == null ? "" : app.title;
     }
 
+    private CharSequence getDeepLState() {
+        var idInfo = DeepLOAuth.getIdInfo();
+        if (idInfo == null) {
+            return LocaleController.getString(R.string.BotAuthLogin);
+        } else {
+            var email = idInfo.email;
+            var atIndex = email.indexOf('@');
+            var localPart = email.substring(0, atIndex);
+            var domainPart = email.substring(atIndex);
+            var visiblePart = localPart.length() <= 3
+                    ? localPart
+                    : localPart.substring(0, 3);
+            return visiblePart + "..." + domainPart;
+        }
+    }
+
     @Override
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         items.add(UItem.asHeader(LocaleController.getString(R.string.Connection)));
@@ -116,6 +135,9 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 items.add(UItem.asCheck(showOriginalRow, LocaleController.getString(R.string.TranslatorShowOriginal)).slug("showOriginalRow").setChecked(NekoConfig.showOriginal));
             }
             items.add(TextSettingsCellFactory.of(translationProviderRow, LocaleController.getString(R.string.TranslationProviderShort), getTranslationProvider()).slug("translationProvider"));
+            if (Translator.PROVIDER_DEEPL.equals(NekoConfig.translationProvider)) {
+                items.add(TextSettingsCellFactory.of(deeplAuthRow, LocaleController.getString(R.string.ProviderDeepLTranslate), getDeepLState()).slug("deeplAUth"));
+            }
             items.add(TextSettingsCellFactory.of(translationTargetRow, LocaleController.getString(R.string.TranslationTarget), getTranslationTarget()).slug("translationTarget"));
             items.add(TextSettingsCellFactory.of(doNotTranslateRow, LocaleController.getString(R.string.DoNotTranslate), getRestrictedLanguages()).slug("doNotTranslate"));
             items.add(UItem.asCheck(autoTranslateRow, LocaleController.getString(R.string.AutoTranslate), LocaleController.getString(R.string.AutoTranslateAbout)).slug("autoTranslate").setChecked(NekoConfig.autoTranslate));
@@ -179,6 +201,7 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 parentLayout.rebuildAllFragmentViews(false, false);
             });
         } else if (id == translationProviderRow) {
+            var oldProvider = NekoConfig.translationProvider;
             Translator.showTranslationProviderSelector(this, view, param -> {
                 item.textValue = getTranslationProvider();
                 if (param) {
@@ -186,6 +209,13 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 } else {
                     listView.adapter.notifyItemChanged(position, PARTIAL);
                     updateLanguageItems();
+                }
+                if (Translator.PROVIDER_DEEPL.equals(oldProvider)) {
+                    notifyItemRemoved(deeplAuthRow);
+                    updateRows();
+                } else if (Translator.PROVIDER_DEEPL.equals(NekoConfig.translationProvider)) {
+                    updateRows();
+                    notifyItemInserted(deeplAuthRow);
                 }
             });
         } else if (id == translationTargetRow) {
@@ -235,6 +265,9 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                     if (oldType == NekoConfig.TRANS_TYPE_NEKO || newType == NekoConfig.TRANS_TYPE_NEKO) {
                         count++;
                     }
+                    if (Translator.PROVIDER_DEEPL.equals(NekoConfig.translationProvider)) {
+                        count++;
+                    }
                     if (oldType == NekoConfig.TRANS_TYPE_EXTERNAL) {
                         notifyItemRemoved(translatorExternalAppRow);
                         updateRows();
@@ -269,6 +302,25 @@ public class NekoGeneralSettingsActivity extends BaseNekoSettingsActivity {
                 item.textValue = getTranslatorExternalApp();
                 listView.adapter.notifyItemChanged(position, PARTIAL);
             });
+        } else if (id == deeplAuthRow) {
+            var idInfo = DeepLOAuth.getIdInfo();
+            if (idInfo != null) {
+                var options = ItemOptions.makeOptions(this, view);
+                options.setScrimViewBackground(listView.getClipBackground(view));
+                options.addText(idInfo.email, 13);
+                options.addGap();
+                options.add(R.drawable.msg_leave, LocaleController.getString(R.string.LogOut), true, () -> {
+                    DeepLOAuth.clearToken();
+                    item.textValue = getDeepLState();
+                    listView.adapter.notifyItemChanged(position, PARTIAL);
+                });
+                options.show();
+            } else {
+                DeepLOAuth.startOAuth(this, () -> {
+                    item.textValue = getDeepLState();
+                    notifyItemChanged(deeplAuthRow, PARTIAL);
+                });
+            }
         }
     }
 
