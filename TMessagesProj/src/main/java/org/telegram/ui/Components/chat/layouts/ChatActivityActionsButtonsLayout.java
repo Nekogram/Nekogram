@@ -28,6 +28,7 @@ import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.ScaleStateListAnimator;
 import org.telegram.ui.Components.blur3.BlurredBackgroundDrawableViewFactory;
 import org.telegram.ui.Components.blur3.drawable.color.BlurredBackgroundColorProvider;
+import org.telegram.ui.Components.blur3.drawable.color.BlurredBackgroundProvider;
 import org.telegram.ui.Components.chat.buttons.ChatActivityBlurredRoundButton;
 
 import me.vkryl.android.AnimatorUtils;
@@ -155,6 +156,21 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
         forwardButton.textView.setText(text);
         icon.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_glass_defaultIcon, resourcesProvider), PorterDuff.Mode.SRC_IN));
         forwardButton.textView.setCompoundDrawablesWithIntrinsicBounds(icon, null, null, null);
+    }
+
+    public void setForwardButtonBlurredBackgroundFactory(BlurredBackgroundDrawableViewFactory subMenuFactory, BlurredBackgroundProvider subMenuProvider, Runnable updateScrimSourceBitmap) {
+        forwardButton.optionsView.setSubMenuDelegate(new ActionBarMenuItem.ActionBarSubMenuItemDelegate() {
+            @Override
+            public void onShowSubMenu() {
+                updateScrimSourceBitmap.run();
+            }
+
+            @Override
+            public void onHideSubMenu() {
+
+            }
+        });
+        forwardButton.optionsView.setBlurredBackgroundFactory(subMenuFactory, subMenuProvider);
     }
 
     public void setForwardButtonEnabled(boolean enabled, boolean animated) {
