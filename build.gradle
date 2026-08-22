@@ -1,7 +1,7 @@
 plugins {
-    id 'com.android.application' version '9.3.1' apply false
+    id 'com.android.application' version '9.3.2' apply false
     id 'com.google.gms.google-services' version '4.5.0' apply false
-    id 'io.sentry.android.gradle' version '6.17.0' apply false
+    id 'io.sentry.android.gradle' version '6.19.0' apply false
 }
 
 subprojects {

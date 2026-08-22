@@ -9,7 +9,6 @@ import com.google.gson.JsonParser;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
-import org.telegram.messenger.BuildConfig;
 import org.telegram.ui.ActionBar.Theme;
 
 import java.util.Collections;
@@ -253,12 +252,6 @@ public class NekoConfig {
             LensHelper.checkLensSupportAsync();
             preferences.registerOnSharedPreferenceChangeListener(listener);
 
-            if (!configLoaded) {
-                var map = new HashMap<String, String>();
-                map.put("buildType", BuildConfig.BUILD_TYPE);
-                map.put("mcc", String.valueOf(userMcc));
-                AnalyticsHelper.trackEvent("load_config", map);
-            }
             configLoaded = true;
         }
     }
