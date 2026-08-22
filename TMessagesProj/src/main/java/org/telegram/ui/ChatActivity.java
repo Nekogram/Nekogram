@@ -41002,8 +41002,14 @@ public class ChatActivity extends BaseFragment implements
             final TL_keyboard.TL_inlineButtonTypeUrl buttonTypeUrl = TLKeyboardHelper.getType(button, TL_keyboard.TL_inlineButtonTypeUrl.class);
             final TL_keyboard.TL_inlineButtonTypeCopy buttonTypeCopy = TLKeyboardHelper.getType(button, TL_keyboard.TL_inlineButtonTypeCopy.class);
 
+            var url = button.getUrl();
+            var buttonTypeCallback = TLKeyboardHelper.getType(button, TL_keyboard.TL_inlineButtonTypeCallback.class);
+            var buttonTypeSwitchInline = TLKeyboardHelper.getType(button, TL_keyboard.TL_inlineButtonTypeSwitchInline.class);
+            var buttonTypeUserProfile = TLKeyboardHelper.getType(button, TL_keyboard.TL_inlineButtonTypeUserProfile.class);
+
             if (getParentActivity() == null || bottomChannelButtonsLayout.getVisibility() == View.VISIBLE &&
                     buttonTypeUrl == null && buttonTypeCopy == null &&
+                    url == null && buttonTypeCallback == null && buttonTypeSwitchInline == null && buttonTypeUserProfile == null &&
                     !TLKeyboardHelper.isType(button, TL_keyboard.TL_inlineButtonTypeSwitchInline.class) &&
                     !TLKeyboardHelper.isType(button, TL_keyboard.TL_inlineButtonTypeCallback.class) &&
                     !TLKeyboardHelper.isType(button, TL_keyboard.TL_inlineButtonTypeGame.class) &&
@@ -41021,7 +41027,34 @@ public class ChatActivity extends BaseFragment implements
                 openClickableLink(null, buttonTypeUrl.url, true, cell, cell.getMessageObject(), false);
                 return true;
             }
-            return false;
+            if (url != null) {
+                openClickableLink(null, url, true, cell, cell.getMessageObject(), false);
+            } else {
+                var builder = new BottomSheet.Builder(getParentActivity(), false, themeDelegate);
+                builder.setTitle(button.getText());
+                builder.setItems(new CharSequence[]{
+                        LocaleController.getString(R.string.Copy),
+                        buttonTypeCallback != null ? LocaleController.getString(R.string.CopyCallback) : null,
+                        buttonTypeSwitchInline != null ? LocaleController.getString(R.string.CopyInlineQuery) : null,
+                        buttonTypeUserProfile != null ? LocaleController.getString(R.string.CopyID) : null}, (dialog, which) -> {
+                    if (which == 0) {
+                        AndroidUtilities.addToClipboard(button.getText());
+                    } else if (which == 1) {
+                        AndroidUtilities.addToClipboard(getMessageHelper().getTextOrBase64(buttonTypeCallback.data));
+                    } else if (which == 2) {
+                        AndroidUtilities.addToClipboard(buttonTypeSwitchInline.query);
+                    } else if (which == 3) {
+                        AndroidUtilities.addToClipboard(String.valueOf(buttonTypeUserProfile.user_id));
+                    }
+                    createUndoView();
+                    if (undoView == null) {
+                        return;
+                    }
+                    undoView.showWithAction(0, UndoView.ACTION_TEXT_COPIED, null);
+                });
+                showDialog(builder.create());
+            }
+            return true;
         }
 
         @Override
