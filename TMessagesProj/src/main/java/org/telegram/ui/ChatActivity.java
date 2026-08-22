@@ -19620,6 +19620,18 @@ public class ChatActivity extends BaseFragment implements
                         setForwardParams(id == ForwardItem.ID_FORWARD_NOQUOTE, id == ForwardItem.ID_FORWARD_NOCAPTION);
                         openForward(true);
                     });
+                    forwardItem.setSubMenuDelegate(new ActionBarMenuItem.ActionBarSubMenuItemDelegate() {
+                        @Override
+                        public void onShowSubMenu() {
+                            updateScrimSourceBitmap();
+                        }
+
+                        @Override
+                        public void onHideSubMenu() {
+
+                        }
+                    });
+                    forwardItem.setBlurredBackgroundFactory(scrimBlur3Factory, BlurredBackgroundProviderImpl.messageMenuBackground(resourceProvider));
                 }
                 if (forwardNoQuoteItem != null) {
                     forwardNoQuoteItem.setIcon(new ForwardDrawable(ForwardItem.ID_FORWARD_NOQUOTE, false));
@@ -19637,6 +19649,7 @@ public class ChatActivity extends BaseFragment implements
                             ForwardItem.getLastForwardOptionTitle(hasCaption, true),
                             ForwardItem.getLastForwardOptionIcon(hasCaption)
                     );
+                    actionsButtonsLayout.setForwardButtonBlurredBackgroundFactory(scrimBlur3Factory, BlurredBackgroundProviderImpl.messageMenuBackground(resourceProvider), () -> updateScrimSourceBitmap());
                 }
                 if (prevCantForwardCount == 0 && cantForwardMessagesCount != 0 || prevCantForwardCount != 0 && cantForwardMessagesCount == 0) {
                     forwardButtonAnimation = new AnimatorSet();
