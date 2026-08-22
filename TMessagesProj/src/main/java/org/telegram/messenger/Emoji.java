@@ -845,6 +845,8 @@ public class Emoji {
         public float scale = 1f;
         public int size = AndroidUtilities.dp(20);
         public String emoji;
+        private boolean preserveFontMetrics;
+        private int minimumLineHeight;
 
         public EmojiSpan(Drawable d, int verticalAlignment, Paint.FontMetricsInt original) {
             super(d, verticalAlignment);
@@ -872,8 +874,24 @@ public class Emoji {
             }
         }
 
+        public EmojiSpan setPreserveFontMetrics(boolean preserveFontMetrics) {
+            this.preserveFontMetrics = preserveFontMetrics;
+            return this;
+        }
+
+        public EmojiSpan setMinimumLineHeight(int minimumLineHeight) {
+            this.minimumLineHeight = minimumLineHeight;
+            return this;
+        }
+
         @Override
         public int getSize(Paint paint, CharSequence text, int start, int end, Paint.FontMetricsInt fm) {
+            final boolean preserveMetrics = preserveFontMetrics && fm != null;
+            final int originalTop = preserveMetrics ? fm.top : 0;
+            final int originalAscent = preserveMetrics ? fm.ascent : 0;
+            final int originalDescent = preserveMetrics ? fm.descent : 0;
+            final int originalBottom = preserveMetrics ? fm.bottom : 0;
+            final int originalLeading = preserveMetrics ? fm.leading : 0;
             if (fm == null) {
                 fm = new Paint.FontMetricsInt();
             }
@@ -890,6 +908,14 @@ public class Emoji {
                 fm.leading = 0;
                 fm.descent = w - offset;
 
+                if (preserveMetrics) {
+                    fm.top = originalTop;
+                    fm.ascent = originalAscent;
+                    fm.descent = originalDescent;
+                    fm.bottom = originalBottom;
+                    fm.leading = originalLeading;
+                    expandFontMetrics(fm, minimumLineHeight);
+                }
                 return sz;
             } else {
                 if (fm != null) {
@@ -902,8 +928,30 @@ public class Emoji {
                 if (getDrawable() != null) {
                     getDrawable().setBounds(0, 0, scaledSize, scaledSize);
                 }
+                if (preserveMetrics) {
+                    fm.top = originalTop;
+                    fm.ascent = originalAscent;
+                    fm.descent = originalDescent;
+                    fm.bottom = originalBottom;
+                    fm.leading = originalLeading;
+                    expandFontMetrics(fm, minimumLineHeight);
+                }
                 return scaledSize;
             }
+        }
+
+        private static void expandFontMetrics(Paint.FontMetricsInt fm, int minimumHeight) {
+            final int currentHeight = fm.descent - fm.ascent;
+            if (minimumHeight <= currentHeight) {
+                return;
+            }
+            final int extra = minimumHeight - currentHeight;
+            final int above = (extra + 1) / 2;
+            final int below = extra - above;
+            fm.ascent -= above;
+            fm.descent += below;
+            fm.top = Math.min(fm.top, fm.ascent);
+            fm.bottom = Math.max(fm.bottom, fm.descent);
         }
 
         public boolean drawn;

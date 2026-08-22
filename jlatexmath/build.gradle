@@ -1,0 +1,21 @@
+plugins {
+    id 'com.android.library'
+}
+
+android {
+    namespace 'ru.noties.jlatexmath.android'
+
+    sourceSets {
+        main.java.srcDirs = ["../TMessagesProj/lib/jlatexmath/jlatexmath/src/main/java"]
+        main.assets.srcDirs = ["../TMessagesProj/lib/jlatexmath/jlatexmath/src/main/assets"]
+        main.res.srcDirs = ["../TMessagesProj/lib/jlatexmath/jlatexmath/src/main/res"]
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+}
+
+dependencies {
+    api 'androidx.annotation:annotation:1.10.0'
+}

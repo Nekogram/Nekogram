@@ -1,10 +1,24 @@
 import org.gradle.internal.os.OperatingSystem
+import org.telegram.lottie.LottieMetaTask
 import tw.nekomimi.nekogram.tlv.GenerateTlReadersTask
 
 import java.nio.file.Paths
 
 plugins {
     id 'com.android.library'
+    id 'idea'
+}
+
+idea {
+    module {
+        excludeDirs += [
+                file('jni/third_party'),
+                file('jni/ffmpeg'),
+                file('jni/tlottie'),
+                file('jni/boringssl'),
+                file('jni/sqlite')
+        ]
+    }
 }
 
 configurations.configureEach {
@@ -27,6 +41,7 @@ dependencies {
 
     implementation 'com.google.android.gms:play-services-cast-framework:22.3.1'
     implementation 'androidx.mediarouter:mediarouter:1.8.1'
+    implementation 'com.google.zxing:core:3.5.4'
 
     implementation 'androidx.car.app:app:1.7.0'
     implementation 'androidx.car.app:app-projected:1.7.0'
@@ -66,7 +81,10 @@ dependencies {
     implementation "io.noties.markwon:ext-tables:4.6.2"
     implementation "io.noties.markwon:html:4.6.2"
     implementation "io.noties.markwon:inline-parser:4.6.2"
-    implementation "io.noties.markwon:ext-latex:4.6.2"
+    implementation("io.noties.markwon:ext-latex:4.6.2") {
+        exclude group: 'ru.noties', module: 'jlatexmath-android'
+    }
+    api project(':jlatexmath')
 
 //    implementation 'com.google.mlkit:translate:17.0.3'
 
@@ -173,6 +191,22 @@ androidComponents {
                 outputFile = "tw/nekomimi/nekogram/tlv/TlReaders.java"
             }
             javaSource.addGeneratedSourceDirectory(task, GenerateTlReadersTask::getOutputFolder)
+            def suffix = variant.name.capitalize()
+            def generateTask = tasks.register("generate${suffix}LottieMeta", LottieMetaTask) {
+                setClassName("ResLottieMeta")
+                setPackageName(variant.namespace)
+                setRPackage(variant.namespace)
+                if (variant.sources.res != null) {
+                    rawResources.from(
+                            variant.sources.res.all.map { layers ->
+                                layers.flatten().collect { dir ->
+                                    dir.asFileTree.matching { include("raw*/**/*.json") }
+                                }
+                            }
+                    )
+                }
+            }
+            javaSource.addGeneratedSourceDirectory(generateTask, { it.outputDir })
         }
     }
 }

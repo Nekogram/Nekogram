@@ -23,6 +23,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
 import android.text.Editable;
+import android.util.AttributeSet;
 import android.view.DragEvent;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputConnection;
@@ -44,8 +45,8 @@ public class AppCompatEditText extends EditText implements OnReceiveContentViewB
 
     private final TextViewOnReceiveContentListener mDefaultOnReceiveContentListener;
 
-    public AppCompatEditText(@NonNull Context context) {
-        super(context);
+    public AppCompatEditText(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
+        super(context, attrs, defStyleAttr, defStyleRes);
         mDefaultOnReceiveContentListener = new TextViewOnReceiveContentListener();
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.VANILLA_ICE_CREAM) {
             setLocalePreferredLineHeightForMinimumUsed(false);

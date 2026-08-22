@@ -875,21 +875,13 @@ public class ConnectionsManager extends BaseController {
                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
                     FileLog.d("9. currentTask = mozilla");
                     currentTask = task;
-                } else if (second == 1) {
+                } else {
                     if (BuildVars.LOGS_ENABLED) {
                         FileLog.d("start google txt task");
                     }
                     GoogleDnsLoadTask task = new GoogleDnsLoadTask(currentAccount);
                     task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
                     FileLog.d("11. currentTask = dnstxt");
-                    currentTask = task;
-                } else {
-                    if (BuildVars.LOGS_ENABLED) {
-                        FileLog.d("start firebase task");
-                    }
-                    FirebaseTask task = new FirebaseTask(currentAccount);
-                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                    FileLog.d("12. currentTask = firebase");
                     currentTask = task;
                 }
             });
@@ -1463,52 +1455,6 @@ public class ConnectionsManager extends BaseController {
                     }
                 }
             });
-        }
-    }
-
-    private static class FirebaseTask extends AsyncTask<Void, Void, NativeByteBuffer> {
-
-        private int currentAccount;
-
-        public FirebaseTask(int instance) {
-            super();
-            currentAccount = instance;
-        }
-
-        protected NativeByteBuffer doInBackground(Void... voids) {
-            try {
-                if (native_isTestBackend(currentAccount) != 0) {
-                    throw new Exception("test backend");
-                }
-                Utilities.stageQueue.postRunnable(() -> {
-                    if (BuildVars.LOGS_ENABLED) {
-                        FileLog.d("failed to get firebase result 2");
-                        FileLog.d("start dns txt task");
-                    }
-                    GoogleDnsLoadTask task = new GoogleDnsLoadTask(currentAccount);
-                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                    FileLog.d("7. currentTask = GoogleDnsLoadTask");
-                    currentTask = task;
-                });
-            } catch (Throwable e) {
-                Utilities.stageQueue.postRunnable(() -> {
-                    if (BuildVars.LOGS_ENABLED) {
-                        FileLog.d("failed to get firebase result");
-                        FileLog.d("start dns txt task");
-                    }
-                    GoogleDnsLoadTask task = new GoogleDnsLoadTask(currentAccount);
-                    task.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, null, null, null);
-                    FileLog.d("8. currentTask = GoogleDnsLoadTask");
-                    currentTask = task;
-                });
-                FileLog.e(e, false);
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(NativeByteBuffer result) {
-
         }
     }
 

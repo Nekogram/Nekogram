@@ -77,8 +77,8 @@ public interface INavigationLayout {
     void startActivityForResult(Intent intent, int requestCode);
 
     // TODO: Migrate them to be out of navigation layout
-    Theme.MessageDrawable getMessageDrawableOutStart();
-    Theme.MessageDrawable getMessageDrawableOutMediaStart();
+    MessageDrawable getMessageDrawableOutStart();
+    MessageDrawable getMessageDrawableOutMediaStart();
 
     // TODO: Make something like FieldsContainer and put them there?
     List<BackButtonMenu.PulledDialog> getPulledDialogs();

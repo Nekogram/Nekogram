@@ -27,7 +27,6 @@ import com.android.billingclient.api.PurchasesUpdatedListener;
 import com.android.billingclient.api.QueryProductDetailsParams;
 import com.google.common.collect.ImmutableList;
 import com.google.zxing.EncodeHintType;
-import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
 import org.telegram.messenger.AndroidUtilities;
@@ -35,6 +34,7 @@ import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
+import org.telegram.messenger.TelegramQRCodeWriter;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.BottomSheet;
@@ -315,7 +315,7 @@ public class NekoDonateActivity extends BaseNekoSettingsActivity implements Purc
                 HashMap<EncodeHintType, Object> hints = new HashMap<>();
                 hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.M);
                 hints.put(EncodeHintType.MARGIN, 0);
-                var writer = new QRCodeWriter();
+                var writer = new TelegramQRCodeWriter();
                 return writer.encode(key, 768, 768, hints, null, 1.0f, 0xffffffff, 0xff000000, false);
             } catch (Exception e) {
                 FileLog.e(e);
