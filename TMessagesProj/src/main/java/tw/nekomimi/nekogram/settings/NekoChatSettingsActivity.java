@@ -11,6 +11,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,7 +20,6 @@ import androidx.core.graphics.ColorUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
-import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.RadioColorCell;
@@ -30,6 +30,7 @@ import org.telegram.ui.Components.AnimatedTextView;
 import org.telegram.ui.Components.CubicBezierInterpolator;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.RecyclerListView;
+import org.telegram.ui.Components.ScaleStateListAnimator;
 import org.telegram.ui.Components.SeekBarView;
 import org.telegram.ui.Components.UItem;
 import org.telegram.ui.Components.UniversalAdapter;
@@ -44,9 +45,8 @@ import tw.nekomimi.nekogram.helpers.WhisperHelper;
 
 public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
 
-    private ActionBarMenuItem resetItem;
-
     private final int stickerSizeRow = rowId++;
+    private final int stickerPreviewRow = rowId++;
     private final int hideTimeOnStickerRow = rowId++;
     private final int showTimeHintRow = rowId++;
     private final int reducedColorsRow = rowId++;
@@ -80,38 +80,6 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
 
     private final int messageMenuRow = 100;
 
-    @Override
-    public View createView(Context context) {
-        var fragmentView = super.createView(context);
-
-        var menu = actionBar.createMenu();
-        resetItem = menu.addItem(0, R.drawable.msg_reset);
-        resetItem.setContentDescription(LocaleController.getString(R.string.ResetStickerSize));
-        resetItem.setTag(null);
-        resetItem.setOnClickListener(v -> {
-            AndroidUtilities.updateViewVisibilityAnimated(resetItem, false, 0.5f, true);
-            var item = listView.findItemByItemId(stickerSizeRow);
-            var stickerCell = (StickerSizeCell) listView.findViewByItemId(stickerSizeRow);
-            if (stickerCell != null) {
-                ValueAnimator animator = ValueAnimator.ofFloat(NekoConfig.stickerSize, 14.0f);
-                animator.setDuration(150);
-                animator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
-                animator.addUpdateListener(valueAnimator -> {
-                    var floatValue = (float) valueAnimator.getAnimatedValue();
-                    NekoConfig.setStickerSize(floatValue);
-                    stickerCell.setValue(floatValue);
-                });
-                animator.start();
-            } else {
-                NekoConfig.setStickerSize(14.0f);
-            }
-            item.floatValue = 14.0f;
-        });
-        AndroidUtilities.updateViewVisibilityAnimated(resetItem, Float.compare(NekoConfig.stickerSize, 14.0f) != 0, 1f, false);
-
-        return fragmentView;
-    }
-
     public String getDoubleTapActionText(int action) {
         return switch (action) {
             case NekoConfig.DOUBLE_TAP_ACTION_REACTION ->
@@ -131,10 +99,9 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
         items.add(StickerSizeCellFactory.of(stickerSizeRow, LocaleController.getString(R.string.StickerSize), NekoConfig.stickerSize, progress -> {
             NekoConfig.setStickerSize(progress);
-            if (progress != 14.0f && resetItem.getVisibility() != View.VISIBLE) {
-                AndroidUtilities.updateViewVisibilityAnimated(resetItem, true, 0.5f, true);
-            }
+            updateStickerCell();
         }).slug("stickerSize"));
+        items.add(StickerPreviewCellFactory.of(stickerPreviewRow));
         items.add(UItem.asCheck(hideTimeOnStickerRow, LocaleController.getString(R.string.HideTimeOnSticker)).slug("hideTimeOnSticker").setChecked(NekoConfig.hideTimeOnSticker));
         items.add(UItem.asCheck(showTimeHintRow, LocaleController.getString(R.string.ShowTimeHint), LocaleController.getString(R.string.ShowTimeHintDesc)).slug("showTimeHint").setChecked(NekoConfig.showTimeHint));
         items.add(UItem.asCheck(reducedColorsRow, LocaleController.getString(R.string.ReducedColors)).slug("reducedColors").setChecked(NekoConfig.reducedColors));
@@ -415,8 +382,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.hideTimeOnSticker);
             }
-            var stickerCell = listView.findViewByItemId(stickerSizeRow);
-            if (stickerCell != null) stickerCell.invalidate();
+            updateStickerCell();
         } else if (id == markdownParserRow) {
             ArrayList<String> arrayList = new ArrayList<>();
             arrayList.add("Nekogram");
@@ -452,8 +418,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
             if (view instanceof TextCheckCell) {
                 ((TextCheckCell) view).setChecked(NekoConfig.reducedColors);
             }
-            var stickerCell = listView.findViewByItemId(stickerSizeRow);
-            stickerCell.invalidate();
+            updateStickerCell();
         } else if (id == showTimeHintRow) {
             NekoConfig.toggleShowTimeHint();
             if (view instanceof TextCheckCell) {
@@ -497,6 +462,43 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
         return "c";
     }
 
+    private void updateStickerCell() {
+        var previewCell = listView.findViewByItemId(stickerPreviewRow);
+        if (previewCell != null) {
+            previewCell.invalidate();
+        }
+    }
+
+    private static class StickerPreviewCellFactory extends UItem.UItemFactory<StickerSizePreviewMessagesCell> {
+        static {
+            setup(new StickerPreviewCellFactory());
+        }
+
+        @Override
+        public StickerSizePreviewMessagesCell createView(Context context, RecyclerListView listView, int currentAccount, int classGuid, Theme.ResourcesProvider resourcesProvider) {
+            return new StickerSizePreviewMessagesCell(context, resourcesProvider);
+        }
+
+        @Override
+        public void bindView(View view, UItem item, boolean divider, UniversalAdapter adapter, UniversalRecyclerView listView) {
+            var messagesCell = (StickerSizePreviewMessagesCell) view;
+            var frameLayout = (FrameLayout) listView.getParent();
+            messagesCell.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
+            messagesCell.setFragmentView(frameLayout);
+        }
+
+        public static UItem of(int id) {
+            var item = UItem.ofFactory(StickerPreviewCellFactory.class);
+            item.id = id;
+            return item;
+        }
+
+        @Override
+        public boolean isClickable() {
+            return false;
+        }
+    }
+
     private static class StickerSizeCellFactory extends UItem.UItemFactory<StickerSizeCell> {
         static {
             setup(new StickerSizeCellFactory());
@@ -504,16 +506,19 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
 
         @Override
         public StickerSizeCell createView(Context context, RecyclerListView listView, int currentAccount, int classGuid, Theme.ResourcesProvider resourcesProvider) {
-            return new StickerSizeCell(context, resourcesProvider);
+            return new StickerSizeCell(context, 14.0f, resourcesProvider);
         }
 
         @Override
         public void bindView(View view, UItem item, boolean divider, UniversalAdapter adapter, UniversalRecyclerView listView) {
             var cell = (StickerSizeCell) view;
-            var frameLayout = (FrameLayout) listView.getParent();
-            cell.setFragmentView(frameLayout);
             cell.setValue(item.floatValue);
-            cell.setOnDragListener((AltSeekbar.OnDrag) item.object);
+            cell.setOnDragListener(progress -> {
+                item.floatValue = progress;
+                if (item.object instanceof AltSeekbar.OnDrag) {
+                    ((AltSeekbar.OnDrag) item.object).run(progress);
+                }
+            });
         }
 
         public static UItem of(int id, String title, float value, AltSeekbar.OnDrag onDrag) {
@@ -531,47 +536,58 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
         }
     }
 
-    private static class StickerSizeCell extends FrameLayout {
+    private static class StickerSizeCell extends FrameLayout implements AltSeekbar.OnDrag {
 
-        private final StickerSizePreviewMessagesCell messagesCell;
+        private final float defaultValue;
         private final AltSeekbar sizeBar;
+        private final ImageView resetButton;
 
         private AltSeekbar.OnDrag onDrag;
 
-        public StickerSizeCell(Context context, Theme.ResourcesProvider resourcesProvider) {
+        public StickerSizeCell(Context context, float defaultValue, Theme.ResourcesProvider resourcesProvider) {
             super(context);
 
-            setWillNotDraw(false);
+            this.defaultValue = defaultValue;
 
-            sizeBar = new AltSeekbar(context, progress -> {
-                setValue(progress);
-                if (onDrag != null) onDrag.run(progress);
-            }, 2, 20, LocaleController.getString(R.string.StickerSize), LocaleController.getString(R.string.StickerSizeLeft), LocaleController.getString(R.string.StickerSizeRight), resourcesProvider);
-            sizeBar.setValue(NekoConfig.stickerSize);
+            sizeBar = new AltSeekbar(context, this, 2, 20, LocaleController.getString(R.string.StickerSize), LocaleController.getString(R.string.StickerSizeLeft), LocaleController.getString(R.string.StickerSizeRight), resourcesProvider);
             addView(sizeBar, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
-            messagesCell = new StickerSizePreviewMessagesCell(context, resourcesProvider);
-            messagesCell.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO_HIDE_DESCENDANTS);
-            addView(messagesCell, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.TOP, 0, 112, 0, 0));
+            resetButton = new ImageView(context);
+            resetButton.setContentDescription(LocaleController.getString(R.string.Reset));
+            resetButton.setImageResource(R.drawable.msg_reset);
+            resetButton.setColorFilter(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider));
+            resetButton.setScaleType(ImageView.ScaleType.FIT_XY);
+            resetButton.setPadding(AndroidUtilities.dp(7), AndroidUtilities.dp(7), AndroidUtilities.dp(7), AndroidUtilities.dp(7));
+            resetButton.setBackground(Theme.AdaptiveRipple.createRect(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider), Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider), .1f), 16));
+            resetButton.setOnClickListener(v -> {
+                AndroidUtilities.updateViewVisibilityAnimated(resetButton, false, 0.5f, true);
+                var animator = ValueAnimator.ofFloat(sizeBar.currentValue, defaultValue);
+                animator.setDuration(150);
+                animator.setInterpolator(CubicBezierInterpolator.EASE_OUT_QUINT);
+                animator.addUpdateListener(valueAnimator -> {
+                    var floatValue = (float) valueAnimator.getAnimatedValue();
+                    if (onDrag != null) onDrag.run(floatValue);
+                    sizeBar.setValue(floatValue);
+                });
+                animator.start();
+            });
+            ScaleStateListAnimator.apply(resetButton);
+            addView(resetButton, LayoutHelper.createFrame(40 - 7, 40 - 7, Gravity.TOP | (LocaleController.isRTL ? Gravity.LEFT : Gravity.RIGHT), 11, 7, 11, 0));
         }
 
         public void setOnDragListener(AltSeekbar.OnDrag onDrag) {
             this.onDrag = onDrag;
         }
 
-        public void setFragmentView(FrameLayout fragmentView) {
-            messagesCell.setFragmentView(fragmentView);
-        }
-
         public void setValue(float value) {
             sizeBar.setValue(value);
-            messagesCell.invalidate();
+            AndroidUtilities.updateViewVisibilityAnimated(resetButton, Float.compare(value, defaultValue) != 0, 0.5f, false);
         }
 
         @Override
-        public void invalidate() {
-            super.invalidate();
-            messagesCell.invalidate();
+        public void run(float progress) {
+            if (onDrag != null) onDrag.run(progress);
+            AndroidUtilities.updateViewVisibilityAnimated(resetButton, Float.compare(progress, defaultValue) != 0, 0.5f, true);
         }
     }
 
@@ -599,15 +615,16 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
             this.max = max;
             this.min = min;
 
-            LinearLayout headerLayout = new LinearLayout(context);
+            var headerLayout = new LinearLayout(context);
             headerLayout.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
 
-            TextView headerTextView = new TextView(context);
-            headerTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
-            headerTextView.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
+            var headerTextView = new TextView(context);
+            headerTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+            headerTextView.setTypeface(AndroidUtilities.bold());
             headerTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider));
-            headerTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
+            headerTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.CENTER_VERTICAL);
             headerTextView.setText(title);
+            headerTextView.setMinHeight(AndroidUtilities.dp(40 - 7));
             headerLayout.addView(headerTextView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL));
 
             headerValue = new AnimatedTextView(context, false, true, true) {
@@ -628,7 +645,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
             headerValue.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlueHeader, resourcesProvider));
             headerLayout.addView(headerValue, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 17, Gravity.CENTER_VERTICAL, 6, 1, 0, 0));
 
-            addView(headerLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.FILL_HORIZONTAL, 21, 17, 21, 0));
+            addView(headerLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.FILL_HORIZONTAL, 18, 7, 18, 0));
 
             seekBarView = new SeekBarView(context, true, resourcesProvider);
             seekBarView.setReportChanges(true);
@@ -640,9 +657,9 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
                     updateText();
                 }
             });
-            addView(seekBarView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38 + 6, Gravity.TOP, 6, 68, 6, 0));
+            addView(seekBarView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 38 + 6, Gravity.TOP, 5, 68, 5, 0));
 
-            FrameLayout valuesView = new FrameLayout(context);
+            var valuesView = new FrameLayout(context);
 
             leftTextView = new TextView(context);
             leftTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
@@ -658,7 +675,7 @@ public class NekoChatSettingsActivity extends BaseNekoSettingsActivity {
             rightTextView.setText(right);
             valuesView.addView(rightTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.RIGHT | Gravity.CENTER_VERTICAL));
 
-            addView(valuesView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.FILL_HORIZONTAL, 21, 52, 21, 0));
+            addView(valuesView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.FILL_HORIZONTAL, 18, 52, 18, 0));
         }
 
         private void updateValues() {
