@@ -6863,12 +6863,17 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         }
         int index = filterTabsView.getTabsCount() - 1;
+        int tabIndex = 0;
         ArrayList<MessagesController.DialogFilter> filters = getMessagesController().getDialogFilters();
         for (int i = 0; i < filters.size(); ++i) {
+            if (NekoConfig.hideAllTab && filters.get(i).isDefault()) {
+                continue;
+            }
             if (filters.get(i).id == fid) {
-                index = i;
+                index = tabIndex;
                 break;
             }
+            tabIndex++;
         }
 
         FilterTabsView.Tab tab = filterTabsView.getTab(index);
