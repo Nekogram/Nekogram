@@ -290,6 +290,9 @@ public class MessageHelper extends BaseController {
         } else if (selectedObject.type == MessageObject.TYPE_ARTICLE) {
             messageObject = selectedObject;
         }
+        if (messageObject != null && messageObject.isEphemeral()) {
+            return null;
+        }
         if (messageObject != null && messageObject.translating) {
             return null;
         }
