@@ -5,6 +5,10 @@ plugins {
 
 gradlePlugin {
     plugins {
+        register("tlReaders") {
+            id = "tw.nekomimi.nekogram.tl-readers"
+            implementationClass = "tw.nekomimi.nekogram.tlv.GenerateTlReadersPlugin"
+        }
         register("lottiePreParser") {
             id = "org.telegram.lottie-meta"
             implementationClass = "org.telegram.lottie.LottieMetaPlugin"
@@ -35,7 +39,6 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 }
 
 dependencies {
-    implementation(gradleApi())
     compileOnly("com.android.tools.build:gradle:9.3.2")
 
     implementation("com.squareup.moshi:moshi:1.15.0")

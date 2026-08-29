@@ -3,6 +3,8 @@ package tw.nekomimi.nekogram.tlv
 import org.gradle.api.DefaultTask
 import org.gradle.api.GradleException
 import org.gradle.api.file.DirectoryProperty
+import org.gradle.api.file.RegularFileProperty
+import org.gradle.api.provider.Property
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputDirectory
 import org.gradle.api.tasks.InputFile
@@ -50,24 +52,24 @@ abstract class GenerateTlReadersTask : DefaultTask() {
     }
 
     @get:InputDirectory
-    var schemaDir: File = File("")
+    abstract val schemaDir: DirectoryProperty
 
     @get:InputFile
-    var tlrpcFile: File = File("")
+    abstract val tlrpcFile: RegularFileProperty
 
     @get:OutputFile
-    var outputFile: String = ""
+    abstract val outputFile: Property<String>
 
     @get:OutputDirectory
     abstract val outputFolder: DirectoryProperty
 
     @get:Input
-    var typesToAdd: List<String> = TYPES_TO_ADD
+    val typesToAdd: List<String> = TYPES_TO_ADD
 
     @TaskAction
     fun generate() {
-        val layer = readLayer(tlrpcFile)
-        val currentSchemaFile = File(schemaDir, "$layer.json")
+        val layer = readLayer(tlrpcFile.get().asFile)
+        val currentSchemaFile = File(schemaDir.get().asFile, "$layer.json")
         if (!currentSchemaFile.isFile) {
             throw GradleException("Schema file not found for layer $layer: ${currentSchemaFile.absolutePath}")
         }
@@ -87,7 +89,7 @@ abstract class GenerateTlReadersTask : DefaultTask() {
                 }
         }
 
-        val outputFile = outputFolder.get().file(outputFile).asFile
+        val outputFile = outputFolder.get().file(outputFile.get()).asFile
         outputFile.parentFile.mkdirs()
         outputFile.writeText(
             generateJavaReaders(
@@ -103,7 +105,7 @@ abstract class GenerateTlReadersTask : DefaultTask() {
     }
 
     private fun legacyFiles(currentLayer: Int): List<Pair<Int, File>> {
-        return schemaDir.listFiles()
+        return schemaDir.get().asFile.listFiles()
             .orEmpty()
             .mapNotNull { file ->
                 val layer = file.nameWithoutExtension.toIntOrNull() ?: return@mapNotNull null
