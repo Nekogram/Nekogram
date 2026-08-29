@@ -91,7 +91,7 @@ public class ReplyMessageLine {
                         emoji.detach();
                     }
                     if (sticker != null) {
-                        sticker.attach();
+                        sticker.detach();
                     }
                 }
             });
