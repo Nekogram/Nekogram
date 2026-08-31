@@ -369,10 +369,16 @@ public abstract class BaseNekoSettingsActivity extends BaseFragment {
         if (listView == null) return;
         var position = listView.findPositionByItemSlug(key);
         if (position != -1) {
-            listView.highlightRow(() -> {
-                var layoutManager = (LinearLayoutManager) listView.getLayoutManager();
-                layoutManager.scrollToPositionWithOffset(position, AndroidUtilities.dp(60));
-                return position;
+            var layoutManager = (LinearLayoutManager) listView.getLayoutManager();
+            layoutManager.scrollToPositionWithOffset(position, AndroidUtilities.dp(60));
+            listView.post(() -> {
+                if (listView == null) return;
+                var currentPosition = listView.findPositionByItemSlug(key);
+                if (currentPosition != -1) {
+                    listView.highlightRow(() -> currentPosition);
+                } else {
+                    unknown.run();
+                }
             });
         } else {
             unknown.run();
