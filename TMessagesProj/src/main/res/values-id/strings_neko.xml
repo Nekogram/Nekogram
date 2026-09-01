@@ -324,6 +324,11 @@
     <string name="AskCamera">Tanyakan Selalu</string>
     <string name="FrontCamera">Kamera Depan</string>
     <string name="RearCamera">Kamera Belakang</string>
+    <string name="GooeyAvatarAnimation">Animasi avatar \"Gooey\"</string>
+    <string name="JsonCopyKey">Salin kunci</string>
+    <string name="JsonCopyValue">Salin nilai</string>
+    <string name="LocalCustomEmoji">Emoji kustom lokal</string>
+    <string name="MiniSenderAvatar">Foto mini pengirim</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Pengaturan Aksesibilitas</string>
 </resources>

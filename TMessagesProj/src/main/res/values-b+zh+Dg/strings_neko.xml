@@ -330,6 +330,10 @@
     <string name="JsonCopyValue">复制值</string>
     <string name="LocalCustomEmoji">本地自定义表情符号</string>
     <string name="MiniSenderAvatar">发送者小头像</string>
+    <string name="ExternalStreamingProtocol">外部流式传输协议</string>
+    <string name="ExternalStreamingProtocolDescription">选择将未完成视频流式传输到外部播放器的方式。对于大多数现代播放器而言，“原生”模式效果最佳；如果视频出现卡顿或无法播放，请切换为 HTTP 模式。</string>
+    <string name="ExternalStreamingProtocolContentProvider">原生</string>
+    <string name="ExternalStreamingProtocolHttp">HTTP</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>

@@ -321,6 +321,19 @@
     <string name="TabsPositionTop">Сверху</string>
     <string name="TabsPositionBottom">Снизу</string>
     <string name="StrokeOnViews">Эффекты бликов</string>
+    <string name="CameraInVideoMessages">Камера в видео сообщениях</string>
+    <string name="AskCamera">Спрашивать каждый раз</string>
+    <string name="FrontCamera">Фронтальная камера</string>
+    <string name="RearCamera">Задняя камера</string>
+    <string name="GooeyAvatarAnimation">Анимация аватара \"Липкий\"</string>
+    <string name="JsonCopyKey">Копировать ключ</string>
+    <string name="JsonCopyValue">Копировать значение</string>
+    <string name="LocalCustomEmoji">Локальные пользовательские эмодзи</string>
+    <string name="MiniSenderAvatar">Телефотография отправителя</string>
+    <string name="ExternalStreamingProtocol">Внешний протокол потоковой передачи</string>
+    <string name="ExternalStreamingProtocolDescription">Выберите способ потоковой передачи незавершенных видеороликов на внешние плееры. Наивысший режим работает с большинством современных плееров; если видео зависит или не воспроизводится, переключитесь на HTTP.</string>
+    <string name="ExternalStreamingProtocolContentProvider">Внешний поставщик контента по протоколу потоковой передачи</string>
+    <string name="ExternalStreamingProtocolHttp">Внешний протокол потоковой передачи HTTP</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Настройки доступности</string>
 </resources>
