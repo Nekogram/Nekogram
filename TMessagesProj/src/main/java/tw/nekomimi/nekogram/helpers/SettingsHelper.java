@@ -87,8 +87,7 @@ public class SettingsHelper {
             row = uri.getQueryParameter("row");
         }
         if (!TextUtils.isEmpty(row)) {
-            var rowFinal = row;
-            AndroidUtilities.runOnUIThread(() -> fragment.scrollToRow(rowFinal, unknown));
+            fragment.scrollToRow(row, unknown);
         }
     }
 
