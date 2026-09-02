@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<animated-vector
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:drawable="@drawable/ft_avd_tooverflow" >
+    <target
+    android:name="rectangle_3"
+    android:animation="@anim/ft_avd_tooverflow_rectangle_3_animation" />
+    <target
+    android:name="rectangle_3_pivot"
+    android:animation="@anim/ft_avd_tooverflow_rectangle_3_pivot_animation" />
+    <target
+    android:name="rectangle_path_2"
+    android:animation="@anim/ft_avd_tooverflow_rectangle_path_2_animation" />
+    <target
+    android:name="rectangle_2"
+    android:animation="@anim/ft_avd_tooverflow_rectangle_2_animation" />
+    <target
+    android:name="rectangle_2_pivot"
+    android:animation="@anim/ft_avd_tooverflow_rectangle_2_pivot_animation" />
+    <target
+    android:name="rectangle_path_3"
+    android:animation="@anim/ft_avd_tooverflow_rectangle_path_3_animation" />
+    <target
+    android:name="rectangle_1"
+    android:animation="@anim/ft_avd_tooverflow_rectangle_1_animation" />
+    <target
+    android:name="rectangle_1_pivot"
+    android:animation="@anim/ft_avd_tooverflow_rectangle_1_pivot_animation" />
+    <target
+    android:name="rectangle_path_1"
+    android:animation="@anim/ft_avd_tooverflow_rectangle_path_1_animation" />
+</animated-vector>
