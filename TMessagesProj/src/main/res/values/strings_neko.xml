@@ -334,6 +334,10 @@
     <string name="JsonCopyValue">Copy Value</string>
     <string name="LocalCustomEmoji">Local custom emoji</string>
     <string name="MiniSenderAvatar">Sender mini photo</string>
+    <string name="ExternalStreamingProtocol">External streaming protocol</string>
+    <string name="ExternalStreamingProtocolDescription">Choose how uncompleted videos are streamed to external players. Native works best with most modern players, switch to HTTP if videos freeze or fail to play.</string>
+    <string name="ExternalStreamingProtocolContentProvider">Native</string>
+    <string name="ExternalStreamingProtocolHttp">HTTP</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

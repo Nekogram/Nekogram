@@ -46999,7 +46999,7 @@ public class ChatActivity extends BaseFragment implements
                                     icons.add(R.drawable.msg_addbot);
                                 }
                             }
-                        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && NekoConfig.showOpenIn && selectedObject.isVideo() && !noforwardsOrPaidMedia && !selectedObject.hasRevealedExtendedMedia() && !selectedObject.needDrawBluredPreview()) {
+                        } else if (NekoConfig.showOpenIn && selectedObject.isVideo() && !noforwardsOrPaidMedia && !selectedObject.hasRevealedExtendedMedia() && !selectedObject.needDrawBluredPreview()) {
                             items.add(LocaleController.getString(R.string.OpenInExternalApp));
                             options.add(OPTION_OPEN_IN);
                             icons.add(R.drawable.msg_openin);
@@ -47034,7 +47034,7 @@ public class ChatActivity extends BaseFragment implements
                                 items.add(LocaleController.getString(R.string.ShareFile));
                                 options.add(OPTION_SHARE);
                                 icons.add(R.drawable.msg_shareout);
-                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && NekoConfig.showOpenIn) {
+                                if (NekoConfig.showOpenIn) {
                                     items.add(LocaleController.getString(R.string.OpenInExternalApp));
                                     options.add(OPTION_OPEN_IN);
                                     icons.add(R.drawable.msg_openin);
@@ -47124,7 +47124,7 @@ public class ChatActivity extends BaseFragment implements
                         items.add(LocaleController.getString(R.string.ShareFile));
                         options.add(OPTION_SHARE);
                         icons.add(R.drawable.msg_shareout);
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && NekoConfig.showOpenIn && selectedObject.isVideo()) {
+                        if (NekoConfig.showOpenIn && selectedObject.isVideo()) {
                             items.add(LocaleController.getString(R.string.OpenInExternalApp));
                             options.add(OPTION_OPEN_IN);
                             icons.add(R.drawable.msg_openin);
