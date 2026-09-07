@@ -9816,15 +9816,21 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         return undoView;
     }
 
-    public boolean onBackPressed() {
-        if (closeSheet()) {
+    @Override
+    public boolean onBackPressed(boolean invoked) {
+        if (hasShownSheet()) {
+            if (invoked) closeSheet();
             return false;
         }
         if (sharedMediaLayout != null && sharedMediaLayout.scrollSlidingTextTabStrip != null && sharedMediaLayout.scrollSlidingTextTabStrip.isReordering()) {
-            stopTabsReorder();
+            if (invoked) stopTabsReorder();
             return false;
         }
-        return actionBar.isEnabled() && (sharedMediaRow == -1 || sharedMediaLayout == null || !sharedMediaLayout.closeActionMode());
+        if (sharedMediaLayout != null && sharedMediaLayout.isActionModeShown()) {
+            if (invoked) sharedMediaLayout.closeActionMode();
+            return false;
+        }
+        return true;
     }
 
     public boolean isSettings() {
