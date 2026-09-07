@@ -1284,6 +1284,32 @@ public class ProfileActionsView extends View {
         }
     }
 
+    @Override
+    protected boolean dispatchHoverEvent(MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_HOVER_ENTER || event.getAction() == MotionEvent.ACTION_HOVER_MOVE) {
+            var x = event.getX();
+            var y = event.getY();
+            Action button = null;
+            for (var action : actions) {
+                if (action.rect.contains(x, y)) {
+                    button = action;
+                    break;
+                }
+            }
+            if (button == null) return false;
+            if (AndroidUtilities.isAccessibilityTouchExplorationEnabled()) {
+                AccessibilityEvent e = AccessibilityEvent.obtain(AccessibilityEvent.TYPE_VIEW_ACCESSIBILITY_FOCUSED);
+                e.setPackageName(getContext().getPackageName());
+                e.setSource(this, button.key);
+                if (getParent() != null) {
+                    getParent().requestSendAccessibilityEvent(this, e);
+                }
+                return true;
+            }
+        }
+        return super.dispatchHoverEvent(event);
+    }
+
     private AccessibilityNodeProvider accessibilityNodeProvider;
     @Override
     public AccessibilityNodeProvider getAccessibilityNodeProvider() {

@@ -1411,6 +1411,7 @@ public class StoryCaptionView extends NestedScrollView implements ItemOptions.Sc
                 invalidate();
                 updateT = 0;
             }
+            setContentDescription(text);
         }
 
         public float updateT;

@@ -100,6 +100,7 @@ public class CaptionPhotoViewer extends CaptionContainerView {
         addPhotoButton.setScaleType(ImageView.ScaleType.CENTER);
         addPhotoButton.setColorFilter(new PorterDuffColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN));
         addPhotoButton.setBackground(Theme.createSelectorDrawable(Theme.ACTION_BAR_WHITE_SELECTOR_COLOR, RIPPLE_MASK_CIRCLE_20DP, dp(18)));
+        addPhotoButton.setContentDescription(LocaleController.getString(R.string.Add));
         setAddPhotoVisible(false, false);
         addView(addPhotoButton, LayoutHelper.createFrame(44, 44, Gravity.LEFT | (isAtTop() ? Gravity.TOP : Gravity.BOTTOM), 14, isAtTop() ? 6 : 0, 0, isAtTop() ? 0 : 6));
 
@@ -107,6 +108,7 @@ public class CaptionPhotoViewer extends CaptionContainerView {
         timerButton.setImageDrawable(timerDrawable = new PeriodDrawable());
         timerButton.setBackground(Theme.createSelectorDrawable(Theme.ACTION_BAR_WHITE_SELECTOR_COLOR, RIPPLE_MASK_CIRCLE_20DP, dp(18)));
         timerButton.setScaleType(ImageView.ScaleType.CENTER);
+        timerButton.setContentDescription(LocaleController.getString(R.string.SetTimer));
         setTimerVisible(false, false);
         addView(timerButton, LayoutHelper.createFrame(44, 44, Gravity.RIGHT | (isAtTop() ? Gravity.TOP : Gravity.BOTTOM), 0, isAtTop() ? 6 : 0, 10, isAtTop() ? 0 : 6));
 

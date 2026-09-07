@@ -3857,7 +3857,7 @@ public class ChatActivityEnterView extends FrameLayout implements
             }
             delegate.didPressSuggestionButton();
         });
-        suggestButton.setContentDescription(getString(R.string.AccDescrAttachButton));
+        suggestButton.setContentDescription(getString(R.string.PostSuggestionsOfferTitle));
     }
 
     private boolean suggestButtonVisible;

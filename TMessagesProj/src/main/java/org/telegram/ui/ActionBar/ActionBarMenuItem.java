@@ -1285,11 +1285,11 @@ public class ActionBarMenuItem extends FrameLayout {
 
     public void setSearchFieldHint(CharSequence hint) {
         searchFieldHint = hint;
+        setContentDescription(hint);
         if (searchFieldCaption == null) {
             return;
         }
         searchField.setHint(hint);
-        setContentDescription(hint);
     }
 
     public void setSearchFieldText(CharSequence text, boolean animated) {

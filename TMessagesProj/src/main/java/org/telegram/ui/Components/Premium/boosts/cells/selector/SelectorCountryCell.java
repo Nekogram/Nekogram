@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.text.style.ReplacementSpan;
 import android.view.Gravity;
 import android.view.View;
+import android.view.accessibility.AccessibilityNodeInfo;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -126,6 +127,16 @@ public class SelectorCountryCell extends BaseCell {
     @Override
     protected boolean needCheck() {
         return true;
+    }
+
+    @Override
+    public void onInitializeAccessibilityNodeInfo(AccessibilityNodeInfo info) {
+        super.onInitializeAccessibilityNodeInfo(info);
+        if (checkBox.getVisibility() == View.VISIBLE) {
+            info.setClassName("android.widget.CheckBox");
+            info.setCheckable(true);
+            info.setChecked(checkBox.isChecked());
+        }
     }
 
     private static class SpaceDrawable extends ReplacementSpan {

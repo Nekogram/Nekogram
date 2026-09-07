@@ -1844,6 +1844,8 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
                     info.setText(LocaleController.getString(R.string.AccDescrCustomEmoji));
                     info.setEnabled(true);
                 }
+                info.setCheckable(true);
+                info.setChecked(selected);
             }
         }
 

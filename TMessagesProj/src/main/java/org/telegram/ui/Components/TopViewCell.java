@@ -39,6 +39,7 @@ public class TopViewCell extends LinearLayout implements Theme.Colorable {
         imageView.setOnClickListener(v -> {
             imageView.getImageReceiver().startAnimation();
         });
+        imageView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);
         addView(imageView, LayoutHelper.createLinear(90, 90, Gravity.CENTER, 0, 9, 0, 9));
 
         titleView = new LinkSpanDrawable.LinksTextView(context);
