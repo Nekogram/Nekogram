@@ -26,6 +26,7 @@ import android.view.WindowManager;
 import android.view.animation.Interpolator;
 import android.view.animation.OvershootInterpolator;
 import android.widget.FrameLayout;
+import android.window.OnBackInvokedDispatcher;
 
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
@@ -153,6 +154,12 @@ public class AvatarPreviewer {
             windowManager.addView(layout, params);
             parentContainer.requestDisallowInterceptTouchEvent(true);
             visible = true;
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            var dispatcher = layout.findOnBackInvokedDispatcher();
+            if (dispatcher != null) {
+                dispatcher.registerOnBackInvokedCallback(OnBackInvokedDispatcher.PRIORITY_DEFAULT, this::close);
+            }
         }
     }
 
