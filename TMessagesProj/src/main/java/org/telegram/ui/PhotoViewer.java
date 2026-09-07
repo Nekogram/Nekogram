@@ -8898,6 +8898,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 onLinkLongPress.run(span, this, this::clearLinks);
             };
             this.textSelectionHelper = textSelectionHelper;
+            textSelectionHelper.setScrollingParent(scrollView);
             ViewHelper.setPadding(this, 16, 8, 16, 8);
             setLinkTextColor(0xff79c4fc);
             setTextColor(0xffffffff);
@@ -9047,6 +9048,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         @Override
         protected boolean verifyDrawable(@NonNull Drawable who) {
             return who == loadingDrawable || super.verifyDrawable(who);
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            if (textSelectionHelper != null && getStaticTextLayout() != null) {
+                textSelectionHelper.setSelectabeleView(this);
+                textSelectionHelper.update(getPaddingLeft(), getPaddingTop());
+                return textSelectionHelper.onTouchEvent(event);
+            }
+            return super.onTouchEvent(event);
         }
     }
 
@@ -17620,6 +17631,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     dispatcher.registerOnBackInvokedCallback(
                         OnBackInvokedDispatcher.PRIORITY_DEFAULT,
                         () -> {
+                            if (textSelectionHelper.isInSelectionMode()) {
+                                textSelectionHelper.clear();
+                            }
                             if (isCaptionOpen()) {
                                 closeCaptionEnter(true);
                                 return;
