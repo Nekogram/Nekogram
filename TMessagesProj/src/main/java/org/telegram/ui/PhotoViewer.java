@@ -16512,6 +16512,21 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
+    private boolean parentHwLayerEnabled;
+    private void setParentHwLayerEnabled(boolean enabled) {
+        if (parentHwLayerEnabled != enabled) {
+            parentHwLayerEnabled = enabled;
+            if (parentFragment != null && parentFragment.getFragmentView() != null) {
+                View view = parentFragment.getFragmentView();
+                view.setLayerType(enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE, null);
+                if (parentAlert != null) {
+                    view = parentAlert.getContainer();
+                    view.setLayerType(enabled ? View.LAYER_TYPE_HARDWARE : View.LAYER_TYPE_NONE, null);
+                }
+            }
+        }
+    }
+
     private void checkProgress(int a, boolean scroll, boolean animated) {
         int index = currentIndex;
         if (a == 1) {
@@ -19643,6 +19658,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             if (!LiteMode.isEnabled(LiteMode.FLAG_CHAT_SCALE)) {
                 scale = 1f;
             }
+            setParentHwLayerEnabled(Math.abs(scale - 1f) > 0.0001f);
             View view = parentFragment.getFragmentView();
             /*if (AndroidUtilities.isTablet() && parentFragment.getParentActivity() instanceof LaunchActivity) {
                 LaunchActivity activity = (LaunchActivity) parentFragment.getParentActivity();
