@@ -17605,6 +17605,10 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     dispatcher.registerOnBackInvokedCallback(
                         OnBackInvokedDispatcher.PRIORITY_DEFAULT,
                         () -> {
+                            if (isCaptionOpen()) {
+                                closeCaptionEnter(true);
+                                return;
+                            }
                             if (parentActivity instanceof LaunchActivity) {
                                 ((LaunchActivity) parentActivity).onBackPressed();
                             } else {
