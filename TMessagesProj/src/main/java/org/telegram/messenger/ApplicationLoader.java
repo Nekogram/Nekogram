@@ -53,6 +53,7 @@ import tw.nekomimi.nekogram.FirebaseFix;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.AnalyticsHelper;
 import tw.nekomimi.nekogram.helpers.ComponentsHelper;
+import tw.nekomimi.nekogram.helpers.CronetHelper;
 
 public class ApplicationLoader extends Application {
 
@@ -304,6 +305,7 @@ public class ApplicationLoader extends Application {
         final String helloWorld = AndroidUtilities.getHelloWorld();
         AnalyticsHelper.start(this);
         ComponentsHelper.fixComponents(this);
+        CronetHelper.init(this);
 
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d(helloWorld);
