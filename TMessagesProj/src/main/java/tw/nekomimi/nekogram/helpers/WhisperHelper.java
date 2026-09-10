@@ -243,7 +243,7 @@ public class WhisperHelper {
             }
             var payload = new WhisperRequest();
             payload.audio = Base64.encodeToString(audio, Base64.NO_WRAP);
-            payload.vadFilter = false;
+            payload.vadFilter = true;
             var client = getOkHttpClient();
             var request = new Request.Builder()
                     .url("https://api.cloudflare.com/client/v4/accounts/" + NekoConfig.cfAccountID + "/ai/run/@cf/openai/whisper-large-v3-turbo")
