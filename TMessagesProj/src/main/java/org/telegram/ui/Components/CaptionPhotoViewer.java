@@ -172,9 +172,6 @@ public class CaptionPhotoViewer extends CaptionContainerView {
                 String text;
                 if (value == -1) {
                     text = getString(R.string.AutoDeleteCustom);
-                    if (Arrays.stream(values).noneMatch(v -> v == this.timer)) {
-                        timerPopup.putCheck();
-                    }
                 } else if (value == 0) {
                     text = getString(R.string.TimerPeriodDoNotDelete);
                 } else if (value == SHOW_ONCE) {
@@ -185,6 +182,10 @@ public class CaptionPhotoViewer extends CaptionContainerView {
                 timerPopup.add(0, text, () -> changeTimer(value));
                 if (this.timer == value) {
                     timerPopup.putCheck();
+                } else if (value == -1) {
+                    if (Arrays.stream(values).noneMatch(v -> v == this.timer)) {
+                        timerPopup.putCheck();
+                    }
                 }
             }
             timerPopup.show();
