@@ -7,6 +7,7 @@ import android.util.Base64;
 
 import com.google.gson.Gson;
 import com.google.gson.annotations.SerializedName;
+import com.google.net.cronet.okhttptransport.CronetInterceptor;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
@@ -28,6 +29,7 @@ import app.nekogram.translator.DeepLTranslator;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import tw.nekomimi.nekogram.helpers.CronetHelper;
 import tw.nekomimi.nekogram.translator.Translator;
 
 @SuppressWarnings("UnnecessaryUnicodeEscape")
@@ -63,6 +65,9 @@ public class DeepLOAuth {
             newBuilder.header("user-agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/150.0.0.0 Safari/537.36");
             return chain.proceed(newBuilder.build());
         });
+        if (CronetHelper.isAvailable()) {
+            builder.addInterceptor(CronetInterceptor.newBuilder(CronetHelper.getEngine()).build());
+        }
         okHttpClient = builder.build();
     }
 
