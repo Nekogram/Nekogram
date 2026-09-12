@@ -426,13 +426,13 @@ public class ScrimOptions extends Dialog {
             boolean right = false;
             boolean bottom = false;
             if (!optionsAtCenter) {
-                if (boundsRight - optionsContainer.getMeasuredWidth() < dp(8)) {
+                if (boundsRight + dp(6) - optionsContainer.getMeasuredWidth() < dp(8)) {
                     optionsView.setPivotX(dp(6));
                     optionsContainer.setX(Math.min(containerView.getWidth() - optionsContainer.getWidth(), boundsLeft - dp(10)) - containerView.getX());
                 } else {
                     right = true;
                     optionsView.setPivotX(optionsView.getMeasuredWidth() - dp(6));
-                    optionsContainer.setX(Math.max(dp(8), boundsRight + dp(4) - optionsContainer.getMeasuredWidth()) - containerView.getX());
+                    optionsContainer.setX(Math.max(dp(8), boundsRight + dp(6) - optionsContainer.getMeasuredWidth()) - containerView.getX());
                 }
                 scrimDrawableTx1 = right ? optionsContainer.getX() + optionsContainer.getWidth() - dp(6) - boundsRight : optionsContainer.getX() + dp(10) - boundsLeft;
                 scrimDrawableTy1 = 0f;
