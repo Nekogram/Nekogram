@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Picture;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -20,12 +21,14 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
+import android.graphics.RenderNode;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Layout;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.StaticLayout;
+import android.text.TextUtils;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.ReplacementSpan;
 import android.view.View;
@@ -40,6 +43,7 @@ import androidx.core.math.MathUtils;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LiteMode;
+import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.Utilities;
 import org.telegram.messenger.utils.Choreographer60FpsContent;
@@ -77,6 +81,9 @@ public class SpoilerEffect extends Drawable {
     private static final float[][] particlePoints = new float[ALPHAS.length][MAX_PARTICLES_PER_ENTITY * 5];
     private final float[] particleRands = new float[RAND_REPEAT];
     private final int[] renderCount = new int[ALPHAS.length];
+
+    private static final WeakHashMap<Object, Picture> pictureCache = new WeakHashMap<>();
+    private static final WeakHashMap<Object, RenderNode> renderNodeCache = new WeakHashMap<>();
 
     private static final Path tempPath = new Path();
 
@@ -805,7 +812,7 @@ public class SpoilerEffect extends Drawable {
         }
         Layout pl = patchedLayoutRef.get();
 
-        if (pl == null || !textLayout.getText().toString().equals(pl.getText().toString()) || textLayout.getWidth() != pl.getWidth() || textLayout.getHeight() != pl.getHeight()) {
+        if (pl == null || !TextUtils.equals(textLayout.getText(), pl.getText()) || textLayout.getWidth() != pl.getWidth() || textLayout.getHeight() != pl.getHeight()) {
             SpannableStringBuilder sb = new SpannableStringBuilder(textLayout.getText());
             if (textLayout.getText() instanceof Spanned) {
                 Spanned sp = (Spanned) textLayout.getText();
@@ -837,15 +844,8 @@ public class SpoilerEffect extends Drawable {
             Layout layout;
             if (patchedLayoutType == 1) {
                 layout = new StaticLayout(sb, textLayout.getPaint(), textLayout.getWidth(), Layout.Alignment.ALIGN_CENTER, 1.0f, dp(1.66f), false);
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-                layout = StaticLayout.Builder.obtain(sb, 0, sb.length(), textLayout.getPaint(), textLayout.getWidth())
-                        .setBreakStrategy(StaticLayout.BREAK_STRATEGY_HIGH_QUALITY)
-                        .setHyphenationFrequency(StaticLayout.HYPHENATION_FREQUENCY_NONE)
-                        .setAlignment(textLayout.getAlignment())
-                        .setLineSpacing(textLayout.getSpacingAdd(), textLayout.getSpacingMultiplier())
-                        .build();
             } else {
-                layout = new StaticLayout(sb, textLayout.getPaint(), textLayout.getWidth(), textLayout.getAlignment(), textLayout.getSpacingMultiplier(), textLayout.getSpacingAdd(), false);
+                layout = MessageObject.makeStaticLayout(sb, textLayout.getPaint(), textLayout.getWidth(), textLayout.getSpacingMultiplier(), textLayout.getSpacingAdd(), false, textLayout.getAlignment());
             }
             patchedLayoutRef.set(pl = layout);
         }
@@ -853,7 +853,35 @@ public class SpoilerEffect extends Drawable {
         if (!spoilers.isEmpty()) {
             canvas.save();
             canvas.translate(0, verticalOffset);
-            pl.draw(canvas);
+            var height = textLayout.getHeight();
+            var width = textLayout.getWidth();
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && canvas.isHardwareAccelerated()) {
+                var renderNode = renderNodeCache.get(pl);
+                if (renderNode == null) {
+                    renderNode = new RenderNode("SpoilerEffectLayout");
+                    renderNodeCache.put(pl, renderNode);
+                }
+                var needUpdateDisplayList = !renderNode.hasDisplayList();
+                needUpdateDisplayList |= renderNode.setPosition(0, 0, width, height);
+                if (needUpdateDisplayList) {
+                    var recordingCanvas = renderNode.beginRecording(width, height);
+                    pl.draw(recordingCanvas);
+                    renderNode.endRecording();
+                }
+                canvas.drawRenderNode(renderNode);
+            } else {
+                var picture = pictureCache.get(pl);
+                if (picture == null) {
+                    picture = new Picture();
+                    pictureCache.put(pl, picture);
+                }
+                if (height != picture.getHeight() || width != picture.getWidth()) {
+                    var recordingCanvas = picture.beginRecording(width, height);
+                    pl.draw(recordingCanvas);
+                    picture.endRecording();
+                }
+                canvas.drawPicture(picture);
+            }
             canvas.restore();
         } else {
             layoutDrawMaybe(textLayout, canvas);
