@@ -59,7 +59,14 @@ public class Translator {
     public static final String TRANSLATION_SEPARATOR = "\n--------\n";
 
     private static final ListeningExecutorService executorService = MoreExecutors.listeningDecorator(Executors.newCachedThreadPool());
-    private static final LruCache<Pair<String, String>, TranslationResult> cache = new LruCache<>(200);
+    private static final LruCache<CacheKey, TranslationResult> cache = new LruCache<>(200);
+
+    private record CacheKey(String text, int entitiesHash, String target, String provider,
+                            boolean keepFormatting) {
+        public static CacheKey of(TLRPC.TL_textWithEntities query, String tl, String provider, boolean keepFormatting) {
+            return new CacheKey(query.text, query.entities != null ? query.entities.hashCode() : 0, tl, provider, keepFormatting);
+        }
+    }
 
     public static ListeningExecutorService getExecutorService() {
         return executorService;
@@ -134,23 +141,20 @@ public class Translator {
     }
 
     public static String stripLanguageCode(String language) {
-        if (language.contains("-")) {
-            return language.substring(0, language.indexOf("-"));
-        }
-        return language;
+        var index = language.indexOf('-');
+        return index != -1 ? language.substring(0, index) : language;
     }
 
     public static boolean isLanguageRestricted(String lang) {
-        if (lang == null || lang.equals("und")) {
+        if (lang == null || "und".equals(lang)) {
             return false;
         }
-        var restrictedLanguages = getRestrictedLanguages();
-        for (String language : restrictedLanguages) {
-            if (language.equals(lang)) {
-                return true;
-            }
+        var restricted = NekoConfig.restrictedLanguages;
+        if (restricted == null) {
+            return lang.equals(stripLanguageCode(getCurrentTargetLanguage()));
+        } else {
+            return restricted.contains(lang);
         }
-        return false;
     }
 
     public static ArrayList<String> getRestrictedLanguages() {
@@ -469,7 +473,7 @@ public class Translator {
 
         @Override
         public TranslationResult call() throws Exception {
-            var key = Pair.create(query.text, tl + "|" + NekoConfig.translationProvider);
+            var key = CacheKey.of(query, tl, NekoConfig.translationProvider, NekoConfig.keepFormatting);
             var cached = cache.get(key);
             if (cached != null) {
                 return cached;
