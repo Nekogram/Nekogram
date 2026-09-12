@@ -636,7 +636,7 @@ public class MessageHelper extends BaseController {
         MessageObject obj = new MessageObject(currentAccount, message, true, true);
         obj.messageBlocked = messageObject.messageBlocked;
         obj.translating = translating;
-        obj.manually = translating || translated;
+        obj.manually = translated;
 
         replaceMessagesObject(dialogId, obj);
     }

@@ -16821,7 +16821,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
         final TranslateController translateController = MessagesController.getInstance(currentAccount).getTranslateController();
         final boolean translating = currentMessageObject.translating || translateController.isTranslating(currentMessageObject);
-        final boolean shouldTranslate = currentMessageObject != null && TranslateController.isTranslatable(currentMessageObject, currentMessageObject.manually) && (translateController.isTranslatingDialog(currentMessageObject.getDialogId()) || currentMessageObject.manually);
+        final boolean shouldTranslate = currentMessageObject != null && TranslateController.isTranslatable(currentMessageObject, currentMessageObject.translating) && (translateController.isTranslatingDialog(currentMessageObject.getDialogId()) || currentMessageObject.translating);
         final boolean shouldSummarize = currentMessageObject != null && currentMessageObject.messageOwner.summarizedOpen;
         final boolean isFinal = shouldTranslate == (currentMessageObject != null && currentMessageObject.translated) && shouldSummarize == (currentMessageObject != null && currentMessageObject.summarized);
         if (origin == !isFinal) {
