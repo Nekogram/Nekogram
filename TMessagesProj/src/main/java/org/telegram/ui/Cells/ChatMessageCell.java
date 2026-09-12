@@ -6604,6 +6604,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             } else {
                 mediaSpoilerEffect2.attach(this);
             }
+        } else if (currentMessageObject.hasMediaSpoilers() && SpoilerEffect2.supports()) {
+            mediaSpoilerEffect2 = makeSpoilerEffect();
+            if (mediaSpoilerEffect2Index != null) {
+                mediaSpoilerEffect2.reassignAttach(this, mediaSpoilerEffect2Index);
+            }
         }
         if (channelRecommendationsCell != null) {
             channelRecommendationsCell.onAttachedToWindow();
