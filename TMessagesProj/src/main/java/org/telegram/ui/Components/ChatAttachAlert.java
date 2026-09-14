@@ -5361,7 +5361,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         currentSheetAnimation.setDuration(400);
         currentSheetAnimation.setStartDelay(20);
         currentSheetAnimation.setInterpolator(openInterpolator);
-        AnimationNotificationsLocker locker = new AnimationNotificationsLocker();
+        AnimationNotificationsLocker locker = new AnimationNotificationsLocker(new int[]{NotificationCenter.albumsDidLoad});
         BottomSheetDelegateInterface delegate = super.delegate;
         final Runnable onAnimationEnd = () -> {
             currentSheetAnimation = null;
