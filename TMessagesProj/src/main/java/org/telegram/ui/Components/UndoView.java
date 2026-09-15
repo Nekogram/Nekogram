@@ -467,6 +467,30 @@ public class UndoView extends FrameLayout {
     }
 
     public void showWithAction(ArrayList<Long> dialogIds, int action, Object infoObject, Object infoObject2, Runnable actionRunnable, Runnable cancelRunnable) {
+        if (parentFragment != null) {
+            var factory = BulletinFactory.of(parentFragment);
+            if (action == ACTION_MESSAGE_COPIED || action == ACTION_USERNAME_COPIED || action == ACTION_HASHTAG_COPIED || action == ACTION_TEXT_COPIED || action == ACTION_LINK_COPIED || action == ACTION_PHONE_COPIED || action == ACTION_EMAIL_COPIED) {
+                if (action == ACTION_LINK_COPIED) {
+                    factory.createCopyLinkBulletin().show();
+                } else if (action == ACTION_EMAIL_COPIED) {
+                    factory.createCopyBulletin(LocaleController.getString(R.string.EmailCopied)).show();
+                } else if (action == ACTION_PHONE_COPIED) {
+                    factory.createCopyBulletin(LocaleController.getString(R.string.PhoneCopied)).show();
+                } else if (action == ACTION_USERNAME_COPIED) {
+                    factory.createCopyBulletin(LocaleController.getString(R.string.UsernameCopied)).show();
+                } else if (action == ACTION_HASHTAG_COPIED) {
+                    factory.createCopyBulletin(LocaleController.getString(R.string.HashtagCopied)).show();
+                } else if (action == ACTION_MESSAGE_COPIED) {
+                    factory.createCopyBulletin(LocaleController.getString(R.string.MessageCopied)).show();
+                } else {
+                    factory.createCopyBulletin(LocaleController.getString(R.string.TextCopied)).show();
+                }
+                return;
+            } else if (action == ACTION_TEXT_INFO) {
+                factory.createErrorBulletin((CharSequence) infoObject).show();
+                return;
+            }
+        }
         if (!AndroidUtilities.shouldShowClipboardToast() && (currentAction == ACTION_MESSAGE_COPIED || currentAction == ACTION_USERNAME_COPIED || currentAction == ACTION_HASHTAG_COPIED || currentAction == ACTION_TEXT_COPIED || currentAction == ACTION_LINK_COPIED || currentAction == ACTION_PHONE_COPIED || currentAction == ACTION_EMAIL_COPIED || currentAction == ACTION_VOIP_LINK_COPIED)) {
             return;
         }

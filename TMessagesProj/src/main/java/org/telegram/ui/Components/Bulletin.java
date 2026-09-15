@@ -1224,7 +1224,7 @@ public class Bulletin {
             if (isTransitionRunning() && delegate != null) {
                 final float top = delegate.getTopOffset(bulletin.tag) - getY();
                 final float bottom = ((View) getParent()).getMeasuredHeight() - getBottomOffset() - getY();
-                final boolean clip = !fromBlurRender && delegate.clipWithGradient(bulletin.tag);
+                final boolean clip = !fromBlurRender && (delegate.clipWithGradient(bulletin.tag) || getBottomOffset() > 0);
                 canvas.save();
                 if (!fromBlurRender) {
                     canvas.clipRect(0, top, getMeasuredWidth(), bottom);
