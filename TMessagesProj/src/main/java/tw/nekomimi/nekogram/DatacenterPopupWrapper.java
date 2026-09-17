@@ -7,6 +7,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
+import org.telegram.proxy.ProxySettings;
 import org.telegram.tgnet.ConnectionsManager;
 import org.telegram.ui.ActionBar.ActionBarMenuItem;
 import org.telegram.ui.ActionBar.ActionBarMenuSubItem;
@@ -79,7 +80,8 @@ public class DatacenterPopupWrapper {
         }
         datacenterInfo.checking = true;
         updateStatus(item, resourcesProvider, true);
-        datacenterInfo.pingId = ConnectionsManager.getInstance(UserConfig.selectedAccount).checkProxy("ping.neko", datacenterInfo.id, null, null, null, time -> AndroidUtilities.runOnUIThread(() -> {
+        var proxySettings = ProxySettings.builder().setAddress("ping.neko").setPort(datacenterInfo.id).setType(ProxySettings.Type.SOCKS5).build();
+        datacenterInfo.pingId = ConnectionsManager.getInstance(UserConfig.selectedAccount).checkProxy(proxySettings, time -> AndroidUtilities.runOnUIThread(() -> {
             datacenterInfo.availableCheckTime = SystemClock.elapsedRealtime();
             datacenterInfo.checking = false;
             if (time == -1) {

@@ -5,10 +5,11 @@ import android.content.Intent;
 import android.net.Uri;
 import android.text.TextUtils;
 
+import androidx.annotation.OptIn;
 import androidx.collection.LruCache;
-
-import com.google.android.exoplayer2.upstream.DataSourceInputStream;
-import com.google.android.exoplayer2.upstream.DataSpec;
+import androidx.media3.common.util.UnstableApi;
+import androidx.media3.datasource.DataSourceInputStream;
+import androidx.media3.datasource.DataSpec;
 
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
@@ -86,6 +87,7 @@ public class MediaStreamingServer extends NanoHTTPD {
         return serveFileImpl(session, mediaFile);
     }
 
+    @OptIn(markerClass = UnstableApi.class)
     private Response serveFileImpl(IHTTPSession session, Uri file) throws Exception {
         var headers = session.getHeaders();
 

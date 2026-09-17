@@ -1,5 +1,6 @@
 pluginManagement {
     includeBuild('build-logic')
+    includeBuild('TMessagesProj_Modules/media/build-logic-settings')
     repositories {
         google {
             content {
@@ -14,6 +15,7 @@ pluginManagement {
 }
 plugins {
     id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
+    id 'gradlebuild.media3-settings-logic'
 }
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -32,3 +34,5 @@ include ':TMessagesProj_App'
 //include ':TMessagesProj_AppTests'
 include ':jlatexmath'
 //project(':jlatexmath').projectDir = file('TMessagesProj/lib/jlatexmath/jlatexmath')
+
+includeMedia3.execute(file('TMessagesProj_Modules/media'))

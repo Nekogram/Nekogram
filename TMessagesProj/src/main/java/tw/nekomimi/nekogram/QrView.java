@@ -63,7 +63,7 @@ public class QrView extends View {
 
     private void drawLoading(Canvas canvas, int multiple, int size, float scale) {
         if (loadingMatrix == null) {
-            loadingMatrix = new RLottieDrawable(R.raw.qr_matrix, "qr_matrix", AndroidUtilities.dp(200), AndroidUtilities.dp(200));
+            loadingMatrix = new RLottieDrawable(R.raw.qr_matrix, AndroidUtilities.dp(200), AndroidUtilities.dp(200));
             loadingMatrix.setMasterParent(this);
             loadingMatrix.setAutoRepeat(1);
             loadingMatrix.setColorFilter(Color.BLACK, PorterDuff.Mode.MULTIPLY);

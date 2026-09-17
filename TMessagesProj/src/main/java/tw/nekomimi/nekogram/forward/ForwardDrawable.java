@@ -28,7 +28,6 @@ public class ForwardDrawable extends Drawable {
         } else {
             RLottieDrawable drawable = new RLottieDrawable(
                     type == ForwardItem.ID_FORWARD_NOCAPTION ? R.raw.caption_hide : R.raw.name_hide,
-                    type == ForwardItem.ID_FORWARD_NOCAPTION ? "caption_hide" : "name_hide",
                     dp(24), dp(24));
             drawable.setAllowDecodeSingleFrame(true);
             drawable.setPlayInDirectionOfCustomEndFrame(true);

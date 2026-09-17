@@ -4,7 +4,7 @@ import java.nio.file.Paths
 
 plugins {
     id 'com.android.library'
-    id 'org.telegram.lottie-meta'
+    id 'org.telegram.build-plugin'
     id 'tw.nekomimi.nekogram.tl-readers'
     id 'idea'
 }
@@ -17,11 +17,17 @@ tlReaders {
 idea {
     module {
         excludeDirs += [
-                file('jni/third_party'),
-                file('jni/ffmpeg'),
-                file('jni/tlottie'),
-                file('jni/boringssl'),
-                file('jni/sqlite')
+            file('jni/td'),
+            file('jni/third_party/boringssl'),
+            file('jni/third_party/dav1d'),
+            file('jni/third_party/ffmpeg'),
+            file('jni/third_party/libvpx'),
+            file('jni/third_party/libyuv'),
+            file('jni/third_party/openh264'),
+            file('jni/third_party/xiph'),
+            file('jni/tlottie'),
+            file('jni/voip/webrtc'),
+            file('jni/sqlite')
         ]
     }
 }
@@ -43,6 +49,7 @@ dependencies {
     implementation "androidx.sharetarget:sharetarget:1.2.0"
     implementation 'androidx.interpolator:interpolator:1.0.0'
     implementation 'androidx.biometric:biometric:1.1.0'
+    implementation 'androidx.webkit:webkit:1.14.0'
 
     implementation 'com.google.android.gms:play-services-cast-framework:22.3.1'
     implementation 'androidx.mediarouter:mediarouter:1.8.1'
@@ -89,6 +96,12 @@ dependencies {
     implementation("io.noties.markwon:ext-latex:4.6.2") {
         exclude group: 'ru.noties', module: 'jlatexmath-android'
     }
+
+    api "androidx.media3:media3-exoplayer:1.11.1"
+    api "androidx.media3:media3-exoplayer-dash:1.11.1"
+    api "androidx.media3:media3-exoplayer-hls:1.11.1"
+    api "androidx.media3:media3-decoder-ffmpeg:1.11.1"
+    api "androidx.media3:media3-session:1.11.1"
     api project(':jlatexmath')
 
 //    implementation 'com.google.mlkit:translate:17.0.3'

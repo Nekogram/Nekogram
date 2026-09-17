@@ -298,7 +298,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 hasUploadedPhoto = true;
 
                 if (cameraDrawable == null) {
-                    cameraDrawable = new RLottieDrawable(R.raw.camera_outline, "" + R.raw.camera_outline, dp(50), dp(50), false, null);
+                    cameraDrawable = new RLottieDrawable(R.raw.camera_outline, dp(50), dp(50), false, null);
                 }
                 setAvatarCell.imageView.setTranslationX(-dp(8));
                 setAvatarCell.imageView.setAnimation(cameraDrawable);
@@ -1669,7 +1669,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                     hasUploadedPhoto = true;
 
                     if (cameraDrawable == null) {
-                        cameraDrawable = new RLottieDrawable(R.raw.camera_outline, "" + R.raw.camera_outline, dp(50), dp(50), false, null);
+                        cameraDrawable = new RLottieDrawable(R.raw.camera_outline, dp(50), dp(50), false, null);
                     }
                     setAvatarCell.imageView.setTranslationX(-dp(8));
                     setAvatarCell.imageView.setAnimation(cameraDrawable);
@@ -1770,7 +1770,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 setAvatarCell.setTextAndIcon(getString("ChatSetPhotoOrVideo", R.string.ChatSetPhotoOrVideo), R.drawable.msg_addphoto, true);
             }
             if (cameraDrawable == null) {
-                cameraDrawable = new RLottieDrawable(R.raw.camera_outline, "" + R.raw.camera_outline, dp(50), dp(50), false, null);
+                cameraDrawable = new RLottieDrawable(R.raw.camera_outline, dp(50), dp(50), false, null);
             }
             setAvatarCell.imageView.setTranslationX(-dp(8));
             setAvatarCell.imageView.setAnimation(cameraDrawable);
@@ -1984,7 +1984,7 @@ public class ChatEditActivity extends BaseFragment implements ImageUpdater.Image
                 avatarImage.setImage(ImageLocation.getForLocal(avatar), "50_50", avatarDrawable, currentUser != null ? currentUser : currentChat);
                 setAvatarCell.setTextAndIcon(getString("ChatSetNewPhoto", R.string.ChatSetNewPhoto), R.drawable.msg_addphoto, true);
                 if (cameraDrawable == null) {
-                    cameraDrawable = new RLottieDrawable(R.raw.camera_outline, "" + R.raw.camera_outline, dp(50), dp(50), false, null);
+                    cameraDrawable = new RLottieDrawable(R.raw.camera_outline, dp(50), dp(50), false, null);
                 }
                 setAvatarCell.imageView.setTranslationX(-dp(8));
                 setAvatarCell.imageView.setAnimation(cameraDrawable);

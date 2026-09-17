@@ -33,6 +33,7 @@ subprojects {
                 buildTypes {
                     play {
                         initWith release
+                        matchingFallbacks = ['release']
                     }
                 }
 
