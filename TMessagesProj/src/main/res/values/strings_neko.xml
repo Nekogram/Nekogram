@@ -337,4 +337,5 @@
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>
+    <string name="LensSearchImage">Search Image</string>
 </resources>
