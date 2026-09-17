@@ -31,7 +31,7 @@ abstract class GenerateLocalizationUtilsJavaTask : DefaultTask() {
         localizations.add("en")
 
         for (file in localizationFiles.files) {
-            localizations.add(getLanguageTag(file))
+            localizations.add(getLanguageTag(file).lowercase())
         }
 
         generateJava(
@@ -69,7 +69,7 @@ abstract class GenerateLocalizationUtilsJavaTask : DefaultTask() {
                 java.appendLine("            return null;")
                 java.appendLine("        }")
                 java.appendLine()
-                java.appendLine("        final String tag = locale.toLanguageTag();")
+                java.appendLine("        final String tag = locale.toLanguageTag().toLowerCase();")
                 java.appendLine()
                 java.appendLine("        switch (tag) {")
 

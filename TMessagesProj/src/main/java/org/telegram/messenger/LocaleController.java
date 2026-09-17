@@ -476,6 +476,13 @@ public class LocaleController {
                 }
                 localeInfo.baseLangCode = args.length >= 6 ? args[5] : "";
                 localeInfo.pluralLangCode = args.length >= 7 ? args[6] : localeInfo.shortName;
+                if (localeInfo.shortName.equals("duang_zh_hans")) {
+                    localeInfo.pluralLangCode = "zh_dg";
+                } else if (localeInfo.shortName.startsWith("zh_hans") || localeInfo.baseLangCode.startsWith("zh_hans")) {
+                    localeInfo.pluralLangCode = "zh_cn";
+                } else if (localeInfo.shortName.startsWith("zh_hant") || localeInfo.baseLangCode.startsWith("zh_hant")) {
+                    localeInfo.pluralLangCode = "zh_tw";
+                }
                 if (args.length >= 8) {
                     localeInfo.isRtl = Utilities.parseInt(args[7]) == 1;
                 }
@@ -1463,9 +1470,9 @@ public class LocaleController {
 
     private String getStringInternal(String key, String fallback, int fallbackRes, int res) {
         if (R.string.AppName == res) {
-            return ApplicationLoader.applicationContext.getString(R.string.Nekogram);
+            return getLocalizedString(R.string.Nekogram);
         } else if (R.string.AppNameBeta == res) {
-            return ApplicationLoader.applicationContext.getString(R.string.NekogramBeta);
+            return getLocalizedString(R.string.NekogramBeta);
         }
         String value = BuildVars.USE_CLOUD_STRINGS ? localizationExternal.getByResNameOrResId(ApplicationLoader.applicationContext, key, res) : null;
         if (value == null) {
@@ -3259,6 +3266,11 @@ public class LocaleController {
                             localeInfo.baseLangCode = "";
                         }
                         localeInfo.pluralLangCode = language.plural_code.replace('-', '_').toLowerCase();
+                        if (localeInfo.shortName.startsWith("zh_hans") || localeInfo.baseLangCode.startsWith("zh_hans")) {
+                            localeInfo.pluralLangCode = "zh_cn";
+                        } else if (localeInfo.shortName.startsWith("zh_hant") || localeInfo.baseLangCode.startsWith("zh_hant")) {
+                            localeInfo.pluralLangCode = "zh_tw";
+                        }
                         localeInfo.isRtl = language.rtl;
                         localeInfo.pathToFile = "remote";
                         localeInfo.serverIndex = a;
