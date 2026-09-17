@@ -52,6 +52,8 @@
 #-dontoptimize
 #-dontobfuscate
 
+-keep class org.telegram.tgnet.** { *; }
+
 -keepnames class ** extends org.telegram.ui.ActionBar.BaseFragment
 
 -keepclassmembernames class androidx.core.widget.NestedScrollView {
