@@ -5764,6 +5764,7 @@ public class ChatActivityEnterView extends FrameLayout implements
         };
         if (parentFragment != null && !isEditingBusinessLink()) {
             ImeHelper.enableSogouExpression(messageEditText);
+            ImeHelper.enableGboardEmoji(messageEditText);
             ViewCompat.setOnReceiveContentListener(messageEditText, new String[]{"image/gif", "image/*", "image/jpg", "image/png", "image/webp"}, (view, payload) -> {
                 var split = payload.partition(
                         item -> item.getUri() != null);

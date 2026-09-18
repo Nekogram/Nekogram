@@ -18,6 +18,17 @@ public class ImeHelper {
     private static final String ACTION_SOGOU_EXPRESSION_COMMIT = "com.sogou.inputmethod.exp.commit";
     private static final String KEY_SOGOU_EXPRESSION_URI = "EXP_PATH_URI";
 
+    private static final String EDITOR_INFO_METAVERSION_KEY = "android.support.text.emoji.emojiCompat_metadataVersion";
+    private static final String EDITOR_INFO_REPLACE_ALL_KEY = "android.support.text.emoji.emojiCompat_replaceAll";
+
+    public static void enableGboardEmoji(EditText editText) {
+        var extras = editText.getInputExtras(true);
+        // Unicode 17
+        // https://github.com/googlefonts/emojicompat/commit/101647bad83f6fe01af6f11eed276fd3c180fd3f
+        extras.putInt(EDITOR_INFO_METAVERSION_KEY, 12);
+        extras.putBoolean(EDITOR_INFO_REPLACE_ALL_KEY, false);
+    }
+
     public static void enableChineseInline(EditText editText) {
         var extras = editText.getInputExtras(true);
         extras.putBoolean(EXTRA_ENABLE_CHINESE_INLINE, true);
