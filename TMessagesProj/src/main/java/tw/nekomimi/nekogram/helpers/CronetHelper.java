@@ -3,7 +3,6 @@ package tw.nekomimi.nekogram.helpers;
 import android.content.Context;
 
 import com.google.android.gms.net.CronetProviderInstaller;
-import com.google.android.gms.tasks.Continuation;
 
 import org.chromium.net.CronetEngine;
 import org.telegram.messenger.FileLog;
@@ -16,7 +15,17 @@ public class CronetHelper {
 
     public static void init(Context context) {
         CronetProviderInstaller.installProvider(context)
-                .continueWith((Continuation<Void, Object>) task -> engine = createEngine(context))
+                .continueWith(task -> {
+                    if (!task.isSuccessful() && task.getException() != null) {
+                        throw task.getException();
+                    }
+                    try {
+                        engine = createEngine(context);
+                    } catch (Throwable t) {
+                        throw new RuntimeException(t);
+                    }
+                    return null;
+                })
                 .addOnFailureListener(e -> FileLog.e("Failed to create cronet engine", e));
     }
 
