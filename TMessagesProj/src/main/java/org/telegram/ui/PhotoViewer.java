@@ -64,6 +64,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
+import android.provider.Settings;
 import android.text.Layout;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -6110,13 +6111,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 if (prevOrientation == -10) {
                     prevOrientation = parentActivity.getRequestedOrientation();
                 }
-                WindowManager manager = (WindowManager) parentActivity.getSystemService(Activity.WINDOW_SERVICE);
-                int displayRotation = manager.getDefaultDisplay().getRotation();
-                if (displayRotation == Surface.ROTATION_270) {
-                    parentActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_REVERSE_LANDSCAPE);
-                } else {
-                    parentActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
-                }
+                parentActivity.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_SENSOR_LANDSCAPE);
                 toggleActionBar(false, false);
             });
         }
@@ -10475,6 +10470,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         return;
                     }
                     if (parentActivity != null && fullscreenedByButton != 0) {
+                        var isAutoRotateOn = Settings.System.getInt(
+                                ApplicationLoader.applicationContext.getContentResolver(),
+                                Settings.System.ACCELEROMETER_ROTATION, 0) == 1;
+                        if (!isAutoRotateOn) {
+                            return;
+                        }
                         if (fullscreenedByButton == 1) {
                             if (orientation >= 270 - 30 && orientation <= 270 + 30) {
                                 wasRotated = true;
