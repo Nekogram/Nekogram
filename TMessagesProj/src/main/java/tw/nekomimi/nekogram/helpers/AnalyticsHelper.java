@@ -50,7 +50,7 @@ public class AnalyticsHelper {
             options.setDsn(Extra.SENTRY_DSN);
             options.setEnvironment(BuildConfig.BUILD_TYPE);
             options.setPrintUncaughtStackTrace(true);
-            options.setSendDefaultPii(true);
+            options.getDataCollection().forceDataCollection();
             options.setEnableUserInteractionTracing(true);
             options.setAttachViewHierarchy(true);
             options.setEnableSystemEventBreadcrumbsExtras(true);

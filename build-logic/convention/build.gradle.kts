@@ -43,7 +43,7 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile>().configureEach 
 }
 
 dependencies {
-    compileOnly("com.android.tools.build:gradle:9.4.0")
+    compileOnly("com.android.tools.build:gradle:9.4.1")
 
     implementation("com.squareup.moshi:moshi:1.15.0")
     implementation("com.squareup.moshi:moshi-kotlin:1.15.0")

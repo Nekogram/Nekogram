@@ -42,8 +42,8 @@ configurations.configureEach {
 dependencies {
     implementation 'androidx.activity:activity:1.13.0'
     implementation 'androidx.collection:collection:1.6.0'
-    implementation 'androidx.fragment:fragment:1.9.0'
-    implementation 'androidx.core:core:1.19.0'
+    implementation 'androidx.fragment:fragment:1.9.1'
+    implementation 'androidx.core:core:1.19.1'
     implementation 'androidx.palette:palette:1.0.0'
     implementation 'androidx.exifinterface:exifinterface:1.4.2'
     implementation 'androidx.dynamicanimation:dynamicanimation:1.1.0'
@@ -118,7 +118,7 @@ dependencies {
 
     implementation 'androidx.browser:browser:1.10.0'
     implementation 'app.nekogram.gifski:gifski:1.0.2'
-    implementation 'app.nekogram.translator:translator:1.7.0'
+    implementation 'app.nekogram.translator:translator:1.7.1'
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
     implementation 'com.squareup.okhttp3:okhttp:5.5.0'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:6.1'
@@ -128,7 +128,7 @@ dependencies {
     implementation 'com.google.android.gms:play-services-cronet:18.1.1'
 
     implementation 'com.google.firebase:firebase-analytics:23.2.0'
-    implementation 'io.sentry:sentry-android:8.57.0'
+    implementation 'io.sentry:sentry-android:8.58.0'
 }
 
 android {
