@@ -88,6 +88,9 @@ public:
     void receivedCaptchaResult(int32_t requestTokensCount, int32_t* requestTokens, std::string token);
     void moveToDatacenter(uint32_t datacenterId);
 
+    void importAuthKey(uint32_t dcId, const uint8_t *keyBytes);
+    ByteArray *exportAuthKey(uint32_t dcId);
+
 private:
     static void *ThreadProc(void *data);
 

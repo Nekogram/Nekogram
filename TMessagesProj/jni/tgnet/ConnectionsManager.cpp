@@ -15,6 +15,7 @@
 #include <fcntl.h>
 #include <memory.h>
 #include <openssl/rand.h>
+#include <openssl/sha.h>
 #include <zlib.h>
 #include <memory>
 #include <string>
@@ -3938,6 +3939,56 @@ void ConnectionsManager::checkProxyInternal(ProxyCheckInfo *proxyCheckInfo) {
             proxyCheckQueue.push_back(std::unique_ptr<ProxyCheckInfo>(proxyCheckInfo));
         }
     }
+}
+
+void ConnectionsManager::importAuthKey(uint32_t dcId, const uint8_t *keyBytes) {
+    scheduleTask([this, dcId, keyBytes]() {
+        Datacenter *datacenter = getDatacenterWithId(dcId);
+        if (datacenter == nullptr) {
+            DEBUG_E("datacenter %u not found", dcId);
+            return;
+        }
+
+        uint8_t sha1Buffer[SHA_DIGEST_LENGTH];
+        SHA1(keyBytes, 256, sha1Buffer);
+        int64_t newAuthKeyId = *(int64_t *)(sha1Buffer + 12);
+
+        if (datacenter->authKeyPerm != nullptr) {
+            delete datacenter->authKeyPerm;
+            datacenter->authKeyPerm = nullptr;
+        }
+
+        datacenter->authKeyPerm = new ByteArray((uint8_t *) keyBytes, 256);
+        datacenter->authKeyPermId = newAuthKeyId;
+
+        if (datacenter->authKeyTemp != nullptr) {
+            delete datacenter->authKeyTemp;
+            datacenter->authKeyTemp = nullptr;
+            datacenter->authKeyTempId = 0;
+        }
+
+        currentDatacenterId = dcId;
+        movingToDatacenterId = DEFAULT_DATACENTER_ID;
+
+        datacenter->recreateSessions(HandshakeTypeAll);
+
+        saveConfig();
+
+        DEBUG_D("successfully imported authKey for DC %u (authKeyId=%lld)", dcId, (long long)newAuthKeyId);
+    });
+}
+
+ByteArray *ConnectionsManager::exportAuthKey(uint32_t dcId) {
+    if (dcId == 0) {
+        dcId = currentDatacenterId;
+    }
+
+    Datacenter *datacenter = getDatacenterWithId(dcId);
+    if (datacenter == nullptr || datacenter->authKeyPerm == nullptr) {
+        return nullptr;
+    }
+
+    return new ByteArray(datacenter->authKeyPerm);
 }
 
 #ifdef ANDROID

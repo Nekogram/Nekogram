@@ -737,6 +737,14 @@ public class ConnectionsManager extends BaseController {
         return lastPauseTime;
     }
 
+    public byte[] exportAuthKey(int dcId) {
+        return native_exportAuthKey(currentAccount, dcId);
+    }
+
+    public void importAuthKey(int dcId, byte[] authKey) {
+        native_importAuthKey(currentAccount, dcId, authKey);
+    }
+
     public long checkProxy(ProxySettings settings, RequestTimeDelegate requestTimeDelegate) {
         if (settings == null || !settings.isValid()) {
             return 0;
@@ -1023,6 +1031,8 @@ public class ConnectionsManager extends BaseController {
     public static native void native_receivedIntegrityCheckClassic(int currentAccount, int requestToken, String nonce, String token);
     public static native void native_receivedCaptchaResult(int currentAccount, int[] requestTokens, String token);
     public static native boolean native_isGoodPrime(byte[] prime, int g);
+    public static native byte[] native_exportAuthKey(int currentAccount, int dcId);
+    public static native void native_importAuthKey(int currentAccount, int dcId, byte[] authKey);
 
 
     public static boolean testNativeTlScheme(NativeByteBuffer buffer, INativeTlTest test) {

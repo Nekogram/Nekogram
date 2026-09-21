@@ -331,6 +331,35 @@ jlong checkProxy(JNIEnv *env, jclass c, jint instanceNum, jstring address, jint 
     return result;
 }
 
+void importAuthKey(JNIEnv *env, jclass c, jint instanceNum, jint dcId, jbyteArray authKeyArray) {
+    if (authKeyArray == nullptr) {
+        return;
+    }
+
+    jsize length = env->GetArrayLength(authKeyArray);
+    if (length != 256) {
+        return;
+    }
+
+    jbyte *bytes = env->GetByteArrayElements(authKeyArray, nullptr);
+    ConnectionsManager::getInstance(instanceNum).importAuthKey((uint32_t) dcId, (const uint8_t *) bytes);
+    env->ReleaseByteArrayElements(authKeyArray, bytes, 0);
+}
+
+jbyteArray exportAuthKey(JNIEnv *env, jclass c, jint instanceNum, jint dcId) {
+    ByteArray *key = ConnectionsManager::getInstance(instanceNum).exportAuthKey((uint32_t) dcId);
+    if (key == nullptr || key->length != 256) {
+        delete key;
+        return nullptr;
+    }
+
+    jbyteArray result = env->NewByteArray(256);
+    env->SetByteArrayRegion(result, 0, 256, (const jbyte *) key->bytes);
+    delete key;
+
+    return result;
+}
+
 class Delegate : public ConnectiosManagerDelegate {
     
     void onUpdate(int32_t instanceNum) {
@@ -560,6 +589,8 @@ static JNINativeMethod ConnectionsManagerMethods[] = {
         {"native_receivedIntegrityCheckClassic", "(IILjava/lang/String;Ljava/lang/String;)V", (void *) receivedIntegrityCheckClassic},
         {"native_receivedCaptchaResult", "(I[ILjava/lang/String;)V", (void *) receivedCaptchaResult},
         {"native_isGoodPrime", "([BI)Z", (void *) isGoodPrime},
+        {"native_importAuthKey", "(II[B)V", (void *) importAuthKey},
+        {"native_exportAuthKey", "(II)[B", (void *) exportAuthKey},
 };
 
 
