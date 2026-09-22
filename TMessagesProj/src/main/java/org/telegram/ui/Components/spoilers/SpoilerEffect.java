@@ -13,7 +13,6 @@ import android.graphics.Color;
 import android.graphics.ColorFilter;
 import android.graphics.Paint;
 import android.graphics.Path;
-import android.graphics.Picture;
 import android.graphics.PixelFormat;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -21,7 +20,6 @@ import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.Region;
-import android.graphics.RenderNode;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Layout;
@@ -81,9 +79,6 @@ public class SpoilerEffect extends Drawable {
     private static final float[][] particlePoints = new float[ALPHAS.length][MAX_PARTICLES_PER_ENTITY * 5];
     private final float[] particleRands = new float[RAND_REPEAT];
     private final int[] renderCount = new int[ALPHAS.length];
-
-    private static final WeakHashMap<Object, Picture> pictureCache = new WeakHashMap<>();
-    private static final WeakHashMap<Object, RenderNode> renderNodeCache = new WeakHashMap<>();
 
     private static final Path tempPath = new Path();
 
@@ -853,35 +848,7 @@ public class SpoilerEffect extends Drawable {
         if (!spoilers.isEmpty()) {
             canvas.save();
             canvas.translate(0, verticalOffset);
-            var height = textLayout.getHeight();
-            var width = textLayout.getWidth();
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q && canvas.isHardwareAccelerated()) {
-                var renderNode = renderNodeCache.get(pl);
-                if (renderNode == null) {
-                    renderNode = new RenderNode("SpoilerEffectLayout");
-                    renderNodeCache.put(pl, renderNode);
-                }
-                var needUpdateDisplayList = !renderNode.hasDisplayList();
-                needUpdateDisplayList |= renderNode.setPosition(0, 0, width, height);
-                if (needUpdateDisplayList) {
-                    var recordingCanvas = renderNode.beginRecording(width, height);
-                    pl.draw(recordingCanvas);
-                    renderNode.endRecording();
-                }
-                canvas.drawRenderNode(renderNode);
-            } else {
-                var picture = pictureCache.get(pl);
-                if (picture == null) {
-                    picture = new Picture();
-                    pictureCache.put(pl, picture);
-                }
-                if (height != picture.getHeight() || width != picture.getWidth()) {
-                    var recordingCanvas = picture.beginRecording(width, height);
-                    pl.draw(recordingCanvas);
-                    picture.endRecording();
-                }
-                canvas.drawPicture(picture);
-            }
+            pl.draw(canvas);
             canvas.restore();
         } else {
             layoutDrawMaybe(textLayout, canvas);
