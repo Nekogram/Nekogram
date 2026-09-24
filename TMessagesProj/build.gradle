@@ -126,6 +126,7 @@ dependencies {
     implementation 'org.chromium.net:cronet-api:143.7445.0'
     implementation 'com.google.net.cronet:cronet-okhttp:0.1.1'
     implementation 'com.google.android.gms:play-services-cronet:18.1.1'
+    implementation 'co.nstant.in:cbor:0.9'
 
     implementation 'com.google.firebase:firebase-analytics:23.2.0'
     implementation 'io.sentry:sentry-android:8.58.0'

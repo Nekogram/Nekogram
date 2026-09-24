@@ -337,6 +337,16 @@
     <string name="ExternalStreamingProtocolDescription">Choose how uncompleted videos are streamed to external players. Native works best with most modern players, switch to HTTP if videos freeze or fail to play.</string>
     <string name="ExternalStreamingProtocolContentProvider">Native</string>
     <string name="ExternalStreamingProtocolHttp">HTTP</string>
+    <string name="ExportSession">Export Session</string>
+    <string name="SessionQR">Session QR</string>
+    <string name="CreateSessionQR">Create Session QR</string>
+    <string name="PassQR">Passkey QR</string>
+    <string name="CreatePassQR">Create Passkey QR</string>
+    <string name="PassQRNewPassword">Protect this QR code with a password</string>
+    <string name="ConfirmNewPassword">Confirm Password</string>
+    <string name="PassQRAbout">Saves your passkey as an encrypted QR code. You can scan it to log in on another device.</string>
+    <string name="PassQREncryption">Scan with Nekogram to log in.</string>
+    <string name="InvalidPassQr">Invalid Passkey QR</string>
 
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Accessibility settings</string>

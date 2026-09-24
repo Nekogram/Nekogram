@@ -488,7 +488,6 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
                     presentFragment(new TwoStepVerificationSetupActivity(type, currentPassword));
                 }
             } else if (position == passkeysRow) {
-                if (Build.VERSION.SDK_INT < 28) return;
                 if (currentPasskeys != null && currentPasskeys.size() > 0) {
                     presentFragment(new PasskeysActivity(currentPasskeys));
                 } else {
@@ -713,7 +712,7 @@ public class PrivacySettingsActivity extends BaseFragment implements Notificatio
         passwordRow = rowCount++;
         autoDeleteMesages = rowCount++;
         passcodeRow = rowCount++;
-        if (getMessagesController().config.settingsDisplayPasskeys.get() && Build.VERSION.SDK_INT >= 28) {
+        if (getMessagesController().config.settingsDisplayPasskeys.get()) {
             passkeysRow = rowCount++;
         }
         if (currentPassword != null ? currentPassword.login_email_pattern != null : SharedConfig.hasEmailLogin) {

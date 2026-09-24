@@ -18,12 +18,10 @@ import android.widget.TextView;
 
 import androidx.annotation.Keep;
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
-import org.telegram.messenger.PasskeysController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.Utilities;
 import org.telegram.tgnet.ConnectionsManager;
@@ -51,9 +49,8 @@ import org.telegram.ui.Stories.recorder.ButtonWithCounterView;
 
 import java.util.ArrayList;
 
-import tw.nekomimi.nekogram.helpers.PopupHelper;
+import tw.nekomimi.nekogram.passkey.PasskeyQr;
 
-@RequiresApi(api = 28)
 public class PasskeysActivity extends BaseFragment {
 
     private UniversalRecyclerView listView;
@@ -102,9 +99,9 @@ public class PasskeysActivity extends BaseFragment {
         }
         if (passkeys.size() + 1 <= getMessagesController().config.passkeysAccountPasskeysMax.get()) {
             addPasskeyRow = items.size();
-            items.add(UItem.asButton(-1, R.drawable.menu_passkey_add, getString(R.string.PasskeyAdd)).accent());
+            items.add(UItem.asButton(-1, R.drawable.msg_qrcode, getString(R.string.CreatePassQR)).accent());
         }
-        items.add(UItem.asShadow(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(getString(R.string.PasskeyInfo), () -> {
+        items.add(UItem.asShadow(AndroidUtilities.replaceArrows(AndroidUtilities.replaceSingleTag(getString(R.string.PassQRAbout) + "\n\n" + getString(R.string.PasskeyInfo), () -> {
             showLearnSheet(getContext(), currentAccount, resourceProvider, passkeys.size() + 1 <= getMessagesController().config.passkeysAccountPasskeysMax.get());
         }), true)));
     }
@@ -155,11 +152,7 @@ public class PasskeysActivity extends BaseFragment {
 
     private void onItemClick(UItem item, View view, int position, float x, float y) {
         if (item.id == -1) {
-            if (true) {
-                PopupHelper.showBlameAlert(getParentActivity(), R.string.CreatePasskeyBlameDurov, "tg://settings/privacy/passkey/create");
-                return;
-            }
-            PasskeysController.create(getContext(), currentAccount, (passkey, error) -> {
+            PasskeyQr.create(getContext(), currentAccount, (passkey, error) -> {
                 if (error != null) {
                     if ("CANCELLED".equalsIgnoreCase(error))
                         return;
@@ -250,13 +243,13 @@ public class PasskeysActivity extends BaseFragment {
             } else {
                 imageBackgroundView.setBackground(Theme.createRoundRectDrawable(dp(4), Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider), 0.04f)));
                 imageView.setColorFilter(new PorterDuffColorFilter(Theme.multAlpha(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider), 0.3f), PorterDuff.Mode.SRC_IN));
-                imageView.setImageResource(R.drawable.msg2_permissions);
+                imageView.setImageResource(PasskeyQr.isKnownPassQR(passkey.id) ? R.drawable.msg_qrcode : R.drawable.msg2_permissions);
                 imageView.setScaleX(0.666f);
                 imageView.setScaleY(0.666f);
                 imageView.setAnimatedEmojiDrawable(null);
             }
             if (TextUtils.isEmpty(passkey.name)) {
-                titleView.setText(getString(R.string.PasskeyUnknown));
+                titleView.setText(getString(PasskeyQr.isKnownPassQR(passkey.id) ? R.string.PassQR : R.string.PasskeyUnknown));
             } else {
                 titleView.setText(passkey.name);
             }
@@ -335,26 +328,26 @@ public class PasskeysActivity extends BaseFragment {
         f.set(R.drawable.msg2_permissions, getString(R.string.PasskeyFeature1Title), getString(R.string.PasskeyFeature1Subtitle));
         linearLayout.addView(f, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 8));
 
-        f = new ExplainStarsSheet.FeatureCell(context, ExplainStarsSheet.FeatureCell.STYLE_SHEET, resourcesProvider);
+        /*f = new ExplainStarsSheet.FeatureCell(context, ExplainStarsSheet.FeatureCell.STYLE_SHEET, resourcesProvider);
         f.set(R.drawable.menu_face, getString(R.string.PasskeyFeature2Title), getString(R.string.PasskeyFeature2Subtitle));
         linearLayout.addView(f, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 8));
 
         f = new ExplainStarsSheet.FeatureCell(context, ExplainStarsSheet.FeatureCell.STYLE_SHEET, resourcesProvider);
         f.set(R.drawable.menu_privacy, getString(R.string.PasskeyFeature3Title), getString(R.string.PasskeyFeature3Subtitle));
+        linearLayout.addView(f, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 8));*/
+
+        f = new ExplainStarsSheet.FeatureCell(context, ExplainStarsSheet.FeatureCell.STYLE_SHEET, resourcesProvider);
+        f.set(R.drawable.msg_qrcode, getString(R.string.PassQR), getString(R.string.PassQRAbout));
         linearLayout.addView(f, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 8));
 
         BottomSheet sheet = b.create();
 
         ButtonWithCounterView button = new ButtonWithCounterView(context, resourcesProvider).setRound();
-        button.setText(getString(R.string.PasskeyFeatureButton), false);
+        button.setText(getString(R.string.CreatePassQR), false);
         button.setOnClickListener(v -> {
-            if (true) {
-                PopupHelper.showBlameAlert(context, R.string.CreatePasskeyBlameDurov, "tg://settings/privacy/passkey/create");
-                return;
-            }
             if (button.isLoading()) return;
             button.setLoading(true);
-            PasskeysController.create(context, currentAccount, (passkey, error) -> {
+            PasskeyQr.create(context, currentAccount, (passkey, error) -> {
                 button.setLoading(false);
                 if ("CANCELLED".equalsIgnoreCase(error))
                     return;

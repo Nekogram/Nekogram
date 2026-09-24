@@ -365,6 +365,12 @@ public class Utilities {
         return dst;
     }
 
+    public static byte[] computePBKDF2(byte[] password, byte[] salt, int keyLength) {
+        byte[] dst = new byte[keyLength];
+        Utilities.pbkdf2(password, salt, dst, 100000);
+        return dst;
+    }
+
     public static byte[] computeSHA512(byte[] convertme, byte[] convertme2, byte[] convertme3) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-512");
