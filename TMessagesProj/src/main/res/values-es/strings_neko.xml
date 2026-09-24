@@ -152,6 +152,7 @@
     <string name="QRLoginTitle">Inicio de sesión con QR</string>
     <string name="NoTranslatorAppInstalled">No tienes aplicaciones que puedan manejar la intención de traducir, por favor instala una para continuar</string>
     <string name="DisableVoiceMessagesAutoPlay">Desactivar la reproducción automática de mensajes de voz</string>
+    <string name="UnmuteVideosWithVolumeButtons">Desmutea los videos con los botones de volumen</string>
     <string name="TranslatorType">Estilo</string>
     <string name="TranslatorTypeNeko">En mensaje</string>
     <string name="TranslatorTypeTG">Diálogo emergente</string>
@@ -265,6 +266,7 @@
     <string name="QuickForward">Usar menú de reenvío rápido</string>
     <string name="DidNotGetTheCodeBlameDurov">Si no recibiste el código en otro dispositivo o no has iniciado sesión con Telegram en otro dispositivo, por favor usa la app oficial de Telegram para recibir el código.\n\nTelegram tiene **deshabilitada la posibilidad de iniciar sesión con SMS** en aplicaciones de terceros. Los usuarios que inicien sesión en aplicaciones de terceros sólo podrán recibir códigos de acceso a través de Telegram.\n\nNo podemos ayudarte con esto, si tienes algún problema para iniciar sesión, por favor contacta con el soporte de Telegram.</string>
     <string name="ChangePhoneNumberBlameDurov">Telegram ha **deshabilitado la capacidad de cambiar el número de teléfono** en aplicaciones de terceros. Los usuarios solo pueden cambiar el número de teléfono vía Telegram.</string>
+    <string name="OpenOfficialApp">Abrir app oficial</string>
     <string name="NavigationAnimation">Animación de navegación</string>
     <string name="NavigationAnimationBezier">Clásica</string>
     <string name="NavigationAnimationSpring">Natural</string>
@@ -310,10 +312,8 @@
     <string name="ShortStandardQuality">SD</string>
     <string name="ForceFontWeightFallback">Forzar el peso de la fuente por omisión</string>
     <string name="HideChannelBottomButtons">Ocultar los botones inferiores del canal</string>
+    <string name="TranslationKeepFormatting">Preservar el formato del texto en la traducción</string>
+    <string name="HideBottomNavigationBar">Esconder botón de la barra de navegación</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ajustes de accesibilidad</string>
-    <string name="AccSeekbarHeading">Configuración de la barra de búsqueda</string>
-    <string name="AccNumberOfItems">Mostrar número de elementos</string>
-    <string name="AccIndexOfItem">Mostrar posición actual</string>
-    <string name="AccShowValueChanges">Anunciar cambios de valor durante los cambios manuales</string>
 </resources>

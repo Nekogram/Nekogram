@@ -22,8 +22,6 @@
     <string name="AddToSavedMessages">ذخیره پیام</string>
     <string name="CreateMention">ایجاد منشن</string>
     <string name="Prpr">پروپرو</string>
-    <string name="EnableResidentNotification">نمایش یک اعلان ساکن</string>
-    <string name="DisableResidentNotification">اعلان ساکن را غیرفعال کنید</string>
     <string name="NekogramRunning">نکوگرام در حال اجراعه</string>
     <string name="EventType">مجموعه آیکون نوار کناری</string>
     <string name="DependsOnDate">بستگی به تاریخ</string>
@@ -32,7 +30,6 @@
     <string name="DeleteDownloadedFile">حذف فایل دانلود شده</string>
     <string name="TestBackendOn">این حساب به پشتیبان آزمایشی متصل می شود.</string>
     <string name="TestBackendOff">این حساب به باطن تولید متصل می شود.</string>
-    <string name="ViewHistory">مشاهده تاریخچه</string>
     <string name="Nya">میو!</string>
     <string name="StickerSize">اندازه استیکر</string>
     <string name="StickerSizeLeft">کوچک</string>
@@ -311,6 +308,7 @@
     <string name="PreferOriginalQualityDesc">مشاهده فیلم ها با کیفیت اصلی.</string>
     <string name="AutoInlineBot">ربات درون‌خطی خودکار</string>
     <string name="AutoInlineBotDesc">پرس‌وجوی خودکار ربات درون‌خطی بر اساس متن پیام.</string>
+    <string name="HideChannelBottomButtons">پنهان کردن دکمه‌های پایین کانال</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">تنظیمات دسترسی پذیری</string>
 </resources>

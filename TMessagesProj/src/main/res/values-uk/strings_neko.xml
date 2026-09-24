@@ -320,6 +320,10 @@
     <string name="TabsPositionTop">Зверху</string>
     <string name="TabsPositionBottom">Знизу</string>
     <string name="StrokeOnViews">Ефекти відблисків</string>
+    <string name="CameraInVideoMessages">Камера у відео повідомленнях</string>
+    <string name="AskCamera">Запитувати кожного разу</string>
+    <string name="FrontCamera">Фронтальна камера</string>
+    <string name="RearCamera">Основна камера</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Налаштування спеціальних можливостей</string>
 </resources>

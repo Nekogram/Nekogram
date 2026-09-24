@@ -15,8 +15,6 @@
     <string name="AddToSavedMessages">Spara meddelande</string>
     <string name="CreateMention">Skapa omnämning</string>
     <string name="Prpr">Peropero</string>
-    <string name="EnableResidentNotification">Visa en inhemsk notifikation</string>
-    <string name="DisableResidentNotification">Inaktivera inhemska notifikationer</string>
     <string name="NekogramRunning">Nekogram är igång</string>
     <string name="EventType">Ikonuppsättning för sidofält</string>
     <string name="DependsOnDate">Beror på datum</string>
@@ -25,7 +23,6 @@
     <string name="DeleteDownloadedFile">Radera nedladdad fil</string>
     <string name="TestBackendOn">Detta konto kommer ansluta till testbackend.</string>
     <string name="TestBackendOff">Detta konto kommer att ansluta till produktionsbackend.</string>
-    <string name="ViewHistory">Visa historik</string>
     <string name="Nya">Mjau!</string>
     <string name="StickerSize">Storlek på klistermärken</string>
     <string name="StickerSizeDialogMessage">Åh så söt! En svart katt!</string>
@@ -105,8 +102,6 @@
     <string name="SelectBetween">Välj mellan</string>
     <string name="StickerSavedHint">Klistermärke sparat i galleriet</string>
     <string name="RegistrationDate">Registreringsdatum</string>
-    <string name="WsEnableTls">Aktivera TLS</string>
-    <string name="WsProvider">Leverantör</string>
     <string name="UpdateNekogram">Uppdatera Nekogram</string>
     <string name="TranslationTarget">Målspråk</string>
     <string name="TranslationTargetApp">Följ appen</string>

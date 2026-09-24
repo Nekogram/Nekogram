@@ -22,8 +22,6 @@
     <string name="AddToSavedMessages">Salva messaggio</string>
     <string name="CreateMention">Crea menzione</string>
     <string name="Prpr">Peropero</string>
-    <string name="EnableResidentNotification">Mostra notifica persistente</string>
-    <string name="DisableResidentNotification">Disabilita notifica persistente</string>
     <string name="NekogramRunning">Nekogram è in esecuzione</string>
     <string name="EventType">Set d\'icone barra laterale</string>
     <string name="DependsOnDate">A seconda della data</string>
@@ -32,7 +30,6 @@
     <string name="DeleteDownloadedFile">Elimina il file scaricato</string>
     <string name="TestBackendOn">Questo account si connetterà al server di test.</string>
     <string name="TestBackendOff">Questo account si connetterà al server principale.</string>
-    <string name="ViewHistory">Visualizza la cronologia</string>
     <string name="Nya">Miao!</string>
     <string name="StickerSize">Dimensione dell\'adesivo</string>
     <string name="StickerSizeLeft">Piccolo</string>
@@ -269,6 +266,8 @@
     <string name="QuickForward">Utilizza il menu di inoltro rapido</string>
     <string name="DidNotGetTheCodeBlameDurov">Se non hai ricevuto il codice su un altro dispositivo o non hai l\'app Telegram collegata su un altro dispositivo, utilizza l\'app ufficiale di Telegram per ricevere il codice.\n\nTelegram ha **disabilitato la possibilità di accedere tramite SMS** su app di terze parti. Gli utenti che accedono a tali app possono ricevere i codici di accesso solo tramite Telegram.\n\nNon possiamo aiutarti in questo caso. Se incontri problemi con l\'accesso, ti preghiamo di contattare il supporto di Telegram.</string>
     <string name="ChangePhoneNumberBlameDurov">Telegram ha ** disabilitato la possibilità di cambiare numero di telefono ** nelle app di terze parti. Gli utenti possono unicamente cambiarlo via Telegram.</string>
+    <string name="CreatePasskeyBlameDurov">Telegram non supporta le Passkey in applicazioni di terze parti. Gli utenti possono creare e utilizzare Passkey solo via Telegram.</string>
+    <string name="OpenOfficialApp">Apri App Ufficiale</string>
     <string name="NavigationAnimation">Animazione di navigazione</string>
     <string name="NavigationAnimationBezier">Classico</string>
     <string name="NavigationAnimationSpring">Naturale</string>
@@ -296,10 +295,11 @@
     <string name="FixLinkPreview">Correggi anteprima link</string>
     <string name="FixLinkPreviewDesc">Invia link di altri social media con anteprima link corretta automaticamente.</string>
     <string name="ShowTimeHint">Mostra suggerimento orario</string>
+    <string name="ShowTimeHintDesc">Visualizza la data d\'invio dettagliata toccando l\'ora.</string>
     <string name="Cryptocurrency">Cripto valute</string>
     <string name="TranscribeProviderShort">Fornitore</string>
     <string name="TranscribeProviderAuto">Selezione automatica</string>
-    <string name="TranscribeProviderWorkersAI">Sussurro (Workers AI)</string>
+    <string name="TranscribeProviderWorkersAI">Whisper (Workers AI)</string>
     <string name="TranscribeProviderDesc">Attivando la selezione automatica, %s verrà utilizzato quando la versione Premium di Telegram non è disponibile.</string>
     <string name="CloudflareCredentials">Credenziali di Cloudflare</string>
     <string name="CloudflareCredentialsNotSet">Le credenziali di Cloudflare non sono configurate.</string>
@@ -308,6 +308,16 @@
     <string name="CloudflareCredentialsDialog">Configura un account Cloudflare e un Token API. \n**Come ottenerlo?**</string>
     <string name="PreferOriginalQuality">Mantieni la qualità originale</string>
     <string name="PreferOriginalQualityDesc">Visualizza i video nella qualità originale.</string>
+    <string name="ShortStandardQuality">SD</string>
+    <string name="ForceFontWeightFallback">Forza peso dei caratteri di riserva</string>
+    <string name="HideChannelBottomButtons">Nascondi i pulsanti inferiori dei canali</string>
+    <string name="TranslationKeepFormatting">Mantieni il formato del testo tradotto</string>
+    <string name="PredictiveBackAnimation">Animazione \"indietro\" predittiva</string>
+    <string name="HideBottomNavigationBar">Nascondi barra di navigazione inferiore</string>
+    <string name="TabsPosition">Posizione Tabelle</string>
+    <string name="TabsPositionTop">Sopra</string>
+    <string name="TabsPositionBottom">Sotto</string>
+    <string name="StrokeOnViews">Effetti bagliore</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Impostazioni di accessibilità</string>
 </resources>

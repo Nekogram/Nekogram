@@ -13,12 +13,11 @@
     <string name="NameOrder">성 / 이름 표시 순서</string>
     <string name="FirstLast">이름</string>
     <string name="LastFirst">성</string>
+    <string name="NoQuoteForward">Forward No Sender</string>
     <string name="Repeat">반복</string>
     <string name="AddToSavedMessages">메세지 저장</string>
     <string name="CreateMention">멘션 만들기</string>
     <string name="Prpr">페로페로</string>
-    <string name="EnableResidentNotification">참가자 알림 표시</string>
-    <string name="DisableResidentNotification">참가자 알림 중지</string>
     <string name="NekogramRunning">네코그램이 실행 중 입니다</string>
     <string name="EventType">사이드바 아이콘 세트</string>
     <string name="DependsOnDate">날짜에 따라</string>
@@ -27,7 +26,6 @@
     <string name="DeleteDownloadedFile">다운로드 한 파일 삭제</string>
     <string name="TestBackendOn">이 계정은 테스트 백엔드에 연결됩니다.</string>
     <string name="TestBackendOff">이 계정은 프로덕션 백엔드에 연결됩니다.</string>
-    <string name="ViewHistory">이전 기록 보기</string>
     <string name="Nya">야옹!</string>
     <string name="StickerSize">스티커 크기</string>
     <string name="StickerSizeLeft">작게</string>
@@ -113,8 +111,6 @@
     <string name="RegistrationDateNewer">%s 이후</string>
     <string name="RegistrationDateOlder">%s 이전</string>
     <string name="RegistrationDateApproximately">대략 %s</string>
-    <string name="WsEnableTls">TLS 활성화</string>
-    <string name="WsProvider">제공자</string>
     <string name="UpdateNekogram">네코그램 업데이트</string>
     <string name="TranslationTarget">번역 언어</string>
     <string name="TranslationTargetApp">기기 언어 따라가기</string>
@@ -284,8 +280,4 @@
     <string name="IgnoreContentRestriction">콘텐츠 제한 무시</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">접근성 설정</string>
-    <string name="AccSeekbarHeading">검색바 설정</string>
-    <string name="AccNumberOfItems">항목 수 표시</string>
-    <string name="AccIndexOfItem">현재 위치 표시</string>
-    <string name="AccShowValueChanges">수동 변경 중 값 변경 발표</string>
 </resources>

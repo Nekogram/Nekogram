@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Neko sozlamalari</string>
+    <string name="PreferIPv6">IPv6 orqali ulanish afzalroq</string>
     <string name="MessageMenu">Xabarlar menyusi</string>
     <string name="HidePhone">Telefon raqamimni yashirish</string>
     <string name="DeleteAllFromSelf">Shaxsiy xabarlarni o\'chirish</string>
@@ -13,12 +14,14 @@
     <string name="NameOrder">Ism tartibi</string>
     <string name="FirstLast">Ism - Familya</string>
     <string name="LastFirst">Familya - Ism</string>
+    <string name="NoQuoteForward">Yuboruvchisiz</string>
+    <string name="NoCaptionForward">Oldinga sarlavhasiz</string>
+    <string name="NoQuoteForwardShort">Yuboruvchi yo\'q</string>
+    <string name="NoCaptionForwardShort">Sarlavha yo\'q</string>
     <string name="Repeat">Takrorlash</string>
     <string name="AddToSavedMessages">Xabarni saqlash</string>
     <string name="CreateMention">Eslatma yaratish</string>
     <string name="Prpr">Biroq</string>
-    <string name="EnableResidentNotification">Rezident bildirishnomasini ko\'rsatish</string>
-    <string name="DisableResidentNotification">Rezident bildirishnomasini o\'chirib qo\'yish</string>
     <string name="NekogramRunning">Nekogram ishlamoqda</string>
     <string name="EventType">Yon panel piktogramma to\'plami</string>
     <string name="DependsOnDate">Sanaga bog\'liq</string>
@@ -27,7 +30,6 @@
     <string name="DeleteDownloadedFile">Yuklab olingan faylni o\'chirish</string>
     <string name="TestBackendOn">Bu hisob test serveriga ulanadi.</string>
     <string name="TestBackendOff">Bu hisob ishlab chiqarish serveriga ulanadi.</string>
-    <string name="ViewHistory">Tarixni ko\'rish</string>
     <string name="Nya">Myau!</string>
     <string name="StickerSize">Stiker hajmi</string>
     <string name="StickerSizeLeft">Kichik</string>
@@ -112,8 +114,6 @@
     <string name="RegistrationDateNewer">%s dan yangiroq</string>
     <string name="RegistrationDateOlder">%s dan eskiroq</string>
     <string name="RegistrationDateApproximately">Taxminan %s</string>
-    <string name="WsEnableTls">TLSni yoqish</string>
-    <string name="WsProvider">Provayder</string>
     <string name="UpdateNekogram">Nekogramni yangilash</string>
     <string name="TranslationTarget">Maqsadli til</string>
     <string name="TranslationTargetApp">Tarjima tili</string>
@@ -132,6 +132,7 @@
     <string name="SendWebFileInvalid">Yaroqsiz fayl, fayl talablarga javob berishiga ishonch hosil qiling.</string>
     <string name="AutoLockInstant">Bir zumda</string>
     <string name="RestrictionReason">Cheklov sababi</string>
+    <string name="ProviderTencentTranslator">TranSmart</string>
     <string name="MaxRecentStickers">Oxirgi stikerlar to\'plami</string>
     <string name="DisableJumpToNextChannel">\"Keyingi kanalga o\'tish\" ni o\'chirish</string>
     <string name="DisableGreetingSticker">Salomlashuv stikerini o\'chirish</string>
@@ -151,6 +152,7 @@
     <string name="QRLoginTitle">QR orqali kirish</string>
     <string name="NoTranslatorAppInstalled">Sizda tarjima qilish uchun ilovalar yo‘q, davom etish uchun birortasini o‘rnating</string>
     <string name="DisableVoiceMessagesAutoPlay">Ovozli xabar avtomatik ijrosini o\'chirish</string>
+    <string name="UnmuteVideosWithVolumeButtons">Ovoz tugmalari bilan videolarni ochish</string>
     <string name="TranslatorType">Turi</string>
     <string name="TranslatorTypeNeko">Xabarda</string>
     <string name="TranslatorTypeTG">Qalqib turuvchi</string>
@@ -251,6 +253,8 @@
     <string name="SendAnonymousData">Anonim ma\'lumot yuborish</string>
     <string name="SendBugReport">Xatolik haqida xabar yuborish</string>
     <string name="SendBugReportDesc">Bu bizga muammolarni tezda yechishimizga yordam beradi.</string>
+    <string name="CopyReportId">Hisobot identifikatoridan nusxa oling</string>
+    <string name="CopyReportIdDescription">Nosozliklar haqida xabar berishda Hisobot identifikatorini ilova qiling.</string>
     <string name="AnonymousDataDelete">Ma\'lumotni o\'chirish</string>
     <string name="AnonymousDataDeleteDesc">Bu misoldan chiquvchi maʼlumotlarni butunlay bloklash va toʻplangan maʼlumotlarni oʻchirish.</string>
     <string name="SendAnonymousDataDesc">Yuqoridagi funksiyalar %2$s tomonidan taqdim etilgan %1$s dan foydalanadi. To\'plangan ma\'lumotlar anonimdir va biz uni mustaqil qurilma yoki foydalanuvchiga qaytara olmaymiz.</string>
@@ -260,6 +264,7 @@
     <string name="HideStories">Hikoyalarni yashirish</string>
     <string name="QuickForward">Tezkor yuborish menyusidan foydalanish</string>
     <string name="DidNotGetTheCodeBlameDurov">Kodni boshqa qurilmada olmagan bo\'lsangiz, kodni olish uchun rasmiy Telegram’ga SMS orqali kiring.\n\nTelegram uchinchi tomon ilovalarida **SMS bilan kirish imkoniyatini** o‘chirib qo‘ygan. Uchinchi tomon ilovalariga kirgan foydalanuvchilar kirish kodlarini faqat Telegram orqali olishlari mumkin. Endi tizimga kirish uchun SMS so‘rashning iloji yo‘q.\n\nBu borada sizga yordam bera olmaymiz, agar tizimga kirishda muammo bo‘lsa, Telegram yordam xizmatiga murojaat qiling.</string>
+    <string name="ChangePhoneNumberBlameDurov">Telegram uchinchi tomon ilovalarida **telefon raqamini o‘zgartirish imkoniyatini o‘chirib qo‘ydi**. Foydalanuvchilar telefon raqamini faqat Telegram orqali o‘zgartirishlari mumkin.</string>
     <string name="NavigationAnimation">Navigatsiya animatsiyasi</string>
     <string name="NavigationAnimationBezier">Klassik</string>
     <string name="NavigationAnimationSpring">Tabiiy</string>
@@ -281,6 +286,27 @@
     <string name="CreateCode">Kod yaratish</string>
     <string name="CreateCodeLanguage">Til</string>
     <string name="IgnoreContentRestriction">Kontent cheklovlarini olib tashlash</string>
+    <string name="PreviewSendPhoto">Fotosurat yuborish</string>
+    <string name="PreviewSendVideo">Video yuborish</string>
+    <string name="PreviewSendFile">Fayl yuborish</string>
+    <string name="FixLinkPreview">Tuzatilgan havolani ko\'rish</string>
+    <string name="FixLinkPreviewDesc">Havolaga razm solish avtomatik tarzda o‘rnatiladigan boshqa ijtimoiy media havolalarini yuboring.</string>
+    <string name="ShowTimeHint">Vaqt koʻrsatmasini koʻrsatish</string>
+    <string name="ShowTimeHintDesc">Vaqtni bosish orqali batafsil yuborilgan sanani ko‘rsating.</string>
+    <string name="Cryptocurrency">Provayder</string>
+    <string name="TranscribeProviderShort">Provayder</string>
+    <string name="TranscribeProviderAuto">Avto belgilash</string>
+    <string name="TranscribeProviderWorkersAI">Shivirlash (AI bilan ishlaydi)</string>
+    <string name="CloudflareCredentials">Cloudflare ma\'lumotlari</string>
+    <string name="CloudflareCredentialsNotSet">Cloudflare ma\'lumotlari tahrirlanmagan.</string>
+    <string name="CloudflareAccountID">Akkauntning IDsi</string>
+    <string name="CloudflareAPIToken">API Tokeni</string>
+    <string name="CloudflareCredentialsDialog">Cloudflare Akkaunt ID\'si va API Tokenni tahrirlash \n**Yo\'riqnoma**</string>
+    <string name="PreferOriginalQuality">Original sifatni ustun ko\'rish</string>
+    <string name="PreferOriginalQualityDesc">Videolarni asl sifatda korish.</string>
+    <string name="AutoInlineBot">Automatik chiziqli bot</string>
+    <string name="ShortStandardQuality">Standart sifat</string>
+    <string name="ForceFontWeightFallback">Font qalinligini majburiy ortga qaytarish</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Maxsus imkoniyatlar sozlamalari</string>
 </resources>

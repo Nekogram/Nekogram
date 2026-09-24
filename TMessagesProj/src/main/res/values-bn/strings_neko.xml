@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="NekoSettings">Neko বিশদ</string>
+    <string name="PreferIPv6">IPv6 এর মাধ্যমে ছন্দের কানেকশন</string>
+    <string name="MessageMenu">মেসেজ মেন্যু</string>
+    <string name="HidePhone">আমার ফোন নাম্বার লুকিয়ে রাখুন</string>
+    <string name="DeleteAllFromSelf">নিজের মেসেজ ডিলেট করুন</string>
+    <string name="DeleteAllFromSelfAlert">সাবধান! **আপনার এই চ্যাটে সমস্ত পার্টিসিপেন্টদের পাঠানো আপনার** **সমস্ত মেসেজ** ডিলিট হয়ে যাবে.</string>
+    <string name="DeleteAllFromSelfBefore">পূর্বে...</string>
+    <string name="IgnoreBlocked">ব্লক করা ব্যবহারকারীদের থেকে মেসেজগুলো লুকিয়ে রাখুন</string>
+    <string name="Connection">সংযোগ</string>
+    <string name="Chat">কথোপকথন</string>
+    <string name="NameOrder">নামের ধারা</string>
+    <string name="FirstLast">শুরু শেষ</string>
+    <string name="LastFirst">শেষ শুরু</string>
+    <string name="NoQuoteForward">অগ্রসর প্রেরক নাই</string>
+    <string name="NoCaptionForward">অগ্রসর ক্যাপশন নাই</string>
+    <string name="NoQuoteForwardShort">কোনো প্রেরক নেই</string>
+    <string name="NoCaptionForwardShort">কোন ক্যাপশন নেই</string>
+    <string name="Repeat">পুনরাবৃত্তি</string>
+    <string name="CreateMention">মেনশন তৈরি করুন</string>
+    <string name="NekogramRunning">Nekogram চলমান আছে</string>
+    <string name="EventType">সাইডবার আইকন সেট</string>
+    <string name="DependsOnDate">তারিখের উপর নির্ভর করে</string>
+    <string name="Christmas">ক্রিস্টমাস</string>
+    <string name="Valentine">ভ্যালেন্টাইন ডে</string>
+    <string name="DeleteDownloadedFile">ডাউনলোড ফাইল মুছুন।</string>
+    <string name="Nya">মেও!</string>
+    <string name="StickerSize">স্টিকার সাইজ</string>
+    <string name="StickerSizeLeft">ছোট</string>
+    <string name="StickerSizeRight">বড়</string>
+    <string name="StickerSizeDialogMessage">ওহ খুব সুন্দর! একটা কালো বিড়াল!</string>
+    <string name="StickerSizeDialogMessageReplyTo">মেও</string>
+    <string name="MessageDetails">বিসাতারিত</string>
+    <string name="DeleteAccount">টেলিগ্রাম একাউন্ট ডিলিট করুন</string>
+    <string name="TranslationProvider">অনুবাদ প্রদানকারী</string>
+    <string name="ProviderGoogleTranslate">গুগল ট্রান্সলেট</string>
+    <string name="TranslateApiUnsupported">আপনার নির্বাচিত অনুবাদ প্রদানকারী আপনার ভাষা সমর্থন করেন না.</string>
+    <string name="ProviderLingocloud">লিঙ্গ ক্লাউড</string>
+    <string name="UndoTranslate">অনুবাদ পূর্বাবস্থায় ফেরান</string>
+    <string name="OpenArchiveOnPull">আর্কাইভ খোলার জন্য নিচে টানুন</string>
+    <string name="HideKeyboardOnChatScroll">চ্যাট স্ক্রল করে কিবোর্ড লোকান</string>
+    <string name="RearVideoMessages">ভিডিও মেসেজে পিছনের ক্যামেরা খুলুন</string>
+    <string name="HideAllTab">\"অল চ্যাটস\" ট্যাবটি লোকান</string>
+    <!-- Accessibility -->
+</resources>

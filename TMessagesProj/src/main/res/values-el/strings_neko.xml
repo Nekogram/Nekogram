@@ -266,6 +266,8 @@
     <string name="QuickForward">Χρήση μενού γρήγορης προώθησης</string>
     <string name="DidNotGetTheCodeBlameDurov">Εάν δεν έχετε λάβει τον κωδικό σε άλλη συσκευή ή δεν έχετε συνδεθεί στο Telegram σε άλλη συσκευή, παρακαλούμε χρησιμοποιήστε την επίσημη εφαρμογή Telegram για να λάβετε τον κωδικό.\n\nΤο Telegram έχει **απενεργοποιήσει τη δυνατότητα σύνδεσης με SMS** σε εφαρμογές τρίτων. Οι χρήστες που συνδέονται σε εφαρμογές τρίτων κατασκευαστών είναι σε θέση να λαμβάνουν κωδικούς σύνδεσης μόνο μέσω του Telegram.\n\n\Δεν μπορούμε να σας βοηθήσουμε με αυτό, αν έχετε οποιοδήποτε πρόβλημα με τη σύνδεση, παρακαλούμε επικοινωνήστε με την υποστήριξη του Telegram.</string>
     <string name="ChangePhoneNumberBlameDurov">Το Telegram έχει **απενεργοποιήσει τη δυνατότητα αλλαγής του αριθμού τηλεφώνου** σε εφαρμογές τρίτων κατασκευαστών. Οι χρήστες μπορούν να αλλάξουν αριθμό τηλεφώνου μόνο μέσω του Telegram.</string>
+    <string name="CreatePasskeyBlameDurov">Το Telegram δεν υποστηρίζει Κωδικούς πρόσβασης σε εφαρμογές τρίτων. Οι χρήστες μπορούν να δημιουργήσουν και να χρησιμοποιήσουν Κωδικούς πρόσβασης μόνο μέσω του Telegram.</string>
+    <string name="OpenOfficialApp">Άνοιγμα Επίσημης Εφαρμογής</string>
     <string name="NavigationAnimation">Εφέ κίνησης πλοήγησης</string>
     <string name="NavigationAnimationBezier">Κλασική</string>
     <string name="NavigationAnimationSpring">Φυσική</string>
@@ -314,6 +316,10 @@
     <string name="TranslationKeepFormatting">Διατήρηση μορφοποίησης κειμένου στη μετάφραση</string>
     <string name="PredictiveBackAnimation">Πρόβλεψη πίσω εφέ</string>
     <string name="HideBottomNavigationBar">Απόκρυψη κάτω μπάρας πλοήγησης</string>
+    <string name="TabsPosition">Θέση Καρτελών</string>
+    <string name="TabsPositionTop">Κορυφή</string>
+    <string name="TabsPositionBottom">Κάτω</string>
+    <string name="StrokeOnViews">Εφέ Λάμψης</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Ρυθμίσεις προσβασιμότητας</string>
 </resources>

@@ -22,8 +22,6 @@
     <string name="AddToSavedMessages">Salvează mesaj</string>
     <string name="CreateMention">Creează mențiune</string>
     <string name="Prpr">Peropero</string>
-    <string name="EnableResidentNotification">Afișează o notificare rezidentă</string>
-    <string name="DisableResidentNotification">Dezactivează notificarea rezidentă</string>
     <string name="NekogramRunning">Nekogram rulează</string>
     <string name="EventType">Set pictograme bară laterală</string>
     <string name="DependsOnDate">În funcție de dată</string>
@@ -32,7 +30,6 @@
     <string name="DeleteDownloadedFile">Șterge fișierul descărcat</string>
     <string name="TestBackendOn">Acest cont se va conecta la sistemul backend de testare.</string>
     <string name="TestBackendOff">Acest cont se va conecta la sistemul backend de producție.</string>
-    <string name="ViewHistory">Vizualizare istoric</string>
     <string name="Nya">Meow!</string>
     <string name="StickerSize">Dimensiune sticker</string>
     <string name="StickerSizeLeft">Mic</string>

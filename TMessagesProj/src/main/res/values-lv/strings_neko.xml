@@ -15,8 +15,6 @@
     <string name="AddToSavedMessages">Saglabāt ziņojumu</string>
     <string name="CreateMention">Izveidot pieminēšanu</string>
     <string name="Prpr">Peropero</string>
-    <string name="EnableResidentNotification">Rādīt rezidenta paziņojumu</string>
-    <string name="DisableResidentNotification">Rādīt rezidenta paziņojumu</string>
     <string name="NekogramRunning">Nekogram darbojas</string>
     <string name="EventType">Sānu joslas ikonu komplekts</string>
     <string name="DependsOnDate">Atkarībā no datuma</string>
@@ -25,7 +23,6 @@
     <string name="DeleteDownloadedFile">Lejupielādētā faila dzēšana</string>
     <string name="TestBackendOn">Šis konts tiks savienots ar testa backend.</string>
     <string name="TestBackendOff">Šis konts tiks savienots ar testa backend.</string>
-    <string name="ViewHistory">Skatīt vēsturi</string>
     <string name="Nya">Mjau!</string>
     <string name="StickerSize">Uzlīmes izmērs</string>
     <string name="StickerSizeLeft">Mazs</string>
@@ -110,8 +107,6 @@
     <string name="RegistrationDateNewer">Jaunāks nekā %s</string>
     <string name="RegistrationDateOlder">Vecāks par %s</string>
     <string name="RegistrationDateApproximately">Aptuveni %s</string>
-    <string name="WsEnableTls">TLS iespējošana</string>
-    <string name="WsProvider">Nodrošinātājs</string>
     <string name="UpdateNekogram">Nekogrammas atjaunināšana</string>
     <string name="TranslationTarget">Mērķa valoda</string>
     <string name="TranslationTargetApp">Sekojiet lietotnei</string>

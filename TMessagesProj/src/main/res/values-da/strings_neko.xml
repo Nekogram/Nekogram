@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Neko Indstillinger</string>
+    <string name="PreferIPv6">Prefer connecting through IPv6</string>
     <string name="MessageMenu">Meddelelse menu</string>
     <string name="HidePhone">Skjul mit telefonnummer</string>
     <string name="DeleteAllFromSelf">Slet egne beskeder</string>
@@ -15,8 +16,6 @@
     <string name="AddToSavedMessages">Gem besked</string>
     <string name="CreateMention">Opret Omtale</string>
     <string name="Prpr">Peropero</string>
-    <string name="EnableResidentNotification">Vis en resident underretning</string>
-    <string name="DisableResidentNotification">Deaktiver residente notifikationer</string>
     <string name="NekogramRunning">Nekogram kører</string>
     <string name="EventType">Sidebar ikon sæt</string>
     <string name="DependsOnDate">Afhænger af dato</string>
@@ -25,7 +24,6 @@
     <string name="DeleteDownloadedFile">Slet hentede filer</string>
     <string name="TestBackendOn">Denne konto vil oprette forbindelse til test backend.</string>
     <string name="TestBackendOff">Denne konto vil oprette forbindelse til produktionsbackend.</string>
-    <string name="ViewHistory">Se historik</string>
     <string name="Nya">Meow!</string>
     <string name="StickerSize">Klistermærke størrelse</string>
     <string name="StickerSizeDialogMessage">Åh så sød! En sort kat!</string>
@@ -105,8 +103,6 @@
     <string name="SelectBetween">Vælg mellem</string>
     <string name="StickerSavedHint">Klistermærke gemt i galleri</string>
     <string name="RegistrationDate">Registreringsdato</string>
-    <string name="WsEnableTls">Aktiver TLS</string>
-    <string name="WsProvider">Udbyder</string>
     <string name="UpdateNekogram">Opdater Nekogram</string>
     <string name="TranslationTarget">Målsprog</string>
     <string name="TranslationTargetApp">Følg app</string>
@@ -203,8 +199,4 @@
     <string name="MonoCode">Kode</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Tilgængelighedsindstillinger</string>
-    <string name="AccSeekbarHeading">Indstillinger for søgepanel</string>
-    <string name="AccNumberOfItems">Vis antal elementer</string>
-    <string name="AccIndexOfItem">Vis aktuel position</string>
-    <string name="AccShowValueChanges">Annoncere værdiændringer under manuelle ændringer</string>
 </resources>

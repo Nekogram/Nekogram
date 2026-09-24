@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">Мама</string>
+    <string name="PreferIPv6">Prefereixo connectar-me a través de IPv6</string>
     <string name="MessageMenu">Инетик</string>
     <string name="HidePhone">Спрятать телефончик</string>
     <string name="DeleteAllFromSelf">Удалить для котов</string>
+    <string name="DeleteAllFromSelfAlert">Atenció! Aixó **esborrarà tots els teus missatges** en aquesta conversació per a **tots** els participants.</string>
     <string name="IgnoreBlocked">Блок</string>
     <string name="Connection">Инетик</string>
     <string name="Chat">Банда</string>

@@ -19,6 +19,7 @@
     <string name="NoQuoteForwardShort">Gönderen yok</string>
     <string name="NoCaptionForwardShort">Başlık Yok(if Caption = Title mean) / Altyazı Yok (if Caption = subtitle mean) </string>
     <string name="Repeat">Tekrarla</string>
+    <string name="AddToSavedMessages">Mesajı Kaydet</string>
     <string name="CreateMention">Bahset</string>
     <string name="Prpr">Peropero</string>
     <string name="NekogramRunning">Nekogram çalışıyor</string>
@@ -151,6 +152,7 @@
     <string name="QRLoginTitle">QR ile Giriş</string>
     <string name="NoTranslatorAppInstalled">Çevirme isteğinizi gerçekleştirebilecek uygulamalarınız yok, devam etmek için lütfen bir tane yükleyin</string>
     <string name="DisableVoiceMessagesAutoPlay">Sesli mesajları otomatik oynatmayı devre dışı bırak</string>
+    <string name="UnmuteVideosWithVolumeButtons">Включайте звук в видео с помощью кнопок регулировки громкости</string>
     <string name="TranslatorType">Tür</string>
     <string name="TranslatorTypeNeko">Mesajda</string>
     <string name="TranslatorTypeTG">Açılır pencere</string>
@@ -264,6 +266,8 @@
     <string name="QuickForward">Hızlı yönlendirme menüsünü kullan</string>
     <string name="DidNotGetTheCodeBlameDurov">Kodu başka bir cihazda almadıysanız veya başka bir cihazda Telegram oturumunuz yoksa, kodu almak için lütfen resmi Telegram uygulamasını kullanın.\n\nTelegram, **üçüncü taraf uygulamalarda SMS** ile giriş yapma özelliğini devre dışı bırakmıştır. Üçüncü taraf uygulamalara giriş yapan kullanıcılar yalnızca Telegram aracılığıyla giriş kodlarını alabilirler.\n\nBu konuda size yardımcı olamayız, oturum açma ile ilgili herhangi bir sorununuz varsa, lütfen Telegram Destek ile iletişime geçin.</string>
     <string name="ChangePhoneNumberBlameDurov">Telegram **отключил возможность менять номер телефона ** в сторонних приложениях. Пользователи могут менять свой номер телефона только через Telegram.</string>
+    <string name="CreatePasskeyBlameDurov">Telegram Üçüncü Taraf uygulamalardan Geçiş Anahtarı oluşturmayı desteklemiyor. Kullanıcılar Geçiş Anahtarlarını Telegram uygulamasında oluşturup kullanabilirler.</string>
+    <string name="OpenOfficialApp">Resmi Uygulamayı Aç</string>
     <string name="NavigationAnimation">Gezinme animasyonu</string>
     <string name="NavigationAnimationBezier">Klasik</string>
     <string name="NavigationAnimationSpring">Doğal</string>
@@ -309,5 +313,14 @@
     <string name="ForceFontWeightFallback">Yazı tipi ağırlığı yedeklemesini zorla</string>
     <string name="HideChannelBottomButtons">Kanallarda aşağı butonları gizle</string>
     <string name="TranslationKeepFormatting">Çeviri sırasında orijinal metin biçimini koru</string>
+    <string name="HideBottomNavigationBar">Navigasyon Çubuğunu Gizleyin</string>
+    <string name="TabsPosition">Sekmeler Düzeni</string>
+    <string name="TabsPositionTop">Yukarı</string>
+    <string name="TabsPositionBottom">Aşağı</string>
+    <string name="CameraInVideoMessages">Video Mesajlarında Kamera</string>
+    <string name="AskCamera">Her zaman sor</string>
+    <string name="FrontCamera">Ön Kamera</string>
+    <string name="RearCamera">Arka Kamera</string>
     <!-- Accessibility -->
+    <string name="AccessibilitySettings">Erişebilirlik Ayarları</string>
 </resources>

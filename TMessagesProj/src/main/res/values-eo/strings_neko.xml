@@ -1,4 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="NekoSettings">Neko Agordoj</string>
+    <string name="PreferIPv6">Estas prefere konektado tra IPV6</string>
+    <string name="MessageMenu">Mesaĝa menuo</string>
+    <string name="HidePhone">Kaŝi mian telefonnumeron</string>
+    <string name="DeleteAllFromSelf">Forigi miajn mesaĝojn</string>
+    <string name="DeleteAllFromSelfAlert">Atenton! Tio estos **foriginta ĉiujn mesaĝojn de vi** en ĉi tiu babilejo por **ĉiuj** anoj.</string>
+    <string name="DeleteAllFromSelfAlertBefore">Atenton! Tio estos **foriginta ĉiujn mesaĝojn de vi antaŭ %s** en ĉi tiu babilejo por **ĉiuj** anoj.</string>
+    <string name="DeleteAllFromSelfBefore">Antaŭ...</string>
+    <string name="IgnoreBlocked">Kaŝi mesaĝojn de blokita uzanto</string>
+    <string name="Connection">Konektado</string>
+    <string name="Chat">Babilejo</string>
+    <string name="NameOrder">Ordo de nomoj</string>
+    <string name="FirstLast">Unua Lasta</string>
+    <string name="LastFirst">Lasta Unua</string>
+    <string name="NoQuoteForward">Plusendi sen sendinto</string>
+    <string name="NoCaptionForward">Plusendi sen subskribo</string>
+    <string name="NoQuoteForwardShort">Sen sendinto</string>
+    <string name="NoCaptionForwardShort">Sen subskribo</string>
+    <string name="Repeat">Ripeti</string>
+    <string name="CreateMention">Krei mencion</string>
+    <string name="Prpr">Peropero</string>
+    <string name="NekogramRunning">Nekogram funkcias</string>
+    <string name="EventType">Piktogramoj de flanka menuo</string>
+    <string name="DependsOnDate">Dependas de dato</string>
+    <string name="Christmas">Kristnasko</string>
+    <string name="Valentine">La tago de Sankta Valenteno</string>
     <!-- Accessibility -->
 </resources>

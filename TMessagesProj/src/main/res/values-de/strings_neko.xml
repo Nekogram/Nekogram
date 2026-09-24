@@ -19,7 +19,7 @@
     <string name="NoQuoteForwardShort">Ohne Absender</string>
     <string name="NoCaptionForwardShort">Ohne Inhalt</string>
     <string name="Repeat">Wiederholen</string>
-    <string name="AddToSavedMessages">Zu Servermeldungen hinzufügen</string>
+    <string name="AddToSavedMessages">Zu Gespeichertes hinzufügen</string>
     <string name="CreateMention">Erwähnung erstellen</string>
     <string name="Prpr">ペロペロ</string>
     <string name="NekogramRunning">Nekogram wird ausgeführt</string>
@@ -27,7 +27,7 @@
     <string name="DependsOnDate">Abhängig vom Datum</string>
     <string name="Christmas">Weihnachten</string>
     <string name="Valentine">Valentinstag</string>
-    <string name="DeleteDownloadedFile">Heruntergeladene Dateien löschen</string>
+    <string name="DeleteDownloadedFile">Heruntergeladene Datei löschen</string>
     <string name="TestBackendOn">Dieses Konto wird mit dem Test-Backend verbunden.</string>
     <string name="TestBackendOff">Dieses Konto wird mit dem Release-Backend verbunden.</string>
     <string name="Nya">Miau!</string>
@@ -266,6 +266,7 @@
     <string name="QuickForward">Vewende schnelles Weiterleitungsmenü</string>
     <string name="DidNotGetTheCodeBlameDurov">Wenn du den Code nicht auf einem anderen Gerät erhalten hast oder nicht mit einem anderen Gerät angemeldet bist, verwende die offizielle Telegram-Anwendung um den Code zu erhalten.\n\nTelegram hat für Drittanbieter-Anwendungen **die Funktion, sich mittels SMS anzumelden, deaktiviert**. Nutzer von Drittanbieter-Anwendungen können ausschließlich Anmeldecodes über Telegram erhalten. \n\nWir können dich hierbei nicht unterstützen. Bei Anmeldeproblemen kontaktiere bitte den Telegram Support.</string>
     <string name="ChangePhoneNumberBlameDurov">Telegram hat für Drittanbieter-Anwendungen **die Fähigkeit deaktiviert, die Telefonnummer zu ändern**. Nutzer können die Telefonnummer ausschließlich über Telegram ändern.</string>
+    <string name="CreatePasskeyBlameDurov">Telegram unterstützt keine Passkeys in Drittanbieter-Apps. Benutzer können Passkeys nur über Telegram erstellen und verwenden.</string>
     <string name="NavigationAnimation">Navigations-Animation</string>
     <string name="NavigationAnimationBezier">Klassisch</string>
     <string name="NavigationAnimationSpring">Natürlich</string>
@@ -311,6 +312,9 @@
     <string name="ShortStandardQuality">Standardauflösung</string>
     <string name="ForceFontWeightFallback">Zurückschalten der Schriftgröße erzwingen</string>
     <string name="HideChannelBottomButtons">Schaltflächen am unteren Rand des Kanals ausblenden</string>
+    <string name="TranslationKeepFormatting">Textformatierung bei der Übersetzung beibehalten</string>
+    <string name="HideBottomNavigationBar">Untere Navigationsleiste ausblenden</string>
+    <string name="StrokeOnViews">Blendeffekte</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Zugangseinstellungen</string>
 </resources>

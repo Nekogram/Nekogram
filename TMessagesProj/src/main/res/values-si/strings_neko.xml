@@ -1,20 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="NekoSettings">නිකෝ සැකසුම්</string>
+    <string name="PreferIPv6">IPv6 හරහා සම්බන්ධ වීමට කැමති නම්</string>
     <string name="MessageMenu">පණිවිඩ මෙනුව</string>
     <string name="HidePhone">මගේ දුරකථන අංකය හංගන්න</string>
     <string name="DeleteAllFromSelf">තමන්ගේ පණිවිඩ මකන්න</string>
     <string name="DeleteAllFromSelfAlert">අවවාදයයි! මෙහිදී මෙම කතාබහෙහි **ඔබගේ සියලූම පණිවිඩ** **සියලුම සාමාජිකයන්ගෙන්** මකා දමයි.</string>
+    <string name="DeleteAllFromSelfAlertBefore">අවවාදයයි! මෙහිදී මෙම කතාබහෙහි **ඔබගේ සියලූම පණිවිඩ** **සියලුම සාමාජිකයන්ගෙන්** මකා දමයි.</string>
+    <string name="DeleteAllFromSelfBefore">පෙර...</string>
+    <string name="IgnoreBlocked">Block කල පරිශීලකයන්ගෙන් පැමිණෙන messages නොපෙන්වන්න</string>
     <string name="Connection">සම්බන්ධතාවය</string>
     <string name="Chat">කතාබහ</string>
     <string name="NameOrder">නම් අනුපිළිවෙල</string>
     <string name="FirstLast">මුල සිට අගට</string>
     <string name="LastFirst">අග සිට මුලට</string>
+    <string name="NoQuoteForward">යොමු කරන්න යවන්නෙකු නැතුව</string>
+    <string name="NoCaptionForward">ශීර්ෂ පාඨය නොමැතිව යොමු කරන්න</string>
+    <string name="NoQuoteForwardShort">යවන්නෙකු නොමැත</string>
+    <string name="NoCaptionForwardShort">ශීර්ෂ පාඨය නොමැත</string>
     <string name="Repeat">නැවත</string>
     <string name="AddToSavedMessages">පණිවිඩය සුරකින්න</string>
     <string name="CreateMention">සඳහන් කිරීමක් කරන්න</string>
     <string name="Prpr">Peropero</string>
-    <string name="EnableResidentNotification">Show a resident notification</string>
-    <string name="DisableResidentNotification">Disable resident notification</string>
     <string name="NekogramRunning">නෙකෝග්‍රෑම් වැඩ කරමින්</string>
     <string name="EventType">පැති තීරුවෙහි නිරූපක කට්ටලය</string>
     <string name="DependsOnDate">දිනය මත රදා පවතී</string>
@@ -23,9 +30,11 @@
     <string name="DeleteDownloadedFile">බාගත කරගත ගොනුව මකා දමන්න</string>
     <string name="TestBackendOn">මෙම ගිණුම පරීක්ෂණ පසුබිම සදහා සම්බන්ධ වේවි.</string>
     <string name="TestBackendOff">මෙම ගිණුම පරීක්ෂණ පසුබිම සදහා සම්බන්ධ වේවි.</string>
-    <string name="ViewHistory">පසුගිය මැසේජ පෙන්වන්න</string>
     <string name="Nya">ඤාව්!</string>
     <string name="StickerSize">ස්ටිකර් වල විශාලත්වය</string>
+    <string name="StickerSizeLeft">පොඩි</string>
+    <string name="StickerSizeRight">ලොකු </string>
+    <string name="StickerSizeDialogMessage">අනේ ෂෝයි! කළු පුසෙක්!</string>
     <string name="StickerSizeDialogMessageReplyTo">ඤාව්</string>
     <string name="Experiment">පර්යේෂණාත්මක</string>
     <string name="MessageDetails">විස්තර</string>
@@ -42,13 +51,17 @@
     <string name="RearVideoMessages">විඩීයෝ මැසේජ සදහා පසුපස කැමරාව භාවිතා කරන්න</string>
     <string name="HideAllTab">සියලුම කතාබස් සඟවන්න</string>
     <string name="TabTitleType">Show on tabs</string>
+    <string name="TabTitleTypeTip">අයිකන වලාකුළු විදුලි පණිවුඩ මගින් සමමුහුර්ත කර ඇත</string>
     <string name="TabTitleTypeText">මාතෘකා</string>
+    <string name="TabTitleTypeIcon">අයිකන</string>
+    <string name="TabTitleTypeMix">මාතෘකා සහිත නිරූපකරණ</string>
     <string name="ConfirmAVMessage">වීඩියෝ / හඩ පණිවිඩ යැවීමට පෙර තහවුරු කරන්න</string>
     <string name="AskBeforeCalling">ඇමතීමට පෙර විමසන්න</string>
     <string name="DisableNumberRounding">අංක වැටයීම අක්‍රීය කරන්න</string>
     <string name="Categories">වර්ග</string>
     <string name="OfficialChannel">නිල චැනලය</string>
     <string name="About">පිළිබඳව</string>
+    <string name="IgnoreBlockedAbout">අයිකන වලාකුළු විදුලි පණිවුඩ මගින් සමමුහුර්ත කර ඇත</string>
     <string name="Donate">පරිත්‍යාග කරන්න</string>
     <string name="DonateAbout">අපගේ සංවර්ධනයට සහාය වන්න.</string>
     <string name="TranslationAbout">ඔබගේ භාෂාවට නෙකොග්‍රෑම් පරිවර්තනය කිරීමට අපට උදව් කරන්න.</string>
@@ -57,6 +70,9 @@
     <string name="ResetStickerSize">ස්ටිකර් විශාලත්වය නැවත සකසන්න</string>
     <string name="RestartAppToTakeEffect">මෙය ක්‍රියාත්මක වීම සදහා ඇප් එක නැවත ක්‍රියාත්මක කරන්න.</string>
     <string name="DisableAppBarShadow">මාතෘකා තීරු සෙවනැල්ල අක්‍රීය කරන්න</string>
+    <string name="MediaPreview">සංවාද ලැයිස්තුවේ මාධ්‍ය පෙරදසුන</string>
     <string name="IdTypeHidden">හංගන්න</string>
+    <string name="DisableInstantCamera">ක්ෂණික කැමරාව අක්රිය කරන්න</string>
+    <string name="OpenAllLinksInInstantView">instantview හි සියලුම සබැඳි විවෘත කිරීමට උත්සාහ කරන්න</string>
     <!-- Accessibility -->
 </resources>

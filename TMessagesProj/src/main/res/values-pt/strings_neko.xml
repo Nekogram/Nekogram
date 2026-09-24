@@ -22,8 +22,6 @@
     <string name="AddToSavedMessages">Mensagens salvas</string>
     <string name="CreateMention">Criar menção</string>
     <string name="Prpr">Perópero</string>
-    <string name="EnableResidentNotification">Ativar notificação overlay</string>
-    <string name="DisableResidentNotification">Desabilitar notificação overlay</string>
     <string name="NekogramRunning">Nekogram está funcionando</string>
     <string name="EventType">Ícones do menu lateral</string>
     <string name="DependsOnDate">Seguindo o calendário</string>
@@ -32,7 +30,6 @@
     <string name="DeleteDownloadedFile">Excluir arquivo baixado</string>
     <string name="TestBackendOn">Esta conta conectará ao backend de teste.</string>
     <string name="TestBackendOff">Esta conta conectará ao backend de produção.</string>
-    <string name="ViewHistory">Ver Histórico</string>
     <string name="Nya">Miau!</string>
     <string name="StickerSize">Tamanho da figurinha</string>
     <string name="StickerSizeLeft">Pequeno</string>

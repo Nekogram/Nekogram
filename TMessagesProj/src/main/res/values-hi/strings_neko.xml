@@ -1,22 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="NekoSettings">नेको सेटिंग्स</string>
+    <string name="PreferIPv6">IPv6 को प्राथमिकता दें</string>
     <string name="MessageMenu">संदेश मेनू</string>
     <string name="HidePhone">मेरा फोन नंबर छिपाएं</string>
     <string name="DeleteAllFromSelf">खुद के संदेश मिटाएं</string>
     <string name="DeleteAllFromSelfAlert">चेतावनी! यह इस चैट में **सभी** प्रतिभागियों के लिए **आपके सभी संदेशों को ** हटा देगा।</string>
+    <string name="DeleteAllFromSelfAlertBefore">चेतावनी! यह इस चैट में **सभी** प्रतिभागियों के लिए **आपके सभी संदेशों को ** हटा देगा।</string>
+    <string name="DeleteAllFromSelfBefore">पहले</string>
     <string name="IgnoreBlocked">अवरोधित उपयोगकर्ता से संदेश छुपाएँ</string>
     <string name="Connection">कनेक्शन</string>
     <string name="Chat">चैट</string>
     <string name="NameOrder">नाम क्रम</string>
     <string name="FirstLast">नाम उपनाम</string>
     <string name="LastFirst">उपनाम नाम</string>
+    <string name="NoQuoteForward">अग्रेषित करें कोई प्रेषक नहीं</string>
+    <string name="NoCaptionForward">आगे कोई कैप्शन नहीं</string>
+    <string name="NoQuoteForwardShort">कोई प्रेषक नहीं</string>
+    <string name="NoCaptionForwardShort">कोई शीर्षक नहीं</string>
     <string name="Repeat">दोहराएं</string>
     <string name="AddToSavedMessages">संदेश सेव करो</string>
     <string name="CreateMention">उल्लेख बनाएं</string>
-    <string name="Prpr">पेरोपेरो</string>
-    <string name="EnableResidentNotification">कोई निवासी सूचना दिखाएँ</string>
-    <string name="DisableResidentNotification">निवासी अधिसूचना अक्षम करें</string>
+    <string name="Prpr">बहुत अच्छा </string>
     <string name="NekogramRunning">नेकोग्राम चल रहा है</string>
     <string name="EventType">साइडबार आइकन सेट</string>
     <string name="DependsOnDate">तारीख पर निर्भर करता है</string>
@@ -25,7 +30,6 @@
     <string name="DeleteDownloadedFile">डाउनलोड की गई फ़ाइल को हटाएं</string>
     <string name="TestBackendOn">यह अकाउंट टेस्ट बैकएंड से कनेक्ट करेगा।</string>
     <string name="TestBackendOff">यह खाता प्रोडक्शन बैकएंड से कनेक्ट करेगा।</string>
-    <string name="ViewHistory">इतिहास देखें</string>
     <string name="Nya">म्याऊँ!</string>
     <string name="StickerSize">चैट में स्टीकर का साइज</string>
     <string name="StickerSizeLeft">छोटा</string>
@@ -110,8 +114,6 @@
     <string name="RegistrationDateNewer">%s से नया</string>
     <string name="RegistrationDateOlder">%s से पुराना</string>
     <string name="RegistrationDateApproximately">लगभग %s</string>
-    <string name="WsEnableTls">TLS लागू करें</string>
-    <string name="WsProvider">प्रदाता</string>
     <string name="UpdateNekogram">Nekogram को अपडेट करें</string>
     <string name="TranslationTarget">चाही गई भाषा</string>
     <string name="TranslationTargetApp">App को फॉलो करें</string>
@@ -130,6 +132,7 @@
     <string name="SendWebFileInvalid">अमान्य फ़ाइल, सुनिश्चित करें कि फ़ाइल आवश्यकताओं को पूरा कर रही है।</string>
     <string name="AutoLockInstant">हाथोंहाथ</string>
     <string name="RestrictionReason">प्रतिबंध का कारण</string>
+    <string name="ProviderTencentTranslator">ट्रांसस्मार्ट</string>
     <string name="MaxRecentStickers">पिछले स्टीकरों की अधिकतम संख्या</string>
     <string name="DisableJumpToNextChannel">\"Jump to Next Channel\" को डिसेबल करें</string>
     <string name="DisableGreetingSticker">ग्रीटिंग स्टिकर को डिसेबल करें</string>
@@ -149,6 +152,7 @@
     <string name="QRLoginTitle">QR लॉगिन</string>
     <string name="NoTranslatorAppInstalled">आपके पास ऐसे एप्लिकेशन नहीं हैं जो अनुवाद आशय को संभाल सकें, कृपया इसके लिए एक अनुवादक एप्प डाउनलोड करें</string>
     <string name="DisableVoiceMessagesAutoPlay">वॉइस मैसेज का अपने आप चलना बंद करें</string>
+    <string name="UnmuteVideosWithVolumeButtons">वॉल्यूम बटन से वीडियो अनमाइट करें</string>
     <string name="TranslatorType">टाईप करें</string>
     <string name="TranslatorTypeNeko">मैसेज में</string>
     <string name="TranslatorTypeTG">पॉप अप डायलॉग</string>
@@ -250,11 +254,34 @@
     <string name="SendAnonymousData">अनाम डेटा भेजे</string>
     <string name="SendBugReport">बग रिपोर्ट भेजे</string>
     <string name="SendBugReportDesc">ये हमे समस्याएं जल्दी ढूंढने में सहायता कर सकेगा।</string>
+    <string name="CopyReportId">रिपोर्ट आईडी कॉपी करें</string>
+    <string name="CopyReportIdDescription">क्रैश समस्याओं की रिपोर्ट करते समय रिपोर्ट आईडी संलग्न करें</string>
     <string name="AnonymousDataDelete">डेटा को मिटा दे</string>
     <string name="AnonymousDataDeleteDesc">इस उदाहरण से आउटगोइंग डेटा को स्थायी रूप से ब्लॉक करें और एकत्रित डेटा को हटा दें।</string>
+    <string name="SendAnonymousDataDesc">उपरोक्त सुविधाएँ माइक्रोसॉफ्ट द्वारा प्रदान किए गए विशूवअल स्टूडियो ऐप सेंटर का उपयोग करती हैं। एकत्र की गई जानकारी गुमनाम है, जिससे की यह डेटा किस स्वतंत्र उपकरण या उपयोगकर्ता से है, उसका पता हम नही लगा सकते है।</string>
     <string name="SendLargePhotos">विशाल चित्रों को भेजे</string>
     <string name="SendLargePhotosAbout">कंप्रेस की गई इमेज पर साइड लिमिट को बढ़ाकर, २५६०px करें।</string>
     <string name="ExportAsJson">JSON के रूप में कॉपी करें</string>
+    <string name="ViewAsJson">जैसन के रूप में देखें</string>
+    <string name="HideStories">कहानियां छुपाएं</string>
+    <string name="QuickForward">त्वरित अग्रेषित मेनू का उपयोग करें</string>
+    <string name="DidNotGetTheCodeBlameDurov">यदि आपको किसी अन्य डिवाइस पर कोड नहीं मिला है या आपने टेलीग्राम को किसी अन्य डिवाइस पर लॉग इन नहीं किया है, तो कृपया कोड प्राप्त करने के लिए आधिकारिक टेलीग्राम ऐप का उपयोग करें।\n\nटेलीग्राम ने **एसएमएस के साथ लॉग इन करने की क्षमता को अक्षम कर दिया है ** तृतीय-पक्ष ऐप्स पर। तृतीय-पक्ष ऐप्स में लॉग इन करने वाले उपयोगकर्ता केवल टेलीग्राम के माध्यम से लॉगिन कोड प्राप्त करने में सक्षम हैं।\n\nहम इसमें आपकी सहायता नहीं कर सकते, यदि आपको लॉग इन करने में कोई समस्या है, तो कृपया टेलीग्राम सहायता से संपर्क करें।</string>
+    <string name="ChangePhoneNumberBlameDurov">टेलीग्राम ने थर्ड-पार्टी ऐप्स पर **फ़ोन नंबर बदलने की सुविधा को बंद कर दिया है**। उपयोगकर्ता केवल टेलीग्राम के ज़रिए ही फ़ोन नंबर बदल पाएँगे।</string>
+    <string name="NavigationAnimation">नेविगेशन एनीमेशन</string>
+    <string name="NavigationAnimationBezier">क्लासिक</string>
+    <string name="NavigationAnimationSpring">प्राकृतिक</string>
+    <string name="CloudConfig">क्लाउड सेटिंग्स</string>
+    <string name="CloudConfigDesc">अपनी नेको सेटिंग्स को टेलीग्राम क्लाउड में सहेजें</string>
+    <string name="CloudConfigSyncDate">अंतिम बार समन्वयित: %s, क्लाउड: %s</string>
+    <string name="CloudConfigSyncDateNever">कभी नहीं</string>
+    <string name="CloudConfigSync">क्लाउड से सिंक करें</string>
+    <string name="CloudConfigSyncShort">क्लाउड कॉन्फ़िगरेशन सिंक संक्षिप्त</string>
+    <string name="CloudConfigRestore">क्लाउड से पुनर्स्थापित करें</string>
+    <string name="CloudConfigRestoreShort">पुनर्स्थापित करना</string>
+    <string name="CloudConfigSyncing">सिंक्रोनाइज़िंग...</string>
+    <string name="CloudConfigAutoSync">Auto sync</string>
+    <string name="CreateCodeLanguage">भाषा</string>
+    <string name="AutoInlineBotDesc">संदेश के पाठ के आधार पर इनलाइन बॉट को स्वचालित रूप से क्वेरी करना।</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">एक्सेसिबिलिटी सेटिंग</string>
 </resources>

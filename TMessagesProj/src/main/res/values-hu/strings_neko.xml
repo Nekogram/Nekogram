@@ -22,8 +22,6 @@
     <string name="AddToSavedMessages">Üzenet mentése</string>
     <string name="CreateMention">Említés Létrehozása</string>
     <string name="Prpr">Nyalifali</string>
-    <string name="EnableResidentNotification">Állandó értesítés megjelenítése</string>
-    <string name="DisableResidentNotification">Állandó értesítés letiltása</string>
     <string name="NekogramRunning">Nekogram fut</string>
     <string name="EventType">Oldalsáv ikonkészlet</string>
     <string name="DependsOnDate">Dátumtól függ</string>
@@ -32,7 +30,6 @@
     <string name="DeleteDownloadedFile">Letöltött fájl törlése</string>
     <string name="TestBackendOn">Ez a fiók csatlakozni fog a teszt háttérrendszerhez.</string>
     <string name="TestBackendOff">Ez a fiók csatlakozni fog az éles háttérrendszerhez.</string>
-    <string name="ViewHistory">Előzmények megtekintése</string>
     <string name="Nya">Miau!</string>
     <string name="StickerSize">Matrica mérete</string>
     <string name="StickerSizeLeft">Kicsi</string>
@@ -117,8 +114,6 @@
     <string name="RegistrationDateNewer">Újabb, mint %s</string>
     <string name="RegistrationDateOlder">Régebbi, mint %s</string>
     <string name="RegistrationDateApproximately">Körülbelül %s</string>
-    <string name="WsEnableTls">TLS engedélyezése</string>
-    <string name="WsProvider">Szolgáltató</string>
     <string name="UpdateNekogram">Nekogram frissítése</string>
     <string name="TranslationTarget">Célnyelv</string>
     <string name="TranslationTargetApp">Alkalmazás követése</string>
@@ -157,6 +152,7 @@
     <string name="QRLoginTitle">QR bejelentkezés</string>
     <string name="NoTranslatorAppInstalled">Nincsenek olyan alkalmazásai, amelyek képesek kezelni a fordítást, ezért a folytatáshoz telepítsen egyet</string>
     <string name="DisableVoiceMessagesAutoPlay">Hangüzenetek automatikus lejátszásának letiltása</string>
+    <string name="UnmuteVideosWithVolumeButtons">Videók némításának feloldása a hangerőgombokkal</string>
     <string name="TranslatorType">Típus</string>
     <string name="TranslatorTypeNeko">Üzeneten belüli</string>
     <string name="TranslatorTypeTG">Felugró párbeszédpanel</string>
@@ -307,6 +303,11 @@
     <string name="CloudflareAccountID">Számlaazonosító</string>
     <string name="CloudflareAPIToken">API token</string>
     <string name="CloudflareCredentialsDialog">Konfigurálja a Cloudflare fiók azonosítóját és API tokenjét.\n**Hogyan szerezhető be?**</string>
+    <string name="PreferOriginalQuality">Az eredeti minőséget részesítsük előnyben</string>
+    <string name="AutoInlineBot">Automatikus inline bot</string>
+    <string name="AutoInlineBotDesc">Automatikus lekérdezés az inline botról az üzenet szövege alapján.</string>
+    <string name="ShortStandardQuality">SD</string>
+    <string name="ForceFontWeightFallback">A betűméretének, kényszerített visszaállítása</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Kisegítő lehetőségek beállításai</string>
 </resources>

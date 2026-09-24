@@ -328,6 +328,21 @@
     <string name="GooeyAvatarAnimation">animação de avatar \"Gooey\"</string>
     <string name="JsonCopyKey">Copiar chave</string>
     <string name="JsonCopyValue">Copiar valor</string>
+    <string name="LocalCustomEmoji">Emoji personalizado local</string>
+    <string name="MiniSenderAvatar">Remetente mini foto</string>
+    <string name="ExternalStreamingProtocol">Protocolo de streaming externo</string>
+    <string name="ExternalStreamingProtocolDescription">Escolha como os vídeos incompletos serão transmitidos para players externos. A opção nativa funciona melhor com a maioria dos players modernos; mude para HTTP se os vídeos travarem ou não reproduzirem.</string>
+    <string name="ExternalStreamingProtocolContentProvider">Nativo</string>
+    <string name="ExternalStreamingProtocolHttp">HTTP</string>
+    <string name="ExportSession">Sessão de Exportação</string>
+    <string name="SessionQR">QR da sessão</string>
+    <string name="CreateSessionQR">Criar QR de sessão</string>
+    <string name="PassQR">Senha QR</string>
+    <string name="CreatePassQR">Criar senha QR</string>
+    <string name="PassQRNewPassword">Proteja este código QR com uma senha</string>
+    <string name="ConfirmNewPassword">Confirme sua senha</string>
+    <string name="PassQRAbout">Salva sua senha como um código QR criptografado. Você pode escaneá-lo para fazer login em outro dispositivo.</string>
+    <string name="PassQREncryption">Escaneie o código Qr com o Nekogram para fazer login.</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">Opções de acessibilidade</string>
 </resources>
