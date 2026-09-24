@@ -66,6 +66,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ApplicationLoader;
 import org.telegram.messenger.AuthTokensHelper;
 import org.telegram.messenger.BirthdayController;
+import org.telegram.messenger.BuildConfig;
 import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatThemeController;
 import org.telegram.messenger.Emoji;
@@ -148,6 +149,7 @@ import java.util.Set;
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
 import tw.nekomimi.nekogram.helpers.PasscodeHelper;
+import tw.nekomimi.nekogram.session.SessionQr;
 import tw.nekomimi.nekogram.settings.NekoSettingsActivity;
 
 public class SettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate, MainTabsActivity.TabFragmentDelegate, FactorAnimator.Target {
@@ -301,6 +303,8 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                     finishFragment();
                 } else if (id == 2) {
                     presentSettingFragment(new LogoutActivity());
+                } else if (BuildConfig.DEBUG && id == 4) {
+                    SessionQr.exportSession(SettingsActivity.this);
                 }
             }
         });
@@ -338,6 +342,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         otherItem = menu.addItem(1, R.drawable.ic_ab_other);
         otherItem.setContentDescription(getString(R.string.AccDescrMoreOptions));
         otherItem.addSubItem(2, R.drawable.msg_leave, getString(R.string.LogOut));
+        if (BuildConfig.DEBUG) otherItem.addSubItem(4, R.drawable.msg_qrcode, getString(R.string.ExportSession));
 
         search = new ProfileActivity.SearchAdapter(this, context) {
             @Override
