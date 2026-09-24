@@ -331,6 +331,10 @@
     <string name="JsonCopyValue">値をコピー</string>
     <string name="LocalCustomEmoji">ローカルのカスタム絵文字</string>
     <string name="MiniSenderAvatar">送信者のアイコンを縮小</string>
+    <string name="ExternalStreamingProtocol">外部ストリーミングプロトコル</string>
+    <string name="ExternalStreamingProtocolDescription">未完了の動画を外部プレーヤーにストリーミングする方法を選択してください。最新のプレーヤーの多くでは「ネイティブ」が最適ですが、動画が停止したり再生に失敗したりする場合は「HTTP」に切り替えてください。</string>
+    <string name="ExternalStreamingProtocolContentProvider">ネイティブ</string>
+    <string name="ExternalStreamingProtocolHttp">HTTP</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">ユーザー補助の設定</string>
 </resources>

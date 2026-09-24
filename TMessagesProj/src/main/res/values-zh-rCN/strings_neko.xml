@@ -334,6 +334,16 @@
     <string name="ExternalStreamingProtocolDescription">选择将未完成视频流式传输到外部播放器的方式。对于大多数现代播放器而言，“原生”模式效果最佳；如果视频出现卡顿或无法播放，请切换为 HTTP 模式。</string>
     <string name="ExternalStreamingProtocolContentProvider">原生</string>
     <string name="ExternalStreamingProtocolHttp">HTTP</string>
+    <string name="ExportSession">导出会话</string>
+    <string name="SessionQR">会话二维码</string>
+    <string name="CreateSessionQR">创建会话二维码</string>
+    <string name="PassQR">通行密钥二维码</string>
+    <string name="CreatePassQR">创建通行密钥二维码</string>
+    <string name="PassQRNewPassword">用密码保护此二维码</string>
+    <string name="ConfirmNewPassword">确认密码</string>
+    <string name="PassQRAbout">将您的通行密钥保存为加密的二维码。您可以扫描该二维码在另一台设备上登录。</string>
+    <string name="PassQREncryption">使用 Nekogram 扫描登录。</string>
+    <string name="InvalidPassQr">通行密钥二维码无效</string>
     <!-- Accessibility -->
     <string name="AccessibilitySettings">无障碍设置</string>
 </resources>
