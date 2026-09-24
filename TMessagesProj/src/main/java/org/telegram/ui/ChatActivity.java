@@ -2810,7 +2810,6 @@ public class ChatActivity extends BaseFragment implements
     }
 
     private NotificationCenter.ObserversGroup observersGroup;
-    private NotificationCenter.ObserversGroup globalObserversGroup;
 
     @Override
     public boolean onFragmentCreate() {
@@ -3016,7 +3015,6 @@ public class ChatActivity extends BaseFragment implements
         }
 
         observersGroup = getNotificationCenter().createObserversGroup(this);
-        globalObserversGroup = NotificationCenter.getGlobalInstance().createObserversGroup(this);
 
         getNotificationCenter().addPostponeNotificationsCallback(postponeNotificationsWhileLoadingCallback);
         getNotificationCenter().addObserver(this, NotificationCenter.closeChats);
@@ -3138,14 +3136,12 @@ public class ChatActivity extends BaseFragment implements
             .add(NotificationCenter.botForumTopicDidCreate)
             .add(NotificationCenter.botForumDraftUpdate)
             .add(NotificationCenter.botForumDraftDelete)
-            .add(NotificationCenter.joinedGroup);
-
-        globalObserversGroup
-            .add(NotificationCenter.emojiLoaded)
-            .add(NotificationCenter.invalidateMotionBackground)
-            .add(NotificationCenter.didSetNewWallpapper)
-            .add(NotificationCenter.didApplyNewTheme)
-            .add(NotificationCenter.goingToPreviewTheme);
+            .add(NotificationCenter.joinedGroup)
+            .addGlobal(NotificationCenter.emojiLoaded)
+            .addGlobal(NotificationCenter.invalidateMotionBackground)
+            .addGlobal(NotificationCenter.didSetNewWallpapper)
+            .addGlobal(NotificationCenter.didApplyNewTheme)
+            .addGlobal(NotificationCenter.goingToPreviewTheme);
 
         if (chatMode == MODE_EDIT_BUSINESS_LINK) {
             observersGroup.add(NotificationCenter.businessLinksUpdated);
@@ -3287,7 +3283,7 @@ public class ChatActivity extends BaseFragment implements
 
         themeDelegate = parentThemeDelegate != null ? parentThemeDelegate : new ThemeDelegate();
         if (themeDelegate.isThemeChangeAvailable(false)) {
-            globalObserversGroup.add(NotificationCenter.needSetDayNightTheme);
+            observersGroup.addGlobal(NotificationCenter.needSetDayNightTheme);
         }
 
         if (chatInvite != null) {
@@ -3541,10 +3537,6 @@ public class ChatActivity extends BaseFragment implements
             observersGroup.removeAllObservers();
             observersGroup = null;
         }
-        if (globalObserversGroup != null) {
-            globalObserversGroup.removeAllObservers();
-            globalObserversGroup = null;
-        }
 
         getNotificationCenter().removeObserver(this, NotificationCenter.closeChats);
 
@@ -3564,6 +3556,7 @@ public class ChatActivity extends BaseFragment implements
         AndroidUtilities.removeAdjustResize(getParentActivity(), classGuid);
         if (chatAttachAlert != null) {
             chatAttachAlert.onDestroy();
+            chatAttachAlert = null;
         }
         AndroidUtilities.unlockOrientation(getParentActivity());
         if (ChatObject.isChannel(currentChat)) {
