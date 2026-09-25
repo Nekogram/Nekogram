@@ -207,14 +207,14 @@ public class TranslateController extends BaseController {
         if (hideTranslateDialogs.contains(dialogId)) {
             return true;
         }
-        /*TLRPC.ChatFull chatFull = getMessagesController().getChatFull(-dialogId);
+        TLRPC.ChatFull chatFull = getMessagesController().getChatFull(-dialogId);
         if (chatFull != null) {
             return chatFull.translations_disabled;
         }
         TLRPC.UserFull userFull = getMessagesController().getUserFull(dialogId);
         if (userFull != null) {
             return userFull.translations_disabled;
-        }*/
+        }
         return false;
     }
 
@@ -348,7 +348,7 @@ public class TranslateController extends BaseController {
     }
 
     public void setHideTranslateDialog(long dialogId, boolean hide, boolean doNotNotify) {
-        /*TLRPC.TL_messages_togglePeerTranslations req = new TLRPC.TL_messages_togglePeerTranslations();
+        TLRPC.TL_messages_togglePeerTranslations req = new TLRPC.TL_messages_togglePeerTranslations();
         req.peer = getMessagesController().getInputPeer(dialogId);
         req.disabled = hide;
         getConnectionsManager().sendRequest(req, null);
@@ -362,7 +362,7 @@ public class TranslateController extends BaseController {
         if (userFull != null) {
             userFull.translations_disabled = hide;
             getMessagesStorage().updateUserInfo(userFull, true);
-        }*/
+        }
 
         synchronized (this) {
             if (hide) {

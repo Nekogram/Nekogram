@@ -351,7 +351,7 @@ public final class Choreographer60FpsContent implements Choreographer.FrameCallb
     }
 
     private static void checkMainThread() {
-        if (BuildConfig.DEBUG_PRIVATE_VERSION || BuildConfig.DEBUG) {
+        if (BuildConfig.DEBUG_PRIVATE_VERSION || BuildConfig.DEBUG_VERSION) {
             if (Looper.myLooper() != Looper.getMainLooper()) {
                 throw new IllegalStateException("Choreographer60FpsContent must be used on the main thread");
             }

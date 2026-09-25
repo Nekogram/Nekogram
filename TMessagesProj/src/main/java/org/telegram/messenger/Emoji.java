@@ -173,10 +173,6 @@ public class Emoji {
     }
 
     public static Bitmap loadBitmap(String path) {
-        return loadBitmap(path, true);
-    }
-
-    public static Bitmap loadBitmap(String path, boolean assets) {
         try {
             int imageResize;
             if (AndroidUtilities.density <= 1.0f) {
@@ -187,7 +183,7 @@ public class Emoji {
 
             Bitmap bitmap = null;
             try {
-                InputStream is = assets ? ApplicationLoader.applicationContext.getAssets().open(path) : new FileInputStream(path);
+                InputStream is = ApplicationLoader.applicationContext.getAssets().open(path);
                 BitmapFactory.Options opts = new BitmapFactory.Options();
                 opts.inJustDecodeBounds = false;
                 opts.inSampleSize = imageResize;
