@@ -349,7 +349,6 @@ import tw.nekomimi.nekogram.helpers.MessageHelper;
 import tw.nekomimi.nekogram.helpers.QrHelper;
 import tw.nekomimi.nekogram.helpers.WebpageHelper;
 import tw.nekomimi.nekogram.streaming.MediaStreamingProvider;
-import tw.nekomimi.nekogram.translator.Translator;
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
 import me.vkryl.core.reference.ReferenceList;

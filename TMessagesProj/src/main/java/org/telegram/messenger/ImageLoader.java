@@ -1559,26 +1559,6 @@ public class ImageLoader {
                                     }
                                 }
                                 if (image != null) {
-                                    var blur = cacheImage.filter.contains("_blur");
-                                    var darken = cacheImage.filter.contains("_darken");
-                                    if (blur || darken) {
-                                        blurType = 0;
-                                        var width = blur ? 150 : image.getWidth();
-                                        var height = blur ? 150 : image.getHeight();
-                                        var bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-                                        var canvas = new Canvas(bitmap);
-                                        canvas.drawBitmap(image, null, new Rect(0, 0, width, height), null);
-                                        if (blur) {
-                                            Utilities.stackBlurBitmap(bitmap, 3);
-                                        }
-                                        if (darken) {
-                                            var palette = Palette.from(image).generate();
-                                            canvas.drawColor((palette.getDarkMutedColor(0xFF547499) & 0x00FFFFFF) | 0x44000000);
-                                        }
-                                        image.recycle();
-                                        image = bitmap;
-                                        blured = true;
-                                    }
                                     if (checkInversion) {
                                         Bitmap b = image;
                                         int w = image.getWidth();

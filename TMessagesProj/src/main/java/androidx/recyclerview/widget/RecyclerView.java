@@ -11345,10 +11345,6 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
             }
         }
 
-        public Object getPayload() {
-            return getUnmodifiedPayloads().isEmpty() ? null : getUnmodifiedPayloads().get(0);
-        }
-
         void resetInternal() {
             mFlags = 0;
             if (mPosition != NO_POSITION) {

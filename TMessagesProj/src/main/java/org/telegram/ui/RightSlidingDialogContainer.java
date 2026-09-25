@@ -389,7 +389,7 @@ public abstract class RightSlidingDialogContainer extends FrameLayout {
                     float x = swipeBackX;
                     float velX = velocityTracker.getXVelocity();
                     float velY = velocityTracker.getYVelocity();
-                    final boolean backAnimation = x < getMeasuredWidth() / 3.0f && (velX < 2800 || velX < velY);
+                    final boolean backAnimation = x < getMeasuredWidth() / 3.0f && (velX < 3500 || velX < velY);
 
                     if (!backAnimation) {
                         finishPreviewInernal();

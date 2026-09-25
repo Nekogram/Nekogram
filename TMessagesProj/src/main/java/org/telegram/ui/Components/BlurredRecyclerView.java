@@ -7,7 +7,6 @@ import android.view.View;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.SharedConfig;
-import org.telegram.ui.ActionBar.Theme;
 
 public class BlurredRecyclerView extends RecyclerListView {
 
@@ -20,10 +19,6 @@ public class BlurredRecyclerView extends RecyclerListView {
 
     public BlurredRecyclerView(Context context) {
         super(context);
-    }
-
-    public BlurredRecyclerView(Context context, Theme.ResourcesProvider resourcesProvider) {
-        super(context, resourcesProvider);
     }
 
     @Override

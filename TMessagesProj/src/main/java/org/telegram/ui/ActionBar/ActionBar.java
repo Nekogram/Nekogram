@@ -818,7 +818,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         canvas.translate(front ? getWidth() * progress * 0.5f : -getWidth() * 0.4f * (1f - progress), 0);
         for (int i = 0; i < getChildCount(); i++) {
             View ch = getChildAt(i);
-            if ((!hideBackDrawable || ch != backButtonImageView) && ch.getVisibility() == View.VISIBLE && ch.getAlpha() != 0 && !(ch instanceof ActionBarMenu)) {
+            if ((!hideBackDrawable || ch != backButtonImageView) && ch.getVisibility() == View.VISIBLE && !(ch instanceof ActionBarMenu)) {
                 canvas.save();
                 canvas.translate(ch.getX(), ch.getY());
                 ch.draw(canvas);
@@ -1162,7 +1162,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
     }
 
     public int getBackgroundColor() {
-        return isActionModeShowed() ? actionModeColor : actionBarColor;
+        return actionBarColor;
     }
 
     public boolean isActionModeShowed() {
@@ -1834,10 +1834,6 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         if (backButtonImageView != null && mAlwaysApplyColorFilterToBackButton) {
             backButtonImageView.setColorFilter(new PorterDuffColorFilter(itemsColor, PorterDuff.Mode.SRC_IN));
         }
-    }
-
-    public int getItemsColor() {
-        return itemsColor;
     }
 
     public void setCastShadows(boolean value) {

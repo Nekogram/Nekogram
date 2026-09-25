@@ -56,6 +56,7 @@ public class TextCheckbox2Cell extends FrameLayout {
         }
     };
 
+
     public TextCheckbox2Cell(Context context) {
         this(context, 21, false, null);
     }
