@@ -271,9 +271,17 @@ public class HTMLKeeper {
             AndroidUtilities.addLinksSafe(htmlParsed, Linkify.ALL, false, true);
         }
         CharacterStyle[] mSpans = htmlParsed.getSpans(0, htmlParsed.length(), CharacterStyle.class);
+        var plainText = htmlParsed.toString();
+        var textLength = plainText.length();
         for (CharacterStyle mSpan : mSpans) {
-            int start = htmlParsed.getSpanStart(mSpan);
-            int end = htmlParsed.getSpanEnd(mSpan);
+            if ((htmlParsed.getSpanFlags(mSpan) & Spanned.SPAN_MARK_MARK) == Spanned.SPAN_MARK_MARK) {
+                continue;
+            }
+            int start = Math.min(htmlParsed.getSpanStart(mSpan), textLength);
+            int end = Math.min(htmlParsed.getSpanEnd(mSpan), textLength);
+            if (start < 0 || end < 0 || start >= end) {
+                continue;
+            }
             TLRPC.MessageEntity entity = null;
             if (mSpan instanceof URLSpan urlSpan) {
                 if (copyEntities != null) {
@@ -327,11 +335,19 @@ public class HTMLKeeper {
                     entity.url = urlSpan.getURL();
                 }
             } else if (mSpan instanceof StyleSpan styleSpan) {
-                entity = switch (styleSpan.getStyle()) {
-                    case TextStyleSpan.FLAG_STYLE_BOLD -> new TLRPC.TL_messageEntityBold();
-                    case TextStyleSpan.FLAG_STYLE_ITALIC -> new TLRPC.TL_messageEntityItalic();
-                    default -> null;
-                };
+                var style = styleSpan.getStyle();
+                if ((style & Typeface.BOLD) != 0) {
+                    var boldEntity = new TLRPC.TL_messageEntityBold();
+                    boldEntity.offset = start;
+                    boldEntity.length = end - start;
+                    returnEntities.add(boldEntity);
+                }
+                if ((style & Typeface.ITALIC) != 0) {
+                    var italicEntity = new TLRPC.TL_messageEntityItalic();
+                    italicEntity.offset = start;
+                    italicEntity.length = end - start;
+                    returnEntities.add(italicEntity);
+                }
             } else if (mSpan instanceof TypefaceSpan) {
                 entity = new TLRPC.TL_messageEntityCode();
             } else if (mSpan instanceof UnderlineSpan) {
@@ -357,7 +373,7 @@ public class HTMLKeeper {
                 returnEntities.add(entity);
             }
         }
-        return Translator.textWithEntities(htmlParsed.toString(), returnEntities);
+        return Translator.textWithEntities(plainText, returnEntities);
     }
 
     // VARIOUS HTML FIXERS
