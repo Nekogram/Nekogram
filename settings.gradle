@@ -36,3 +36,4 @@ include ':jlatexmath'
 //project(':jlatexmath').projectDir = file('TMessagesProj/lib/jlatexmath/jlatexmath')
 
 includeMedia3.execute(file('TMessagesProj_Modules/media'))
+include ':baselineprofile'
