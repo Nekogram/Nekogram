@@ -100,6 +100,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
     private RLottieDrawable switchCameraDrawable;
     private RLottieDrawable flashOnDrawable;
     private RLottieDrawable flashOffDrawable;
+    private RoundVideoSession.CameraFacing initialFacing = RoundVideoSession.CameraFacing.FRONT;
     private boolean startedNotificationSent;
     private boolean resumeNotificationPending;
     private boolean stopNotificationSent;
@@ -355,6 +356,11 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
     }
 
     @Override
+    public void setFrontface(boolean frontface) {
+        initialFacing = frontface ? RoundVideoSession.CameraFacing.FRONT : RoundVideoSession.CameraFacing.BACK;
+    }
+
+    @Override
     public void showCamera(boolean fromPaused) {
         if (session != null) return;
         setVisibilityFromPause = fromPaused;
@@ -370,7 +376,7 @@ public final class InstantCameraView2 extends InstantCameraViewBase {
         upload = new TelegramRoundVideoUpload(currentAccount, secretChat);
         activeOutputResolution = SharedSettings.roundVideoOutputResolution.get();
         session = new RoundVideoSession.Builder(getContext(), textureView)
-                .setInitialFacing(SharedSettings.roundVideoLastCamera.get())
+                .setInitialFacing(fromPaused ? SharedSettings.roundVideoLastCamera.get() : initialFacing)
                 .setOutputResolution(activeOutputResolution)
                 .setVideoBitrate(SharedSettings.roundVideoVideoBitrate.get())
                 .setCameraResolution(SharedSettings.roundVideoCameraResolution.get())

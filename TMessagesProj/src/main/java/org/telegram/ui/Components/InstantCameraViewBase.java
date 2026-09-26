@@ -174,6 +174,8 @@ public abstract class InstantCameraViewBase extends FrameLayout {
     /** Applies the host pan translation. */
     public abstract void onPanTranslationUpdate(float translationY);
 
+    public abstract void setFrontface(boolean frontface);
+
     /** Common camera container required by the send-to-message transition. */
     public abstract static class InstantViewCameraContainer extends FrameLayout {
         /** Creates a transition container. */
