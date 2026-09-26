@@ -303,7 +303,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                     finishFragment();
                 } else if (id == 2) {
                     presentSettingFragment(new LogoutActivity());
-                } else if (BuildConfig.DEBUG && id == 4) {
+                } else if (id == 4) {
                     SessionQr.exportSession(SettingsActivity.this);
                 }
             }
@@ -342,7 +342,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         otherItem = menu.addItem(1, R.drawable.ic_ab_other);
         otherItem.setContentDescription(getString(R.string.AccDescrMoreOptions));
         otherItem.addSubItem(2, R.drawable.msg_leave, getString(R.string.LogOut));
-        if (BuildConfig.DEBUG) otherItem.addSubItem(4, R.drawable.msg_qrcode, getString(R.string.ExportSession));
+        otherItem.addSubItem(4, R.drawable.msg_qrcode, getString(R.string.ExportSession));
 
         search = new ProfileActivity.SearchAdapter(this, context) {
             @Override
