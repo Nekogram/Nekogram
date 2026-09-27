@@ -38,7 +38,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
-import app.nekogram.translator.Http429Exception;
+import app.nekogram.translator.exception.Http429Exception;
 import tw.nekomimi.nekogram.NekoConfig;
 import tw.nekomimi.nekogram.helpers.PopupHelper;
 import tw.nekomimi.nekogram.settings.NekoLanguagesSelectActivity;

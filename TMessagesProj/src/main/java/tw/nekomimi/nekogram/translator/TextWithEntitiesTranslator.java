@@ -17,6 +17,7 @@ import app.nekogram.translator.LingoTranslator;
 import app.nekogram.translator.MicrosoftTranslator;
 import app.nekogram.translator.SogouTranslator;
 import app.nekogram.translator.TranSmartTranslator;
+import app.nekogram.translator.TranslatorConfig;
 import app.nekogram.translator.YandexTranslator;
 import app.nekogram.translator.YouDaoTranslator;
 import okhttp3.Call;
@@ -33,7 +34,7 @@ public class TextWithEntitiesTranslator implements Translator.ITranslator {
 
     public static TextWithEntitiesTranslator of(String type) {
         if (!configuredCallFactory) {
-            BaseTranslator.setOkHttpCallFactory(buildCallFactory());
+            TranslatorConfig.setCallFactory(buildCallFactory());
             configuredCallFactory = true;
         }
         return wrappedTranslators.computeIfAbsent(type, type1 -> {
@@ -82,14 +83,16 @@ public class TextWithEntitiesTranslator implements Translator.ITranslator {
         if (NekoConfig.keepFormatting) {
             var html = HTMLKeeper.entitiesToHtml(query.text, query.entities, false);
             var result = translator.translate(html, null, tl);
-            var textAndEntitiesTranslated = HTMLKeeper.htmlToEntities(result.translation, query.entities, false);
+            var textAndEntitiesTranslated = HTMLKeeper.htmlToEntities(result.getTranslation(), query.entities, false);
             return Translator.TranslationResult.of(
                     TranslateAlert2.preprocess(query, textAndEntitiesTranslated),
-                    result.sourceLanguage
+                    result.getSourceLanguage()
             );
         } else {
             var result = translator.translate(query.text, null, tl);
-            return Translator.TranslationResult.of(Translator.textWithEntities(result.translation, null), result.sourceLanguage);
+            return Translator.TranslationResult.of(
+                    Translator.textWithEntities(result.getTranslation(), null)
+                    , result.getSourceLanguage());
         }
     }
 

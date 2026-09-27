@@ -25,7 +25,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.concurrent.TimeUnit;
 import java.util.function.Consumer;
 
-import app.nekogram.translator.DeepLTranslator;
+import app.nekogram.translator.TranslatorConfig;
 import okhttp3.FormBody;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -221,7 +221,7 @@ public class DeepLOAuth {
             }
             refreshToken(refreshToken);
         }
-        DeepLTranslator.setJwt(getAccessToken());
+        TranslatorConfig.setDeepLJwt(getAccessToken());
     }
 
     public static IdToken getIdInfo() {
@@ -247,7 +247,7 @@ public class DeepLOAuth {
                 .remove("refresh_token")
                 .remove("id_token")
                 .apply();
-        DeepLTranslator.setJwt(null);
+        TranslatorConfig.setDeepLJwt(null);
     }
 
     private record AuthUrl(String url, String codeVerifier) {
