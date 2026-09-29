@@ -17856,13 +17856,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         yPos = top + (bottom - top - layoutParams.height * scale) / 2;
                         xPos = (windowView.getMeasuredWidth() - getLeftInset() - getRightInset() - layoutParams.width * scale) / 2.0f + getLeftInset();
                     } else {
+                        var isLandscape = AndroidUtilities.displaySize.x > AndroidUtilities.displaySize.y;
                         scaleX = (float) (windowView.getMeasuredWidth()) / layoutParams.width;
-                        scaleY = (float) (AndroidUtilities.displaySize.y + (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0)) / layoutParams.height;
+                        scaleY = (float) (AndroidUtilities.displaySize.y + (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0) + (isLandscape ? insets.bottom : 0)) / layoutParams.height;
                         scale = Math.min(scaleX, scaleY);
                         if (sendPhotoType == SELECT_TYPE_STICKER) {
                             scale *= scale1();
                         }
-                        yPos = ((AndroidUtilities.displaySize.y + (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0)) - (layoutParams.height * scale)) / 2.0f;
+                        yPos = ((AndroidUtilities.displaySize.y + (isStatusBarVisible() ? AndroidUtilities.statusBarHeight : 0) + (isLandscape ? insets.bottom : 0)) - (layoutParams.height * scale)) / 2.0f;
                         xPos = (windowView.getMeasuredWidth() - layoutParams.width * scale) / 2.0f;
                         rotate = 0;
                         animateToRotate = 0;
@@ -19063,7 +19064,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             height = containerView.getMeasuredHeight();
         } else {
             height = AndroidUtilities.displaySize.y;
-            height += AndroidUtilities.navigationBarHeight - insets.bottom;
+            var isLandscape = AndroidUtilities.displaySize.x > AndroidUtilities.displaySize.y;
+            if (isLandscape) {
+                height += insets.bottom;
+            } else {
+                height += AndroidUtilities.navigationBarHeight - insets.bottom;
+            }
             if ((mode == EDIT_MODE_NONE || mode == EDIT_MODE_STICKER_MASK || mode == EDIT_MODE_COVER) && sendPhotoType != SELECT_TYPE_AVATAR && isStatusBarVisible()) {
                 height += AndroidUtilities.statusBarHeight;
             }
