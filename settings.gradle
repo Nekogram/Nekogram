@@ -1,22 +1,12 @@
 pluginManagement {
     includeBuild('build-logic')
-    includeBuild('TMessagesProj_Modules/media/build-logic-settings')
     repositories {
-        google {
-            content {
-                includeGroupByRegex("com\\.android.*")
-                includeGroupByRegex("com\\.google.*")
-                includeGroupByRegex("androidx.*")
-            }
-        }
+        google()
         mavenCentral()
         gradlePluginPortal()
     }
 }
-plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '1.0.0'
-    id 'gradlebuild.media3-settings-logic'
-}
+
 dependencyResolutionManagement {
     repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
     repositories {
@@ -28,11 +18,4 @@ dependencyResolutionManagement {
 rootProject.name = "Nekogram"
 include ':TMessagesProj'
 include ':TMessagesProj_App'
-//include ':TMessagesProj_AppHuawei'
-//include ':TMessagesProj_AppHockeyApp'
-//include ':TMessagesProj_AppStandalone'
-//include ':TMessagesProj_AppTests'
 include ':jlatexmath'
-//project(':jlatexmath').projectDir = file('TMessagesProj/lib/jlatexmath/jlatexmath')
-
-includeMedia3.execute(file('TMessagesProj_Modules/media'))
