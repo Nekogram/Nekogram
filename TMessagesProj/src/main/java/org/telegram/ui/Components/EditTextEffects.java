@@ -17,6 +17,7 @@ import android.util.Log;
 import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.FileLog;
@@ -25,6 +26,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.spoilers.SpoilerEffect;
 import org.telegram.ui.Components.spoilers.SpoilersClickDetector;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
@@ -69,11 +71,28 @@ public class EditTextEffects extends AppCompatEditText {
     private Rect rect = new Rect();
     private boolean clipToPadding;
 
+    private static Field shadowRadiusField;
+
+    static {
+        try {
+            shadowRadiusField = TextView.class.getDeclaredField("mShadowRadius");
+            shadowRadiusField.setAccessible(true);
+        } catch (Throwable t) {
+            FileLog.e(t);
+            shadowRadiusField = null;
+        }
+    }
+
     public EditTextEffects(Context context) {
         super(context, null, 0, R.style.EditTextNoBackgroundStyle);
 
         if (Looper.getMainLooper().getThread() == Thread.currentThread()) {
             clickDetector = new SpoilersClickDetector(this, spoilers, this::onSpoilerClicked);
+        }
+
+        try {
+            shadowRadiusField.set(this, 100_000f);
+        } catch (Exception ignored) {
         }
     }
 
@@ -288,6 +307,7 @@ public class EditTextEffects extends AppCompatEditText {
 
     private static Boolean allowHackingTextCanvasCache;
     public static boolean allowHackingTextCanvas() {
+        if (shadowRadiusField != null) return false;
         if (allowHackingTextCanvasCache == null) {
             allowHackingTextCanvasCache = Build.VERSION.SDK_INT > Build.VERSION_CODES.KITKAT_WATCH && (
                 Build.MANUFACTURER == null ||
