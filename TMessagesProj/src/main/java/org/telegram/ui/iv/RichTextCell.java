@@ -36,6 +36,7 @@ import org.telegram.messenger.Emoji;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
+import org.telegram.messenger.UserConfig;
 import org.telegram.tgnet.tl.TL_iv;
 import org.telegram.ui.ActionBar.FloatingToolbar;
 import org.telegram.ui.ActionBar.Theme;
@@ -136,6 +137,12 @@ public class RichTextCell extends FrameLayout implements Theme.Colorable, TextSe
     private CharacterStyle collapsedPart;
     private int collapsedPartStart = -1, collapsedPartEnd = -1;
     private boolean applyingCollapsedDecoration;
+
+    private boolean enableCommands;
+
+    public void setEnableCommands(boolean commands) {
+        enableCommands = commands;
+    }
 
     public RichTextCell(Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context);
@@ -243,7 +250,7 @@ public class RichTextCell extends FrameLayout implements Theme.Colorable, TextSe
                 if (delegate != null) delegate.onTextChanged(currentRow);
                 if (delegate != null) delegate.onSlashSuggest(RichTextCell.this, slashQuery(text.toString()));
                 int mdCmd = matchMarkdownCommand(text.toString(), currentRow);
-                if (mdCmd != CMD_NONE && delegate != null) {
+                if (enableCommands && mdCmd != CMD_NONE && delegate != null) {
                     final BlockRow r = currentRow;
                     final int finalCmd = mdCmd;
                     post(() -> {
@@ -253,7 +260,7 @@ public class RichTextCell extends FrameLayout implements Theme.Colorable, TextSe
                     });
                 } else {
                     Transform tr = matchMarkdownTrigger(text.toString(), currentRow);
-                    if (tr != null && delegate != null) {
+                    if (enableCommands && tr != null && delegate != null) {
                         final BlockRow r = currentRow;
                         final Transform finalTr = tr;
                         post(() -> {
@@ -1744,6 +1751,7 @@ public class RichTextCell extends FrameLayout implements Theme.Colorable, TextSe
         @Override
         public RichTextCell createView(Context context, RecyclerListView listView, int currentAccount, int classGuid, Theme.ResourcesProvider resourcesProvider) {
             final RichTextCell cell = new RichTextCell(context, resourcesProvider);
+            cell.setEnableCommands(UserConfig.getInstance(currentAccount).isPremium());
             cell.setBackground(new RichEditor.DraggingDrawable(Theme.getColor(Theme.key_windowBackgroundWhite, resourcesProvider)));
             return cell;
         }
