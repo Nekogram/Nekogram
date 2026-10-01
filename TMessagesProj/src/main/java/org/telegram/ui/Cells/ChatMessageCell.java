@@ -18515,10 +18515,16 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             timeString = MessageHelper.createTranslateString(currentMessageObject);
             customDrawableWidth = timeString instanceof SpannableStringBuilder ? Theme.chat_arrowDrawable.getIntrinsicWidth() : 0;
         } else if (edited) {
-            timeString = AppGlobalConfig.getInstance(currentAccount).messagePrimaryEditedDate.get() ?
-                LocaleController.formatPmEditedDate(currentMessagesGroup != null ? currentMessagesGroup.getMaxEditDate() : messageObject.messageOwner.edit_date) :
-                MessageHelper.createEditedString(currentMessageObject);
-            customDrawableWidth = Theme.chat_editDrawable.getIntrinsicWidth();
+            if (AppGlobalConfig.getInstance(currentAccount).messagePrimaryEditedDate.get()) {
+                int editDate = currentMessagesGroup != null ? currentMessagesGroup.getMaxEditDate() : messageObject.messageOwner.edit_date;
+                if (editDate == 0 && currentMessageObject.isEditing()) {
+                    editDate = ConnectionsManager.getInstance(currentAccount).getCurrentTime();
+                }
+                timeString = LocaleController.formatPmEditedDate(editDate);
+            } else {
+                timeString = MessageHelper.createEditedString(currentMessageObject);
+                customDrawableWidth = Theme.chat_editDrawable.getIntrinsicWidth();
+            }
         } else if (currentMessageObject.isSaved && currentMessageObject.messageOwner.fwd_from != null && (currentMessageObject.messageOwner.fwd_from.date != 0 || currentMessageObject.messageOwner.fwd_from.saved_date != 0)) {
             int date = currentMessageObject.messageOwner.fwd_from.saved_date;
             if (date == 0) {
