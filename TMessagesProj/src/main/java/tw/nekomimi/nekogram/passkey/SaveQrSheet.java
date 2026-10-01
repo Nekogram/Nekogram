@@ -341,13 +341,14 @@ public class SaveQrSheet extends BottomSheet {
 
     @Nullable
     private Bitmap getAvatarBitmap(TLRPC.User user, int size) {
-        var photoPath = user.photo.photo_small;
-        if (photoPath != null) {
-            var path = FileLoader.getInstance(currentAccount).getPathToAttach(photoPath, true);
-            if (path.exists()) {
-                return ImageLoader.loadBitmap(path.getAbsolutePath(), null, size, size, false);
-            }
+        if (user.photo == null || user.photo.photo_small == null) {
+            return null;
         }
-        return null;
+        var photo = user.photo.photo_small;
+        var path = FileLoader.getInstance(currentAccount).getPathToAttach(photo, true);
+        if (!path.exists()) {
+            return null;
+        }
+        return ImageLoader.loadBitmap(path.getAbsolutePath(), null, size, size, false);
     }
 }
