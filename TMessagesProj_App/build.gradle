@@ -85,12 +85,6 @@ android {
         manifestPlaceholders = [MAPS_API_KEY: localProperties.get("mapsApiKey")]
     }
 
-    bundle {
-        language {
-            enableSplit = false
-        }
-    }
-
     splits.abi {
         var buildingBundle = gradle.startParameter.taskNames.any { it.startsWith("bundle") }
         enable !buildingBundle

@@ -41,7 +41,7 @@ configurations.configureEach {
 
 dependencies {
     implementation 'androidx.activity:activity:1.13.0'
-    implementation 'androidx.collection:collection:1.6.0'
+    implementation 'androidx.collection:collection:1.7.0'
     implementation 'androidx.fragment:fragment:1.9.1'
     implementation 'androidx.core:core:1.19.1'
     implementation 'androidx.palette:palette:1.0.0'
@@ -76,7 +76,7 @@ dependencies {
     implementation 'com.google.mlkit:language-id:17.0.6'
     implementation 'com.android.billingclient:billing:9.1.0'
     implementation 'com.google.code.gson:gson:2.14.0'
-    implementation ('com.google.guava:guava:33.7.1-android') {
+    implementation ('com.google.guava:guava:33.7.2-android') {
         exclude group: 'com.google.code.findbugs', module: 'jsr305'
         exclude group: 'org.checkerframework', module: 'checker-compat-qual'
         exclude group: 'org.checkerframework', module: 'checker-qual'
@@ -116,8 +116,8 @@ dependencies {
     }
 
     implementation 'androidx.browser:browser:1.10.0'
-    implementation 'app.nekogram.gifski:gifski:1.0.2'
-    implementation 'app.nekogram.translator:translator:2.0.0'
+    implementation 'app.nekogram.gifski:gifski:1.0.3'
+    implementation 'app.nekogram.translator:translator:2.0.2'
     implementation 'com.jaredrummler:truetypeparser-light:1.0.0'
     implementation 'com.squareup.okhttp3:okhttp:5.5.0'
     implementation 'org.lsposed.hiddenapibypass:hiddenapibypass:6.1'
@@ -128,7 +128,7 @@ dependencies {
     implementation 'co.nstant.in:cbor:0.9'
 
     implementation 'com.google.firebase:firebase-analytics:23.2.0'
-    implementation 'io.sentry:sentry-android:8.58.0'
+    implementation 'io.sentry:sentry-android:8.60.0'
 }
 
 android {
