@@ -21672,31 +21672,31 @@ public class MessagesController extends BaseController implements NotificationCe
                     for (int a = 0, N = res.messages.size(); a < N; a++) {
                         TLRPC.TL_sponsoredMessage sponsoredMessage = res.messages.get(a);
                         TLRPC.TL_message message = new TLRPC.TL_message();
-                        if (!sponsoredMessage.entities.isEmpty()) {
-                            message.entities = sponsoredMessage.entities;
-                            message.flags |= 128;
-                        }
+                        //if (!sponsoredMessage.entities.isEmpty()) {
+                        //    message.entities = sponsoredMessage.entities;
+                        //    message.flags |= 128;
+                        //}
                         message.peer_id = getPeer(dialogId);
                         message.flags |= 256;
                         message.date = getConnectionsManager().getCurrentTime();
                         message.id = messageId--;
                         message.message = sponsoredMessage.message;
-                        if (sponsoredMessage.media != null) {
-                            message.flags |= 512;
-                        }
-                        message.media = sponsoredMessage.media;
+                        //if (sponsoredMessage.media != null) {
+                        //    message.flags |= 512;
+                        //}
+                        //message.media = sponsoredMessage.media;
                         MessageObject messageObject = new MessageObject(currentAccount, message, usersDict, chatsDict, true, true);
                         messageObject.sponsoredId = sponsoredMessage.random_id;
                         messageObject.sponsoredTitle = sponsoredMessage.title;
                         messageObject.sponsoredUrl = sponsoredMessage.url;
                         messageObject.sponsoredRecommended = sponsoredMessage.recommended;
-                        messageObject.sponsoredPhoto = sponsoredMessage.photo;
+                        //messageObject.sponsoredPhoto = sponsoredMessage.photo;
                         messageObject.sponsoredInfo = sponsoredMessage.sponsor_info;
                         messageObject.sponsoredAdditionalInfo = sponsoredMessage.additional_info;
                         messageObject.sponsoredButtonText = sponsoredMessage.button_text;
                         messageObject.sponsoredCanReport = sponsoredMessage.can_report;
                         messageObject.sponsoredColor = sponsoredMessage.color;
-                        messageObject.sponsoredMedia = sponsoredMessage.media;
+                        //messageObject.sponsoredMedia = sponsoredMessage.media;
                         messageObject.setType();
                         messageObject.textLayoutBlocks = new ArrayList<>();
                         messageObject.generateThumbs(true);

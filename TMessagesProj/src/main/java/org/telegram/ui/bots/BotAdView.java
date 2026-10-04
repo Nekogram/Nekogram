@@ -73,7 +73,7 @@ public class BotAdView extends FrameLayout {
         textLayout.addView(titleLayout, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, Gravity.LEFT | Gravity.TOP, 0, 0, 0, 0));
 
         titleView = new TextView(context);
-        titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
         titleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         titleView.setTypeface(AndroidUtilities.bold());
         titleLayout.addView(titleView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, Gravity.CENTER_VERTICAL));
@@ -90,14 +90,14 @@ public class BotAdView extends FrameLayout {
 
         channelTitleView = new TextView(context);
         channelTitleView.setVisibility(View.GONE);
-        channelTitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
+        channelTitleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
         channelTitleView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         channelTitleView.setTypeface(AndroidUtilities.bold());
         textLayout.addView(channelTitleView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 2));
         NotificationCenter.listenEmojiLoading(channelTitleView);
 
         textView = new LinkSpanDrawable.LinksTextView(context);
-        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 13);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 11);
         textView.setLinkTextColor(Theme.getColor(Theme.key_chat_messageLinkIn, resourcesProvider));
         textView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourcesProvider));
         textLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, 0, 0, 0, 0));
