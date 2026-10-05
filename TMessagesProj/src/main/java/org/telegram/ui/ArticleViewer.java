@@ -9133,7 +9133,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
                         videoView.setVisibility(INVISIBLE);
                         videoView.loadVideo(null, null, null, null, false);
                         HashMap<String, String> args = new HashMap<>();
-                        args.put("Referer", ApplicationLoader.applicationContext.getPackageName());
+                        args.put("Referer", "https://messenger.telegram.org");
                         webView.loadUrl(currentBlock.url, args);
                     }
 
@@ -9385,7 +9385,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
                             if (webView != null) {
                                 webView.setVisibility(VISIBLE);
                                 HashMap<String, String> args = new HashMap<>();
-                                args.put("Referer", ApplicationLoader.applicationContext.getPackageName());
+                                args.put("Referer", "https://messenger.telegram.org");
                                 webView.loadUrl(currentBlock.url, args);
                             }
                             if (videoView != null) {

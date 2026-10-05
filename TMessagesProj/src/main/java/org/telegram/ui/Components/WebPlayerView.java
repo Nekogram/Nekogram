@@ -2187,6 +2187,7 @@ public class WebPlayerView extends ViewGroup implements VideoPlayer.VideoPlayerD
     }
 
     public boolean loadVideo(String url, TLRPC.Photo thumb, Object parentObject, String originalUrl, boolean autoplay) {
+        if (true) return false;
         String youtubeId = null;
         String vimeoId = null;
         String coubId = getCoubId(url);
