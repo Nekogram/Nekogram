@@ -57,7 +57,6 @@ import androidx.media3.common.AudioAttributes;
 import androidx.media3.exoplayer.audio.AudioSink;
 import androidx.media3.exoplayer.audio.DefaultAudioSink;
 import androidx.media3.exoplayer.audio.TeeAudioProcessor;
-import androidx.media3.exoplayer.dash.DashMediaSource;
 import androidx.media3.exoplayer.hls.HlsMediaSource;
 import androidx.media3.exoplayer.mediacodec.MediaCodecDecoderException;
 import androidx.media3.exoplayer.mediacodec.MediaCodecRenderer;
@@ -189,7 +188,6 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     private int repeatCount;
 
     private boolean shouldPauseOther;
-    MediaSource.Factory dashMediaSourceFactory;
     HlsMediaSource.Factory hlsMediaSourceFactory;
     ProgressiveMediaSource.Factory progressiveMediaSourceFactory;
 
@@ -352,11 +350,6 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
             ).createMediaSource(mediaItem);
         }
         switch (type) {
-            case "dash":
-                if (dashMediaSourceFactory == null) {
-                    dashMediaSourceFactory = new DashMediaSource.Factory(mediaDataSourceFactory);
-                }
-                return dashMediaSourceFactory.createMediaSource(mediaItem);
             case "hls":
                 if (hlsMediaSourceFactory == null) {
                     hlsMediaSourceFactory = new HlsMediaSource.Factory(mediaDataSourceFactory);
