@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.SystemClock;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Pair;
 
 import androidx.annotation.Keep;
 
@@ -170,15 +171,15 @@ public class ConnectionsManager extends BaseController {
 
     private static class ResolvedDomain {
 
-        public ArrayList<String> addresses;
+        public ArrayList<Pair<String, Boolean>> addresses;
         long ttl;
 
-        public ResolvedDomain(ArrayList<String> a, long t) {
+        public ResolvedDomain(ArrayList<Pair<String, Boolean>> a, long t) {
             addresses = a;
             ttl = t;
         }
 
-        public String getAddress() {
+        public Pair<String, Boolean> getAddress() {
             return addresses.get(Utilities.random.nextInt(addresses.size()));
         }
     }
@@ -908,7 +909,8 @@ public class ConnectionsManager extends BaseController {
         AndroidUtilities.runOnUIThread(() -> {
             ResolvedDomain resolvedDomain = dnsCache.get(hostName);
             if (resolvedDomain != null && SystemClock.elapsedRealtime() - resolvedDomain.ttl < 5 * 60 * 1000) {
-                native_onHostNameResolved(hostName, address, resolvedDomain.getAddress());
+                Pair<String, Boolean> resolved = resolvedDomain.getAddress();
+                native_onHostNameResolved(hostName, address, resolved.first, resolved.second);
             } else {
                 ResolveHostByNameTask task = resolvingHostnameTasks.get(hostName);
                 if (task == null) {
@@ -917,7 +919,7 @@ public class ConnectionsManager extends BaseController {
                         task.executeOnExecutor(DNS_THREAD_POOL_EXECUTOR, null, null, null);
                     } catch (Throwable e) {
                         FileLog.e(e);
-                        native_onHostNameResolved(hostName, address, "");
+                        native_onHostNameResolved(hostName, address, "", false);
                         return;
                     }
                     resolvingHostnameTasks.put(hostName, task);
@@ -1023,7 +1025,7 @@ public class ConnectionsManager extends BaseController {
     public static native void native_setPushConnectionEnabled(int currentAccount, boolean value);
     public static native void native_applyDnsConfig(int currentAccount, long address, String phone, int date);
     public static native long native_checkProxy(int currentAccount, String address, int port, String username, String password, String secret, RequestTimeDelegate requestTimeDelegate);
-    public static native void native_onHostNameResolved(String host, long address, String ip);
+    public static native void native_onHostNameResolved(String host, long address, String ip, boolean ipv6);
     public static native void native_discardConnection(int currentAccount, int datacenterId, int connectionType);
     public static native void native_failNotRunningRequest(int currentAccount, int token);
     public static native void native_receivedIntegrityCheckClassic(int currentAccount, int requestToken, String nonce, String token);
@@ -1193,9 +1195,9 @@ public class ConnectionsManager extends BaseController {
                     JSONArray array = jsonObject.getJSONArray("Answer");
                     int len = array.length();
                     if (len > 0) {
-                        ArrayList<String> addresses = new ArrayList<>(len);
+                        ArrayList<Pair<String, Boolean>> addresses = new ArrayList<>(len);
                         for (int a = 0; a < len; a++) {
-                            addresses.add(array.getJSONObject(a).getString("data"));
+                            addresses.add(Pair.create(array.getJSONObject(a).getString("data"), false));
                         }
                         return new ResolvedDomain(addresses, SystemClock.elapsedRealtime());
                     }
@@ -1221,9 +1223,11 @@ public class ConnectionsManager extends BaseController {
             }
             if (!done) {
                 try {
-                    InetAddress address = InetAddress.getByName(currentHostName);
-                    ArrayList<String> addresses = new ArrayList<>(1);
-                    addresses.add(address.getHostAddress());
+                    InetAddress[] address = InetAddress.getAllByName(currentHostName);
+                    ArrayList<Pair<String, Boolean>> addresses = new ArrayList<>(1);
+                    for (InetAddress a : address) {
+                        addresses.add(Pair.create(a.getHostAddress(), a instanceof Inet6Address));
+                    }
                     return new ResolvedDomain(addresses, SystemClock.elapsedRealtime());
                 } catch (Exception e) {
                     FileLog.e(e, false);
@@ -1237,11 +1241,12 @@ public class ConnectionsManager extends BaseController {
             if (result != null) {
                 dnsCache.put(currentHostName, result);
                 for (int a = 0, N = addresses.size(); a < N; a++) {
-                    native_onHostNameResolved(currentHostName, addresses.get(a), result.getAddress());
+                    Pair<String, Boolean> resolved = result.getAddress();
+                    native_onHostNameResolved(currentHostName, addresses.get(a), resolved.first, resolved.second);
                 }
             } else {
                 for (int a = 0, N = addresses.size(); a < N; a++) {
-                    native_onHostNameResolved(currentHostName, addresses.get(a), "");
+                    native_onHostNameResolved(currentHostName, addresses.get(a), "", false);
                 }
             }
             resolvingHostnameTasks.remove(currentHostName);
